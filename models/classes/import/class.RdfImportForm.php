@@ -62,14 +62,9 @@ class tao_models_classes_import_RdfImportForm
      */
     public function initElements()
     {
-
-    	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
-		$descElt->setValue(__('Please upload an RDF file.'));
-		$this->form->addElement($descElt);
-		
 		//create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
-		$fileElt->setDescription(__("Add the source file."));
+		$fileElt->setDescription(__("Add an RDF/XML file"));
   	  	if(isset($_POST['import_sent_rdf'])){
 			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		}
@@ -82,7 +77,7 @@ class tao_models_classes_import_RdfImportForm
 		));
 		
 		$this->form->addElement($fileElt);
-		$this->form->createGroup('file', __('Upload RDF File'), array('rdf_desc', 'source'));
+		$this->form->createGroup('file', __('Import Metadata from RDF file'), array('rdf_desc', 'source'));
 		
 		$rdfSentElt = tao_helpers_form_FormFactory::getElement('import_sent_rdf', 'Hidden');
 		$rdfSentElt->setValue(1);

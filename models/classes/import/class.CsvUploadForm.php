@@ -62,13 +62,9 @@ class tao_models_classes_import_CsvUploadForm
      */
     public function initElements()
     {
-        $descElt = tao_helpers_form_FormFactory::getElement('csv_desc', 'Label');
-		$descElt->setValue(__('Please upload a CSV file formated as defined by the options above.'));
-		$this->form->addElement($descElt);
-		
-		//create file upload form box
+        //create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
-		$fileElt->setDescription(__("Add the source file"));
+		$fileElt->setDescription(__("Add a CSV file"));
   	  	if(isset($_POST['import_sent_csv'])){
 			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		}
@@ -81,7 +77,7 @@ class tao_models_classes_import_CsvUploadForm
 		));
 		
 		$this->form->addElement($fileElt);
-		$this->form->createGroup('file', __('Upload CSV File'), array('csv_desc', 'source'));
+		$this->form->createGroup('file', __('Import Metadata from CSV file'), array('csv_desc', 'source'));
 		
 		$csvSentElt = tao_helpers_form_FormFactory::getElement('import_sent_csv', 'Hidden');
 		$csvSentElt->setValue(1);

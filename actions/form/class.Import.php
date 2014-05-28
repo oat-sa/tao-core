@@ -102,7 +102,7 @@ extends tao_helpers_form_FormContainer
 		$this->form->addElement($classUriElt);
 
 		$this->form->addElement($formatElt);
-		$this->form->createGroup('formats', __('Supported formats to import'), array('importHandler'));
+		$this->form->createGroup('formats', __('Supported import formats'), array('importHandler'));
 
 		if (!is_null($this->subForm)) {
 			//load dynamically the method regarding the selected format
