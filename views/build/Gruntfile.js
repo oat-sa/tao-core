@@ -25,11 +25,11 @@ module.exports = function(grunt) {
      ext.getExtensions(true).forEach(function(extension){
         var includes = ext.getExtensionsControllers([extension]);
         if(extension === 'taoQtiItem'){
-            includes = includes.concat(sources.qtiRuntime);   
+            includes = includes.concat(sources.qtiruntime).concat(sources.qticreator);
         }
         amdBundles.push({
             name: extension + '/controller/routes',
-            include : ext.getExtensionsControllers([extension]),
+            include : includes,
             exclude : ['jquery', 'lodash', 'jqueryui', 'main', 'i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style', 'css!taoQtiItem_css/qti'].concat(sources.jsbaselibs)
        });
        copies.push({
@@ -72,8 +72,19 @@ module.exports = function(grunt) {
                         pattern : ['views/js/qtiCommontRenderer/tpl/**/*.tpl'],
                         extension: 'taoQtiItem',
                         replacements : function(file){
-                            return  'tpl!' + file.replace(/\.(tpl)$/, '')
-                                        .replace('taoQtiItem/qtiDefaultRenderer', 'taoQtiDefaultRenderer');
+                            return  'tpl!' + file.replace(/\.(tpl)$/, '');
+                        },
+                        amdify : true
+                    }],
+                    'qticreator' : [{
+                        pattern : ['views/js/qtiCreator/editor/**/*.js', 'views/js/qtiCreator/renderers/**/*.js',  'views/js/qtiCreator/helper/**/*.js', 'views/js/qtiCreator/model/**/*/js', 'views/js/qtiCreator/widgets/**/*.js'],
+                        extension: 'taoQtiItem',
+                        amdify : true
+                    }, {
+                        pattern : ['views/js/qtiCreator/tpl/**/*.tpl'],
+                        extension: 'taoQtiItem',
+                        replacements : function(file){
+                            return  'tpl!' + file.replace(/\.(tpl)$/, '');
                         },
                         amdify : true
                     }]
@@ -144,8 +155,8 @@ module.exports = function(grunt) {
             
             //common options
             options : {
-                //optimize: 'uglify2',
-                optimize : 'none',
+                optimize: 'uglify2',
+                //optimize : 'none',
                 preserveLicenseComments: false,
                 optimizeAllPluginResources: false,
                 findNestedDependencies : true,
