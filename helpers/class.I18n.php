@@ -54,14 +54,15 @@ class tao_helpers_I18n
     // --- OPERATIONS ---
 
     /**
-     * Short description of method init
+     * Load the translation strings
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  common_ext_Extension $extension
      * @param  string langCode
      * @return mixed
      */
-    public static function init($langCode)
+    public static function init(common_ext_Extension $extension, $langCode)
     {
     	// if the langCode is empty do nothing
     	if (empty($langCode)){
@@ -71,8 +72,7 @@ class tao_helpers_I18n
 		//init the ClearFw l10n tools
 		l10n::init();
 		
-		$ext = common_ext_ExtensionsManager::singleton()->getExtensionById(Context::getInstance()->getExtensionName());
-		$basePath = $ext->getDir();
+		$basePath = $extension->getDir();
 
 		if (!empty($_GET['ext']) && is_string($_GET['ext'])){
 			$shownExtension = common_ext_ExtensionsManager::singleton()->getExtensionById($_GET['ext']);

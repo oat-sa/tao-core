@@ -370,7 +370,7 @@ class Bootstrap{
 	protected function i18n()
 	{
 		$uiLang = core_kernel_classes_Session::singleton()->getInterfaceLanguage();
-		tao_helpers_I18n::init($uiLang);
+		tao_helpers_I18n::init($this->extension, $uiLang);
 	}
 
 	/**
