@@ -95,6 +95,15 @@ class tao_scripts_TaoTranslate
      */
     const DEF_PHP_FILENAME = 'messages.lang.php';
 
+    private static $WHITE_LIST = array(
+        'actions',
+        'helpers',
+        'models',
+        'views',
+        'helper',
+        'controller',
+        'model'
+    );
     // --- OPERATIONS ---
 
     /**
@@ -604,10 +613,10 @@ class tao_scripts_TaoTranslate
         			// Let's populate the language with raw PO files containing sources but no targets.
         			// Source code extraction.
         			$fileExtensions = array('php', 'tpl', 'js', 'ejs');
-        			$filePaths = array($this->options['input'] . '/actions',
-        					$this->options['input'] . '/helpers',
-        					$this->options['input'] . '/models',
-        					$this->options['input'] . '/views');
+        			$filePaths = array();
+        			foreach (self::$WHITE_LIST as $subFolder) {
+        			    $filePaths[] = $this->options['input'] . DIRECTORY_SEPARATOR. $subFolder;
+        			}
         			 
         			$sourceExtractor = new tao_helpers_translation_SourceCodeExtractor($filePaths, $fileExtensions);
         			$sourceExtractor->extract();
@@ -717,10 +726,11 @@ class tao_scripts_TaoTranslate
         $sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
         
        	// Get virgin translations from the source code and manifest.
-       	$filePaths = array($this->options['input'] . '/actions',
-	        			   $this->options['input'] . '/helpers',
-	        			   $this->options['input'] . '/models',
-	        			   $this->options['input'] . '/views');
+       	$filePaths = array();
+        foreach (self::$WHITE_LIST as $subFolder) {
+            $filePaths[] = $this->options['input'] . DIRECTORY_SEPARATOR. $subFolder;
+        }
+        
        	$extensions = array('php', 'tpl', 'js', 'ejs');
        	$sourceCodeExtractor = new tao_helpers_translation_SourceCodeExtractor($filePaths, $extensions);
        	$sourceCodeExtractor->extract();
