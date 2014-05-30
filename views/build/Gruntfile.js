@@ -77,7 +77,7 @@ module.exports = function(grunt) {
                         amdify : true
                     }],
                     'qticreator' : [{
-                        pattern : ['views/js/qtiCreator/editor/**/*.js', 'views/js/qtiCreator/renderers/**/*.js',  'views/js/qtiCreator/helper/**/*.js', 'views/js/qtiCreator/model/**/*.js', 'views/js/qtiCreator/widgets/**/*.js'],
+                        pattern : ['views/js/qtiCreator/editor/**/*.js', 'views/js/qtiCreator/renderers/**/*.js',  'views/js/qtiCreator/helper/**/*.js', 'views/js/qtiCreator/model/**/*.js', 'views/js/qtiCreator/widgets/**/*.js', 'views/js/qtiXmlRenderer/renderers/**/*.js'],
                         extension: 'taoQtiItem',
                         amdify : true
                     }, {
