@@ -25,14 +25,14 @@ function onLoad(){
                     .addClass('enabled')
                     .attr('disabled', false);
 		$('#submitForm').attr('value', 'Next');
-	}
+	};
 	
 	install.onUnnextable = function(){
 		$('#submitForm').removeClass('enabled')
                     .addClass('disabled')
                     .attr('disabled', true);
 		$('#submitForm').attr('value', 'Next');
-	}
+	};
 	
 	$('.tao-input').each(function(){
 		// Provide a data getter/setter for API handshake.
@@ -79,7 +79,7 @@ function onLoad(){
                         $(this).dialog( "close" );
                     }
                  }
-              },           
+              }           
             });
           });
           
@@ -106,7 +106,7 @@ function onLoad(){
                         $(this).dialog( "close" );
                     }
                  }
-              },
+              }
             });
           });
         
@@ -183,7 +183,7 @@ function onLoad(){
         // force accepted license
         //$('#gplRead').val('1');
         
-        if ($('#gplRead').val() == '1') {
+        if ($('#gplRead').val() === '1') {
             
             $('#approval-status-1')
                 .text("You have reviewed and accepted the terms of this license.")
@@ -197,7 +197,7 @@ function onLoad(){
         // force accepted license
         //$('#trademarkRead').val('1');
         
-        if ($('#trademarkRead').val() == '1') {
+        if ($('#trademarkRead').val() === '1') {
             
             $('#approval-status-2')
                 .text("You have reviewed and accepted the terms of this license.")

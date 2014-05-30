@@ -32,7 +32,7 @@ function onLoad(){
 						.addClass('disabled')
 						.attr('disabled', true);
 		$('#submitForm').attr('value', 'Next');
-	}
+	};
 	
 	$('form').bind('submit', function(){
 		if (install.isNextable()){

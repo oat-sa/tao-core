@@ -79,7 +79,7 @@ TaoInstall.prototype.setTemplate = function (templateId){
 		$(this.frame).attr('src', frameSrc);
 		$('body').append(this.frame);
 	}
-}
+};
 
 /**
  * Check if the server-side can talk JSON.
@@ -95,7 +95,7 @@ TaoInstall.prototype.sync = function(callback){
 			   
 	$.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
 							 .fail(function(jqxhr){callback(jqxhr.status)});
-}
+};
 
 /**
  * Check the configuration on the server-side. 
@@ -122,7 +122,7 @@ TaoInstall.prototype.checkConfiguration = function(checks, callback){
 			   	
 	$.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
 							.fail(function(jqxhr){callback(jqxhr.status)});
-}
+};
 
 /**
  * Check the database connection on the server-side 
@@ -139,7 +139,7 @@ TaoInstall.prototype.checkDatabaseConnection = function(check, callback){
 				   
 	$.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
 							 .fail(function(jqxhr){callback(jqxhr.status)});
-}
+};
 
 /**
  * Check connection to TAO Forge
@@ -157,7 +157,7 @@ TaoInstall.prototype.checkTAOForgeConnection = function(check, callback){
 				   
 	$.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
 							 .fail(function(jqxhr){callback(jqxhr.status)});
-}
+};
 
 TaoInstall.prototype.install = function(inputs, callback){
 	inputs.db_pass = this.nullToEmptyString(inputs.db_pass);
@@ -172,14 +172,14 @@ TaoInstall.prototype.install = function(inputs, callback){
 				   
 	$.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
 							 .fail(function(jqxhr){callback(jqxhr.status)});		   
-}
+};
 
 /**
  * Indicates if the current template is 'nextable' or not.
  */
 TaoInstall.prototype.isNextable = function(){
 	return this.nextable;
-}
+};
 
 /**
  * Tell the API that the current template is 'nextable'. 
@@ -193,7 +193,7 @@ TaoInstall.prototype.setNextable = function(value){
 	else{
 		this.onUnnextable();
 	}
-}
+};
 
 /**
  * Register a tao-input element for validation. 
@@ -205,7 +205,7 @@ TaoInstall.prototype.register = function(element){
 	else {
 		throw "Tao Install API Error: only 'tao-input' elements with an 'isValid' function are registrable. Element '" + $element.attr('id') + "' is not registrable.";
 	}
-}
+};
 
 /**
  * Unregister a particular tao-input element. 
@@ -216,14 +216,14 @@ TaoInstall.prototype.unregister = function(element){
 			delete this.registeredElements[i];
 		}
 	}
-}
+};
 
 /**
  * Unregister all registered tao-input elements. 
  */
 TaoInstall.prototype.clearRegisteredElements = function(){
 	this.registeredElements = [];
-}
+};
 
 /**
  * Notify the API that tao-input elements were added, modified, removed...
@@ -232,7 +232,7 @@ TaoInstall.prototype.clearRegisteredElements = function(){
 TaoInstall.prototype.stateChange = function(){
 	this.checkRegisteredElements();
 	this.storeDataForRegisteredElements();
-}
+};
 
 /**
  * Add an help message in the help store identified by a given key.
@@ -242,7 +242,7 @@ TaoInstall.prototype.stateChange = function(){
  */
 TaoInstall.prototype.addHelp = function(key, message){
 	this.helpMessages[key] = message;
-}
+};
 
 /**
  * Remove an help message identified in the help store by a given key.
@@ -253,7 +253,7 @@ TaoInstall.prototype.removeHelp = function(key){
 	if (typeof(this.helpMessages[key]) != 'undefined'){
 		delete this.helpMessages[key];
 	}
-}
+};
 
 /**
  * Reinitialize the help store. Messages contained
@@ -261,7 +261,7 @@ TaoInstall.prototype.removeHelp = function(key){
  */
 TaoInstall.prototype.clearHelp = function(){
 	this.helpMessages = {};
-}
+};
 
 /**
  * Get an help message from the help store for a given key.
@@ -276,7 +276,7 @@ TaoInstall.prototype.getHelp = function(key){
 	else{
 		return null;
 	}
-}
+};
 
 /**
  * Add a piece of data associated to a given key in the data store. 
@@ -287,7 +287,7 @@ TaoInstall.prototype.getHelp = function(key){
  */
 TaoInstall.prototype.addData = function(key, data){
 	this.data[key] = data;
-}
+};
 
 /**
  * Remove a pice of data associated to in a given key in the data store.
@@ -298,7 +298,7 @@ TaoInstall.prototype.removeData = function(key){
 	if (typeof(this.data[key]) != 'undefined'){
 		delete this.data[key];
 	}
-}
+};
 
 /**
  * Get an 'isValid' validation method for an input that will be registered
@@ -488,7 +488,7 @@ TaoInstall.prototype.getValidator = function(element, options){
 			throw "No support for element with id '" + $element.attr('id') + "'.";
 		break;
 	}
-}
+};
 
 /**
  * Get a 'getData' validation method for an input that will be registered
@@ -521,7 +521,7 @@ TaoInstall.prototype.getDataGetter = function(element){
 			throw "No support for element with id '" + $element.attr('id') + "'.";
 		break;
 	}
-}
+};
 
 TaoInstall.prototype.getDataSetter = function(element){
 	$element = $(element);
@@ -555,14 +555,14 @@ TaoInstall.prototype.getDataSetter = function(element){
 			throw "No support for element with id '" + $element.attr('id') + "'.";
 		break;
 	}
-}
+};
 
 /**
  * Clear the data store. 
  */
 TaoInstall.prototype.clearData = function(){
 	this.data = {};
-}
+};
 
 /**
  * Get a piece of data associated to the provided key in the data
@@ -571,12 +571,13 @@ TaoInstall.prototype.clearData = function(){
  */
 TaoInstall.prototype.getData = function(key){
 	if (typeof(this.data[key]) != 'undefined'){
+            // type
 		return this.data[key];
 	}
 	else {
 		return null;
 	}
-}
+};
 
 /**
  * Popuplate registered inputs of the currently displayed template with
@@ -599,7 +600,7 @@ TaoInstall.prototype.populate = function(){
 	this.stateChange();
 	
 	return populated;
-}
+};
 
 /**
  * Invoke this method to redirect the end user to a specific URL.
@@ -607,7 +608,7 @@ TaoInstall.prototype.populate = function(){
  */
 TaoInstall.prototype.redirect = function(url) {
 	window.location.href = url;
-}
+};
 
 // ----------- Private methods
 TaoInstall.prototype.init = function(){	
@@ -627,7 +628,7 @@ TaoInstall.prototype.init = function(){
 			that.inject();					
 		};
 	}
-}
+};
 
 TaoInstall.prototype.inject = function(){	
 	var doc = this.getDocument();
@@ -639,7 +640,7 @@ TaoInstall.prototype.inject = function(){
 	{
 		doc.onLoad();
 	}
-}
+};
 
 TaoInstall.prototype.checkRegisteredElements = function(){
 	var validity = true;
@@ -675,7 +676,7 @@ TaoInstall.prototype.checkRegisteredElements = function(){
 	}
 	
 	this.setNextable(validity);
-}
+};
 
 TaoInstall.prototype.storeDataForRegisteredElements = function(){
 	for (i in this.registeredElements){
@@ -685,12 +686,12 @@ TaoInstall.prototype.storeDataForRegisteredElements = function(){
 			this.addData(element.id, element.getData());
 		}
 	}
-}
+};
 
 TaoInstall.prototype.getDocument = function(){
 	var doc = (this.frame.contentWindow || this.frame.contentDocument);
 	return doc;
-}
+};
 
 TaoInstall.prototype.getRegisteredElement = function(id){
 	for (i in this.registeredElements){
@@ -701,7 +702,7 @@ TaoInstall.prototype.getRegisteredElement = function(id){
 	}
 	
 	return null;
-}
+};
 
 TaoInstall.prototype.nullToEmptyString = function(value){
 	if (typeof(value) == 'undefined' || value == null){
@@ -709,4 +710,4 @@ TaoInstall.prototype.nullToEmptyString = function(value){
 	}
 	
 	return value;
-}
+};

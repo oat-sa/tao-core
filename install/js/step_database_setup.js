@@ -207,11 +207,11 @@ function getDriverLabel(driverId){
 		break;
 		
 		case 'pdo_sqlsrv':
-			return 'SQL Server'
+			return 'SQL Server';
 		break;
 			
 		case 'pdo_oci':
-			return 'Oracle Server'
+			return 'Oracle Server';
 		break;
 		
 		default:
