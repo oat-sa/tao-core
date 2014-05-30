@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage sk-SK
 -->
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/middleware/wfEngine.rdf#">
   <rdf:Description rdf:about="http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage sk-SK
     @source Services Definition
     @subject http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
@@ -14,7 +14,7 @@
     -->
     <rdfs:label xml:lang="sk-SK"><![CDATA[Services Definition]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage sk-SK
     @source Services Definition
     @subject http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
@@ -24,7 +24,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage sk-SK
     @source Support Services
     @subject http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
@@ -32,7 +32,7 @@
     -->
     <rdfs:label xml:lang="sk-SK"><![CDATA[Support Services]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage sk-SK
     @source Support Services
     @subject http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
@@ -42,7 +42,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage sk-SK
     @source Web Service
     @subject http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
@@ -50,7 +50,7 @@
     -->
     <rdfs:label xml:lang="sk-SK"><![CDATA[Web Service]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage sk-SK
     @source Web Service
     @subject http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
@@ -60,7 +60,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage sk-SK
     @source Delivery Services
     @subject http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
@@ -68,7 +68,7 @@
     -->
     <rdfs:label xml:lang="sk-SK"><![CDATA[Delivery Services]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage sk-SK
     @source Delivery Services
     @subject http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices

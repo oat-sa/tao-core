@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
 -->
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/TAO.rdf#">
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source TAO Object
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
@@ -14,7 +14,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[TAO Object]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Any resource related to etesting
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
@@ -24,7 +24,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#List">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source List
     @subject http://www.tao.lu/Ontologies/TAO.rdf#List
@@ -34,7 +34,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#level">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source level
     @subject http://www.tao.lu/Ontologies/TAO.rdf#level
@@ -44,7 +44,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Languages">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Languages
     @subject http://www.tao.lu/Ontologies/TAO.rdf#Languages
@@ -54,7 +54,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Usage
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages
@@ -62,7 +62,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Usage]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Usage of a language
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages
@@ -72,7 +72,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Language Usage
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages
@@ -80,7 +80,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Language Usage]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Language usage class
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages
@@ -90,7 +90,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source GUI Usage
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI
@@ -98,7 +98,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[GUI Usage]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Graphical User Interface language usage
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI
@@ -108,7 +108,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Data Usage
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData
@@ -116,7 +116,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Data Usage]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Data language usage
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData
@@ -126,7 +126,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Language orientation
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations
@@ -134,7 +134,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Language orientation]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Language orientation class
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations
@@ -144,7 +144,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Orientation
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
@@ -152,7 +152,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Orientation]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Orientation of a language
     @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
@@ -162,7 +162,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Left-to-right orientation
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight
@@ -170,7 +170,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Left-to-right orientation]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Left-to-right language orientation
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight
@@ -180,7 +180,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Right-to-left orientation
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft
@@ -188,7 +188,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Right-to-left orientation]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Right-to-left language orientation
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft
@@ -198,7 +198,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#User">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source User
     @subject http://www.tao.lu/Ontologies/TAO.rdf#User
@@ -206,7 +206,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[User]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source TAO User Class
     @subject http://www.tao.lu/Ontologies/TAO.rdf#User
@@ -216,7 +216,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Management
     @subject http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
@@ -224,7 +224,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Management]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source The Management Role Class
     @subject http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
@@ -234,7 +234,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Worker
     @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
@@ -242,7 +242,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Worker]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source The Worker Role Class
     @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
@@ -252,7 +252,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Back Office
     @subject http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
@@ -260,7 +260,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Back Office]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source The BackOffice Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
@@ -270,7 +270,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Front Office
     @subject http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
@@ -278,7 +278,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Front Office]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source The FrontOffice Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
@@ -288,7 +288,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Service
     @subject http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
@@ -296,7 +296,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Service]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source The Service Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
@@ -306,7 +306,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Global Manager
     @subject http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
@@ -314,7 +314,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Global Manager]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source The Global Manager Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
@@ -324,7 +324,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source TAO Manager
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
@@ -332,7 +332,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[TAO Manager]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source The TAO Manager Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
@@ -342,7 +342,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Test Taker
     @subject http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
@@ -350,7 +350,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Test Taker]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source The Test Taker Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
@@ -360,7 +360,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Workflow Participant
     @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
@@ -368,7 +368,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Workflow Participant]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source The Workflow Participant Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
@@ -378,7 +378,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source WfUser
     @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
@@ -386,7 +386,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[WfUser]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Workflow User: sub class to group the workflow user, not deletable
     @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
@@ -396,7 +396,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Form Field Order
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder
@@ -404,7 +404,7 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Form Field Order]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source The order of the property within the class
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder
@@ -414,7 +414,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Lock">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Lock
     @subject http://www.tao.lu/Ontologies/TAO.rdf#Lock
@@ -422,12 +422,48 @@
     -->
     <rdfs:label xml:lang="ru-RU"><![CDATA[Lock]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage ru-RU
     @source Lock information related to the resource
     @subject http://www.tao.lu/Ontologies/TAO.rdf#Lock
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="ru-RU"><![CDATA[Lock information related to the resource]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed">
+    <!--
+    @sourceLanguage en-US
+    @targetLanguage ru-RU
+    @source LastExtensionUsed
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="ru-RU"><![CDATA[LastExtensionUsed]]></rdfs:label>
+    <!--
+    @sourceLanguage en-US
+    @targetLanguage ru-RU
+    @source Saves the last extension the user had visited.
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="ru-RU"><![CDATA[Saves the last extension the user had visited.]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao">
+    <!--
+    @sourceLanguage en-US
+    @targetLanguage ru-RU
+    @source First Time In Tao
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="ru-RU"><![CDATA[First Time In Tao]]></rdfs:label>
+    <!--
+    @sourceLanguage en-US
+    @targetLanguage ru-RU
+    @source Is it the first the user connects to TAO?
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="ru-RU"><![CDATA[Is it the first the user connects to TAO?]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>

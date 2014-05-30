@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-alpha\n"
-"PO-Revision-Date: 2013-12-12T08:13:58\n"
+"Project-Id-Version: TAO v2.6-beta2\n"
+"PO-Revision-Date: 2014-05-30T15:53:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru-RU\n"
@@ -62,8 +62,14 @@ msgstr ""
 msgid "Add / Edit lists"
 msgstr ""
 
+msgid "Add a CSV file"
+msgstr ""
+
 #, tao-public
 msgid "Add a user"
+msgstr ""
+
+msgid "Add an RDF/XML file"
 msgstr ""
 
 msgid "Add grades"
@@ -75,28 +81,19 @@ msgstr ""
 msgid "add repository"
 msgstr ""
 
-msgid "Add the source file"
-msgstr ""
-
 msgid "Add the source file."
 msgstr ""
 
 msgid "Advanced Mode"
 msgstr ""
 
-msgid "all"
-msgstr ""
-
 msgid "All"
 msgstr ""
 
+msgid "all"
+msgstr ""
+
 msgid "All (the complete TAO Module)"
-msgstr ""
-
-msgid "All classes in Design Mode will switch to Production Mode. Please confirm."
-msgstr ""
-
-msgid "All classes in Production Mode will switch to Design Mode. Please confirm."
 msgstr ""
 
 msgid "All data will be removed in "
@@ -124,6 +121,9 @@ msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
 msgstr ""
 
+msgid "Are you sure you want to delete it?"
+msgstr ""
+
 msgid "Assign User to role"
 msgstr ""
 
@@ -131,9 +131,6 @@ msgid "Author"
 msgstr ""
 
 msgid "Authoring"
-msgstr ""
-
-msgid "Available Classes"
 msgstr ""
 
 msgid "Available Extensions"
@@ -145,13 +142,13 @@ msgstr ""
 msgid "Browse"
 msgstr ""
 
+msgid "Browse..."
+msgstr ""
+
 msgid "Calendar"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
-
-msgid "Cannot successfully build the optimized table indexes"
 msgstr ""
 
 #, tao-public
@@ -161,16 +158,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Change..."
-msgstr ""
-
 msgid "Check All"
 msgstr ""
 
 msgid "Check all"
-msgstr ""
-
-msgid "Check if updates are available for your version of TAO"
 msgstr ""
 
 msgid "Choose export format"
@@ -183,12 +174,6 @@ msgid "Class"
 msgstr ""
 
 msgid "class selected"
-msgstr ""
-
-msgid "Classes"
-msgstr ""
-
-msgid "Classes and their associated data can be stored in two different modes."
 msgstr ""
 
 msgid "Click the Save button to confirm deletion."
@@ -209,6 +194,9 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
+msgid "Continue"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
@@ -218,6 +206,7 @@ msgstr ""
 msgid "Create instance of "
 msgstr ""
 
+#, tao-public
 msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
 msgstr ""
 
@@ -227,10 +216,7 @@ msgstr ""
 msgid "CSV Options"
 msgstr ""
 
-msgid "Current"
-msgstr ""
-
-msgid "Current (the current extension, the local data and their dependancies)"
+msgid "currency"
 msgstr ""
 
 msgid "Current class + Subclasses"
@@ -266,10 +252,10 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
 msgid "Delete property"
@@ -284,14 +270,14 @@ msgstr ""
 msgid "DEMO Sandbox"
 msgstr ""
 
-msgid "Design"
-msgstr ""
-
-msgid "Design Mode:"
+msgid "Disabled %s', $this->getRequestParameter('id"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
+msgstr ""
+
+msgid "does not match"
 msgstr ""
 
 msgid "Don't set"
@@ -303,16 +289,22 @@ msgstr ""
 msgid "Download content"
 msgstr ""
 
+msgid "Download this file"
+msgstr ""
+
+msgid "Drop file here"
+msgstr ""
+
 msgid "duplicate"
 msgstr ""
 
 msgid "e-mail"
 msgstr ""
 
-msgid "Edit"
+msgid "edit"
 msgstr ""
 
-msgid "edit"
+msgid "Edit"
 msgstr ""
 
 #, tao-public
@@ -340,7 +332,7 @@ msgstr ""
 msgid "element deleted"
 msgstr ""
 
-msgid "Enables you to export an RDF file containing the selected namespaces or instances"
+msgid "Element deleted."
 msgstr ""
 
 msgid "Error"
@@ -352,19 +344,16 @@ msgstr ""
 msgid "Exclusive (OR)"
 msgstr ""
 
-msgid "Execute workflows for assessment preparation."
+msgid "export"
 msgstr ""
 
 msgid "Export"
 msgstr ""
 
-msgid "export"
-msgstr ""
-
 msgid "Export "
 msgstr ""
 
-msgid "Export Options"
+msgid "Export Metadata as RDF/XML file"
 msgstr ""
 
 msgid "Extension "
@@ -372,12 +361,6 @@ msgstr ""
 
 #, tao-public
 msgid "Extensions manager"
-msgstr ""
-
-msgid "Extensions\' configurations updated "
-msgstr ""
-
-msgid "Failed"
 msgstr ""
 
 msgid "Field delimiter"
@@ -395,6 +378,9 @@ msgstr ""
 msgid "File path"
 msgstr ""
 
+msgid "File Properties"
+msgstr ""
+
 msgid "File repository"
 msgstr ""
 
@@ -402,6 +388,12 @@ msgid "File revision"
 msgstr ""
 
 msgid "File sources"
+msgstr ""
+
+msgid "File Uploader"
+msgstr ""
+
+msgid "Files"
 msgstr ""
 
 msgid "Filter"
@@ -431,6 +423,9 @@ msgstr ""
 msgid "Go Back"
 msgstr ""
 
+msgid "Hide detailed report"
+msgstr ""
+
 msgid "hour"
 msgstr ""
 
@@ -444,6 +439,15 @@ msgid "Import "
 msgstr ""
 
 msgid "Import failed"
+msgstr ""
+
+msgid "Import Metadata from CSV file"
+msgstr ""
+
+msgid "Import Metadata from RDF file"
+msgstr ""
+
+msgid "Import report"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -467,16 +471,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Instances"
-msgstr ""
-
-msgid "instances"
+msgid "Interface language"
 msgstr ""
 
 msgid "Interface Language"
-msgstr ""
-
-msgid "Interface language"
 msgstr ""
 
 msgid "Invalid date range"
@@ -560,6 +558,9 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
+msgid "Log out"
+msgstr ""
+
 msgid "Logged in as:"
 msgstr ""
 
@@ -572,16 +573,7 @@ msgstr ""
 msgid "Login failed"
 msgstr ""
 
-msgid "Login here to take a test."
-msgstr ""
-
-msgid "Login to the TAO Back Office"
-msgstr ""
-
 msgid "Mail"
-msgstr ""
-
-msgid "make sure to back up your data before changing modes."
 msgstr ""
 
 msgid "Manage content of the property "
@@ -611,9 +603,6 @@ msgid "Map the properties to the CSV columns"
 msgstr ""
 
 msgid "maximum value: "
-msgstr ""
-
-msgid "Media Management"
 msgstr ""
 
 msgid "meta data"
@@ -655,11 +644,14 @@ msgstr ""
 msgid "must be before: "
 msgstr ""
 
-#, tao-public
-msgid "My settings"
+msgid "must be numeric"
 msgstr ""
 
-msgid "My Settings"
+msgid "My profile"
+msgstr ""
+
+#, tao-public
+msgid "My settings"
 msgstr ""
 
 msgid "My settings (%s)"
@@ -698,13 +690,28 @@ msgstr ""
 msgid "no file"
 msgstr ""
 
+msgid "no file not found in this location"
+msgstr ""
+
+msgid "No file selected"
+msgstr ""
+
+msgid "No files"
+msgstr ""
+
 msgid "no label"
+msgstr ""
+
+msgid "No Preview available"
+msgstr ""
+
+msgid "No preview available"
 msgstr ""
 
 msgid "No result found"
 msgstr ""
 
-msgid "No update available"
+msgid "None"
 msgstr ""
 
 msgid "Nothing imported"
@@ -738,6 +745,9 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
+msgid "or"
+msgstr ""
+
 msgid "Password"
 msgstr ""
 
@@ -768,31 +778,19 @@ msgstr ""
 msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
 msgstr ""
 
-msgid "Please upload a CSV file formated as defined by the options above."
-msgstr ""
-
 msgid "Please upload an RDF file."
 msgstr ""
 
 msgid "Preparing installation..."
 msgstr ""
 
-msgid "Production"
-msgstr ""
-
-msgid "Production Mode:"
+msgid "Preview"
 msgstr ""
 
 msgid "Property"
 msgstr ""
 
 msgid "RDF"
-msgstr ""
-
-msgid "Rebuilding indexes, it may take a while."
-msgstr ""
-
-msgid "recommended for maximum performance e.g. once your data model is stable."
 msgstr ""
 
 msgid "Recursive"
@@ -804,7 +802,13 @@ msgstr ""
 msgid "Remove content"
 msgstr ""
 
+msgid "Remove Message"
+msgstr ""
+
 msgid "remove repository"
+msgstr ""
+
+msgid "Remove this file"
 msgstr ""
 
 msgid "Rename"
@@ -829,6 +833,9 @@ msgid "Repository saved, but unable to disable"
 msgstr ""
 
 msgid "Repository saved, but unable to enable"
+msgstr ""
+
+msgid "required length"
 msgstr ""
 
 msgid "Requires"
@@ -879,6 +886,9 @@ msgstr ""
 msgid "Select the element destination"
 msgstr ""
 
+msgid "Select this file"
+msgstr ""
+
 msgid "selected"
 msgstr ""
 
@@ -895,68 +905,36 @@ msgstr ""
 msgid "Settings updated"
 msgstr ""
 
+msgid "Show detailed report"
+msgstr ""
+
 msgid "Simple Mode"
+msgstr ""
+
+msgid "Size"
 msgstr ""
 
 msgid "Start upload"
 msgstr ""
 
-msgid "Status"
-msgstr ""
-
-msgid "suitable for data modeling (default mode)."
-msgstr ""
-
 msgid "Supported export formats"
 msgstr ""
 
-msgid "Supported formats to import"
+msgid "Supported import formats"
 msgstr ""
 
-msgid "Switch to Design Mode"
-msgstr ""
-
-msgid "Switch to Design Mode completed"
-msgstr ""
-
-msgid "Switch to Production Mode"
-msgstr ""
-
-msgid "Switch to Production Mode completed."
-msgstr ""
-
-msgid "Switching to Design..."
-msgstr ""
-
-msgid "Switching to Production..."
-msgstr ""
-
+#, tao-public
 msgid "System Settings"
 msgstr ""
 
+#, tao-public
 msgid "TAO Back Office"
-msgstr ""
-
-msgid "TAO Delivery Server"
 msgstr ""
 
 msgid "TAO Home"
 msgstr ""
 
-#, tao-public
-msgid "TAO optimizer"
-msgstr ""
-
-msgid "TAO updater"
-msgstr ""
-
-msgid "TAO WorkFlow Assistant"
-msgstr ""
-
-msgid "Test Developers and Administrators"
-msgstr ""
-
-msgid "Test-Takers"
+msgid "TAO Login"
 msgstr ""
 
 msgid "Text - Long - Box"
@@ -989,9 +967,6 @@ msgstr ""
 msgid "The value of this field must be numeric"
 msgstr ""
 
-msgid "There are no classes available for optimization."
-msgstr ""
-
 msgid "This field is required"
 msgstr ""
 
@@ -999,6 +974,9 @@ msgid "This field is too long"
 msgstr ""
 
 msgid "This field is too short"
+msgstr ""
+
+msgid "this is required"
 msgstr ""
 
 msgid "This Login is already in use"
@@ -1011,6 +989,12 @@ msgid "This should equal "
 msgstr ""
 
 msgid "This should not equal "
+msgstr ""
+
+msgid "Time zone"
+msgstr ""
+
+msgid "to translate"
 msgstr ""
 
 msgid "Translate"
@@ -1040,10 +1024,19 @@ msgstr ""
 msgid "Uncheck All"
 msgstr ""
 
+msgid "Undo"
+msgstr ""
+
+msgid "Uninstall of %s failed', $this->getRequestParameter('id"
+msgstr ""
+
+msgid "Uninstalled %s', $this->getRequestParameter('id"
+msgstr ""
+
 msgid "Unknown Error"
 msgstr ""
 
-msgid "Updates are available. Click on update to update your version of TAO"
+msgid "Unselect all"
 msgstr ""
 
 msgid "Upload"
@@ -1052,16 +1045,16 @@ msgstr ""
 msgid "Upload a new content"
 msgstr ""
 
-msgid "Upload CSV File"
-msgstr ""
-
 msgid "Upload File"
 msgstr ""
 
-msgid "Upload RDF File"
+msgid "Upload the file to version"
 msgstr ""
 
-msgid "Upload the file to version"
+msgid "Upload to"
+msgstr ""
+
+msgid "URL"
 msgstr ""
 
 msgid "Use default value"
@@ -1079,6 +1072,10 @@ msgstr ""
 msgid "User deleted successfully"
 msgstr ""
 
+msgid "User deletion not permited on a demo instance"
+msgstr ""
+
+#, tao-public
 msgid "User Management"
 msgstr ""
 
@@ -1099,15 +1096,18 @@ msgstr ""
 msgid "Versioning"
 msgstr ""
 
-msgid "Warning:"
-msgstr ""
-
 msgid "Welcome to TAO!"
 msgstr ""
 
 msgid "Yes"
 msgstr ""
 
+msgid "You are not logged in."
+msgstr ""
+
 msgid "You cannot modify this property"
+msgstr ""
+
+msgid "You currently have no access to the platform"
 msgstr ""
 
