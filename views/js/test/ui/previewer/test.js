@@ -1,7 +1,6 @@
 define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
-       
+      
     module('Previewer Stand Alone Test');
-   
     test('plugin', function(){
        expect(1);
        ok(typeof $.fn.previewer === 'function', 'The Previewer plugin is registered');
@@ -23,13 +22,12 @@ define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
             type: 'image/png' 
         });
     });
-
     asyncTest('Image preview', function(){
         expect(5);
 
         var options     = {
             url    : 'http://taotesting.com/sites/tao/themes/tao/img/tao_logo.png',
-            type    : 'image/png',
+            mime    : 'image/png',
             width   : 50,
             height  : 50
         };
@@ -47,18 +45,17 @@ define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
         });
         $elt.previewer(options);
     });
-
     asyncTest('Data Attribute', function(){
         expect(6);
 
         var options     = {
             url    : 'http://techslides.com/demos/sample-videos/small.mp4',
-            type    : 'video/mp4',
+            mime    : 'video/mp4',
             width   : 200,
             height  : 150
         };
-        var $fixture    = $('#qunit-fixture');
-        var $elt        = $('#p2', $fixture);
+        var $fixture    = $('body');
+        var $elt        = $('#p2');//, $fixture);
         $elt.width(options.width);
         $elt.height(options.height);
 

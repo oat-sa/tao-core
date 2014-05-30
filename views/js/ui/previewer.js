@@ -14,9 +14,9 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
 
     var previewGenerator = {
         placeHolder     : _.template("<p class='nopreview' data-type='${type}'>${desc}</p>"),
-        youtubeTemplate : _.template("<video preload='none'><source type='video/youtueb' src='${url}'/></video>"),
-        videoTemplate   : _.template("<video src='${url}'></video>"),
-        audioTemplate   : _.template("<audio src='${url}'></audio>"),
+        youtubeTemplate : _.template("<video preload='none'><source type='video/youtube' src='${url}'/></video>"),
+        videoTemplate   : _.template("<video src='${url}' type='${mime}'></video>"),
+        audioTemplate   : _.template("<audio src='${url}' type='${mime}'></audio>"),
         imageTemplate   : _.template("<img src='${url}' alt='${name}' />"),
         pdfTemplate     : _.template("<object data='${url}#toolbar=0' type='application/pdf'><a href='${url} target='_blank'>${name}</a></object>"),
         flashTemplate   : _.template("<object data='${url}' type='application/x-shockwave-flash'><param name='movie' value='${url}'></param></object>"),
@@ -93,7 +93,9 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
             return this.each(function(){
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
+                console.log(options);
                 $elt.data(dataNs, _.merge(options, data));
+                console.log($elt.data(dataNs));
                 previewer._update($elt);
             });
         },
@@ -109,10 +111,13 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
            var type = options.type || mimeType.getFileType({ mime : options.mime, name : options.url});
            var content;
            if(options.url){
-                if(!options.name){
+           
+               if(!options.name){
                     options.name = options.url.substring(options.url.lastIndexOf("/") + 1, options.url.lastIndexOf("."));
                 }
+                console.log(type, options);
                 content = previewGenerator.generate(type, options);
+                console.log(content);
            }
            if(!content){
                 content = previewGenerator.placeHolder(_.merge({desc : __('No preview available')}, options));
