@@ -50,7 +50,7 @@ class tao_helpers_translation_Utils
         $returnValue = (string) '';
 
         
-        $returnValue = DEFAULT_LANG;
+        $returnValue = 'en-US';
         
 
         return (string) $returnValue;
