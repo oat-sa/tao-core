@@ -71,8 +71,9 @@ class tao_helpers_I18n
 		//init the ClearFw l10n tools
 		l10n::init();
 		
-		$basePath = BASE_PATH;
-		$baseURL = BASE_URL;
+		$ext = common_ext_ExtensionsManager::singleton()->getExtensionById(Context::getInstance()->getExtensionName());
+		$basePath = $ext->getDir();
+
 		if (!empty($_GET['ext']) && is_string($_GET['ext'])){
 			$shownExtension = common_ext_ExtensionsManager::singleton()->getExtensionById($_GET['ext']);
 			if (!empty($shownExtension)){
