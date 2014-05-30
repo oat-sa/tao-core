@@ -5,9 +5,17 @@ use oat\tao\helpers\Template;
 <script type="text/javascript">
 	$(function() {
 		require(['jquery', 'tao/report'], function($, report){
+		
+			// Fold action (show detailed report).
 			$('#fold > input[type="checkbox"]').click(function() {
 				report.fold();
 			});
+			
+			// Continue button
+			$('#import-continue').on('click', function() {
+				window.location.reload();
+			});
+			
 		});
 	});
 	
