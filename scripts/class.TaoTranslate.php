@@ -1509,7 +1509,7 @@ class tao_scripts_TaoTranslate
 					$this->outVerbose("JavaScript compiled translations for extension '${extension}' with '${language}' written.");
 				}
 				else{
-					$this->err("PO file for extension '${extension}' with language '${language}' cannot be read.", true);
+					$this->err("PO file '${path}' for extension '${extension}' with language '${language}' cannot be read.", true);
 				}
 			}
 			else{
