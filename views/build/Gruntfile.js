@@ -30,7 +30,7 @@ module.exports = function(grunt) {
         amdBundles.push({
             name: extension + '/controller/routes',
             include : includes,
-            exclude : ['jquery', 'lodash', 'jqueryui', 'main', 'i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style', 'css!taoQtiItem_css/qti'].concat(sources.jsbaselibs)
+            exclude : ['jquery', 'lodash', 'jqueryui', 'main', 'i18n_tr', 'ckeditor', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style', 'css!taoQtiItem_css/qti'].concat(sources.jsbaselibs)
        });
        copies.push({
            src: ['output/'+ extension +'/controller/routes.js'],  
@@ -77,11 +77,11 @@ module.exports = function(grunt) {
                         amdify : true
                     }],
                     'qticreator' : [{
-                        pattern : ['views/js/qtiCreator/editor/**/*.js', 'views/js/qtiCreator/renderers/**/*.js',  'views/js/qtiCreator/helper/**/*.js', 'views/js/qtiCreator/model/**/*/js', 'views/js/qtiCreator/widgets/**/*.js'],
+                        pattern : ['views/js/qtiCreator/editor/**/*.js', 'views/js/qtiCreator/renderers/**/*.js',  'views/js/qtiCreator/helper/**/*.js', 'views/js/qtiCreator/model/**/*.js', 'views/js/qtiCreator/widgets/**/*.js'],
                         extension: 'taoQtiItem',
                         amdify : true
                     }, {
-                        pattern : ['views/js/qtiCreator/tpl/**/*.tpl'],
+                        pattern : ['views/js/qtiCreator/tpl/**/*.tpl', 'views/js/qtiXmlRenderer/tpl/**/*.tpl'],
                         extension: 'taoQtiItem',
                         replacements : function(file){
                             return  'tpl!' + file.replace(/\.(tpl)$/, '');
