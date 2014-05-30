@@ -116,7 +116,7 @@ class tao_helpers_report_Rendering {
         $icon = '<span class="icon-' . $typeClass . $leafIcon . '"></span>';
         $message = nl2br($report->__toString());
         $endingTag = '</div>';
-        $okButton = '<p><button id="import-continue" class="btn-info"><span class="icon-right"></span>Continue</button></p>';
+        $okButton = '<p><button id="import-continue" class="btn-info"><span class="icon-right"></span>' . __("Continue") . '</button></p>';
         
         // Put all the children renderings together.
         $content = implode('', $childRenderedReports);
