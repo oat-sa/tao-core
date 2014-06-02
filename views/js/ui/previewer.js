@@ -93,9 +93,7 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
             return this.each(function(){
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
-                console.log(options);
                 $elt.data(dataNs, _.merge(options, data));
-                console.log($elt.data(dataNs));
                 previewer._update($elt);
             });
         },
