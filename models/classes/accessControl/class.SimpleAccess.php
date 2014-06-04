@@ -63,9 +63,9 @@ class tao_models_classes_accessControl_SimpleAccess
         if ($rule->getRole()->getUri() == INSTANCE_ROLE_ANONYMOUS) {
             $mask = $rule->getMask();
             $this->whitelist(
-                isset($mask['ext']) ? $mask['ext'] : null,
+                isset($mask['act']) ? $mask['act'] : null,
                 isset($mask['mod']) ? $mask['mod'] : null,
-                isset($mask['act']) ? $mask['act'] : null
+                isset($mask['ext']) ? $mask['ext'] : null
             );
         }
     }
@@ -91,7 +91,7 @@ class tao_models_classes_accessControl_SimpleAccess
     private function whiteList($action, $controller, $extension) {
         $entry = $extension.'::'.(is_null($controller) ? '*' : $controller).'::'.(is_null($action) ? '*' : $action);
         $this->whitelist = (string)common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::WHITELIST_KEY);
-        $this->whitelist .= ','.$entry;
+        $this->whitelist .= (empty($this->whitelist) ? '' : ',').$entry;
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig(self::WHITELIST_KEY, $this->whitelist);
     }
