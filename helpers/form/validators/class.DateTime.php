@@ -68,18 +68,14 @@ class tao_helpers_form_validators_DateTime
 
         
 		$value = trim($values);
-		/*
-		if(empty($value)){
-			$returnValue = true;//no need to go further. To check if not empty, use the NotEmpty validator
-			return $returnValue;
-		}
-		*/
 		
 		try{
 			$dateTime = new DateTime($value);
-				
-			if(!empty($this->options['comparator']) && $this->options['datetime2_ref'] instanceof tao_helpers_form_FormElement){
-				//try comparison:
+			
+    		// if no date given no need to go further. To check if not empty, use the NotEmpty validator
+			if(!empty($value) && !empty($this->options['comparator']) && $this->options['datetime2_ref'] instanceof tao_helpers_form_FormElement){
+                
+			    //try comparison:
 				try{
 					$dateTime2 = new DateTime($this->options['datetime2_ref']->getRawValue());
 				}catch(Exception $e){}
