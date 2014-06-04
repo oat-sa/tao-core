@@ -30,6 +30,7 @@ class tao_helpers_Date
 {
 	const FORMAT_LONG		= 0;
 	const FORMAT_VERBOSE	= 1;
+	const FORMAT_DATEPICKER	= 2;
 	
     /**
      * Dispalys a date/time
@@ -56,6 +57,9 @@ class tao_helpers_Date
     	switch ($format) {
     		case self::FORMAT_LONG :
     			$returnValue = $dateTime->format('d/m/Y H:i:s');
+    			break;
+    		case self::FORMAT_DATEPICKER :
+    			$returnValue = $dateTime->format('Y-m-d H:i');
     			break;
     		case self::FORMAT_VERBOSE :
     			$returnValue = $dateTime->format('F j, Y, g:i:s a');
