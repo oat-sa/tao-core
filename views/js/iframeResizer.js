@@ -109,7 +109,7 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
             var self = this;
             
             if(!diff || parseInt(diff, 10) < 10){
-                diff = 10;
+               // diff = 10;
             }
 
             $frame.on('load.eventHeight', function () {

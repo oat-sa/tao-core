@@ -9,6 +9,11 @@
 @import "inc/tooltip";
 @import "inc/resourcemgr";
 
+// better z-indices on mobiles
+body {
+    z-index: 0;
+}
+
 // set all block elements to have no space on top
 address, article, aside, audio, blockquote, canvas, dd, div, dl, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header,
 hgroup, hr, noscript, ol, output, p, pre, section, table, tfoot, ul, video, main {
