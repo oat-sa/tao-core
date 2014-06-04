@@ -127,6 +127,9 @@ class tao_helpers_data_GenerisAdapterRdf
         foreach($resource->getSubClasses(false) as $subclass){
             $this->addClass($graph, $subclass);
         }
+        foreach ($resource->getProperties(false) as $property) {
+            $this->addResource($graph, $property);
+        }
         
     }
     

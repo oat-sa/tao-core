@@ -82,7 +82,10 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
         $graph = new EasyRdf_Graph();
         $graph->parseFile($file);
 
-        $map = array();
+        // keep type property
+        $map = array(
+            RDF_PROPERTY => RDF_PROPERTY
+        );
         
         foreach ($graph->resources() as $resource) {
             $map[$resource->getUri()] = common_Utils::getNewUri();
@@ -95,7 +98,6 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
             $resource = new core_kernel_classes_Resource($map[$subjectUri]);
             $isClass = false;
             foreach ($propertiesValues as $prop=>$values){
-                $props[$prop] = array();
                 if ($prop == RDF_TYPE) {
                     foreach ($values as $k => $v) {
                         $classType = isset($map[$v['value']])
