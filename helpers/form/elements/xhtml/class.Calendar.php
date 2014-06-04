@@ -56,7 +56,12 @@ class tao_helpers_form_elements_xhtml_Calendar
 		
 		$returnValue .= "<input type='text' name='{$this->name}' id='$elementId' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'._dh($this->value).'"  />';
+		
+		if (!empty($this->value)) {
+		    $timeStamp = is_numeric($this->getRawValue()) ? $this->getRawValue() : $this->getEvaluatedValue(); 
+            $returnValue .= ' value="'._dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER)).'"';
+		}
+		$returnValue .= ' />';
 		
 		$returnValue .="<script type=\"text/javascript\">
 			require(['jquery','jqueryui','jquery.timePicker'], function($){
@@ -67,7 +72,18 @@ class tao_helpers_form_elements_xhtml_Calendar
 
         return (string) $returnValue;
     }
+    
+    public function getEvaluatedValue()
+    {
+        $returnValue = $this->getRawValue();
+    
+        if (!empty($returnValue)) {
+            $tz = new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone());
+            $dt = new DateTime($returnValue, $tz);
+            $returnValue = $dt->getTimestamp().'';
+        }
+    
+        return $returnValue;
+    }
 
 }
-
-?>
