@@ -91,7 +91,38 @@ class tao_helpers_Http
     {
         return $_FILES;
     }
-    
+   
+    /**
+     * Get the files data from an HTTP file upload (ie. from the $_FILES)
+     * @author "Bertrand Chevrier <bertrand@taotesting.com>
+     * @param string the file field name 
+     * @return array the file data
+     * @throws common_exception_Error in case of wrong upload
+     */
+    public static function getUploadedFile($name)
+    {
+
+        $files = self::getFiles(); 
+        $fileData = $files[$name];
+        if(isset($files[$name])){
+
+            //check for upload errors
+            if(isset($fileData['error']) && $fileData['error'] != UPLOAD_ERR_OK){
+                switch ($fileData['error']) {
+                    case UPLOAD_ERR_NO_FILE:
+                        throw new common_exception_Error('No file sent.');
+                    case UPLOAD_ERR_INI_SIZE:
+                    case UPLOAD_ERR_FORM_SIZE:
+                        throw new common_exception_Error('Exceeded filesize limit.');
+                    default:
+                        throw new common_exception_Error('Upload just fails.');
+                }
+            }
+
+        }
+        return $fileData;
+    }
+ 
     /**
      * @author "Patrick Plichart, <patrick@taotesting.com>"
      * @param string $supportedMimeTypes

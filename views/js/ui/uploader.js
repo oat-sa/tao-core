@@ -258,10 +258,10 @@ define([
         */
         _upload : function($elt, file){
             var options = $elt.data(dataNs);
-            var uploaded = false;
+            var done = false;
             var fakeProgress = function(value){
                 setTimeout(function(){
-                    if(uploaded === false){
+                    if(done === false){
                         options.$progressBar.progressbar({
                             value: value
                         });
@@ -281,7 +281,7 @@ define([
                     url : options.uploadUrl, 
                     file : file, 
                     loaded : function(result){
-                        uploaded = true;
+                        done = true;
                         options.$progressBar.progressbar({value: 100});
                     
                         /**
@@ -291,6 +291,16 @@ define([
                          * @param {Object} result - the upload response
                          */
                         $elt.trigger('upload.'+ns, [file, result]); 
+                    },
+                    failed : function(){
+                        done = true;
+                        options.$progressBar.progressbar({value: 0});
+
+                        /**
+                         * The file fails to upload
+                         * @event uploader#fail.uploader
+                         */
+                        $elt.trigger('fail.'+ns); 
                     }
                 });
             } 

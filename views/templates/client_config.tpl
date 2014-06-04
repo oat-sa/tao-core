@@ -104,6 +104,8 @@ require.config({
             exports : 'MediaElementPlayer',
             init : function(){
                 MediaElementPlayer.pluginPath = '<?=TAOBASE_WWW?>/lib/mediaelement/'; //define the plugin swf path here
+                MediaElementPlayer.plugins = ['flash'];
+                MediaElementPlayer.flashName = 'flashmediaelement.swf';
                 return MediaElementPlayer;
             }
         },

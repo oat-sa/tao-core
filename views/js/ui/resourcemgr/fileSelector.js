@@ -130,6 +130,11 @@ define([
                     $container.trigger('filenew.' + ns, [result, currentPath]);
                 }, 300);
             });
+            $uploader.on('fail.uploader', function(){
+                //TODO use a feedback popup
+                window.alert('Unable to upload file');
+                $uploader.uploader('reset');
+            });
 
             $uploader.uploader({
                 upload      : true,

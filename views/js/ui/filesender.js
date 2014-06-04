@@ -51,12 +51,18 @@ define( ['jquery', 'lodash'], function($, _){
                 
                 xhr.open("POST", opts.url, true);
                 xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var result = $.parseJSON(xhr.responseText);
+                    if (xhr.readyState === 4){
+                       if(xhr.status === 200) {
+                            var result = $.parseJSON(xhr.responseText);
                         
-                        if(typeof opts.loaded === 'function'){
-                             opts.loaded(result);
-                        }
+                            if(typeof opts.loaded === 'function'){
+                                 opts.loaded(result);
+                            }
+                       } else {
+                            if(typeof opts.failed === 'function'){
+                                 opts.failed();
+                            }
+                       }
                     }
                 };
                 
@@ -92,7 +98,8 @@ define( ['jquery', 'lodash'], function($, _){
                     })
                     .append($postFrame);
                 
-                $('#' + id, $form).on('load', function(e){
+                $('#' + id, $form)
+                  .on('load', function(e){
                     //we get the response in the frame
                     var result = $.parseJSON($(this).contents().text());
                     
@@ -101,6 +108,15 @@ define( ['jquery', 'lodash'], function($, _){
                     }
                     
                     $(this).off('load');
+                    $(this).off('error');
+                    $(this).remove();
+                }).on('error', function(){
+
+                    if(typeof opts.failed === 'function'){
+                         opts.failed();
+                    }
+                    $(this).off('load');
+                    $(this).off('error');
                     $(this).remove();
                 });
                     
