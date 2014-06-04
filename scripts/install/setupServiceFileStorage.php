@@ -36,7 +36,7 @@ if (file_exists($privateDataPath)) {
 }
 
 $publicFs = tao_models_classes_FileSourceService::singleton()->addLocalSource('public service storage', $publicDataPath);
-$privateFs = tao_models_classes_FileSourceService::singleton()->addLocalSource('public service storage', $privateDataPath);
+$privateFs = tao_models_classes_FileSourceService::singleton()->addLocalSource('private service storage', $privateDataPath);
 
 $provider = tao_models_classes_fsAccess_TokenAccessProvider::spawnProvider($publicFs);
 
