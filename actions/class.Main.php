@@ -329,7 +329,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
     		        }
     		        $actionData = array(
     		            'js'		=> $action->getJs(),
-    		            'url' 		=> ROOT_URL . $action->getUrl(),
+    		            'url' 		=> ROOT_URL . ltrim($action->getUrl(), '/'),
     		            'display'	=> $display,
     		            'rowName'	=> $action->getName(),
     		            'name'		=> _clean($action->getName()),

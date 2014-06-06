@@ -239,6 +239,16 @@ class Bootstrap{
     	catch (common_exception_UserReadableException $e) {
     		$this->dispatchError($e, 500, $e->getUserMessage());
     	}
+    	catch (ResolverException $e) {
+            if (!tao_helpers_Request::isAjax()
+    		    && tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
+    		) {
+                header(HTTPToolkit::statusCodeHeader(302));
+                header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao')));
+            } else {
+                $this->dispatchError($ue, 403);
+            }
+    	}
     	catch (Exception $e) {
     		// Last resort.
     		$msg = "System Error: uncaught exception (";
