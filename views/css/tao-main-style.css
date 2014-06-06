@@ -2,23 +2,6 @@
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -536,6 +519,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 @font-face {
   font-family: 'Source Sans Pro';
@@ -555,47 +541,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   font-weight: normal;
   src: local("Source Sans Pro Semibold Italic"), local("SourceSansPro-SemiboldIt"), url(font/source-sans-pro/source-sans-pro-italic.eot) format("embedded-opentype"), url(font/source-sans-pro/source-sans-pro-italic.woff) format("woff"); }
 
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 @font-face {
   font-family: 'tao';
-  src: url("font/tao/tao.eot?-f9rltr");
-  src: url("font/tao/tao.eot?#iefix-f9rltr") format("embedded-opentype"), url("font/tao/tao.woff?-f9rltr") format("woff"), url("font/tao/tao.ttf?-f9rltr") format("truetype"), url("font/tao/tao.svg?-f9rltr#tao") format("svg");
+  src: url("font/tao/tao.eot?-w0adgh");
+  src: url("font/tao/tao.eot?#iefix-w0adgh") format("embedded-opentype"), url("font/tao/tao.woff?-w0adgh") format("woff"), url("font/tao/tao.ttf?-w0adgh") format("truetype"), url("font/tao/tao.svg?-w0adgh#tao") format("svg");
   font-weight: normal;
   font-style: normal; }
 
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -1114,40 +1066,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-grip-h:before {
   content: "\e600"; }
 
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
+.icon-magicwand:before {
+  content: "\e602"; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -1665,6 +1586,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /*! normalize.css v1.1.3 | MIT License | git.io/normalize */
 /* ==========================================================================
@@ -2625,23 +2549,6 @@ textarea {
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -3159,6 +3066,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 .list-symbol {
   font: bold 13px "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
@@ -3704,23 +3614,6 @@ Special outer level classes used in this file:
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -4238,6 +4131,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* The box that holds each toolbar. */
 .cke_toolbar, .tlb-bar, .tlb-spacer {
@@ -4534,23 +4430,6 @@ other files.
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -5068,6 +4947,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* "Reset" styles, necessary to avoid the editor UI being broken by external CSS. */
 /*
@@ -5097,23 +4979,6 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -5631,6 +5496,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* Reset for single elements, not their children. */
 .cke_reset {
@@ -5940,23 +5808,6 @@ panel contents and color panels check menu.css and colorpanel.css.
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -6474,6 +6325,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* The box that holds an IFRAME. It's inserted into a host document and positioned
    absolutely by the application. It floats above the host document/editor. */
@@ -6778,23 +6632,6 @@ Special outer level classes used in this file:
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -7312,6 +7149,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* The box that holds each toolbar. */
 .cke_toolbar, .tlb-bar, .tlb-spacer {
@@ -7783,23 +7623,6 @@ The visual representation of a rich combo widget looks as follows:
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -8317,6 +8140,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* The box that hold the entire combo widget */
 .cke_combo, .tlb-text-button-box {
@@ -8548,23 +8374,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -9082,6 +8891,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* "Source" button label */
 .cke_button__source_label,
@@ -9111,23 +8923,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -9645,6 +9440,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
@@ -9722,44 +9520,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     bottom: -6px; }
 
 /* Icon set */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -10277,6 +10041,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the
@@ -10316,23 +10083,6 @@ legend.cke_voice_label {
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -10850,6 +10600,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
@@ -11109,44 +10862,10 @@ Special outer level classes used in this file:
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -11664,6 +11383,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 .tlb .tlb-bar .tlb-button-on,
 .tlb .tlb-bar .tlb-button-off,
@@ -11748,23 +11470,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -12282,6 +11987,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* tooltipster themes */
 .tao-dark-tooltip, .tao-default-tooltip, .tao-info-tooltip, .tao-success-tooltip, .tao-warning-tooltip, .tao-error-tooltip {
@@ -12364,23 +12072,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -12898,6 +12589,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-grip-h:before {
   content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* tooltip */
 .resourcemgr {
@@ -13296,23 +12990,6 @@ a[rel="external"] span.icon-external:before {
   /**
    * Use icon within sass: @inclue icon('down');
    */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
   position: relative;
   font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
   font-weight: normal; }
@@ -15729,6 +15406,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     content: "\e601"; }
   .tao-scope .icon-grip-h:before {
     content: "\e600"; }
+  .tao-scope .icon-magicwand:before {
+    content: "\e602"; }
   .tao-scope xxsvg * {
     cursor: pointer;
     position: absolute;

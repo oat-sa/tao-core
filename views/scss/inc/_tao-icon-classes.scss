@@ -1,22 +1,3 @@
-
-                                     /*
-                                    /  \
-                                   |    |
-                                 --:'''':--
-   THIS CODE IS GENERATED          :*_* :
-                                   _:"":\___
-   AUTOMAGICALLY    * *      ____.' :::     '._
-                   * *=====<<=)           \    :
-   DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                     \====:_ ""
-                                    .'     \\
-                                   :       :
-                                  /   :    \
-                                 :   .      '.
-                                 :  : :      :
-                                 :__:-:__.;--'
-                                <*_/   <*/
-                                 
 @import 'inc/tao-icon-vars.scss';
 [class^="icon-"], [class*=" icon-"] { @extend %tao-icon-setup; }
 .icon-left:before { @extend %icon-left; }
@@ -184,3 +165,4 @@
 .icon-rubric:before { @extend %icon-rubric; }
 .icon-audio:before { @extend %icon-audio; }
 .icon-grip-h:before { @extend %icon-grip-h; }
+.icon-magicwand:before { @extend %icon-magicwand; }

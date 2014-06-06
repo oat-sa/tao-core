@@ -41,45 +41,11 @@ Comments in this file will give more details about each of the above blocks.
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 /* Tao specific stuff */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
  * Use icon within sass: @inclue icon('down');
  */
-                                  /*
-                                 /  \
-                                |    |
-                              --:'''':--
-THIS CODE IS GENERATED          :*_* :
-                                _:"":\___
-AUTOMAGICALLY    * *      ____.' :::     '._
-                * *=====<<=)           \    :
-DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                  \====:_ ""
-                                 .'     \
-                                :       :
-                               /   :    \
-                              :   .      '.
-                              :  : :      :
-                              :__:-:__.;--'
-                             <*_/   <*/
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
@@ -131,7 +97,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     opacity: 1;
     transition: opacity .1s ease-in-out;
     -moz-transition: opacity .1s ease-in-out;
-    -webkit-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .1s ease-in-out;
     right: 5px;
     left: auto; }
   .cke_nose.float-space-bottom {

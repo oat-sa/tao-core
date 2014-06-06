@@ -19,25 +19,6 @@
  */
 
 
-                                     /*
-                                    /  \
-                                   |    |
-                                 --:'''':--
-   THIS CODE IS GENERATED          :*_* :
-                                   _:"":\___
-   AUTOMAGICALLY    * *      ____.' :::     '._
-                   * *=====<<=)           \    :
-   DO NOT EDIT!     * *      '-'-'\_      /'._.'
-                                     \====:_ ""
-                                    .'     \\
-                                   :       :
-                                  /   :    \
-                                 :   .      '.
-                                 :  : :      :
-                                 :__:-:__.;--'
-                                <*_/   <*/
-                                 
-
 
 /**
  * Icon helper for tao - helpers/class.Icon.php
@@ -46,7 +27,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-05-15 14:30
+ * @date   2014-06-06 16:10
  * @package tao
  * @subpackage helpers
  */
@@ -240,6 +221,7 @@ class tao_helpers_Icon {
     const CLASS_RUBRIC = 'icon-rubric';
     const CLASS_AUDIO = 'icon-audio';
     const CLASS_GRIP_H = 'icon-grip-h';
+    const CLASS_MAGICWAND = 'icon-magicwand';
 
 	
     /**
@@ -904,6 +886,10 @@ class tao_helpers_Icon {
 
     public static function iconGripH($options=array()){
         return self::buildIcon(self::CLASS_GRIP_H, $options);
+    }
+
+    public static function iconMagicwand($options=array()){
+        return self::buildIcon(self::CLASS_MAGICWAND, $options);
     }
 
 
