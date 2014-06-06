@@ -28,7 +28,7 @@ class ReportRenderingHelperTest extends TaoPhpUnitTestRunner {
        
         $report = common_report_Report::createSuccess('Success!');
         
-        $expected = '<div class="feedback-success feedback-nesting-0 leaf tao-scope"><span class="icon-success leaf-icon"></span>Success!</div>';
+        $expected = '<div class="feedback-success feedback-nesting-0 leaf tao-scope"><span class="icon-success leaf-icon"></span>Success!<p><button id="import-continue" class="btn-info"><span class="icon-right"></span>Continue</button></p></div>';
         $this->assertEquals($expected, tao_helpers_report_Rendering::render($report));
     }
     
@@ -49,6 +49,9 @@ class ReportRenderingHelperTest extends TaoPhpUnitTestRunner {
         $expected .=     '<span class="icon-error leaf-icon"></span>';
         $expected .=     'Failure!';
         $expected .=   '</div>';
+        $expected .=   '<p>';
+        $expected .=     '<button id="import-continue" class="btn-info"><span class="icon-right"></span>Continue</button>';
+        $expected .=   '</p>';
         $expected .= '</div>';
         
         $this->assertEquals($expected, tao_helpers_report_Rendering::render($report));
