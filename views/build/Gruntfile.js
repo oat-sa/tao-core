@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                         extension: 'current'
                     },
                     'jsbaselibs' : {
-                        pattern : ['views/js/*.js', '!views/js/main.js', '!views/js/*.min.js', '!views/js/test/**/*.js'],
+                        pattern : ['views/js/*.js', 'views/js/core/**/*.js', '!views/js/main.js', '!views/js/*.min.js', '!views/js/test/**/*.js'],
                         extension: 'tao',
                         amdify : true
                     },
@@ -197,7 +197,7 @@ module.exports = function(grunt) {
                     mainConfigFile : './config/requirejs.build.js',
                     modules : [{
                         name: 'taoQtiItem/runtime/qtiBootstrap',
-                        include: sources.qtiRuntime,
+                        include: sources.qtiruntime,
                         exclude : ['i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style', 'css!taoQtiItem_css/qti'],
                     }]
                 }
