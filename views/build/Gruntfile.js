@@ -232,7 +232,8 @@ module.exports = function(grunt) {
             options : {
                 noCache: true,
                 loadPath : ['../scss/', '../js/lib/', '../../../taoQtiItem/views/scss/inc', '../../../taoQtiItem/views/scss/qti'],
-                lineNumbers : true
+                lineNumbers : false,
+                style : 'compact'
             },
             
             compile : {
@@ -333,6 +334,6 @@ module.exports = function(grunt) {
     grunt.registerTask('jsBundle', "Create JavaScript bundles for the whole TAO plateform",
                         ['backendBundle', 'qtiBundle']);
 
-    grunt.registerTask('build', "The full build sequence", ['jsBundle']);
+    grunt.registerTask('build', "The full build sequence", ['jsBundle', 'sass:compile', 'sass:qti']);
 
 };
