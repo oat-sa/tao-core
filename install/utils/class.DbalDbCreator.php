@@ -166,7 +166,7 @@ class tao_install_utils_DbalDbCreator {
     	$table->addColumn("stdelete", "string",array("length" => 255,"default" => null,"notnull" => false));
     	$table->setPrimaryKey(array("id"));
     	$table->addOption('engine' , 'MyISAM');
-    	$table->addColumn("epoch", "datetime" , array("notnull" => null));
+
     	$table->addIndex(array('modelid'),"idx_statements_modelid");
     	
     	if($this->dbConfiguration['driver'] != 'pdo_mysql'){
