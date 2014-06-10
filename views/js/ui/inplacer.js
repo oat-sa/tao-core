@@ -121,8 +121,10 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
                     //bind an event to trigger the toggling
                     if(options.bindEvent !== false){
                         $elt.on(options.bindEvent, function(e){
-                            e.preventDefault();
-                            InPlacer._toggle($(this));
+                            if($elt.children(':text').length === 0){
+                                e.preventDefault();
+                                InPlacer._edit($elt);
+                            }
                          });
                     }
 
