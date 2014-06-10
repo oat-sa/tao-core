@@ -113,9 +113,7 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
                if(!options.name){
                     options.name = options.url.substring(options.url.lastIndexOf("/") + 1, options.url.lastIndexOf("."));
                 }
-                console.log(type, options);
                 content = previewGenerator.generate(type, options);
-                console.log(content);
            }
            if(!content){
                 content = previewGenerator.placeHolder(_.merge({desc : __('No preview available')}, options));
