@@ -162,6 +162,8 @@ define([
                 if(options.targetId){
                     $('#' + options.targetId).remove();
                 } 
+
+                $(window).off('resize.resourcemgr');
    
                 /**
                  * The plugin have been destroyed.

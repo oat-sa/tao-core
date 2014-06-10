@@ -43,7 +43,7 @@ define([
         var $fileContainer  = $('.files', $fileSelector);
         var $placeholder    = $('.empty', $fileSelector);
         var $uploadContainer= $('.uploader', $fileSelector);
-        var liveSelector    = '#' + $container.attr('id') + ' .file-selector'; 
+        var parentSelector  = '#' + $container.attr('id') + ' .file-selector'; 
         var $pathTitle      = $fileSelector.find('h1 > .title');
 
         //set up the uploader 
@@ -75,10 +75,12 @@ define([
             }
         });
 
-        $(window).on('resize', _.throttle(updateSize, 100));
+        $(window).on('resize.resourcemgr', _.throttle(updateSize, 100));
 
         //listen for file activation
-        $(document).on('click', liveSelector + ' .files li', function(e){
+        $(parentSelector)
+            .off('click', '.files li')
+            .on ('click', '.files li', function(e){
             
             var $selected = $(this); 
             var $files = $('.files > li', $fileSelector);
@@ -100,7 +102,9 @@ define([
         });
 
         //select a file
-        $(document).on('click', liveSelector + ' .files li a.select', function(e){
+        $(parentSelector)
+            .off('click', '.files li a.select')
+            .on ('click', '.files li a.select', function(e){
             e.preventDefault();
             $container.trigger('select.' + ns, [[_.pick($(this).parents('li').data(), ['file', 'type', 'mime', 'size'])]]);
         });

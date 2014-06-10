@@ -7,7 +7,7 @@ define(['jquery', 'lodash'], function($, _) {
 
         var root            = options.root || '/';
         var $container      = options.$target;
-        var liveSelector    = '#' + $container.attr('id') + ' .file-browser'; 
+        var parentSelector  = '#' + $container.attr('id') + ' .file-browser'; 
         var $fileBrowser    = $('.file-browser', $container);  
         var $folderContainer= $('.folders', $fileBrowser);
         var fileTree        = {};
@@ -31,7 +31,9 @@ define(['jquery', 'lodash'], function($, _) {
         });
 
         // by clicking on the tree (using a live binding  because content is not complete yet)
-        $(document).on('click', liveSelector + ' .folders  a', function(e){
+        $(parentSelector)
+            .off('click', '.folders a') 
+            .on ('click', '.folders a', function(e){
             e.preventDefault();
 
             var $selected = $(this); 

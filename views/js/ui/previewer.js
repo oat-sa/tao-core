@@ -106,37 +106,39 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
         _update : function($elt){
            var $content, mep;
            var options = $elt.data(dataNs);
-           var type = options.type || mimeType.getFileType({ mime : options.mime, name : options.url});
-           var content;
-           if(options.url){
-           
-               if(!options.name){
-                    options.name = options.url.substring(options.url.lastIndexOf("/") + 1, options.url.lastIndexOf("."));
-                }
-                content = previewGenerator.generate(type, options);
+           if(options){
+               var type = options.type || mimeType.getFileType({ mime : options.mime, name : options.url});
+               var content;
+               if(options.url){
+               
+                   if(!options.name){
+                        options.name = options.url.substring(options.url.lastIndexOf("/") + 1, options.url.lastIndexOf("."));
+                    }
+                    content = previewGenerator.generate(type, options);
+               }
+               if(!content){
+                    content = previewGenerator.placeHolder(_.merge({desc : __('No preview available')}, options));
+               }
+               $content = $(content);
+               
+               $elt.empty().html($content);
+              
+               if(options.width){
+                    $content.attr('width', options.width);
+               }
+               if(options.height){
+                    $content.attr('height', options.height);
+               }
+               if(type === 'audio' || type === 'video'){
+                    $content.mediaelementplayer();
+               }
+                
+                /**
+                 * The plugin has been created.
+                 * @event previewer#update.previewer
+                 */
+                $elt.trigger('update.' + ns);
            }
-           if(!content){
-                content = previewGenerator.placeHolder(_.merge({desc : __('No preview available')}, options));
-           }
-           $content = $(content);
-           
-           $elt.empty().html($content);
-          
-           if(options.width){
-                $content.attr('width', options.width);
-           }
-           if(options.height){
-                $content.attr('height', options.height);
-           }
-           if(type === 'audio' || type === 'video'){
-                $content.mediaelementplayer();
-           }
-            
-            /**
-             * The plugin has been created.
-             * @event previewer#update.previewer
-             */
-            $elt.trigger('update.' + ns);
         },
 
         /**
