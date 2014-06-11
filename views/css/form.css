@@ -69,6 +69,7 @@ div.xhtml_form div textarea{
 div.xhtml_form div.wysiwyg,
 div.xhtml_form div textarea.html-area{
 	width: 300px;
+    display: inline-block;
 }
 div.xhtml_form div .elt_desc{
 	font-weight:normal;
