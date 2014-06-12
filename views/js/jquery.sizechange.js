@@ -29,7 +29,7 @@
  * - Code refactoring to fit AMD modules
  * - Specific implementation of the original attrchange plugin to detect 
  */
-define(['jquery'], function($){
+define(['jquery', 'lodash'], function($, _){
     
     /**
      * Check whether DOM3 Events / MutationObserver are supported
@@ -68,64 +68,77 @@ define(['jquery'], function($){
 
    /**
     * Register a jquery plugin that helps you to execute the given callback when a resize MAY happen.
+    * 
+    * !!! The callback MUST NOT modify in any way the element it is observing, or you'll fall into an infinite loop !!!
+    *
     * @example $iframe.contents().find('body').sizeChange(function(){ $iframe.height($iframe.contents().height()); });
     * @param {Function} cb - a callback function when an event that MAY resize is triggered
     * @returns {jQueryElement} for chaining
     */
    $.fn.sizeChange = function(cb) {
         var $this = this;
-        var running = false;
-        
+        var running = false;       
+ 
         cb = cb || $.noop();
         if($this.length === 0){
             return $this;
         }
         
-        var execCb = function execCb(){
-           if(running === false){
-                running = true;
-                
-                
-                setTimeout(function(){
-                     cb();
-                     running = false;
-                }, 1);  
-            } 
+        var execCb = _.throttle(function execCb(done){
+            cb();
+            _.delay(done, 1);
+            done();
             //if new images are inserted, their load can update size without trigerring and mutation
             $this.find('img').one('load', function(){
                 cb();
             });
-        };
+        }, 10);
         
         
         if (isDOM3EventSupported()) { //DOM3,  Modern Browsers
             var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
             var mutationOptions = {
-                        childList : this[0].nodeName !== 'IFRAME',
-                        subtree: true, 
-                        attributes: true
-                };
+                    childList : this[0].nodeName !== 'IFRAME',
+                    subtree: true, 
+                    attributes: true,
+                    attributeFilter : ['style', 'width', 'heigh']
+            };
 
-                var observer = new MutationObserver(function(mutations) {
-                    for(var i in mutations) {
-                        if(mutations[i].addedNodes !== null || mutations[i].attributeName !== null){
-                            execCb();
-                        }
+            var observer = new MutationObserver(function(mutations) {
+                for(var i in mutations) {
+                    if(mutations[i].addedNodes !== null || mutations[i].attributeName !== null){
+                        stop();
+                        execCb(start);
+                        return;
                     }
-                });
-
+                }
+            });
+            
+            var start = function start(){
                 $this.each(function() {
                     observer.observe(this, mutationOptions);
                 });
+            };
+            var stop = function stop(){
+                observer.disconnect();
+            };
+
+            start();
+
         } else  if (isDOM2EventSupported()) { //DOM2, Opera
+            var runs = function runs(){
+                running = false;
+            };
             $this.on('DOMAttrModified', function(event) {
-                if(event.attrName === 'style'){
-                    execCb();
+                if(event.attrName === 'style' && !running){
+                    running = true;
+                    execCb(runs);
                 }
             });
             $this.on('DOMNodeRemoved DOMNodeInserted DOMNodeInsertedIntoDocument DOMNodeRemovedFromDocument', function(event){
-                if(event.target.nodeType === 1){
-                    execCb();
+                if(event.target.nodeType === 1 && !running){
+                    running  = true;
+                    execCb(runs);
                 }
             });
         } else { 
