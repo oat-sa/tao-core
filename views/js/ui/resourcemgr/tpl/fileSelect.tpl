@@ -9,7 +9,7 @@
                         <span class="tlb-start"></span>
                         <span class="tlb-group">
                             <a href="#" class="tlb-button-off select" title="{{__ 'Select this file'}}"><span class="icon-move-item"></span></a>
-                            <a href="{{downloadUrl}}" download="{{name}}" target="_blank" class="tlb-button-off download" title="{{__ 'Download this file'}}"><span class="icon-export"></span></a>
+                            <a href="{{downloadUrl}}" download="{{name}}" target="_blank" class="tlb-button-off download" title="{{__ 'Download this file'}}"><span class="icon-download"></span></a>
                             <a href="#" class="tlb-button-off" title="{{__ 'Remove this file'}}" data-delete=":parent li"><span class="icon-bin"></span></a>
                         </span>
                         <span class="tlb-end"></span>
