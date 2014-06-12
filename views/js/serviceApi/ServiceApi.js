@@ -19,10 +19,11 @@ define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeRe
         
     ServiceApi.prototype.loadInto = function(frame, connected){
         var self = this;
+        var $frame = $(frame);
         var callUrl = this.getCallUrl();        
         var isCORSAllowed = new UrlParser(callUrl).checkCORS();
-        
-        $(frame).one('load', function() {
+
+        $frame.one('load', function() {
             $(document).on('serviceready', function(){
                 self.connect(frame, connected );
             });
@@ -33,10 +34,9 @@ define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeRe
             //with the parent
             if(isCORSAllowed === true){
                 frame.contentWindow.__knownParent__ = true;
-            } 
+            }
         });
-        
-        $(frame).attr('src', callUrl);
+        $frame.attr('src', callUrl);
     };
 
     ServiceApi.prototype.connect = function(frame, connected){
