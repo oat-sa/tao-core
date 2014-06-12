@@ -161,12 +161,12 @@ class tao_install_utils_DbalDbCreator {
     	$table->addColumn("l_language", "string",array("length" => 255,"default" => null,"notnull" => false));
     	$table->addColumn("id", "integer",array("notnull" => true,"autoincrement" => true));
     	$table->addColumn("author", "string",array("length" => 255,"default" => null,"notnull" => false));
-    	$table->addColumn("stread", "string",array("length" => 255,"default" => null,"notnull" => false));
-    	$table->addColumn("stedit", "string",array("length" => 255,"default" => null,"notnull" => false));
-    	$table->addColumn("stdelete", "string",array("length" => 255,"default" => null,"notnull" => false));
+//     	$table->addColumn("stread", "string",array("length" => 255,"default" => null,"notnull" => false));
+//     	$table->addColumn("stedit", "string",array("length" => 255,"default" => null,"notnull" => false));
+//     	$table->addColumn("stdelete", "string",array("length" => 255,"default" => null,"notnull" => false));
     	$table->setPrimaryKey(array("id"));
     	$table->addOption('engine' , 'MyISAM');
-
+    	$table->addColumn("epoch", "datetime" , array("notnull" => null));
     	$table->addIndex(array('modelid'),"idx_statements_modelid");
     	
     	if($this->dbConfiguration['driver'] != 'pdo_mysql'){
