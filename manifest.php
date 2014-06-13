@@ -74,8 +74,6 @@ return array(
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf_sample', 'location' => 'generis/common/conf/sample', 'rights' => 'r')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_includes', 'location' => 'tao/includes', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_locales', 'location' => 'tao/locales', 'rights' => 'r')),
-				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_data_cache', 'location' => 'tao/data/cache/htmlpurifier', 'rights' => 'rw')),
-				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_data_cache_htmlpurifier', 'location' => 'tao/data/cache/htmlpurifier', 'rights' => 'rw')),
                 array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_not_nginx', 'name' => 'not_nginx', 'extension' => 'tao', "optional" => true)),
 				array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_mod_rewrite', 'name' => 'mod_rewrite', 'extension' => 'tao', 'dependsOn' => array('tao_custom_not_nginx'))),
 				array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao'))
