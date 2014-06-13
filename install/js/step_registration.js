@@ -23,21 +23,21 @@ function onLoad(){
         var registrationRootUrl = 'http://forge.taotesting.com/registration/';
         var isRegFormLoaded = false;
         var isUpdateFormLoaded = false;
-        var taoVersion = '2.6';
+        var taoVersion = '2.6-RC02';
     
 	install.onNextable = function(){
 		$('#submitForm').removeClass('disabled')
                     .addClass('enabled')
                     .attr('disabled', false);
 		$('#submitForm').attr('value', 'Next');
-	}
+	};
 	
 	install.onUnnextable = function(){
 		$('#submitForm').removeClass('enabled')
                     .addClass('disabled')
                     .attr('disabled', true);
 		$('#submitForm').attr('value', 'Next');
-	}
+	};
         
 	// Nextable, unless default choice is already registered
         //install.setNextable(true);
@@ -89,8 +89,8 @@ function onLoad(){
 
             if (!isRegFormLoaded) {
                 
-                $('ul#registration_fields').load(registrationRootUrl+'taoForgeRegister.php?tao_version='+taoVersion, function( response, status, xhr ) {
-                    if ( status == "error" ) {
+                $('ul#registration_fields').load(registrationRootUrl+'taoForgeRegister.php?tao_version='+encodeURI(taoVersion), function( response, status, xhr ) {
+                    if ( status === "error" ) {
 
                         //console.log( msg + xhr.status + " " + xhr.statusText );
                         var msg = "There was an error when trying to call the registration page. The service may be currently unavailable.";
@@ -105,10 +105,10 @@ function onLoad(){
                 });
             }
             
-            // disable next, unless the credentials check is incorrect
-            $('input#submitForm').removeClass('disabled')
-                .addClass('enabled')
-                .attr('disabled', false);
+            // disable next first
+            /*$('input#submitForm').removeClass('enabled')
+                .addClass('disabled')
+                .attr('enabled', false);*/
             
             $('#flag_notreg').val('');
             $('#support_login').removeClass('tao-input');
@@ -128,13 +128,13 @@ function onLoad(){
             if (!isUpdateFormLoaded) {
                 
                 $('ul#support_fields').load(registrationRootUrl+'taoForgeRegistrationUpdate.php?tao_version='+taoVersion, function( response, status, xhr ) {
-                    if ( status == "error" ) {
+                    if ( status === "error" ) {
 
                         //console.log( msg + xhr.status + " " + xhr.statusText );
                         var msg = "There was an error when trying to access the registration update page. The service may be currently unavailable.";
                         displayTaoError(msg);
 
-                        isRegFormLoaded = false
+                        isRegFormLoaded = false;
                         setFallback(); 
                     }
                     else {
@@ -159,7 +159,7 @@ function onLoad(){
 		install.getDataSetter(this);
 		
 		// Get labelifed values from raw DOM.
-		if ($this.prop('tagName').toLowerCase() == 'input' && $this.attr('type') == 'text'){
+		if ($this.prop('tagName').toLowerCase() === 'input' && $this.attr('type') === 'text'){
 			firstValues[this.id] = this.getData();
 		}
 	});
@@ -171,7 +171,7 @@ function onLoad(){
 	
 	// Register inputs
 	$('.tao-input').each(function(){
-		if (typeof(firstValues[this.id]) != 'undefined'){
+		if (typeof(firstValues[this.id]) !== 'undefined'){
 			this.firstValue = firstValues[this.id];
 		}
 		
@@ -224,7 +224,7 @@ function onLoad(){
         $('support_password').removeClass('tao-input');
         install.stateChange();
 
-        $('input#submitForm').focus();
+        //$('input#submitForm').focus();
         
         // initial state: two first radios are disabled until TAO forge connection is checked
         $('input#radio-askreg').removeClass('enabled')
@@ -293,7 +293,7 @@ function taoForgeConnectionCheck(url) {
       complete: function (jqxhr, txt_status) {
           //console.log ("Complete: [ " + txt_status + " ] -- Status code: " + jqxhr.status);
         
-          if (txt_status != 'success') {
+          if (txt_status !== 'success') {
             
             var msg = "Unable to connect to the TAO Forge registration service. Currently either this installer has no internet access or the service is unavailable.\n\nThus the two first options for registration are disabled. If you wish to register your installation at this step, please check external network availability then click on the Re-check button.";
             displayTaoError(msg, 'Warning');
@@ -348,6 +348,13 @@ function setFallback() {
     $('input#radio-noreg').click();
 
     $('input#redoForm').show();
+    
+    //$('input#submitForm').focus();
+    
+    // hide refresh button
+    $('redoForm').removeClass('disabled')
+        .addClass('enabled')
+        .attr('disabled', false);
 }
 
 function initHelp(){
