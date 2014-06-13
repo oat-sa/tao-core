@@ -102,6 +102,18 @@ define([
                $placeholder,
                $undoBox;
            var options = $elt.data(dataNs);
+           var undoRemove, timeout;
+           var realRemove = function realRemove(){
+                if(performDelete && $target){
+                    $target.remove();
+                    
+                    /**
+                      * The target has been closed/removed. 
+                      * @event deleter#deleted.deleter
+                      */
+                    $evtTrigger.trigger('deleted.'+ ns).trigger('deleted');
+                }
+           };
            if(options && !$elt.hasClass(options.disableClass)){
                 $target = options.target;
 
@@ -147,25 +159,36 @@ define([
                               * @event deleter#undo.deleter
                               */
                             $elt.trigger('undo.' + ns, [$target]);
+                           
                         });
-                    } 
 
-                    //remove the target once the atteched events may be terminated (no guaranty, this happens after in the event loop)
-                    setTimeout(function(){
-                        if(performDelete){ 
-                            $target.remove();
-                            
-                            /**
-                              * The target has been closed/removed. 
-                              * @event deleter#deleted.deleter
-                              */
-                            $evtTrigger.trigger('deleted.'+ ns).trigger('deleted');
-                        }
-                        if($undoBox && $undoBox.length){
-                            $undoBox.remove();
-                            $placeholder.remove();
-                        }
-                    }, options.undo ? options.undoTimeout : 10000);
+                        undoRemove = function undoRemove(){ 
+                            realRemove();
+                            if($undoBox && $undoBox.length){
+
+                                $undoBox.remove();
+                                $placeholder.remove();
+                            }
+                            $(document).off('.unundo.' + ns);
+                        };
+
+                        //clicking on the document force the delete
+                        $(document).one('mousedown.unundo.' + ns, function(e){
+                            if($undoBox.find(e.target).length === 0  && typeof timeout === 'number'){
+                                clearTimeout(timeout);
+                                undoRemove();
+                            }
+                        });
+
+                        //remove the target once the atteched events may be terminated (no guaranty, this happens after in the event loop)
+                        timeout = setTimeout(function(){
+                            undoRemove();
+                        }, options.undoTimeout);
+                         
+
+                    } else {
+                        realRemove();
+                    }
                 }
            }
        },
@@ -292,4 +315,3 @@ define([
         });
     };
 });
-
