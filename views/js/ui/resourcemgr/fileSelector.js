@@ -114,7 +114,7 @@ define([
             var path, params = {};
             if(e.namespace === 'deleter' && $target.length){
                 path = $target.data('file');
-                $(this).one('deleted', function(){
+                $(this).one('deleted.deleter', function(){
                     params[options.pathParam] = path;
                     $.getJSON(options.deleteUrl, _.merge(params, options.params));
                     $container.trigger('filedelete.' + ns, [path]); 

@@ -111,7 +111,7 @@ define([
                       * The target has been closed/removed. 
                       * @event deleter#deleted.deleter
                       */
-                    $evtTrigger.trigger('deleted.'+ ns).trigger('deleted');
+                    $evtTrigger.trigger('deleted.'+ ns);
                 }
            };
            if(options && !$elt.hasClass(options.disableClass)){

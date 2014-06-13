@@ -403,8 +403,8 @@ function($, _, Handlebars, Encoders, Filters){
     DataBinder.prototype._listenRemoves = function _listenRemoves($node, path, model) {
         var self = this;
         _bindOnce($node, 'delete', function(undoable){
-            if(undoable === true){
-                $node.parent().on('deleted', function(){
+            if(undoable === true){  //can be linked tp the ui/deleter
+                $node.parent().on('deleted.deleter', function(){
                     doRemoval();
                 });
             } else {
