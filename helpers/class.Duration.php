@@ -51,7 +51,7 @@ class tao_helpers_Duration {
             $interval = new DateInterval($duration); 
             $time = self::intervalToTime($interval);
         } catch(Exception $e){
-            common_Logger::e($e);
+            common_Logger::e($e->getMessage());
         }
         return $time;
     }
