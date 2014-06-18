@@ -96,40 +96,67 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
         
         foreach ($data as $subjectUri => $propertiesValues){
             $resource = new core_kernel_classes_Resource($map[$subjectUri]);
-            $isClass = false;
-            foreach ($propertiesValues as $prop=>$values){
-                if ($prop == RDF_TYPE) {
-                    foreach ($values as $k => $v) {
-                        $classType = isset($map[$v['value']])
-                            ? new core_kernel_classes_Class($map[$v['value']])
-                            : $class; 
-                        $resource->setType($classType);
-                    }
-                } elseif ($prop == RDF_SUBCLASSOF) {
-                    $isClass = true;
-                    $classRes = new core_kernel_classes_Class($resource);
-                    foreach ($values as $k => $v) {
-                        $classSup = isset($map[$v['value']])
-                            ? new core_kernel_classes_Class($map[$v['value']])
-                            : $class;
-                        $classRes->setSubClassOf($classSup); 
-                    }
-                } else {
-                    $property = new core_kernel_classes_Property($prop);
-                    foreach ($values as $k => $v) {
-                        $value = isset($map[$v['value']]) ? $map[$v['value']] : $v['value'];
-                        if (isset($v['lang'])) {
-                            $resource->setPropertyValueByLg($property, $value, $v['lang']);
-                        } else {
-                            $resource->setPropertyValue($property, $value);
-                        }
-                    }
-                }
-            }
-            $msg = $isClass ? __('Successfully imported class "%s"', $resource->getLabel()) : __('Successfully imported "%s"', $resource->getLabel());
-            $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, $msg));
+            $subreport = $this->importProperties($resource, $propertiesValues, $map, $class);
+            $report->add($subreport);
         }
         return $report;
+    }
+    
+    /**
+     * Import the properties of the resource
+     * 
+     * @param core_kernel_classes_Resource $resource
+     * @param array $propertiesValues
+     * @param array $map
+     * @param core_kernel_classes_Class $class
+     * @return common_report_Report
+     */
+    private function importProperties(core_kernel_classes_Resource $resource, $propertiesValues, $map, $class) {
+        $isClass = false;
+        if (isset($propertiesValues[RDF_TYPE])) {
+            // assuming single Type
+            if (count($propertiesValues[RDF_TYPE]) > 1) {
+                return new common_report_Report(common_report_Report::TYPE_ERROR, __('Resource not imported due to multiple types'));
+            } else {
+                foreach ($propertiesValues[RDF_TYPE] as $k => $v) {
+                    $classType = isset($map[$v['value']])
+                    ? new core_kernel_classes_Class($map[$v['value']])
+                    : $class;
+                    //$resource->setType($classType);
+                    $classType->createInstance(null, null, $resource->getUri());
+                }
+            }
+            unset($propertiesValues[RDF_TYPE]);
+        }
+        
+        if (isset($propertiesValues[RDF_SUBCLASSOF])) {
+            $isClass = true;
+            // assuming single subclass
+            if (count($propertiesValues[RDF_TYPE]) > 1) {
+                return new common_report_Report(common_report_Report::TYPE_ERROR, __('Resource not imported due to multiple super classes'));
+            }
+            foreach ($propertiesValues[RDF_SUBCLASSOF] as $k => $v) {
+                $classSup = isset($map[$v['value']])
+                ? new core_kernel_classes_Class($map[$v['value']])
+                : $class;
+                $classSup->createSubClass(null, null, $resource->getUri());
+            }
+        
+            unset($propertiesValues[RDF_SUBCLASSOF]);
+        }
+        foreach ($propertiesValues as $prop=>$values){
+            $property = new core_kernel_classes_Property(isset($map[$prop]) ? $map[$prop] : $prop);
+            foreach ($values as $k => $v) {
+                $value = isset($map[$v['value']]) ? $map[$v['value']] : $v['value'];
+                if (isset($v['lang'])) {
+                    $resource->setPropertyValueByLg($property, $value, $v['lang']);
+                } else {
+                    $resource->setPropertyValue($property, $value);
+                }
+            }
+        }
+        $msg = $isClass ? __('Successfully imported class "%s"', $resource->getLabel()) : __('Successfully imported "%s"', $resource->getLabel());
+        return new common_report_Report(common_report_Report::TYPE_SUCCESS, $msg);
     }
 
 }
