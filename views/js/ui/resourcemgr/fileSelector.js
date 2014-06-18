@@ -67,7 +67,6 @@ define([
                 });
             
                 updateFiles(fullPath, files);
-                updateSize();
 
                 if(active){
                     $('li[data-file="' + active.path + '"]').trigger('click');
@@ -75,7 +74,7 @@ define([
             }
         });
 
-        $(window).on('resize.resourcemgr', _.throttle(updateSize, 100));
+        $(window).on('resize.resourcemgr', _.throttle(updateSize, 10));
 
         //listen for file activation
         $(parentSelector)
@@ -205,7 +204,8 @@ define([
                 $fileContainer.append(fileSelectTpl({
                     files : files
                 }));
-
+                
+                updateSize();
             } else {
                 $placeholder.show();
             }
