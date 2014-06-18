@@ -20,7 +20,7 @@ define(['jquery', 'raphael'], function($, Raphael){
 
     wrapper.style.width = width + "px";
     wrapper.style.height = height + "px";
-    wrapper.style.overflow = "hidden";
+    //wrapper.style.overflow = "hidden";
     
     var nestedWrapper;
       
