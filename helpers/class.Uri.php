@@ -254,7 +254,7 @@ class tao_helpers_Uri
         $url = str_replace(DIRECTORY_SEPARATOR, '/', $url);
         $parts = explode('/', $url);
         foreach (array_keys($parts) as $key) {
-            $parts[$key] = urlencode($parts[$key]);
+            $parts[$key] = rawurlencode($parts[$key]);
         }
         return implode('/', $parts);
     }
