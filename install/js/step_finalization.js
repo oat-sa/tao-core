@@ -37,7 +37,7 @@ function onLoad(){
     	if (install.isNextable()){
     		$('#deployment').css('visibility', 'visible');
     		spinner.spin($('#deployment')[0]);
-    		
+
     		// Install...
     		var inputs = {
                     'module_url': install.getData('host_name'),

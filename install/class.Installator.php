@@ -17,7 +17,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 /**
@@ -26,9 +26,8 @@
  * Installation main class
  *
  * @access public
- * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @author Jérôme Bogaerts, <jerome@taotesting.com>
  * @package tao
- 
  */
 
 class tao_install_Installator{
@@ -243,10 +242,11 @@ class tao_install_Installator{
 				'GENERIS_INSTANCE_NAME'		=> $installData['instance_name'],
 				'GENERIS_SESSION_NAME'		=> self::generateSessionName(),
 				'ROOT_PATH'					=> $this->options['root_path'],
-                                'FILES_PATH'                => $installData['file_path'],
+                'FILES_PATH'                => $installData['file_path'],
 				'ROOT_URL'					=> $installData['module_url'],
 				'DEFAULT_LANG'				=> $installData['module_lang'],
-				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false
+				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
+			    'TIME_ZONE'                  => $installData['timezone']
 			));
 			
 			/*
@@ -353,7 +353,7 @@ class tao_install_Installator{
 				'userMail'		=> $installData['user_email'],
 				'userDefLg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.$installData['module_lang'],
 				'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.$installData['module_lang'],
-                                'userTimezone'  => TIME_ZONE
+                'userTimezone'  => TIME_ZONE
 			));
 	
 			/*
