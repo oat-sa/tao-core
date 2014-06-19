@@ -72,6 +72,7 @@ class tao_scripts_TaoInstall
 			, "import_local" => 	true
 			, "instance_name" =>	null
 			, "extensions" =>		null
+    	    , 'timezone'   =>      date_default_timezone_get()
     	    , "file_path" =>        $root_path.'generis'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR
 		);
     	
