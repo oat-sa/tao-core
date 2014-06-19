@@ -253,14 +253,14 @@ class Bootstrap{
     		// Last resort.
     		$msg = "System Error: uncaught exception (";
     		$msg .= get_class($e) . ") in (" . $e->getFile() . ")";
-    		$msg .= "at line " . $e->getLine() . ": " . $e->getMessage();
+    		$msg .= " at line " . $e->getLine() . ": " . $e->getMessage();
 
     		$previous = $e->getPrevious();
     		
     		while ($previous !== null) {
     		    $msg .= "\n\ncaused by:\n\n";
-    		    $msg .= get_class($previous) . ") in (" . $previous->getFile() . ")";
-    		    $msg .= "at line " . $previous->getLine().": " . $previous->getMessage();
+    		    $msg .= "(" . get_class($previous) . ") in (" . $previous->getFile() . ")";
+    		    $msg .= " at line " . $previous->getLine() . ": " . $previous->getMessage();
     		    
     		    $previous = $previous->getPrevious();
     		}
