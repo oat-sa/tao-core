@@ -103,7 +103,7 @@ require.config({
             deps: ['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'],
             exports : 'MediaElementPlayer',
             init : function(){
-                MediaElementPlayer.pluginPath = '<?=TAOBASE_WWW?>/lib/mediaelement/'; //define the plugin swf path here
+                MediaElementPlayer.pluginPath = '<?=TAOBASE_WWW?>js/lib/mediaelement/'; //define the plugin swf path here
                 MediaElementPlayer.plugins = ['flash'];
                 MediaElementPlayer.flashName = 'flashmediaelement.swf';
                 return MediaElementPlayer;
