@@ -64,6 +64,12 @@ new tao_scripts_TaoInstall(array(
 	        'shortcut'		=> 'f',
 	        'description'	=> 'Path to where files should be stored.'
 	    ),
+	    array(
+	        'name'			=> 'timezone',
+	        'type'			=> 'string',
+	        'shortcut'		=> 't',
+	        'description'	=> 'Timezone of the install.'
+	    ),
 		array(
 			'name'			=> 'install_sent',
 			'type' 			=> 'integer',
