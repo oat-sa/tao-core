@@ -3,8 +3,11 @@
     var appConfig = document.getElementById('amd-loader').getAttribute('data-config');
     require([appConfig], function(){
         
-        require(['jquery', 'lodash', 'context', 'router', 'ui'], 
-            function ($, _, context, router, ui) {
+        require(['jquery', 'lodash', 'context', 'router', 'ui', 'core/history'], 
+            function ($, _, context, router, ui, history) {
+
+                //fix backspace going back into the history
+                history.fixBrokenBrowsers();
 
                 //contextual loading, do a dispatch each time an ajax request loads an HTML page
                 $(document).ajaxComplete(function(event, request, settings){
