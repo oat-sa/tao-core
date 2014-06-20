@@ -64,6 +64,16 @@ class tao_actions_form_Search
     	
         
     }
+    
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @return array
+     */
+    protected function getClassProperties(){
+        return tao_helpers_form_GenerisFormFactory::getClassProperties($this->clazz, $this->getTopClazz());
+        
+    }
 
     /**
      * Initialize the form elements
@@ -88,6 +98,10 @@ class tao_actions_form_Search
 		$recursiveElt->setValue('current');
 		$this->form->addElement($recursiveElt);
 		
+		$searchClassUriElt = tao_helpers_form_FormFactory::getElement("clazzUri", "Hidden");
+		$searchClassUriElt->setValue(tao_helpers_Uri::encode($this->clazz->getUri()));
+		$this->form->addElement($searchClassUriElt);
+		
 		$langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
 		$langElt->setDescription(__('Language'));
 		
@@ -107,7 +121,8 @@ class tao_actions_form_Search
 		$filters[] = 'desc';
 		
 		$defaultProperties 	= tao_helpers_form_GenerisFormFactory::getDefaultProperties();
-		$classProperties	= tao_helpers_form_GenerisFormFactory::getClassProperties($this->clazz, $this->getTopClazz());
+		$classProperties	= $this->getClassProperties();
+
 		
 		$properties = array_merge($defaultProperties, $classProperties);
 		

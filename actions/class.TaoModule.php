@@ -825,6 +825,19 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	}
 	
 	/**
+	 * 
+	 * Search form may be extends by extension to modify search form
+	 * 
+	 * @author Lionel Lecaque, lionel@taotesting.com
+	 * @param core_kernel_classes_Class $clazz
+	 * @return tao_actions_form_Search
+	 */
+	protected function getSearchForm($clazz){
+	    return new tao_actions_form_Search($clazz, null, array('recursive' => true));
+	}
+	
+	
+	/**
 	 * search the instances of an ontology
 	 * @return 
 	 */
@@ -836,16 +849,18 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$clazz = $this->getCurrentClass();
 		}
 		catch(Exception $e){
+		    common_Logger::i('Search : could not find current class switch to root class');
 			$clazz = $this->getRootClass();
 		}
-		
-		$formContainer = new tao_actions_form_Search($clazz, null, array('recursive' => true));
+        
+		$formContainer = $this->getSearchForm($clazz);
 		$myForm = $formContainer->getForm();
 		if (tao_helpers_Context::check('STANDALONE_MODE')) {
 			$standAloneElt = tao_helpers_form_FormFactory::getElement('standalone', 'Hidden');
 			$standAloneElt->setValue(true);
 			$myForm->addElement($standAloneElt);
 		}
+		
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
@@ -860,7 +875,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						unset($filters[$propUri]);
 					}
 				}
-				
+				$clazz = new core_kernel_classes_Class($myForm->getValue('clazzUri'));
 				$hasLabel = false;
 				foreach($properties as $property){
 					if($property->getUri() == RDFS_LABEL){
@@ -874,8 +889,9 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				$this->setData('properties', $properties);
 				$params = $myForm->getValues('params');
 				$params['like'] = false;
-
+				
 				$instances = $this->service->searchInstances($filters, $clazz, $params);
+				
 				if(count($instances) > 0 ){
 					$found = array();
 					$index = 1;
