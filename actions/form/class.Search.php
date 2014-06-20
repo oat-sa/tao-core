@@ -94,7 +94,7 @@ class tao_actions_form_Search
 		
 		$recursiveElt = tao_helpers_form_FormFactory::getElement('recursive', 'Radiobox');
 		$recursiveElt->setDescription(__('Recursive'));
-		$recursiveElt->setOptions(array('0' => __('Current class only'), '10' =>  __('Current class + Subclasses')));
+		$recursiveElt->setOptions(array( '0' =>  __('Current class + Subclasses'),'10' => __('Current class only')));
 		$recursiveElt->setValue('current');
 		$this->form->addElement($recursiveElt);
 		
