@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-beta2\n"
-"PO-Revision-Date: 2014-05-30T15:53:51\n"
+"Project-Id-Version: TAO v2.6-RC03\n"
+"PO-Revision-Date: 2014-06-20T16:26:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -87,11 +87,11 @@ msgstr "Adicione ficheiro fonte"
 msgid "Advanced Mode"
 msgstr "Modo avançado"
 
-msgid "All"
-msgstr "Todos"
-
 msgid "all"
 msgstr "todos"
+
+msgid "All"
+msgstr "Todos"
 
 msgid "All (the complete TAO Module)"
 msgstr "Todos (Modulo TAO completo)"
@@ -159,11 +159,11 @@ msgstr "Mudar palavra-passe"
 msgid "Change the password"
 msgstr "Mudar a palavra-passe"
 
-msgid "Check All"
-msgstr "Marcar Todos"
-
 msgid "Check all"
 msgstr "Marcar todos"
+
+msgid "Check All"
+msgstr "Marcar Todos"
 
 msgid "Choose export format"
 msgstr "Seleccione o formato de exportação:"
@@ -557,11 +557,11 @@ msgstr "Informação Local (O campo local contendo a informação inserida pelos
 msgid "Log in"
 msgstr "Iniciar sessão"
 
-msgid "Log Out"
-msgstr "Terminar Sessão"
-
 msgid "Log out"
 msgstr ""
+
+msgid "Log Out"
+msgstr "Terminar Sessão"
 
 msgid "Logged in as:"
 msgstr "Autenticado como %1"
@@ -843,6 +843,12 @@ msgstr ""
 msgid "Requires"
 msgstr "Requerido"
 
+msgid "Resource not imported due to multiple super classes"
+msgstr ""
+
+msgid "Resource not imported due to multiple types"
+msgstr ""
+
 msgid "Resource saved"
 msgstr "Recurso guardado"
 
@@ -876,11 +882,11 @@ msgstr "Resultados da procura"
 msgid "seconds"
 msgstr ""
 
-msgid "select"
-msgstr "seleccione"
-
 msgid "Select"
 msgstr "Seleccione"
+
+msgid "select"
+msgstr "seleccione"
 
 msgid "Select a language"
 msgstr "Seleccione uma língua"

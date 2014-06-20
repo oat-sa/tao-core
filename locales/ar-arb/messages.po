@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-beta2\n"
-"PO-Revision-Date: 2014-05-30T15:53:37\n"
+"Project-Id-Version: TAO v2.6-RC03\n"
+"PO-Revision-Date: 2014-06-20T16:26:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -87,10 +87,10 @@ msgstr ""
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
 
-msgid "All"
+msgid "all"
 msgstr "كل"
 
-msgid "all"
+msgid "All"
 msgstr "كل"
 
 msgid "All (the complete TAO Module)"
@@ -158,10 +158,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Choose export format"
@@ -555,10 +555,10 @@ msgstr "(البيانات المحلية (مساحة الاسم المحلي ا�
 msgid "Log in"
 msgstr ""
 
-msgid "Log Out"
+msgid "Log out"
 msgstr ""
 
-msgid "Log out"
+msgid "Log Out"
 msgstr ""
 
 msgid "Logged in as:"
@@ -841,6 +841,12 @@ msgstr ""
 msgid "Requires"
 msgstr ""
 
+msgid "Resource not imported due to multiple super classes"
+msgstr ""
+
+msgid "Resource not imported due to multiple types"
+msgstr ""
+
 msgid "Resource saved"
 msgstr "تم حفظ المورد"
 
@@ -874,11 +880,11 @@ msgstr "البحث عن النتائج"
 msgid "seconds"
 msgstr ""
 
-msgid "select"
-msgstr "اختر"
-
 msgid "Select"
 msgstr "حدد"
+
+msgid "select"
+msgstr "اختر"
 
 msgid "Select a language"
 msgstr "حدد اللغة"
