@@ -145,9 +145,14 @@ define([
                    
                     if(options.undo){
                         //show the feedback
+                        $(document).off('.unundo.' + ns);
                         $undoBox = self._createUndoBox(options);
                         $undoBox.find('.undo').click(function(e){
                             e.preventDefault();
+
+                            if(typeof timeout === 'number'){
+                                clearTimeout(timeout);
+                            }
 
                             performDelete = false;
                             $undoBox.remove();
@@ -159,6 +164,7 @@ define([
                               * @event deleter#undo.deleter
                               */
                             $elt.trigger('undo.' + ns, [$target]);
+                            $target.trigger('undo.' + ns);
                            
                         });
 
@@ -174,10 +180,14 @@ define([
 
                         //clicking on the document force the delete
                         $(document).one('mousedown.unundo.' + ns, function(e){
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
                             if($undoBox.find(e.target).length === 0  && typeof timeout === 'number'){
                                 clearTimeout(timeout);
                                 undoRemove();
                             }
+                            $(e.target).trigger('mousedown');
+                            return false;
                         });
 
                         //remove the target once the atteched events may be terminated (no guaranty, this happens after in the event loop)
