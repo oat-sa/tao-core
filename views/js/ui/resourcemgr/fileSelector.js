@@ -81,23 +81,18 @@ define([
             .off('click', '.files li')
             .on ('click', '.files li', function(e){
             
-            var $selected = $(this); 
-            var $files = $('.files > li', $fileSelector);
-            var selection = {};
+            var $selected   = $(this); 
+            var $files      = $('.files > li', $fileSelector);
+            var data        = _.clone($selected.data()); 
 
             if(!$.contains($selected.find('.actions')[0], e.target)){
                 e.preventDefault();
             }
 
-            if($selected.hasClass('active')){   
-                $files.removeClass('active');
-            } else {
-                $files.removeClass('active');
-                $selected.addClass('active');
-                selection = $selected.data();
-            }
-             
-            $container.trigger('fileselect.' + ns, [selection]); 
+            $files.removeClass('active');
+            $selected.addClass('active');
+        
+            $container.trigger('fileselect.' + ns, [data]); 
         });
 
         //select a file

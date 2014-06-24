@@ -38,6 +38,7 @@ function($, _){
 
 
         $container.on('fileselect.' + ns, function(e, file){
+
             if(file && file.file){
                 startPreview(file);
                 currentSelection = file;
@@ -62,6 +63,7 @@ function($, _){
             $propUrl.html('<a href="' + file.url + '">' + file.file + '</a>'); 
             $selectButton.removeAttr('disabled');
         }
+
         function stopPreview(){
             $previewer.previewer('update', {url : false});
             $propType.empty(); 
