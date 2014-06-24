@@ -85,7 +85,6 @@ define(['jquery', 'lodash'], function($, _) {
             }
         });
 
-
         $container.on('filedelete.' + ns, function(e, path){
             removeFromPath(fileTree, path);
         });
@@ -169,7 +168,7 @@ define(['jquery', 'lodash'], function($, _) {
             var removed = [];
             if(tree && tree.children){
                 removed = _.remove(tree.children, function(child){
-                    return child.path === path;
+                    return child.path === path || (child.name && tree.path + child.name === path);
                 });
                 done = removed.length > 0;
                 if(!done){
