@@ -160,7 +160,7 @@ module.exports = function(grunt) {
                 preserveLicenseComments: false,
                 optimizeAllPluginResources: false,
                 findNestedDependencies : true,
-                optimizeCss : false,
+                optimizeCss : 'none',
                 buildCss : false,
                 inlineText: true,
                 paths : ext.getExtensionsPaths(),
