@@ -17,7 +17,7 @@
     overflow-x: hidden; 
 }
 
-.grid-row {
+.grid-row, .fixed-grid-row {
     @extend .clearfix:after;
     width: widthPerc(852, 840);
     &:before {
