@@ -90,8 +90,9 @@ function($, _, Handlebars, Encoders, Filters){
      * @param {Object} obj - the object to locate property into
      * @param {string} path - the property path
      * @param {jQueryElement} $node - the element that contains the items
+     * @param {Boolean} [retry=false] - if we are in fault tolerancy context, to prevent deep recursivity
      */
-    var order =  function order(obj, path, $node){
+    var order =  function order(obj, path, $node, retry){
         var values = locate(obj, path);
         var changed = false;
         if(_.isArray(values)){
@@ -99,8 +100,18 @@ function($, _, Handlebars, Encoders, Filters){
             $node.children('[data-bind-index]').each(function(position){
                 var $item = $(this);
                 var index = parseInt($item.data('bind-index'), 10);
-                values[index].index = position;
-                changed = (changed || position !== index);
+                if(values[index]){
+                    values[index].index = position;
+                    changed = (changed || position !== index);
+                } else { 
+                    //fault tolerancy in case of removal that do not trigger the right event
+                    if(!retry){
+                        _.delay(function(){
+                            order(obj, path, $node, true);
+                        }, 100);
+                    }
+                    return false;
+                }
             });
             
             if(changed === true){
@@ -404,19 +415,32 @@ function($, _, Handlebars, Encoders, Filters){
         var self = this;
         _bindOnce($node, 'delete', function(undoable){
             if(undoable === true){  //can be linked tp the ui/deleter
-                $node.parent().on('deleted.deleter', function(){
+
+                self._resyncIndexOnceRm($node, path);
+
+                $node.parent()
+                  .off('deleted.deleter')
+                  .on('deleted.deleter', function(){
                     doRemoval();
                 });
+                
+                if ($node.is('[data-bind-index]')) {
+                    $node
+                      .off('undo.deleter')
+                      .one('undo.deleter', function(){
+                        var $parentNode = $node.parents('[data-bind-each]');
+                        var parentPath = path.replace(/\.[0-9]+$/, '');
+                        resyncIndexes(self.model, parentPath, $parentNode);
+                    });
+                }
             } else {
                 doRemoval();
+                self._resyncIndexOnceRm($node, path);
             }
 
             function doRemoval(){
                 remove(model, path);
                
-                //if we remove an element of an array, we need to resync indexes and bindings
-                self._resyncIndexOnceRm($node, path);
-
                 /**
                  * An property of the model is removed
                  * @event DataBinder#delete.binder
@@ -488,7 +512,7 @@ function($, _, Handlebars, Encoders, Filters){
         var self = this;
          if ($node.is('[data-bind-index]')) {
                 var removedIndex = parseInt($node.data('bind-index'), 10);
-                var $parentNode = $node.parent('[data-bind-each]');
+                var $parentNode = $node.parents('[data-bind-each]');
                 var parentPath = path.replace(/\.[0-9]+$/, '');
 
                 resyncIndexes(self.model, parentPath);

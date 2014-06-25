@@ -79,8 +79,7 @@ define([
                 }
             });
        },
-       
-               
+ 
        /**
         * Trigger the delete. 
         * 
@@ -105,6 +104,7 @@ define([
            var undoRemove, timeout;
            var realRemove = function realRemove(){
                 if(performDelete && $target){
+
                     $target.remove();
                     
                     /**
@@ -169,12 +169,13 @@ define([
                         });
 
                         undoRemove = function undoRemove(){ 
-                            realRemove();
                             if($undoBox && $undoBox.length){
 
                                 $undoBox.remove();
                                 $placeholder.remove();
+
                             }
+                            realRemove();
                             $(document).off('.unundo.' + ns);
                         };
 
@@ -186,7 +187,12 @@ define([
                                 clearTimeout(timeout);
                                 undoRemove();
                             }
-                            $(e.target).trigger('mousedown');
+
+                            //retrigger the click then
+                            _.delay(function(){
+                                $(e.target).trigger('mousedown');
+                            }, 10);
+
                             return false;
                         });
 
