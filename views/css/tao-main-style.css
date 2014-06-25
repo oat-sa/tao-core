@@ -2382,9 +2382,6 @@ textarea {
 .grid-row, .fixed-grid-row {
   width: 101.42857%; }
 
-.fixed-grid-row {
-  width: 101.42857%; }
-
 .col-1 {
   margin-left: 1.42857%;
   width: 6.90476%;
@@ -14578,9 +14575,10 @@ a[rel="external"] span.icon-external:before {
         font-style: normal;
         color: #222222; }
     .tao-scope .file-upload input[type="file"] {
-      font-size: 50px !important;
+      font-size: 80px !important;
       position: absolute;
-      left: 0;
+      left: auto;
+      right: 0;
       top: 0;
       opacity: 0;
       cursor: pointer; }

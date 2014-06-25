@@ -29,9 +29,10 @@ label {
         }
     }
     input[type="file"] {
-        font-size: 50px !important;
+        font-size: 80px !important;
         position: absolute;
-        left: 0;
+        left: auto;
+        right: 0;
         top: 0;
         opacity: 0;
         cursor: pointer;
