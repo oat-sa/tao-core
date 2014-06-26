@@ -13,8 +13,8 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
     var dataNs = 'ui.' + pluginName;
     
     var defaults = {
-        modalClose  : 'modal-close',
-        modalOverlay: 'modal-bg',
+        modalCloseClass  : 'modal-close',
+        modalOverlayClass: 'modal-bg',
         startClosed: false,
         disableClosing: false,
         width: 'responsive',
@@ -40,17 +40,20 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
           
           return $(this).each(function() {
             var $modal = $(this);
+            
+            options.modalOverlay = '__modal-bg-' + ($modal.attr('id') || new Date().getTime()); 
+            
             //add data to the element
             $modal.data(dataNs, options);
             
             //Initialize the overlay for the modal dialog
             if ($('#'+options.modalOverlay).length === 0) {
-               $('<div/>').attr({'id':options.modalOverlay, 'class': options.modalOverlay}).insertAfter($modal);
+               $('<div/>').attr({'id':options.modalOverlay, 'class': options.modalOverlayClass}).insertAfter($modal);
             }
             
             //Initialize the close button for the modal dialog
-            if ($('.'+options.modalClose, $modal).length === 0 && !options.disableClosing) {
-               $('<div class="' + options.modalClose + '"><span class="icon-close"></span></div>').appendTo($modal);
+            if ($('.'+options.modalCloseClass, $modal).length === 0 && !options.disableClosing) {
+               $('<div class="' + options.modalCloseClass + '"><span class="icon-close"></span></div>').appendTo($modal);
             }
             
             if(!options.startClosed){
@@ -81,7 +84,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
           }
 
           if(!options.disableClosing){
-                $('.'+options.modalClose, $element).on('click.'+pluginName, function(e){
+                $('.'+options.modalCloseClass, $element).on('click.'+pluginName, function(e){
                     e.preventDefault();
                     Modal._close($element);
                 });
@@ -115,7 +118,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
           $element.off('click.'+pluginName);
           
           if(!options.disableClosing){
-              $('.'+options.modalClose, $element).off('click.'+pluginName);
+              $('.'+options.modalCloseClass, $element).off('click.'+pluginName);
               $('#'+options.modalOverlay).off('click.'+pluginName);
               $(document).off('keydown.'+pluginName);
           }
