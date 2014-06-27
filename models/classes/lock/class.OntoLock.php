@@ -113,7 +113,7 @@ class tao_models_classes_lock_OntoLock
      */
     public function isLocked(core_kernel_classes_Resource $resource){       
         if (!$this->isEnabled()) {
-            common_Logger::i('Lock is disable : return false');
+            common_Logger::d('Lock is disable : return false');
             return false;
         }
         $values = $resource->getPropertyValues($this->getLockProperty());
