@@ -124,11 +124,12 @@ input[data-increment], input.duration-ctrl {
 /* InPlacer */
 [data-in-place], .inplace {
     cursor: pointer;
+    min-height: 1em;
     input {
         cursor: auto;
     }
     &:hover {
-        color: $uiClickableHoverBg;
+        border: dotted 1px $uiClickableHoverBg;
     }
 }
 

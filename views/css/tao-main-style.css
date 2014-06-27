@@ -7854,9 +7854,9 @@ a[rel="external"] span.icon-external:before { font-size: 11px; font-size: 1.1rem
 .tao-scope .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { position: relative; top: 0px; font-family: 'tao'; display: inline-block; }
 .tao-scope .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a:hover, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a:hover { background-color: #3e7da7; color: white; }
 .tao-scope .duration-ctrl-wrapper ~ .separator { padding: 0 3px; text-align: center; opacity: .7; }
-.tao-scope [data-in-place], .tao-scope .inplace { cursor: pointer; }
+.tao-scope [data-in-place], .tao-scope .inplace { cursor: pointer; min-height: 1em; }
 .tao-scope [data-in-place] input, .tao-scope .inplace input { cursor: auto; }
-.tao-scope [data-in-place]:hover, .tao-scope .inplace:hover { color: #3e7da7; }
+.tao-scope [data-in-place]:hover, .tao-scope .inplace:hover { border: dotted 1px #3e7da7; }
 .tao-scope ul.listbox { margin: .1em 0; padding: 0; list-style-type: none; display: block; }
 .tao-scope ul.listbox > li { white-space: no-wrap; position: relative; min-width: 75%; border: solid 1px #dddddd; border-bottom-width: 0; vertical-align: top; margin: 0; padding: .3em 2em .3em .2em; background-color: #f3f1ef; min-height: 1.5em; }
 .tao-scope ul.listbox > li > .closer, .tao-scope ul.listbox > li > .deleter { position: absolute; right: 5px; top: 0; }
