@@ -22,11 +22,71 @@
 
 //@TODO in the long run all icons need to be changed to vectors!
 
+html, body, .content-wrap, #footer {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding : 0;
+}
+
+html {
+    height: 100%;
+}
+
 html body {
     height: 100%;
     position: relative;
     background-color: #eee;
 }
+
+.content-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -96px; 
+}
+
+.content-wrap:after {
+  content: "";
+  display: block;
+}
+
+
+/* Footer */
+#footer, .content-wrap:after {
+  /* .push must be the same height as footer */
+  height: 96px; 
+}
+
+#footer {
+    font-size: 10px;
+    width: 100%;
+    text-align: center;
+    padding: 0px;
+
+    .releasestatus {
+        width: 380px;
+        padding: 5px 5px 5px 62px;
+        text-align: center;
+        position: relative;
+        margin: auto;
+
+        strong {
+            font-size: 12px;
+        }
+
+        img {
+            position: absolute;
+            left: 15px;
+            top: 5px;
+        }
+    }
+
+    #copyright {
+        line-height: 3;
+    }
+}
+
 
 /* Layout specific stylesheet, used for elements positioning */
 
@@ -106,9 +166,10 @@ html body {
     }
 
     span a {
-        font-size: 1.2em;
-        font-weight: bold;
         color: #888;
+        @include font-size(17);
+        font-weight: normal;
+        padding-left: 5px
     }
 
     .right-menu {
@@ -158,7 +219,6 @@ html body {
     .left-menu {
         margin-top: 8px;
         color: #BBB;
-        font-size: 14px;
 
         span {
             padding-left: 4px;
@@ -167,14 +227,14 @@ html body {
         }
 
         a:hover {
-            border-bottom: solid 2px #D00239;
             color: #D00239;
+            text-decoration: none;
         }
     }
 
     span.current-extension a {
-        border-bottom: solid 2px #D00239;
         color: #D00239;
+        text-decoration: none;
     }
 
     span.disabled-extension {
@@ -378,32 +438,6 @@ html body {
 }
 
 
-/* Footer */
-#footer {
-    font-size: 10px;
-    width: 100%;
-    text-align: center;
-    margin: 5px auto 0px auto;
-    padding: 5px 0px 0px 0px;
-
-    .releasestatus {
-        width: 380px;
-        margin: 10px auto 10px auto;
-        padding: 5px 5px 5px 62px;
-        text-align: center;
-        position: relative;
-
-        strong {
-            font-size: 12px;
-        }
-
-        img {
-            position: absolute;
-            left: 15px;
-            top: 5px;
-        }
-    }
-}
 
 /* Ajax Loader */
 #ajax-loading {

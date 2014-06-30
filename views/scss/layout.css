@@ -22,10 +22,54 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+html, body, .content-wrap, #footer {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+html {
+  height: 100%; }
+
 html body {
   height: 100%;
   position: relative;
   background-color: #eee; }
+
+.content-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -96px; }
+
+.content-wrap:after {
+  content: "";
+  display: block; }
+
+/* Footer */
+#footer, .content-wrap:after {
+  /* .push must be the same height as footer */
+  height: 96px; }
+
+#footer {
+  font-size: 10px;
+  width: 100%;
+  text-align: center;
+  padding: 0px; }
+  #footer .releasestatus {
+    width: 380px;
+    padding: 5px 5px 5px 62px;
+    text-align: center;
+    position: relative;
+    margin: auto; }
+    #footer .releasestatus strong {
+      font-size: 12px; }
+    #footer .releasestatus img {
+      position: absolute;
+      left: 15px;
+      top: 5px; }
+  #footer #copyright {
+    line-height: 3; }
 
 /* Layout specific stylesheet, used for elements positioning */
 /* Layout */
@@ -84,9 +128,11 @@ html body {
     #main-menu #menu-bullet:hover {
       opacity: 0.8; }
   #main-menu span a {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #888; }
+    color: #888;
+    font-size: 17px;
+    font-size: 1.7rem;
+    font-weight: normal;
+    padding-left: 5px; }
   #main-menu .right-menu {
     position: absolute;
     right: 0px;
@@ -118,18 +164,17 @@ html body {
       position: absolute; }
   #main-menu .left-menu {
     margin-top: 8px;
-    color: #BBB;
-    font-size: 14px; }
+    color: #BBB; }
     #main-menu .left-menu span {
       padding-left: 4px;
       padding-right: 4px;
       font-size: 12px; }
     #main-menu .left-menu a:hover {
-      border-bottom: solid 2px #D00239;
-      color: #D00239; }
+      color: #D00239;
+      text-decoration: none; }
   #main-menu span.current-extension a {
-    border-bottom: solid 2px #D00239;
-    color: #D00239; }
+    color: #D00239;
+    text-decoration: none; }
   #main-menu span.disabled-extension {
     font-size: 1.3em;
     color: #B0B0B0; }
@@ -276,26 +321,6 @@ html body {
     width: 30%; }
   #meta-content table .last {
     width: 50%; }
-
-/* Footer */
-#footer {
-  font-size: 10px;
-  width: 100%;
-  text-align: center;
-  margin: 5px auto 0px auto;
-  padding: 5px 0px 0px 0px; }
-  #footer .releasestatus {
-    width: 380px;
-    margin: 10px auto 10px auto;
-    padding: 5px 5px 5px 62px;
-    text-align: center;
-    position: relative; }
-    #footer .releasestatus strong {
-      font-size: 12px; }
-    #footer .releasestatus img {
-      position: absolute;
-      left: 15px;
-      top: 5px; }
 
 /* Ajax Loader */
 #ajax-loading {

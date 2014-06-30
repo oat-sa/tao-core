@@ -1,8 +1,9 @@
 <? include 'layout_header.tpl' ?>
 
+  <div class="content-wrap">
 	<div id="main-menu" class="ui-state-default" >
 		<a href="<?=_url('index', 'main', 'tao')?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
-		<div class="left-menu">
+		<div class="left-menu tao-scope">
 			<?foreach(get_data('extensions') as $i => $extension):?>
 				<?if(get_data('currentExtension') == $extension['extension']):?>
 					<span class="current-extension">
@@ -63,5 +64,6 @@
 	<?include('main/home.tpl');?> 
 
 <?endif?>
-
+</div>
+<!-- /content-wrap -->
 <? include 'layout_footer.tpl' ?>

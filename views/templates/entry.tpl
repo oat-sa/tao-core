@@ -28,6 +28,7 @@ use oat\tao\helpers\Template;
         </script>
 </head>
 <body>
+  <div class="content-wrap">
     <ul id="control">
 	    <?php if (has_data('user')) :?>
         <li><span id="connecteduser" class="icon">
@@ -70,6 +71,8 @@ use oat\tao\helpers\Template;
 
 		</div>
     </div>
+    </div>
+<!-- /content-wrap -->
 <?php
 Template::inc('layout_footer.tpl', 'tao')
 ?>
