@@ -372,13 +372,14 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 			if (options.selectNode) {
 				treeOptions.selected = options.selectNode;
 			}
-
-			var tmpTree = $.tree.reference(selector);
-			if (tmpTree != null) {
-				tmpTree.destroy();
-			}
-			tmpTree = null;
-
+            
+            if($(selector).length){
+                var tmpTree = $.tree.reference(selector);
+                if (tmpTree != null) {
+                    tmpTree.destroy();
+                }
+                tmpTree = null;
+            }
 			/*
 			 * Create and initialize the tree here
 			 */
