@@ -3550,7 +3550,7 @@ is its visual representation:
 +-------------------------------------+
 */
 /* The list of panel items. */
-.cke_panel_list { list-style-type: none; margin: 3px; padding: 0; white-space: nowrap; }
+.cke_panel_list { list-style-type: none; margin: 3px; padding: 0; white-space: nowrap; overflow-y: auto; height: 170px; }
 
 /* The item of .cke_panel_list */
 .cke_panel_listItem { margin: 0; padding-bottom: 1px; }
