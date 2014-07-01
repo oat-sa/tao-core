@@ -494,7 +494,6 @@ Special outer level classes used in this file:
 .cke_bottom {
   /* These are <span>s, so transform them into blocks.*/
   /* Ideally this should be "auto", but it shows scrollbars in IE7. */
-  display: block;
   overflow: hidden; }
 
 .cke_top {
@@ -516,10 +515,10 @@ Special outer level classes used in this file:
 .cke_bottom {
   padding: 1px;
   position: relative;
+  border: 1px solid #dddddd;
   border-radius: 2px;
   -webkit-border-radius: 2px;
   /*
-    border: 1px solid #dddddd;
     border-top: 1px solid #bfbfbf;
 
     -moz-box-shadow: 0 1px 0 #fff inset;
@@ -868,7 +867,9 @@ is its visual representation:
   list-style-type: none;
   margin: 3px;
   padding: 0;
-  white-space: nowrap; }
+  white-space: nowrap;
+  overflow-y: auto;
+  height: 170px; }
 
 /* The item of .cke_panel_list */
 .cke_panel_listItem {
