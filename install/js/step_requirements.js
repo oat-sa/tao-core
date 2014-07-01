@@ -359,6 +359,7 @@ function initHelp(){
 	install.addHelp('hlp_fs_generis_common_conf_sample', "The '/generis/common/conf/sample' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_filemanager_views_data', "The 'filemanager/views/data' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_filemanager_includes', "The 'filemanager/includes/' directory of your installation must be readable by the user running your web server.");
+	install.addHelp('hlp_fs_tao', "The '/tao' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_views_export', "The '/tao/views/export' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_data_cache', "The 'tao/data/cache' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_update_patches', "The 'tao/update/patches' directory of your installation must be readable and writable by the user running your web server.");
