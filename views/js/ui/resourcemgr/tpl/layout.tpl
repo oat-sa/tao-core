@@ -77,7 +77,7 @@
                     {{__ 'URL'}}
                 </div>
                 <div class="col-10 prop-url">
-                    <a href="#"></a>
+                    <a href="#" target="_blank"></a>
                 </div>
             </div>
         </div>
