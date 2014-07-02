@@ -164,7 +164,7 @@ class TranslationTest extends TaoPhpUnitTestRunner {
                                                         'context' => 'Unit Testing'));
         
         // Test utils.
-        $this->assertEquals(tao_helpers_translation_Utils::getDefaultLanguage(), 'EN');
+        $this->assertEquals(tao_helpers_translation_Utils::getDefaultLanguage(), 'en-US');
 	}
 	
 	public function testPOTranslationReading() {
@@ -524,14 +524,14 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 			$reader = new tao_helpers_translation_RDFFileReader(dirname(__FILE__) . self::FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS);
 			$reader->read();
 			$tf = $reader->getTranslationFile();
-			$this->assertEquals($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+			$this->assertEquals($tf->getAnnotations(), array('sourceLanguage' => 'EN',
 															'targetLanguage' => 'es'));
 			$tus = $tf->getTranslationUnits();
-			$this->assertEquals($tus[0]->getSourceLanguage(), tao_helpers_translation_Utils::getDefaultLanguage());
+			$this->assertEquals($tus[0]->getSourceLanguage(), 'EN');
 			$this->assertEquals($tus[0]->getTargetLanguage(), 'es');
 			$this->assertEquals($tus[0]->getSource(), 'TAO Object');
 			$this->assertEquals($tus[0]->getTarget(), 'TAO objeto');
-			$this->assertEquals($tus[0]->getAnnotation('sourceLanguage'), array('name' => 'sourceLanguage', 'value' => tao_helpers_translation_Utils::getDefaultLanguage()));
+			$this->assertEquals($tus[0]->getAnnotation('sourceLanguage'), array('name' => 'sourceLanguage', 'value' => 'EN'));
 			$this->assertEquals($tus[0]->getAnnotation('targetLanguage'), array('name' => 'targetLanguage', 'value' => 'es'));
 			$this->assertEquals($tus[10]->getTarget(), 'Función de usuario de flujo de trabajo: el papel asignado por defecto a todos los usuarios backend, no eliminable');
 		}
