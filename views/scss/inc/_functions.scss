@@ -98,9 +98,15 @@
     @return (rgba(255, 255, 255, $alpha))
 }
 
-@mixin font-size($remPx) {
-    font-size: ($remPx) * 1px;
-    font-size: ($remPx / 10) * 1rem;
+@mixin font-size($remPx, $important: false) {
+    @if $important == true {
+        font-size: ($remPx) * 1px !important;
+        font-size: ($remPx / 10) * 1rem !important;
+    }
+    @else {
+        font-size: ($remPx) * 1px;
+        font-size: ($remPx / 10) * 1rem;
+    }
 }
 
 @mixin linear-gradient($angle, $colorStops...) {
