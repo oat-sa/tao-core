@@ -91,7 +91,7 @@ div#info-box{
 	height:90px;
 	width:250px;
 	right:10px;
-	z-index:1000;
+	z-index:10100;
 	padding:5px;
 	text-align:center;
 	border: solid 1px #bbb;
