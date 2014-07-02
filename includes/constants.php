@@ -30,16 +30,16 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '2.6-RC03');
+define('TAO_VERSION', '2.6');
 
 #TAO version label
-define('TAO_VERSION_NAME', 'v2.6-RC03');
+define('TAO_VERSION_NAME', 'v2.6');
 
 #the name to display
 define('PRODUCT_NAME', 'TAO');
 
 #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
-define('TAO_RELEASE_STATUS', 'beta');
+define('TAO_RELEASE_STATUS', 'stable');
 
 #TAO default character encoding (mainly used with multi-byte string functions).
 define('TAO_DEFAULT_ENCODING', 'UTF-8');
