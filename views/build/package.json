@@ -7,7 +7,7 @@
   },
   "scripts": {
     "install": "grunt install",
-    "build": "grunt install;grunt build"
+    "build": "grunt build"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
