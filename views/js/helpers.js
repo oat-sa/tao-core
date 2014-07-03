@@ -3,8 +3,8 @@
  */
 define(['jquery', 'context', 'jqueryui'], function($, context) {
     
-        var parallelLoading = 0;
-        var $loader =  $("#ajax-loading");
+    var parallelLoading = 0;
+    var $loader =  $("#ajax-loading");
     
 	var Helpers = {
 		init: function() {
@@ -131,20 +131,22 @@ define(['jquery', 'context', 'jqueryui'], function($, context) {
 		 * - disable the submit buttons
 		 */
 		loading: function(){
-                    if (parallelLoading > 0) return; //Need once
-                    parallelLoading++;
-                    $(window).on('click', function(e){
-                            e.stopPropagation();
-                            e.preventDefault();
-                            return false;
-                    });
-                    $loader.show();
-                    setTimeout(function(){
-                         //we display the overlay only if the request is slow
-                         if(parallelLoading === 1){
-                             $loader.addClass('overlay');
-                         }
-                    }, 200);
+            if (parallelLoading > 0){
+                 return; //Need once
+            }
+            parallelLoading++;
+            $(window).on('click', function(e){
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return false;
+            });
+            $loader.show();
+            setTimeout(function(){
+                 //we display the overlay only if the request is slow
+                 if(parallelLoading === 1){
+                     $loader.addClass('overlay');
+                 }
+            }, 200);
 		},
 
 		/**
@@ -153,13 +155,15 @@ define(['jquery', 'context', 'jqueryui'], function($, context) {
 		 *  - enable back the submit buttons
 		 */
 		loaded: function(){
-                    if (parallelLoading > 1) return; //Need once
-                    $(window).off('click');
-                    $loader.hide()
-                            .removeClass('overlay');
-                    setTimeout(function(){
-                        parallelLoading--;
-                    }, 10);
+            if (parallelLoading > 1){
+                return;
+            }
+            $(window).off('click');
+            $loader.hide()
+                    .removeClass('overlay');
+            setTimeout(function(){
+                parallelLoading--;
+            }, 10);
 		},
 
 		/**
