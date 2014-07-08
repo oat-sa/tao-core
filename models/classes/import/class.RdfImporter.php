@@ -129,20 +129,20 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
             unset($propertiesValues[RDF_TYPE]);
         }
         
-        if (isset($propertiesValues[RDF_SUBCLASSOF])) {
+        if (isset($propertiesValues[RDFS_SUBCLASSOF])) {
             $isClass = true;
             // assuming single subclass
             if (count($propertiesValues[RDF_TYPE]) > 1) {
                 return new common_report_Report(common_report_Report::TYPE_ERROR, __('Resource not imported due to multiple super classes'));
             }
-            foreach ($propertiesValues[RDF_SUBCLASSOF] as $k => $v) {
+            foreach ($propertiesValues[RDFS_SUBCLASSOF] as $k => $v) {
                 $classSup = isset($map[$v['value']])
                 ? new core_kernel_classes_Class($map[$v['value']])
                 : $class;
                 $classSup->createSubClass(null, null, $resource->getUri());
             }
         
-            unset($propertiesValues[RDF_SUBCLASSOF]);
+            unset($propertiesValues[RDFS_SUBCLASSOF]);
         }
         foreach ($propertiesValues as $prop=>$values){
             $property = new core_kernel_classes_Property(isset($map[$prop]) ? $map[$prop] : $prop);
