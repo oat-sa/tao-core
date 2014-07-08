@@ -157,42 +157,21 @@ class tao_models_classes_ListService
     {
         $returnValue = array();
 
-        
-        
-        if(!is_null($listClass)){
-
-        	if($sort){
-	        	$levelProperty = new core_kernel_classes_Property(TAO_LIST_LEVEL_PROP);
-	        	$elements = $listClass->getInstances(false);
-	        	$secureMax = (count($elements) + 1);
-	        	foreach($elements as $listElement){
-	        		$level = '';
-	        		try{
-	        		 	$level = trim($listElement->getUniquePropertyValue($levelProperty));
-	        		}
-	        		catch(common_Exception $ce){
-	        		}
-	        		$i = 0;
-	        	 	while( (array_key_exists($level, $returnValue) || empty($level)) && $i < $secureMax){
-						if(count($returnValue) == 0){
-							$level = "1";
-							break;
-						}
-	        	 		$keys = array_keys($returnValue);
-	        	 		$level = max($keys) + 1;
-	        	 		$i++;
-	        	 	}
-	        	 	$returnValue[(string)$level] = $listElement;
-	        		
-	        	}
-				uksort($returnValue, 'strnatcasecmp');
+    	if($sort){
+        	$levelProperty = new core_kernel_classes_Property(TAO_LIST_LEVEL_PROP);
+        	foreach ($listClass->getInstances(false) as $element) {
+        	    $literal = $element->getOnePropertyValue($levelProperty);
+        	    $level = is_null($literal) ? 0 : (string) $literal;
+        	    while (isset($returnValue[$level])) {
+        	        $level++;
+        	    }
+        	    $returnValue[$level] = $element;
         	}
-        	else{
-        		$returnValue = $listClass->getInstances(false);
-        	}
-        }
-        
-        
+			uksort($returnValue, 'strnatcasecmp');
+    	}
+    	else{
+    		$returnValue = $listClass->getInstances(false);
+    	}
 
         return (array) $returnValue;
     }
