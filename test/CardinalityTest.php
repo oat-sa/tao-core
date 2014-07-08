@@ -48,7 +48,7 @@ class CardinalityTest extends TaoPhpUnitTestRunner {
             $this->assertTrue(count($widgets) <= 1, 'Property '.$property->getUri().' has several widgets assigned');
             
             // valid but not supported
-            $domains = $property->getPropertyValues(new core_kernel_classes_Property(RDF_DOMAIN));
+            $domains = $property->getPropertyValues(new core_kernel_classes_Property(RDFS_DOMAIN));
             $this->assertTrue(count($domains) <= 1, 'Property '.$property->getUri().' has several domains assigned');
             
             // valid but not supported
