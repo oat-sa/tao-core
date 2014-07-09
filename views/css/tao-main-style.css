@@ -7863,7 +7863,7 @@ a[rel="external"] span.icon-external:before { font-size: 11px; font-size: 1.1rem
 .tao-scope ul.listbox > li:first-child { -moz-border-radius: 2px 2px 0 0; -webkit-border-radius: 2px 2px 0 0; border-radius: 2px 2px 0 0; }
 .tao-scope ul.listbox > li:last-child { -moz-border-radius: 0 0 2px 2px; -webkit-border-radius: 0 0 2px 2px; border-radius: 0 0 2px 2px; border-bottom-width: 1px; }
 .tao-scope ul.listbox > li.placeholder { background: none; margin: .5em; opacity: 0.6; }
-.tao-scope .modal { background-color: white; border: 1px solid #dddddd; box-shadow: 3px 3px 5px #666666; height: auto; opacity: 0; top: -1000px; padding: 40px; position: absolute; z-index: 105002; margin: auto; left: 0; right: 0; overflow: hidden; }
+.tao-scope .modal { background-color: white; border: 1px solid #dddddd; box-shadow: 3px 3px 5px #666666; height: auto; opacity: 0; top: -1000px; padding: 40px; position: fixed; z-index: 105002; margin: auto; left: 0; right: 0; overflow: hidden; }
 .tao-scope .modal .modal-close { position: absolute; right: 12px; top: 12px; cursor: pointer; font-weight: bold; color: #222222; font-size: 20px; font-size: 2rem; }
 .tao-scope .modal-bg { background: none repeat scroll 0 0 black; opacity: 0.45; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=45)"; filter: alpha(opacity=45); display: none; position: fixed; height: 100%; width: 100%; left: 0; top: 0; z-index: 100001; overflow: hidden; }
 .tao-scope ul[data-button-group], .tao-scope ul.button-group { list-style-type: none; padding: 0; background-color: white; border: 1px solid #dddddd; border-radius: 1px; margin: 0 2px 2px 0; display: inline-block; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-size: 12px; font-size: 1.2rem; }
