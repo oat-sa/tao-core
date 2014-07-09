@@ -26,32 +26,42 @@
  */
 class tao_models_classes_service_ServiceCallHelper
 {
-
+    const CACHE_PREFIX_URL = 'tao:service:url:';
+    
+    const CACHE_PREFIX_PARAM_NAME = 'tao:service:url:';
+    
     public static function getBaseUrl( core_kernel_classes_Resource $serviceDefinition) {
-        $serviceDefinitionUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
-        if($serviceDefinitionUrl instanceof core_kernel_classes_Literal){
-            $serviceUrl = $serviceDefinitionUrl->literal;
-        }else if($serviceDefinitionUrl instanceof core_kernel_classes_Resource){
-            // hack nescessary since fully qualified urls are considered to be resources
-            $serviceUrl = $serviceDefinitionUrl->getUri();
-        } else {
-            throw new common_exception_InconsistentData('Invalid service definition url for '.$serviceDefinition->getUri());
+        
+        try {
+            $url = common_cache_FileCache::singleton()->get(self::CACHE_PREFIX_URL.urlencode($serviceDefinition->getUri()));
+        } catch (common_cache_NotFoundException $e) {
+            
+            $serviceDefinitionUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
+            if($serviceDefinitionUrl instanceof core_kernel_classes_Literal){
+                $serviceUrl = $serviceDefinitionUrl->literal;
+            }else if($serviceDefinitionUrl instanceof core_kernel_classes_Resource){
+                // hack nescessary since fully qualified urls are considered to be resources
+                $serviceUrl = $serviceDefinitionUrl->getUri();
+            } else {
+                throw new common_exception_InconsistentData('Invalid service definition url for '.$serviceDefinition->getUri());
+            }
+            // Remove the parameters because they are only for show, and they are actualy encoded in the variables
+            $urlPart = explode('?',$serviceUrl);
+            $url = $urlPart[0];
+            if(preg_match('/^\//i', $url)){
+                //create absolute url (prevent issue when TAO installed on a subfolder
+                $url = ROOT_URL.ltrim($url, '/');
+            }
+            common_cache_FileCache::singleton()->put($url, self::CACHE_PREFIX_URL.urlencode($serviceDefinition->getUri()));
         }
-        // Remove the parameters because they are only for show, and they are actualy encoded in the variables
-        $urlPart = explode('?',$serviceUrl);
-        $returnValue = $urlPart[0];
-        if(preg_match('/^\//i', $returnValue)){
-            //create absolute url (prevent issue when TAO installed on a subfolder
-            $returnValue = ROOT_URL.ltrim($returnValue, '/');
-        }
-        return $returnValue;
+        
+        return $url;
     }
     
     public static function getInputValues(tao_models_classes_service_ServiceCall $serviceCall, $callParameters) {
         $returnValue = array();
         foreach ($serviceCall->getInParameters() as $param) {
-            $paramDefinition = $param->getDefinition();
-            $paramKey = common_Utils::fullTrim($paramDefinition->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_FORMALPARAMETER_NAME)));
+            $paramKey = self::getParamName($param->getDefinition());
             switch (get_class($param)) {
             	case 'tao_models_classes_service_ConstantParameter' :
             	    $returnValue[$paramKey] = $param->getValue();
@@ -69,5 +79,16 @@ class tao_models_classes_service_ServiceCallHelper
             }
         }
         return $returnValue;
+    }
+    
+    protected static function getParamName(core_kernel_classes_Resource $paramDefinition) {
+        try {
+            $paramKey = common_cache_FileCache::singleton()->get(self::CACHE_PREFIX_PARAM_NAME.urlencode($paramDefinition->getUri()));
+        } catch (common_cache_NotFoundException $e) {
+            $paramKey = common_Utils::fullTrim($paramDefinition->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_FORMALPARAMETER_NAME)));
+            common_cache_FileCache::singleton()->put($paramKey, self::CACHE_PREFIX_PARAM_NAME.urlencode($paramDefinition->getUri()));
+        }
+        return $paramKey;
+        
     }
 }
