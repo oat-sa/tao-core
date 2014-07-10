@@ -68,13 +68,12 @@ class tao_install_ExtensionInstaller
     public function installManagementRole() {
     	// Try to get a Management Role described by the extension itself.
     	// (this information comes actually from the Manifest of the extension)
-    	$role = $this->extension->getManagementRole();
-    	
-    	$roleService = tao_models_classes_RoleService::singleton();
+    	$roleUri = $this->extension->getManagementRoleUri();
+    	if (!empty($roleUri)){
 
-    	if (!empty($role)){
-
-        	if (!$role->exists()) {
+    	    $role = new core_kernel_classes_Resource($roleUri);
+            $roleService = tao_models_classes_RoleService::singleton();
+    	    if (!$role->exists()) {
         	    // Management role does not exist yet, so we create it
         	    $roleClass = new core_kernel_classes_Class(CLASS_MANAGEMENTROLE);
         	    $roleLabel = $this->extension->getId() . ' Manager';
