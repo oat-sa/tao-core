@@ -22,6 +22,7 @@
 
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
+use oat\oatbox\user\LoginService;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -106,8 +107,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				$adapter = new core_kernel_users_AuthAdapter($myForm->getValue('login'), $myForm->getValue('password'));
-				if(common_user_auth_Service::singleton()->login($adapter)){
+			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
+				if($success){
 					if ($this->hasRequestParameter('redirect')) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {

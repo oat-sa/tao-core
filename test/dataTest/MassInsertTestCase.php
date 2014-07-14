@@ -192,7 +192,7 @@ class MassInsertTestCase extends UnitTestCase {
 
 				// Use setProperty to be compliant with the old API
 				$subjectInstance->setPropertyValue ($propertyLoginProp, $login);
-				$subjectInstance->setPropertyValue ($propertyPasswordProp, core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($password));
+				$subjectInstance->setPropertyValue ($propertyPasswordProp, core_kernel_users_Service::getPasswordHash()->encrypt($password));
 				$subjectInstance->setPropertyValue ($propertyFirstNameProp, $firstName);
 				$subjectInstance->setPropertyValue ($propertyLastNameProp, $lastName);
 				$subjectInstance->setPropertyValue ($propertyUserDefLgProp, $languageUri);
