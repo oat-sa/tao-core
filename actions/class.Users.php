@@ -191,7 +191,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$values = $myForm->getValues();
-				$values[PROPERTY_USER_PASSWORD] = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($values['password1']);
+				$values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
 				unset($values['password1']);
 				unset($values['password2']);
 
@@ -274,7 +274,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				$values = $myForm->getValues();
 
 				if(!empty($values['password2']) && !empty($values['password3'])){
-					$values[PROPERTY_USER_PASSWORD] = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($values['password2']);
+					$values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
 				}
 
 				unset($values['password2']);

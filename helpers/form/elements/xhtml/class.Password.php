@@ -98,12 +98,10 @@ class tao_helpers_form_elements_xhtml_Password
 
         
     	$arr = $this->getRawValue();
-    	$returnValue = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt(array_shift($arr));
+    	$returnValue = core_kernel_users_Service::getPasswordHash()->encrypt(array_shift($arr));
         
 
         return $returnValue;
     }
 
-} /* end of class tao_helpers_form_elements_xhtml_Password */
-
-?>
+}

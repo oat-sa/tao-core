@@ -1,4 +1,5 @@
 <?php
+use oat\oatbox\user\LoginService;
 /*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -62,21 +63,18 @@ class tao_models_classes_UserService
      * @param  string login
      * @param  string password
      * @return boolean
+     * @deprecated
      */
     public function loginUser($login, $password)
     {
+        
         $returnValue = (bool) false;
-
         try{
-            $adapter = new core_kernel_users_AuthAdapter($login, $password);
-            $returnValue = common_user_auth_Service::singleton()->login($adapter, $this->getAllowedRoles());
+            $returnValue = LoginService::login($login, $password);
         }
         catch(core_kernel_users_Exception $ue){
-        	$returnValue = false;
         	common_Logger::e("A fatal error occured at user login time: " . $ue->getMessage());
         }
-        
-
         return (bool) $returnValue;
     }
 

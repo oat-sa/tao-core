@@ -66,9 +66,10 @@ class tao_install_ExtensionInstaller
      * @since 2.4
      */
     public function installManagementRole() {
+        
     	// Try to get a Management Role described by the extension itself.
     	// (this information comes actually from the Manifest of the extension)
-    	$roleUri = $this->extension->getManagementRoleUri();
+    	$roleUri = $this->extension->getManifest()->getManagementRoleUri();
     	if (!empty($roleUri)){
 
     	    $role = new core_kernel_classes_Resource($roleUri);
@@ -111,6 +112,4 @@ class tao_install_ExtensionInstaller
         }
     }
 
-} /* end of class tao_install_ExtensionInstaller */
-
-?>
+}
