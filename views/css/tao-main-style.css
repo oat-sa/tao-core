@@ -1779,6 +1779,8 @@ textarea { resize: vertical; }
 
 .select2-results .select2-no-results, .select2-results .select2-searching, .select2-results .select2-selection-limit { background: #f3f1ef; display: list-item; }
 
+.select2-hidden-accessible { display: none; }
+
 /*
 disabled look for disabled choices in the results dropdown
 */
