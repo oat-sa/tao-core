@@ -1,0 +1,18 @@
+{
+     "repositories": [
+      {
+		"type": "vcs",
+		"url": "git@github.com:oat-sa/oatbox-extension-installer.git"
+		}
+     ],
+
+    "name": "oat-sa/tao-core",
+    "type" : "tao-extension",
+    "extra" : {
+    	"tao-extension-name" : "tao"
+    },
+    "require": {
+        "oatbox/extension-installer": "dev-master"
+
+    }
+}
