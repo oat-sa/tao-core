@@ -13610,6 +13610,8 @@ a[rel="external"] span.icon-external:before {
     .tao-scope [class^="btn-"] [class^="icon-"], .tao-scope [class^="btn-"] [class*=" icon-"], .tao-scope [class*=" btn-"] [class^="icon-"], .tao-scope [class*=" btn-"] [class*=" icon-"], .tao-scope .btn-default [class^="icon-"], .tao-scope .btn-default [class*=" icon-"],
     .tao-scope button [class^="icon-"],
     .tao-scope button [class*=" icon-"], .tao-scope input[type="submit"] [class^="icon-"], .tao-scope input[type="submit"] [class*=" icon-"], .tao-scope input[type="reset"] [class^="icon-"], .tao-scope input[type="reset"] [class*=" icon-"] {
+      font: tao !important;
+      font-family: tao;
       font-size: 14px;
       font-size: 1.4rem;
       line-height: 1;
@@ -13649,7 +13651,7 @@ a[rel="external"] span.icon-external:before {
     opacity: .55 !important;
     color: #000 !important; }
   .tao-scope .ui-button [class^="icon-"], .tao-scope .ui-button [class*=" icon-"] {
-    font-family: tao; }
+    font-family: tao !important; }
   .tao-scope .ui-helper-hidden {
     display: none; }
   .tao-scope .ui-helper-hidden-accessible {
