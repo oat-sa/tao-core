@@ -111,9 +111,11 @@ require.config({
         'mathJax' : {
             exports : "MathJax",
             init : function(){
-                MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false});//add mathJax config here
-                MathJax.Hub.Startup.onload();
-                return MathJax;
+                if(window.MathJax){
+                    MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false});//add mathJax config here
+                    MathJax.Hub.Startup.onload();
+                    return MathJax;
+                }
             }
         },
         'filereader' : ['jquery', 'polyfill/swfobject']
