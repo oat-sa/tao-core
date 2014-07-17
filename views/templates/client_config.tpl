@@ -111,7 +111,7 @@ require.config({
         'mathJax' : {
             exports : "MathJax",
             init : function(){
-                MathJax.Hub.Config({});//add mathJax config here
+                MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false});//add mathJax config here
                 MathJax.Hub.Startup.onload();
                 return MathJax;
             }
