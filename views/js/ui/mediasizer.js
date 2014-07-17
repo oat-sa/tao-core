@@ -6,7 +6,9 @@
 define([
     'jquery',
     'core/pluginifier',
-    'tpl!ui/mediasizer/mediasizer'
+    'tpl!ui/mediasizer/mediasizer',
+    'nouislider',
+    'tooltipster'
 ], function($, Pluginifier, tpl) {
     'use strict';
 
@@ -324,6 +326,9 @@ define([
 
                     $elt.html(tpl());
 
+                    //add data to the element
+                    $elt.data(dataNs, options);
+
                     options.sizeProps = self._getSizeProps($elt);
                     options.originalSizeProps = _.cloneDeep(options.sizeProps);
 
@@ -339,13 +344,12 @@ define([
 
                     self._initLink($elt);
 
-                    //add data to the element
-                    $elt.data(dataNs, options);
 
                     /**
                      * The plugin have been created.
                      * @event MediaSizer#create.toggler
                      */
+                    console.log('create.' + ns)
                     $elt.trigger('create.' + ns);
                 }
             });

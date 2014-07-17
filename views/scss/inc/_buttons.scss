@@ -69,3 +69,10 @@ button, input[type="submit"], input[type="reset"] {
     opacity: .55 !important;
     color: #000 !important;
 }
+
+// jquery ui
+.ui-button {
+    [class^="icon-"], [class*=" icon-"] {
+        font-family: tao;
+    }
+}

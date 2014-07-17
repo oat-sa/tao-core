@@ -6,6 +6,7 @@
   <base href="../../../../"/>
   <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
   <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
+  <link rel="stylesheet" type="text/css" href="../../taoQtiItem/views/css/item-creator.css">
   <script type="text/javascript" src="js/lib/require.js"></script>
   <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
   <script type="text/javascript">
@@ -24,32 +25,47 @@
       });
     });
   </script>
+  <style>
+    h1, .cat {
+      width: 640px;
+      margin: 10px auto 0 auto;
+      font-size: 14px;
+      padding: 0
+    }
+
+    .cat {
+      height: 426px;
+      background: #eee;
+    }
+  </style>
 </head>
 <body>
 <div id="qunit"></div>
-<div id="media-sizer-container">
-
-</div>
 
 
-<div id="qunit-fixture-tmp">
-<div id="cat-container-natural" style="width: 800px; height: 400px; border: 1px red solid" title="natural size">
-  <img src="./cute-cat.jpg">
-</div>
-<div id="cat-container-pixel" style="width: 800px; height: 400px; border: 1px red solid" title="size in px">
-  <img src="./cute-cat.jpg" width="300" height="200">
-</div>
-<div id="cat-container-percent" style="width: 800px; height: 400px; border: 1px red solid" title="size in %">
-  <img src="./cute-cat.jpg" width="50%" height="">
-</div>
-  </div>
-<div id="qunit-fixture">
+<div id="qunit-fixture-tmp" class="tao-scope">
 
-  <div>
+  <div id="media-sizer-container" class="item-editor-sidebar">
 
   </div>
+  <h1>Natural size</h1>
 
+  <div id="cat-container-natural" class="cat">
+    <img src="js/test/ui/mediasizer/cute-cat.jpg">
+  </div>
 
+  <h1>Size in px</h1>
+
+  <div id="cat-container-pixel" class="cat">
+    <img src="js/test/ui/mediasizer/cute-cat.jpg" width="320" height="213">
+  </div>
+
+  <h1>Size in %</h1>
+
+  <div id="cat-container-percent" class="cat">
+    <img src="js/test/ui/mediasizer/cute-cat.jpg" width="75%" height="">
+  </div>
 </div>
+
 </body>
 </html>

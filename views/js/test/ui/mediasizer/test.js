@@ -5,7 +5,6 @@ define(['jquery', 'ui/mediasizer'], function($) {
 
     test('plugin', function() {
         expect(1);
-        console.log($.fn)
         ok(typeof $.fn.mediasizer === 'function', 'The MediaSizer plugin is registered');
     });
 
@@ -13,12 +12,12 @@ define(['jquery', 'ui/mediasizer'], function($) {
         expect(4);
 
         var $container = $('#qunit-fixture-tmp');
-        ok($container.length === 1, 'Test the fixture is available');
+        ok($container.length === 1, 'Fixture is available');
 
         var $elt = $('#media-sizer-container', $container);
         ok($elt.length === 1, 'MediaSizer link is available');
 
-        var $target = $('#cat-container-natural img', $container);
+        var $target = $('#cat-container-pixel img', $container);
         ok($target.length === 1, 'Target is available');
 
         $elt.on('create.mediasizer', function() {
