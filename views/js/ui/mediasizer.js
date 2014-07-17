@@ -9,7 +9,7 @@ define([
     'tpl!ui/mediasizer/mediasizer',
     'nouislider',
     'tooltipster'
-], function($, Pluginifier, tpl) {
+], function ($, Pluginifier, tpl) {
     'use strict';
 
     var ns = 'mediasizer';
@@ -23,7 +23,7 @@ define([
 
 
     function _round(value, decimals) {
-        if (isNaN(decimals) || !_.isNumber(value)) {
+        if (decimals === undefined) {
             decimals = 1;
         }
         var factor = 1;
@@ -48,7 +48,7 @@ define([
          * @returns {{px: {natural: {width: number, height: number}, current: {width: number, height: number}}, '%': {natural: {width: number, height: number}, current: {width: number, height: null|number}}, ratio: {natural: number, current: number}, containerWidth: number}}
          * @private
          */
-        _getSizeProps: function($elt) {
+        _getSizeProps: function ($elt) {
             var options = $elt.data(dataNs),
                 $medium = options.target,
                 medium = $medium[0],
@@ -87,7 +87,7 @@ define([
                     },
                     px: {
                         max: Math.max(containerWidth, medium.naturalWidth),
-                        start: Math.min(containerWidth, medium.naturalWidth)
+                        start: medium.width
                     }
                 }
             };
@@ -101,11 +101,12 @@ define([
          * @param $elt
          * @private
          */
-        _initLink: function($elt) {
-            var options = $elt.data(dataNs);
-            $elt.find('.media-sizer-link').on('click', function() {
-                $elt.toggleClass('media-sizer-synced');
-                options.toBeSynced = $elt.hasClass('media-sizer-synced');
+        _initLink: function ($elt) {
+            var options = $elt.data(dataNs),
+                $mediaSizer = $elt.find('.media-sizer');
+            $elt.find('.media-sizer-link').on('click', function () {
+                $mediaSizer.toggleClass('media-sizer-synced');
+                options.toBeSynced = $mediaSizer.hasClass('media-sizer-synced');
             });
         },
 
@@ -117,10 +118,10 @@ define([
          * @returns {{}}
          * @private
          */
-        _initBlocks: function($elt) {
+        _initBlocks: function ($elt) {
             var _blocks = {};
 
-            _(['px', '%']).forEach(function(unit) {
+            _(['px', '%']).forEach(function (unit) {
                 _blocks[unit] = $elt.find('.media-sizer-' + (unit === 'px' ? 'pixel' : 'percent'));
                 _blocks[unit].prop('unit', unit);
                 _blocks[unit].find('input').data('unit', unit).after($('<span>', {
@@ -129,11 +130,12 @@ define([
                 }));
             });
 
-            $elt.find('.media-mode-switch').on('click', function() {
+            $elt.find('.media-mode-switch').on('click', function () {
                 if (this.checked) {
                     _blocks['px'].hide();
                     _blocks['%'].show();
-                } else {
+                }
+                else {
                     _blocks['%'].hide();
                     _blocks['px'].show();
                 }
@@ -150,12 +152,12 @@ define([
          * @returns {{}}
          * @private
          */
-        _initSliders: function($elt) {
+        _initSliders: function ($elt) {
             var options = $elt.data(dataNs),
                 unit,
                 _sliders = {};
 
-            _(options.$blocks).forOwn(function($block, unit) {
+            _(options.$blocks).forOwn(function ($block, unit) {
                 _sliders[unit] = $block.find('.media-sizer-slider');
                 _sliders[unit].prop('unit', unit);
                 _sliders[unit].noUiSlider({
@@ -165,7 +167,7 @@ define([
                         'max': options.sizeProps.sliders[unit].max
                     }
                 })
-                    .on('slide', function() {
+                    .on('slide', function () {
                         var $slider = $(this),
                             unit = $slider.prop('unit'),
                             factor,
@@ -174,23 +176,24 @@ define([
                             otherValue,
                             otherUnit;
 
+
                         if (unit === 'px') {
                             factor = 0;
                             otherFactor = 1;
                             otherUnit = '%';
                             otherValue = value * 100 / options.sizeProps.containerWidth
-                        } else {
+                        }
+                        else {
                             factor = 1;
                             otherFactor = 0;
                             otherUnit = 'px';
                             otherValue = value * options.sizeProps.containerWidth / 100
                         }
-
-                        options.$fields[unit].width.val(_round(value, factor)).trigger('slidechanged');
+                        options.$fields[unit].width.val(_round(value, factor)).trigger('slidechange');
 
                         // synchronize slider and fields of other unit
                         options.$sliders[otherUnit].val(otherValue);
-                        options.$fields[otherUnit].width.val(_round(otherValue, otherFactor)).trigger('slidechanged');
+                        options.$fields[otherUnit].width.val(_round(otherValue, otherFactor)).trigger('slidechange');
                     })
             });
 
@@ -202,9 +205,10 @@ define([
          *
          * @param $elt
          * @param $field
+         * @param eventType
          * @private
          */
-        _sync: function($elt, $field) {
+        _sync: function ($elt, $field, eventType) {
             var options = $elt.data(dataNs),
                 unit = $field.prop('unit'),
                 dimension = $field.prop('dimension'),
@@ -227,21 +231,33 @@ define([
             if (options.allowCustomRatio && unit === 'px') {
                 if (dimension === 'width') {
                     options.sizeProps.ratio.current = value / otherValue;
-                } else {
+                }
+                else {
                     options.sizeProps.ratio.current = otherValue / value;
                 }
                 ratio = options.sizeProps.ratio.current;
             }
 
+
+            console.log({
+                unit: unit,
+                otherUnit: otherUnit,
+                value: value,
+                otherValue: otherValue,
+                ratio: ratio
+            })
+            return
+
             // set slider value
-            if (dimension === 'width') {
+            if (dimension === 'width' && eventType !== 'slidechange') {
                 slider.val(value);
             }
 
             if (unit === 'px') {
                 factor = 0;
                 otherUnit = '%';
-            } else {
+            }
+            else {
                 factor = 1;
                 otherUnit = 'px';
             }
@@ -265,18 +281,18 @@ define([
          * @returns {{}}
          * @private
          */
-        _initFields: function($elt) {
+        _initFields: function ($elt) {
             var options = $elt.data(dataNs),
                 dimensions = ['width', 'height'],
                 field, _fields = {},
                 factor,
                 self = this;
 
-            _(options.$blocks).forOwn(function($block, unit) {
+            _(options.$blocks).forOwn(function ($block, unit) {
                 _fields[unit] = {};
                 factor = unit === 'px' ? 0 : 1;
-                options.$blocks[unit].find('input').each(function() {
-                    _(dimensions).forEach(function(dim) {
+                options.$blocks[unit].find('input').each(function () {
+                    _(dimensions).forEach(function (dim) {
                         field = options.$blocks[unit].find('[name="' + dim + '"]');
                         // there is no 'height' field for % - $('<input>') is a dummy to avoid checking if the field exists all the time
                         _fields[unit][dim] = field.length ? field : $('<input>');
@@ -285,8 +301,8 @@ define([
                             dimension: dim
                         });
                         _fields[unit][dim].val(_round(options.sizeProps[unit].current[dim], factor));
-                        _fields[unit][dim].on('keypress blur slidechanged', function() {
-                            self._sync($elt, $(this));
+                        _fields[unit][dim].on('keypress blur slidechange', function (e) {
+                            self._sync($elt, $(this), e.type);
                         });
                     });
                 });
@@ -306,14 +322,14 @@ define([
          * @constructor
          * @returns {*}
          */
-        init: function(options) {
+        init: function (options) {
 
             //get options using default
             options = $.extend(true, {}, defaults, options);
 
             var self = MediaSizer;
 
-            return this.each(function() {
+            return this.each(function () {
                 var $elt = $(this),
                     $target = options.target,
                     type = $target[0].nodeName.toLowerCase();
@@ -349,7 +365,6 @@ define([
                      * The plugin have been created.
                      * @event MediaSizer#create.toggler
                      */
-                    console.log('create.' + ns)
                     $elt.trigger('create.' + ns);
                 }
             });
@@ -363,8 +378,8 @@ define([
          * @example $('selector').toggler('destroy');
          * @public
          */
-        destroy: function() {
-            this.each(function() {
+        destroy: function () {
+            this.each(function () {
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
 

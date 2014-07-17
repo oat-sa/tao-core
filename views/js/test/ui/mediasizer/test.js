@@ -1,6 +1,10 @@
 define(['jquery', 'ui/mediasizer'], function($) {
 
 
+    var mode = 'pc' // nat (=natural size) | px (=pixels) | pc (=%)
+
+    $('#_' + mode).show()
+
     module('MediaSizer Stand Alone Test');
 
     test('plugin', function() {
@@ -17,7 +21,7 @@ define(['jquery', 'ui/mediasizer'], function($) {
         var $elt = $('#media-sizer-container', $container);
         ok($elt.length === 1, 'MediaSizer link is available');
 
-        var $target = $('#cat-container-pixel img', $container);
+        var $target = $('#_' + mode + ' img', $container);
         ok($target.length === 1, 'Target is available');
 
         $elt.on('create.mediasizer', function() {

@@ -37,6 +37,10 @@
       height: 426px;
       background: #eee;
     }
+
+    .container {
+      display:none
+    }
   </style>
 </head>
 <body>
@@ -48,22 +52,27 @@
   <div id="media-sizer-container" class="item-editor-sidebar">
 
   </div>
-  <h1>Natural size</h1>
 
-  <div id="cat-container-natural" class="cat">
-    <img src="js/test/ui/mediasizer/cute-cat.jpg">
+
+  <div id="_nat" class="container">
+    <h1>Natural size (640px x 426px | 100%)</h1>
+    <div id="cat-container-natural" class="cat">
+      <img src="js/test/ui/mediasizer/cute-cat.jpg">
+    </div>
   </div>
 
-  <h1>Size in px</h1>
-
-  <div id="cat-container-pixel" class="cat">
-    <img src="js/test/ui/mediasizer/cute-cat.jpg" width="320" height="213">
+  <div id="_px" class="container">
+    <h1>Size in px (320px x 213px | 50%)</h1>
+    <div id="cat-container-pixel" class="cat">
+      <img src="js/test/ui/mediasizer/cute-cat.jpg" width="320" height="213">
+    </div>
   </div>
 
-  <h1>Size in %</h1>
-
-  <div id="cat-container-percent" class="cat">
-    <img src="js/test/ui/mediasizer/cute-cat.jpg" width="75%" height="">
+  <div id="_pc" class="container">
+    <h1>Size in % (480px x 320px | 75%)</h1>
+    <div id="cat-container-percent" class="cat">
+      <img src="js/test/ui/mediasizer/cute-cat.jpg" width="75%" height="">
+    </div>
   </div>
 </div>
 
