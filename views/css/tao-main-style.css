@@ -1779,12 +1779,16 @@ textarea { resize: vertical; }
 
 .select2-results .select2-no-results, .select2-results .select2-searching, .select2-results .select2-selection-limit { background: #f3f1ef; display: list-item; }
 
+.select2-hidden-accessible { display: none; }
+
 /*
 disabled look for disabled choices in the results dropdown
 */
-.select2-results .select2-disabled.select2-highlighted { color: #666; background: #f3f1ef; display: list-item; cursor: default; }
+.select2-results .select2-disabled.select2-highlighted { color: #999; display: list-item; cursor: default; }
 
-.select2-results .select2-disabled { background: #f3f1ef; display: list-item; cursor: default; }
+.select2-results .select2-disabled .select2-result-label { cursor: default; }
+
+.select2-results .select2-disabled { display: list-item; cursor: default; color: #999; }
 
 .select2-results .select2-selected { display: none; }
 
@@ -7246,6 +7250,355 @@ Special outer level classes used in this file:
 .resourcemgr .file-selector ul.files li .actions .tlb .tlb-top { background: none !important; border-width: 0 !important; -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); -moz-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
 .resourcemgr .file-selector .uploader { display: none; height: 40px; padding: 0 5px; }
 
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+/** Use icon within sass: @inclue icon('down'); */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+.icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
+
+.icon-right:before, .tao-scope .ui-datepicker-next:before, .tao-scope .ui-icon-triangle-1-e:before { content: "\122"; }
+
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\123"; }
+
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\124"; }
+
+.icon-undo:before, .cke_button__undo_icon:before { content: "\125"; }
+
+.icon-redo:before, .cke_button__redo_icon:before { content: "\126"; }
+
+.icon-screen:before { content: "\127"; }
+
+.icon-laptop:before { content: "\128"; }
+
+.icon-tablet:before { content: "\129"; }
+
+.icon-phone:before { content: "\12a"; }
+
+.icon-folder:before, .resourcemgr .file-browser ul li a:before { content: "\12b"; }
+
+.icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before { content: "\12c"; }
+
+.icon-move:before { content: "\12d"; }
+
+.icon-bin:before { content: "\12e"; }
+
+.icon-shuffle:before { content: "\12f"; }
+
+.icon-print:before { content: "\130"; }
+
+.icon-tools:before { content: "\131"; }
+
+.icon-settings:before { content: "\132"; }
+
+.icon-video:before, .resourcemgr .file-selector ul.files li[data-type='video']:before { content: "\133"; }
+
+.icon-find:before, .cke_button__find_icon:before { content: "\134"; }
+
+.icon-image:before, .cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before, .resourcemgr .file-selector ul.files li[data-type='image']:before { content: "\135"; }
+
+.icon-edit:before { content: "\136"; }
+
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+
+.icon-resize-grid:before { content: "\138"; }
+
+.icon-resize:before { content: "\139"; }
+
+.icon-help:before { content: "\13a"; }
+
+.icon-mobile-menu:before { content: "\13b"; }
+
+.icon-fix:before { content: "\13c"; }
+
+.icon-unlock:before { content: "\13d"; }
+
+.icon-lock:before { content: "\13e"; }
+
+.icon-ul:before, .cke_button__bulletedlist_icon:before { content: "\13f"; }
+
+.icon-ol:before, .cke_button__numberedlist_icon:before { content: "\140"; }
+
+.icon-email:before { content: "\141"; }
+
+.icon-download:before { content: "\142"; }
+
+.icon-logout:before { content: "\143"; }
+
+.icon-login:before { content: "\144"; }
+
+.icon-spinner:before { content: "\145"; }
+
+.icon-preview:before { content: "\146"; }
+
+.icon-external:before { content: "\147"; }
+
+.icon-time:before { content: "\148"; }
+
+.icon-save:before { content: "\149"; }
+
+.icon-warning:before { content: "\14a"; }
+
+.icon-add:before, .tao-scope .adder:before { content: "\14b"; }
+
+.icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
+
+.icon-success:before { content: "\14d"; }
+
+.icon-remove:before { content: "\14e"; }
+
+.icon-info:before { content: "\14f"; }
+
+.icon-error:before { content: "\150"; }
+
+.icon-users:before { content: "\151"; }
+
+.icon-user:before { content: "\152"; }
+
+.icon-test-taker:before { content: "\153"; }
+
+.icon-test-takers:before { content: "\154"; }
+
+.icon-item:before { content: "\155"; }
+
+.icon-test:before { content: "\156"; }
+
+.icon-delivery:before { content: "\157"; }
+
+.icon-eye-slash:before { content: "\1cb"; }
+
+.icon-result:before { content: "\158"; }
+
+.icon-delivery-small:before { content: "\159"; }
+
+.icon-upload:before { content: "\1ca"; }
+
+.icon-result-small:before { content: "\15a"; }
+
+.icon-mobile-preview:before { content: "\15c"; }
+
+.icon-extension:before { content: "\15d"; }
+
+.icon-desktop-preview:before { content: "\15e"; }
+
+.icon-tablet-preview:before { content: "\15f"; }
+
+.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before { content: "\160"; }
+
+.icon-table:before, .cke_button__table_icon:before { content: "\161"; }
+
+.icon-anchor:before, .cke_button__anchor_icon:before { content: "\162"; }
+
+.icon-unlink:before, .cke_button__unlink_icon:before { content: "\163"; }
+
+.icon-link:before, .cke_button__link_icon:before { content: "\164"; }
+
+.icon-right-left:before, .cke_button__bidirtl_icon:before { content: "\165"; }
+
+.icon-left-right:before, .cke_button__bidiltr_icon:before { content: "\166"; }
+
+.icon-special-character:before, .cke_button__specialchar_icon:before { content: "\167"; }
+
+.icon-source:before, .cke_button__sourcedialog_icon:before { content: "\168"; }
+
+.icon-new-page:before, .cke_button__newpage_icon:before { content: "\169"; }
+
+.icon-templates:before, .cke_button__templates_icon:before { content: "\16a"; }
+
+.icon-cut:before, .cke_button__cut_icon:before { content: "\16b"; }
+
+.icon-replace:before, .cke_button__replace_icon:before { content: "\16c"; }
+
+.icon-copy:before, .cke_button__copy_icon:before { content: "\16d"; }
+
+.icon-paste:before, .cke_button__paste_icon:before { content: "\16e"; }
+
+.icon-select-all:before, .cke_button__selectall_icon:before { content: "\16f"; }
+
+.icon-paste-text:before, .cke_button__pastetext_icon:before { content: "\170"; }
+
+.icon-paste-word:before, .cke_button__pastefromword_icon:before { content: "\171"; }
+
+.icon-bold:before, .cke_button__bold_icon:before { content: "\172"; }
+
+.icon-italic:before, .cke_button__italic_icon:before { content: "\173"; }
+
+.icon-underline:before, .cke_button__underline_icon:before { content: "\174"; }
+
+.icon-subscript:before, .cke_button__subscript_icon:before { content: "\175"; }
+
+.icon-superscript:before, .cke_button__superscript_icon:before { content: "\176"; }
+
+.icon-strike-through:before, .cke_button__strike_icon:before { content: "\177"; }
+
+.icon-decrease-indent:before, .cke_button__outdent_icon:before { content: "\178"; }
+
+.icon-increase-indent:before, .cke_button__indent_icon:before { content: "\179"; }
+
+.icon-block-quote:before, .cke_button__blockquote_icon:before { content: "\17a"; }
+
+.icon-div-container:before, .cke_button__creatediv_icon:before { content: "\17b"; }
+
+.icon-align-left:before, .cke_button__justifyleft_icon:before { content: "\17c"; }
+
+.icon-center:before, .cke_button__justifycenter_icon:before { content: "\17d"; }
+
+.icon-align-right:before, .cke_button__justifyright_icon:before { content: "\17e"; }
+
+.icon-justify:before, .cke_button__justifyblock_icon:before { content: "\17f"; }
+
+.icon-choice:before { content: "\180"; }
+
+.icon-inline-choice:before { content: "\181"; }
+
+.icon-match:before { content: "\182"; }
+
+.icon-associate:before { content: "\183"; }
+
+.icon-media:before, .cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before, .resourcemgr .file-selector ul.files li[data-type='audio']:before, .tao-scope .previewer .nopreview:before { content: "\184"; }
+
+.icon-graphic-order:before { content: "\185"; }
+
+.icon-hotspot:before { content: "\186"; }
+
+.icon-graphic-gap:before { content: "\187"; }
+
+.icon-graphic-associate:before { content: "\188"; }
+
+.icon-select-point:before { content: "\189"; }
+
+.icon-pin:before { content: "\18a"; }
+
+.icon-import:before { content: "\18b"; }
+
+.icon-export:before { content: "\18c"; }
+
+.icon-move-item:before { content: "\18d"; }
+
+.icon-meta-data:before { content: "\18e"; }
+
+.icon-slider:before { content: "\18f"; }
+
+.icon-summary-report:before { content: "\190"; }
+
+.icon-text-entry:before { content: "\191"; }
+
+.icon-extended-text:before { content: "\192"; }
+
+.icon-eraser:before { content: "\193"; }
+
+.icon-row:before { content: "\194"; }
+
+.icon-column:before { content: "\195"; }
+
+.icon-text-color:before, .cke_button__textcolor_icon:before { content: "\196"; }
+
+.icon-background-color:before, .cke_button__bgcolor_icon:before { content: "\197"; }
+
+.icon-spell-check:before, .cke_button__scayt_icon:before { content: "\198"; }
+
+.icon-polygon:before { content: "\199"; }
+
+.icon-rectangle:before { content: "\19a"; }
+
+.icon-gap-match:before { content: "\19b"; }
+
+.icon-order:before { content: "\19c"; }
+
+.icon-hottext:before { content: "\19d"; }
+
+.icon-free-form:before { content: "\19e"; }
+
+.icon-step-backward:before { content: "\1a0"; }
+
+.icon-fast-backward:before { content: "\1a1"; }
+
+.icon-backward:before { content: "\1a2"; }
+
+.icon-play:before { content: "\1a3"; }
+
+.icon-pause:before { content: "\1a4"; }
+
+.icon-stop:before { content: "\1a5"; }
+
+.icon-forward:before { content: "\1a6"; }
+
+.icon-fast-forward:before { content: "\1a7"; }
+
+.icon-step-forward:before { content: "\1a8"; }
+
+.icon-ellipsis:before { content: "\1aa"; }
+
+.icon-circle:before { content: "\1ab"; }
+
+.icon-target:before { content: "\1ac"; }
+
+.icon-guide-arrow:before { content: "\1ad"; }
+
+.icon-range-slider-right:before { content: "\1ae"; }
+
+.icon-range-slider-left:before { content: "\1af"; }
+
+.icon-radio-checked:before, .tao-scope label input[type="radio"]:checked ~ .icon-radio:before, .tao-scope label input[type="checkbox"]:checked ~ .icon-radio:before, .cke_button__radio_icon:before { content: "\1b1"; }
+
+.icon-checkbox:before { content: "\1b2"; }
+
+.icon-checkbox-crossed:before, .tao-scope label input[type="radio"]:checked ~ .icon-checkbox.cross:before, .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox.cross:before { content: "\1b3"; }
+
+.icon-checkbox-checked:before, .tao-scope label input[type="radio"]:checked ~ .icon-checkbox:before, .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before { content: "\1b4"; }
+
+.icon-result-nok:before { content: "\1b9"; }
+
+.icon-result-ok:before { content: "\1ba"; }
+
+.icon-not-evaluated:before { content: "\1bb"; }
+
+.icon-filter:before { content: "\1bc"; }
+
+.icon-translate:before { content: "\1bd"; }
+
+.icon-eject:before { content: "\1be"; }
+
+.icon-continue:before { content: "\1bf"; }
+
+.icon-radio:before { content: "\1b0"; }
+
+.icon-sphere:before { content: "\1c0"; }
+
+.icon-reset:before { content: "\1c3"; }
+
+.icon-smaller:before { content: "\1c7"; }
+
+.icon-larger:before { content: "\1c8"; }
+
+.icon-clock:before { content: "\1c9"; }
+
+.icon-font:before { content: "\19f"; }
+
+.icon-maths:before, .cke_button__taoqtimaths_icon:before { content: "\1c6"; }
+
+.icon-grip:before { content: "\1c5"; }
+
+.icon-rubric:before { content: "\1c4"; }
+
+.icon-audio:before { content: "\e601"; }
+
+.icon-grip-h:before { content: "\e600"; }
+
+.icon-magicwand:before { content: "\e602"; }
+
+.item-editor-sidebar .media-sizer { position: relative; min-height: 120px; }
+.item-editor-sidebar .media-sizer label { min-width: 90px; line-height: 22px; }
+.item-editor-sidebar .media-sizer input[type="text"] { width: 72px !important; min-width: 72px !important; text-align: right; }
+.item-editor-sidebar .media-sizer .media-sizer-link { border: 2px solid transparent; border-radius: 2px; border-right: none; position: absolute; left: 75px; top: 10px; height: 38px; width: 16px; opacity: .55; cursor: pointer; }
+.item-editor-sidebar .media-sizer .media-sizer-link:hover { color: #3e7da7; }
+.item-editor-sidebar .media-sizer .media-sizer-link span { -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -o-transform: rotate(45deg); position: absolute; top: 8px; left: -11px; background: #f2f0ee; padding: 3px; border-radius: 8px; }
+.item-editor-sidebar .media-sizer .media-sizer-slider-box { padding-top: 10px; position: relative; }
+.item-editor-sidebar .media-sizer .media-sizer-cover { position: absolute; top: 0; left: 0; width: 100%; height: 30px; background: #f2f0ee; opacity: .55; display: block; z-index: 15; }
+.item-editor-sidebar .media-sizer .media-sizer-pixel { display: none; position: relative; }
+.item-editor-sidebar .media-sizer .media-sizer-percent { display: block; position: relative; }
+.item-editor-sidebar .media-sizer.media-sizer-synced .media-sizer-cover { display: none; }
+.item-editor-sidebar .media-sizer.media-sizer-synced .media-sizer-link { border-color: #ccc; opacity: 1; }
+
 body { z-index: 0; }
 
 address, article, aside, audio, blockquote, canvas, dd, div, dl, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr, noscript, ol, output, p, pre, section, table, tfoot, ul, video, main { margin-top: 0; padding-top: 0; padding-bottom: 0; }
@@ -7288,7 +7641,7 @@ a[rel="external"] span.icon-external:before { font-size: 11px; font-size: 1.1rem
 .tao-scope [class^="btn-"], .tao-scope [class*=" btn-"], .tao-scope .btn-default, .tao-scope button, .tao-scope input[type="submit"], .tao-scope input[type="reset"] { -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; font-size: 14px !important; font-size: 1.4rem !important; color: white !important; cursor: pointer; text-decoration: none !important; vertical-align: middle; outline: 0; overflow: visible; border: none; display: inline-block; line-height: 2.5; padding: 0 15px; background-color: #acb1b8; text-shadow: 1px 1px 0 #82878d; font-weight: normal; font-style: normal; text-align: center; height: 35px; }
 .tao-scope [class^="btn-"].small, .tao-scope [class*=" btn-"].small, .tao-scope .btn-default.small, .tao-scope button.small, .tao-scope input[type="submit"].small, .tao-scope input[type="reset"].small { line-height: 1.8; height: 25px; }
 .tao-scope [class^="btn-"].small [class^="icon-"], .tao-scope [class^="btn-"].small [class*=" icon-"], .tao-scope [class*=" btn-"].small [class^="icon-"], .tao-scope [class*=" btn-"].small [class*=" icon-"], .tao-scope .btn-default.small [class^="icon-"], .tao-scope .btn-default.small [class*=" icon-"], .tao-scope button.small [class^="icon-"], .tao-scope button.small [class*=" icon-"], .tao-scope input[type="submit"].small [class^="icon-"], .tao-scope input[type="submit"].small [class*=" icon-"], .tao-scope input[type="reset"].small [class^="icon-"], .tao-scope input[type="reset"].small [class*=" icon-"] { font-size: 13px; font-size: 1.3rem; }
-.tao-scope [class^="btn-"] [class^="icon-"], .tao-scope [class^="btn-"] [class*=" icon-"], .tao-scope [class*=" btn-"] [class^="icon-"], .tao-scope [class*=" btn-"] [class*=" icon-"], .tao-scope .btn-default [class^="icon-"], .tao-scope .btn-default [class*=" icon-"], .tao-scope button [class^="icon-"], .tao-scope button [class*=" icon-"], .tao-scope input[type="submit"] [class^="icon-"], .tao-scope input[type="submit"] [class*=" icon-"], .tao-scope input[type="reset"] [class^="icon-"], .tao-scope input[type="reset"] [class*=" icon-"] { font-size: 14px; font-size: 1.4rem; line-height: 1; padding: 0 9px 0 0; position: relative; top: 1px; left: -1px; text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1); }
+.tao-scope [class^="btn-"] [class^="icon-"], .tao-scope [class^="btn-"] [class*=" icon-"], .tao-scope [class*=" btn-"] [class^="icon-"], .tao-scope [class*=" btn-"] [class*=" icon-"], .tao-scope .btn-default [class^="icon-"], .tao-scope .btn-default [class*=" icon-"], .tao-scope button [class^="icon-"], .tao-scope button [class*=" icon-"], .tao-scope input[type="submit"] [class^="icon-"], .tao-scope input[type="submit"] [class*=" icon-"], .tao-scope input[type="reset"] [class^="icon-"], .tao-scope input[type="reset"] [class*=" icon-"] { font: tao !important; font-family: tao; font-size: 14px; font-size: 1.4rem; line-height: 1; padding: 0 9px 0 0; position: relative; top: 1px; left: -1px; text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1); }
 .tao-scope [class^="btn-"] [class^="icon-"].r, .tao-scope [class^="btn-"] [class*=" icon-"].r, .tao-scope [class*=" btn-"] [class^="icon-"].r, .tao-scope [class*=" btn-"] [class*=" icon-"].r, .tao-scope .btn-default [class^="icon-"].r, .tao-scope .btn-default [class*=" icon-"].r, .tao-scope button [class^="icon-"].r, .tao-scope button [class*=" icon-"].r, .tao-scope input[type="submit"] [class^="icon-"].r, .tao-scope input[type="submit"] [class*=" icon-"].r, .tao-scope input[type="reset"] [class^="icon-"].r, .tao-scope input[type="reset"] [class*=" icon-"].r { padding: 0 0 0 9px; }
 .tao-scope [class^="btn-"]:hover, .tao-scope [class*=" btn-"]:hover, .tao-scope .btn-default:hover, .tao-scope button:hover, .tao-scope input[type="submit"]:hover, .tao-scope input[type="reset"]:hover { opacity: .85; }
 .tao-scope [class^="btn-"].btn-info, .tao-scope [class^="btn-"].ui-button, .tao-scope [class*=" btn-"].btn-info, .tao-scope [class*=" btn-"].ui-button, .tao-scope .btn-default.btn-info, .tao-scope .btn-default.ui-button, .tao-scope button.btn-info, .tao-scope button.ui-button, .tao-scope input[type="submit"].btn-info, .tao-scope input[type="submit"].ui-button, .tao-scope input[type="reset"].btn-info, .tao-scope input[type="reset"].ui-button { background-color: #266d9c; text-shadow: 1px 1px 0 #0b4a74; }
@@ -7296,6 +7649,7 @@ a[rel="external"] span.icon-external:before { font-size: 11px; font-size: 1.1rem
 .tao-scope [class^="btn-"].btn-success, .tao-scope [class*=" btn-"].btn-success, .tao-scope .btn-default.btn-success, .tao-scope button.btn-success, .tao-scope input[type="submit"].btn-success, .tao-scope input[type="reset"].btn-success { background-color: #269c5d; text-shadow: 1px 1px 0 #0b743c; }
 .tao-scope [class^="btn-"].btn-warning, .tao-scope [class*=" btn-"].btn-warning, .tao-scope .btn-default.btn-warning, .tao-scope button.btn-warning, .tao-scope input[type="submit"].btn-warning, .tao-scope input[type="reset"].btn-warning { background-color: #dbb66b; text-shadow: 1px 1px 0 #ac8b48; }
 .tao-scope .disabled, .tao-scope button[disabled] { background-color: #afb4bb !important; text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8) !important; cursor: not-allowed !important; opacity: .55 !important; color: #000 !important; }
+.tao-scope .ui-button [class^="icon-"], .tao-scope .ui-button [class*=" icon-"] { font-family: tao !important; }
 .tao-scope .ui-helper-hidden { display: none; }
 .tao-scope .ui-helper-hidden-accessible { position: absolute !important; clip: rect(1px 1px 1px 1px); clip: rect(1px, 1px, 1px, 1px); }
 .tao-scope .ui-helper-reset { margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none; }

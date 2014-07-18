@@ -27,6 +27,8 @@ button, input[type="submit"], input[type="reset"] {
         }
     }
     [class^="icon-"], [class*=" icon-"] {
+        font: tao !important;
+        font-family:tao;
         @include font-size(14);
         line-height: 1;
         padding: 0 9px 0 0;
@@ -68,4 +70,11 @@ button, input[type="submit"], input[type="reset"] {
     cursor: not-allowed !important;
     opacity: .55 !important;
     color: #000 !important;
+}
+
+// jquery ui
+.ui-button {
+    [class^="icon-"], [class*=" icon-"] {
+        font-family: tao !important;
+    }
 }
