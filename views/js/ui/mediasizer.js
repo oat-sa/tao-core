@@ -21,7 +21,14 @@ define([
 
     var supportedMedia = ['img'];
 
-
+    /**
+     * Round a decimal value to n digits
+     *
+     * @param value
+     * @param decimals
+     * @returns {number}
+     * @private
+     */
     function _round(value, decimals) {
         if (decimals === undefined) {
             decimals = 1;
@@ -31,7 +38,6 @@ define([
             factor *= 10;
         }
         return Math.round(value * factor) / factor;
-
     }
 
     /**
@@ -39,6 +45,7 @@ define([
      * @exports ui/toggler
      */
     var MediaSizer = {
+
 
 
         /**
@@ -101,12 +108,16 @@ define([
          * @param $elt
          * @private
          */
-        _initLink: function ($elt) {
+        _initSyncBtn: function ($elt) {
             var options = $elt.data(dataNs),
-                $mediaSizer = $elt.find('.media-sizer');
+                $mediaSizer = $elt.find('.media-sizer'),
+                self = this;
             $elt.find('.media-sizer-link').on('click', function () {
                 $mediaSizer.toggleClass('media-sizer-synced');
                 options.toBeSynced = $mediaSizer.hasClass('media-sizer-synced');
+                if(options.toBeSynced) {
+                    self._sync($elt, options.$fields.px.width, 'blur');
+                }
             });
         },
 
@@ -167,34 +178,13 @@ define([
                         'max': options.sizeProps.sliders[unit].max
                     }
                 })
-                    .on('slide', function () {
-                        var $slider = $(this),
-                            unit = $slider.prop('unit'),
-                            factor,
-                            otherFactor,
-                            value = $(this).val(),
-                            otherValue,
-                            otherUnit;
+                .on('slide', function () {
+                    var $slider = $(this),
+                        unit = $slider.prop('unit'),
+                        factor = unit === 'px' ? 0 : 1;
 
-
-                        if (unit === 'px') {
-                            factor = 0;
-                            otherFactor = 1;
-                            otherUnit = '%';
-                            otherValue = value * 100 / options.sizeProps.containerWidth
-                        }
-                        else {
-                            factor = 1;
-                            otherFactor = 0;
-                            otherUnit = 'px';
-                            otherValue = value * options.sizeProps.containerWidth / 100
-                        }
-                        options.$fields[unit].width.val(_round(value, factor)).trigger('slidechange');
-
-                        // synchronize slider and fields of other unit
-                        options.$sliders[otherUnit].val(otherValue);
-                        options.$fields[otherUnit].width.val(_round(otherValue, otherFactor)).trigger('slidechange');
-                    })
+                    options.$fields[unit].width.val(_round($slider.val(), factor)).trigger('sliderchange');
+                })
             });
 
             return _sliders;
@@ -209,68 +199,116 @@ define([
          * @private
          */
         _sync: function ($elt, $field, eventType) {
-            var options = $elt.data(dataNs),
-                unit = $field.prop('unit'),
-                dimension = $field.prop('dimension'),
-                value = parseFloat($field.val()),
-                otherDimension = dimension === 'width' ? 'height' : 'width',
-                otherUnit = unit === 'px' ? '%' : 'px',
-                otherField = options.$fields[unit][otherDimension],
-                otherValue = parseFloat(otherField.val()),
-                slider = options.$sliders[unit],
+            eventType = eventType === 'sliderchange' ? 'sliderEvent' : 'fieldEvent';
+            
+            
+            // other means:
+            // same unit (px|%), other dimension (width|height) etc.
+            // _other means:
+            // other unit, other whatever
+
+            var options         = $elt.data(dataNs),
+                unit            = $field.prop('unit'),
+                dimension       = $field.prop('dimension'),
+                value           = parseFloat($field.val()),
+                otherDimension  = dimension === 'width' ? 'height' : 'width',
+                otherValue,
                 ratio,
-                factor;
+                factor,
+                _otherUnit,
+                _otherSliderValue,
+                _otherFactor,
+                currentValues;
 
             // invalid entries
             if (isNaN(value)) {
                 return;
             }
 
-            // recalculate ratio
-            ratio = options.sizeProps.ratio.natural;
-            if (options.allowCustomRatio && unit === 'px') {
-                if (dimension === 'width') {
-                    options.sizeProps.ratio.current = value / otherValue;
-                }
-                else {
-                    options.sizeProps.ratio.current = otherValue / value;
-                }
-                ratio = options.sizeProps.ratio.current;
-            }
 
+            // Re-calculate current ratio
+            // change scenario: someone has typed height and width in pixels while syncing was off
+            // whether current or natural ratio eventually will be used depends on options.allowCustomRatio
+            options.sizeProps.ratio.current = options.target[0].width / options.target[0].height;
+            ratio = options.allowCustomRatio ? options.sizeProps.ratio.current : options.sizeProps.ratio.natural;
 
-            console.log({
-                unit: unit,
-                otherUnit: otherUnit,
-                value: value,
-                otherValue: otherValue,
-                ratio: ratio
-            })
-            return
-
-            // set slider value
-            if (dimension === 'width' && eventType !== 'slidechange') {
-                slider.val(value);
-            }
-
-            if (unit === 'px') {
+            // remember that otherValue and otherUnit work _not_ on the same block
+            if(unit === 'px') {
                 factor = 0;
-                otherUnit = '%';
+                _otherFactor = 1;
+                _otherUnit = '%';
+
+                _otherSliderValue = value * 100 / options.sizeProps.containerWidth;
+                if(options.toBeSynced) {
+                    otherValue = dimension === 'width' ? value / ratio : value * ratio;
+                }
             }
             else {
                 factor = 1;
-                otherUnit = 'px';
+                _otherFactor = 0;
+                _otherUnit = 'px';
+                otherValue = value / ratio;
+
+                _otherSliderValue = value * options.sizeProps.containerWidth / 100;
+            }
+
+            if(dimension === 'width') {
+                otherValue = value / ratio;
+            }
+            else {
+                otherValue = value * ratio;
             }
 
 
+
+
+
+            // update the unit-side of the tree with the value
             options.sizeProps[unit].current[dimension] = value;
-            if (options.toBeSynced) {
-                options.sizeProps[unit].current[otherDimension] = value / ratio;
-                options.$fields[unit][otherDimension].val(_round((value / ratio), factor));
-            }
-            options.sizeProps[otherUnit].current.width = value * 100 / options.sizeProps.containerWidth;
-            options.$fields[otherUnit].width.val(value * 100 / options.sizeProps.containerWidth);
 
+            // update the other dimension of the same block
+            if (options.toBeSynced) {
+               // options.sizeProps[unit].current[otherDimension] = otherValue;
+               // options.$fields[unit][otherDimension].val(_round((otherValue), factor));
+            }
+
+
+            /* sliders */
+            // update same slider value only when fn is triggered by typing
+            if (dimension === 'width' && eventType !== 'sliderEvent') {
+                options.$sliders[unit].val(value);
+            }
+            // update other slider
+            options.$sliders[_otherUnit].val(_otherSliderValue);
+
+
+            // update other width field
+            options.$fields[_otherUnit].width.val(_round(otherValue, _otherFactor));
+
+
+            // update medium
+            if(options.applyToMedium) {
+                currentValues = this._getValues($elt, unit);
+                options.target.attr('width', currentValues.width);
+                options.target.attr('height', currentValues.height);
+            }
+
+
+            // update the same original dimension for the other unit
+            //options.sizeProps[unit].current[dimension] = value;
+
+           // options.sizeProps[otherUnit].current.width = value * 100 / options.sizeProps.containerWidth;
+           // options.$fields[otherUnit].width.val(value * 100 / options.sizeProps.containerWidth);
+
+           // options.$fields[unit].width.val(_round(value, factor));
+
+//                        // synchronize slider and fields of other unit
+//                        options.$sliders[otherUnit].val(otherValue);
+//                        options.$fields[otherUnit].width.val(_round(otherValue, otherFactor));
+
+
+            // reset percent height to null
+            //options.sizeProps['%'].current.height = null;
         },
 
 
@@ -301,7 +339,7 @@ define([
                             dimension: dim
                         });
                         _fields[unit][dim].val(_round(options.sizeProps[unit].current[dim], factor));
-                        _fields[unit][dim].on('keypress blur slidechange', function (e) {
+                        _fields[unit][dim].on('keypress blur sliderchange', function (e) {
                             self._sync($elt, $(this), e.type);
                         });
                     });
@@ -309,6 +347,36 @@ define([
             });
 
             return _fields;
+        },
+
+
+
+        /**
+         * Retrieve current size values in current unit
+         *
+         * @param $elt
+         * @param unit
+         * @returns {{}}
+         * @private
+         */
+        _getValues: function($elt, unit) {
+            var options = $elt.data(dataNs),
+                attr = {},
+                factor = unit === 'px' ? 0 : 1;
+
+            _.forOwn(options.sizeProps[unit].current, function(value, dimension) {
+                if(_.isNull(value)) {
+                    value = '';
+                }
+                else {
+                    value = _round(value, factor).toString();
+                }
+                if(unit === '%' && value !== '') {
+                    value += unit;
+                }
+                attr[dimension] = value;
+            });
+            return attr;
         },
 
 
@@ -350,15 +418,17 @@ define([
 
                     // options.parentSelector = '[class*="col-"]';
 
-                    options.toBeSynced = $elt.hasClass('media-sizer-synced');
-                    options.allowCustomRatio = options.allowCustomRatio || false;
+                    options.toBeSynced = $elt.find('.media-sizer').hasClass('media-sizer-synced');
+                    options.allowCustomRatio = !!options.allowCustomRatio;
+
+                    options.applyToMedium = !!options.applyToMedium;
 
                     options.$blocks = self._initBlocks($elt);
                     options.$fields = self._initFields($elt);
                     options.$sliders = self._initSliders($elt);
 
 
-                    self._initLink($elt);
+                    self._initSyncBtn($elt);
 
 
                     /**
