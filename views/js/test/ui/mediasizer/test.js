@@ -1,7 +1,7 @@
 define(['jquery', 'ui/mediasizer'], function($) {
 
 
-    var mode = 'nat' // nat (=natural size) | px (=pixels) | pc (=%)
+    var mode = 'pc' // nat (=natural size) | px (=pixels) | pc (=%)
 
     $('#_' + mode).show()
 
