@@ -89,10 +89,12 @@ define([
                 containerWidth: containerWidth,
                 sliders: {
                     '%': {
+                        min: 0,
                         max: 100,
                         start: medium.width * 100 / containerWidth
                     },
                     px: {
+                        min: 0,
                         max: Math.max(containerWidth, medium.naturalWidth),
                         start: medium.width
                     }
@@ -321,6 +323,16 @@ define([
             _(options.$blocks).forOwn(function($block, unit) {
                 _fields[unit] = {};
                 precision = unit === 'px' ? 0 : 1;
+
+//
+//                            if(value > $field.data('max') || value < $field.data('min')) {
+//                                return false;
+//                            }
+//
+//                            self._sync($elt, $(this), e.type);
+//
+
+
                 options.$blocks[unit].find('input').each(function() {
                     _(dimensions).forEach(function(dim) {
                         field = options.$blocks[unit].find('[name="' + dim + '"]');
@@ -331,7 +343,38 @@ define([
                             dimension: dim
                         });
                         _fields[unit][dim].val(_round(options.sizeProps[unit].current[dim], precision));
+                        _fields[unit][dim].data({ min: 0, max: options.sizeProps.sliders[unit].max });
+
+                        _fields[unit][dim].on('keydown', function(e) {
+                            var $field = $(this),
+                                c = e.keyCode,
+                                specChars = (function() {
+                                    var chars = [8, 37, 39, 46];
+                                    if($field.val().indexOf('.') === -1) {
+                                        chars.push(190);
+                                        chars.push(110);
+                                    }
+                                    return chars;
+                                }());
+
+                            return (_.contains(specChars, c)
+                                || (c >= 48 && c <= 57)
+                                || (c >= 96 && c <= 105));
+                        });
+
                         _fields[unit][dim].on('keyup blur sliderchange', function(e) {
+                            var $field = $(this),
+                                value = $field.val().replace(/,/g,'.');
+
+                            $field.val(value);
+
+                            if(value > $field.data('max')) {
+                                $field.val($field.data('max'));
+                            }
+                            else if(value < $field.data('min')) {
+                                $field.val($field.data('min'));
+                            }
+
                             self._sync($elt, $(this), e.type);
                         });
                     });
@@ -413,8 +456,7 @@ define([
                     options.syncDimensions = $elt.find('.media-sizer').hasClass('media-sizer-synced');
                     options.denyCustomRatio = !!options.denyCustomRatio;
 
-                    options.applyToMedium = !!options.applyToMedium;
-                    options.applyToMedium = true;
+                    options.applyToMedium = !!!options.applyToMedium;
 
                     options.$blocks = self._initBlocks($elt);
                     options.$fields = self._initFields($elt);

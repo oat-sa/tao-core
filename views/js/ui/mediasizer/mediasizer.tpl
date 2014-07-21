@@ -7,7 +7,7 @@
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
 
-    <div class="tooltip-content">{{__ 'The image resizes along with its container.'}}</div>
+    <div class="tooltip-content">{{__ 'The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size.'}}</div>
 
 
     <div class="media-sizer-percent">
