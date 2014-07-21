@@ -16,7 +16,9 @@
 
     },
     "autoload": {
-        "oat\\tao\\model\\" : "models/classes/",
-        "oat\\tao\\helpers\\" : "helpers"
+    	'psr-4' : {
+	        "oat\\tao\\model\\" : "models/classes/",
+	        "oat\\tao\\helpers\\" : "helpers"
+        }
     }
 }
