@@ -14,5 +14,9 @@
     "require": {
         "oat-sa/oatbox/extension-installer": "dev-master"
 
+    },
+    "autoload": {
+        "oat\\tao\\model\\" : "models/classes/",
+        "oat\\tao\\helpers\\" : "helpers"
     }
 }
