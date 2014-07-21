@@ -1,9 +1,9 @@
 {
      "repositories": [
       {
-		"type": "vcs",
-		"url": "git@github.com:oat-sa/oatbox-extension-installer.git"
-		}
+            "type": "composer",
+            "url": "http://packages.taocloud.org/"		
+      }
      ],
 
     "name": "oat-sa/tao-core",
