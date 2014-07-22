@@ -69,9 +69,7 @@ return array(
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_post_max_name_length', 'name' => 'suhosin.post.max_name_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_request_max_varname_length', 'name' => 'suhosin.request.max_varname_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_root', 'location' => '.', 'rights' => 'rw')),
-		        array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf', 'location' => 'generis/common/conf', 'rights' => 'rw')),
-				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf_default', 'location' => 'generis/common/conf/default', 'rights' => 'r')),
-				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf_sample', 'location' => 'generis/common/conf/sample', 'rights' => 'r')),
+		        array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf', 'location' => 'config', 'rights' => 'rw')),
 		        array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao', 'location' => 'tao', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_includes', 'location' => 'tao/includes', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_locales', 'location' => 'tao/locales', 'rights' => 'r')),
@@ -82,7 +80,8 @@ return array(
 		'php' => array(
 			dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
 			dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
-		    dirname(__FILE__).'/scripts/install/setupServiceFileStorage.php'
+		    dirname(__FILE__).'/scripts/install/setupServiceFileStorage.php',
+		    dirname(__FILE__).'/scripts/install/setServiceState.php'
 		)
 	),
 	'optimizableClasses' => array(
