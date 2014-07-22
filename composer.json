@@ -57,6 +57,7 @@
         "oat-sa/oatbox-extension-installer": "dev-master"
 
     },
+    "minimum-stability" : "dev",
     "autoload": {
     	"psr-4" : {
 	        "oat\\tao\\model\\" : "models/classes/",
