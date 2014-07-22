@@ -41,11 +41,11 @@ class tao_install_utils_System{
                 
                 
 		//subfolder shall be detected as /SUBFLODERS/tao/install/index.php so we remove the "/extension/module/action" part:
-                $subfolder = $_SERVER['REQUEST_URI'];
-                $subfolder = preg_replace('/\/(([^\/]*)\/){2}([^\/]*)$/', '', $subfolder);
-                $subfolder = preg_replace('/^\//', '', $subfolder);
-                
-                return array(
+        $subfolder = $_SERVER['REQUEST_URI'];
+        $subfolder = preg_replace('/\/(([^\/]*)\/){2}([^\/]*)$/', '', $subfolder);
+        $subfolder = preg_replace('/^\//', '', $subfolder);
+        
+        return array(
 			'folder'	=> $subfolder,
 			'host'		=> $_SERVER['HTTP_HOST'],
 			'https'		=> ($_SERVER['SERVER_PORT'] == 443) 
@@ -58,9 +58,8 @@ class tao_install_utils_System{
 	 * @return boolean
 	 */
 	public static function isTAOInstalled(){
-		$config = realpath(dirname(__FILE__).'/../../../generis/common/conf/generis.conf.php');
-		$db = realpath(dirname(__FILE__).'/../../../generis/common/conf/db.conf.php');
-		return (file_exists($config) && file_exists($db));
+		$config = dirname(__FILE__).'/../../../config/generis.conf.php';
+		return file_exists($config);
 	}
     
     /**
