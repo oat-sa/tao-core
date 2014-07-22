@@ -54,7 +54,7 @@
     	"tao-extension-name" : "tao"
     },
     "require": {
-        "oat-sa/oatbox/extension-installer": "dev-master"
+        "oat-sa/oatbox-extension-installer": "dev-master"
 
     },
     "autoload": {
