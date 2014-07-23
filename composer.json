@@ -1,10 +1,4 @@
 {
-     "repositories": [
-      {
-            "type": "composer",
-            "url": "http://packages.taocloud.org/"		
-      }
-     ],
 
     "name": "oat-sa/tao-core",
     "authors" : [
@@ -60,9 +54,10 @@
     	"tao-extension-name" : "tao"
     },
     "require": {
-        "oat-sa/oatbox/extension-installer": "dev-master"
+        "oat-sa/oatbox-extension-installer": "dev-master"
 
     },
+    "minimum-stability" : "dev",
     "autoload": {
     	"psr-4" : {
 	        "oat\\tao\\model\\" : "models/classes/",
