@@ -10,7 +10,7 @@
  * @author Jehan Bihin (using class.js)
  */
 
-define(['jquery', 'i18n', 'context', 'helpers', 'jqueryui'], function($, __, context, helpers) {
+define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], function($, __, context, helpers, feedback) {
 	
     var UiBootstrap = {
             init: function(options) {
@@ -106,8 +106,7 @@ define(['jquery', 'i18n', 'context', 'helpers', 'jqueryui'], function($, __, con
                             else if(request.status == 403){
                                     window.location = context.root_url + 'tao/Main/logout';
                             }
-
-                            helpers.createErrorMessage(errorMessage);
+                            feedback().error(errorMessage);
                     });
             },
 
