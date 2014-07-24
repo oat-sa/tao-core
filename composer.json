@@ -34,7 +34,7 @@
           "role": "Developer"
           }
      ],
-     "description" : "extension to manage deliveries",
+    "description" : "TAO core extension ",
      "support": {
 	     "forum": "http://forum.taotesting.com",
 	     "issues": "http://forge.taotesting.com"

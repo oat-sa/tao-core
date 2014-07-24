@@ -108,15 +108,6 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',array('ext'=>'tao','mod' => 'Main', 'act' => 'logout')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',array('ext'=>'tao','mod' => 'AuthApi')),
     ),
-    'autoload' => array (
-        'psr-4' => array(
-            'oat\\tao\\model\\' => $extpath.'models'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR,
-            'oat\\tao\\helpers\\' => $extpath.'helpers'.DIRECTORY_SEPARATOR
-        ),
-        'legacy' => array(
-            'tao_models_classes_' => 'oat\\tao\\model\\'
-        )
-    ),
 	'constants' => array(
 
 		# actions directory
