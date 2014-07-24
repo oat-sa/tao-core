@@ -1,5 +1,6 @@
 {
 
+
     "name": "oat-sa/tao-core",
     "authors" : [
 	{
@@ -56,15 +57,5 @@
     "require": {
         "oat-sa/oatbox-extension-installer": "dev-master"
 
-    },
-    "minimum-stability" : "dev",
-    "autoload": {
-    	"psr-4" : {
-	        "oat\\tao\\model\\" : "models/classes/",
-	        "oat\\tao\\helpers\\" : "helpers"
-        },
-        "files": [
-        	"scripts/legacy/autoload.php"
-        ]
     }
 }

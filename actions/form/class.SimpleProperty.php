@@ -118,8 +118,9 @@ class tao_actions_form_SimpleProperty
 		$checkRange = false;
 		foreach(tao_helpers_form_GenerisFormFactory::getPropertyMap() as $typeKey => $map){
 			$options[$typeKey] = $map['title'];
-			if($property->getWidget()){
-				if($property->getWidget()->getUri() == $map['widget']){
+            $widget = $property->getWidget();
+			if($widget instanceof core_kernel_classes_Resource) {
+				if($widget->getUri() == $map['widget']){
 					$typeElt->setValue($typeKey);
 					$checkRange = is_null($map['range']);
 				}
