@@ -1,6 +1,24 @@
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -46,7 +64,7 @@
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -68,7 +86,7 @@
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -90,13 +108,13 @@
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -342,7 +360,7 @@
 
 @font-face { font-family: 'tao'; src: url("font/tao/tao.eot?-w0adgh"); src: url("font/tao/tao.eot?#iefix-w0adgh") format("embedded-opentype"), url("font/tao/tao.woff?-w0adgh") format("woff"), url("font/tao/tao.ttf?-w0adgh") format("truetype"), url("font/tao/tao.svg?-w0adgh#tao") format("svg"); font-weight: normal; font-style: normal; }
 
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -388,7 +406,7 @@
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -410,7 +428,7 @@
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -432,13 +450,13 @@
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -676,7 +694,7 @@
 
 .icon-magicwand:before { content: "\e602"; }
 
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -722,7 +740,7 @@
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -744,7 +762,7 @@
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -766,13 +784,13 @@
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -1242,8 +1260,10 @@ textarea { resize: vertical; }
 [class^="feedback-"].small, [class*=" feedback-"].small { padding: 8px 20px 8px 45px; }
 [class^="feedback-"].small [class^="icon-"], [class^="feedback-"].small [class*=" icon-"], [class*=" feedback-"].small [class^="icon-"], [class*=" feedback-"].small [class*=" icon-"] { top: 9px; left: 10px; }
 [class^="feedback-"] [class^="icon-"], [class^="feedback-"] [class*=" icon-"], [class*=" feedback-"] [class^="icon-"], [class*=" feedback-"] [class*=" icon-"] { font-size: 20px; font-size: 2rem; position: absolute; top: 20px; left: 15px; }
-[class^="feedback-"] [class^="icon-"].icon-close, [class^="feedback-"] [class*=" icon-"].icon-close, [class*=" feedback-"] [class^="icon-"].icon-close, [class*=" feedback-"] [class*=" icon-"].icon-close { font-size: 15px; font-size: 1.5rem; color: #999; left: auto; right: 7px; top: 5px; cursor: pointer; }
-[class^="feedback-"] [class^="icon-"].icon-close:hover, [class^="feedback-"] [class*=" icon-"].icon-close:hover, [class*=" feedback-"] [class^="icon-"].icon-close:hover, [class*=" feedback-"] [class*=" icon-"].icon-close:hover { color: #222; }
+[class^="feedback-"] [class^="icon-"].icon-close, [class^="feedback-"] [class^="icon-"].icon-remove, [class^="feedback-"] [class*=" icon-"].icon-close, [class^="feedback-"] [class*=" icon-"].icon-remove, [class*=" feedback-"] [class^="icon-"].icon-close, [class*=" feedback-"] [class^="icon-"].icon-remove, [class*=" feedback-"] [class*=" icon-"].icon-close, [class*=" feedback-"] [class*=" icon-"].icon-remove { font-size: 15px; font-size: 1.5rem; color: #999; left: auto; top: 5px; cursor: pointer; }
+[class^="feedback-"] [class^="icon-"].icon-close:hover, [class^="feedback-"] [class^="icon-"].icon-remove:hover, [class^="feedback-"] [class*=" icon-"].icon-close:hover, [class^="feedback-"] [class*=" icon-"].icon-remove:hover, [class*=" feedback-"] [class^="icon-"].icon-close:hover, [class*=" feedback-"] [class^="icon-"].icon-remove:hover, [class*=" feedback-"] [class*=" icon-"].icon-close:hover, [class*=" feedback-"] [class*=" icon-"].icon-remove:hover { color: #222; }
+[class^="feedback-"] [class^="icon-"].icon-remove, [class^="feedback-"] [class*=" icon-"].icon-remove, [class*=" feedback-"] [class^="icon-"].icon-remove, [class*=" feedback-"] [class*=" icon-"].icon-remove { right: 24px; }
+[class^="feedback-"] [class^="icon-"].icon-close, [class^="feedback-"] [class*=" icon-"].icon-close, [class*=" feedback-"] [class^="icon-"].icon-close, [class*=" feedback-"] [class*=" icon-"].icon-close { right: 7px; }
 [class^="feedback-"].popup, [class*=" feedback-"].popup { display: block; position: fixed; top: 50px; left: 50%; margin-left: -200px; width: 400px; z-index: 999999; }
 
 .feedback-error, .tao-error-tooltip, .tao-scope .ui-state-error { border-color: #c74155; background-color: #f8e7e9; }
@@ -1356,7 +1376,25 @@ textarea { resize: vertical; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -1402,7 +1440,7 @@ textarea { resize: vertical; }
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -1424,7 +1462,7 @@ textarea { resize: vertical; }
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -1446,13 +1484,13 @@ textarea { resize: vertical; }
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -1905,7 +1943,25 @@ Special outer level classes used in this file:
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -1951,7 +2007,7 @@ Special outer level classes used in this file:
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -1973,7 +2029,7 @@ Special outer level classes used in this file:
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -1995,13 +2051,13 @@ Special outer level classes used in this file:
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -2336,7 +2392,25 @@ other files.
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -2382,7 +2456,7 @@ other files.
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -2404,7 +2478,7 @@ other files.
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -2426,13 +2500,13 @@ other files.
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -2696,7 +2770,25 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -2742,7 +2834,7 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -2764,7 +2856,7 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -2786,13 +2878,13 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -3177,7 +3269,25 @@ panel contents and color panels check menu.css and colorpanel.css.
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -3223,7 +3333,7 @@ panel contents and color panels check menu.css and colorpanel.css.
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -3245,7 +3355,7 @@ panel contents and color panels check menu.css and colorpanel.css.
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -3267,13 +3377,13 @@ panel contents and color panels check menu.css and colorpanel.css.
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -3706,7 +3816,25 @@ Special outer level classes used in this file:
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -3752,7 +3880,7 @@ Special outer level classes used in this file:
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -3774,7 +3902,7 @@ Special outer level classes used in this file:
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -3796,13 +3924,13 @@ Special outer level classes used in this file:
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -4243,7 +4371,25 @@ The visual representation of a rich combo widget looks as follows:
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -4289,7 +4435,7 @@ The visual representation of a rich combo widget looks as follows:
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -4311,7 +4457,7 @@ The visual representation of a rich combo widget looks as follows:
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -4333,13 +4479,13 @@ The visual representation of a rich combo widget looks as follows:
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -4662,7 +4808,25 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -4708,7 +4872,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -4730,7 +4894,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -4752,13 +4916,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -5013,7 +5177,25 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 /* Tao specific stuff */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -5059,7 +5241,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -5081,7 +5263,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -5103,13 +5285,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -5364,7 +5546,25 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 /* Icon set */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -5410,7 +5610,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -5432,7 +5632,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -5454,13 +5654,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -5721,7 +5921,25 @@ legend.cke_voice_label { display: none; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -5767,7 +5985,7 @@ legend.cke_voice_label { display: none; }
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -5789,7 +6007,7 @@ legend.cke_voice_label { display: none; }
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -5811,13 +6029,13 @@ legend.cke_voice_label { display: none; }
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -6154,7 +6372,25 @@ Special outer level classes used in this file:
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -6200,7 +6436,7 @@ Special outer level classes used in this file:
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -6222,7 +6458,7 @@ Special outer level classes used in this file:
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -6244,13 +6480,13 @@ Special outer level classes used in this file:
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -6514,7 +6750,25 @@ Special outer level classes used in this file:
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -6560,7 +6814,7 @@ Special outer level classes used in this file:
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -6582,7 +6836,7 @@ Special outer level classes used in this file:
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -6604,13 +6858,13 @@ Special outer level classes used in this file:
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -6879,7 +7133,25 @@ Special outer level classes used in this file:
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -6925,7 +7197,7 @@ Special outer level classes used in this file:
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -6947,7 +7219,7 @@ Special outer level classes used in this file:
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -6969,13 +7241,13 @@ Special outer level classes used in this file:
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -7237,8 +7509,11 @@ Special outer level classes used in this file:
 .resourcemgr .file-selector > h1 { position: relative; background-color: #f3f1ef; }
 .resourcemgr .file-selector > h1 .title { margin-right: 75px; }
 .resourcemgr .file-selector > h1 .upload-switcher { position: absolute; width: 75px; top: 0; right: 0; height: 38px; padding: 5px; }
-.resourcemgr .file-selector ul.files { position: relative; height: 300px; margin-bottom: 5px; padding: 0; list-style-type: none; }
-.resourcemgr .file-selector ul.files li { height: 35px; line-height: 35px; padding-left: 5px; }
+.resourcemgr .file-selector > h1 .upload-switcher a { text-decoration: none; }
+.resourcemgr .file-selector > h1 .upload-switcher .icon-undo:before, .resourcemgr .file-selector > h1 .upload-switcher .icon-add:before { font-size: 13px; font-size: 1.3rem; margin-right: 3px; }
+.resourcemgr .file-selector .empty { width: 100%; color: #666; font-style: italic; font-size: 18px; font-size: 1.8rem; text-align: center; }
+.resourcemgr .file-selector ul.files { position: relative; margin-bottom: 0; padding: 0; list-style-type: none; max-height: 550px; overflow-y: auto; }
+.resourcemgr .file-selector ul.files li { height: 35px; line-height: 35px; margin-bottom: 0; padding: 0 0 0 5px; }
 .resourcemgr .file-selector ul.files li:before { font-family: 'tao'; display: inline-block; margin: 0 4px; font-size: 16px; font-size: 1.6rem; vertical-align: top; }
 .resourcemgr .file-selector ul.files li[data-type='image']:before { font-family: 'tao'; display: inline-block; margin: 0 2px 0 0; }
 .resourcemgr .file-selector ul.files li[data-type='audio']:before { font-family: 'tao'; display: inline-block; margin: 0 2px 0 0; }
@@ -7248,11 +7523,29 @@ Special outer level classes used in this file:
 .resourcemgr .file-selector ul.files li .actions { float: right; position: relative; height: 35px; width: 100px; }
 .resourcemgr .file-selector ul.files li .actions .tlb { display: inline-block; background: none; font-size: 14px; font-size: 1.4rem; }
 .resourcemgr .file-selector ul.files li .actions .tlb .tlb-top { background: none !important; border-width: 0 !important; -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); -moz-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
-.resourcemgr .file-selector .uploader { display: none; height: 40px; padding: 0 5px; }
+.resourcemgr .file-selector .file-upload-container { display: none; padding: 0 5px; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /** Use icon within sass: @inclue icon('down'); */
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+/* Fade animation */
+@keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-webkit-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-moz-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+@-o-keyframes fade { 0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; } }
+
+/* Repeat animation */
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .tao-scope .file-drop ul > li:before, .tao-scope .file-drop ul > li .status.sending:before, .tao-scope .file-drop ul > li .status.success:before, .tao-scope .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-left:before, .tao-scope .ui-datepicker-prev:before, .tao-scope .ui-icon-triangle-1-w:before { content: "\121"; }
 
@@ -7298,7 +7591,7 @@ Special outer level classes used in this file:
 
 .icon-edit:before { content: "\136"; }
 
-.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .tao-scope .file-drop ul > li:before, .tao-scope .previewer .nopreview:before { content: "\137"; }
 
 .icon-resize-grid:before { content: "\138"; }
 
@@ -7320,7 +7613,7 @@ Special outer level classes used in this file:
 
 .icon-email:before { content: "\141"; }
 
-.icon-download:before { content: "\142"; }
+.icon-download:before, .tao-scope .file-drop ul > li .status.sending:before { content: "\142"; }
 
 .icon-logout:before { content: "\143"; }
 
@@ -7342,13 +7635,13 @@ Special outer level classes used in this file:
 
 .icon-close:before, .tao-scope .ui-dialog-titlebar-close:before, .tao-scope .closer:before, .tao-scope .deleter:before { content: "\14c"; }
 
-.icon-success:before { content: "\14d"; }
+.icon-success:before, .tao-scope .file-drop ul > li .status.success:before { content: "\14d"; }
 
 .icon-remove:before { content: "\14e"; }
 
 .icon-info:before { content: "\14f"; }
 
-.icon-error:before { content: "\150"; }
+.icon-error:before, .tao-scope .file-drop ul > li .status.error:before { content: "\150"; }
 
 .icon-users:before { content: "\151"; }
 
@@ -8035,8 +8328,11 @@ a[rel="external"] span.icon-external:before { font-size: 11px; font-size: 1.1rem
 .tao-scope .ui-slider .ui-state-active { background-color: #3e7da7 !important; }
 .tao-scope .ui-slider .ui-state-focus { background-color: #a3a9b1; }
 .tao-scope .ui-slider .ui-state-hover { background-color: #3e7da7; }
-.tao-scope .ui-progressbar { background: #FFFFFF; border: 1px solid #cccccc; }
+.tao-scope .ui-progressbar { background: #FFFFFF; border: 1px solid #ccc; }
 .tao-scope .ui-progressbar .ui-progressbar-value { background-color: #3e7da7; }
+.tao-scope .ui-progressbar.success .ui-progressbar-value { background-color: #0e914b; }
+.tao-scope .ui-progressbar.warning .ui-progressbar-value { background-color: #d8ae5b; }
+.tao-scope .ui-progressbar.error .ui-progressbar-value { background-color: #ba122b; }
 .tao-scope .ui-autocomplete { border-color: #dddddd; }
 .tao-scope .ui-autocomplete a { background-color: white; color: #222222; }
 .tao-scope .ui-autocomplete .ui-state-hover { background: #3e7da7; color: white; }
@@ -8117,7 +8413,7 @@ a[rel="external"] span.icon-external:before { font-size: 11px; font-size: 1.1rem
 .tao-scope .strong, .tao-scope .b, .tao-scope strong, .tao-scope b { font-weight: bold; }
 .tao-scope small { font-size: 1.1rem; font-size: 11px; }
 .tao-scope .js .js-hide { display: none; }
-.tao-scope .truncate, .tao-scope .tlb-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tao-scope .truncate, .tao-scope .tlb-title, .tao-scope .file-drop ul > li { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tao-scope .txt-ctr { text-align: center; }
 .tao-scope .txt-lft { text-align: left; }
 .tao-scope .txt-rgt { text-align: right; }
@@ -8170,8 +8466,19 @@ a[rel="external"] span.icon-external:before { font-size: 11px; font-size: 1.1rem
 .tao-scope .file-upload .file-name.active { font-style: normal; color: #222222; }
 .tao-scope .file-upload input[type="file"] { font-size: 80px !important; position: absolute; left: auto; right: 0; top: 0; opacity: 0; cursor: pointer; }
 .tao-scope .file-upload:hover .btn-info, .tao-scope .file-upload:hover .ui-button { opacity: .85; }
-.tao-scope .file-drop { height: 150px; padding-top: 50px; border: dashed 2px #dddddd; text-align: center; color: #dddddd; font-size: 20px; font-size: 2rem; }
+.tao-scope .file-drop { height: 150px; overflow-y: auto; border: solid 1px #dddddd; position: relative; }
+.tao-scope .file-drop .dragholder { padding-top: 20px; text-align: center; color: #dddddd; font-size: 20px; font-size: 2rem; }
 .tao-scope .file-drop.drag-hover { border-color: #3e7da7; color: #3e7da7; }
+.tao-scope .file-drop.drag-hover:after { content: attr(data-drop-msg); position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 75%; height: 30px; padding: 5px; background-color: #0e5d91; color: white; text-align: center; margin: auto; }
+.tao-scope .file-drop ul { list-style-type: none; position: relative; margin: 0; padding: 0; }
+.tao-scope .file-drop ul > li { position: relative; padding: 6px 60px 6px 6px; border: 1px solid #dddddd; border-radius: 2px; -webkit-border-radius: 2px; }
+.tao-scope .file-drop ul > li:before { font-size: 14px; font-size: 1.4rem; line-height: 14px; margin-right: 5px; color: #0e5d91; }
+.tao-scope .file-drop ul > li .size { color: #0e5d91; margin-left: 5px; font-style: italic; }
+.tao-scope .file-drop ul > li .status { position: absolute; right: 30px; top: 6px; }
+.tao-scope .file-drop ul > li .status.sending:before { animation: fade 1s forwards; -webkit-animation: fade 1s forwards; -moz-animation: fade 1s forwards; -o-animation: fade 1s forwards; animation-iteration-count: infinite; -webkit-animation-iteration-count: infinite; -moz-animation-iteration-count: infinite; -o-animation-iteration-count: infinite; }
+.tao-scope .file-drop ul > li .status.success:before { color: #0e914b; }
+.tao-scope .file-drop ul > li .status.error:before { color: #ba122b; }
+.tao-scope .file-drop ul > li .icon-close { position: absolute; right: 6px; top: 6px; }
 .tao-scope .pseudo-label-box { position: relative; cursor: pointer; }
 .tao-scope .pseudo-label-box > label { width: 20px; position: absolute; top: 0; left: 0; margin: 0; }
 .tao-scope .pseudo-label-box > label + div { cursor: pointer; margin-left: 24px; }

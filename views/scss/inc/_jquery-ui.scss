@@ -2067,11 +2067,19 @@ html, body {
 /* Progressbar */
 .ui-progressbar {
     background: #FFFFFF;
-    border: 1px solid #ccc
-}
-
-.ui-progressbar .ui-progressbar-value {
-    background-color: $uiClickableHoverBg;
+    border: 1px solid #ccc;
+    .ui-progressbar-value {
+        background-color: $uiClickableHoverBg;
+    }
+    &.success .ui-progressbar-value{
+        background-color: $success;
+    }
+    &.warning .ui-progressbar-value{
+        background-color: $warning;
+    }
+    &.error .ui-progressbar-value{
+        background-color: $error;
+    }
 }
 
 /* Autocomplete */

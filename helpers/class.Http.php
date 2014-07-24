@@ -20,6 +20,8 @@
  *
  */
 
+use oat\tao\helpers\FileUploadException;
+
 /**
  * Description of class
  *
@@ -110,12 +112,12 @@ class tao_helpers_Http
             if (isset($fileData['error']) && $fileData['error'] != UPLOAD_ERR_OK) {
                 switch ($fileData['error']) {
                     case UPLOAD_ERR_NO_FILE:
-                        throw new common_exception_Error('No file sent.');
+                        throw new FileUploadException('No file sent.');
                     case UPLOAD_ERR_INI_SIZE:
                     case UPLOAD_ERR_FORM_SIZE:
-                        throw new common_exception_Error('Exceeded filesize limit.');
+                        throw new FileUploadException('Exceeded filesize limit of ' . tao_helpers_Environment::getFileUploadLimit());
                     default:
-                        throw new common_exception_Error('Upload just fails.');
+                        throw new common_exception_Error('Upload fails, check errors');
                 }
             }
         }
@@ -148,7 +150,7 @@ class tao_helpers_Http
         }
         arsort($acceptTypes);
         if (!$supportedMimeTypes) {
-            return $AcceptTypes;
+            return $acceptTypes;
         }
         $supportedMimeTypes = array_map('strtolower', (array) $supportedMimeTypes);
         // let’s check our supported types:
@@ -261,7 +263,7 @@ class tao_helpers_Http
                 header("HTTP/1.0 404 Not Found");
             }
         } else {
-            throw new common_exception_Error('Security exception for path ' . $path);
+            throw new common_exception_Error('Security exception for path ' . $filename);
         }
     }
 

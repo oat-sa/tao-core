@@ -1,29 +1,12 @@
 define([
-'jquery',
-'lodash',
-'ui/previewer'],
-function($, _){
+    'jquery',
+    'lodash',
+    'util/bytes',
+    'ui/previewer'
+], function($, _, bytes){
     'use strict';
 
     var ns = 'resourcemgr';
-
-    /**
-     * Get Human Readable Size
-     * @param {Number} bytes - the number of bytes
-     * @returns {String} the size converted
-     */
-    function hrSize(bytes) {
-        
-        var units = ['B', 'kB','MB','GB','TB'];
-        var unit = 0;
-        var thresh = 1024; 
-        bytes = bytes || 0;
-        while(bytes >=thresh) {
-            bytes /= thresh;
-            unit++;
-        }
-        return bytes.toFixed(2) + ' ' + units[unit];
-    }
 
     return function(options){
         
@@ -59,7 +42,7 @@ function($, _){
         function startPreview(file){
             $previewer.previewer(file);
             $propType.text(file.type + ' (' + file.mime + ')'); 
-            $propSize.text(hrSize(file.size)); 
+            $propSize.text(bytes.hrSize(file.size)); 
             $propUrl.html('<a href="' + file.url + '">' + file.file + '</a>'); 
             $selectButton.removeAttr('disabled');
         }

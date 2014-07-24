@@ -4,8 +4,9 @@ define([
     'i18n',
     'core/mimetype',
     'tpl!ui/resourcemgr/tpl/fileSelect',
+    'ui/feedback', 
     'ui/uploader' 
-], function($, _, __, mimeType, fileSelectTpl, uploader){
+], function($, _, __, mimeType, fileSelectTpl, feedback, uploader){
     'use strict';
 
     var ns = 'resourcemgr';
@@ -37,21 +38,24 @@ define([
     }
    
     return function(options){
+
         var root            = options.root || '/';
         var $container      = options.$target;
         var $fileSelector   = $('.file-selector', $container); 
         var $fileContainer  = $('.files', $fileSelector);
         var $placeholder    = $('.empty', $fileSelector);
-        var $uploadContainer= $('.uploader', $fileSelector);
+        var $uploader       = $('.file-upload-container', $fileSelector);
         var parentSelector  = '#' + $container.attr('id') + ' .file-selector'; 
         var $pathTitle      = $fileSelector.find('h1 > .title');
+        var $browserTitle   = $('.file-browser > h1', $container);
 
         //set up the uploader 
         setUpUploader(root);
 
         //update current folder
         $container.on('folderselect.' + ns , function(e, fullPath, data, active){    
-            var files;           
+            var files;
+ 
             //update title
             $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath); 
 
@@ -118,55 +122,68 @@ define([
        
 
         function setUpUploader(currentPath){
-            var $uploader =  $('.file-upload', $fileSelector);
+            var errors = [];
             var $switcher = $('.upload-switcher a', $fileSelector);
-            var $uploadPath = $('.current-path', $uploadContainer);
 
             $uploader.on('upload.uploader', function(e, file, result){
-                setTimeout(function(){
-                    switchUpload();
-                    $container.trigger('filenew.' + ns, [result, currentPath]);
-                }, 300);
+                $container.trigger('filenew.' + ns, [result, currentPath]);
             });
-            $uploader.on('fail.uploader', function(){
-                //TODO use a feedback popup
-                window.alert('Unable to upload file');
-                $uploader.uploader('reset');
+            $uploader.on('fail.uploader', function(e, file, err){
+                errors.push(__('Unable to upload file %s : %s', file.name, err));
+            });
+
+            $uploader.on('end.uploader', function(){
+                if(errors.length === 0){
+                    _.delay(switchUpload, 500);
+                } else {
+                    feedback().error("<ul><li>" + errors.join('</li><li>') + "</li></ul>"); 
+                }
+                //reset errors
+                errors = [];
             });
 
             $uploader.uploader({
                 upload      : true,
+                multiple    : true,
                 uploadUrl   : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath,
-                fileSelect  : function(file){
-                    //check the mime-type
-                    if(options.params.filters){
-                        var filters = options.params.filters.split(',');
-                        if(!_.contains(filters, file.type)){
-                            //TODO use a feedback popup
-                            window.alert('Unauthorized file type');
-                            return false;
-                        }
-                    }
-
-                    //check if the file name isn't already used
+                fileSelect  : function(files){
+            
+                    var givenLength = files.length;
                     var fileNames = [];
                     $fileContainer.find('li > .desc').each(function(){
                         fileNames.push($(this).text().toLowerCase());
                     });
-                    if(_.contains(fileNames, file.name.toLowerCase())){
-                        //TODO use a feedback popup
-                        if(!window.confirm('Do you want to override ' + file.name + '?')){
-                            return false;
-                        }   
+
+                    //check the mime-type
+                    if(options.params.filters){
+                        var filters = options.params.filters.split(',');
+                        //TODO check stars
+                        files = _.filter(files, function(file){
+                            return _.contains(filters, file.type);
+                        });
+                         
+                        if(files.length !== givenLength){
+
+                            //TODO use a feedback popup
+                            feedback().error('Unauthorized files have been removed');
+                        }
                     }
-                    return file;
+
+                    files = _.filter(files, function(file){
+                        if(_.contains(fileNames, file.name.toLowerCase())){
+                            //TODO use a feedback popup
+                            return window.confirm('Do you want to override ' + file.name + '?');
+                        }
+                        return true;
+                    });
+
+                    return files;
                 } 
             });
 
             $container.on('folderselect.' + ns , function(e, fullPath, data){    
                 currentPath = fullPath;
             
-                $uploadPath.text(currentPath);
                 $uploader.uploader('options', {
                     uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath
                 });
@@ -180,13 +197,16 @@ define([
             
             var switchUpload = function switchUpload(){
                 if($fileContainer.css('display') === 'none'){
-                    $uploadContainer.hide();
+                    $uploader.hide();
                     $fileContainer.show();
                     $switcher.html('<span class="icon-add"></span>' + __('Upload'));
+                    $browserTitle.text(__('Browse folders :'));
                 } else {
                     $fileContainer.hide();
-                    $uploadContainer.show();
+                    $placeholder.hide();
+                    $uploader.show();
                     $switcher.html('<span class="icon-undo"></span>' + __('Files'));
+                    $browserTitle.text(__('Upload into :'));
                     $uploader.uploader('reset');
                 }
             };
@@ -201,7 +221,7 @@ define([
                 }));
                 
                 updateSize();
-            } else {
+            } else if ($fileContainer.css('display') !== 'none'){
                 $placeholder.show();
             }
         }
@@ -211,7 +231,7 @@ define([
             $('li', $fileContainer).each(function(){
                 var $item = $(this);
                 var actionsWidth = $('.actions', $item).outerWidth(true);
-                $('.desc', $item).width(listWidth - (actionsWidth + 40));   //40 is for the image in :before 
+                $('.desc', $item).width(listWidth - (actionsWidth + 60));   //40 is for the image in :before  and the possible scroll bar
             });
         }
     };

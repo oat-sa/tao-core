@@ -107,7 +107,6 @@
     .file-selector{
         position: relative;
         width: 100%;
-        
         border: solid 1px #fff;
         border-top: none;
         border-bottom: none;       
@@ -128,22 +127,38 @@
                 right: 0;
                 height: 38px;
                 padding: 5px;
+                
+                a {
+                    text-decoration: none;
+                }
+        
+                .icon-undo:before, .icon-add:before {
+                    @include font-size(13);
+                    margin-right: 3px;        
+                }
             }
         }
 
-
+        .empty {
+            width: 100%;
+            color: #666;
+            font-style: italic;
+            @include font-size(18);
+            text-align: center;
+        }
 
         ul.files {
             position: relative;
-            height: 300px;
-            margin-bottom: 5px;
+            margin-bottom: 0;
             padding: 0;
             list-style-type: none;
- 
+            max-height: 550px;
+            overflow-y: auto;
             li {
                 height: 35px;
                 line-height: 35px;
-                padding-left: 5px;
+                margin-bottom: 0;
+                padding: 0 0 0 5px;
 
                 &:before {
                     @include icon('document');
@@ -191,9 +206,8 @@
                 }
             }
         }
-        .uploader {
+        .file-upload-container {
             display: none;
-            height: 40px;
             padding: 0 5px;
         }
     }
