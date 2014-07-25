@@ -56,16 +56,20 @@ define([
          * @private
          */
         _getSizeProps: function($elt) {
+            
             var options = $elt.data(dataNs),
                 $medium = options.target,
                 medium = $medium[0],
+                naturalWidth = medium.naturalWidth || options.naturalWidth || medium.width || medium.style.width,
+                naturalHeight = medium.naturalHeight || options.naturalHeight || medium.height  || medium.style.height,
                 containerWidth = options.parentSelector ? $medium.parents(options.parentSelector).innerWidth() : $medium.parent().innerWidth();
 
             return {
                 px: {
+                    //original values for all media
                     natural: {
-                        width: medium.naturalWidth,
-                        height: medium.naturalHeight
+                        width: naturalWidth,
+                        height: naturalHeight
                     },
                     current: {
                         width: medium.width,
@@ -83,7 +87,7 @@ define([
                     }
                 },
                 ratio: {
-                    natural: medium.naturalWidth / medium.naturalHeight,
+                    natural: naturalWidth / naturalHeight,
                     current: medium.width / medium.height
                 },
                 containerWidth: containerWidth,
@@ -95,7 +99,7 @@ define([
                     },
                     px: {
                         min: 0,
-                        max: Math.max(containerWidth, medium.naturalWidth),
+                        max: Math.max(containerWidth, naturalWidth),
                         start: medium.width
                     }
                 }
