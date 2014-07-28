@@ -76,7 +76,7 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
                            height = newHeight;
                            resizePop();
                         }
-                    }
+                    };
                     
                     $frameContent.find(restrict).sizeChange(function () {
                         onSizeChange();
