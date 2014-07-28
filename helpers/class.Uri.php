@@ -354,31 +354,6 @@ class tao_helpers_Uri
     }
 
     /**
-     * Tries to get the url of a file or directory,
-     * Throws an exception if the provided file lies outside of tao
-     * Does not test whenever the file is accessible or not
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string filepath
-     * @return string
-     */
-    public static function getUrlForPath($filepath)
-    {
-        $returnValue = (string) '';
-
-        
-        if (substr($filepath, 0, strlen(ROOT_PATH)) != ROOT_PATH) {
-        	throw new common_exception_Error('filepath "'.$filepath.'" is not located in the tao directory');
-        }
-        $parts = explode(DIRECTORY_SEPARATOR, substr($filepath, strlen(ROOT_PATH)));
-        $returnValue = ROOT_URL.implode('/', $parts);
-        
-
-        return (string) $returnValue;
-    }
-
-    /**
      * Returns the path from a URI. In other words, it returns what comes after
      * domain but before the query string. If
      * is given as a parameter value, '/path/to/something' is returned. If an
