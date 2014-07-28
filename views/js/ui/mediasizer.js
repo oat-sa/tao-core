@@ -136,7 +136,18 @@ define([
          * @private
          */
         _initBlocks: function($elt) {
-            var _blocks = {};
+            
+            var _blocks = {},
+                $responsiveSwitch = $elt.find('.media-mode-switch'),
+                _checkMode = function(){
+                    if ($responsiveSwitch.is(':checked')) {
+                        _blocks['px'].hide();
+                        _blocks['%'].show();
+                    } else {
+                        _blocks['%'].hide();
+                        _blocks['px'].show();
+                    }
+                };
 
             _(['px', '%']).forEach(function(unit) {
                 _blocks[unit] = $elt.find('.media-sizer-' + (unit === 'px' ? 'pixel' : 'percent'));
@@ -147,16 +158,11 @@ define([
                 }));
             });
 
-            $elt.find('.media-mode-switch').on('click', function() {
-                if (this.checked) {
-                    _blocks['px'].hide();
-                    _blocks['%'].show();
-                } else {
-                    _blocks['%'].hide();
-                    _blocks['px'].show();
-                }
-            });
-
+            $responsiveSwitch.on('click', _checkMode);
+            
+            //intialize it properly
+            _checkMode();
+            
             return _blocks;
         },
 

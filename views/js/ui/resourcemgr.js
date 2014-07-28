@@ -18,7 +18,8 @@ define([
    var defaults = {
         root            : '/',
         open            : true,
-        appendContainer : '.tao-scope:first'
+        appendContainer : '.tao-scope:first',
+        title           : '' 
    };
    
    /** 
@@ -110,7 +111,7 @@ define([
                 options.targetId = 'resourcemgr-' + $(document).find('.resourcemgr').length;
                 
                 //generate
-                options.$target  = $(layout())
+                options.$target  = $(layout({title:options.title || ''}))
                     .attr('id', options.targetId)
                     .css('display', 'none')
                     .appendTo(options.appendContainer);             

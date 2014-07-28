@@ -1,6 +1,7 @@
 <div class="resourcemgr modal">
 
-
+    <h2>{{title}}</h2>
+    
 <!-- left section: items selection -->
     <section class="file-browser">
         

@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="media-sizer-pixel" style="display:block; margin-top: 20px">
+    <div class="media-sizer-pixel">
         <label for="">{{__ 'Width'}}</label>
                 <span class="item-editor-unit-input-box">
                     <input type="text" name="width" value="" data-validate="$numeric"
