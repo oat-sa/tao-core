@@ -1,7 +1,7 @@
 /*
  * Helpers
  */
-define(['jquery', 'context', 'jqueryui'], function($, context) {
+define(['lodash', 'jquery', 'context', 'jqueryui'], function(_, $, context) {
     
     var parallelLoading = 0;
     var $loader =  $("#ajax-loading");
@@ -287,20 +287,59 @@ define(['jquery', 'context', 'jqueryui'], function($, context) {
 
 		//http://requirejs.org/docs/faq-advanced.html
 		loadCss: function(url) {
-				var link = document.createElement("link");
-				link.type = "text/css";
-				link.rel = "stylesheet";
-				link.href = url;
-				document.getElementsByTagName("head")[0].appendChild(link);
+            var link = document.createElement("link");
+            link.type = "text/css";
+            link.rel = "stylesheet";
+            link.href = url;
+            document.getElementsByTagName("head")[0].appendChild(link);
 		},
 		
 		/**
 		 * simple _url implementation, requires layout_header to set some global variables
 		 */
-		_url: function(action, module, extension) {
-                    module = module || context.module;
-                    extension = extension || context.extension;
-                    return context.root_url + extension + '/' + module + '/' + action;
+		_url: function(action, module, extension, params) {
+                
+            module = module || context.module;
+            extension = extension || context.extension;
+                
+            var paramStr = '', 
+                i = 0, 
+                j = 0;
+            
+            if(_.isString(params)){
+                
+                paramStr = '?'+params;
+                
+            }else if(_.isObject(params)){
+                
+                _.forIn(params, function(value, key){
+
+                    if(i === 0){
+                        paramStr = '?';
+                    }else{
+                        paramStr += '&';
+                    }
+                    
+                    if(_.isArray(value)){
+                        j = 0;
+                        _.each(value, function(val){
+                            if(j!==0){
+                                paramStr += '&';
+                            }
+                            paramStr += key + '[]=' + encodeURIComponent(val);
+                            j ++;
+                        });
+                    }else{
+                        paramStr += key +'='+encodeURIComponent(value);
+                    }
+                    
+                    
+                    i++;
+                });
+              
+            }
+              
+            return context.root_url + extension + '/' + module + '/' + action + paramStr;
 		}
 	};
 

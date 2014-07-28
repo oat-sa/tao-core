@@ -71,17 +71,34 @@ class tao_actions_Export extends tao_actions_CommonModule {
 			$myForm->setValues(array('exportHandler' => get_class($exporter)));
 		}
 		$this->setData('myForm', $myForm->render());
-		if ($myForm->isSubmited()) {
-			if ($myForm->isValid()) {
-				$file = $exporter->export($myForm->getValues(), tao_helpers_Export::getExportPath());
-				if (!is_null($file)) {
-					$this->setData('download', _url('downloadExportedFiles', null, null, array('filePath' => tao_helpers_Export::getRelativPath($file))));
-				}
-			}
-		}
+        
+        if($this->hasRequestParameter('exportChooser_sent') && $this->getRequestParameter('exportChooser_sent') == 1){
+            
+            //use method GET to allow direct file download (not ajax compatible)
+            $exportData = $_GET;
+            $instanceCount = count($exportData['instances']);
+            
+            if(isset($exportData['instances']) && $instanceCount){
+                for($i = 0; $i < $instanceCount ; $i++){
+                    $exportData['instances'][$i] = tao_helpers_Uri::decode($exportData['instances'][$i]);
+                }
+            }
+            
+            $file = $exporter->export($exportData, tao_helpers_Export::getExportPath());
+            if (!is_null($file) && file_exists($file)) {
+                tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
+            }
+            
+        }
+        
+        $context = Context::getInstance();
+        $this->setData('export_extension', $context->getExtensionName());
+        $this->setData('export_module', $context->getModuleName());
+        $this->setData('export_action', $context->getActionName());
+        
+        $this->setData('formTitle', __('Export '));
+        $this->setView('form/export.tpl', 'tao');
 		
-		$this->setData('formTitle', __('Export '));
-		$this->setView('form/export.tpl', 'tao');
 	}
 	
 	protected function getResourcesToExport(){
@@ -105,8 +122,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 */
 	private function getCurrentExporter() {
 		if ($this->hasRequestParameter('exportHandler')) {
-			//$exportHandler = $this->getRequestParameter('exportHandler');
-			$exportHandler = $_POST['exportHandler'];
+			$exportHandler = $_REQUEST['exportHandler'];//allow method "GET"
 			if (class_exists($exportHandler) && in_array('tao_models_classes_export_ExportHandler', class_implements($exportHandler))) {
 				$exporter = new $exportHandler();
 				return $exporter;
