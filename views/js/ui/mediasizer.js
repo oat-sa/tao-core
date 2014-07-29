@@ -265,7 +265,7 @@ define([
                         options.target.attr('width', currentValues.width);
                         options.target.attr('height', currentValues.height);
                     }
-                    $elt.trigger('sizechange.' + ns,  options.sizeProps);
+                    $elt.trigger('sizechange.' + ns,  this._getValues($elt));
                     return;
                 }
             }
