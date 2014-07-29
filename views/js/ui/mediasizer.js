@@ -103,7 +103,8 @@ define([
                         max: Math.max(containerWidth, naturalWidth),
                         start: medium.width
                     }
-                }
+                },
+                currentUnit: '%'
             };
 
         },
@@ -137,16 +138,18 @@ define([
          * @private
          */
         _initBlocks: function($elt) {
-            
-            var _blocks = {},
+            var options = $elt.data(dataNs),
+                _blocks = {},
                 $responsiveSwitch = $elt.find('.media-mode-switch'),
                 _checkMode = function(){
                     if ($responsiveSwitch.is(':checked')) {
                         _blocks['px'].hide();
                         _blocks['%'].show();
+                        options.sizeProps.currentUnit = '%';
                     } else {
                         _blocks['%'].hide();
                         _blocks['px'].show();
+                        options.sizeProps.currentUnit = 'px';
                     }
                 };
 
@@ -164,7 +167,7 @@ define([
                 $elt.trigger('responsiveswitch.' + ns, [$responsiveSwitch.is(':checked')]);
             });
             
-            //intialize it properly
+            //initialize it properly
             _checkMode();
             
             return _blocks;
@@ -258,10 +261,11 @@ define([
                     options.sizeProps['%'].current.height = null;
                     // update medium
                     if (options.applyToMedium) {
-                        currentValues = this._getValues($elt, unit);
+                        currentValues = this._getValues($elt);
                         options.target.attr('width', currentValues.width);
                         options.target.attr('height', currentValues.height);
                     }
+                    $elt.trigger('sizechange.' + ns,  options.sizeProps);
                     return;
                 }
             }
@@ -313,10 +317,11 @@ define([
 
             // update medium
         if (options.applyToMedium) {
-            currentValues = this._getValues($elt, unit);
+            currentValues = this._getValues($elt);
             options.target.attr('width', currentValues.width);
             options.target.attr('height', currentValues.height);
         }
+            $elt.trigger('sizechange.' + ns,  this._getValues($elt));
     },
 
 
@@ -404,23 +409,22 @@ define([
          * Retrieve current size values in current unit
          *
          * @param $elt
-         * @param unit
          * @returns {{}}
          * @private
          */
-        _getValues: function($elt, unit) {
+        _getValues: function($elt) {
             var options = $elt.data(dataNs),
                 attr = {},
-                precision = unit === 'px' ? 0 : 1;
+                precision = options.sizeProps.currentUnit === 'px' ? 0 : 1;
 
-            _.forOwn(options.sizeProps[unit].current, function(value, dimension) {
+            _.forOwn(options.sizeProps[options.sizeProps.currentUnit].current, function(value, dimension) {
                 if (_.isNull(value)) {
                     value = '';
                 } else {
                     value = _round(value, precision).toString();
                 }
-                if (unit === '%' && value !== '') {
-                    value += unit;
+                if (options.sizeProps.currentUnit === '%' && value !== '') {
+                    value += options.sizeProps.currentUnit;
                 }
                 attr[dimension] = value;
             });
