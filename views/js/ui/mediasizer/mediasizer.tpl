@@ -1,7 +1,7 @@
 <div class="media-sizer media-sizer-synced">
 
     <label>
-        <input type="checkbox" checked="checked" class="media-mode-switch"/>
+        <input type="checkbox" {{#if responsive}}checked="checked"{{/if}} class="media-mode-switch"/>
         <span class="icon-checkbox"></span>
         {{__ 'Responsive mode'}}
     </label>

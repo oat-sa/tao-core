@@ -16,7 +16,8 @@ define([
     var dataNs = 'ui.' + ns;
 
     var defaults = {
-        disableClass: 'disabled'
+        disableClass: 'disabled',
+        responsive : true
     };
 
     var supportedMedia = ['img'];
@@ -158,7 +159,10 @@ define([
                 }));
             });
 
-            $responsiveSwitch.on('click', _checkMode);
+            $responsiveSwitch.on('click', function(){
+                _checkMode();
+                $elt.trigger('responsiveswitch.' + ns, [$responsiveSwitch.is(':checked')]);
+            });
             
             //intialize it properly
             _checkMode();
@@ -175,8 +179,8 @@ define([
          * @private
          */
         _initSliders: function($elt) {
+            
             var options = $elt.data(dataNs),
-                unit,
                 _sliders = {};
 
             _(options.$blocks).forOwn(function($block, unit) {
@@ -453,7 +457,9 @@ define([
 
                 if (!$elt.data(dataNs)) {
 
-                    $elt.html(tpl());
+                    $elt.html(tpl({
+                        responsive : (options.responsive !== undefined) ? !!options.responsive : true
+                    }));
 
                     //add data to the element
                     $elt.data(dataNs, options);
