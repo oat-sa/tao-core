@@ -17,6 +17,8 @@ define([
 
     var defaults = {
         disableClass: 'disabled',
+        applyToMedium : true,
+        denyCustomRatio : true,
         responsive : true
     };
 
@@ -32,12 +34,9 @@ define([
      */
     function _round(value, precision) {
         if (precision === undefined) {
-            precision = 1;
+            precision = 0;
         }
-        var factor = 1;
-        while (precision--) {
-            factor *= 10;
-        }
+        var factor = Math.pow(10, precision);
         return Math.round(value * factor) / factor;
     }
 
@@ -198,10 +197,9 @@ define([
                 })
                     .on('slide', function() {
                         var $slider = $(this),
-                            unit = $slider.prop('unit'),
-                            precision = unit === 'px' ? 0 : 1;
+                            unit = $slider.prop('unit');
 
-                        options.$fields[unit].width.val(_round($slider.val(), precision)).trigger('sliderchange');
+                        options.$fields[unit].width.val(_round($slider.val())).trigger('sliderchange');
                     })
             });
 
@@ -225,11 +223,9 @@ define([
                 value = parseFloat($field.val()),
                 heightValue,
                 ratio,
-                precision,
                 otherBlockUnit,
                 otherBlockWidthValue,
                 otherBlockHeightValue,
-                otherBlockPrecision,
                 currentValues;
 
             // invalid entries
@@ -252,7 +248,7 @@ define([
                 if(options.syncDimensions) {
                     options.sizeProps.px.current.width = value * ratio;
                     options.sizeProps.ratio.current = options.sizeProps.px.current.width / options.sizeProps.px.current.height;
-                    options.$fields.px.width.val(_round(options.sizeProps.px.current.width, 0));
+                    options.$fields.px.width.val(_round(options.sizeProps.px.current.width));
 
                     // now all values can be set to the width since width entry is now the only scenario
                     value = parseFloat(options.$fields.px.width.val());
@@ -274,13 +270,9 @@ define([
 
             // remember that heightValue and otherUnit work _not_ on the same block
             if (unit === 'px') {
-                precision = 0;
-                otherBlockPrecision = 1;
                 otherBlockUnit = '%';
                 otherBlockWidthValue = value * 100 / options.sizeProps.containerWidth;
             } else {
-                precision = 1;
-                otherBlockPrecision = 0;
                 otherBlockUnit = 'px';
                 otherBlockWidthValue = value * options.sizeProps.containerWidth / 100;
             }
@@ -295,10 +287,10 @@ define([
                 otherBlockHeightValue = otherBlockWidthValue / ratio;
                 //same block
                  options.sizeProps[unit].current.height = heightValue;
-                 options.$fields[unit].height.val(_round(heightValue, precision));
+                 options.$fields[unit].height.val(_round(heightValue));
                 //other block
                 options.sizeProps[otherBlockUnit].current.height = otherBlockHeightValue;
-                options.$fields[otherBlockUnit].height.val(_round(otherBlockHeightValue, otherBlockPrecision));
+                options.$fields[otherBlockUnit].height.val(_round(otherBlockHeightValue));
             }
 
             /* sliders */
@@ -310,7 +302,7 @@ define([
             options.$sliders[otherBlockUnit].val(otherBlockWidthValue);
 
             // update other width field
-            options.$fields[otherBlockUnit].width.val(_round(otherBlockWidthValue, otherBlockPrecision));
+            options.$fields[otherBlockUnit].width.val(_round(otherBlockWidthValue));
 
             // reset percent height to null
             options.sizeProps['%'].current.height = null;
@@ -333,15 +325,14 @@ define([
          * @private
          */
         _initFields: function($elt) {
+            
             var options = $elt.data(dataNs),
                 dimensions = ['width', 'height'],
                 field, _fields = {},
-                precision,
                 self = this;
 
             _(options.$blocks).forOwn(function($block, unit) {
                 _fields[unit] = {};
-                precision = unit === 'px' ? 0 : 1;
 
 //
 //                            if(value > $field.data('max') || value < $field.data('min')) {
@@ -361,7 +352,7 @@ define([
                             unit: unit,
                             dimension: dim
                         });
-                        _fields[unit][dim].val(_round(options.sizeProps[unit].current[dim], precision));
+                        _fields[unit][dim].val(_round(options.sizeProps[unit].current[dim]));
                         _fields[unit][dim].data({ min: 0, max: options.sizeProps.sliders[unit].max });
 
                         _fields[unit][dim].on('keydown', function(e) {
@@ -414,14 +405,13 @@ define([
          */
         _getValues: function($elt) {
             var options = $elt.data(dataNs),
-                attr = {},
-                precision = options.sizeProps.currentUnit === 'px' ? 0 : 1;
+                attr = {};
 
             _.forOwn(options.sizeProps[options.sizeProps.currentUnit].current, function(value, dimension) {
                 if (_.isNull(value)) {
                     value = '';
                 } else {
-                    value = _round(value, precision).toString();
+                    value = _round(value).toString();
                 }
                 if (options.sizeProps.currentUnit === '%' && value !== '') {
                     value += options.sizeProps.currentUnit;
@@ -474,9 +464,6 @@ define([
                     // options.parentSelector = '[class*="col-"]';
 
                     options.syncDimensions = $elt.find('.media-sizer').hasClass('media-sizer-synced');
-                    options.denyCustomRatio = !!options.denyCustomRatio;
-
-                    options.applyToMedium = !!!options.applyToMedium;
 
                     options.$blocks = self._initBlocks($elt);
                     options.$fields = self._initFields($elt);
