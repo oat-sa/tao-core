@@ -12,9 +12,10 @@
 <!-- test editor  -->
     <section class="file-selector">
         <h1>
-            <div class="title"></div> 
-            <div class="upload-switcher">
-                <a href="#"><span class="icon-add"></span>{{__ 'Upload'}}</a>
+            <div class="title lft"></div>
+            <div class="upload-switcher rgt">
+                <a href="#" class="btn-info small upload"><span class="icon-add"></span>{{__ 'Add file(s)'}}</a>
+                <a href="#" class="btn-info small listing"><span class="icon-undo"></span>{{__ 'Back to listing'}}</a>
             </div>
         </h1>
         
@@ -63,7 +64,7 @@
 
         <h2 class="toggler" data-toggle="~ .actions">{{__ 'Actions'}}</h2>
         <div class="actions">
-            <button class="btn-success select-action" disabled>
+            <button class="btn-success select-action small" disabled>
                 <span class="icon-move-item"></span>{{__ 'Select'}}
             </button>
         </div>

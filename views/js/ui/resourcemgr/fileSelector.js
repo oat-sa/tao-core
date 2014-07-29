@@ -199,14 +199,17 @@ define([
                 if($fileContainer.css('display') === 'none'){
                     $uploader.hide();
                     $fileContainer.show();
-                    $switcher.html('<span class="icon-add"></span>' + __('Upload'));
-                    $browserTitle.text(__('Browse folders :'));
+                    // Note: show() would display as inline, not inline-block!
+                    $switcher.filter('.upload').css( {display: 'inline-block' } );
+                    $switcher.filter('.listing').hide();
+                    $browserTitle.text(__('Browse folders:'));
                 } else {
                     $fileContainer.hide();
                     $placeholder.hide();
                     $uploader.show();
-                    $switcher.html('<span class="icon-undo"></span>' + __('Files'));
-                    $browserTitle.text(__('Upload into :'));
+                    $switcher.filter('.upload').hide();
+                    $switcher.filter('.listing').css( {display: 'inline-block' } );
+                    $browserTitle.text(__('Upload into:'));
                     $uploader.uploader('reset');
                 }
             };

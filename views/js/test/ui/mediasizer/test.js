@@ -33,6 +33,11 @@ define(['jquery', 'ui/mediasizer'], function($) {
         $elt.mediasizer({
             target: $target
         });
+
+        $elt.on('sizechange.mediasizer', function(e, paras) {
+            console.log(paras);
+
+        })
     });
 
 
