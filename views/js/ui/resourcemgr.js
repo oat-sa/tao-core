@@ -19,7 +19,7 @@ define([
         root            : '/',
         open            : true,
         appendContainer : '.tao-scope:first',
-        title           : '' 
+        title           : ''
    };
    
    /** 
@@ -90,7 +90,7 @@ define([
                      * The plugin have been created.
                      * @event ResourceMgr#create.resourcemgr
                      */
-                    $elt.trigger('create.' + ns);
+                    $elt.trigger('create.' + ns, [$target[0]]);
                             
                     if(options.open){
                         self._open($elt);
@@ -111,8 +111,11 @@ define([
                 options.targetId = 'resourcemgr-' + $(document).find('.resourcemgr').length;
                 
                 //generate
-                options.$target  = $(layout({title:options.title || ''}))
-                    .attr('id', options.targetId)
+                options.$target  = $(layout({
+                    title   :   options.title || ''
+                }));
+                
+                options.$target.attr('id', options.targetId)
                     .css('display', 'none')
                     .appendTo(options.appendContainer);             
  

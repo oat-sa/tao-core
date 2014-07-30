@@ -149,6 +149,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             $('#'+options.modalOverlay).fadeIn(300);
 
             $element.animate({'opacity': '1', 'top':topOffset+'px'});
+            $element.addClass('opened');
             Modal._bindEvents($element);
 
            /**
@@ -173,6 +174,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
            $element.animate({'opacity': '0', 'top':'-1000px'}, 500, function(){
                 $element.css('display', 'none');
            });
+           $element.removeClass('opened');
            
            /**
             * The target has been closed/removed. 
