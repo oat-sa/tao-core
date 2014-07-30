@@ -2,7 +2,8 @@ require.config({
 
     baseUrl : '<?=TAOBASE_WWW?>js',
     catchError: true,
-
+    waitSeconds:10,
+    
     config : {
         'context': {
             root_url        : '<?=ROOT_URL?>',
