@@ -2,7 +2,8 @@ require.config({
 
     baseUrl : '<?=TAOBASE_WWW?>js',
     catchError: true,
-
+    waitSeconds:10,
+    
     config : {
         'context': {
             root_url        : '<?=ROOT_URL?>',
@@ -111,9 +112,11 @@ require.config({
         'mathJax' : {
             exports : "MathJax",
             init : function(){
-                MathJax.Hub.Config({});//add mathJax config here
-                MathJax.Hub.Startup.onload();
-                return MathJax;
+                if(window.MathJax){
+                    MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false});//add mathJax config here
+                    MathJax.Hub.Startup.onload();
+                    return MathJax;
+                }
             }
         },
         'filereader' : ['jquery', 'polyfill/swfobject']

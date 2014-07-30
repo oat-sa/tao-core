@@ -22,6 +22,8 @@
 
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
+use oat\oatbox\user\LoginService;
+use oat\tao\helpers\TaoCe;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -106,8 +108,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				$adapter = new core_kernel_users_AuthAdapter($myForm->getValue('login'), $myForm->getValue('password'));
-				if(common_user_auth_Service::singleton()->login($adapter)){
+			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
+				if($success){
 					if ($this->hasRequestParameter('redirect')) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {
@@ -158,10 +160,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			$this->removeSessionAttribute('classUri');
 			$this->removeSessionAttribute('showNodeUri');
             
-            $this->userService->setLastVisitedExtension(_url('index', 'Main', 'tao', array(
+			TaoCe::setLastVisitedUrl(_url('index', 'Main', 'tao', array(
                 'structure' => $shownStructure,
                 'ext' => $shownExtension
-            )), $user);
+            )));
             
 			$sections = $this->getSections($shownExtension, $shownStructure);
 			if (count($sections) > 0) {
@@ -172,9 +174,9 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		} else {
             
             //check if the user is a noob, otherwise redirect him to his last visited extension.
-            $firsttime = $this->userService->isFirstTimeInTao($user);
+            $firsttime = TaoCe::isFirstTimeInTao();
             if($firsttime == false){
-               $lastVisited = $this->userService->getLastVisitedExtension($user);
+               $lastVisited = TaoCe::getLastVisitedUrl();
                if(!is_null($lastVisited)){
                    $this->redirect($lastVisited);
                }

@@ -1,6 +1,7 @@
 <div class="resourcemgr modal">
 
-
+    <h2>{{title}}</h2>
+    
 <!-- left section: items selection -->
     <section class="file-browser">
         
@@ -11,9 +12,10 @@
 <!-- test editor  -->
     <section class="file-selector">
         <h1>
-            <div class="title"></div> 
-            <div class="upload-switcher">
-                <a href="#"><span class="icon-add"></span>{{__ 'Upload'}}</a>
+            <div class="title lft"></div>
+            <div class="upload-switcher rgt">
+                <a href="#" class="btn-info small upload"><span class="icon-add"></span>{{__ 'Add file(s)'}}</a>
+                <a href="#" class="btn-info small listing"><span class="icon-undo"></span>{{__ 'Back to listing'}}</a>
             </div>
         </h1>
         
@@ -23,30 +25,8 @@
 
         <ul class="files"></ul>
 
-        
-        <form class="uploader">            
-            <div class="grid-row">
-                <p>{{__ 'Upload to'}} : <span class="current-path"></span></p>
-            </div>
-            <div class="file-upload grid-row">
-                <span class="btn-info btn-browse small col-4"></span>
-                <span class="file-name col-8 truncate"></span>
-                <input type="file" name="content">
-            </div>
-            <div class="grid-row"> 
-                <div class="file-drop col-12">
-                    - {{__ 'or'}} -<br />
-                    {{__ 'Drop file here'}}
-                </div>
-            </div>
-            <div class="grid-row">
-                <div class="progressbar"></div>
-                <br />
-            </div>
-            <div class="grid-row"> 
-                <button class="btn-success btn-upload small"></button>
-            </div>
-        </form>
+        <div class="file-upload-container"></div>
+    
     </section>   
 
     <section class="file-preview">
@@ -84,7 +64,7 @@
 
         <h2 class="toggler" data-toggle="~ .actions">{{__ 'Actions'}}</h2>
         <div class="actions">
-            <button class="btn-success select-action" disabled>
+            <button class="btn-success select-action small" disabled>
                 <span class="icon-move-item"></span>{{__ 'Select'}}
             </button>
         </div>

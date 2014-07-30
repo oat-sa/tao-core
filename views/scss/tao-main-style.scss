@@ -8,6 +8,8 @@
 @import "inc/toolbars";
 @import "inc/tooltip";
 @import "inc/resourcemgr";
+@import "inc/mediasizer";
+
 
 // better z-indices on mobiles
 body {
@@ -92,7 +94,6 @@ a[rel="external"] span.icon-external {
     @import "inc/base";
     @import "inc/forms";
     @import "inc/components";
-    @import "inc/svg";
 
     position: relative;
 

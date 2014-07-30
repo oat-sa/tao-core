@@ -161,3 +161,43 @@
     -o-transition: $type $duration $effect;
     transition: $type $duration $effect;
 }
+
+/*
+ * Fade animation
+ */
+@keyframes fade {
+    0%   {opacity:0;}
+    50%   {opacity:1;}
+    100% {opacity:0;}
+}
+@-webkit-keyframes fade {
+    0%   {opacity:0;}
+    50%   {opacity:1;}
+    100% {opacity:0;}
+}
+@-moz-keyframes fade {
+    0%   {opacity:0;}
+    50%   {opacity:1;}
+    100% {opacity:0;}
+}
+@-o-keyframes fade {
+    0%   {opacity:0;}
+    50%   {opacity:1;}
+    100% {opacity:0;}
+}
+@mixin fade($duration: 1s){
+       animation: fade 1s forwards;
+      -webkit-animation: fade 1s forwards;
+      -moz-animation: fade 1s forwards;
+      -o-animation: fade 1s forwards;
+}
+
+/*
+ * Repeat animation
+ */
+@mixin repeat(){
+      animation-iteration-count: infinite;
+      -webkit-animation-iteration-count: infinite;
+      -moz-animation-iteration-count: infinite;  
+      -o-animation-iteration-count: infinite;
+}

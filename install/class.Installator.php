@@ -216,24 +216,13 @@ class tao_install_Installator{
 			 *  5 - Create the generis config files
 			 */
 			
-			common_Logger::d('Writing db config', 'INSTALL');
-			$dbConfigWriter = new tao_install_utils_ConfigWriter(
-					$this->options['root_path'].'generis/common/conf/sample/db.conf.php',
-					$this->options['root_path'].'generis/common/conf/db.conf.php'
-			);
-			$dbConfigWriter->createConfig();
-			$dbConfigWriter->writeConstants(array(
-				'DATABASE_LOGIN'	=> $installData['db_user'],
-				'DATABASE_PASS' 	=> $installData['db_pass'],
-				'DATABASE_URL'	 	=> $installData['db_host'],
-				'SGBD_DRIVER' 		=> $installData['db_driver'],
-				'DATABASE_NAME' 	=> $installData['db_name']
-			));
+			common_Logger::d('Removing old config', 'INSTALL');
+			helpers_File::emptyDirectory($this->options['root_path'].'config/');
 			
 			common_Logger::d('Writing generis config', 'INSTALL');
 			$generisConfigWriter = new tao_install_utils_ConfigWriter(
-				$this->options['root_path'].'generis/common/conf/sample/generis.conf.php',
-				$this->options['root_path'].'generis/common/conf/generis.conf.php'
+				$this->options['root_path'].'generis/config/sample/generis.conf.php',
+				$this->options['root_path'].'config/generis.conf.php'
 			);
 			
 			$generisConfigWriter->createConfig();
@@ -261,7 +250,22 @@ class tao_install_Installator{
 			 */
 			common_Logger::d('Running the extensions bootstrap', 'INSTALL');
 			require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
-
+			
+			/*
+			 * 6b - Create generis persistence 
+			 */
+			common_persistence_Manager::addPersistence('default', array(
+    			'driver'     => $installData['db_driver'],
+    			'host'       => $installData['db_host'],
+    			'dbname'     => $installData['db_name'],
+    			'user'       => $installData['db_user'],
+    			'password'   => $installData['db_pass']
+			));
+				
+			/*
+			 * 6c - Create generis user
+			*/
+					
 			// Init model creator and create the Generis User.
 			$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
 			$modelCreator->insertGenerisUser(helpers_Random::generateString(8));

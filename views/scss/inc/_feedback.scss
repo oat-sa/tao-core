@@ -17,16 +17,22 @@
         position: absolute;
         top: 20px;
         left: 15px;
-        &.icon-close {
+        &.icon-close, &.icon-remove {
             @include font-size(15);
             color: #999;
             left: auto;
-            right: 7px;
+
             top: 5px;
             cursor: pointer;
             &:hover {
                 color: #222;
             }
+        }
+        &.icon-remove {
+            right: 24px;
+        }
+        &.icon-close {
+            right: 7px;
         }
     }
     &.popup {

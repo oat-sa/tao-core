@@ -57,7 +57,7 @@ common_log_Dispatcher::singleton()->init(array(
 		'threshold'		=> common_Logger::TRACE_LEVEL,
 		'file'			=> TAO_INSTALL_PATH.'tao/install/log/install.log',
 )));
-require_once (GENERIS_PATH.'vendor/autoload.php');
+require_once ($root.'vendor/autoload.php');
 require_once ('tao/helpers/class.Display.php');
 require_once ('tao/helpers/class.Uri.php');
 

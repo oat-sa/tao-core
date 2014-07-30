@@ -47,14 +47,84 @@ label {
 
 .file-drop {
     height: 150px;
-    padding-top: 50px;
-    border: dashed 2px $uiGeneralContentBorder;
-    text-align: center;
-    color: $uiGeneralContentBorder;
-    @include font-size(20);
+    overflow-y: auto;
+    border: solid 1px $uiGeneralContentBorder;
+    position: relative; 
+    .dragholder{ 
+        padding-top: 20px;
+        text-align: center;
+        color: $uiGeneralContentBorder;
+        @include font-size(20);
+    }
     &.drag-hover {
         border-color: $uiClickableHoverBg;
         color: $uiClickableHoverBg;
+        &:after {
+            content: attr(data-drop-msg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 75%;
+            height: 30px;
+            padding: 5px;
+            background-color: $info;
+            color: white();
+            text-align: center;
+            margin: auto;
+        }
+    }
+    ul {
+        list-style-type: none;
+        position: relative;
+        margin: 0;
+        padding: 0; 
+        & > li{
+            position: relative;
+            padding: 6px 60px 6px 6px;
+            @include simple-border;
+            @extend .truncate;
+            &:before {
+               @extend %tao-icon-setup; 
+               @extend %icon-document; 
+               @include font-size(14);
+               line-height: 14px;
+               margin-right: 5px;
+               color: $info;
+            }
+            .size {
+                color: $info;
+                margin-left: 5px;
+                font-style: italic; 
+            }
+            .status {
+               position: absolute; 
+               right: 30px;
+               top: 6px;
+               &.sending:before {
+                   @extend %tao-icon-setup; 
+                   @extend %icon-download;
+                   @include fade(2s);
+                   @include repeat;
+               }
+               &.success:before{
+                   @extend %tao-icon-setup; 
+                   @extend %icon-success;
+                   color: $success;
+               }
+               &.error:before{
+                   @extend %tao-icon-setup; 
+                   @extend %icon-error;
+                   color: $error;
+               }
+            }
+            .icon-close {
+               position: absolute; 
+               right: 6px;
+               top: 6px;
+             } 
+        }
     }
 }
 

@@ -54,8 +54,11 @@ define( ['jquery', 'lodash'], function($, _){
                     if (xhr.readyState === 4){
                        if(xhr.status === 200) {
                             var result = $.parseJSON(xhr.responseText);
-                        
-                            if(typeof opts.loaded === 'function'){
+                            if(result.error){
+                                if(typeof opts.failed === 'function'){
+                                     opts.failed(result.error);
+                                }
+                            } else if(typeof opts.loaded === 'function'){
                                  opts.loaded(result);
                             }
                        } else {
@@ -67,6 +70,7 @@ define( ['jquery', 'lodash'], function($, _){
                 };
                 
                 fd.append($file.attr('name'), opts.file || $file[0].files[0]);
+
                 // Initiate a multipart/form-data upload
                 xhr.send(fd);
 			
@@ -121,7 +125,6 @@ define( ['jquery', 'lodash'], function($, _){
                 });
                     
                 $form.submit();
-
             }
 		}
 	};

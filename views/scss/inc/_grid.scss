@@ -18,7 +18,7 @@
 }
 
 .grid-row, .fixed-grid-row {
-    @extend .clearfix:after;
+    @extend .clearfix;
     width: widthPerc(852, 840);
     &:before {
         @extend .clearfix:before;

@@ -68,7 +68,7 @@ class AuthTestCase extends TaoPhpUnitTestRunner {
 		TaoPhpUnitTestRunner::initTest();
 		
 		$this->clearPassword = $this->testUserData[PROPERTY_USER_PASSWORD];
-		$this->testUserData[PROPERTY_USER_PASSWORD] = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($this->testUserData[PROPERTY_USER_PASSWORD]);
+		$this->testUserData[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[PROPERTY_USER_PASSWORD]);
 		
 		$this->userService = tao_models_classes_UserService::singleton();
 		

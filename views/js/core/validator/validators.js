@@ -141,6 +141,28 @@ define(['lodash', 'i18n'], function(_, __){
                     }, 3000);
                 }
             }
+        },
+        validRegex : {
+            name: 'validRegex',
+            message: __('invalid regular expression'),
+            options : {},
+            validate: function(value, callback) {
+                if (typeof callback === 'function') {
+                    var valid = false;
+                    if(value != ''){
+                        try{
+                            new RegExp('^' + value + '$');
+                            valid = true;
+                        }
+                        catch(e){
+                            valid = false;
+                        }
+                    }else{
+                        valid = true;
+                    }
+                    callback(valid);
+                }
+            }
         }
     };
 

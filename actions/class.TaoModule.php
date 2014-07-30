@@ -342,7 +342,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$options['subclasses'] = $this->getRequestParameter('subclasses');
 		}
 		
-		echo json_encode($this->service->toTree($clazz, $options));
+		$this->returnJson($this->service->toTree($clazz, $options));
 	}
 	
 	/**
@@ -368,7 +368,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				'uri' 	=> tao_helpers_Uri::encode($instance->getUri())
 			);
 		}
-		echo json_encode($response);
+		$this->returnJson($response);
 	}
 	
 	/**

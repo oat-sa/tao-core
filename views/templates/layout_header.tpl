@@ -32,3 +32,6 @@ Template::inc('errors.tpl', 'tao')
 <body>
 	<!-- AJAX Main Spinner Element -->
 	<div id="ajax-loading"></div>
+
+    <!-- Feedback Box -->
+    <div id="feedback-box" class="tao-scope"></div>

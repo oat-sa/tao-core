@@ -30,32 +30,9 @@
 class tao_helpers_data_GenerisAdapterRdf
     extends tao_helpers_data_GenerisAdapter
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
-    {
-        
-        
-    	parent::__construct();
-    	
-        
-    }
-
-    /**
-     * Short description of method import
+     * Import a XML file as is into the ontology
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -103,8 +80,6 @@ class tao_helpers_data_GenerisAdapterRdf
     {
         $rdf = '';
         
-        common_Logger::d('Do this '.$source);
-        
 		if(is_null($source)){
 		    return core_kernel_api_ModelExporter::exportAll();
 		}
@@ -119,6 +94,13 @@ class tao_helpers_data_GenerisAdapterRdf
 		return $graph->serialise($format);
     }
     
+    /**
+     * Add a class to the graph
+     * 
+     * @param EasyRdf_Graph $graph
+     * @param core_kernel_classes_Class $resource
+     * @ignore
+     */
     private function addClass(EasyRdf_Graph $graph, core_kernel_classes_Class $resource) {
         $this->addResource($graph, $resource);
     	foreach($resource->getInstances(false) as $instance){
@@ -134,6 +116,10 @@ class tao_helpers_data_GenerisAdapterRdf
     }
     
     /**
+     * Add a resource to the graph
+     * 
+     * @param EasyRdf_Graph $graph
+     * @param core_kernel_classes_Resource $resource
      * @ignore
      */
     private function addResource(EasyRdf_Graph $graph, core_kernel_classes_Resource $resource) {

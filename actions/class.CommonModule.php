@@ -157,4 +157,10 @@ abstract class tao_actions_CommonModule extends Module
         
         return _url('config', 'ClientConfig', 'tao', array_merge($clientConfigParams, $extraParameters));
     }
+    
+    protected function returnJson($data, $httpStatus = 200) {
+        header(HTTPToolkit::statusCodeHeader($httpStatus));
+        Context::getInstance()->getResponse()->setContentHeader('application/json');
+        echo json_encode($data);
+    }
 }

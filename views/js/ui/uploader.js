@@ -5,12 +5,16 @@ define([
     'jquery', 
     'lodash', 
     'i18n', 
+    'async',
     'core/pluginifier', 
     'context',
+    'util/bytes',
+    'tpl!ui/uploader/uploader',
+    'tpl!ui/uploader/fileEntry',
     'ui/filesender',
     'filereader',
     'jqueryui'
-], function($, _, __, Pluginifier, context){
+], function($, _, __, async, Pluginifier, context, bytes, uploaderTpl, fileEntryTpl){
     'use strict';
 
     var ns = 'uploader';
@@ -20,30 +24,36 @@ define([
     var defaults = {
         upload              : true,
         read                : false,
-        containerClass      : 'file-upload',
+        multiple            : false,
+        uploadQueueSize     : 3,
         browseBtnClass      : 'btn-browse',
-        browseBtnIcon       : false,
-        browseBtnLabel      : __('Browse...'),
         uploadBtnClass      : 'btn-upload',
-        uploadBtnIcon       : 'upload',
-        uploadBtnLabel      : __('Upload'),
+        resetBtnClass       : 'btn-reset',
         fileNameClass       : 'file-name',
-        fileNamePlaceholder : __('No file selected'),
         dropZoneClass       : 'file-drop',
         progressBarClass    : 'progressbar',
         dragOverClass       : 'drag-hover',
-        fileSelect          : function(file) { 
-            return file; 
+        defaultErrMsg       : __('Unable to upload file'),
+
+        /**
+         * Make files available before file selection. It can be used to filter. 
+         * @callback fileSelect
+         * @param {Array<File>} files - the selected files
+         * @returns {Array<File>} the files to be selected 
+         */
+        fileSelect : function(files){ 
+            return files; 
         }
     };
 
+    //feature tests
     var tests = {
-        filereader: typeof FileReader !== 'undefined',
-        xhr2  : typeof XMLHttpRequest !== 'undefined' && new XMLHttpRequest().upload,
-        dnd : 'draggable' in document.createElement('span')
+        filereader  : typeof FileReader !== 'undefined',
+        dnd         : 'draggable' in document.createElement('span')
     };
 
     /**
+     * Define a jQuery component to help you to manage file(s) upload/reading.
      * @exports ui/uploader
      */
     var uploader = {
@@ -52,25 +62,22 @@ define([
          * Initialize the plugin.
          *
          * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').uploader({});
-         * @public
+         * @example $('selector').uploader();
          *
          * @constructor
          * @param {Object} [options] - the plugin options
          * @param {Boolean} [options.upload =  true] - if we upload the file once selected
-         * @param {Boolean} [options.read =  true] - if we can read the file once selected1
-         * @param {String} [options.containerClass = file-upload] - the class of the upload container
-         * @param {jQueryElement} [options.browseBtn] - the browse button element
+         * @param {Boolean} [options.read =  false] - if we can read the file once selected
+         * @param {Boolean} [options.multiple =  false] - enable to select more multiple files (may be not supported by old browsers)
+         * @param {Number} [options.uploadQueueSize =  3] - max parallel uploads (applies only in multiple mode)
          * @param {String} [options.browseBtnClass = btn-browse] - the class to identify the browse button
-         * @param {String|Boolean} [options.browseBtnIcon  = false] - the icon used by the browse button
-         * @param {String} [options.browseBtnLabel = Browse] - the brows button label
-         * @param {jQueryElement} [options.uploadBtn] - the upload button element
          * @param {String} [options.uploadBtnClass = btn-upload] - the class to identify the upload button
-         * @param {String|Boolean} [options.uploadBtnIcon  = upload] - the icon used by the upload button
-         * @param {String} [options.uploadBtnLabel = Browse] - the brows button label
-
-         * TODO add missing options comment
-
+         * @param {String} [options.resetBtnClass = btn-reset] - the class to identify the reset button
+         * @param {String} [options.fileNameClass = file-name] - the class of the elt where the file name is set
+         * @param {String} [options.dropZoneClass = file-drop] - the class of the drop file elt
+         * @param {String} [options.progressBarClass = progressbar] - the class to identify the progress bar
+         * @param {String} [options.graOverClass = drag-hover] - the class to set to the drop zone when dragging over
+         * @param {Function} [options.fileSelect] - called back before selection with files in params and returns the files to select; filter use case
          * @returns {jQueryElement} for chaining
          */
         init : function(options){
@@ -83,38 +90,32 @@ define([
                 var $elt = $(this);
                 if(!$elt.data(dataNs)){
 
+                    $elt.html(uploaderTpl(options));
+
                     //retrieve elements 
-                    options.$input       = $('input[type=file]', $elt);
-                    options.$browseBtn   = options.browseBtn || $('.' + options.browseBtnClass, $elt);
-                    options.$fileName    = options.fileName || $('.' + options.fileNameClass, $elt);
-                    options.$dropZone    = options.dropZone || $elt.parent().find('.' + options.dropZoneClass);
-                    options.$progressBar = options.progressBar || $elt.parent().find('.' + options.progressBarClass);
+                    options.$input          = $('input[type=file]', $elt);
+                    options.$browseBtn      = $('.' + options.browseBtnClass, $elt);
+                    options.$fileName       = $('.' + options.fileNameClass, $elt);
+                    options.$dropZone       = $('.' + options.dropZoneClass, $elt);
+                    options.$progressBar    = $('.' + options.progressBarClass, $elt);
+                    options.$form           = $elt.children('form');
+                    options.$uploadBtn      = $('.' + options.uploadBtnClass, $elt);
+                    options.$resetBtn       = $('.' + options.resetBtnClass, $elt);
     
-                    if(options.upload){
-                        options.$form = options.form || $elt.parents('form');
-                        options.$uploadBtn = options.uploadBtn || $elt.parent().find('.' + options.uploadBtnClass, $elt);
-                    }                   
- 
+                    options.useDropZone     = tests.dnd;     
+
+                    options.dropZonePlaceholder = options.$dropZone.html();
+                    options.fileNamePlaceholder = options.$fileName.text();
+
+                    options.files = [];
+        
                     $elt.data(dataNs, options);
            
                     self._reset($elt);
 
                     var inputHandler = function (e) {
-                        var file = e.target.files[0];
-                        
-                        // Are you really sure something was selected
-                        // by the user... huh? :)
-                        if (typeof(file) !== 'undefined') {
-                           if(_.isFunction(options.fileSelect)){
-                                var filteredFile = options.fileSelect.call($elt, file);
-                                if(filteredFile){
-                                    $elt.trigger('file.' + ns, [filteredFile]);
-                                }
-                           } else {
-                                $elt.trigger('file.' + ns, [file]);
-                           }
-                        }
-                   };
+                        self._selectFiles($elt, _.values(e.target.files));
+                    };
 
                     var dragOverHandler = function(e){
                         e.preventDefault();
@@ -126,8 +127,8 @@ define([
                         e.stopPropagation();
                         options.$dropZone.removeClass(options.dragOverClass);
                     };
-                    
 
+                    //manage input selection
                     if(options.read && !tests.filereader) {
                         // Nope... :/
                         options.$input.fileReader({
@@ -141,32 +142,6 @@ define([
                         options.$input.on('change', inputHandler);
                     }
 
-                    if(options.$dropZone.length){
-                        if(tests.dnd && tests.xhr2){
-                            options.$dropZone
-                                .on('dragover', dragOverHandler)
-                                .on('dragend', dragOutHandler)
-                                .on('drop', function(e){
-                                    dragOutHandler(e); 
-                                    
-                                var files =  e.target.files || e.originalEvent.files || e.originalEvent.dataTransfer.files;
-                                if(files && files.length > 0){
-                                   if(_.isFunction(options.fileSelect)){
-                                        var filteredFile = options.fileSelect.call($elt, files[0]);
-                                        if(filteredFile){
-                                            $elt.trigger('file.' + ns, [filteredFile]);
-                                        }
-                                   } else {
-                                        $elt.trigger('file.' + ns, [files[0]]);
-                                   }
-                                }
-                            
-                            });
-                        } else {
-                            options.$dropZone.hide();
-                        }
-                    }
-                    
                     // IE Specific hack. It prevents the browseBtn to slightly
                     // move on click. Special thanks to Dieter Rabber, OAT S.A.
                     options.$input.on('mousedown', function(e){
@@ -175,25 +150,63 @@ define([
                         return false;
                     });
 
+                    //manage drag and drop selection
+                    if(options.useDropZone){
 
-                    //what to do with the file
-                    $elt.on('file.' + ns, function(e, file){
-                        options.$fileName
-                            .text(file.name)
-                            .removeClass('placeholder');
+                        //prevent drag and drop outside the zone to loose the current context
+                        $(document)
+                            .off('drop.' +ns)
+                            .on('drop.' + ns, function(e){
+                                e.stopImmediatePropagation(); 
+                                e.preventDefault();
+                                return false;
+                            });
+                        $(document)
+                            .off('dragover.' + ns)
+                            .on('dragover.' + ns, function(e){
+                                e.stopImmediatePropagation(); 
+                                e.preventDefault();
+                                return false;
+                            });
+                        options.$dropZone
+                            .on('dragover', dragOverHandler)
+                            .on('dragend', dragOutHandler)
+                            .on('dragleave', dragOutHandler)
+                            .on('drop', function(e){
+                                dragOutHandler(e); 
+                                
+                                self._selectFiles($elt, _.values(e.target.files || e.originalEvent.files || e.originalEvent.dataTransfer.files), options.$dropZone.children('ul').length > 0);
+                                return false; 
+                            });
+                    } else {
+                        options.$dropZone.hide();
+                    } 
 
+                    //getting files
+                    $elt.on('fileselect.' + ns, function(){
+                        if(options.files.length === 0){
+                            self._reset($elt);
+                        }
+                                
                         if(options.upload){
                            options.$uploadBtn
                                 .off('click')
                                 .on('click', function(e){
                                     e.preventDefault();
-                            self._upload($elt, file);
+                                    self._upload($elt, options.files);
                                 }).removeProp('disabled');
                         }
 
                         if(options.read){
-                            self._read($elt, file);
+                            self._read($elt, options.files);
                         }
+    
+                        options.$resetBtn
+                            .off('click')
+                            .on('click', function(e){
+                                e.preventDefault();
+                                self._reset($elt);
+                            }).removeProp('disabled');
                     });
  
                     /**
@@ -206,10 +219,124 @@ define([
         },
 
        /**
+        * Select files to upload/read.
+        * 
+        * Called the jQuery way once registered by the Pluginifier:
+        * @example $('selector').uploader('selectFiles', files);
+        *
+        * @param {jQueryElement} $elt - plugin's element
+        * @param {Array<File>} files - the selected files
+        * @param {Boolean} [append = false] - in append mode the files are added instead of replaced 
+        * @fires uploader#fileselect.uploader
+        */
+        _selectFiles : function _selectFiles($elt, files, append){
+            var self = this;
+            var listContent;
+            var options = $elt.data(dataNs);
+
+            //update the file name field with the current number of files selected
+            var updateFileName = function updateFileName(){
+                var length = options.files.length;
+                options.$fileName
+                    .text(length + ' ' + (length > 1 ? __('files selected') : __('file selected')))
+                    .removeClass('placeholder');
+            }; 
+
+            if(files.length <= 0 && !append){
+                
+                //empty file list, so we reset the plugin
+                self._reset($elt);                            
+
+            } 
+            if(files.length > 0){
+
+                //execute the fileSelect function if defined
+                if(_.isFunction(options.fileSelect)){
+                    files = options.fileSelect.call($elt, files);
+                }
+
+                if(append){
+                    options.files = options.files.concat(files);
+                } else {
+                    options.files = files;
+                }  
+
+                if(options.useDropZone){
+
+                    updateFileName(); 
+                    
+                    listContent = _.reduce(files, function(acc, file){
+                        return acc + fileEntryTpl({
+                            name : file.name,
+                            size : bytes.hrSize(file.size)
+                        });
+                    }, '');
+
+                    if(append){
+                        options.$dropZone
+                            .children('ul').append(listContent);
+                    } else {
+                        options.$dropZone
+                            .html('<ul>' + listContent + '</ul>');
+                    }
+    
+                    options.$dropZone
+                        .off('delete.delter', 'li')
+                        .on('delete.deleter', 'li', function(e){
+
+                            var name = $(e.target).data('file-name');
+
+                            options.$dropZone
+                               .off('deleted.deleter')
+                               .one('deleted.deleter', function(){
+                                    options.files =  _.reject(options.files, {name : name});
+                                    if(options.files.length === 0){
+                                        self._reset($elt);
+                                    } else {
+                                        updateFileName();
+                                    }
+                                });
+                        });
+                } else {
+                    //legacy mode, no dnd support
+                    options.files = options.files.slice(0, 1);
+                    options.$fileName
+                        .text(files[0].name)
+                        .removeClass('placeholder');
+                }
+                
+                /**
+                 * Files has been selected
+                 * @event uploader#fileselect.uploader
+                 */
+                $elt.trigger('fileselect.' + ns);
+            }
+        },
+        
+       /**
+        * Get the selected files.
+        * 
+        * Called the jQuery way once registered by the Pluginifier:
+        * @example var files = $('selector').uploader('files');
+        *
+        * @param {jQueryElement} $elt - plugin's element 
+        * @returns {Array<File>} the selected files 
+        */
+        _files : function($elt){
+            var files   = [];
+            var options = $elt.data(dataNs);
+            if(options){
+                files = options.files;
+            }
+            return files;
+        },
+
+       /**
         * Reset the component
         * 
-        * Called the jQuery way once registered by the Pluginifier.
+        * Called the jQuery way once registered by the Pluginifier:
         * @example $('selector').uploader('reset');
+        *
         * @param {jQueryElement} $elt - plugin's element 
         * @fires uploader#reset.uploader
         */
@@ -220,26 +347,18 @@ define([
                 .text(options.fileNamePlaceholder)
                 .addClass('placeholder');    
 
-            if(options.browseBtnIcon){        
-                options.$browseBtn.html('<span class="icon-' + options.browseBtnIcon +'"></span>' + options.browseBtnLabel);
-            } else {
-                options.$browseBtn.text(options.browseBtnLabel);
-            }
-            if(options.upload){
-                options.$uploadBtn.prop('disabled', true);
- 
-                if(options.uploadBtnIcon){        
-                    options.$uploadBtn.html('<span class="icon-' + options.uploadBtnIcon +'"></span>' + options.uploadBtnLabel);
-                } else {
-                    options.$uploadBtn.text(options.uploadBtnLabel);
-                }
-            }
-            if(options.$progressBar){
-                options.$progressBar.progressbar({
-                    value: 0
-                });
-            }
+            options.$dropZone.empty().html(options.dropZonePlaceholder);
 
+            options.$uploadBtn.prop('disabled', true);
+            options.$resetBtn.prop('disabled', true);
+ 
+            if(options.$progressBar){
+                options.$progressBar
+                    .removeClass('success')
+                    .progressbar({
+                        value: 0
+                    });
+            }
             /**
              * The plugin has been created.
              * @event uploader#reset.uploader
@@ -250,152 +369,207 @@ define([
        /**
         * Upload the selected file
         * 
-        * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').uploader('upload', file);
+        * Called the jQuery way once registered by the Pluginifier:
+        * @example $('selector').uploader('upload');
+        *
         * @param {jQueryElement} $elt - plugin's element 
-        * @param {Object} [file] - the file object
         * @fires uploader#upload.uploader
+        * @fires uploader#fail.uploader
+        * @fires uploader#end.uploader
         */
-        _upload : function($elt, file){
+        _upload : function($elt){
+
+            var length, 
+                $fileEntries,
+                entryHeight,
+                errors = [],
+                q;
+
             var options = $elt.data(dataNs);
-            var done = false;
-            var fakeProgress = function(value){
-                setTimeout(function(){
-                    if(done === false){
-                        options.$progressBar.progressbar({
-                            value: value
-                        });
-                        fakeProgress(value += 1);
-                    }
-                }, 10);
-            };
+            
+            if(options && options.files.length){
+
+                length          = options.files.length;
+                $fileEntries    = $('ul', options.$dropZone);       
+                entryHeight     = $('li:first', $fileEntries).outerHeight();
+
+                //create an async queue to start uploads
+                q = async.queue(function (file, done) {
+                    var $fileEntry  = $('li[data-file-name="' + file.name + '"]', $fileEntries);
+                    var $status     = $('.status', $fileEntry);
+                    var index       = $fileEntries.children().index($fileEntry);
+
+                    //update the scroll into the element
+                    options.$dropZone.stop(true, true).animate({ scrollTop : index * entryHeight }, 25);
+
+                    $status.removeClass('success')
+                            .removeClass('error')
+                            .addClass('sending');
+                   
+                    //send (upload) the file 
+                    options.$form.sendfile({
+                        url : options.uploadUrl, 
+                        file : file, 
+                        loaded : function(result){
+                            $status.removeClass('sending')
+                                    .removeClass('error')
+                                    .addClass('success');
+                            done(null, result);
+                        },
+                        failed : function(message){
+                            message = message || options.defaultErrMsg;
+                            $status.removeClass('sending')
+                                    .removeClass('success')
+                                    .addClass('error')
+                                    .attr('title', message);
+                            done(new Error(message));
+                        }
+                    });
+
+                }, options.uploadQueueSize || 1);
+
+                //disable buttons
+                options.$uploadBtn.prop('disabled', true);
+                options.$resetBtn.prop('disabled', true);
+
+                options.$progressBar.progressbar({ value: 0 });
+
+                //start pushing uploads into the queue
+                _.forEach(options.files, function(file, index){   
+                    _.delay(function(){ 
+                        q.push(file, function(err, result){
+                            var complete =  ((index + 1) / length) * 100;
  
-            if(options.uploadUrl){
+                            if(err){
+                                errors.push(err);
+                                
+                                /**
+                                 * The file fails to upload
+                                 * @event uploader#fail.uploader
+                                 * @param {Object} file - the uploaded file
+                                 * @param {Object} err - the error
+                                 */
+                                $elt.trigger('fail.'+ns, [file, err]);
+                                
+                            } else {
 
-                //ne real way to know the progress
-                if(options.$progressBar.length){
-                    fakeProgress(0);
-                }
+                                /**
+                                 * A file is uploaded
+                                 * @event uploader#upload.uploader
+                                 * @param {Object} file - the uploaded file
+                                 * @param {Object} result - the upload response
+                                 */
+                                $elt.trigger('upload.'+ns, [file, result]);
+                            }
 
-                options.$form.sendfile({
-                    url : options.uploadUrl, 
-                    file : file, 
-                    loaded : function(result){
-                        done = true;
-                        options.$progressBar.progressbar({value: 100});
-                    
-                        /**
-                         * A file is uploaded
-                         * @event uploader#upload.uploader
-                         * @param {Object} file - the uploaded file
-                         * @param {Object} result - the upload response
-                         */
-                        $elt.trigger('upload.'+ns, [file, result]); 
-                    },
-                    failed : function(){
-                        done = true;
-                        options.$progressBar.progressbar({value: 0});
+                            //update progress bar regarding the number of files uploaded 
+                            options.$progressBar.progressbar({ value: complete });
+        
+                            if(complete >= 100){
+                                if(errors.length === length){
+                                    options.$progressBar.addClass('error');
+                                } else if (errors.length > 0){
+                                    options.$progressBar.addClass('warning');
+                                } else {
+                                    options.$progressBar.addClass('success');
+                                }
 
-                        /**
-                         * The file fails to upload
-                         * @event uploader#fail.uploader
-                         */
-                        $elt.trigger('fail.'+ns); 
-                    }
+                                /**
+                                 * The upload sequence is complete
+                                 * @event uploader#end.uploader
+                                 */
+                                $elt.trigger('end.'+ns);
+                            }
+                        });
+                    } , 50);
                 });
-            } 
+            }
         },
 
        /**
-        * Read the selected file
+        * Read the selected file.
+        *   
+        * TODO update files status and progress bar by file
         * 
-        * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').uploader('upload', file);
+        * Called the jQuery way once registered by the Pluginifier:
+        * @example $('selector').uploader('read');
+        * 
         * @param {jQueryElement} $elt - plugin's element 
-        * @param {Object} [file] - the file object
         * @fires uploader#readstart.uploader
         * @fires uploader#readend.uploader
         */
-        _read : function($elt, file){
+        _read : function($elt){
             var options = $elt.data(dataNs);
-            var filename;
-            var filesize;
-            var filetype;
-        
-            if(options && file){
-            
-                // Show information about the processed file to the candidate.
-                filename = file.name;
-                filesize = file.size;
-                filetype = file.type;
-                
-                // Let's read the file to get its base64 encoded content.
-                var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    options.$progressBar.progressbar({
-                        value: 100
-                    });
+            if(options && options.files.length){
+           
+                _.forEach(options.files, function(file){
+                    // Show information about the processed file to the candidate.
+                    var filename = file.name;
+                    var filesize = file.size;
+                    var filetype = file.type;
+                    
+                    // Let's read the file to get its base64 encoded content.
+                    var reader = new FileReader();
 
-                    /**
-                     * The reading fininshed
-                     * @event uploader#upload.uploader
-                     * @param {Object} file - the uploaded file
-                     * @param {Object} result - the content
-                     */
-                    $elt.trigger('readend.'+ns, [file, e.target.result]);                    
-                };
-                
-                reader.onloadstart = function (e) {
-                    options.$progressBar.progressbar({
-                        value: 0
-                    });
-
-                    /**
-                     * The reading starts
-                     * @event uploader#upload.uploader
-                     * @param {Object} file - the uploaded file
-                     */
-                    $elt.trigger('readstart.'+ns, [file]); 
-                };
-               
-                if(options.$progressBar.length){
-                    reader.onprogress = function (e) {
-                        var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
+                    reader.onload = function (e) {
                         options.$progressBar.progressbar({
-                            value: percentProgress
+                            value: 100
                         });
+
+                        /**
+                         * The read is fininshed
+                         * @event uploader#readend.uploader
+                         * @param {Object} file - the reading file
+                         * @param {Object} result - the content
+                         */
+                        $elt.trigger('readend.'+ns, [file, e.target.result]);                    
                     };
-                }
-                reader.readAsDataURL(file);
+                    
+                    reader.onloadstart = function (e) {
+                        options.$progressBar.progressbar({
+                            value: 0
+                        });
+
+                        /**
+                         * The reading starts
+                         * @event uploader#readstart.uploader
+                         * @param {Object} file - the reading file
+                         */
+                        $elt.trigger('readstart.'+ns, [file]); 
+                    };
+                   
+                    if(options.$progressBar.length){
+                        reader.onprogress = function (e) {
+                            var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
+                            options.$progressBar.progressbar({
+                                value: percentProgress
+                            });
+                        };
+                    }
+                    reader.readAsDataURL(file);
+                });
             }
         },
 
         /**
          * Destroy completely the plugin.
          *
-         * Called the jQuery way once registered by the Pluginifier.
+         * Called the jQuery way once registered by the Pluginifier:
          * @example $('selector').uploader('destroy');
-         * @public
+         * 
+         * @fires uploader#destroy.uploader
          */
         destroy : function(){
             this.each(function(){
                 var $elt = $(this);
-                var options = $elt.data(dataNs);
+                
+                $(document)
+                    .off('drop.' +ns)
+                    .off('dragover.' + ns);
 
-                uploader._reset($elt);
+                $elt.empty();
 
-                options.$input.off('change')
-                              .off('mousedown');
-
-                options.$dropZone
-                    .off('dragover')
-                    .off('dragend')
-                    .off('drop');
-
-                if(options.upload){
-                    options.$uploadBtn.off('click');
-                }
                 /**
                  * The plugin has been destroyed.
                  * @event uploader#destroy.uploader
@@ -406,7 +580,6 @@ define([
     };
 
     //Register the incrementer to behave as a jQuery plugin.
-    Pluginifier.register(ns, uploader, { expose : ['reset', 'upload', 'read'] });
+    Pluginifier.register(ns, uploader, { expose : ['reset', 'selectFiles', 'upload', 'read'] });
 
-            });
-
+});

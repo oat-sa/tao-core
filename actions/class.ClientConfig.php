@@ -37,13 +37,14 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $extensionsAliases = array();
         $extensionsLocales = array();
         $extensionManager = common_ext_ExtensionsManager::singleton();
+        $langCode = tao_helpers_I18n::getLangCode();
         
         foreach($extensionManager->getInstalledExtensions() as $extension){
             $extensionManifestConsts = $extension->getConstants();
             if(isset($extensionManifestConsts['BASE_WWW'])){
                  $extensionsAliases[$extension->getId()] = str_replace(ROOT_URL, '../../../', $extensionManifestConsts['BASE_WWW']) . 'js';
             }
-            if(file_exists($extension->getDir(). '/locales') && isset($extensionManifestConsts['BASE_WWW'])){
+            if(file_exists($extension->getDir() . '/locales/' . $langCode) && isset($extensionManifestConsts['BASE_WWW'])){
                 $extensionsLocales[] = $extension->getId();
             } 
         }
@@ -61,7 +62,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         }
         
         //set contextual data
-        $langCode = tao_helpers_I18n::getLangCode();
+
         $this->setData('locale', $langCode);
         
         if(strpos($langCode, '-') > 0){
