@@ -13356,7 +13356,8 @@ Special outer level classes used in this file:
     .resourcemgr .file-preview .file-properties {
       padding: 0 5px; }
     .resourcemgr .file-preview .previewer {
-      height: 300px; }
+      height: 300px;
+      overflow: hidden; }
     .resourcemgr .file-preview .actions {
       text-align: center;
       margin-bottom: 10px; }
@@ -13394,7 +13395,8 @@ Special outer level classes used in this file:
         height: 35px;
         line-height: 35px;
         margin-bottom: 0;
-        padding: 0 0 0 5px; }
+        padding: 0 0 0 5px;
+        overflow: hidden; }
         .resourcemgr .file-selector ul.files li:before {
           font-family: 'tao';
           display: inline-block;
@@ -14069,8 +14071,7 @@ Special outer level classes used in this file:
     opacity: 1; }
 
 #tab-items_preview {
-  display: none !important;
-  border: 3px red solid; }
+  display: none !important; }
 
 body {
   z-index: 0; }
