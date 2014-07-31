@@ -55,7 +55,7 @@ class tao_install_Installator{
 		if(substr($this->options['install_path'], -1) != DIRECTORY_SEPARATOR){
 			$this->options['install_path'] .= DIRECTORY_SEPARATOR;
 		}
-		$this->options['file_path'] = realpath($this->options['file_path']) . DIRECTORY_SEPARATOR;
+		
 	}
 
 
@@ -90,6 +90,7 @@ class tao_install_Installator{
 			    $extensionIDs = array('taoCe');
 			}
 			
+
 			/*
 			 *  1 - Check configuration with checks described in the manifest.
 			 */
@@ -242,8 +243,17 @@ class tao_install_Installator{
 			 * 5b - Prepare the file/cache folder (FILES_PATH/GENERIS_CACHE_PATH not yet defined)
 			 * @todo solve this more elegantly
 			 */
-			helpers_File::emptyDirectory($installData['file_path']);
-			mkdir($installData['file_path'] . 'generis' . DIRECTORY_SEPARATOR. 'cache', 0700, true);
+			//helpers_File::emptyDirectory($installData['file_path']);
+			$file_path = $installData['file_path'];
+			if(is_dir($file_path)){
+			    common_Logger::i('Data from previous install found and will be removed');
+			    helpers_File::emptyDirectory($installData['file_path']);
+			} else {
+			    mkdir($installData['file_path'] , 0700, true);
+		 
+			}
+			mkdir($installData['file_path'] .'generis' . DIRECTORY_SEPARATOR .'cache', 0700, true);
+				
 			
 			/*
 			 * 6 - Run the extensions bootstrap
