@@ -56,14 +56,15 @@ define([
          * @private
          */
         _getSizeProps: function ($elt) {
-
+            
             var options = $elt.data(dataNs),
                 $medium = options.target,
                 medium = $medium[0],
                 naturalWidth = medium.naturalWidth || options.naturalWidth || medium.width || medium.style.width,
                 naturalHeight = medium.naturalHeight || options.naturalHeight || medium.height || medium.style.height,
-                containerWidth = options.parentSelector ? $medium.parents(options.parentSelector).innerWidth() :
-                    $medium.parent().innerWidth();
+                containerWidth = options.parentSelector ? 
+                    $medium.parents(options.parentSelector).innerWidth() :
+                    $medium.parent().parent().innerWidth();//@todo fix me !!
 
             return {
                 px: {
@@ -147,7 +148,7 @@ define([
                         _blocks['px'].hide();
                         _blocks['%'].show();
                         options.sizeProps.currentUnit = '%';
-                        if (options.$fields['%'].width.val() > options.sizeProps.sliders['%'].max) {
+                        if (options.$fields && options.$fields['%'].width.val() > options.sizeProps.sliders['%'].max) {
                             options.$fields['%'].width.val(options.sizeProps.sliders['%'].max);
                             self._sync($elt, options.$fields['%'].width, 'blur');
                         }
@@ -402,8 +403,10 @@ define([
          * @private
          */
         _getValues: function ($elt) {
+            
             var options = $elt.data(dataNs),
                 attr = {};
+            
             _.forOwn(options.sizeProps[options.sizeProps.currentUnit].current, function (value, dimension) {
                 if (_.isNull(value)) {
                     value = '';
@@ -465,8 +468,7 @@ define([
                     options.$blocks = self._initBlocks($elt);
                     options.$fields = self._initFields($elt);
                     options.$sliders = self._initSliders($elt);
-
-
+                    
                     self._initSyncBtn($elt);
 
 
