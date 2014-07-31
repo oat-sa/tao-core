@@ -9,7 +9,7 @@ define([
     'tpl!ui/mediasizer/mediasizer',
     'nouislider',
     'tooltipster'
-], function($, Pluginifier, tpl) {
+], function ($, Pluginifier, tpl) {
     'use strict';
 
     var ns = 'mediasizer';
@@ -17,9 +17,9 @@ define([
 
     var defaults = {
         disableClass: 'disabled',
-        applyToMedium : true,
-        denyCustomRatio : true,
-        responsive : true
+        applyToMedium: true,
+        denyCustomRatio: true,
+        responsive: true
     };
 
     var supportedMedia = ['img'];
@@ -55,14 +55,15 @@ define([
          * @returns {{px: {natural: {width: number, height: number}, current: {width: number, height: number}}, '%': {natural: {width: number, height: number}, current: {width: number, height: null|number}}, ratio: {natural: number, current: number}, containerWidth: number}}
          * @private
          */
-        _getSizeProps: function($elt) {
-            
+        _getSizeProps: function ($elt) {
+
             var options = $elt.data(dataNs),
                 $medium = options.target,
                 medium = $medium[0],
                 naturalWidth = medium.naturalWidth || options.naturalWidth || medium.width || medium.style.width,
-                naturalHeight = medium.naturalHeight || options.naturalHeight || medium.height  || medium.style.height,
-                containerWidth = options.parentSelector ? $medium.parents(options.parentSelector).innerWidth() : $medium.parent().innerWidth();
+                naturalHeight = medium.naturalHeight || options.naturalHeight || medium.height || medium.style.height,
+                containerWidth = options.parentSelector ? $medium.parents(options.parentSelector).innerWidth() :
+                    $medium.parent().innerWidth();
 
             return {
                 px: {
@@ -115,11 +116,11 @@ define([
          * @param $elt
          * @private
          */
-        _initSyncBtn: function($elt) {
+        _initSyncBtn: function ($elt) {
             var options = $elt.data(dataNs),
                 $mediaSizer = $elt.find('.media-sizer'),
                 self = this;
-            $elt.find('.media-sizer-link').on('click', function() {
+            $elt.find('.media-sizer-link').on('click', function () {
                 $mediaSizer.toggleClass('media-sizer-synced');
                 options.syncDimensions = $mediaSizer.hasClass('media-sizer-synced');
                 if (options.syncDimensions) {
@@ -136,23 +137,29 @@ define([
          * @returns {{}}
          * @private
          */
-        _initBlocks: function($elt) {
+        _initBlocks: function ($elt) {
             var options = $elt.data(dataNs),
                 _blocks = {},
                 $responsiveSwitch = $elt.find('.media-mode-switch'),
-                _checkMode = function(){
+                self = this,
+                _checkMode = function () {
                     if ($responsiveSwitch.is(':checked')) {
                         _blocks['px'].hide();
                         _blocks['%'].show();
                         options.sizeProps.currentUnit = '%';
-                    } else {
+                        if (options.$fields['%'].width.val() > options.sizeProps.sliders['%'].max) {
+                            options.$fields['%'].width.val(options.sizeProps.sliders['%'].max);
+                            self._sync($elt, options.$fields['%'].width, 'blur');
+                        }
+                    }
+                    else {
                         _blocks['%'].hide();
                         _blocks['px'].show();
                         options.sizeProps.currentUnit = 'px';
                     }
                 };
 
-            _(['px', '%']).forEach(function(unit) {
+            _(['px', '%']).forEach(function (unit) {
                 _blocks[unit] = $elt.find('.media-sizer-' + (unit === 'px' ? 'pixel' : 'percent'));
                 _blocks[unit].prop('unit', unit);
                 _blocks[unit].find('input').data('unit', unit).after($('<span>', {
@@ -161,14 +168,14 @@ define([
                 }));
             });
 
-            $responsiveSwitch.on('click', function(){
+            $responsiveSwitch.on('click', function () {
                 _checkMode();
                 $elt.trigger('responsiveswitch.' + ns, [$responsiveSwitch.is(':checked')]);
             });
-            
+
             //initialize it properly
             _checkMode();
-            
+
             return _blocks;
         },
 
@@ -180,12 +187,12 @@ define([
          * @returns {{}}
          * @private
          */
-        _initSliders: function($elt) {
-            
+        _initSliders: function ($elt) {
+
             var options = $elt.data(dataNs),
                 _sliders = {};
 
-            _(options.$blocks).forOwn(function($block, unit) {
+            _(options.$blocks).forOwn(function ($block, unit) {
                 _sliders[unit] = $block.find('.media-sizer-slider');
                 _sliders[unit].prop('unit', unit);
                 _sliders[unit].noUiSlider({
@@ -195,7 +202,7 @@ define([
                         'max': options.sizeProps.sliders[unit].max
                     }
                 })
-                    .on('slide', function() {
+                    .on('slide', function () {
                         var $slider = $(this),
                             unit = $slider.prop('unit');
 
@@ -214,7 +221,7 @@ define([
          * @param eventType
          * @private
          */
-        _sync: function($elt, $field, eventType) {
+        _sync: function ($elt, $field, eventType) {
             eventType = eventType === 'sliderchange' ? 'sliderEvent' : 'fieldEvent';
 
             var options = $elt.data(dataNs),
@@ -236,16 +243,16 @@ define([
             // Re-calculate current ratio
             // change scenario: someone has typed height and width in pixels while syncing was off
             // whether current or natural ratio eventually will be used depends on options.denyCustomRatio
-            if(options.sizeProps.px.current.width > 0 && options.sizeProps.px.current.height > 0) {
-              options.sizeProps.ratio.current = options.sizeProps.px.current.width / options.sizeProps.px.current.height;
+            if (options.sizeProps.px.current.width > 0 && options.sizeProps.px.current.height > 0) {
+                options.sizeProps.ratio.current = options.sizeProps.px.current.width / options.sizeProps.px.current.height;
             }
             ratio = options.denyCustomRatio ? options.sizeProps.ratio.natural : options.sizeProps.ratio.current;
 
             // There is only one scenario where dimension != width: manual input of the height in px
             // this is treated here separately because then we just need to deal with widths below
-            if(dimension === 'height' && unit === 'px') {
+            if (dimension === 'height' && unit === 'px') {
                 options.sizeProps.px.current.height = value;
-                if(options.syncDimensions) {
+                if (options.syncDimensions) {
                     options.sizeProps.px.current.width = value * ratio;
                     options.sizeProps.ratio.current = options.sizeProps.px.current.width / options.sizeProps.px.current.height;
                     options.$fields.px.width.val(_round(options.sizeProps.px.current.width));
@@ -261,7 +268,7 @@ define([
                         options.target.attr('width', currentValues.width);
                         options.target.attr('height', currentValues.height);
                     }
-                    $elt.trigger('sizechange.' + ns,  this._getValues($elt));
+                    $elt.trigger('sizechange.' + ns, this._getValues($elt));
                     return;
                 }
             }
@@ -272,7 +279,8 @@ define([
             if (unit === 'px') {
                 otherBlockUnit = '%';
                 otherBlockWidthValue = value * 100 / options.sizeProps.containerWidth;
-            } else {
+            }
+            else {
                 otherBlockUnit = 'px';
                 otherBlockWidthValue = value * options.sizeProps.containerWidth / 100;
             }
@@ -286,8 +294,8 @@ define([
                 heightValue = value / ratio;
                 otherBlockHeightValue = otherBlockWidthValue / ratio;
                 //same block
-                 options.sizeProps[unit].current.height = heightValue;
-                 options.$fields[unit].height.val(_round(heightValue));
+                options.sizeProps[unit].current.height = heightValue;
+                options.$fields[unit].height.val(_round(heightValue));
                 //other block
                 options.sizeProps[otherBlockUnit].current.height = otherBlockHeightValue;
                 options.$fields[otherBlockUnit].height.val(_round(otherBlockHeightValue));
@@ -308,13 +316,13 @@ define([
             options.sizeProps['%'].current.height = null;
 
             // update medium
-        if (options.applyToMedium) {
-            currentValues = this._getValues($elt);
-            options.target.attr('width', currentValues.width);
-            options.target.attr('height', currentValues.height);
-        }
-            $elt.trigger('sizechange.' + ns,  this._getValues($elt));
-    },
+            if (options.applyToMedium) {
+                currentValues = this._getValues($elt);
+                options.target.attr('width', currentValues.width);
+                options.target.attr('height', currentValues.height);
+            }
+            $elt.trigger('sizechange.' + ns, this._getValues($elt));
+        },
 
 
         /**
@@ -324,27 +332,18 @@ define([
          * @returns {{}}
          * @private
          */
-        _initFields: function($elt) {
-            
+        _initFields: function ($elt) {
+
             var options = $elt.data(dataNs),
                 dimensions = ['width', 'height'],
                 field, _fields = {},
                 self = this;
 
-            _(options.$blocks).forOwn(function($block, unit) {
+            _(options.$blocks).forOwn(function ($block, unit) {
                 _fields[unit] = {};
 
-//
-//                            if(value > $field.data('max') || value < $field.data('min')) {
-//                                return false;
-//                            }
-//
-//                            self._sync($elt, $(this), e.type);
-//
-
-
-                options.$blocks[unit].find('input').each(function() {
-                    _(dimensions).forEach(function(dim) {
+                options.$blocks[unit].find('input').each(function () {
+                    _(dimensions).forEach(function (dim) {
                         field = options.$blocks[unit].find('[name="' + dim + '"]');
                         // there is no 'height' field for % - $('<input>') is a dummy to avoid checking if the field exists all the time
                         _fields[unit][dim] = field.length ? field : $('<input>');
@@ -355,12 +354,12 @@ define([
                         _fields[unit][dim].val(_round(options.sizeProps[unit].current[dim]));
                         _fields[unit][dim].data({ min: 0, max: options.sizeProps.sliders[unit].max });
 
-                        _fields[unit][dim].on('keydown', function(e) {
+                        _fields[unit][dim].on('keydown', function (e) {
                             var $field = $(this),
                                 c = e.keyCode,
-                                specChars = (function() {
+                                specChars = (function () {
                                     var chars = [8, 37, 39, 46];
-                                    if($field.val().indexOf('.') === -1) {
+                                    if ($field.val().indexOf('.') === -1) {
                                         chars.push(190);
                                         chars.push(110);
                                     }
@@ -372,16 +371,16 @@ define([
                                 || (c >= 96 && c <= 105));
                         });
 
-                        _fields[unit][dim].on('keyup blur sliderchange', function(e) {
+                        _fields[unit][dim].on('keyup blur sliderchange', function (e) {
                             var $field = $(this),
-                                value = $field.val().replace(/,/g,'.');
+                                value = $field.val().replace(/,/g, '.');
 
                             $field.val(value);
 
-                            if(value > $field.data('max')) {
+                            if (value > $field.data('max')) {
                                 $field.val($field.data('max'));
                             }
-                            else if(value < $field.data('min')) {
+                            else if (value < $field.data('min')) {
                                 $field.val($field.data('min'));
                             }
 
@@ -395,7 +394,6 @@ define([
         },
 
 
-
         /**
          * Retrieve current size values in current unit
          *
@@ -403,14 +401,14 @@ define([
          * @returns {{}}
          * @private
          */
-        _getValues: function($elt) {
+        _getValues: function ($elt) {
             var options = $elt.data(dataNs),
                 attr = {};
-
-            _.forOwn(options.sizeProps[options.sizeProps.currentUnit].current, function(value, dimension) {
+            _.forOwn(options.sizeProps[options.sizeProps.currentUnit].current, function (value, dimension) {
                 if (_.isNull(value)) {
                     value = '';
-                } else {
+                }
+                else {
                     value = _round(value).toString();
                 }
                 if (options.sizeProps.currentUnit === '%' && value !== '') {
@@ -433,14 +431,14 @@ define([
          * @constructor
          * @returns {*}
          */
-        init: function(options) {
+        init: function (options) {
 
             //get options using default
             options = $.extend(true, {}, defaults, options);
 
             var self = MediaSizer;
 
-            return this.each(function() {
+            return this.each(function () {
                 var $elt = $(this),
                     $target = options.target,
                     type = $target[0].nodeName.toLowerCase();
@@ -452,7 +450,7 @@ define([
                 if (!$elt.data(dataNs)) {
 
                     $elt.html(tpl({
-                        responsive : (options.responsive !== undefined) ? !!options.responsive : true
+                        responsive: (options.responsive !== undefined) ? !!options.responsive : true
                     }));
 
                     //add data to the element
@@ -461,7 +459,6 @@ define([
                     options.sizeProps = self._getSizeProps($elt);
                     options.originalSizeProps = _.cloneDeep(options.sizeProps);
 
-                    // options.parentSelector = '[class*="col-"]';
 
                     options.syncDimensions = $elt.find('.media-sizer').hasClass('media-sizer-synced');
 
@@ -490,8 +487,8 @@ define([
          * @example $('selector').toggler('destroy');
          * @public
          */
-        destroy: function() {
-            this.each(function() {
+        destroy: function () {
+            this.each(function () {
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
 

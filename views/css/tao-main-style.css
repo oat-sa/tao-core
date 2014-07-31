@@ -14068,6 +14068,10 @@ Special outer level classes used in this file:
     border-color: #ccc;
     opacity: 1; }
 
+#tab-items_preview {
+  display: none !important;
+  border: 3px red solid; }
+
 body {
   z-index: 0; }
 
