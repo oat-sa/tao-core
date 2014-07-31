@@ -55,7 +55,7 @@ class tao_install_Installator{
 		if(substr($this->options['install_path'], -1) != DIRECTORY_SEPARATOR){
 			$this->options['install_path'] .= DIRECTORY_SEPARATOR;
 		}
-		
+		$this->options['file_path'] = realpath($this->options['file_path']) . DIRECTORY_SEPARATOR;
 	}
 
 
