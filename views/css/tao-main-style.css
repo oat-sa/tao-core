@@ -13396,7 +13396,7 @@ Special outer level classes used in this file:
         line-height: 35px;
         margin-bottom: 0;
         padding: 0 0 0 5px;
-        overflow: hidden; }
+        overflow-y: hidden; }
         .resourcemgr .file-selector ul.files li:before {
           font-family: 'tao';
           display: inline-block;

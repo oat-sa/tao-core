@@ -155,7 +155,7 @@
                 line-height: 35px;
                 margin-bottom: 0;
                 padding: 0 0 0 5px;
-                overflow: hidden;
+                overflow-y: hidden;
 
                 &:before {
                     @include icon('document');
