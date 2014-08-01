@@ -13421,7 +13421,8 @@ Special outer level classes used in this file:
           cursor: pointer; }
         .resourcemgr .file-selector ul.files li .desc {
           display: inline-block;
-          min-width: 150px; }
+          min-width: 150px;
+          max-width: 250px; }
         .resourcemgr .file-selector ul.files li .actions {
           float: right;
           position: relative;
