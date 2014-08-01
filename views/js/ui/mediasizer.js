@@ -172,6 +172,7 @@ define([
             $responsiveSwitch.on('click', function () {
                 _checkMode();
                 $elt.trigger('responsiveswitch.' + ns, [$responsiveSwitch.is(':checked')]);
+                $elt.trigger('sizechange.' + ns, self._getValues($elt));
             });
 
             //initialize it properly
