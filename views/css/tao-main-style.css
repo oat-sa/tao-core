@@ -13420,7 +13420,8 @@ Special outer level classes used in this file:
           background-color: #9ebed3;
           cursor: pointer; }
         .resourcemgr .file-selector ul.files li .desc {
-          display: inline-block; }
+          display: inline-block;
+          min-width: 150px; }
         .resourcemgr .file-selector ul.files li .actions {
           float: right;
           position: relative;
