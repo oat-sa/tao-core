@@ -30,6 +30,8 @@ class Perspective implements PhpSerializable
     const GROUP_DEFAULT = 'main';
     
     const GROUP_SETTINGS = 'settings';
+    
+    const GROUP_INVISIBLE = 'invisible';
 
     private $data = array();
     
@@ -45,7 +47,11 @@ class Perspective implements PhpSerializable
         $data = array(
             'id' => (string) $node['id'],
             'visible' => $node['visible'] == 'true',
-            'group'       => $node['group'] ? (string)$node['group'] : self::GROUP_DEFAULT,
+            'group'       => $node['group']
+                ? (string)$node['group']
+                : ($node['visible'] == 'true'
+                    ? self::GROUP_DEFAULT
+                    : self::GROUP_INVISIBLE),
             'name' => (string) $node['name'],
             'js'          => '',
             'description' => (string) $node->description,
