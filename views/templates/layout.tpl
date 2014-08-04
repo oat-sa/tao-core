@@ -1,22 +1,56 @@
 <?php
 use oat\tao\helpers\Template;
+use oat\tao\helpers\Layout;
+
+$releaseMsgData = Layout::getReleaseMsgData(TAO_RELEASE_STATUS);
 
 Template::inc('layout_header.tpl', 'tao')
 ?>
 <div class="content-wrap">
-    <div id="main-menu" class="ui-state-default">
-        <a href="<?=_url('entry', 'Main', 'tao')?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
 
-        <div class="left-menu tao-scope">
-            <?php foreach(get_data('menu') as $entry): ?>
-            <span <? if (get_data('shownExtension') == $entry['extension']): ?>class="current-extension"<?php endif ?>>
-            <a href="<?=$entry['url']?>" title="<?=__($entry['description'])?>"><?=__($entry['name'])?></a>
-            </span>
-            <?php endforeach ?>
+    <?php if ($releaseMsgData['isUnstable'] || $releaseMsgData['isSandbox']) : ?>
+        <!-- alpha|beta|sandbox message -->
+        <div class="feedback-warning small release-warning">
+            <span class="icon-warning"></span>
+            <?= $releaseMsgData['versionType'] ?> ·
+            <?php if ($releaseMsgData['isUnstable']): ?>
+                <a href="http://forge.taotesting.com/projects/tao" target="_blank">
+                    <?= __('Please report bugs, ideas, comments or feedback on the TAO Forge') ?>
+                </a>
+            <?php else: ?>
+                <?= __('All data will be removed in %s', Layout::getSandboxExpiration()) ?>
+            <?php endif; ?>
+            <!--span title="<?= __('Remove Message') ?>" class="icon-close close-trigger"></span-->
         </div>
+        <!-- /alpha|beta|sandbox message -->
+    <?php endif; ?>
 
-        <div class="right-menu tao-scope">
+    <header class="dark-bar clearfix">
+        <nav>
+            <a href="<?= _url('entry', 'Main', 'tao') ?>" title="<?= __('TAO Home') ?>" class="lft">
+                <img src="<?= TAOBASE_WWW ?>media/tao-logo.png" alt="TAO Logo" id="tao-main-logo"/>
+            </a>
+            <ul class="plain clearfix lft main-menu">
+                <?php foreach (get_data('main-menu') as $entry): ?>
+                    <?php \console::log($entry); ?>
+                    <li <?php if (get_data('shownExtension') === $entry['extension']): ?>class="active"<?php endif ?>>
+                        <a href="<?= $entry['url'] ?>" title="<?= __($entry['description']) ?>">
+                            <?= Layout::getExtensionIcon($entry['icon']) ?>
+                            <?= __($entry['name']) ?></a>
+                    </li>
+                <?php endforeach ?>
+            </ul>
+            <ul class="plain clearfix settings-menu rgt">
 
+                <!-- check for ? and take out -->
+                <!-- loop over the rest -->
+                <?php //\console::log(); ?>
+                <?php foreach (get_data('settings-menu') as $action): ?>
+                    <li>
+                        <a id="<?= $action['id'] ?>" <?php if (isset($action['js'])): ?> href="#" data-action="<?= $action['js'] ?>"
+                        <?php else : ?>
+                            href="<?= $action['url'] ?>"
+                        <?php endif ?> title="<?= __($action['title']) ?>">
 
             <div>
                 <a id="logout" href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Log Out')?>">
@@ -35,32 +69,44 @@ Template::inc('layout_header.tpl', 'tao')
             </div>
             <?php endif ?>
 
-            <div class="vr">|</div>
+                            <?php if (isset($action['text'])): ?>
+                                <?= __($action['text']) ?>
+                            <?php endif ?>
 
-            <?php foreach(get_data('toolbar') as $action):?>
-            <div>
-                <a id="<?=$action['id']?>" <? if(isset($action['js'])): ?> href="#" data-action="<?=$action['js']?>"
-                <?php else : ?>
-                href="<?=$action['url']?>"
-                <?php endif ?> title="<?=__($action['title'])?>">
+                        </a>
+                    </li>
+                <?php endforeach ?>
 
-                <?php if(isset($action['icon'])): ?>
-                <span class="<?=$action['icon']?>"></span>
+
+                <?php if (tao_models_classes_accessControl_AclProxy::hasAccess(null, 'UserSettings', 'tao')): ?>
+                    <li data-env="user" class="separate">
+                        <a id="usersettings"
+                           href="<?= _url(
+                               'index',
+                               'Main',
+                               'tao',
+                               array('structure' => 'user_settings', 'ext' => 'tao')
+                           ) ?>"
+                           title="<?= __('My profile') ?>">
+                            <span class="icon-user"></span>
+                            <span class="username"><?= get_data('userLabel') ?></span>
+                        </a>
+                    </li>
                 <?php endif ?>
 
-                <?php if(isset($action['text'])): ?>
-                <?=__($action['text'])?>
-                <?php endif ?>
+                <li data-env="user">
+                    <a id="logout" href="<?= _url('logout', 'Main', 'tao') ?>" title="<?= __('Log Out') ?>">
+                        <span class="icon-logout"></span>
+                    </a>
+                </li>
 
-                </a>
-            </div>
-            <? endforeach ?>
+            </ul>
+        </nav>
+    </header>
 
-            <div class="breaker"></div>
-        </div>
-    </div>
 
-    <? if(get_data('sections')):?>
+    <div class="loading-bar"></div>
+    <?php if (get_data('sections')): ?>
 
     <div id="tabs">
         <ul>
@@ -70,13 +116,13 @@ Template::inc('layout_header.tpl', 'tao')
             <?php endforeach ?>
         </ul>
 
-        <div id="sections-aside">
-            <div id="section-trees"></div>
-            <div id="section-actions"></div>
+            <div id="sections-aside">
+                <div id="section-trees"></div>
+                <div id="section-actions"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div id="section-meta"></div>
         </div>
-        <div class="clearfix"></div>
-        <div id="section-meta"></div>
-    </div>
     <?php endif; ?>
 
 </div>

@@ -73,6 +73,21 @@ class MenuService {
     }
     
     /**
+     * Get the structure content (from the structure.xml file) of each extension filtered by group.
+     * @param $groupId
+     * @return array
+     */
+    public static function getPerspectivesByGroup($groupId) {
+        $perspectives = array();
+        foreach(self::getAllPerspectives() as $perspective) {
+            if($perspective -> getGroup() === $groupId) {
+                $perspectives[] = $perspective;
+            }
+        }
+        return $perspectives;
+    }
+
+    /**
      * Get the structure content (from the structure.xml file) of each extension.
      * @return array
      */

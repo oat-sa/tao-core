@@ -94,57 +94,7 @@ html body {
 
 /* Layout specific stylesheet, used for elements positioning */
 
-/* Layout */
-#tabs {
-    min-height: 620px;
-    width: 99%;
-    margin: auto 3px 32px auto;
 
-    .ui-tabs-nav {
-        margin-right: 0px;
-        background-color: white();
-        z-index: 1;
-    }
-}
-
-#tabs {
-    /* don't change it ! (used by scripting) */
-    div.ui-tabs-panel {
-        position: relative;
-        padding: 5px 0
-    }
-
-    a {
-        outline: none;
-    }
-
-    span.tab-closer {
-        display: none;
-    }
-
-    li.closable a {
-        padding-right: 20px;
-    }
-
-    li span.tab-closer {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        overflow: hidden;
-        background-image: url(../img/delete_disabled.png);
-        background-repeat: no-repeat;
-        background-position: center center;
-        text-indent: -500em;
-        margin: 8px 3px 0 0;
-        cursor: pointer;
-        opacity: 0.5;
-    }
-
-    li:hover span.tab-closer {
-        background-image: url(../img/delete.png);
-        opacity: 1;
-    }
-}
 
 /* Menu */
 #main-menu {
