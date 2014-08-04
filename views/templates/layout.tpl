@@ -32,7 +32,8 @@ Template::inc('layout_header.tpl', 'tao')
             </a>
             <ul class="plain clearfix lft main-menu">
                 <?php foreach (get_data('main-menu') as $entry): ?>
-                    <li <?php if (get_data('shownExtension') === $entry['extension']): ?>class="active"<?php endif ?>>
+                    <li <?php if (get_data('shownExtension') === $entry['extension']
+                            && get_data('shownStructure') === $entry['id']): ?>class="active"<?php endif ?>>
                         <a href="<?= $entry['url'] ?>" title="<?= __($entry['description']) ?>">
                             <?= is_null($entry['icon']) ? '' : Layout::renderMenuIcon($entry['icon']) ?>
                             <?= __($entry['name']) ?></a>
