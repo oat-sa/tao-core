@@ -147,7 +147,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	public function index(){
         
 
-        $this -> setData('main-menu', $this -> getNavigationElementsByGroup(Perspective::DEFAULT_GROUP));
+        $this -> setData('main-menu', $this -> getNavigationElementsByGroup(Perspective::GROUP_DEFAULT));
         $this -> setData('settings-menu', $this -> getNavigationElementsByGroup('settings'));
 
         
@@ -209,7 +209,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
     private function getNavigationElementsByGroup($groupId){
         $entries = array();
         foreach(MenuService::getPerspectivesByGroup($groupId) as $i => $perspective){
-            if($this->hasAccessToStructure($perspective)){
+            if($this->hasAccessToMenuElement($perspective)){
 
                 $extension = $perspective->getExtension();
                 $entry     = array(
@@ -222,10 +222,9 @@ class tao_actions_Main extends tao_actions_CommonModule {
                 );
 
 
-                if(!is_null($perspective->getJs())){
+                if(is_null($perspective->getJs())){
                     $entry['url'] = _url('index', null, null, array('structure' => $perspective->getId(), 'ext' => $perspective->getExtension()));
-                }
-                else{
+                } else {
                     $entry['js'] = $extension . '/' . $perspective->getJs();
                 }
 
@@ -236,72 +235,23 @@ class tao_actions_Main extends tao_actions_CommonModule {
         return $entries;
     }
 
-    
-    /**
-     * Get the list of menu structures
-     * 
-     * @return array with data about the menu structures
-     */
-    private function getMenuEntries(){
-        $entries = array();
-		foreach (MenuService::getAllPerspectives() as $i => $structure) {
-            if ($structure->isVisible() && $this->hasAccessToStructure($structure)) {
-                $entries[$i] = array(
-                    'id'			=> $structure->getId(),
-                    'name' 			=> $structure->getName(),
-                    'extension'		=> $structure->getExtension(),
-                    'description'	=> $structure->getDescription(),
-                    'icon'        => $structure->getIcon(),
-                    'url'           => _url('index', null, null, array('structure' => $structure->getId(), 'ext' => $structure->getExtension()))
-                );
-            }
-        }
-        return $entries;
-    }
-    
-    /**
-     * Get the actions to put into the toolbar
-     *
-     * @return array the actions
-     */
-    private function getToolbarActions(){
-        $actions = array();
-        foreach(MenuService::getToolbarActions() as $i => $toolbarAction){
-            $access    = false;
-            $action    = $toolbarAction->toArray();
-            $extension = $toolbarAction->getExtension();
-            if(!is_null($toolbarAction->getStructure())){
-                $structure = MenuService::getPerspective($extension, $toolbarAction->getStructure());
-                if($this->hasAccessToStructure($structure)){
-                    $action['url'] = _url('index', null, null, array('structure' => $toolbarAction->getStructure(), 'ext' => $extension));
-                    $access        = true;
-                }
-            }
-            else{
-                $action['js'] = $extension . '/' . $toolbarAction->getJs();
-                $access       = tao_models_classes_accessControl_AclProxy::hasAccess(null, null, $extension);
-            }
-            if($access){
-                $actions[$i] = $action;
-            }
-        }
-
-        return $actions;
-    }
-
     /**
      * Check whether a user can access to the content of a structure
      *
      * @param Perspective $structure from the structure.xml
      * @return boolean true if the user is allowed
      */
-    private function hasAccessToStructure(Perspective $structure){
+    private function hasAccessToMenuElement(Perspective $menuElement){
         $access = false;
-        foreach ($structure->getSections() as $section) {
-            list($extension, $controller, $action) = explode('/', trim((string) $section->getUrl(), '/'));
-            if (tao_models_classes_accessControl_AclProxy::hasAccess($action, $controller, $extension)) {
-                $access = true;
-                break;
+        if (!empty($menuElement->getJs())) {
+            $access = true;
+        } else {
+            foreach ($menuElement->getSections() as $section) {
+                list($extension, $controller, $action) = explode('/', trim((string) $section->getUrl(), '/'));
+                if (tao_models_classes_accessControl_AclProxy::hasAccess($action, $controller, $extension)) {
+                    $access = true;
+                    break;
+                }
             }
         }
         return $access;
