@@ -391,16 +391,17 @@ class Bootstrap{
 		
             //stylesheets to load
             tao_helpers_Scriptloader::addCssFiles(
-                array(
+                array(/*,
                     TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.22.custom.css',
                     TAOBASE_WWW . 'js/lib/jwysiwyg/jquery.wysiwyg.css',
                     TAOBASE_WWW . 'js/lib/jquery.jqGrid-4.4.0/css/ui.jqgrid.css',
-                    TAOBASE_WWW . 'css/style.css',
-                    TAOBASE_WWW . 'css/layout.css',
+                    TAOBASE_WWW . 'css/style.css',*/
+                    TAOBASE_WWW . 'css/layout.css'/*,
                     TAOBASE_WWW . 'css/form.css',
                     TAOBASE_WWW . 'css/grid.css',
-                    TAOBASE_WWW . 'css/widgets.css',
-                    TAOBASE_WWW . 'css/tao-main-style.css'
+                    TAOBASE_WWW . 'css/widgets.css'*/,
+                    TAOBASE_WWW . 'css/tao-main-style.css',
+                    TAOBASE_WWW . 'css/tao-3.css'
             )
             );
 

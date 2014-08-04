@@ -27,32 +27,66 @@ class Perspective implements PhpSerializable
 {
     const SERIAL_VERSION = 1392821334;
     
+    const DEFAULT_GROUP = 'main';
+
     private $data = array();
     
     private $sections = array();
     
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $extensionId) {
+    /**
+     * @param \SimpleXMLElement $node
+     * @param $extensionId
+     * @return static
+     */
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $extensionId)
+    {
         $data = array(
             'id' => (string) $node['id'],
             'visible' => $node['visible'] == 'true',
+            'group'       => $node['group'] ? (string)$node['group'] : self::DEFAULT_GROUP,
             'name' => (string) $node['name'],
+            'js'          => '',
             'description' => (string) $node->description,
             'extension' => $extensionId,
             'level' => (string) $node['level'],
+            'icon'        => array()
         );
         $sections = array();
         foreach ($node->xpath("sections/section") as $sectionNode) {
             $sections[] = Section::fromSimpleXMLElement($sectionNode);
         }
+        if (isset($node->icon)) {
+            foreach ($node->icon->attributes() as $key => $attribute) {
+                $data['icon'][$key] = (string)$attribute;
+            }
+        }
         return new static($data, $sections);
     }
     
-    public function __construct($data, $sections, $version = self::SERIAL_VERSION) {
+    /**
+     * @param $data
+     * @param $sections
+     * @param int $version
+     */
+    public function __construct($data, $sections, $version = self::SERIAL_VERSION)
+    {
         $this->data = $data;
         $this->sections = $sections;
     }
     
-    public function addSection(Section $section) {
+    /**
+     * @return array
+     */
+    public function getIcon()
+    {
+        return $this->data['icon'];
+    }
+
+    /**
+     * @param Section $section
+     */
+    public function addSection(Section $section)
+    {
         $existingKey = false;
         foreach ($this->sections as $key => $existingSection) {
             if ($existingSection->getId() == $section->getId()) {
@@ -67,35 +101,62 @@ class Perspective implements PhpSerializable
         }
     }
     
-    public function getId() {
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
         return $this->data['id'];
     }
     
-    public function getExtension() {
+    /**
+     * @return mixed
+     */
+    public function getExtension()
+    {
         return $this->data['extension'];
     }
 
-    public function getName() {
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
         return $this->data['name'];
     }
     
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->data['description'];
     }
     
-    public function getLevel() {
+    public function getGroup()
+    {
+        return $this->data['group'];
+    }
+
+    public function getLevel()
+    {
         return $this->data['level'];
     }
 
-    public function isVisible() {
+    public function isVisible()
+    {
         return $this->data['visible'];
     }
     
-    public function getSections() {
+    public function getSections()
+    {
         return $this->sections;
     }
     
-    public function __toPhpCode() {
+    public function getJs()
+    {
+        return !empty($this->data['js']) ? $this->data['js'] : null;
+    }
+
+    public function __toPhpCode()
+    {
         return "new ".__CLASS__."("
             .\common_Utils::toPHPVariableString($this->data).','
             .\common_Utils::toPHPVariableString($this->sections).','
