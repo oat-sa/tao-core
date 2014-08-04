@@ -22,67 +22,43 @@
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
+use tao_models_classes_accessControl_AclProxy;
 
-class Section implements PhpSerializable
+class Icon implements PhpSerializable
 {
     const SERIAL_VERSION = 1392821334;
     
-    private $data = array();
-    
-    private $trees = array();
-    
-    private $actions = array();
+    protected $data;
     
     public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
-        $data = array(
-            'id'  => (string)$node['id'],
-            'name'  => (string)$node['name'],
-            'url' => (string)$node['url']
-        );
-        
-        $trees = array();
-        foreach ($node->xpath("trees/tree") as $treeNode) {
-            $trees[] = Tree::fromSimpleXMLElement($treeNode);
-        }
-            
-        $actions = array();
-        foreach ($node->xpath("actions/action") as $actionNode) {
-            $actions[] = Action::fromSimpleXMLElement($actionNode);
-        }
-        return new static($data, $trees, $actions);
+        return new static(array(
+            'id' => (string) $node['id'],
+            'src' => isset($node['src']) ? (string) $node['src'] : null,
+        ));
     }
     
-    public function __construct($data, $trees, $actions, $version = self::SERIAL_VERSION) {
+    public static function createLegacyItem($iconId) {
+        return new static(array(
+            'id' => $iconId,
+            'src' => null,
+        ));
+    }
+    
+    public function __construct($data, $version = self::SERIAL_VERSION) {
         $this->data = $data;
-        $this->trees = $trees;
-        $this->actions = $actions;
     }
     
     public function getId() {
         return $this->data['id'];
     }
     
-    public function getUrl() {
-        return $this->data['url'];
-    }
-    
-    public function getName() {
-        return $this->data['name'];
-    }
-    
-    public function getTrees() {
-        return $this->trees;
-    }
-    
-    public function getActions() {
-        return $this->actions;
+    public function getSource() {
+        return $this->data['src'];
     }
     
     public function __toPhpCode() {
         return "new ".__CLASS__."("
             .\common_Utils::toPHPVariableString($this->data).','
-            .\common_Utils::toPHPVariableString($this->trees).','
-            .\common_Utils::toPHPVariableString($this->actions).','
             .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
         .")";
     }
