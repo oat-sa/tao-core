@@ -23,7 +23,6 @@
 namespace oat\tao\model\menu;
 
 /**
- * 
  * @author joel bout, <joel@taotesting.com>
  */
 class MenuService {
@@ -111,8 +110,8 @@ class MenuService {
     {
         if(count(self::$structure) == 0 ){
             try {
-                self::$structure = self::buildStructures();
-                //self::$structure = \common_cache_FileCache::singleton()->get(self::CACHE_KEY);
+                //self::$structure = self::buildStructures();
+                self::$structure = \common_cache_FileCache::singleton()->get(self::CACHE_KEY);
             } catch (\common_cache_NotFoundException $e) {
                 self::$structure = self::buildStructures();
                 \common_cache_FileCache::singleton()->put(self::$structure, self::CACHE_KEY);
@@ -158,21 +157,18 @@ class MenuService {
 				}
 				foreach($xmlStructures->xpath("/structures/toolbar/toolbaraction") as $xmlStructure){
 				    $perspective = Perspective::fromLegacyToolbarAction($xmlStructure, $extId);
-				    if (!isset($perspectives[$perspective->getId()])) {
-				        $perspectives[$perspective->getId()] = $perspective;
-				    } else {
-				        foreach($perspective->getSections() as $section) {
-				            $perspectives[$perspective->getId()]->addSection($section);
-				        }
-				    }
+			        $perspectives[$perspective->getId()] = $perspective;
+			        if (isset($xmlStructure['structure'])) {
+			            $toAdd[$perspective->getId()] = (string)$xmlStructure['structure'];  
+			        }
 				}
 			}
 		}
 		
-		foreach ($toAdd as $from => $to) {
-		    if (isset($perspective[$from])) {
-		        foreach($perspective[$from]->getSections() as $section) {
-		            $to->addSection($section);
+		foreach ($toAdd as $to => $from) {
+		    if (isset($perspectives[$from]) && isset($perspectives[$to])) {
+		        foreach($perspectives[$from]->getSections() as $section) {
+		            $perspectives[$to]->addSection($section);
 		        }
 		    } 
 		}

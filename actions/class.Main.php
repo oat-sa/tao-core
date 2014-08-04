@@ -189,6 +189,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
 		// readded to highlight selected extension in menu
 		$this->setData('shownExtension', $shownExtension);
+		$this->setData('shownStructure', $shownStructure);
 		                
         //creates the URL of the action used to configure the client side
         $clientConfigParameters = array(
