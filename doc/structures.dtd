@@ -1,6 +1,6 @@
 <!-- Root Tag -->
 <!ELEMENT structures  (( structure )* , (toolbar)* ,(entrypoint)*) >
-	<!ELEMENT structure  ( (description)? ,sections )>
+	<!ELEMENT structure  ( (description)? , (icon)?, sections )>
 	
 		<!-- The id of the structure -->
 		<!ATTLIST structure id ID #REQUIRED>
@@ -12,6 +12,15 @@
 		<!ATTLIST structure visible CDATA #REQUIRED>
 	
 		<!ELEMENT description (#PCDATA)>
+		
+        <!-- extension icon -->
+        <!ELEMENT icon  EMPTY>
+        <!-- this is considered a temp solution, eventually we might switch to svg -->
+        <!-- source of the icon -->
+        <!ATTLIST icon src CDATA #IMPLIED>
+        <!-- id of the icon if svg is a sprite -->
+        <!ATTLIST icon id CDATA #IMPLIED>
+
 		
 		<!-- sub division, each section of the extension will be displayed in a separated tab -->
 		<!ELEMENT sections  ( section )*>
@@ -45,7 +54,7 @@
 	
 				<!-- The list of contextual actions to load in the section panel -->
 				<!ELEMENT actions  ( action )*>
-					<!ELEMENT action  EMPTY>
+					<!ELEMENT action (icon)?>
 					<!-- Name of the action -->
 					<!ATTLIST action name CDATA #REQUIRED>
 					<!-- A javascript method to run instead of loading directly the URL -->

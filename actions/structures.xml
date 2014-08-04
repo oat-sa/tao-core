@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE extension SYSTEM "../doc/structures.dtd">
 <structures>
-	<structure id="users" name="Users" level="11" visible="false">
+	<structure id="users" name="Users" level="11" visible="true" group="settings">
 		<description />
+        <icon id="icon-users" src="" />
 		<sections>
 			<section id="list_users" name="Manage users" url="/tao/Users/index" />
 			<section id="add_user" name="Add a user" url="/tao/Users/add" />
@@ -19,7 +20,9 @@
 					/>
 				</trees>
 				<actions>
-					<action name="search" url="/tao/Roles/search" context="*" />
+					<action name="search" url="/tao/Roles/search" context="*">
+                        <icon id="search" src="images/icon.svg"/>
+                    </action>
 					<action name="new role" js="instanciate" url="/tao/Roles/addInstance" context="class" />
 					<action name="delete" js="removeNode" url="/tao/Roles/delete" context="resource" />
 					<action name="meta data" js="loadMetaData" url="/tao/MetaData/getMetaData"  context="resource" />
@@ -28,8 +31,10 @@
 			</section>
 		</sections>
 	</structure>
-	<structure id="settings" name="Settings" level="8" visible="false">
+
+	<structure id="settings" name="Settings" level="8" visible="false" group="settings">
 		<description />
+        <icon id="icon-tools" src="" />
 		<sections>
 			<section id="settings_ext_mng" name="Extensions manager" url="/tao/ExtensionsManager/index" />
 			<section id="settings_im_export" name="Ontology" url="/tao/RdfImExport/index" />
@@ -51,17 +56,14 @@
 			</section>
 		</sections>
 	</structure>
-	<structure id="user_settings" name="User Settings" level="12" visible="false">
+
+	<structure id="user_settings" name="User Settings" level="12" visible="false" group="settings">
 		<description />
 		<sections>
 			<section id="settings_my_settings" name="My settings" url="/tao/UserSettings/properties" />
 			<section id="settings_my_password" name="Change password" url="/tao/UserSettings/password" />
 		</sections>
 	</structure>
-    <toolbar>
-        <toolbaraction id="usermanager" icon="icon-users" level="9" structure="users" title="User Management"></toolbaraction>
-        <toolbaraction id="settings" icon="icon-tools" level="10" structure="settings" title="System Settings"></toolbaraction>
-    </toolbar>
     <entrypoint id="backoffice" title="Test Developers and Administrators" label="TAO Back Office" url="tao/Main/index">
         <description><![CDATA[Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows.]]></description>
     </entrypoint>

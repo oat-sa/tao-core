@@ -1,0 +1,163 @@
+@import "inc/bootstrap";
+@import "inc/fonts";
+@import "inc/normalize";
+@import "inc/main";
+@import "inc/feedback";
+@import "inc/grid";
+@import "inc/select2";
+@import "inc/toolbars";
+@import "inc/tooltip";
+@import "inc/resourcemgr";
+@import "inc/mediasizer";
+
+
+$darkBar : rgb(51, 51, 51);
+$darkBarTxt : rgb(230, 230, 230);
+$darkBarIcon : rgb(220, 220, 220);
+
+
+// Header
+header {
+    nav {
+        #tao-main-logo {
+            padding: 6px 30px 6px 30px;
+            display:block;
+        }
+        li {
+            float: left;
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            @include font-size(13);
+            a {
+                padding: 13px 15px 11px;
+                display:block;
+                height: 64px;
+                span {
+                    font-size: 2rem;
+                    text-shadow: unset !important;
+                    line-height: 1;
+                    display: block;
+                    color: $darkBarIcon;
+                    padding-bottom: 3px;
+                }
+                &:hover {
+                    background:black;
+                    text-decoration: none;
+                    span {
+                        color: white;
+                    }
+                }
+            }
+            &.active {
+                a {
+                    background-color: $logoRed !important;
+                    color: white(.9) !important;
+                    &.hover {
+                        color: white !important;
+                    }
+                }
+            }
+        }
+
+    }
+    .user-menu {
+
+    }
+}
+
+.dark-bar {
+    background: $darkBar;
+    color: $darkBarTxt;
+    a {
+        color: $darkBarTxt;
+        &:hover {
+            color: white;
+            text-decoration: none;
+        }
+    }
+}
+
+
+#tabs {
+    min-height: 620px;
+    top: 0 !important;
+
+    .ui-tabs-nav {
+        margin-right: 0px;
+        background-color: white();
+        z-index: 1;
+    }
+
+    /* don't change it ! (used by scripting) */
+    div.ui-tabs-panel {
+        position: relative;
+        padding: 5px 0
+    }
+
+    a {
+        outline: none;
+    }
+
+    span.tab-closer {
+        display: none;
+    }
+
+    li.closable a {
+        padding-right: 20px;
+    }
+
+    li span.tab-closer {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        overflow: hidden;
+        background-image: url(../img/delete_disabled.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        text-indent: -500em;
+        margin: 8px 3px 0 0;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+
+    li:hover span.tab-closer {
+        background-image: url(../img/delete.png);
+        opacity: 1;
+    }
+}
+
+
+// Footer
+footer, .content-wrap:after {
+    // must be the same height as footer
+    height: 34px;
+}
+
+footer {
+    font-size: 11px;
+    padding: 10px;
+}
+
+.content-wrap {
+    min-height: 100%;
+    // equal to footer height
+    margin-bottom: -34px;
+}
+
+.content-wrap:after {
+    content: "";
+    display: block;
+}
+
+.release-warning {
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    border-bottom:  1px #ddd solid;
+    padding: 0 20px 0 45px !important;
+    line-height: 2;
+    span {
+        top: 5px !important;
+    }
+}

@@ -1,15 +1,15 @@
 <?php
 use oat\tao\helpers\Template;
 ?><!doctype html>
-<html class="no-js" lang="">
-    <head>
+<html class="no-js tao-scope" lang="">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?></title>
 	<link rel="shortcut icon" href="<?= Template::img('favicon.ico')?>" type="image/x-icon" />
 
-	<?=tao_helpers_Scriptloader::render()?>
+    <?= tao_helpers_Scriptloader::render() ?>
 
         <?if(tao_helpers_Mode::is('production')):?>
             <script id='amd-loader' 
@@ -30,8 +30,3 @@ Template::inc('errors.tpl', 'tao')
 ?>
 </head>
 <body>
-	<!-- AJAX Main Spinner Element -->
-	<div id="ajax-loading"></div>
-
-    <!-- Feedback Box -->
-    <div id="feedback-box" class="tao-scope"></div>
