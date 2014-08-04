@@ -242,8 +242,7 @@ class tao_install_Installator{
 			 * 5b - Prepare the file/cache folder (FILES_PATH/GENERIS_CACHE_PATH not yet defined)
 			 * @todo solve this more elegantly
 			 */
-			helpers_File::emptyDirectory($installData['file_path']);
-			mkdir($installData['file_path'] . 'generis' . DIRECTORY_SEPARATOR. 'cache', 0700, true);
+			//helpers_File::emptyDirectory($installData['file_path']);
 			
 			/*
 			 * 6 - Run the extensions bootstrap
@@ -252,7 +251,15 @@ class tao_install_Installator{
 			require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
 			
 			/*
-			 * 6b - Create generis persistence 
+			 * 6b - Create cache persistence
+			*/
+			common_persistence_Manager::addPersistence('cache', array(
+                'driver' => 'phpfile'
+			));
+			common_persistence_KeyValuePersistence::getPersistence('cache')->purge();
+			
+			/*
+			 * 6c - Create generis persistence 
 			 */
 			common_persistence_Manager::addPersistence('default', array(
     			'driver'     => $installData['db_driver'],
@@ -263,7 +270,7 @@ class tao_install_Installator{
 			));
 				
 			/*
-			 * 6c - Create generis user
+			 * 6d - Create generis user
 			*/
 					
 			// Init model creator and create the Generis User.
