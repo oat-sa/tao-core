@@ -89,6 +89,8 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 							instance.options.selectNode = false;
 						} else {
 							TREE_OBJ.open_branch($("li.node-class:first"));
+                            // always select the first item once the tree is open
+                            $("li.node-class:first a:first").trigger('click');
 						}
 					},
 					//when we receive the data

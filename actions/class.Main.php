@@ -146,8 +146,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 */
 	public function index(){
         
-		$this->setData('menu', $this->getMenuEntries());
-        $this->setData('toolbar', $this->getToolbarActions());
+
+        $this -> setData('main-menu', $this -> getNavigationElementsByGroup(Perspective::DEFAULT_GROUP));
+        $this -> setData('settings-menu', $this -> getNavigationElementsByGroup('settings'));
+
         
         $user = $this->userService->getCurrentUser();
         $shownExtension = $this->getRequestParameter('ext');
@@ -198,6 +200,42 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$this->setView('layout.tpl', 'tao');
 	}
     
+    /**
+     * Get perspective data depending on the group set in structure.xml
+     *
+     * @param $groupId
+     * @return array
+     */
+    private function getNavigationElementsByGroup($groupId){
+        $entries = array();
+        foreach(MenuService::getPerspectivesByGroup($groupId) as $i => $perspective){
+            if($this->hasAccessToStructure($perspective)){
+
+                $extension = $perspective->getExtension();
+                $entry     = array(
+                    'id'          => $perspective->getId(),
+                    'name'        => $perspective->getName(),
+                    'extension'   => $perspective->getExtension(),
+                    'description' => $perspective->getDescription(),
+                    'icon'        => $perspective->getIcon(),
+                    'group'       => $perspective->getGroup()
+                );
+
+
+                if(!is_null($perspective->getJs())){
+                    $entry['url'] = _url('index', null, null, array('structure' => $perspective->getId(), 'ext' => $perspective->getExtension()));
+                }
+                else{
+                    $entry['js'] = $extension . '/' . $perspective->getJs();
+                }
+
+                $entries[$i] = $entry;
+            }
+        }
+
+        return $entries;
+    }
+
     
     /**
      * Get the list of menu structures
@@ -213,6 +251,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
                     'name' 			=> $structure->getName(),
                     'extension'		=> $structure->getExtension(),
                     'description'	=> $structure->getDescription(),
+                    'icon'        => $structure->getIcon(),
                     'url'           => _url('index', null, null, array('structure' => $structure->getId(), 'ext' => $structure->getExtension()))
                 );
             }
@@ -221,8 +260,39 @@ class tao_actions_Main extends tao_actions_CommonModule {
     }
     
     /**
-     * Check wheter a user can access to the content of a structure
-     * @param SimpleXMLElement $structure from the structure.xml
+     * Get the actions to put into the toolbar
+     *
+     * @return array the actions
+     */
+    private function getToolbarActions(){
+        $actions = array();
+        foreach(MenuService::getToolbarActions() as $i => $toolbarAction){
+            $access    = false;
+            $action    = $toolbarAction->toArray();
+            $extension = $toolbarAction->getExtension();
+            if(!is_null($toolbarAction->getStructure())){
+                $structure = MenuService::getPerspective($extension, $toolbarAction->getStructure());
+                if($this->hasAccessToStructure($structure)){
+                    $action['url'] = _url('index', null, null, array('structure' => $toolbarAction->getStructure(), 'ext' => $extension));
+                    $access        = true;
+                }
+            }
+            else{
+                $action['js'] = $extension . '/' . $toolbarAction->getJs();
+                $access       = tao_models_classes_accessControl_AclProxy::hasAccess(null, null, $extension);
+            }
+            if($access){
+                $actions[$i] = $action;
+            }
+        }
+
+        return $actions;
+    }
+
+    /**
+     * Check whether a user can access to the content of a structure
+     *
+     * @param Perspective $structure from the structure.xml
      * @return boolean true if the user is allowed
      */
     private function hasAccessToStructure(Perspective $structure){
@@ -239,6 +309,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
     
     /**
      * Get the sections of the current extension's structure
+     *
      * @param string $shownExtension
      * @param string $shownStructure
      * @return array the sections
@@ -263,32 +334,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
         return $sections;
     }
     
-    /**
-     * Get the actions to put into the toolbar
-     * @return array the actions
-     */
-    private function getToolbarActions(){
-        $actions = array();
-		foreach (MenuService::getToolbarActions() as $i => $toolbarAction) {
-            $access = false;
-            $action = $toolbarAction->toArray();
-            $extension = $toolbarAction->getExtension();
-            if(!is_null($toolbarAction->getStructure())){
-                $structure = MenuService::getPerspective($extension, $toolbarAction->getStructure());
-                if($this->hasAccessToStructure($structure)){
-                    $action['url'] =  _url('index', null, null, array('structure' => $toolbarAction->getStructure(), 'ext' => $extension));
-                    $access = true;
-                }
-            } else {
-                $action['js'] =  $extension. '/'. $toolbarAction->getJs();
-                $access = tao_models_classes_accessControl_AclProxy::hasAccess(null, null, $extension);
-            }
-            if($access){
-                $actions[$i] = $action;
-            }
-        }
-        return $actions;
-    }
 
     /**
      * Check if the system is ready
@@ -305,10 +350,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 	/**
 	 * Load the actions for the current section and the current data context
+     *
 	 * @return void
 	 */
-	public function getSectionActions()
-	{
+    public function getSectionActions(){
 
 		$uri = $this->hasRequestParameter('uri');
 		$classUri = $this->hasRequestParameter('classUri');
@@ -387,10 +432,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 	/**
 	 * Load the section trees
+     *
 	 * @return void
 	 */
-	public function getSectionTrees()
-	{
+    public function getSectionTrees(){
 		$extname	= $this->getRequestParameter('ext');
 		$struct		= $this->getRequestParameter('structure');
 		$sectionId	= $this->getRequestParameter('section');

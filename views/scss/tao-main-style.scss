@@ -87,7 +87,8 @@ a[rel="external"] span.icon-external {
     }
 }
 
-.tao-scope {
+
+//.tao-scope {
     @import "inc/buttons";
     @import "inc/jquery-ui";
     @import "inc/jquery.nouislider";
@@ -95,10 +96,13 @@ a[rel="external"] span.icon-external {
     @import "inc/forms";
     @import "inc/components";
 
-    position: relative;
+    body {
 
-    font-family: $regularFont;
-    font-weight: normal;
+        position: relative;
+
+        font-family: $regularFont;
+        font-weight: normal;
+    }
 
     h1, h2, h3, h4, h5, h6 {
         font-weight: normal;
@@ -124,4 +128,4 @@ a[rel="external"] span.icon-external {
     select {
         max-width: 100%
     }
-}
+//}
