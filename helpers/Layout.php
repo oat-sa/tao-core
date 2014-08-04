@@ -21,6 +21,7 @@
 
 namespace oat\tao\helpers;
 
+use oat\tao\model\menu\Icon;
 class Layout{
 
 
@@ -86,7 +87,6 @@ class Layout{
         . $minutes . ' ' . (($minutes > 1) ? __('minutes') : __('minute')) . '.';
     }
 
-
     /**
      * $iconArray defined in oat\tao\model\menu\Perspective::fromSimpleXMLElement
      *
@@ -94,20 +94,22 @@ class Layout{
      * One possible way to make this independent from the font would be to use $extensionId as a prefix
      * and also to load a custom style-sheet
      *
-     * @param $iconData
+     * @param Icon $icon
      * @param $extensionId // could be used as a prefix
      * @return string icon as html
      */
-    public static function getExtensionIcon(array $iconData, $extensionId = ''){
-
-        /* if(!empty($iconData['src'])) {
-             // add font style sheet here
-             // add prefix
-         }*/
+     public static function renderMenuIcon(Icon $icon) {
+        /*
         if(empty($iconData['id'])){
             $iconData['id'] = 'icon-default-extension';
         }
-
-        return sprintf('<span class="%s"></span>', $iconData['id']);
+        */
+        $iconId = !empty($icon->getId())
+            ? $icon->getId()
+            : 'icon-extension';
+        
+        return sprintf('<span class="%s"></span>', $iconId);
+        
     }
+
 }

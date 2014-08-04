@@ -107,22 +107,12 @@ class MenuService {
         return $structure['entrypoints'];
     }    
     
-    /**
-     * Get the actions of the TAO main toolbar
-     *
-     * @return array of ToolbarAction
-     */
-    public static function getToolbarActions()
-    {
-        $structure = self::readStructure();
-        return $structure['toolbaractions'];
-    }    
-    
     public static function readStructure()
     {
         if(count(self::$structure) == 0 ){
             try {
-                self::$structure = \common_cache_FileCache::singleton()->get(self::CACHE_KEY);
+                self::$structure = self::buildStructures();
+                //self::$structure = \common_cache_FileCache::singleton()->get(self::CACHE_KEY);
             } catch (\common_cache_NotFoundException $e) {
                 self::$structure = self::buildStructures();
                 \common_cache_FileCache::singleton()->put(self::$structure, self::CACHE_KEY);
@@ -139,17 +129,17 @@ class MenuService {
     {
 		$perspectives = array();
 		$entrypoints = array();
-        $toolbarActions = array();
+		$toAdd = array();
 		$sorted = \helpers_ExtensionHelper::sortByDependencies(\common_ext_ExtensionsManager::singleton()->getEnabledExtensions());
-		foreach(array_keys($sorted) as $extID){
-			$file = self::getStructuresFilePath($extID);
+		foreach(array_keys($sorted) as $extId){
+			$file = self::getStructuresFilePath($extId);
 			if(!is_null($file)){
 			    $xmlStructures = new \SimpleXMLElement($file, null, true);
 				$extStructures = $xmlStructures->xpath("/structures/structure");
 				foreach($extStructures as $xmlStructure){
 					$id = (string)$xmlStructure['id'];
 					if (!isset($perspectives[$id])) {
-						$perspectives[$id] = Perspective::fromSimpleXMLElement($xmlStructure, $extID);
+						$perspectives[$id] = Perspective::fromSimpleXMLElement($xmlStructure, $extId);
 					} else {
 					    $sections = $xmlStructure->xpath("sections/section");
 					    foreach($sections as $section) {
@@ -167,17 +157,30 @@ class MenuService {
 				    $entrypoints[$entryPoint->getId()] = $entryPoint;
 				}
 				foreach($xmlStructures->xpath("/structures/toolbar/toolbaraction") as $xmlStructure){
-				    $toolbarAction = ToolbarAction::fromSimpleXMLElement($xmlStructure, $extID);
-				    $toolbarActions[$toolbarAction->getId()] = $toolbarAction;
+				    $perspective = Perspective::fromLegacyToolbarAction($xmlStructure, $extId);
+				    if (!isset($perspectives[$perspective->getId()])) {
+				        $perspectives[$perspective->getId()] = $perspective;
+				    } else {
+				        foreach($perspective->getSections() as $section) {
+				            $perspectives[$perspective->getId()]->addSection($section);
+				        }
+				    }
 				}
 			}
 		}
+		
+		foreach ($toAdd as $from => $to) {
+		    if (isset($perspective[$from])) {
+		        foreach($perspective[$from]->getSections() as $section) {
+		            $to->addSection($section);
+		        }
+		    } 
+		}
+		
         $sortCb = create_function('$a,$b', "return \$a->getLevel() - \$b->getLevel(); ");
 		usort($perspectives, $sortCb);
-		usort($toolbarActions, $sortCb);
 		return array(
 			'perspectives' => $perspectives,
-		    'toolbaractions' => $toolbarActions,
 		    'entrypoints' => $entrypoints
 		);
     }

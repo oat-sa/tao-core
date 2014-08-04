@@ -27,7 +27,9 @@ class Perspective implements PhpSerializable
 {
     const SERIAL_VERSION = 1392821334;
     
-    const DEFAULT_GROUP = 'main';
+    const GROUP_DEFAULT = 'main';
+    
+    const GROUP_SETTINGS = 'settings';
 
     private $data = array();
     
@@ -43,24 +45,53 @@ class Perspective implements PhpSerializable
         $data = array(
             'id' => (string) $node['id'],
             'visible' => $node['visible'] == 'true',
-            'group'       => $node['group'] ? (string)$node['group'] : self::DEFAULT_GROUP,
+            'group'       => $node['group'] ? (string)$node['group'] : self::GROUP_DEFAULT,
             'name' => (string) $node['name'],
             'js'          => '',
             'description' => (string) $node->description,
             'extension' => $extensionId,
             'level' => (string) $node['level'],
-            'icon'        => array()
+            'icon'        => isset($node->icon) ? Icon::fromSimpleXMLElement($node->icon) : Icon::createLegacyItem('')
         );
         $sections = array();
         foreach ($node->xpath("sections/section") as $sectionNode) {
             $sections[] = Section::fromSimpleXMLElement($sectionNode);
         }
+        /*
         if (isset($node->icon)) {
             foreach ($node->icon->attributes() as $key => $attribute) {
                 $data['icon'][$key] = (string)$attribute;
             }
         }
+        */
         return new static($data, $sections);
+    }
+    
+    /**
+     * Generate a Perspective from a legacy ToolbarAction
+     * 
+     * @param \SimpleXMLElement $node
+     * @param $extensionId
+     * @return static
+     */
+    public static function fromLegacyToolbarAction(\SimpleXMLElement $node, $extensionId) {
+        $data = array(
+            'id'        => (string)$node['id'],
+            'extension' => $extensionId,
+            'name'		=> (string)$node['title'],
+            'level'		=> (int)$node['level'],
+            'description'      => empty($text) ? null : $text,
+            'js'        => isset($node['js']) ? (string)$node['js'] : null,
+            'structure' => isset($node['structure']) ? (string)$node['structure'] : null,
+            'group'     => self::GROUP_SETTINGS,
+            'icon'        => isset($node['icon']) ? Icon::createLegacyItem($node['icon']) : Icon::createLegacyItem('')
+        );
+        $children = array();
+        if (isset($node['structure'])) {
+            $children = array();
+            // (string)$node['structure']
+        }
+        return new static($data, $children); 
     }
     
     /**

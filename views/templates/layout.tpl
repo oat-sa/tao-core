@@ -32,10 +32,9 @@ Template::inc('layout_header.tpl', 'tao')
             </a>
             <ul class="plain clearfix lft main-menu">
                 <?php foreach (get_data('main-menu') as $entry): ?>
-                    <?php \console::log($entry); ?>
                     <li <?php if (get_data('shownExtension') === $entry['extension']): ?>class="active"<?php endif ?>>
                         <a href="<?= $entry['url'] ?>" title="<?= __($entry['description']) ?>">
-                            <?= Layout::getExtensionIcon($entry['icon']) ?>
+                            <?= is_null($entry['icon']) ? '' : Layout::renderMenuIcon($entry['icon']) ?>
                             <?= __($entry['name']) ?></a>
                     </li>
                 <?php endforeach ?>
@@ -44,13 +43,12 @@ Template::inc('layout_header.tpl', 'tao')
 
                 <!-- check for ? and take out -->
                 <!-- loop over the rest -->
-                <?php //\console::log(); ?>
-                <?php foreach (get_data('settings-menu') as $action): ?>
+                <?php foreach (get_data('settings-menu') as $entry): ?>
                     <li>
-                        <a id="<?= $action['id'] ?>" <?php if (isset($action['js'])): ?> href="#" data-action="<?= $action['js'] ?>"
+                        <a id="<?= $entry['id'] ?>" <?php if (isset($entry['js'])): ?> href="#" data-action="<?= $entry['js'] ?>"
                         <?php else : ?>
-                            href="<?= $action['url'] ?>"
-                        <?php endif ?> title="<?= __($action['title']) ?>">
+                            href="<?= $entry['url'] ?>"
+                        <?php endif ?> title="<?= __($entry['name']) ?>">
 
             <div>
                 <a id="logout" href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Log Out')?>">
@@ -69,8 +67,8 @@ Template::inc('layout_header.tpl', 'tao')
             </div>
             <?php endif ?>
 
-                            <?php if (isset($action['text'])): ?>
-                                <?= __($action['text']) ?>
+                            <?php if (isset($entry['text'])): ?>
+                                <?= __($entry['text']) ?>
                             <?php endif ?>
 
                         </a>
