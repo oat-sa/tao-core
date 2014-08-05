@@ -98,13 +98,8 @@ class Layout{
      * @param $extensionId // could be used as a prefix
      * @return string icon as html
      */
-     public static function renderMenuIcon(Icon $icon) {
-        /*
-        if(empty($iconData['id'])){
-            $iconData['id'] = 'icon-default-extension';
-        }
-        */
-        $iconId = !empty($icon->getId())
+     public static function renderMenuIcon($icon = null) {
+        $iconId = !is_null($icon)
             ? $icon->getId()
             : 'icon-extension';
         
