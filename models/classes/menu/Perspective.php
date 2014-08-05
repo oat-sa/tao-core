@@ -63,13 +63,6 @@ class Perspective implements PhpSerializable
         foreach ($node->xpath("sections/section") as $sectionNode) {
             $sections[] = Section::fromSimpleXMLElement($sectionNode);
         }
-        /*
-        if (isset($node->icon)) {
-            foreach ($node->icon->attributes() as $key => $attribute) {
-                $data['icon'][$key] = (string)$attribute;
-            }
-        }
-        */
         return new static($data, $sections);
     }
     
@@ -90,7 +83,7 @@ class Perspective implements PhpSerializable
             'js'        => isset($node['js']) ? (string)$node['js'] : null,
             'structure' => isset($node['structure']) ? (string)$node['structure'] : null,
             'group'     => self::GROUP_SETTINGS,
-            'icon'        => isset($node['icon']) ? Icon::createLegacyItem($node['icon']) : Icon::createLegacyItem('')
+            'icon'        => isset($node['icon']) ? Icon::createLegacyItem((string)$node['icon']) : Icon::createLegacyItem('')
         );
         $children = array();
         if (isset($node['structure'])) {
