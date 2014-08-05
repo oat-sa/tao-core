@@ -187,6 +187,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
         
 		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getDataLanguage());
 		$this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+		
 		// readded to highlight selected extension in menu
 		$this->setData('shownExtension', $shownExtension);
 		$this->setData('shownStructure', $shownStructure);
@@ -212,8 +213,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
         foreach(MenuService::getPerspectivesByGroup($groupId) as $i => $perspective){
             if($this->hasAccessToMenuElement($perspective)){
 
-                $extension = $perspective->getExtension();
                 $entry     = array(
+                    'perspective' => $perspective,
                     'id'          => $perspective->getId(),
                     'name'        => $perspective->getName(),
                     'extension'   => $perspective->getExtension(),
@@ -226,10 +227,11 @@ class tao_actions_Main extends tao_actions_CommonModule {
                 if(is_null($perspective->getJs())){
                     $entry['url'] = _url('index', null, null, array('structure' => $perspective->getId(), 'ext' => $perspective->getExtension()));
                 } else {
+                    $extension = $perspective->getExtension();
                     $entry['js'] = $extension . '/' . $perspective->getJs();
                 }
 
-                $entries[$i] = $entry;
+                $entries[$i] = $perspective;
             }
         }
 
@@ -247,7 +249,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
         if (!empty($menuElement->getJs())) {
             $access = true;
         } else {
-            foreach ($menuElement->getSections() as $section) {
+            foreach ($menuElement->getChildren() as $section) {
                 list($extension, $controller, $action) = explode('/', trim((string) $section->getUrl(), '/'));
                 if (tao_models_classes_accessControl_AclProxy::hasAccess($action, $controller, $extension)) {
                     $access = true;
@@ -269,7 +271,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
         $sections = array();
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
-        foreach ($structure->getSections() as $section) {
+        foreach ($structure->getChildren() as $section) {
             
             list($extension, $controller, $action) = explode('/', trim((string) $section->getUrl(), '/'));
 
