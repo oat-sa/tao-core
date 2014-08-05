@@ -167,7 +167,7 @@ class MenuService {
 		
 		foreach ($toAdd as $to => $from) {
 		    if (isset($perspectives[$from]) && isset($perspectives[$to])) {
-		        foreach($perspectives[$from]->getSections() as $section) {
+		        foreach($perspectives[$from]->getChildren() as $section) {
 		            $perspectives[$to]->addSection($section);
 		        }
 		    } 
@@ -222,7 +222,7 @@ class MenuService {
         $returnValue = null;
 
         $structure = self::getPerspective($extension, $perspectiveId);
-        foreach ($structure->getSections() as $section) {
+        foreach ($structure->getChildren() as $section) {
             if ($section->getId() == $sectionId) {
                 $returnValue = $section;
                 break;

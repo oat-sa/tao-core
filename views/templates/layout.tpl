@@ -32,11 +32,16 @@ Template::inc('layout_header.tpl', 'tao')
             </a>
             <ul class="plain clearfix lft main-menu">
                 <?php foreach (get_data('main-menu') as $entry): ?>
-                    <li <?php if (get_data('shownExtension') === $entry['extension']
-                            && get_data('shownStructure') === $entry['id']): ?>class="active"<?php endif ?>>
-                        <a href="<?= $entry['url'] ?>" title="<?= __($entry['description']) ?>">
-                            <?= is_null($entry['icon']) ? '' : Layout::renderMenuIcon($entry['icon']) ?>
-                            <?= __($entry['name']) ?></a>
+                    <li <?php if (get_data('shownExtension') === $entry->getExtension()
+                            && get_data('shownStructure') === $entry->getId()): ?>class="active"<?php endif ?>>
+                        <a href="<?= $entry->getUrl() ?>" title="<?= __($entry->getDescription()) ?>">
+                            <?= Layout::renderMenuIcon($entry->getIcon()) ?>
+                            <?= __($entry->getName()) ?></a>
+                        <ul>
+                            <?php foreach ($entry->getChildren() as $child): ?>
+                                <li><?php echo $child->getName()?></li>
+                            <?php endforeach;?>
+                        </ul>
                     </li>
                 <?php endforeach ?>
             </ul>
@@ -44,7 +49,7 @@ Template::inc('layout_header.tpl', 'tao')
 
                 <!-- check for ? and take out -->
                 <!-- loop over the rest -->
-                <?php foreach (get_data('settings-menu') as $entry): ?>
+                <?php /*foreach (get_data('settings-menu') as $entry): ?>
                     <li>
                         <a id="<?= $entry['id'] ?>" <?php if (isset($entry['js'])): ?> href="#" data-action="<?= $entry['js'] ?>"
                         <?php else : ?>
@@ -74,7 +79,7 @@ Template::inc('layout_header.tpl', 'tao')
 
                         </a>
                     </li>
-                <?php endforeach ?>
+                <?php endforeach */?>
 
 
                 <?php if (tao_models_classes_accessControl_AclProxy::hasAccess(null, 'UserSettings', 'tao')): ?>
