@@ -23,7 +23,7 @@ namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
 
-class Section implements PhpSerializable
+class Section extends MenuElement implements PhpSerializable
 {
     const SERIAL_VERSION = 1392821334;
     
@@ -53,13 +53,10 @@ class Section implements PhpSerializable
     }
     
     public function __construct($data, $trees, $actions, $version = self::SERIAL_VERSION) {
+        parent::__construct($data['id'], $version);
         $this->data = $data;
         $this->trees = $trees;
         $this->actions = $actions;
-    }
-    
-    public function getId() {
-        return $this->data['id'];
     }
     
     public function getUrl() {

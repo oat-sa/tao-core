@@ -23,10 +23,9 @@ namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
 
-class Perspective implements PhpSerializable
+class Perspective extends MenuElement implements PhpSerializable
 {
-    const SERIAL_VERSION = 1392821334;
-    
+
     const GROUP_DEFAULT = 'main';
     
     const GROUP_SETTINGS = 'settings';
@@ -35,7 +34,7 @@ class Perspective implements PhpSerializable
 
     private $data = array();
     
-    private $sections = array();
+    private $children = array();
     
     /**
      * @param \SimpleXMLElement $node
@@ -45,19 +44,19 @@ class Perspective implements PhpSerializable
     public static function fromSimpleXMLElement(\SimpleXMLElement $node, $extensionId)
     {
         $data = array(
-            'id' => (string) $node['id'],
-            'visible' => $node['visible'] == 'true',
-            'group'       => $node['group']
+            'id'       => (string) $node['id'],
+            'visible'  => $node['visible'] == 'true',
+            'group'    => $node['group']
                 ? (string)$node['group']
                 : ($node['visible'] == 'true'
                     ? self::GROUP_DEFAULT
                     : self::GROUP_INVISIBLE),
-            'name' => (string) $node['name'],
-            'js'          => '',
+            'name'      => (string) $node['name'],
+            'js'        => '',
             'description' => (string) $node->description,
             'extension' => $extensionId,
-            'level' => (string) $node['level'],
-            'icon'        => isset($node->icon) ? Icon::fromSimpleXMLElement($node->icon) : Icon::createLegacyItem('')
+            'level'     => (string) $node['level'],
+            'icon'      => isset($node->icon) ? Icon::fromSimpleXMLElement($node->icon) : null
         );
         $sections = array();
         foreach ($node->xpath("sections/section") as $sectionNode) {
@@ -79,11 +78,11 @@ class Perspective implements PhpSerializable
             'extension' => $extensionId,
             'name'		=> (string)$node['title'],
             'level'		=> (int)$node['level'],
-            'description'      => empty($text) ? null : $text,
+            'description' => empty($text) ? null : $text,
             'js'        => isset($node['js']) ? (string)$node['js'] : null,
             'structure' => isset($node['structure']) ? (string)$node['structure'] : null,
             'group'     => self::GROUP_SETTINGS,
-            'icon'        => isset($node['icon']) ? Icon::createLegacyItem((string)$node['icon']) : Icon::createLegacyItem('')
+            'icon'      => isset($node['icon']) ? Icon::createLegacyItem((string)$node['icon']) : null
         );
         $children = array();
         if (isset($node['structure'])) {
@@ -100,43 +99,28 @@ class Perspective implements PhpSerializable
      */
     public function __construct($data, $sections, $version = self::SERIAL_VERSION)
     {
+        parent::__construct($data['id'], $version);
         $this->data = $data;
-        $this->sections = $sections;
+        $this->children = $sections;
     }
     
-    /**
-     * @return array
-     */
-    public function getIcon()
-    {
-        return $this->data['icon'];
-    }
-
     /**
      * @param Section $section
      */
     public function addSection(Section $section)
     {
         $existingKey = false;
-        foreach ($this->sections as $key => $existingSection) {
+        foreach ($this->children as $key => $existingSection) {
             if ($existingSection->getId() == $section->getId()) {
                 $existingKey = $key;
                 break;
             }
         }
         if ($existingKey !== false) {
-            $this->sections[$existingKey] = $section;
+            $this->children[$existingKey] = $section;
         } else {
-            $this->sections[] = $section;
+            $this->children[] = $section;
         }
-    }
-    
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->data['id'];
     }
     
     /**
@@ -160,6 +144,14 @@ class Perspective implements PhpSerializable
         return $this->data['description'];
     }
     
+    /**
+     * @return Icon
+     */
+    public function getIcon()
+    {
+        return $this->data['icon'];
+    }
+    
     public function getGroup()
     {
         return $this->data['group'];
@@ -175,21 +167,25 @@ class Perspective implements PhpSerializable
         return $this->data['visible'];
     }
     
-    public function getSections()
+    public function getChildren()
     {
-        return $this->sections;
+        return $this->children;
     }
     
     public function getJs()
     {
         return !empty($this->data['js']) ? $this->data['js'] : null;
     }
+    
+    public function getUrl() {
+        return _url('index', null, null, array('structure' => $this->getId(), 'ext' => $this->getExtension()));
+    }
 
     public function __toPhpCode()
     {
         return "new ".__CLASS__."("
             .\common_Utils::toPHPVariableString($this->data).','
-            .\common_Utils::toPHPVariableString($this->sections).','
+            .\common_Utils::toPHPVariableString($this->children).','
             .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
         .")";
     }
