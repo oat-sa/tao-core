@@ -181,6 +181,10 @@ class Perspective extends MenuElement implements PhpSerializable
     public function getUrl() {
         return _url('index', null, null, array('structure' => $this->getId(), 'ext' => $this->getExtension()));
     }
+    
+    public function getUrl() {
+        return _url('index', null, null, array('structure' => $this->getId(), 'ext' => $this->getExtension()));
+    }
 
     public function __toPhpCode()
     {
