@@ -62,13 +62,6 @@ class Perspective extends MenuElement implements PhpSerializable
         foreach ($node->xpath("sections/section") as $sectionNode) {
             $sections[] = Section::fromSimpleXMLElement($sectionNode);
         }
-        /*
-        if (isset($node->icon)) {
-            foreach ($node->icon->attributes() as $key => $attribute) {
-                $data['icon'][$key] = (string)$attribute;
-            }
-        }
-        */
         return new static($data, $sections);
     }
     
