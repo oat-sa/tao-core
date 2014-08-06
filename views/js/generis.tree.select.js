@@ -41,7 +41,7 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers'], function($, __,
 				},
 				ui: {
 					theme_name : "checkbox",
-                                        theme_path : context.taobase_www + 'js/lib/jsTree/themes/checkbox/style.css'
+                                        theme_path : context.taobase_www + 'js/lib/jsTree/themes/css/style.css'
 				},
 				callback: {
 					//before check

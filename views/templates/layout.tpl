@@ -1,98 +1,24 @@
 <?php
 use oat\tao\helpers\Template;
-use oat\tao\helpers\Layout;
 
-$releaseMsgData = Layout::getReleaseMsgData(TAO_RELEASE_STATUS);
+$releaseMsgData = get_data('releaseMsgData');
 
-Template::inc('layout_header.tpl', 'tao')
+Template::inc('blocks/layout-header.tpl', 'tao')
 ?>
+<body>
 <div class="content-wrap">
 
-    <?php if ($releaseMsgData['isUnstable'] || $releaseMsgData['isSandbox']) : ?>
-        <!-- alpha|beta|sandbox message -->
-        <div class="feedback-warning small release-warning">
-            <span class="icon-warning"></span>
-            <?= $releaseMsgData['versionType'] ?> ·
-            <?php if ($releaseMsgData['isUnstable']): ?>
-                <a href="http://forge.taotesting.com/projects/tao" target="_blank">
-                    <?= __('Please report bugs, ideas, comments or feedback on the TAO Forge') ?>
-                </a>
-            <?php else: ?>
-                <?= __('All data will be removed in %s', Layout::getSandboxExpiration()) ?>
-            <?php endif; ?>
-            <!--span title="<?= __('Remove Message') ?>" class="icon-close close-trigger"></span-->
-        </div>
-        <!-- /alpha|beta|sandbox message -->
-    <?php endif; ?>
+    <?php ($releaseMsgData['isUnstable'] || $releaseMsgData['isSandbox'])
+        ? Template::inc('blocks/version-warning.tpl', 'tao')
+        : '';
+        /* alpha|beta|sandbox message */
+    ?>
 
-    <header class="dark-bar clearfix">
-        <nav>
-            <a href="<?= _url('entry', 'Main', 'tao') ?>" title="<?= __('TAO Home') ?>" class="lft">
-                <img src="<?= TAOBASE_WWW ?>media/tao-logo.png" alt="TAO Logo" id="tao-main-logo"/>
-            </a>
-            <ul class="plain clearfix lft main-menu">
-                <?php foreach (get_data('main-menu') as $entry): ?>
-                    <li <?php if (get_data('shownExtension') === $entry->getExtension()
-                            && get_data('shownStructure') === $entry->getId()): ?>class="active"<?php endif ?>>
-                        <a href="<?= $entry->getUrl() ?>" title="<?= __($entry->getDescription()) ?>">
-                            <?= Layout::renderMenuIcon($entry->getIcon()) ?>
-                            <?= __($entry->getName()) ?></a>
-                        <ul>
-                            <?php foreach ($entry->getChildren() as $child): ?>
-                                <li><?php echo $child->getName()?></li>
-                            <?php endforeach;?>
-                        </ul>
-                    </li>
-                <?php endforeach ?>
-            </ul>
-            <ul class="plain clearfix settings-menu rgt">
-
-                <!-- check for ? and take out -->
-                <!-- loop over the rest -->
-                <?php /*foreach (get_data('settings-menu') as $entry): ?>
-                    <li>
-                        <a id="<?= $entry['id'] ?>" <?php if (isset($entry['js'])): ?> href="#" data-action="<?= $entry['js'] ?>"
-                        <?php else : ?>
-                            href="<?= $entry['url'] ?>"
-                        <?php endif ?> title="<?= __($entry['name']) ?>">
-
-                            <?= is_null($entry['icon']) ? '' : Layout::renderMenuIcon($entry['icon']) ?>
-
-                            <?php if (isset($entry['text'])): ?>
-                                <?= __($entry['text']) ?>
-                            <?php endif ?>
-
-                        </a>
-                    </li>
-                <?php endforeach */?>
-
-
-                <?php if (tao_models_classes_accessControl_AclProxy::hasAccess(null, 'UserSettings', 'tao')): ?>
-                    <li data-env="user" class="separate">
-                        <a id="usersettings"
-                           href="<?= _url(
-                               'index',
-                               'Main',
-                               'tao',
-                               array('structure' => 'user_settings', 'ext' => 'tao')
-                           ) ?>"
-                           title="<?= __('My profile') ?>">
-                            <span class="icon-user"></span>
-                            <span class="username"><?= get_data('userLabel') ?></span>
-                        </a>
-                    </li>
-                <?php endif ?>
-
-                <li data-env="user">
-                    <a id="logout" href="<?= _url('logout', 'Main', 'tao') ?>" title="<?= __('Log Out') ?>">
-                        <span class="icon-logout"></span>
-                    </a>
-                </li>
-
-            </ul>
-        </nav>
-    </header>
-
+    <?php !common_session_SessionManager::isAnonymous()
+        ? Template::inc('blocks/main-navi.tpl', 'tao')
+        : '';
+        /* main navigation bar */
+    ?>
 
     <div class="loading-bar"></div>
     <?php if (get_data('sections')): ?>

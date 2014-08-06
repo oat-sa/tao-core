@@ -1,81 +1,16 @@
-@import "inc/bootstrap";
-@import "inc/fonts";
-@import "inc/normalize";
-@import "inc/main";
-@import "inc/feedback";
-@import "inc/grid";
-@import "inc/select2";
-@import "inc/toolbars";
-@import "inc/tooltip";
-@import "inc/resourcemgr";
-@import "inc/mediasizer";
+@import "inc/header-footer";
 
-
-$darkBar : rgb(51, 51, 51);
-$darkBarTxt : rgb(230, 230, 230);
-$darkBarIcon : rgb(220, 220, 220);
-
-
-// Header
-header {
-    nav {
-        #tao-main-logo {
-            padding: 6px 30px 6px 30px;
-            display:block;
-        }
-        li {
-            float: left;
-            position: relative;
-            cursor: pointer;
-            text-align: center;
-            @include font-size(13);
-            a {
-                padding: 13px 15px 11px;
-                display:block;
-                height: 64px;
-                span {
-                    font-size: 2rem;
-                    text-shadow: unset !important;
-                    line-height: 1;
-                    display: block;
-                    color: $darkBarIcon;
-                    padding-bottom: 3px;
-                }
-                &:hover {
-                    background:black;
-                    text-decoration: none;
-                    span {
-                        color: white;
-                    }
-                }
-            }
-            &.active {
-                a {
-                    background-color: $logoRed !important;
-                    color: white(.9) !important;
-                    &.hover {
-                        color: white !important;
-                    }
-                }
-            }
-        }
-
-    }
-    .user-menu {
-
-    }
-}
-
-.dark-bar {
-    background: $darkBar;
-    color: $darkBarTxt;
-    a {
-        color: $darkBarTxt;
-        &:hover {
-            color: white;
-            text-decoration: none;
-        }
-    }
+.loading-bar:before {
+    content: '';
+    height: 5px;
+    width: 200px;
+    display:block;
+    background: -moz-linear-gradient(left,  white 0%, $info 12%, $info 90%, white 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,white), color-stop(12%,$info), color-stop(90%,$info), color-stop(100%,white));
+    background: -webkit-linear-gradient(left,  white 0%,$info 12%,$info 90%,white 100%);
+    background: -o-linear-gradient(left,  white 0%,$info 12%,$info 90%,white 100%);
+    background: -ms-linear-gradient(left,  white 0%,$info 12%,$info 90%,white 100%);
+    background: linear-gradient(to right,  white 0%,$info 12%,$info 90%,white 100%);
 }
 
 
@@ -127,37 +62,3 @@ header {
     }
 }
 
-
-// Footer
-footer, .content-wrap:after {
-    // must be the same height as footer
-    height: 34px;
-}
-
-footer {
-    font-size: 11px;
-    padding: 10px;
-}
-
-.content-wrap {
-    min-height: 100%;
-    // equal to footer height
-    margin-bottom: -34px;
-}
-
-.content-wrap:after {
-    content: "";
-    display: block;
-}
-
-.release-warning {
-    margin: 0;
-    border-radius: 0;
-    border: none;
-    border-bottom:  1px #ddd solid;
-    padding: 0 20px 0 45px !important;
-    line-height: 2;
-    span {
-        top: 5px !important;
-    }
-}
