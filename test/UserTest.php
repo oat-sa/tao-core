@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,8 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
@@ -115,7 +114,7 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 		$this->assertFalse($this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
 		
 		//check inserted data
-		$this->testUser = $this->userService->getOneUser($this->testUserData[PROPERTY_USER_LOGIN]);
+		$this->testUser = $this->getUserByLogin($this->testUserData[PROPERTY_USER_LOGIN]);
 		$this->assertIsA($this->testUser, 'core_kernel_classes_Resource');
 		foreach($this->testUserData as $prop => $value){
 			try{
@@ -146,7 +145,7 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 		$this->assertFalse($this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
 		
 		//check inserted data
-		$this->testUserUtf8 = $this->userService->getOneUser($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
+		$this->testUserUtf8 = $this->getUserByLogin($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
 		$this->assertIsA($this->testUserUtf8, 'core_kernel_classes_Resource');
 		foreach($this->testUserUtf8Data as $prop => $value){
 			try{
@@ -162,7 +161,7 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 	}
 	
 	public function testLoginAvailability(){
-		$user = $this->userService->getOneUser($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
+		$user = $this->getUserByLogin($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
 		$loginProperty = new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
 		
 		$this->assertTrue(!empty($user));
@@ -182,16 +181,26 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 	 * @see tao_models_classes_UserService::removeUser
 	 */
 	public function testDelete(){
-		$this->testUser = $this->userService->getOneUser($this->testUserData[PROPERTY_USER_LOGIN]);
+		$this->testUser = $this->getUserByLogin($this->testUserData[PROPERTY_USER_LOGIN]);
 		$this->assertIsA($this->testUser, 'core_kernel_classes_Resource');
 		$this->assertTrue($this->userService->removeUser($this->testUser));
 		$this->assertTrue($this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
 		
 		
-		$this->testUserUtf8 = $this->userService->getOneUser($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
+		$this->testUserUtf8 = $this->getUserByLogin($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
 		$this->assertIsA($this->testUserUtf8, 'core_kernel_classes_Resource');
 		$this->assertTrue($this->userService->removeUser($this->testUserUtf8));
 		$this->assertTrue($this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
 	}
+	
+	protected function getUserByLogin($login) {
+        $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+        $users = $class->searchInstances(
+            array(PROPERTY_USER_LOGIN => $login),
+            array('like' => false, 'recursive' => true)
+        );
+
+        $this->assertEquals(1, count($users));
+        return current($users);
+    }
 }
-?>
