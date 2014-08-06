@@ -230,6 +230,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             'shownStructure' => $structure
         );
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParameters));
+        $this->setData('releaseMsgData', Layout::getReleaseMsgData(TAO_RELEASE_STATUS));
 
         $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
 
