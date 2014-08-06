@@ -76,6 +76,7 @@ class Perspective extends MenuElement implements PhpSerializable
         $data = array(
             'id'        => (string)$node['id'],
             'extension' => $extensionId,
+            'visible'  => $node['visible'] == 'true',
             'name'		=> (string)$node['title'],
             'level'		=> (int)$node['level'],
             'description' => empty($text) ? null : $text,

@@ -39,7 +39,7 @@ class Icon implements PhpSerializable
     
     public static function createLegacyItem($iconId) {
         return new static(array(
-            'id' => $iconId,
+            'id' => (string)$iconId,
             'src' => null,
         ));
     }

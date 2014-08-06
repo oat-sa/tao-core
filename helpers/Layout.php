@@ -36,18 +36,27 @@ class Layout{
         $params = array(
             'versionType' => '',
             'isUnstable'  => true,
-            'isSandbox'   => false
+            'isSandbox'   => false,
+            'logo'        => 'tao-logo.png',
+            'logo-link'   => 'http://taotesting.com',
+            'logo-title'  => 'Tao Home'
         );
 
         switch($taoReleaseStatus){
             case 'alpha':
             case 'demoA':
                 $params['versionType'] = __('Alpha Version');
+                $params['logo']        = 'tao-logo-alpha.png';
+                $params['logo-link']   = 'http://forge.taotesting.com/projects/tao';
+                $params['logo-title']  = 'Tao Forge';
                 break;
 
             case 'beta':
             case 'demoB':
                 $params['versionType'] = __('Beta Version');
+                $params['logo']        = 'tao-logo-beta.png';
+                $params['logo-link']   = 'http://forge.taotesting.com/projects/tao';
+                $params['logo-title']  = 'Tao Forge';
                 break;
 
             case 'demoS':

@@ -1,0 +1,189 @@
+@import "inc/bootstrap";
+
+
+.version-warning {
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    border-bottom:  1px #ddd solid;
+    padding: 0 20px 0 45px !important;
+    line-height: 2;
+    span {
+        top: 5px !important;
+    }
+}
+
+// Header
+header {
+    position: relative;
+    z-index:1000;
+    nav {
+        #tao-main-logo {
+            margin: 6px 30px 6px 30px;
+            display:block;
+            width: 79px;
+            height: 52px;
+
+        }
+        li {
+            float: left;
+            position: relative;
+            @include font-size(13);
+            & > a {
+                text-align: center;
+                display:block;
+                height: 64px;
+                outline: 0 !important;
+                [class^="icon-"], [class*=" icon-"] {
+                    text-shadow: 0 0 0 transparent !important;
+                    line-height: 1;
+                    color: $darkBarIcon;
+                    position: relative;
+                    top: 2px;
+                }
+                &:hover {
+                    background:rgba($info, .5);
+                    text-decoration: none;
+                    span {
+                        color: white;
+                    }
+                }
+            }
+            &.active {
+                & > a {
+                    background-color: $info;
+                    color: white(.9) !important;
+                    &.hover {
+                        color: white !important;
+                    }
+                }
+            }
+            // sub menu
+            ul {
+                background: $darkBar;
+                position: absolute;
+                left: -10000px;
+                top: 64px;
+                border-top: 1px solid #666;
+                padding: 5px 0 !important;
+                li {
+                    display: block;
+                    width: 100%;
+                    a {
+                        background: $darkBar;
+                        padding: 6px 20px !important;
+                        text-align: left;
+                        display:block;
+                        height: auto;
+                        white-space: nowrap;
+                        &:hover {
+                            background:rgba($info, .5);
+                        }
+                    }
+                }
+            }
+            // display sub menu on hover
+            &:hover {
+                ul {
+                    left: 0;
+                }
+            }
+        }
+
+
+        .main-menu {
+            li {
+                min-width: 80px;
+                @include font-size(13);
+                & > a {
+                    padding: 13px 15px 11px;
+                    span {
+                        @include font-size(20);
+                        padding-bottom: 3px;
+                        display: block;
+                    }
+                }
+                ul {
+                    min-width: 130px;
+                }
+            }
+        }
+        .settings-menu {
+            padding-right: 20px;
+            li {
+                min-width: 25px;
+                @include font-size(13);
+                & > a {
+                    padding: 22px 8px 0px 8px;
+                    span {
+                        @include font-size(13);
+                        display: inline-block;
+                    }
+                    [class^="icon-"], [class*=" icon-"] {
+                        @include font-size(18);
+                        padding: 0 2px;
+                    }
+                }
+                ul {
+                    min-width: 130px;
+                }
+                &.li-help, &.li-user_settings {
+                    padding-left: 15px;
+                    position: relative;
+                    &:before {
+                        content: ' ';
+                        background: #666;
+                        width: 1px;
+                        position: absolute;
+                        top: 25px;
+                        left: 7px;
+                        height: 20px;
+                    }
+                }
+                // display sub menu on hover
+                &:hover {
+                    ul {
+                        left: auto;
+                        right: 0;
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+.dark-bar {
+    background: $darkBar;
+    color: $darkBarTxt;
+    a {
+        color: $darkBarTxt;
+        &:hover {
+            color: white;
+            text-decoration: none;
+        }
+    }
+}
+
+
+// Footer
+footer, .content-wrap:after {
+    // must be the same height as footer
+    height: 34px;
+}
+
+footer {
+    font-size: 11px;
+    padding: 10px;
+}
+
+.content-wrap {
+    min-height: 100%;
+    // equal to footer height
+    margin-bottom: -34px;
+}
+
+.content-wrap:after {
+    content: "";
+    display: block;
+}
