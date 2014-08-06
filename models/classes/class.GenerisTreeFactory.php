@@ -150,7 +150,7 @@ class tao_models_classes_GenerisTreeFactory
 		$label = empty($label) ? __('no label') : $label;
 
 		return array(
-			'data' 	=> tao_helpers_Display::textCutter($label, 16),
+			'data' 	=> $label,
 			'type'	=> 'instance',
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($resource->getUri()),
