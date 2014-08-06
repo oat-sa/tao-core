@@ -1,5 +1,12 @@
-define(['uiBootstrap', 'helpers', 'uiForm', 'generis.actions', 'controller/main/toolbar'], 
-    function (UiBootstrap, Helpers, UiForm, GenerisActions, toolbar) {
+define([
+    'uiBootstrap',
+    'helpers',
+    'uiForm',
+    'generis.actions',
+    'controller/main/toolbar',
+    'controller/main/version-warning'
+],
+    function (UiBootstrap, Helpers, UiForm, GenerisActions, toolbar, versionWarning) {
 
     return {
         start : function(){
@@ -12,6 +19,8 @@ define(['uiBootstrap', 'helpers', 'uiForm', 'generis.actions', 'controller/main/
             
             //initialize main components
             toolbar.setUp();
+
+            versionWarning.init();
         }
     };
 });

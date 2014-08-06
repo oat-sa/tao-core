@@ -57,8 +57,9 @@
 		</sections>
 	</structure>
 
-	<structure id="user_settings" name="User Settings" level="12" visible="false" group="settings">
+	<structure id="user_settings" name="User Settings" level="110" visible="false" group="settings">
 		<description />
+        <icon id="icon-user" src="" />
 		<sections>
 			<section id="settings_my_settings" name="My settings" url="/tao/UserSettings/properties" />
 			<section id="settings_my_password" name="Change password" url="/tao/UserSettings/password" />

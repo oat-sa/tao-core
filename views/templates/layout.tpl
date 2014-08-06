@@ -1,11 +1,11 @@
 <?php
 use oat\tao\helpers\Template;
-use oat\tao\helpers\Layout;
 
-$releaseMsgData = Layout::getReleaseMsgData(TAO_RELEASE_STATUS);
+$releaseMsgData = get_data('releaseMsgData');
 
-Template::inc('layout_header.tpl', 'tao')
+Template::inc('blocks/layout-header.tpl', 'tao')
 ?>
+<body>
 <div class="content-wrap">
 
     <?php if ($releaseMsgData['isUnstable'] || $releaseMsgData['isSandbox']) : ?>

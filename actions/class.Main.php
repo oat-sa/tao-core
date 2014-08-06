@@ -24,6 +24,7 @@ use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
+use oat\tao\helpers\Layout;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -42,9 +43,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
     
 	/**
 	 * Constructor performs initializations actions
-	 * @return void
 	 */
-	public function __construct()
+    public function __construct()
 	{
 		//initialize service
 		$this->service = tao_models_classes_TaoService::singleton();
@@ -132,7 +132,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 	/**
 	 * Logout, destroy the session and back to the login page
-	 * @return
 	 */
 	public function logout()
 	{
@@ -188,7 +187,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getDataLanguage());
 		$this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
 		
-		// readded to highlight selected extension in menu
+		// re-added to highlight selected extension in menu
 		$this->setData('shownExtension', $shownExtension);
 		$this->setData('shownStructure', $shownStructure);
 		                
@@ -198,8 +197,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
             'shownStructure'    => $shownStructure
         );
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParameters));
+        $this->setData('releaseMsgData', Layout::getReleaseMsgData(TAO_RELEASE_STATUS));
 
 		$this->setView('layout.tpl', 'tao');
+
 	}
     
     /**
@@ -241,12 +242,13 @@ class tao_actions_Main extends tao_actions_CommonModule {
     /**
      * Check whether a user can access to the content of a structure
      *
-     * @param Perspective $structure from the structure.xml
+     * @param Perspective $menuElement from the structure.xml
      * @return boolean true if the user is allowed
      */
     private function hasAccessToMenuElement(Perspective $menuElement){
         $access = false;
-        if (!empty($menuElement->getJs())) {
+        $js = $menuElement->getJs();
+        if (!empty($js)) {
             $access = true;
         } else {
             foreach ($menuElement->getChildren() as $section) {
