@@ -39,9 +39,13 @@ define([
          * Make files available before file selection. It can be used to filter. 
          * @callback fileSelect
          * @param {Array<File>} files - the selected files
-         * @returns {Array<File>} the files to be selected 
+         * @param {Function} [done] - callback with filterd files
+         * @returns {undefined|Array<File>} the files to be selected 
          */
-        fileSelect : function(files){ 
+        fileSelect : function(files, done){
+            if(_.isFunction(done)){
+                return done(files);
+            } 
             return files; 
         }
     };
@@ -250,66 +254,65 @@ define([
             } 
             if(files.length > 0){
 
-                //execute the fileSelect function if defined
-                if(_.isFunction(options.fileSelect)){
-                    files = options.fileSelect.call($elt, files);
-                }
-
-                if(append){
-                    options.files = options.files.concat(files);
-                } else {
-                    options.files = files;
-                }  
-
-                if(options.useDropZone){
-
-                    updateFileName(); 
-                    
-                    listContent = _.reduce(files, function(acc, file){
-                        return acc + fileEntryTpl({
-                            name : file.name,
-                            size : bytes.hrSize(file.size)
-                        });
-                    }, '');
-
-                    if(append){
-                        options.$dropZone
-                            .children('ul').append(listContent);
-                    } else {
-                        options.$dropZone
-                            .html('<ul>' + listContent + '</ul>');
-                    }
-    
-                    options.$dropZone
-                        .off('delete.delter', 'li')
-                        .on('delete.deleter', 'li', function(e){
-
-                            var name = $(e.target).data('file-name');
-
-                            options.$dropZone
-                               .off('deleted.deleter')
-                               .one('deleted.deleter', function(){
-                                    options.files =  _.reject(options.files, {name : name});
-                                    if(options.files.length === 0){
-                                        self._reset($elt);
-                                    } else {
-                                        updateFileName();
-                                    }
-                                });
-                        });
-                } else {
-                    //legacy mode, no dnd support
-                    options.files = options.files.slice(0, 1);
-                    options.$fileName
-                        .text(files[0].name)
-                        .removeClass('placeholder');
-                }
+                //execute the fileSelect function to filter files before selection
+                options.fileSelect.call($elt, files, function(filteredFiles){
                 
-                /**
-                 * Files has been selected
-                 * @event uploader#fileselect.uploader
-                 */
-                $elt.trigger('fileselect.' + ns);
+                    if(append){
+                        options.files = options.files.concat(filteredFiles);
+                    } else {
+                        options.files = filteredFiles;
+                    }  
+
+                    if(options.useDropZone){
+
+                        updateFileName(); 
+                        
+                        listContent = _.reduce(filteredFiles, function(acc, file){
+                            return acc + fileEntryTpl({
+                                name : file.name,
+                                size : bytes.hrSize(file.size)
+                            });
+                        }, '');
+
+                        if(append){
+                            options.$dropZone
+                                .children('ul').append(listContent);
+                        } else {
+                            options.$dropZone
+                                .html('<ul>' + listContent + '</ul>');
+                        }
+        
+                        options.$dropZone
+                            .off('delete.delter', 'li')
+                            .on('delete.deleter', 'li', function(e){
+
+                                var name = $(e.target).data('file-name');
+
+                                options.$dropZone
+                                   .off('deleted.deleter')
+                                   .one('deleted.deleter', function(){
+                                        options.files =  _.reject(options.files, {name : name});
+                                        if(options.files.length === 0){
+                                            self._reset($elt);
+                                        } else {
+                                            updateFileName();
+                                        }
+                                    });
+                            });
+                    } else {
+                        //legacy mode, no dnd support
+                        options.files = options.files.slice(0, 1);
+                        options.$fileName
+                            .text(files[0].name)
+                            .removeClass('placeholder');
+                    }
+                    
+                    /**
+                     * Files has been selected
+                     * @event uploader#fileselect.uploader
+                     */
+                    $elt.trigger('fileselect.' + ns);
+                });
             }
         },
         
