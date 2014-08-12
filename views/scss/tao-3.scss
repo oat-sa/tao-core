@@ -1,17 +1,16 @@
-@import "inc/header-footer";
+@import 'inc/bootstrap';
 
-.loading-bar:before {
-    content: '';
-    height: 5px;
-    width: 200px;
-    display:block;
-    background: -moz-linear-gradient(left,  white 0%, $info 12%, $info 90%, white 100%);
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,white), color-stop(12%,$info), color-stop(90%,$info), color-stop(100%,white));
-    background: -webkit-linear-gradient(left,  white 0%,$info 12%,$info 90%,white 100%);
-    background: -o-linear-gradient(left,  white 0%,$info 12%,$info 90%,white 100%);
-    background: -ms-linear-gradient(left,  white 0%,$info 12%,$info 90%,white 100%);
-    background: linear-gradient(to right,  white 0%,$info 12%,$info 90%,white 100%);
-}
+
+@import "inc/header-footer";
+@import "inc/progressbar";
+
+
+
+
+
+
+
+
 
 
 #tabs {

@@ -32,6 +32,9 @@ class tao_helpers_form_elements_xhtml_Button
 {
     // --- ASSOCIATIONS ---
 
+    protected static function addClass($newClass) {
+       // $clasNa
+    }
 
     // --- ATTRIBUTES ---
 
@@ -48,9 +51,20 @@ class tao_helpers_form_elements_xhtml_Button
     {
         $returnValue = (string) '';
 
-        
-		
-		if(!empty($this->description)){
+
+//        foreach($this->attributes as $key => $value){
+//
+//            if($key === 'class' && $value) {
+//
+//            }
+//            $returnValue .= " {$key}='{$value}' ";
+//        }
+
+        /***
+         * this attributes
+         */
+
+        if(!empty($this->description)){
 			$returnValue .= "<label class='form_desc' for='{$this->name}'>"._dh($this->getDescription())."</label>";
 		}
 		$returnValue .= "<input type='button' name='{$this->name}' id='{$this->name}' ";

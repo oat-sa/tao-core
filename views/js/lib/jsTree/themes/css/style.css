@@ -1,55 +1,45 @@
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 /*
  * Fade animation
  */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 /*
  * Repeat animation
  */
 .tree-custom li.node-item ins:before, .tree-custom li.node-test ins:before, .tree-custom li.node-test-taker ins:before, .tree-custom li.node-group ins:before, .tree-custom li.node-result ins:before, .tree-custom li.node-delivery ins:before, .tree-custom li.node-campaign ins:before, .tree-custom li.node-result-server ins:before, .tree-custom li.node-role ins:before, .tree-custom li.node-process ins:before, .tree-custom li.node-process-root ins:before, .tree-custom li.node-activity ins:before, .tree-custom li.node-activity-initial ins:before, .tree-custom li.node-activity-last ins:before, .tree-custom li.node-activity-unique ins:before, .tree-custom li.node-property ins:before, .tree-custom li.node-connector ins:before, .tree-custom li.node-inferenceRule-onBefore ins:before, .tree-custom li.node-inferenceRule-onAfter ins:before, .tree-custom li.node-interactive-service ins:before, .tree-custom li.node-consistencyRule ins:before, .tree-custom li.node-rule ins:before, .tree-custom li.node-notification ins:before, .tree-custom li.node-activity-goto ins:before, .tree-custom li.node-connector-goto ins:before, .tree-custom li.node-connector-prev ins:before, .tree-custom li.node-assignment ins:before {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.tree-custom .node-class ins:before {
+  content: "\12b"; }
+
+.tree-custom .node-class.open ~ ins:before {
+  content: "\12c"; }
+
+.tree-custom li.node-role ins:before {
+  content: "\152"; }
+
+.tree-custom li.node-item ins:before {
   content: "\155"; }
+
+.tree-custom li.node-test ins:before {
+  content: "\156"; }
+
+.tree-custom li.node-delivery ins:before {
+  content: "\157"; }
+
+.tree-custom li.node-result ins:before {
+  content: "\158"; }
 
 .tree-custom .ltr, .tree-custom .rtl {
   background: none left top repeat; }
@@ -60,11 +50,11 @@
 .tree-custom ul {
   background-position: 6px 1px;
   background-repeat: repeat-y;
-  background-image: url(data:image/gif;base64,R0lGODlhAgACAIAAAB4dGf///yH5BAEAAAEALAAAAAACAAIAAAICRF4AOw==); }
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR42mNoAAAAggCB2kUIOwAAAABJRU5ErkJggg==); }
 .tree-custom li {
   background-position: -64px -18px;
   background-repeat: no-repeat;
-  background-image: url("icons.png"); }
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABAAgMAAADwqRilAAAACVBMVEX///8kbHeAgIB/SOz/AAAAAXRSTlMAQObYZgAAAEVJREFUeNpjYIACBwY4EICzArAJhoQiAH6VWM0cBUDAMUQEuVaMxhWBEMIq2IBNcAHRKom2fVgBplXYQmgVthDSGiwhBAAx4grYHitHZwAAAABJRU5ErkJggg==); }
   .tree-custom li.open {
     background-position: -32px -48px; }
   .tree-custom li.closed {
@@ -78,59 +68,113 @@
   .tree-custom li span.clicked {
     padding: 0px; }
   .tree-custom li.node-item ins:before {
-    background: none !important; }
+    foo: %icon-item;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-test ins:before {
-    background: none !important; }
+    foo: %icon-test;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-test-taker ins:before {
-    background: none !important; }
+    foo: %icon-subject;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-group ins:before {
-    background: none !important; }
+    foo: %icon-group;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-result ins:before {
-    background: none !important; }
+    foo: %icon-result;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-delivery ins:before {
-    background: none !important; }
+    foo: %icon-delivery;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-campaign ins:before {
-    background: none !important; }
+    foo: %icon-campaign;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-result-server ins:before {
-    background: none !important; }
+    foo: %icon-result_server;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-role ins:before {
-    background: none !important; }
+    foo: %icon-user;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-process ins:before {
-    background: none !important; }
+    foo: %icon-process;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-process-root ins:before {
-    background: none !important; }
+    foo: %icon-process-root;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-activity ins:before {
-    background: none !important; }
+    foo: %icon-process_activity;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-activity-initial ins:before {
-    background: none !important; }
+    foo: %icon-process_activity_start;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-activity-last ins:before {
-    background: none !important; }
+    foo: %icon-process_activity_last;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-activity-unique ins:before {
-    background: none !important; }
+    foo: %icon-process_activity_unique;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-property ins:before {
-    background: none !important; }
+    foo: %icon-process_property;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-connector ins:before {
-    background: none !important; }
+    foo: %icon-process_connector;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-inferenceRule-onBefore ins:before {
-    background: none !important; }
+    foo: %icon-process_inferenceRule_before;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-inferenceRule-onAfter ins:before {
-    background: none !important; }
+    foo: %icon-process_inferenceRule_after;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-interactive-service ins:before {
-    background: none !important; }
+    foo: %icon-process_service;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-consistencyRule ins:before {
-    background: none !important; }
+    foo: %icon-process_consistency_rule;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-rule ins:before {
-    background: none !important; }
+    foo: %icon-process_rule;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-notification ins:before {
-    background: none !important; }
+    foo: %icon-process_notification;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-activity-goto ins:before {
-    background: none !important; }
+    foo: %icon-process_activity_goto;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-connector-goto ins:before {
-    background: none !important; }
+    foo: %icon-process_connector_goto;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-connector-prev ins:before {
-    background: none !important; }
+    foo: %icon-process_connector_prev;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-assignment ins:before {
-    background: none !important; }
+    foo: %icon-process_assignment;
+    font-family: 'tao';
+    display: inline-block; }
   .tree-custom li.node-draggable a {
     display: block;
     width: 100%; }
@@ -164,9 +208,8 @@
     background-image: none;
     background-color: transparent; }
 .tree-custom ins {
-  background-image: url("icons.png");
-  background-position: 0 0;
-  background-repeat: no-repeat;
+  position: relative;
+  left: 2px;
   font-family: 'tao';
   speak: none;
   font-style: normal;
@@ -180,8 +223,10 @@
   color: #333333; }
 .tree-custom .node-root ins {
   background-image: url("list.png"); }
-.tree-custom .node-class ins {
-  background-image: url("class.png"); }
+.tree-custom .node-class ins:before {
+  top: 1px; }
+.tree-custom .node-class.open ~ ins:before {
+  top: 2px; }
 .tree-custom .node-instance ins {
   background-image: none; }
 .tree-custom ul li a.loading ins {
