@@ -166,6 +166,7 @@ class tao_helpers_Scriptloader
      * @param  string file
      * @param  string type
      * @return mixed
+     * @throws Exception
      */
     public static function addFile($file, $type = '')
     {

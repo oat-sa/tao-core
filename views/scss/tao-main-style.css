@@ -14896,7 +14896,7 @@ button, input[type="submit"], input[type="reset"] {
 html, body {
   background-color: #ffffff; }
 
-.ui-widget, .ui-widget * {
+.ui-widget {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400; }
 

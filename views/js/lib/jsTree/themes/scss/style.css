@@ -41,6 +41,21 @@
 .tree-custom li.node-result ins:before {
   content: "\158"; }
 
+.tree-actions {
+  position: relative; }
+  .tree-actions span {
+    position: absolute;
+    left: 100px;
+    top: 10px;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    cursor: pointer; }
+    .tree-actions span.icon-close {
+      display: none; }
+    .tree-actions span:hover {
+      color: #0e5d91; }
+
 .tree-custom .ltr, .tree-custom .rtl {
   background: none left top repeat; }
   .tree-custom .ltr > li.leaf, .tree-custom .rtl > li.leaf {
