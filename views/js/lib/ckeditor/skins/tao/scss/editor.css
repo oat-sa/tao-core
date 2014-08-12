@@ -14,51 +14,11 @@ other files.
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 /*
  * Fade animation
  */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 /*
  * Repeat animation
  */
@@ -235,51 +195,11 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 /*
  * Fade animation
  */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 /*
  * Repeat animation
  */
@@ -736,51 +656,11 @@ panel contents and color panels check menu.css and colorpanel.css.
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 /*
  * Fade animation
  */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 /*
  * Repeat animation
  */
@@ -1234,51 +1114,11 @@ Special outer level classes used in this file:
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 /*
  * Fade animation
  */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 /*
  * Repeat animation
  */
@@ -1845,51 +1685,11 @@ The visual representation of a rich combo widget looks as follows:
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 /*
  * Fade animation
  */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 /*
  * Repeat animation
  */
@@ -2252,51 +2052,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 /*
  * Fade animation
  */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 /*
  * Repeat animation
  */
@@ -2473,51 +2233,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 /* Tao specific stuff */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 /*
  * Fade animation
  */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 /*
  * Repeat animation
  */
@@ -2733,51 +2453,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 /* Icon set */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 /*
  * Fade animation
  */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 /*
  * Repeat animation
  */

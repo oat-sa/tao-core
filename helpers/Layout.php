@@ -104,10 +104,10 @@ class Layout{
      * and also to load a custom style-sheet
      *
      * @param Icon $icon
-     * @param $extensionId // could be used as a prefix
+     //* @param $extensionId // could be used as a prefix
      * @return string icon as html
      */
-     public static function renderMenuIcon($icon = null) {
+    public static function renderMenuIcon($icon = null) {
         $iconId = !is_null($icon)
             ? $icon->getId()
             : 'icon-extension';

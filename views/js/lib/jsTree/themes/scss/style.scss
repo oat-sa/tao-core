@@ -1,5 +1,6 @@
 @import "inc/bootstrap";
 
+
 .tree-custom {
     .ltr, .rtl {
         background: none left top repeat;
@@ -13,12 +14,12 @@
     ul {
         background-position: 6px 1px;
         background-repeat: repeat-y;
-        background-image: url(data:image/gif;base64,R0lGODlhAgACAIAAAB4dGf///yH5BAEAAAEALAAAAAACAAIAAAICRF4AOw==);
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR42mNoAAAAggCB2kUIOwAAAABJRU5ErkJggg==);
     }
     li {
         background-position: -64px -18px;
         background-repeat: no-repeat;
-        background-image: url("icons.png");
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABAAgMAAADwqRilAAAACVBMVEX///8kbHeAgIB/SOz/AAAAAXRSTlMAQObYZgAAAEVJREFUeNpjYIACBwY4EICzArAJhoQiAH6VWM0cBUDAMUQEuVaMxhWBEMIq2IBNcAHRKom2fVgBplXYQmgVthDSGiwhBAAx4grYHitHZwAAAABJRU5ErkJggg==);
         &.open {
             background-position: -32px -48px;
         }
@@ -50,15 +51,16 @@
         @each $item in $list {
             $i: index($list, $item);
             $icon: "%icon-" + nth($icons, $i);
-
+//@TODO extend does not work here
             &.node-#{$item} ins:before {
-                @extend %icon-item;;
-                //background-image: url($icon);
-               // background-position: 0 0;
-                //background-repeat: no-repeat;
-                background:none !important;
+               // @extend #{$icon};
+               // background:none !important;
+                @extend %tao-icon-setup;
+                foo: #{$icon};
+                @include icon(nth($icons, $i));
             }
         }
+
         &.node-draggable a {
             display:block;
             @extend .truncate;
@@ -107,9 +109,8 @@
     }
     // icons
     ins {
-        background-image: url("icons.png");
-        background-position: 0 0;
-        background-repeat: no-repeat;
+        position: relative;
+        left: 2px;
         font-family: 'tao';
         speak: none;
         font-style: normal;
@@ -126,8 +127,17 @@
     .node-root ins {
         background-image: url("list.png");
     }
-    .node-class ins {
-        background-image: url("class.png");
+    .node-class {
+        ins:before {
+            @extend %icon-folder;
+            top: 1px;
+        }
+        &.open {
+            & ~ ins:before {
+                @extend %icon-folder-open;
+                top: 2px;
+            }
+        }
     }
     .node-instance ins {
         background-image: none;
