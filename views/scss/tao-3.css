@@ -28,14 +28,15 @@
   .version-warning span {
     top: 5px !important; }
 
+#tao-main-logo {
+  margin: 6px 30px 6px 30px;
+  display: block;
+  width: 79px;
+  height: 52px; }
+
 nav {
   position: relative;
   z-index: 1000; }
-  nav #tao-main-logo {
-    margin: 6px 30px 6px 30px;
-    display: block;
-    width: 79px;
-    height: 52px; }
   nav li {
     float: left;
     position: relative;

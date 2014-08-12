@@ -1,51 +1,11 @@
 @charset "CP850";
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 /*
  * Fade animation
  */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 /*
  * Repeat animation
  */
@@ -68,6 +28,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+.no-js .content-wrap, .no-js footer {
+  display: none; }
+
 html, body, .content-wrap, #footer {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;

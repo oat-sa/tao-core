@@ -22,6 +22,12 @@
 
 //@TODO in the long run all icons need to be changed to vectors!
 
+.no-js {
+    .content-wrap, footer {
+        display:none;
+    }
+}
+
 html, body, .content-wrap, #footer {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;

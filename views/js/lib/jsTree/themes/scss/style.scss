@@ -1,6 +1,23 @@
 @import "inc/bootstrap";
 
-
+.tree-actions {
+    position: relative;
+    span {
+        position: absolute;
+        left: 100px;
+        top: 10px;
+        width: 24px;
+        height: 24px;
+        text-align: center;
+        cursor:pointer;
+        &.icon-close {
+            display: none;
+        }
+        &:hover {
+            color: $info;
+        }
+    }
+}
 .tree-custom {
     .ltr, .rtl {
         background: none left top repeat;
