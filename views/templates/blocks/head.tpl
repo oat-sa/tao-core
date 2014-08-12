@@ -1,24 +1,20 @@
 <?php
 use oat\tao\helpers\Template;
+use oat\tao\helpers\Layout;
 ?>
 
 <head>
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= PRODUCT_NAME ?> <?= TAO_VERSION ?></title>
-    <link rel="shortcut icon" href="<?= BASE_WWW ?>img/favicon.ico" type="image/x-icon"/>
+    <title><?= Layout::getTitle() ?></title>
+    <link rel="shortcut icon" href="<?= BASE_WWW ?>img/favicon.ico"/>
 
     <?= tao_helpers_Scriptloader::render() ?>
+    <?= Layout::getAmdLoader() ?>
 
-    <?php if(tao_helpers_Mode::is('production')): ?>
-        <script id="amd-loader" src="<?= Template::js('main.min.js', 'tao') ?>" data-config="<?= get_data('client_config_url') ?>"></script>
-    <?php else: ?>
-        <script id="amd-loader" src="<?= Template::js('lib/require.js', 'tao') ?>" data-main="<?= TAOBASE_WWW ?>js/main" data-config="<?= get_data('client_config_url') ?>"></script>
-    <?php endif ?>
-
-    <!-- Error Handling -->
-    <?php
+    <?php /* error handling */
     Template::inc('errors.tpl', 'tao')
     ?>
 </head>
