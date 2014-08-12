@@ -208,4 +208,46 @@ class Layout{
         return $contentTemplate;
     }
 
+    /**
+     * Build script element for AMD loader
+     *
+     * @return string
+     */
+    public static function getAmdLoader(){
+        if(\common_session_SessionManager::isAnonymous()) {
+            $amdLoader = array(
+                'src' => Template::js('lib/require.js', 'tao'),
+                'data-main' => TAOBASE_WWW . 'js/main'
+            );
+        }
+        else if(\tao_helpers_Mode::is('production')) {
+            $amdLoader = array(
+                'src' => Template::js('main.min.js', 'tao'),
+                'data-config' => get_data('client_config_url')
+            );
+        }
+        else {
+            $amdLoader = array(
+                'src' => Template::js('lib/require.js', 'tao'),
+                'data-config' => get_data('client_config_url'),
+                'data-main' => TAOBASE_WWW . 'js/main'
+            );
+        }
+
+        $amdScript = '<script id="amd-loader" ';
+        foreach($amdLoader as $attr => $value) {
+            $amdScript .= $attr . '="' . $value . '" ';
+        }
+        return trim($amdScript) . '></script>';
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTitle() {
+        $title = get_data('title');
+        return $title ? $title : PRODUCT_NAME . ' ' .  TAO_VERSION;
+    }
+
+
 }
