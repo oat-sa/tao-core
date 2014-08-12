@@ -4,12 +4,12 @@ use oat\tao\helpers\Layout;
 
 $releaseMsgData = get_data('releaseMsgData');
 ?>
+        <nav class="dark-bar clearfix">
 
-  <header class="dark-bar clearfix">
-        <nav>
             <a href="<?= $releaseMsgData['logo-link'] ?>" title="<?= __($releaseMsgData['logo-title']) ?>" class="lft" target="_blank">
                 <img src="<?= TAOBASE_WWW ?>media/<?= $releaseMsgData['logo'] ?>" alt="TAO Logo" id="tao-main-logo"/>
             </a>
+
             <ul class="plain clearfix lft main-menu">
                 <?php foreach (get_data('main-menu') as $entry): ?>
                     <li <?php if (get_data('shownExtension') === $entry->getExtension()
@@ -29,6 +29,7 @@ $releaseMsgData = get_data('releaseMsgData');
                     </li>
                 <?php endforeach ?>
             </ul>
+
             <ul class="plain clearfix settings-menu rgt">
                 <?php foreach (get_data('settings-menu') as $entry): ?>
                     <?php $className = get_data('shownExtension') === $entry->getExtension() && get_data('shownStructure') === $entry->getId()
@@ -72,4 +73,3 @@ $releaseMsgData = get_data('releaseMsgData');
 
             </ul>
         </nav>
-    </header>

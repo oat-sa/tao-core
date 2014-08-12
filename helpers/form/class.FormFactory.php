@@ -188,8 +188,6 @@ class tao_helpers_form_FormFactory
     public static function getCommonActions($context = 'bottom', $save = true)
     {
         $returnValue = array();
-
-        
 		
 		switch($context){
 			

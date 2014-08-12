@@ -3,7 +3,7 @@ use oat\tao\helpers\Template;
 
 Template::inc('form_context.tpl', 'tao')
 ?>
-<div class="main-container tao-scope">
+<div class="main-container">
     <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
     	<?=get_data('formTitle')?>
     </div>

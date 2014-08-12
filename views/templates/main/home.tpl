@@ -4,7 +4,7 @@
 	<div id="no-js-box" class="ui-state-error">
 		<?=__('Javascript is required to run this software. Please activate it in your browser.')?>
 	</div>
-	<script type="text/javascript">
+	<script>
         document.getElementById('no-js-box').style.display = 'none';
 	</script>
 	<div class="main-container"></div>

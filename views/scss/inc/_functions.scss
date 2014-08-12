@@ -147,7 +147,7 @@
 }
 
 /**
- * Use icon within sass: @inclue icon('down');
+ * Use icon within sass: @include icon('down');
  */
 @mixin icon($name, $namespace: 'icon') {
     font-family: 'tao';
@@ -165,27 +165,28 @@
 /*
  * Fade animation
  */
-@keyframes fade {
-    0%   {opacity:0;}
-    50%   {opacity:1;}
-    100% {opacity:0;}
-}
-@-webkit-keyframes fade {
-    0%   {opacity:0;}
-    50%   {opacity:1;}
-    100% {opacity:0;}
-}
-@-moz-keyframes fade {
-    0%   {opacity:0;}
-    50%   {opacity:1;}
-    100% {opacity:0;}
-}
-@-o-keyframes fade {
-    0%   {opacity:0;}
-    50%   {opacity:1;}
-    100% {opacity:0;}
-}
+
 @mixin fade($duration: 1s){
+    @keyframes fade {
+        0%   {opacity:0;}
+        50%   {opacity:1;}
+        100% {opacity:0;}
+    }
+    @-webkit-keyframes fade {
+        0%   {opacity:0;}
+        50%   {opacity:1;}
+        100% {opacity:0;}
+    }
+    @-moz-keyframes fade {
+        0%   {opacity:0;}
+        50%   {opacity:1;}
+        100% {opacity:0;}
+    }
+    @-o-keyframes fade {
+        0%   {opacity:0;}
+        50%   {opacity:1;}
+        100% {opacity:0;}
+    }
        animation: fade 1s forwards;
       -webkit-animation: fade 1s forwards;
       -moz-animation: fade 1s forwards;
