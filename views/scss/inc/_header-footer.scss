@@ -12,17 +12,18 @@
     }
 }
 
+#tao-main-logo {
+    margin: 6px 30px 6px 30px;
+    display: block;
+    width: 79px;
+    height: 52px;
+
+}
+
 //Navigation
 nav {
     position: relative;
     z-index: 1000;
-    #tao-main-logo {
-        margin: 6px 30px 6px 30px;
-        display: block;
-        width: 79px;
-        height: 52px;
-
-    }
     li {
         float: left;
         position: relative;
