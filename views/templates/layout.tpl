@@ -65,7 +65,7 @@ Template::inc('layout_header.tpl', 'tao')
     <div id="tabs">
         <ul>
             <?php foreach(get_data('sections') as $section):?>
-            <li><a id="<?=$section['id']?>" href="<?=ROOT_URL . substr($section['url'], 1) ?>"
+            <li id="tab-<?=$section['id']?>"><a id="<?=$section['id']?>" href="<?=ROOT_URL . substr($section['url'], 1) ?>"
                    title="<?=$section['name']?>"><?=__($section['name'])?></a></li>
             <?php endforeach ?>
         </ul>

@@ -260,6 +260,7 @@ class tao_helpers_Http
                     fclose($fp);
                 }
             } else {
+                common_Logger::w('File '.$filename.' not found');
                 header("HTTP/1.0 404 Not Found");
             }
         } else {

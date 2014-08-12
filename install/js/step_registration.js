@@ -23,7 +23,7 @@ function onLoad(){
         var registrationRootUrl = 'http://forge.taotesting.com/registration/';
         var isRegFormLoaded = false;
         var isUpdateFormLoaded = false;
-        var taoVersion = '2.6-RC02';
+        var taoVersion = '2.6';
     
 	install.onNextable = function(){
 		$('#submitForm').removeClass('disabled')
@@ -105,11 +105,6 @@ function onLoad(){
                 });
             }
             
-            // disable next first
-            /*$('input#submitForm').removeClass('enabled')
-                .addClass('disabled')
-                .attr('enabled', false);*/
-            
             $('#flag_notreg').val('');
             $('#support_login').removeClass('tao-input');
             $('#support_password').removeClass('tao-input');
@@ -123,7 +118,7 @@ function onLoad(){
             
             $('input#submitForm').removeClass('disabled')
                     .addClass('enabled')
-                    .attr('disabled', false);  
+                    .attr('disabled', false);
             
             if (!isUpdateFormLoaded) {
                 
@@ -284,6 +279,11 @@ function onLoad(){
         }, 1000);    // fake additional delay for user (1000ms).
         
         initHelp();
+        
+    // disable next first       
+    $('#submitForm').removeClass('enabled')
+            .addClass('disabled')
+            .attr('disabled', true);
 }
 
 function taoForgeConnectionCheck(url) {
