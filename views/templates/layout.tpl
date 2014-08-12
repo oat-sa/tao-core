@@ -1,26 +1,29 @@
 <?php
 use oat\tao\helpers\Template;
 
-$releaseMsgData = get_data('releaseMsgData');
-
-Template::inc('blocks/layout-header.tpl', 'tao')
+/* <html><head> */
+Template::inc('blocks/html-open.tpl', 'tao');
+Template::inc('blocks/head.tpl', 'tao');
 ?>
 <body>
 <div class="content-wrap">
 
-    <?php ($releaseMsgData['isUnstable'] || $releaseMsgData['isSandbox'])
+    <?php /* alpha|beta|sandbox message */
+    $releaseMsgData = get_data('releaseMsgData');
+    ($releaseMsgData['isUnstable'] || $releaseMsgData['isSandbox'])
         ? Template::inc('blocks/version-warning.tpl', 'tao')
         : '';
-        /* alpha|beta|sandbox message */
     ?>
 
-    <?php !common_session_SessionManager::isAnonymous()
+    <?php /* main navigation bar */
+    !common_session_SessionManager::isAnonymous()
         ? Template::inc('blocks/main-navi.tpl', 'tao')
         : '';
-        /* main navigation bar */
     ?>
 
-    <div class="loading-bar"></div>
+    <?php /* progress bar */
+    Template::inc('blocks/progressbar.tpl', 'tao'); ?>
+
     <?php if (get_data('sections')): ?>
 
         <div id="tabs">
@@ -35,13 +38,13 @@ Template::inc('blocks/layout-header.tpl', 'tao')
                 <div id="section-trees"></div>
                 <div id="section-actions"></div>
             </div>
-            <div class="clearfix"></div>
             <div id="section-meta"></div>
         </div>
     <?php endif; ?>
 
 </div>
 <!-- /content-wrap -->
-<?php Template::inc('layout_footer.tpl', 'tao') ?>
-</body>
-</html>
+<?php
+Template::inc('footer.tpl', 'tao');
+Template::inc('blocks/html-close.tpl', 'tao');
+?>
