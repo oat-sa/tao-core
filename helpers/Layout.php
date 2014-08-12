@@ -21,7 +21,10 @@
 
 namespace oat\tao\helpers;
 
+use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
+
+
 class Layout{
 
 
@@ -34,39 +37,39 @@ class Layout{
     public static function getReleaseMsgData($taoReleaseStatus){
 
         $params = array(
-            'versionType' => '',
-            'isUnstable'  => true,
-            'isSandbox'   => false,
-            'logo'        => 'tao-logo.png',
-            'logo-link'   => 'http://taotesting.com',
-            'logo-title'  => 'Tao Home'
+            'version-type' => '',
+            'is-unstable'  => true,
+            'is-sandbox'   => false,
+            'logo'         => 'tao-logo.png',
+            'link'         => 'http://taotesting.com',
+            'msg'          => __('Tao Home')
         );
 
         switch($taoReleaseStatus){
             case 'alpha':
             case 'demoA':
-                $params['versionType'] = __('Alpha Version');
-                $params['logo']        = 'tao-logo-alpha.png';
-                $params['logo-link']   = 'http://forge.taotesting.com/projects/tao';
-                $params['logo-title']  = 'Tao Forge';
+                $params['version-type'] = __('Alpha Version');
+                $params['logo']         = 'tao-logo-alpha.png';
+                $params['link']         = 'http://forge.taotesting.com/projects/tao';
+                $params['msg']          = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
                 break;
 
             case 'beta':
             case 'demoB':
-                $params['versionType'] = __('Beta Version');
-                $params['logo']        = 'tao-logo-beta.png';
-                $params['logo-link']   = 'http://forge.taotesting.com/projects/tao';
-                $params['logo-title']  = 'Tao Forge';
+                $params['version-type'] = __('Beta Version');
+                $params['logo']         = 'tao-logo-beta.png';
+                $params['link']         = 'http://forge.taotesting.com/projects/tao';
+                $params['msg']          = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
                 break;
 
             case 'demoS':
-                $params['versionType'] = __('Demo Sandbox');
-                $params['isUnstable']  = false;
-                $params['isSandbox']   = true;
+                $params['version-type'] = __('Demo Sandbox');
+                $params['is-unstable']   = false;
+                $params['is-sandbox']    = true;
                 break;
 
             default:
-                $params['isUnstable'] = false;
+                $params['is-unstable'] = false;
         }
 
         return $params;
@@ -115,5 +118,47 @@ class Layout{
         return sprintf('<span class="%s"></span>', $iconId);
         
     }
+
+    /**
+     * Build script element for AMD loader
+     *
+     * @return string
+     */
+    public static function getAmdLoader(){
+        if(\common_session_SessionManager::isAnonymous()) {
+            $amdLoader = array(
+                'src' => Template::js('lib/require.js', 'tao'),
+                'data-main' => TAOBASE_WWW . 'js/main'
+            );
+        }
+        else if(\tao_helpers_Mode::is('production')) {
+            $amdLoader = array(
+                'src' => Template::js('main.min.js', 'tao'),
+                'data-config' => get_data('client_config_url')
+            );
+        }
+        else {
+            $amdLoader = array(
+                'src' => Template::js('lib/require.js', 'tao'),
+                'data-config' => get_data('client_config_url'),
+                'data-main' => TAOBASE_WWW . 'js/main'
+            );
+        }
+
+        $amdScript = '<script id="amd-loader" ';
+        foreach($amdLoader as $attr => $value) {
+            $amdScript .= $attr . '="' . $value . '" ';
+        }
+        return trim($amdScript) . '></script>';
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTitle() {
+        $title = get_data('title');
+        return $title ? $title : PRODUCT_NAME . ' ' .  TAO_VERSION;
+    }
+
 
 }

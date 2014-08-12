@@ -92,8 +92,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 */
 	public function login()
 	{
-		//add the login stylesheet
-		tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/login.css');
 
 		$params = array();
 		if ($this->hasRequestParameter('redirect')) {
@@ -127,7 +125,9 @@ class tao_actions_Main extends tao_actions_CommonModule {
         if ($this->hasRequestParameter('msg')) {
             $this->setData('msg', htmlentities($this->getRequestParameter('msg')));
         }
-		$this->setView('main/login.tpl');
+
+        $this -> setData('releaseMsgData', Layout::getReleaseMsgData(TAO_RELEASE_STATUS));
+		$this->setView('layout.tpl', 'tao');
 	}
 
 	/**
