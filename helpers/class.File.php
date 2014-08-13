@@ -454,7 +454,9 @@ class tao_helpers_File
     
     /**
      * Get a safe filename for a proposed filename.
-     * This function is not injective. 
+     * 
+     * If directory is specified it will return a filename which is
+     * safe to not overwritte an existing file. This function is not injective.
      * 
      * @param string $fileName
      * @param string $directory
