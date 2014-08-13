@@ -77,36 +77,43 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], func
 
                     //intercept errors
                     $(document).ajaxError(function(event, request, settings, exception){
+                        
+                        var errorMessage = __('Unknown Error');
 
-                            var errorMessage = __('Unknown Error');
+                        if(request.status === 404 && settings.type === 'HEAD'){
 
-                            if(request.status === 404 || request.status === 500){
+                            //consider it as a "test" to check if resource exists
+                            return;
 
-                                    try{
-                                            // is it a common_AjaxResponse? Let's "ducktype"
-                                            var ajaxResponse = $.parseJSON(request.responseText);
-                                            if (	ajaxResponse !== null &&
-                                                            typeof ajaxResponse['success'] !== 'undefined' &&
-                                                            typeof ajaxResponse['type'] !== 'undefined' &&
-                                                            typeof ajaxResponse['message'] !== 'undefined' &&
-                                                            typeof ajaxResponse['data'] !== 'undefined'){
+                        }else if(request.status === 404 || request.status === 500){
 
-                                                    errorMessage = request.status + ': ' + ajaxResponse.message;
-                                            }
-                                            else{
-                                                    errorMessage = request.status + ': ' + request.responseText;
-                                            }
+                            try{
+                                // is it a common_AjaxResponse? Let's "ducktype"
+                                var ajaxResponse = $.parseJSON(request.responseText);
+                                if (	ajaxResponse !== null &&
+                                                typeof ajaxResponse['success'] !== 'undefined' &&
+                                                typeof ajaxResponse['type'] !== 'undefined' &&
+                                                typeof ajaxResponse['message'] !== 'undefined' &&
+                                                typeof ajaxResponse['data'] !== 'undefined'){
 
-                                    }
-                                    catch (exception){
-                                            // It does not seem to be valid JSON.
-                                            errorMessage = request.status + ': ' + request.responseText;
-                                    }
+                                        errorMessage = request.status + ': ' + ajaxResponse.message;
+                                }
+                                else{
+                                        errorMessage = request.status + ': ' + request.responseText;
+                                }
+
                             }
-                            else if(request.status == 403){
-                                    window.location = context.root_url + 'tao/Main/logout';
+                            catch (exception){
+                                // It does not seem to be valid JSON.
+                                errorMessage = request.status + ': ' + request.responseText;
                             }
-                            feedback().error(errorMessage);
+
+                        }else if(request.status === 403){
+
+                            window.location = context.root_url + 'tao/Main/logout';
+                        }
+
+                        feedback().error(errorMessage);
                     });
             },
 

@@ -451,5 +451,64 @@ class tao_helpers_File
             throw new common_Exception($url.' is not secure');
         }
     }
+    
+    /**
+     * Get a safe filename for a proposed filename.
+     * 
+     * If directory is specified it will return a filename which is
+     * safe to not overwritte an existing file. This function is not injective.
+     * 
+     * @param string $fileName
+     * @param string $directory
+     */
+    public static function getSafeFileName($fileName, $directory = null) {
+        $lastDot = strrpos($fileName, '.');
+        $file = $lastDot ? substr($fileName, 0, $lastDot) : $string;
+        $ending = $lastDot ? substr($fileName, $lastDot+1) : '';
+        $safeName = self::removeSpecChars($file);
+        $safeEnding = empty($ending)
+            ? ''
+            : '.'.self::removeSpecChars($ending);
+        
+        if ($directory != null && file_exists($directory.$safeName.$safeEnding)) {
+            $count = 1;
+            while (file_exists($directory.$safeName.'_'.$count.$safeEnding)) {
+                $count++;
+            }
+            $safeName = $safeName.'_'.$count;
+        } 
+        
+        return $safeName.$safeEnding;
+    }
+    
+    /**
+     * Remove special characters for safe filenames
+     * 
+     * @author Dieter Raber
+     * 
+     * @param string $string
+     * @param string $repl
+     * @param string $lower
+     */
+    private static function removeSpecChars($string, $repl='-', $lower=true) {
+        $spec_chars = array (
+            'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'Ae', 'Å' => 'A','Æ' => 'A', 'Ç' => 'C',
+            'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I',
+            'Ï' => 'I', 'Ð' => 'E', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O',
+            'Ö' => 'Oe', 'Ø' => 'O', 'Ù' => 'U', 'Ú' => 'U','Û' => 'U', 'Ü' => 'Ue', 'Ý' => 'Y',
+            'Þ' => 'T', 'ß' => 'ss', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'ae',
+            'å' => 'a', 'æ' => 'ae', 'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+            'ì' => 'i', 'í' => 'i', 'î' => 'i',  'ï' => 'i', 'ð' => 'e', 'ñ' => 'n', 'ò' => 'o',
+            'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'oe', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u',
+            'û' => 'u', 'ü' => 'ue', 'ý' => 'y', 'þ' => 't', 'ÿ' => 'y', ' ' => $repl, '?' => $repl,
+            '\'' => $repl, '.' => $repl, '/' => $repl, '&' => $repl, ')' => $repl, '(' => $repl,
+            '[' => $repl, ']' => $repl, '_' => $repl, ',' => $repl, ':' => $repl, '-' => $repl,
+            '!' => $repl, '"' => $repl, '`' => $repl, '°' => $repl, '%' => $repl, ' ' => $repl,
+            '  ' => $repl, '{' => $repl, '}' => $repl, '#' => $repl, '’' => $repl
+        );
+        $string = strtr($string, $spec_chars);
+        $string = trim(preg_replace("~[^a-z0-9]+~i", $repl, $string), $repl);
+        return $lower ? strtolower($string) : $string;
+    }
 
 }
