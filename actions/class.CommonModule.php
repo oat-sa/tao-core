@@ -100,6 +100,8 @@ abstract class tao_actions_CommonModule extends Module
         if ($this->getRequestParameter('errorMessage')) {
             $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
         }
+
+        $this->setData('client_config_url', $this->getClientConfigUrl());
     }
 	
     /**

@@ -14,10 +14,6 @@ use oat\tao\helpers\Layout;
 
     <?= tao_helpers_Scriptloader::render() ?>
     <?= Layout::getAmdLoader() ?>
-
-    <?php /* error handling */
-    Template::inc('errors.tpl', 'tao')
-    ?>
 </head>
 
 <body>
