@@ -1,9 +1,8 @@
 <?php
-use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
 
-$releaseMsgData = get_data('releaseMsgData');
-?>
+$releaseMsgData = Layout::getReleaseMsgData();
+if ($releaseMsgData['is-unstable'] || $releaseMsgData['is-sandbox']): ?>
 
 <div class="feedback-warning small version-warning">
     <span class="icon-warning"></span>
@@ -17,3 +16,4 @@ $releaseMsgData = get_data('releaseMsgData');
     <?php endif; ?>
     <span title="<?= __('Remove Message') ?>" class="icon-close close-trigger"></span>
 </div>
+<?php endif;?>

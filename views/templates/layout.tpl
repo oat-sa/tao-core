@@ -1,10 +1,25 @@
 <?php
 use oat\tao\helpers\Template;
-
-/* <html><head> */
-Template::inc('blocks/html-open.tpl', 'tao');
-Template::inc('blocks/head.tpl', 'tao');
+use oat\tao\helpers\Layout;
 ?>
+<!doctype html>
+<html class="no-js">
+<head>
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= Layout::getTitle() ?></title>
+    <link rel="shortcut icon" href="<?= BASE_WWW ?>img/favicon.ico"/>
+
+    <?= tao_helpers_Scriptloader::render() ?>
+    <?= Layout::getAmdLoader() ?>
+
+    <?php /* error handling */
+    Template::inc('errors.tpl', 'tao')
+    ?>
+</head>
+
 <body>
 <div class="content-wrap">
 
@@ -130,28 +145,11 @@ Template::inc('blocks/head.tpl', 'tao');
         </div>
     <?php endif; ?>
 
-        <?php /* progress bar */
-        Template::inc('blocks/progressbar.tpl', 'tao'); ?>
+        <div id="feedback-box"></div>
 
-        <?php if (get_data('sections')): ?>
-
-            <div id="tabs" class="grid-box">
-                <ul class="col-12">
-                    <?php foreach (get_data('sections') as $section): ?>
-                        <li><a id="<?= $section['id'] ?>" href="<?= ROOT_URL . substr($section['url'], 1) ?>"
-                               title="<?= $section['name'] ?>"><?= __($section['name']) ?></a></li>
-                    <?php endforeach ?>
-                </ul>
-
-                <div class="panels grid-box">
-                    <div id="sections-aside" class="col-2">
-                        <div id="section-trees"></div>
-                        <div id="section-actions"></div>
-                    </div>
-                    <div id="section-meta" class="col-10"></div>
-                </div>
-            </div>
-        <?php endif; ?>
+        <?php /* actual content */
+        $contentTemplate = Layout::getContentTemplate();
+        Template::inc($contentTemplate['path'], $contentTemplate['ext']); ?>
     </div>
 <?php
 Template::inc('footer.tpl', 'tao');

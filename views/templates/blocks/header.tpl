@@ -1,8 +1,9 @@
 <?php
 use oat\tao\helpers\Template;
+use oat\tao\helpers\Layout;
 
 /* alpha|beta|sandbox message */
-$releaseMsgData = get_data('releaseMsgData');
+$releaseMsgData = Layout::getReleaseMsgData();
 ?>
 <header class="dark-bar clearfix">
     <a href="<?= $releaseMsgData['link'] ?>" title="<?=$releaseMsgData['msg'] ?>" class="lft"
