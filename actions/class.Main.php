@@ -126,8 +126,9 @@ class tao_actions_Main extends tao_actions_CommonModule {
             $this->setData('msg', htmlentities($this->getRequestParameter('msg')));
         }
 
-        $this -> setData('releaseMsgData', Layout::getReleaseMsgData(TAO_RELEASE_STATUS));
-		$this->setView('layout.tpl', 'tao');
+        $this -> setData('content-template', array('blocks/login.tpl', 'tao'));
+
+        $this->setView('layout.tpl', 'tao');
 	}
 
 	/**
@@ -197,7 +198,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
             'shownStructure'    => $shownStructure
         );
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParameters));
-        $this->setData('releaseMsgData', Layout::getReleaseMsgData(TAO_RELEASE_STATUS));
 
 		$this->setView('layout.tpl', 'tao');
 

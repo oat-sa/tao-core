@@ -242,6 +242,7 @@ define([
 
     /**
      * Enables you to create a new feedback.
+     * example fb().error("content");
      * @exports ui/feedback
      * @param {jQUeryElement} [$container] - only to specify another container
      * @returns {Object} the feedback object
