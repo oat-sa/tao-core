@@ -25,7 +25,7 @@ define(['jquery', 'i18n', 'class', 'uiBootstrap'], function($, __, Class, uiBoot
 			this.selector = selector;	        //jsquery selector of the tree
 			this.options = options;		        //options
 			this.dataUrl = dataUrl;		        //Url used to get tree data
-			this.metaClasses = new Array();	  //Store meta data of opened classes
+			this.metaClasses = [];	  //Store meta data of opened classes
 			this.lastOpened = null;		        //Keep a reference of the last opened node
 			this.state = this.STATE_BROWSING; //Generis tree class state, by default browsing
 
@@ -64,11 +64,7 @@ define(['jquery', 'i18n', 'class', 'uiBootstrap'], function($, __, Class, uiBoot
 				}
 			};
 
-			if (!treeOptions) {
-				this.treeOptions = this.treeDefaultOptions;
-			} else {
-				$.extend(true, this.treeOptions, this.treeDefaultOptions, treeOptions);
-			}
+		    $.extend(true, this.treeOptions, treeOptions);
 
 			// workaround to fix dublicate tree bindings on multiple page loads
 			var classes = $(selector).attr('class');
