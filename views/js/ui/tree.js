@@ -2,8 +2,12 @@ define([
     'jquery', 
     'lodash', 
     'context',
+    'uiBootstrap',
     'jsTree/plugins/jquery.tree.contextmenu',
-], function($, _, context){
+], function($, _, context, uiBootstrap){
+
+
+
 
     var treeFactory = function($elt, url, options){
 
@@ -17,8 +21,6 @@ define([
             limit           : 30
         });
         
-        console.log(options);
-    
         var treeOptions = {
 				data: {
 					type: "json",
@@ -72,8 +74,11 @@ define([
                     //when we receive the data
                     ondata: function(data, tree) {
 
+                        console.log(' on data ');
+
                         var nodes = data.children || data;
 
+                        //do some styling
                         if(options.instanceClass){
                             addClassToNodes(nodes, options.instanceClass);
                         }
@@ -101,6 +106,8 @@ define([
                         } else {
                             tree.open_branch($("li.node-class:first"));
                         }
+                            
+                        $elt.trigger('change.taotree');
                     },
 
 					beforeopen: function(node) {
@@ -110,25 +117,32 @@ define([
 					},
 
                     //when a node is selected
-                    onselect: function($node, tree) {
-                        var nodeId          = $node.attr('id');
-                        var parentNodeId    = $node.parent().parent().attr('id');
+                    onselect: function(node, tree) {
 
-                        $("a.clicked").each(function() {
+                        console.log(' select ');
+
+                        var uri, classUri;
+                        var $node           = $(node);
+                        var nodeId          = $node.attr('id');
+                        var $parentNode     = tree.parent($node);
+
+                        $('a.clicked', $elt).each(function() {
                             if ($(this).parent('li').attr('id') !==  nodeId) {
                                 $(this).removeClass('clicked');
                             }
                         });
 
                         //already selected
-                        if (nodeId === options.selectNode) {
-                            return false;
-                        }
+                        //if (nodeId === options.selectNode) {
+                            //return false;
+                        //}
 
                         if ($node.hasClass('node-class')) {
                             if ($node.hasClass('closed')) {
-                                tree.open_branch(node);
+                                tree.open_branch($node);
                             }
+                            classUri = nodeId;
+
 
                             //TODO trigger edit event for a class
                             //load the editClassAction into the formContainer
@@ -138,6 +152,12 @@ define([
                         if ($node.hasClass('node-instance')){
 
                             //TODO trigger edit event for an instance
+    
+                            uri = nodeId;
+                            classUri = $parentNode.attr('id');
+
+
+                             
 
                             //load the editInstanceAction into the formContainer
                             //var PNODE = TREE_OBJ.parent(NODE);
@@ -151,13 +171,20 @@ define([
                             //var limit = instance.getMeta(parentNodeId, 'count') - instance.getMeta (parentNodeId, 'displayed');
                             //instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, {'limit':limit});
                         //}
-                       
                          
-                        //TODO context change
+                        $elt
+                          .trigger('select.taotree', [{
+                            uri : uri,
+                            classUri : classUri 
+                        }])
+                          .trigger('change.taotree', [{
+                            uri : uri,
+                            classUri : classUri 
+                        }]);
 
                         //instance.callGetSectionActions(NODE, TREE_OBJ);
 
-                        lastSelected = $node.attr('id');
+//                        lastSelected = $node.attr('id');
                         
                         return false;
                     },
@@ -168,15 +195,16 @@ define([
                             return false;
                         }
 
+                        //do not move an instance into an instance...
                         if ($(refNode).hasClass('node-instance') && type === 'inside') {
-
                             $.tree.rollback(rollback);
                             return false;
+                        } 
+                        
 
-                        } else {
-                            if (type === 'after' || type === 'before') {
-                                refNode = tree.parent(refNode);
-                            }
+                        if (type === 'after' || type === 'before') {
+                            refNode = tree.parent(refNode);
+                        }
 
                             //TODO trigger a move event
  
@@ -229,9 +257,8 @@ define([
                                     //'RB'		: RB,
                                     //'TREE_OBJ'	: TREE_OBJ
                                 //});
-                        }
 
-                        //TODO context change
+                        $elt.trigger('change.taotree');
 
                         //instance.callGetSectionActions(NODE, TREE_OBJ);
                     },
@@ -240,6 +267,25 @@ define([
             }
         };
         
+        $elt.on('select.taotree', function(){
+            console.log('select ', arguments);
+        });
+
+        $elt.on('change.taotree', function(e, data){
+            console.log('change ', arguments);
+            if(e.namespace === 'taotree'){
+                if(data){
+
+                    uiBootstrap.initActions(data.uri, data.classUri);
+
+                } else {
+
+                    uiBootstrap.initActions();
+
+                }
+            }
+        });
+
         // workaround to fix dublicate tree bindings on multiple page loads
         //TODO check data-attr
         var classes = $elt.attr('class');
