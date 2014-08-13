@@ -162,34 +162,34 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], func
              * initialize the actions component
              */
             initActions: function(uri, classUri){
-                    //left menu actions init by loading the tab content
-                    if(this.tabs && this.tabs.length > 0){
-                        var $sectionActions = $('#section-actions');
-                        
-                        //get the link text of the selected tab
-                        var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
-                            $.ajax({
-                                    url: context.root_url + 'tao/Main/getSectionActions',
-                                    type: "GET",
-                                    data: {
-                                            section: section,		
-                                            structure: context.shownStructure,
-                                            ext: context.shownExtension,
-                                            uri: uri,
-                                            classUri: classUri
-                                    },
-                                    dataType: 'html',
-                                    success: function(response){
-                                            if(!response) {
-                                                $sectionActions.css({display: 'none'});
-                                            } else if($sectionActions.css('display') === 'none') {
-                                                $sectionActions.css({display: 'block'});
-                                            }
-                                            $sectionActions.html(response);
-                                            $(document).trigger('actionInitiated', [response]);
-                                    }
-                            });
-                    }
+                var $sectionActions = $('#section-actions');
+                //left menu actions init by loading the tab content
+                if(this.tabs && this.tabs.length > 0){
+                    
+                    //get the link text of the selected tab
+                    var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
+                    $.ajax({
+                        url: context.root_url + 'tao/Main/getSectionActions',
+                        type: "GET",
+                        data: {
+                                section: section,		
+                                structure: context.shownStructure,
+                                ext: context.shownExtension,
+                                uri: uri,
+                                classUri: classUri
+                        },
+                        dataType: 'html',
+                        success: function(response){
+                                if(!response) {
+                                    $sectionActions.css({display: 'none'});
+                                } else if($sectionActions.css('display') === 'none') {
+                                    $sectionActions.css({display: 'block'});
+                                }
+                                $sectionActions.html(response);
+                                $(document).trigger('actionInitiated', [response]);
+                        }
+                    });
+                }
             },
 
             /**
