@@ -26,9 +26,9 @@
  */
 class tao_models_classes_service_ServiceCallHelper
 {
-    const CACHE_PREFIX_URL = 'tao:service:url:';
+    const CACHE_PREFIX_URL = 'tao_service_url_';
     
-    const CACHE_PREFIX_PARAM_NAME = 'tao:service:url:';
+    const CACHE_PREFIX_PARAM_NAME = 'tao_service_param_';
     
     public static function getBaseUrl( core_kernel_classes_Resource $serviceDefinition) {
         

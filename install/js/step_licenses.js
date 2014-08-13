@@ -50,7 +50,7 @@ function onLoad(){
     
         $('form').bind('submit', function(){
 		if (install.isNextable()){
-			install.setTemplate('step_registration');
+			install.setTemplate('step_finalization');
 		}
 		
 		return false;

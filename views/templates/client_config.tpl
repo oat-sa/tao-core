@@ -64,7 +64,10 @@ require.config({
         <?endif?>
     <?endforeach?>
         'mediaElement'      : 'lib/mediaelement/mediaelement-and-player.min',
-        'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
+        'mathJax'           : [
+            '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
+            '../../../taoQtiItem/views/js/MathJaxFallback'
+        ],
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
         'eyecatcher'        : 'eyecatcher',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload'
