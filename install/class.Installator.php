@@ -247,7 +247,12 @@ class tao_install_Installator{
 			$file_path = $installData['file_path'];
 			if(is_dir($file_path)){
 			    common_Logger::i('Data from previous install found and will be removed');
+			    if(is_writable($installData['file_path'])){
 			    helpers_File::emptyDirectory($installData['file_path']);
+			    }
+			    else {
+			        throw new common_exception_Error($installData['file_path'] . ' is not writable');
+			    }
 			} else {
 			    mkdir($installData['file_path'] , 0700, true);
 		 
@@ -395,7 +400,7 @@ class tao_install_Installator{
 			 *  12 - Create the version file
 			 */
 			common_Logger::d('Creating TAO version file', 'INSTALL');
-			file_put_contents(ROOT_PATH.'version', TAO_VERSION);
+			file_put_contents($installData['file_path'].'version', TAO_VERSION);
 		}
 		catch(Exception $e){
 			// In any case, we transmit a single exception type (at the moment)
