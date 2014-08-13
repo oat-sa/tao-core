@@ -137,6 +137,14 @@ div#login-form, div#login-title {
   width: 100%;
   text-align: left;
   padding-left: 80px; }
+div.xhtml_form div .form_desc {
+  font-size: 1.1em;
+  vertical-align: middle;
+  text-align: left;
+  margin-bottom: 25px;
+  padding-left: 0px; }
+div#login-form .form-toolbar {
+  padding-left: 10%; }
 
 .ui-widget input {
   height: 22px;
