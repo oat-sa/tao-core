@@ -273,7 +273,9 @@ class Layout{
         if(\common_session_SessionManager::isAnonymous()) {
             $amdLoader = array(
                 'src' => Template::js('lib/require.js', 'tao'),
-                'data-main' => TAOBASE_WWW . 'js/main'
+                //'data-main' => TAOBASE_WWW . 'js/main'
+                'data-main' => TAOBASE_WWW . 'js/login',
+                'data-config' => get_data('client_config_url')
             );
         }
         else if(\tao_helpers_Mode::is('production')) {
@@ -305,5 +307,17 @@ class Layout{
         return $title ? $title : PRODUCT_NAME . ' ' .  TAO_VERSION;
     }
 
+
+    /**
+     * Retrieve the template with the actual content
+     *
+     * @return array
+     */
+    public static function getContentTemplate() {
+        $templateData = (array)get_data('content-template');
+        $contentTemplate['path'] = $templateData[0];
+        $contentTemplate['ext']  = $templateData[1] ? $templateData[1] : 'tao';
+        return $contentTemplate;
+    }
 
 }
