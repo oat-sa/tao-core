@@ -29,14 +29,6 @@
  *
  */
 @CHARSET "UTF-8";
-#portal-box {
-  width: 720px;
-  margin: 40px auto 0;
-  padding: 20px;
-  border: 1px solid #dddddd;
-  border-radius: 2px;
-  -webkit-border-radius: 2px; }
-
 #control {
   width: 960px;
   height: 17px;
@@ -137,14 +129,6 @@ div#login-form, div#login-title {
   width: 100%;
   text-align: left;
   padding-left: 80px; }
-div.xhtml_form div .form_desc {
-  font-size: 1.1em;
-  vertical-align: middle;
-  text-align: left;
-  margin-bottom: 25px;
-  padding-left: 0px; }
-div#login-form .form-toolbar {
-  padding-left: 10%; }
 
 .ui-widget input {
   height: 22px;
