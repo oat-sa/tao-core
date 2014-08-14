@@ -59,12 +59,39 @@
 #tabs {
     min-height: 620px;
     top: 0 !important;
+    overflow: hidden;
 
+    &.ui-tabs .ui-tabs-panel {
+        border: none !important;
+        min-width: 500px;
+        margin-left: 290px;
+        max-width: 800px;
+        width: 50%;
+        .ui-widget-content{
+            //border: none !important;
+        }
+        #form-title {
+            @include font-size(20);
+            margin: 10px 0;
+            border: none !important;
+        }
+    }
+    .main-container {
+        .main-container {
+            #form-container {
+                @include simple-border();
+                border-top: 1px solid $uiGeneralContentBorder !important;
+                padding: 20px;
+            }
+        }
+    }
+
+/*
     .ui-tabs-nav {
         margin-right: 0px;
         background-color: white();
         z-index: 1;
-    }
+    }*/
 
     /* don't change it ! (used by scripting) */
     div.ui-tabs-panel {

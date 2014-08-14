@@ -20,9 +20,18 @@
  * The controller dedicated to the login page.
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['module', 'ui/feedback', 'i18n'], function (module, feedback, __) {
+define([
+    'module',
+    'ui/feedback',
+    'i18n',
+    'layout/version-warning'
+], function (module, feedback, __, versionWarning) {
+
+
 
     var conf, type, context = $('#login-box'), $fields = $();
+
+    versionWarning.init();
 
     //Set focus on the login field.
     context.find('#login').focus();
