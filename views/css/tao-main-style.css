@@ -12756,7 +12756,8 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
     .resourcemgr .file-preview .file-properties {
       padding: 0 5px; }
     .resourcemgr .file-preview .previewer {
-      height: 300px; }
+      height: 300px;
+      overflow: hidden; }
     .resourcemgr .file-preview .actions {
       text-align: center;
       margin-bottom: 10px; }
@@ -12794,7 +12795,8 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
         height: 35px;
         line-height: 35px;
         margin-bottom: 0;
-        padding: 0 0 0 5px; }
+        padding: 0 0 0 5px;
+        overflow-y: hidden; }
         .resourcemgr .file-selector ul.files li:before {
           font-family: 'tao';
           display: inline-block;
@@ -12818,7 +12820,9 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
           background-color: #9ebed3;
           cursor: pointer; }
         .resourcemgr .file-selector ul.files li .desc {
-          display: inline-block; }
+          display: inline-block;
+          min-width: 150px;
+          max-width: 250px; }
         .resourcemgr .file-selector ul.files li .actions {
           float: right;
           position: relative;
@@ -13427,6 +13431,9 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   .item-editor-sidebar .media-sizer.media-sizer-synced .media-sizer-link {
     border-color: #ccc;
     opacity: 1; }
+
+#tab-items_preview {
+  display: none !important; }
 
 body {
   z-index: 0; }

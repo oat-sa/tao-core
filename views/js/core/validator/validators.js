@@ -2,7 +2,7 @@
  * @author Sam <sam@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash', 'i18n'], function(_, __){
+define(['lodash', 'i18n', 'jquery'], function(_, __, $){
 
     /**
      * Defines the validation callback 
@@ -103,43 +103,28 @@ define(['lodash', 'i18n'], function(_, __){
             message : __('no file not found in this location'),
             options : {baseUrl : ''},
             validate : function(value, callback, options){
-
-                var t,
-                    total = 0,
-                    url = (value.indexOf('http') === 0) ? value : options.baseUrl + value,
-                    img = new Image(),
-                    verif = {
-                    duration : 1000, //check maximum during 1000ms
-                    interval : 50 //... with interval of 50ms
-                };
-
-                img.src = url;
-
-                var callbackCall = function(ok){
-                    callback.call(null, !!ok);
-                    clearInterval(t);
-                    delete img;
-                };
-
-                if(typeof(callback) === 'function'){
-
-                    t = setInterval(function(){
-
-                        if(img.height !== 0){
-                            callbackCall(true);
-                        }else if(total < verif.duration){
-                            total += verif.interval;
-                        }else{
-                            callbackCall(false);
-                        }
-                        
-                    }, verif.interval);
+                
+                var url = (value.indexOf('http') === 0) ? value : options.baseUrl + value;
+                
+                if(url){
                     
-                    //security
-                    setTimeout(function(){
-                        clearInterval(t);
-                    }, 3000);
+                    //request HEAD only for bandwidth saving
+                    $.ajax({
+                        type : 'HEAD',
+                        url : url,
+                        success : function(){
+                            callback(true);
+                        },
+                        error : function(){
+                            callback(false);
+                        }
+                    });
+                
+                }else{
+                    
+                    callback(false);
                 }
+                
             }
         },
         validRegex : {

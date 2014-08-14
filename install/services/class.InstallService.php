@@ -60,7 +60,7 @@ class tao_install_services_InstallService extends tao_install_services_Service{
 			$content['value']['module_lang'] = 'en-US';
 			// fallback until ui is ready
 			if (!isset($content['value']['file_path'])) { 
-                $content['value']['file_path'] =  TAO_INSTALL_PATH.'generis'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
+                $content['value']['file_path'] =  TAO_INSTALL_PATH.'data'.DIRECTORY_SEPARATOR;
 			}
 			$installer->install($content['value']);
 			
