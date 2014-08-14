@@ -191,10 +191,31 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
                     }
             },
 
+            loadActions : function(){
+
+                //TODO move template to it's own file
+                var actionTpl       =  hbs.compile('<li><a href="{{url}}" data-action="{{name}}" title="{{dispay}}" >{{display}}</a></li>');
+                var $sectionActions = $('#section-actions');
+ 
+                $.getJSON(context.root_url + 'tao/Main/getSectionActions', {
+                    section   : context.section,		
+                    structure : context.shownStructure,
+                    ext       : context.shownExtension
+                }, function(response){
+
+                    var actions = _.reduce(response, function(res, action){
+                        return res  +   actionTpl(action);
+                    }, '');
+                     
+                    $sectionActions.html('<ul>' + actions + '</ul>').show();
+                });
+            },
+
             /**
              * initialize the actions component
              */
             initActions: function(uri, classUri){
+                return;
                 var $sectionActions = $('#section-actions');
                 //left menu actions init by loading the tab content
                 if(this.tabs && this.tabs.length > 0){
