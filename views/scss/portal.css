@@ -20,14 +20,6 @@
  *
  */
 @CHARSET "UTF-8";
-#portal-box {
-  width: 720px;
-  margin: 40px auto 0;
-  padding: 20px;
-  border: 1px solid #dddddd;
-  border-radius: 2px;
-  -webkit-border-radius: 2px; }
-
 #control {
   width: 960px;
   height: 17px;
