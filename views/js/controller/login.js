@@ -20,21 +20,41 @@
  * The controller dedicated to the login page.
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['module', 'ui/feedback'], function(module, feedback){
+define(['module', 'ui/feedback', 'i18n'], function (module, feedback, __) {
 
-    var conf, type;
+    var conf, type, context = $('#login-box'), $fields = $();
 
-     //Set focus on the login field.
-     document.getElementById('login').focus();
+    //Set focus on the login field.
+    context.find('#login').focus();
 
-    //if the module config contains a message object, then create the according feedback
-     conf = module.config();
-     if(conf.message){
-        for(type in conf.message) {
-            if(!conf.message[type]) {
+    // empty $fields sent
+    if(context.find('.form-error').length){
+        conf = {
+            message: {
+                error: __('All fields are required')
+            }
+        };
+        context.find(':input').each(function() {
+            if(!this.value) {
+                $fields = $fields.add($(this));
+            }
+        });
+    }
+    // if the module config contains a message object
+    else {
+        conf = module.config();
+    }
+
+    // any error/info creates feedback
+    if (conf.message) {
+        $fields = context.find(':input');
+        for (type in conf.message) {
+            if (!conf.message[type]) {
                 continue;
             }
             feedback()[type](conf.message[type]);
+            $fields.addClass(type);
         }
     }
+
 });
