@@ -20,13 +20,6 @@
  */
 @CHARSET "UTF-8";
 
-#portal-box {
-    width: 720px;
-    margin: 40px auto 0;
-    padding:20px;
-    @include simple-border();
-}
-
 
 #control {
     width: 960px;
@@ -152,16 +145,6 @@ div {
         text-align: left;
         padding-left: 80px;
     }
-    &.xhtml_form div .form_desc {
-        font-size: 1.1em;
-        vertical-align: middle;
-        text-align: left;
-        margin-bottom: 25px;
-        padding-left: 0px;
-    }
-    &#login-form .form-toolbar {
-        padding-left: 10%;
-    }
 }
 
 .ui-widget input {
@@ -171,9 +154,6 @@ div {
 }
 
 
-#connect {
-    @extend .btn-info;
-}
 
 .loginHeader {
     float: right;
