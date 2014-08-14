@@ -46,7 +46,7 @@ class Layout{
         switch(TAO_RELEASE_STATUS){
             case 'alpha':
             case 'demoA':
-                $params['version-type'] = __('Alpha Version');
+                $params['version-type'] = __('Alpha version');
                 $params['logo']         = 'tao-logo-alpha.png';
                 $params['link']         = 'http://forge.taotesting.com/projects/tao';
                 $params['msg']          = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
@@ -54,7 +54,7 @@ class Layout{
 
             case 'beta':
             case 'demoB':
-                $params['version-type'] = __('Beta Version');
+                $params['version-type'] = __('Beta version');
                 $params['logo']         = 'tao-logo-beta.png';
                 $params['link']         = 'http://forge.taotesting.com/projects/tao';
                 $params['msg']          = __('Please report bugs, ideas, comments or feedback on the TAO Forge');

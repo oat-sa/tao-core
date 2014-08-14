@@ -5,7 +5,7 @@ use oat\tao\helpers\Layout;
 <!doctype html>
 <html class="no-js">
 <head>
-    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <script src="<?= BASE_WWW ?>js/lib/modernizr-2.8/modernizr.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,10 +17,12 @@ use oat\tao\helpers\Layout;
 </head>
 
 <body>
-<div class="feedback-error js-warning js-hide">
+<div id="requirement-check" class="feedback-error js-hide">
     <span class="icon-error"></span>
-    <?=__('You must activate JavaScript in your browser to run this application.')?>
+    <span class="requirement-msg-area"><?=__('You must activate JavaScript in your browser to run this application.')?></span>
 </div>
+<script src="<?= BASE_WWW ?>js/controller/main/requirement-check.js"></script>
+
     <div class="content-wrap">
 
         <?php /* alpha|beta|sandbox message */
@@ -39,9 +41,15 @@ use oat\tao\helpers\Layout;
     </div>
 
 <footer class="dark-bar">
-    <a href="http://taotesting.com" target="_blank">
-        © 2013 - <?= date('Y') ?> · <?= TAO_VERSION_NAME ?> · Open Assessment Technologies S.A. · <?= __('All rights reserved.') ?>
-    </a>
+    © 2013 - <?= date('Y') ?> · <?= TAO_VERSION_NAME ?> ·
+    <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
+    · <?= __('All rights reserved.') ?>
+    <?php $releaseMsgData = Layout::getReleaseMsgData();
+    if ($releaseMsgData['is-unstable'] || $releaseMsgData['is-sandbox']): ?>
+        <span class="rgt"><?=$releaseMsgData['version-type']?> ·
+        <a href="<?=$releaseMsgData['link']?>" target="_blank"><?=$releaseMsgData['msg']?></a></span>
+
+    <?php endif; ?>
 </footer>
 
 </body>

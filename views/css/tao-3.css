@@ -18,6 +18,12 @@
 /*
  * Repeat animation
  */
+#requirement-check {
+  margin: 40px auto;
+  width: 60%;
+  min-width: 500px;
+  max-width: 1000px; }
+
 .version-warning {
   margin: 0;
   border-radius: 0;
@@ -153,6 +159,8 @@ footer, .content-wrap:after {
 footer {
   font-size: 11px;
   padding: 10px; }
+  footer a {
+    text-decoration: underline; }
 
 .content-wrap {
   min-height: 100%;

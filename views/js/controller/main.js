@@ -11,7 +11,7 @@ define([
 
     return {
         start : function(){
-            
+
             //initialize legacy components
             UiBootstrap.init();
             Helpers.init();
