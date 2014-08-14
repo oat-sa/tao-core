@@ -1,5 +1,7 @@
 @import 'inc/tao-icon-vars.scss';
 [class^="icon-"], [class*=" icon-"] { @extend %tao-icon-setup; }
+.icon-folder:before { @extend %icon-folder; }
+.icon-folder-open:before { @extend %icon-folder-open; }
 .icon-left:before { @extend %icon-left; }
 .icon-right:before { @extend %icon-right; }
 .icon-up:before { @extend %icon-up; }
@@ -10,8 +12,6 @@
 .icon-laptop:before { @extend %icon-laptop; }
 .icon-tablet:before { @extend %icon-tablet; }
 .icon-phone:before { @extend %icon-phone; }
-.icon-folder:before { @extend %icon-folder; }
-.icon-folder-open:before { @extend %icon-folder-open; }
 .icon-move:before { @extend %icon-move; }
 .icon-bin:before { @extend %icon-bin; }
 .icon-shuffle:before { @extend %icon-shuffle; }

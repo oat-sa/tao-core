@@ -1,24 +1,64 @@
 @import "inc/bootstrap";
 
+
+
+/* Section aside */
+#tree-container {
+    float: left;
+    width: 280px;
+}
+
+
 .tree-actions {
-    position: relative;
-    span {
-        position: absolute;
-        left: 100px;
-        top: 10px;
-        width: 24px;
-        height: 24px;
-        text-align: center;
-        cursor:pointer;
-        &.icon-close {
-            display: none;
+    background: $uiClickableHoverBg;
+    padding: 3px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    .tree-filters {
+        width: 70%;
+        float: left;
+        position: relative;
+        input {
+            width: 100%;
+            padding-right: 24px;
         }
-        &:hover {
-            color: $info;
+        span {
+            position: absolute;
+            right: 3px;
+            color: #555;
+            top: 2px;
+            width: 24px;
+            line-height: 24px;
+            display: inline-block;
+            text-align: center;
+            text-shadow: 0 0 0 transparent;
+            border-left: 1px solid #ddd;
+            cursor:pointer;
+            &.icon-close {
+                display: none;
+            }
+            &:hover {
+                color: $info;
+            }
+        }
+    }
+    .tree-search {
+        width: 30%;
+        float: left;
+        margin-top: 5px;
+        text-align: center;
+        a {
+            color: $textHighlight;
         }
     }
 }
+
+
 .tree-custom {
+    overflow: auto;
+    min-height: 150px;
+    max-height: 500px;
+
     .ltr, .rtl {
         background: none left top repeat;
         & > li.leaf {
@@ -61,9 +101,9 @@
         }
 
 
-        $list: 'item','test','test-taker','group','result','delivery','campaign','result-server','role','process','process-root','activity','activity-initial','activity-last','activity-unique','property','connector','inferenceRule-onBefore','inferenceRule-onAfter','interactive-service','consistencyRule','rule','notification','activity-goto','connector-goto','connector-prev','assignment';
+        $list: 'item'/*,'test','test-taker','group','result','delivery','campaign','result-server','role','process','process-root','activity','activity-initial','activity-last','activity-unique','property','connector','inferenceRule-onBefore','inferenceRule-onAfter','interactive-service','consistencyRule','rule','notification','activity-goto','connector-goto','connector-prev','assignment'*/;
 
-        $icons: 'item','test','subject','group','result','delivery','campaign','result_server','user','process','process-root','process_activity','process_activity_start','process_activity_last','process_activity_unique','process_property','process_connector','process_inferenceRule_before','process_inferenceRule_after','process_service','process_consistency_rule','process_rule','process_notification','process_activity_goto','process_connector_goto','process_connector_prev','process_assignment';
+        $icons: 'item'/*,'test','subject','group','result','delivery','campaign','result_server','user','process','process-root','process_activity','process_activity_start','process_activity_last','process_activity_unique','process_property','process_connector','process_inferenceRule_before','process_inferenceRule_after','process_service','process_consistency_rule','process_rule','process_notification','process_activity_goto','process_connector_goto','process_connector_prev','process_assignment'*/;
 
         @each $item in $list {
             $i: index($list, $item);
@@ -80,9 +120,12 @@
 
         &.node-draggable a {
             display:block;
-            @extend .truncate;
-            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 220px;
         }
+
         &.paginate {
             padding-left: 12px;
             background-image: none !important;
@@ -135,24 +178,23 @@
         font-variant: normal;
         text-transform: none;
         line-height: 1;
+        @include font-size(14);
 
         /* Better Font Rendering =========== */
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        color: #333
+        color: whiten($info, .2);
     }
-    .node-root ins {
-        background-image: url("list.png");
-    }
+
     .node-class {
-        ins:before {
+        & > a > ins:before {
             @extend %icon-folder;
+            color: $warning;
             top: 1px;
         }
         &.open {
-            & ~ ins:before {
+            & > a > ins:before {
                 @extend %icon-folder-open;
-                top: 2px;
             }
         }
     }

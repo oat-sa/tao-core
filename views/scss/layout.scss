@@ -102,21 +102,8 @@ html body {
     font-style: italic;
 }
 
-/* Section aside */
-#sections-aside {
-    float: left;
-    width: 20%;
-    padding-top: 5px;
-}
-
 /* Tree panel */
 #section-trees {
-    /*position:absolute;
-    width:19%;
-    left:0%;
-    top:40px;
-    height:290px;
-    margin: 5px 0;*/
 
     div.ui-widget-content {
         height: 320px;
@@ -126,18 +113,6 @@ html body {
     }
 }
 
-.tree-actions {
-    font-size: 11px;
-    padding: 2px;
-    background-color: #E0E0E0;
-    border-left: 1px solid #AAAAAA;
-    border-right: 1px solid #AAAAAA;
-}
-
-#section-trees div.tree-custom {
-    overflow-y: auto;
-    height: 100%;
-}
 
 /* Actions box */
 #section-actions {
@@ -235,25 +210,6 @@ html body {
 
     .last {
         width: 50%;
-    }
-}
-
-
-
-/* Ajax Loader */
-#ajax-loading {
-    z-index: 1000;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent url(../img/ajax-loader.gif) no-repeat center center;
-
-    &.overlay {
-        background-color: #fff;
-        opacity: 0.5;
     }
 }
 
@@ -502,9 +458,4 @@ ul.group-list {
         -moz-border-radius: 3px;
         -webkit-border-radius: 3px;
     }
-}
-
-.button:hover {
-    background-color: #D00239;
-    color: #fff;;
 }
