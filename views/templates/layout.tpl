@@ -65,8 +65,14 @@ Template::inc('layout_header.tpl', 'tao')
     <div id="tabs">
         <ul>
             <?php foreach(get_data('sections') as $section):?>
-            <li><a id="<?=$section['id']?>" href="<?=ROOT_URL . substr($section['url'], 1) ?>"
-                   title="<?=$section['name']?>"><?=__($section['name'])?></a></li>
+            <li>
+                 <a id = "<?=$section['id']?>" 
+                   href = "<?=ROOT_URL . substr($section['url'], 1) ?>"
+                   title = "<?=$section['name']?>"
+                   data-trees = "<?=json_encode($section['trees'])?>"
+                   data-actions = "<?=json_encode($section['actions'])?>"
+                ><?=__($section['name'])?></a>
+            </li>
             <?php endforeach ?>
         </ul>
 

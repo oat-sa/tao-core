@@ -253,9 +253,11 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
             if (tao_models_classes_accessControl_AclProxy::hasAccess($action, $controller, $extension)) {
                 $sections[] = array(
-                    'id'    => $section->getId(), 
-                    'url'   => $section->getUrl(), 
-                    'name'  => $section->getName()
+                    'id'        => $section->getId(), 
+                    'url'       => $section->getUrl(), 
+                    'name'      => $section->getName(),
+                    'trees'     => count($section->getTrees()) > 0,
+                    'actions'   => count($section->getActions()) > 0
                 );
             }
         }
