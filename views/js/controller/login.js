@@ -17,20 +17,24 @@
  */
 
 /**
- * The loader dedicated to the login page
+ * The controller dedicated to the login page.
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-(function(window){
-    'use strict';
+define(['module', 'ui/feedback'], function(module, feedback){
 
-    //the url of the app config is set into the data-config attr of the loader.
-    var appConfig = document.getElementById('amd-loader').getAttribute('data-config');
-    require([appConfig], function(){
+    var conf, type;
 
-        //loads components and the login controller manually
-        require(['jquery', 'ui', 'controller/login'], function($, ui){
-            ui.startEventComponents($('.content-wrap'));
-        });
+     //Set focus on the login field.
+     document.getElementById('login').focus();
 
-    });
-}(window));
+    //if the module config contains a message object, then create the according feedback
+     conf = module.config();
+     if(conf.message){
+        for(type in conf.message) {
+            if(!conf.message[type]) {
+                continue;
+            }
+            feedback()[type](conf.message[type]);
+        }
+    }
+});

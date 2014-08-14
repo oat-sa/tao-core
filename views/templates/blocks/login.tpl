@@ -5,9 +5,11 @@
 <script>
     requirejs.config({
         config: {
-            'login': {
-                'info': <?= has_data('msg') ? json_encode(get_data('msg')) : '""'?>,
-                'error': <?= get_data('errorMessage') ? json_encode(urldecode(get_data('errorMessage'))) : '""'?>
+            'controller/login': {
+                'message' : {
+                    'info': <?=json_encode(get_data('msg'))?>,
+                    'error': <?=json_encode(urldecode(get_data('errorMessage')))?>
+                }
             }
         }
     });
