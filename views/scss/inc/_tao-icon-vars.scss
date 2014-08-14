@@ -12,6 +12,8 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+%icon-folder { content: "\f07b"; }
+%icon-folder-open { content: "\f07c"; }
 %icon-left { content: "\121"; }
 %icon-right { content: "\122"; }
 %icon-up { content: "\123"; }
@@ -22,8 +24,6 @@
 %icon-laptop { content: "\128"; }
 %icon-tablet { content: "\129"; }
 %icon-phone { content: "\12a"; }
-%icon-folder { content: "\12b"; }
-%icon-folder-open { content: "\12c"; }
 %icon-move { content: "\12d"; }
 %icon-bin { content: "\12e"; }
 %icon-shuffle { content: "\12f"; }

@@ -5,7 +5,7 @@ define([
     'uiForm',
     'generis.actions',
     'controller/main/toolbar',
-    'controller/main/version-warning'
+    'layout/version-warning'
 ],
     function ($, UiBootstrap, Helpers, UiForm, GenerisActions, toolbar, versionWarning) {
 
@@ -23,9 +23,19 @@ define([
 
             versionWarning.init();
 
-            // set the focus always to the first text field in the first form
+            // Playground: @todo rewrite this code decently
             setTimeout(function() {
+                // set the focus always to the first text field in the first form
                 $('.xhtml_form').first().find('input[type="text"]').first().focus();
+
+                // delete top toolbar
+                var $toolbars = $('.form-toolbar')
+                if($toolbars.length === 2 && $toolbars.first().html() === $toolbars.last().html()) {
+                    $toolbars.first().remove();
+                }
+
+                $('.ui-tabs-nav').after($('#tree-container'));
+
             }, 3000);
         }
     };
