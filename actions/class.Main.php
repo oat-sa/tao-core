@@ -199,7 +199,9 @@ class tao_actions_Main extends tao_actions_CommonModule {
         );
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParameters));
 
-		$this->setView('layout.tpl', 'tao');
+        $this -> setData('content-template', array('blocks/sections.tpl', 'tao'));
+
+        $this->setView('layout.tpl', 'tao');
 
 	}
     

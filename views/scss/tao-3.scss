@@ -4,6 +4,49 @@
 @import "inc/header-footer";
 @import "inc/progressbar";
 
+// @todo login box: delete portal.css, migrate this to inc/_login.css
+#login-box {
+    width: 400px;
+    margin: 40px auto 0;
+    padding:30px;
+    @include simple-border();
+    background: $uiClickableDefaultBg;
+    h1 {
+        @include font-size(18);
+        margin-bottom: 20px
+    }
+    .form-error {
+        display:none;
+    }
+    #connect {
+        @extend .btn-default;
+        line-height: 1.8;
+        height: 25px;
+        background-color: whiten($info, .1);
+        text-shadow: 1px 1px 0 blacken($info, .2);
+    }
+}
+
+
+.xhtml_form form > div {
+    margin-bottom: 10px;
+    label {
+        width: 35%;
+        display:inline-block;
+        padding: 0 10px 0 0;
+
+    }
+    input {
+        &[type="text"], &[type="password"] {
+            width: 65%;
+        }
+    }
+    &.form-toolbar {
+        text-align: right;
+        margin: 10px 0 0 0;
+    }
+}
+
 
 
 
