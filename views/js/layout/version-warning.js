@@ -1,50 +1,23 @@
 define([
     'jquery',
-    'layout/section-height',
     'jquery.cookie'
 ],
-    function($, sectionHeight){
-
-        var versionWarning = $('.version-warning');
-
-        /**
-         * Hide the warning and add a class to <html>
-         *
-         * @param slide
-         */
-        function hideWarning(slide) {
-
-            var callback = function() {
-                document.documentElement.className += ' no-version-warning';
-            };
-
-            if(!slide) {
-                versionWarning.hide();
-                callback();
-            }
-            else {
-                versionWarning.slideUp('slow', function() {
-                    versionWarning.slideUp('slow', callback);
-                });
-            }
-            sectionHeight.setHeights()
-        }
-
+    function($){
     return {
-        /**
-         * Initialize behaviour of version warning
-         */
         init : function(){
-            if($.cookie('versionWarning')) {
-                hideWarning(false);
-                return;
-            }
+            var versionWarning = $('.version-warning'),
+                closer = versionWarning.find('.close-trigger');
 
-            versionWarning.find('.close-trigger').on('click', function() {
-                $.cookie('versionWarning', true, { path: '/' });
-                hideWarning(true);
+            closer.on('click', function() {
+                $.cookie('versionWarning', true, { expires: 1000, path: '/' });
+                versionWarning.slideUp('slow');
             });
 
+            if($.cookie('versionWarning')) {
+                setTimeout(function() {
+                    closer.trigger('click');
+                }, 2000);
+            }
         }
     };
 });
