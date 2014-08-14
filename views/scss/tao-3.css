@@ -210,6 +210,38 @@ footer {
     -webkit-animation: progressbar 3s linear infinite;
     animation: progressbar 3s linear infinite; }
 
+#login-box {
+  width: 400px;
+  margin: 40px auto 0;
+  padding: 30px;
+  border: 1px solid #dddddd;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  background: #f3f1ef; }
+  #login-box h1 {
+    font-size: 18px;
+    font-size: 1.8rem;
+    margin-bottom: 20px; }
+  #login-box .form-error {
+    display: none; }
+  #login-box #connect {
+    line-height: 1.8;
+    height: 25px;
+    background-color: #266d9c;
+    text-shadow: 1px 1px 0 #0b4a74; }
+
+.xhtml_form form > div {
+  margin-bottom: 10px; }
+  .xhtml_form form > div label {
+    width: 35%;
+    display: inline-block;
+    padding: 0 10px 0 0; }
+  .xhtml_form form > div input[type="text"], .xhtml_form form > div input[type="password"] {
+    width: 65%; }
+  .xhtml_form form > div.form-toolbar {
+    text-align: right;
+    margin: 10px 0 0 0; }
+
 #tabs {
   min-height: 620px;
   top: 0 !important;
