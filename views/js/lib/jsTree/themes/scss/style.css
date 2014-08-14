@@ -8,7 +8,7 @@
 /*
  * Repeat animation
  */
-.tree-custom li.node-item ins:before, .tree-custom li.node-test ins:before, .tree-custom li.node-test-taker ins:before, .tree-custom li.node-group ins:before, .tree-custom li.node-result ins:before, .tree-custom li.node-delivery ins:before, .tree-custom li.node-campaign ins:before, .tree-custom li.node-result-server ins:before, .tree-custom li.node-role ins:before, .tree-custom li.node-process ins:before, .tree-custom li.node-process-root ins:before, .tree-custom li.node-activity ins:before, .tree-custom li.node-activity-initial ins:before, .tree-custom li.node-activity-last ins:before, .tree-custom li.node-activity-unique ins:before, .tree-custom li.node-property ins:before, .tree-custom li.node-connector ins:before, .tree-custom li.node-inferenceRule-onBefore ins:before, .tree-custom li.node-inferenceRule-onAfter ins:before, .tree-custom li.node-interactive-service ins:before, .tree-custom li.node-consistencyRule ins:before, .tree-custom li.node-rule ins:before, .tree-custom li.node-notification ins:before, .tree-custom li.node-activity-goto ins:before, .tree-custom li.node-connector-goto ins:before, .tree-custom li.node-connector-prev ins:before, .tree-custom li.node-assignment ins:before {
+.tree-custom li.node-item ins:before {
   font-family: 'tao';
   speak: none;
   font-style: normal;
@@ -20,239 +20,150 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.tree-custom .node-class ins:before {
-  content: "\12b"; }
+.tree-custom .node-class > a > ins:before {
+  content: "\f07b"; }
 
-.tree-custom .node-class.open ~ ins:before {
-  content: "\12c"; }
-
-.tree-custom li.node-role ins:before {
-  content: "\152"; }
+.tree-custom .node-class.open > a > ins:before {
+  content: "\f07c"; }
 
 .tree-custom li.node-item ins:before {
   content: "\155"; }
 
-.tree-custom li.node-test ins:before {
-  content: "\156"; }
-
-.tree-custom li.node-delivery ins:before {
-  content: "\157"; }
-
-.tree-custom li.node-result ins:before {
-  content: "\158"; }
-
 .tree-actions {
-  position: relative; }
-  .tree-actions span {
-    position: absolute;
-    left: 100px;
-    top: 10px;
-    width: 24px;
-    height: 24px;
-    text-align: center;
-    cursor: pointer; }
-    .tree-actions span.icon-close {
-      display: none; }
-    .tree-actions span:hover {
-      color: #0e5d91; }
+  background: #3e7da7;
+  padding: 3px;
+  overflow: hidden;
+  margin-bottom: 10px; }
+  .tree-actions .tree-filters {
+    width: 70%;
+    float: left;
+    position: relative; }
+    .tree-actions .tree-filters input {
+      width: 100%;
+      padding-right: 24px; }
+    .tree-actions .tree-filters span {
+      position: absolute;
+      right: 3px;
+      color: #555;
+      top: 2px;
+      width: 24px;
+      line-height: 24px;
+      display: inline-block;
+      text-align: center;
+      text-shadow: 0 0 0 transparent;
+      border-left: 1px solid #ddd;
+      cursor: pointer; }
+      .tree-actions .tree-filters span.icon-close {
+        display: none; }
+      .tree-actions .tree-filters span:hover {
+        color: #0e5d91; }
+  .tree-actions .tree-search {
+    width: 30%;
+    float: left;
+    margin-top: 5px;
+    text-align: center; }
+    .tree-actions .tree-search a {
+      color: white; }
 
-.tree-custom .ltr, .tree-custom .rtl {
-  background: none left top repeat; }
-  .tree-custom .ltr > li.leaf, .tree-custom .rtl > li.leaf {
-    background-image: none; }
-.tree-custom .locked li a {
-  color: gray; }
-.tree-custom ul {
-  background-position: 6px 1px;
-  background-repeat: repeat-y;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR42mNoAAAAggCB2kUIOwAAAABJRU5ErkJggg==); }
-.tree-custom li {
-  background-position: -64px -18px;
-  background-repeat: no-repeat;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABAAgMAAADwqRilAAAACVBMVEX///8kbHeAgIB/SOz/AAAAAXRSTlMAQObYZgAAAEVJREFUeNpjYIACBwY4EICzArAJhoQiAH6VWM0cBUDAMUQEuVaMxhWBEMIq2IBNcAHRKom2fVgBplXYQmgVthDSGiwhBAAx4grYHitHZwAAAABJRU5ErkJggg==); }
-  .tree-custom li.open {
-    background-position: -32px -48px; }
-  .tree-custom li.closed {
-    background-position: -48px -32px; }
-  .tree-custom li a {
-    font-size: 13px;
-    font-size: 1.3rem;
-    padding: 1px 0px; }
-    .tree-custom li a:hover {
-      color: #0e5d91; }
-  .tree-custom li span.clicked {
-    padding: 0px; }
-  .tree-custom li.node-item ins:before {
-    foo: %icon-item;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-test ins:before {
-    foo: %icon-test;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-test-taker ins:before {
-    foo: %icon-subject;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-group ins:before {
-    foo: %icon-group;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-result ins:before {
-    foo: %icon-result;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-delivery ins:before {
-    foo: %icon-delivery;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-campaign ins:before {
-    foo: %icon-campaign;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-result-server ins:before {
-    foo: %icon-result_server;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-role ins:before {
-    foo: %icon-user;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-process ins:before {
-    foo: %icon-process;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-process-root ins:before {
-    foo: %icon-process-root;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-activity ins:before {
-    foo: %icon-process_activity;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-activity-initial ins:before {
-    foo: %icon-process_activity_start;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-activity-last ins:before {
-    foo: %icon-process_activity_last;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-activity-unique ins:before {
-    foo: %icon-process_activity_unique;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-property ins:before {
-    foo: %icon-process_property;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-connector ins:before {
-    foo: %icon-process_connector;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-inferenceRule-onBefore ins:before {
-    foo: %icon-process_inferenceRule_before;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-inferenceRule-onAfter ins:before {
-    foo: %icon-process_inferenceRule_after;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-interactive-service ins:before {
-    foo: %icon-process_service;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-consistencyRule ins:before {
-    foo: %icon-process_consistency_rule;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-rule ins:before {
-    foo: %icon-process_rule;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-notification ins:before {
-    foo: %icon-process_notification;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-activity-goto ins:before {
-    foo: %icon-process_activity_goto;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-connector-goto ins:before {
-    foo: %icon-process_connector_goto;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-connector-prev ins:before {
-    foo: %icon-process_connector_prev;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-assignment ins:before {
-    foo: %icon-process_assignment;
-    font-family: 'tao';
-    display: inline-block; }
-  .tree-custom li.node-draggable a {
-    display: block;
-    width: 100%; }
-  .tree-custom li.paginate {
-    padding-left: 12px;
-    background-image: none !important;
-    display: inline !important; }
-    .tree-custom li.paginate a:hover, .tree-custom li.paginate a.hover {
-      background: #91c7ff;
-      border: 1px solid blue;
-      padding: 0px;
+.tree-custom {
+  overflow: auto;
+  min-height: 150px;
+  max-height: 500px; }
+  .tree-custom .ltr, .tree-custom .rtl {
+    background: none left top repeat; }
+    .tree-custom .ltr > li.leaf, .tree-custom .rtl > li.leaf {
+      background-image: none; }
+  .tree-custom .locked li a {
+    color: gray; }
+  .tree-custom ul {
+    background-position: 6px 1px;
+    background-repeat: repeat-y;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR42mNoAAAAggCB2kUIOwAAAABJRU5ErkJggg==); }
+  .tree-custom li {
+    background-position: -64px -18px;
+    background-repeat: no-repeat;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABAAgMAAADwqRilAAAACVBMVEX///8kbHeAgIB/SOz/AAAAAXRSTlMAQObYZgAAAEVJREFUeNpjYIACBwY4EICzArAJhoQiAH6VWM0cBUDAMUQEuVaMxhWBEMIq2IBNcAHRKom2fVgBplXYQmgVthDSGiwhBAAx4grYHitHZwAAAABJRU5ErkJggg==); }
+    .tree-custom li.open {
+      background-position: -32px -48px; }
+    .tree-custom li.closed {
+      background-position: -48px -32px; }
+    .tree-custom li a {
       font-size: 13px;
-      font-size: 1.3rem; }
-    .tree-custom li.paginate a.clicked {
-      background: none;
-      border: none; }
-    .tree-custom li.paginate span.clicked {
-      background: none;
-      border: none; }
-  .tree-custom li.paginate-more ins {
-    background-image: url("paginate_more.png"); }
-  .tree-custom li.paginate-all ins {
-    background-image: url("paginate_all.png"); }
-.tree-custom ul li {
-  padding-left: 12px; }
-.tree-custom .no_dots {
-  background: transparent; }
-  .tree-custom .no_dots ul {
+      font-size: 1.3rem;
+      padding: 1px 0px; }
+      .tree-custom li a:hover {
+        color: #0e5d91; }
+    .tree-custom li span.clicked {
+      padding: 0px; }
+    .tree-custom li.node-item ins:before {
+      foo: %icon-item;
+      font-family: 'tao';
+      display: inline-block; }
+    .tree-custom li.node-draggable a {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 220px; }
+    .tree-custom li.paginate {
+      padding-left: 12px;
+      background-image: none !important;
+      display: inline !important; }
+      .tree-custom li.paginate a:hover, .tree-custom li.paginate a.hover {
+        background: #91c7ff;
+        border: 1px solid blue;
+        padding: 0px;
+        font-size: 13px;
+        font-size: 1.3rem; }
+      .tree-custom li.paginate a.clicked {
+        background: none;
+        border: none; }
+      .tree-custom li.paginate span.clicked {
+        background: none;
+        border: none; }
+    .tree-custom li.paginate-more ins {
+      background-image: url("paginate_more.png"); }
+    .tree-custom li.paginate-all ins {
+      background-image: url("paginate_all.png"); }
+  .tree-custom ul li {
+    padding-left: 12px; }
+  .tree-custom .no_dots {
     background: transparent; }
-  .tree-custom .no_dots li.leaf {
-    background-image: none;
-    background-color: transparent; }
-.tree-custom ins {
-  position: relative;
-  left: 2px;
-  font-family: 'tao';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #333333; }
-.tree-custom .node-root ins {
-  background-image: url("list.png"); }
-.tree-custom .node-class ins:before {
-  top: 1px; }
-.tree-custom .node-class.open ~ ins:before {
-  top: 2px; }
-.tree-custom .node-instance ins {
-  background-image: none; }
-.tree-custom ul li a.loading ins {
-  background-image: url("throbber.gif") !important;
-  background-position: 0 0 !important; }
-.tree-custom li a ins.forbidden {
-  background-position: -16px -16px; }
-.tree-custom .locked li a ins {
-  background-position: 0 -48px; }
-.tree-custom li span ins {
-  background-position: -16px 0; }
+    .tree-custom .no_dots ul {
+      background: transparent; }
+    .tree-custom .no_dots li.leaf {
+      background-image: none;
+      background-color: transparent; }
+  .tree-custom ins {
+    position: relative;
+    left: 2px;
+    font-family: 'tao';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 14px;
+    font-size: 1.4rem;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #3e7da7; }
+  .tree-custom .node-class > a > ins:before {
+    color: #d8ae5b;
+    top: 1px; }
+  .tree-custom .node-instance ins {
+    background-image: none; }
+  .tree-custom ul li a.loading ins {
+    background-image: url("throbber.gif") !important;
+    background-position: 0 0 !important; }
+  .tree-custom li a ins.forbidden {
+    background-position: -16px -16px; }
+  .tree-custom .locked li a ins {
+    background-position: 0 -48px; }
+  .tree-custom li span ins {
+    background-position: -16px 0; }
 
 .tree li span.cutted {
   padding: 0px; }

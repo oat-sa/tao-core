@@ -253,11 +253,31 @@ footer {
 #tabs {
   min-height: 620px;
   top: 0 !important;
+  overflow: hidden;
+  /*
+      .ui-tabs-nav {
+          margin-right: 0px;
+          background-color: white();
+          z-index: 1;
+      }*/
   /* don't change it ! (used by scripting) */ }
-  #tabs .ui-tabs-nav {
-    margin-right: 0px;
-    background-color: white;
-    z-index: 1; }
+  #tabs.ui-tabs .ui-tabs-panel {
+    border: none !important;
+    min-width: 500px;
+    margin-left: 290px;
+    max-width: 800px;
+    width: 50%; }
+    #tabs.ui-tabs .ui-tabs-panel #form-title {
+      font-size: 20px;
+      font-size: 2rem;
+      margin: 10px 0;
+      border: none !important; }
+  #tabs .main-container .main-container #form-container {
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-top: 1px solid #dddddd !important;
+    padding: 20px; }
   #tabs div.ui-tabs-panel {
     position: relative;
     padding: 5px 0; }
