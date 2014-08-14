@@ -1,6 +1,6 @@
 <?if(get_data('actions')):?>
 <div id="action-title" class='ui-widget ui-widget-header ui-state-default container-title  ui-corner-top'><?=__('Actions')?></div>
-:q	<div id="action-items" class="ui-widget ui-widget-content ui-corner-bottom">
+	<div id="action-items" class="ui-widget ui-widget-content ui-corner-bottom">
 	<?foreach(get_data('actions') as $action):?>
 		<div id="action_<?=$action['name']?>">
 		<?if($action['disabled']):

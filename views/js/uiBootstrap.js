@@ -10,7 +10,7 @@
  * @author Jehan Bihin (using class.js)
  */
 
-define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], function($, __, context, helpers, feedback) {
+define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'handlebars', 'jqueryui'], function($, _, __, context, helpers, feedback, hbs) {
 	
     var UiBootstrap = {
             init: function(options) {
@@ -28,11 +28,16 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], func
                         load: function(e, ui){
                             var $section = $(ui.tab);
 
+                            context.section = $section.attr('id');
+
                             $sectionTrees.empty().hide();
                             $sectionActions.empty().hide();
 
                             if($section.data('trees')){
                                 self.initTrees();
+                            }
+                            if($section.data('actions')){
+                                self.loadActions();
                             }
                         },
                         select: function(event, ui) {
@@ -138,8 +143,6 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], func
              */
             initTrees: function(callback){
 
-                    console.log(context);
-
                     //left menu trees init by loading the tab content
                     if(this.tabs.length > 0){
                         var $sectionTrees = $('#section-trees');
@@ -170,10 +173,31 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], func
                     }
             },
 
+            loadActions : function(){
+
+                //TODO move template to it's own file
+                var actionTpl       =  hbs.compile('<li><a href="{{url}}" data-action="{{name}}" title="{{dispay}}" >{{display}}</a></li>');
+                var $sectionActions = $('#section-actions');
+ 
+                $.getJSON(context.root_url + 'tao/Main/getSectionActions', {
+                    section   : context.section,		
+                    structure : context.shownStructure,
+                    ext       : context.shownExtension
+                }, function(response){
+
+                    var actions = _.reduce(response, function(res, action){
+                        return res  +   actionTpl(action);
+                    }, '');
+                     
+                    $sectionActions.html('<ul>' + actions + '</ul>').show();
+                });
+            },
+
             /**
              * initialize the actions component
              */
             initActions: function(uri, classUri){
+                return;
                 var $sectionActions = $('#section-actions');
                 //left menu actions init by loading the tab content
                 if(this.tabs && this.tabs.length > 0){
