@@ -1,19 +1,19 @@
 <?php if (has_data('trees')): ?>
     <?php foreach (get_data('trees') as $i => $tree): ?>
         <div class="tree-block">
-            <div id="tree-actions-<?= $i ?>" class="tree-actions">
-                <div class="tree-filters">
+            <ul id="tree-actions-<?= $i ?>" class="plain search-action-bar action-bar horizontal-action-bar">
+                <li class="tree-filters">
                     <input type="text" id="filter-content-<?= $i ?>" autocomplete="off" size="10"
                            placeholder="<?= __('* = any string') ?>"/>
                     <span id="filter-action-<?= $i ?>" title="<?= __("Filter") ?>" class="icon-filter"></span>
                     <span id="filter-cancel-<?= $i ?>" title="<?= __("Remove filter") ?>" class="icon-close"></span>
-                </div>
-                <div class="tree-search">
-                    <a href=""><?=__('Advanced')?></a>
-                </div>
+                </li>
+                <li class="tree-search btn-info small action">
+                    <a href=""><?=__('Search')?><span class="icon-find r"></span></a>
+                </li>
             </div>
             <div id="tree-<?= $i ?>"></div>
-        </div>
+        </ul>
     <?php endforeach; ?>
 
     <script>

@@ -1,97 +1,69 @@
 @import 'inc/bootstrap';
-
-
 @import "inc/header-footer";
 @import "inc/progressbar";
-
-// @todo login box: delete portal.css, migrate this to inc/_login.css
-#login-box {
-    width: 400px;
-    margin: 40px auto 0;
-    padding:30px;
-    @include simple-border();
-    background: $uiClickableDefaultBg;
-    h1 {
-        @include font-size(18);
-        margin-bottom: 20px
-    }
-    .form-error {
-        display:none;
-    }
-    #connect {
-        @extend .btn-default;
-        line-height: 1.8;
-        height: 25px;
-        background-color: whiten($info, .1);
-        text-shadow: 1px 1px 0 blacken($info, .2);
-    }
-}
-
-
-.xhtml_form form > div {
-    margin-bottom: 10px;
-    label {
-        width: 35%;
-        display:inline-block;
-        padding: 0 10px 0 0;
-
-    }
-    input {
-        &[type="text"], &[type="password"] {
-            width: 65%;
-        }
-    }
-    &.form-toolbar {
-        text-align: right;
-        margin: 10px 0 0 0;
-    }
-}
-
-
-
-
-
-
-
+@import "inc/login";
+@import "inc/action-bars";
 
 
 
 #tabs {
-    min-height: 620px;
+    min-height: 600px;
     top: 0 !important;
-    overflow: hidden;
 
-    &.ui-tabs .ui-tabs-panel {
-        border: none !important;
-        min-width: 500px;
-        margin-left: 290px;
-        max-width: 800px;
-        width: 50%;
-        .ui-widget-content{
-            //border: none !important;
+    .tab-container {
+        height: 32px;
+        border: none;
+        display:none;
+        &.ui-tabs-nav {
+            display:block;
         }
-        #form-title {
-            @include font-size(20);
-            margin: 10px 0;
-            border: none !important;
+        li.ui-state-disabled{
+            display:none;
         }
     }
+
+    .navi-container {
+        position: absolute;
+        overflow-x: hidden;
+        width:  $treeSidebar * 1px;
+    }
+
+    .content-container {
+        margin-left: $treeSidebar * 1px;
+        border: none;
+        border-left: 1px white solid;
+        & > .ui-tabs-panel {
+            border: none !important;
+            .ui-widget-content{
+                //border: none !important;
+            }
+            #form-title {
+                @include font-size(20);
+                margin: 10px 0;
+                border: none !important;
+            }
+        }
+    }
+
     .main-container {
         .main-container {
             #form-container {
                 @include simple-border();
                 border-top: 1px solid $uiGeneralContentBorder !important;
                 padding: 20px;
+                max-width: 550px;
             }
         }
     }
+}
 
-/*
-    .ui-tabs-nav {
-        margin-right: 0px;
-        background-color: white();
-        z-index: 1;
-    }*/
+
+
+x#tabs {
+    min-height: 620px;
+    top: 0 !important;
+    overflow: hidden;
+
 
     /* don't change it ! (used by scripting) */
     div.ui-tabs-panel {
@@ -99,9 +71,6 @@
         padding: 5px 0
     }
 
-    a {
-        outline: none;
-    }
 
     span.tab-closer {
         display: none;

@@ -14709,26 +14709,27 @@ button, input[type="submit"], input[type="reset"] {
 .ui-tabs .ui-tabs-nav {
   margin: 0;
   padding: .2em .2em 0; }
-
-.ui-tabs .ui-tabs-nav li {
-  list-style: none;
-  float: left;
-  position: relative;
-  top: 1px;
-  margin: 0 .2em 1px 0;
-  border-bottom: 0 !important;
-  padding: 0;
-  white-space: nowrap; }
-
-.ui-tabs .ui-tabs-nav li a {
-  float: left;
-  padding: .5em 1em;
-  text-decoration: none;
-  min-height: 34px; }
-
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
-  margin-bottom: 0;
-  padding-bottom: 1px; }
+  .ui-tabs .ui-tabs-nav li {
+    list-style: none;
+    float: left;
+    position: relative;
+    top: 1px;
+    margin: 0 .2em 1px 0;
+    border-bottom: 0 !important;
+    padding: 0;
+    white-space: nowrap; }
+    .ui-tabs .ui-tabs-nav li a {
+      float: left;
+      padding: .5em 1em;
+      text-decoration: none;
+      min-height: 34px; }
+    .ui-tabs .ui-tabs-nav li.small a {
+      padding: .25em 1em;
+      text-decoration: none;
+      min-height: 28px; }
+    .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+      margin-bottom: 0;
+      padding-bottom: 1px; }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
   cursor: text;
@@ -15505,7 +15506,7 @@ html, body {
 s {
   text-decoration: none; }
 
-.deleted {
+.deleted, .hidden {
   display: none !important; }
 
 *, *:before, *:after {
@@ -16089,6 +16090,18 @@ label {
       cursor: not-allowed !important;
       opacity: .4 !important;
       color: #555; }
+
+.xhtml_form form > div {
+  margin-bottom: 10px; }
+  .xhtml_form form > div label {
+    width: 35%;
+    display: inline-block;
+    padding: 0 10px 0 0; }
+  .xhtml_form form > div input[type="text"], .xhtml_form form > div input[type="password"] {
+    width: 65%; }
+  .xhtml_form form > div.form-toolbar {
+    text-align: right;
+    margin: 10px 0 0 0; }
 
 /* Style of advanced components */
 /* toggler */
