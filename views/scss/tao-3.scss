@@ -34,17 +34,35 @@
             @include font-size(20);
             margin: 10px 0;
             border: none !important;
+            .ui-widget-content{
+                //border: none !important;
+            }
+            #form-title {
+                @include font-size(20);
+                margin: 10px 0;
+                border: none !important;
+            }
         }
     }
+
     .main-container {
         .main-container {
             #form-container {
                 @include simple-border();
                 border-top: 1px solid $uiGeneralContentBorder !important;
                 padding: 20px;
+                max-width: 550px;
             }
         }
     }
+}
+
+
+
+x#tabs {
+    min-height: 620px;
+    top: 0 !important;
+    overflow: hidden;
 
     .content-wrapper {
         width: 100%;
