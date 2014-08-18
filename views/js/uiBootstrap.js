@@ -10,7 +10,7 @@
  * @author Jehan Bihin (using class.js)
  */
 
-define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'handlebars', 'jqueryui'], function($, _, __, context, helpers, feedback, hbs) {
+define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout/actions', 'jqueryui'], function($, _, __, context, helpers, feedback, actions) {
 	
     var UiBootstrap = {
             init: function(options) {
@@ -37,7 +37,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'handle
                                 self.initTrees();
                             }
                             if($section.data('actions')){
-                                self.loadActions();
+                                actions.load();
                             }
                         },
                         select: function(event, ui) {
@@ -171,26 +171,6 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'handle
                                 });
                         }
                     }
-            },
-
-            loadActions : function(){
-
-                //TODO move template to it's own file
-                var actionTpl       =  hbs.compile('<li><a href="{{url}}" data-action="{{name}}" title="{{dispay}}" >{{display}}</a></li>');
-                var $sectionActions = $('#section-actions');
- 
-                $.getJSON(context.root_url + 'tao/Main/getSectionActions', {
-                    section   : context.section,		
-                    structure : context.shownStructure,
-                    ext       : context.shownExtension
-                }, function(response){
-
-                    var actions = _.reduce(response, function(res, action){
-                        return res  +   actionTpl(action);
-                    }, '');
-                     
-                    $sectionActions.html('<ul>' + actions + '</ul>').show();
-                });
             },
 
             /**

@@ -327,9 +327,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		//$this->setData('shownExtension', $this->getRequestParameter('ext'));
 
 		$section = MenuService::getSection($extname, $struct, $section);
-		error_log($extname);
-        error_log($struct);
-        error_log($section);
 		if (!is_null($section)) {
     		$actions = array();
     		foreach ($section->getActions() as $action) {
@@ -338,13 +335,16 @@ class tao_actions_Main extends tao_actions_CommonModule {
                     //if(strlen($display) > 15){
                         //$display = str_replace(' ', "<br>", $display);
                     //}
+
     		        $actionData = array(
                         //'js'		=> $action->getJs(),
     		            'url' 		=> ROOT_URL . ltrim($action->getUrl(), '/'),
     		            'display'	=> $display,
     		            'rowName'	=> $action->getName(),
     		            'name'		=> _clean($action->getName()),
-                        //'uri'		=> ($uri) ? $this->getRequestParameter('uri') : false,
+                        'context'   => $action->getContext(), 
+                        'reload'	=> $action->getReload(),
+                        'ext'       => $action->getExtensionId()
                         //'classUri'	=> ($classUri) ? $this->getRequestParameter('classUri') : false,
                         //'reload'	=> $action->getReload(),
                         //'ext'       => $action->getExtensionId()
@@ -386,6 +386,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
     		    }
     		}
 
+                    common_Logger::d(json_encode($section->getActions()), JSON_FORCE_OBJECT);
 
             //if (!empty($actions)) {
                 //$this->setData('actions', $actions);
