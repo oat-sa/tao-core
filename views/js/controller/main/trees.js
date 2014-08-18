@@ -1,4 +1,4 @@
-define(['jquery', 'lodash', 'helpers', 'ui/tree', 'generis.actions', 'module'], 
+define(['jquery', 'lodash', 'helpers', 'layout/tree', 'generis.actions', 'module'], 
 function($, _, helpers, treeFactory, generisActions, module){
     return {
         start : function(){
