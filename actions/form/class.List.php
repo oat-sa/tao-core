@@ -51,7 +51,8 @@ class tao_actions_form_List
         $this->form = tao_helpers_form_FormFactory::getForm('list');
 
         $addElt = tao_helpers_form_FormFactory::getElement('add', 'Free');
-		$addElt->setValue("<a class='form-submiter' href='#'><img src='".TAOBASE_WWW."img/add.png' class='icon' />".__('Add')."</a>");
+        
+		$addElt->setValue('<a href="#" class="form-submiter btn-info small"><span class="icon-add"></span> ' .__('Add').'</a>');
 		$this->form->setActions(array($addElt), 'bottom');
 		$this->form->setActions(array(), 'top');
 
