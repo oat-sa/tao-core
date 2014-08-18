@@ -58,7 +58,7 @@ class tao_actions_form_Search
 		
 		//search action in toolbar
 		$searchElt = tao_helpers_form_FormFactory::getElement('search', 'Free');
-		$searchElt->setValue("<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/search.png'  /> ".__('Search')."</a>");
+		$searchElt->setValue('<a href="#" class="form-submiter btn-info small"><span class="icon-find"></span>' .__('Search').'</a>');
 		$this->form->setActions(array($searchElt), 'top');
 		$this->form->setActions(array($searchElt), 'bottom');
     	
