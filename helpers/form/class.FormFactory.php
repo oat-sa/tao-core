@@ -197,7 +197,8 @@ class tao_helpers_form_FormFactory
 				$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
 				$value = '';
 				if($save){
-					$value .=  "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/save.png' /> ".__('Save')."</a>";
+
+					$value .=  '<a href="#" class="form-submiter btn-info small"><span class="icon-save"></span> ' . __('Save') . '</a>';
 				}
 					
 				$actions->setValue($value);

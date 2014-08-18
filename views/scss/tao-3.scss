@@ -6,6 +6,22 @@
 
 
 
+// @TODO: remove
+#section-actions, #section-actions * {
+    display:none !important;
+}
+
+#section-trees {
+    margin-bottom: 10px;
+}
+
+.block-title {
+    @include font-size(14);
+    padding: 0 2px;
+    margin: 0;
+}
+
+
 #tabs {
     min-height: 600px;
     top: 0 !important;

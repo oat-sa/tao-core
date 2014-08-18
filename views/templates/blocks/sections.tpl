@@ -15,17 +15,19 @@
 
     <div class="clear">
 
-        <div class="navi-container">
+        <section class="navi-container">
             <div id="section-trees"></div>
-            <div id="section-actions"></div>
+            <!--div id="section-actions"></div-->
 
+            <h3 class="block-title"><?=__('Actions')?></h3>
             <ul class="action-bar plain tree-action-bar">
-                <li class="btn-info small action [opt: disabled|hidden]" data-context="*uri|class (context)" title="add repository (name)" data-action="instanciate (js)" url="">
+                <li class="action [opt: disabled|hidden]" data-context="*uri|class (context)" title="add repository (name)" data-action="instanciate (js)" url="">
                     <a href="/tao/SettingsVersioning/addInstance (url)"><span class="icon-email (icon)"></span> Action (display)</a>
                 </li>
                 <li class="action">
                     <a href="#"><span class="icon-email"></span> Action 2</a>
-                </li>            <li class="btn-info small action">
+                </li>
+                <li class="action">
                     <a href="#"><span class="icon-email"></span> Action 4</a>
                 </li>
                 <li class="action">
@@ -44,7 +46,7 @@
                     <a href="#"><span class="icon-email"></span> Action 4</a>
                 </li>
             </ul>
-        </div>
+        </section>
 
         <section class="content-container">
             <ul class="action-bar plain content-action-bar horizontal-action-bar">
