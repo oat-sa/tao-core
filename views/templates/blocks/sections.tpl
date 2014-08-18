@@ -15,6 +15,24 @@ $sections = get_data('sections');
                        title="<?= $section->getName(); ?>"><?= __($section->getName()) ?></a>
                 </li>
 
+        <section class="content-container">
+            <ul class="action-bar plain content-action-bar horizontal-action-bar">
+                <li class="btn-info small action">
+                    <a href="#"><span class="icon-email"></span> Action 3</a>
+                </li>
+                <li class="btn-info small action">
+                    <a href="#"><span class="icon-email"></span> Action 4</a>
+                </li>
+                <li class="btn-info small action">
+                    <a href="#"><span class="icon-email"></span> Action 4</a>
+                </li>
+                <li class="btn-info small action">
+                    <a href="#"><span class="icon-email"></span> Action 4</a>
+                </li>
+
+            </ul>
+            <?php foreach (get_data('sections') as $section): ?>
+                <div id="<?= str_replace(' ', '_', $section['name']) ?>"></div>
             <?php endforeach ?>
         </ul>
         <?php foreach ($sections as $section): ?>
