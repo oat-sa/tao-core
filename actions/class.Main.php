@@ -334,7 +334,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
     		            $display = str_replace(' ', "<br>", $display);
     		        }
     		        $actionData = array(
-    		            'js'		=> $action->getJs(),
+    		            'js'		=> $action->getBinding(),
     		            'url' 		=> ROOT_URL . ltrim($action->getUrl(), '/'),
     		            'display'	=> $display,
     		            'rowName'	=> $action->getName(),
