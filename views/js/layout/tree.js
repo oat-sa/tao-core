@@ -1,274 +1,296 @@
-/**
- * @author Bertrand Chevrier <bertrand@taotesting.com>
- */
 define([
     'jquery', 
     'lodash', 
     'context',
-    'layout/actions',
     'uiBootstrap',
     'jsTree/plugins/jquery.tree.contextmenu',
-], function($, _, context, actionManager, uiBootstrap){
+], function($, _, context, uiBootstrap){
 
 
-    /**
-     * @exports layout/tree
-     */
+
+
     var treeFactory = function($elt, url, options){
 
         var lastOpened;
         var lastSelected;
 
-        options = options || {};
-
-        //these are the parameters added to the server call to load data
 	    var serverParams = _.defaults(options.serverParameters || {}, {
             hideInstances   :  options.hideInstances || 0,
             filter          : '*',
             offset          : 0,
             limit           : 30
         });
-
-        /**
-         * Options given to the jsTree plugin
-         */
-        var treeOptions = {
-
-            //data call
-            data: {
-                type: "json",
-                async : true,
-                opts: {
-                    method : "POST",
-                    url: url
-                }
-            },
-
-            //theme
-            ui: {
-                theme_name : "css",
-                theme_path : context.taobase_www + 'js/lib/jsTree/themes/css/style.css'
-            },
         
-            //nodes types
-            types: {
-                "default" : {
-                    renameable	: false,
-                    deletable	: true,
-                    creatable	: true,
-                    draggable	: function($node) {
-                        return $node.hasClass('node-instance') && options.actions && options.actions.moveInstance;
-                    }
-                }
-            },
-
-            //lifecycle callbacks
-            callback: {
-
-                /**
-                 * Additionnal parameters to send to the server to retrieve data. 
-                 * It uses the serverParams object previously defined
-                 * @param {jQueryElement} [$node] - the node that represents a class. Used to add the classUri to the call
-                 * @returns {Object} params
-                 */
-                beforedata: function($node) {
-
-                    var params = _.clone(serverParams);
-                    if($node && $node.length){
-                        params.classUri = $node.attr('id');
-                    }
-                    params.selected = options.selectNode;
-
-                    return params;
+        var treeOptions = {
+				data: {
+					type: "json",
+					async : true,
+					opts: {
+						method : "POST",
+						url: url
+					}
+				},
+                ui: {
+                    theme_name : "custom",
+                    theme_path : context.taobase_www + 'js/lib/jsTree/themes/custom/style.css'
                 },
-
-                /**
-                 * Called back once the data are received. 
-                 * Used to modify them before building the tree.
-                 * 
-                 * @param {Object} data - the received data
-                 * @param {Object} tree - the tree instance 
-                 * @returns {Object} data the modified data
-                 */
-                ondata: function(data, tree) {
-
-                    //automatically open the children of the received node
-                    if (data.children) {
-                        data.state = 'open';
-                    }
-
-                    return data;
-                },
+				types: {
+					"default" : {
+						renameable	: false,
+						deletable	: true,
+						creatable	: true,
+                        draggable	: function($node) {
+                            return $node.hasClass('node-instance');
+                        }
+					}
+				},
+				callback: {
 
 
-                /**
-                 * Once the data are loaded and the tree is ready
-                 * Used to modify them before building the tree.
-                 * 
-                 * @param {Object} tree - the tree instance 
-                 *
-                 * @fires layout/tree#change.taotree
-                 */
-                onload: function(tree){
+                    oninit: function(TREE_OBJ) {
+                            
+                        console.log(' on init ');
+
+                        //TODO context change
+                        //instance.callGetSectionActions(undefined, TREE_OBJ);
+                    },
+
+                    /**
+                     * Additionnal parameters to send to the server to retrieve data
+                     */
+                    beforedata: function($node) {
+
+                        console.log(' before data ');
+
+                        var params = _.clone(serverParams);
+                        if($node && $node.length){
+                            params.classUri = $node.attr('id');
+                        }
+                        params.selected = options.selectNode;
+
+                        return params;
+                    },
+
+                    //when we receive the data
+                    ondata: function(data, tree) {
+
+                        console.log(' on data ');
+
+                        var nodes = data.children || data;
+
+                        //do some styling
+                        if(options.instanceClass){
+                            addClassToNodes(nodes, options.instanceClass);
+                        }
+
+                        if (options.moveInstanceAction) {
+                            addClassToNodes(nodes, 'node-draggable');
+                        }
+
+                        //automatically open the children of the received node
+                        if (data.children) {
+                            data.state = 'open';
+                        }
+
+                        return data;
+                    },
 
                     //we open either the last selected node or the 1st branch
-                    if (options.selectNode) {
-                        tree.select_branch($("li[id='" + options.selectNode + "']"));
-                        options.selectNode = false;
-                    } else {
-                        tree.open_branch($("li.node-class:first"));
-                    }
-                 
-                    /**
-                     * The tree state has changed
-                     * @event layout/tree#change.taotree
-                     * @param {Object} [context] - the tree context (uri, classUri)
-                     */       
-                    $elt.trigger('change.taotree');
-                    $elt.trigger('ready.taotree');
-                },
+                    onload: function(tree){
 
-                /**
-                 * Before a branch is opened
-                 * @param {jQueryElement} $node - the opened node
-                 */
-                beforeopen: function($node) {
-                    //TODO store this in the browser
-                    lastOpened = $node;
-                },
+                        console.log(' on load ');
 
-                /**
-                 * A node is selected.
-                 * 
-                 * @param {HTMLElement} node - the opened node
-                 * @param {Object} tree - the tree instance 
-                 *
-                 * @fires layout/tree#change.taotree
-                 * @fires layout/tree#select.taotree
-                 */
-                onselect: function(node, tree) {
-
-                    var action;
-                    var $node           = $(node);
-                    var nodeId          = $node.attr('id');
-                    var $parentNode     = tree.parent($node);
-                    var nodeContext     = {};
-
-                    $('a.clicked', $elt).each(function() {
-                        if ($(this).parent('li').attr('id') !==  nodeId) {
-                            $(this).removeClass('clicked');
+                        if (options.selectNode) {
+                            tree.select_branch($("li[id='" + options.selectNode + "']"));
+                            options.selectNode = false;
+                        } else {
+                            tree.open_branch($("li.node-class:first"));
                         }
-                    });
+                            
+                        $elt.trigger('change.taotree');
+                    },
 
-                    if ($node.hasClass('node-class')) {
-                        if ($node.hasClass('closed')) {
-                            tree.open_branch($node);
+					beforeopen: function(node) {
+                        console.log(' before open ');
+                        //TODO store this in the browser
+				        lastOpened = node;
+					},
+
+                    //when a node is selected
+                    onselect: function(node, tree) {
+
+                        console.log(' select ');
+
+                        var uri, classUri;
+                        var $node           = $(node);
+                        var nodeId          = $node.attr('id');
+                        var $parentNode     = tree.parent($node);
+
+                        $('a.clicked', $elt).each(function() {
+                            if ($(this).parent('li').attr('id') !==  nodeId) {
+                                $(this).removeClass('clicked');
+                            }
+                        });
+
+                        //already selected
+                        //if (nodeId === options.selectNode) {
+                            //return false;
+                        //}
+
+                        if ($node.hasClass('node-class')) {
+                            if ($node.hasClass('closed')) {
+                                tree.open_branch($node);
+                            }
+                            classUri = nodeId;
+
+
+                            //TODO trigger edit event for a class
+                            //load the editClassAction into the formContainer
+                            //helpers._load(instance.options.formContainer, instance.options.editClassAction, instance.data(null, nodeId));
                         }
-                        nodeContext.classUri = nodeId;
 
-                        //execute the selectClass action
-                        if(options.actions.selectClass){
-                            actionManager.exec(options.actions.selectClass, nodeContext);
+                        if ($node.hasClass('node-instance')){
+
+                            //TODO trigger edit event for an instance
+    
+                            uri = nodeId;
+                            classUri = $parentNode.attr('id');
+
+
+                             
+
+                            //load the editInstanceAction into the formContainer
+                            //var PNODE = TREE_OBJ.parent(NODE);
+                            //helpers._load(instance.options.formContainer, instance.options.editInstanceAction, instance.data(nodeId, $(PNODE).prop('id')));
                         }
-                    }
 
-                    if ($node.hasClass('node-instance')){
-                        nodeContext.uri = nodeId;
-                        nodeContext.classUri = $parentNode.attr('id');
+                        //if ($(NODE).hasClass('paginate-more')) {
+                            //instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ);
+                        //}
+                        //if ($(NODE).hasClass('paginate-all')) {
+                            //var limit = instance.getMeta(parentNodeId, 'count') - instance.getMeta (parentNodeId, 'displayed');
+                            //instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, {'limit':limit});
+                        //}
+                         
+                        $elt
+                          .trigger('select.taotree', [{
+                            uri : uri,
+                            classUri : classUri 
+                        }])
+                          .trigger('change.taotree', [{
+                            uri : uri,
+                            classUri : classUri 
+                        }]);
 
-                        //execute the selectInstance action
-                        if(options.actions.selectInstance){
-                            actionManager.exec(options.actions.selectInstance, nodeContext);
-                        }
-                    }
+                        //instance.callGetSectionActions(NODE, TREE_OBJ);
 
-                    /**
-                     * A node has been selected
-                     * @event layout/tree#select.taotree
-                     * @param {Object} [context] - the tree context (uri, classUri)
-                     */       
-                    $elt
-                      .trigger('select.taotree', [nodeContext])
-                      .trigger('change.taotree', [nodeContext]);
-
-                    return false;
-                },
-
-                //when a node is move by drag n'drop
-                onmove: function(node, refNode, type, tree, rollback) {
-                    if (!options.actions.moveInstance) {
+//                        lastSelected = $node.attr('id');
+                        
                         return false;
-                    }
+                    },
 
-                    //do not move an instance into an instance...
-                    if ($(refNode).hasClass('node-instance') && type === 'inside') {
-                        $.tree.rollback(rollback);
-                        return false;
-                    } 
+                    //when a node is move by drag n'drop
+                    onmove: function(node, refNode, type, tree, rollback) {
+                        if (!options.moveInstanceAction) {
+                            return false;
+                        }
 
-                    if (type === 'after' || type === 'before') {
-                        refNode = tree.parent(refNode);
-                    }
+                        //do not move an instance into an instance...
+                        if ($(refNode).hasClass('node-instance') && type === 'inside') {
+                            $.tree.rollback(rollback);
+                            return false;
+                        } 
+                        
 
-                    //TODO call the move action
+                        if (type === 'after' || type === 'before') {
+                            refNode = tree.parent(refNode);
+                        }
 
-                    $elt.trigger('change.taotree');
-                }
+                            //TODO trigger a move event
+ 
+                            //call the server with the new node position to save the new position
+                            //function moveNode(url, data) {
+                                //var NODE 		= data.NODE;
+                                //var REF_NODE	= data.REF_NODE;
+                                //var RB 			= data.RB;
+                                //var TREE_OBJ 	= data.TREE_OBJ;
+                                //var confirmed = (data.confirmed === true);
+
+                                //$.postJson(url, {
+                                    //'uri': data.uri,
+                                    //'destinationClassUri':  data.destinationClassUri,
+                                    //'confirmed' : confirmed
+                                    //},
+                                    //function(response) {
+                                        //if (response == null) {
+                                            //$.tree.rollback(RB);
+                                            //return;
+                                        //}
+                                        //if (response.status == 'diff') {
+                                            //var message = __("Moving this element will remove the following properties:");
+                                            //message += "\n";
+                                            //for (var i = 0; i < response.data.length; i++) {
+                                                //if (response.data[i].label) {
+                                                    //message += "- " + response.data[i].label + "\n";
+                                                //}
+                                            //}
+                                            //message += "Please confirm this operation.\n";
+                                            //if (confirm(message)) {
+                                                //data.confirmed = true;
+                                                //moveNode(url, data);
+                                            //} else {
+                                                //$.tree.rollback(RB);
+                                            //}
+                                        //} else if (response.status == true) {
+                                            //$('li a').removeClass('clicked');
+                                            //TREE_OBJ.open_branch(NODE);
+                                        //} else {
+                                            //$.tree.rollback(RB);
+                                        //}
+                                //});
+                            //}
+                            //moveNode(instance.options.moveInstanceAction, {
+                                    //'uri': $(NODE).prop('id'),
+                                    //'destinationClassUri': $(REF_NODE).prop('id'),
+                                    //'NODE'		: NODE,
+                                    //'REF_NODE'	: REF_NODE,
+                                    //'RB'		: RB,
+                                    //'TREE_OBJ'	: TREE_OBJ
+                                //});
+
+                        $elt.trigger('change.taotree');
+
+                        //instance.callGetSectionActions(NODE, TREE_OBJ);
+                    },
+                
+
             }
         };
+        
+        $elt.on('select.taotree', function(){
+            console.log('select ', arguments);
+        });
 
-        //list of events callbacks to be bound to the tree       
-        var events = {
+        $elt.on('change.taotree', function(e, data){
+            console.log('change ', arguments);
+            if(e.namespace === 'taotree'){
+                if(data){
 
-            /**
-             * Add a node to the tree. 
-             *
-             * @event layout/tree#addnode.taotree
-             * @param {Object} data - the data about the node to add
-             * @param {String} data.parent - the id/uri of the node that will contain the new node
-             * @param {String} data.id - the id of the new node
-             * @param {String} data.cssClass - the css class for the new node (node-instance or node-class at least).
-             */       
-            'addnode' : function(data){
-                var tree =  $.tree.reference($elt);
-                var parentNode = tree.get_node($('#' + data.parent, $elt).get(0));
+                    uiBootstrap.initActions(data.uri, data.classUri);
 
-                tree.select_branch(
-                    tree.create({
-                        data: data.label,
-                        attributes: {
-                            'id': data.id,
-                            'class': data.cssClass
-                        }
-                    }, parentNode)
-                );
-           },
+                } else {
 
-            /**
-             * Remove a node from the tree.
-             *
-             * @event layout/tree#removenode.taotree
-             * @param {Object} data - the data about the node to remove
-             * @param {String} data.id - the id of the node to remove
-             */       
-            'removenode' : function(data){
-                var tree =  $.tree.reference($elt);
-                var node = tree.get_node($('#' + data.id, $elt).get(0));
-                tree.remove(node);
-           }
-        };
+                    uiBootstrap.initActions();
 
-        //bind events defined above 
-        _.forEach(events, function(callback, name){
-            $elt.on(name + '.taotree', function(){
-                callback.apply(this, Array.prototype.slice.call(arguments, 1));
-            });
+                }
+            }
         });
 
         // workaround to fix dublicate tree bindings on multiple page loads
-        if (!$elt.hasClass('tree')) {
-
-            //create the tree
+        //TODO check data-attr
+        var classes = $elt.attr('class');
+        if (!classes || !classes.test('tree')) {
+            console.log(treeOptions);
             $elt.tree(treeOptions);
         }
     };
@@ -294,4 +316,5 @@ define([
     }
 
     return treeFactory; 
+
 });
