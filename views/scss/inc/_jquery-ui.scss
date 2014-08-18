@@ -1431,30 +1431,37 @@
 .ui-tabs .ui-tabs-nav {
     margin: 0;
     padding: .2em .2em 0;
+    li {
+        list-style: none;
+        float: left;
+        position: relative;
+        top: 1px;
+        margin: 0 .2em 1px 0;
+        border-bottom: 0 !important;
+        padding: 0;
+        white-space: nowrap;
+        a {
+            float: left;
+            padding: .5em 1em;
+            text-decoration: none;
+            min-height: 34px
+        }
+        &.small {
+            a {
+                padding: .25em 1em;
+                text-decoration: none;
+                min-height: 28px
+            }
+        }
+        &.ui-tabs-selected{
+            margin-bottom: 0;
+            padding-bottom: 1px;
+        }
+    }
 }
 
-.ui-tabs .ui-tabs-nav li {
-    list-style: none;
-    float: left;
-    position: relative;
-    top: 1px;
-    margin: 0 .2em 1px 0;
-    border-bottom: 0 !important;
-    padding: 0;
-    white-space: nowrap;
-}
 
-.ui-tabs .ui-tabs-nav li a {
-    float: left;
-    padding: .5em 1em;
-    text-decoration: none;
-    min-height: 34px
-}
 
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
-    margin-bottom: 0;
-    padding-bottom: 1px;
-}
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
     cursor: text;

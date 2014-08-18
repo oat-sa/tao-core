@@ -29,47 +29,6 @@
 .tree-custom li.node-item ins:before {
   content: "\155"; }
 
-/* Section aside */
-#tree-container {
-  float: left;
-  width: 280px; }
-
-.tree-actions {
-  background: #3e7da7;
-  padding: 3px;
-  overflow: hidden;
-  margin-bottom: 10px; }
-  .tree-actions .tree-filters {
-    width: 70%;
-    float: left;
-    position: relative; }
-    .tree-actions .tree-filters input {
-      width: 100%;
-      padding-right: 24px; }
-    .tree-actions .tree-filters span {
-      position: absolute;
-      right: 3px;
-      color: #555;
-      top: 2px;
-      width: 24px;
-      line-height: 24px;
-      display: inline-block;
-      text-align: center;
-      text-shadow: 0 0 0 transparent;
-      border-left: 1px solid #ddd;
-      cursor: pointer; }
-      .tree-actions .tree-filters span.icon-close {
-        display: none; }
-      .tree-actions .tree-filters span:hover {
-        color: #0e5d91; }
-  .tree-actions .tree-search {
-    width: 30%;
-    float: left;
-    margin-top: 5px;
-    text-align: center; }
-    .tree-actions .tree-search a {
-      color: white; }
-
 .tree-custom {
   overflow: auto;
   min-height: 150px;
@@ -85,13 +44,13 @@
     background-repeat: repeat-y;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR42mNoAAAAggCB2kUIOwAAAABJRU5ErkJggg==); }
   .tree-custom li {
-    background-position: -64px -18px;
+    background-position: -64px -16px;
     background-repeat: no-repeat;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABAAgMAAADwqRilAAAACVBMVEX///8kbHeAgIB/SOz/AAAAAXRSTlMAQObYZgAAAEVJREFUeNpjYIACBwY4EICzArAJhoQiAH6VWM0cBUDAMUQEuVaMxhWBEMIq2IBNcAHRKom2fVgBplXYQmgVthDSGiwhBAAx4grYHitHZwAAAABJRU5ErkJggg==); }
     .tree-custom li.open {
-      background-position: -32px -48px; }
+      background-position: -32px -46px; }
     .tree-custom li.closed {
-      background-position: -48px -32px; }
+      background-position: -48px -30px; }
     .tree-custom li a {
       font-size: 13px;
       font-size: 1.3rem;
@@ -100,6 +59,11 @@
         color: #0e5d91; }
     .tree-custom li span.clicked {
       padding: 0px; }
+    .tree-custom li li a.clicked {
+      background: #e4ecef;
+      border: 1px solid #a4bbc5;
+      border-radius: 2px;
+      -webkit-border-radius: 2px; }
     .tree-custom li.node-item ins:before {
       foo: %icon-item;
       font-family: 'tao';
@@ -109,7 +73,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      width: 220px; }
+      width: 245px; }
     .tree-custom li.paginate {
       padding-left: 12px;
       background-image: none !important;
@@ -121,7 +85,7 @@
         font-size: 13px;
         font-size: 1.3rem; }
       .tree-custom li.paginate a.clicked {
-        background: none;
+        background: #266d9c;
         border: none; }
       .tree-custom li.paginate span.clicked {
         background: none;
