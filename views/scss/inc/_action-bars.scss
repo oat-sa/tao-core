@@ -1,0 +1,106 @@
+@import 'inc/bootstrap';
+
+.action-bar {
+    background: whiten($info, .1);
+    padding: 3px;
+    overflow: hidden;
+    margin-bottom: 5px;
+    li {
+        float: left;
+        a {
+            padding-bottom: 1px;
+            color: whiten($info, .9);
+            text-decoration: none !important;
+            outline: 0;
+            display: inline-block;
+            &:hover {
+                color: white;
+            }
+        }
+        span {
+            text-shadow: 0 0 0 transparent;
+            color: white;
+        }
+        input {
+            width: 100%;
+            @include font-size(12);
+            padding: 2px 4px;
+        }
+    }
+
+    &.horizontal-action-bar {
+        padding: 5px;
+        height: 35px;
+        li {
+            margin: 0 1px;
+            border: 1px transparent solid;
+            text-align: center;
+            float: left;
+            a {
+            }
+            span {
+            }
+            &.btn-info {
+                &:hover {
+                    border-color: whiten($info, .3);
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    &.tree-action-bar {
+        background: white;
+        width: ($treeSidebar + 1) * 1px;
+        position: relative;
+        left: -1px;
+        li {
+            border-left: 1px red solid;
+            border-bottom: 1px red solid;
+            background-color: white;
+            //text-shadow: 1px 1px 0 blacken($info, .2);
+            text-align: center;
+            float: left;
+            span {
+                display:block;
+            }
+            height: 70px;
+            width: 69px;
+            @include border-radius(0);
+        }
+    }
+    .tree-filters {
+        width: 160px;
+        position: relative;
+        input {
+            padding-right: 24px;
+        }
+        span {
+            position: absolute;
+            right: 3px;
+            color: #555;
+            width: 22px;
+            top: 2px;
+            line-height: 20px;
+            display: inline-block;
+            text-align: center;
+            text-shadow: 0 0 0 transparent;
+            border-left: 1px solid #ddd;
+            cursor:pointer;
+            &.icon-close {
+                display: none;
+            }
+            &:hover {
+                color: $info;
+            }
+        }
+    }
+    .tree-search {
+        float: right !important;
+    }
+
+    &.content-action-bar {
+    }
+
+    &.search-action-bar {
+    }
+}

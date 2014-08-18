@@ -52,6 +52,11 @@
                             />
                 </trees>
                 <actions>
+
+                    <!--action name="add repository" js="instanciate" url="/tao/SettingsVersioning/addInstance" context="class" group="tree|content" >
+                        <icon id="icon-users" src=""/>
+                    </action-->
+
                     <action name="add repository" js="instanciate" url="/tao/SettingsVersioning/addInstance"
                             context="class"/>
                     <action name="remove repository" js="removeNode" url="/tao/SettingsVersioning/delete"
