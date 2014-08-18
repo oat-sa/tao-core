@@ -1,38 +1,52 @@
-define(['jquery', 'lodash', 'context', 'handlebars'], function($, _, context, hbs){
+define(['jquery', 'lodash', 'lib/uuid', 'layout/actionBinding'], function($, _, uuid, binding){
 
     
-    var $container = $('#section-actions');
-
     var actionManager = {
 
-            actions : [],
+            _actions : {},
 
-            load : function(){
-
+            lookup : function(){
                 var self = this;
+                $('.action-bar .action').each(function(){
+        
+                    var $this = $(this);
+                    var id;
+                    
+                    //use the element id
+                    if($this.attr('id')){
+                        id = $this.attr('id');
+                    } else {
+                        //or generate one
+                        do {
+                            id = 'action-' + uuid(8, 16);
+                        } while (self._actions[id]);
 
-                //TODO move template to it's own file
-                var actionTpl       =  hbs.compile('<li><a href="{{url}}" data-action="{{name}}" title="{{dispay}}" >{{display}}</a></li>');
- 
-                $.getJSON(context.root_url + 'tao/Main/getSectionActions', {
-                    section   : context.section,		
-                    structure : context.shownStructure,
-                    ext       : context.shownExtension
-                }, function(response){
+                        $this.attr('id', id);
+                    }
 
-                    var actions = _.reduce(response, function(res, action){
-                        self.actions.push(action);
-                        return res  +   actionTpl(action);
-                    }, '');
-                     
-                    $container.html('<ul>' + actions + '</ul>').show();
-
-                    console.log(self.actions);
+                    self._actions[id] = {
+                        name    : $this.attr('title'),
+                        binding : $this.data('action'),
+                        url     : $('a', $this).attr('href'),
+                        context : $this.data('context'),
+                        state : {
+                            disabled    : $this.hasClass('disabled'),
+                            hidden      : $this.hasClass('hidden')
+                        }
+                    };
                 });
             },
+    
+            bind   : function(){
+                var self = this;
+                $('.action-bar .action').not('.hidden,.disabled').on('click', function(e){
+                    e.preventDefault();
+                    binding.exec(self._actions[$(this).attr('id')]);
+                });
+            }, 
 
             update : function(uri, classUri, acl){
-                
+                            
             }
     };
     
