@@ -310,6 +310,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
          * initialize the actions component
          */
         initActions: function (uri, classUri) {
+            return;
             //left menu actions init by loading the tab content
             if (this.tabs && this.tabs.length > 0) {
                 var $sectionActions = $('#section-actions');
