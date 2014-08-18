@@ -28,13 +28,6 @@ define([
                 // set the focus always to the first text field in the first form
                 $('.xhtml_form').first().find('input[type="text"]').first().focus();
 
-                // delete top toolbar
-                var $toolbars = $('.form-toolbar')
-                if($toolbars.length === 2 && $toolbars.first().html() === $toolbars.last().html()) {
-                    $toolbars.first().remove();
-                }
-
-                $('.ui-tabs-nav').after($('#tree-container'));
 
             }, 3000);
         }

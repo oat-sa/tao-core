@@ -574,8 +574,6 @@ abstract class tao_helpers_form_Form
     public function renderActions($context = 'bottom')
     {
         $returnValue = (string) '';
-
-        
 		
 		if(isset($this->actions[$context])){
 			
