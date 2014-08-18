@@ -24,7 +24,6 @@ use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
-use oat\tao\helpers\Layout;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -44,7 +43,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	/**
 	 * Constructor performs initializations actions
 	 */
-    public function __construct()
+	public function __construct()
 	{
 		//initialize service
 		$this->service = tao_models_classes_TaoService::singleton();
