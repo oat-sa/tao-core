@@ -104,79 +104,7 @@ html body {
     font-style: italic;
 }
 
-/* Tree panel */
-#section-trees {
 
-    div.ui-widget-content {
-        height: 320px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding: 0;
-    }
-}
-
-
-/* Actions box */
-#section-actions {
-    margin-top: 5px;
-
-    #action-title {
-        padding: 3px;
-    }
-
-    #action-items {
-        font-size: 12px !important;
-        font-weight: normal;
-        color: #666;
-        padding-top: 5px;
-
-        td {
-            text-align: center;
-            vertical-align: top;
-            padding: 5px 0px 5px 0px;
-            width: 33%;
-        }
-
-        a {
-            text-decoration: none;
-            font-weight: bold;
-            color: #D1043B;
-
-            &:hover {
-                color: #FA648C;
-            }
-
-            img {
-                text-decoration: none;
-                border-width: 0px;
-            }
-        }
-
-        div {
-            display: inline-block;
-            width: 50px;
-            min-height: 50px;
-            text-align: center;
-            margin: 2px;
-            vertical-align: top;
-        }
-    }
-
-    ul {
-        list-style-type: none;
-        margin-left: 0px;
-        padding-left: 0px;
-
-        li {
-            margin: 12px;
-            padding: 4px;
-
-            a:hover {
-                color: #FA648C;
-            }
-        }
-    }
-}
 
 /* Metadata */
 #section-meta {

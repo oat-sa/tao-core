@@ -51,8 +51,8 @@ class tao_actions_form_NamespaceImportForm
     	    'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar')),
     	));    	
     	
-    	$submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
-		$submitElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__('Import')."</a>");
+    	$submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');        
+		$submitElt->setValue('<a href="#" class="form-submiter btn-info small"><span class="icon-import"></span> ' .__('Import').'</a>');
 
 		$this->form->setActions(array($submitElt), 'bottom');
 		$this->form->setActions(array(), 'top');
