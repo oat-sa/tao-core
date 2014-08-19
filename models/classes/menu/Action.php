@@ -71,6 +71,10 @@ class Action implements PhpSerializable
         return $this->data['reload'];
     }
     
+    public function getGroup() {
+        return $this->data['group'];
+    }
+
     /**
      * @return Icon
      */
