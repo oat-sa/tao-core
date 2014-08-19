@@ -1,12 +1,13 @@
 define([
     'jquery',
     'lodash',
+    'async',
     'i18n',
     'core/mimetype',
     'tpl!ui/resourcemgr/tpl/fileSelect',
     'ui/feedback', 
     'ui/uploader' 
-], function($, _, __, mimeType, fileSelectTpl, feedback, uploader){
+], function($, _, async, __, mimeType, fileSelectTpl, feedback, uploader){
     'use strict';
 
     var ns = 'resourcemgr';
@@ -146,7 +147,7 @@ define([
                 upload      : true,
                 multiple    : true,
                 uploadUrl   : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath,
-                fileSelect  : function(files){
+                fileSelect  : function(files, done){
             
                     var givenLength = files.length;
                     var fileNames = [];
@@ -169,15 +170,25 @@ define([
                         }
                     }
 
-                    files = _.filter(files, function(file){
-                        if(_.contains(fileNames, file.name.toLowerCase())){
-                            //TODO use a feedback popup
-                            return window.confirm('Do you want to override ' + file.name + '?');
+                    async.filter(files, function(file, cb){
+                        var result = true;
+                
+                        //try to call a server side service to check whether the selected files exists or not.       
+                        if(options.fileExistsUrl){
+                            $.getJSON(options.fileExistsUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath + '/' + file.name, function(response){
+                                if(response && response.exists === true){
+                                    result = window.confirm('Do you want to override ' + file.name + '?');
+                                }
+                                cb(result);
+                            });
+                        } else{
+                            //fallback on client side check 
+                            if(_.contains(fileNames, file.name.toLowerCase())){
+                                result = window.confirm('Do you want to override ' + file.name + '?');
+                            }
+                            cb(result);
                         }
-                        return true;
-                    });
-
-                    return files;
+                    }, done);
                 } 
             });
 

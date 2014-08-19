@@ -73,7 +73,7 @@ class tao_scripts_TaoInstall
 			, "instance_name" =>	null
 			, "extensions" =>		null
     	    , 'timezone'   =>      date_default_timezone_get()
-    	    , "file_path" =>        $root_path.'generis'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR
+    	    , "file_path" =>        $root_path.'data'.DIRECTORY_SEPARATOR
 		);
     	
     	$this->options = array_merge($this->options, $this->parameters);
