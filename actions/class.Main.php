@@ -65,6 +65,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $entries[] = $entry;
             }
         }
+
         if (empty($entries)) {
             // no access -> error
             if (common_session_SessionManager::isAnonymous()) {
@@ -83,7 +84,23 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $this->setData('user', common_session_SessionManager::getSession()->getUserLabel());
             }
             $this->setData('entries', $entries);
-            $this->setView('entry.tpl');
+
+            $naviElements = $this->getNavigationElementsByGroup('settings');
+            foreach($naviElements as $key => $naviElement) {
+                if($naviElement-> getId() !== 'user_settings') {
+                    unset($naviElements[$key]);
+                    continue;
+                }
+            }
+
+
+            $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+
+            $this->setData('settings-menu', $naviElements);
+
+            $this->setData('content-template', array('blocks/select-role.tpl', 'tao'));
+
+            $this->setView('layout.tpl', 'tao');
         }
     }
 
