@@ -30,5 +30,6 @@ if(get_data('actions')):
 		<?endif;?>
 	</div>
 	<?endforeach;?>
+    </ul>
 </div>
 <?endif;?>
