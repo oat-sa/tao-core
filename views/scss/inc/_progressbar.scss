@@ -13,10 +13,10 @@
     position: relative;
     height: 5px;
     border-top: 1px #ddd solid;
-    visibility:hidden;
+    display:none;
     overflow: hidden;
     &.active {
-        visibility: visible;
+        display:block;
     }
     &:before {
         position: absolute;
