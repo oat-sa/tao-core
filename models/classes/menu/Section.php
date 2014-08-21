@@ -25,62 +25,85 @@ use oat\oatbox\PhpSerializable;
 
 class Section extends MenuElement implements PhpSerializable
 {
+
     const SERIAL_VERSION = 1392821334;
-    
+
     private $data = array();
-    
+
     private $trees = array();
-    
+
     private $actions = array();
-    
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
+
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node)
+    {
         $data = array(
-            'id'  => (string)$node['id'],
-            'name'  => (string)$node['name'],
-            'url' => (string)$node['url']
+            'id'   => (string)$node['id'],
+            'name' => (string)$node['name'],
+            'url'  => (string)$node['url']
         );
-        
+
         $trees = array();
         foreach ($node->xpath("trees/tree") as $treeNode) {
             $trees[] = Tree::fromSimpleXMLElement($treeNode);
         }
-            
+
         $actions = array();
         foreach ($node->xpath("actions/action") as $actionNode) {
             $actions[] = Action::fromSimpleXMLElement($actionNode);
         }
         return new static($data, $trees, $actions);
     }
-    
-    public function __construct($data, $trees, $actions, $version = self::SERIAL_VERSION) {
+
+    public function __construct($data, $trees, $actions, $version = self::SERIAL_VERSION)
+    {
         parent::__construct($data['id'], $version);
-        $this->data = $data;
-        $this->trees = $trees;
+        $this->data    = $data;
+        $this->trees   = $trees;
         $this->actions = $actions;
     }
-    
-    public function getUrl() {
+
+    public function getUrl()
+    {
         return $this->data['url'];
     }
-    
-    public function getName() {
+
+    public function getName()
+    {
         return $this->data['name'];
     }
-    
-    public function getTrees() {
+
+    public function getTrees()
+    {
         return $this->trees;
     }
-    
-    public function getActions() {
+
+    public function getActions()
+    {
         return $this->actions;
     }
-    
-    public function __toPhpCode() {
-        return "new ".__CLASS__."("
-            .\common_Utils::toPHPVariableString($this->data).','
-            .\common_Utils::toPHPVariableString($this->trees).','
-            .\common_Utils::toPHPVariableString($this->actions).','
-            .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
-        .")";
+
+    /**
+     * @param string $groupId
+     * @return array
+     */
+    public function getActionsByGroup($groupId)
+    {
+        $actions = array();
+        foreach ($this->getActions() as $action) {
+            if ($action->getGroup() === $groupId) {
+                $actions[] = $action;
+            }
+        };
+        return $actions;
+    }
+
+    public function __toPhpCode()
+    {
+        return "new " . __CLASS__ . "("
+        . \common_Utils::toPHPVariableString($this->data) . ','
+        . \common_Utils::toPHPVariableString($this->trees) . ','
+        . \common_Utils::toPHPVariableString($this->actions) . ','
+        . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
+        . ")";
     }
 }

@@ -60,7 +60,8 @@ nav {
         }
         &.active {
             & > a {
-                background-color: $info;
+                background-color: whiten($info, .05);
+                opacity: 1;
                 color: white(.9) !important;
                 &.hover {
                     color: white !important;

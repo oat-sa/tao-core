@@ -8,7 +8,7 @@ use oat\tao\helpers\Layout;
             <li <?php if (get_data('shownExtension') === $entry->getExtension()
             && get_data('shownStructure') === $entry->getId()): ?>class="active"<?php endif ?>>
                 <a href="<?= $entry->getUrl() ?>" title="<?= __($entry->getDescription()) ?>">
-                    <?= Layout::renderMenuIcon($entry->getIcon()) ?>
+                    <?= Layout::renderMenuIcon($entry->getIcon(), 'icon-extension') ?>
                     <?= __($entry->getName()) ?></a>
                 <?php if (count($entry->getChildren()) > 1): ?>
                     <ul class="plain">
@@ -37,7 +37,7 @@ use oat\tao\helpers\Layout;
                     href="<?= $child->getUrl() ?>"
                 <?php endif ?> title="<?= __($entry->getName()) ?>">
 
-                    <?= is_null($entry->getIcon()) ? '' : Layout::renderMenuIcon($entry->getIcon()) ?>
+                    <?= is_null($entry->getIcon()) ? '' : Layout::renderMenuIcon($entry->getIcon(), 'icon-extension') ?>
 
                     <?php $description = $entry->getDescription();
                     if ($description): ?>
