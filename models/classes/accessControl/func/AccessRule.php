@@ -17,37 +17,56 @@
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+namespace oat\tao\model\accessControl\func;
 
+use core_kernel_classes_Resource;
 /**
- * Sample ACL Implementation allowing access to everything
+ * An access rule gramnting or denying access to a functionality
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
-class tao_models_classes_accessControl_NoAccess
-    implements tao_models_classes_accessControl_AccessControl
+class AccessRule
 {
-    /**
-     * 
-     */
-    public function __construct() {
+    const GRANT = 'grant';
+    const DENY = 'deny';
+    
+    private $grantDeny;
+    
+    private $role;
+    
+    private $mask;
+    
+    
+    public function __construct($mode, $roleUri, $mask) {
+        $this->grantDeny = $mode;
+        $this->role = new core_kernel_classes_Resource($roleUri);
+        $this->mask = $mask;
     }
     
     /**
-     * (non-PHPdoc)
-     * @see tao_models_classes_accessControl_AccessControl::hasAccess()
+     * Those the role grant you access?
+     * @return bool
      */
-    public function hasAccess($action, $controller, $extension, $parameters) {
-        return false;
+    public function isGrant() {
+        return $this->grantDeny == self::GRANT;
     }
     
-    public function applyRule(tao_models_classes_accessControl_AccessRule $rule) {
-        // nothing can be done
+    /**
+     * Gets the role this rule applies to
+     * @return core_kernel_classes_Resource
+     */
+    public function getRole() {
+        return $this->role;
     }
     
-    public function revokeRule(tao_models_classes_accessControl_AccessRule $rule) {
-        // nothing can be done
+    /**
+     * Returns the filter of the rule
+     * @return array
+     */
+    public function getMask() {
+        return $this->mask;
     }
+        
 }

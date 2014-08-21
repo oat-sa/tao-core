@@ -14,21 +14,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+namespace oat\tao\model\accessControl;
 
-use oat\tao\model\accessControl\func\AccessRule;
-use oat\tao\model\accessControl\func\AclProxy;
-
-$impl = new oat\tao\model\accessControl\func\implementation\SimpleAccess();
-
-$exts = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
-foreach ($exts as $extension) {
-    foreach ($extension->getManifest()->getAclTable() as $tableEntry) {
-        $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
-        $impl->applyRule($rule);
-    }
+/**
+ * Interface for data based access control
+ */
+interface DataAccessControl
+{
+    public function getRequiredPrivileges($action);
+    
+    public function getPrivileges($user, $resourceId);
 }
-AclProxy::setImplementation($impl);

@@ -18,9 +18,10 @@
  * 
  */
 
+namespace oat\tao\model\accessControl;
+
 use oat\tao\model\accessControl\data\AclProxy as DataProxy;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
-use oat\tao\model\accessControl\AclProxy;
 
 /**
  * Proxy for the Acl Implementation
@@ -30,10 +31,28 @@ use oat\tao\model\accessControl\AclProxy;
  * @package tao
  
  */
-class tao_models_classes_accessControl_AclProxy
+class AclProxy
 {
     /**
-     * Returns whenever or not the current user has access to a specified link
+     * @var DataAccessControl
+     */
+    private static $implementations;
+
+    /**
+     * @return DataAccessControl
+     */
+    protected static function getImplementations() {
+        if (is_null(self::$implementations)) {
+            self::$implementations = array(
+            	new FuncProxy()
+                //,new DataProxy()
+            );
+        }
+        return self::$implementations;
+    }
+    
+    /**
+     * Returns whenever or not a user has access to a specified link
      *
      * @param string $action
      * @param string $controller
@@ -41,13 +60,11 @@ class tao_models_classes_accessControl_AclProxy
      * @param array $parameters
      * @return boolean
      */
-    public static function hasAccess($action, $controller, $extension, $parameters = array()) {
-        $user = common_session_SessionManager::getSession()->getUserUri();
-        return AclProxy::hasAccess($user, self::getActionId($extension, $controller, $action), $parameters);
-    }
-    
-    private static function getActionId($extensionId, $controller, $action) {
-        $controllerClass = $controller;
-        return $controllerClass.'@'.$action;
+    public static function hasAccess($user, $action, $parameters) {
+        $access = true;
+        foreach (self::getImplementations() as $impl) {
+            $access = $access && $impl->hasAccess($user, $action, $parameters);
+        }
+        return $access;
     }
 }

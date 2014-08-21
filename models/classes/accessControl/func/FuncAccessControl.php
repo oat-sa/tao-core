@@ -14,21 +14,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+namespace oat\tao\model\accessControl\func;
 
-use oat\tao\model\accessControl\func\AccessRule;
-use oat\tao\model\accessControl\func\AclProxy;
-
-$impl = new oat\tao\model\accessControl\func\implementation\SimpleAccess();
-
-$exts = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
-foreach ($exts as $extension) {
-    foreach ($extension->getManifest()->getAclTable() as $tableEntry) {
-        $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
-        $impl->applyRule($rule);
-    }
+/**
+ * Interface for functionality based access control
+ */
+interface FuncAccessControl
+{
+    
+    /**
+     * Returns whenever or not a user has access to a specified call
+     *
+     * @param User $user
+     * @param string $action
+     * @return boolean
+     */
+    public function accessPossible($user, $action);
+    
+    public function applyRule(AccessRule $rule);
+    
+    public function revokeRule(AccessRule $rule);
+    
 }
-AclProxy::setImplementation($impl);

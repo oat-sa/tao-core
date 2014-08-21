@@ -15,20 +15,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
  * 
  */
 
-use oat\tao\model\accessControl\func\AccessRule;
-use oat\tao\model\accessControl\func\AclProxy;
+namespace oat\tao\model\accessControl;
 
-$impl = new oat\tao\model\accessControl\func\implementation\SimpleAccess();
-
-$exts = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
-foreach ($exts as $extension) {
-    foreach ($extension->getManifest()->getAclTable() as $tableEntry) {
-        $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
-        $impl->applyRule($rule);
-    }
+/**
+ * Interface for Access Control Implementations
+ */
+interface AccessControl
+{
+    
+    /**
+     * Returns whenever or not the user can execute the action
+     * whith the given parameters
+     * 
+     * @param string $userId
+     * @param string $actionId
+     * @param array $parameters
+     * @return boolean
+     */
+    public function hasAccess($user, $actionId, $parameters);
 }
-AclProxy::setImplementation($impl);

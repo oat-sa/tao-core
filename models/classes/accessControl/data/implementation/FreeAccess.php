@@ -1,5 +1,5 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,20 +15,37 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
  * 
  */
 
-use oat\tao\model\accessControl\func\AccessRule;
-use oat\tao\model\accessControl\func\AclProxy;
+namespace oat\tao\model\accessControl\data\implementation;
 
-$impl = new oat\tao\model\accessControl\func\implementation\SimpleAccess();
+use oat\tao\model\accessControl\DataAccessControl;
 
-$exts = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
-foreach ($exts as $extension) {
-    foreach ($extension->getManifest()->getAclTable() as $tableEntry) {
-        $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
-        $impl->applyRule($rule);
+/**
+ * Sample data access control implementation giving free
+ * access to all resources.
+ * 
+ * does not require privileges
+ * does not grant privileges
+ *
+ * @access public
+ * @author Joel Bout, <joel@taotesting.com>
+ */
+class FreeAccess
+    implements DataAccessControl
+{
+    /**
+     * 
+     */
+    public function __construct() {
+    }
+    
+    public function getRequiredPrivileges($action) {
+        return action();
+    }
+    
+    public function getPrivileges($user, $resourceId) {
+        return action();
     }
 }
-AclProxy::setImplementation($impl);
