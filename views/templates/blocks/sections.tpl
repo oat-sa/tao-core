@@ -17,22 +17,13 @@ $sections = get_data('sections');
 
         <section class="content-container">
             <ul class="action-bar plain content-action-bar horizontal-action-bar">
-                <li class="btn-info small action">
-                    <a href="#"><span class="icon-email"></span> Action 3</a>
-                </li>
-                <li class="btn-info small action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
-                </li>
-                <li class="btn-info small action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
-                </li>
-                <li class="btn-info small action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
+            <?php foreach ($section -> getActionsByGroup('content') as $action): ?>
+                <li class="btn-info small action" data-context="<?= $action -> getContext() ?>" title="<?= $action -> getName() ?>" data-action="<?= $action -> getBinding() ?>" url="">
+                    <a href="<?= $action -> getUrl(); ?>">
+                        <?= Layout::renderMenuIcon($action -> getIcon(), ' icon-magicwand'); ?> <?= $action -> getName(); ?>
+                    </a>
                 </li>
 
-            </ul>
-            <?php foreach (get_data('sections') as $section): ?>
-                <div id="<?= str_replace(' ', '_', $section['name']) ?>"></div>
             <?php endforeach ?>
         </ul>
         <?php foreach ($sections as $section): ?>
@@ -108,8 +99,5 @@ $sections = get_data('sections');
 
 
 
-        <aside class="meta-container">
-            <div id="section-meta"></div>
-        </aside>
     </div>
 <?php endif; ?>
