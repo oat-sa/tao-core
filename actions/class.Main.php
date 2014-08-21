@@ -333,13 +333,14 @@ class tao_actions_Main extends tao_actions_CommonModule {
     		            $display = str_replace(' ', "<br>", $display);
     		        }
     		        $actionData = array(
-    		            'js'		=> $action->getBinding(),
+    		            'binding'   => $action->getBinding(),
     		            'url' 		=> ROOT_URL . ltrim($action->getUrl(), '/'),
     		            'display'	=> $display,
     		            'rowName'	=> $action->getName(),
     		            'name'		=> _clean($action->getName()),
     		            'uri'		=> ($uri) ? $this->getRequestParameter('uri') : false,
     		            'classUri'	=> ($classUri) ? $this->getRequestParameter('classUri') : false,
+                        'context'   => $action->getContext(),
     		            'reload'	=> $action->getReload(),
     		            'ext'       => $action->getExtensionId()
     		        );
