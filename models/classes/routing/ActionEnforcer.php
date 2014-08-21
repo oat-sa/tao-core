@@ -20,7 +20,6 @@
  */
 namespace oat\tao\model\routing;
 
-use GenerisActionEnforcer;
 use IExecutable;
 use ActionEnforcingException;
 use ReflectionMethod;
@@ -34,7 +33,8 @@ use tao_models_classes_AccessDeniedException;
  * ActionEnforcer class
  * TODO ActionEnforcer class documentation.
  * 
- * @author J�r�me Bogaerts <jerome.bogaerts@tudor.lu> <jerome.bogaerts@gmail.com>
+ * @author Jerome Bogaerts <jerome@taotesting.com>
+ * @author Joel Bout <joel@taotesting.com>
  */
 class ActionEnforcer implements IExecutable
 {	
