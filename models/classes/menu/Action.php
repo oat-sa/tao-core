@@ -116,14 +116,12 @@ class Action implements PhpSerializable
     private function inferLegacyIcon(){
         $ext = $this->getExtensionId();
         $name = strtolower(\tao_helpers_Display::textCleaner($this->data['name']));
-        $imgPath = '/views/img/actions/' . $name . '.png';
-        $file = $ext .  $imgPath;
+        $file = $ext . '/views/img/actions/' . $name . '.png';
         $src = 'actions/' . $name . '.png';
         if(file_exists(ROOT_PATH . $file)) {
             return Icon::fromArray(array('src' => $src), $ext);
         }
         else if (file_exists(ROOT_PATH . 'tao/views/img/actions/' . $name . '.png')){
-            $src = 'actions/' . strtolower($name) . '.png';
             return Icon::fromArray(array('src' => $src), 'tao');
         }
         else {
