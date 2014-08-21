@@ -371,6 +371,24 @@ footer {
     font-family: Verdana, Geneva, sans-serif;
     font-style: normal; }
 
+#select-role-box {
+  width: 600px; }
+
+.entry-page-unit {
+  border: 1px solid #dddddd;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  background: #f3f1ef;
+  margin-bottom: 20px;
+  padding: 20px; }
+
+.entry-pages-container {
+  margin: 40px auto 0; }
+  .entry-pages-container h1 {
+    font-size: 17px;
+    font-size: 1.7rem;
+    margin-bottom: 20px; }
+
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 .action-bar {
   background: #266d9c;
