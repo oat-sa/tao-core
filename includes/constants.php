@@ -30,10 +30,10 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '2.6.X');
+define('TAO_VERSION', '2.7');
 
 #TAO version label
-define('TAO_VERSION_NAME', 'v2.6.X');
+define('TAO_VERSION_NAME', 'v2.7');
 
 #the name to display
 define('PRODUCT_NAME', 'TAO');
