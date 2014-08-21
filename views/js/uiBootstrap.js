@@ -1,5 +1,5 @@
 /**
- * UiBootstrap class enable you to run the navigation mode,
+ * UiBootstrap class enable you to run the naviguation mode,
  * bind the events on the main components and initialize handlers
  *
  *
