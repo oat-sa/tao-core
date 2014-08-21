@@ -27,6 +27,8 @@ use tao_models_classes_accessControl_AclProxy;
 class Action implements PhpSerializable
 {
     const SERIAL_VERSION = 1392821334;
+
+    const GROUP_DEFAULT = 'tree';
     
     public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
         $data = array(
@@ -35,12 +37,12 @@ class Action implements PhpSerializable
             'binding'   => isset($node['binding']) ? (string) $node['binding'] : isset($node['js']) ? (string) $node['js'] : 'load',
             'context'   => (string) $node['context'],
             'reload'    => isset($node['reload']) ? true : false,
-            'group'     => isset($node['group']) ? (string) $node['group'] : 'tree'
+            'group'     => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT
         );
         if(isset($node->icon)){
             $data['icon'] = Icon::fromSimpleXMLElement($node->icon);
         }
-        
+
         return new static($data);
     }
     
@@ -53,6 +55,10 @@ class Action implements PhpSerializable
     
     public function getName() {
         return $this->data['name'];
+    }
+
+    public function getDisplay() {
+        return $this->data['display'];
     }
     
     public function getUrl() {
@@ -69,6 +75,10 @@ class Action implements PhpSerializable
     
     public function getReload() {
         return $this->data['reload'];
+    }
+
+    public function getGroup() {
+        return $this->data['group'];
     }
     
     /**
@@ -105,14 +115,20 @@ class Action implements PhpSerializable
      */
     private function inferLegacyIcon(){
         $ext = $this->getExtensionId();
-        $name = \tao_helpers_Display::textCleaner($this->data['name']);
-        $file = $ext .  '/views/img/actions/' . $name . '.png';
+        $name = strtolower(\tao_helpers_Display::textCleaner($this->data['name']));
+        $imgPath = '/views/img/actions/' . $name . '.png';
+        $file = $ext .  $imgPath;
+        $src = 'actions/' . $name . '.png';
         if(file_exists(ROOT_PATH . $file)) {
-            $src = ROOT_URL . $file;
-        } else {
-            $src = TAOBASE_WWW . 'img/actions/' . $name . '.png';
+            return Icon::fromArray(array('src' => $src), $ext);
         }
-        return Icon::createLegacyItem(null, $src);
+        else if (file_exists(ROOT_PATH . 'tao/views/img/actions/' . $name . '.png')){
+            $src = 'actions/' . strtolower($name) . '.png';
+            return Icon::fromArray(array('src' => $src), 'tao');
+        }
+        else {
+            return Icon::fromArray(array('src' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAAKSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC'), 'tao');
+        }
     }
    
     /**

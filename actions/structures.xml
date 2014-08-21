@@ -20,8 +20,8 @@
                             />
                 </trees>
                 <actions>
-                    <action name="search" url="/tao/Roles/search" context="*" group="filter">
-                        <icon id="search" src="images/icon.svg"/>
+                    <action name="Search" url="/tao/Roles/search" context="*" group="filter">
+                        <icon id="icon-find" src=""/>
                     </action>
                     <action name="new role" js="instanciate" url="/tao/Roles/addInstance" context="class" group="bar">
                         <icon id="icon-tools" src=""/>
