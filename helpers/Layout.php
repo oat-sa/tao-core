@@ -112,8 +112,6 @@ class Layout{
      */
     public static function renderMenuIcon($icon, $defaultIcon) {
 
-        // data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAAKSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC
-        // 1 x 1 png
         $srcExt   = '';
         $isBase64 = false;
         if($icon -> getSource()) {
@@ -125,6 +123,8 @@ class Layout{
 
         $iconClass = $icon -> getId() ? $icon -> getId() : $defaultIcon;
 
+        // clarification icon vs. glyph: same thing but due to certain CSS rules a second class is required
+
         switch($srcExt) {
             case 'png':
             case 'jpg':
@@ -132,8 +132,8 @@ class Layout{
             case 'jpeg':
             case 'gif':
                 return $isBase64
-                    ? '<img src="' . $icon -> getSource() . '" alt="" />'
-                    : '<img src="' . Template::img($icon -> getSource(), $icon -> getExtension()) . '" alt="" />';
+                    ? '<img src="' . $icon -> getSource() . '" alt="" class="glyph" />'
+                    : '<img src="' . Template::img($icon -> getSource(), $icon -> getExtension()) . '" alt="" class="glyph" />';
                 break;
 
             case 'svg':
@@ -141,7 +141,7 @@ class Layout{
                 return false;
 
             case ''; // no source means an icon font is used
-                return sprintf('<span class="%s"></span>', $iconClass);
+                return sprintf('<span class="%s glyph"></span>', $iconClass);
         }
     }
 

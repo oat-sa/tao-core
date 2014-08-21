@@ -3,14 +3,6 @@
 
 #login-box {
     width: 400px;
-    margin: 40px auto 0;
-    padding:30px;
-    @include simple-border();
-    background: $uiClickableDefaultBg;
-    h1 {
-        @include font-size(18);
-        margin-bottom: 20px
-    }
     .form-error {
         display:none;
     }
@@ -20,5 +12,24 @@
         height: 25px;
         background-color: whiten($info, .1);
         text-shadow: 1px 1px 0 blacken($info, .2);
+    }
+}
+
+#select-role-box {
+    width: 600px;
+}
+
+.entry-page-unit {
+    @include simple-border();
+    background: $uiClickableDefaultBg;
+    margin-bottom: 20px;
+    padding:20px;
+}
+
+.entry-pages-container {
+    margin: 40px auto 0;
+    h1 {
+        @include font-size(17);
+        margin-bottom: 20px;
     }
 }

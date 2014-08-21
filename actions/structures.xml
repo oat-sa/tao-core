@@ -23,12 +23,18 @@
                     <action name="Search" url="/tao/Roles/search" context="*" group="filter">
                         <icon id="icon-find" src=""/>
                     </action>
-                    <action name="new role" js="instanciate" url="/tao/Roles/addInstance" context="class" group="bar">
+                    <action name="New role" js="instanciate" url="/tao/Roles/addInstance" context="class" group="bar">
                         <icon id="icon-tools" src=""/>
                     </action>
-                    <action name="delete" js="removeNode" url="/tao/Roles/delete" context="resource"/>
-                    <action name="meta data" js="loadMetaData" url="/tao/MetaData/getMetaData" context="resource"/>
-                    <action name="export" url="/tao/Export/index" context="resource"/>
+                    <action name="Delete" js="removeNode" url="/tao/Roles/delete" context="resource" group="tree">
+                        <icon id="icon-eraser"/>
+                    </action>
+                    <action name="Metadata" js="loadMetaData" url="/tao/MetaData/getMetaData" context="resource" group="tree">
+                        <icon id="icon-meta-data"/>
+                    </action>
+                    <action name="Export" url="/tao/Export/index" context="resource" group="content">
+                        <icon id="icon-export"/>
+                    </action>
                 </actions>
             </section>
         </sections>
@@ -52,15 +58,8 @@
                             />
                 </trees>
                 <actions>
-
-                    <!--action name="add repository" js="instanciate" url="/tao/SettingsVersioning/addInstance" context="class" group="tree|content" >
-                        <icon id="icon-users" src=""/>
-                    </action-->
-
-                    <action name="add repository" js="instanciate" url="/tao/SettingsVersioning/addInstance"
-                            context="class"/>
-                    <action name="remove repository" js="removeNode" url="/tao/SettingsVersioning/delete"
-                            context="instance"/>
+                    <action name="Add repository" js="instanciate" url="/tao/SettingsVersioning/addInstance" context="class"/>
+                    <action name="Remove repository" js="removeNode" url="/tao/SettingsVersioning/delete" context="instance"/>
                 </actions>
             </section>
         </sections>

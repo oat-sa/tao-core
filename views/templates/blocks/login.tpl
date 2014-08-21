@@ -1,4 +1,4 @@
-<div id="login-box">
+<div id="login-box" class="entry-page-unit entry-pages-container">
     <h1><?=__('Connect to the TAO platform')?></h1>
     <?= get_data('form') ?>
 </div>
