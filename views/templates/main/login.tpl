@@ -16,7 +16,7 @@ use oat\tao\helpers\Template;
     <script id='amd-loader'
             type="text/javascript"
             src="<?=Template::js('lib/require.js')?>"
-            data-main="<?=TAOBASE_WWW?>js/login"></script>
+            data-main="<?=Template::js('login', 'tao')?>"></script>
 </head>
 <body>
 

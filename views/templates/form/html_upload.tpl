@@ -1,11 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php
+use oat\tao\helpers\Template;
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?=__('File Uploader')?></title>
-	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="<?= Template::img('favicon.ico')?>" type="image/x-icon" />
 
-	<script type='text/javascript' src="<?=BASE_WWW?>js/lib/jquery-1.8.0.min.js"></script>
+	<script type='text/javascript' src="<?= Template::js('lib/jquery-1.8.0.min.js')?>"></script>
 
 	<?if(get_data('uploaded') === true):?>
 

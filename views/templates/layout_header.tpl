@@ -7,7 +7,7 @@ use oat\tao\helpers\Template;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?></title>
-	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="<?= Template::img('favicon.ico')?>" type="image/x-icon" />
 
 	<?=tao_helpers_Scriptloader::render()?>
 
@@ -20,7 +20,7 @@ use oat\tao\helpers\Template;
             <script id='amd-loader' 
                 type="text/javascript" 
                 src="<?=Template::js('lib/require.js', 'tao')?>" 
-                data-main="<?=TAOBASE_WWW?>js/main"
+                data-main="<?=Template::js('main')?>"
                 data-config="<?=get_data('client_config_url')?>"></script>
         <? endif ?>
         

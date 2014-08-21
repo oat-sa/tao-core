@@ -56,7 +56,7 @@ require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, 
 		<?foreach($row['properties'] as $j => $propValue):?>
 			'property_<?=$j?>': "<?=$propValue?>",
 		<?endforeach?>
-		'actions': "<img class='icon' src='<?=TAOBASE_WWW?>img/bullet_go.png'/><a href='#' class='found-action' data-uri='<?=$row["uri"]?>'><?=__('Open')?></a>"
+		'actions': "<img class='icon' src='<?=Template::img('img/bullet_go.png', 'tao')?>'/><a href='#' class='found-action' data-uri='<?=$row["uri"]?>'><?=__('Open')?></a>"
 	}); 
 	
 	<?endforeach?>	

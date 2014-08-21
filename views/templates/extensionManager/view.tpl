@@ -1,4 +1,6 @@
-<link rel="stylesheet" type="text/css" href="<?= TAOBASE_WWW ?>css/extensionManager.css" />
+<?php
+use oat\tao\helpers\Template;
+?><link rel="stylesheet" type="text/css" href="<?= Template::css('extensionManager.css') ?>" />
 
 <? if(isset($message)): ?>
 <div id="message">
