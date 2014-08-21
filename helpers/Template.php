@@ -25,7 +25,7 @@ class Template {
         
     /**
      * Expects a relative url to the image as path
-     * if extension name is ommited the current extension is used
+     * if extension name is omitted the current extension is used
      * 
      * @param string $path
      * @param string $extensionName
@@ -41,7 +41,7 @@ class Template {
     
     /**
      * Expects a relative url to the css as path
-     * if extension name is ommited the current extension is used
+     * if extension name is omitted the current extension is used
      * 
      * @param string $path
      * @param string $extensionName
@@ -57,7 +57,7 @@ class Template {
     
     /**
      * Expects a relative url to the java script as path
-     * if extension name is ommited the current extension is used
+     * if extension name is omitted the current extension is used
      * 
      * @param string $path
      * @param string $extensionName
@@ -73,7 +73,7 @@ class Template {
     
     /**
      * Expects a relative url to the template that is to be included as path
-     * if extension name is ommited the current extension is used
+     * if extension name is omitted the current extension is used
      *
      * @param string $path
      * @param string $extensionName

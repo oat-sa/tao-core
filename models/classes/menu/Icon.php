@@ -29,18 +29,45 @@ class Icon implements PhpSerializable
     const SERIAL_VERSION = 1392821334;
     
     protected $data;
-    
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
+
+    /**
+     * @param \SimpleXMLElement $node
+     * @param string $extensionId
+     * @return static
+     */
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $extensionId = '') {
+        if (is_null($extensionId)) {
+            $extensionId = \Context::getInstance()->getExtensionName();
+        }
         return new static(array(
-            'id' => (string) $node['id'],
-            'src' => isset($node['src']) ? (string) $node['src'] : null,
+            'id' =>  isset($node['id'])? (string)$node['id'] : null,
+            'src' => isset($node['src']) ? (string)$node['src'] : null,
+            'ext' => $extensionId
         ));
     }
+
+    /**
+     * @param array $iconData
+     * @param string $extensionId
+     * @return static
+     */
+    public static function fromArray(array $iconData, $extensionId = '') {
+        if (is_null($extensionId)) {
+            $extensionId = \Context::getInstance()->getExtensionName();
+        }
+        return new static(array(
+            'id' =>  isset($iconData['id'])? (string)$iconData['id'] : null,
+            'src' => isset($iconData['src']) ? (string)$iconData['src'] : null,
+            'ext' => $extensionId
+        ));
+    }
+
+
     
-    public static function createLegacyItem($iconId, $src) {
+    public static function createLegacyItem($iconId, $src=null) {
         return new static(array(
             'id' => (string)$iconId,
-            'src' => isset($src) ? $src : null
+            'src' => isset($src) ? (string)$src : null
         ));
     }
     
@@ -54,6 +81,10 @@ class Icon implements PhpSerializable
     
     public function getSource() {
         return $this->data['src'];
+    }
+
+    public function getExtension() {
+        return $this->data['ext'];
     }
     
     public function __toPhpCode() {

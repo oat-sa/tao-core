@@ -98,23 +98,51 @@ class Layout{
     }
 
     /**
-     * $iconArray defined in oat\tao\model\menu\Perspective::fromSimpleXMLElement
+     * $icon defined in oat\tao\model\menu\Perspective::fromSimpleXMLElement
      *
-     * @todo This function is a stub that assumes that all icons are in the TAO font.
-     * One possible way to make this independent from the font would be to use $extensionId as a prefix
-     * and also to load a custom style-sheet
+     * $icon has two methods, getSource() and getId().
+     * There are three possible ways to include icons, either as font, img or svg (not yet supported).
+     * - Font uses source to address the style sheet (TAO font as default) and id to build the class name
+     * - Img uses source only
+     * - Svg uses source to address an SVG sprite and id to point to the right icon in there
      *
      * @param Icon $icon
-     //* @param $extensionId // could be used as a prefix
+     * @param string $defaultIcon e.g. icon-extension | icon-action
      * @return string icon as html
      */
-    public static function renderMenuIcon($icon = null) {
-        $iconId = !is_null($icon)
-            ? $icon->getId()
-            : 'icon-extension';
-        
-        return sprintf('<span class="%s"></span>', $iconId);
-        
+    public static function renderMenuIcon($icon, $defaultIcon) {
+
+        // data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAAKSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC
+        // 1 x 1 png
+        $srcExt   = '';
+        $isBase64 = false;
+        if($icon -> getSource()) {
+            $imgXts   = 'png|jpg|jpe|jpeg|gif';
+            $regExp   = sprintf('~((^data:image/(%s))|(\.(%s)$))~', $imgXts, $imgXts);
+            $srcExt   = preg_match($regExp, $icon -> getSource(), $matches) ? array_pop($matches) : array();
+            $isBase64 = 0 === strpos($icon -> getSource(), 'data:image');
+        }
+
+        $iconClass = $icon -> getId() ? $icon -> getId() : $defaultIcon;
+
+        switch($srcExt) {
+            case 'png':
+            case 'jpg':
+            case 'jpe':
+            case 'jpeg':
+            case 'gif':
+                return $isBase64
+                    ? '<img src="' . $icon -> getSource() . '" alt="" />'
+                    : '<img src="' . Template::img($icon -> getSource(), $icon -> getExtension()) . '" alt="" />';
+                break;
+
+            case 'svg':
+                // not implemented yet
+                return false;
+
+            case ''; // no source means an icon font is used
+                return sprintf('<span class="%s"></span>', $iconClass);
+        }
     }
 
     /**
