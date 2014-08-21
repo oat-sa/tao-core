@@ -80,10 +80,6 @@ class Action implements PhpSerializable
     public function getGroup() {
         return $this->data['group'];
     }
-    
-    public function getGroup() {
-        return $this->data['group'];
-    }
 
     /**
      * @return Icon
