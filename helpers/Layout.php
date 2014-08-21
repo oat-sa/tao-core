@@ -112,18 +112,25 @@ class Layout{
      */
     public static function renderMenuIcon($icon, $defaultIcon) {
 
+        \common_Logger::d($icon);
+        debug_backtrace();
+
         // data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAAKSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC
         // 1 x 1 png
-        $srcExt   = '';
-        $isBase64 = false;
-        if($icon -> getSource()) {
-            $imgXts   = 'png|jpg|jpe|jpeg|gif';
-            $regExp   = sprintf('~((^data:image/(%s))|(\.(%s)$))~', $imgXts, $imgXts);
-            $srcExt   = preg_match($regExp, $icon -> getSource(), $matches) ? array_pop($matches) : array();
-            $isBase64 = 0 === strpos($icon -> getSource(), 'data:image');
-        }
+        $srcExt    = '';
+        $isBase64  = false;
+        $iconClass = $defaultIcon;
 
-        $iconClass = $icon -> getId() ? $icon -> getId() : $defaultIcon;
+        if(!is_null($icon)){
+            if($icon -> getSource()) {
+                $imgXts   = 'png|jpg|jpe|jpeg|gif';
+                $regExp   = sprintf('~((^data:image/(%s))|(\.(%s)$))~', $imgXts, $imgXts);
+                $srcExt   = preg_match($regExp, $icon -> getSource(), $matches) ? array_pop($matches) : array();
+                $isBase64 = 0 === strpos($icon -> getSource(), 'data:image');
+            }
+
+            $iconClass = $icon -> getId() ? $icon -> getId() : $defaultIcon;
+        }
 
         switch($srcExt) {
             case 'png':
