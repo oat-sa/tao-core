@@ -27,6 +27,9 @@ use ReflectionMethod;
 use common_Logger;
 use tao_models_classes_accessControl_AclProxy;
 
+use common_session_SessionManager;
+use tao_models_classes_AccessDeniedException;
+
 /**
  * ActionEnforcer class
  * TODO ActionEnforcer class documentation.
