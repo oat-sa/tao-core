@@ -139,8 +139,8 @@ class Layout{
             case 'jpeg':
             case 'gif':
                 return $isBase64
-                    ? '<img src="' . $icon -> getSource() . '" alt="" />'
-                    : '<img src="' . Template::img($icon -> getSource(), $icon -> getExtension()) . '" alt="" />';
+                    ? '<img src="' . $icon -> getSource() . '" alt="" class="glyph" />'
+                    : '<img src="' . Template::img($icon -> getSource(), $icon -> getExtension()) . '" alt="" class="glyph" />';
                 break;
 
             case 'svg':
@@ -148,7 +148,7 @@ class Layout{
                 return false;
 
             case ''; // no source means an icon font is used
-                return sprintf('<span class="%s"></span>', $iconClass);
+                return sprintf('<span class="%s glyph"></span>', $iconClass);
         }
     }
 
