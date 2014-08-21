@@ -25,18 +25,18 @@ define(['jquery', 'helpers'], function($, helpers) {
                  */
                 _listenForActions : function(){
                     var self = this;
-                    $(document).on('click', '#section-actions [data-action]', function(e){
-                        e.preventDefault();
-                        var $elt = $(this);
-                        var action = $elt.data('action');
-                        var url = $elt.attr('href');
-                        var uri = $elt.data('uri');
-                        var classUri = $elt.data('class-uri');
+                    //$(document).on('click', '#section-actions [data-action]', function(e){
+                        //e.preventDefault();
+                        //var $elt = $(this);
+                        //var action = $elt.data('action');
+                        //var url = $elt.attr('href');
+                        //var uri = $elt.data('uri');
+                        //var classUri = $elt.data('class-uri');
                         
-                        if(self[action] && typeof self[action] === 'function'){
-                            self[action](uri, classUri, url);
-                        }
-                    });
+                        //if(self[action] && typeof self[action] === 'function'){
+                            //self[action](uri, classUri, url);
+                        //}
+                    //});
                 },
                 
 		/**

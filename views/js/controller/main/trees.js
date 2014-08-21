@@ -13,9 +13,8 @@ function($, _, helpers, treeFactory, generisActions, module){
                         paginate: 30
                     });
                     var $treeElt = $('#tree-' + treeId);
-                    console.log($treeElt);
                     if($treeElt.length){
-
+    
                         treeFactory($treeElt, options.dataUrl, options);
                     }
                     //var tree = new GenerisTreeBrowserClass('#tree-' + treeId, options.dataUrl, options);

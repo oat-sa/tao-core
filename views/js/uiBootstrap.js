@@ -36,8 +36,9 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
                             if($section.data('trees')){
                                 self.initTrees();
                             }
+
                             if($section.data('actions')){
-                                actions.load();
+                                self.initActions();
                             }
                         },
                         select: function(event, ui) {
@@ -178,7 +179,9 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
                                                         $sectionTrees.css({display: 'block'});
                                                 }
                                                 $sectionTrees.html(response);
-                                                if (callback !== undefined) callback();
+                                                if (callback !== undefined) {
+                                                    callback();
+                                                }
                                         }
                                 });
                         }
@@ -189,34 +192,36 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
              * initialize the actions component
              */
             initActions: function(uri, classUri){
-                return;
                 var $sectionActions = $('#section-actions');
                 //left menu actions init by loading the tab content
                 if(this.tabs && this.tabs.length > 0){
-                    
-                    //get the link text of the selected tab
-                    var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
-                    $.ajax({
-                        url: context.root_url + 'tao/Main/getSectionActions',
-                        type: "GET",
-                        data: {
-                                section: section,		
-                                structure: context.shownStructure,
-                                ext: context.shownExtension,
-                                uri: uri,
-                                classUri: classUri
-                        },
-                        dataType: 'html',
-                        success: function(response){
-                                if(!response) {
-                                    $sectionActions.css({display: 'none'});
-                                } else if($sectionActions.css('display') === 'none') {
-                                    $sectionActions.css({display: 'block'});
-                                }
-                                $sectionActions.html(response);
-                                $(document).trigger('actionInitiated', [response]);
-                        }
-                    });
+                    if($('.actions-bar .action').length === 0){ 
+                        //get the link text of the selected tab
+                        var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
+                        $.ajax({
+                            url: context.root_url + 'tao/Main/getSectionActions',
+                            type: "GET",
+                            data: {
+                                    section: section,		
+                                    structure: context.shownStructure,
+                                    ext: context.shownExtension,
+                                    uri: uri,
+                                    classUri: classUri
+                            },
+                            dataType: 'html',
+                            success: function(response){
+                                    if(!response) {
+                                        $sectionActions.css({display: 'none'});
+                                    } else if($sectionActions.css('display') === 'none') {
+                                        $sectionActions.css({display: 'block'});
+                                    }
+                                    $sectionActions.html(response);
+
+                                    actions.init();
+                                    //$(document).trigger('actionInitiated', [response]);
+                            }
+                        });
+                    }
                 }
             },
 
