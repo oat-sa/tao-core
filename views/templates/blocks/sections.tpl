@@ -1,79 +1,88 @@
-<?php if (get_data('sections')): ?>
-<div class="section-container" id="tabs">
+<?php
+use oat\tao\helpers\Layout;
+
+$sections = get_data('sections');
+?>
+
+<?php if ($sections): ?>
+<div class="section-container">
     <ul class="tab-container">
-        <?php foreach (get_data('sections') as $section): ?>
+        <?php foreach ($sections as $section): ?>
+
             <li class="small">
-                <a
-                    id="<?= $section['id'] ?>"
-                    href="<?= ROOT_URL . ltrim($section['url'], '/') ?>"
-                    title="<?= $section['name'] ?>"
-                    data-trees="<?= json_encode($section['trees']) ?>"
-                    data-actions="<?= json_encode($section['actions']) ?>"><?= __($section['name']) ?></a></li>
+                <a href="#panel-<?= $section -> getId() ?>" title="<?= $section -> getName(); ?>" data-trees="<?= json_encode($section -> getTrees()) ?>" data-actions="<?= json_encode(count($section -> getActions())) ?>"><?= __($section -> getName()) ?></a>
+            </li>
 
         <?php endforeach ?>
     </ul>
-
-    <div class="clear">
+    <?php foreach ($sections as $section): ?>
+        <div class="clear content-wrapper content-panel" id="panel-<?= $section -> getId() ?>">
 
         <section class="navi-container">
-            <div id="section-trees"></div>
-            <!--div id="section-actions"></div-->
+            <div class="section-trees">
+                <?php if (has_data('trees')): ?>
+                    <?php foreach (get_data('trees') as $i => $tree): ?>
+                    <div class="tree-block">
+                        <ul id="tree-actions-<?= $i ?>" class="plain search-action-bar action-bar horizontal-action-bar">
+                            <li class="tree-filters">
+                                <input type="text" id="filter-content-<?= $i ?>" autocomplete="off" size="10"
+                                       placeholder="<?= __('* = any string') ?>"/>
+                                <span id="filter-action-<?= $i ?>" title="<?= __("Filter") ?>" class="icon-filter"></span>
+                                <span id="filter-cancel-<?= $i ?>" title="<?= __("Remove filter") ?>" class="icon-close"></span>
+                            </li>
+                            <li class="tree-search btn-info small action">
+                                <a href=""><?=__('Search')?><span class="icon-find r"></span></a>
+                            </li>
+                    </div>
+                    <div id="tree-<?= $i ?>"></div>
+                    </ul>
+                <?php endforeach; ?>
+
+                    <script>
+                        requirejs.config({
+                            config: {
+                                'tao/controller/main/trees': {
+                                    'sectionTreesData': <?=json_encode(get_data('trees'))?>
+                                }
+                            }
+                        });
+                    </script>
+                <?php endif ?>
+            </div>
 
             <h3 class="block-title"><?=__('Actions')?></h3>
             <ul class="action-bar plain tree-action-bar">
-                <li class="action [opt: disabled|hidden]" data-context="*uri|class (context)" title="add repository (name)" data-action="instanciate (js)" url="">
-                    <a href="/tao/SettingsVersioning/addInstance (url)"><span class="icon-email (icon)"></span> Action (display)</a>
-                </li>
-                <li class="action">
-                    <a href="#"><span class="icon-email"></span> Action 2</a>
-                </li>
-                <li class="action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
-                </li>
-                <li class="action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
-                </li>
-                <li class="action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
-                </li>
-                <li class="action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
-                </li>
-                <li class="action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
-                </li>
-                <li class="action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
-                </li>
+                <?php foreach ($section -> getActionsByGroup('tree') as $action): ?>
+                    <li class="action" data-context="<?= $action -> getContext() ?>" title="<?= $action -> getName() ?>" data-action="<?= $action -> getBinding() ?>" url="">
+                        <a href="<?= $action -> getUrl(); ?>">
+                            <?= Layout::renderMenuIcon($action -> getIcon(), ' icon-magicwand'); ?> <?= $action -> getName(); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </section>
 
         <section class="content-container">
             <ul class="action-bar plain content-action-bar horizontal-action-bar">
-                <li class="btn-info small action">
-                    <a href="#"><span class="icon-email"></span> Action 3</a>
-                </li>
-                <li class="btn-info small action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
-                </li>
-                <li class="btn-info small action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
-                </li>
-                <li class="btn-info small action">
-                    <a href="#"><span class="icon-email"></span> Action 4</a>
+            <?php foreach ($section -> getActionsByGroup('content') as $action): ?>
+                <li class="btn-info small action" data-context="<?= $action -> getContext() ?>" title="<?= $action -> getName() ?>" data-action="<?= $action -> getBinding() ?>" url="">
+                    <a href="<?= $action -> getUrl(); ?>">
+                        <?= Layout::renderMenuIcon($action -> getIcon(), ' icon-magicwand'); ?> <?= $action -> getName(); ?>
+                    </a>
                 </li>
 
-            </ul>
-            <?php foreach (get_data('sections') as $section): ?>
-                <div id="<?= str_replace(' ', '_', $section['name']) ?>"></div>
             <?php endforeach ?>
+            </ul>
+            <div id="<?= ''/*str_replace(' ', '_', $section['name'])*/ ?>"></div>
         </section>
 
-        <aside class="meta-container">
-            <div id="section-meta"></div>
-        </aside>
     </div>
+    <?php endforeach ?>
 
 
+
+    <aside class="meta-container">
+        <div id="section-meta"></div>
+    </aside>
 </div>
 <?php endif; ?>

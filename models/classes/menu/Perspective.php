@@ -56,7 +56,7 @@ class Perspective extends MenuElement implements PhpSerializable
             'description' => (string) $node->description,
             'extension' => $extensionId,
             'level'     => (string) $node['level'],
-            'icon'      => isset($node->icon) ? Icon::fromSimpleXMLElement($node->icon) : null
+            'icon'      => isset($node->icon) ? Icon::fromSimpleXMLElement($node->icon, $extensionId) : null
         );
         $sections = array();
         foreach ($node->xpath("sections/section") as $sectionNode) {
@@ -74,16 +74,16 @@ class Perspective extends MenuElement implements PhpSerializable
      */
     public static function fromLegacyToolbarAction(\SimpleXMLElement $node, $extensionId) {
         $data = array(
-            'id'        => (string)$node['id'],
-            'extension' => $extensionId,
-            'visible'  => $node['visible'] == 'true',
-            'name'		=> (string)$node['title'],
-            'level'		=> (int)$node['level'],
+            'id'          => (string)$node['id'],
+            'extension'   => $extensionId,
+            'visible'     => $node['visible'] == 'true',
+            'name'		  => (string)$node['title'],
+            'level'		  => (int)$node['level'],
             'description' => empty($text) ? null : $text,
-            'js'        => isset($node['js']) ? (string)$node['js'] : null,
-            'structure' => isset($node['structure']) ? (string)$node['structure'] : null,
-            'group'     => self::GROUP_SETTINGS,
-            'icon'      => isset($node['icon']) ? Icon::createLegacyItem((string)$node['icon']) : null
+            'js'          => isset($node['js']) ? (string)$node['js'] : null,
+            'structure'   => isset($node['structure']) ? (string)$node['structure'] : null,
+            'group'       => self::GROUP_SETTINGS,
+            'icon'        => isset($node['icon']) ? Icon::fromArray(array('id' => (string)$node['icon']), $extensionId) : null
         );
         $children = array();
         if (isset($node['structure'])) {

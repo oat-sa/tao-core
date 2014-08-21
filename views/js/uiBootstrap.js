@@ -1,5 +1,5 @@
 /**
- * UiBootstrap class enable you to run the naviguation mode,
+ * UiBootstrap class enable you to run the navigation mode,
  * bind the events on the main components and initialize handlers
  *
  *
@@ -53,7 +53,10 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
                         }
                 });
 
-            var $tabs = $('#tabs');
+            var $panel = $('.content-panel');
+                $panel.prop('require-refresh', !!$panel.data('refresh'))
+
+            var $tabs = $('.section-container');
 
             this.initAjax();
             this.initNav();
@@ -63,16 +66,16 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
                 load: function (e, ui) {
                     var $section = $(ui.tab);
 
-                    $sectionTrees.empty().hide();
-                    $sectionActions.empty().hide();
+                    $sectionTrees.empty();
+                    $sectionTrees.hide();
 
                     if ($section.data('trees')) {
                         self.initTrees();
                     }
                 },
                 select: function (event, ui) {
-                    $sectionTrees.empty().hide();
-                    $sectionActions.empty().hide();
+                    $sectionTrees.empty();
+                    $sectionTrees.hide();
 
                     //empty other tabs
                     $tabs.children('ui-tabs-panel').each(function () {
@@ -252,7 +255,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
         },
 
         /**
-         * initialize common naviguation
+         * initialize common navigation
          */
         initNav: function () {
             //load the links target into the main container instead of loading a new page
@@ -275,7 +278,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
 
             //left menu trees init by loading the tab content
             if (this.tabs.length > 0) {
-                var $sectionTrees = $('#section-trees');
+                var $sectionTrees = $('.section-trees');
 
                 //get the link text of the selected tab
                 var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
@@ -311,34 +314,34 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
          */
         initActions: function (uri, classUri) {
             //left menu actions init by loading the tab content
-            if (this.tabs && this.tabs.length > 0) {
-                var $sectionActions = $('#section-actions');
-
-                //get the link text of the selected tab
-                var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
-                $.ajax({
-                    url: context.root_url + 'tao/Main/getSectionActions',
-                    type: "GET",
-                    data: {
-                        section: section,
-                        structure: context.shownStructure,
-                        ext: context.shownExtension,
-                        uri: uri,
-                        classUri: classUri
-                    },
-                    dataType: 'html',
-                    success: function (response) {
-                        if (!response) {
-                            $sectionActions.css({display: 'none'});
-                        }
-                        else if ($sectionActions.css('display') === 'none') {
-                            $sectionActions.css({display: 'block'});
-                        }
-                        $sectionActions.html(response);
-                        $(document).trigger('actionInitiated', [response]);
-                    }
-                });
-            }
+//            if (this.tabs && this.tabs.length > 0) {
+//                var $sectionActions = $('#section-actions');
+//
+//                //get the link text of the selected tab
+//                var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
+//                $.ajax({
+//                    url: context.root_url + 'tao/Main/getSectionActions',
+//                    type: "GET",
+//                    data: {
+//                        section: section,
+//                        structure: context.shownStructure,
+//                        ext: context.shownExtension,
+//                        uri: uri,
+//                        classUri: classUri
+//                    },
+//                    dataType: 'html',
+//                    success: function (response) {
+//                        if (!response) {
+//                            $sectionActions.css({display: 'none'});
+//                        }
+//                        else if ($sectionActions.css('display') === 'none') {
+//                            $sectionActions.css({display: 'block'});
+//                        }
+//                        $sectionActions.html(response);
+//                        $(document).trigger('actionInitiated', [response]);
+//                    }
+//                });
+//            }
         },
 
         /**
