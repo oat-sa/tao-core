@@ -250,12 +250,12 @@ footer {
     left: 0;
     top: 0;
     z-index: 2; }
-  .entry-point.entry-point-backoffice:before {
-    border-left-color: #6aaf56; }
-  .entry-point.entry-point-deliveryServer:before {
-    border-left-color: #57b6ab; }
-  .entry-point.entry-point-backofficeCe:before {
-    border-left-color: #d5b459; }
+  .entry-point.entry-point-backoffice .text-link {
+    border-bottom-color: #2b8e0e !important; }
+  .entry-point.entry-point-deliveryServer .text-link {
+    border-bottom-color: #0f9787 !important; }
+  .entry-point.entry-point-backofficeCe .text-link {
+    border-bottom-color: #c34713 !important; }
 
 #login-box {
   width: 400px; }
@@ -277,13 +277,20 @@ footer {
     text-shadow: 1px 1px 1px #fff; }
   #entry-point-box .text-link {
     position: absolute;
-    right: 20px;
-    bottom: 20px;
-    color: #3e7da7; }
+    right: -1px;
+    bottom: -1px;
+    padding: 20px;
+    text-align: right;
+    min-width: 200px;
+    border-bottom: 3px solid;
+    color: #3e7da7;
+    outline: 0; }
     #entry-point-box .text-link:hover {
       color: #0e5d91; }
   #entry-point-box a {
     height: 150px; }
+  #entry-point-box .entry-point:before {
+    border-left-color: #0e5d91; }
 
 #entry-point-box, #login-box {
   margin: 40px auto 0; }
@@ -359,6 +366,7 @@ footer {
     margin: 0 8px 8px 8px;
     border-left: 2px white solid;
     border-top: 2px white solid;
+    width: auto;
     font-size: 13px;
     font-size: 1.3rem; }
     .action-bar.tree-action-bar li {
