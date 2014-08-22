@@ -79,6 +79,7 @@
         margin: 0 8px 8px 8px;
         border-left: 2px white solid;
         border-top: 2px white solid;
+        width: auto;
         @include font-size(13);
         li {
             border-right: 2px white solid;
