@@ -73,7 +73,7 @@ $sections = get_data('sections');
 
             <?php endforeach ?>
             </ul>
-            <div id="<?= ''/*str_replace(' ', '_', $section['name'])*/ ?>"></div>
+            <div class="content-block"></div>
         </section>
 
     </div>

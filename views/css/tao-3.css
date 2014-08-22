@@ -229,6 +229,34 @@ footer {
 /*
  * Repeat animation
  */
+.entry-point {
+  border: 1px solid #dddddd;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  background: #f3f1ef;
+  margin-bottom: 20px;
+  padding: 20px 20px 20px 40px;
+  position: relative; }
+  .entry-point:before {
+    content: '';
+    width: 40px;
+    height: 150px;
+    border: solid transparent;
+    border-top-width: 75px;
+    border-right-width: 20px;
+    border-bottom-width: 75px;
+    border-left-width: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2; }
+  .entry-point.entry-point-backoffice:before {
+    border-left-color: #6aaf56; }
+  .entry-point.entry-point-deliveryServer:before {
+    border-left-color: #57b6ab; }
+  .entry-point.entry-point-backofficeCe:before {
+    border-left-color: #d5b459; }
+
 #login-box {
   width: 400px; }
   #login-box .form-error {
@@ -238,24 +266,32 @@ footer {
     height: 25px;
     background-color: #266d9c;
     text-shadow: 1px 1px 0 #0b4a74; }
-
-#select-role-box {
-  width: 600px; }
-
-.entry-page-unit {
-  border: 1px solid #dddddd;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  background: #f3f1ef;
-  margin-bottom: 20px;
-  padding: 20px; }
-
-.entry-pages-container {
-  margin: 40px auto 0; }
-  .entry-pages-container h1 {
-    font-size: 17px;
-    font-size: 1.7rem;
+  #login-box h1 {
     margin-bottom: 20px; }
+
+#entry-point-box {
+  width: 500px; }
+  #entry-point-box h1 {
+    margin-bottom: 7px;
+    color: #0e5d91;
+    text-shadow: 1px 1px 1px #fff; }
+  #entry-point-box .text-link {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    color: #3e7da7; }
+    #entry-point-box .text-link:hover {
+      color: #0e5d91; }
+  #entry-point-box a {
+    height: 150px; }
+
+#entry-point-box, #login-box {
+  margin: 40px auto 0; }
+  #entry-point-box h1, #login-box h1 {
+    font-size: 20px;
+    font-size: 2rem;
+    font-family: Verdana, Geneva, sans-serif;
+    font-style: normal; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
