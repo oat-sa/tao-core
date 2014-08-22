@@ -52,7 +52,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
          */
         _lookup : function _lookup(){
             var self = this;
-            $('.actions-bar .action', this.$scope).each(function(){
+            $('.action-bar .action', this.$scope).each(function(){
     
                 var $this = $(this);
                 var id;
@@ -89,7 +89,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
          */
         _bind : function _bind(){
             var self = this;
-            var actionSelector = this.$scope.selector + ' .actions-bar .action';
+            var actionSelector = this.$scope.selector + ' .action-bar .action';
 
             $(document)
               .off('click', actionSelector) 
