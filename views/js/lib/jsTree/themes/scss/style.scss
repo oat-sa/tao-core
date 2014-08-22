@@ -105,22 +105,6 @@
             background-position: -48px -30px;
         }
 
-        $list: 'item' /*,'test','test-taker','group','result','delivery','campaign','result-server','role','process','process-root','activity','activity-initial','activity-last','activity-unique','property','connector','inferenceRule-onBefore','inferenceRule-onAfter','interactive-service','consistencyRule','rule','notification','activity-goto','connector-goto','connector-prev','assignment'*/;
-
-        $icons: 'item' /*,'test','subject','group','result','delivery','campaign','result_server','user','process','process-root','process_activity','process_activity_start','process_activity_last','process_activity_unique','process_property','process_connector','process_inferenceRule_before','process_inferenceRule_after','process_service','process_consistency_rule','process_rule','process_notification','process_activity_goto','process_connector_goto','process_connector_prev','process_assignment'*/;
-
-        @each $item in $list {
-            $i: index($list, $item);
-            $icon: "%icon-" + nth($icons, $i);
-            //@TODO extend does not work here
-            &.node-#{$item} ins:before {
-                // @extend #{$icon};
-                // background:none !important;
-                @extend %tao-icon-setup;
-                foo: #{$icon};
-                @include icon(nth($icons, $i));
-            }
-        }
 
         &.paginate {
             padding-left: 12px;
@@ -161,6 +145,46 @@
         }
     }
 
+}
+
+.taotree-delivery .node-instance ins:before{
+    @extend %icon-delivery;
+}
+
+.taotree-group .node-instance ins:before{
+    @extend %icon-users;
+}
+
+.taotree-item .node-instance ins:before{
+    @extend %icon-item;
+}
+
+.taotree-repository .node-instance ins:before{
+    @extend %icon-repository;
+}
+
+.taotree-result_server .node-instance ins:before{
+    @extend %icon-result-server;
+}
+
+.taotree-result .node-instance ins:before{
+    @extend %icon-result;
+}
+
+.taotree-role .node-instance ins:before{
+    @extend %icon-user;
+}
+
+.taotree-test_taker .node-instance ins:before{
+    @extend %icon-test-taker;
+}
+
+.taotree-test .node-instance ins:before{
+    @extend %icon-test;
+}
+
+.taotree-default{
+    @extend %icon-new-page;
 }
 
 #jstree-dragged {
