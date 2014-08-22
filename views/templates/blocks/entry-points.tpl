@@ -1,14 +1,16 @@
-<ul id="select-role-box" class="entry-pages-container plain">
+<ul id="entry-point-box" class="plain">
     <?php foreach (get_data('entries') as $entry) : ?>
-        <li class="entry-page-unit">
-            <h1><?= $entry->getTitle() ?></h1>
+        <li>
+            <a class="block entry-point entry-point-<?= $entry->getId() ?>" href="<?= $entry->getUrl() ?>">
+                <h1><?= $entry->getTitle() ?></h1>
 
-            <p><?= $entry->getDescription() ?></p>
+                <p><?= $entry->getDescription() ?></p>
 
-            <div class="clearfix">
+                <div class="clearfix">
 
-                <a class="block rgt btn-info small" href="<?= $entry->getUrl() ?>"><?= $entry->getLabel() ?><span class="icon-login r"></span> </a>
-            </div>
+                    <span class="text-link" href="<?= $entry->getUrl() ?>"><span class="icon-login"></span> <?= $entry->getLabel() ?> </span>
+                </div>
+            </a>
         </li>
     <?php endforeach; ?>
 </ul>
