@@ -28,14 +28,18 @@ $sections = get_data('sections');
                                 </a>
                             </li>
 
-        <section class="content-container">
-            <ul class="action-bar plain content-action-bar horizontal-action-bar">
-            <?php foreach ($section -> getActionsByGroup('content') as $action): ?>
-                <li class="btn-info small action" data-context="<?= $action -> getContext() ?>" title="<?= $action -> getName() ?>" data-action="<?= $action -> getBinding() ?>" url="">
-                    <a href="<?= $action -> getUrl(); ?>">
-                        <?= Layout::renderMenuIcon($action -> getIcon(), ' icon-magicwand'); ?> <?= $action -> getName(); ?>
-                    </a>
-                </li>
+                <section class="content-container">
+                    <ul class="action-bar plain content-action-bar horizontal-action-bar">
+                        <?php foreach ($section->getActionsByGroup('content') as $action): ?>
+                            <li class="btn-info small action" data-context="<?= $action->getContext() ?>"
+                                title="<?= $action->getName() ?>" data-action="<?= $action->getBinding() ?>" url="">
+                                <a href="<?= $action->getUrl(); ?>">
+                                    <?= Layout::renderMenuIcon(
+                                        $action->getIcon(),
+                                        ' icon-magicwand'
+                                    ); ?> <?= $action->getName(); ?>
+                                </a>
+                            </li>
 
             <?php endforeach ?>
         </ul>
