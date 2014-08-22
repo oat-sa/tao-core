@@ -3,6 +3,7 @@
 <structures>
     <structure id="items" name="Items" url="/taoItems/Items/index" level="0" visible="true">
         <description>Create and design items and exercises.</description>
+        <icon id="icon-item"/>
         <sections>
             <section id="manage_items" name="Manage items" url="/taoItems/Items/index">
                 <trees>

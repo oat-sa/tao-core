@@ -98,7 +98,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
             $this->setData('settings-menu', $naviElements);
 
-            $this->setData('content-template', array('blocks/select-role.tpl', 'tao'));
+            $this->setData('content-template', array('blocks/entry-points.tpl', 'tao'));
 
             $this->setView('layout.tpl', 'tao');
         }
