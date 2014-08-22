@@ -29,12 +29,10 @@ define([
 
 
 
-    var conf, type, context = $('#login-box'), $fields = $();
+    var conf, type, context = $('.entry-pages-container'), $fields = $();
 
     versionWarning.init();
 
-    //Set focus on the login field.
-    context.find('#login').focus();
 
     // empty $fields sent
     if(context.find('.form-error').length){

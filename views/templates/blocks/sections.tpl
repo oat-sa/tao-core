@@ -42,7 +42,7 @@ $sections = get_data('sections');
             </div>
 
             <h3 class="block-title"><?=__('Actions')?></h3>
-            <ul class="action-bar plain tree-action-bar">
+            <ul class="action-bar plain tree-action-bar vertical-action-bar">
                 <?php foreach ($section -> getActionsByGroup('tree') as $action): ?>
                     <li class="action" data-context="<?= $action -> getContext() ?>" title="<?= $action -> getName() ?>" data-action="<?= $action -> getBinding() ?>" url="">
                         <a href="<?= $action -> getUrl(); ?>">
