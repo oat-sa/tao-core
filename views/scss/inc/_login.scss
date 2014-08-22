@@ -43,20 +43,20 @@ $entry-point-12: #C39413;
     }
 
     &.entry-point-backoffice {
-        &:before {
-            border-left-color:  whiten($entry-point-03);
+        .text-link {
+            border-bottom-color: $entry-point-03 !important;
         }
     }
 
     &.entry-point-deliveryServer {
-        &:before {
-            border-left-color: whiten($entry-point-04);
+        .text-link {
+            border-bottom-color: $entry-point-04 !important;
         }
     }
 
     &.entry-point-backofficeCe {
-        &:before {
-            border-left-color: whiten($entry-point-12);
+        .text-link {
+            border-bottom-color: $entry-point-10 !important;
         }
     }
 }
@@ -90,15 +90,25 @@ $entry-point-12: #C39413;
     }
     .text-link {
         position: absolute;
-        right: 20px;
-        bottom: 20px;
+        right: -1px;
+        bottom: -1px;
+        padding: 20px;
+        text-align: right;
+        min-width: 200px;
+        border-bottom: 3px solid;
         color: $uiClickableHoverBg;
+        outline:0;
         &:hover {
             color: $info;
         }
     }
     a {
         height: $entryArrowHeight * 1px;
+    }
+    .entry-point {
+        &:before {
+            border-left-color:$info;
+        }
     }
 }
 
