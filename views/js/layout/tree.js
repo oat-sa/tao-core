@@ -18,13 +18,15 @@ define([
         var lastOpened;
         var lastSelected;
 
+        options = options || {};
+
 	    var serverParams = _.defaults(options.serverParameters || {}, {
             hideInstances   :  options.hideInstances || 0,
             filter          : '*',
             offset          : 0,
             limit           : 30
         });
-        
+
         var treeOptions = {
             data: {
                 type: "json",
@@ -36,7 +38,7 @@ define([
             },
             ui: {
                 theme_name : "custom",
-                theme_path : context.taobase_www + 'js/lib/jsTree/themes/custom/style.css'
+                theme_path : context.taobase_www + 'js/lib/jsTree/themes/css/style.css'
             },
             types: {
                 "default" : {
@@ -50,17 +52,10 @@ define([
             },
             callback: {
 
-                oninit: function(tree) {
-                        
-                    console.log(' on init ');
-                },
-
                 /**
                  * Additionnal parameters to send to the server to retrieve data
                  */
                 beforedata: function($node) {
-
-                    console.log(' before data ');
 
                     var params = _.clone(serverParams);
                     if($node && $node.length){
@@ -73,8 +68,6 @@ define([
 
                 //when we receive the data
                 ondata: function(data, tree) {
-
-                    console.log(' on data ');
 
                     var nodes = data.children || data;
 
@@ -98,8 +91,6 @@ define([
                 //we open either the last selected node or the 1st branch
                 onload: function(tree){
 
-                    console.log(' on load ');
-
                     if (options.selectNode) {
                         tree.select_branch($("li[id='" + options.selectNode + "']"));
                         options.selectNode = false;
@@ -111,71 +102,67 @@ define([
                 },
 
                 beforeopen: function(node) {
-                    console.log(' before open ');
                     //TODO store this in the browser
                     lastOpened = node;
                 },
 
-                    //when a node is selected
-                    onselect: function(node, tree) {
+                //when a node is selected
+                onselect: function(node, tree) {
 
-                        console.log(' select ');
+                    var uri, classUri;
+                    var $node           = $(node);
+                    var nodeId          = $node.attr('id');
+                    var $parentNode     = tree.parent($node);
 
-                        var uri, classUri;
-                        var $node           = $(node);
-                        var nodeId          = $node.attr('id');
-                        var $parentNode     = tree.parent($node);
-
-                        $('a.clicked', $elt).each(function() {
-                            if ($(this).parent('li').attr('id') !==  nodeId) {
-                                $(this).removeClass('clicked');
-                            }
-                        });
-
-                        if ($node.hasClass('node-class')) {
-                            if ($node.hasClass('closed')) {
-                                tree.open_branch($node);
-                            }
-                            classUri = nodeId;
+                    $('a.clicked', $elt).each(function() {
+                        if ($(this).parent('li').attr('id') !==  nodeId) {
+                            $(this).removeClass('clicked');
                         }
+                    });
 
-                        if ($node.hasClass('node-instance')){
-                            uri = nodeId;
-                            classUri = $parentNode.attr('id');
+                    if ($node.hasClass('node-class')) {
+                        if ($node.hasClass('closed')) {
+                            tree.open_branch($node);
                         }
-
-                        $elt
-                          .trigger('select.taotree', [{
-                            uri : uri,
-                            classUri : classUri 
-                        }])
-                          .trigger('change.taotree', [{
-                            uri : uri,
-                            classUri : classUri 
-                        }]);
-
-                        return false;
-                    },
-
-                    //when a node is move by drag n'drop
-                    onmove: function(node, refNode, type, tree, rollback) {
-                        if (!options.moveInstanceAction) {
-                            return false;
-                        }
-
-                        //do not move an instance into an instance...
-                        if ($(refNode).hasClass('node-instance') && type === 'inside') {
-                            $.tree.rollback(rollback);
-                            return false;
-                        } 
-                        
-
-                        if (type === 'after' || type === 'before') {
-                            refNode = tree.parent(refNode);
-                        }
-
-                        $elt.trigger('change.taotree');
+                        classUri = nodeId;
                     }
+
+                    if ($node.hasClass('node-instance')){
+                        uri = nodeId;
+                        classUri = $parentNode.attr('id');
+                    }
+
+                    $elt
+                      .trigger('select.taotree', [{
+                        uri : uri,
+                        classUri : classUri 
+                    }])
+                      .trigger('change.taotree', [{
+                        uri : uri,
+                        classUri : classUri 
+                    }]);
+
+                    return false;
+                },
+
+                //when a node is move by drag n'drop
+                onmove: function(node, refNode, type, tree, rollback) {
+                    if (!options.moveInstanceAction) {
+                        return false;
+                    }
+
+                    //do not move an instance into an instance...
+                    if ($(refNode).hasClass('node-instance') && type === 'inside') {
+                        $.tree.rollback(rollback);
+                        return false;
+                    } 
+
+                    if (type === 'after' || type === 'before') {
+                        refNode = tree.parent(refNode);
+                    }
+
+                    $elt.trigger('change.taotree');
+                }
             }
         };
 
@@ -217,8 +204,7 @@ define([
 
         // workaround to fix dublicate tree bindings on multiple page loads
         //TODO check data-attr
-        var classes = $elt.attr('class');
-        if (!classes || !classes.test('tree')) {
+        if (!$elt.hasClass('tree')) {
             $elt.tree(treeOptions);
         }
     };

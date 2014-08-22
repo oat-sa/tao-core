@@ -12,7 +12,7 @@ define(['jquery', 'lodash', 'layout/actions/binder', 'helpers'], function($, _, 
      * Load Action 
      */
     binder.register('load', function load(context){
-        helpers._load(helpers.getMainContainerSelector(), this.url, context);
+        helpers._load(helpers.getMainContainerSelector(), this.url, _.pick(context, ['uri', 'classUri']));
     });
     
     /**
