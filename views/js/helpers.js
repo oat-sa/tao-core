@@ -19,35 +19,25 @@ define(['lodash', 'jquery', 'context', 'jqueryui'], function(_, $, context) {
                     };
 		},
                 
-                getMainContainer : function($tabs){
-                    $tabs = $tabs || $('#tabs');
-                    var $mainContainer = $(".main-container");
-                    if($tabs.length === 0){
-                        return $mainContainer.length === 0 ? false : $mainContainer;
-                    }
-                    
-                    var uiTab = $('.ui-tabs-panel').prop('id');
-                    if (typeof $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')] !== 'undefined') {
-                            uiTab = $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id;
-                    }
-
-                    if ($("div#"+uiTab+" div.main-container").css('display') === 'none') {
-                            return $("#"+uiTab);
-                    }
-
-                    return $("#"+uiTab+" > .main-container");
-                    
+                getMainContainer : function(){
+                    var sectionId,
+                        sectionIndex;
+                    if(!context.section){
+                        sectionIndex = $('.section-container').tabs('options', 'selected');
+                        $('.content-panel').eq(sectionIndex).find('.content-block');
+                    } 
+                    return $('#' + context.section + ' .content-block');
                 },
 
 		/**
 		 * @return {String} the current main container jQuery selector (from the opened tab)
 		 */
 		getMainContainerSelector: function($tabs){
-                    var $container = this.getMainContainer($tabs);
-                    if($container && $container.length > 0){
-                        return $container.selector;
-                    }
-                    return false;
+            var $container = this.getMainContainer();
+            if($container && $container.length > 0){
+                return $container.selector;
+            }
+            return false;
 		},
 
 		/**
