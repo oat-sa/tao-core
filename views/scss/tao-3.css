@@ -386,6 +386,8 @@ footer {
       color: #0e5d91; }
   #entry-point-box a {
     height: 150px; }
+  #entry-point-box .entry-point:before {
+    border-left-color: #0e5d91; }
 
 #entry-point-box, #login-box {
   margin: 40px auto 0; }
