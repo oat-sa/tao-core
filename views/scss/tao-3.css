@@ -371,23 +371,29 @@ footer {
     font-family: Verdana, Geneva, sans-serif;
     font-style: normal; }
 
-#select-role-box {
-  width: 600px; }
+#entry-point-box {
+  width: 500px; }
+  #entry-point-box h1 {
+    margin-bottom: 7px;
+    color: #0e5d91;
+    text-shadow: 1px 1px 1px #fff; }
+  #entry-point-box .text-link {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    color: #3e7da7; }
+    #entry-point-box .text-link:hover {
+      color: #0e5d91; }
+  #entry-point-box a {
+    height: 150px; }
 
-.entry-page-unit {
-  border: 1px solid #dddddd;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  background: #f3f1ef;
-  margin-bottom: 20px;
-  padding: 20px; }
-
-.entry-pages-container {
+#entry-point-box, #login-box {
   margin: 40px auto 0; }
-  .entry-pages-container h1 {
-    font-size: 17px;
-    font-size: 1.7rem;
-    margin-bottom: 20px; }
+  #entry-point-box h1, #login-box h1 {
+    font-size: 20px;
+    font-size: 2rem;
+    font-family: Verdana, Geneva, sans-serif;
+    font-style: normal; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 .action-bar {
