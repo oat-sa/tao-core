@@ -1,5 +1,5 @@
 /**
- * UiBootstrap class enable you to run the navigation mode,
+ * UiBootstrap class enable you to run the naviguation mode,
  * bind the events on the main components and initialize handlers
  *
  *
@@ -10,7 +10,7 @@
  * @author Jehan Bihin (using class.js)
  */
 
-define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], function ($, __, context, helpers, feedback) {
+define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout/actions', 'layout/tree', 'jqueryui'], function ($, __, context, helpers, feedback, actions, treeFactory) {
 
     var UiBootstrap = {
         init: function (options) {
@@ -27,26 +27,29 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], func
 
             //create tabs
             this.tabs = $tabs.tabs({
-                load: function (e, ui) {
-                    var $section = $(ui.tab);
+                show: function (e, ui) {
+                    var $section = $(ui.panel);
 
-                    $sectionTrees.empty();
-                    $sectionTrees.hide();
-
-                    if ($section.data('trees')) {
-                        self.initTrees();
-                    }
+                    context.section = $section.attr('id');
+ 
+                    $('.taotree', $section).each(function(){
+                        var $treeElt = $(this);
+                        
+                        treeFactory($treeElt, $treeElt.data('url'), options);
+                    });
+                    actions.init();
+                    
                 },
                 select: function (event, ui) {
-                    $sectionTrees.empty();
-                    $sectionTrees.hide();
+                    //$sectionTrees.empty();
+                    //$sectionTrees.hide();
 
-                    //empty other tabs
-                    $tabs.children('ui-tabs-panel').each(function () {
-                        if ($(this).attr('id') !== ui.panel.id) {
-                            $(this).empty();
-                        }
-                    });
+                    ////empty other tabs
+                    //$tabs.children('ui-tabs-panel').each(function () {
+                        //if ($(this).attr('id') !== ui.panel.id) {
+                            //$(this).empty();
+                        //}
+                    //});
                 }
             });
 
@@ -63,6 +66,8 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], func
                 //Select another by default ?
                 self.tabs.tabs('select', 0);
             });
+                //Select another by default ?
+                //self.tabs.tabs('select', 0);
         },
 
         /**
@@ -153,36 +158,36 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'jqueryui'], func
 
 
             //left menu trees init by loading the tab content
-            if (this.tabs.length > 0) {
-                var $sectionTrees = $('.section-trees');
+            //if (this.tabs.length > 0) {
+                //var $sectionTrees = $('.section-trees');
 
-                //get the link text of the selected tab
-                var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
-                if (section !== undefined) {
-                    $.ajax({
-                        url: context.root_url + 'tao/Main/getSectionTrees',
-                        type: "GET",
-                        data: {
-                            section: section,
-                            structure: context.shownStructure,
-                            ext: context.shownExtension
-                        },
-                        dataType: 'html',
-                        success: function (response) {
-                            if (!response) {
-                                $sectionTrees.css({display: 'none'});
-                            }
-                            else if ($sectionTrees.css('display') === 'none') {
-                                $sectionTrees.css({display: 'block'});
-                            }
-                            $sectionTrees.html(response);
-                            if (callback !== undefined) {
-                                callback();
-                            }
-                        }
-                    });
-                }
-            }
+                ////get the link text of the selected tab
+                //var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
+                //if (section !== undefined) {
+                    //$.ajax({
+                        //url: context.root_url + 'tao/Main/getSectionTrees',
+                        //type: "GET",
+                        //data: {
+                            //section: section,
+                            //structure: context.shownStructure,
+                            //ext: context.shownExtension
+                        //},
+                        //dataType: 'html',
+                        //success: function (response) {
+                            //if (!response) {
+                                //$sectionTrees.css({display: 'none'});
+                            //}
+                            //else if ($sectionTrees.css('display') === 'none') {
+                                //$sectionTrees.css({display: 'block'});
+                            //}
+                            //$sectionTrees.html(response);
+                            //if (callback !== undefined) {
+                                //callback();
+                            //}
+                        //}
+                    //});
+                //}
+            //}
         },
 
         /**

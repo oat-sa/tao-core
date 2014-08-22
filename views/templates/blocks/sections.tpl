@@ -10,7 +10,7 @@ $sections = get_data('sections');
         <?php foreach ($sections as $section): ?>
 
             <li class="small">
-                <a href="#panel-<?= $section -> getId() ?>" title="<?= $section -> getName(); ?>" data-trees="<?= json_encode($section -> getTrees()) ?>" data-actions="<?= json_encode(count($section -> getActions())) ?>"><?= __($section -> getName()) ?></a>
+                <a href="#panel-<?= $section -> getId() ?>" data-url="<?=$section->getUrl()?>" title="<?= $section -> getName(); ?>"><?= __($section -> getName()) ?></a>
             </li>
 
         <?php endforeach ?>
@@ -20,8 +20,7 @@ $sections = get_data('sections');
 
         <section class="navi-container">
             <div class="section-trees">
-                <?php if (has_data('trees')): ?>
-                    <?php foreach (get_data('trees') as $i => $tree): ?>
+                    <?php foreach ($section->getTrees() as $i => $tree): ?>
                     <div class="tree-block">
                         <ul id="tree-actions-<?= $i ?>" class="plain search-action-bar action-bar horizontal-action-bar">
                             <li class="tree-filters">
@@ -33,21 +32,13 @@ $sections = get_data('sections');
                             <li class="tree-search btn-info small action">
                                 <a href=""><?=__('Search')?><span class="icon-find r"></span></a>
                             </li>
+                        </ul>
                     </div>
-                    <div id="tree-<?= $i ?>"></div>
-                    </ul>
+                    <div id="tree-<?= $i ?>" 
+                        class="taotree taotree-<?= is_null($tree->get('className')) ? 'default' : strtolower($tree->get('className')) ?>" 
+                        data-url="<?=$tree->get('dataUrl')?>"  >
+                    </div>
                 <?php endforeach; ?>
-
-                    <script>
-                        requirejs.config({
-                            config: {
-                                'tao/controller/main/trees': {
-                                    'sectionTreesData': <?=json_encode(get_data('trees'))?>
-                                }
-                            }
-                        });
-                    </script>
-                <?php endif ?>
             </div>
 
             <h3 class="block-title"><?=__('Actions')?></h3>

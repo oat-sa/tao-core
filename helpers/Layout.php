@@ -114,15 +114,18 @@ class Layout{
 
         $srcExt   = '';
         $isBase64 = false;
-        if($icon -> getSource()) {
-            $imgXts   = 'png|jpg|jpe|jpeg|gif';
-            $regExp   = sprintf('~((^data:image/(%s))|(\.(%s)$))~', $imgXts, $imgXts);
-            $srcExt   = preg_match($regExp, $icon -> getSource(), $matches) ? array_pop($matches) : array();
-            $isBase64 = 0 === strpos($icon -> getSource(), 'data:image');
+		$iconClass = $defaultIcon;
+		if(!is_null($icon)){
+
+            if($icon -> getSource()) {
+                $imgXts   = 'png|jpg|jpe|jpeg|gif';
+                $regExp   = sprintf('~((^data:image/(%s))|(\.(%s)$))~', $imgXts, $imgXts);
+                $srcExt   = preg_match($regExp, $icon -> getSource(), $matches) ? array_pop($matches) : array();
+                $isBase64 = 0 === strpos($icon -> getSource(), 'data:image');
+            }
+
+            $iconClass = $icon -> getId() ? $icon -> getId() : $defaultIcon;
         }
-
-        $iconClass = $icon -> getId() ? $icon -> getId() : $defaultIcon;
-
         // clarification icon vs. glyph: same thing but due to certain CSS rules a second class is required
 
         switch($srcExt) {
