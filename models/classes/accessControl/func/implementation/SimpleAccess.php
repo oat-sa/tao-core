@@ -103,7 +103,6 @@ class SimpleAccess
     }
     
     private function inWhiteList($controllerName, $action) {
-        \common_Logger::d($controllerName.' in '.implode(',', array_keys($this->controllers)));
         return isset($this->controllers[$controllerName])
             ? is_array($this->controllers[$controllerName])
                 ? isset($this->controllers[$controllerName][$action])

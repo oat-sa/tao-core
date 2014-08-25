@@ -96,7 +96,6 @@ class AclProxy implements AccessControl
         }
         if (!empty($required)) {
             $privileges = self::getImplementation()->getPrivileges($user, array_keys($required));
-            \common_Logger::i('Required');
         }
         
         foreach ($required as $id => $reqPriv) {
