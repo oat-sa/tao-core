@@ -27,6 +27,7 @@ use common_session_SessionManager;
 use oat\taoDevTools\actions\ControllerMap;
 use oat\controllerMap\ActionDescription;
 use oat\controllerMap\parser\Factory;
+use oat\tao\model\accessControl\func\FuncHelper;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access
@@ -79,13 +80,13 @@ class SimpleAccess
             if (isset($mask['ext']) && !isset($mask['mod'])) {
                 $this->whiteListExtension($mask['ext']);
             } elseif (isset($mask['ext']) && isset($mask['mod']) && !isset($mask['act'])) {
-                $this->whiteListController($mask['mod']);
+                $this->whiteListController(FuncHelper::getClassName($mask['ext'], $mask['mod']));
             } elseif (isset($mask['ext']) && isset($mask['mod']) && isset($mask['act'])) {
-                $this->whiteListAction($mask['mod'], $mask['act']);
+                $this->whiteListAction(FuncHelper::getClassName($mask['ext'], $mask['mod']), $mask['act']);
             } elseif (isset($mask['controller'])) {
-                $this->whiteListController($mask['mod']);
+                $this->whiteListController($mask['controller']);
             } else {
-                \common_Logger::w('Unregoginised maskkeys: '.implode(',', array_keys($mask)));
+                \common_Logger::w('Unregoginised mask keys: '.implode(',', array_keys($mask)));
             }
         }
     }

@@ -22,6 +22,7 @@ use oat\tao\model\accessControl\data\AclProxy as DataProxy;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\routing\Resolver;
+use oat\tao\model\accessControl\func\FuncHelper;
 
 /**
  * Proxy for the Acl Implementation
@@ -29,7 +30,6 @@ use oat\tao\model\routing\Resolver;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
 class tao_models_classes_accessControl_AclProxy
 {
@@ -44,16 +44,7 @@ class tao_models_classes_accessControl_AclProxy
      */
     public static function hasAccess($action, $controller, $extension, $parameters = array()) {
         $user = common_session_SessionManager::getSession()->getUserUri();
-        return AclProxy::hasAccess($user, self::findClassName($extension, $controller), $action, $parameters);
+        return AclProxy::hasAccess($user, FuncHelper::getClassName($extension, $controller), $action, $parameters);
     }
     
-    private static function findClassName($extension, $controller) {
-        $url = _url('index', $controller, $extension);
-        $route = new Resolver(new common_http_Request($url));
-        $class = $route->getControllerClass();
-        if (is_null($class)) {
-            throw new common_exception_Error('The pair '.$extension.'::'.$controller.' addressed by "'.$url.'" could not be mapped to a controller');
-        }
-        return $class;
-    }
 }
