@@ -98,7 +98,7 @@ class Resolver
                 return true;
             }
         }
-        return false;
+        throw new \ResolverException('Unable to resolve '.$this->request->getUrl());
     }
     
     private function getRoutes(\common_ext_Extension $extension) {
