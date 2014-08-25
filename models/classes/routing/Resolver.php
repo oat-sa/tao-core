@@ -20,7 +20,7 @@
  */
 namespace oat\tao\model\routing;
 
-use HttpRequest;
+use common_http_Request;
 use tao_helpers_Request;
 use common_ext_ExtensionsManager;
 
@@ -35,7 +35,7 @@ class Resolver
     /**
      * Request to be resolved
      * 
-     * @var HttpRequest
+     * @var common_http_Request
      */
     private $request;
     
@@ -51,7 +51,7 @@ class Resolver
      * @param HttpRequest $pRequest
      * @return string
      */
-    public function __construct(HttpRequest $request) {
+    public function __construct(common_http_Request $request) {
        $this->request = $request;
     }
     
@@ -82,7 +82,7 @@ class Resolver
      * and then falls back to the legacy controllers
      */
     protected function resolve() {
-        $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getPathUrl());
+        $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
         $extPrefix = substr($relativeUrl, 0, strpos($relativeUrl, '/'));
         
         $extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extPrefix);
@@ -107,7 +107,7 @@ class Resolver
             $class = is_array($routeData) && isset($routeData['class'])
                 ? $routeData['class']
                 : 'oat\tao\model\routing\NamespaceRoute';
-            $routes[] = new $class($extension, $routeId, $routeData);
+            $routes[] = new $class($extension, trim($routeId, '/'), $routeData);
         }
         if (empty($routes)) {
             $routes[] = new LegacyRoute($extension, $extension->getName(), array());

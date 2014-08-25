@@ -24,6 +24,7 @@ use HttpRequest;
 use Context;
 use InterruptedActionException;
 use common_ext_ExtensionsManager;
+use common_http_Request;
 
 /**
  * A simple controller to replace the ClearFw controller
@@ -33,8 +34,7 @@ use common_ext_ExtensionsManager;
 class TaoFrontController implements FrontController
 {
     /**
-     * 
-     * @var HttpRequest
+     * @var common_http_Request
      */
     private $httpRequest;
     
@@ -43,13 +43,14 @@ class TaoFrontController implements FrontController
      * @param HttpRequest $pRequest
      */
     public function __construct( HttpRequest $pRequest ) {
-        $this->httpRequest = $pRequest;
+        // ignore deprecated request class
+        $this->httpRequest = common_http_Request::currentRequest();
     }
     
     /**
      * Returns the request to be executed
      * 
-     * @return HttpRequest
+     * @return common_http_Request
      */
     protected function getRequest() {
         return $this->httpRequest;
@@ -68,7 +69,7 @@ class TaoFrontController implements FrontController
         
         try
         {
-            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $this->getRequest()->getArgs());
+            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $this->getRequest()->getParams());
             $enforcer->execute();
         }
         catch (InterruptedActionException $iE)

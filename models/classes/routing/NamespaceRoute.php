@@ -29,9 +29,9 @@ namespace oat\tao\model\routing;
 class NamespaceRoute extends Route
 {
     public function resolve($relativeUrl) {
-        if (substr($relativeUrl, 0, strlen($this->getId())) == $this->getId()) {
-	       $namespace = $this->getConfig();
-            $rest = trim(substr($relativeUrl, strlen($this->getId())), '/');
+        list ($first, $rest) = explode('/', $relativeUrl, 2);
+        if ($first == $this->getId()) {
+	        $namespace = $this->getConfig();
             if (!empty($rest)) {
                 $parts = explode('/', $rest, 3);
                 $controller = rtrim($namespace, '\\').'\\'.$parts[0];
