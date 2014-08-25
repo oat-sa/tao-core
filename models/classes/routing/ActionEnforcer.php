@@ -24,10 +24,10 @@ use IExecutable;
 use ActionEnforcingException;
 use ReflectionMethod;
 use common_Logger;
-use tao_models_classes_accessControl_AclProxy;
 
 use common_session_SessionManager;
 use tao_models_classes_AccessDeniedException;
+use oat\tao\model\accessControl\AclProxy;
 
 /**
  * ActionEnforcer class
@@ -80,6 +80,11 @@ class ActionEnforcer implements IExecutable
     }
     
     protected function verifyAuthorization() {
+        $userUri = common_session_SessionManager::getSession()->getUserUri();
+        if (!AclProxy::hasAccess($userUri, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
+	        throw new tao_models_classes_AccessDeniedException($userUri, $this->getAction(), $shortName, $this->getExtensionId());
+	    }
+        /*
         if (preg_match('/([a-zA-Z]*)$/', $this->getControllerClass(), $matches) != 1) {
             throw new \common_exception_Error('Could not find shortname for ').$this->getControllerClass();
         }
@@ -88,6 +93,7 @@ class ActionEnforcer implements IExecutable
 	        $userUri = common_session_SessionManager::getSession()->getUserUri();
 	        throw new tao_models_classes_AccessDeniedException($userUri, $this->getAction(), $shortName, $this->getExtensionId());
 	    }
+	    */
     }
     
 	public function execute()

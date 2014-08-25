@@ -21,6 +21,7 @@ namespace oat\tao\model\accessControl\data;
 
 use oat\tao\model\accessControl\AccessControl;
 use oat\tao\model\accessControl\DataAccessControl;
+use oat\controllerMap\parser\Factory;
 
 /**
  * Proxy for the Acl Implementation
@@ -30,7 +31,7 @@ use oat\tao\model\accessControl\DataAccessControl;
  * @package tao
  
  */
-class AclProxy implements AccessControl, DataAccessControl
+class AclProxy implements AccessControl
 {
     const CONFIG_KEY_IMPLEMENTATION = 'DataAccessControl';
     
@@ -75,9 +76,9 @@ class AclProxy implements AccessControl, DataAccessControl
      * @param array $parameters
      * @return boolean
      */
-    public function hasAccess($user, $action, $parameters) {
+    public function hasAccess($user, $controller, $action, $parameters) {
         $required = array();
-        foreach ($this->getRequiredPrivileges($action) as $paramName => $privileges) {
+        foreach (self::getRequiredPrivileges($controller, $action) as $paramName => $privileges) {
             if (isset($parameters[$paramName])) {
                 $required[$parameters[$paramName]] = $privileges;
             } else {
@@ -85,7 +86,7 @@ class AclProxy implements AccessControl, DataAccessControl
             }
         }
         if (!empty($required)) {
-            $privileges = $this->getPrivileges($user, array_keys($required));
+            $privileges = self::getImplementation()->getPrivileges($user, array_keys($required));
         }
         
         foreach ($required as $id => $reqPriv) {
@@ -98,11 +99,13 @@ class AclProxy implements AccessControl, DataAccessControl
         return true;
     }
     
-    public function getRequiredPrivileges($action) {
-        return self::getImplementation()->getRequiredPrivileges($action);
-    }    
+    public static function getRequiredPrivileges($controllerClassName, $actionName) {
+        $fac = new Factory();
+        $desc = $fac->getActionDescription($controllerClassName, $actionName);
+        return $desc->getRequiredPrivileges();
+    }
     
-    public function getPrivileges($user, $resourceId) {
-        return self::getImplementation()->getPrivileges($user, $resourceId);
+    public static function getExistingPrivileges() {
+        return array();
     }
 }

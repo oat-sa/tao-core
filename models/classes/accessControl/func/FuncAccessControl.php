@@ -29,10 +29,11 @@ interface FuncAccessControl
      * Returns whenever or not a user has access to a specified call
      *
      * @param User $user
+     * @param string $controller
      * @param string $action
      * @return boolean
      */
-    public function accessPossible($user, $action);
+    public function accessPossible($user, $controller, $action);
     
     public function applyRule(AccessRule $rule);
     

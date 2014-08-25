@@ -24,6 +24,9 @@ use oat\tao\model\accessControl\func\FuncAccessControl;
 use oat\tao\model\accessControl\func\AccessRule;
 use common_ext_ExtensionsManager;
 use common_session_SessionManager;
+use oat\taoDevTools\actions\ControllerMap;
+use oat\controllerMap\ActionDescription;
+use oat\controllerMap\parser\Factory;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access
@@ -44,16 +47,13 @@ class SimpleAccess
     
     private $controllers = array();
     
-    private $fuzzyMatches  = array();
-    
     /**
      * 
      */
     public function __construct() {
         $data = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::WHITELIST_KEY);
         if (is_array($data)) {
-            $this->controllers = $data['controllers'];
-            $this->controllers = $data['fuzzy'];
+            $this->controllers = $data;
         }
     }
 
@@ -61,7 +61,7 @@ class SimpleAccess
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\func\FuncAccessControl::accessPossible()
      */
-    public function accessPossible($user, $action) {
+    public function accessPossible($user, $controller, $action) {
         $isUser = false;
         foreach (common_session_SessionManager::getSession()->getUserRoles() as $role) {
             if ($role == INSTANCE_ROLE_BASEUSER) {
@@ -69,24 +69,24 @@ class SimpleAccess
                 break;
             }
         }
-        return $isUser || $this->inWhiteList($action);
+        return $isUser || $this->inWhiteList($controller, $action);
     }
     
     public function applyRule(AccessRule $rule) {
         if ($rule->getRole()->getUri() == INSTANCE_ROLE_ANONYMOUS) {
             $mask = $rule->getMask();
-            // if legacy
-            $controllerMask = $mask['ext'].'_actions_'.(isset($mask['mod']) ? $mask['mod'] : '*');
-            $action = isset($mask['act']) ? $mask['act'] : '*';
             
-            if (strpos($controllerMask, '*') !== false) {
-                // fuzzy match
-                
+            if (isset($mask['ext']) && !isset($mask['mod'])) {
+                $this->whiteListExtension($mask['ext']);
+            } elseif (isset($mask['ext']) && isset($mask['mod']) && !isset($mask['act'])) {
+                $this->whiteListController($mask['mod']);
+            } elseif (isset($mask['ext']) && isset($mask['mod']) && isset($mask['act'])) {
+                $this->whiteListAction($mask['mod'], $mask['act']);
+            } elseif (isset($mask['controller'])) {
+                $this->whiteListController($mask['mod']);
             } else {
-                // exact match
-                
+                \common_Logger::w('Unregoginised maskkeys: '.implode(',', array_keys($mask)));
             }
-            $this->whitelist($controllerMask, $action);
         }
     }
     
@@ -101,38 +101,41 @@ class SimpleAccess
         }
     }
     
-    private function inWhiteList($actionId) {
-        list($controller, $action) = explode('@', $actionId);
+    private function inWhiteList($controllerName, $action) {
+        \common_Logger::d($controllerName.' in '.implode(',', array_keys($this->controllers)));
+        return isset($this->controllers[$controllerName])
+            ? is_array($this->controllers[$controllerName])
+                ? isset($this->controllers[$controllerName][$action])
+                : true
+            : false;
         return false;
-        if (isset($this->whitelist[$controller])) {
-            return $this->whitelist[$controller] == '*' || in_array($action, $this->whitelist[$controller]);
-        }
-        if (false) {
-            $fuzz;
-        }
-        foreach ($this->whitelist as $key => $value) {
-            
-        }
-        return strpos($this->whitelist, $extension.'::'.$controller.'::'.$action) !== false
-            || strpos($this->whitelist, $extension.'::'.$controller.'::*') !== false
-            || strpos($this->whitelist, $extension.'::*::*') !== false;
     }
     
-    private function whiteListExact($controller, $action) {
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+    private function whiteListExtension($extensionId) {
+        $factory = new Factory();
+        foreach ($factory->getControllers($extensionId) as $controller) {
+            $this->whiteListController($controller->getClassName());
+        }
         
     }
     
-    private function whiteListFuzzy($controllerMask, $action) {
+    private function whiteListController($controller) {
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        // reread controllers to reduce collision risk
+        $this->controllers = $ext->hasConfig(self::WHITELIST_KEY) ? $ext->getConfig(self::WHITELIST_KEY) : array();
+        $this->controllers[$controller] = '*';
+        $ext->setConfig(self::WHITELIST_KEY, $this->controllers);
+    }
+    
+    private function whiteListAction($controller, $action) {
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        // reread controllers to reduce collision risk
+        $this->controllers = $ext->hasConfig(self::WHITELIST_KEY) ? $ext->getConfig(self::WHITELIST_KEY) : array();
+        if (!isset($this->controllers[$controller]) || is_array($this->controllers[$controller])) {
+            $this->controllers[$controller][$action] = '*';
+        }
+        $ext->setConfig(self::WHITELIST_KEY, $this->controllers);
         
     }
     
-    
-    private function whiteList($controllerMask, $action) {
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $entry = $extension.'::'.(is_null($controller) ? '*' : $controller).'::'.(is_null($action) ? '*' : $action);
-        $this->whitelist = $ext->hasConfig(self::WHITELIST_KEY) ? $ext->getConfig(self::WHITELIST_KEY) : array();
-        $this->whitelist .= (empty($this->whitelist) ? '' : ',').$entry;
-        common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig(self::WHITELIST_KEY, $this->whitelist);
-    }
 }

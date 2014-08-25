@@ -31,9 +31,10 @@ interface AccessControl
      * whith the given parameters
      * 
      * @param string $userId
-     * @param string $actionId
+     * @param string $controllerName
+     * @param string $actionName
      * @param array $parameters
      * @return boolean
      */
-    public function hasAccess($user, $actionId, $parameters);
+    public function hasAccess($user, $controllerName, $actionName, $parameters);
 }

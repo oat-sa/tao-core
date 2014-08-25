@@ -24,7 +24,5 @@ namespace oat\tao\model\accessControl;
  */
 interface DataAccessControl
 {
-    public function getRequiredPrivileges($action);
-    
-    public function getPrivileges($user, $resourceId);
+    public function getPrivileges($user, $resourceIds);
 }

@@ -45,7 +45,7 @@ class AclProxy
         if (is_null(self::$implementations)) {
             self::$implementations = array(
             	new FuncProxy()
-                //,new DataProxy()
+                ,new DataProxy()
             );
         }
         return self::$implementations;
@@ -60,10 +60,10 @@ class AclProxy
      * @param array $parameters
      * @return boolean
      */
-    public static function hasAccess($user, $action, $parameters) {
+    public static function hasAccess($user, $controller, $action, $parameters) {
         $access = true;
         foreach (self::getImplementations() as $impl) {
-            $access = $access && $impl->hasAccess($user, $action, $parameters);
+            $access = $access && $impl->hasAccess($user, $controller, $action, $parameters);
         }
         return $access;
     }

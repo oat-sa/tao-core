@@ -21,6 +21,7 @@
 namespace oat\tao\model\accessControl\data\implementation;
 
 use oat\tao\model\accessControl\DataAccessControl;
+use oat\tao\model\accessControl\data\AclProxy;
 
 /**
  * Sample data access control implementation giving free
@@ -41,11 +42,11 @@ class FreeAccess
     public function __construct() {
     }
     
-    public function getRequiredPrivileges($action) {
-        return action();
-    }
-    
-    public function getPrivileges($user, $resourceId) {
-        return action();
+    public function getPrivileges($user, $resourceIds) {
+        $privileges = array();
+        foreach ($resourceIds as $id) {
+            $privileges[$id] = AclProxy::getExistingPrivileges();
+        }
+        return $privileges;
     }
 }
