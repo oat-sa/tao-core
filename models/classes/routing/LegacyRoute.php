@@ -26,23 +26,18 @@ namespace oat\tao\model\routing;
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
-class NamespaceRoute extends Route
+class LegacyRoute extends Route
 {
     public function resolve($relativeUrl) {
-        if (substr($relativeUrl, 0, strlen($this->getId())) == $this->getId()) {
-	       $namespace = $this->getConfig();
-            $rest = trim(substr($relativeUrl, strlen($this->getId())), '/');
-            if (!empty($rest)) {
-                $parts = explode('/', $rest, 3);
-                $controller = rtrim($namespace, '\\').'\\'.$parts[0];
-                $method = $parts[1];
-                return $controller.'@'.$method;
-            } elseif (defined('DEFAULT_MODULE_NAME') && defined('DEFAULT_ACTION_NAME')) {
-                $controller = rtrim($namespace, '\\').'\\'.DEFAULT_MODULE_NAME;
-                $method = DEFAULT_ACTION_NAME;
-                return $controller.'@'.$method;
-            }
+        $parts = explode('/', $relativeUrl);
+        if ($parts[0] == $this->getId()) {
+            
+            $controllerShortName = isset($parts[1]) && !empty($parts[1]) ? $parts[1] : DEFAULT_MODULE_NAME;
+            $controller          = '\\'.$this->getExtension()->getId().'_actions_'.$controllerShortName;
+            $action              = isset($parts[2]) && !empty($parts[2]) ? $parts[2] : DEFAULT_ACTION_NAME;
+            return $controller.'@'.$action;
         }
         return null;
     }
+
 }

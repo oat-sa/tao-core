@@ -19,6 +19,8 @@
  */
 namespace oat\tao\model\routing;
 
+use common_ext_Extension;
+
 /**
  * Interface of a router, that based on a relative Url
  * and its configuration provided as $routeData
@@ -26,25 +28,72 @@ namespace oat\tao\model\routing;
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
-interface Route
+abstract class Route
 {
     /**
+     * Owner of the route
      * 
-     * @param string $routePath
-     * @param mixed $routeData
-     * @param string $realtiveUrl
+     * @var common_ext_Extension
      */
-    public function __construct($routePath, $routeData, $realtiveUrl);
+    private $extension;
     
     /**
-     * Returns the name of the controller class
+     * Id of the route
+     *
+     * @var string
+     */
+    private $id;
+    
+    /**
+     * Data the route requires to resolve
+     *
+     * @var mixed
+     */
+    private $config;
+    
+    /**
+     * 
+     * @param common_ext_Extension $extension
+     * @param string $routeId
+     * @param mixed $routeConfig
+     */
+    public function __construct(common_ext_Extension $extension, $routeId, $routeConfig) {
+        $this->extension = $extension;
+        $this->id = $routeId;
+        $this->config = $routeConfig;
+    }
+    
+    /**
+     * 
+     * @return common_ext_Extension
+     */
+    protected function getExtension() {
+        return $this->extension;
+    }
+    
+    /**
+     * 
+     * @return mixed
+     */
+    protected function getConfig() {
+        return $this->config;
+    }
+    
+    /**
      * 
      * @return string
      */
-    public function getControllerName();
+    protected function getId() {
+        return $this->id;
+    }
+    
     
     /**
-     * Returns the name of the method to be called
+     * Returns the name of the controller and action to call
+     * or null if it doesn't apply
+     * 
+     * @return string
      */
-    public function getMethodName();
+    public abstract function resolve($relativeUrl);
+    
 }

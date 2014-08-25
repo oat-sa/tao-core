@@ -83,52 +83,35 @@ class Resolver
      */
     protected function resolve() {
         $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getPathUrl());
+        $extPrefix = substr($relativeUrl, 0, strpos($relativeUrl, '/'));
         
-        $success = $this->resolveRoute($relativeUrl);
-        if (!$success) {
-            $success = $this->resolveLegacyClass($relativeUrl);
-        }
-    }
-    
-    /**
-     * Resolves the url using the routes defined in the manifests of
-     * the installed extensions
-     * 
-     * @param string $relativeUrl
-     * @return boolean
-     */
-    protected function resolveRoute($relativeUrl) {
-        $routes = array();
-        foreach (common_ext_ExtensionsManager::singleton()->getEnabledExtensions() as $ext) {
-            foreach ($ext->getManifest()->getRoutes() as $path => $routeData) {
-                $path = trim($path, '/');
-                if (substr($relativeUrl, 0, strlen($path)) == $path) {
-                    $class = is_array($routeData) && isset($routeData['class'])
-                        ? $routeData['class']
-                        : 'oat\tao\model\routing\NamespaceRoute';
-                    $route = new $class($path, $routeData, $relativeUrl);
-                    $this->controller = $route->getControllerName();
-                    $this->action = $route->getMethodName();
-                    $this->extensionId = $ext->getId();
-                    return true;
-                }
+        $extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extPrefix);
+        $routes = $this->getRoutes($extension);
+        
+        foreach ($this->getRoutes($extension) as $route) {
+            $called = $route->resolve($relativeUrl);
+            if (!is_null($called)) {
+                list($controller, $action) = explode('@', $called);
+                $this->controller = $controller;
+                $this->action = $action;
+                $this->extensionId = $extension->getId();
+                return true;
             }
         }
         return false;
     }
     
-    /**
-     * Fallback in case no route was found
-     * 
-     * @param string$relativeUrl
-     */
-    protected function resolveLegacyClass($relativeUrl)
-    {
-        $parts = explode('/', $relativeUrl);
-        $controllerShortName = isset($parts[1]) && !empty($parts[1]) ? $parts[1] : DEFAULT_MODULE_NAME;
-        
-        $this->extensionId	= !empty($parts[0]) ? $parts[0] : 'tao';
-        $this->controller   = '\\'.$this->extensionId.'_actions_'.$controllerShortName;
-        $this->action		= isset($parts[2]) && !empty($parts[2]) ? $parts[2] : DEFAULT_ACTION_NAME;
+    private function getRoutes(\common_ext_Extension $extension) {
+        $routes = array();
+        foreach ($extension->getManifest()->getRoutes() as $routeId => $routeData) {
+            $class = is_array($routeData) && isset($routeData['class'])
+                ? $routeData['class']
+                : 'oat\tao\model\routing\NamespaceRoute';
+            $routes[] = new $class($extension, $routeId, $routeData);
+        }
+        if (empty($routes)) {
+            $routes[] = new LegacyRoute($extension, $extension->getName(), array());
+        }
+        return $routes;
     }
 }
