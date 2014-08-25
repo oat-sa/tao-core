@@ -9,14 +9,27 @@ define(['jquery', 'lodash', 'layout/actions/binder', 'helpers'], function($, _, 
      */
 
     /**
-     * Load Action 
+     * Register the load action: load the url and into the content container
+     *
+     * @this the action (once register it is bound to an action object)
+     *
+     * @param {Object} context - the current context
+     * @param {String} [context.uri]
+     * @param {String} [context.classUri]
      */
     binder.register('load', function load(context){
         helpers._load(helpers.getMainContainerSelector(), this.url, _.pick(context, ['uri', 'classUri']));
     });
     
     /**
-     * Add Class 
+     * Register the subClass action: creates a sub class
+     *
+     * @this the action (once register it is bound to an action object)
+     *
+     * @param {Object} context - the current context
+     * @param {String} context.classUri - the URI of the parent class
+     * 
+     * @fires layout/tree#addnode.taotree
      */
     binder.register('subClass', function subClass(context){
         $.ajax({
@@ -38,7 +51,14 @@ define(['jquery', 'lodash', 'layout/actions/binder', 'helpers'], function($, _, 
     });
 
     /**
-     * Instantiate
+     * Register the instanciate action: creates a new instance from a class
+     *
+     * @this the action (once register it is bound to an action object)
+     *
+     * @param {Object} context - the current context
+     * @param {String} context.classUri - the URI of the class' instance
+     * 
+     * @fires layout/tree#addnode.taotree
      */
     binder.register('instanciate', function instanciate(context){
         $.ajax({
@@ -60,7 +80,15 @@ define(['jquery', 'lodash', 'layout/actions/binder', 'helpers'], function($, _, 
     });
 
     /**
-     * Instantiate
+     * Register the duplicateNode action: creates a clone of a node.
+     *
+     * @this the action (once register it is bound to an action object)
+     *
+     * @param {Object} context - the current context
+     * @param {String} context.uri - the URI of the base instance
+     * @param {String} context.classUri - the URI of the class' instance
+     * 
+     * @fires layout/tree#addnode.taotree
      */
     binder.register('duplicateNode', function duplicateNode(context){
         $.ajax({
@@ -82,7 +110,15 @@ define(['jquery', 'lodash', 'layout/actions/binder', 'helpers'], function($, _, 
     });
 
     /**
-     * Remove
+     * Register the removeNode action: removes a resource.
+     *
+     * @this the action (once register it is bound to an action object)
+     *
+     * @param {Object} context - the current context 
+     * @param {String} [context.uri]
+     * @param {String} [context.classUri]
+     * 
+     * @fires layout/tree#removenode.taotree
      */
     binder.register('removeNode', function remove(context){
         var data = _.pick(context, ['uri', 'classUri']);
