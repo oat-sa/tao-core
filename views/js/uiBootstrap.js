@@ -13,15 +13,16 @@
 define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout/actions', 'layout/tree', 'jqueryui'], function ($, __, context, helpers, feedback, actions, treeFactory) {
 
     var UiBootstrap = {
+
         init: function (options) {
+
+            //TODO move tabs to layout/section or layout/tabs
+
             var self = this;
-            var $sectionTrees = $('.section-trees');
-
-            var $panel = $('.content-panel');
-                $panel.prop('require-refresh', !!$panel.data('refresh'))
-
             var $tabs = $('.section-container');
-
+            var $panel = $('.content-panel');
+                $panel.prop('require-refresh', !!$panel.data('refresh'));
+            
             this.initAjax();
             this.initNav();
 
@@ -35,21 +36,16 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout/actions',
                     $('.taotree', $section).each(function(){
                         var $treeElt = $(this);
                         
-                        treeFactory($treeElt, $treeElt.data('url'), options);
+                        treeFactory($treeElt, $treeElt.data('url'), {
+                            actions : {
+                                'selectClass'    : $treeElt.data('action-selectclass'),
+                                'selectInstance' : $treeElt.data('action-selectinstance'),
+                                'moveInstance'   : $treeElt.data('action-moveinstance'),
+                                'delete'         : $treeElt.data('action-delete')
+                            }
+                        });
                     });
                     actions.init();
-                    
-                },
-                select: function (event, ui) {
-                    //$sectionTrees.empty();
-                    //$sectionTrees.hide();
-
-                    ////empty other tabs
-                    //$tabs.children('ui-tabs-panel').each(function () {
-                        //if ($(this).attr('id') !== ui.panel.id) {
-                            //$(this).empty();
-                        //}
-                    //});
                 }
             });
 
@@ -66,14 +62,15 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout/actions',
                 //Select another by default ?
                 self.tabs.tabs('select', 0);
             });
-                //Select another by default ?
-                //self.tabs.tabs('select', 0);
         },
 
         /**
          * initialize common ajavx behavior
          */
         initAjax: function () {
+
+            //TODO move this somewhere else (main controller?)
+
             var self = this;
 
             //just before an ajax request
@@ -139,6 +136,10 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout/actions',
          * initialize common navigation
          */
         initNav: function () {
+
+
+            //TODO move this somewhere else (layout/nav)
+
             //load the links target into the main container instead of loading a new page
             $(document).off('click', 'a.nav').on('click', 'a.nav', function () {
                 try {
@@ -149,124 +150,7 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout/actions',
                 }
                 return false;
             });
-        },
-
-        /**
-         * initialize the tree component
-         */
-        initTrees: function (callback) {
-
-
-            //left menu trees init by loading the tab content
-            //if (this.tabs.length > 0) {
-                //var $sectionTrees = $('.section-trees');
-
-                ////get the link text of the selected tab
-                //var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
-                //if (section !== undefined) {
-                    //$.ajax({
-                        //url: context.root_url + 'tao/Main/getSectionTrees',
-                        //type: "GET",
-                        //data: {
-                            //section: section,
-                            //structure: context.shownStructure,
-                            //ext: context.shownExtension
-                        //},
-                        //dataType: 'html',
-                        //success: function (response) {
-                            //if (!response) {
-                                //$sectionTrees.css({display: 'none'});
-                            //}
-                            //else if ($sectionTrees.css('display') === 'none') {
-                                //$sectionTrees.css({display: 'block'});
-                            //}
-                            //$sectionTrees.html(response);
-                            //if (callback !== undefined) {
-                                //callback();
-                            //}
-                        //}
-                    //});
-                //}
-            //}
-        },
-
-        /**
-         * initialize the actions component
-         */
-        initActions: function (uri, classUri) {
-            //left menu actions init by loading the tab content
-//            if (this.tabs && this.tabs.length > 0) {
-//                var $sectionActions = $('#section-actions');
-//
-//                //get the link text of the selected tab
-//                var section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
-//                $.ajax({
-//                    url: context.root_url + 'tao/Main/getSectionActions',
-//                    type: "GET",
-//                    data: {
-//                        section: section,
-//                        structure: context.shownStructure,
-//                        ext: context.shownExtension,
-//                        uri: uri,
-//                        classUri: classUri
-//                    },
-//                    dataType: 'html',
-//                    success: function (response) {
-//                        if (!response) {
-//                            $sectionActions.css({display: 'none'});
-//                        }
-//                        else if ($sectionActions.css('display') === 'none') {
-//                            $sectionActions.css({display: 'block'});
-//                        }
-//                        $sectionActions.html(response);
-//                        $(document).trigger('actionInitiated', [response]);
-//                    }
-//                });
-//            }
-        },
-
-        /**
-         * re-calculate the container size regarding the components content
-         */
-        initSize: function () {
-//            //set up the container size
-//            var $myPanel = $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')];
-//            if ($myPanel) {
-//                var uiTab = $myPanel.id;
-//                var $tabContainer = $("div#" + uiTab);
-//                var $sectionActions = $('#section-actions');
-//                var $sectionTrees = $('#section-trees');
-//                if ($sectionActions.html() == '' && $sectionTrees.html() == '' && $tabContainer.css('width') === '79.5%') {
-//                    $tabContainer.css({'width': '100%', 'left': 0});
-//                }
-//                if ($sectionActions.html() != '' || $sectionTrees.html() != '') {
-//                    $tabContainer.css({'width': '79.5%', 'float': 'right'});
-//                }
-//            }
-        },
-
-        initMenuBar: function () {
-            /*   var self = this;
-             //add a focus selector
-             var lastFocussed = null;
-             $(':text').live('focus',function(){
-             lastFocussed = this;
-             });
-
-             //initialize the media manager menu
-             $("#main-menu .file-manager").fmload({type: 'file', showselect: false}, lastFocussed, function(element, url){
-             if(lastFocussed != null){
-             $(lastFocussed).val($(lastFocussed).val() + url);
-             }
-             });
-
-             //initialize the settings menu
-             $("#main-menu .settings-loader").click(function(){
-             this._load(helpers.getMainContainerSelector(self.tabs), this.href);
-             return false;
-             });*/
         }
-
     };
 
     return UiBootstrap;
