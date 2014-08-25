@@ -100,8 +100,6 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
                 //Select another by default ?
                 self.tabs.tabs('select', 0);
             });
-                //Select another by default ?
-                //self.tabs.tabs('select', 0);
         },
 
         /**
