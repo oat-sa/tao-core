@@ -1,4 +1,67 @@
 @import "inc/bootstrap";
+
+$entryArrowWidth: 40;
+$entryArrowHeight: 150;
+
+// try to use these color once only
+$entry-point-01: #C3BA13;
+$entry-point-02: #84A610;
+$entry-point-03: #2B8E0E;
+$entry-point-04: #0F9787;
+$entry-point-05: #0E5D91;
+$entry-point-06: #0D2689;
+$entry-point-07: #400D83;
+$entry-point-08: #960E7D;
+$entry-point-09: #BA122B;
+$entry-point-10: #C34713;
+$entry-point-11: #C36F13;
+$entry-point-12: #C39413;
+
+
+
+.entry-point {
+
+    @include simple-border();
+    background: $uiClickableDefaultBg;
+    margin-bottom: 20px;
+    padding:20px 20px 20px (($entryArrowWidth / 2) + 20) * 1px;
+    position: relative;
+
+    &:before {
+        content: '';
+        width: $entryArrowWidth * 1px;
+        height: $entryArrowHeight * 1px;
+        border: solid transparent;
+        border-top-width: ($entryArrowHeight / 2) * 1px;
+        border-right-width: ($entryArrowWidth / 2) * 1px;
+        border-bottom-width: ($entryArrowHeight / 2) * 1px;
+        border-left-width: ($entryArrowWidth / 2) * 1px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+    }
+
+    &.entry-point-backoffice {
+        .text-link {
+            border-bottom-color: $entry-point-03 !important;
+        }
+    }
+
+    &.entry-point-deliveryServer {
+        .text-link {
+            border-bottom-color: $entry-point-04 !important;
+        }
+    }
+
+    &.entry-point-backofficeCe {
+        .text-link {
+            border-bottom-color: $entry-point-10 !important;
+        }
+    }
+}
+
+
 // login screen
 
 #login-box {
@@ -13,23 +76,47 @@
         background-color: whiten($info, .1);
         text-shadow: 1px 1px 0 blacken($info, .2);
     }
+    h1 {
+        margin-bottom: 20px;
+    }
 }
 
-#select-role-box {
-    width: 600px;
+#entry-point-box {
+    width: 500px;
+    h1 {
+        margin-bottom: 7px;
+        color:  $info;
+        text-shadow: 1px 1px 1px #fff;
+    }
+    .text-link {
+        position: absolute;
+        right: -1px;
+        bottom: -1px;
+        padding: 20px;
+        text-align: right;
+        min-width: 200px;
+        border-bottom: 3px solid;
+        color: $uiClickableHoverBg;
+        outline:0;
+        &:hover {
+            color: $info;
+        }
+    }
+    a {
+        height: $entryArrowHeight * 1px;
+    }
+    .entry-point {
+        &:before {
+            border-left-color:$info;
+        }
+    }
 }
 
-.entry-page-unit {
-    @include simple-border();
-    background: $uiClickableDefaultBg;
-    margin-bottom: 20px;
-    padding:20px;
-}
-
-.entry-pages-container {
+#entry-point-box, #login-box {
     margin: 40px auto 0;
     h1 {
-        @include font-size(17);
-        margin-bottom: 20px;
+        @include font-size(20);
+        font-family: Verdana, Geneva, sans-serif;
+        font-style: normal;
     }
 }
