@@ -56,29 +56,31 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
     
                 var $this = $(this);
                 var id;
+                if($this.attr('title')){
                 
-                //use the element id
-                if($this.attr('id')){
-                    id = $this.attr('id');
-                } else {
-                    //or generate one
-                    do {
-                        id = 'action-' + uuid(8, 16);
-                    } while (self._actions[id]);
+                    //use the element id
+                    if($this.attr('id')){
+                        id = $this.attr('id');
+                    } else {
+                        //or generate one
+                        do {
+                            id = 'action-' + uuid(8, 16);
+                        } while (self._actions[id]);
 
-                    $this.attr('id', id);
-                }
-
-                self._actions[id] = {
-                    name    : $this.attr('title'),
-                    binding : $this.data('action'),
-                    url     : $('a', $this).attr('href'),
-                    context : $this.data('context'),
-                    state : {
-                        disabled    : $this.hasClass('disabled'),
-                        hidden      : $this.hasClass('hidden')
+                        $this.attr('id', id);
                     }
-                };
+
+                    self._actions[id] = {
+                        name    : $this.attr('title'),
+                        binding : $this.data('action'),
+                        url     : $('a', $this).attr('href'),
+                        context : $this.data('context'),
+                        state : {
+                            disabled    : $this.hasClass('disabled'),
+                            hidden      : $this.hasClass('hidden')
+                        }
+                    };
+                }
             });
         },
 
@@ -96,10 +98,9 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
               .on('click', actionSelector, function(e){
                 e.preventDefault();
                 var $this = $(this);
-                var action = self._actions[$this.attr('id')];
 
                 if(!$this.hasClass('disabled') && !$this.hasClass('hidden')){
-                    binder.exec(action, self._resourceContext);
+                    self.exec($this.attr('id'));
                 }
             });
         }, 
@@ -147,6 +148,27 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
                     $elt.removeClass('hidden');
                 }
             });
+        },
+
+        /**
+         * Execute the operation bound to an action (via {@link layout/actions/binder#register}); 
+         * @param {String|Object} action - can be either the id, the name or the action directly
+         * @param {ActionContext} [context] - an action conext, use the current otherwise
+         */
+        exec : function(action, context){
+            if(_.isString(action)){
+                if(_.isPlainObject(this._actions[action])){
+                    //try to find by id
+                    action = this._actions[action];
+                } else {
+                    //or by by name
+                    action = _.find(this._actions, {name : action});
+                }
+            }
+            if(_.isPlainObject(action)){
+                
+                binder.exec(action, context || this._resourceContext);
+            }
         }
     };
     
