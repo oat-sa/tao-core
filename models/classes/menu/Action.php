@@ -131,10 +131,13 @@ class Action implements PhpSerializable
    
     /**
      *  Check whether the current is allowed to see this action (against ACL).
-     *
+     *  @deprecated Wrong layer. Should be called at the level of the controller
      *  @return bool true if access is granted
      */ 
     public function hasAccess() {
+    
+        \common_Logger::w('Call to deprecated method ' . __METHOD__ . ' in ' . __CLASS__);
+    
         $access = true;
         if (!empty($this->data['url'])) {
             $url = explode('/', trim($this->data['url'], '/'));
