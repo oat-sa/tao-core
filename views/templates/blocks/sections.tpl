@@ -36,7 +36,11 @@ $sections = get_data('sections');
                     </div>
                     <div id="tree-<?= $i ?>" 
                         class="taotree taotree-<?= is_null($tree->get('className')) ? 'default' : strtolower($tree->get('className')) ?>" 
-                        data-url="<?=$tree->get('dataUrl')?>"  >
+                        data-url="<?=$tree->get('dataUrl')?>"
+                        data-action-selectclass="<?=$tree->get('selectClass')?>"
+                        data-action-selectinstance="<?=$tree->get('selectInstance')?>"
+                        data-action-delete="<?=$tree->get('deletel')?>"
+                        data-action-moveinstance="<?=$tree->get('moveInstance')?>">
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -44,9 +48,19 @@ $sections = get_data('sections');
             <h3 class="block-title"><?=__('Actions')?></h3>
             <ul class="action-bar plain tree-action-bar vertical-action-bar">
                 <?php foreach ($section -> getActionsByGroup('tree') as $action): ?>
-                    <li class="action" data-context="<?= $action -> getContext() ?>" title="<?= $action -> getName() ?>" data-action="<?= $action -> getBinding() ?>" url="">
+                    <li class="action" data-context="<?= $action -> getContext() ?>" title="<?= $action -> getName() ?>" data-action="<?= $action -> getBinding() ?>">
                         <a href="<?= $action -> getUrl(); ?>">
                             <?= Layout::renderMenuIcon($action -> getIcon(), ' icon-magicwand'); ?> <?= $action -> getName(); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            
+            <ul class="action-bar hidden">
+                <?php foreach ($section -> getActionsByGroup('none') as $action): ?>
+                    <li class="action" data-context="<?= $action -> getContext() ?>" title="<?= $action -> getName() ?>" data-action="<?= $action -> getBinding() ?>">
+                        <a href="<?= $action -> getUrl(); ?>">
+                            <?= $action -> getName(); ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
