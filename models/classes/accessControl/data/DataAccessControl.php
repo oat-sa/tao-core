@@ -17,7 +17,7 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
-namespace oat\tao\model\accessControl;
+namespace oat\tao\model\accessControl\data;
 
 /**
  * Interface for data based access control

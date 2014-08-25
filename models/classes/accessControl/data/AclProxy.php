@@ -20,8 +20,10 @@
 namespace oat\tao\model\accessControl\data;
 
 use oat\tao\model\accessControl\AccessControl;
-use oat\tao\model\accessControl\DataAccessControl;
+use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\controllerMap\parser\Factory;
+use common_ext_ExtensionsManager;
+use common_Logger;
 
 /**
  * Proxy for the Acl Implementation
@@ -80,18 +82,25 @@ class AclProxy implements AccessControl
         $required = array();
         foreach (self::getRequiredPrivileges($controller, $action) as $paramName => $privileges) {
             if (isset($parameters[$paramName])) {
-                $required[$parameters[$paramName]] = $privileges;
+                if (substr($parameters[$paramName], 0, 7) == 'http_2_') {
+                    \common_Logger::w('url encoded parameter detected for '.$paramName);
+                    $cleanName = \tao_helpers_Uri::decode($parameters[$paramName]);
+                } else {
+                    $cleanName = $parameters[$paramName];
+                }
+                
+                $required[$cleanName] = $privileges;
             } else {
                 throw new \Exception('Missing parameter');
             }
         }
         if (!empty($required)) {
             $privileges = self::getImplementation()->getPrivileges($user, array_keys($required));
+            \common_Logger::i('Required');
         }
         
         foreach ($required as $id => $reqPriv) {
-            $missing = array_diff($privileges[$id], $reqPriv);
-            if (!empty($missing)) {
+            if (!in_array($reqPriv, $privileges[$id])) {
                 common_Logger::d('Missing '.implode(',', $missing).' for resource '.$id);
                 return false;
             }
@@ -106,6 +115,6 @@ class AclProxy implements AccessControl
     }
     
     public static function getExistingPrivileges() {
-        return array();
+        return array('WRITE', 'GRANT');
     }
 }

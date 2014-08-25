@@ -33,7 +33,7 @@ use oat\tao\model\accessControl\data\AclProxy;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  */
-class FreeAccess
+class ConsonantAccess
     implements DataAccessControl
 {
     /**
@@ -45,7 +45,12 @@ class FreeAccess
     public function getPrivileges($user, $resourceIds) {
         $privileges = array();
         foreach ($resourceIds as $id) {
-            $privileges[$id] = AclProxy::getExistingPrivileges();
+            $resource = new \core_kernel_classes_Resource($id);
+            \common_Logger::i('Required: '.$resource);
+            $first = substr($resource->getLabel(), 0, 1);
+            $privileges[$id] = strpos('bcdfghjklmnpqrstvwxyz', strtolower($first)) !== false
+                ? AclProxy::getExistingPrivileges()
+                : array();
         }
         return $privileges;
     }
