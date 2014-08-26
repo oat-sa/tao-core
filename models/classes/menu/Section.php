@@ -51,6 +51,9 @@ class Section extends MenuElement implements PhpSerializable
         foreach ($node->xpath("actions/action") as $actionNode) {
             $actions[] = Action::fromSimpleXMLElement($actionNode);
         }
+
+
+
         return new static($data, $trees, $actions);
     }
 
@@ -60,6 +63,8 @@ class Section extends MenuElement implements PhpSerializable
         $this->data    = $data;
         $this->trees   = $trees;
         $this->actions = $actions;
+
+        $this->migrateDataFromLegacyFormat();
     }
 
     public function getUrl()
@@ -96,6 +101,125 @@ class Section extends MenuElement implements PhpSerializable
         };
         return $actions;
     }
+
+    /**
+     * Enables sections to be backward compatible with the structure format 
+     * (before some actions were missing as they were defined in the tree part).
+     * legacy format : tao <= 2.6.x
+     * this method should be deprecated from 2.8.0 / 3.0.0
+     */
+    private function migrateDataFromLegacyFormat(){
+
+        if(count($this->trees) > 0){
+
+            //tree attributes to be migrated.
+           $mapping = array(
+              'editClassUrl' => array(
+                'attr'   => 'selectClass',
+                'action' => array(
+                    'name'    => 'edit class',
+                    'group'   => 'none',
+                    'context' => 'class',
+                    'binding' => 'load'
+                ) 
+              ),
+              'editInstanceUrl' => array(
+                'attr'   => 'selectInstance',
+                'action' => array(
+                    'name'    => 'edit instance',
+                    'group'   => 'none',
+                    'context' => 'instance',
+                    'binding' => 'load'
+                ) 
+              ),
+              'addInstanceUrl'  => array(
+                'attr'   => 'addInstance',
+                'action' => array(
+                    'name'    => 'add instance',
+                    'group'   => 'none',
+                    'context' => 'instance',
+                    'binding' => 'instantiate'
+                ) 
+              ),
+              'addSubClassUrl'  => array(
+                'attr'   => 'addClass',
+                'action' => array(
+                    'name'    => 'add class',
+                    'group'   => 'none',
+                    'context' => 'class',
+                    'binding' => 'subClass'
+                ) 
+              ),
+              'deleteUrl' => array(
+                'attr'   => 'addClass',
+                'action' => array(
+                    'name'    => 'add class',
+                    'group'   => 'none',
+                    'context' => 'class',
+                    'binding' => 'subClass'
+                ) 
+              ),
+              'moveInstanceUrl' => array(
+                'attr'   => 'moveInstance',
+                'action' => array(
+                    'name'    => 'move',
+                    'group'   => 'none',
+                    'context' => 'instance',
+                    'binding' => 'moveNode'
+                ) 
+              )
+           );
+
+           foreach($this->trees as $index => $tree){
+               $needMigration = false;
+               $treeAttributes = $tree->getAttributes();
+            
+               //check if this attribute needs a migration
+               foreach($treeAttributes as $attr){
+                    if(array_key_exists($attr, $mapping)){
+                        $needMigration = true;
+                        break;
+                    } 
+               }
+               if($needMigration){
+                    $newData = array();
+
+                    //migrate the tree
+                    foreach($treeAttributes as $attr){
+                        //if the attribute belongs to the mapping
+                        if(array_key_exists($attr, $mapping)){
+                            $url = $tree->get($attr);
+                            $actionName = false;
+    
+                            //try to find an action with the same url
+                            foreach($this->actions as $action){
+                                if($action->getUrl() == $url){
+                                    $actionName = $action->getName();
+                                    break;
+                                }
+                            }
+                            if($actionName){
+                                $newData[$mapping[$attr]['attr']] = $actionName;
+                            } else {
+    
+                                //otherwise create a new action from the mapping
+                                $newData[$mapping[$attr]['attr']] = $mapping[$attr]['action']['name'];
+                                $actionData = $mapping[$attr]['action'];
+                                $actionData['url'] = $url;
+                                $this->actions[] = new Action($actionData); 
+                            }
+                        } else {
+                            $newData[$attr] = $tree->get($attr);
+                        }
+                    }
+    
+                    //the tree is replaced
+                    $this->trees[$index] = new Tree($newData);
+               }
+           }
+        }
+    }
+
 
     public function __toPhpCode()
     {
