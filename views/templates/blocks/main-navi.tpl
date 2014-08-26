@@ -35,8 +35,8 @@ $settingsMenu = get_data('settings-menu');
                     ? 'active li-' . $entry->getId()
                     : 'li-' . $entry->getId();?>
                 <li class="<?= $className ?>">
-                    <a id="<?= $entry->getId() ?>" <?php $js = $entry->getJs();
-                    if (!empty($js)): ?> href="#" data-action="<?= $entry->getJs() ?>"
+                    <a id="<?= $entry->getId() ?>" <?php 
+                    if (!is_null($entry->getBinding())): ?> href="#" data-action="<?= $entry->getBinding() ?>"
                     <?php else : ?>
                         href="<?= $entry->getUrl() ?>"
                     <?php endif ?> title="<?= __($entry->getName()) ?>">

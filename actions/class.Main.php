@@ -260,7 +260,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                 );
 
 
-                if (is_null($perspective->getJs())) {
+                if (is_null($perspective->getBinding())) {
                     $entry['url'] = _url(
                         'index',
                         null,
@@ -269,7 +269,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                     );
                 } else {
                     $extension   = $perspective->getExtension();
-                    $entry['js'] = $extension . '/' . $perspective->getJs();
+                    $entry['binding'] = $extension . '/' . $perspective->getBinding();
                 }
 
                 $entries[$i] = $perspective;
@@ -288,8 +288,8 @@ class tao_actions_Main extends tao_actions_CommonModule
     private function hasAccessToMenuElement(Perspective $menuElement)
     {
         $access = false;
-        $js     = $menuElement->getJs();
-        if (!empty($js)) {
+        $binding     = $menuElement->getBinding();
+        if (!is_null($binding) && !empty($binding)) {
             $access = true;
         } else {
             foreach ($menuElement->getChildren() as $section) {

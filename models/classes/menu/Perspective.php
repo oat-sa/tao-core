@@ -52,7 +52,7 @@ class Perspective extends MenuElement implements PhpSerializable
                     ? self::GROUP_DEFAULT
                     : self::GROUP_INVISIBLE),
             'name'      => (string) $node['name'],
-            'js'        => '',
+            'binding'     => isset($node['binding']) ? (string)$node['binding'] : null,
             'description' => (string) $node->description,
             'extension' => $extensionId,
             'level'     => (string) $node['level'],
@@ -80,7 +80,7 @@ class Perspective extends MenuElement implements PhpSerializable
             'name'		  => (string)$node['title'],
             'level'		  => (int)$node['level'],
             'description' => empty($text) ? null : $text,
-            'js'          => isset($node['js']) ? (string)$node['js'] : null,
+            'binding'     => isset($node['js']) ? (string)$node['js'] : null,
             'structure'   => isset($node['structure']) ? (string)$node['structure'] : null,
             'group'       => self::GROUP_SETTINGS,
             'icon'        => isset($node['icon']) ? Icon::fromArray(array('id' => (string)$node['icon']), $extensionId) : null
@@ -173,9 +173,9 @@ class Perspective extends MenuElement implements PhpSerializable
         return $this->children;
     }
     
-    public function getJs()
+    public function getBinding()
     {
-        return !empty($this->data['js']) ? $this->data['js'] : null;
+        return $this->data['binding'];
     }
     
     public function getUrl() {
