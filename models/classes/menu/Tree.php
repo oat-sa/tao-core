@@ -4,7 +4,7 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
+i *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -44,7 +44,11 @@ class Tree  implements PhpSerializable
     public function get($attribute) {
         return isset($this->data[$attribute]) ? $this->data[$attribute] : null;
     }
-    
+ 
+    public function getAttributes(){
+        return array_keys($this->data);
+    }
+   
     public function getName() {
         return $this->data['name'];
     }
