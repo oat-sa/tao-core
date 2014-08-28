@@ -125,6 +125,7 @@ define([
                      * @param {Object} [context] - the tree context (uri, classUri)
                      */       
                     $elt.trigger('change.taotree');
+                    $elt.trigger('ready.taotree');
                 },
 
                 /**
