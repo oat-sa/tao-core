@@ -260,7 +260,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                 );
 
 
-                if (is_null($perspective->getJs())) {
+                if (is_null($perspective->getBinding())) {
                     $entry['url'] = _url(
                         'index',
                         null,
@@ -269,7 +269,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                     );
                 } else {
                     $extension   = $perspective->getExtension();
-                    $entry['js'] = $extension . '/' . $perspective->getJs();
+                    $entry['binding'] = $extension . '/' . $perspective->getBinding();
                 }
 
                 $entries[$i] = $perspective;
@@ -288,8 +288,8 @@ class tao_actions_Main extends tao_actions_CommonModule
     private function hasAccessToMenuElement(Perspective $menuElement)
     {
         $access = false;
-        $js     = $menuElement->getJs();
-        if (!empty($js)) {
+        $binding     = $menuElement->getBinding();
+        if (!is_null($binding) && !empty($binding)) {
             $access = true;
         } else {
             foreach ($menuElement->getChildren() as $section) {
@@ -338,64 +338,6 @@ class tao_actions_Main extends tao_actions_CommonModule
             $ajaxResponse = new common_AjaxResponse();
         } else {
             throw new common_exception_IsAjaxAction(__CLASS__ . '::' . __METHOD__ . '()');
-        }
-    }
-
-
-    /**
-     * Load the section trees
-     *
-     * @return void
-     */
-    public function getSectionTrees()
-    {
-        $extension = $this->getRequestParameter('ext');
-        $structure = $this->getRequestParameter('structure');
-        $sectionId = $this->getRequestParameter('section');
-
-        $section = MenuService::getSection($extension, $structure, $sectionId);
-
-        if (!is_null($section)) {
-            $treeData = array();
-            foreach ($section->getTrees() as $tree) {
-                $mapping   = array(
-                    'editClassUrl'    => 'editClassAction',
-                    'editInstanceUrl' => 'editInstanceAction',
-                    'addInstanceUrl'  => 'createInstanceAction',
-                    'moveInstanceUrl' => 'moveInstanceAction',
-                    'addSubClassUrl'  => 'subClassAction',
-                    'deleteUrl'       => 'deleteAction',
-                    'duplicateUrl'    => 'duplicateAction',
-                    'dataUrl'         => 'dataUrl',
-                    'className'       => 'className',
-                    'name'            => 'name'
-                );
-                $treeArray = array();
-                foreach ($mapping as $from => $to) {
-                    $attrValue = $tree->get($from);
-                    if (!is_null($attrValue)) {
-                        if (preg_match("/^\//", (string)$attrValue)) {
-                            $treeArray[$to] = ROOT_URL . substr((string)$attrValue, 1);
-                        } else {
-                            $treeArray[$to] = (string)$attrValue;
-                        }
-                    }
-                }
-                if ($this->hasSessionAttribute("showNodeUri")) {
-                    $treeArray['selectNode'] = $this->getSessionAttribute("showNodeUri");
-                }
-                if (isset($treeArray['className'])) {
-                    $treeArray['instanceClass'] = 'node-' . str_replace(' ', '-', strtolower($treeArray['className']));
-                    $treeArray['instanceName']  = mb_strtolower(__($treeArray['className']), TAO_DEFAULT_ENCODING);
-                }
-                $treeId            = tao_helpers_Display::textCleaner((string)$tree->getName(), '_');
-                $treeData[$treeId] = $treeArray;
-            }
-            if (!empty($treeData)) {
-                $this->setData('trees', $treeData);
-            }
-
-            $this->setView('main/trees.tpl', 'tao');
         }
     }
 }
