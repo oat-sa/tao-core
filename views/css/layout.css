@@ -1,132 +1,49 @@
 @charset "CP850";
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/** Use icon within sass: @inclue icon('down'); */
-/* Fade animation */
-@keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
+/**
+ * Use icon within sass: @include icon('down');
+ */
+/*
+ * Fade animation
+ */
+/*
+ * Repeat animation
+ */
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * 
+ */
+.no-js .content-wrap, .no-js footer {
+  display: none; }
 
-@-webkit-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
+html, body, .content-wrap, #footer {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
 
-@-moz-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
+html {
+  height: 100%; }
 
-@-o-keyframes fade { 0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; } }
-
-/* Repeat animation */
-/*   This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; under version 2 of the License (non-upgradable).  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.  Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER); 2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);  */
-#Preview { display: none; }
-
-html, body, .content-wrap, #footer { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
-
-html { height: 100%; }
-
-html body { height: 100%; position: relative; background-color: #eee; }
-
-.content-wrap { min-height: 100%; /* equal to footer height */ margin-bottom: -96px; }
-
-.content-wrap:after { content: ""; display: block; }
-
-/* Footer */
-#footer, .content-wrap:after {
-  /* .push must be the same height as footer */
-  height: 96px; }
-
-#footer {
-  font-size: 10px;
-  width: 100%;
-  text-align: center;
-  padding: 0px; }
-  #footer .releasestatus {
-    width: 380px;
-    padding: 5px 5px 5px 62px;
-    text-align: center;
-    position: relative;
-    margin: auto; }
-    #footer .releasestatus strong {
-      font-size: 12px; }
-    #footer .releasestatus img {
-      position: absolute;
-      left: 15px;
-      top: 5px; }
-  #footer #copyright {
-    line-height: 3; }
-
-/* Layout specific stylesheet, used for elements positioning */
-/* Menu */
-#main-menu {
-  padding-left: 65px;
-  border: none;
-  border-width: 0px;
-  height: 35px;
-  position: relative;
-  margin-right: 10px;
-  background-position: 50% 52.5%; }
-  #main-menu #menu-bullet {
-    position: absolute;
-    top: 2px;
-    left: 4px;
-    width: 55px;
-    height: 40px;
-    background: transparent url("../img/tao_icon.png") no-repeat; }
-    #main-menu #menu-bullet:hover {
-      opacity: 0.8; }
-  #main-menu span a {
-    color: #888;
-    font-size: 17px;
-    font-size: 1.7rem;
-    font-weight: normal;
-    padding-left: 5px; }
-  #main-menu .right-menu {
-    position: absolute;
-    right: 0px;
-    top: 5px;
-    background: transparent; }
-    #main-menu .right-menu > div {
-      display: inline-block;
-      float: right;
-      padding-left: 6px;
-      padding-right: 6px; }
-    #main-menu .right-menu .vr {
-      color: #BBBBBB;
-      font-size: 14px;
-      margin-top: 8px;
-      padding-left: 1px;
-      padding-right: 1px; }
-    #main-menu .right-menu [class*="icon-"] {
-      font-size: 18px;
-      font-size: 1.8rem;
-      margin-top: 8px;
-      display: inline-block; }
-    #main-menu .right-menu .usersettings a {
-      text-decoration: none !important; }
-      #main-menu .right-menu .usersettings a .username {
-        position: relative;
-        top: -3px;
-        padding: 0 3px 0 5px; }
-    #main-menu .right-menu .icon-with-desc {
-      position: absolute; }
-  #main-menu .left-menu {
-    margin-top: 8px;
-    color: #BBB; }
-    #main-menu .left-menu span {
-      padding-left: 4px;
-      padding-right: 4px;
-      font-size: 12px; }
-    #main-menu .left-menu a:hover {
-      color: #D00239;
-      text-decoration: none; }
-  #main-menu span.current-extension a {
-    color: #D00239;
-    text-decoration: none; }
-  #main-menu span.disabled-extension {
-    font-size: 1.3em;
-    color: #B0B0B0; }
+html body {
+  height: 100%;
+  position: relative; }
 
 /* Main containers */
 .main-container {
