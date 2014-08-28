@@ -18,33 +18,35 @@
  * 
  */
 
-use oat\tao\model\accessControl\data\AclProxy as DataProxy;
-use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
-use oat\tao\model\accessControl\AclProxy;
-use oat\tao\model\routing\Resolver;
-use oat\tao\model\accessControl\func\FuncHelper;
+namespace oat\tao\model\accessControl\data\implementation;
+
+use oat\tao\model\accessControl\data\DataAccessControl;
+use oat\tao\model\accessControl\data\AclProxy;
 
 /**
- * Proxy for the Acl Implementation
+ * Sample data access control implementation giving free
+ * access to all resources.
+ * 
+ * does not require privileges
+ * does not grant privileges
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package tao
  */
-class tao_models_classes_accessControl_AclProxy
+class FreeAccess
+    implements DataAccessControl
 {
     /**
-     * Returns whenever or not the current user has access to a specified link
-     *
-     * @param string $action
-     * @param string $controller
-     * @param string $extension
-     * @param array $parameters
-     * @return boolean
+     * 
      */
-    public static function hasAccess($action, $controller, $extension, $parameters = array()) {
-        $user = common_session_SessionManager::getSession()->getUserUri();
-        return AclProxy::hasAccess($user, FuncHelper::getClassName($extension, $controller), $action, $parameters);
+    public function __construct() {
     }
     
+    public function getPrivileges($user, $resourceIds) {
+        $privileges = array();
+        foreach ($resourceIds as $id) {
+            $privileges[$id] = AclProxy::getExistingPrivileges();
+        }
+        return $privileges;
+    }
 }

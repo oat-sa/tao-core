@@ -281,7 +281,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
                 }
             } else {
                 $action['js'] =  $extension. '/'. $toolbarAction->getJs();
-                $access = tao_models_classes_accessControl_AclProxy::hasAccess(null, null, $extension);
+                $access = true;
             }
             if($access){
                 $actions[$i] = $action;

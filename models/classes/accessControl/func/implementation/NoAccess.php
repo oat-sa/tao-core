@@ -18,53 +18,42 @@
  * 
  */
 
+namespace oat\tao\model\accessControl\func\implementation;
+
+use oat\tao\model\accessControl\func\FuncAccessControl;
+
 /**
- * Sample ACL Implementation allowing access to everything
+ * Fallback functional Access Controll denying all access
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package tao
- 
  */
-class tao_models_classes_accessControl_AccessRule
+class NoAccess
+    implements FuncAccessControl
 {
-    const GRANT = 'grant';
-    const DENY = 'deny';
     
-    private $grantDeny;
-    
-    private $role;
-    
-    private $mask;
-    
-    public function __construct($mode, $roleUri, $mask) {
-        $this->grantDeny = $mode;
-        $this->role = new core_kernel_classes_Resource($roleUri);
-        $this->mask = $mask;
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\accessControl\func\FuncAccessControl::accessPossible()
+     */
+    public function accessPossible($user, $action)
+    {
+        return false;
     }
     
     /**
-     * Those the role grant you access?
-     * @return bool
+     * (non-PHPdoc)
+     * @see \oat\tao\model\accessControl\func\FuncAccessControl::applyRule()
      */
-    public function isGrant() {
-        return $this->grantDeny == self::GRANT;
+    public function applyRule(tao_models_classes_accessControl_AccessRule $rule) {
+        // nothing can be done
     }
     
     /**
-     * Gets the role this rule applies to
-     * @return core_kernel_classes_Resource
+     * (non-PHPdoc)
+     * @see \oat\tao\model\accessControl\func\FuncAccessControl::revokeRule()
      */
-    public function getRole() {
-        return $this->role;
+    public function revokeRule(tao_models_classes_accessControl_AccessRule $rule) {
+        // nothing can be done
     }
-    
-    /**
-     * Returns the filter of the rule
-     * @return array
-     */
-    public function getMask() {
-        return $this->mask;
-    }
-        
 }

@@ -125,7 +125,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     
     private function getSessionCookie(core_kernel_classes_Resource $user) {
         // login
-        $ch = curl_init(_url('login', 'main', 'tao'));
+        $ch = curl_init(_url('login', 'Main', 'tao'));
         curl_setopt($ch,CURLOPT_POST, count($this->credentials)); // does not work with no body
         curl_setopt($ch,CURLOPT_POSTFIELDS, $this->credentials);
         curl_setopt($ch, CURLOPT_HEADER, true);    // we want headers

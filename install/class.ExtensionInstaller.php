@@ -20,6 +20,9 @@
  * 
  */
 
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\accessControl\func\AclProxy;
+
 /**
  * Specification of the Generis ExtensionInstaller class to add a new behavior:
  * the Modules and Actions in the Ontology at installation time.
@@ -107,8 +110,8 @@ class tao_install_ExtensionInstaller
      */
     public function applyAccessRules() {
         foreach ($this->extension->getManifest()->getAclTable() as $tableEntry) {
-            $rule = new tao_models_classes_accessControl_AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
-            tao_models_classes_accessControl_AclProxy::applyRule($rule);
+            $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
+            AclProxy::applyRule($rule);
         }
     }
 

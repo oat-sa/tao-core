@@ -1,5 +1,5 @@
 <?php
-/**
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,33 +18,23 @@
  * 
  */
 
-use oat\tao\model\accessControl\data\AclProxy as DataProxy;
-use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
-use oat\tao\model\accessControl\AclProxy;
-use oat\tao\model\routing\Resolver;
-use oat\tao\model\accessControl\func\FuncHelper;
+namespace oat\tao\model\accessControl;
 
 /**
- * Proxy for the Acl Implementation
- *
- * @access public
- * @author Joel Bout, <joel@taotesting.com>
- * @package tao
+ * Interface for Access Control Implementations
  */
-class tao_models_classes_accessControl_AclProxy
+interface AccessControl
 {
+    
     /**
-     * Returns whenever or not the current user has access to a specified link
-     *
-     * @param string $action
-     * @param string $controller
-     * @param string $extension
+     * Returns whenever or not the user can execute the action
+     * whith the given parameters
+     * 
+     * @param string $userId
+     * @param string $controllerName
+     * @param string $actionName
      * @param array $parameters
      * @return boolean
      */
-    public static function hasAccess($action, $controller, $extension, $parameters = array()) {
-        $user = common_session_SessionManager::getSession()->getUserUri();
-        return AclProxy::hasAccess($user, FuncHelper::getClassName($extension, $controller), $action, $parameters);
-    }
-    
+    public function hasAccess($user, $controllerName, $actionName, $parameters);
 }
