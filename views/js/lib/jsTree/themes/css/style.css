@@ -8,10 +8,10 @@
 /*
  * Repeat animation
  */
-.tree-custom .node-class > a > ins:before {
+.tree .node-class > a > ins:before {
   content: "\f07b"; }
 
-.tree-custom .node-class.open > a > ins:before {
+.tree .node-class.open > a > ins:before {
   content: "\f07c"; }
 
 .taotree-group .node-instance ins:before {
@@ -40,9 +40,10 @@
 
 .tree {
   overflow: auto; }
-  .tree > ul {
+  .tree .ltr, .tree .rtl {
     min-height: 150px;
-    max-height: 500px; }
+    max-height: 75vh;
+    overflow: auto; }
   .tree ul {
     background: white !important;
     overflow: hidden;
@@ -115,8 +116,6 @@
         font-size: 10px; }
         .tree li a input:not([class="xxx"]), .tree li span input:not([class="xxx"]) {
           padding: 1px 0; }
-    .tree li.leaf:nth-child(even) {
-      background: #f6f6f6; }
     .tree li.open {
       background-position: -32px -46px; }
     .tree li.closed {
@@ -147,6 +146,30 @@
       display: none !important; }
     .tree li li {
       overflow: hidden; }
+  .tree .locked li a {
+    color: gray; }
+  .tree .no_dots {
+    background: transparent; }
+    .tree .no_dots ul {
+      background: transparent; }
+    .tree .no_dots li.leaf {
+      background-image: none;
+      background-color: transparent; }
+  .tree .node-class > a > ins:before {
+    color: #d8ae5b;
+    top: 2px;
+    text-shadow: 1px 1px 0 #ac8b48; }
+  .tree .node-instance ins {
+    background-image: none; }
+  .tree ul li a.loading ins {
+    background-image: url("throbber.gif") !important;
+    background-position: 0 0 !important; }
+  .tree li a ins.forbidden {
+    background-position: -16px -16px; }
+  .tree .locked li a ins {
+    background-position: 0 -48px; }
+  .tree li span ins {
+    background-position: -16px 0; }
 
 #jstree-dragged {
   position: absolute;
@@ -178,31 +201,6 @@
   #jstree-marker.marker_plus {
     width: 5px;
     background-position: right top; }
-
-.tree-custom .locked li a {
-  color: gray; }
-.tree-custom .no_dots {
-  background: transparent; }
-  .tree-custom .no_dots ul {
-    background: transparent; }
-  .tree-custom .no_dots li.leaf {
-    background-image: none;
-    background-color: transparent; }
-.tree-custom .node-class > a > ins:before {
-  color: #d8ae5b;
-  top: 2px;
-  text-shadow: 1px 1px 0 #ac8b48; }
-.tree-custom .node-instance ins {
-  background-image: none; }
-.tree-custom ul li a.loading ins {
-  background-image: url("throbber.gif") !important;
-  background-position: 0 0 !important; }
-.tree-custom li a ins.forbidden {
-  background-position: -16px -16px; }
-.tree-custom .locked li a ins {
-  background-position: 0 -48px; }
-.tree-custom li span ins {
-  background-position: -16px 0; }
 
 #jstree-dragged.tree-custom li li.open {
   background: url("icons.png") -48px -32px no-repeat; }

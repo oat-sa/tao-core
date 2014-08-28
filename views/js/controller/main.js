@@ -5,9 +5,10 @@ define([
     'uiForm',
     'generis.actions',
     'controller/main/toolbar',
-    'layout/version-warning'
+    'layout/version-warning',
+    'layout/section-height'
 ],
-    function ($, UiBootstrap, Helpers, UiForm, GenerisActions, toolbar, versionWarning) {
+    function ($, UiBootstrap, Helpers, UiForm, GenerisActions, toolbar, versionWarning, sectionHeight) {
 
     return {
         start : function(){
@@ -22,6 +23,8 @@ define([
             toolbar.setUp();
 
             versionWarning.init();
+
+            sectionHeight.init();
 
             // Playground: @todo rewrite this code decently
             setTimeout(function() {
