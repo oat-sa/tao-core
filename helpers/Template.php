@@ -28,14 +28,14 @@ class Template {
      * if extension name is ommited the current extension is used
      * 
      * @param string $path
-     * @param string $extenionName
+     * @param string $extensionName
      * @return string
      */
-    public static function img($path, $extenionName = null) {
-        if (is_null($extenionName)) {
-            $extenionName = \Context::getInstance()->getExtensionName();
+    public static function img($path, $extensionName = null) {
+        if (is_null($extensionName)) {
+            $extensionName = \Context::getInstance()->getExtensionName();
         }
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extenionName);
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);
         return $ext->getConstant('BASE_WWW').'img/'.$path;
     }
     
@@ -44,14 +44,14 @@ class Template {
      * if extension name is ommited the current extension is used
      * 
      * @param string $path
-     * @param string $extenionName
+     * @param string $extensionName
      * @return string
      */
-    public static function css($path, $extenionName = null) {
-        if (is_null($extenionName)) {
-            $extenionName = \Context::getInstance()->getExtensionName();
+    public static function css($path, $extensionName = null) {
+        if (is_null($extensionName)) {
+            $extensionName = \Context::getInstance()->getExtensionName();
         }
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extenionName);
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);
         return $ext->getConstant('BASE_WWW').'css/'.$path;
     }
     
@@ -60,14 +60,14 @@ class Template {
      * if extension name is ommited the current extension is used
      * 
      * @param string $path
-     * @param string $extenionName
+     * @param string $extensionName
      * @return string
      */
-    public static function js($path, $extenionName = null) {
-        if (is_null($extenionName)) {
-            $extenionName = \Context::getInstance()->getExtensionName();
+    public static function js($path, $extensionName = null) {
+        if (is_null($extensionName)) {
+            $extensionName = \Context::getInstance()->getExtensionName();
         }
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extenionName);
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);
         return $ext->getConstant('BASE_WWW').'js/'.$path;
     }
     
@@ -76,19 +76,27 @@ class Template {
      * if extension name is ommited the current extension is used
      *
      * @param string $path
-     * @param string $extenionName
+     * @param string $extensionName
      * @return string
      */
-    public static function inc($path, $extenionName = null) {
-        if (!is_null($extenionName) && $extenionName != \Context::getInstance()->getExtensionName()) {
+    public static function inc($path, $extensionName = null) {
+        if (!is_null($extensionName) && $extensionName != \Context::getInstance()->getExtensionName()) {
             // template is within diffrent extension, change context
             $formerContext = \Context::getInstance()->getExtensionName();
-            \Context::getInstance()->setExtensionName($extenionName);
+            \Context::getInstance()->setExtensionName($extensionName);
         }
         
-        $absPath = self::getTemplate($path, $extenionName);
+        $absPath = self::getTemplate($path, $extensionName);
         if (file_exists($absPath)) {
-            include($absPath);
+            try {
+                include($absPath);
+            } catch (\Exception $e) {
+                // restore context before rethrowing exception
+                if (isset($formerContext)) {
+                    \Context::getInstance()->setExtensionName($formerContext);
+                }
+                throw $e;
+            }
         } else {
             \common_Logger::w('Failed to include "'.$absPath.'" in template');
         }
@@ -98,9 +106,9 @@ class Template {
         }
     }
     
-    public static function getTemplate($path, $extenionName = null) {
-        $extenionName = is_null($extenionName) ? \Context::getInstance()->getExtensionName() : $extenionName;
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extenionName);
+    public static function getTemplate($path, $extensionName = null) {
+        $extensionName = is_null($extensionName) ? \Context::getInstance()->getExtensionName() : $extensionName;
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);
         return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$path;
     }
 }
