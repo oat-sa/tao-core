@@ -8,7 +8,7 @@
 
                 <div class="clearfix">
 
-                    <span class="text-link" href="<?= $entry->getUrl() ?>"><span class="icon-login"></span> <?= $entry->getLabel() ?> </span>
+                    <span class="text-link" href="<?= $entry->getUrl() ?>"><span class="icon-login"></span> <?= __('Enter') ?> <?= $entry->getLabel() ?> </span>
                 </div>
             </a>
         </li>

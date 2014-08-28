@@ -28,7 +28,7 @@
                         <icon id="icon-users"/>
                     </action>
                     <action name="Delete" js="GenerisAction.removeNode" url="/taoGroups/Groups/delete" context="resource" group="tree">
-                        <icon id="icon-eraser"/>
+                        <icon id="icon-bin"/>
                     </action>
                     <action name="Duplicate" js="GenerisAction.duplicateNode" url="/taoGroups/Groups/cloneInstance" context="instance" group="tree">
                         <icon id="icon-copy"/>

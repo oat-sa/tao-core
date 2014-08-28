@@ -34,6 +34,9 @@
   .version-warning span {
     top: 5px !important; }
 
+.no-version-warning .version-warning {
+  display: none; }
+
 #tao-main-logo {
   margin: 6px 30px 6px 30px;
   display: block;
@@ -162,6 +165,12 @@ footer {
   padding: 10px; }
   footer a {
     text-decoration: underline; }
+  footer .icon-warning {
+    text-shadow: 0 0 0 transparent;
+    color: #fc6;
+    padding-right: 2px;
+    position: relative;
+    top: 1px; }
 
 .content-wrap {
   min-height: 100%;
@@ -235,27 +244,8 @@ footer {
   -webkit-border-radius: 2px;
   background: #f3f1ef;
   margin-bottom: 20px;
-  padding: 20px 20px 20px 40px;
+  padding: 20px;
   position: relative; }
-  .entry-point:before {
-    content: '';
-    width: 40px;
-    height: 150px;
-    border: solid transparent;
-    border-top-width: 75px;
-    border-right-width: 20px;
-    border-bottom-width: 75px;
-    border-left-width: 20px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 2; }
-  .entry-point.entry-point-backoffice .text-link {
-    border-bottom-color: #2b8e0e !important; }
-  .entry-point.entry-point-deliveryServer .text-link {
-    border-bottom-color: #0f9787 !important; }
-  .entry-point.entry-point-backofficeCe .text-link {
-    border-bottom-color: #c34713 !important; }
 
 #login-box {
   width: 400px; }
@@ -289,8 +279,35 @@ footer {
       color: #0e5d91; }
   #entry-point-box a {
     height: 150px; }
-  #entry-point-box .entry-point:before {
-    border-left-color: #0e5d91; }
+  #entry-point-box .entry-point {
+    padding-left: 40px; }
+    #entry-point-box .entry-point:before, #entry-point-box .entry-point:after {
+      content: '';
+      height: 37.5px;
+      border: solid transparent;
+      border-top-width: 18.75px;
+      border-bottom-width: 18.75px;
+      position: absolute;
+      left: -1px;
+      bottom: 54px;
+      z-index: 2; }
+    #entry-point-box .entry-point.entry-point-backoffice .text-link {
+      border-bottom-color: #2b8e0e !important; }
+    #entry-point-box .entry-point.entry-point-deliveryServer .text-link {
+      border-bottom-color: #0f9787 !important; }
+    #entry-point-box .entry-point.entry-point-backofficeCe .text-link {
+      border-bottom-color: #c34713 !important; }
+    #entry-point-box .entry-point:before {
+      border-left-color: #dddddd;
+      width: 20px;
+      border-right-width: 10px;
+      border-left-width: 10px;
+      left: 0px; }
+    #entry-point-box .entry-point:after {
+      border-left-color: white;
+      width: 20px;
+      border-right-width: 10px;
+      border-left-width: 10px; }
 
 #entry-point-box, #login-box {
   margin: 40px auto 0; }
@@ -420,23 +437,42 @@ footer {
 #action-title {
   border: none; }
 
-#section-trees {
-  margin-bottom: 10px; }
-
-.block-title {
-  font-size: 14px;
-  font-size: 1.4rem;
-  padding: 2px 8px;
-  margin: 0; }
-
+/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+/**
+ * Use icon within sass: @include icon('down');
+ */
+/*
+ * Fade animation
+ */
+/*
+ * Repeat animation
+ */
 .section-container {
   top: 0 !important; }
-  .section-container .content-wrapper {
-    width: 100%;
-    height: 100%; }
   .section-container .content-panel {
+    width: 100%;
+    height: 100%;
     margin: 0;
-    padding: 0; }
+    padding: 0;
+    border: none !important;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: flex-start;
+    -ms-flex-line-pack: start;
+    align-content: flex-start;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch; }
   .section-container .tab-container {
     height: 30px;
     border: none;
@@ -451,11 +487,31 @@ footer {
   .section-container .navi-container {
     background: #f2f0ee;
     width: 280px;
-    position: absolute; }
+    -webkit-flex: 0 0 280px;
+    -ms-flex: 0 0 280px;
+    flex: 0 0 280px;
+    -webkit-align-self: stretch;
+    -ms-flex-item-align: stretch;
+    align-self: stretch; }
+    .section-container .navi-container .block-title {
+      font-size: 14px;
+      font-size: 1.4rem;
+      padding: 2px 8px;
+      margin: 0; }
+    .section-container .navi-container .tree-action-bar-box {
+      margin: 10px 0; }
   .section-container .content-container {
-    margin-left: 280px;
     border: none;
-    border-left: 1px white solid; }
+    border-left: 1px white solid;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    -webkit-align-self: stretch;
+    -ms-flex-item-align: stretch;
+    align-self: stretch; }
     .section-container .content-container > .ui-tabs-panel {
       border: none !important; }
       .section-container .content-container > .ui-tabs-panel #form-title {
@@ -470,8 +526,3 @@ footer {
     border-top: 1px solid #dddddd !important;
     padding: 20px;
     max-width: 550px; }
-
-/* don't change it ! (used by scripting) - unconfirmed ! */
-div.ui-tabs-panel {
-  /* position: relative;
-   padding: 5px 0*/ }
