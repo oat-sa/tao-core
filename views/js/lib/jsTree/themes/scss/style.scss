@@ -3,9 +3,10 @@
 .tree {
     overflow: auto;
 
-    & > ul {
+    .ltr, .rtl {
         min-height: 150px;
-        max-height: 500px;
+        max-height: 75vh;
+        overflow:auto;
     }
 
     ul {
@@ -91,13 +92,7 @@
                 }
             }
         }
-        &.leaf {
-            &:nth-child(even) {
-                background: #f6f6f6
-            }
-            &:nth-child(odd) {
-            }
-        }
+
         &.open {
             background-position: -32px -46px;
         }
@@ -145,6 +140,49 @@
         }
     }
 
+    .locked li a {
+        color: gray;
+    }
+    .no_dots {
+        background: transparent;
+        ul {
+            background: transparent;
+        }
+        li.leaf {
+            background-image: none;
+            background-color: transparent;
+        }
+    }
+
+    .node-class {
+        & > a > ins:before {
+            @extend %icon-folder;
+            color: $warning;
+            top: 2px;
+            text-shadow: 1px 1px 0 blacken($warning, .2);
+        }
+        &.open {
+            & > a > ins:before {
+                @extend %icon-folder-open;
+            }
+        }
+    }
+    .node-instance ins {
+        background-image: none;
+    }
+    ul li a.loading ins {
+        background-image: url("throbber.gif") !important;
+        background-position: 0 0 !important;
+    }
+    li a ins.forbidden {
+        background-position: -16px -16px;
+    }
+    .locked li a ins {
+        background-position: 0 -48px;
+    }
+    li span ins {
+        background-position: -16px 0;
+    }
 }
 
 .taotree-delivery .node-instance ins:before{
@@ -222,52 +260,6 @@
     }
 
     background-image: url("icons.png");
-}
-
-.tree-custom {
-    .locked li a {
-        color: gray;
-    }
-    .no_dots {
-        background: transparent;
-        ul {
-            background: transparent;
-        }
-        li.leaf {
-            background-image: none;
-            background-color: transparent;
-        }
-    }
-
-    .node-class {
-        & > a > ins:before {
-            @extend %icon-folder;
-            color: $warning;
-            top: 2px;
-            text-shadow: 1px 1px 0 blacken($warning, .2);
-        }
-        &.open {
-            & > a > ins:before {
-                @extend %icon-folder-open;
-            }
-        }
-    }
-    .node-instance ins {
-        background-image: none;
-    }
-    ul li a.loading ins {
-        background-image: url("throbber.gif") !important;
-        background-position: 0 0 !important;
-    }
-    li a ins.forbidden {
-        background-position: -16px -16px;
-    }
-    .locked li a ins {
-        background-position: 0 -48px;
-    }
-    li span ins {
-        background-position: -16px 0;
-    }
 }
 
 

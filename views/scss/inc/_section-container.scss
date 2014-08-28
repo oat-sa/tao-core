@@ -1,0 +1,106 @@
+@import 'inc/bootstrap';
+
+.section-container {
+    top: 0 !important;
+
+    .content-panel {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding:0;
+        border: none !important;
+
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-flex-wrap: nowrap;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        -webkit-align-content: flex-start;
+        -ms-flex-line-pack: start;
+        align-content: flex-start;
+        -webkit-align-items: stretch;
+        -ms-flex-align: stretch;
+        align-items: stretch;
+    }
+
+    .tab-container {
+        height: 30px;
+        border: none;
+        display:none;
+        &.ui-tabs-nav {
+            display:block;
+        }
+        a {
+            top: 0 !important;
+        }
+        li.ui-state-disabled{
+            display:none;
+        }
+        background: $canvas;
+    }
+
+    .navi-container {
+        background:  $canvas;
+        width:  $treeSidebar * 1px;
+        -webkit-flex: 0 0 $treeSidebar * 1px;
+        -ms-flex: 0 0 $treeSidebar * 1px;
+        flex: 0 0 $treeSidebar * 1px;
+        -webkit-align-self: stretch;
+        -ms-flex-item-align: stretch;
+        align-self: stretch;
+        .block-title {
+            @include font-size(14);
+            padding: 2px 8px;
+            margin: 0;
+        }
+        .tree-action-bar-box {
+            margin: 10px 0;
+        }
+    }
+    .content-container {
+        border: none;
+        border-left: 1px white solid;
+        -webkit-order: 0;
+        -ms-flex-order: 0;
+        order: 0;
+        -webkit-flex: 1 1 auto;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        -webkit-align-self: stretch;
+        -ms-flex-item-align: stretch;
+        align-self: stretch;
+
+
+
+        & > .ui-tabs-panel {
+            border: none !important;
+            .ui-widget-content{
+                //border: none !important;
+            }
+            #form-title {
+                @include font-size(20);
+                margin: 10px 0;
+                border: none !important;
+            }
+        }
+    }
+
+
+    .main-container {
+        .main-container {
+            #form-container {
+                @include simple-border();
+                border-top: 1px solid $uiGeneralContentBorder !important;
+                padding: 20px;
+                max-width: 550px;
+            }
+        }
+    }
+}

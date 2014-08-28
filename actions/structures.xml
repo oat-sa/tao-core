@@ -27,7 +27,7 @@
                         <icon id="icon-tools" src=""/>
                     </action>
                     <action name="Delete" js="removeNode" url="/tao/Roles/delete" context="resource" group="tree">
-                        <icon id="icon-eraser"/>
+                        <icon id="icon-bin"/>
                     </action>
                     <action name="Metadata" js="loadMetaData" url="/tao/MetaData/getMetaData" context="resource" group="tree">
                         <icon id="icon-meta-data"/>
