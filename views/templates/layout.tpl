@@ -26,7 +26,9 @@ use oat\tao\helpers\Layout;
     <div class="content-wrap">
 
         <?php /* alpha|beta|sandbox message */
-        Template::inc('blocks/version-warning.tpl', 'tao'); ?>
+        if(empty($_COOKIE['versionWarning'])) {
+            Template::inc('blocks/version-warning.tpl', 'tao');
+        }?>
 
         <?php /* <header> + <nav> */
         Template::inc('blocks/header.tpl', 'tao'); ?>
@@ -46,7 +48,12 @@ use oat\tao\helpers\Layout;
     · <?= __('All rights reserved.') ?>
     <?php $releaseMsgData = Layout::getReleaseMsgData();
     if ($releaseMsgData['is-unstable'] || $releaseMsgData['is-sandbox']): ?>
-        <span class="rgt"><?=$releaseMsgData['version-type']?> ·
+        <span class="rgt">
+            <?php if ($releaseMsgData['is-unstable']): ?>
+                <span class="icon-warning"></span>
+
+            <?php endif; ?>
+            <?=$releaseMsgData['version-type']?> ·
         <a href="<?=$releaseMsgData['link']?>" target="_blank"><?=$releaseMsgData['msg']?></a></span>
 
     <?php endif; ?>

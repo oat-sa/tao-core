@@ -99,6 +99,7 @@ define([
                     }
                         
                     $elt.trigger('change.taotree');
+                    $elt.trigger('ready.taotree');
                 },
 
                 beforeopen: function(node) {
