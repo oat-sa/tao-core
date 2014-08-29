@@ -33,7 +33,12 @@ class MenuService {
      */
     const CACHE_KEY = 'tao_structures';
     
-    // --- ATTRIBUTES ---
+    /**
+     * Use caching mechanism for the structure.
+     * For performances issues, cache should be enabled.
+     * @var boolean 
+     */
+    const USE_CACHE = false;
 
     /**
      * to stock the extension structure
@@ -106,15 +111,27 @@ class MenuService {
         return $structure['entrypoints'];
     }    
     
+    /**
+     * Reads the structure data. 
+     * This method manages to cache the structure if needed.
+     * @return array() the structure data
+     */
     public static function readStructure()
     {
         if(count(self::$structure) == 0 ){
-            try {
-                //self::$structure = self::buildStructures();
-                self::$structure = \common_cache_FileCache::singleton()->get(self::CACHE_KEY);
-            } catch (\common_cache_NotFoundException $e) {
+            if(self::USE_CACHE == false){
+                //rebuild structure each time
                 self::$structure = self::buildStructures();
-                \common_cache_FileCache::singleton()->put(self::$structure, self::CACHE_KEY);
+
+            } else {
+                //cache management
+                try {
+                    self::$structure = \common_cache_FileCache::singleton()->get(self::CACHE_KEY);
+                } catch (\common_cache_NotFoundException $e) {
+                    self::$structure = self::buildStructures();
+                    \common_cache_FileCache::singleton()->put(self::$structure, self::CACHE_KEY);
+                }
+
             }
         }
         return self::$structure;
@@ -238,7 +255,7 @@ class MenuService {
     
     public static function flushCache()
     {
-        self::$structure = array();        
+        self::$structure = array(); 
         \common_cache_FileCache::singleton()->remove(self::CACHE_KEY);
     }
 }
