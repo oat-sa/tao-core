@@ -115,9 +115,6 @@ return array(
 		# views directory
 		"DIR_VIEWS" => $extpath."views".DIRECTORY_SEPARATOR,
 	
-	 	#path to the cache
-		'CACHE_PATH' => $extpath."data".DIRECTORY_SEPARATOR."cache".DIRECTORY_SEPARATOR,
-	
 		# default module name
 		'DEFAULT_MODULE_NAME' => 'Main',
 	
