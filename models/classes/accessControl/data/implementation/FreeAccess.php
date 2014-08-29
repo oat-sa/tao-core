@@ -42,7 +42,11 @@ class FreeAccess
     public function __construct() {
     }
     
-    public function getPrivileges($user, $resourceIds) {
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\accessControl\data\DataAccessControl::getPrivileges()
+     */
+    public function getPrivileges($user, array $resourceIds) {
         $privileges = array();
         foreach ($resourceIds as $id) {
             $privileges[$id] = AclProxy::getExistingPrivileges();

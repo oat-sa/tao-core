@@ -37,5 +37,5 @@ interface DataAccessControl
      * @param array $resourceIds
      * @return array
      */
-    public function getPrivileges($user, $resourceIds);
+    public function getPrivileges($user, array $resourceIds);
 }
