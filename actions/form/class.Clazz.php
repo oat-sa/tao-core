@@ -61,16 +61,16 @@ class tao_actions_form_Clazz
 		//add property action in toolbar
 		$actions = tao_helpers_form_FormFactory::getCommonActions();
 		$propertyElt = tao_helpers_form_FormFactory::getElement('property', 'Free');
-		$propertyElt->setValue("<a href='#' class='property-adder'><img src='".TAOBASE_WWW."/img/prop_add.png'  /> ".__('Add property')."</a>");
+		$propertyElt->setValue("<a href='#' class='btn-info property-adder small'><span class='icon-property-add'></span> ".__('Add property')."</a>");
 		$actions[] = $propertyElt;
 
 		//property mode
 		$propModeELt = tao_helpers_form_FormFactory::getElement('propMode', 'Free');
 		if($propMode == 'advanced'){
-			$propModeELt->setValue("<a href='#' class='property-mode property-mode-simple' ><img src='".TAOBASE_WWW."/img/table_refresh.png'  /> ".__('Simple Mode')."</a>");
+			$propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-simple'><span class='icon-property-advanced'></span> ".__('Simple Mode')."</a>");
 		}
 		else{
-			$propModeELt->setValue("<a href='#' class='property-mode property-mode-advanced' ><img src='".TAOBASE_WWW."/img/table_refresh.png'  /> ".__('Advanced Mode')."</a>");
+			$propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-advanced'><span class='icon-property-advanced'></span> ".__('Advanced Mode')."</a>");
 		}
 		$actions[] = $propModeELt;
 

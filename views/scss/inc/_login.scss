@@ -115,8 +115,6 @@ $entryArrowHeight: 150;
 #entry-point-box, #login-box {
     margin: 40px auto 0;
     h1 {
-        @include font-size(20);
-        font-family: Verdana, Geneva, sans-serif;
-        font-style: normal;
+        @include largeHeading();
     }
 }

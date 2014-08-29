@@ -202,3 +202,9 @@
       -moz-animation-iteration-count: infinite;  
       -o-animation-iteration-count: infinite;
 }
+
+@mixin largeHeading() {
+    @include font-size(20);
+    font-family: $headingFont;
+    font-style: normal;
+}

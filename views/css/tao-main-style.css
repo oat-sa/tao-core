@@ -26,6 +26,24 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
 
@@ -549,8 +567,8 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 
 @font-face {
   font-family: 'tao';
-  src: url("font/tao/tao.eot?-t9iqr2");
-  src: url("font/tao/tao.eot?#iefix-t9iqr2") format("embedded-opentype"), url("font/tao/tao.woff?-t9iqr2") format("woff"), url("font/tao/tao.ttf?-t9iqr2") format("truetype"), url("font/tao/tao.svg?-t9iqr2#tao") format("svg");
+  src: url("font/tao/tao.eot?kbpfmy");
+  src: url("font/tao/tao.eot?#iefixkbpfmy") format("embedded-opentype"), url("font/tao/tao.woff?kbpfmy") format("woff"), url("font/tao/tao.ttf?kbpfmy") format("truetype"), url("font/tao/tao.svg?kbpfmy#tao") format("svg");
   font-weight: normal;
   font-style: normal; }
 
@@ -571,6 +589,24 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
 
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
@@ -1092,6 +1128,24 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
 
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
@@ -2576,6 +2630,24 @@ textarea {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
 
@@ -3652,6 +3724,24 @@ Special outer level classes used in this file:
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
 
@@ -4474,6 +4564,24 @@ other files.
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
 
@@ -5028,6 +5136,24 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
 
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
@@ -5864,6 +5990,24 @@ panel contents and color panels check menu.css and colorpanel.css.
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
 
@@ -6695,6 +6839,24 @@ Special outer level classes used in this file:
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
 
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
@@ -7693,6 +7855,24 @@ The visual representation of a rich combo widget looks as follows:
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
 
@@ -8450,6 +8630,24 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
 
@@ -9004,6 +9202,24 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
 
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
@@ -9612,6 +9828,24 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
 
@@ -10176,6 +10410,24 @@ legend.cke_voice_label {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
 
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
@@ -10966,6 +11218,24 @@ Special outer level classes used in this file:
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
 
@@ -11576,6 +11846,24 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
 
@@ -12183,6 +12471,24 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
 
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
@@ -12870,6 +13176,24 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
 
 .icon-folder:before, .resourcemgr .file-browser ul li a:before {
   content: "\f07b"; }
@@ -16098,6 +16422,8 @@ label {
     display: inline-block;
     padding: 0 10px 0 0; }
   .xhtml_form form > div input[type="text"], .xhtml_form form > div input[type="password"] {
+    width: 65%; }
+  .xhtml_form form > div select, .xhtml_form form > div textarea {
     width: 65%; }
   .xhtml_form form > div.form-toolbar {
     text-align: right;

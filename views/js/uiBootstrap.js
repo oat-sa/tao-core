@@ -84,7 +84,6 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout/actions',
 
                 if (settings.dataType === 'html') {
                     helpers._autoFx();
-                    self.initSize();
                 }
             });
 

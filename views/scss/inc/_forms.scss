@@ -275,6 +275,9 @@ label {
             width: 65%;
         }
     }
+    select, textarea {
+        width: 65%;
+    }
     &.form-toolbar {
         text-align: right;
         margin: 10px 0 0 0;
