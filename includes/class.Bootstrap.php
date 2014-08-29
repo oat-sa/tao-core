@@ -20,6 +20,7 @@
  */
 
 use oat\tao\helpers\Template;
+use oat\tao\model\routing\TaoFrontController;
 
 /*
  * The generis extension loader is included there ONCE!
@@ -379,7 +380,7 @@ class Bootstrap{
 	protected function mvc()
 	{	
 		$re		= new HttpRequest();
-		$fc		= new AdvancedFC($re);
+		$fc		= new TaoFrontController($re);
 		$fc->loadModule();
 	}
 
@@ -422,3 +423,4 @@ class Bootstrap{
         }
     }
 }
+?>

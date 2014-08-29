@@ -1,4 +1,7 @@
-<?if(get_data('metadata')):?>
+<?php
+use oat\tao\helpers\Template;
+if(get_data('metadata')):
+?>
 <div id="meta-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=__('Meta Data')?>
 	<a href="#" id="meta-close"><span class="ui-icon ui-icon-circle-close" style="float: right;"></span></a>
@@ -27,7 +30,7 @@
 				<td class="last">
 					<span id="comment-field"><?=get_data('comment')?></span>
 					<a href="#" id="comment-editor" title="<?=__('Edit Comment')?>">
-						<img src="<?=TAOBASE_WWW?>img/edit.png" alt="<?=__('Edit Comment')?>" />
+						<img src="<?= Template::img('edit.png','tao')?>" alt="<?=__('Edit Comment')?>" />
 					</a>
 				</td>
 			</tr>

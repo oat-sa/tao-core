@@ -167,13 +167,12 @@ class tao_helpers_Uri
 		if(is_null($action)){
 			$action = Context::getInstance()->getActionName();
 		}
+		if(is_null($extension)){
+		    $extension = Context::getInstance()->getExtensionName();
+		}
+		
 
-    	if(is_null($extension) || empty($extension)){
-			$returnValue = self::getBaseUrl() . $module . '/' . $action;
-		}
-		else{
-			$returnValue = self::getRootUrl(). $extension . '/'. $module . '/' . $action;
-		}
+		$returnValue = self::getRootUrl(). $extension . '/'. $module . '/' . $action;
 
 		if(count($params) > 0){
 			$returnValue .= '?';

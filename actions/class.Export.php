@@ -107,7 +107,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 			$returnValue[] = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 		}elseif($this->hasRequestParameter('classUri') && trim($this->getRequestParameter('classUri')) != ''){
 			$class = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-			$returnValue = $class->getInstances();
+			$returnValue = $class->getInstances(true);
 		}else {
 			common_Logger::w('No resources to export');
 		}

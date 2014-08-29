@@ -5,7 +5,7 @@ use oat\tao\helpers\Template;
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?> Service</title>
-	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="<?= Template::img('favicon.ico')?>" type="image/x-icon" />
 
     <?=tao_helpers_Scriptloader::render()?>
 

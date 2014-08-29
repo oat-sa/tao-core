@@ -18,13 +18,23 @@
  *               
  * 
  */
-$impl = new tao_models_classes_accessControl_SimpleAccess();
+
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
+use oat\tao\model\accessControl\data\AclProxy as DataProxy;
+use oat\tao\model\accessControl\data\implementation\FreeAccess;
+
+
+$impl = new oat\tao\model\accessControl\func\implementation\SimpleAccess();
 
 $exts = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
 foreach ($exts as $extension) {
     foreach ($extension->getManifest()->getAclTable() as $tableEntry) {
-        $rule = new tao_models_classes_accessControl_AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
+        $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
         $impl->applyRule($rule);
     }
 }
-tao_models_classes_accessControl_AclProxy::setImplementation($impl);
+FuncProxy::setImplementation($impl);
+
+$dataImpl = new FreeAccess();
+DataProxy::setImplementation($dataImpl);

@@ -1,4 +1,6 @@
-<div class="main-container">
+<?php 
+use oat\tao\helpers\Template;
+?><div class="main-container">
 	<table id="user-list"></table>
 	<div id="user-list-pager"></div>
 </div>
@@ -45,8 +47,8 @@ require(['jquery', 'i18n', 'helpers', 'grid/tao.grid'], function($, __, helpers)
                 gridComplete: function(){
                         $.each(myGrid.getDataIDs(), function(index, elt){
                                 myGrid.setRowData(elt, {
-                                        actions: "<a id='user_editor_"+elt+"' href='#' class='user_editor nd' ><img class='icon' src='<?=BASE_WWW?>img/pencil.png' alt='<?=__('Edit user')?>' /><?=__('Edit')?></a> | " +
-                                        "<a id='user_deletor_"+elt+"' href='#' class='user_deletor nd' ><img class='icon' src='<?=BASE_WWW?>img/delete.png' alt='<?=__('Delete user')?>' /><?=__('Delete')?></a>"
+                                        actions: "<a id='user_editor_"+elt+"' href='#' class='user_editor nd' ><img class='icon' src='<?= Template::img('pencil.png')?>' alt='<?=__('Edit user')?>' /><?=__('Edit')?></a> | " +
+                                        "<a id='user_deletor_"+elt+"' href='#' class='user_deletor nd' ><img class='icon' src='<?= Template::img('delete.png') ?>' alt='<?=__('Delete user')?>' /><?=__('Delete')?></a>"
                                 });
                         });
                         $(".user_editor").click(function(){
