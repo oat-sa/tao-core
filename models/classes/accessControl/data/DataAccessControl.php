@@ -24,5 +24,18 @@ namespace oat\tao\model\accessControl\data;
  */
 interface DataAccessControl
 {
+    /**
+     * Return the privileges a specified user has on the resources
+     * specified by their ids
+     * 
+     * This function should return an associativ array with the resourceIds
+     * as keys an the privilege arrays as values
+     * 
+     * @todo Pass users as objects that allow for easy role retrieval
+     * 
+     * @param string $user
+     * @param array $resourceIds
+     * @return array
+     */
     public function getPrivileges($user, $resourceIds);
 }
