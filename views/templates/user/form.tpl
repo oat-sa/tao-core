@@ -18,7 +18,7 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">
+	<script>
 		
                 require(['jquery', 'helpers', 'users'], function($, helpers, user){
                     var ctx_action  = "<?=get_data('action')?>";

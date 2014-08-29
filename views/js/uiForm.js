@@ -62,13 +62,29 @@ define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jw
 		 * make some adjustment on the forms
 		 */
 		initRendering: function() {
-                    $("span.form_desc").each(function() {
-                            var myHeight = parseInt($(this).height());
-                            var parentHeight = parseInt($(this).parent().height());
-                            if (myHeight > parentHeight) {
-                                    $(this).parent().height(myHeight +'px');
-                            }
-                    });
+            $('.form-translator').hide();
+            var authoringBtn = $('.authoringOpener'),
+                authoringBtnParent = authoringBtn.parent();
+            //authoringBtn[0].nodeName = 'button';
+            authoringBtn.prepend($('<span>', { 'class' : 'icon-edit' }));
+            authoringBtn.text(__('Edit'));
+            authoringBtn.addClass('btn-info small');
+            authoringBtn.appendTo($('.form-toolbar'));
+            authoringBtnParent.remove();
+
+            // hide locked properties
+            //alert('@todo: style props')
+            $('[id^="ro_property"], [id^="parent_property"]').hide();
+
+            $('.data-container').appendTo($('.main-container'))
+
+//                    $("span.form_desc").each(function() {
+//                            var myHeight = parseInt($(this).height());
+//                            var parentHeight = parseInt($(this).parent().height());
+//                            if (myHeight > parentHeight) {
+//                                    $(this).parent().height(myHeight +'px');
+//                            }
+//                    });
 		},
 
 		initElements: function(){
@@ -199,16 +215,16 @@ define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jw
 				if (/property\_[0-9]+$/.test(formGroup.prop('id'))) {
 					var child = formGroup.children("div:first");
 
-					var toggelerClass = 'ui-icon-circle-triangle-s';
+					var togglerGroup = 'ui-icon-circle-triangle-s';
 					if (!formGroup.hasClass('form-group-opened')) {
 						child.hide();
-						toggelerClass = 'ui-icon-circle-triangle-e';
+						togglerGroup = 'ui-icon-circle-triangle-e';
 					}
 
 					//toggle controls: plus/minus icon
-					var toggeler = $("<span class='form-group-control ui-icon' title='expand' style='right:48px;'></span>");
-					toggeler.addClass(toggelerClass);
-					toggeler.click(function(){
+					var toggler = $("<span class='form-group-control ui-icon' title='expand' style='right:48px;'></span>");
+					toggler.addClass(togglerGroup);
+					toggler.click(function(){
 						var control = $(this);
 						if (child.css('display') === 'none') {
 							child.show('slow');
@@ -222,7 +238,7 @@ define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jw
 							control.prop('title', 'show property');
 						}
 					});
-					formGroup.prepend(toggeler);
+					formGroup.prepend(toggler);
 
 					//delete control
 					if (/^property\_[0-9]+/.test(formGroup.prop('id'))) {

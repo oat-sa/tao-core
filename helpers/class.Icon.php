@@ -27,7 +27,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-08-14 15:47
+ * @date   2014-08-28 17:00
  * @package tao
  * @subpackage helpers
  */
@@ -56,6 +56,12 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_PROPERTY_ADVANCED = 'icon-property-advanced';
+    const CLASS_PROPERTY_ADD = 'icon-property-add';
+    const CLASS_REPOSITORY_ADD = 'icon-repository-add';
+    const CLASS_REPOSITORY_REMOVE = 'icon-repository-remove';
+    const CLASS_REPOSITORY = 'icon-repository';
+    const CLASS_RESULT_SERVER = 'icon-result-server';
     const CLASS_FOLDER = 'icon-folder';
     const CLASS_FOLDER_OPEN = 'icon-folder-open';
     const CLASS_LEFT = 'icon-left';
@@ -227,6 +233,30 @@ class tao_helpers_Icon {
     /**
      * List of all icons as function
      */
+
+    public static function iconPropertyAdvanced($options=array()){
+        return self::buildIcon(self::CLASS_PROPERTY_ADVANCED, $options);
+    }
+
+    public static function iconPropertyAdd($options=array()){
+        return self::buildIcon(self::CLASS_PROPERTY_ADD, $options);
+    }
+
+    public static function iconRepositoryAdd($options=array()){
+        return self::buildIcon(self::CLASS_REPOSITORY_ADD, $options);
+    }
+
+    public static function iconRepositoryRemove($options=array()){
+        return self::buildIcon(self::CLASS_REPOSITORY_REMOVE, $options);
+    }
+
+    public static function iconRepository($options=array()){
+        return self::buildIcon(self::CLASS_REPOSITORY, $options);
+    }
+
+    public static function iconResultServer($options=array()){
+        return self::buildIcon(self::CLASS_RESULT_SERVER, $options);
+    }
 
     public static function iconFolder($options=array()){
         return self::buildIcon(self::CLASS_FOLDER, $options);

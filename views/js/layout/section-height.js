@@ -34,7 +34,9 @@ define([
                     + parseInt($searchBar.css('margin-top')),
                 $tree = $('.tree .ltr, .tree .rtl');
 
-            $contentWrapper.find('.content-container').css({ minHeight: $('footer').offset().top - $contentWrapper.offset().top });
+            if($contentWrapper.length) {
+                $contentWrapper.find('.content-container').css({ minHeight: $('footer').offset().top - $contentWrapper.offset().top });
+            }
 
             if($tree.length) {
                 $tree.css({

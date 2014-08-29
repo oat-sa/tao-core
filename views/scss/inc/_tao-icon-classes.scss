@@ -1,5 +1,11 @@
 @import 'inc/tao-icon-vars.scss';
 [class^="icon-"], [class*=" icon-"] { @extend %tao-icon-setup; }
+.icon-property-advanced:before { @extend %icon-property-advanced; }
+.icon-property-add:before { @extend %icon-property-add; }
+.icon-repository-add:before { @extend %icon-repository-add; }
+.icon-repository-remove:before { @extend %icon-repository-remove; }
+.icon-repository:before { @extend %icon-repository; }
+.icon-result-server:before { @extend %icon-result-server; }
 .icon-folder:before { @extend %icon-folder; }
 .icon-folder-open:before { @extend %icon-folder-open; }
 .icon-left:before { @extend %icon-left; }

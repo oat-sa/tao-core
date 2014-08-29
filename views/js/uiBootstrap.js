@@ -122,7 +122,6 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
 
                 if (settings.dataType === 'html') {
                     helpers._autoFx();
-                    self.initSize();
                 }
             });
 
