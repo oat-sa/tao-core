@@ -33,7 +33,6 @@ use oat\tao\helpers\Layout;
         <?php /* <header> + <nav> */
         Template::inc('blocks/header.tpl', 'tao'); ?>
 
-        <div class="progress-bar"></div>
 
         <div id="feedback-box"></div>
 

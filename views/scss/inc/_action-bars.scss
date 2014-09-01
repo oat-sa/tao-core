@@ -58,10 +58,12 @@
             a {
                 height: 60px;
                 display:block;
-                white-space: nowrap;
+                //white-space: nowrap;
                 overflow: hidden;
-                text-overflow: ellipsis;
+                //text-overflow: ellipsis;
+                text-align: center;
                 @include font-size(12);
+                line-height: 12px;
             }
             .glyph {
                 display: block;

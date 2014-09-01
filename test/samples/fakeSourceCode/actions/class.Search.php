@@ -58,7 +58,7 @@ class tao_actions_form_Search
 		
 		//search action in toolbar
 		$searchElt = tao_helpers_form_FormFactory::getElement('search', 'Free');
-		$searchElt->setValue("<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/search.png'  /> ".__('Search')."</a>");
+		$searchElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-search"></span> ' .__('Search').'</a>');
 		$this->form->setActions(array($searchElt), 'top');
 		$this->form->setActions(array($searchElt), 'bottom');
     	
@@ -91,7 +91,7 @@ class tao_actions_form_Search
 		$langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
 		$langElt->setDescription(__('Language'));
 		
-		$languages = array_merge(array('  '), tao_helpers_I18n::getAvailableLangs(true));
+		$languages = array_merge(array('  '), tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA)));
 		$langElt->setOptions($languages);
 		$langElt->setValue(0);
 		$this->form->addElement($langElt);
@@ -147,6 +147,4 @@ class tao_actions_form_Search
         
     }
 
-} /* end of class tao_actions_form_Search */
-
-?>
+}

@@ -18,7 +18,7 @@ use oat\tao\helpers\Template;
     require(['jquery', 'lodash', 'helpers', 'uiForm'], function($, _, helpers, uiForm){
 
         var $form = $('#exportChooser'),
-            $submitter = $form.find('.form-submiter'),
+            $submitter = $form.find('.form-submitter'),
             $sent = $form.find(":input[name='" + $form.attr('name') + "_sent']");
 
         //by changing the format, the form is sent

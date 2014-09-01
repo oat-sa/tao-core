@@ -38,26 +38,8 @@ as follows:
 Comments in this file will give more details about each of the above blocks.
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 /* Tao specific stuff */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
@@ -137,6 +119,8 @@ Comments in this file will give more details about each of the above blocks.
   border-radius: 1px;
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
 
 /* This one is required by Firefox 3.6. Without it,

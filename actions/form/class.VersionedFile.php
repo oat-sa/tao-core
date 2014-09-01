@@ -90,7 +90,7 @@ class tao_actions_form_VersionedFile
     	
 		$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
 		$value = '';
-		$value .=  '<a href="#" class="form-submiter btn-info small"><span class="icon-save"></span>' .__('Save').'</a>';
+		$value .=  '<a href="#" class="form-submitter btn-success small"><span class="icon-save"></span>' .__('Save').'</a>';
         
 		$actions->setValue($value);
 		

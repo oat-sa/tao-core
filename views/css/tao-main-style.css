@@ -1,13 +1,4 @@
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -2603,15 +2594,6 @@ textarea {
   margin-bottom: 0 !important; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -3697,15 +3679,6 @@ Special outer level classes used in this file:
 	.cke_rtl: Available when the editor UI is on RTL.
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -4537,15 +4510,6 @@ To make it easier to maintain, instead of including all styles here, we import
 other files.
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -5110,15 +5074,6 @@ To understand why "reset" is needed, check the CKEditor Skin SDK:
 http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -5827,6 +5782,8 @@ Special outer level classes used in this file:
   -webkit-border-radius: 2px;
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
 
 .cke_float .cke_top, .cke_float .tlb-top {
@@ -5963,15 +5920,6 @@ This file also defines styles for panel lists (used by combos). For menu-like
 panel contents and color panels check menu.css and colorpanel.css.
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -6813,15 +6761,6 @@ Special outer level classes used in this file:
 	.cke_rtl: Available when the editor UI is on RTL.
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -7828,15 +7767,6 @@ The visual representation of a rich combo widget looks as follows:
 +-----------------------------------------------------------------------------------+
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -8603,15 +8533,6 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -9176,15 +9097,6 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 
 /* Tao specific stuff */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -9801,15 +9713,6 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 
 /* Icon set */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -10384,15 +10287,6 @@ legend.cke_voice_label {
   display: table; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -11097,6 +10991,8 @@ Special outer level classes used in this file:
   -webkit-border-radius: 2px;
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
 
 .cke_float .cke_top, .cke_float .tlb-top {
@@ -11191,15 +11087,6 @@ Special outer level classes used in this file:
   box-sizing: border-box; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -11772,6 +11659,8 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   background: #f3f1ef;
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
   .tlb-wrapper .tlb {
     float: right; }
@@ -11819,15 +11708,6 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
     color: white; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -12388,6 +12268,8 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   background-color: #404040;
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   color: white; }
 
@@ -12396,30 +12278,40 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   background-color: white;
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   color: #222222; }
 
 .tao-info-tooltip {
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   color: #222222; }
 
 .tao-success-tooltip {
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   color: #222222; }
 
 .tao-warning-tooltip {
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   color: #222222; }
 
 .tao-error-tooltip {
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   color: #222222; }
 
@@ -12445,15 +12337,6 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   display: none; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -13144,21 +13027,14 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
               border-width: 0 !important;
               -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
               -moz-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+              -ms-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+              -o-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
               box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
     .resourcemgr .file-selector .file-upload-container {
       display: none;
       padding: 0 5px; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -15827,6 +15703,12 @@ html, body {
   left: -10000px;
   top: -10000px; }
 
+.xhtml_form form > div.form-toolbar:before, .xhtml_form form > div.form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form form > div.form-toolbar:after {
+  clear: both; }
+
 s {
   text-decoration: none; }
 
@@ -16143,17 +16025,7 @@ label {
         right: 30px;
         top: 6px; }
         .file-drop ul > li .status.sending:before {
-          @keyframes fade {
-            0% {
-              opacity: 0; }
-
-            50% {
-              opacity: 1; }
-
-            100% {
-              opacity: 0; } }
-
-          @-webkit-keyframes fade {
+          @-o-keyframes fade {
             0% {
               opacity: 0; }
 
@@ -16173,7 +16045,7 @@ label {
             100% {
               opacity: 0; } }
 
-          @-o-keyframes fade {
+          @-webkit-keyframes fade {
             0% {
               opacity: 0; }
 
@@ -16183,14 +16055,26 @@ label {
             100% {
               opacity: 0; } }
 
-          animation: fade 1s forwards;
+          @keyframes fade {
+            0% {
+              opacity: 0; }
+
+            50% {
+              opacity: 1; }
+
+            100% {
+              opacity: 0; } }
+
           -webkit-animation: fade 1s forwards;
           -moz-animation: fade 1s forwards;
+          -ms-animation: fade 1s forwards;
           -o-animation: fade 1s forwards;
-          animation-iteration-count: infinite;
+          animation: fade 1s forwards;
           -webkit-animation-iteration-count: infinite;
           -moz-animation-iteration-count: infinite;
-          -o-animation-iteration-count: infinite; }
+          -ms-animation-iteration-count: infinite;
+          -o-animation-iteration-count: infinite;
+          animation-iteration-count: infinite; }
         .file-drop ul > li .status.success:before {
           color: #0e914b; }
         .file-drop ul > li .status.error:before {
@@ -16417,17 +16301,23 @@ label {
 
 .xhtml_form form > div {
   margin-bottom: 10px; }
-  .xhtml_form form > div label {
+  .xhtml_form form > div .form_desc {
     width: 35%;
     display: inline-block;
     padding: 0 10px 0 0; }
   .xhtml_form form > div input[type="text"], .xhtml_form form > div input[type="password"] {
-    width: 65%; }
+    width: 65%;
+    max-width: none; }
   .xhtml_form form > div select, .xhtml_form form > div textarea {
-    width: 65%; }
+    width: 65%;
+    max-width: none; }
   .xhtml_form form > div.form-toolbar {
     text-align: right;
-    margin: 10px 0 0 0; }
+    margin: 30px 0 0 0; }
+  .xhtml_form form > div .btn-info, .xhtml_form form > div .ui-button {
+    float: left; }
+  .xhtml_form form > div .btn-success {
+    float: right; }
 
 /* Style of advanced components */
 /* toggler */

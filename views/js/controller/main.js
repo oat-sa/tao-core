@@ -26,13 +26,12 @@ define([
 
             sectionHeight.init();
 
-            // Playground: @todo rewrite this code decently
-            setTimeout(function() {
-                // set the focus always to the first text field in the first form
-                $('.xhtml_form').first().find('input[type="text"]').first().focus();
+            /////////////////////////////////////////
 
-
-            }, 3000);
+            var $tabContainer = $('.tab-container');
+            if($tabContainer.find('li').length < 2) {
+                $tabContainer.hide();
+            }
         }
     };
 });

@@ -158,8 +158,9 @@ class tao_actions_form_SimpleProperty
 		
 		//add a delete button 
 		$deleteElt = tao_helpers_form_FormFactory::getElement("propertyDeleter{$index}", 'Button');
-		$deleteElt->addAttribute('class', 'property-deleter');
+		$deleteElt->addAttribute('class', 'property-deleter btn-warning small');
 		$deleteElt->setValue(__('Delete property'));
+        $deleteElt->setIcon('icon-bin');
 		$this->form->addElement($deleteElt);
 		$elementNames[] = $deleteElt->getName();
 		
@@ -170,7 +171,7 @@ class tao_actions_form_SimpleProperty
 		$elementNames[] = $modeElt->getName();
 		
 		if(count($elementNames) > 0){
-			$groupTitle = "<img src='".TAOBASE_WWW."img/prop_green.png' /> ".__('Property')." #".($index).": "._dh($property->getLabel());
+			$groupTitle = '<span class="icon-property regular-property"></span> '.__('Property')." #".($index).": "._dh($property->getLabel());
 			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames, array('class' => 'form-group-opened'));
 		}
     	
@@ -183,6 +184,4 @@ class tao_actions_form_SimpleProperty
         
     }
 
-} /* end of class tao_actions_form_SimpleProperty */
-
-?>
+}

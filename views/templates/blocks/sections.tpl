@@ -52,7 +52,6 @@ $sections = get_data('sections');
                         <?php endforeach; ?>
                     </div>
                     <div class="tree-action-bar-box">
-                        <h3 class="block-title"><?= __('Actions') ?></h3>
                         <ul class="action-bar plain tree-action-bar vertical-action-bar">
                             <?php foreach ($section->getActionsByGroup('tree') as $action): ?>
                                 <li class="action"
