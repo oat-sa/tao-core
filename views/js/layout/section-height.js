@@ -1,3 +1,6 @@
+/**
+ * @author Dieter Raber <dieter@taotesting.com>
+ */
 define([
     'jquery',
     'jquery.cookie'

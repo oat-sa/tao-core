@@ -1,15 +1,19 @@
 /*
  * Helpers
  */
-define(['lodash', 'jquery', 'context', 'jqueryui'], function(_, $, context) {
-    
-    var parallelLoading = 0;
-    var $loader =  $("#ajax-loading");
+define([
+    'lodash',
+    'jquery',
+    'context',
+    'layout/loading-bar',
+    'jqueryui'
+], function(_, $, context, loadingBar) {
+
     
 	var Helpers = {
 		init: function() {
                     /**
-                     * EXtends the JQuery post method for conveniance use with Json
+                     * Extends the JQuery post method for convenience use with Json
                      * @param {String} url
                      * @param {Object} data
                      * @param {Function} callback
@@ -112,7 +116,7 @@ define(['lodash', 'jquery', 'context', 'jqueryui'], function(_, $, context) {
 		},
 
 		/*
-		 * Naviguation and ajax helpers
+		 * Navigation and ajax helpers
 		 */
 
 		/**
@@ -121,22 +125,12 @@ define(['lodash', 'jquery', 'context', 'jqueryui'], function(_, $, context) {
 		 * - disable the submit buttons
 		 */
 		loading: function(){
-            if (parallelLoading > 0){
-                 return; //Need once
-            }
-            parallelLoading++;
             $(window).on('click', function(e){
                     e.stopPropagation();
                     e.preventDefault();
                     return false;
             });
-            $loader.show();
-            setTimeout(function(){
-                 //we display the overlay only if the request is slow
-                 if(parallelLoading === 1){
-                     $loader.addClass('overlay');
-                 }
-            }, 200);
+            loadingBar.start();
 		},
 
 		/**
@@ -145,15 +139,8 @@ define(['lodash', 'jquery', 'context', 'jqueryui'], function(_, $, context) {
 		 *  - enable back the submit buttons
 		 */
 		loaded: function(){
-            if (parallelLoading > 1){
-                return;
-            }
             $(window).off('click');
-            $loader.hide()
-                    .removeClass('overlay');
-            setTimeout(function(){
-                parallelLoading--;
-            }, 10);
+            loadingBar.stop();
 		},
 
 		/**

@@ -88,7 +88,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
             });
 
             //Enable the closing tab if added after the init
-            this.tabs.tabs("option", "tabTemplate", '<li class="closable"><a href="#{href}"><span>#{label}</span></a><span class="tab-closer" title="' + __('Close tab') + '">X</span></li>');
+            this.tabs.tabs("option", "tabTemplate", '<li class="closable"><a href="#{href}"><span>#{label}</span></a><span class="tab-closer" title="' + __('Close tab') + '">x</span></li>');
             this.tabs.on("tabsadd", function (event, ui) {
                 //Close the new content div
                 $(ui.panel).addClass('ui-tabs-hide');
@@ -103,21 +103,22 @@ define(['jquery', 'lodash', 'i18n', 'context', 'helpers', 'ui/feedback', 'layout
         },
 
         /**
-         * initialize common ajavx behavior
+         * initialize common ajax behavior
          */
         initAjax: function () {
 
             //TODO move this somewhere else (main controller?)
 
-            var self = this;
+            var self = this,
+                $body = $(document.body);
 
             //just before an ajax request
-            $("body").ajaxSend(function (event, request, settings) {
+            $body.ajaxSend(function (event, request, settings) {
                 helpers.loading();
             });
 
             //when an ajax request complete
-            $("body").ajaxComplete(function (event, request, settings) {
+            $body.ajaxComplete(function (event, request, settings) {
                 helpers.loaded();
 
                 if (settings.dataType === 'html') {

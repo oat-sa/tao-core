@@ -8,6 +8,12 @@
 /*
  * Repeat animation
  */
+.taotree-repository .node-instance ins:before {
+  content: "\e603"; }
+
+.taotree-result_server .node-instance ins:before {
+  content: "\e604"; }
+
 .tree .node-class > a > ins:before {
   content: "\f07b"; }
 

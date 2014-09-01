@@ -137,7 +137,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 		$returnValue .='
 						"starter" : "#'.$widgetName.'_starter",
 						"target": "#'.$widgetName.'_container input[id=\''.$this->name.'\']",
-						"submiter": ".form-submiter",
+						"submitter": ".form-submitter",
 						"auto": '.$auto.',
 						"folder": "/"
 					});

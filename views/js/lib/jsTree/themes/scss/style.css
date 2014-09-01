@@ -1,13 +1,4 @@
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 .taotree-repository .node-instance ins:before {
   content: "\e603"; }
 

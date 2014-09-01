@@ -133,10 +133,10 @@ class tao_actions_form_Clazz
 				$elementNames[] = $element->getName();
 			}
 		}
-		if(count($elementNames) > 0){
-			$groupTitle = "<img src='".TAOBASE_WWW."img/class.png' /> ".__('Class').": "._dh($clazz->getLabel());
-			$this->form->createGroup('class', $groupTitle, $elementNames);
-		}
+//		if(count($elementNames) > 0){
+//			$groupTitle = "<img src='".TAOBASE_WWW."img/class.png' /> ".__('Class').": "._dh($clazz->getLabel());
+//			$this->form->createGroup('class', $groupTitle, $elementNames);
+//		}
 
 		//add an hidden elt for the class uri
 		$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
@@ -170,7 +170,7 @@ class tao_actions_form_Clazz
 
 			if($useEditor){
 
-				//instanciate a property form
+				//instantiate a property form
 
 				$propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
 				if(!class_exists($propFormClass)){
@@ -189,14 +189,16 @@ class tao_actions_form_Clazz
 			}
 			else if($parentProp){
 				$domainElement = tao_helpers_form_FormFactory::getElement('parentProperty'.$i, 'Free');
-				$value = __("Edit property into parent class ");
+				$value = __("Edit property of parent class ");
 				foreach($domains->getIterator() as $domain){
-					$value .= "<a  href='#' onclick='GenerisTreeBrowserClass.selectTreeNode(\"".tao_helpers_Uri::encode($domain->getUri())."\");' >".$domain->getLabel()."</a> ";
+                    //@todo this link is not working, span is tmp fix (cover up rather)
+					//$value .= "<a  href='#' onclick='GenerisTreeBrowserClass.selectTreeNode(\"".tao_helpers_Uri::encode($domain->getUri())."\");' >".$domain->getLabel()."</a> ";
+                    $value .= "<span>".$domain->getLabel()."</span> ";
 				}
 				$domainElement->setValue($value);
 				$this->form->addElement($domainElement);
 
-				$groupTitle = "<img src='".TAOBASE_WWW."img/prop_orange.png' /> ".__('Property')." #".($i).": "._dh($classProperty->getLabel());
+				$groupTitle = '<span class="icon-property parent-property"></span> '.__('Property')." #".($i).": "._dh($classProperty->getLabel());
 				$this->form->createGroup("parent_property_{$i}", $groupTitle, array('parentProperty'.$i));
 			}
 			else{
@@ -204,7 +206,7 @@ class tao_actions_form_Clazz
 				$roElement->setValue(__("You cannot modify this property"));
 				$this->form->addElement($roElement);
 
-				$groupTitle = "<img src='".TAOBASE_WWW."img/prop_red.png' /> ".__('Property')." #".($i).": "._dh($classProperty->getLabel());
+				$groupTitle = '<span class="icon-property ro-property"></span> '.__('Property')." #".($i).": "._dh($classProperty->getLabel());
 				$this->form->createGroup("ro_property_{$i}", $groupTitle, array('roProperty'.$i));
 			}
 
@@ -213,6 +215,4 @@ class tao_actions_form_Clazz
         
     }
 
-} /* end of class tao_actions_form_Clazz */
-
-?>
+}
