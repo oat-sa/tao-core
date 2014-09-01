@@ -264,7 +264,7 @@ label {
 
 .xhtml_form form > div {
     margin-bottom: 10px;
-    label {
+    .form_desc {
         width: 35%;
         display:inline-block;
         padding: 0 10px 0 0;
@@ -273,14 +273,27 @@ label {
     input {
         &[type="text"], &[type="password"] {
             width: 65%;
+            max-width: none;
         }
     }
     select, textarea {
         width: 65%;
+        max-width: none;
     }
     &.form-toolbar {
         text-align: right;
-        margin: 10px 0 0 0;
+        margin: 30px 0 0 0;
+        @extend %clearfix;
     }
+
+
+    .btn-info {
+        float:left;
+    }
+
+    .btn-success {
+        float: right;
+    }
+
 }
 

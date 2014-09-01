@@ -5,6 +5,16 @@
     top: -10000px
 }
 
+%clearfix {
+    &:before, &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
 s {
     text-decoration: none;
 }

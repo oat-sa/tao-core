@@ -1,23 +1,5 @@
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 #requirement-check {
   margin: 40px auto;
   width: 60%;
@@ -28,9 +10,9 @@
   margin: 0;
   border-radius: 0;
   border: none;
-  border-bottom: 1px #ddd solid;
   padding: 0 20px 0 45px !important;
-  line-height: 2; }
+  line-height: 2;
+  border-bottom: 1px #dddddd solid; }
   .version-warning span {
     top: 5px !important; }
 
@@ -157,12 +139,17 @@ nav {
       color: white;
       text-decoration: none; }
 
+header {
+  position: relative;
+  border-bottom: 1px #dddddd solid; }
+
 footer, .content-wrap:after {
   height: 34px; }
 
 footer {
   font-size: 11px;
-  padding: 10px; }
+  padding: 10px;
+  border-top: 1px #dddddd solid; }
   footer a {
     text-decoration: underline; }
   footer .icon-warning {
@@ -181,63 +168,78 @@ footer {
   display: block; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
-@-moz-keyframes progressbar {
+@-o-keyframes loadingbar {
   0% {
-    left: -5%; }
+    left: -10%; }
+
+  50% {
+    left: 90%; }
 
   100% {
-    left: 95%; } }
+    left: -10%; } }
 
-@keyframes progressbar {
+@-moz-keyframes loadingbar {
   0% {
-    left: -5%; }
+    left: -10%; }
+
+  50% {
+    left: 90%; }
 
   100% {
-    left: 95%; } }
+    left: -10%; } }
 
-.progress-bar {
-  position: relative;
-  height: 5px;
-  border-top: 1px #ddd solid;
+@-webkit-keyframes loadingbar {
+  0% {
+    left: -10%; }
+
+  50% {
+    left: 90%; }
+
+  100% {
+    left: -10%; } }
+
+@keyframes loadingbar {
+  0% {
+    left: -10%; }
+
+  50% {
+    left: 90%; }
+
+  100% {
+    left: -10%; } }
+
+.loading-bar {
+  border-top: 1px solid #848484;
+  border-bottom: 1px solid #848484;
+  height: 6px;
+  position: absolute;
+  background: #333333;
+  width: 100%;
+  bottom: -1px;
   display: none;
-  overflow: hidden; }
-  .progress-bar.active {
+  overflow: hidden;
+  z-index: 10000; }
+  .loading-bar.loading {
     display: block; }
-  .progress-bar:before {
-    position: absolute;
-    top: 0;
-    content: '';
-    height: 5px;
-    width: 20%;
-    display: block;
-    background: -moz-linear-gradient(left, white 0%, #3e7da7 20%, #3e7da7 80%, white 100%);
-    background: -webkit-linear-gradient(left, white 0%, #3e7da7 20%, #3e7da7 80%, white 100%);
-    background: -o-linear-gradient(left, white 0%, #3e7da7 20%, #3e7da7 80%, white 100%);
-    background: -ms-linear-gradient(left, white 0%, #3e7da7 20%, #3e7da7 80%, white 100%);
-    background: linear-gradient(left, white 0%, #3e7da7 20%, #3e7da7 80%, white 100%); }
-  .progress-bar:before {
-    -webkit-animation: progressbar 3s linear infinite;
-    animation: progressbar 3s linear infinite; }
+    .loading-bar.loading:before {
+      position: absolute;
+      top: 0;
+      content: '';
+      height: 6px;
+      width: 20%;
+      display: block;
+      background: -webkit-linear-gradient(left, #333333 0%, #c35a13 20%, #c35a13 80%, #333333 100%);
+      background: -moz-linear-gradient(left, #333333 0%, #c35a13 20%, #c35a13 80%, #333333 100%);
+      background: -ms-linear-gradient(left, #333333 0%, #c35a13 20%, #c35a13 80%, #333333 100%);
+      background: -o-linear-gradient(left, #333333 0%, #c35a13 20%, #c35a13 80%, #333333 100%);
+      background: linear-gradient(left, #333333 0%, #c35a13 20%, #c35a13 80%, #333333 100%);
+      -webkit-animation: loadingbar 5s linear infinite;
+      -moz-animation: loadingbar 5s linear infinite;
+      -ms-animation: loadingbar 5s linear infinite;
+      -o-animation: loadingbar 5s linear infinite;
+      animation: loadingbar 5s linear infinite; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 .entry-point {
   border: 1px solid #dddddd;
   border-radius: 2px;
@@ -344,15 +346,6 @@ footer {
     font-style: normal; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 .action-bar {
   background: #266d9c;
   padding: 3px;
@@ -391,11 +384,11 @@ footer {
     .action-bar.vertical-action-bar li a {
       height: 60px;
       display: block;
-      white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;
+      text-align: center;
       font-size: 12px;
-      font-size: 1.2rem; }
+      font-size: 1.2rem;
+      line-height: 12px; }
     .action-bar.vertical-action-bar li .glyph {
       display: block;
       margin: 12px auto 3px;
@@ -464,15 +457,6 @@ footer {
   border: none; }
 
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
 .section-container {
   top: 0 !important; }
   .section-container .content-panel {
@@ -528,7 +512,6 @@ footer {
       margin: 10px 0; }
   .section-container .content-container {
     border: none;
-    border-left: 1px white solid;
     -webkit-order: 0;
     -ms-flex-order: 0;
     order: 0;
@@ -537,15 +520,20 @@ footer {
     flex: 1 1 auto;
     -webkit-align-self: stretch;
     -ms-flex-item-align: stretch;
-    align-self: stretch; }
+    align-self: stretch;
+    border-left: 1px #dddddd solid; }
   .section-container .content-block {
-    margin: 20px; }
+    padding: 20px; }
     .section-container .content-block #form-container.ui-widget-content {
       border: none !important; }
     .section-container .content-block form {
+      border: 1px #dddddd solid;
       background: #f2f0ee;
-      padding: 40px;
-      max-width: 550px; }
+      padding: 30px;
+      max-width: 550px;
+      border: 1px solid #dddddd;
+      border-radius: 2px;
+      -webkit-border-radius: 2px; }
     .section-container .content-block #form-title {
       font-size: 20px;
       font-size: 2rem;

@@ -1,0 +1,39 @@
+@import 'inc/bootstrap';
+
+$loadingBarBorder: whiten($darkBar, .4);
+
+@mixin loading-gradient($color-1, $color-2: $darkBar) {
+    @include vendor-prefix(background, linear-gradient(left,  $color-2 0%, $color-1 20%, $color-1 80%, $color-2 100%), value);
+}
+
+@include keyframes(loadingbar) {
+    0%   { left: -10% }
+    50% { left: 90% }
+    100% { left: -10% }
+}
+
+.loading-bar {
+    border-top: 1px solid $loadingBarBorder;
+    border-bottom:  1px solid $loadingBarBorder;
+    height: 6px;
+    position: absolute;
+    background: $darkBar;
+    width: 100%;
+    bottom: -1px;
+    display:none;
+    overflow: hidden;
+    z-index: 10000;
+    &.loading {
+        display: block;
+        &:before {
+            position: absolute;
+            top: 0;
+            content: '';
+            height: 6px;
+            width: 20%;
+            display: block;
+            @include loading-gradient($activeInteraction, $darkBar);
+            @include animation(loadingbar 5s linear infinite);
+        }
+    }
+}

@@ -11,9 +11,9 @@
     margin: 0;
     border-radius: 0;
     border: none;
-    border-bottom: 1px #ddd solid;
     padding: 0 20px 0 45px !important;
     line-height: 2;
+    border-bottom: 1px $uiGeneralContentBorder solid;
     span {
         top: 5px !important;
     }
@@ -185,6 +185,11 @@ nav {
     }
 }
 
+header {
+    position: relative;
+    border-bottom: 1px $uiGeneralContentBorder solid;
+}
+
 // Footer
 footer, .content-wrap:after {
     // must be the same height as footer
@@ -194,6 +199,7 @@ footer, .content-wrap:after {
 footer {
     font-size: 11px;
     padding: 10px;
+    border-top: 1px $uiGeneralContentBorder solid;
     a {
         text-decoration: underline
     }

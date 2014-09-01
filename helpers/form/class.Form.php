@@ -809,6 +809,7 @@ abstract class tao_helpers_form_Form
      * @param  array elements array of form elements or their identifiers
      * @param  array options
      * @return mixed
+     * @throws common_Exception
      */
     public function createGroup($groupName, $groupTitle = '', $elements = array(), $options = array())
     {

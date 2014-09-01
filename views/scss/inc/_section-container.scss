@@ -9,7 +9,6 @@
         margin: 0;
         padding:0;
         border: none !important;
-
         display: -ms-flexbox;
         display: -webkit-flex;
         display: flex;
@@ -67,7 +66,6 @@
 
     .content-container {
         border: none;
-        border-left: 1px white solid;
         -webkit-order: 0;
         -ms-flex-order: 0;
         order: 0;
@@ -77,20 +75,21 @@
         -webkit-align-self: stretch;
         -ms-flex-item-align: stretch;
         align-self: stretch;
-
-
+        border-left: 1px $uiGeneralContentBorder solid;
     }
 
 
     .content-block {
-        margin: 20px;
+        padding: 20px;
         #form-container.ui-widget-content {
             border:none !important
         }
         form {
+            border: 1px $uiGeneralContentBorder solid;
             background: $canvas;
-            padding: 40px;
+            padding: 30px;
             max-width: 550px;
+            @include simple-border();
         }
         #form-title {
             @include largeHeading();
