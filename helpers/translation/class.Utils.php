@@ -31,12 +31,6 @@
  */
 class tao_helpers_translation_Utils
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
      * Returns the default language of TAO.
@@ -56,6 +50,25 @@ class tao_helpers_translation_Utils
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_translation_Utils */
+    /**
+     * Get the availables locales for the current installation (from installed extensions).
+     * @return string[] the list of all locales supported by the app (even though a locale is used in only one extension).
+     */
+    public static function getAvailableLanguages(){
+        $languages = array();
+        foreach(common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension){
+           $localesDir = $extension->getDir() . 'locales/';
+           foreach(glob($localesDir . '*') as  $file){
+                if(is_dir($file) && file_exists($file . '/messages.po')){
+                    $lang = basename($file);
+                    if(!in_array($lang, $languages)){
+                        $languages[] = $lang;
+                    }
+                }
+           }
+        } 
+        return $languages;
+    }
 
+}
 ?>
