@@ -6,18 +6,18 @@ require.config({
     
     config : {
         'context': {
-            root_url        : '<?=ROOT_URL?>',
-            base_url        : '<?=BASE_URL?>',
-            taobase_www     : '<?=TAOBASE_WWW?>',
-            base_www        : '<?=get_data('base_www')?>',
-            base_lang       : '<?=get_data('lang')?>',
-            locale          : '<?=get_data('locale')?>',
-            extension       : '<?=get_data('extension')?>',
-            module          : '<?=get_data('module')?>',
-            action          : '<?=get_data('action')?>',
-            shownExtension  : '<?=get_data('shownExtension')?>',
-            shownStructure  : '<?=get_data('shownStructure')?>',
-            extensionsLocales     : <?=json_encode(get_data('extensionsLocales'))?>
+            root_url                : '<?=ROOT_URL?>',
+            base_url                : '<?=BASE_URL?>',
+            taobase_www             : '<?=TAOBASE_WWW?>',
+            base_www                : '<?=get_data('base_www')?>',
+            base_lang               : '<?=get_data('lang')?>',
+            locale                  : '<?=get_data('locale')?>',
+            extension               : '<?=get_data('extension')?>',
+            module                  : '<?=get_data('module')?>',
+            action                  : '<?=get_data('action')?>',
+            shownExtension          : '<?=get_data('shownExtension')?>',
+            shownStructure          : '<?=get_data('shownStructure')?>',
+            extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>
         }
     },
     
@@ -36,6 +36,7 @@ require.config({
         'moment'            : 'lib/moment.min',
         'handlebars'        : 'lib/handlebars',
         'tpl'               : 'tpl',
+        'i18n'              : 'i18n',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'ckConfigurator'    : '../../../taoQtiItem/views/js/qtiCreator/editor/ckEditor/ckConfigurator',
         'class'             : 'lib/class',
@@ -52,13 +53,10 @@ require.config({
         'tooltipster'       : 'lib/tooltipster/js/jquery.tooltipster.min',
         'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.trunc'		: 'lib/jquery.badonkatrunc',
-        'i18n_tr'           : '<?=BASE_URL?>locales/<?=get_data('locale')?>/messages_po',
+        'i18n_tr'           : '../locales/<?=get_data('locale')?>.json',
     <?foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
         '<?=$name?>_css'        : '../../../<?=$name?>/views/css',
-        <?if(in_array($name, get_data('extensionsLocales'))):?>
-        '<?=$name?>_i18n'   : '../../../<?=$name?>/locales/<?=get_data('locale')?>/messages_po',
-        <?endif?>
         <?if(tao_helpers_Mode::is('production')):?>
         '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
         <?endif?>

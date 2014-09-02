@@ -384,7 +384,7 @@ class tao_install_Installator{
                     $bundle = new TranslationBundle($langCode, $installedExtensions);
                     $file = $bundle->generateTo($bundleDirPath); 
                     if($file){
-                        common_Logger:d("$file  generated", 'INSTALL');
+                        common_Logger::d("$file  generated", 'INSTALL');
                     } else {
                         common_Logger::w("Unable to generate client translation bundle for language  $langCode", 'INSTALL');
                     }
