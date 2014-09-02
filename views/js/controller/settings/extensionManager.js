@@ -37,7 +37,7 @@ define(['jquery', 'i18n', 'context', 'helpers'], function($, __, context, helper
             progressConsole(__('Installing extension %s...').replace('%s', ext));
             $.ajax({
                     type: "POST",
-                    url: context.root_url + "tao/ExtensionsManager/install",
+                    url: helpers._url('install', 'ExtensionsManager', 'tao'),
                     data: 'id='+ext,
                     dataType: 'json',
                     success: function(data) {
@@ -86,23 +86,32 @@ define(['jquery', 'i18n', 'context', 'helpers'], function($, __, context, helper
             }
     }
 
+    function postInstall(){
+        progressConsole(__('Post install processing'));
+        return $.ajax({
+            type: "GET",
+            url: helpers._url('postInstall', 'ExtensionsManager', 'tao')
+        });
+    }
+
     function hasNextExtensionToInstall() {
             if (indexCurrentToInstall >= toInstall.length) {
-                    toInstall = [];
-                    $('#installProgress .bar').animate({backgroundColor:'#bb6',width:'100%'}, 1000);
-                    progressConsole(__('Generating cache...'));
-                    $.ajax({
-                            type: "GET",
-                            url: $($('#main-menu a')[0]).prop('href'),
-                            success: function(data) {
-                                    helpers.loaded();
-                                    $('#installProgress .bar').animate({backgroundColor:'#6b6'}, 1000);
-                                    $('#installProgress p.status').text(__('Installation done.'));
-                                    progressConsole(__('> Installation done.'));
-                            }
-                    });
+                toInstall = [];
+                $('#installProgress .bar').animate({backgroundColor:'#bb6',width:'100%'}, 1000);
+
+                postInstall().done(function(data) {
+                    helpers.loaded();
+                    $('#installProgress .bar').animate({backgroundColor:'#6b6'}, 1000);
+                    $('#installProgress p.status').text(__('Installation done.'));
+                    progressConsole(__('> Installation done.'));
+                    progressConsole(__('... reloading page.'));
+
+                    setTimeout(function(){
+                        window.location.reload(true);
+                    }, 1000);
+                });
             } else {
-                    installNextExtension();
+                installNextExtension();
             }
     }
 
@@ -160,12 +169,14 @@ define(['jquery', 'i18n', 'context', 'helpers'], function($, __, context, helper
                     $('#available-extensions-container input:checked').each(function() {
                             var ext = $(this).prop('name').split('_')[1];
                             var deps = getDependencies(ext);
-                            if (deps.length) toInstall = toInstall.concat(deps);
+                            if (deps.length) {
+                                toInstall = toInstall.concat(deps);
+                            }
                             toInstall.push(ext);
                     });
                     toInstall = getUnique(toInstall);
-                    if (toInstall.length == 0) {
-                            alert(__('Nothing to install !'));
+                    if (!toInstall.length) {
+                            window.alert(__('Nothing to install !'));
                             return false;
                     }
                     //Let's go
@@ -180,25 +191,22 @@ define(['jquery', 'i18n', 'context', 'helpers'], function($, __, context, helper
                             modal: true,
                             width: 400,
                             height: 300,
-                            buttons: [
-                                    {
-                                            text: __('No'),
-                                            click: function() {
-                                                    $(this).dialog('close');
-                                            }
-                                    },
-                                    {
-                                            text: __('Yes'),
-                                            click: function() {
-                                                    //Run the install one by one
-                                                    progressConsole(__('Preparing installation...'));
-                                                    $('.ui-dialog-buttonpane').remove();
-                                                    installError = 0;
-                                                    indexCurrentToInstall = 0;
-                                                    installNextExtension();
-                                            }
+                            buttons: [{
+                                text: __('No'),
+                                click: function() {
+                                        $(this).dialog('close');
+                                }
+                            },{
+                                    text: __('Yes'),
+                                    click: function() {
+                                            //Run the install one by one
+                                            progressConsole(__('Preparing installation...'));
+                                            $('.ui-dialog-buttonpane').remove();
+                                            installError = 0;
+                                            indexCurrentToInstall = 0;
+                                            installNextExtension();
                                     }
-                            ]
+                                }]
                     });
                     event.preventDefault();
             });

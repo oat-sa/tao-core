@@ -20,6 +20,8 @@
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use oat\tao\helpers\translation\TranslationBundle;
+
 /**
  *
  *
@@ -335,7 +337,7 @@ class tao_install_Installator{
 				foreach ($toInstall as $key => $extension) {
 					// if all dependencies are installed
 				    common_Logger::d('Considering extension ' . $key);
-					$installed	= array_keys(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
+					$installed	= array_keys(common_ext_extensionsmanager::singleton()->getinstalledextensions());
 					$missing	= array_diff(array_keys($extension->getDependencies()), $installed);
 					if (count($missing) == 0) {
 						try {
@@ -366,6 +368,31 @@ class tao_install_Installator{
 					throw new common_exception_Error('Unfulfilable/Cyclic reference found in extensions');
 				}
 			}
+
+            /*
+             *  9bis - Generates client side translation bundles (depends on extension install)
+             */
+			common_Logger::i('Generates client side translation bundles', 'INSTALL');
+            
+            //lookup for languages into tao
+            $languages = tao_helpers_translation_Utils::getAvailableLanguages();
+            $installedExtensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+            $bundleDirPath = $this->options['root_path'] . '/tao/views/locales/';
+ 
+            foreach($languages as $langCode){
+                try{
+                    $bundle = new TranslationBundle($langCode, $installedExtensions);
+                    $file = $bundle->generateTo($bundleDirPath); 
+                    if($file){
+                        common_Logger::d("$file  generated", 'INSTALL');
+                    } else {
+                        common_Logger::w("Unable to generate client translation bundle for language  $langCode", 'INSTALL');
+                    }
+                } catch(common_excpetion_Error $e){
+                   common_Logger::w($e->getMessage(), 'INSTALL');
+                }
+            } 
+            
 	
 			/*
 			 *  10 - Insert Super User
@@ -381,6 +408,8 @@ class tao_install_Installator{
 				'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.$installData['module_lang'],
                 'userTimezone'  => TIME_ZONE
 			));
+
+
 	
 			/*
 			 *  11 - Secure the install for production mode
