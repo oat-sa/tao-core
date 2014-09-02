@@ -54,6 +54,7 @@
         -webkit-align-self: stretch;
         -ms-flex-item-align: stretch;
         align-self: stretch;
+        border-right: 1px $uiGeneralContentBorder solid;
         .block-title {
             @include font-size(14);
             padding: 2px 8px;
@@ -61,6 +62,13 @@
         }
         .tree-action-bar-box {
             margin: 10px 0;
+            opacity: 0;
+            &.active {
+                opacity: 1;
+                transition: opacity .25s ease-in-out;
+                -moz-transition: opacity .25s ease-in-out;
+                -webkit-transition: opacity .25s ease-in-out;
+            }
         }
     }
 
@@ -75,7 +83,6 @@
         -webkit-align-self: stretch;
         -ms-flex-item-align: stretch;
         align-self: stretch;
-        border-left: 1px $uiGeneralContentBorder solid;
     }
 
 

@@ -44,7 +44,8 @@ define([
                     context.section = $section.attr('id');
  
                     $('.taotree', $section).each(function(){
-                        var $treeElt = $(this);
+                        var $treeElt = $(this),
+                            $actionBar = $('.tree-action-bar-box', $section);
                         
                         treeFactory($treeElt, $treeElt.data('url'), {
                             actions : {
@@ -54,8 +55,13 @@ define([
                                 'delete'         : $treeElt.data('action-delete')
                             }
                         });
+                        $treeElt.on('ready.taotree', function() {
+                            $actionBar.addClass('active');
+                        });
                     });
                     actions.init();
+
+                    // navBar.init() replace
                 }
             });
 
@@ -112,7 +118,7 @@ define([
                 else if (request.status === 404 || request.status === 500) {
 
                     try {
-                        // is it a common_AjaxResponse? Let's "ducktype"
+                        // is it a common_AjaxResponse? Let's "duck type"
                         var ajaxResponse = $.parseJSON(request.responseText);
                         if (ajaxResponse !== null &&
                             typeof ajaxResponse['success'] !== 'undefined' &&
@@ -146,7 +152,6 @@ define([
          * initialize common navigation
          */
         initNav: function () {
-
 
             //TODO move this somewhere else (layout/nav)
 

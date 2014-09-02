@@ -66,7 +66,7 @@ define([
             callback: {
 
                 /**
-                 * Additionnal parameters to send to the server to retrieve data. 
+                 * Additional parameters to send to the server to retrieve data.
                  * It uses the serverParams object previously defined
                  * @param {jQueryElement} [$node] - the node that represents a class. Used to add the classUri to the call
                  * @returns {Object} params
