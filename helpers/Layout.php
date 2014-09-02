@@ -112,16 +112,11 @@ class Layout{
      */
     public static function renderMenuIcon($icon, $defaultIcon) {
 
-        \common_Logger::d($icon);
-        debug_backtrace();
+        $srcExt   = '';
+        $isBase64 = false;
+		$iconClass = $defaultIcon;
+		if(!is_null($icon)){
 
-        // data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAAKSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC
-        // 1 x 1 png
-        $srcExt    = '';
-        $isBase64  = false;
-        $iconClass = $defaultIcon;
-
-        if(!is_null($icon)){
             if($icon -> getSource()) {
                 $imgXts   = 'png|jpg|jpe|jpeg|gif';
                 $regExp   = sprintf('~((^data:image/(%s))|(\.(%s)$))~', $imgXts, $imgXts);
@@ -131,6 +126,7 @@ class Layout{
 
             $iconClass = $icon -> getId() ? $icon -> getId() : $defaultIcon;
         }
+        // clarification icon vs. glyph: same thing but due to certain CSS rules a second class is required
 
         switch($srcExt) {
             case 'png':
