@@ -36,7 +36,7 @@ class NoAccess
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\func\FuncAccessControl::accessPossible()
      */
-    public function accessPossible($user, $action)
+    public function accessPossible($user, $controller, $action)
     {
         return false;
     }
@@ -45,15 +45,18 @@ class NoAccess
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\func\FuncAccessControl::applyRule()
      */
-    public function applyRule(tao_models_classes_accessControl_AccessRule $rule) {
-        // nothing can be done
+    public function applyRule(AccessRule $rule)
+    {
+        // nothing to do
     }
     
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\func\FuncAccessControl::revokeRule()
      */
-    public function revokeRule(tao_models_classes_accessControl_AccessRule $rule) {
-        // nothing can be done
+    public function revokeRule(AccessRule $rule)
+    {
+        // nothing to do
     }
+    
 }
