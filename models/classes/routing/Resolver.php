@@ -32,6 +32,8 @@ use common_ext_ExtensionsManager;
  */
 class Resolver
 {
+    const DEFAULT_EXTENSION = 'tao';
+    
     /**
      * Request to be resolved
      * 
@@ -85,7 +87,11 @@ class Resolver
         $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
         $extPrefix = substr($relativeUrl, 0, strpos($relativeUrl, '/'));
         
-        $extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extPrefix);
+        if (common_ext_ExtensionsManager::singleton()->isEnabled($extPrefix)) {
+            $extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extPrefix);
+        } else {
+            $extension = common_ext_ExtensionsManager::singleton()->getExtensionById(self::DEFAULT_EXTENSION);
+        }
         $routes = $this->getRoutes($extension);
         
         foreach ($this->getRoutes($extension) as $route) {
