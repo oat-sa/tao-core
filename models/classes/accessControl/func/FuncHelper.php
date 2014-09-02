@@ -28,12 +28,31 @@ use common_exception_Error;
  */
 class FuncHelper
 {
+
+    /**
+     * Get the controller className from extension and controller shortname
+     * @param string $extension 
+     * @param string $shortname
+     * @return string the full class name (as defined in PHP) 
+     */
     public static function getClassName($extension, $shortName) {
         $url = _url('index', $shortName, $extension);
-        $route = new Resolver(new common_http_Request($url));
-        $class = $route->getControllerClass();
+        return self::getClassNameByUrl($url);
+    }
+
+    /**
+     * Helps you to get the name of the class for a given URL. The controller class name is used in privileges definition.
+     * @param string $url 
+     * @return string the className
+     */
+    public static function getClassNameByUrl($url){
+        $class = null;
+        if(!empty($url)){
+            $route = new Resolver(new common_http_Request($url));
+            $class = $route->getControllerClass();
+        }
         if (is_null($class)) {
-            throw new common_exception_Error('The pair '.$extension.'::'.$shortName.' addressed by "'.$url.'" could not be mapped to a controller');
+            throw new common_exception_Error('The url "'.$url.'" could not be mapped to a controller');
         }
         return $class;
     }
