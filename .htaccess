@@ -1,7 +1,8 @@
 Options +FollowSymLinks
+
 <IfModule mod_rewrite.c>
 RewriteEngine On
-
+SetEnv HTTP_MOD_REWRITE on
 #don't macth resources and tests
 RewriteCond %{REQUEST_URI} 	!/views/  	[NC]
 RewriteCond %{REQUEST_URI} 	!/install/	[NC]
