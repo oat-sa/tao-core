@@ -926,6 +926,4 @@ abstract class tao_helpers_form_Form
      */
     public abstract function render();
 
-} /* end of abstract class tao_helpers_form_Form */
-
-?>
+}

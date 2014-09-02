@@ -16,5 +16,5 @@ $releaseMsgData = Layout::getReleaseMsgData();
         ? Template::inc('blocks/main-navi.tpl', 'tao')
         : '';
     ?>
-    <div class="loading-bar"></div>
+
 </header>

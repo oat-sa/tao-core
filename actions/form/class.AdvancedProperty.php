@@ -86,7 +86,7 @@ class tao_actions_form_AdvancedProperty
     	$elementNames = array();
 		foreach($propertyProperties as $propertyProperty){
 		
-			//map properties widgets to form elments 
+			//map properties widgets to form elements
 			$element = tao_helpers_form_GenerisFormFactory::elementMap($propertyProperty);
 			
 			if(!is_null($element)){

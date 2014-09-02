@@ -1,17 +1,41 @@
 /**
  * @author Dieter Raber <dieter@taotesting.com>
  */
-define(
-    function(){
+define(['jquery'],
+    function ($) {
 
-        var loadingBar = document.getElementsByClassName('loading-bar')[0];
+        var $loadingBar = $('.loading-bar'),
+            originalHeight = $loadingBar.height(),
+            $win = $(window),
+            headerHeight = $('header').height(),
+            winHeight = $win.height();
+
+        $win.on('scroll', function () {
+            if(!$loadingBar.hasClass('loading')) {
+                return;
+            }
+            var versionWarning = $('.version-warning'),
+                _headerHeight = versionWarning.length && versionWarning.is(':visible')
+                    ? headerHeight + versionWarning.height() - originalHeight
+                    : headerHeight - originalHeight;
+
+            if (_headerHeight <= $win.scrollTop()) {
+                $loadingBar.addClass('fixed');
+                $loadingBar.height(winHeight - originalHeight);
+            }
+            else {
+                $loadingBar.removeClass('fixed');
+                $loadingBar.height(winHeight - _headerHeight);
+            }
+        });
 
         return {
-            start: function() {
-                loadingBar.className += ' loading';
+            start: function () {
+                $loadingBar.addClass('loading');
+                $win.trigger('scroll');
             },
-            stop: function() {
-                loadingBar.className = loadingBar.className.replace(' loading', '');
+            stop: function () {
+                $loadingBar.removeClass('loading');
             }
         };
     });

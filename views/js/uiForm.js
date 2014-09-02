@@ -66,11 +66,12 @@ define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jw
 
             var $container = $('.xhtml_form:first'),
                 $form = $container.find('form'),
-                $firstInp = $container.find('input[type="text"]:first'),
-                $toolBar = $container.find('.form-toolbar'),
-                $translator = $container.find('.form-translator'),
-                $submitter = $container.find('.form-submitter'),
+                $firstInp = $form.find('input[type="text"]:first'),
+                $toolBar = $form.find('.form-toolbar'),
+                $translator = $form.find('.form-translator'),
+                $submitter = $form.find('.form-submitter'),
                 $authoringBtn = $('.authoringOpener'),
+                $authoringBtnParent,
                 $buttons;
 
             if($authoringBtn.length) {
@@ -87,7 +88,7 @@ define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jw
 
             // hide locked properties
             //alert('@todo: style props')
-            $('[id^="ro_property"], [id^="parent_property"]').hide();
+            //$('[id^="ro_property"], [id^="parent_property"]').hide();
 
 
             $firstInp.focus();

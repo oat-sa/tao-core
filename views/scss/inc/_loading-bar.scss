@@ -2,27 +2,29 @@
 
 $loadingBarBorder: whiten($darkBar, .4);
 
-@mixin loading-gradient($color-1, $color-2: $darkBar) {
+@mixin loading-gradient($color-1, $color-2) {
     @include vendor-prefix(background, linear-gradient(left,  $color-2 0%, $color-1 20%, $color-1 80%, $color-2 100%), value);
 }
 
 @include keyframes(loadingbar) {
-    0%   { left: -10% }
+    0% { left: -10% }
     50% { left: 90% }
     100% { left: -10% }
 }
 
 .loading-bar {
-    border-top: 1px solid $loadingBarBorder;
-    border-bottom:  1px solid $loadingBarBorder;
     height: 6px;
     position: absolute;
-    background: $darkBar;
     width: 100%;
-    bottom: -1px;
+    top: 87px;
     display:none;
     overflow: hidden;
     z-index: 10000;
+    &.fixed {
+        position: fixed;
+        width: 100%;
+        top: 0 !important;
+    }
     &.loading {
         display: block;
         &:before {
@@ -32,8 +34,14 @@ $loadingBarBorder: whiten($darkBar, .4);
             height: 6px;
             width: 20%;
             display: block;
-            @include loading-gradient($activeInteraction, $darkBar);
+            @include loading-gradient($activeInteraction, transparent);
             @include animation(loadingbar 5s linear infinite);
         }
+    }
+}
+
+.no-version-warning {
+    .loading-bar {
+        top: 58px
     }
 }
