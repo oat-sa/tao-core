@@ -35,22 +35,18 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         
         //get extension paths to set up aliases dynamically
         $extensionsAliases = array();
-        $extensionsLocales = array();
         $extensionManager = common_ext_ExtensionsManager::singleton();
         $langCode = tao_helpers_I18n::getLangCode();
-        
+         
         foreach($extensionManager->getInstalledExtensions() as $extension){
-            $extensionManifestConsts = $extension->getConstants();
-            if(isset($extensionManifestConsts['BASE_WWW'])){
-                 $extensionsAliases[$extension->getId()] = str_replace(ROOT_URL, '../../../', $extensionManifestConsts['BASE_WWW']) . 'js';
+            $extManifestConsts = $extension->getConstants();
+            if(isset($extManifestConsts['BASE_WWW'])){
+                 $extensionsAliases[$extension->getId()] = str_replace(ROOT_URL, '../../../', $extManifestConsts['BASE_WWW']) . 'js';
             }
-            if(file_exists($extension->getDir() . '/locales/' . $langCode) && isset($extensionManifestConsts['BASE_WWW'])){
-                $extensionsLocales[] = $extension->getId();
-            } 
         }
         $this->setData('extensionsAliases', $extensionsAliases);
-        $this->setData('extensionsLocales', $extensionsLocales);
-        
+
+        //loads the URLs context
         $base_www = BASE_WWW;
         $base_url = BASE_URL;
         if($this->hasRequestParameter('extension')){
@@ -62,7 +58,6 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         }
         
         //set contextual data
-
         $this->setData('locale', $langCode);
         
         if(strpos($langCode, '-') > 0){

@@ -35,8 +35,18 @@ interface FuncAccessControl
      */
     public function accessPossible($user, $controller, $action);
     
+    /**
+     * Apply a rule
+     * 
+     * @param AccessRule $rule
+     */
     public function applyRule(AccessRule $rule);
     
+    /**
+     * Revoke a rule
+     * 
+     * @param AccessRule $rule
+     */
     public function revokeRule(AccessRule $rule);
     
 }

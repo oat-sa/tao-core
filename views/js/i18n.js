@@ -1,20 +1,7 @@
-define(['lodash', 'i18n_tr', 'context', 'core/format'], function(_, tr, context, format){
+define(['lodash', 'json!i18n_tr', 'context', 'core/format'], function(_, i18nTr, context, format){
     'use strict';   
  
-    var translations = tr.i18n_tr || {};
-    var extensionLocales = _.map(context.extensionsLocales, function(extension){
-      return extension + '_i18n';  
-    });
-    
-    //done at load time
-    require(extensionLocales, function(){
-       _.forEach(arguments, function(extensionLocale){
-           if(extensionLocale && extensionLocale.i18n_tr){
-               translations = _.merge(translations, extensionLocale.i18n_tr);
-           }
-       });
-    });
-    
+    var translations = i18nTr.translations;
     
     /**
      * Common translation method.
@@ -31,8 +18,6 @@ define(['lodash', 'i18n_tr', 'context', 'core/format'], function(_, tr, context,
         return localized;
     };
 
-
     //expose the translation function
     return __ ;
-    
 });
