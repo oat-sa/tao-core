@@ -21,6 +21,7 @@
  */
 
 use oat\tao\model\menu\MenuService;
+use oat\tao\helpers\translation\TranslationBundle;
 
 /**
  * default action
@@ -79,6 +80,8 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 			$message =   __('Extension ') . $this->getCurrentExtension()->getId() . __(' has been installed');
 			$success = true;
 			
+            common_logger::w($message);
+
 			// reinit user session
 			$session = core_kernel_classes_Session::singleton()->refresh();
 		}
@@ -88,6 +91,51 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 
 		echo json_encode(array('success' => $success, 'message' => $message));
 	}
+
+   /**
+    * Once some extensions have been installed, we trigger this action.
+    *
+    */ 
+    public function postInstall(){
+
+		$success = true;
+        $message = '';
+       
+        // try to regenerate languages bundles
+        $generated = 0; 
+        $languages = tao_helpers_translation_Utils::getAvailableLanguages();
+        $installedExtensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+        $bundleDirPath = ROOT_PATH . '/tao/views/locales/';
+        foreach($languages as $langCode){
+            try{
+                $generate = true;
+                $newBundle = new TranslationBundle($langCode, $installedExtensions);
+                $currenBundle = $bundleDirPath . $langCode . '.json';
+                if(file_exists($currenBundle)){
+                    $bundleData = json_decode(file_get_contents($currenBundle), true);
+                    if($bundleData['serial'] === $newBundle->getSerial()){
+                        $generate = false;
+                    }
+                }
+                if($generate){
+                    $file = $newBundle->generateTo($bundleDirPath, false);
+                    if(!$file){
+                        common_Logger::w('Unable to generate client side bundle for lang ' . $langCode); 
+                    } else {
+                        $generated++;
+                    }   
+                }
+
+            } catch(common_excpetion_Error $e){
+                $message = $e->getMessage();
+                $success = false;
+            }
+        } 
+        
+        common_Logger::i($generated . ' translation bundles have been (re)generated'); 
+
+        $this->returnJson(array('success' => $success, 'message' => $message));
+    }
 
 	/**
 	 * Disables an extension
