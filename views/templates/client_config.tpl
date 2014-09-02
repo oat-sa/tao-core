@@ -36,7 +36,6 @@ require.config({
         'moment'            : 'lib/moment.min',
         'handlebars'        : 'lib/handlebars',
         'tpl'               : 'tpl',
-        'i18n'              : 'i18n',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'ckConfigurator'    : '../../../taoQtiItem/views/js/qtiCreator/editor/ckEditor/ckConfigurator',
         'class'             : 'lib/class',

@@ -15,19 +15,6 @@ $sections = get_data('sections');
                        title="<?= $section->getName(); ?>"><?= __($section->getName()) ?></a>
                 </li>
 
-                <section class="content-container">
-                    <ul class="action-bar plain content-action-bar horizontal-action-bar">
-                        <?php foreach ($section->getActionsByGroup('content') as $action): ?>
-                            <li class="btn-info small action" data-context="<?= $action->getContext() ?>"
-                                title="<?= $action->getName() ?>" data-action="<?= $action->getBinding() ?>" url="">
-                                <a href="<?= $action->getUrl(); ?>">
-                                    <?= Layout::renderMenuIcon(
-                                        $action->getIcon(),
-                                        ' icon-magicwand'
-                                    ); ?> <?= $action->getName(); ?>
-                                </a>
-                            </li>
-
             <?php endforeach ?>
         </ul>
         <?php foreach ($sections as $section): ?>
@@ -54,9 +41,13 @@ $sections = get_data('sections');
                             </div>
                             <div id="tree-<?= $i ?>"
                                  class="taotree taotree-<?= is_null($tree->get('className')) ? 'default' : strtolower(
-                                     \tao_helpers_Display::textCleaner($tree->get('className'))
+                                     $tree->get('className')
                                  ) ?>"
-                                 data-url="<?= $tree->get('dataUrl') ?>">
+                                 data-url="<?= $tree->get('dataUrl') ?>"
+                                 data-action-selectclass="<?= $tree->get('selectClass') ?>"
+                                 data-action-selectinstance="<?= $tree->get('selectInstance') ?>"
+                                 data-action-delete="<?= $tree->get('deletel') ?>"
+                                 data-action-moveinstance="<?= $tree->get('moveInstance') ?>">
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -68,7 +59,8 @@ $sections = get_data('sections');
                                     title="<?= $action->getName() ?>"
                                     data-action="<?= $action->getBinding() ?>" url="">
                                     <a href="<?= $action->getUrl(); ?>">
-                                        <?= Layout::renderMenuIcon(
+                                        <?=
+                                        Layout::renderMenuIcon(
                                             $action->getIcon(),
                                             ' icon-magicwand'
                                         ); ?> <?= $action->getName(); ?>
@@ -76,7 +68,18 @@ $sections = get_data('sections');
                                 </li>
                             <?php endforeach; ?>
                         </ul>
+                        <ul class="action-bar hidden">
+                            <?php foreach ($section->getActionsByGroup('none') as $action): ?>
+                                <li class="action" data-context="<?= $action->getContext() ?>"
+                                    title="<?= $action->getName() ?>" data-action="<?= $action->getBinding() ?>">
+                                    <a href="<?= $action->getUrl(); ?>">
+                                        <?= $action->getName(); ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
                     </div>
+
                 </section>
 
                 <section class="content-container">
@@ -85,7 +88,8 @@ $sections = get_data('sections');
                             <li class="btn-info small action" data-context="<?= $action->getContext() ?>"
                                 title="<?= $action->getName() ?>" data-action="<?= $action->getBinding() ?>" url="">
                                 <a href="<?= $action->getUrl(); ?>">
-                                    <?= Layout::renderMenuIcon(
+                                    <?=
+                                    Layout::renderMenuIcon(
                                         $action->getIcon(),
                                         ' icon-magicwand'
                                     ); ?> <?= $action->getName(); ?>
@@ -102,5 +106,8 @@ $sections = get_data('sections');
 
 
 
+        <aside class="meta-container">
+            <div id="section-meta"></div>
+        </aside>
     </div>
 <?php endif; ?>

@@ -112,16 +112,11 @@ class Layout{
      */
     public static function renderMenuIcon($icon, $defaultIcon) {
 
-        \common_Logger::d($icon);
-        debug_backtrace();
+        $srcExt   = '';
+        $isBase64 = false;
+		$iconClass = $defaultIcon;
+		if(!is_null($icon)){
 
-        // data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAAKSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC
-        // 1 x 1 png
-        $srcExt    = '';
-        $isBase64  = false;
-        $iconClass = $defaultIcon;
-
-        if(!is_null($icon)){
             if($icon -> getSource()) {
                 $imgXts   = 'png|jpg|jpe|jpeg|gif';
                 $regExp   = sprintf('~((^data:image/(%s))|(\.(%s)$))~', $imgXts, $imgXts);
@@ -131,6 +126,7 @@ class Layout{
 
             $iconClass = $icon -> getId() ? $icon -> getId() : $defaultIcon;
         }
+        // clarification icon vs. glyph: same thing but due to certain CSS rules a second class is required
 
         switch($srcExt) {
             case 'png':
@@ -150,62 +146,6 @@ class Layout{
             case ''; // no source means an icon font is used
                 return sprintf('<span class="%s glyph"></span>', $iconClass);
         }
-    }
-
-    /**
-     * Build script element for AMD loader
-     *
-     * @return string
-     */
-    public static function getAmdLoader(){
-        if(\common_session_SessionManager::isAnonymous()) {
-            $amdLoader = array(
-                'src' => Template::js('lib/require.js', 'tao'),
-                //'data-main' => TAOBASE_WWW . 'js/main'
-                'data-main' => TAOBASE_WWW . 'js/login',
-                'data-config' => get_data('client_config_url')
-            );
-        }
-        else if(\tao_helpers_Mode::is('production')) {
-            $amdLoader = array(
-                'src' => Template::js('main.min.js', 'tao'),
-                'data-config' => get_data('client_config_url')
-            );
-        }
-        else {
-            $amdLoader = array(
-                'src' => Template::js('lib/require.js', 'tao'),
-                'data-config' => get_data('client_config_url'),
-                'data-main' => TAOBASE_WWW . 'js/main'
-            );
-        }
-
-        $amdScript = '<script id="amd-loader" ';
-        foreach($amdLoader as $attr => $value) {
-            $amdScript .= $attr . '="' . $value . '" ';
-        }
-        return trim($amdScript) . '></script>';
-    }
-
-    /**
-     * @return string
-     */
-    public static function getTitle() {
-        $title = get_data('title');
-        return $title ? $title : PRODUCT_NAME . ' ' .  TAO_VERSION;
-    }
-
-
-    /**
-     * Retrieve the template with the actual content
-     *
-     * @return array
-     */
-    public static function getContentTemplate() {
-        $templateData = (array)get_data('content-template');
-        $contentTemplate['path'] = $templateData[0];
-        $contentTemplate['ext']  = $templateData[1] ? $templateData[1] : 'tao';
-        return $contentTemplate;
     }
 
     /**
