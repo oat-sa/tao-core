@@ -23,6 +23,8 @@ namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
 use tao_models_classes_accessControl_AclProxy;
+use oat\tao\model\accessControl\data\AclProxy as DataAclProxy;
+use oat\tao\model\accessControl\func\FuncHelper;
 
 class Action implements PhpSerializable
 {
@@ -51,6 +53,7 @@ class Action implements PhpSerializable
         if(!isset($this->data['icon'])){
             $this->data['icon'] = $this->inferLegacyIcon($data);
         }
+        $this->loadRequiredPrivileges();
     }
     
     public function getName() {
@@ -79,6 +82,10 @@ class Action implements PhpSerializable
 
     public function getGroup() {
         return $this->data['group'];
+    }
+
+    public function getPrivileges() {
+        return $this->data['privileges'];
     }
 
     /**
@@ -120,14 +127,30 @@ class Action implements PhpSerializable
         $src = 'actions/' . $name . '.png';
         if(file_exists(ROOT_PATH . $file)) {
             return Icon::fromArray(array('src' => $src), $ext);
-        }
-        else if (file_exists(ROOT_PATH . 'tao/views/img/actions/' . $name . '.png')){
+        } else if (file_exists(ROOT_PATH . 'tao/views/img/actions/' . $name . '.png')){
             return Icon::fromArray(array('src' => $src), 'tao');
-        }
-        else {
+        } else {
             return Icon::fromArray(array('src' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAAKSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC'), 'tao');
         }
     }
+
+    /**
+     * Load the action privileges from it's url
+     */
+    private function loadRequiredPrivileges(){
+        $privileges = array();
+        if(isset($this->data['url'])){
+            $url = $this->data['url'];
+            if(!empty($url)){
+                $parts = explode('/', trim($url, '/'));
+                if(count($parts) == 3){
+                   //$privileges = DataAclProxy::getRequiredPrivileges(FuncHelper::getClassNameByUrl($url), $parts[2]);
+                } 
+            }
+        }  
+        $this->data['privileges'] = $privileges;
+    }
+
    
     /**
      *  Check whether the current is allowed to see this action (against ACL).

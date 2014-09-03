@@ -83,7 +83,10 @@ $sections = get_data('sections');
                                 <li class="action"
                                     data-context="<?= $action->getContext() ?>"
                                     title="<?= $action->getName() ?>"
-                                    data-action="<?= $action->getBinding() ?>" url="">
+                                    data-action="<?= $action->getBinding() ?>"
+                                    <?php foreach($action->getPrivileges() as $param => $privilege): ?>
+                                        data-privilege-<?=$param?>="<?=$privilege?>"
+                                    <?php endforeach; ?>>
                                     <a href="<?= $action->getUrl(); ?>">
                                         <?=
                                         Layout::renderMenuIcon(
@@ -96,8 +99,13 @@ $sections = get_data('sections');
                         </ul>
                         <ul class="action-bar hidden">
                             <?php foreach ($section->getActionsByGroup('none') as $action): ?>
-                                <li class="action" data-context="<?= $action->getContext() ?>"
-                                    title="<?= $action->getName() ?>" data-action="<?= $action->getBinding() ?>">
+                                <li class="action" 
+                                    data-context="<?= $action->getContext() ?>"
+                                    title="<?= $action->getName() ?>" 
+                                    data-action="<?= $action->getBinding() ?>"
+                                    <?php foreach($action->getPrivileges() as $param => $privilege): ?>
+                                        data-privilege-<?=$param?>="<?=$privilege?>"
+                                    <?php endforeach; ?>>
                                     <a href="<?= $action->getUrl(); ?>">
                                         <?= $action->getName(); ?>
                                     </a>
@@ -112,7 +120,10 @@ $sections = get_data('sections');
                     <ul class="action-bar plain content-action-bar horizontal-action-bar">
                         <?php foreach ($section->getActionsByGroup('content') as $action): ?>
                             <li class="btn-info small action" data-context="<?= $action->getContext() ?>"
-                                title="<?= $action->getName() ?>" data-action="<?= $action->getBinding() ?>" url="">
+                                title="<?= $action->getName() ?>" data-action="<?= $action->getBinding() ?>"
+                                <?php foreach($action->getPrivileges() as $param => $privilege): ?>
+                                    data-privilege-<?=$param?>="<?=$privilege?>"
+                                <?php endforeach; ?>>
                                 <a href="<?= $action->getUrl(); ?>">
                                     <?=
                                     Layout::renderMenuIcon(

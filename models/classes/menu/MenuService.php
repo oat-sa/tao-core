@@ -38,7 +38,7 @@ class MenuService {
      * For performances issues, cache should be enabled.
      * @var boolean 
      */
-    const USE_CACHE = true;
+    const USE_CACHE = false;
 
     /**
      * to stock the extension structure
