@@ -234,7 +234,7 @@ class Bootstrap{
                 header(HTTPToolkit::statusCodeHeader(302));
                 header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao')));
             } else {
-                $this->dispatchError($ue, 403);
+                $this->dispatchError($e, 403);
             }
     	}
     	catch (Exception $e) {
