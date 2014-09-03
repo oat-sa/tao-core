@@ -883,20 +883,20 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string grouName
+     * @param  string groupName
      * @return boolean
      */
-    public function removeGroup($grouName)
+    public function removeGroup($groupName)
     {
         $returnValue = (bool) false;
 
         
 		
-		if(isset($this->groups[$grouName])){
-			foreach($this->groups[$grouName]['elements'] as $element){
+		if(isset($this->groups[$groupName])){
+			foreach($this->groups[$groupName]['elements'] as $element){
 				$this->removeElement($element);
 			}
-			unset($this->groups[$grouName]);
+			unset($this->groups[$groupName]);
 		}
 		
         
