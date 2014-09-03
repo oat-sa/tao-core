@@ -228,6 +228,7 @@ class Bootstrap{
     		$this->dispatchError($e, 500, $e->getUserMessage());
     	}
     	catch (ResolverException $e) {
+    	    common_Logger::singleton()->handleException($e);
             if (!tao_helpers_Request::isAjax()
     		    && tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
     		) {

@@ -34,6 +34,7 @@ class FuncHelper
      * @param string $extension 
      * @param string $shortname
      * @return string the full class name (as defined in PHP) 
+     * @throws ResolverException
      */
     public static function getClassName($extension, $shortName) {
         $url = _url('index', $shortName, $extension);
