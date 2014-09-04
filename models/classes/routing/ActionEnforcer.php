@@ -110,11 +110,16 @@ class ActionEnforcer implements IExecutable
 	
 	        // search parameters method
 	        $reflect	= new ReflectionMethod($controller, $action);
-	        $parameters	= $reflect->getParameters();
+	        $parameters	= $this->getParameters();
 	
 	        $tabParam 	= array();
-	        foreach($reflect->getParameters() as $param)
-	            $tabParam[$param->getName()] = $this->context->getRequest()->getParameter($param->getName());
+	        foreach($reflect->getParameters() as $param) {
+	            if (isset($parameters[$param->getName()])) {
+	               $tabParam[$param->getName()] = $parameters[$param->getName()];
+	            } elseif (!$param->isDefaultValueAvailable()) {
+	                \common_Logger::w('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
+	            }
+	        }
 	
 	        // Action method is invoked, passing request parameters as
 	        // method parameters.
