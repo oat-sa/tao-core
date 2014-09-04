@@ -518,6 +518,7 @@ class tao_helpers_File
      * @return boolean
      */
     public static function isDirEmpty($directory){
-        return (count(glob($directory."*")) === 0 );
+        $path = self::concat(array($directory, '*'));
+        return (count(glob($path, GLOB_NOSORT)) === 0 );
     }
 }
