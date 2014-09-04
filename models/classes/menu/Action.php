@@ -144,7 +144,11 @@ class Action implements PhpSerializable
             if(!empty($url)){
                 $parts = explode('/', trim($url, '/'));
                 if(count($parts) == 3){
-                   //$privileges = DataAclProxy::getRequiredPrivileges(FuncHelper::getClassNameByUrl($url), $parts[2]);
+                   try {
+                       $privileges = DataAclProxy::getRequiredPrivileges(FuncHelper::getClassNameByUrl($url), $parts[2]);
+                   } catch (\common_exception_Error $e){
+                        \common_Logger::w('Catch and continue : ' . $e->getMessage());
+                   }
                 } 
             }
         }  

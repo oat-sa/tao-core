@@ -409,6 +409,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
 	/**
 	 * Add an instance of the selected class
+     * @requiresPrivilege classUri WRITE 
 	 * @return void
 	 */
 	public function addInstance()
@@ -435,7 +436,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
 	/**
 	 * Add a subclass to the currently selected class
-	 * 
+     * @requiresPrivilege classUri WRITE 
 	 * @throws Exception
 	 */
 	public function addSubClass()
@@ -569,7 +570,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 	}
-	
+
+    /**
+     * @requiresPrivilege uri WRITE 
+     */	
 	public function editInstance() {
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();
@@ -737,6 +741,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	/**
 	 * Duplicate the current instance
 	 * render a JSON response
+     * @requiresPrivilege uri WRITE 
 	 * @return void
 	 */
 	public function cloneInstance()
@@ -756,6 +761,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
 	/**
 	 * Move an instance from a class to another
+     * @requiresPrivilege uri WRITE 
 	 * @return void
 	 */
 	public function moveInstance()
