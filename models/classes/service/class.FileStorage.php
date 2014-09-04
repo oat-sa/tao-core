@@ -91,10 +91,13 @@ class tao_models_classes_service_FileStorage
     public function import($id, $directoryPath) {
         $directory = $this->getDirectoryById($id);
         if (file_exists($directory->getPath())) {
-            if (tao_helpers_File::isIdentical($directory->getPath(), $directoryPath)) {
+            if(tao_helpers_File::isDirEmpty($directory->getPath())){
+                common_Logger::d('Directory already found but content is empty');
+            }else if (tao_helpers_File::isIdentical($directory->getPath(), $directoryPath)) {
                 common_Logger::d('Directory already found but content is identical');
             } else {
-                throw new common_Exception('Doublicate dir '.$id.' with different content');
+                
+                throw new common_Exception('Duplicate dir '.$id.' with different content');
             }
         } else {
             mkdir($directory->getPath(), 0700, true);
