@@ -93,10 +93,11 @@ class tao_models_classes_service_FileStorage
         if (file_exists($directory->getPath())) {
             if(tao_helpers_File::isDirEmpty($directory->getPath())){
                 common_Logger::d('Directory already found but content is empty');
+                helpers_File::copy($directoryPath, $directory->getPath(), true);
+                
             }else if (tao_helpers_File::isIdentical($directory->getPath(), $directoryPath)) {
                 common_Logger::d('Directory already found but content is identical');
             } else {
-                
                 throw new common_Exception('Duplicate dir '.$id.' with different content');
             }
         } else {
