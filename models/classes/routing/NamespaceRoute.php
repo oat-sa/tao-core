@@ -20,6 +20,7 @@
  */
 namespace oat\tao\model\routing;
 
+use qtism\runtime\expressions\operators\custom\Implode;
 /**
  * A simple router, that maps a relative Url to
  * namespaced Controller class
@@ -35,7 +36,8 @@ class NamespaceRoute extends Route
             if (!empty($rest)) {
                 $parts = explode('/', $rest, 3);
                 $controller = rtrim($namespace, '\\').'\\'.$parts[0];
-                $method = $parts[1];
+                
+                $method = isset($parts[1]) ? $parts[1] : 'index';
                 return $controller.'@'.$method;
             } elseif (defined('DEFAULT_MODULE_NAME') && defined('DEFAULT_ACTION_NAME')) {
                 $controller = rtrim($namespace, '\\').'\\'.DEFAULT_MODULE_NAME;
