@@ -8,7 +8,26 @@
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 
-define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jwysiwyg' ], function (module, $, __, helpers, context, generisActions) {
+define([
+    'module',
+    'jquery',
+    'i18n',
+    'helpers',
+    'context',
+    'generis.actions',
+    'layout/post-render-props',
+    'layout/container-manager',
+    'jwysiwyg' ],
+    function (
+        module,
+        $,
+        __,
+        helpers,
+        context,
+        generisActions,
+        postRenderProps,
+        containerManager
+        ) {
 
     function getUrl(action) {
         var conf = module.config();
@@ -64,46 +83,37 @@ define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jw
          */
         initRendering: function () {
 
-            var $container = $('.xhtml_form:first'),
-                $form = $container.find('form'),
-                $firstInp = $form.find('input[type="text"]:first'),
-                $toolBar = $form.find('.form-toolbar'),
-                $translator = $form.find('.form-translator'),
-                $submitter = $form.find('.form-submitter'),
-                $authoringBtn = $('.authoringOpener'),
-                $authoringBtnParent,
-                $buttons;
+            var $container          = $('.content-block .xhtml_form:first'),
+                $firstInp           = $container.find('input[type="text"]:first'),
+                $toolBar            = $container.find('.form-toolbar'),
+                $translator         = $container.find('.form-translator'),
+                $authoringBtn       = $('.authoringOpener'),
+                $authoringBtnParent;
 
+            // move authoring button to toolbar
             if($authoringBtn.length) {
                 $authoringBtnParent = $authoringBtn.parent();
                 $authoringBtn.prepend($('<span>', { 'class': 'icon-edit' }));
                 $authoringBtn.addClass('btn-info small');
-                $authoringBtn.appendTo($('.form-toolbar'));
+                $authoringBtn.appendTo($toolBar);
                 $authoringBtnParent.remove();
             }
 
+            // remove translate button (already in action bar)
             if($translator.length) {
-                $translator.hide();
+                $translator.remove();
             }
 
-            // hide locked properties
-            //alert('@todo: style props')
-            //$('[id^="ro_property"], [id^="parent_property"]').hide();
-
+            // modify properties
+            postRenderProps.init();
 
             $firstInp.focus();
 
-            $('.data-container').appendTo($('.main-container'))
-
-//                    $("span.form_desc").each(function() {
-//                            var myHeight = parseInt($(this).height());
-//                            var parentHeight = parseInt($(this).parent().height());
-//                            if (myHeight > parentHeight) {
-//                                    $(this).parent().height(myHeight +'px');
-//                            }
-//                    });
 
 
+            containerManager.init();
+
+            //$('.data-container').appendTo($('.main-container'));
         },
 
         initElements: function () {
@@ -229,61 +239,27 @@ define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jw
                 }
             }
 
-            //property form group controls
-            $('.form-group').each(function () {
-                var formGroup = $(this);
-                if (/property\_[0-9]+$/.test(formGroup.prop('id'))) {
-                    var child = formGroup.children("div:first");
-
-                    var togglerGroup = 'ui-icon-circle-triangle-s';
-                    if (!formGroup.hasClass('form-group-opened')) {
-                        child.hide();
-                        togglerGroup = 'ui-icon-circle-triangle-e';
-                    }
-
-                    //toggle controls: plus/minus icon
-                    var toggler = $("<span class='form-group-control ui-icon' title='expand' style='right:48px;'></span>");
-                    toggler.addClass(togglerGroup);
-                    toggler.click(function () {
-                        var control = $(this);
-                        if (child.css('display') === 'none') {
-                            child.show('slow');
-                            control.removeClass('ui-icon-circle-triangle-e');
-                            control.addClass('ui-icon-circle-triangle-s');
-                            control.prop('title', 'hide property');
-                        }
-                        else {
-                            child.hide('slow');
-                            control.removeClass('ui-icon-circle-triangle-s');
-                            control.addClass('ui-icon-circle-triangle-e');
-                            control.prop('title', 'show property');
-                        }
-                    });
-                    formGroup.prepend(toggler);
-
-                    //delete control
-                    if (/^property\_[0-9]+/.test(formGroup.prop('id'))) {
-                        var deleter = $("<span class='form-group-control ui-icon ui-icon-circle-close' title='Delete' style='right:24px;'></span>");
-                        deleter.off('click').on('click', removeGroup);
-                        formGroup.prepend(deleter);
-                    }
-                }
-            });
-
             //property delete button
             $(".property-deleter").off('click').on('click', removeGroup);
 
             //property add button
-            $(".property-adder").off('click').on('click', function () {
+            $(".property-adder").off('click').on('click', function (e) {
+                e.preventDefault();
                 generisActions.addProperty(null, $("#classUri").val(), getUrl('addClassProperty'));
             });
 
             $(".property-mode").off('click').on('click', function () {
-                var mode = 'simple';
-                if ($(this).hasClass('property-mode-advanced')) {
+                var $btn = $(this),
+                    mode = 'simple';
+
+                if ($btn.hasClass('disabled')) {
+                    return;
+                }
+
+                if ($btn.hasClass('property-mode-advanced')) {
                     mode = 'advanced';
                 }
-                var url = $(this).parents('form').prop('action');
+                var url = $btn.parents('form').prop('action');
 
                 helpers.getMainContainer().load(url, {
                     'property_mode': mode,

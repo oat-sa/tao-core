@@ -41,7 +41,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 /**
      * If you want striclty to check if the resource is locked,
      * you should use tao_models_classes_lock_OntoLock::singleton()->isLocked($resource)
-     * Controller level convenience method to check if @resource is being locked, prepare data ans sets view, 
+     * Controller level convenience method to check if @resource is being locked, prepare data ans sets view,
      * @return boolean
      */
     protected function isLocked($resource, $view){
@@ -1229,7 +1229,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$propMode = $this->getSessionAttribute('property_mode');
 		}
 		
-		//instanciate a property form
+		//instantiate a property form
 		$propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
 		if(!class_exists($propFormClass)){
 			$propFormClass = 'tao_actions_form_SimpleProperty';

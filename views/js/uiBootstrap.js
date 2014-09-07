@@ -78,6 +78,11 @@ define([
                 //Select another by default ?
                 self.tabs.tabs('select', 0);
             });
+
+            var $tabContainer = $('.tab-container');
+            if($tabContainer.find('li').length < 2) {
+                $tabContainer.hide();
+            }
         },
 
         /**

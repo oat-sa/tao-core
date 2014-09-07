@@ -1,5 +1,26 @@
 @import 'inc/bootstrap';
 
+%flex-container {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: flex-start;
+    -ms-flex-line-pack: start;
+    align-content: flex-start;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
 .section-container {
     top: 0 !important;
 
@@ -9,28 +30,10 @@
         margin: 0;
         padding:0;
         border: none !important;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-        flex-direction: row;
-        -webkit-flex-wrap: nowrap;
-        -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
-        -webkit-justify-content: flex-start;
-        -ms-flex-pack: start;
-        justify-content: flex-start;
-        -webkit-align-content: flex-start;
-        -ms-flex-line-pack: start;
-        align-content: flex-start;
-        -webkit-align-items: stretch;
-        -ms-flex-align: stretch;
-        align-items: stretch;
+        @extend %flex-container;
     }
 
     .tab-container {
-        height: 30px;
         border: none;
         display:none;
         &.ui-tabs-nav {
@@ -39,11 +42,35 @@
         a {
             top: 0 !important;
         }
-        li.ui-state-disabled{
-            display:none;
+        li {
+            top:0;
+            margin: 0 1px 0px 0;
+            border-top: 1px solid $canvas !important;
+            border-bottom: 1px solid $canvas !important;
+            a {
+                margin-bottom: 0 !important;
+            }
+            &.ui-state-default {
+                cursor:default;
+                background: $canvas !important;
+                margin-right: 1px !important;
+                &.ui-state-active {
+                    border-bottom-color: whiten($info, .25) !important;
+                    border-top-color: whiten($info, .4) !important;
+                    background: whiten($info, .1) !important;
+                    a {
+                        background: transparent !important;
+                        border-color:  transparent !important;
+                        color: $textHighlight !important;
+                    }
+                }
+            }
+            &.ui-state-disabled{
+                display:none;
+            }
         }
-        background: $canvas;
     }
+
 
     .navi-container {
         background:  $canvas;
@@ -88,6 +115,34 @@
 
     .content-block {
         padding: 20px;
+        @extend %flex-container;
+        .main-container {
+            &.medium {
+                -webkit-flex: 0 0 500 * 1px;
+                -ms-flex: 0 0 500 * 1px;
+                flex: 0 0 500 * 1px;
+                -webkit-align-self: stretch;
+                -ms-flex-item-align: stretch;
+                align-self: stretch;
+            }
+        }
+        .data-container-wrapper {
+            padding: 48px 0 0 20px;
+            -webkit-flex: 1 1 auto;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            -webkit-align-self: stretch;
+            -ms-flex-item-align: stretch;
+            align-self: stretch;
+            .data-container {
+                width: $treeSidebar * 1px;
+                margin: 0 20px 20px 0;
+                float: left;
+                .emptyContentFooter {
+                    display:none;
+                }
+            }
+        }
         #form-container.ui-widget-content {
             border:none !important
         }

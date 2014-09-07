@@ -2,7 +2,6 @@ define(['jquery', 'lodash', 'helpers', 'layout/tree', 'generis.actions', 'module
 function($, _, helpers, treeFactory, generisActions, module){
     return {
         start : function(){
-            
             var sectionTreesData = module.config().sectionTreesData;
 
             if(sectionTreesData){

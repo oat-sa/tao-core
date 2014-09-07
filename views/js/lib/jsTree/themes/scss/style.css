@@ -40,7 +40,8 @@
   .tree .ltr, .tree .rtl {
     min-height: 150px;
     max-height: 75vh;
-    overflow: auto; }
+    overflow: auto;
+    margin-top: 8px; }
   .tree ul {
     background: white !important;
     overflow: hidden;

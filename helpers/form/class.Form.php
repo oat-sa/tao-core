@@ -496,10 +496,10 @@ abstract class tao_helpers_form_Form
 				$this->getDecorator('group')->setOption('id', $groupName);
 				if(isset($group['options'])){
 					if(isset($group['options']['class'])){
-						$currentClasses = explode(' ',$this->getDecorator('group')->getOption('cssClass'));
+						$currentClasses = array_map('trim', explode(' ',$this->getDecorator('group')->getOption('cssClass')));
 						if(!in_array($group['options']['class'], $currentClasses)){
 							$currentClasses[] = $group['options']['class'];
-							$this->getDecorator('group')->setOption('cssClass', implode(' ', $currentClasses));
+							$this->getDecorator('group')->setOption('cssClass', implode(' ', array_unique($currentClasses)));
 						}
 					}
 				}
@@ -513,7 +513,7 @@ abstract class tao_helpers_form_Form
 			foreach($this->elements as $element){
 				 if($this->getElementGroup($element->getName()) == $groupName){
 				 
-				 	if(!is_null($this->getDecorator()) && !($element instanceof tao_helpers_form_elements_Hidden) ){
+				 	if(!is_null($this->getDecorator())){// && !($element instanceof tao_helpers_form_elements_Hidden) ){
 					 	$returnValue .= $this->getDecorator()->preRender();
 					 }
 					 
@@ -545,7 +545,7 @@ abstract class tao_helpers_form_Form
 					 	}
 					 }
 					 
-					 if(!is_null($this->getDecorator()) && !($element instanceof tao_helpers_form_elements_Hidden) ){
+					 if(!is_null($this->getDecorator())){// && !($element instanceof tao_helpers_form_elements_Hidden) ){
 					 	$returnValue .= $this->getDecorator()->postRender();
 					 }
 				 }

@@ -16,6 +16,7 @@ define([
 
             var callback = function() {
                 document.documentElement.className += ' no-version-warning';
+                versionWarning.trigger('hiding.versionwarning')
             };
 
             if(!slide) {
