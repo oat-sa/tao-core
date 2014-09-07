@@ -83,7 +83,7 @@ class tao_actions_form_SimpleProperty
     	$elementNames = array();
 		foreach($propertyProperties as $propertyProperty){
 		
-			//map properties widgets to form elments 
+			//map properties widgets to form elements
 			$element = tao_helpers_form_GenerisFormFactory::elementMap($propertyProperty);
 			
 			if(!is_null($element)){
@@ -156,14 +156,7 @@ class tao_actions_form_SimpleProperty
 		$this->form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
 		
-		//add a delete button 
-		$deleteElt = tao_helpers_form_FormFactory::getElement("propertyDeleter{$index}", 'Button');
-		$deleteElt->addAttribute('class', 'property-deleter btn-warning small');
-		$deleteElt->setValue(__('Delete property'));
-        $deleteElt->setIcon('icon-bin');
-		$this->form->addElement($deleteElt);
-		$elementNames[] = $deleteElt->getName();
-		
+
 		//add an hidden element with the mode (simple)
 		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
 		$modeElt->setValue('simple');
@@ -171,8 +164,12 @@ class tao_actions_form_SimpleProperty
 		$elementNames[] = $modeElt->getName();
 		
 		if(count($elementNames) > 0){
-			$groupTitle = '<span class="icon-property regular-property"></span> '.__('Property')." #".($index).": "._dh($property->getLabel());
-			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames, array('class' => 'form-group-opened'));
+			$groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
+                . '<span class="property-heading-toolbar">'
+                . '<span class="icon-edit"></span>'
+                . '<span class="icon-bin property-deleter"></span>'
+                . '</span>';
+			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames);
 		}
     	
 		//add an hidden elt for the property uri

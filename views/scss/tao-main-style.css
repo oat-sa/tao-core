@@ -1,3 +1,4 @@
+@charset "CP850";
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
@@ -41,18 +42,18 @@
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -166,7 +167,7 @@
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -605,18 +606,18 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -730,7 +731,7 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -1144,18 +1145,18 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -1269,7 +1270,7 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -2636,18 +2637,18 @@ textarea {
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -2761,7 +2762,7 @@ textarea {
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -3721,18 +3722,18 @@ Special outer level classes used in this file:
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -3846,7 +3847,7 @@ Special outer level classes used in this file:
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -4552,18 +4553,18 @@ other files.
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -4677,7 +4678,7 @@ other files.
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -5116,18 +5117,18 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -5241,7 +5242,7 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -5962,18 +5963,18 @@ panel contents and color panels check menu.css and colorpanel.css.
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -6087,7 +6088,7 @@ panel contents and color panels check menu.css and colorpanel.css.
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -6803,18 +6804,18 @@ Special outer level classes used in this file:
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -6928,7 +6929,7 @@ Special outer level classes used in this file:
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -7809,18 +7810,18 @@ The visual representation of a rich combo widget looks as follows:
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -7934,7 +7935,7 @@ The visual representation of a rich combo widget looks as follows:
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -8575,18 +8576,18 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -8700,7 +8701,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -9139,18 +9140,18 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -9264,7 +9265,7 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -9755,18 +9756,18 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -9880,7 +9881,7 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -10329,18 +10330,18 @@ legend.cke_voice_label {
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -10454,7 +10455,7 @@ legend.cke_voice_label {
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -11129,18 +11130,18 @@ Special outer level classes used in this file:
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -11254,7 +11255,7 @@ Special outer level classes used in this file:
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -11750,18 +11751,18 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -11875,7 +11876,7 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -12379,18 +12380,18 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -12504,7 +12505,7 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -13077,18 +13078,18 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
   content: "\f07c"; }
 
-.icon-left:before, .ui-datepicker-prev:before,
-.ui-icon-triangle-1-w:before {
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
   content: "\121"; }
 
-.icon-right:before, .ui-datepicker-next:before,
-.ui-icon-triangle-1-e:before {
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
   content: "\122"; }
 
-.icon-up:before, .ui-icon-triangle-1-n:before, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -13202,7 +13203,7 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .icon-add:before, .adder:before {
   content: "\14b"; }
 
-.icon-close:before, .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
   content: "\14c"; }
 
 .icon-success:before, .file-drop ul > li .status.success:before {
@@ -13810,22 +13811,18 @@ button, input[type="submit"], input[type="reset"] {
   font-size: 100%;
   list-style: none; }
 
-.ui-helper-clearfix:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden; }
-
 .ui-helper-clearfix {
-  display: inline-block; }
+  display: block; }
+  .ui-helper-clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden; }
 
 /* required comment for clearfix to work in Opera \*/
 * html .ui-helper-clearfix {
   height: 1%; }
-
-.ui-helper-clearfix {
-  display: block; }
 
 /* end clearfix */
 .ui-helper-zfix {
@@ -13834,8 +13831,7 @@ button, input[type="submit"], input[type="reset"] {
   top: 0;
   left: 0;
   position: absolute;
-  opacity: 0;
-  filter: Alpha(Opacity=0); }
+  opacity: 0; }
 
 /* Interaction Cues
 ----------------------------------*/
@@ -13865,28 +13861,22 @@ button, input[type="submit"], input[type="reset"] {
 ----------------------------------*/
 .ui-widget {
   font-size: 1.1em; }
-
-.ui-widget .ui-widget {
-  font-size: 1em; }
-
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
-  font-size: 1em; }
+  .ui-widget .ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    font-size: 1em; }
 
 .ui-widget-content {
   border: 1px solid #dddddd;
   background: #ffffff;
   color: #444444; }
-
-.ui-widget-content a {
-  color: #444444; }
+  .ui-widget-content a {
+    color: #444444; }
 
 .ui-widget-header {
   border: 1px solid #dddddd;
   background: #dddddd;
   color: #444444; }
-
-.ui-widget-header a {
-  color: #444444; }
+  .ui-widget-header a {
+    color: #444444; }
 
 /* Interaction Cues
 ----------------------------------*/
@@ -13894,28 +13884,24 @@ button, input[type="submit"], input[type="reset"] {
   border: 1px solid #cccccc;
   background: #ffffff;
   color: #444444; }
-
-.ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {
-  color: #444444; }
+  .ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {
+    color: #444444; }
 
 .ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
   border: 1px solid #ff0084;
   background: #ffffff;
   color: #222222; }
-
-.ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a {
-  color: #222222; }
+  .ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a {
+    color: #222222; }
 
 .ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text {
   color: #222222; }
 
 .ui-priority-secondary, .ui-widget-content .ui-priority-secondary, .ui-widget-header .ui-priority-secondary {
-  opacity: .7;
-  filter: Alpha(Opacity=70); }
+  opacity: .7; }
 
 .ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled {
   opacity: .35;
-  filter: Alpha(Opacity=35);
   background-image: none; }
 
 .light-icon,
@@ -13923,15 +13909,9 @@ button, input[type="submit"], input[type="reset"] {
 .ui-dialog-titlebar .ui-state-hover .ui-icon {
   background-image: url(data:image/png;base64,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); }
 
-.ui-widget #item-editor-scope {
+.ui-widget #item-editor-scope, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
   font-family: 'Source Sans Pro', sans-serif;
-  font-size: 1.4rem; }
-
-.ui-widget #item-editor-scope .ui-widget #item-editor-scope {
-  font-size: 1.4rem; }
-
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
   font-size: 1.4rem; }
 
 .dark-icon,
@@ -14514,15 +14494,13 @@ button, input[type="submit"], input[type="reset"] {
 /* Overlays */
 .ui-widget-overlay {
   background: #eeeeee;
-  opacity: .80;
-  filter: Alpha(Opacity=80); }
+  opacity: .80; }
 
 .ui-widget-shadow {
   margin: -4px 0 0 -4px;
   padding: 4px;
   background: #aaaaaa;
   opacity: .60;
-  filter: Alpha(Opacity=60);
   -moz-border-radius: 0px;
   -khtml-border-radius: 0px;
   -webkit-border-radius: 0px;
@@ -14631,46 +14609,34 @@ button, input[type="submit"], input[type="reset"] {
 /* IE/Win - Fix animation bug - #4615 */
 .ui-accordion {
   width: 100%; }
-
-.ui-accordion .ui-accordion-header {
-  cursor: pointer;
-  position: relative;
-  margin-top: 1px;
-  zoom: 1; }
-
-.ui-accordion .ui-accordion-li-fix {
-  display: inline; }
-
-.ui-accordion .ui-accordion-header-active {
-  border-bottom: 0 !important; }
-
-.ui-accordion .ui-accordion-header a {
-  display: block;
-  font-size: 1em;
-  padding: .5em .5em .5em .7em; }
-
-.ui-accordion-icons .ui-accordion-header a {
-  padding-left: 2.2em; }
-
-.ui-accordion .ui-accordion-header .ui-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  margin-top: -8px; }
-
-.ui-accordion .ui-accordion-content {
-  padding: 1em 2.2em;
-  border-top: 0;
-  margin-top: -2px;
-  position: relative;
-  top: 1px;
-  margin-bottom: 2px;
-  overflow: auto;
-  display: none;
-  zoom: 1; }
-
-.ui-accordion .ui-accordion-content-active {
-  display: block; }
+  .ui-accordion .ui-accordion-header {
+    cursor: pointer;
+    position: relative;
+    margin-top: 1px;
+    zoom: 1; }
+  .ui-accordion .ui-accordion-li-fix {
+    display: inline; }
+  .ui-accordion .ui-accordion-header a {
+    display: block;
+    font-size: 1em;
+    padding: .5em .5em .5em .7em; }
+  .ui-accordion .ui-accordion-header .ui-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    margin-top: -8px; }
+  .ui-accordion .ui-accordion-content {
+    padding: 1em 2.2em;
+    border-top: 0;
+    margin-top: -2px;
+    position: relative;
+    top: 1px;
+    margin-bottom: 2px;
+    overflow: auto;
+    display: none;
+    zoom: 1; }
+  .ui-accordion .ui-accordion-content-active {
+    display: block; }
 
 /*
  * jQuery UI Autocomplete 1.8.16
@@ -14705,29 +14671,24 @@ button, input[type="submit"], input[type="reset"] {
   margin: 0;
   display: block;
   float: left; }
-
-.ui-menu .ui-menu {
-  margin-top: -3px; }
-
-.ui-menu .ui-menu-item {
-  margin: 0;
-  padding: 0;
-  zoom: 1;
-  float: left;
-  clear: left;
-  width: 100%; }
-
-.ui-menu .ui-menu-item a {
-  text-decoration: none;
-  display: block;
-  padding: .2em .4em;
-  line-height: 1.5;
-  zoom: 1; }
-
-.ui-menu .ui-menu-item a.ui-state-hover,
-.ui-menu .ui-menu-item a.ui-state-active {
-  font-weight: normal;
-  margin: -1px; }
+  .ui-menu .ui-menu {
+    margin-top: -3px; }
+  .ui-menu .ui-menu-item {
+    margin: 0;
+    padding: 0;
+    zoom: 1;
+    float: left;
+    clear: left;
+    width: 100%; }
+    .ui-menu .ui-menu-item a {
+      text-decoration: none;
+      display: block;
+      padding: .2em .4em;
+      line-height: 1.5;
+      zoom: 1; }
+    .ui-menu .ui-menu-item.ui-state-hover, .ui-menu .ui-menu-item.ui-state-active {
+      font-weight: normal;
+      margin: -1px; }
 
 /*
  * jQuery UI Dialog 1.8.16
@@ -14743,63 +14704,53 @@ button, input[type="submit"], input[type="reset"] {
   padding: .2em;
   width: 300px;
   overflow: hidden; }
-
-.ui-dialog .ui-dialog-titlebar {
-  padding: 0 1em;
-  position: relative; }
-
-.ui-dialog .ui-dialog-title {
-  float: left;
-  margin: .1em 16px .1em 0; }
-
-.ui-dialog .ui-dialog-titlebar-close {
-  font-size: 17px;
-  font-size: 1.7rem;
-  line-height: 2;
-  position: absolute;
-  right: 1px;
-  top: 13px;
-  padding: 10px 0;
-  margin: -10px 0 0 0;
-  height: 18px;
-  color: inherit;
-  text-decoration: none !important; }
-
-.ui-dialog .ui-dialog-titlebar-close span.ui-icon-closethick {
-  display: none;
-  margin: 1px;
-  background: none; }
-
-.ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus {
-  padding: 0; }
-
-.ui-dialog .ui-dialog-content {
-  position: relative;
-  border: 0;
-  padding: .5em 1em;
-  background: none;
-  overflow: auto;
-  zoom: 1; }
-
-.ui-dialog .ui-dialog-buttonpane {
-  text-align: left;
-  border-width: 1px 0 0 0;
-  background-image: none;
-  margin: .5em 0 0 0;
-  padding: .3em 1em .5em .4em; }
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
-  float: right; }
-
-.ui-dialog .ui-dialog-buttonpane button {
-  margin: .5em .4em .5em 0;
-  cursor: pointer; }
-
-.ui-dialog .ui-resizable-se {
-  width: 14px;
-  height: 14px;
-  right: 2px;
-  bottom: 2px; }
+  .ui-dialog .ui-dialog-titlebar {
+    padding: 0 1em;
+    position: relative; }
+  .ui-dialog .ui-dialog-title {
+    float: left;
+    margin: .1em 16px .1em 0; }
+  .ui-dialog .ui-dialog-titlebar-close {
+    font-size: 17px;
+    font-size: 1.7rem;
+    line-height: 2;
+    position: absolute;
+    right: 1px;
+    top: 13px;
+    padding: 10px 0;
+    margin: -10px 0 0 0;
+    height: 18px;
+    color: inherit;
+    text-decoration: none !important; }
+    .ui-dialog .ui-dialog-titlebar-close span.ui-icon-closethick {
+      display: none;
+      margin: 1px;
+      background: none; }
+    .ui-dialog .ui-dialog-titlebar-close:focus, .ui-dialog .ui-dialog-titlebar-close:hover {
+      padding: 0; }
+  .ui-dialog .ui-dialog-content {
+    position: relative;
+    border: 0;
+    padding: .5em 1em;
+    background: none;
+    overflow: auto;
+    zoom: 1; }
+  .ui-dialog .ui-dialog-buttonpane {
+    text-align: left;
+    border-width: 1px 0 0 0;
+    background-image: none;
+    margin: .5em 0 0 0;
+    padding: .3em 1em .5em .4em; }
+    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+      float: right; }
+    .ui-dialog .ui-dialog-buttonpane button {
+      margin: .5em .4em .5em 0;
+      cursor: pointer; }
+  .ui-dialog .ui-resizable-se {
+    width: 14px;
+    height: 14px;
+    right: 2px;
+    bottom: 2px; }
 
 .ui-draggable .ui-dialog-titlebar {
   cursor: move; }
@@ -14962,37 +14913,31 @@ button, input[type="submit"], input[type="reset"] {
   width: 17em;
   padding: .2em .2em 0;
   display: none; }
-
-.ui-datepicker .ui-datepicker-header {
-  position: relative;
-  padding: .2em 0; }
-
-.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
-  position: absolute;
-  top: -2px;
-  width: 34px;
-  height: 36px;
-  cursor: pointer;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 10px;
-  text-align: center;
-  color: white; }
-
-.ui-datepicker .ui-datepicker-prev {
-  left: 0px; }
-
-.ui-datepicker .ui-datepicker-next {
-  right: 0px; }
-
-.ui-datepicker .ui-datepicker-prev-hover,
-.ui-datepicker .ui-datepicker-next-hover {
-  background: #3e7da7;
-  color: white; }
-
-.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
-  display: none; }
+  .ui-datepicker .ui-datepicker-header {
+    position: relative;
+    padding: .2em 0; }
+  .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+    position: absolute;
+    top: -2px;
+    width: 34px;
+    height: 36px;
+    cursor: pointer;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: center;
+    color: white; }
+    .ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
+      display: none; }
+  .ui-datepicker .ui-datepicker-prev {
+    left: 0px; }
+  .ui-datepicker .ui-datepicker-next {
+    right: 0px; }
+  .ui-datepicker .ui-datepicker-prev-hover,
+  .ui-datepicker .ui-datepicker-next-hover {
+    background: #3e7da7;
+    color: white; }
 
 .ui-datepicker .ui-datepicker-title {
   margin: 0 2.3em;
@@ -15140,9 +15085,8 @@ html, body {
 /* Accordion */
 .ui-accordion-header {
   border: 1px solid; }
-
-.ui-accordion .ui-accordion-header {
-  margin-top: 2px; }
+  .ui-accordion-header .ui-accordion-header {
+    margin-top: 2px; }
 
 .ui-accordion-content {
   border: 1px solid;
@@ -15820,9 +15764,6 @@ small {
   vertical-align: top;
   float: none !important; }
 
-.debug {
-  border: 1px firebrick solid; }
-
 ul.armenian, ol.armenian {
   list-style-type: armenian; }
 
@@ -16299,8 +16240,114 @@ label {
       opacity: .4 !important;
       color: #555; }
 
+.search-form {
+  display: none;
+  font-size: 13px;
+  font-size: 1.3rem; }
+  .search-form .xhtml_form {
+    margin: 8px; }
+    .search-form .xhtml_form .form_desc {
+      display: block;
+      width: auto;
+      margin-top: 5px;
+      margin-bottom: 1px; }
+    .search-form .xhtml_form .form-toolbar {
+      margin: 0 !important; }
+    .search-form .xhtml_form input[type="text"], .search-form .xhtml_form input[type="password"] {
+      width: 100%;
+      max-width: none; }
+    .search-form .xhtml_form select, .search-form .xhtml_form textarea, .search-form .xhtml_form .form_radlst {
+      width: 100%;
+      max-width: none; }
+    .search-form .xhtml_form .form-group {
+      margin-bottom: 5px;
+      padding-bottom: 5px; }
+    .search-form .xhtml_form h2 {
+      font-size: 16px;
+      font-size: 1.6rem;
+      margin-bottom: 5px; }
+    .search-form .xhtml_form input[type="checkbox"], .search-form .xhtml_form input[type="radio"] {
+      position: relative;
+      top: 1px;
+      margin-right: 3px; }
+    .search-form .xhtml_form label {
+      margin: 0; }
+
 .xhtml_form form > div {
   margin-bottom: 10px; }
+  .xhtml_form form > div.property-container {
+    margin-top: 20px;
+    border-top: 1px solid #dddddd;
+    padding-top: 20px; }
+    .xhtml_form form > div.property-container .tree ul {
+      background: transparent !important; }
+  .xhtml_form form > div .property-title {
+    margin-bottom: 10px; }
+  .xhtml_form form > div .property-heading-icon {
+    margin-left: 5px; }
+    .xhtml_form form > div .property-heading-icon:hover {
+      color: #0e5d91; }
+  .xhtml_form form > div .property-heading-label {
+    padding-left: 5px; }
+    .xhtml_form form > div .property-heading-label:before {
+      font-size: 12px;
+      content: '• ';
+      line-height: 2px;
+      opacity: .8; }
+  .xhtml_form form > div .property-edit-container {
+    display: none;
+    width: 100%; }
+  .xhtml_form form > div .property-heading-toolbar {
+    float: right; }
+    .xhtml_form form > div .property-heading-toolbar .property-parent-label {
+      display: inline-block;
+      padding: 0 5px; }
+    .xhtml_form form > div .property-heading-toolbar [class^="icon-"], .xhtml_form form > div .property-heading-toolbar [class*=" icon-"] {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid #dddddd;
+      border-radius: 2px;
+      -webkit-border-radius: 2px;
+      margin-left: 1px;
+      padding: 3px;
+      cursor: pointer;
+      min-width: 24px;
+      display: inline-block;
+      text-align: center; }
+      .xhtml_form form > div .property-heading-toolbar [class^="icon-"]:hover, .xhtml_form form > div .property-heading-toolbar [class*=" icon-"]:hover {
+        background: rgba(255, 255, 255, 0.7);
+        color: #0e5d91; }
+  .xhtml_form form > div .property-block {
+    overflow: hidden;
+    padding: 6px 0;
+    border-bottom: 1px white solid; }
+    .xhtml_form form > div .property-block.property-block-first {
+      border-top: 1px white solid; }
+    .xhtml_form form > div .property-block.readonly-property div {
+      display: inline; }
+      .xhtml_form form > div .property-block.readonly-property div div {
+        float: right;
+        padding-left: 5px;
+        color: #7a7a7a;
+        cursor: default; }
+    .xhtml_form form > div .property-block.parent-property div {
+      display: inline; }
+      .xhtml_form form > div .property-block.parent-property div div {
+        float: right;
+        padding-left: 5px;
+        color: #4e4e4e; }
+    .xhtml_form form > div .property-block.regular-property > div {
+      border: 1px solid #dddddd;
+      border-radius: 2px;
+      -webkit-border-radius: 2px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.5);
+      margin: 5px 0;
+      position: relative;
+      top: 6px; }
+      .xhtml_form form > div .property-block.regular-property > div div {
+        padding: 2px 0; }
+    .xhtml_form form > div .property-block.regular-property.property-edit-container-open {
+      padding-top: 10px; }
   .xhtml_form form > div .form_desc {
     width: 35%;
     display: inline-block;
@@ -16308,9 +16355,11 @@ label {
   .xhtml_form form > div input[type="text"], .xhtml_form form > div input[type="password"] {
     width: 65%;
     max-width: none; }
-  .xhtml_form form > div select, .xhtml_form form > div textarea {
+  .xhtml_form form > div select, .xhtml_form form > div textarea, .xhtml_form form > div .form_radlst {
     width: 65%;
     max-width: none; }
+  .xhtml_form form > div .form_radlst {
+    display: inline-block; }
   .xhtml_form form > div.form-toolbar {
     text-align: right;
     margin: 30px 0 0 0; }

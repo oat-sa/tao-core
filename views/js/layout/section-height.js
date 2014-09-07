@@ -48,15 +48,16 @@ define([
             }
         }
 
+        $(window).on('resize', setHeights);
+        $('.version-warning').on('hiding.versionwarning', setHeights)
+
 
         return {
             /**
              * Initialize behaviour of section height
              */
             init : function(){
-                $('.taotree').on('ready.taotree', function() {
-                    setHeights();
-                });
+                $('.taotree').on('ready.taotree', setHeights);
             },
             setHeights: setHeights
         };

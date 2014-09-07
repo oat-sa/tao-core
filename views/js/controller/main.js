@@ -6,9 +6,19 @@ define([
     'generis.actions',
     'controller/main/toolbar',
     'layout/version-warning',
-    'layout/section-height'
+    'layout/section-height',
+    'layout/post-render-tree-search'
 ],
-    function ($, UiBootstrap, Helpers, UiForm, GenerisActions, toolbar, versionWarning, sectionHeight) {
+    function (
+        $,
+        UiBootstrap,
+        Helpers, UiForm,
+        GenerisActions,
+        toolbar,
+        versionWarning,
+        sectionHeight,
+        postRenderTreeSearch
+        ) {
 
     return {
         start : function(){
@@ -26,12 +36,8 @@ define([
 
             sectionHeight.init();
 
-            /////////////////////////////////////////
+            postRenderTreeSearch.init();
 
-            var $tabContainer = $('.tab-container');
-            if($tabContainer.find('li').length < 2) {
-                $tabContainer.hide();
-            }
         }
     };
 });
