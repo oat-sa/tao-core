@@ -138,7 +138,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
             current = context.uri ? 'instance' : context.classUri ? 'class' : 'none'; 
             privileges = context.privileges || {};
             
-            this._resourceContext = _.without(context, 'privileges');
+            this._resourceContext = _.omit(context, 'privileges');
 
             _.forEach(this._actions, function(action, id){
                 var $elt = $('#' + id); 
