@@ -144,4 +144,79 @@ class tao_actions_form_Clazz
         $classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
         $this->form->addElement($classUriElt);
 
+        $localNamespace = common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri();
+
+
+        //class properties edition: add a group form for each property
+
+        $classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
+
+        $i = 0;
+        foreach ($classProperties as $classProperty) {
+            $i++;
+            $useEditor  = false;
+            $parentProp = true;
+            $domains    = $classProperty->getDomain();
+            foreach ($domains->getIterator() as $domain) {
+                if ($domain->getUri() == $clazz->getUri()) {
+                    $parentProp = false;
+
+                    //@todo use the getPrivileges method once implemented
+                    if (preg_match("/^" . preg_quote($localNamespace, '/') . "/", $classProperty->getUri())) {
+                        $useEditor = true;
+                    }
+                    break;
+                }
+            }
+
+            if ($useEditor) {
+
+                //instantiate a property form
+
+                $propFormClass = 'tao_actions_form_' . ucfirst(strtolower($propMode)) . 'Property';
+                if (!class_exists($propFormClass)) {
+                    $propFormClass = 'tao_actions_form_SimpleProperty';
+                }
+
+                $propFormContainer = new $propFormClass($clazz, $classProperty, array('index' => $i));
+                $propForm          = $propFormContainer->getForm();
+
+                //and get its elements and groups
+                $this->form->setElements(array_merge($this->form->getElements(), $propForm->getElements()));
+                $this->form->setGroups(array_merge($this->form->getGroups(), $propForm->getGroups()));
+
+                unset($propForm);
+                unset($propFormContainer);
+            }
+            // properties where the parent property must be edited
+            else if ($parentProp) {
+                $domainElement = tao_helpers_form_FormFactory::getElement('parentProperty' . $i, 'Free');
+                $value         = '';
+                foreach ($domains->getIterator() as $domain) {
+                    $value .= '<span class="property-heading-toolbar">'
+                        . '<span class="property-parent-label">' . $domain->getLabel() . '</span> '
+                        . '<a href="#" data-parent-property-uri="' . tao_helpers_Uri::encode($domain->getUri()) . 'class="icon-edit"></a>'
+                        . '</span>';
+                }
+                $domainElement->setValue($value);
+                $this->form->addElement($domainElement);
+
+                $groupTitle = '<span class="property-heading-label">' . _dh($classProperty->getLabel()) . '</span>'
+                    . '<span class="property-heading-toolbar">'
+                    . '<span class="icon-edit"></span>'
+                    . '</span>';
+
+                $this->form->createGroup("parent_property_{$i}", $groupTitle, array('parentProperty' . $i));
+            }
+            // read only properties
+            else {
+                $roElement = tao_helpers_form_FormFactory::getElement('roProperty' . $i, 'Free');
+                $roElement->setValue(__('Cannot be edited'));
+                $this->form->addElement($roElement);
+
+                $groupTitle = '<span class="property-heading-label">' . _dh($classProperty->getLabel()) . '</span>';
+                $this->form->createGroup("ro_property_{$i}", $groupTitle, array('roProperty' . $i));
+            }
+        }
+    }
 }

@@ -57,6 +57,6 @@ use oat\tao\helpers\Layout;
 
     <?php endif; ?>
 </footer>
-
+<div class="loading-bar"></div>
 </body>
 </html>
