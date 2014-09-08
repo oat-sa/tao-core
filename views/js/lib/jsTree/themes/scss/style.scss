@@ -129,7 +129,17 @@
         &.paginate-all ins {
             background-image: url("paginate_all.png");
         }
-
+        &.private ins:after {
+            display: inline-block;
+            position: relative;
+            left: -15px;
+            top: 4px;
+            @extend %tao-icon-setup;
+            @extend %icon-lock;
+            color: #EED401;
+            text-shadow: 0px 0px 1px #666;
+            @include font-size(14);
+        }
         &.open ul {
             display: block;
         }

@@ -245,6 +245,7 @@ module.exports = function(grunt) {
                 files : {
                     '../css/tao-main-style.css' : '../scss/tao-main-style.scss',
                     '../css/layout.css' : '../scss/layout.scss',
+                    '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss',
                     '../../../taoCe/views/css/home.css' : '../../../taoCe/views/scss/home.scss',
                     '../../../taoQtiTest/views/css/creator.css' : '../../../taoQtiTest/views/scss/creator.scss',
                 }
@@ -276,7 +277,7 @@ module.exports = function(grunt) {
              * Watch SASS changes and compile on the fly!
              */
             'sass' : {
-                files : ['../scss/*.scss', '../scss/**/*.scss', '../../../*/views/scss/**/*.scss'],
+                files : ['../scss/*.scss', '../scss/**/*.scss', '../../../*/views/scss/**/*.scss', '../js/lib/**/*.scss'],
                 tasks : ['sass:compile', 'notify:sass'],
                 options : {
                     debounceDelay : 500
