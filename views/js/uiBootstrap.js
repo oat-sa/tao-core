@@ -41,15 +41,19 @@ define([
                 show: function (e, ui) {
                     var $section = $(ui.panel);
 
-                   // $('.navigation-panel').hide();
-
-                    context.section = $section.attr('id');
+                    context.section = $section.attr('id').replace('panel-', '');
+                    actions.init($section);
  
                     $('.taotree', $section).each(function(){
                         var $treeElt = $(this),
                             $actionBar = $('.tree-action-bar-box', $section);
                         
                         treeFactory($treeElt, $treeElt.data('url'), {
+                            serverParameters : {
+                                extension   : context.shownExtension,
+                                perspective : context.shownStructure,
+                                section     : context.section 
+                            },
                             actions : {
                                 'selectClass'    : $treeElt.data('action-selectclass'),
                                 'selectInstance' : $treeElt.data('action-selectinstance'),
@@ -61,7 +65,7 @@ define([
                             $actionBar.addClass('active');
                         });
                     });
-                    actions.init();
+
 
                     // navBar.init() replace
                 }

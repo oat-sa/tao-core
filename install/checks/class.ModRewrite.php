@@ -45,30 +45,34 @@ class tao_install_checks_ModRewrite extends common_configuration_Component {
         }
         // else test the behaviour
         elseif (php_sapi_name() != 'cli' && function_exists("curl_init")) {
-            
+
             $server =
                 ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https' : 'http')
                 ."://".$_SERVER['SERVER_NAME']
                 .(($_SERVER["SERVER_PORT"] != "80") ? ":".$_SERVER["SERVER_PORT"] : '');
             
             $request = $_SERVER["REQUEST_URI"];
-            $request = substr($request, 0, strpos($request, '?'));
+            if(strpos($request, '?') !== false) {
+                $request = substr($request, 0, strpos($request, '?'));
+            }
             $request = substr($request, 0, strrpos($request, '/'));
                 
-            $url = $server.$request.'/checks/testRewrite/notworking.php'; 
-            
+            $url = $server.$request.'/checks/testRewrite/notworking';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_TIMEOUT, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             $output = @curl_exec($ch);
             curl_close($ch);
-            
+
             if ($output == 'working') {
                 $modRewrite = true;
             }
+
         }
+
         if ($modRewrite == true){
             $report = new common_configuration_Report(common_configuration_Report::VALID,
                                                       'URL rewriting is enabled.',

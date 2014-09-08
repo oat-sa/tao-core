@@ -22,6 +22,10 @@
 ?>
 <?php
 
+use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\accessControl\ActionResolver;
+use oat\tao\model\menu\MenuService;
+
 /**
  * The TaoModule is an abstract controller, 
  * the tao children extensions Modules should extends the TaoModule to beneficiate the shared methods.
@@ -300,9 +304,11 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	public function getOntologyData()
 	{
 		if(!tao_helpers_Request::isAjax()){
-			throw new common_exception_IsAjaxAction(__FUNCTION__); 
+			//throw new common_exception_IsAjaxAction(__FUNCTION__); 
 		}
-		
+	
+        $user = tao_models_classes_UserService::singleton()->getCurrentUser();
+	
 		$options = array(
 			'subclasses' => true, 
 			'instances' => true, 
@@ -341,12 +347,69 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if($this->hasRequestParameter('subclasses')){
 			$options['subclasses'] = $this->getRequestParameter('subclasses');
 		}
-		
-		$this->returnJson($this->service->toTree($clazz, $options));
+	
+        $tree = $this->service->toTree($clazz, $options);
+
+        $section = MenuService::getSection(
+            $this->getRequestParameter('extension'), 
+            $this->getRequestParameter('perspective'), 
+            $this->getRequestParameter('section')
+        );
+
+        $actions = array();
+        foreach($section->getActions() as $index => $action){
+            try{
+                $actions[$index] = array(
+                    'resolver'  => new ActionResolver($action->getUrl()),
+                    'name'      => $action->getName(),
+                    'context'   => $action->getContext()
+                );
+            } catch(\ResolverException $re){
+                common_Logger::d('do not handle privileges for action : ' . $action->getName() . ' ' . $action->getUrl());
+            }
+        }
+
+        if(is_int(array_keys($tree)[0])){
+            foreach($tree as $index => $treeNode){
+                $tree[$index] = $this->computeAccessControls($actions, $user, $treeNode);
+            }
+        } else { 
+            $tree = $this->computeAccessControls($actions, $user, $tree);
+        }
+
+        $this->returnJson($tree);
 	}
+
+    private function computeAccessControls($actions, $user, $node){
+        if(isset($node['_data'])){
+            foreach($actions as $action){
+                if($node['type'] == $action['context'] || $action['context'] == 'resource'){
+                    $resolver = $action['resolver'];
+                    try{
+                        if(rand(0, 10) % 2 === 0){
+                            $node['_acl'][$action['name']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']); 
+                        } else {
+                            $node['_acl'][$action['name']] = false;
+                        }
+
+                    //@todo should be a checked exception!
+                    } catch(Exception $e){
+                        common_Logger::w($e->getMessage() );
+                    }
+                }
+            }
+        }
+        if(isset($node['children'])){
+            foreach($node['children'] as $index => $child){
+                $node['children'][$index] = $this->computeAccessControls($actions, $user, $child);    
+            }
+        }
+        return $node;
+    }
 	
 	/**
 	 * Add an instance of the selected class
+     * @requiresPrivilege classUri WRITE 
 	 * @return void
 	 */
 	public function addInstance()
@@ -373,7 +436,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
 	/**
 	 * Add a subclass to the currently selected class
-	 * 
+     * @requiresPrivilege classUri WRITE 
 	 * @throws Exception
 	 */
 	public function addSubClass()
@@ -507,7 +570,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 	}
-	
+
+    /**
+     * @requiresPrivilege uri WRITE 
+     */	
 	public function editInstance() {
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();
@@ -675,6 +741,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	/**
 	 * Duplicate the current instance
 	 * render a JSON response
+     * @requiresPrivilege uri WRITE 
 	 * @return void
 	 */
 	public function cloneInstance()
@@ -694,6 +761,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
 	/**
 	 * Move an instance from a class to another
+     * @requiresPrivilege uri WRITE 
 	 * @return void
 	 */
 	public function moveInstance()

@@ -90,6 +90,7 @@ class MenuService {
         }
         return $perspectives;
     }
+
     /**
      * Get the structure content (from the structure.xml file) of each extension.
      * @return array
@@ -121,6 +122,7 @@ class MenuService {
             if(self::USE_CACHE == false){
                 //rebuild structure each time
                 self::$structure = self::buildStructures();
+
             } else {
                 //cache management
                 try {
@@ -129,6 +131,7 @@ class MenuService {
                     self::$structure = self::buildStructures();
                     \common_cache_FileCache::singleton()->put(self::$structure, self::CACHE_KEY);
                 }
+
             }
         }
         return self::$structure;

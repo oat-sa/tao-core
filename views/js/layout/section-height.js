@@ -3,9 +3,10 @@
  */
 define([
     'jquery',
+    'lodash',
     'jquery.cookie'
 ],
-    function($){
+    function($, _){
 
 
         /**
@@ -29,7 +30,7 @@ define([
         }
 
 
-        function setHeights() {
+        var setHeights = _.debounce(function setHeights() {
             var $contentWrapper = $('.content-wrapper'),
                 $searchBar = $('.search-action-bar'),
                 searchBarHeight = $searchBar.outerHeight()
@@ -46,10 +47,14 @@ define([
                     maxHeight: ($('footer').offset().top - $contentWrapper.offset().top) - searchBarHeight - getTreeActionIdealHeight()
                 });
             }
-        }
+        }, 10);
 
-       // $(window).on('resize', setHeights);
-        $('.version-warning').on('hiding.versionwarning', setHeights)
+
+        $(window)
+            .off('resize.sectioneight')
+            .on('resize.sectionheight', setHeights);
+
+        $('.version-warning').on('hiding.versionwarning', setHeights);
 
 
         return {

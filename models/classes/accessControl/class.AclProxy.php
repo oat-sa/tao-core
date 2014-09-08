@@ -21,8 +21,8 @@
 use oat\tao\model\accessControl\data\AclProxy as DataProxy;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\routing\Resolver;
-use oat\tao\model\accessControl\func\FuncHelper;
 
 /**
  * Proxy for the Acl Implementation
@@ -44,7 +44,13 @@ class tao_models_classes_accessControl_AclProxy
      */
     public static function hasAccess($action, $controller, $extension, $parameters = array()) {
         $user = common_session_SessionManager::getSession()->getUserUri();
-        return AclProxy::hasAccess($user, FuncHelper::getClassName($extension, $controller), $action, $parameters);
+        try {
+            $resolver  = ActionResolver::getByControllerName($controller, $extension);
+            $className = $resolver->getController();
+        } catch (ResolverException $e) {
+            return false;
+        }
+        return AclProxy::hasAccess($user, $className, $action, $parameters);
     }
     
 }

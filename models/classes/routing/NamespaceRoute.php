@@ -35,7 +35,8 @@ class NamespaceRoute extends Route
             if (!empty($rest)) {
                 $parts = explode('/', $rest, 3);
                 $controller = rtrim($namespace, '\\').'\\'.$parts[0];
-                $method = $parts[1];
+                //todo
+                $method = isset($parts[1]) ? $parts[1] : DEFAULT_ACTION_NAME;
                 return $controller.'@'.$method;
             } elseif (defined('DEFAULT_MODULE_NAME') && defined('DEFAULT_ACTION_NAME')) {
                 $controller = rtrim($namespace, '\\').'\\'.DEFAULT_MODULE_NAME;

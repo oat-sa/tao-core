@@ -18,48 +18,53 @@
  * 
  */
 
-namespace oat\tao\model\accessControl\func;
+namespace oat\tao\model\accessControl;
 
 use oat\tao\model\routing\Resolver;
 use common_http_Request;
 use common_exception_Error;
 
 /**
+ * Wrap the {@link Resolver} for the needs of access controls in order to get controller and action from a url.
+ * @author Betrrand Chevrier <bertrand@taotesting.com>
  */
-class FuncHelper
+class ActionResolver
 {
 
-    /**
-     * Get the controller className from extension and controller shortname
-     * @param string $extension 
-     * @param string $shortname
-     * @return string the full class name (as defined in PHP) 
-     * @throws ResolverException
-     */
-    public static function getClassName($extension, $shortName) {
-        $url = _url('index', $shortName, $extension);
-        return self::getClassNameByUrl($url);
+    private $action;
+
+    private $controller;
+
+    public function __construct($url){
+        $this->loadFromUrl($url);
     }
 
     /**
-     * Helps you to get the name of the class for a given URL. The controller class name is used in privileges definition.
-     * @param string $url 
+     * Build the helper from the controller className
+     * @param string $extension 
+     * @param string $shortname
+     * @return ActionHelper 
      * @throws ResolverException
-     * @return string the className
      */
-    public static function getClassNameByUrl($url){
-        $class = null;
-        if(!empty($url)){
-            try{
-                $route = new Resolver(new common_http_Request($url));
-                $class = $route->getControllerClass();
-            } catch(\ResolverException $re){
-                throw new common_exception_Error('The url "'.$url.'" could not be mapped to a controller : ' . $re->getMessage());
-            }
-        }
-        if (is_null($class)) {
-            throw new common_exception_Error('The url "'.$url.'" could not be mapped to a controller');
-        }
-        return $class;
+    public static function getByControllerName($shortName, $extension) {
+        $url = _url('index', $shortName, $extension);
+        return new static($url);
+    }
+
+    /**
+     * @throws ResolverException
+     */
+    private function loadFromUrl($url){
+        $route = new Resolver(new common_http_Request($url));
+        $this->controller   = $route->getControllerClass();
+        $this->action       = $route->getMethodName();
+    }
+
+    public function getAction(){
+        return $this->action;
+    }
+
+    public function getController(){
+        return $this->controller;
     }
 }

@@ -45,7 +45,6 @@ require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
  *
  * @author Bertrand CHEVRIER <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  * @example
  * <code>
  *  $bootStrap = new BootStrap('tao');	//create the Bootstrap instance
@@ -54,11 +53,6 @@ require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
  * </code>
  */
 class Bootstrap{
-
-	/**
-	 * @var string the contextual path
-	 */
-	protected $ctxPath = "";
 
 	/**
 	 * @var boolean if the context has been started
@@ -82,16 +76,9 @@ class Bootstrap{
 	 */
 	public function __construct($extension, $options = array())
 	{
-		common_Profiler::singleton()->register();
+	    common_Profiler::singleton()->register();
 
-		$this->ctxPath = ROOT_PATH . '/' . $extension;
 		$this->extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extension);
-		
-		$extraConstants = isset($options['constants']) ? $options['constants'] : array();
-		$extraConstants = is_string($extraConstants) ? array($extraConstants) : $extraConstants;
-		
-		$extensionLoader = new common_ext_ExtensionLoader($this->extension);
-		$extensionLoader->load($extraConstants);
 
 		if(PHP_SAPI == 'cli'){
 			tao_helpers_Context::load('SCRIPT_MODE');
@@ -241,13 +228,14 @@ class Bootstrap{
     		$this->dispatchError($e, 500, $e->getUserMessage());
     	}
     	catch (ResolverException $e) {
+    	    common_Logger::singleton()->handleException($e);
             if (!tao_helpers_Request::isAjax()
     		    && tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
     		) {
                 header(HTTPToolkit::statusCodeHeader(302));
                 header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao')));
             } else {
-                $this->dispatchError($ue, 403);
+                $this->dispatchError($e, 403);
             }
     	}
     	catch (Exception $e) {
@@ -275,42 +263,44 @@ class Bootstrap{
     	}
     }
     
-    private function dispatchError(Exception $e, $httpStatus, $message = '', $trace = ''){
-    	
-    	// Set relevant HTTP header.
-    	header(HTTPToolkit::statusCodeHeader($httpStatus));
-    	
-    	if (tao_helpers_Request::isAjax()){
-    		new common_AjaxResponse(array(
-    				"success"   => false, 
-    				"type"		=> 'Exception',
-    				"data"		=> array('ExceptionType' => get_class($e)),
-    				"message" 	=> $message
-    		));
-    	}
-    	else{
-    	    require_once Template::getTemplate("error/error${httpStatus}.tpl", 'tao');
-    	}
+    private function dispatchError(Exception $e, $httpStatus, $message = '', $trace = '')
+    {
+        
+        // Set relevant HTTP header.
+        header(HTTPToolkit::statusCodeHeader($httpStatus));
+        
+        if (tao_helpers_Request::isAjax()) {
+            new common_AjaxResponse(array(
+                "success" => false,
+                "type" => 'Exception',
+                "data" => array(
+                    'ExceptionType' => get_class($e)
+                ),
+                "message" => $message
+            ));
+        } else {
+            require_once Template::getTemplate("error/error${httpStatus}.tpl", 'tao');
+        }
     }
 
-	/**
-	 * Start the session
-	 */
-	protected function session()
-	{
-		if(tao_helpers_Context::check('APP_MODE')){
-			// Set a specific ID to the session.
-			$request = new Request();
-			if($request->hasParameter('session_id')){
-			 	session_id($request->getParameter('session_id'));
-			}
-		}
-
-		// set the session cookie to HTTP only. 
-		$sessionParams = session_get_cookie_params();
-		$cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
-		session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], TRUE);
-		$this->configureSessionHandler();
+    /**
+     * Start the session
+     */
+    protected function session()
+    {
+        if (tao_helpers_Context::check('APP_MODE')) {
+            // Set a specific ID to the session.
+            $request = new Request();
+            if ($request->hasParameter('session_id')) {
+                session_id($request->getParameter('session_id'));
+            }
+        }
+        
+        // set the session cookie to HTTP only.
+        $sessionParams = session_get_cookie_params();
+        $cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
+        session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], TRUE);
+        $this->configureSessionHandler();
 
 		// Start the session with a specific name.
 		session_name(GENERIS_SESSION_NAME);
@@ -318,13 +308,10 @@ class Bootstrap{
 		
 		common_Logger::t("Session with name '" . GENERIS_SESSION_NAME ."' started.");
 	}
+	
     private function configureSessionHandler() {
         
-        
-        if (
-            (defined("PHP_SESSION_HANDLER"))
-            && (class_exists(PHP_SESSION_HANDLER))
-            ) {
+        if (defined("PHP_SESSION_HANDLER") && class_exists(PHP_SESSION_HANDLER)) {
                 
                 //check if it implements the interface
                 $interfaces = class_implements(PHP_SESSION_HANDLER);
@@ -343,6 +330,7 @@ class Bootstrap{
                 }   
         }
     }
+    
 	/**
 	 * register a custom Errorhandler
 	 */

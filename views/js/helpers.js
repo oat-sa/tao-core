@@ -30,7 +30,7 @@ define([
                 sectionIndex = $('.section-container').tabs('options', 'selected');
                 $('.content-panel').eq(sectionIndex).find('.content-block');
             }
-            return $('#' + context.section + ' .content-block');
+            return $('#panel-' + context.section + ' .content-block');
         },
 
         /**

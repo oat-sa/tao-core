@@ -510,5 +510,15 @@ class tao_helpers_File
         $string = trim(preg_replace("~[^a-z0-9]+~i", $repl, $string), $repl);
         return $lower ? strtolower($string) : $string;
     }
-
+    
+    /**
+     * Check if the directory is empty
+     * 
+     * @param string $directory
+     * @return boolean
+     */
+    public static function isDirEmpty($directory){
+        $path = self::concat(array($directory, '*'));
+        return (count(glob($path, GLOB_NOSORT)) === 0 );
+    }
 }

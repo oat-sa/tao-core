@@ -56,8 +56,7 @@ class tao_models_classes_HttpBasicAuthAdapter
             throw new common_Exception('Rest (Basic) login failed for user (missing login/password)');
         }
         
-        $authAdapter = new core_kernel_users_AuthAdapter(array());
-        $authAdapter->setCredentials($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+        $authAdapter = new core_kernel_users_AuthAdapter($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
         return $authAdapter->authenticate();
     }
 }
