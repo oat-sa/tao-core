@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,24 +18,10 @@
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
- */
-
-/**
- * The Service class is an abstraction of each service instance. 
- * Used to centralize the behavior related to every servcie instances.
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package tao
- 
+ * 
  */
 
 
-/**
- * Service is the base class of all services, and implements the singleton
- * for derived services
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- */
 /**
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
@@ -49,12 +35,6 @@
 abstract class tao_models_classes_GenerisService
     extends tao_models_classes_Service
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
      * constructor
@@ -69,17 +49,6 @@ abstract class tao_models_classes_GenerisService
         
     }
 
-    /**
-     * 
-     * @access public
-     * @author patrick
-     * @param  core_kernel_classes_Resource $resource
-     * @return core_kernel_classes_Resource with all properties - values
-     */
-    public function getResourceDescription( core_kernel_classes_Resource $resource){
-	return $resource->getResourceDescription(true);
-
-    }
 
     /**
      * search the instances matching the filters in parameters
@@ -95,15 +64,9 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = array();
 
-        
-
         if(!is_null($topClazz)){
         	$returnValue = $topClazz->searchInstances($propertyFilters, $options);
         }
-
-
-        
-
         return (array) $returnValue;
     }
 
@@ -119,8 +82,6 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        
-
      	if(!is_null($instance)){
         	if(!$instance->isClass() && !$instance->isProperty()){
         		foreach($instance->getTypes() as $type){
@@ -129,8 +90,6 @@ abstract class tao_models_classes_GenerisService
         		}
         	}
         }
-
-        
 
         return $returnValue;
     }
@@ -146,19 +105,12 @@ abstract class tao_models_classes_GenerisService
      */
     public function createInstance( core_kernel_classes_Class $clazz, $label = '')
     {
-        $returnValue = null;
-
-        
-
         if( empty($label) ){
 			$label =  $this->createUniqueLabel($clazz);
 		}
 
-		$returnValue = core_kernel_classes_ResourceFactory::create($clazz, $label, '');
+		return core_kernel_classes_ResourceFactory::create($clazz, $label, '');
 
-        
-
-        return $returnValue;
     }
 
     /**
@@ -173,9 +125,6 @@ abstract class tao_models_classes_GenerisService
     public function createUniqueLabel( core_kernel_classes_Class $clazz, $subClassing = false)
     {
         $returnValue = (string) '';
-
-        
-
 
         if($subClassing){
         	$labelBase = $clazz->getLabel() . '_' ;
@@ -204,8 +153,6 @@ abstract class tao_models_classes_GenerisService
 
 		$returnValue = $label;
 
-        
-
         return (string) $returnValue;
     }
 
@@ -220,18 +167,11 @@ abstract class tao_models_classes_GenerisService
      */
     public function createSubClass( core_kernel_classes_Class $parentClazz, $label = '')
     {
-        $returnValue = null;
-
-        
-
         if( empty($label) ){
 			$label = $this->createUniqueLabel($parentClazz, true);
 		}
-		$returnValue = $parentClazz->createSubClass($label, '');
+		return $parentClazz->createSubClass($label, '');
 
-        
-
-        return $returnValue;
     }
 
     /**
@@ -245,17 +185,10 @@ abstract class tao_models_classes_GenerisService
      */
     public function bindProperties( core_kernel_classes_Resource $instance, $properties = array())
     {
-        $returnValue = null;
-
-        
         $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($instance);
         $binder->bind($properties);
 
-        $returnValue = $instance;
-
-        
-
-        return $returnValue;
+        return $instance;
     }
 
     /**
@@ -270,8 +203,7 @@ abstract class tao_models_classes_GenerisService
     public function cloneInstance( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $clazz = null)
     {
         $returnValue = null;
-
-        
+ 
         if (is_null($clazz)) {
             $types = $instance->getTypes();
             $clazz = current($types);
@@ -294,11 +226,16 @@ abstract class tao_models_classes_GenerisService
 			$returnValue->setLabel($cloneLabel);
 		}
 
-        
-
         return $returnValue;
     }
     
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param core_kernel_classes_Resource $source
+     * @param core_kernel_classes_Resource $destination
+     * @param core_kernel_classes_Property $property
+     */
     protected function cloneInstanceProperty( core_kernel_classes_Resource $source, core_kernel_classes_Resource $destination, core_kernel_classes_Property $property) {
         $range = $property->getRange();
 		// Avoid doublons, the RDF TYPE property will be set by the implementation layer
@@ -377,10 +314,7 @@ abstract class tao_models_classes_GenerisService
     public function changeClass( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $destinationClass)
     {
         $returnValue = (bool) false;
-
-        
-
-   		try{
+  		try{
         	foreach($instance->getTypes() as $type){
         		$instance->removeType($type);
         	}
@@ -395,10 +329,7 @@ abstract class tao_models_classes_GenerisService
         catch(common_Exception $ce){
         	print $ce;
         }
-
-        
-
-        return (bool) $returnValue;
+       return (bool) $returnValue;
     }
 
     /**
@@ -416,10 +347,7 @@ abstract class tao_models_classes_GenerisService
     public function getClazzProperties( core_kernel_classes_Class $clazz,  core_kernel_classes_Class $topLevelClazz = null)
     {
         $returnValue = array();
-
-        
-
-        if(is_null($topLevelClazz)){
+       if(is_null($topLevelClazz)){
 			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
 		}
 
@@ -486,9 +414,6 @@ abstract class tao_models_classes_GenerisService
     public function getPropertyDiff( core_kernel_classes_Class $sourceClass,  core_kernel_classes_Class $destinationClass)
     {
         $returnValue = array();
-
-        
-
     	$sourceProperties = $sourceClass->getProperties(true);
         $destinationProperties = $destinationClass->getProperties(true);
 
@@ -497,10 +422,7 @@ abstract class tao_models_classes_GenerisService
         		array_push($returnValue, $sourceProperty);
         	}
         }
-
-        
-
-        return (array) $returnValue;
+      return (array) $returnValue;
     }
 
     /**
@@ -515,8 +437,6 @@ abstract class tao_models_classes_GenerisService
     public function getTranslatedProperties( core_kernel_classes_Resource $instance, $lang)
     {
         $returnValue = array();
-
-        
 
     	try{
 			foreach($instance->getTypes() as $clazz){
@@ -562,8 +482,6 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = array();
 
-        
-
     	$properties = $clazz->getProperties(false);
 		foreach($clazz->getInstances(false) as $instance){
 			$data = array();
@@ -581,9 +499,6 @@ abstract class tao_models_classes_GenerisService
 			}
 			array_push($returnValue, $data);
 		}
-
-        
-
         return (array) $returnValue;
     }
 
