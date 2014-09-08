@@ -71,14 +71,10 @@ $sections = get_data('sections');
                                 <li class="action"
                                     data-context="<?= $action->getContext() ?>"
                                     title="<?= $action->getName() ?>"
-<<<<<<< HEAD
-                                    data-action="<?= $action->getBinding() ?>">
-=======
                                     data-action="<?= $action->getBinding() ?>"
                                     <?php foreach($action->getPrivileges() as $param => $privilege): ?>
                                         data-privilege-<?=$param?>="<?=$privilege?>"
                                     <?php endforeach; ?>>
->>>>>>> dce7c65c01ed5a9c0553591e9a5a9a316b588dc5
                                     <a href="<?= $action->getUrl(); ?>">
                                         <?=
                                         Layout::renderIcon(
