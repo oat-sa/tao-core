@@ -349,7 +349,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 	
         $tree = $this->service->toTree($clazz, $options);
-
+/*
         $section = MenuService::getSection(
             $this->getRequestParameter('extension'), 
             $this->getRequestParameter('perspective'), 
@@ -376,7 +376,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         } else { 
             $tree = $this->computeAccessControls($actions, $user, $tree);
         }
-
+*/
         $this->returnJson($tree);
 	}
 
