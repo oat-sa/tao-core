@@ -91,7 +91,7 @@ class AclProxy implements AccessControl
                 
                 $required[$cleanName] = $privileges;
             } else {
-                throw new \Exception('Missing parameter');
+                throw new \Exception('Missing parameter ' . $paramName . ' for ' . $controller . '/' . $action);
             }
         }
         if (!empty($required)) {
