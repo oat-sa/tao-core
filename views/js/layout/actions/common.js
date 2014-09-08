@@ -1,7 +1,20 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'layout/actions/binder', 'helpers'], function($, _, binder, helpers){
+define([
+    'jquery',
+    'lodash',
+    'layout/actions/binder',
+    'helpers',
+    'layout/search'
+],
+    function(
+        $,
+        _,
+        binder,
+        helpers,
+        search
+        ){
 
     /**
      * Register common actions
@@ -137,4 +150,50 @@ define(['jquery', 'lodash', 'layout/actions/binder', 'helpers'], function($, _, 
         });
     });
 
+
+    /**
+     * Register the removeNode action: removes a resource.
+     *
+     * @this the action (once register it is bound to an action object)
+     *
+     * @param {Object} context - the current context
+     * @param {String} [context.uri]
+     * @param {String} [context.classUri]
+     *
+     * @fires layout/tree#removenode.taotree
+     */
+    binder.register('launchFinder', function remove(context){
+
+        var data = _.merge({
+                uri: '',
+                classUri: ''
+            }, _.pick(context, ['uri', 'classUri'])),
+
+            uniqueValue = data.uri + data.classUri || 'none';
+
+        if(search.getContainer().is(':visible')) {
+            search.toggle();
+            return;
+        }
+
+        if(search.getContainer().data('current') === uniqueValue) {
+            search.toggle();
+            return;
+        }
+
+        $.ajax({
+            url: this.url,
+            type: "GET",
+            data: data,
+            dataType: 'html',
+            success: function(response){
+
+                search.getContainer().data('current', uniqueValue);
+                search.init(response, uniqueValue);
+            }
+        });
+    });
+
 });
+
+

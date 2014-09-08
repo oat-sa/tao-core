@@ -21,6 +21,7 @@
     align-items: stretch;
 }
 
+
 .section-container {
     top: 0 !important;
 
@@ -73,6 +74,7 @@
 
 
     .navi-container {
+        display:none;
         background:  $canvas;
         width:  $treeSidebar * 1px;
         -webkit-flex: 0 0 $treeSidebar * 1px;
@@ -117,14 +119,12 @@
         padding: 20px;
         @extend %flex-container;
         .main-container {
-            &.medium {
-                -webkit-flex: 0 0 500 * 1px;
-                -ms-flex: 0 0 500 * 1px;
-                flex: 0 0 500 * 1px;
-                -webkit-align-self: stretch;
-                -ms-flex-item-align: stretch;
-                align-self: stretch;
-            }
+            -webkit-flex: 0 0 500 * 1px;
+            -ms-flex: 0 0 500 * 1px;
+            flex: 0 0 500 * 1px;
+            -webkit-align-self: stretch;
+            -ms-flex-item-align: stretch;
+            align-self: stretch;
         }
         .data-container-wrapper {
             padding: 48px 0 0 20px;

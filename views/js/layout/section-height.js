@@ -48,7 +48,7 @@ define([
             }
         }
 
-        $(window).on('resize', setHeights);
+       // $(window).on('resize', setHeights);
         $('.version-warning').on('hiding.versionwarning', setHeights)
 
 
@@ -57,7 +57,10 @@ define([
              * Initialize behaviour of section height
              */
             init : function(){
-                $('.taotree').on('ready.taotree', setHeights);
+                $('.taotree').on('ready.taotree', function() {
+                    $('.navi-container').show();
+                    setHeights();
+                });
             },
             setHeights: setHeights
         };

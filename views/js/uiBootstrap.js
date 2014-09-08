@@ -41,6 +41,8 @@ define([
                 show: function (e, ui) {
                     var $section = $(ui.panel);
 
+                   // $('.navigation-panel').hide();
+
                     context.section = $section.attr('id');
  
                     $('.taotree', $section).each(function(){

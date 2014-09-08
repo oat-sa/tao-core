@@ -110,7 +110,7 @@ class Layout{
      * @param string $defaultIcon e.g. icon-extension | icon-action
      * @return string icon as html
      */
-    public static function renderMenuIcon($icon, $defaultIcon) {
+    public static function renderIcon($icon, $defaultIcon) {
 
         $srcExt   = '';
         $isBase64 = false;

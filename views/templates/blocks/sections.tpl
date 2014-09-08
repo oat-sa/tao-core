@@ -26,79 +26,32 @@ $sections = get_data('sections');
                             <div class="tree-block">
                                 <ul id="tree-actions-<?= $i ?>"
                                     class="plain search-action-bar action-bar horizontal-action-bar">
-                                      <li class="tree-search btn-info small action search-trigger">
-                                          <span class="icon-find"></span>
-                                          <a href=""><?= __('Find') ?></a>
-                                    </li>
+                                    <?php foreach ($section->getActionsByGroup('search') as $action): ?>
+                                        <li class="tree-search btn-info small action"
+                                            data-context="<?= $action->getContext() ?>"
+                                            title="<?= $action->getName() ?>"
+                                            data-action="<?= $action->getBinding() ?>">
+                                            <a href="<?= $action->getUrl(); ?>">
+                                                <?=
+                                                Layout::renderIcon(
+                                                    $action->getIcon(),
+                                                    ' icon-magicwand'
+                                                ); ?> <?= $action->getName(); ?>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
                                 </ul>
                             </div>
                             <div class="search-form">
-                                <div id="form-container" class="ui-widget-content ui-corner-bottom">
+                                <div data-purpose="filter">
+                                    <div class="ui-widget-header">
+                                        <?=__('Filter');?>
+                                    </div>
                                     <div class="xhtml_form">
-                                        <form method="post" id="form_1" name="form_1" action="/taoItems/Items/search">
-                                            <input name="form_1_sent" value="1" type="hidden">
-
-                                            <div class="form-toolbar"><a href="#" class="form-submitter"><img src="http://tao26.lan/tao/views//img/search.png">
-                                                    Search</a></div>
-                                            <input name="clazzUri" id="clazzUri" value=""
-                                                   type="hidden">
-
-                                            <div id="params" class="form-group">Options
-                                                <div>
-                                                    <div><span class="form_desc">Filtering mode</span>
-
-                                                        <div class="form_radlst"><input name="chaining" id="chaining_0" value="or" checked="checked"
-                                                                                        type="radio"><label class="elt_desc" for="chaining_0">Exclusive (OR)</label><br><input
-                                                                name="chaining" id="chaining_1" value="and" type="radio"><label class="elt_desc" for="chaining_1">Inclusive
-                                                                (AND)</label><br></div>
-                                                    </div>
-                                                    <div><span class="form_desc">Recursive</span>
-
-                                                        <div class="form_radlst"><input name="recursive" id="recursive_0" value="0" checked="checked"
-                                                                                        type="radio"><label class="elt_desc" for="recursive_0">Current class +
-                                                                Subclasses</label><br><input name="recursive" id="recursive_1" value="10" type="radio"><label
-                                                                class="elt_desc" for="recursive_1">Current class only</label><br></div>
-                                                    </div>
-                                                    <div><label class="form_desc" for="lang">Language</label><select name="lang" id="lang">
-                                                            <option value="0"></option>
-                                                            <option value="da-DK">Danish</option>
-                                                            <option value="en-US">English</option>
-                                                            <option value="fr-FR">French</option>
-                                                            <option value="pt-PT">Portuguese</option>
-                                                            <option value="sv-SE">Swedish</option>
-                                                        </select></div>
-                                                </div>
-                                            </div>
-                                            <div id="filters" class="form-group">Filters
-                                                <div>
-                                                    <div><span class="form_desc"></span><span class="form-elt-info form-elt-container">Use the * character to replace any string</span>
-                                                    </div>
-                                                    <div><label class="form_desc" for="">Label</label><input
-                                                            name="-schema_3_label"
-                                                            id="-schema_3_label" value="" type="text"></div>
-                                                    <div><span class="form_desc">Original Filename</span><span class="form-elt-info form-elt-container"></span>
-                                                    </div>
-                                                    <div><span class="form_desc">Item Model</span>
-
-                                                        <div class="form_radlst"><input value=""
-                                                                                        name=""
-                                                                                        id=""
-                                                                                        type="checkbox">&nbsp;<label class="elt_desc"
-                                                                                                                     for="">Open
-                                                                Web Item</label><br><input value=""
-                                                                                           name=""
-                                                                                           id=""
-                                                                                           type="checkbox">&nbsp;<label class="elt_desc"
-                                                                                                                        for="">QTI</label><br>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-toolbar"><a href="#" class="form-submitter"><img src="http://tao26.lan/tao/views//img/search.png">
-                                                    Search</a></div>
-                                        </form>
+                                        <input type="text">
                                     </div>
                                 </div>
+                                <div data-purpose="search" data-current></div>
                             </div>
                             <div id="tree-<?= $i ?>"
                                  class="taotree taotree-<?= is_null($tree->get('className')) ? 'default' : strtolower(
@@ -118,10 +71,10 @@ $sections = get_data('sections');
                                 <li class="action"
                                     data-context="<?= $action->getContext() ?>"
                                     title="<?= $action->getName() ?>"
-                                    data-action="<?= $action->getBinding() ?>" url="">
+                                    data-action="<?= $action->getBinding() ?>">
                                     <a href="<?= $action->getUrl(); ?>">
                                         <?=
-                                        Layout::renderMenuIcon(
+                                        Layout::renderIcon(
                                             $action->getIcon(),
                                             ' icon-magicwand'
                                         ); ?> <?= $action->getName(); ?>
@@ -150,7 +103,7 @@ $sections = get_data('sections');
                                 title="<?= $action->getName() ?>" data-action="<?= $action->getBinding() ?>" url="">
                                 <a href="<?= $action->getUrl(); ?>">
                                     <?=
-                                    Layout::renderMenuIcon(
+                                    Layout::renderIcon(
                                         $action->getIcon(),
                                         ' icon-magicwand'
                                     ); ?> <?= $action->getName(); ?>
