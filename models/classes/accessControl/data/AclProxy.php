@@ -21,9 +21,9 @@ namespace oat\tao\model\accessControl\data;
 
 use oat\tao\model\accessControl\AccessControl;
 use oat\tao\model\accessControl\data\DataAccessControl;
-use oat\controllerMap\parser\Factory;
 use common_ext_ExtensionsManager;
 use common_Logger;
+use oat\tao\helpers\ControllerHelper;
 
 /**
  * Proxy for the Acl Implementation
@@ -108,8 +108,7 @@ class AclProxy implements AccessControl
     }
     
     public static function getRequiredPrivileges($controllerClassName, $actionName) {
-        $fac = new Factory();
-        $desc = $fac->getActionDescription($controllerClassName, $actionName);
+        $desc = ControllerHelper::getActionDescription($controllerClassName, $actionName);
         return $desc->getRequiredPrivileges();
     }
     

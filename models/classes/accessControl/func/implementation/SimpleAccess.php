@@ -25,9 +25,8 @@ use oat\tao\model\accessControl\func\AccessRule;
 use common_ext_ExtensionsManager;
 use common_session_SessionManager;
 use oat\taoDevTools\actions\ControllerMap;
-use oat\controllerMap\ActionDescription;
-use oat\controllerMap\parser\Factory;
 use oat\tao\model\accessControl\func\FuncHelper;
+use oat\tao\helpers\ControllerHelper;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access
@@ -112,9 +111,8 @@ class SimpleAccess
     }
     
     private function whiteListExtension($extensionId) {
-        $factory = new Factory();
-        foreach ($factory->getControllers($extensionId) as $controller) {
-            $this->whiteListController($controller->getClassName());
+        foreach (ControllerHelper::getControllers($extensionId) as $controllerClassName) {
+            $this->whiteListController($controllerClassName);
         }
         
     }
