@@ -45,7 +45,7 @@ class tao_models_classes_GenerisTreeFactory
 	 * @return array
 	 */
     public function buildTree(core_kernel_classes_Class $class, $showResources, $openNodes = array(), $limit = 10, $offset = 0, $propertyFilter = array()) {
-    	return $this->classToNode($class, $showResources, $limit, $offset, $openNodes, $propertyFilter);
+    	return $this->classToNode($class, null, $showResources, $limit, $offset, $openNodes, $propertyFilter);
     }
 	
     /**
@@ -59,10 +59,10 @@ class tao_models_classes_GenerisTreeFactory
      * @param array $propertyFilter filter resources based on properties uri => value
      * @return array
      */
-    private function classToNode(core_kernel_classes_Class $class, $showResources, $limit, $offset, $openNodes, $propertyFilter) {
+    private function classToNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null, $showResources, $limit, $offset, $openNodes, $propertyFilter) {
     	$label = $class->getLabel();
         $label = empty($label) ? __('no label') : $label;
-        $returnValue = $this->buildClassNode($class);
+        $returnValue = $this->buildClassNode($class, $parent);
 
         $instancesCount = (int) $class->countInstances();
         
@@ -102,7 +102,7 @@ class tao_models_classes_GenerisTreeFactory
     	$childs = array();
     	// subclasses
 		foreach ($class->getSubClasses(false) as $subclass) {
-			$childs[] = $this->classToNode($subclass, $showResources, $limit, $offset, $openNodes, $propertyFilter);
+			$childs[] = $this->classToNode($subclass, $class, $showResources, $limit, $offset, $openNodes, $propertyFilter);
 		}
 		// resources
     	if ($showResources) {
@@ -113,7 +113,7 @@ class tao_models_classes_GenerisTreeFactory
 			));
 			
 			foreach ($searchResult as $instance){
-				$childs[] = $this->buildResourceNode($instance);
+				$childs[] = $this->buildResourceNode($instance, $class);
 			}
 		}
 		return $childs;
@@ -126,12 +126,16 @@ class tao_models_classes_GenerisTreeFactory
      * @param core_kernel_classes_Class $class
      * @return array
      */
-    public function buildClassNode(core_kernel_classes_Class $class) {
+    public function buildClassNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null) {
     	$label = $class->getLabel();
 		$label = empty($label) ? __('no label') : $label;
 		return array(
 			'data' 	=> $label,
 			'type'	=> 'class',
+            '_data' => array(
+                'uri' => $class->getUri(),
+                'classUri' => is_null($parent) ? null : $parent->getUri()
+            ),
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($class->getUri()),
 				'class' => 'node-class'
@@ -145,13 +149,17 @@ class tao_models_classes_GenerisTreeFactory
      * @param core_kernel_classes_Resource $resource
      * @return array
      */
-    public function buildResourceNode(core_kernel_classes_Resource $resource) {
+    public function buildResourceNode(core_kernel_classes_Resource $resource, core_kernel_classes_Class $class) {
 		$label = $resource->getLabel();
 		$label = empty($label) ? __('no label') : $label;
 
 		return array(
-			'data' 	=> tao_helpers_Display::textCutter($label, 16),
+			'data' 	=> $label,
 			'type'	=> 'instance',
+            '_data' => array(
+                'uri' => $resource->getUri(),
+                'classUri' => $class->getUri()
+            ),
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($resource->getUri()),
 				'class' => 'node-instance'
