@@ -28,6 +28,23 @@ define([
             offset          : 0,
             limit           : 30
         });
+        
+        var hasAccessTo = function hasAccessTo(actionType, node){
+            var action = options.actions[actionType];
+            if(node && action && node._acl && node._acl[action.name] !== undefined){
+                return !!node._acl[action.name];
+            }
+            return true;
+        };
+
+        //try to get the action instance from the manager for each action given in parameter
+        options.actions = _.transform(options.actions, function(result, value, key){
+            if(value && value.length){
+                result[key] = actionManager.getBy(value);
+            }
+        });
+
+        var privileges = {};
 
         /**
          * Options given to the jsTree plugin
@@ -79,6 +96,9 @@ define([
                     }
                     params.selected = options.selectNode;
 
+                    //send actions urls used to check against ACL
+                    //params.actions = options.actions;
+
                     return params;
                 },
 
@@ -91,12 +111,18 @@ define([
                  * @returns {Object} data the modified data
                  */
                 ondata: function(data, tree) {
+                    
+
 
                     //automatically open the children of the received node
                     if (data.children) {
                         data.state = 'open';
                     }
-
+                   
+                    computeSelectionAccess(data);
+            
+                    flattenPrivileges(data);
+ 
                     return data;
                 },
 
@@ -152,7 +178,9 @@ define([
                     var $node           = $(node);
                     var nodeId          = $node.attr('id');
                     var $parentNode     = tree.parent($node);
-                    var nodeContext     = {};
+                    var nodeContext     = {
+                        privileges : privileges[nodeId] || {}
+                    };
 
                     $('a.clicked', $elt).each(function() {
                         if ($(this).parent('li').attr('id') !==  nodeId) {
@@ -165,6 +193,7 @@ define([
                             tree.open_branch($node);
                         }
                         nodeContext.classUri = nodeId;
+                        nodeContext.privileges = privileges[nodeId];
 
                         //execute the selectClass action
                         if(options.actions.selectClass){
@@ -258,6 +287,30 @@ define([
            }
         };
 
+        var computeSelectionAccess = function(node){
+            if(node.type){
+                if(node.type === 'class' && !hasAccessTo('selectClass', node)){
+                    addClassToNode(node, 'private');
+                }   
+                else if(node.type === 'instance' && !hasAccessTo('selectInstance', node)){
+                    addClassToNode(node, 'private');
+                }   
+
+            }
+            if(node.children){
+                _.forEach(node.children, computeSelectionAccess);
+            }
+        };
+
+        var flattenPrivileges = function flattenPrivileges(node){
+            if(node.attributes && node.attributes.id){
+                privileges[node.attributes.id] = node._acl;
+            }
+            if(node.children){
+                _.forEach(node.children, flattenPrivileges);
+            }
+        };
+
         //bind events defined above 
         _.forEach(events, function(callback, name){
             $elt.on(name + '.taotree', function(){
@@ -281,17 +334,28 @@ define([
     function addClassToNodes(nodes, clazz) {
         if(nodes.length){
            _.forEach(nodes, function(node){
- 	            if (node.attributes && node.attributes['class'] && 
-                    /node\-instance/.test(node.attributes['class'])) {
-						
-    				node.attributes['class'] = node.attributes['class'] + ' ' + clazz;
-				}
+                addClassToNode(node, clazz);
                 if (node.children) {
                     addClassToNodes(node.children, clazz);
                 }
             });
         }
     }
+
+    function addClassToNode(node, clazz){
+        if(node && node.attributes){
+            
+            node.attributes['class'] = node.attributes['class'] || '';
+            
+            if(node.attributes['class'].length) {
+                node.attributes['class'] = node.attributes['class'] + ' ' + clazz;
+            } else {
+                node.attributes['class'] = clazz;
+            }
+        }
+    }
+
+
 
     return treeFactory; 
 });

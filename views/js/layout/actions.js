@@ -71,6 +71,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
                     }
 
                     self._actions[id] = {
+                        id      : id,
                         name    : $this.attr('title'),
                         binding : $this.data('action'),
                         url     : $('a', $this).attr('href'),
@@ -131,19 +132,24 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
         update : function update(context){
             var self = this;
             var current;
-            
+            var privileges;
+ 
             context = context || {};
             current = context.uri ? 'instance' : context.classUri ? 'class' : 'none'; 
+            privileges = context.privileges || {};
             
-            this._resourceContext = context;
+            this._resourceContext = _.without(context, 'privileges');
 
             _.forEach(this._actions, function(action, id){
                 var $elt = $('#' + id); 
-                    
-                if( (current === 'none' && action.context !== '*') || 
+                var privilege = privileges[action.name];
+        
+                if( privilege === false ||
+                    (current === 'none' && action.context !== '*') || 
                     (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
 
                     $elt.addClass('hidden');
+
                 } else {
                     $elt.removeClass('hidden');
                 }
@@ -166,9 +172,25 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
                 }
             }
             if(_.isPlainObject(action)){
-                
                 binder.exec(action, context || this._resourceContext);
             }
+        },
+
+        /**
+         * Helps you to retrieve an action from it's name or id 
+         * @param {String} actionName - name or id of the action
+         * @returns {Object} the action
+         */
+        getBy : function(actionName){
+            var action;
+            if(_.isPlainObject(this._actions[actionName])){
+                //try to find by id
+                action = this._actions[actionName];
+            } else {
+                //or by by name
+                action = _.find(this._actions, {name : actionName});
+            }
+            return action;
         }
     };
     
