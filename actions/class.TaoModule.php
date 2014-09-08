@@ -386,13 +386,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 if($node['type'] == $action['context'] || $action['context'] == 'resource'){
                     $resolver = $action['resolver'];
                     try{
-                        if(rand(0, 10) % 2 === 0){
-                            $node['_acl'][$action['name']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']); 
-                        } else {
-                            $node['_acl'][$action['name']] = false;
-                        }
-
-                    //@todo should be a checked exception!
+                        $node['_acl'][$action['name']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']); 
                     } catch(Exception $e){
                         common_Logger::w($e->getMessage() );
                     }
