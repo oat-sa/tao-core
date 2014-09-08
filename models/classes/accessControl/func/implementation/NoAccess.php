@@ -21,6 +21,7 @@
 namespace oat\tao\model\accessControl\func\implementation;
 
 use oat\tao\model\accessControl\func\FuncAccessControl;
+use oat\tao\model\accessControl\func\AccessRule;
 
 /**
  * Fallback functional Access Controll denying all access
