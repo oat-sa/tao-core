@@ -30,8 +30,6 @@ define([
 
             var self = this;
             var $tabs = $('.section-container');
-            var $panel = $('.content-panel');
-                $panel.prop('require-refresh', !!$panel.data('refresh'));
             
             this.initAjax();
             this.initNav();
@@ -41,7 +39,11 @@ define([
                 show: function (e, ui) {
                     var $section = $(ui.panel);
 
+                    // update hash in uri
+                    window.location.href = ui.tab.href;
+
                     context.section = $section.attr('id').replace('panel-', '');
+
                     actions.init($section);
  
                     $('.taotree', $section).each(function(){
@@ -74,6 +76,8 @@ define([
             //Enable the closing tab if added after the init
             this.tabs.tabs("option", "tabTemplate", '<li class="closable"><a href="#{href}"><span>#{label}</span></a><span class="tab-closer" title="' + __('Close tab') + '">x</span></li>');
             this.tabs.on("tabsadd", function (event, ui) {
+
+                // @todo: add link to sub-menu
                 //Close the new content div
                 $(ui.panel).addClass('ui-tabs-hide');
             });
@@ -81,6 +85,9 @@ define([
             $(document).on('click', '.tab-closer', function (e) {
                 e.preventDefault();
                 self.tabs.tabs('remove', $(this).parent().index());
+                // @todo: remove link from sub-menu
+
+
                 //Select another by default ?
                 self.tabs.tabs('select', 0);
             });
@@ -163,6 +170,44 @@ define([
          * initialize common navigation
          */
         initNav: function () {
+
+            // enable tab functionality on navigation sub menus
+            $('nav .menu-dropdown').on('click', function(e) {
+                var href = e.target.href,
+                    hrefArr,
+                    locationArr = (function() {
+                        var arr = window.location.href.split('#');
+                        if(arr.length < 2) {
+                            arr.push('');
+                        }
+                        return arr;
+                    }()),
+                    $tab;
+
+
+                if(!href) {
+                    return true;
+                }
+
+                hrefArr = e.target.href.split('#');
+
+                $tab = $('#tabs').find('a[href="#' + hrefArr[1] + '"]');
+
+                // already on correct page
+                if(locationArr[0] === hrefArr[0]) {
+
+                    // correct tab => do nothing
+                    // Note: this cannot depend on hrefArr[1]
+                    if(locationArr[1] === $tab.hasClass('.ui-state-active')) {
+                        return false;
+                    }
+
+                    // wrong tab, update uri hash
+                    window.location.href = href;
+                    e.preventDefault();
+                    $('#tabs').find('a[href="#' + hrefArr[1] + '"]').trigger('click');
+                }
+            });
 
             //TODO move this somewhere else (layout/nav)
 

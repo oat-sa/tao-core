@@ -14767,37 +14767,49 @@ button, input[type="submit"], input[type="reset"] {
 .ui-slider {
   position: relative;
   text-align: left; }
-
-.ui-slider .ui-slider-handle {
-  position: absolute;
-  z-index: 2;
-  width: 1.2em;
-  height: 1.2em;
-  cursor: default;
-  border: 1px #888888 solid; }
-
-.ui-slider .ui-slider-range {
-  position: absolute;
-  z-index: 1;
-  font-size: .7em;
-  display: block;
-  border: 0;
-  background-position: 0 0; }
+  .ui-slider .ui-slider-handle {
+    position: absolute;
+    z-index: 2;
+    width: 1.2em;
+    height: 1.2em;
+    cursor: default;
+    border: 1px #888888 solid; }
+  .ui-slider .ui-slider-range {
+    position: absolute;
+    z-index: 1;
+    font-size: .7em;
+    display: block;
+    border: 0;
+    background-position: 0 0; }
 
 .ui-slider-horizontal {
   height: .8em;
   margin-top: 5px; }
+  .ui-slider-horizontal .ui-slider-handle {
+    top: -.3em;
+    margin-left: -.6em; }
+  .ui-slider-horizontal .ui-slider-range {
+    top: 0;
+    height: 100%; }
+  .ui-slider-horizontal .ui-slider-range-min {
+    left: 0; }
+  .ui-slider-horizontal .ui-slider-range-max {
+    right: 0; }
 
-.ui-slider-horizontal .ui-slider-handle {
-  top: -.3em;
-  margin-left: -.6em; }
-
-.ui-slider-horizontal .ui-slider-range {
-  top: 0;
-  height: 100%; }
-
-.ui-slider-horizontal .ui-slider-range-min {
-  left: 0; }
+.ui-slider-vertical {
+  width: .8em;
+  height: 100px; }
+  .ui-slider-vertical .ui-slider-handle {
+    left: -.3em;
+    margin-left: 0;
+    margin-bottom: -.6em; }
+  .ui-slider-vertical .ui-slider-range {
+    left: 0;
+    width: 100%; }
+  .ui-slider-vertical .ui-slider-range-min {
+    bottom: 0; }
+  .ui-slider-vertical .ui-slider-range-max {
+    top: 0; }
 
 .range-slider-arrowed {
   margin: 0 5px; }
@@ -14820,28 +14832,6 @@ button, input[type="submit"], input[type="reset"] {
       .range-slider-arrowed .ui-slider-handle.has-icon .ui-active-state .icon-range-slider-left, .range-slider-arrowed .ui-slider-handle.has-icon .ui-active-state .icon-range-slider-right {
         color: #3e7da7 !important; }
 
-.ui-slider-horizontal .ui-slider-range-max {
-  right: 0; }
-
-.ui-slider-vertical {
-  width: .8em;
-  height: 100px; }
-
-.ui-slider-vertical .ui-slider-handle {
-  left: -.3em;
-  margin-left: 0;
-  margin-bottom: -.6em; }
-
-.ui-slider-vertical .ui-slider-range {
-  left: 0;
-  width: 100%; }
-
-.ui-slider-vertical .ui-slider-range-min {
-  bottom: 0; }
-
-.ui-slider-vertical .ui-slider-range-max {
-  top: 0; }
-
 /*
  * jQuery UI Tabs 1.8.16
  *
@@ -14855,50 +14845,44 @@ button, input[type="submit"], input[type="reset"] {
   position: relative;
   padding: .2em;
   zoom: 1; }
-
-/* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
-.ui-tabs .ui-tabs-nav {
-  margin: 0;
-  padding: .2em .2em 0; }
-  .ui-tabs .ui-tabs-nav li {
-    list-style: none;
-    float: left;
-    position: relative;
-    top: 1px;
-    margin: 0 .2em 1px 0;
-    border-bottom: 0 !important;
-    padding: 0;
-    white-space: nowrap; }
-    .ui-tabs .ui-tabs-nav li a {
+  .ui-tabs .ui-tabs-nav {
+    margin: 0;
+    padding: .2em .2em 0; }
+    .ui-tabs .ui-tabs-nav li {
+      list-style: none;
       float: left;
-      padding: .5em 1em;
-      text-decoration: none;
-      min-height: 34px; }
-    .ui-tabs .ui-tabs-nav li.small a {
-      padding: .25em 1em;
-      text-decoration: none;
-      min-height: 28px; }
-    .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
-      margin-bottom: 0;
-      padding-bottom: 1px; }
-
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
-  cursor: text;
-  color: white !important;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2); }
-
-.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
-  cursor: pointer; }
-
-/* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
-.ui-tabs .ui-tabs-panel {
-  display: block;
-  border-width: 0;
-  padding: 1em 1.4em;
-  background: none; }
-
-.ui-tabs .ui-tabs-hide {
-  display: none !important; }
+      position: relative;
+      top: 1px;
+      margin: 0 .2em 1px 0;
+      border-bottom: 0 !important;
+      padding: 0;
+      white-space: nowrap; }
+      .ui-tabs .ui-tabs-nav li a {
+        cursor: pointer;
+        float: left;
+        padding: .5em 1em;
+        text-decoration: none;
+        min-height: 34px; }
+      .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
+        cursor: default;
+        color: white !important;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2); }
+      .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+        margin-bottom: 0;
+        padding-bottom: 1px; }
+      .ui-tabs .ui-tabs-nav li.small a {
+        padding: .25em 1em;
+        text-decoration: none;
+        min-height: 28px; }
+  .ui-tabs .ui-tabs-panel {
+    display: block;
+    border-width: 0;
+    padding: 1em 1.4em;
+    background: none; }
+  .ui-tabs .ui-tabs-hide {
+    display: none !important; }
+  .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+    cursor: pointer; }
 
 /*
  * jQuery UI Datepicker 1.8.16
@@ -15647,10 +15631,10 @@ html, body {
   left: -10000px;
   top: -10000px; }
 
-.xhtml_form form > div.form-toolbar:before, .xhtml_form form > div.form-toolbar:after {
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
   content: " ";
   display: table; }
-.xhtml_form form > div.form-toolbar:after {
+.xhtml_form .form-toolbar:after {
   clear: both; }
 
 s {
@@ -16244,39 +16228,40 @@ label {
   display: none;
   font-size: 13px;
   font-size: 1.3rem; }
-  .search-form .xhtml_form {
-    margin: 8px; }
-    .search-form .xhtml_form .form_desc {
-      display: block;
-      width: auto;
-      margin-top: 5px;
-      margin-bottom: 1px; }
-    .search-form .xhtml_form .form-toolbar {
-      margin: 0 !important; }
-    .search-form .xhtml_form input[type="text"], .search-form .xhtml_form input[type="password"] {
-      width: 100%;
-      max-width: none; }
-    .search-form .xhtml_form select, .search-form .xhtml_form textarea, .search-form .xhtml_form .form_radlst {
-      width: 100%;
-      max-width: none; }
-    .search-form .xhtml_form .form-group {
-      margin-bottom: 5px;
-      padding-bottom: 5px; }
-    .search-form .xhtml_form input[type="checkbox"], .search-form .xhtml_form input[type="radio"] {
-      position: relative;
-      top: 1px;
-      margin-right: 3px; }
-    .search-form .xhtml_form label {
-      margin: 0; }
-    .search-form .xhtml_form .form_radlst {
-      padding-left: 2px; }
-  .search-form .ui-widget-header {
+  .search-form .search-area {
+    margin: 8px 8px 0 8px;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 8px; }
+  .search-form .xhtml_form .form_desc {
+    display: block;
+    width: auto;
+    margin-top: 5px;
+    margin-bottom: 1px; }
+  .search-form .xhtml_form .form-toolbar {
+    margin: 0 !important; }
+  .search-form .xhtml_form input[type="text"], .search-form .xhtml_form input[type="password"] {
+    width: 100%;
+    max-width: none; }
+  .search-form .xhtml_form select, .search-form .xhtml_form textarea, .search-form .xhtml_form .form_radlst {
+    width: 100%;
+    max-width: none; }
+  .search-form .xhtml_form .form-group {
+    margin-bottom: 5px;
+    padding-bottom: 5px; }
+  .search-form .xhtml_form input[type="checkbox"], .search-form .xhtml_form input[type="radio"] {
+    position: relative;
+    top: 1px;
+    margin-right: 3px; }
+  .search-form .xhtml_form label {
+    margin: 0; }
+  .search-form .xhtml_form .form_radlst {
+    padding-left: 2px; }
+  .search-form .ui-widget-header, .search-form .search-title {
     font-size: 16px;
     font-size: 1.6rem;
     border: none;
-    margin: 8px; }
+    margin: 8px 0; }
   .search-form > div {
-    border-bottom: 1px solid #dddddd;
     background: transparent; }
 
 .xhtml_form form > div {
@@ -16287,92 +16272,96 @@ label {
     padding-top: 20px; }
     .xhtml_form form > div.property-container .tree ul {
       background: transparent !important; }
-  .xhtml_form form > div .property-title {
-    margin-bottom: 10px; }
-  .xhtml_form form > div .property-heading-icon {
-    margin-left: 5px; }
-    .xhtml_form form > div .property-heading-icon:hover {
-      color: #0e5d91; }
-  .xhtml_form form > div .property-heading-label {
-    padding-left: 5px; }
-    .xhtml_form form > div .property-heading-label:before {
-      font-size: 12px;
-      content: '• ';
-      line-height: 2px;
-      opacity: .8; }
-  .xhtml_form form > div .property-edit-container {
-    display: none;
-    width: 100%; }
-  .xhtml_form form > div .property-heading-toolbar {
-    float: right; }
-    .xhtml_form form > div .property-heading-toolbar .property-parent-label {
-      display: inline-block;
-      padding: 0 5px; }
-    .xhtml_form form > div .property-heading-toolbar [class^="icon-"], .xhtml_form form > div .property-heading-toolbar [class*=" icon-"] {
-      background: rgba(255, 255, 255, 0.5);
-      border: 1px solid #dddddd;
-      border-radius: 2px;
-      -webkit-border-radius: 2px;
-      margin-left: 1px;
-      padding: 3px;
-      cursor: pointer;
-      min-width: 24px;
-      display: inline-block;
-      text-align: center; }
-      .xhtml_form form > div .property-heading-toolbar [class^="icon-"]:hover, .xhtml_form form > div .property-heading-toolbar [class*=" icon-"]:hover {
-        background: rgba(255, 255, 255, 0.7);
-        color: #0e5d91; }
-  .xhtml_form form > div .property-block {
-    overflow: hidden;
-    padding: 6px 0;
-    border-bottom: 1px white solid; }
-    .xhtml_form form > div .property-block.property-block-first {
-      border-top: 1px white solid; }
-    .xhtml_form form > div .property-block.readonly-property div {
-      display: inline; }
-      .xhtml_form form > div .property-block.readonly-property div div {
-        float: right;
-        padding-left: 5px;
-        color: #7a7a7a;
-        cursor: default; }
-    .xhtml_form form > div .property-block.parent-property div {
-      display: inline; }
-      .xhtml_form form > div .property-block.parent-property div div {
-        float: right;
-        padding-left: 5px;
-        color: #4e4e4e; }
-    .xhtml_form form > div .property-block.regular-property > div {
-      border: 1px solid #dddddd;
-      border-radius: 2px;
-      -webkit-border-radius: 2px;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.5);
-      margin: 5px 0;
-      position: relative;
-      top: 6px; }
-      .xhtml_form form > div .property-block.regular-property > div div {
-        padding: 2px 0; }
-    .xhtml_form form > div .property-block.regular-property.property-edit-container-open {
-      padding-top: 10px; }
-  .xhtml_form form > div .form_desc {
-    width: 35%;
+.xhtml_form [class^="btn-"].btn-success, .xhtml_form [class*=" btn-"].btn-success,
+.xhtml_form button.btn-success, .xhtml_form input[type="submit"].btn-success, .xhtml_form input[type="reset"].btn-success {
+  background-color: #266d9c;
+  text-shadow: 1px 1px 0 #0b4a74; }
+.xhtml_form .form-toolbar {
+  text-align: right;
+  margin: 30px 0 0 0; }
+.xhtml_form .property-title {
+  margin-bottom: 10px; }
+.xhtml_form .property-heading-icon {
+  margin-left: 5px; }
+  .xhtml_form .property-heading-icon:hover {
+    color: #0e5d91; }
+.xhtml_form .property-heading-label {
+  padding-left: 5px; }
+  .xhtml_form .property-heading-label:before {
+    font-size: 12px;
+    content: '• ';
+    line-height: 2px;
+    opacity: .8; }
+.xhtml_form .property-edit-container {
+  display: none;
+  width: 100%; }
+.xhtml_form .property-heading-toolbar {
+  float: right; }
+  .xhtml_form .property-heading-toolbar .property-parent-label {
     display: inline-block;
-    padding: 0 10px 0 0; }
-  .xhtml_form form > div input[type="text"], .xhtml_form form > div input[type="password"] {
-    width: 65%;
-    max-width: none; }
-  .xhtml_form form > div select, .xhtml_form form > div textarea, .xhtml_form form > div .form_radlst {
-    width: 65%;
-    max-width: none; }
-  .xhtml_form form > div .form_radlst {
-    display: inline-block; }
-  .xhtml_form form > div.form-toolbar {
-    text-align: right;
-    margin: 30px 0 0 0; }
-  .xhtml_form form > div .btn-info, .xhtml_form form > div .ui-button {
-    float: left; }
-  .xhtml_form form > div .btn-success {
-    float: right; }
+    padding: 0 5px; }
+  .xhtml_form .property-heading-toolbar [class^="icon-"], .xhtml_form .property-heading-toolbar [class*=" icon-"] {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    margin-left: 1px;
+    padding: 3px;
+    cursor: pointer;
+    min-width: 24px;
+    display: inline-block;
+    text-align: center; }
+    .xhtml_form .property-heading-toolbar [class^="icon-"]:hover, .xhtml_form .property-heading-toolbar [class*=" icon-"]:hover {
+      background: rgba(255, 255, 255, 0.7);
+      color: #0e5d91; }
+.xhtml_form .property-block {
+  overflow: hidden;
+  padding: 6px 0;
+  border-bottom: 1px white solid; }
+  .xhtml_form .property-block.property-block-first {
+    border-top: 1px white solid; }
+  .xhtml_form .property-block.readonly-property div {
+    display: inline; }
+    .xhtml_form .property-block.readonly-property div div {
+      float: right;
+      padding-left: 5px;
+      color: #7a7a7a;
+      cursor: default; }
+  .xhtml_form .property-block.parent-property div {
+    display: inline; }
+    .xhtml_form .property-block.parent-property div div {
+      float: right;
+      padding-left: 5px;
+      color: #4e4e4e; }
+  .xhtml_form .property-block.regular-property > div {
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    margin: 5px 0;
+    position: relative;
+    top: 6px; }
+    .xhtml_form .property-block.regular-property > div div {
+      padding: 2px 0; }
+  .xhtml_form .property-block.regular-property.property-edit-container-open {
+    padding-top: 10px; }
+.xhtml_form .form_desc {
+  width: 35%;
+  display: inline-block;
+  padding: 0 10px 0 0; }
+.xhtml_form input[type="text"], .xhtml_form input[type="password"] {
+  width: 65%;
+  max-width: none; }
+.xhtml_form select, .xhtml_form textarea, .xhtml_form .form_radlst {
+  width: 65%;
+  max-width: none; }
+.xhtml_form .form_radlst {
+  display: inline-block; }
+.xhtml_form .btn-info, .xhtml_form .ui-button {
+  float: left; }
+.xhtml_form .btn-success {
+  float: right; }
 
 /* Style of advanced components */
 /* toggler */

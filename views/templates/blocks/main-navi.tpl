@@ -13,7 +13,7 @@ $settingsMenu = get_data('settings-menu');
                         <?= Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
                         <?= __($entry->getName()) ?></a>
                     <?php if (count($entry->getChildren()) > 1): ?>
-                        <ul class="plain">
+                        <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
                                     <a href="<?= $entry->getUrl() ?>#panel-<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
@@ -55,7 +55,7 @@ $settingsMenu = get_data('settings-menu');
 
                     </a>
                     <?php if (count($entry->getChildren()) > 1): ?>
-                        <ul class="plain">
+                        <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
                                     <a href="<?= $entry->getUrl() ?>#panel-<?= $child->getId() ?>"><?php echo $child->getName() ?></a>

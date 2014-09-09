@@ -17,9 +17,9 @@ define([
          *
          * @returns {*}
          */
-        function getContainer() {
+        function getContainer(type) {
             if(!$container) {
-                $container = $('.search-form > [data-purpose="search"]');
+                $container = $('.search-form > [data-purpose="' + type + '"]');
             }
 
             return $container;
@@ -51,7 +51,6 @@ define([
             $formContainer.parent().removeClass(function(idx, className) {
                 return className;
             });
-
 
             // remove first toolbar
             if($toolBars.length > 1) {
@@ -87,8 +86,8 @@ define([
             $submitBtn.append($('<span>', {'class': 'icon-find'}));
             $submitBtn.append($('<span>' + __('Find') + '</span>'));
 
-            getContainer().html($searchForm)
-
+            getContainer('search').html($searchForm);
+            toggle();
         }
 
         /**

@@ -15,7 +15,17 @@ define([
             if($dataContainerWrapper.length) {
                 return $dataContainerWrapper;
             }
-            $dataContainerWrapper = $('<div>', { 'class' : 'data-container-wrapper'});
+            return
+
+            // list container is similar though they are in the wrong position
+            $dataContainerWrapper = $scope.find('#list-container');
+            if($dataContainerWrapper.length) {
+                $dataContainerWrapper.addClass('data-container-wrapper');
+            }
+            else {
+                $dataContainerWrapper = $('<div>', { 'class' : 'data-container-wrapper'});
+            }
+
             $formContainer.after($dataContainerWrapper);
             return $dataContainerWrapper;
         }

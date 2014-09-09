@@ -43,15 +43,23 @@ $sections = get_data('sections');
                                 </ul>
                             </div>
                             <div class="search-form">
-                                <div data-purpose="filter">
-                                    <div class="ui-widget-header">
+                                <div data-purpose="search" data-current="none" class="search-area search-search"></div>
+                                <div data-purpose="filter" class="search-area search-filter">
+                                    <div class="search-title">
                                         <?=__('Filter');?>
                                     </div>
                                     <div class="xhtml_form">
-                                        <input type="text">
+                                        <div class="form-group">
+                                            <input type="text" autocomplete="off" placeholder="<?=__('You can use * as a wildcard')?>">
+                                        </div>
+                                        <div class="form-toolbar">
+                                            <button type="button" class="btn-success small">
+                                                <span class="icon-filter"></span> <?= __("Filter") ?>
+                                            </button>
+                                        </div>
+
                                     </div>
                                 </div>
-                                <div data-purpose="search" data-current></div>
                             </div>
                             <div id="tree-<?= $i ?>"
                                  class="taotree taotree-<?= is_null($tree->get('className')) ? 'default' : strtolower(
@@ -60,7 +68,7 @@ $sections = get_data('sections');
                                  data-url="<?= $tree->get('dataUrl') ?>"
                                  data-action-selectclass="<?= $tree->get('selectClass') ?>"
                                  data-action-selectinstance="<?= $tree->get('selectInstance') ?>"
-                                 data-action-delete="<?= $tree->get('deletel') ?>"
+                                 data-action-delete="<?= $tree->get('delete') ?>"
                                  data-action-moveinstance="<?= $tree->get('moveInstance') ?>">
                             </div>
                         <?php endforeach; ?>

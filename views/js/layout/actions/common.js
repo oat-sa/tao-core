@@ -169,14 +169,16 @@ define([
                 classUri: ''
             }, _.pick(context, ['uri', 'classUri'])),
 
-            uniqueValue = data.uri + data.classUri || 'none';
+            // used to avoid same query twice
+            uniqueValue = data.uri + data.classUri,
+            $container  = search.getContainer('search');
 
-        if(search.getContainer().is(':visible')) {
+        if($container.is(':visible')) {
             search.toggle();
             return;
         }
 
-        if(search.getContainer().data('current') === uniqueValue) {
+        if($container.data('current') === uniqueValue) {
             search.toggle();
             return;
         }
@@ -187,8 +189,7 @@ define([
             data: data,
             dataType: 'html',
             success: function(response){
-
-                search.getContainer().data('current', uniqueValue);
+                $container.data('current', uniqueValue);
                 search.init(response, uniqueValue);
             }
         });
