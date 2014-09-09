@@ -82,9 +82,19 @@ class Section extends MenuElement implements PhpSerializable
         return $this->trees;
     }
 
+    public function addTree(Tree $tree)
+    {
+        $this->trees[] = $tree;
+    }
+
     public function getActions()
     {
         return $this->actions;
+    }
+
+    public function addAction(Action $action)
+    {
+        $this->actions[] = $action;
     }
 
     /**

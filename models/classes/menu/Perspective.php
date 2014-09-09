@@ -118,7 +118,16 @@ class Perspective extends MenuElement implements PhpSerializable
             }
         }
         if ($existingKey !== false) {
-            $this->children[$existingKey] = $section;
+
+            //merge the section
+            $currentSection = $this->children[$existingKey];
+            foreach($section->getTrees() as $tree){
+                $currentSection->addTree($tree);
+            }
+            foreach($section->getActions() as $action){
+                $currentSection->addAction($action);
+            }
+
         } else {
             $this->children[] = $section;
         }
