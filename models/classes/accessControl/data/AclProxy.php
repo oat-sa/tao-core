@@ -113,6 +113,16 @@ class AclProxy implements AccessControl
     }
     
     public static function getExistingPrivileges() {
-        return array('WRITE', 'GRANT');
+        return array(
+            'WRITE',
+            'GRANT'
+        );
+    }
+    
+    public static function getPrivilegeLabels() {
+        return array(
+            'WRITE' => __('Access'),
+            'GRANT' => __('Manage Access')
+        );
     }
 }
