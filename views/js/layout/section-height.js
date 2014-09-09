@@ -47,7 +47,7 @@ define([
                     maxHeight: ($('footer').offset().top - $contentWrapper.offset().top) - searchBarHeight - getTreeActionIdealHeight()
                 });
             }
-        }, 10);
+        }, 50);
 
         $(window)
             .off('resize.sectioneight')
