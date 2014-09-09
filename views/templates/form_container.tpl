@@ -3,7 +3,7 @@ use oat\tao\helpers\Template;
 
 Template::inc('form_context.tpl', 'tao')
 ?>
-<div class="main-container">
+<div class="main-container" data-tpl="tao/form_container.tpl">
     <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
     	<?=get_data('formTitle')?>
     </div>
@@ -19,6 +19,3 @@ Template::inc('form_context.tpl', 'tao')
     	<?=get_data('myForm')?>
     </div>
 </div>
-<?php
-Template::inc('footer.tpl', 'tao')
-?>

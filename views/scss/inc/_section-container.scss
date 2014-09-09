@@ -141,6 +141,13 @@
                 .emptyContentFooter {
                     display:none;
                 }
+                .ui-widget-header {
+                    background: $canvas;
+                }
+                .data-container-footer {
+                    background: $canvas;
+                    text-align: right !important;
+                }
             }
         }
         #form-container.ui-widget-content {

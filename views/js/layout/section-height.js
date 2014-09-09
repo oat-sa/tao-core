@@ -21,7 +21,7 @@ define([
                 liNum = (5 - $treeActions.find('li:visible').length),
                 idealHeight;
 
-            //TODO check (added to prevent inifinite loop on liNum)
+            //TODO check (added to prevent infinite loop on liNum)
             if(liNum < 0){
                 liNum = 0;
             }

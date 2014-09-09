@@ -88,7 +88,8 @@ define([
                 $toolBar            = $container.find('.form-toolbar'),
                 $translator         = $container.find('.form-translator'),
                 $authoringBtn       = $('.authoringOpener'),
-                $authoringBtnParent;
+                $authoringBtnParent,
+                $testAuthoringBtn   = $('.test-authoring');
 
             // move authoring button to toolbar
             if($authoringBtn.length) {
@@ -102,6 +103,11 @@ define([
             // remove translate button (already in action bar)
             if($translator.length) {
                 $translator.remove();
+            }
+
+            // move test authoring button
+            if($testAuthoringBtn.length) {
+                $testAuthoringBtn.prependTo($toolBar);
             }
 
             // modify properties

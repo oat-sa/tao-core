@@ -1,10 +1,8 @@
 <?php 
 use oat\tao\helpers\Template;
 ?>
-<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
-	<?=get_data('formTitle')?>
-</div>
-<div id="form-container" class="ui-widget-content ui-corner-bottom">
+<h2><?=get_data('formTitle')?></h2>
+<div class="form-container" data-tpl="tao/import.tpl">
 
 	<?if(get_data('importErrors')):?>
 		<fieldset class='ui-state-error'>
@@ -40,6 +38,3 @@ require(['jquery'], function($) {
 	});
 });
 </script>
-<?php
-Template::inc('footer.tpl', 'tao')
-?>

@@ -15,7 +15,6 @@ define([
             if($dataContainerWrapper.length) {
                 return $dataContainerWrapper;
             }
-            return
 
             // list container is similar though they are in the wrong position
             $dataContainerWrapper = $scope.find('#list-container');
@@ -46,9 +45,11 @@ define([
          */
         function init() {
             var $scope = $('.content-block'),
-                $formContainer = $scope.find('.main-container');
+                $formContainer = $scope.find('.main-container'),
+                $dataContainer = $scope.find('.data-container');
 
-            $scope.find('.data-container').appendTo(getDataContainerWrapper($scope, $formContainer));
+            $dataContainer.appendTo(getDataContainerWrapper($scope, $formContainer));
+            $dataContainer.find('> div:last').addClass('data-container-footer');
 
             _cleanUp();
         }

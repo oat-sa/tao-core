@@ -549,13 +549,17 @@ footer {
         float: left; }
         .section-container .content-block .data-container-wrapper .data-container .emptyContentFooter {
           display: none; }
+        .section-container .content-block .data-container-wrapper .data-container .ui-widget-header {
+          background: #f2f0ee; }
+        .section-container .content-block .data-container-wrapper .data-container .data-container-footer {
+          background: #f2f0ee;
+          text-align: right !important; }
     .section-container .content-block #form-container.ui-widget-content {
       border: none !important; }
     .section-container .content-block form {
       border: 1px #dddddd solid;
       background: #f2f0ee;
       padding: 30px;
-      max-width: 550px;
       border: 1px solid #dddddd;
       border-radius: 2px;
       -webkit-border-radius: 2px; }

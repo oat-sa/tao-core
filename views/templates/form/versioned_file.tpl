@@ -1,11 +1,9 @@
 <?php
 use oat\tao\helpers\Template;
 ?>
-<div class="main-container">
-	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
-		<?=get_data('formTitle')?>
-	</div>
-	<div id="form-container" class="ui-widget-content ui-corner-bottom">
+<div class="main-container" data-tpl="tao/versioned_file.tpl">
+	<h2><?=get_data('formTitle')?></div>
+	<div class="form-content">
 		
 		<?if(count(get_data('importErrors')) > 0):?>
 			<fieldset class='ui-state-error'>
@@ -21,7 +19,7 @@ use oat\tao\helpers\Template;
 		<?=get_data('myForm')?>
 	</div>
 	
-	<script type="text/javascript">
+	<script>
 	$(function(){
 		$('#commit_message').parent().hide();
 		
