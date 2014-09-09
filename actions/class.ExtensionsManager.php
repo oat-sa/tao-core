@@ -80,8 +80,6 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 			$message =   __('Extension ') . $this->getCurrentExtension()->getId() . __(' has been installed');
 			$success = true;
 			
-            common_logger::w($message);
-
 			// reinit user session
 			$session = core_kernel_classes_Session::singleton()->refresh();
 		}
