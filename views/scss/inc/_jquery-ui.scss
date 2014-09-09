@@ -1267,45 +1267,65 @@
 .ui-slider {
     position: relative;
     text-align: left;
+    .ui-slider-handle {
+        position: absolute;
+        z-index: 2;
+        width: 1.2em;
+        height: 1.2em;
+        cursor: default;
+        border: 1px #888 solid
+    }
+    .ui-slider-range {
+        position: absolute;
+        z-index: 1;
+        font-size: .7em;
+        display: block;
+        border: 0;
+        background-position: 0 0;
+    }
 }
 
-.ui-slider .ui-slider-handle {
-    position: absolute;
-    z-index: 2;
-    width: 1.2em;
-    height: 1.2em;
-    cursor: default;
-    border: 1px #888 solid
-}
-
-.ui-slider .ui-slider-range {
-    position: absolute;
-    z-index: 1;
-    font-size: .7em;
-    display: block;
-    border: 0;
-    background-position: 0 0;
-}
 
 .ui-slider-horizontal {
     height: .8em;
-    margin-top: 5px
+    margin-top: 5px;
+    .ui-slider-handle {
+        top: -.3em;
+        margin-left: -.6em;
+    }
+    .ui-slider-range {
+        top: 0;
+        height: 100%;
+    }
+    .ui-slider-range-min {
+        left: 0;
+    }
+    .ui-slider-range-max {
+        right: 0;
+    }
 }
 
-.ui-slider-horizontal .ui-slider-handle {
-    top: -.3em;
-    margin-left: -.6em;
+.ui-slider-vertical {
+    width: .8em;
+    height: 100px;
+    .ui-slider-handle {
+        left: -.3em;
+        margin-left: 0;
+        margin-bottom: -.6em;
+    }
+    .ui-slider-range {
+        left: 0;
+        width: 100%;
+    }
+    .ui-slider-range-min {
+        bottom: 0;
+    }
+    .ui-slider-range-max {
+        top: 0;
+    }
 }
 
-.ui-slider-horizontal .ui-slider-range {
-    top: 0;
-    height: 100%;
-}
-
-.ui-slider-horizontal .ui-slider-range-min {
-    left: 0;
-}
-
+// @todo is this in use at all?
 .range-slider-arrowed {
     margin: 0 5px;
     .ui-slider-handle.has-icon {
@@ -1333,34 +1353,6 @@
     }
 }
 
-.ui-slider-horizontal .ui-slider-range-max {
-    right: 0;
-}
-
-.ui-slider-vertical {
-    width: .8em;
-    height: 100px;
-}
-
-.ui-slider-vertical .ui-slider-handle {
-    left: -.3em;
-    margin-left: 0;
-    margin-bottom: -.6em;
-}
-
-.ui-slider-vertical .ui-slider-range {
-    left: 0;
-    width: 100%;
-}
-
-.ui-slider-vertical .ui-slider-range-min {
-    bottom: 0;
-}
-
-.ui-slider-vertical .ui-slider-range-max {
-    top: 0;
-}
-
 /*
  * jQuery UI Tabs 1.8.16
  *
@@ -1374,64 +1366,68 @@
     position: relative;
     padding: .2em;
     zoom: 1;
-}
-
-/* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
-.ui-tabs .ui-tabs-nav {
-    margin: 0;
-    padding: .2em .2em 0;
-    li {
-        list-style: none;
-        float: left;
-        position: relative;
-        top: 1px;
-        margin: 0 .2em 1px 0;
-        border-bottom: 0 !important;
-        padding: 0;
-        white-space: nowrap;
-        a {
+    .ui-tabs-nav {
+        margin: 0;
+        padding: .2em .2em 0;
+        li {
+            list-style: none;
             float: left;
-            padding: .5em 1em;
-            text-decoration: none;
-            min-height: 34px
-        }
-        &.small {
+            position: relative;
+            top: 1px;
+            margin: 0 .2em 1px 0;
+            border-bottom: 0 !important;
+            padding: 0;
+            white-space: nowrap;
             a {
-                padding: .25em 1em;
+                cursor: pointer;
+                float: left;
+                padding: .5em 1em;
                 text-decoration: none;
-                min-height: 28px
+                min-height: 34px
+            }
+            &.ui-tabs-selected,
+            &.ui-state-disabled,
+            &.ui-state-processing {
+                a {
+                    cursor: default;
+                    color: $textHighlight !important;
+                    text-shadow: 1px 1px 0 black(.2)
+                }
+            }
+            &.ui-tabs-selected{
+                margin-bottom: 0;
+                padding-bottom: 1px;
+            }
+            &.small {
+                a {
+                    padding: .25em 1em;
+                    text-decoration: none;
+                    min-height: 28px
+                }
             }
         }
-        &.ui-tabs-selected{
-            margin-bottom: 0;
-            padding-bottom: 1px;
-        }
     }
-}
+    .ui-tabs-panel {
+        display: block;
+        border-width: 0;
+        padding: 1em 1.4em;
+        background: none;
+    }
+    .ui-tabs-hide {
+        display: none !important;
+    }
+    &.ui-tabs-collapsible {
+        .ui-tabs-nav {
+            li {
+                &.ui-tabs-selected {
+                    a {
+                        cursor:pointer;
+                    }
+                }
+            }
+        }
 
-
-
-
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
-    cursor: text;
-    color: $textHighlight !important;
-    text-shadow: 1px 1px 0 black(.2)
-}
-
-.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
-    cursor: pointer;
-}
-
-/* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
-.ui-tabs .ui-tabs-panel {
-    display: block;
-    border-width: 0;
-    padding: 1em 1.4em;
-    background: none;
-}
-
-.ui-tabs .ui-tabs-hide {
-    display: none !important;
+    }
 }
 
 /*

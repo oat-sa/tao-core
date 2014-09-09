@@ -70,7 +70,7 @@ class tao_helpers_Request
         $rootUrlPath	= parse_url(ROOT_URL, PHP_URL_PATH);
         $absPath		= parse_url($url, PHP_URL_PATH);
         if (substr($absPath, 0, strlen($rootUrlPath)) != $rootUrlPath ) {
-            throw new ResolverException('Request Uri '.$request.' outside of TAO path '.ROOT_URL);
+            throw new ResolverException('Request Uri '.$url.' outside of TAO path '.ROOT_URL);
         }
         return substr($absPath, strlen($rootUrlPath));
     }
@@ -84,6 +84,7 @@ class tao_helpers_Request
      * @param  string url
      * @param  boolean useSession if you want to use the same session in the remotre server
      * @return string
+     * @throws Exception
      */
     public static function load($url, $useSession = false)
     {
