@@ -150,7 +150,6 @@
             border: 1px $uiGeneralContentBorder solid;
             background: $canvas;
             padding: 30px;
-            max-width: 550px;
             @include simple-border();
         }
         #form-title {

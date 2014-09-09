@@ -21,6 +21,11 @@ define([
                 liNum = (5 - $treeActions.find('li:visible').length),
                 idealHeight;
 
+            //TODO check (added to prevent inifinite loop on liNum)
+            if(liNum < 0){
+                liNum = 0;
+            }
+
             while(liNum--){
                 $treeActionUl.append($('<li class="dummy"><a/></li>'));
             }
@@ -31,23 +36,31 @@ define([
 
 
         var setHeights = _.debounce(function setHeights() {
-            var $contentWrapper = $('.content-wrapper'),
-                $searchBar = $('.search-action-bar'),
-                searchBarHeight = $searchBar.outerHeight()
-                    + parseInt($searchBar.css('margin-bottom'))
-                    + parseInt($searchBar.css('margin-top')),
-                $tree = $('.tree .ltr, .tree .rtl');
-
-            if($contentWrapper.length) {
-                $contentWrapper.find('.content-container').css({ minHeight: $('footer').offset().top - $contentWrapper.offset().top });
-            }
+            var $contentWrapper     = $('.content-wrapper'),
+                contentWrapperTop   = $contentWrapper.offset().top, 
+                $searchBar          = $('.search-action-bar'),
+                searchBarHeight     = $searchBar.outerHeight(true),
+                footerTop           = $('footer').offset.top,
+                $tree               = $('.tree .ltr, .tree .rtl'),
+                treeIdealHeight     = 0;
 
             if($tree.length) {
-                $tree.css({
-                    maxHeight: ($('footer').offset().top - $contentWrapper.offset().top) - searchBarHeight - getTreeActionIdealHeight()
-                });
+                treeIdealHeight = getTreeActionIdealHeight();            
             }
-        }, 10);
+
+            //height must be set in another animation frame
+            _.defer(function(){
+                if($contentWrapper.length) {
+                    $contentWrapper.find('.content-container').css({ minHeight: footerTop - contentWrapperTop });
+                }
+
+                if($tree.length) {
+                    $tree.css({
+                        maxHeight: (footerTop - contentWrapperTop) - searchBarHeight - treeIdealHeight
+                    });
+                }
+            });
+        }, 50);
 
 
         $(window)

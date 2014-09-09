@@ -304,10 +304,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	public function getOntologyData()
 	{
 		if(!tao_helpers_Request::isAjax()){
-			//throw new common_exception_IsAjaxAction(__FUNCTION__); 
+            throw new common_exception_IsAjaxAction(__FUNCTION__); 
 		}
 	
-        $user = tao_models_classes_UserService::singleton()->getCurrentUser();
+
 	
 		$options = array(
 			'subclasses' => true, 
@@ -323,7 +323,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$options['labelFilter'] = $this->getRequestParameter('filter');
 		}
 		
-                if($this->hasRequestParameter("selected")){
+        if($this->hasRequestParameter("selected")){
 			$options['browse'] = array($this->getRequestParameter("selected"));
 		}
 		if($this->hasRequestParameter('hideInstances')){
@@ -347,15 +347,21 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if($this->hasRequestParameter('subclasses')){
 			$options['subclasses'] = $this->getRequestParameter('subclasses');
 		}
-	
+
+        //generate the tree from the given parameters	
         $tree = $this->service->toTree($clazz, $options);
 
+        //load the user URI from the session
+        $userUri = common_Session_SessionManager::getSession()->getUserUri();
+ 
+        //Get the requested section
         $section = MenuService::getSection(
             $this->getRequestParameter('extension'), 
             $this->getRequestParameter('perspective'), 
             $this->getRequestParameter('section')
         );
 
+        //Get the actions from the section and bind them an ActionResolver that helps getting controller/action from action URL.
         $actions = array();
         foreach($section->getActions() as $index => $action){
             try{
@@ -369,28 +375,34 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
             }
         }
 
+        //then compute ACL for each node of the tree
         if(is_int(array_keys($tree)[0])){
             foreach($tree as $index => $treeNode){
-                $tree[$index] = $this->computeAccessControls($actions, $user, $treeNode);
+                $tree[$index] = $this->computeAccessControls($actions, $userUri, $treeNode);
             }
         } else { 
-            $tree = $this->computeAccessControls($actions, $user, $tree);
+            $tree = $this->computeAccessControls($actions, $userUri, $tree);
         }
 
+        //expose the tree
         $this->returnJson($tree);
 	}
 
-    private function computeAccessControls($actions, $user, $node){
+    /**
+     * compulte access controls for a node against actions
+     * @param array[] $actions the actions data with context, name and the resolver
+     * @param string $user the user URI
+     * @param array $node a tree node
+     * @return array the node augmented with _acl
+     */
+    private function computeAccessControls($actions, $userUri, $node){
         if(isset($node['_data'])){
             foreach($actions as $action){
                 if($node['type'] == $action['context'] || $action['context'] == 'resource'){
                     $resolver = $action['resolver'];
                     try{
-                        if(rand(0, 10) % 2 === 0){
-                            $node['_acl'][$action['name']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']); 
-                        } else {
-                            $node['_acl'][$action['name']] = false;
-                        }
+                            $node['_acl'][$action['name']] = true; 
+                            //AclProxy::hasAccess($userUri, $resolver->getController(), $resolver->getAction(), $node['_data']); 
 
                     //@todo should be a checked exception!
                     } catch(Exception $e){
@@ -401,7 +413,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         }
         if(isset($node['children'])){
             foreach($node['children'] as $index => $child){
-                $node['children'][$index] = $this->computeAccessControls($actions, $user, $child);    
+                $node['children'][$index] = $this->computeAccessControls($actions, $userUri, $child);    
             }
         }
         return $node;
