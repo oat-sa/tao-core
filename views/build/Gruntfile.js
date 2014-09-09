@@ -266,6 +266,11 @@ module.exports = function(grunt) {
                     '../../../taoDelivery/views/css/testtakers.css' : '../../../taoDelivery/views/scss/testtakers.scss',
                 }
             },
+            dac : {
+                files : {
+                    '../../../taoDacSimple/views/css/admin.css' : '../../../taoDacSimple/views/scss/admin.scss',
+                }
+            },
         },
         
 
