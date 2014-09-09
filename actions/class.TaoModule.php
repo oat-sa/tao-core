@@ -304,10 +304,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	public function getOntologyData()
 	{
 		if(!tao_helpers_Request::isAjax()){
-            throw new common_exception_IsAjaxAction(__FUNCTION__); 
+			//throw new common_exception_IsAjaxAction(__FUNCTION__); 
 		}
 	
-
+        $user = tao_models_classes_UserService::singleton()->getCurrentUser();
 	
 		$options = array(
 			'subclasses' => true, 
@@ -323,7 +323,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$options['labelFilter'] = $this->getRequestParameter('filter');
 		}
 		
-        if($this->hasRequestParameter("selected")){
+                if($this->hasRequestParameter("selected")){
 			$options['browse'] = array($this->getRequestParameter("selected"));
 		}
 		if($this->hasRequestParameter('hideInstances')){
@@ -347,7 +347,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if($this->hasRequestParameter('subclasses')){
 			$options['subclasses'] = $this->getRequestParameter('subclasses');
 		}
-
         //generate the tree from the given parameters	
         $tree = $this->service->toTree($clazz, $options);
 
@@ -413,7 +412,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         }
         if(isset($node['children'])){
             foreach($node['children'] as $index => $child){
-                $node['children'][$index] = $this->computeAccessControls($actions, $userUri, $child);    
+                $node['children'][$index] = $this->computeAccessControls($actions, $user, $child);    
             }
         }
         return $node;
@@ -582,10 +581,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 	}
-
-    /**
-     * @requiresPrivilege uri WRITE 
-     */	
+	
 	public function editInstance() {
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();
@@ -753,7 +749,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	/**
 	 * Duplicate the current instance
 	 * render a JSON response
-     * @requiresPrivilege uri WRITE 
 	 * @return void
 	 */
 	public function cloneInstance()
@@ -773,7 +768,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
 	/**
 	 * Move an instance from a class to another
-     * @requiresPrivilege uri WRITE 
 	 * @return void
 	 */
 	public function moveInstance()
@@ -1241,7 +1235,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$propMode = $this->getSessionAttribute('property_mode');
 		}
 		
-		//instantiate a property form
+		//instanciate a property form
 		$propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
 		if(!class_exists($propFormClass)){
 			$propFormClass = 'tao_actions_form_SimpleProperty';

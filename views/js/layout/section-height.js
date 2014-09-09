@@ -18,16 +18,12 @@ define([
             // we need at least four actions to have a two-row ul
             var $treeActions = $('.tree-action-bar-box'),
                 $treeActionUl = $treeActions.find('ul'),
-                liNum = (5 - $treeActions.find('li:visible').length),
+                liNum = $treeActions.find('li:visible').length || 0,
                 idealHeight;
 
-            //TODO check (added to prevent infinite loop on liNum)
-            if(liNum < 0){
-                liNum = 0;
-            }
-
-            while(liNum--){
+            while(liNum < 5){
                 $treeActionUl.append($('<li class="dummy"><a/></li>'));
+                liNum++;
             }
             idealHeight = $treeActions.outerHeight() + parseInt($treeActions.css('margin-bottom'));
             $treeActionUl.find('li.dummy').remove();
@@ -35,37 +31,29 @@ define([
         }
 
 
-        var setHeights = _.debounce(function setHeights() {
-            var $contentWrapper     = $('.content-wrapper'),
-                contentWrapperTop   = $contentWrapper.offset().top, 
-                $searchBar          = $('.search-action-bar'),
-                searchBarHeight     = $searchBar.outerHeight(true),
-                footerTop           = $('footer').offset.top,
-                $tree               = $('.tree .ltr, .tree .rtl'),
-                treeIdealHeight     = 0;
+        var setHeights = _.throttle(function setHeights() {
+             var $contentWrapper = $('.content-wrapper'),
+                 $searchBar = $('.search-action-bar'),
+                 searchBarHeight = $searchBar.outerHeight()
+                    + parseInt($searchBar.css('margin-bottom'))
+                    + parseInt($searchBar.css('margin-top')),
+                 $tree = $('.tree .ltr, .tree .rtl'),
+                 footerTop = $('footer').offset().top,
+                 contentWrapperTop = $contentWrapper.offset().top;
 
-            if($tree.length) {
-                treeIdealHeight = getTreeActionIdealHeight();            
+            if($contentWrapper.length) {
+                $contentWrapper.find('.content-container').css({ minHeight: footerTop - contentWrapperTop });
             }
-
-            //height must be set in another animation frame
-            _.defer(function(){
-                if($contentWrapper.length) {
-                    $contentWrapper.find('.content-container').css({ minHeight: footerTop - contentWrapperTop });
-                }
-
-                if($tree.length) {
-                    $tree.css({
-                        maxHeight: (footerTop - contentWrapperTop) - searchBarHeight - treeIdealHeight
-                    });
-                }
-            });
-        }, 50);
-
+            if($tree.length) {
+                $tree.css({
+                    maxHeight: (footerTop - contentWrapperTop) - searchBarHeight - getTreeActionIdealHeight()
+                });
+            }        
+        }, 100);
 
         $(window)
             .off('resize.sectioneight')
-            .on('resize.sectionheight', setHeights);
+            .on('resize.sectionheight', _.debounce(setHeights, 50));
 
         $('.version-warning').on('hiding.versionwarning', setHeights);
 
