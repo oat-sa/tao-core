@@ -18,6 +18,7 @@ define([
 
         var lastOpened;
         var lastSelected;
+        var privileges = {};
 
         options = options || {};
 
@@ -29,22 +30,31 @@ define([
             limit           : 30
         });
         
-        var hasAccessTo = function hasAccessTo(actionType, node){
-            var action = options.actions[actionType];
-            if(node && action && node._acl && node._acl[action.name] !== undefined){
-                return !!node._acl[action.name];
+
+
+        var setUpTree  = function setUpTree(){
+
+            //try to get the action instance from the manager for each action given in parameter
+            options.actions = _.transform(options.actions, function(result, value, key){
+                if(value && value.length){
+                    result[key] = actionManager.getBy(value);
+                }
+            });
+
+            //bind events defined above 
+            _.forEach(events, function(callback, name){
+                $elt.on(name + '.taotree', function(){
+                    callback.apply(this, Array.prototype.slice.call(arguments, 1));
+                });
+            });
+
+            // workaround to fix dublicate tree bindings on multiple page loads
+            if (!$elt.hasClass('tree')) {
+
+                //create the tree
+                $elt.tree(treeOptions);
             }
-            return true;
         };
-
-        //try to get the action instance from the manager for each action given in parameter
-        options.actions = _.transform(options.actions, function(result, value, key){
-            if(value && value.length){
-                result[key] = actionManager.getBy(value);
-            }
-        });
-
-        var privileges = {};
 
         /**
          * Options given to the jsTree plugin
@@ -96,9 +106,9 @@ define([
                     }
                     params.selected = options.selectNode;
 
-                    //send actions urls used to check against ACL
-                    //params.actions = options.actions;
+                    //TODO load filter value
 
+                    
                     return params;
                 },
 
@@ -248,6 +258,18 @@ define([
 
         //list of events callbacks to be bound to the tree       
         var events = {
+            
+            /**
+             * Refresh the tree
+             *
+             * @event layout/tree#refresh.taotree
+             */
+            'refresh' : function(){
+                var tree =  $.tree.reference($elt);
+                if(tree){
+                    tree.refresh();
+                }
+            },
 
             /**
              * Add a node to the tree. 
@@ -287,6 +309,14 @@ define([
            }
         };
 
+        var hasAccessTo = function hasAccessTo(actionType, node){
+            var action = options.actions[actionType];
+            if(node && action && node._acl && node._acl[action.name] !== undefined){
+                return !!node._acl[action.name];
+            }
+            return true;
+        };
+
         var computeSelectionAccess = function(node){
             if(node.type){
                 if(node.type === 'class' && !hasAccessTo('selectClass', node)){
@@ -311,19 +341,7 @@ define([
             }
         };
 
-        //bind events defined above 
-        _.forEach(events, function(callback, name){
-            $elt.on(name + '.taotree', function(){
-                callback.apply(this, Array.prototype.slice.call(arguments, 1));
-            });
-        });
-
-        // workaround to fix dublicate tree bindings on multiple page loads
-        if (!$elt.hasClass('tree')) {
-
-            //create the tree
-            $elt.tree(treeOptions);
-        }
+        return setUpTree();
     };
 
     /**
