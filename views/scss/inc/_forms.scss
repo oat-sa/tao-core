@@ -291,10 +291,6 @@ label {
             margin-bottom: 5px;
             padding-bottom: 5px;
         }
-        h2 {
-            @include font-size(16);
-            margin-bottom: 5px;
-        }
         input {
             &[type="checkbox"], &[type="radio"] {
                 position: relative;
@@ -305,6 +301,21 @@ label {
         label {
             margin: 0;
         }
+
+        .form_radlst {
+            padding-left: 2px
+        }
+    }
+
+    .ui-widget-header {
+        @include font-size(16);
+        border: none;
+        margin: 8px;
+    }
+
+    & > div {
+        border-bottom: 1px solid $uiGeneralContentBorder;
+        background: transparent;
     }
 }
 

@@ -1,4 +1,16 @@
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
+.tree li.private ins:after {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
 .taotree-repository .node-instance ins:before {
   content: "\e603"; }
 
@@ -10,6 +22,9 @@
 
 .tree .node-class.open > a > ins:before {
   content: "\f07c"; }
+
+.tree li.private ins:after {
+  content: "\13e"; }
 
 .taotree-group .node-instance ins:before {
   content: "\151"; }
@@ -138,6 +153,15 @@
       background-image: url("paginate_more.png"); }
     .tree li.paginate-all ins {
       background-image: url("paginate_all.png"); }
+    .tree li.private ins:after {
+      display: inline-block;
+      position: relative;
+      left: -15px;
+      top: 4px;
+      color: #EED401;
+      text-shadow: 0px 0px 1px #666;
+      font-size: 14px;
+      font-size: 1.4rem; }
     .tree li.open ul {
       display: block; }
     .tree li.closed ul {

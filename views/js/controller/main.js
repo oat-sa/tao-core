@@ -6,8 +6,7 @@ define([
     'generis.actions',
     'controller/main/toolbar',
     'layout/version-warning',
-    'layout/section-height',
-    'layout/post-render-tree-search'
+    'layout/section-height'
 ],
     function (
         $,
@@ -16,8 +15,7 @@ define([
         GenerisActions,
         toolbar,
         versionWarning,
-        sectionHeight,
-        postRenderTreeSearch
+        sectionHeight
         ) {
 
     return {
@@ -36,8 +34,8 @@ define([
 
             sectionHeight.init();
 
-            postRenderTreeSearch.init();
 
         }
     };
 });
+

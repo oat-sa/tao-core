@@ -16262,16 +16262,22 @@ label {
     .search-form .xhtml_form .form-group {
       margin-bottom: 5px;
       padding-bottom: 5px; }
-    .search-form .xhtml_form h2 {
-      font-size: 16px;
-      font-size: 1.6rem;
-      margin-bottom: 5px; }
     .search-form .xhtml_form input[type="checkbox"], .search-form .xhtml_form input[type="radio"] {
       position: relative;
       top: 1px;
       margin-right: 3px; }
     .search-form .xhtml_form label {
       margin: 0; }
+    .search-form .xhtml_form .form_radlst {
+      padding-left: 2px; }
+  .search-form .ui-widget-header {
+    font-size: 16px;
+    font-size: 1.6rem;
+    border: none;
+    margin: 8px; }
+  .search-form > div {
+    border-bottom: 1px solid #dddddd;
+    background: transparent; }
 
 .xhtml_form form > div {
   margin-bottom: 10px; }

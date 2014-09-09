@@ -40,7 +40,7 @@ define([
             this.tabs = $tabs.tabs({
                 show: function (e, ui) {
                     var $section = $(ui.panel);
-                    
+
                     context.section = $section.attr('id').replace('panel-', '');
                     actions.init($section);
  

@@ -354,6 +354,8 @@ footer {
       border: 1px transparent solid;
       text-align: center;
       float: left; }
+      .action-bar.horizontal-action-bar li .glyph {
+        width: 14px; }
       .action-bar.horizontal-action-bar li.btn-info:hover {
         border-color: #568db2;
         opacity: 1; }
@@ -490,6 +492,7 @@ footer {
       .section-container .tab-container li.ui-state-disabled {
         display: none; }
   .section-container .navi-container {
+    display: none;
     background: #f2f0ee;
     width: 280px;
     -webkit-flex: 0 0 280px;
@@ -525,7 +528,7 @@ footer {
     align-self: stretch; }
   .section-container .content-block {
     padding: 20px; }
-    .section-container .content-block .main-container.medium {
+    .section-container .content-block .main-container {
       -webkit-flex: 0 0 500px;
       -ms-flex: 0 0 500px;
       flex: 0 0 500px;

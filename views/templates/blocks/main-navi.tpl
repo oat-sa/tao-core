@@ -10,13 +10,13 @@ $settingsMenu = get_data('settings-menu');
                 <li <?php if (get_data('shownExtension') === $entry->getExtension()
                 && get_data('shownStructure') === $entry->getId()): ?>class="active"<?php endif ?>>
                     <a href="<?= $entry->getUrl() ?>" title="<?= __($entry->getDescription()) ?>">
-                        <?= Layout::renderMenuIcon($entry->getIcon(), 'icon-extension') ?>
+                        <?= Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
                         <?= __($entry->getName()) ?></a>
                     <?php if (count($entry->getChildren()) > 1): ?>
                         <ul class="plain">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
-                                    <a href="<?= ROOT_URL . ltrim($child->getUrl(), '/') ?>"><?php echo $child->getName() ?></a>
+                                    <a href="<?= $entry->getUrl() ?>#panel-<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -41,7 +41,7 @@ $settingsMenu = get_data('settings-menu');
                         href="<?= $entry->getUrl() ?>"
                     <?php endif ?> title="<?= __($entry->getName()) ?>">
 
-                        <?= is_null($entry->getIcon()) ? '' : Layout::renderMenuIcon($entry->getIcon(), 'icon-extension') ?>
+                        <?= is_null($entry->getIcon()) ? '' : Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
 
                         <?php $description = $entry->getDescription();
                         if ($description): ?>
@@ -58,7 +58,7 @@ $settingsMenu = get_data('settings-menu');
                         <ul class="plain">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
-                                    <a href="<?= ROOT_URL . ltrim($child->getUrl(), '/') ?>"><?php echo $child->getName() ?></a>
+                                    <a href="<?= $entry->getUrl() ?>#panel-<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>

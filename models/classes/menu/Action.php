@@ -33,14 +33,19 @@ class Action implements PhpSerializable
     const GROUP_DEFAULT = 'tree';
     
     public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
+
         $data = array(
             'name'      => (string) $node['name'],
             'url'       => isset($node['url']) ? (string) $node['url'] : '#',
-            'binding'   => isset($node['binding']) ? (string) $node['binding'] : isset($node['js']) ? (string) $node['js'] : 'load',
+            'binding'   => isset($node['binding'])
+                    ? (string) $node['binding']
+                    : (isset($node['js']) ? (string) $node['js'] : 'load'),
             'context'   => (string) $node['context'],
             'reload'    => isset($node['reload']) ? true : false,
             'group'     => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT
         );
+
+
         if(isset($node->icon)){
             $data['icon'] = Icon::fromSimpleXMLElement($node->icon);
         }

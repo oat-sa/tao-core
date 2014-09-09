@@ -77,6 +77,8 @@ nav {
         }
         // sub menu
         ul {
+           // display:none;
+            //@todo make sub menus work
             background: $darkBar;
             position: absolute;
             left: -10000px;
