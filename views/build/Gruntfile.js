@@ -259,6 +259,16 @@ module.exports = function(grunt) {
                     loadPath : ['../scss/', '../js/lib/', '../../../taoQtiItem/views/scss/inc', '../../../taoQtiItem/views/scss/qti']
                 }
             },
+            
+            pci : {
+                 files : {
+                    '../../../qtiItemPci/views/css/pci-manager.css' : '../../../qtiItemPci/views/scss/pci-manager.scss'
+                 },
+                 options : {
+                    loadPath : ['../scss/', '../../../qtiItemPci/views/scss/inc']
+                }
+            },
+            
             delivery : {
                 files : {
                     '../../../taoDelivery/views/css/testtakers.css' : '../../../taoDelivery/views/scss/testtakers.scss',
@@ -290,6 +300,14 @@ module.exports = function(grunt) {
                     debounceDelay : 500
                 }
             },
+            
+            'pcisass' : {
+                files : ['../../../qtiItemPci/views/scss/**/*.scss'],
+                tasks : ['sass:pci', 'notify:pcisass'],
+                options : {
+                    debounceDelay : 200
+                }
+            },
 
             'deliverysass' : {
                 files : ['../../../taoDelivery/views/scss/testtakers.scss'],
@@ -314,6 +332,12 @@ module.exports = function(grunt) {
               options: {
                 title: 'Grunt SASS', 
                 message: 'QTI SASS files compiled to CSS'
+              }
+            },
+            pcisass: {
+              options: {
+                title: 'Grunt SASS', 
+                message: 'PCI SASS files compiled to CSS'
               }
             }
         }
