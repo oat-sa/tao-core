@@ -30,7 +30,7 @@
  */
 class tao_models_classes_AccessDeniedException
     extends tao_models_classes_UserException
-    implements common_exception_UserReadableException
+    implements common_exception_UserReadableException, common_log_SeverityLevel
 {
     // --- ASSOCIATIONS ---
 
@@ -55,7 +55,7 @@ class tao_models_classes_AccessDeniedException
     public function __construct($userUri, $action, $module, $ext)
     {
         $this->request = new Request();
-    	parent::__construct('Access to '.$ext.'::'.$module.'::'.$action.' denied to \''.$userUri.'\'');
+    	parent::__construct('Access to '.$ext.'::'.$module.'::'.$action.' denied for user \''.$userUri.'\'');
     }
     
     /**
@@ -64,6 +64,10 @@ class tao_models_classes_AccessDeniedException
     public function getDeniedRequest() {
         return $this->request;
     } 
+    
+    public function getSeverity() {
+        return common_Logger::WARNING_LEVEL;
+    }
     
     public function getUserMessage() {
         return __('Access denied. Please renew your authentication!');
