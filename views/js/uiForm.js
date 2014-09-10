@@ -126,6 +126,7 @@ define([
 
             }
             if($rdfExportForm.length){
+                $('div:first',$rdfExportForm).find('input[type="text"]').css('width', 'calc(65% - 23px)');
                 $('div:not(.form-toolbar):last span',$rdfExportForm).css('float', 'right')
                              .closest('div').find('[id*="ns_filter"]').addClass('btn-default small');
             }
