@@ -412,7 +412,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         }
         if(isset($node['children'])){
             foreach($node['children'] as $index => $child){
-                $node['children'][$index] = $this->computeAccessControls($actions, $user, $child);    
+                $node['children'][$index] = $this->computeAccessControls($actions, $userUri, $child);    
             }
         }
         return $node;
