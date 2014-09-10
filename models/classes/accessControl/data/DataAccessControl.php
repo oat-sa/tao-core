@@ -22,6 +22,7 @@ namespace oat\tao\model\accessControl\data;
 use oat\tao\model\accessControl\AccessControl;
 use oat\tao\helpers\ControllerHelper;
 use common_Logger;
+use oat\generis\model\data\permission\PermissionManager;
 
 /**
  * Interface for data based access control
