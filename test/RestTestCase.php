@@ -68,118 +68,123 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
         $user = new core_kernel_classes_Resource($this->userUri);
         $success = $user->delete();
     }
-    
+
     /**
      * shall be used beyond high level http connections unit tests (default parameters)
-     * @param returnType CURLINFO_HTTP_CODE, etc... (default returns rhe http response data
-     *
+     * 
+     * @param
+     *            returnType CURLINFO_HTTP_CODE, etc... (default returns rhe http response data
+     *            
      */
-    protected function curl($url, $method = CURLOPT_HTTPGET, $returnType = "data", $curlopt_httpheaders = array()){
+    protected function curl($url, $method = CURLOPT_HTTPGET, $returnType = "data", $curlopt_httpheaders = array())
+    {
         $process = curl_init($url);
         if ($method != "DELETE") {
             curl_setopt($process, $method, 1);
         } else {
             curl_setopt($process, CURLOPT_CUSTOMREQUEST, "DELETE");
         }
-    
-        curl_setopt($process, CURLOPT_USERPWD, $this->login.":".$this->password);
+        
+        curl_setopt($process, CURLOPT_USERPWD, $this->login . ":" . $this->password);
         curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
-    
-        $headers = array_merge(array (
+        curl_setopt($process, CURLOPT_SSL_VERIFYPEER, false);
+        
+        $headers = array_merge(array(
             "Accept: application/json"
         ), $curlopt_httpheaders);
-        curl_setopt($process,CURLOPT_HTTPHEADER, $headers);
-        if ($method==CURLOPT_POST) {
+        curl_setopt($process, CURLOPT_HTTPHEADER, $headers);
+        if ($method == CURLOPT_POST) {
             curl_setopt($process, CURLOPT_POSTFIELDS, "");
-    
         }
-        //curl_setopt($process,CURLOPT_HTTPHEADER,$curlopt_httpheaders);
+        // curl_setopt($process,CURLOPT_HTTPHEADER,$curlopt_httpheaders);
         $data = curl_exec($process);
-        if ($returnType != "data"){
+        if ($returnType != "data") {
             $data = curl_getinfo($process, $returnType);
         }
         curl_close($process);
         return $data;
     }
-    
+
     /**
-     *
      * @dataProvider serviceProvider
      */
-    public function testHttp($service){
-         
-        $url = $this->host.$service;
-        //HTTP Basic
+    public function testHttp($service)
+    {
+        $url = $this->host . $service;
+        // HTTP Basic
         $process = curl_init($url);
-        curl_setopt($process,CURLOPT_HTTPHEADER,array (
-        "Accept: application/json"
-            ));
-    
-        //should return a 401
+        curl_setopt($process, CURLOPT_HTTPHEADER, array(
+            "Accept: application/json"
+        ));
+        
+        // should return a 401
         curl_setopt($process, CURLOPT_USERPWD, "dummy:dummy");
         curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($process, CURLOPT_SSL_VERIFYPEER, false);
+        
         $data = curl_exec($process);
         $http_status = curl_getinfo($process, CURLINFO_HTTP_CODE);
-        $this->assertEquals($http_status, "401", 'bad response on url ' . $url . ' return ' . $http_status);
+        
+        $this->assertEquals("401", $http_status, 'bad response on url ' . $url . ' return ' . $http_status);
         curl_close($process);
-    
-        //should return a 401
+        
+        // should return a 401
         $process = curl_init($url);
-        curl_setopt($process,CURLOPT_HTTPHEADER,array (
-        "Accept: application/json"
-            ));
-            curl_setopt($process, CURLOPT_USERPWD, $this->login.":dummy");
-            curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
-            $data = curl_exec($process);
-            $http_status = curl_getinfo($process, CURLINFO_HTTP_CODE);
-            $this->assertEquals($http_status, "401");
-            curl_close($process);
-    
-            //should return a 406
-            $process = curl_init($url);
-            curl_setopt($process,CURLOPT_HTTPHEADER,array (
+        curl_setopt($process, CURLOPT_HTTPHEADER, array(
+            "Accept: application/json"
+        ));
+        curl_setopt($process, CURLOPT_USERPWD, $this->login . ":dummy");
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($process, CURLOPT_SSL_VERIFYPEER, false);
+        $data = curl_exec($process);
+        $http_status = curl_getinfo($process, CURLINFO_HTTP_CODE);
+        $this->assertEquals($http_status, "401");
+        curl_close($process);
+        
+        // should return a 406
+        $process = curl_init($url);
+        curl_setopt($process, CURLOPT_HTTPHEADER, array(
             "Accept: dummy/dummy"
-                ));
-                curl_setopt($process, CURLOPT_USERPWD, $this->login.":".$this->password);
-                curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
-                $data = curl_exec($process);
-                $http_status = curl_getinfo($process, CURLINFO_HTTP_CODE);
-                $this->assertEquals($http_status, "406");
-                curl_close($process);
-    
-                //should return a 200
-                $process = curl_init($url);
-                curl_setopt($process,CURLOPT_HTTPHEADER,array (
-                "Accept: application/xml"
-                    ));
-                    curl_setopt($process, CURLOPT_USERPWD, $this->login.":".$this->password);
-                    curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
-                    $data = curl_exec($process);
-                    $http_status = curl_getinfo($process, CURLINFO_HTTP_CODE);
-                    $this->assertEquals($http_status, "200");
-    
-    
-    
-                    //should return a 200, should return content encoding application/xml
-                    $process = curl_init($url);
-                    curl_setopt($process,CURLOPT_HTTPHEADER,array (
-                    "Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-                        ));
-                        curl_setopt($process, CURLOPT_USERPWD, $this->login.":".$this->password);
-                        curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
-                        $data = curl_exec($process);
-                        $http_status = curl_getinfo($process, CURLINFO_HTTP_CODE);
-                        $this->assertEquals($http_status, "200");
-                        $contentType = curl_getinfo($process, CURLINFO_CONTENT_TYPE);
-                        $this->assertEquals( $contentType, "application/xml");
-                        curl_close($process);
-    
-                        //should return a 200
-                        $http_status = $this->curl($url, CURLOPT_HTTPGET, CURLINFO_HTTP_CODE);
+        ));
+        curl_setopt($process, CURLOPT_USERPWD, $this->login . ":" . $this->password);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($process, CURLOPT_SSL_VERIFYPEER, false);
+        $data = curl_exec($process);
+        $http_status = curl_getinfo($process, CURLINFO_HTTP_CODE);
+        $this->assertEquals($http_status, "406");
+        curl_close($process);
+        
+        // should return a 200
+        $process = curl_init($url);
+        curl_setopt($process, CURLOPT_HTTPHEADER, array(
+            "Accept: application/xml"
+        ));
+        curl_setopt($process, CURLOPT_USERPWD, $this->login . ":" . $this->password);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($process, CURLOPT_SSL_VERIFYPEER, false);
+        $data = curl_exec($process);
+        $http_status = curl_getinfo($process, CURLINFO_HTTP_CODE);
+        $this->assertEquals($http_status, "200");
+        
+        // should return a 200, should return content encoding application/xml
+        $process = curl_init($url);
+        curl_setopt($process, CURLOPT_HTTPHEADER, array(
+            "Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        ));
+        curl_setopt($process, CURLOPT_USERPWD, $this->login . ":" . $this->password);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($process, CURLOPT_SSL_VERIFYPEER, false);
+        $data = curl_exec($process);
+        $http_status = curl_getinfo($process, CURLINFO_HTTP_CODE);
+        $this->assertEquals($http_status, "200");
+        $contentType = curl_getinfo($process, CURLINFO_CONTENT_TYPE);
+        $this->assertEquals($contentType, "application/xml");
+        curl_close($process);
+        
+        // should return a 200
+        $http_status = $this->curl($url, CURLOPT_HTTPGET, CURLINFO_HTTP_CODE);
                         $this->assertEquals($http_status, "200");
     
     }
 
 }
-
-?>
