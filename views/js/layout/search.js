@@ -1,16 +1,16 @@
 define([
     'jquery',
+    'lodash',
     'i18n',
     'context'
 ],
     function(
         $,
+        _,
         __,
         context
         ){
 
-
-        var $container;
 
         /**
          * Retrieve instance of the container element
@@ -18,11 +18,7 @@ define([
          * @returns {*}
          */
         function getContainer(type) {
-            if(!$container) {
-                $container = $('.search-form > [data-purpose="' + type + '"]');
-            }
-
-            return $container;
+            return  $('.search-form > [data-purpose="' + type + '"]');
         }
 
 
@@ -31,7 +27,7 @@ define([
          *
          * @param $searchForm
          */
-        function init($searchForm) {
+        function initSearch($searchForm) {
 
             // reduce to one element only
             $searchForm = $($searchForm.replace(/id=("|')[\w-]+("|')/g, ''));
@@ -90,22 +86,73 @@ define([
             toggle();
         }
 
-        /**
-         * show/hide search form
-         */
+
         function toggle() {
             $('.search-form').slideToggle();
         }
 
+        /**
+         * Initialize the filter form : make a click on the button to filter the tree
+         * @private
+         * @fires layout/tree#refresh.taotree
+         */
+        function initFiltering(){
+            var $container  = getContainer('filter');
+            var $field      = $(':text', $container);
+            
+            var filterHandler = _.debounce(function filterHandler(){
+                    //ask the tree to refresh 
+                $('.tree').trigger('refresh.taotree', [{ 
+                    filter : $field.val() || '*'
+                }]);
+            }, 100);
+
+            $('button', $container).on('click', filterHandler);
+            $field.on('keypress', function(e){
+                if(e.which === 13) {
+                    e.preventDefault();
+                    filterHandler();
+                }
+            });
+        }
+
+        /**
+         * Reset the filtering form
+         * @private
+         * @fires layout/tree#refresh.taotree
+         */
+        function resetFiltering(){
+            var $container  = getContainer('filter');
+            var $field      = $(':text', $container);
+
+            //empty the field
+            $field.val('');
+
+            //reset the trees 
+            $('.tree').trigger('refresh.taotree', [{ filter : '*' }]);
+        }
 
         return {
             /**
              * Initialize post renderer
              */
-            init : init,
+            init : function init($searchForm){
+                initSearch($searchForm);
+                _.delay(function(){
+                    initFiltering(); 
+                }, 10);
+            },
 
-            // show/hide search
-            toggle : toggle,
+            /**
+             * show/hide search form
+             */
+            toggle : function toggle(){
+                var $searchForm = $('.search-form');
+                if($searchForm.is(':visible')){
+                    resetFiltering();
+                }
+                $searchForm.slideToggle();
+            },
 
             // access to container
             getContainer: getContainer

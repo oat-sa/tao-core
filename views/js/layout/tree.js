@@ -31,7 +31,10 @@ define([
         });
         
 
-
+        /**
+         * Set up the tree using the defined options
+         * @private
+         */
         var setUpTree  = function setUpTree(){
 
             //try to get the action instance from the manager for each action given in parameter
@@ -99,15 +102,17 @@ define([
                  * @returns {Object} params
                  */
                 beforedata: function($node) {
-
+                    var treeData = $elt.data('tree-state');
                     var params = _.clone(serverParams);
                     if($node && $node.length){
                         params.classUri = $node.attr('id');
                     }
                     params.selected = options.selectNode;
 
-                    //TODO load filter value
-
+                    //check if there is a filter load filter value
+                    if(treeData && _.isString(treeData.filter) && treeData.filter.length){
+                        params.filter = treeData.filter;
+                    }
                     
                     return params;
                 },
@@ -263,10 +268,17 @@ define([
              * Refresh the tree
              *
              * @event layout/tree#refresh.taotree
+             * @param {Object} [data] - some data to bind to the tree
              */
-            'refresh' : function(){
+            'refresh' : function(data){
+                var treeState;
                 var tree =  $.tree.reference($elt);
                 if(tree){
+
+                    //update the state with data to be used later (ie. filter value, etc.)
+                    treeState = _.merge($elt.data('tree-state') || {}, data);
+                    $elt.data('tree-state', treeState);
+
                     tree.refresh();
                 }
             },
