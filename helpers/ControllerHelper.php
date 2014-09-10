@@ -22,6 +22,8 @@
 namespace oat\tao\helpers;
 
 use oat\controllerMap\parser\Factory;
+use oat\generis\model\data\permission\PermissionManager;
+use oat\generis\model\data\permission\PermissionInterface;
 /**
  * Utility class that focuses on he controllers.
  *
@@ -30,12 +32,26 @@ use oat\controllerMap\parser\Factory;
  */
 class ControllerHelper
 {
+    const EXTENSION_PREFIX = 'controllerMap_e_';
+    const CONTROLLER_PREFIX = 'controllerMap_c_';
+    const ACTION_PREFIX = 'controllerMap_a_';
+    
+    /**
+     * Returns al lthe controllers of an extension
+     * 
+     * @param string $extensionId
+     * @return array
+     */
     public static function getControllers($extensionId) {
-        $factory = new Factory();
-        
-        $controllerClasses = array();
-        foreach ($factory->getControllers($extensionId) as $controller) {
-            $controllerClasses[] = $controller->getClassName();
+        try {
+            $controllerClasses = \common_cache_FileCache::singleton()->get(self::EXTENSION_PREFIX.$extensionId);
+        } catch (\common_cache_NotFoundException $e) {
+            $factory = new Factory();
+            $controllerClasses = array();
+            foreach ($factory->getControllers($extensionId) as $controller) {
+                $controllerClasses[] = $controller->getClassName();
+            }
+            \common_cache_FileCache::singleton()->put($controllerClasses, self::EXTENSION_PREFIX.$extensionId);
         }
         return $controllerClasses;
     }
@@ -47,20 +63,44 @@ class ControllerHelper
      * @return array
      */
     public static function getActions($controllerClassName) {
-        $factory = new Factory();
-        $desc =  $factory->getControllerDescription($controllerClassName);
-        
-        $actions = array();
-        foreach ($desc->getActions() as $action) {
-            $actions[] = $action->getName();
+        try {
+            $actions = \common_cache_FileCache::singleton()->get(self::CONTROLLER_PREFIX.$controllerClassName);
+        } catch (\common_cache_NotFoundException $e) {
+            $factory = new Factory();
+            $desc =  $factory->getControllerDescription($controllerClassName);
+            
+            $actions = array();
+            foreach ($desc->getActions() as $action) {
+                $actions[] = $action->getName();
+            }
+            \common_cache_FileCache::singleton()->put($actions, self::CONTROLLER_PREFIX.$controllerClassName);
         }
         return $actions;
     }
     
-    public static function getActionDescription($controllerClassName, $actionName) {
-        $factory = new Factory();
-        return $factory->getActionDescription($controllerClassName, $actionName);
+    /**
+     * Get the required rights for the execution of an action
+     *
+     * Returns an associative array with the parameter as key
+     * and the rights as values
+     *
+     * @param string $controllerClassName
+     * @param string $actionName
+     * @return array
+     */
+    public static function getRequiredRights($controllerClassName, $actionName) {
+        try {
+            $rights = \common_cache_FileCache::singleton()->get(self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
+        } catch (\common_cache_NotFoundException $e) {
+            $rights = array();
+            $factory = new Factory();
+            $controller = $factory->getActionDescription($controllerClassName, $actionName);
+            foreach ($controller->getRequiredRights() as $paramName => $right) {
+                $rights[$paramName] = in_array($right, PermissionManager::getPermissionModel()->getSupportedRights())
+                ? $right : PermissionInterface::RIGHT_UNSUPPORTED;
+            }
+            \common_cache_FileCache::singleton()->put($rights, self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
+        }
+        return $rights;
     }
-    
-    
 }

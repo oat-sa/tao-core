@@ -20,10 +20,8 @@
 namespace oat\tao\model\accessControl\data;
 
 use oat\tao\model\accessControl\AccessControl;
-use oat\generis\model\data\permission\PermissionManager;
 use oat\tao\helpers\ControllerHelper;
 use common_Logger;
-use oat\generis\model\data\permission\PermissionInterface;
 
 /**
  * Interface for data based access control
@@ -36,7 +34,7 @@ class DataAccessControl implements AccessControl
      */
     public function hasAccess($user, $controller, $action, $parameters) {
         $required = array();
-        foreach ($this->getRequiredRights($controller, $action) as $paramName => $privileges) {
+        foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
             if (isset($parameters[$paramName])) {
                 if (substr($parameters[$paramName], 0, 7) == 'http_2_') {
                     common_Logger::w('url encoded parameter detected for '.$paramName);
@@ -61,25 +59,5 @@ class DataAccessControl implements AccessControl
         }
     
         return true;
-    }
-    
-    /**
-     * Get the required rights for the execution of an action
-     * 
-     * Returns an associative array with the parameter as key
-     * and the rights as values
-     * 
-     * @param string $controllerClassName
-     * @param string $actionName
-     * @return array
-     */
-    public function getRequiredRights($controllerClassName, $actionName) {
-        $rights = array();
-        $controller = ControllerHelper::getActionDescription($controllerClassName, $actionName);
-        foreach ($controller->getRequiredRights() as $paramName => $right) {
-            $rights[$paramName] = in_array($right, PermissionManager::getPermissionModel()->getSupportedRights())
-                ? $right : PermissionInterface::RIGHT_UNSUPPORTED;
-        }
-        return $rights;
     }
 }
