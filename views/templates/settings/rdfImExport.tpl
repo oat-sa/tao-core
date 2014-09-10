@@ -21,7 +21,7 @@ use oat\tao\helpers\Template;
     	<?=get_data('importForm')?>
     	</div>
     </div>
-    <div class="col-6">
+    <div class="col-6 rdfExport">
         <h2>
     		<?=__('Export ')?>
     	</h2>

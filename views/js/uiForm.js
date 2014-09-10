@@ -90,7 +90,8 @@ define([
                 $authoringBtn       = $('.authoringOpener'),
                 $authoringBtnParent,
                 $testAuthoringBtn   = $('.test-authoring'),
-                $rdfImportForm      = $('.rdfImport #import');
+                $rdfImportForm      = $('.rdfImport #import'),
+                $rdfExportForm      = $('.rdfExport #export');
 
             // move authoring button to toolbar
             if($authoringBtn.length) {
@@ -123,6 +124,10 @@ define([
                     float: 'right'
                 });
 
+            }
+            if($rdfExportForm.length){
+                $('div:not(.form-toolbar):last span',$rdfExportForm).css('float', 'right')
+                             .closest('div').find('[id*="ns_filter"]').addClass('btn-default small');
             }
             // modify properties
             postRenderProps.init();
