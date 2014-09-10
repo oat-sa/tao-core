@@ -20,7 +20,6 @@
 namespace oat\tao\model\accessControl\func;
 
 use oat\tao\model\accessControl\AccessControl;
-use oat\tao\model\accessControl\DataAccessControl;
 use common_ext_ExtensionsManager;
 use common_Logger;
 

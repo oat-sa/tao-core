@@ -19,23 +19,67 @@
  */
 namespace oat\tao\model\accessControl\data;
 
+use oat\tao\model\accessControl\AccessControl;
+use oat\generis\model\data\permission\PermissionManager;
+use oat\tao\helpers\ControllerHelper;
+use common_Logger;
+use oat\generis\model\data\permission\PermissionInterface;
+
 /**
  * Interface for data based access control
  */
-interface DataAccessControl
+class DataAccessControl implements AccessControl
 {
     /**
-     * Return the privileges a specified user has on the resources
-     * specified by their ids
+     * (non-PHPdoc)
+     * @see \oat\tao\model\accessControl\AccessControl::hasAccess()
+     */
+    public function hasAccess($user, $controller, $action, $parameters) {
+        $required = array();
+        foreach ($this->getRequiredRights($controller, $action) as $paramName => $privileges) {
+            if (isset($parameters[$paramName])) {
+                if (substr($parameters[$paramName], 0, 7) == 'http_2_') {
+                    common_Logger::w('url encoded parameter detected for '.$paramName);
+                    $cleanName = \tao_helpers_Uri::decode($parameters[$paramName]);
+                } else {
+                    $cleanName = $parameters[$paramName];
+                }
+    
+                $required[$cleanName] = $privileges;
+            } else {
+                throw new \Exception('Missing parameter ' . $paramName . ' for ' . $controller . '/' . $action);
+            }
+        }
+        if (!empty($required)) {
+            $permissions = PermissionManager::getPermissionModel()->getPermissions($user, array_keys($required));
+            foreach ($required as $id => $right) {
+                if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
+                    common_Logger::d('User \''.$user.'\' does not have \''.$right.'\' permission for resource \''.$id.'\'');
+                    return false;
+                }
+            }
+        }
+    
+        return true;
+    }
+    
+    /**
+     * Get the required rights for the execution of an action
      * 
-     * This function should return an associativ array with the resourceIds
-     * as keys an the privilege arrays as values
+     * Returns an associative array with the parameter as key
+     * and the rights as values
      * 
-     * @todo Pass users as objects that allow for easy role retrieval
-     * 
-     * @param string $user
-     * @param array $resourceIds
+     * @param string $controllerClassName
+     * @param string $actionName
      * @return array
      */
-    public function getPrivileges($user, array $resourceIds);
+    public function getRequiredRights($controllerClassName, $actionName) {
+        $rights = array();
+        $controller = ControllerHelper::getActionDescription($controllerClassName, $actionName);
+        foreach ($controller->getRequiredRights() as $paramName => $right) {
+            $rights[$paramName] = in_array($right, PermissionManager::getPermissionModel()->getSupportedRights())
+                ? $right : PermissionInterface::RIGHT_UNSUPPORTED;
+        }
+        return $rights;
+    }
 }
