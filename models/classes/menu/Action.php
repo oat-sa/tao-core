@@ -147,7 +147,7 @@ class Action implements PhpSerializable
                 $parts = explode('/', trim($url, '/'));
                 if(count($parts) == 3){
                    try {
-                       $permissions = DataAclProxy::getRequiredpermissions(FuncHelper::getClassNameByUrl($url), $parts[2]);
+                       $permissions = DataAclProxy::getRequiredPrivileges(FuncHelper::getClassNameByUrl($url), $parts[2]);
                    } catch (\common_exception_Error $e){
                         \common_Logger::w('Catch and continue : ' . $e->getMessage());
                    }

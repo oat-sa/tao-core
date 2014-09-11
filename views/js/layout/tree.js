@@ -12,7 +12,7 @@ define([
     'jsTree/plugins/jquery.tree.contextmenu',
 ], function($, _, __, context, store, actionManager, uiBootstrap){
 
-    var pageRange = 5;
+    var pageRange = 30;
 
     /**
      * @exports layout/tree
@@ -145,7 +145,8 @@ define([
 
                     computeSelectionAccess(data);
             
-                    flattenPrivileges(data);
+                    flattenPermissions(data);
+
                     needMore(data); 
 
                     return data;
