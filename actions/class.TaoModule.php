@@ -304,10 +304,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	public function getOntologyData()
 	{
 		if(!tao_helpers_Request::isAjax()){
-			//throw new common_exception_IsAjaxAction(__FUNCTION__); 
+            throw new common_exception_IsAjaxAction(__FUNCTION__); 
 		}
-	
-        $user = tao_models_classes_UserService::singleton()->getCurrentUser();
 	
 		$options = array(
 			'subclasses' => true, 
@@ -370,17 +368,17 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                     'context'   => $action->getContext()
                 );
             } catch(\ResolverException $re){
-                common_Logger::d('do not handle privileges for action : ' . $action->getName() . ' ' . $action->getUrl());
+                common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
             }
         }
 
         //then compute ACL for each node of the tree
         if(is_int(array_keys($tree)[0])){
             foreach($tree as $index => $treeNode){
-                $tree[$index] = $this->computeAccessControls($actions, $userUri, $treeNode);
+                $tree[$index] = $this->computePermissions($actions, $userUri, $treeNode);
             }
         } else { 
-            $tree = $this->computeAccessControls($actions, $userUri, $tree);
+            $tree = $this->computePermissions($actions, $userUri, $tree);
         }
 
         //expose the tree
@@ -388,19 +386,19 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	}
 
     /**
-     * compulte access controls for a node against actions
+     * compulte permissions for a node against actions
      * @param array[] $actions the actions data with context, name and the resolver
      * @param string $user the user URI
      * @param array $node a tree node
-     * @return array the node augmented with _acl
+     * @return array the node augmented with permissions
      */
-    private function computeAccessControls($actions, $userUri, $node){
+    private function computePermissions($actions, $userUri, $node){
         if(isset($node['_data'])){
             foreach($actions as $action){
                 if($node['type'] == $action['context'] || $action['context'] == 'resource'){
                     $resolver = $action['resolver'];
                     try{
-                            $node['_acl'][$action['name']] = true; 
+                            $node['permissions'][$action['name']] = true; 
                             //AclProxy::hasAccess($userUri, $resolver->getController(), $resolver->getAction(), $node['_data']); 
 
                     //@todo should be a checked exception!

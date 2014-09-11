@@ -37,14 +37,11 @@ class Action implements PhpSerializable
         $data = array(
             'name'      => (string) $node['name'],
             'url'       => isset($node['url']) ? (string) $node['url'] : '#',
-            'binding'   => isset($node['binding'])
-                    ? (string) $node['binding']
-                    : (isset($node['js']) ? (string) $node['js'] : 'load'),
+            'binding'   => isset($node['binding']) ? (string) $node['binding'] : (isset($node['js']) ? (string) $node['js'] : 'load'),
             'context'   => (string) $node['context'],
             'reload'    => isset($node['reload']) ? true : false,
             'group'     => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT
         );
-
 
         if(isset($node->icon)){
             $data['icon'] = Icon::fromSimpleXMLElement($node->icon);
@@ -58,7 +55,7 @@ class Action implements PhpSerializable
         if(!isset($this->data['icon'])){
             $this->data['icon'] = $this->inferLegacyIcon($data);
         }
-        $this->loadRequiredPrivileges();
+        $this->loadRequiredPermissions();
     }
     
     public function getName() {
@@ -89,8 +86,8 @@ class Action implements PhpSerializable
         return $this->data['group'];
     }
 
-    public function getPrivileges() {
-        return $this->data['privileges'];
+    public function getPermissions() {
+        return $this->data['permissions'];
     }
 
     /**
@@ -140,24 +137,24 @@ class Action implements PhpSerializable
     }
 
     /**
-     * Load the action privileges from it's url
+     * Load the action permissions from it's url
      */
-    private function loadRequiredPrivileges(){
-        $privileges = array();
+    private function loadRequiredPermissions(){
+        $permissions = array();
         if(isset($this->data['url'])){
             $url = $this->data['url'];
             if(!empty($url)){
                 $parts = explode('/', trim($url, '/'));
                 if(count($parts) == 3){
                    try {
-                       $privileges = DataAclProxy::getRequiredPrivileges(FuncHelper::getClassNameByUrl($url), $parts[2]);
+                       $permissions = DataAclProxy::getRequiredpermissions(FuncHelper::getClassNameByUrl($url), $parts[2]);
                    } catch (\common_exception_Error $e){
                         \common_Logger::w('Catch and continue : ' . $e->getMessage());
                    }
                 } 
             }
         }  
-        $this->data['privileges'] = $privileges;
+        $this->data['permissions'] = $permissions;
     }
 
    
