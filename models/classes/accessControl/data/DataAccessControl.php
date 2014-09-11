@@ -23,6 +23,7 @@ use oat\tao\model\accessControl\AccessControl;
 use oat\tao\helpers\ControllerHelper;
 use common_Logger;
 use oat\generis\model\data\permission\PermissionManager;
+use oat\oatbox\user\User;
 
 /**
  * Interface for data based access control
@@ -33,7 +34,7 @@ class DataAccessControl implements AccessControl
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\AccessControl::hasAccess()
      */
-    public function hasAccess($user, $controller, $action, $parameters) {
+    public function hasAccess(User $user, $controller, $action, $parameters) {
         $required = array();
         foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
             if (isset($parameters[$paramName])) {
@@ -50,7 +51,7 @@ class DataAccessControl implements AccessControl
             }
         }
         if (!empty($required)) {
-            $permissions = PermissionManager::getPermissionModel()->getPermissions($user, array_keys($required));
+            $permissions = PermissionManager::getPermissionModel()->getPermissions($user->getIdentifier(), array_keys($required));
             foreach ($required as $id => $right) {
                 if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
                     common_Logger::d('User \''.$user.'\' does not have \''.$right.'\' permission for resource \''.$id.'\'');

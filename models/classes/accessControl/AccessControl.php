@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\accessControl;
 
+use oat\oatbox\user\User;
 /**
  * Interface for Access Control Implementations
  */
@@ -36,5 +37,5 @@ interface AccessControl
      * @param array $parameters
      * @return boolean
      */
-    public function hasAccess($user, $controllerName, $actionName, $parameters);
+    public function hasAccess(User $user, $controllerName, $actionName, $parameters);
 }

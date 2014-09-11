@@ -22,6 +22,7 @@ namespace oat\tao\model\accessControl;
 
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\data\DataAccessControl;
+use oat\oatbox\user\User;
 
 /**
  * Proxy for the Acl Implementation
@@ -74,7 +75,7 @@ class AclProxy
      * @param array $parameters
      * @return boolean
      */
-    public static function hasAccess($user, $controller, $action, $parameters) {
+    public static function hasAccess(User $user, $controller, $action, $parameters) {
         $access = true;
         foreach (self::getImplementations() as $impl) {
             $access = $access && $impl->hasAccess($user, $controller, $action, $parameters);

@@ -44,7 +44,7 @@ class tao_models_classes_accessControl_AclProxy
      * @deprecated
      */
     public static function hasAccess($action, $controller, $extension, $parameters = array()) {
-        $user = common_session_SessionManager::getSession()->getUserUri();
+        $user = common_session_SessionManager::getSession()->getUser();
         try {
             $resolver  = ActionResolver::getByControllerName($controller, $extension);
             $className = $resolver->getController();

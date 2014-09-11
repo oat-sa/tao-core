@@ -27,6 +27,7 @@ use common_session_SessionManager;
 use oat\taoDevTools\actions\ControllerMap;
 use oat\tao\model\accessControl\func\FuncHelper;
 use oat\tao\helpers\ControllerHelper;
+use oat\oatbox\user\User;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access
@@ -61,9 +62,9 @@ class SimpleAccess
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\func\FuncAccessControl::accessPossible()
      */
-    public function accessPossible($user, $controller, $action) {
+    public function accessPossible(User $user, $controller, $action) {
         $isUser = false;
-        foreach (common_session_SessionManager::getSession()->getUserRoles() as $role) {
+        foreach ($user->getRoles() as $role) {
             if ($role == INSTANCE_ROLE_BASEUSER) {
                 $isUser = true;
                 break;
