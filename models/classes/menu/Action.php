@@ -22,9 +22,6 @@
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
-use tao_models_classes_accessControl_AclProxy;
-use oat\tao\model\accessControl\data\AclProxy as DataAclProxy;
-use oat\tao\model\accessControl\func\FuncHelper;
 
 class Action implements PhpSerializable
 {
@@ -55,7 +52,6 @@ class Action implements PhpSerializable
         if(!isset($this->data['icon'])){
             $this->data['icon'] = $this->inferLegacyIcon($data);
         }
-        $this->loadRequiredPermissions();
     }
     
     public function getName() {
@@ -84,10 +80,6 @@ class Action implements PhpSerializable
 
     public function getGroup() {
         return $this->data['group'];
-    }
-
-    public function getPermissions() {
-        return $this->data['permissions'];
     }
 
     /**
@@ -136,28 +128,6 @@ class Action implements PhpSerializable
         }
     }
 
-    /**
-     * Load the action permissions from it's url
-     */
-    private function loadRequiredPermissions(){
-        $permissions = array();
-        if(isset($this->data['url'])){
-            $url = $this->data['url'];
-            if(!empty($url)){
-                $parts = explode('/', trim($url, '/'));
-                if(count($parts) == 3){
-                   try {
-                       $permissions = DataAclProxy::getRequiredPrivileges(FuncHelper::getClassNameByUrl($url), $parts[2]);
-                   } catch (\common_exception_Error $e){
-                        \common_Logger::w('Catch and continue : ' . $e->getMessage());
-                   }
-                } 
-            }
-        }  
-        $this->data['permissions'] = $permissions;
-    }
-
-   
     /**
      *  Check whether the current is allowed to see this action (against ACL).
      *  @deprecated Wrong layer. Should be called at the level of the controller

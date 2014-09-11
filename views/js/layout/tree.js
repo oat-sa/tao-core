@@ -402,7 +402,7 @@ define([
          */
         var flattenPermissions = function flattenPermissions(node){
             if(node.attributes && node.attributes.id){
-                permissions[node.attributes.id] = node._permissions;
+                permissions[node.attributes.id] = node.permissions;
             }
             if(node.children){
                 _.forEach(node.children, flattenPermissions);
