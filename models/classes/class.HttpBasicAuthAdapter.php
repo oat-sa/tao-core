@@ -1,4 +1,5 @@
 <?php
+use oat\oatbox\user\LoginService;
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -56,7 +57,6 @@ class tao_models_classes_HttpBasicAuthAdapter
             throw new common_Exception('Rest (Basic) login failed for user (missing login/password)');
         }
         
-        $authAdapter = new core_kernel_users_AuthAdapter($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
-        return $authAdapter->authenticate();
+        return LoginService::authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
     }
 }
