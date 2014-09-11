@@ -3,31 +3,41 @@
  */
 define([
     'jquery', 
-    'lodash', 
+    'lodash',
+    'i18n', 
     'context',
+    'store',
     'layout/actions',
     'uiBootstrap',
     'jsTree/plugins/jquery.tree.contextmenu',
-], function($, _, context, actionManager, uiBootstrap){
+], function($, _, __, context, store, actionManager, uiBootstrap){
 
+    var pageRange = 5;
 
     /**
      * @exports layout/tree
      */
     var treeFactory = function($elt, url, options){
+        
+        options = options || {};
 
         var lastOpened;
-        var lastSelected;
-        var privileges = {};
+        var permissions = {};
 
-        options = options || {};
+        var moreNode = {
+            data : __('More'),
+            type : 'more',
+            attributes : {
+                class : 'more'
+            }
+        };
 
         //these are the parameters added to the server call to load data
 	    var serverParams = _.defaults(options.serverParameters || {}, {
             hideInstances   :  options.hideInstances || 0,
             filter          : '*',
             offset          : 0,
-            limit           : 30
+            limit           : pageRange
         });
         
 
@@ -36,6 +46,7 @@ define([
          * @private
          */
         var setUpTree  = function setUpTree(){
+
 
             //try to get the action instance from the manager for each action given in parameter
             options.actions = _.transform(options.actions, function(result, value, key){
@@ -127,20 +138,18 @@ define([
                  */
                 ondata: function(data, tree) {
                     
-
-
                     //automatically open the children of the received node
                     if (data.children) {
                         data.state = 'open';
                     }
-                   
+
                     computeSelectionAccess(data);
             
                     flattenPrivileges(data);
- 
+                    needMore(data); 
+
                     return data;
                 },
-
 
                 /**
                  * Once the data are loaded and the tree is ready
@@ -152,12 +161,24 @@ define([
                  */
                 onload: function(tree){
 
+                    var treeId          = $elt.attr('id');
+                    var treeStore       = store.get('taotree') || {};
+                    var lastSelected;
+
+                    if(treeStore[treeId] && treeStore[treeId].lastSelected){
+                         lastSelected = $('#' +  treeStore[treeId].lastSelected, $elt);
+                    }
+    
+                    tree.open_branch($("li.node-class:first", $elt));
+
                     //we open either the last selected node or the 1st branch
-                    if (options.selectNode) {
-                        tree.select_branch($("li[id='" + options.selectNode + "']"));
+                    if(lastSelected && lastSelected.length){
+                        tree.select_branch(lastSelected);
+                    } else if (options.selectNode) {
+                        tree.select_branch($("li[id='" + options.selectNode + "']", $elt));
                         options.selectNode = false;
                     } else {
-                        tree.open_branch($("li.node-class:first"));
+                        tree.select_branch($('.node-instance:first', $elt));
                     }
                  
                     /**
@@ -171,11 +192,10 @@ define([
 
                 /**
                  * Before a branch is opened
-                 * @param {jQueryElement} $node - the opened node
+                 * @param {HTMLElement} node - the opened node
                  */
-                beforeopen: function($node) {
-                    //TODO store this in the browser
-                    lastOpened = $node;
+                beforeopen: function(node) {
+                    lastOpened = $(node);
                 },
 
                 /**
@@ -193,22 +213,31 @@ define([
                     var $node           = $(node);
                     var nodeId          = $node.attr('id');
                     var $parentNode     = tree.parent($node);
+                    var treeId          = $elt.attr('id');
+                    var treeStore       = store.get('taotree') || {};
                     var nodeContext     = {
-                        privileges : privileges[nodeId] || {}
+                        permissions : permissions[nodeId] || {}
                     };
 
-                    $('a.clicked', $elt).each(function() {
-                        if ($(this).parent('li').attr('id') !==  nodeId) {
-                            $(this).removeClass('clicked');
-                        }
-                    });
+                    //mark all unselected
+                    $('a.clicked', $elt)
+                        .parent('li')
+                        .not('[id="' + nodeId + '"]')
+                        .removeClass('clicked'); 
 
+                    //the more node makes you load more resources
+                    if($node.hasClass('more')){
+                        loadMore($node, $parentNode, tree);
+                        return false;
+                    }
+
+                    //exec the  selectClass action
                     if ($node.hasClass('node-class')) {
                         if ($node.hasClass('closed')) {
                             tree.open_branch($node);
                         }
                         nodeContext.classUri = nodeId;
-                        nodeContext.privileges = privileges[nodeId];
+                        nodeContext.permissions = permissions[nodeId];
 
                         //execute the selectClass action
                         if(options.actions.selectClass){
@@ -216,15 +245,23 @@ define([
                         }
                     }
 
+                    //exec the  selectInstance action
                     if ($node.hasClass('node-instance')){
                         nodeContext.uri = nodeId;
                         nodeContext.classUri = $parentNode.attr('id');
+
+                        //the last selected node is stored into the browser storage
+                        treeStore[treeId] = treeStore[treeId] || {};
+                        treeStore[treeId].lastSelected = nodeId; 
+                        store.set('taotree', treeStore);
 
                         //execute the selectInstance action
                         if(options.actions.selectInstance){
                             actionManager.exec(options.actions.selectInstance, nodeContext);
                         }
                     }
+
+                    
 
                     /**
                      * A node has been selected
@@ -321,14 +358,27 @@ define([
            }
         };
 
+    
+        /**
+         * Check if a node has access to a type of action regarding it's permissions 
+         * @private
+         * @param {String} actionType - in selectClass, selectInstance, moveInstance and delete
+         * @param {Object} node       - the node data as recevied from the server
+         * @returns {Boolean} true if the action is allowed 
+         */
         var hasAccessTo = function hasAccessTo(actionType, node){
             var action = options.actions[actionType];
-            if(node && action && node._acl && node._acl[action.name] !== undefined){
-                return !!node._acl[action.name];
+            if(node && action && node._permissions && node._permissions[action.name] !== undefined){
+                return !!node._permissions[action.name];
             }
             return true;
         };
 
+        /**
+         * Check whether the nodes in a tree are selectable. If not, we add the <strong>private</strong> class. 
+         * @private
+         * @param {Object} node - the tree node as recevied from the server
+         */
         var computeSelectionAccess = function(node){
             if(node.type){
                 if(node.type === 'class' && !hasAccessTo('selectClass', node)){
@@ -344,15 +394,71 @@ define([
             }
         };
 
-        var flattenPrivileges = function flattenPrivileges(node){
+        /**
+         * Reads the permissions from tree data to put them into a flat Map as <pre>nodeId : nodePermissions</pre>
+         * @private
+         * @param {Object} node - the tree node as recevied from the server
+         */
+        var flattenPermissions = function flattenPermissions(node){
             if(node.attributes && node.attributes.id){
-                privileges[node.attributes.id] = node._acl;
+                permissions[node.attributes.id] = node._permissions;
             }
             if(node.children){
-                _.forEach(node.children, flattenPrivileges);
+                _.forEach(node.children, flattenPermissions);
             }
         };
 
+        
+
+        var needMore = function needMore(node){
+           if(_.isArray(node) && lastOpened.length && lastOpened.data('count') > pageRange){
+               node.push(moreNode);
+           } else {
+                if(node.count){
+                    node.attributes['data-count'] = node.count;
+                    
+                    if(node.count > pageRange && node.children){
+                       node.children.push(moreNode);
+                    }
+                }
+                if(node.children){
+                    _.forEach(node.children, needMore);
+                }
+           }
+        }; 
+
+        var loadMore = function loadMore($node, $parentNode, tree){
+            var current     = $parentNode.children('ul').children('li.node-instance').length;
+            var count       = $parentNode.data('count');
+            var left        = count - current;
+			var params      = _.defaults({
+				'classUri'      : $parentNode.attr('id'),
+				'subclasses'    : 0,
+				'offset'        : current,
+				'limit'         : left < pageRange ? left : pageRange
+			}, serverParams);
+    
+            $.ajax(tree.settings.data.opts.url, {
+                type        : tree.settings.data.opts.method,
+                dataType    : tree.settings.data.type,
+                async       : tree.settings.data.async,
+                data        : params
+            }).done(function(response){
+                if(_.isArray(response)){
+                   _.forEach(response, function(newNode){
+                        if(newNode.type === 'instance'){   //yes the server send also the class, even though I ask him gently...
+                            tree.create(newNode, $parentNode);
+                        }
+                   });
+                   tree.deselect_branch($node);
+                   tree.remove($node);
+                   if(left - response.length > 0){
+                        tree.create(moreNode, $parentNode);
+                   }
+                }
+            });
+        };
+        
         return setUpTree();
     };
 
