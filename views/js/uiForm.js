@@ -89,7 +89,9 @@ define([
                 $translator         = $container.find('.form-translator'),
                 $authoringBtn       = $('.authoringOpener'),
                 $authoringBtnParent,
-                $testAuthoringBtn   = $('.test-authoring');
+                $testAuthoringBtn   = $('.test-authoring'),
+                $rdfImportForm      = $('.rdfImport #import'),
+                $rdfExportForm      = $('.rdfExport #export');
 
             // move authoring button to toolbar
             if($authoringBtn.length) {
@@ -110,6 +112,23 @@ define([
                 $testAuthoringBtn.prependTo($toolBar);
             }
 
+            // import Ontology styling changes
+            if($rdfImportForm.length) {
+                $('span.form_desc:empty',$rdfImportForm).hide();
+                $('span.form-elt-info',$rdfImportForm).css({
+                    display: 'block',
+                    width: '100%'
+                });
+                $('.form-elt-container.file-uploader',$rdfImportForm).css({
+                    width: '65%',
+                    float: 'right'
+                });
+
+            }
+            if($rdfExportForm.length){
+                $('div:not(.form-toolbar):last span',$rdfExportForm).css('float', 'right')
+                             .closest('div').find('[id*="ns_filter"]').addClass('btn-default small');
+            }
             // modify properties
             postRenderProps.init();
 
