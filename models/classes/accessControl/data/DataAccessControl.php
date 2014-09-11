@@ -51,7 +51,7 @@ class DataAccessControl implements AccessControl
             }
         }
         if (!empty($required)) {
-            $permissions = PermissionManager::getPermissionModel()->getPermissions($user->getIdentifier(), array_keys($required));
+            $permissions = PermissionManager::getPermissionModel()->getPermissions($user, array_keys($required));
             foreach ($required as $id => $right) {
                 if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
                     common_Logger::d('User \''.$user.'\' does not have \''.$right.'\' permission for resource \''.$id.'\'');
