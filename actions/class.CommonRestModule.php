@@ -47,7 +47,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	        $user = $authAdapter->authenticate();
     	    $session = new common_session_RestSession($user);
     	    core_kernel_classes_Session::singleton()->setSession($session);
-	    } catch (core_kernel_users_InvalidLoginException $e) {
+	    } catch (common_user_auth_AuthFailedException $e) {
 	        $this->requireLogin();
 	    } 
 	     
@@ -339,7 +339,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		}
 		return $this->returnSuccess($data);
 	}
-	protected function put($uri = null){
+	protected function put($uri){
 		try {
 			if (!common_Utils::isUri($uri)){
 			    throw new common_exception_InvalidArgumentType();
