@@ -21,7 +21,6 @@
 
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
-use oat\tao\model\accessControl\data\AclProxy as DataProxy;
 use oat\tao\model\accessControl\data\implementation\FreeAccess;
 
 
@@ -35,6 +34,3 @@ foreach ($exts as $extension) {
     }
 }
 FuncProxy::setImplementation($impl);
-
-$dataImpl = new FreeAccess();
-DataProxy::setImplementation($dataImpl);

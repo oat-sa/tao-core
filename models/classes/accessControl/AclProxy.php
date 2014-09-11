@@ -20,8 +20,9 @@
 
 namespace oat\tao\model\accessControl;
 
-use oat\tao\model\accessControl\data\AclProxy as DataProxy;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
+use oat\tao\model\accessControl\data\DataAccessControl;
+use oat\oatbox\user\User;
 
 /**
  * Proxy for the Acl Implementation
@@ -34,19 +35,33 @@ use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 class AclProxy
 {
     /**
-     * @var DataAccessControl
+     * @var array
      */
     private static $implementations;
 
     /**
-     * @return DataAccessControl
+     * get the current access control implementations
+     * 
+     * @return array
      */
     protected static function getImplementations() {
         if (is_null(self::$implementations)) {
             self::$implementations = array(
-            	new FuncProxy()
-                ,new DataProxy()
+                new FuncProxy(),
+                new DataAccessControl()
             );
+            
+            /*
+            $taoExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            self::$implementations = array();
+            foreach ($taoExt->getConfig('accessControl') as $acClass) {
+                if (class_exists($acClass) && in_array('oat\tao\model\accessControl\AccessControl', class_implements($acClass))) {
+                    self::$implementations[] = new $acClass();
+                } else {
+                    throw new \common_exception_Error('Unsupported class '.$acClass);
+                }
+            }
+            */
         }
         return self::$implementations;
     }
@@ -60,7 +75,7 @@ class AclProxy
      * @param array $parameters
      * @return boolean
      */
-    public static function hasAccess($user, $controller, $action, $parameters) {
+    public static function hasAccess(User $user, $controller, $action, $parameters) {
         $access = true;
         foreach (self::getImplementations() as $impl) {
             $access = $access && $impl->hasAccess($user, $controller, $action, $parameters);

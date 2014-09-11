@@ -19,6 +19,7 @@
  */
 namespace oat\tao\model\accessControl\func;
 
+use oat\oatbox\user\User;
 /**
  * Interface for functionality based access control
  */
@@ -33,7 +34,7 @@ interface FuncAccessControl
      * @param string $action
      * @return boolean
      */
-    public function accessPossible($user, $controller, $action);
+    public function accessPossible(User $user, $controller, $action);
     
     /**
      * Apply a rule

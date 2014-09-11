@@ -20,9 +20,9 @@
 namespace oat\tao\model\accessControl\func;
 
 use oat\tao\model\accessControl\AccessControl;
-use oat\tao\model\accessControl\DataAccessControl;
 use common_ext_ExtensionsManager;
 use common_Logger;
+use oat\oatbox\user\User;
 
 /**
  * Proxy for the Acl Implementation
@@ -72,7 +72,7 @@ class AclProxy implements AccessControl
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\AccessControl::hasAccess()
      */
-    public function hasAccess($user, $controller, $action, $parameters) {
+    public function hasAccess(User $user, $controller, $action, $parameters) {
         return self::accessPossible($user, $controller, $action);
     }
     
@@ -80,7 +80,7 @@ class AclProxy implements AccessControl
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\func\FuncAccessControl::accessPossible()
      */
-    public static function accessPossible($user, $controller, $action) {
+    public static function accessPossible(User $user, $controller, $action) {
         return self::getImplementation()->accessPossible($user, $controller, $action);
     }
     
