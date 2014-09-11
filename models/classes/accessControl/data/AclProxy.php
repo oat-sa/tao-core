@@ -100,7 +100,7 @@ class AclProxy implements AccessControl
         
         foreach ($required as $id => $reqPriv) {
             if (!in_array($reqPriv, $privileges[$id])) {
-                common_Logger::d('Missing '.implode(',', $missing).' for resource '.$id);
+                common_Logger::d('Missing '.$reqPriv.' for resource '.$id);
                 return false;
             }
         }
