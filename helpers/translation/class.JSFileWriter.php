@@ -42,7 +42,6 @@ class tao_helpers_translation_JSFileWriter extends tao_helpers_translation_Trans
     public function write() {
         
         $path = $this->getFilePath();
-        $langCode = $this->getTranslationFile()->getTargetLanguage();
         $strings = array();
         
         foreach ($this->getTranslationFile()->getTranslationUnits() as $tu) {
@@ -50,15 +49,8 @@ class tao_helpers_translation_JSFileWriter extends tao_helpers_translation_Trans
                 $strings[$tu->getSource()] = $tu->getTarget();   
             }
         }
-        
-        $buffer  = "/* auto generated content */\n";
-        $buffer .= "/* lang: $langCode */\n";
-        $buffer .= "define(function(){\n";
-        $buffer .= " return {\n";
-        $buffer .= "   langCode : '$langCode',\n";
-        $buffer .= "   i18n_tr : " . json_encode($strings, JSON_HEX_QUOT | JSON_HEX_APOS)."\n";
-        $buffer .= " };\n";
-        $buffer .= "});\n";
+
+        $buffer = json_encode($strings, JSON_HEX_QUOT | JSON_HEX_APOS);
         if(!file_put_contents($path, $buffer)){
                 throw new tao_helpers_translation_TranslationException("An error occured while writing Javascript " .
                                                                                                                            "translation file '${path}'.");

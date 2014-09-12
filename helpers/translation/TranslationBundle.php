@@ -90,19 +90,13 @@ class TranslationBundle {
         $translations = array();
         
         foreach($this->extensions as $extension){
-            $poFilePath = $extension->getDir() . 'locales/' . $this->langCode . '/messages.po';
-            if(file_exists($poFilePath)){
+            $jsFilePath = $extension->getDir() . 'locales/' . $this->langCode . '/messages_po.js';
+            if(file_exists($jsFilePath)){
                 try {
-                    $reader = new \tao_helpers_translation_POFileReader($poFilePath);
-                    $reader->read();
-
-                    $translationFile = $reader->getTranslationFile();
-                    $translationFile->setTargetLanguage($this->langCode);
-                    foreach($translationFile->getTranslationUnits() as $unit){
-                        $src = $unit->getSource();
-                        $translations[$src] = $unit->getTarget();
-                    }
-
+					$translations = json_decode(
+						 file_get_contents($jsFilePath),
+						 false
+					);
                 } catch(\tao_helpers_translation_TranslationException $te){
                    common_Logger::w("Unable to generate the translatin bundle for  " . $this->langCode . " : " . $te->getMessage()); 
                 }

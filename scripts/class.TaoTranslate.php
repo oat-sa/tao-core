@@ -640,16 +640,23 @@ class tao_scripts_TaoTranslate
         			$sortedTranslationFile->setTargetLanguage($this->options['language']);
         			$sortedTranslationFile->addTranslationUnits($sortedTus);
         			$this->preparePOFile($sortedTranslationFile);
-        	
+
         			$poPath = $dir . '/' . self::DEF_PO_FILENAME;
         			$writer = new tao_helpers_translation_POFileWriter($poPath,
         					$sortedTranslationFile);
         			$writer->write();
-        	
         			$this->outVerbose("PO Translation file '" . basename($poPath) . "' in '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] ."'.");
-        			 
         			$writer->write();
-        	
+
+					// Writing JS files
+					$jsPath = $dir . '/' . self::DEF_JS_FILENAME;
+        			$writer = new tao_helpers_translation_JSFileWriter(
+						 $jsPath, $sortedTranslationFile
+					);
+        			$writer->write(false);
+					$this->outVerbose("JavaScript Translation file '" . basename($jsPath) . "' in '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] ."'.");
+					$writer->write();
+
         			// Now that PO files & JS files are created, we can create the translation models
         			// if we find RDF models to load for this extension.
         			$translatableProperties = array(RDFS_LABEL, RDFS_COMMENT);
