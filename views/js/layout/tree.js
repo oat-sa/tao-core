@@ -387,8 +387,8 @@ define([
          */
         var hasAccessTo = function hasAccessTo(actionType, node){
             var action = options.actions[actionType];
-            if(node && action && node._permissions && node._permissions[action.name] !== undefined){
-                return !!node._permissions[action.name];
+            if(node && action && node.permissions && node.permissions[action.name] !== undefined){
+                return !!node.permissions[action.name];
             }
             return true;
         };
