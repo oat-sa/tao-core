@@ -82,7 +82,7 @@ class ActionEnforcer implements IExecutable
     protected function verifyAuthorization() {
         $user = common_session_SessionManager::getSession()->getUser();
         if (!AclProxy::hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
-	        throw new tao_models_classes_AccessDeniedException($userUri, $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+	        throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
 	    }
     }
     
