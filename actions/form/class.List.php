@@ -84,12 +84,6 @@ class tao_actions_form_List
 			tao_helpers_form_FormFactory::getValidator('Integer', array('min' => 1))
 		));
 		$this->form->addElement($sizeElt);
-
-		$this->form->createGroup('options', __('List Options'), array('label', 'size'));
-
-        
     }
 
-} /* end of class tao_actions_form_List */
-
-?>
+}

@@ -2,19 +2,16 @@
 
 use oat\tao\helpers\Template;
 ?>
-<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
-<?=get_data('formTitle')?>
-</div>
+<h2><?=get_data('formTitle')?></h2>
     <?if(has_data('myForm')):?>
-    <div class="ui-widget-content ui-corner-bottom">
+    <div class="form-content">
     <?=get_data('myForm')?>
     </div>
 <?php endif;?>
-<br />
 
 <div id="iframe-container"></div>
 
-<script type="text/javascript">
+<script>
     require(['jquery', 'lodash', 'helpers', 'uiForm'], function($, _, helpers, uiForm){
 
         var $form = $('#exportChooser'),
@@ -60,7 +57,3 @@ use oat\tao\helpers\Template;
 
     });
 </script>
-
-<?php
-Template::inc('footer.tpl', 'tao')
-?>

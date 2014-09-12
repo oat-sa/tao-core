@@ -119,7 +119,6 @@ define([
 
             containerManager.init();
 
-            //$('.data-container').appendTo($('.main-container'));
         },
 
         initElements: function () {
@@ -191,19 +190,40 @@ define([
          * init special forms controls
          */
         initOntoForms: function () {
+
+
             //open the authoring tool on the authoringOpener button
-            $('input.authoringOpener').click(function () {
-                var url = getUrl('authoring');
-                var tabName = module.config().module.toLowerCase() + '_authoring';
-                var index = helpers.getTabIndexByName(tabName);
-                if (index > -1) {
-                    if ($("#uri") && $("#classUri")) {
-                        $('#tabs').tabs('url', index, url + '?uri=' + $("#uri").val() + '&classUri=' + $("#classUri").val());
-                        $('#tabs').tabs('enable', index);
-                        $('#tabs').tabs('select', index);
+            $('.authoringOpener').click(function () {
+                var tabUrl = getUrl('authoring'),
+                    tabId = 'panel-' + module.config().module.toLowerCase() + '_authoring',
+                    $tabContainer = $('#tabs'),
+                    $tab = (function() {
+                        var $wantedTab = $tabContainer.find('#' + tabId);
+
+                        if(!$wantedTab.length) {
+                            $wantedTab = $('<div>', { id: tabId, 'class': 'clear content-panel' }).hide();
+                            $tabContainer.find('.content-panel').after($wantedTab);
+                        }
+                        return $wantedTab;
+                    }());
+
+
+                $.ajax({
+                    type: "GET",
+                    url: tabUrl,
+                    data: {
+                        uri: $("#uri").val(),
+                        classUri: $("#classUri").val()
+                    },
+                    dataType: 'html',
+                    success: function (responseHtml) {
+                        $tabContainer.find('.content-panel').not($tab).hide();
+                        $tab.html(responseHtml).show();
                     }
-                }
+                });
             });
+
+
 
             $('input.editVersionedFile').each(function () {
                 var infoUrl = context.root_url + 'tao/File/getPropertyFileInfo';

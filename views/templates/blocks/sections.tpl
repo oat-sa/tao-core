@@ -31,7 +31,7 @@ $sections = get_data('sections');
                                             data-context="<?= $action->getContext() ?>"
                                             title="<?= $action->getName() ?>"
                                             data-action="<?= $action->getBinding() ?>">
-                                            <a href="<?= $action->getUrl(); ?>">
+                                            <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                                 <?=
                                                 Layout::renderIcon(
                                                     $action->getIcon(),
@@ -83,7 +83,7 @@ $sections = get_data('sections');
                                     <?php foreach($action->getPrivileges() as $param => $privilege): ?>
                                         data-privilege-<?=$param?>="<?=$privilege?>"
                                     <?php endforeach; ?>>
-                                    <a href="<?= $action->getUrl(); ?>">
+                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                         <?=
                                         Layout::renderIcon(
                                             $action->getIcon(),
@@ -102,7 +102,7 @@ $sections = get_data('sections');
                                     <?php foreach($action->getPrivileges() as $param => $privilege): ?>
                                         data-privilege-<?=$param?>="<?=$privilege?>"
                                     <?php endforeach; ?>>
-                                    <a href="<?= $action->getUrl(); ?>">
+                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                         <?= $action->getName(); ?>
                                     </a>
                                 </li>
@@ -120,7 +120,7 @@ $sections = get_data('sections');
                                 <?php foreach($action->getPrivileges() as $param => $privilege): ?>
                                     data-privilege-<?=$param?>="<?=$privilege?>"
                                 <?php endforeach; ?>>
-                                <a href="<?= $action->getUrl(); ?>">
+                                <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                     <?=
                                     Layout::renderIcon(
                                         $action->getIcon(),

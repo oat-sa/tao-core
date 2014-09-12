@@ -47,6 +47,7 @@ define([
                 $langSelector  = $searchForm.find('[name="lang"]'),
                 $formContainer = $searchForm.find('.xhtml_form');
 
+
             // remove unwanted classes
             $formContainer.parent().removeClass(function(idx, className) {
                 return className;
@@ -57,9 +58,11 @@ define([
                 $toolBars.first().remove();
             }
 
+
             // remove 'options' and 'filters'
             $searchForm.find('.form-group')[0].firstChild.remove();
             $filters[0].firstChild.remove();
+
 
             // add some explanatory text to lang selector
             $langSelector.find('option:first').text('-- ' + __('any') + ' --');
@@ -77,6 +80,7 @@ define([
                     if(!$.trim($parentDiv.next().find('span').last().html())) {
                         $parentDiv.next().remove();
                     }
+                    $parentDiv.prependTo($searchForm.find('.form-group:first > div'));
                 }
             });
 

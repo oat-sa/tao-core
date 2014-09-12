@@ -37,22 +37,6 @@ html body {
   position: relative; }
 
 /* Main containers */
-.main-container {
-  margin-left: 0;
-  /*0.25%*/ }
-  .main-container .medium {
-    width: 49.75%;
-    float: right; }
-  .main-container .large {
-    width: 74.75%;
-    float: right; }
-
-.data-container {
-  width: 24%;
-  float: left;
-  margin-right: 1%;
-  margin-bottom: 1%; }
-
 .container-title {
   padding: 4px;
   font-size: 1em; }
@@ -225,10 +209,6 @@ ul.group-list .autoadd.checked > .selector, ul.group-list .autoadd.checked .grou
   border-bottom: 1px solid #999; }
 .group-title .label {
   font-size: 11px; }
-
-.listbox {
-  display: inline-block;
-  margin: 5px 2px; }
 
 .tileBox {
   margin-top: 20px;

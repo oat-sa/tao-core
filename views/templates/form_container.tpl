@@ -4,9 +4,7 @@ use oat\tao\helpers\Template;
 Template::inc('form_context.tpl', 'tao')
 ?>
 <div class="main-container" data-tpl="tao/form_container.tpl">
-    <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
-    	<?=get_data('formTitle')?>
-    </div>
+    <h2><?=get_data('formTitle')?></h2>
     <div id="form-container" class="ui-widget-content ui-corner-bottom">
     
     	<?if(has_data('errorMessage')):?>

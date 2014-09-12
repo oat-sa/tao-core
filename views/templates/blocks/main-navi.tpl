@@ -27,6 +27,14 @@ $settingsMenu = get_data('settings-menu');
     </ul>
 
     <ul class="plain clearfix settings-menu rgt">
+        <!--li class="info-listing warning feedback-listing">
+            <ul>
+                <li class="info-listing warning feedback-listing">3</li>
+                <li class="info-listing success feedback-listing">3</li>
+                <li class="warning-listing feedback-listing">3</li>
+                <li class="error-listing feedback-listing">4</li>
+            </ul>
+        </li-->
         <?php if($settingsMenu): ?>
             <?php foreach ($settingsMenu as $entry): ?>
                 <?php $className = get_data('shownExtension') === $entry->getExtension() && get_data(
