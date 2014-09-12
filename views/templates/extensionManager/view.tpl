@@ -55,7 +55,7 @@ use oat\tao\helpers\Template;
     					<td><?= $ext->getAuthor(); ?></td>
     					<td><?= $ext->getVersion(); ?></td>
     					<td class="dependencies">
-    						<ul>
+    						<ul class="plain">
     						<? foreach ($ext->getDependencies() as $req => $version): ?>
     							<li class="ext-id ext-<?= $req ?><?= array_key_exists($req, get_data('installedExtArray')) ? ' installed' : '' ?>" rel="<?= $req ?>"><?= $req ?></li>
     						<? endforeach; ?>
