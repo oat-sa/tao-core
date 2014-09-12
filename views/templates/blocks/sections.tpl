@@ -79,16 +79,8 @@ $sections = get_data('sections');
                                 <li class="action"
                                     data-context="<?= $action->getContext() ?>"
                                     title="<?= $action->getName() ?>"
-<<<<<<< HEAD
-                                    data-action="<?= $action->getBinding() ?>"
-                                    <?php foreach($action->getPrivileges() as $param => $privilege): ?>
-                                        data-privilege-<?=$param?>="<?=$privilege?>"
-                                    <?php endforeach; ?>>
-                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
-=======
                                     data-action="<?= $action->getBinding() ?>">
-                                    <a href="<?= $action->getUrl(); ?>">
->>>>>>> 887f4f15b9acdb855e54a04b45c2e31c1bdb64e3
+                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                         <?=
                                         Layout::renderIcon(
                                             $action->getIcon(),
@@ -102,17 +94,8 @@ $sections = get_data('sections');
                             <?php foreach ($section->getActionsByGroup('none') as $action): ?>
                                 <li class="action" 
                                     data-context="<?= $action->getContext() ?>"
-                                    title="<?= $action->getName() ?>" 
-<<<<<<< HEAD
-                                    data-action="<?= $action->getBinding() ?>"
-                                    <?php foreach($action->getPrivileges() as $param => $privilege): ?>
-                                        data-privilege-<?=$param?>="<?=$privilege?>"
-                                    <?php endforeach; ?>>
+                                    title="<?= $action->getName() ?>" >
                                     <a class="li-inner" href="<?= $action->getUrl(); ?>">
-=======
-                                    data-action="<?= $action->getBinding() ?>">
-                                    <a href="<?= $action->getUrl(); ?>">
->>>>>>> 887f4f15b9acdb855e54a04b45c2e31c1bdb64e3
                                         <?= $action->getName(); ?>
                                     </a>
                                 </li>
@@ -125,20 +108,11 @@ $sections = get_data('sections');
                 <section class="content-container">
                     <ul class="action-bar plain content-action-bar horizontal-action-bar">
                         <?php foreach ($section->getActionsByGroup('content') as $action): ?>
-<<<<<<< HEAD
-                            <li class="btn-info small action" data-context="<?= $action->getContext() ?>"
-                                title="<?= $action->getName() ?>" data-action="<?= $action->getBinding() ?>"
-                                <?php foreach($action->getPrivileges() as $param => $privilege): ?>
-                                    data-privilege-<?=$param?>="<?=$privilege?>"
-                                <?php endforeach; ?>>
-                                <a class="li-inner" href="<?= $action->getUrl(); ?>">
-=======
                             <li class="btn-info small action" 
                                 data-context="<?= $action->getContext() ?>"
                                 title="<?= $action->getName() ?>" 
                                 data-action="<?= $action->getBinding() ?>">
-                                <a href="<?= $action->getUrl(); ?>">
->>>>>>> 887f4f15b9acdb855e54a04b45c2e31c1bdb64e3
+                                <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                     <?=
                                     Layout::renderIcon(
                                         $action->getIcon(),
