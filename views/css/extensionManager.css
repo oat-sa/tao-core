@@ -17,22 +17,23 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
-
-table .version{
-	width: 150px;
+#available-extensions-container form{
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
 }
-
-table .author{
-	width: 300px;
+table td.version{
+    min-width: 80px;
+    text-align: center;
 }
-
-table .require{
-	width: 250px;
+table td.author{
+    min-width: 200px;
 }
-
-table .install{
-	width: 50px;
-	vertical-align: middle!important;
+table td.install{
+    min-width: 50px;
+    vertical-align: middle !important;
+    text-align: center;
 }
 
 .dependencies .ext-id{
@@ -42,48 +43,48 @@ table .install{
 
 .installed { color: green; }
 .actions {
-	text-align: right;
-	padding: 3px;
+    text-align: right;
+    padding: 3px;
 }
 
 #installProgress .progress {
-	overflow: hidden;
-	height: 20px;
-	width: 100%;
-	background-color: #999;
-	border: 1px solid #666;
-	border-radius: 5px;
+    overflow: hidden;
+    height: 20px;
+    width: 100%;
+    background-color: #999;
+    border: 1px solid #666;
+    border-radius: 5px;
 }
 
 #installProgress .bar {
-	height: 20px;
-	background-color: #6bb;
-	width: 0%;
-	border-radius: 5px;
+    height: 20px;
+    background-color: #6bb;
+    width: 0%;
+    border-radius: 5px;
 }
 
 #installProgress .console {
-	background-color: black;
-	font-family: monospace;
-	color: white;
-	font-size: 10px;
-	height: 100px;
-	overflow-y: scroll;
-	border-radius: 5px;
-	padding: 5px;
+    background-color: black;
+    font-family: monospace;
+    color: white;
+    font-size: 10px;
+    height: 100px;
+    overflow-y: scroll;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 #installProgress .console p { margin: 0; margin-bottom: 0.5em }
 
 #extensions-manager-container{
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .actions{
-	background-color: #ddd;
+    background-color: #ddd;
 }
 
 #noExtensions{
-	margin: 5px;
-	padding: 5px;
+    margin: 5px;
+    padding: 5px;
 }

@@ -9197,7 +9197,7 @@ table.matrix td { background: transparent; text-align: left; padding: 2px; }
 table.matrix td.numeric { text-align: right; }
 table.matrix td label { display: block; margin: 0; }
 table.matrix tr:nth-child(even) { background: white; }
-table.matrix tr:nth-child(odd) { background: #e4ecef; }
+table.matrix tr:nth-child(odd) { background: #f4f7f8; }
 table.matrix [data-edit], table.matrix [data-edit] * { border: none; padding: 6px; cursor: pointer; }
 table.matrix tbody [data-edit] { width: 30px; }
 

@@ -221,7 +221,7 @@ table.matrix {
     }
     tr {
         &:nth-child(even){background: white;}
-        &:nth-child(odd){background: $lightBlueGrey}
+        &:nth-child(odd){background: lighten($lightBlueGrey,5)}
     }
     [data-edit], [data-edit] * {
         border: none;
