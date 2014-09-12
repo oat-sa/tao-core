@@ -16,7 +16,7 @@ $HTTP["referer"] !~ "(^|\.)tao\.local" {
     , "^/taoResults/([^(views/)|(test)|(models\/ext\/)|(models\/classes\/)]{1})([^\?]+)([?]?(.*))" => "/taoResults/index.php$3"
 
     # TAO SUBJECTS
-    , "^/taoSubjects/([^(views/)|(test/)|(locales/)]{1})([^\?]+)([?]?(.*))" => "/taoSubjects/index.php$3"
+    , "^/taoTestTaker/([^(views/)|(test/)|(locales/)]{1})([^\?]+)([?]?(.*))" => "/taoSubjects/index.php$3"
 
     # TAO TESTS
     , "^/taoTests/([^(views/)|(test/)|(locales/)]{1})([^\?]+)([?]?(.*))" => "/taoTests/index.php$3"

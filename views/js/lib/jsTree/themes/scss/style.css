@@ -133,6 +133,9 @@
       background-position: -32px -46px; }
     .tree li.closed {
       background-position: -48px -30px; }
+    .tree li.more a {
+      text-align: left;
+      color: #0e5d91; }
     .tree li.paginate {
       padding-left: 12px;
       background-image: none !important;

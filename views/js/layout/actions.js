@@ -132,19 +132,19 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
         update : function update(context){
             var self = this;
             var current;
-            var privileges;
+            var permissions;
  
             context = context || {};
             current = context.uri ? 'instance' : context.classUri ? 'class' : 'none'; 
-            privileges = context.privileges || {};
+            permissions = context.permissions || {};
             
-            this._resourceContext = _.omit(context, 'privileges');
+            this._resourceContext = _.omit(context, 'permissions');
 
             _.forEach(this._actions, function(action, id){
                 var $elt = $('#' + id); 
-                var privilege = privileges[action.name];
+                var permission = permissions[action.name];
         
-                if( privilege === false ||
+                if( permission === false ||
                     (current === 'none' && action.context !== '*') || 
                     (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
 

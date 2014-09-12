@@ -30,7 +30,7 @@ define([
 
             var self = this;
             var $tabs = $('.section-container');
-            
+
             this.initAjax();
             this.initNav();
 
@@ -45,16 +45,16 @@ define([
                     context.section = $section.attr('id').replace('panel-', '');
 
                     actions.init($section);
- 
+
                     $('.taotree', $section).each(function(){
                         var $treeElt = $(this),
                             $actionBar = $('.tree-action-bar-box', $section);
-                        
+
                         treeFactory($treeElt, $treeElt.data('url'), {
                             serverParameters : {
                                 extension   : context.shownExtension,
                                 perspective : context.shownStructure,
-                                section     : context.section 
+                                section     : context.section
                             },
                             actions : {
                                 'selectClass'    : $treeElt.data('action-selectclass'),
@@ -67,6 +67,10 @@ define([
                             $actionBar.addClass('active');
                         });
                     });
+                    if ($('.taotree', $section).length == 0) {
+                        $('.navi-container',$section).hide();
+                        helpers._load(helpers.getMainContainerSelector(), ui.tab.getAttribute('data-url'));
+                    };
 
 
                     // navBar.init() replace

@@ -22,6 +22,7 @@ namespace oat\tao\model\accessControl\func\implementation;
 
 use oat\tao\model\accessControl\func\FuncAccessControl;
 use oat\tao\model\accessControl\func\AccessRule;
+use oat\oatbox\user\User;
 
 /**
  * Fallback functional Access Controll denying all access
@@ -37,7 +38,7 @@ class NoAccess
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\func\FuncAccessControl::accessPossible()
      */
-    public function accessPossible($user, $controller, $action)
+    public function accessPossible(User $user, $controller, $action)
     {
         return false;
     }

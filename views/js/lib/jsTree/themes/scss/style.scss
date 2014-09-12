@@ -100,7 +100,10 @@
         &.closed {
             background-position: -48px -30px;
         }
-
+        &.more a {
+            text-align: left;
+            color: $info;
+        }
 
         &.paginate {
             padding-left: 12px;
@@ -129,6 +132,7 @@
         &.paginate-all ins {
             background-image: url("paginate_all.png");
         }
+
         &.private ins:after {
             display: inline-block;
             position: relative;

@@ -51,10 +51,10 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	        $this->requireLogin();
 	    } 
 	     
-	    //$this->headers = HttpResponse::getRequestHeaders();
+/*
 	    $this->headers = tao_helpers_Http::getHeaders();
 	    $this->files = tao_helpers_Http::getFiles();
-
+*/
 	    if ($this->hasHeader("Accept")){
 		try {
 		    $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
@@ -78,16 +78,32 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    //check auth method requested
 	    /**/
 	}
-
+        /*redistribute actions*/
+	public function index(){
+	    $uri = null;
+	    if ($this->hasRequestParameter("uri")){
+		$uri = $this->getRequestParameter("uri");
+		if (!(common_Utils::isUri($uri))) {
+                $this->returnFailure(new common_exception_InvalidArgumentType());}
+	    }
+	    switch ($this->getRequestMethod()) {
+		case "GET":{$this->get($uri);break;}
+		//update
+		case "PUT":{$this->put($uri);break;}
+		//create
+		case "POST":{$this->post();break;}
+		case "DELETE":{$this->delete($uri);break;}
+		default:{
+			throw new common_exception_BadRequest($this->getRequestURI());
+		    ;}
+	    }
+	}
 	
 
-
+/*
 	public function hasRequestParameter($string){
 	    return parent::hasRequestParameter($string) || isset($this->headers[$string]) || isset($this->files[$string]);
 	}
-	/*
-	 * @return mixed
-	 */
 	public function getRequestParameter($string){
 	   
 	    if (isset($this->headers[$string])) {
@@ -115,27 +131,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    
 	     return isset($this->headers[$string]);
 	}
-	/*redistribute actions*/
-	public function index(){
-	    $uri = null;
-	    if ($this->hasRequestParameter("uri")){
-		$uri = $this->getRequestParameter("uri");
-		if (!(common_Utils::isUri($uri))) {
-
-            $this->returnFailure(new common_exception_InvalidArgumentType());}
-	    }
-	    switch ($this->getRequestMethod()) {
-		case "GET":{$this->get($uri);break;}
-		//update
-		case "PUT":{$this->put($uri);break;}
-		//create
-		case "POST":{$this->post();break;}
-		case "DELETE":{$this->delete($uri);break;}
-		default:{
-			throw new common_exception_BadRequest($this->getRequestURI());
-		    ;}
-	    }
-	}
+*/
 
 	private function requireLogin(){
 	    switch ($this->authMethod){
@@ -257,7 +253,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	 */
 	private function getCustomParameters(){
 	    $customParameters = array();
-	   foreach ($this->headers as $apacheParamName => $apacheParamValue){
+	   foreach ($this->getHeaders() as $apacheParamName => $apacheParamValue){
 	       if (common_Utils::isUri($apacheParamName)){
 		   $customParameters[$apacheParamName] = $apacheParamValue;
 	       }
@@ -288,9 +284,16 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    }
 	    return $isRequired;
 	}
+        /**
+         * 
+         * @param type $uri
+         * @return type
+         * @throws common_exception_InvalidArgumentType
+         * @throws common_exception_PreConditionFailure
+         * @requiresRight uri WRITE
+         */
 
-
-	public function get($uri = null){
+	protected function get($uri = null){
 		try {
 		    if (!is_null($uri)){
 			if (!common_Utils::isUri($uri)){
@@ -308,7 +311,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		}
 		return $this->returnSuccess($data);
 	}
-	public function delete($uri = null){
+	protected function delete($uri = null){
 		try {
 		    if (!is_null($uri)){
 			if (!common_Utils::isUri($uri)){
@@ -327,7 +330,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		}
 		return $this->returnSuccess($data);
 	}
-	public function post() {
+	protected function post() {
 		try {
 		    $parameters = $this->getParameters();
 		    $data = $this->service->createFromArray($parameters);
@@ -336,7 +339,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		}
 		return $this->returnSuccess($data);
 	}
-	public function put($uri = null){
+	protected function put($uri = null){
 		try {
 			if (!common_Utils::isUri($uri)){
 			    throw new common_exception_InvalidArgumentType();
@@ -360,7 +363,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	 * Workaround used here for web browsers: provide an action taht sends a 401 and get the the web browsers to log in again
 	 * Programmatic agents should send updated credentials directly
 	 */
-	public function logout(){
+	protected function logout(){
 	    $this->requireLogin();
 	}
 }
