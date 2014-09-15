@@ -47,15 +47,14 @@ define([
          */
         var setUpTree  = function setUpTree(){
 
-
-            //try to get the action instance from the manager for each action given in parameter
+            //try to load the action instance from the options
             options.actions = _.transform(options.actions, function(result, value, key){
                 if(value && value.length){
                     result[key] = actionManager.getBy(value);
                 }
             });
 
-            //bind events defined above 
+            //bind events from the definition below
             _.forEach(events, function(callback, name){
                 $elt.on(name + '.taotree', function(){
                     callback.apply(this, Array.prototype.slice.call(arguments, 1));
@@ -261,8 +260,6 @@ define([
                             actionManager.exec(options.actions.selectInstance, nodeContext);
                         }
                     }
-
-                    
 
                     /**
                      * A node has been selected
