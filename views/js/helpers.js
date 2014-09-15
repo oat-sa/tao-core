@@ -150,6 +150,10 @@ define([
          * @param {String} url
          */
         _load: function (selector, url, data) {
+
+            console.log('@todo: this need to be fixed in test creator', arguments)
+            url = url || ''
+
             if (data) {
                 data.nc = new Date().getTime();
             }

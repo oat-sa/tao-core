@@ -344,9 +344,6 @@
             background: url("icons.png") -48px -32px no-repeat;
         }
         a, span {
-            border-radius: 3px;
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
         }
         &.node-root ins {
             background-image: url("icons.png");
@@ -359,9 +356,10 @@
             background-repeat: no-repeat;
         }
         &.node-instance ins {
-            background-image: url("icons.png");
+            background-image: url("nachtigall.png");
             background-position: 0 0;
             background-repeat: no-repeat;
+            @extend %icon-checkbox;
         }
 
         &.node-instance a {
@@ -431,23 +429,14 @@
 }
 
 .tree-checkbox {
-    ul li.node-instance a.loading ins {
-        background-image: url("throbber.gif") !important;
-        background-position: 0 0 !important;
-    }
-}
-
-.tree-checkbox-context a ins {
-    background-image: url("icons.png");
-    background-repeat: no-repeat;
-    background-position: -64px -64px;
-    &.create {
-        background-position: 0 -16px;
-    }
-    &.rename {
-        background-position: -16px 0px;
-    }
-    &.remove {
-        background-position: 0 -32px;
+    ul  {
+        li.node-instance {
+            a.loading {
+                ins {
+                    background-image: url("throbber.gif") !important;
+                    background-position: 0 0 !important;
+                }
+            }
+        }
     }
 }

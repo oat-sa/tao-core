@@ -32,18 +32,51 @@ define([
 
 
         var setHeights = _.throttle(function setHeights() {
-             var $contentWrapper = $('.content-wrapper'),
-                 $searchBar = $('.search-action-bar'),
-                 searchBarHeight = $searchBar.outerHeight()
-                    + parseInt($searchBar.css('margin-bottom'))
-                    + parseInt($searchBar.css('margin-top')),
-                 $tree = $('.tree .ltr, .tree .rtl'),
-                 footerTop = $('footer').offset().top,
-                 contentWrapperTop = $contentWrapper.offset().top;
+            var $contentPanel = $('.content-panel:visible'),
+                $searchBar,
+                searchBarHeight,
+                $tree,
+                footerTop,
+                contentWrapperTop,
+                $itemEditorPanel,
+                $itemSidebars,
+                remainingHeight;
 
-            if($contentWrapper.length) {
-                $contentWrapper.find('.content-container').css({ minHeight: footerTop - contentWrapperTop });
+            if (!$contentPanel.length) {
+                return
             }
+
+            $searchBar = $contentPanel.find('.search-action-bar');
+            searchBarHeight = $searchBar.outerHeight() + parseInt($searchBar.css('margin-bottom')) + parseInt($searchBar.css('margin-top'));
+            $tree = $contentPanel.find('.tree .ltr, .tree .rtl');
+            $itemSidebars = $('.item-editor-sidebar');
+            footerTop = (function() {
+                var $footer = $('footer'),
+                    footerTop;
+                if(!$itemSidebars.length) {
+                    return $footer.offset().top;
+                }
+                $itemSidebars.hide();
+                footerTop = $footer.offset().top;
+                $itemSidebars.show();
+                return footerTop;
+            }());
+            contentWrapperTop = $contentPanel.offset().top;
+            remainingHeight = footerTop - contentWrapperTop;
+
+
+            $itemEditorPanel = $('#item-editor-panel');
+
+            if(!$itemEditorPanel.length){
+                $contentPanel.find('.content-container').css({ minHeight: remainingHeight });
+            }
+            else {
+                // in the item editor the action bars are constructed slightly differently
+                remainingHeight -= $('.item-editor-action-bar').outerHeight();
+                $itemEditorPanel.find('#item-editor-scroll-outer').css({ minHeight: remainingHeight, maxHeight: remainingHeight, height: remainingHeight });
+                $itemSidebars.css({ minHeight: remainingHeight, maxHeight: remainingHeight, height: remainingHeight });
+            }
+
             if($tree.length) {
                 $tree.css({
                     maxHeight: (footerTop - contentWrapperTop) - searchBarHeight - getTreeActionIdealHeight()

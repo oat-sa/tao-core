@@ -113,7 +113,7 @@ define([
 
             $('button', $container).on('click', filterHandler);
             $field.on('keypress', function(e){
-                if(e.which === 13) {
+                if(this.value.length > 3 || e.which === 13) {
                     e.preventDefault();
                     filterHandler();
                 }

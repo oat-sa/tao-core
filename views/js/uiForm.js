@@ -93,8 +93,8 @@ define([
                 $rdfImportForm      = $('.rdfImport #import'),
                 $rdfExportForm      = $('.rdfExport #export');
 
-            // move authoring button to toolbar
-            if($authoringBtn.length) {
+            // move authoring button to toolbar, unless it is already there
+            if($authoringBtn.length && !$authoringBtn.hasClass('btn-info')) {
                 $authoringBtnParent = $authoringBtn.parent();
                 $authoringBtn.prepend($('<span>', { 'class': 'icon-edit' }));
                 $authoringBtn.addClass('btn-info small');
@@ -219,14 +219,14 @@ define([
                 var tabUrl = getUrl('authoring'),
                     tabId = 'panel-' + module.config().module.toLowerCase() + '_authoring',
                     $tabContainer = $('#tabs'),
-                    $tab = (function() {
-                        var $wantedTab = $tabContainer.find('#' + tabId);
+                    $panel = (function() {
+                        var $wantedPanel = $tabContainer.find('#' + tabId);
 
-                        if(!$wantedTab.length) {
-                            $wantedTab = $('<div>', { id: tabId, 'class': 'clear content-panel' }).hide();
-                            $tabContainer.find('.content-panel').after($wantedTab);
+                        if(!$wantedPanel.length) {
+                            $wantedPanel = $('<div>', { id: tabId, 'class': 'clear content-panel' }).hide();
+                            $tabContainer.find('.content-panel').after($wantedPanel);
                         }
-                        return $wantedTab;
+                        return $wantedPanel;
                     }());
 
 
@@ -239,8 +239,16 @@ define([
                     },
                     dataType: 'html',
                     success: function (responseHtml) {
-                        $tabContainer.find('.content-panel').not($tab).hide();
-                        $tab.html(responseHtml).show();
+                        $tabContainer.find('.content-panel').not($panel).hide();
+                        window.location.hash = tabId;
+                        responseHtml = $(responseHtml);
+                        responseHtml.find('#authoringBack').click(function () {
+                            var $myPanel = $(this).parents('.content-panel'),
+                                $otherPanel = $myPanel.prev();
+                            $myPanel.hide();
+                            $otherPanel.show();
+                        });
+                        $panel.html(responseHtml).show();
                     }
                 });
             });

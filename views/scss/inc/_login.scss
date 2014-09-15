@@ -23,7 +23,7 @@ $entryArrowHeight: 150;
         display:none;
     }
     #connect {
-        @extend .btn-default !optional;
+        @extend %generic-btn-code;
         line-height: 1.8;
         height: 25px;
         background-color: whiten($info, .1);

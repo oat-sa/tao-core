@@ -1,5 +1,4 @@
 @charset "CP850";
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -17,6 +16,12 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -559,8 +564,8 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 
 @font-face {
   font-family: 'tao';
-  src: url("font/tao/tao.eot?kbpfmy");
-  src: url("font/tao/tao.eot?#iefixkbpfmy") format("embedded-opentype"), url("font/tao/tao.woff?kbpfmy") format("woff"), url("font/tao/tao.ttf?kbpfmy") format("truetype"), url("font/tao/tao.svg?kbpfmy#tao") format("svg");
+  src: url("font/tao/tao.eot?-vc3741");
+  src: url("font/tao/tao.eot?#iefix-vc3741") format("embedded-opentype"), url("font/tao/tao.woff?-vc3741") format("woff"), url("font/tao/tao.ttf?-vc3741") format("truetype"), url("font/tao/tao.svg?-vc3741#tao") format("svg");
   font-weight: normal;
   font-style: normal; }
 
@@ -581,6 +586,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -1120,6 +1131,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -2594,7 +2611,6 @@ textarea {
   margin-top: 0 !important;
   margin-bottom: 0 !important; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -2612,6 +2628,12 @@ textarea {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -3679,7 +3701,6 @@ Special outer level classes used in this file:
 	.cke_hc: Available when the editor is rendered on "High Contrast".
 	.cke_rtl: Available when the editor UI is on RTL.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -3697,6 +3718,12 @@ Special outer level classes used in this file:
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -4510,7 +4537,6 @@ style all elements inside its main interface.
 To make it easier to maintain, instead of including all styles here, we import
 other files.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -4528,6 +4554,12 @@ other files.
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -5074,7 +5106,6 @@ editors:
 To understand why "reset" is needed, check the CKEditor Skin SDK:
 http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -5092,6 +5123,12 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -5920,7 +5957,6 @@ The following is a visual representation of the outer elements of a panel:
 This file also defines styles for panel lists (used by combos). For menu-like
 panel contents and color panels check menu.css and colorpanel.css.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -5938,6 +5974,12 @@ panel contents and color panels check menu.css and colorpanel.css.
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -6761,7 +6803,6 @@ Special outer level classes used in this file:
 	.cke_hc: Available when the editor is rendered on "High Contrast".
 	.cke_rtl: Available when the editor UI is on RTL.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -6779,6 +6820,12 @@ Special outer level classes used in this file:
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -7767,7 +7814,6 @@ The visual representation of a rich combo widget looks as follows:
 | +----------------------+ +------------------------------------------------------+ |
 +-----------------------------------------------------------------------------------+
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -7785,6 +7831,12 @@ The visual representation of a rich combo widget looks as follows:
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -8533,7 +8585,6 @@ a.cke_path_item:active {
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -8551,6 +8602,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -9097,7 +9154,6 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   background-color: #fff; }
 
 /* Tao specific stuff */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -9115,6 +9171,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -9713,7 +9775,6 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
     bottom: -6px; }
 
 /* Icon set */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -9731,6 +9792,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -10287,7 +10354,6 @@ legend.cke_voice_label {
 .cke_top, .tlb-top {
   display: table; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -10305,6 +10371,12 @@ legend.cke_voice_label {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -11087,7 +11159,6 @@ Special outer level classes used in this file:
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -11105,6 +11176,12 @@ Special outer level classes used in this file:
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -11708,7 +11785,6 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
     text-shadow: none;
     color: white; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -11726,6 +11802,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -12337,7 +12419,6 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 .help-content {
   display: none; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -12355,6 +12436,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -13035,7 +13122,6 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
       display: none;
       padding: 0 5px; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -13053,6 +13139,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -13724,18 +13816,18 @@ button, input[type="submit"], input[type="reset"] {
   font-style: normal;
   text-align: center;
   height: 35px; }
-  [class^="btn-"].small, [class*=" btn-"].small, .btn-default.small,
-  button.small, input[type="submit"].small, input[type="reset"].small {
+  .small[class^="btn-"], .small[class*=" btn-"], .small.btn-default,
+  button.small, input.small[type="submit"], input.small[type="reset"] {
     line-height: 1.8;
     height: 25px; }
-    [class^="btn-"].small [class^="icon-"], [class^="btn-"].small [class*=" icon-"], [class*=" btn-"].small [class^="icon-"], [class*=" btn-"].small [class*=" icon-"], .btn-default.small [class^="icon-"], .btn-default.small [class*=" icon-"],
-    button.small [class^="icon-"],
-    button.small [class*=" icon-"], input[type="submit"].small [class^="icon-"], input[type="submit"].small [class*=" icon-"], input[type="reset"].small [class^="icon-"], input[type="reset"].small [class*=" icon-"] {
+    .small[class^="btn-"] [class^="icon-"], .small[class*=" btn-"] [class^="icon-"], .small.btn-default [class^="icon-"],
+    button.small [class^="icon-"], input.small[type="submit"] [class^="icon-"], input.small[type="reset"] [class^="icon-"], .small[class^="btn-"] [class*=" icon-"], .small[class*=" btn-"] [class*=" icon-"], .small.btn-default [class*=" icon-"],
+    button.small [class*=" icon-"], input.small[type="submit"] [class*=" icon-"], input.small[type="reset"] [class*=" icon-"] {
       font-size: 13px;
       font-size: 1.3rem; }
-  [class^="btn-"] [class^="icon-"], [class^="btn-"] [class*=" icon-"], [class*=" btn-"] [class^="icon-"], [class*=" btn-"] [class*=" icon-"], .btn-default [class^="icon-"], .btn-default [class*=" icon-"],
-  button [class^="icon-"],
-  button [class*=" icon-"], input[type="submit"] [class^="icon-"], input[type="submit"] [class*=" icon-"], input[type="reset"] [class^="icon-"], input[type="reset"] [class*=" icon-"] {
+  [class^="btn-"] [class^="icon-"], [class*=" btn-"] [class^="icon-"], .btn-default [class^="icon-"],
+  button [class^="icon-"], input[type="submit"] [class^="icon-"], input[type="reset"] [class^="icon-"], [class^="btn-"] [class*=" icon-"], [class*=" btn-"] [class*=" icon-"], .btn-default [class*=" icon-"],
+  button [class*=" icon-"], input[type="submit"] [class*=" icon-"], input[type="reset"] [class*=" icon-"] {
     font: tao !important;
     font-family: tao;
     font-size: 14px;
@@ -13746,28 +13838,28 @@ button, input[type="submit"], input[type="reset"] {
     top: 1px;
     left: -1px;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1); }
-    [class^="btn-"] [class^="icon-"].r, [class^="btn-"] [class*=" icon-"].r, [class*=" btn-"] [class^="icon-"].r, [class*=" btn-"] [class*=" icon-"].r, .btn-default [class^="icon-"].r, .btn-default [class*=" icon-"].r,
-    button [class^="icon-"].r,
-    button [class*=" icon-"].r, input[type="submit"] [class^="icon-"].r, input[type="submit"] [class*=" icon-"].r, input[type="reset"] [class^="icon-"].r, input[type="reset"] [class*=" icon-"].r {
+    [class^="btn-"] [class^="icon-"].r, [class*=" btn-"] [class^="icon-"].r, .btn-default [class^="icon-"].r,
+    button [class^="icon-"].r, input[type="submit"] [class^="icon-"].r, input[type="reset"] [class^="icon-"].r, [class^="btn-"] [class*=" icon-"].r, [class*=" btn-"] [class*=" icon-"].r, .btn-default [class*=" icon-"].r,
+    button [class*=" icon-"].r, input[type="submit"] [class*=" icon-"].r, input[type="reset"] [class*=" icon-"].r {
       padding: 0 0 0 9px; }
   [class^="btn-"]:hover, [class*=" btn-"]:hover, .btn-default:hover,
   button:hover, input[type="submit"]:hover, input[type="reset"]:hover {
     opacity: .85; }
-  [class^="btn-"].btn-info, [class^="btn-"].ui-button, [class*=" btn-"].btn-info, [class*=" btn-"].ui-button, .btn-default.btn-info, .btn-default.ui-button,
+  .btn-info[class^="btn-"], [class^="btn-"].ui-button, .btn-info[class*=" btn-"], [class*=" btn-"].ui-button, .btn-info.btn-default, .btn-default.ui-button,
   button.btn-info,
-  button.ui-button, input[type="submit"].btn-info, input[type="submit"].ui-button, input[type="reset"].btn-info, input[type="reset"].ui-button {
+  button.ui-button, input.btn-info[type="submit"], input[type="submit"].ui-button, input.btn-info[type="reset"], input[type="reset"].ui-button {
     background-color: #266d9c;
     text-shadow: 1px 1px 0 #0b4a74; }
-  [class^="btn-"].btn-error, [class*=" btn-"].btn-error, .btn-default.btn-error,
-  button.btn-error, input[type="submit"].btn-error, input[type="reset"].btn-error {
+  .btn-error[class^="btn-"], .btn-error[class*=" btn-"], .btn-error.btn-default,
+  button.btn-error, input.btn-error[type="submit"], input.btn-error[type="reset"] {
     background-color: #c02940;
     text-shadow: 1px 1px 0 #940e22; }
-  [class^="btn-"].btn-success, [class*=" btn-"].btn-success, .btn-default.btn-success,
-  button.btn-success, input[type="submit"].btn-success, input[type="reset"].btn-success {
+  .btn-success[class^="btn-"], .btn-success[class*=" btn-"], .btn-success.btn-default,
+  button.btn-success, input.btn-success[type="submit"], input.btn-success[type="reset"] {
     background-color: #269c5d;
     text-shadow: 1px 1px 0 #0b743c; }
-  [class^="btn-"].btn-warning, [class*=" btn-"].btn-warning, .btn-default.btn-warning,
-  button.btn-warning, input[type="submit"].btn-warning, input[type="reset"].btn-warning {
+  .btn-warning[class^="btn-"], .btn-warning[class*=" btn-"], .btn-warning.btn-default,
+  button.btn-warning, input.btn-warning[type="submit"], input.btn-warning[type="reset"] {
     background-color: #dbb66b;
     text-shadow: 1px 1px 0 #ac8b48; }
 
@@ -13782,7 +13874,6 @@ button, input[type="submit"], input[type="reset"] {
 .ui-button [class^="icon-"], .ui-button [class*=" icon-"] {
   font-family: tao !important; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -13800,6 +13891,12 @@ button, input[type="submit"], input[type="reset"] {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
 
 .icon-property-advanced:before {
   content: "\e608"; }
@@ -15972,10 +16069,6 @@ html, body {
   .ui-button.ui-state-default {
     background-color: #266d9c; }
 
-/*.ui-state-default, .ui-widget-content .ui-state-default{background-color:$uiClickableHoverBg;color:$textHighlight;}
-.ui-state-focus, .ui-widget-content .ui-state-focus{background-color:$uiClickableHoverBg;color:$textHighlight;opacity: .85;}
-.ui-state-hover, .ui-widget-content .ui-state-hover{background-color:$uiClickableHoverBg;color:$textHighlight;opacity: .85;}
-.ui-state-active, .ui-widget-content .ui-state-active{background-color:$uiClickableHoverBg;color:$textHighlight;opacity: .85;}*/
 /* Highlight */
 /* Error */
 /* Functional styling;
@@ -16160,6 +16253,551 @@ html, body {
         left: -9px; }
     .noUi-vertical-wrapper .step-marker.before span:before {
       left: -40%; }
+
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
+.tlb .tlb-bar .tlb-button-off [class^="icon-"],
+.tlb .tlb-bar .tlb-button-off [class*=" icon-"],
+.tlb .tlb-bar .tlb-button-disabled [class^="icon-"],
+.tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on,
+.tlb .tlb-bar .tlb-button-off,
+.tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-style:before {
+  content: "\f1fd"; }
+
+.icon-ownership-transfer:before {
+  content: "\e609"; }
+
+.icon-property-advanced:before {
+  content: "\e608"; }
+
+.icon-property-add:before {
+  content: "\e607"; }
+
+.icon-repository-add:before {
+  content: "\e605"; }
+
+.icon-repository-remove:before {
+  content: "\e606"; }
+
+.icon-repository:before {
+  content: "\e603"; }
+
+.icon-result-server:before {
+  content: "\e604"; }
+
+.icon-folder:before, .resourcemgr .file-browser ul li a:before {
+  content: "\f07b"; }
+
+.icon-folder-open:before, .resourcemgr .file-browser ul li a.opened:before {
+  content: "\f07c"; }
+
+.icon-left:before, .ui-datepicker-prev,
+.ui-icon-triangle-1-w {
+  content: "\121"; }
+
+.icon-right:before, .ui-datepicker-next,
+.ui-icon-triangle-1-e {
+  content: "\122"; }
+
+.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+  content: "\123"; }
+
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .select2-container .select2-choice .select2-arrow b:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+  content: "\124"; }
+
+.icon-undo:before, .cke_button__undo_icon:before {
+  content: "\125"; }
+
+.icon-redo:before, .cke_button__redo_icon:before {
+  content: "\126"; }
+
+.icon-screen:before {
+  content: "\127"; }
+
+.icon-laptop:before {
+  content: "\128"; }
+
+.icon-tablet:before {
+  content: "\129"; }
+
+.icon-phone:before {
+  content: "\12a"; }
+
+.icon-move:before {
+  content: "\12d"; }
+
+.icon-bin:before {
+  content: "\12e"; }
+
+.icon-shuffle:before {
+  content: "\12f"; }
+
+.icon-print:before {
+  content: "\130"; }
+
+.icon-tools:before {
+  content: "\131"; }
+
+.icon-settings:before {
+  content: "\132"; }
+
+.icon-video:before, .resourcemgr .file-selector ul.files li[data-type='video']:before {
+  content: "\133"; }
+
+.icon-find:before, .cke_button__find_icon:before {
+  content: "\134"; }
+
+.icon-image:before, .cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before, .resourcemgr .file-selector ul.files li[data-type='image']:before {
+  content: "\135"; }
+
+.icon-edit:before {
+  content: "\136"; }
+
+.icon-document:before, .resourcemgr .file-selector ul.files li:before, .file-drop ul > li:before, .previewer .nopreview:before {
+  content: "\137"; }
+
+.icon-resize-grid:before {
+  content: "\138"; }
+
+.icon-resize:before {
+  content: "\139"; }
+
+.icon-help:before {
+  content: "\13a"; }
+
+.icon-mobile-menu:before {
+  content: "\13b"; }
+
+.icon-fix:before {
+  content: "\13c"; }
+
+.icon-unlock:before {
+  content: "\13d"; }
+
+.icon-lock:before {
+  content: "\13e"; }
+
+.icon-ul:before, .cke_button__bulletedlist_icon:before {
+  content: "\13f"; }
+
+.icon-ol:before, .cke_button__numberedlist_icon:before {
+  content: "\140"; }
+
+.icon-email:before {
+  content: "\141"; }
+
+.icon-download:before, .file-drop ul > li .status.sending:before {
+  content: "\142"; }
+
+.icon-logout:before {
+  content: "\143"; }
+
+.icon-login:before {
+  content: "\144"; }
+
+.icon-spinner:before {
+  content: "\145"; }
+
+.icon-preview:before {
+  content: "\146"; }
+
+.icon-external:before {
+  content: "\147"; }
+
+.icon-time:before {
+  content: "\148"; }
+
+.icon-save:before {
+  content: "\149"; }
+
+.icon-warning:before {
+  content: "\14a"; }
+
+.icon-add:before, .adder:before {
+  content: "\14b"; }
+
+.icon-close:before, .ui-dialog .ui-dialog-titlebar-close:before, .closer:before, .deleter:before {
+  content: "\14c"; }
+
+.icon-success:before, .file-drop ul > li .status.success:before {
+  content: "\14d"; }
+
+.icon-remove:before {
+  content: "\14e"; }
+
+.icon-info:before {
+  content: "\14f"; }
+
+.icon-error:before, .file-drop ul > li .status.error:before {
+  content: "\150"; }
+
+.icon-users:before {
+  content: "\151"; }
+
+.icon-user:before {
+  content: "\152"; }
+
+.icon-test-taker:before {
+  content: "\153"; }
+
+.icon-test-takers:before {
+  content: "\154"; }
+
+.icon-item:before {
+  content: "\155"; }
+
+.icon-test:before {
+  content: "\156"; }
+
+.icon-delivery:before {
+  content: "\157"; }
+
+.icon-eye-slash:before {
+  content: "\1cb"; }
+
+.icon-result:before {
+  content: "\158"; }
+
+.icon-delivery-small:before {
+  content: "\159"; }
+
+.icon-upload:before {
+  content: "\1ca"; }
+
+.icon-result-small:before {
+  content: "\15a"; }
+
+.icon-mobile-preview:before {
+  content: "\15c"; }
+
+.icon-extension:before {
+  content: "\15d"; }
+
+.icon-desktop-preview:before {
+  content: "\15e"; }
+
+.icon-tablet-preview:before {
+  content: "\15f"; }
+
+.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+  content: "\160"; }
+
+.icon-table:before, .cke_button__table_icon:before {
+  content: "\161"; }
+
+.icon-anchor:before, .cke_button__anchor_icon:before {
+  content: "\162"; }
+
+.icon-unlink:before, .cke_button__unlink_icon:before {
+  content: "\163"; }
+
+.icon-link:before, .cke_button__link_icon:before {
+  content: "\164"; }
+
+.icon-right-left:before, .cke_button__bidirtl_icon:before {
+  content: "\165"; }
+
+.icon-left-right:before, .cke_button__bidiltr_icon:before {
+  content: "\166"; }
+
+.icon-special-character:before, .cke_button__specialchar_icon:before {
+  content: "\167"; }
+
+.icon-source:before, .cke_button__sourcedialog_icon:before {
+  content: "\168"; }
+
+.icon-new-page:before, .cke_button__newpage_icon:before {
+  content: "\169"; }
+
+.icon-templates:before, .cke_button__templates_icon:before {
+  content: "\16a"; }
+
+.icon-cut:before, .cke_button__cut_icon:before {
+  content: "\16b"; }
+
+.icon-replace:before, .cke_button__replace_icon:before {
+  content: "\16c"; }
+
+.icon-copy:before, .cke_button__copy_icon:before {
+  content: "\16d"; }
+
+.icon-paste:before, .cke_button__paste_icon:before {
+  content: "\16e"; }
+
+.icon-select-all:before, .cke_button__selectall_icon:before {
+  content: "\16f"; }
+
+.icon-paste-text:before, .cke_button__pastetext_icon:before {
+  content: "\170"; }
+
+.icon-paste-word:before, .cke_button__pastefromword_icon:before {
+  content: "\171"; }
+
+.icon-bold:before, .cke_button__bold_icon:before {
+  content: "\172"; }
+
+.icon-italic:before, .cke_button__italic_icon:before {
+  content: "\173"; }
+
+.icon-underline:before, .cke_button__underline_icon:before {
+  content: "\174"; }
+
+.icon-subscript:before, .cke_button__subscript_icon:before {
+  content: "\175"; }
+
+.icon-superscript:before, .cke_button__superscript_icon:before {
+  content: "\176"; }
+
+.icon-strike-through:before, .cke_button__strike_icon:before {
+  content: "\177"; }
+
+.icon-decrease-indent:before, .cke_button__outdent_icon:before {
+  content: "\178"; }
+
+.icon-increase-indent:before, .cke_button__indent_icon:before {
+  content: "\179"; }
+
+.icon-block-quote:before, .cke_button__blockquote_icon:before {
+  content: "\17a"; }
+
+.icon-div-container:before, .cke_button__creatediv_icon:before {
+  content: "\17b"; }
+
+.icon-align-left:before, .cke_button__justifyleft_icon:before {
+  content: "\17c"; }
+
+.icon-center:before, .cke_button__justifycenter_icon:before {
+  content: "\17d"; }
+
+.icon-align-right:before, .cke_button__justifyright_icon:before {
+  content: "\17e"; }
+
+.icon-justify:before, .cke_button__justifyblock_icon:before {
+  content: "\17f"; }
+
+.icon-choice:before {
+  content: "\180"; }
+
+.icon-inline-choice:before {
+  content: "\181"; }
+
+.icon-match:before {
+  content: "\182"; }
+
+.icon-associate:before {
+  content: "\183"; }
+
+.icon-media:before, .cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before, .resourcemgr .file-selector ul.files li[data-type='audio']:before, .previewer .nopreview:before {
+  content: "\184"; }
+
+.icon-graphic-order:before {
+  content: "\185"; }
+
+.icon-hotspot:before {
+  content: "\186"; }
+
+.icon-graphic-gap:before {
+  content: "\187"; }
+
+.icon-graphic-associate:before {
+  content: "\188"; }
+
+.icon-select-point:before {
+  content: "\189"; }
+
+.icon-pin:before {
+  content: "\18a"; }
+
+.icon-import:before {
+  content: "\18b"; }
+
+.icon-export:before {
+  content: "\18c"; }
+
+.icon-move-item:before {
+  content: "\18d"; }
+
+.icon-meta-data:before {
+  content: "\18e"; }
+
+.icon-slider:before {
+  content: "\18f"; }
+
+.icon-summary-report:before {
+  content: "\190"; }
+
+.icon-text-entry:before {
+  content: "\191"; }
+
+.icon-extended-text:before {
+  content: "\192"; }
+
+.icon-eraser:before {
+  content: "\193"; }
+
+.icon-row:before {
+  content: "\194"; }
+
+.icon-column:before {
+  content: "\195"; }
+
+.icon-text-color:before, .cke_button__textcolor_icon:before {
+  content: "\196"; }
+
+.icon-background-color:before, .cke_button__bgcolor_icon:before {
+  content: "\197"; }
+
+.icon-spell-check:before, .cke_button__scayt_icon:before {
+  content: "\198"; }
+
+.icon-polygon:before {
+  content: "\199"; }
+
+.icon-rectangle:before {
+  content: "\19a"; }
+
+.icon-gap-match:before {
+  content: "\19b"; }
+
+.icon-order:before {
+  content: "\19c"; }
+
+.icon-hottext:before {
+  content: "\19d"; }
+
+.icon-free-form:before {
+  content: "\19e"; }
+
+.icon-step-backward:before {
+  content: "\1a0"; }
+
+.icon-fast-backward:before {
+  content: "\1a1"; }
+
+.icon-backward:before {
+  content: "\1a2"; }
+
+.icon-play:before {
+  content: "\1a3"; }
+
+.icon-pause:before {
+  content: "\1a4"; }
+
+.icon-stop:before {
+  content: "\1a5"; }
+
+.icon-forward:before {
+  content: "\1a6"; }
+
+.icon-fast-forward:before {
+  content: "\1a7"; }
+
+.icon-step-forward:before {
+  content: "\1a8"; }
+
+.icon-ellipsis:before {
+  content: "\1aa"; }
+
+.icon-circle:before {
+  content: "\1ab"; }
+
+.icon-target:before {
+  content: "\1ac"; }
+
+.icon-guide-arrow:before {
+  content: "\1ad"; }
+
+.icon-range-slider-right:before {
+  content: "\1ae"; }
+
+.icon-range-slider-left:before {
+  content: "\1af"; }
+
+.icon-radio-checked:before, label input[type="radio"]:checked ~ .icon-radio:before,
+label input[type="checkbox"]:checked ~ .icon-radio:before, .cke_button__radio_icon:before {
+  content: "\1b1"; }
+
+.icon-checkbox:before {
+  content: "\1b2"; }
+
+.icon-checkbox-crossed:before, label input[type="radio"]:checked ~ .icon-checkbox.cross:before,
+label input[type="checkbox"]:checked ~ .icon-checkbox.cross:before {
+  content: "\1b3"; }
+
+.icon-checkbox-checked:before, label input[type="radio"]:checked ~ .icon-checkbox:before,
+label input[type="checkbox"]:checked ~ .icon-checkbox:before {
+  content: "\1b4"; }
+
+.icon-result-nok:before {
+  content: "\1b9"; }
+
+.icon-result-ok:before {
+  content: "\1ba"; }
+
+.icon-not-evaluated:before {
+  content: "\1bb"; }
+
+.icon-filter:before {
+  content: "\1bc"; }
+
+.icon-translate:before {
+  content: "\1bd"; }
+
+.icon-eject:before {
+  content: "\1be"; }
+
+.icon-continue:before {
+  content: "\1bf"; }
+
+.icon-radio:before {
+  content: "\1b0"; }
+
+.icon-sphere:before {
+  content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before, .cke_button__taoqtimaths_icon:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
+
+.icon-audio:before {
+  content: "\e601"; }
+
+.icon-grip-h:before {
+  content: "\e600"; }
+
+.icon-magicwand:before {
+  content: "\e602"; }
 
 /* Base style that applies on all elements */
 .viewport-hidden {
@@ -16388,6 +17026,10 @@ table.matrix {
     table.matrix td label {
       display: block;
       margin: 0; }
+  table.matrix tr:nth-child(even) {
+    background: white; }
+  table.matrix tr:nth-child(odd) {
+    background: #f4f7f8; }
   table.matrix [data-edit], table.matrix [data-edit] * {
     border: none;
     padding: 6px;

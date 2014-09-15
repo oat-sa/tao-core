@@ -164,13 +164,11 @@ define([
      */
     binder.register('launchFinder', function remove(context){
 
-        var data = _.merge({
-                uri: '',
-                classUri: ''
-            }, _.pick(context, ['uri', 'classUri'])),
+
+        var data = _.pick(context, ['uri', 'classUri']),
 
             // used to avoid same query twice
-            uniqueValue = data.uri + data.classUri,
+            uniqueValue = data.uri || data.classUri || '',
             $container  = search.getContainer('search');
 
         if($container.is(':visible')) {
@@ -180,6 +178,10 @@ define([
 
         if($container.data('current') === uniqueValue) {
             search.toggle();
+            return;
+        }
+
+        if(this.name.toLowerCase() === 'filter') {
             return;
         }
 

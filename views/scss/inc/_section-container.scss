@@ -1,37 +1,15 @@
 @import 'inc/bootstrap';
 
-%flex-container {
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    -webkit-justify-content: flex-start;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-    -webkit-align-content: flex-start;
-    -ms-flex-line-pack: start;
-    align-content: flex-start;
-    -webkit-align-items: stretch;
-    -ms-flex-align: stretch;
-    align-items: stretch;
-}
-
-
 .section-container {
     top: 0 !important;
 
-    .content-panel {
+    .content-panel.ui-tabs-panel {
         width: 100%;
         height: 100%;
         margin: 0;
         padding:0;
         border: none !important;
-        @extend %flex-container;
+        @include flex-container();
     }
 
     .tab-container {
@@ -76,13 +54,7 @@
     .navi-container {
         display:none;
         background:  $canvas;
-        width:  $treeSidebar * 1px;
-        -webkit-flex: 0 0 $treeSidebar * 1px;
-        -ms-flex: 0 0 $treeSidebar * 1px;
-        flex: 0 0 $treeSidebar * 1px;
-        -webkit-align-self: stretch;
-        -ms-flex-item-align: stretch;
-        align-self: stretch;
+        @include simple-flex-box($treeSidebar);
         border-right: 1px $uiGeneralContentBorder solid;
         .block-title {
             @include font-size(14);
@@ -94,46 +66,26 @@
             opacity: 0;
             &.active {
                 opacity: 1;
-                transition: opacity .25s ease-in-out;
-                -moz-transition: opacity .25s ease-in-out;
-                -webkit-transition: opacity .25s ease-in-out;
+                @include vendor-prefix(opacity, .25s ease-in-out, property, (-webkit-, -moz-, ''));
             }
         }
     }
 
     .content-container {
         border: none;
-        -webkit-order: 0;
-        -ms-flex-order: 0;
-        order: 0;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        -webkit-align-self: stretch;
-        -ms-flex-item-align: stretch;
-        align-self: stretch;
+        @include simple-flex-box();
     }
 
 
     .content-block {
         padding: 20px;
-        @extend %flex-container;
+        @include flex-container();
         .main-container {
-            -webkit-flex: 0 0 500 * 1px;
-            -ms-flex: 0 0 500 * 1px;
-            flex: 0 0 500 * 1px;
-            -webkit-align-self: stretch;
-            -ms-flex-item-align: stretch;
-            align-self: stretch;
+            @include simple-flex-box(500);
         }
         .data-container-wrapper {
-            padding: 41px 0 0 20px;
-            -webkit-flex: 1 1 auto;
-            -ms-flex: 1 1 auto;
-            flex: 1 1 auto;
-            -webkit-align-self: stretch;
-            -ms-flex-item-align: stretch;
-            align-self: stretch;
+            padding: 48px 0 0 20px;
+            @include simple-flex-box();
             .data-container {
                 width: 260px;
                 margin: 0 20px 20px 0;
@@ -183,7 +135,7 @@
         #form-container.ui-widget-content {
             border:none !important
         }
-        form {
+        form:not(.list-container) {
             border: 1px $uiGeneralContentBorder solid;
             background: $canvas;
             padding: 30px;
