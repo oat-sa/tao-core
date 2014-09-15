@@ -161,8 +161,7 @@ define([
                  */
                 onload: function(tree){
 
-                    var treeId          = $elt.attr('id');
-                    var treeStore       = store.get('taotree') || {};
+                    var treeStore       = store.get('taotree.' + context.section) || {};
                     var $firstClass     = $(".node-class:not(.private):first", $elt);
                     var $firstInstance  = $(".node-instance:not(.private):first", $elt);
                     var $lastSelected;
@@ -171,8 +170,8 @@ define([
                          $lastSelected = $('#' + options.selectNode, $elt);
                     }
                     if((!$lastSelected || !$lastSelected.length) && 
-                       treeStore[treeId] && treeStore[treeId].lastSelected){
-                         $lastSelected = $('#' +  treeStore[treeId].lastSelected, $elt);
+                       treeStore && treeStore.lastSelected){
+                         $lastSelected = $('#' +  treeStore.lastSelected, $elt);
                     }
     
                     _.defer(function(){ //needed as jstree seems to doesn't know the callbacks right now...
@@ -231,8 +230,7 @@ define([
                     var $node           = $(node);
                     var nodeId          = $node.attr('id');
                     var $parentNode     = tree.parent($node);
-                    var treeId          = $elt.attr('id');
-                    var treeStore       = store.get('taotree') || {};
+                    var treeStore       = store.get('taotree.' + context.section) || {};
                     var nodeContext     = {
                         permissions : permissions[nodeId] || {}
                     };
@@ -269,9 +267,8 @@ define([
                         nodeContext.classUri = $parentNode.attr('id');
 
                         //the last selected node is stored into the browser storage
-                        treeStore[treeId] = treeStore[treeId] || {};
-                        treeStore[treeId].lastSelected = nodeId; 
-                        store.set('taotree', treeStore);
+                        treeStore.lastSelected = nodeId; 
+                        store.set('taotree.' + context.section, treeStore);
 
                         //execute the selectInstance action
                         if(options.actions.selectInstance){
