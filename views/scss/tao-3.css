@@ -330,13 +330,13 @@ footer {
   overflow: hidden; }
   .action-bar li {
     float: left; }
-    .action-bar li a {
+    .action-bar li .li-inner {
       padding-bottom: 1px;
       color: #e6eef4;
       text-decoration: none !important;
       outline: 0;
       display: inline-block; }
-      .action-bar li a:hover {
+      .action-bar li .li-inner:hover {
         color: white; }
     .action-bar li span.glyph {
       text-shadow: 0 0 0 transparent;
@@ -361,7 +361,7 @@ footer {
         opacity: 1; }
   .action-bar.vertical-action-bar li {
     max-height: 60px; }
-    .action-bar.vertical-action-bar li a {
+    .action-bar.vertical-action-bar li .li-inner {
       height: 60px;
       display: block;
       overflow: hidden;
@@ -402,7 +402,7 @@ footer {
         margin: 12px auto 1px !important;
         font-size: 17px !important;
         font-size: 1.7rem !important; }
-      .action-bar.tree-action-bar li a {
+      .action-bar.tree-action-bar li .li-inner {
         display: block;
         height: 65px;
         padding: 2px;
@@ -536,7 +536,7 @@ footer {
       -ms-flex-item-align: stretch;
       align-self: stretch; }
     .section-container .content-block .data-container-wrapper {
-      padding: 48px 0 0 20px;
+      padding: 41px 0 0 20px;
       -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
       flex: 1 1 auto;
@@ -544,16 +544,39 @@ footer {
       -ms-flex-item-align: stretch;
       align-self: stretch; }
       .section-container .content-block .data-container-wrapper .data-container {
-        width: 280px;
+        width: 260px;
         margin: 0 20px 20px 0;
-        float: left; }
+        float: left;
+        border: 1px solid #dddddd;
+        border-radius: 2px;
+        -webkit-border-radius: 2px; }
         .section-container .content-block .data-container-wrapper .data-container .emptyContentFooter {
           display: none; }
+        .section-container .content-block .data-container-wrapper .data-container form {
+          background: none;
+          border: none;
+          margin: 0;
+          padding: 0; }
         .section-container .content-block .data-container-wrapper .data-container .ui-widget-header {
-          background: #f2f0ee; }
-        .section-container .content-block .data-container-wrapper .data-container .data-container-footer {
           background: #f2f0ee;
-          text-align: right !important; }
+          border-width: 0px !important;
+          border-bottom: 1px #ddd solid !important; }
+        .section-container .content-block .data-container-wrapper .data-container .ui-widget-content.data-container-footer {
+          background: #f2f0ee;
+          text-align: right !important;
+          padding: 4px;
+          border-width: 0px !important;
+          border-top: 1px #ddd solid !important; }
+          .section-container .content-block .data-container-wrapper .data-container .ui-widget-content.data-container-footer .square {
+            width: 28px; }
+            .section-container .content-block .data-container-wrapper .data-container .ui-widget-content.data-container-footer .square span {
+              padding: 0;
+              left: 0; }
+        .section-container .content-block .data-container-wrapper .data-container .ui-widget-content.container-content {
+          border-width: 0px !important; }
+        .section-container .content-block .data-container-wrapper .data-container ol {
+          margin: 0 0 0 15px;
+          padding: 10px; }
     .section-container .content-block #form-container.ui-widget-content {
       border: none !important; }
     .section-container .content-block form {
@@ -563,12 +586,5 @@ footer {
       border: 1px solid #dddddd;
       border-radius: 2px;
       -webkit-border-radius: 2px; }
-    .section-container .content-block #form-title {
-      font-size: 20px;
-      font-size: 2rem;
-      font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-      font-style: normal;
-      margin: 10px 0;
-      border: none !important; }
     .section-container .content-block [class^="btn-"], .section-container .content-block [class*=" btn-"] {
       margin: 0 2px; }

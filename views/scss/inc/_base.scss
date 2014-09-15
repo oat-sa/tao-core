@@ -219,6 +219,10 @@ table.matrix {
             margin: 0
         }
     }
+    tr {
+        &:nth-child(even){background: white;}
+        &:nth-child(odd){background: lighten($lightBlueGrey,5)}
+    }
     [data-edit], [data-edit] * {
         border: none;
         padding: 6px;

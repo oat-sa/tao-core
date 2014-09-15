@@ -1,3 +1,16 @@
+@mixin iterate-sprite($iconList, $x, $y, $direction, $prefix:'') {
+    @each $icon in $iconList {
+        #{$prefix}#{$icon} {
+            background-position: $x * 1px $y * 1px;
+        }
+        @if $direction == 'x' {
+            $x: $x - 16;
+        } @else {
+            $y: $y - 16;
+        }
+    }
+}
+
 @mixin grid-unit($span, $numCols: 12, $gutter: 0) {
     $gridPx: 840;
     $rawSpanPx: (($gridPx - ($numCols * $gutter)) / $numCols);

@@ -127,7 +127,7 @@
             align-self: stretch;
         }
         .data-container-wrapper {
-            padding: 48px 0 0 20px;
+            padding: 41px 0 0 20px;
             -webkit-flex: 1 1 auto;
             -ms-flex: 1 1 auto;
             flex: 1 1 auto;
@@ -135,21 +135,51 @@
             -ms-flex-item-align: stretch;
             align-self: stretch;
             .data-container {
-                width: $treeSidebar * 1px;
+                width: 260px;
                 margin: 0 20px 20px 0;
                 float: left;
+                @include simple-border();
                 .emptyContentFooter {
                     display:none;
                 }
+                form {
+                    background:none;
+                    border:none;
+                    margin: 0;
+                    padding: 0;
+                }
                 .ui-widget-header {
                     background: $canvas;
+                    border-width:0px !important;
+                    border-bottom: 1px #ddd solid !important;
                 }
-                .data-container-footer {
-                    background: $canvas;
-                    text-align: right !important;
+                .ui-widget-content {
+                    &.data-container-footer {
+                        background: $canvas;
+                        text-align: right !important;
+                        padding:4px;
+                        border-width:0px !important;
+                        border-top: 1px #ddd solid !important;
+                        .square {
+                            width: 28px;
+                            span {
+                                padding: 0;
+                                left: 0
+                            }
+                        }
+                    }
+                    &.container-content {
+                        border-width:0px !important;
+                    }
                 }
+                ol {
+                    margin: 0 0 0 15px;
+                    padding: 10px;
+                }
+
             }
         }
+
         #form-container.ui-widget-content {
             border:none !important
         }
@@ -158,11 +188,6 @@
             background: $canvas;
             padding: 30px;
             @include simple-border();
-        }
-        #form-title {
-            @include largeHeading();
-            margin: 10px 0;
-            border: none !important;
         }
         [class^="btn-"], [class*=" btn-"] {
             margin: 0 2px;

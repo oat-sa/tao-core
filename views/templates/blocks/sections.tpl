@@ -31,7 +31,7 @@ $sections = get_data('sections');
                                             data-context="<?= $action->getContext() ?>"
                                             title="<?= $action->getName() ?>"
                                             data-action="<?= $action->getBinding() ?>">
-                                            <a href="<?= $action->getUrl(); ?>">
+                                            <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                                 <?=
                                                 Layout::renderIcon(
                                                     $action->getIcon(),
@@ -80,7 +80,7 @@ $sections = get_data('sections');
                                     data-context="<?= $action->getContext() ?>"
                                     title="<?= $action->getName() ?>"
                                     data-action="<?= $action->getBinding() ?>">
-                                    <a href="<?= $action->getUrl(); ?>">
+                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                         <?=
                                         Layout::renderIcon(
                                             $action->getIcon(),
@@ -94,9 +94,8 @@ $sections = get_data('sections');
                             <?php foreach ($section->getActionsByGroup('none') as $action): ?>
                                 <li class="action" 
                                     data-context="<?= $action->getContext() ?>"
-                                    title="<?= $action->getName() ?>" 
-                                    data-action="<?= $action->getBinding() ?>">
-                                    <a href="<?= $action->getUrl(); ?>">
+                                    title="<?= $action->getName() ?>" >
+                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                         <?= $action->getName(); ?>
                                     </a>
                                 </li>
@@ -113,7 +112,7 @@ $sections = get_data('sections');
                                 data-context="<?= $action->getContext() ?>"
                                 title="<?= $action->getName() ?>" 
                                 data-action="<?= $action->getBinding() ?>">
-                                <a href="<?= $action->getUrl(); ?>">
+                                <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                     <?=
                                     Layout::renderIcon(
                                         $action->getIcon(),

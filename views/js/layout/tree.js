@@ -163,23 +163,40 @@ define([
 
                     var treeId          = $elt.attr('id');
                     var treeStore       = store.get('taotree') || {};
-                    var lastSelected;
+                    var $firstClass     = $(".node-class:not(.private):first", $elt);
+                    var $firstInstance  = $(".node-instance:not(.private):first", $elt);
+                    var $lastSelected;
 
-                    if(treeStore[treeId] && treeStore[treeId].lastSelected){
-                         lastSelected = $('#' +  treeStore[treeId].lastSelected, $elt);
+                    if(options.selectNode){
+                         $lastSelected = $('#' + options.selectNode, $elt);
+                    }
+                    if((!$lastSelected || !$lastSelected.length) && 
+                       treeStore[treeId] && treeStore[treeId].lastSelected){
+                         $lastSelected = $('#' +  treeStore[treeId].lastSelected, $elt);
                     }
     
-                    tree.open_branch($("li.node-class:first", $elt));
+                    _.defer(function(){ //needed as jstree seems to doesn't know the callbacks right now...
+                        
+                        //open the first class
+                        tree.open_branch($firstClass);
 
-                    //we open either the last selected node or the 1st branch
-                    if(lastSelected && lastSelected.length){
-                        tree.select_branch(lastSelected);
-                    } else if (options.selectNode) {
-                        tree.select_branch($("li[id='" + options.selectNode + "']", $elt));
-                        options.selectNode = false;
-                    } else {
-                        tree.select_branch($('.node-instance:first', $elt));
-                    }
+                        //try to select the last one
+                        if($lastSelected && $lastSelected.length){
+                            tree.select_branch($lastSelected);
+
+                        //or the 1st instance
+                        } else if ($firstInstance.length) {
+                            tree.select_branch($firstInstance);
+
+                        //or the 1st class
+                        } else if ($firstClass.length){
+                            tree.select_branch($firstClass);
+    
+                        //or something else
+                        } else {
+                            tree.select_branch($('.node-class,.node-instance', $elt).get(0));
+                        }
+                    });
                  
                     /**
                      * The tree state has changed
@@ -189,6 +206,7 @@ define([
                     $elt.trigger('change.taotree');
                     $elt.trigger('ready.taotree');
                 },
+
 
                 /**
                  * Before a branch is opened
@@ -366,8 +384,8 @@ define([
          */
         var hasAccessTo = function hasAccessTo(actionType, node){
             var action = options.actions[actionType];
-            if(node && action && node._permissions && node._permissions[action.name] !== undefined){
-                return !!node._permissions[action.name];
+            if(node && action && node.permissions && node.permissions[action.name] !== undefined){
+                return !!node.permissions[action.name];
             }
             return true;
         };
