@@ -45,7 +45,6 @@ class Perspective extends MenuElement implements PhpSerializable
     {
         $data = array(
             'id'       => (string) $node['id'],
-            'visible'  => $node['visible'] == 'true',
             'group'    => $node['group']
                 ? (string)$node['group']
                 : ($node['visible'] == 'true'
@@ -76,7 +75,6 @@ class Perspective extends MenuElement implements PhpSerializable
         $data = array(
             'id'          => (string)$node['id'],
             'extension'   => $extensionId,
-            'visible'     => $node['visible'] == 'true',
             'name'		  => (string)$node['title'],
             'level'		  => (int)$node['level'],
             'description' => empty($text) ? null : $text,
@@ -181,9 +179,13 @@ class Perspective extends MenuElement implements PhpSerializable
         return $this->data['level'];
     }
 
+    /**
+     * @deprecated
+     * @return boolean
+     */
     public function isVisible()
     {
-        return $this->data['visible'];
+        return $this->getGroup() == self::GROUP_INVISIBLE;
     }
     
     public function getChildren()
