@@ -18,6 +18,16 @@
                             />
                 </trees>
                 <actions>
+                	
+                		<action name="Edit class" url="/taoGroups/Groups/editGroupClass" group="content" context="class">
+                        <icon id="icon-edit"/>
+                    </action>
+                    <action name="Edit group"  url="/taoGroups/Groups/editGroup" group="content" context="instance">
+                        <icon id="icon-edit"/>
+                    </action>                	
+                    <action name="Filter" context="*" group="search" binding="launchFinder">
+                        <icon id="icon-filter"/>
+                    </action>
                     <action name="Search" url="/taoGroups/Groups/search" context="*" group="filter">
                         <icon id="icon-find" src=""/>
                     </action>
@@ -38,9 +48,6 @@
                     </action>
                     <action name="Lists" url="/tao/Lists/index" context="*" group="tree">
                         <icon id="icon-ul"/>
-                    </action>
-                    <action name="Metadata" js="GenerisAction.loadMetaData" url="/taoGroups/Groups/getMetaData" context="instance" group="tree">
-                        <icon id="icon-meta-data"/>
                     </action>
                     <action name="Create table" url="/taoResults/LegacyResults/createTable" context="class" group="content">
                         <icon id="icon-table"/>
