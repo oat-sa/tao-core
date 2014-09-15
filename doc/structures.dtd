@@ -31,6 +31,8 @@
 				<!ATTLIST section name CDATA #REQUIRED>
 				<!-- The URL of the action to load -->
 				<!ATTLIST section url CDATA #REQUIRED>
+				<!-- The policy on how to handle duplicate section keys -->
+				<!ATTLIST section policy (merge|override) "merge">
 	
 				<!-- The list of trees to load in the section panel -->
 				<!ELEMENT trees  ( tree )*>
