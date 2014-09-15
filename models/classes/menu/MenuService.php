@@ -153,15 +153,14 @@ class MenuService {
 			    $xmlStructures = new \SimpleXMLElement($file, null, true);
 				$extStructures = $xmlStructures->xpath("/structures/structure");
 				foreach($extStructures as $xmlStructure){
-					$id = (string)$xmlStructure['id'];
-					if (!isset($perspectives[$id])) {
-						$perspectives[$id] = Perspective::fromSimpleXMLElement($xmlStructure, $extId);
-					} else {
-					    $sections = $xmlStructure->xpath("sections/section");
-					    foreach($sections as $section) {
-					        $perspectives[$id]->addSection(Section::fromSimpleXMLElement($section));
-					    }
-					}
+				    $perspective = Perspective::fromSimpleXMLElement($xmlStructure, $extId);
+				    if (!isset($perspectives[$perspective->getId()])) {
+				        $perspectives[$perspective->getId()] = $perspective;
+				    } else {
+				        foreach ($perspective->getChildren() as $section) {
+				            $perspectives[$perspective->getId()]->addSection($section);
+				        }
+				    }
 				}
 				foreach($xmlStructures->xpath("/structures/entrypoint") as $xmlStructure){
 				    $entryPoint = Entrypoint::fromSimpleXMLElement($xmlStructure);
