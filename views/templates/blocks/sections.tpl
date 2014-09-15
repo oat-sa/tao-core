@@ -94,6 +94,7 @@ $sections = get_data('sections');
                             <?php foreach ($section->getActionsByGroup('none') as $action): ?>
                                 <li class="action" 
                                     data-context="<?= $action->getContext() ?>"
+                                    data-action="<?= $action->getBinding() ?>"
                                     title="<?= $action->getName() ?>" >
                                     <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                         <?= $action->getName(); ?>
