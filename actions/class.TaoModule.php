@@ -417,7 +417,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
 	/**
 	 * Add an instance of the selected class
-     * @requiresPrivilege classUri WRITE 
+     * @requiresRight classUri WRITE 
 	 * @return void
 	 */
 	public function addInstance()
@@ -444,7 +444,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
 	/**
 	 * Add a subclass to the currently selected class
-     * @requiresPrivilege classUri WRITE 
+     * @requiresRight classUri WRITE 
 	 * @throws Exception
 	 */
 	public function addSubClass()
