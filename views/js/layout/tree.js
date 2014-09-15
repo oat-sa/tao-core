@@ -173,14 +173,14 @@ define([
                        treeStore && treeStore.lastSelected){
                          $lastSelected = $('#' +  treeStore.lastSelected, $elt);
                     }
-    
+
                     _.defer(function(){ //needed as jstree seems to doesn't know the callbacks right now...
                         
                         //open the first class
                         tree.open_branch($firstClass);
 
                         //try to select the last one
-                        if($lastSelected && $lastSelected.length){
+                        if($lastSelected && $lastSelected.length && !$lastSelected.hasClass('private')){
                             tree.select_branch($lastSelected);
 
                         //or the 1st instance
@@ -393,6 +393,10 @@ define([
          * @param {Object} node - the tree node as recevied from the server
          */
         var computeSelectionAccess = function(node){
+            if(_.isArray(node)){
+                _.forEach(node, computeSelectionAccess);
+                return;
+            } 
             if(node.type){
                 if(node.type === 'class' && !hasAccessTo('selectClass', node)){
                     addClassToNode(node, 'private');
@@ -413,6 +417,10 @@ define([
          * @param {Object} node - the tree node as recevied from the server
          */
         var flattenPermissions = function flattenPermissions(node){
+            if(_.isArray(node)){
+                _.forEach(node, flattenPermissions);
+                return;
+            } 
             if(node.attributes && node.attributes.id){
                 permissions[node.attributes.id] = node.permissions;
             }

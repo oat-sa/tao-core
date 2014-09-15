@@ -27,6 +27,10 @@ class Section extends MenuElement implements PhpSerializable
 {
 
     const SERIAL_VERSION = 1392821334;
+    
+    const POLICY_MERGE = 'merge';
+    
+    const POLICY_OVERRIDE = 'override';
 
     private $data = array();
 
@@ -39,7 +43,8 @@ class Section extends MenuElement implements PhpSerializable
         $data = array(
             'id'   => (string)$node['id'],
             'name' => (string)$node['name'],
-            'url'  => (string)$node['url']
+            'url'  => (string)$node['url'],
+            'policy' => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE,
         );
 
         $trees = array();
@@ -76,7 +81,19 @@ class Section extends MenuElement implements PhpSerializable
     {
         return $this->data['name'];
     }
-
+    
+    /**
+     * Policy on how to deal with existing structures
+     * 
+     * Only merge or override are currently supported
+     * 
+     * @return string
+     */
+    public function getPolicy()
+    {
+        return $this->data['policy'];
+    }
+    
     public function getTrees()
     {
         return $this->trees;

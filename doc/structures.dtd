@@ -8,8 +8,8 @@
 		<!ATTLIST structure name CDATA #REQUIRED>
 		<!-- The level of that structure regarding the others (to order them)  -->
 		<!ATTLIST structure level CDATA #REQUIRED>
-		<!-- The id of the structure -->
-		<!ATTLIST structure visible CDATA #REQUIRED>
+		<!-- What group the structure belongs to -->
+		<!ATTLIST structure group CDATA #FIXED "main">
 	
 		<!ELEMENT description (#PCDATA)>
 		
@@ -31,6 +31,8 @@
 				<!ATTLIST section name CDATA #REQUIRED>
 				<!-- The URL of the action to load -->
 				<!ATTLIST section url CDATA #REQUIRED>
+				<!-- The policy on how to handle duplicate section keys -->
+				<!ATTLIST section policy (merge|override) "merge">
 	
 				<!-- The list of trees to load in the section panel -->
 				<!ELEMENT trees  ( tree )*>
@@ -42,14 +44,11 @@
 					<!-- the URL to execute contextual actions from the tree -->
 					<!ATTLIST tree className CDATA #IMPLIED>
 					<!-- the name of the main class that resources are instances of in the tree -->
-					<!ATTLIST tree 
-						editClassUrl CDATA #IMPLIED
-						editInstanceUrl CDATA #IMPLIED
-						addInstanceUrl CDATA #IMPLIED
-						addSubClassUrl CDATA #IMPLIED
-						deleteUrl CDATA #IMPLIED
-						duplicateUrl CDATA #IMPLIED
-						moveInstanceUrl CDATA #IMPLIED
+					<!ATTLIST tree
+						selectClass CDATA #IMPLIED
+						selectInstance CDATA #IMPLIED
+						moveInstance CDATA #IMPLIED
+						delete CDATA #IMPLIED
 					>
 	
 				<!-- The list of contextual actions to load in the section panel -->
@@ -65,6 +64,10 @@
 					<!ATTLIST action context CDATA #REQUIRED>
 					<!-- Reload the complete page if true -->
 					<!ATTLIST action reload CDATA #IMPLIED>
+					<!-- Where to position the action -->
+					<!ATTLIST action group CDATA #REQUIRED>
+					<!-- The JS binding of this action -->
+					<!ATTLIST action binding CDATA #FIXED "_load">
 
 	<!ELEMENT entrypoint  ( description, (replace)* )>
 		<!ATTLIST entrypoint id ID #REQUIRED>
