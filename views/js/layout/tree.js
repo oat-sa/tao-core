@@ -148,6 +148,8 @@ define([
 
                     needMore(data); 
 
+                    addTitle(data);
+
                     return data;
                 },
 
@@ -408,6 +410,25 @@ define([
             }
             if(node.children){
                 _.forEach(node.children, computeSelectionAccess);
+            }
+        };
+
+
+        /**
+         * Add a title attribute to the nodes
+         * @private
+         * @param {Object} node - the tree node as recevied from the server
+         */
+        var addTitle = function addTitle(node){
+            if(_.isArray(node)){
+                _.forEach(node, addTitle);
+                return;
+            } 
+            if(node.attributes && node.data){
+                node.attributes.title = node.data;
+            }
+            if(node.children){
+                _.forEach(node.children, addTitle);
             }
         };
 
