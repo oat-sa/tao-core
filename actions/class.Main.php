@@ -24,6 +24,7 @@ use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
+use \common_session_SessionManager;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -136,7 +137,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 */
 	public function logout()
 	{
-		session_destroy();
+		common_session_SessionManager::endSession();
 		$this->redirect(_url('entry', 'Main', 'tao'));
 	}
 
