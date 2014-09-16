@@ -130,19 +130,23 @@ define([
      */
     binder.register('removeNode', function remove(context){
         var data = _.pick(context, ['uri', 'classUri']);
-        $.ajax({
-            url: this.url,
-            type: "POST",
-            data: data,
-            dataType: 'json',
-            success: function(response){
-                if (response.deleted) {
-                    $(context.tree).trigger('removenode.taotree', [{
-                        id : context.uri || context.classUri 
-                    }]);
+	    
+        //TODO replace by a nice popup
+        if (confirm(__("Please confirm deletion"))) {
+            $.ajax({
+                url: this.url,
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                success: function(response){
+                    if (response.deleted) {
+                        $(context.tree).trigger('removenode.taotree', [{
+                            id : context.uri || context.classUri 
+                        }]);
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     /**
