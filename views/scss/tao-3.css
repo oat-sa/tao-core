@@ -1,5 +1,3 @@
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 #requirement-check {
   margin: 40px auto;
   width: 60%;
@@ -27,7 +25,7 @@
 
 nav {
   position: relative;
-  z-index: 1000; }
+  z-index: 8000; }
   nav li {
     float: left;
     position: relative;
@@ -167,7 +165,6 @@ footer {
   content: "";
   display: block; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 @-o-keyframes loadingbar {
   0% {
     left: -10%; }
@@ -243,7 +240,6 @@ footer {
 .no-version-warning .loading-bar {
   top: 58px; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 .entry-point {
   border: 1px solid #dddddd;
   border-radius: 2px;
@@ -323,7 +319,6 @@ footer {
     font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     font-style: normal; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 .action-bar {
   background: #266d9c;
   padding: 3px;
@@ -434,35 +429,32 @@ footer {
       .action-bar .tree-filters span:hover {
         color: #0e5d91; }
 
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-.section-container .content-panel, .section-container .content-block {
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: nowrap;
-  -ms-flex-wrap: nowrap;
-  flex-wrap: nowrap;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  -webkit-align-content: flex-start;
-  -ms-flex-line-pack: start;
-  align-content: flex-start;
-  -webkit-align-items: stretch;
-  -ms-flex-align: stretch;
-  align-items: stretch; }
-
 .section-container {
   top: 0 !important; }
-  .section-container .content-panel {
+  .section-container .content-panel.ui-tabs-panel {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
-    border: none !important; }
+    border: none !important;
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+    -ms-direction: row;
+    -webkit-direction: row;
+    direction: row;
+    -ms-flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-content: flex-start;
+    align-content: flex-start;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+    -ms-flex-pack: start;
+    -ms-flex-line-pack: start;
+    -ms-flex-align: stretch; }
   .section-container .tab-container {
     border: none;
     display: none; }
@@ -494,13 +486,15 @@ footer {
   .section-container .navi-container {
     display: none;
     background: #f2f0ee;
-    width: 280px;
-    -webkit-flex: 0 0 280px;
-    -ms-flex: 0 0 280px;
-    flex: 0 0 280px;
+    -ms-order: 0;
+    -webkit-order: 0;
+    order: 0;
     -webkit-align-self: stretch;
-    -ms-flex-item-align: stretch;
     align-self: stretch;
+    -ms-flex-item-align: stretch;
+    -ms-flex: 0 0 280px;
+    -webkit-flex: 0 0 280px;
+    flex: 0 0 280px;
     border-right: 1px #dddddd solid; }
     .section-container .navi-container .block-title {
       font-size: 14px;
@@ -512,37 +506,61 @@ footer {
       opacity: 0; }
       .section-container .navi-container .tree-action-bar-box.active {
         opacity: 1;
-        transition: opacity .25s ease-in-out;
-        -moz-transition: opacity .25s ease-in-out;
-        -webkit-transition: opacity .25s ease-in-out; }
+        -webkit-opacity: 0.25s ease-in-out;
+        -moz-opacity: 0.25s ease-in-out;
+        opacity: 0.25s ease-in-out; }
   .section-container .content-container {
     border: none;
+    -ms-order: 0;
     -webkit-order: 0;
-    -ms-flex-order: 0;
     order: 0;
-    -webkit-flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
     -webkit-align-self: stretch;
+    align-self: stretch;
     -ms-flex-item-align: stretch;
-    align-self: stretch; }
+    -ms-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto; }
   .section-container .content-block {
-    padding: 20px; }
+    padding: 20px;
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+    -ms-direction: row;
+    -webkit-direction: row;
+    direction: row;
+    -ms-flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-content: flex-start;
+    align-content: flex-start;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+    -ms-flex-pack: start;
+    -ms-flex-line-pack: start;
+    -ms-flex-align: stretch; }
     .section-container .content-block .main-container {
-      -webkit-flex: 0 0 500px;
+      -ms-order: 0;
+      -webkit-order: 0;
+      order: 0;
+      -webkit-align-self: stretch;
+      align-self: stretch;
+      -ms-flex-item-align: stretch;
       -ms-flex: 0 0 500px;
-      flex: 0 0 500px;
-      -webkit-align-self: stretch;
-      -ms-flex-item-align: stretch;
-      align-self: stretch; }
+      -webkit-flex: 0 0 500px;
+      flex: 0 0 500px; }
     .section-container .content-block .data-container-wrapper {
-      padding: 41px 0 0 20px;
-      -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-      flex: 1 1 auto;
+      padding: 41px 0px 0px 20px;
+      -ms-order: 0;
+      -webkit-order: 0;
+      order: 0;
       -webkit-align-self: stretch;
+      align-self: stretch;
       -ms-flex-item-align: stretch;
-      align-self: stretch; }
+      -ms-flex: 1 1 auto;
+      -webkit-flex: 1 1 auto;
+      flex: 1 1 auto; }
       .section-container .content-block .data-container-wrapper .data-container {
         width: 260px;
         margin: 0 20px 20px 0;
@@ -579,7 +597,7 @@ footer {
           padding: 10px; }
     .section-container .content-block #form-container.ui-widget-content {
       border: none !important; }
-    .section-container .content-block form {
+    .section-container .content-block form:not(.list-container) {
       border: 1px #dddddd solid;
       background: #f2f0ee;
       padding: 30px;

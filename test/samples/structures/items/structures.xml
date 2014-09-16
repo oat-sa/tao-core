@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE extension SYSTEM "../../tao/doc/structures.dtd">
+<!DOCTYPE structures SYSTEM "../../tao/doc/structures.dtd">
 <structures>
-    <structure id="items" name="Items" url="/taoItems/Items/index" level="0" visible="true">
+    <structure id="items" name="Items" url="/taoItems/Items/index" level="0" group="main">
         <description>Create and design items and exercises.</description>
         <icon id="icon-item"/>
         <sections>
@@ -19,6 +19,16 @@
                             />
                 </trees>
                 <actions>
+                	
+                		<action name="Edit class" url="/taoItems/Items/editItemClass" group="content" context="class">
+                        <icon id="icon-edit"/>
+                    </action>
+                    <action name="Edit item"  url="/taoItems/Items/editItem" group="content" context="instance">
+                        <icon id="icon-edit"/>
+                    </action> 
+                    <action name="Filter" context="*" group="search" binding="launchFinder">
+                        <icon id="icon-filter"/>
+                    </action>
                     <action name="Search" url="/taoItems/Items/search" context="*" group="filter">
                         <icon id="icon-find" src=""/>
                     </action>
@@ -42,9 +52,6 @@
                     </action>
                     <action name="Lists" url="/tao/Lists/index" context="*" group="tree">
                         <icon id="icon-ul"/>
-                    </action>
-                    <action name="Metadata" js="GenerisAction.loadMetaData" url="/taoItems/Items/getMetaData" context="instance" group="tree">
-                        <icon id="icon-meta-data"/>
                     </action>
                     <action name="Create table" url="/taoResults/LegacyResults/createTable" context="class" group="content">
                         <icon id="icon-table"/>

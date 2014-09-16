@@ -42,6 +42,8 @@ define([
                     // update hash in uri
                     window.location.href = ui.tab.href;
 
+                    window.scrollTo(0,0);
+
                     context.section = $section.attr('id').replace('panel-', '');
 
                     actions.init($section);

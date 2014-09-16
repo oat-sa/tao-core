@@ -1,14 +1,12 @@
-<?php
 
-use oat\tao\helpers\Template;
-?>
+<div class="main-container" data-tpl="tao/form/export.tpl">
 <h2><?=get_data('formTitle')?></h2>
     <?if(has_data('myForm')):?>
     <div class="form-content">
     <?=get_data('myForm')?>
     </div>
 <?php endif;?>
-
+</div>
 <div id="iframe-container"></div>
 
 <script>

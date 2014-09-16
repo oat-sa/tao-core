@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE extension SYSTEM "../doc/structures.dtd">
+<!DOCTYPE structures SYSTEM "../doc/structures.dtd">
 <structures>
-    <structure id="users" name="Users" level="11" visible="true" group="settings">
+    <structure id="users" name="Users" level="11" group="settings">
         <description/>
         <icon id="icon-users" src=""/>
         <sections>
@@ -13,14 +13,23 @@
                     <tree name="Roles library"
                           className="Role"
                           dataUrl="/tao/Roles/getOntologyData"
-                          editInstanceUrl="/tao/Roles/editRole"
-                          addInstanceUrl="/tao/Roles/addInstance"
-                          deleteUrl="/tao/Roles/delete"
-                          editClassUrl="/tao/Roles/editRoleClass"
+                          selectClass="Edit class"
+                          selectInstance="Edit group"
+                          moveInstance="Move"
+                          delete="Delete"
                             />
                 </trees>
                 <actions>
-                    <action name="Find" url="/tao/Roles/search" context="*" group="search" binding="launchFinder">
+                	<action name="Edit class" url="/tao/Roles/editRoleClass" group="content" context="class">
+                        <icon id="icon-edit"/>
+                    </action>
+                    <action name="Edit group"  url="/tao/Roles/editRole" group="content" context="instance">
+                        <icon id="icon-edit"/>
+                    </action>
+                    <action name="Filter" context="*" group="search" binding="launchFinder">
+                        <icon id="icon-filter"/>
+                    </action>
+                    <action name="Search" url="/tao/Roles/search" context="*" group="search" binding="launchFinder">
                         <icon id="icon-find"/>
                     </action>
                     <action name="New role" url="/tao/Roles/addInstance" context="class" group="bar" binding="instanciate">
@@ -28,9 +37,6 @@
                     </action>
                     <action name="Delete" url="/tao/Roles/delete" context="resource" group="tree" binding="removeNode">
                         <icon id="icon-bin"/>
-                    </action>
-                    <action name="Metadata" url="/tao/MetaData/getMetaData" context="resource" group="tree" binding="loadMetaData">
-                        <icon id="icon-meta-data"/>
                     </action>
                     <action name="Export" url="/tao/Export/index" context="resource" group="content">
                         <icon id="icon-export"/>
@@ -40,7 +46,7 @@
         </sections>
     </structure>
 
-    <structure id="settings" name="Settings" level="8" visible="false" group="settings">
+    <structure id="settings" name="Settings" level="8" group="settings">
         <description/>
         <icon id="icon-tools" src=""/>
         <sections>
@@ -69,7 +75,7 @@
         </sections>
     </structure>
 
-    <structure id="user_settings" name="User Settings" level="110" visible="false" group="settings">
+    <structure id="user_settings" name="User Settings" level="110" group="settings">
         <description/>
         <icon id="icon-user" src=""/>
         <sections>

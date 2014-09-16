@@ -37,9 +37,7 @@ as follows:
 
 Comments in this file will give more details about each of the above blocks.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /* Tao specific stuff */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 

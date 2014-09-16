@@ -11,6 +11,18 @@
     }
 }
 
+@mixin tao-icon-setup() {
+    font-family: 'tao';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 @mixin grid-unit($span, $numCols: 12, $gutter: 0) {
     $gridPx: 840;
     $rawSpanPx: (($gridPx - ($numCols * $gutter)) / $numCols);
@@ -34,6 +46,34 @@
         }
     }
 }
+
+@mixin flex-container() {
+    @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
+    @include vendor-prefix(direction, row, property, (-ms-, -webkit-, ''));
+    @include vendor-prefix(flex-wrap, nowrap, property, (-ms-, -webkit-, ''));
+    @include vendor-prefix(justify-content, flex-start, property, (-webkit-, ''));
+    @include vendor-prefix(align-content, flex-start, property, (-webkit-, ''));
+    @include vendor-prefix(align-items, stretch, property, (-webkit-, ''));
+    -ms-flex-pack: start;
+    -ms-flex-line-pack: start;
+    -ms-flex-align: stretch;
+}
+
+@mixin simple-flex-box($width: auto) {
+
+    @include vendor-prefix(order, 0, property, (-ms-, -webkit-, ''));
+    @include vendor-prefix(align-self, stretch, property, (-webkit-, ''));
+    -ms-flex-item-align: stretch;
+
+    @if ($width == auto) {
+        @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
+    }
+    @else {
+        @include vendor-prefix(flex, 0 0 $width * 1px, property, (-ms-, -webkit-, ''));
+    }
+}
+
+
 
 @mixin box-shadow($horiz: 1px, $vert: 1px, $blur: 2px, $spread: 0, $color: rgba(0, 0, 0, .2)) {
     @include vendor-prefix(box-shadow, $horiz $vert $blur $spread $color, property);

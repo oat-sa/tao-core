@@ -1,5 +1,7 @@
 @import 'inc/tao-icon-vars.scss';
 [class^="icon-"], [class*=" icon-"] { @extend %tao-icon-setup; }
+.icon-style:before { @extend %icon-style; }
+.icon-ownership-transfer:before { @extend %icon-ownership-transfer; }
 .icon-property-advanced:before { @extend %icon-property-advanced; }
 .icon-property-add:before { @extend %icon-property-add; }
 .icon-repository-add:before { @extend %icon-repository-add; }

@@ -31,11 +31,14 @@ define(['jquery'],
 
         return {
             start: function () {
+                if($loadingBar.hasClass('loading')) {
+                    $loadingBar.stop();
+                }
                 $loadingBar.addClass('loading');
                 $win.trigger('scroll');
             },
             stop: function () {
-                $loadingBar.removeClass('loading');
+                $loadingBar.removeClass('loading').height(originalHeight);
             }
         };
     });

@@ -1,5 +1,4 @@
-[class^="btn-"], [class*=" btn-"], .btn-default,
-button, input[type="submit"], input[type="reset"] {
+%generic-btn-code {
     @include border-radius(3);
     font-size: 14px !important;
     font-size: 1.4rem !important;
@@ -61,6 +60,12 @@ button, input[type="submit"], input[type="reset"] {
         background-color: whiten($warning, .1);
         text-shadow: 1px 1px 0 blacken($warning, .2);
     }
+}
+
+// this construction was needed to avoid problems with extending this code elsewhere
+[class^="btn-"], [class*=" btn-"], .btn-default,
+button, input[type="submit"], input[type="reset"] {
+    @extend %generic-btn-code;
 }
 
 /* todo move to main ? */
