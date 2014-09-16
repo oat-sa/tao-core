@@ -9,7 +9,7 @@
 		<!-- The level of that structure regarding the others (to order them)  -->
 		<!ATTLIST structure level CDATA #REQUIRED>
 		<!-- What group the structure belongs to -->
-		<!ATTLIST structure group CDATA #FIXED "main">
+		<!ATTLIST structure group CDATA "main">
 	
 		<!ELEMENT description (#PCDATA)>
 		
@@ -59,7 +59,7 @@
 					<!-- A javascript method to run instead of loading directly the URL -->
 					<!ATTLIST action js CDATA #IMPLIED>
 					<!-- The URL of the action -->
-					<!ATTLIST action url CDATA #REQUIRED>
+					<!ATTLIST action url CDATA #IMPLIED>
 					<!-- The context of the action: (class|instance|resource|*) -->
 					<!ATTLIST action context CDATA #REQUIRED>
 					<!-- Reload the complete page if true -->
@@ -67,7 +67,7 @@
 					<!-- Where to position the action -->
 					<!ATTLIST action group CDATA #REQUIRED>
 					<!-- The JS binding of this action -->
-					<!ATTLIST action binding CDATA #FIXED "_load">
+					<!ATTLIST action binding CDATA "_load">
 
 	<!ELEMENT entrypoint  ( description, (replace)* )>
 		<!ATTLIST entrypoint id ID #REQUIRED>

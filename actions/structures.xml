@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE extension SYSTEM "../doc/structures.dtd">
+<!DOCTYPE structures SYSTEM "../doc/structures.dtd">
 <structures>
-    <structure id="users" name="Users" level="11" visible="true" group="settings">
+    <structure id="users" name="Users" level="11" group="settings">
         <description/>
         <icon id="icon-users" src=""/>
         <sections>
@@ -13,20 +13,19 @@
                     <tree name="Roles library"
                           className="Role"
                           dataUrl="/tao/Roles/getOntologyData"
-                          editInstanceUrl="/tao/Roles/editRole"
-                          addInstanceUrl="/tao/Roles/addInstance"
-                          deleteUrl="/tao/Roles/delete"
-                          editClassUrl="/tao/Roles/editRoleClass"
+                          selectClass="Edit class"
+                          selectInstance="Edit group"
+                          moveInstance="Move"
+                          delete="Delete"
                             />
                 </trees>
                 <actions>
-                		<action name="Edit class" url="/tao/Roles/editRoleClass" group="content" context="class">
+                	<action name="Edit class" url="/tao/Roles/editRoleClass" group="content" context="class">
                         <icon id="icon-edit"/>
                     </action>
                     <action name="Edit group"  url="/tao/Roles/editRole" group="content" context="instance">
                         <icon id="icon-edit"/>
-                    </action>        
-                	
+                    </action>
                     <action name="Filter" context="*" group="search" binding="launchFinder">
                         <icon id="icon-filter"/>
                     </action>
@@ -47,7 +46,7 @@
         </sections>
     </structure>
 
-    <structure id="settings" name="Settings" level="8" visible="false" group="settings">
+    <structure id="settings" name="Settings" level="8" group="settings">
         <description/>
         <icon id="icon-tools" src=""/>
         <sections>
@@ -76,7 +75,7 @@
         </sections>
     </structure>
 
-    <structure id="user_settings" name="User Settings" level="110" visible="false" group="settings">
+    <structure id="user_settings" name="User Settings" level="110" group="settings">
         <description/>
         <icon id="icon-user" src=""/>
         <sections>

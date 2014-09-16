@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE extension SYSTEM "../doc/structures.dtd">
+<!DOCTYPE structures SYSTEM "../doc/structures.dtd">
 <structures>
-	<structure id="users" name="Users" url="/tao/Users/index" level="8" visible="false">
+	<structure id="users" name="Users" url="/tao/Users/index" level="8" group="invisible">
 		<description />
 		<sections>
 			<section id="list_users" name="Manage users" url="/tao/Users/index" />
