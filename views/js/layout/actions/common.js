@@ -163,8 +163,7 @@ define([
     binder.register('filter', function filter(context){
     
         //to be removed
-        $('.search-form').css('display', 'block');    
-        toggleFilter($('.search-form [data-purpose="filter"]'));
+        toggleFilter($('.filter-form'));
     });
 
     /**

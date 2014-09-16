@@ -44,7 +44,9 @@ $sections = get_data('sections');
                             </div>
                             <div class="search-form">
                                 <div data-purpose="search" data-current="none" class="search-area search-search"></div>
-                                <div data-purpose="filter" class="search-area search-filter">
+                            </div>
+                            <div class="filter-form">
+                                <div class="search-area search-filter">
                                     <div class="search-title">
                                         <?=__('Filter');?>
                                     </div>
