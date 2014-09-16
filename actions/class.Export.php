@@ -86,7 +86,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
             
             $file = $exporter->export($exportData, tao_helpers_Export::getExportPath());
             if (!is_null($file) && file_exists($file)) {
-                tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
+                return tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
             }
             
         }
