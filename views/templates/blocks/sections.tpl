@@ -52,12 +52,6 @@ $sections = get_data('sections');
                                         <div class="form-group">
                                             <input type="text" autocomplete="off" placeholder="<?=__('You can use * as a wildcard')?>">
                                         </div>
-                                        <div class="form-toolbar">
-                                            <button type="button" class="btn-success small">
-                                                <span class="icon-filter"></span> <?= __("Filter") ?>
-                                            </button>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>

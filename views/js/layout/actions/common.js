@@ -6,15 +6,10 @@ define([
     'lodash',
     'layout/actions/binder',
     'helpers',
-    'layout/search'
-],
-    function(
-        $,
-        _,
-        binder,
-        helpers,
-        search
-        ){
+    'layout/search',
+    'layout/filter'
+], function($, _, binder, helpers, search, toggleFilter){
+    'use strict';
 
     /**
      * Register common actions
@@ -150,6 +145,23 @@ define([
         });
     });
 
+    /**
+     * This action helps to filter tree content.
+     * 
+     * @this the action (once register it is bound to an action object)
+     *
+     * @param {Object} context - the current context
+     * @param {String} [context.uri]
+     * @param {String} [context.classUri]
+     *
+     * @fires layout/tree#removenode.taotree
+     */
+    binder.register('filter', function filter(context){
+    
+        //to be removed
+        $('.search-form').css('display', 'block');    
+        toggleFilter($('.search-form [data-purpose="filter"]'));
+    });
 
     /**
      * Register the removeNode action: removes a resource.
