@@ -11,7 +11,7 @@ $sections = get_data('sections');
 
                 <li class="small">
                     <a href="#panel-<?= $section->getId() ?>"
-                       data-url="<?= $section->getUrl() ?>"
+                       data-url="<?= ROOT_URL . $section->getExtensionId() . '/' . $section->getController() . '/' . $section->getAction() ?>"
                        title="<?= $section->getName(); ?>"><?= __($section->getName()) ?></a>
                 </li>
 
@@ -31,7 +31,7 @@ $sections = get_data('sections');
                                             data-context="<?= $action->getContext() ?>"
                                             title="<?= $action->getName() ?>"
                                             data-action="<?= $action->getBinding() ?>">
-                                            <a class="li-inner" href="<?= $action->getUrl(); ?>">
+                                            <a class="li-inner" href="<?= ROOT_URL . $action->getExtensionId() . '/' . $action->getController() . '/' . $action->getAction() ?>">
                                                 <?=
                                                 Layout::renderIcon(
                                                     $action->getIcon(),
@@ -80,7 +80,7 @@ $sections = get_data('sections');
                                     data-context="<?= $action->getContext() ?>"
                                     title="<?= $action->getName() ?>"
                                     data-action="<?= $action->getBinding() ?>">
-                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
+                                    <a class="li-inner" href="<?= ROOT_URL . $action->getExtensionId() . '/' . $action->getController() . '/' . $action->getAction() ?>">
                                         <?=
                                         Layout::renderIcon(
                                             $action->getIcon(),
@@ -96,7 +96,7 @@ $sections = get_data('sections');
                                     data-context="<?= $action->getContext() ?>"
                                     data-action="<?= $action->getBinding() ?>"
                                     title="<?= $action->getName() ?>" >
-                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
+                                    <a class="li-inner" href="<?= ROOT_URL . $action->getExtensionId() . '/' . $action->getController() . '/' . $action->getAction() ?>">
                                         <?= $action->getName(); ?>
                                     </a>
                                 </li>
@@ -113,7 +113,7 @@ $sections = get_data('sections');
                                 data-context="<?= $action->getContext() ?>"
                                 title="<?= $action->getName() ?>" 
                                 data-action="<?= $action->getBinding() ?>">
-                                <a class="li-inner" href="<?= $action->getUrl(); ?>">
+                                <a class="li-inner" href="<?= ROOT_URL . $action->getExtensionId() . '/' . $action->getController() . '/' . $action->getAction() ?>">
                                     <?=
                                     Layout::renderIcon(
                                         $action->getIcon(),

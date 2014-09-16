@@ -9,14 +9,16 @@ $settingsMenu = get_data('settings-menu');
             <?php foreach ($mainMenu as $entry): ?>
                 <li <?php if (get_data('shownExtension') === $entry->getExtension()
                 && get_data('shownStructure') === $entry->getId()): ?>class="active"<?php endif ?>>
-                    <a href="<?= $entry->getUrl() ?>" title="<?= __($entry->getDescription()) ?>">
+                    <a href="<?= ROOT_URL . $entry->getExtensionId() . '/' . $entry->getController() . '/' . $entry->getAction() ?>"
+					   title="<?= __($entry->getDescription()) ?>">
                         <?= Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
                         <?= __($entry->getName()) ?></a>
                     <?php if (count($entry->getChildren()) > 1): ?>
                         <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
-                                    <a href="<?= $entry->getUrl() ?>#panel-<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
+                                    <a href="<?= ROOT_URL . $entry->getExtensionId() . '/' . $entry->getController() . '/' . $entry->getAction() ?>#panel-<?php
+										echo $child->getId() ?>"><?= $child->getName() ?></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -46,7 +48,7 @@ $settingsMenu = get_data('settings-menu');
                     <a id="<?= $entry->getId() ?>" <?php 
                     if (!is_null($entry->getBinding())): ?> href="#" data-action="<?= $entry->getBinding() ?>"
                     <?php else : ?>
-                        href="<?= $entry->getUrl() ?>"
+                        href="<?= ROOT_URL . $entry->getExtensionId() . '/' . $entry->getController() . '/' . $entry->getAction() ?>#panel-<?= $child->getId() ?>"
                     <?php endif ?> title="<?= __($entry->getName()) ?>">
 
                         <?= is_null($entry->getIcon()) ? '' : Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
@@ -66,7 +68,8 @@ $settingsMenu = get_data('settings-menu');
                         <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
-                                    <a href="<?= $entry->getUrl() ?>#panel-<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
+                                    <a href="<?= ROOT_URL . $entry->getExtensionId() . '/' . $entry->getController() . '/' . $entry->getAction() ?>#panel-<?= $child->getId() ?>#panel-<?php
+										echo $child->getId() ?>"><?php echo $child->getName() ?></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>

@@ -40,11 +40,17 @@ class Section extends MenuElement implements PhpSerializable
 
     public static function fromSimpleXMLElement(\SimpleXMLElement $node)
     {
+		$url = (string) $node['url'];
+		list($extension, $controller, $action) = explode('/', trim($url, '/'));
+
         $data = array(
-            'id'   => (string)$node['id'],
-            'name' => (string)$node['name'],
-            'url'  => (string)$node['url'],
-            'policy' => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE,
+            'id'         => (string)$node['id'],
+            'name'       => (string)$node['name'],
+            'url'        => $url,
+			'extension'  => $extension,
+			'controller' => $controller,
+			'action'     => $action,
+            'policy'     => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE
         );
 
         $trees = array();
@@ -56,8 +62,6 @@ class Section extends MenuElement implements PhpSerializable
         foreach ($node->xpath("actions/action") as $actionNode) {
             $actions[] = Action::fromSimpleXMLElement($actionNode);
         }
-
-
 
         return new static($data, $trees, $actions);
     }
@@ -81,7 +85,22 @@ class Section extends MenuElement implements PhpSerializable
     {
         return $this->data['name'];
     }
-    
+
+    public function getExtensionId()
+	{
+		return $this->data['extension'];
+    }
+
+	public function getController()
+	{
+		return $this->data['controller'];
+	}
+
+	public function getAction()
+	{
+		return $this->data['action'];
+	}
+
     /**
      * Policy on how to deal with existing structures
      * 

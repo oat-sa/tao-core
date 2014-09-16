@@ -44,16 +44,13 @@ use oat\tao\helpers\Template;
 
 	    
 		<?php foreach (get_data('entries') as $entry) :?>
-		<a href="<?=$entry->getUrl()?>"> <span
-                class="tile"> <span class="Title"><?=$entry->getTitle()?></span>
-                    <span class="hintMsg">
-				<?=$entry->getDescription()?>
-			    </span> <span class="tileLabel">
-				<?=$entry->getLabel()?>
-			    </span>
-
+		<a href="<?= ROOT_URL . $entry->getExtensionId() . '/' . $entry->getController() . '/' . $entry->getAction() ?>">
+			<span class="tile">
+				<span class="Title"><?=$entry->getTitle()?></span>
+				<span class="hintMsg"><?=$entry->getDescription()?></span>
+				<span class="tileLabel"><?=$entry->getLabel()?></span>
             </span>
-            </a>
+		</a>
 		<?php endforeach;?>
 
 		</div>

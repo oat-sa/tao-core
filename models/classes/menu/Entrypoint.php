@@ -35,16 +35,23 @@ class Entrypoint  implements PhpSerializable
         foreach ($node->xpath("replace") as $replacedNode) {
             $replaced[] = (string) $replacedNode['id'];
         }
-        return new static(array(
-            'id' => (string) $node['id'],
-            'title' => (string) $node['title'],
-            'label' => (string) $node['label'],
-            'desc' => (string) $node->description,
-            'url' => (string) $node['url'],
-            'replace' => $replaced
+
+		$url = (string) $node['url'];
+		list($extension, $controller, $action) = explode('/', trim($url, '/'));
+
+		return new static(array(
+            'id'         => (string) $node['id'],
+            'title'      => (string) $node['title'],
+            'label'      => (string) $node['label'],
+            'desc'       => (string) $node->description,
+            'url'        => $url,
+			'extension'  => $extension,
+			'controller' => $controller,
+			'action'     => $action,
+            'replace'    => $replaced
         ));
     }
-    
+
     public function __construct($data, $version = self::SERIAL_VERSION) {
         $this->data = $data;
     }
@@ -66,9 +73,21 @@ class Entrypoint  implements PhpSerializable
     }
     
     public function getUrl() {
-        return ROOT_URL.trim($this->data['url'], '/');
+        return ROOT_URL . $this->data['extension'] . '/' . $this->data['controller'] . '/' . $this->data['action'];
     }
-    
+
+    public function getExtensionId() {
+		return $this->data['extension'];
+    }
+
+	public function getController() {
+		return $this->data['controller'];
+	}
+
+	public function getAction() {
+		return $this->data['action'];
+	}
+
     public function getReplacedIds() {
         return $this->data['replace'];
     }

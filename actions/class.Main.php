@@ -287,20 +287,24 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     private function hasAccessToMenuElement(Perspective $menuElement)
     {
-        $access = false;
-        $binding     = $menuElement->getBinding();
+        $binding = $menuElement->getBinding();
         if (!is_null($binding) && !empty($binding)) {
-            $access = true;
-        } else {
-            foreach ($menuElement->getChildren() as $section) {
-                list($extension, $controller, $action) = explode('/', trim((string)$section->getUrl(), '/'));
-                if (tao_models_classes_accessControl_AclProxy::hasAccess($action, $controller, $extension)) {
-                    $access = true;
-                    break;
-                }
-            }
+            return true;
         }
-        return $access;
+
+		foreach ($menuElement->getChildren() as $section) {
+			if (
+				tao_models_classes_accessControl_AclProxy::hasAccess(
+					$section->getExtensionId(),
+					$section->getController(),
+					$section->getAction()
+				)
+			) {
+				return true;
+			}
+		}
+
+        return false;
     }
 
     /**
@@ -317,11 +321,15 @@ class tao_actions_Main extends tao_actions_CommonModule
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
         foreach ($structure->getChildren() as $section) {
 
-            list($extension, $controller, $action) = explode('/', trim((string)$section->getUrl(), '/'));
-
-            if (tao_models_classes_accessControl_AclProxy::hasAccess($action, $controller, $extension)) {
-                $sections[] = $section;
-            }
+			if (
+				tao_models_classes_accessControl_AclProxy::hasAccess(
+					$section->getExtensionId(),
+					$section->getController(),
+					$section->getAction()
+				)
+			) {
+				$sections[] = $section;
+			}
         }
 
         return $sections;
