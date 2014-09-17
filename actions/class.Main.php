@@ -295,9 +295,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 		foreach ($menuElement->getChildren() as $section) {
 			if (
 				tao_models_classes_accessControl_AclProxy::hasAccess(
-					$section->getExtensionId(),
+					$section->getAction(),
 					$section->getController(),
-					$section->getAction()
+					$section->getExtensionId()
 				)
 			) {
 				return true;

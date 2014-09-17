@@ -9,7 +9,7 @@ $settingsMenu = get_data('settings-menu');
             <?php foreach ($mainMenu as $entry) : ?>
                 <li <?php if (get_data('shownExtension') === $entry->getExtension()
                 && get_data('shownStructure') === $entry->getId()): ?>class="active"<?php endif ?>>
-                    <a href="<?= \tao_helpers_Uri::url($entry->getAction(), $entry->getController(), $entry->getExtensionId()) ?>"
+                    <a href="<?= $entry->getUrl() ?>"
 					   title="<?= __($entry->getDescription()) ?>">
                         <?= Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
                         <?= __($entry->getName()) ?></a>
@@ -17,7 +17,7 @@ $settingsMenu = get_data('settings-menu');
                         <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
-                                    <a href="<?= \tao_helpers_Uri::_url($child->getAction(), $child->getController(), $child->getExtensionId()) ?>#panel-<?php
+                                    <a href="<?= \tao_helpers_Uri::url($child->getAction(), $child->getController(), $child->getExtensionId()) ?>#panel-<?php
 										echo $child->getId() ?>"><?php
 										echo $child->getName() ?></a>
                                 </li>
