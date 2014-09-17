@@ -31,7 +31,7 @@ class Action implements PhpSerializable
     
     public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
 		$url = isset($node['url']) ? (string) $node['url'] : '#';
-		if ($url == '#') {
+		if ($url == '#' || empty($url)) {
 			$extension  = null;
 			$controller = null;
 			$action     = null;
@@ -129,7 +129,8 @@ class Action implements PhpSerializable
      * @return Icon the icon with the src property set to the icon URL.
      */
     private function inferLegacyIcon(){
-        $ext = $this->getExtensionId();
+        //$ext = $this->getExtensionId();
+        $ext = 'tao';
         $name = strtolower(\tao_helpers_Display::textCleaner($this->data['name']));
         $file = $ext . '/views/img/actions/' . $name . '.png';
         $src = 'actions/' . $name . '.png';

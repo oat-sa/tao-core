@@ -40,8 +40,15 @@ class Section extends MenuElement implements PhpSerializable
 
     public static function fromSimpleXMLElement(\SimpleXMLElement $node)
     {
-		$url = (string) $node['url'];
-		list($extension, $controller, $action) = explode('/', trim($url, '/'));
+
+		$url = isset($node['url']) ? (string) $node['url'] : '#';
+		if ($url == '#' || empty($url)) {
+			$extension  = null;
+			$controller = null;
+			$action     = null;
+		} else {
+			list($extension, $controller, $action) = explode('/', trim($url, '/'));
+		}
 
         $data = array(
             'id'         => (string)$node['id'],

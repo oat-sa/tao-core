@@ -321,15 +321,15 @@ class tao_actions_Main extends tao_actions_CommonModule
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
         foreach ($structure->getChildren() as $section) {
 
-			if (
-				tao_models_classes_accessControl_AclProxy::hasAccess(
-					$section->getExtensionId(),
-					$section->getController(),
-					$section->getAction()
-				)
-			) {
+            if (
+                tao_models_classes_accessControl_AclProxy::hasAccess(
+                    $section->getAction(),
+                    $section->getController(),
+                    $section->getExtensionId()
+                )
+            ) {
 				$sections[] = $section;
-			}
+            }
         }
 
         return $sections;
