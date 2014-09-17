@@ -73,7 +73,7 @@ class Entrypoint  implements PhpSerializable
     }
     
     public function getUrl() {
-        return ROOT_URL . $this->data['extension'] . '/' . $this->data['controller'] . '/' . $this->data['action'];
+        return _url($this->getAction(), $this->getController(), $this->getExtensionId());
     }
 
     public function getExtensionId() {

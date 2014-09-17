@@ -73,7 +73,7 @@ class Action implements PhpSerializable
     }
     
     public function getUrl() {
-        return $this->data['url'];
+        return _url($this->getAction(), $this->getController(), $this->getExtensionId());
     }
     
     public function getBinding() {
@@ -102,16 +102,10 @@ class Action implements PhpSerializable
     /**
      * Get the extension id from the action's URL.
      *
-     * @param string $url (optional) the url to extract the extension id, use $this->data['url'] if not set.
      * @return string the extension id
      */
-    public function getExtensionId($url = null) {
-        if(is_null($url)){
-            return $this->data['extension'];
-        } else {
-			$urlParts = explode('/', trim($url, '/'));
-			return count($urlParts) == 3 ? $urlParts[0] : null;
-		}
+    public function getExtensionId() {
+       return $this->data['extension'];
     }
 
 	public function getController() {
