@@ -17402,41 +17402,41 @@ label {
       opacity: .4 !important;
       color: #555; }
 
-.search-form {
+.search-form, .filter-form {
   display: none;
   font-size: 13px;
   font-size: 1.3rem; }
-  .search-form .search-area {
+  .search-form .search-area, .filter-form .search-area {
     margin: 8px 8px 0 8px;
     border-bottom: 1px solid #dddddd;
     padding-bottom: 8px; }
-  .search-form .xhtml_form .form_desc {
+  .search-form .xhtml_form .form_desc, .filter-form .xhtml_form .form_desc {
     display: block;
     width: auto;
     margin-top: 5px;
     margin-bottom: 1px; }
-  .search-form .xhtml_form .form-toolbar {
+  .search-form .xhtml_form .form-toolbar, .filter-form .xhtml_form .form-toolbar {
     margin: 0 !important; }
-  .search-form .xhtml_form input[type="text"], .search-form .xhtml_form input[type="password"] {
+  .search-form .xhtml_form input[type="text"], .search-form .xhtml_form input[type="password"], .filter-form .xhtml_form input[type="text"], .filter-form .xhtml_form input[type="password"] {
     width: 100%;
     max-width: none; }
-  .search-form .xhtml_form select, .search-form .xhtml_form textarea, .search-form .xhtml_form .form_radlst {
+  .search-form .xhtml_form select, .search-form .xhtml_form textarea, .search-form .xhtml_form .form_radlst, .filter-form .xhtml_form select, .filter-form .xhtml_form textarea, .filter-form .xhtml_form .form_radlst {
     width: 100%;
     max-width: none; }
-  .search-form .xhtml_form .form-group {
+  .search-form .xhtml_form .form-group, .filter-form .xhtml_form .form-group {
     margin-bottom: 0; }
-    .search-form .xhtml_form .form-group > div > div {
+    .search-form .xhtml_form .form-group > div > div, .filter-form .xhtml_form .form-group > div > div {
       margin-bottom: 10px; }
-  .search-form .xhtml_form label {
+  .search-form .xhtml_form label, .filter-form .xhtml_form label {
     margin: 0; }
-  .search-form .xhtml_form .form_radlst {
+  .search-form .xhtml_form .form_radlst, .filter-form .xhtml_form .form_radlst {
     padding-left: 2px; }
-  .search-form .ui-widget-header, .search-form .search-title {
+  .search-form .ui-widget-header, .search-form .search-title, .filter-form .ui-widget-header, .filter-form .search-title {
     font-size: 16px;
     font-size: 1.6rem;
     border: none;
     margin: 8px 0; }
-  .search-form > div {
+  .search-form > div, .filter-form > div {
     background: transparent; }
 
 .xhtml_form form > div {

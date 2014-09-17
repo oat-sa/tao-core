@@ -262,7 +262,7 @@ label {
     }
 }
 
-.search-form {
+.search-form, .filter-form {
     display:none;
 
     @include font-size(13);

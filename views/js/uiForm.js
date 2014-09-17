@@ -132,10 +132,6 @@ define([
             // modify properties
             postRenderProps.init();
 
-            $firstInp.focus();
-
-
-
             containerManager.init();
 
         },
