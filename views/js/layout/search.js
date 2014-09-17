@@ -29,8 +29,8 @@ define([
          */
         function initSearch($searchForm) {
 
-            // reduce to one element only
-            $searchForm = $($searchForm.replace(/id=("|')[\w-]+("|')/g, ''));
+            // build jquery obj, make ids unique
+            $searchForm = $($searchForm.replace(/(for|id)=("|')/g, '$1=$2search_field_'));
 
             if(!$searchForm.length) {
                 return;
@@ -39,9 +39,9 @@ define([
             var $toolBars      = $searchForm.find('.form-toolbar'),
                 $formGroups    = $searchForm.find('.form-group'),
                 $filters       = $formGroups.last(),
-                $submitBtn     = $searchForm.find('.form-submitter'),
                 $langSelector  = $searchForm.find('[name="lang"]'),
-                $formContainer = $searchForm.find('.xhtml_form');
+                $formContainer = $searchForm.find('.xhtml_form'),
+                $formTitle     = $searchForm.find('h2');
 
 
             // remove unwanted classes
@@ -55,13 +55,12 @@ define([
             }
 
 
-            // remove 'options' and 'filters'
-            $searchForm.find('.form-group')[0].firstChild.remove();
-            $filters[0].firstChild.remove();
+            // remove 'options', 'filters' and headings
+            $searchForm.find('del').remove();
+            $formTitle.remove();
 
 
-            // add some explanatory text to lang selector
-            $langSelector.find('option:first').text('-- ' + __('any') + ' --');
+            // select current locale
             $langSelector.val(context.locale);
 
             // add regular placeholder
@@ -70,9 +69,7 @@ define([
                 if((/schema_[\d]+_label$/).test(this.name)) {
                     this.placeholder = __('You can use * as a wildcard');
                     $parentDiv = $(this).closest('div');
-                    // remove fake placeholder
-                    $parentDiv.prev().remove();
-                    // remove 'original filename' when empty
+                    // remove 'original filename when empty
                     if(!$.trim($parentDiv.next().find('span').last().html())) {
                         $parentDiv.next().remove();
                     }
@@ -80,11 +77,6 @@ define([
                 }
             });
 
-            // turn submit button in standard design
-            $submitBtn.addClass('btn-success small')
-            $submitBtn.html('');
-            $submitBtn.append($('<span>', {'class': 'icon-find'}));
-            $submitBtn.append($('<span>' + __('Find') + '</span>'));
 
             getContainer('search').html($searchForm);
             toggle();

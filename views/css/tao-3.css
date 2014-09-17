@@ -552,6 +552,7 @@ footer {
       flex: 0 0 500px; }
     .section-container .content-block .data-container-wrapper {
       padding: 41px 0px 0px 20px;
+      overflow: hidden;
       -ms-order: 0;
       -webkit-order: 0;
       order: 0;
@@ -561,6 +562,8 @@ footer {
       -ms-flex: 1 1 auto;
       -webkit-flex: 1 1 auto;
       flex: 1 1 auto; }
+      .section-container .content-block .data-container-wrapper.standalone {
+        padding: 0px; }
       .section-container .content-block .data-container-wrapper .data-container {
         width: 260px;
         margin: 0 20px 20px 0;

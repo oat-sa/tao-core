@@ -292,15 +292,11 @@ label {
             width: 100%;
             max-width: none;
         }
+
         .form-group {
-            margin-bottom: 5px;
-            padding-bottom: 5px;
-        }
-        input {
-            &[type="checkbox"], &[type="radio"] {
-                position: relative;
-                top: 1px;
-                margin-right: 3px;
+            margin-bottom: 0;
+            & > div > div {
+                margin-bottom: 10px;
             }
         }
         label {
@@ -481,5 +477,14 @@ label {
     }
 
 
+}
+
+
+input {
+    &[type="checkbox"], &[type="radio"] {
+        position: relative;
+        top: 1px;
+        margin-right: 3px;
+    }
 }
 

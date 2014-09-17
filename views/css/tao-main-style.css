@@ -17424,12 +17424,9 @@ label {
     width: 100%;
     max-width: none; }
   .search-form .xhtml_form .form-group {
-    margin-bottom: 5px;
-    padding-bottom: 5px; }
-  .search-form .xhtml_form input[type="checkbox"], .search-form .xhtml_form input[type="radio"] {
-    position: relative;
-    top: 1px;
-    margin-right: 3px; }
+    margin-bottom: 0; }
+    .search-form .xhtml_form .form-group > div > div {
+      margin-bottom: 10px; }
   .search-form .xhtml_form label {
     margin: 0; }
   .search-form .xhtml_form .form_radlst {
@@ -17540,6 +17537,11 @@ label {
   float: left; }
 .xhtml_form .btn-success {
   float: right; }
+
+input[type="checkbox"], input[type="radio"] {
+  position: relative;
+  top: 1px;
+  margin-right: 3px; }
 
 /* Style of advanced components */
 /* toggler */

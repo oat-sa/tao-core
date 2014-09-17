@@ -85,6 +85,11 @@
         }
         .data-container-wrapper {
             padding: 41px 0px 0px 20px;
+            overflow:hidden;
+            &.standalone {
+                padding: 0px;
+            }
+
             @include simple-flex-box();
             .data-container {
                 width: 260px;

@@ -399,7 +399,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 if($node['type'] == $action['context'] || $action['context'] == 'resource'){
                     $resolver = $action['resolver'];
                     try{
-                        $node['permissions'][$action['name']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']); 
+                        $node['permissions'][$action['name']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']);
                     //@todo should be a checked exception!
                     } catch(Exception $e){
                         common_Logger::d($e->getMessage() );
@@ -959,6 +959,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				}
 				$this->setData('properties', $properties);
 				$params = $myForm->getValues('params');
+                if(!isset($params['recursive'])){
+                    // 0 => Current class + sub-classes, 10 => Current class only
+                    $params['recursive'] = 10;
+                }
 				$params['like'] = false;
 				
 				$instances = $this->service->searchInstances($filters, $clazz, $params);

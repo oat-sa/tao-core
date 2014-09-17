@@ -18,9 +18,10 @@ define([
     'ui/feedback',
     'layout/actions',
     'layout/tree',
+    'uiForm',
     'jqueryui'],
 
-    function ($, __, context, helpers, feedback, actions, treeFactory) {
+    function ($, __, context, helpers, feedback, actions, treeFactory, uiForm) {
 
     var UiBootstrap = {
 
@@ -47,6 +48,7 @@ define([
                     context.section = $section.attr('id').replace('panel-', '');
 
                     actions.init($section);
+
 
                     $('.taotree', $section).each(function(){
                         var $treeElt = $(this),

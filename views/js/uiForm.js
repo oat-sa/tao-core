@@ -83,15 +83,17 @@ define([
          */
         initRendering: function () {
 
+
             var $container          = $('.content-block .xhtml_form:first'),
                 $firstInp           = $container.find('input[type="text"]:first'),
                 $toolBar            = $container.find('.form-toolbar'),
-                $translator         = $container.find('.form-translator'),
                 $authoringBtn       = $('.authoringOpener'),
                 $authoringBtnParent,
                 $testAuthoringBtn   = $('.test-authoring'),
                 $rdfImportForm      = $('.rdfImport #import'),
                 $rdfExportForm      = $('.rdfExport #export');
+
+
 
             // move authoring button to toolbar, unless it is already there
             if($authoringBtn.length && !$authoringBtn.hasClass('btn-info')) {
@@ -100,11 +102,6 @@ define([
                 $authoringBtn.addClass('btn-info small');
                 $authoringBtn.appendTo($toolBar);
                 $authoringBtnParent.remove();
-            }
-
-            // remove translate button (already in action bar)
-            if($translator.length) {
-                $translator.remove();
             }
 
             // move test authoring button
