@@ -30,14 +30,24 @@ class Action implements PhpSerializable
     const GROUP_DEFAULT = 'tree';
     
     public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
-
+		$url = isset($node['url']) ? (string) $node['url'] : '#';
+		if ($url == '#') {
+			$extension  = null;
+			$controller = null;
+			$action     = null;
+		} else {
+			list($extension, $controller, $action) = explode('/', trim($url, '/'));
+		}
         $data = array(
-            'name'      => (string) $node['name'],
-            'url'       => isset($node['url']) ? (string) $node['url'] : '#',
-            'binding'   => isset($node['binding']) ? (string) $node['binding'] : (isset($node['js']) ? (string) $node['js'] : 'load'),
-            'context'   => (string) $node['context'],
-            'reload'    => isset($node['reload']) ? true : false,
-            'group'     => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT
+            'name'       => (string) $node['name'],
+            'url'        => $url,
+            'binding'    => isset($node['binding']) ? (string) $node['binding'] : (isset($node['js']) ? (string) $node['js'] : 'load'),
+            'context'    => (string) $node['context'],
+            'reload'     => isset($node['reload']) ? true : false,
+            'group'      => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT,
+			'extension'  => $extension,
+			'controller' => $controller,
+			'action'     => $action
         );
 
         if(isset($node->icon)){
@@ -97,16 +107,20 @@ class Action implements PhpSerializable
      */
     public function getExtensionId($url = null) {
         if(is_null($url)){
-            $url = $this->data['url'];
-        }
-        $urlParts = explode('/', trim($url, '/'));
-        if (count($urlParts) == 3) {
-            $ext = (isset($urlParts[0])) ? $urlParts[0] : null;
-            return $ext;
+            return $this->data['extension'];
         } else {
-            return null;
-        }
+			$urlParts = explode('/', trim($url, '/'));
+			return count($urlParts) == 3 ? $urlParts[0] : null;
+		}
     }
+
+	public function getController() {
+		return $this->data['controller'];
+	}
+
+	public function getAction() {
+		return $this->data['action'];
+	}
 
     /**
      * Try to get the action's icon the old way. 
@@ -139,13 +153,11 @@ class Action implements PhpSerializable
     
         $access = true;
         if (!empty($this->data['url'])) {
-            $url = explode('/', trim($this->data['url'], '/'));
-            if (count($url) == 3) {
-                $ext = (isset($url[0])) ? $url[0] : null;
-                $module = (isset($url[1])) ? $url[1] : null;
-                $action = (isset($url[2])) ? $url[2] : null;
-                $access = tao_models_classes_accessControl_AclProxy::hasAccess($action, $module, $ext);
-            }
+			$access = tao_models_classes_accessControl_AclProxy::hasAccess(
+				$this->data['action'],
+				$this->data['controller'],
+				$this->data['extension']
+			);
         }
         return $access;
     }
