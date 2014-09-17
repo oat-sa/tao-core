@@ -118,7 +118,14 @@ define([
                     self._reset($elt);
 
                     var inputHandler = function (e) {
-                        self._selectFiles($elt, _.values(e.target.files));
+                        // _.values also get the length property of the FileList object,
+                        // so we go for a plain old loop.
+                        var finalFiles = [];
+                        _.forEach(e.target.files, function(file) {
+                            finalFiles.push(file);
+                        });
+                        
+                        self._selectFiles($elt, finalFiles);
                     };
 
                     var dragOverHandler = function(e){
