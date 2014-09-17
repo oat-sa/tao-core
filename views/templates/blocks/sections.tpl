@@ -11,7 +11,7 @@ $sections = get_data('sections');
 
                 <li class="small">
                     <a href="#panel-<?= $section->getId() ?>"
-                       data-url="<?= \tao_helpers_Uri::url($section->getAction(),  $section->getController(),  $section->getExtensionId()) ?>"
+                       data-url="<?= $section->getUrl() ?>"
                        title="<?= $section->getName(); ?>"><?= __($section->getName()) ?></a>
                 </li>
 
@@ -31,7 +31,7 @@ $sections = get_data('sections');
                                             data-context="<?= $action->getContext() ?>"
                                             title="<?= $action->getName() ?>"
                                             data-action="<?= $action->getBinding() ?>">
-                                            <a class="li-inner" href="<?= \tao_helpers_Uri::url($action->getAction(), $action->getController(), $action->getExtensionId()) ?>">
+                                            <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                                 <?=
                                                 Layout::renderIcon(
                                                     $action->getIcon(),
@@ -73,7 +73,7 @@ $sections = get_data('sections');
                                     data-context="<?= $action->getContext() ?>"
                                     title="<?= $action->getName() ?>"
                                     data-action="<?= $action->getBinding() ?>">
-                                    <a class="li-inner" href="<?= \tao_helpers_Uri::url($action->getAction(), $action->getController(), $action->getExtensionId()) ?>">
+                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                         <?=
                                         Layout::renderIcon(
                                             $action->getIcon(),
@@ -89,7 +89,7 @@ $sections = get_data('sections');
                                     data-context="<?= $action->getContext() ?>"
                                     data-action="<?= $action->getBinding() ?>"
                                     title="<?= $action->getName() ?>" >
-                                    <a class="li-inner" href="<?= \tao_helpers_Uri::url($action->getAction(), $action->getController(), $action->getExtensionId()) ?>">
+                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                         <?= $action->getName(); ?>
                                     </a>
                                 </li>
@@ -106,7 +106,7 @@ $sections = get_data('sections');
                                 data-context="<?= $action->getContext() ?>"
                                 title="<?= $action->getName() ?>" 
                                 data-action="<?= $action->getBinding() ?>">
-                                <a class="li-inner" href="<?= \tao_helpers_Uri::url($action->getAction(), $action->getController(), $action->getExtensionId()) ?>">
+                                <a class="li-inner" href="<?= $action->getUrl(); ?>">
                                     <?=
                                     Layout::renderIcon(
                                         $action->getIcon(),
@@ -114,6 +114,7 @@ $sections = get_data('sections');
                                     ); ?> <?= $action->getName(); ?>
                                 </a>
                             </li>
+
                         <?php endforeach ?>
                     </ul>
                     <div class="content-block"></div>

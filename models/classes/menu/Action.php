@@ -76,6 +76,10 @@ class Action implements PhpSerializable
         return _url($this->getAction(), $this->getController(), $this->getExtensionId());
     }
     
+    public function getRelativeUrl() {
+        return $this->data['url'];
+    }
+
     public function getBinding() {
         return $this->data['binding'];
     }
@@ -105,15 +109,15 @@ class Action implements PhpSerializable
      * @return string the extension id
      */
     public function getExtensionId() {
-       return $this->data['extension'];
+       return array_key_exists('extension', $this->data) ? $this->data['extension'] : null;
     }
 
 	public function getController() {
-		return $this->data['controller'];
+		return array_key_exists('controller', $this->data) ? $this->data['controller'] : null;
 	}
 
 	public function getAction() {
-		return $this->data['action'];
+		return array_key_exists('action', $this->data) ? $this->data['action'] : null;
 	}
 
     /**
@@ -123,8 +127,7 @@ class Action implements PhpSerializable
      * @return Icon the icon with the src property set to the icon URL.
      */
     private function inferLegacyIcon(){
-        //$ext = $this->getExtensionId();
-        $ext = 'tao';
+        $ext = $this->getExtensionId();
         $name = strtolower(\tao_helpers_Display::textCleaner($this->data['name']));
         $file = $ext . '/views/img/actions/' . $name . '.png';
         $src = 'actions/' . $name . '.png';
