@@ -67,7 +67,7 @@ use oat\tao\helpers\Template;
                         </tbody>
                     </table>
                     <div class="actions">
-                        <button type="button" class="install btn-info small" id="installButton" name="install_extension" value="<?= __('Install') ?>" type="submit" disabled="disabled"><?= __('Install') ?></button>
+                        <button class="install btn-info small" id="installButton" name="install_extension" value="<?= __('Install') ?>" type="submit" disabled="disabled"><?= __('Install') ?></button>
                     </div>
                 </form>
                 <? else: ?>
