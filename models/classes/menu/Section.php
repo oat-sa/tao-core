@@ -246,7 +246,7 @@ class Section extends MenuElement implements PhpSerializable
     
                             //try to find an action with the same url
                             foreach($this->actions as $action){
-                                if(strpos($url, $action->getUrl()) >= 0){
+                                if($action->getRelativeUrl() == $url){
                                     $actionName = $action->getName();
                                     break;
                                 }

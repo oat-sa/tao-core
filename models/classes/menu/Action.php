@@ -76,6 +76,10 @@ class Action implements PhpSerializable
         return _url($this->getAction(), $this->getController(), $this->getExtensionId());
     }
     
+    public function getRelativeUrl() {
+        return $this->data['url'];
+    }
+
     public function getBinding() {
         return $this->data['binding'];
     }
