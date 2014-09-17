@@ -44,9 +44,9 @@ use oat\tao\helpers\Template;
 
 	    
 		<?php foreach (get_data('entries') as $entry) :?>
-		<a href="<?= ROOT_URL . $entry->getExtensionId() . '/' . $entry->getController() . '/' . $entry->getAction() ?>">
+		<a href="<?= \tao_helpers_Uri::_url($entry->getAction(), $entry->getController(), $entry->getExtensionId()); ?>">
 			<span class="tile">
-				<span class="Title"><?=$entry->getTitle()?></span>
+                <span class="Title"><?=$entry->getTitle()?></span>
 				<span class="hintMsg"><?=$entry->getDescription()?></span>
 				<span class="tileLabel"><?=$entry->getLabel()?></span>
             </span>

@@ -6,10 +6,10 @@ $settingsMenu = get_data('settings-menu');
 <nav>
     <ul class="plain clearfix lft main-menu">
         <?php if($mainMenu): ?>
-            <?php foreach ($mainMenu as $entry): ?>
+            <?php foreach ($mainMenu as $entry) : ?>
                 <li <?php if (get_data('shownExtension') === $entry->getExtension()
                 && get_data('shownStructure') === $entry->getId()): ?>class="active"<?php endif ?>>
-                    <a href="<?= ROOT_URL . $entry->getExtensionId() . '/' . $entry->getController() . '/' . $entry->getAction() ?>"
+                    <a href="<?= \tao_helpers_Uri::_url($entry->getAction(), $entry->getController(), $entry->getExtensionId()) ?>"
 					   title="<?= __($entry->getDescription()) ?>">
                         <?= Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
                         <?= __($entry->getName()) ?></a>
@@ -17,8 +17,9 @@ $settingsMenu = get_data('settings-menu');
                         <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
-                                    <a href="<?= ROOT_URL . $entry->getExtensionId() . '/' . $entry->getController() . '/' . $entry->getAction() ?>#panel-<?php
-										echo $child->getId() ?>"><?= $child->getName() ?></a>
+                                    <a href="<?= \tao_helpers_Uri::_url($child->getAction(), $child->getController(), $child->getExtensionId()) ?>#panel-<?php
+										echo $child->getId() ?>"><?php
+										echo $child->getName() ?></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -38,8 +39,9 @@ $settingsMenu = get_data('settings-menu');
             </ul>
         </li-->
         <?php if($settingsMenu): ?>
-            <?php foreach ($settingsMenu as $entry): ?>
-                <?php $className = get_data('shownExtension') === $entry->getExtension() && get_data(
+            <?php foreach ($settingsMenu as $entry) :
+                $entryUrl = \tao_helpers_Uri::_url($entry->getAction(), $entry->getController(), $entry->getExtensionId());
+                $className = get_data('shownExtension') === $entry->getExtension() && get_data(
                     'shownStructure'
                 ) === $entry->getId()
                     ? 'active li-' . $entry->getId()
@@ -48,7 +50,7 @@ $settingsMenu = get_data('settings-menu');
                     <a id="<?= $entry->getId() ?>" <?php 
                     if (!is_null($entry->getBinding())): ?> href="#" data-action="<?= $entry->getBinding() ?>"
                     <?php else : ?>
-                        href="<?= ROOT_URL . $entry->getExtensionId() . '/' . $entry->getController() . '/' . $entry->getAction() ?>#panel-<?= $child->getId() ?>"
+                        href="<?= $entryUrl ?>#panel-<?= $child->getId() ?>"
                     <?php endif ?> title="<?= __($entry->getName()) ?>">
 
                         <?= is_null($entry->getIcon()) ? '' : Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
@@ -68,7 +70,7 @@ $settingsMenu = get_data('settings-menu');
                         <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
-                                    <a href="<?= ROOT_URL . $entry->getExtensionId() . '/' . $entry->getController() . '/' . $entry->getAction() ?>#panel-<?= $child->getId() ?>#panel-<?php
+                                    <a href="<?= $entryUrl ?>#panel-<?= $child->getId() ?>#panel-<?php
 										echo $child->getId() ?>"><?php echo $child->getName() ?></a>
                                 </li>
                             <?php endforeach; ?>
