@@ -44,7 +44,9 @@ $sections = get_data('sections');
                             </div>
                             <div class="search-form">
                                 <div data-purpose="search" data-current="none" class="search-area search-search"></div>
-                                <div data-purpose="filter" class="search-area search-filter">
+                            </div>
+                            <div class="filter-form">
+                                <div class="search-area search-filter">
                                     <div class="xhtml_form">
                                         <div class="form-group">
                                             <input type="text" autocomplete="off" placeholder="<?=__('You can use * as a wildcard')?>">
@@ -112,7 +114,6 @@ $sections = get_data('sections');
                                     ); ?> <?= $action->getName(); ?>
                                 </a>
                             </li>
-
                         <?php endforeach ?>
                     </ul>
                     <div class="content-block"></div>
