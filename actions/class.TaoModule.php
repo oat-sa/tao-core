@@ -373,7 +373,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         }
 
         //then compute ACL for each node of the tree
-        if(is_int(array_keys($tree)[0])){
+        $treeKeys = array_keys($tree);
+        if(is_int($treeKeys[0])){
             foreach($tree as $index => $treeNode){
                 $tree[$index] = $this->computePermissions($actions, $user, $treeNode);
             }
