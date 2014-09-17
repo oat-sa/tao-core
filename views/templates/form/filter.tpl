@@ -30,7 +30,7 @@ require(['jquery', 'context', 'generis.facetFilter', 'grid/tao.grid'], function(
         
 	//set the filter nodes
 	var filterNodes = [
-            <?foreach($properties as $i => $property):?>{
+            <?php foreach($properties as $i => $property):?>{
                     id      : '<?=md5($property->getUri())?>',
                     label   : '<?=$property->getLabel()?>',
                     url     : getUrl,
@@ -38,8 +38,8 @@ require(['jquery', 'context', 'generis.facetFilter', 'grid/tao.grid'], function(
                         'propertyUri'   : '<?= $property->getUri() ?>', 
                         'classUri'      : '<?= $clazz->getUri() ?>'
                     }
-            }<?if($i < count($properties) - 1):?>,<?endif?>
-            <?endforeach;?>
+            }<?php if($i < count($properties) - 1):?>,<?php endif?>
+            <?php endforeach;?>
 	];
 
         //instantiate the facet filter
@@ -51,9 +51,9 @@ require(['jquery', 'context', 'generis.facetFilter', 'grid/tao.grid'], function(
 
 		//define jqgrid column
 		var properties = ['id', 'label'
-		<?foreach(get_data('properties') as $uri => $property):?>
+		<?php foreach(get_data('properties') as $uri => $property):?>
 			 ,'<?=$property->getLabel()?>'
-		<?endforeach?>
+		<?php endforeach?>
 		];
 
 		//define jqgrid model

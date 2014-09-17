@@ -37,7 +37,7 @@
 				
 			</div>
 			
-			<? if (defined('DEBUG_MODE') && DEBUG_MODE == true && !empty($message)): ?>
+			<?php if (defined('DEBUG_MODE') && DEBUG_MODE == true && !empty($message)): ?>
 			<p style="margin-top: 30px">
 				<strong>Debug Message:</strong>
 				
@@ -45,7 +45,7 @@
 					<?= nl2br($message) ?>
 				</p>
 			</p>
-			<? endif; ?>
+			<?php endif; ?>
 			<div id="redirect">
 				<a href="#" id="go_back" class='error_button'><?=__('Go Back')?></a> |
 				<a href="<?= ROOT_URL ?>" id="go_to_tao_bt" class='error_button'><?=__('TAO Home')?></a>

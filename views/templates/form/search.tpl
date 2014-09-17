@@ -2,14 +2,14 @@
 use oat\tao\helpers\Template;
 
 if(get_data('found')):?>
-	<?if(get_data('foundNumber') > 0):?>
+	<?php if(get_data('foundNumber') > 0):?>
 		<table id="result-list"></table>
 		<div id="result-list-pager"></div> 
 	<?else:?>
 		<div class="ui-state-error"><?=__('No result found')?></div>
-	<?endif?>
+	<?php endif?>
 	<br />
-<?endif?>
+<?php endif?>
 
 <div class="main-container">
 
@@ -19,13 +19,13 @@ if(get_data('found')):?>
     </div>
 </div>
 
-<?if(get_data('found')):?>
+<?php if(get_data('found')):?>
 <script>
 require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, generisActions) {
 	var properties = ['id',
-	<?foreach(get_data('properties') as $uri => $property):?>
+	<?php foreach(get_data('properties') as $uri => $property):?>
 		 '<?=$property->getLabel()?>',
-	<?endforeach?>
+	<?php endforeach?>
 		__('Actions')
 	];
 	
@@ -50,17 +50,17 @@ require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, 
 		caption: __("Search results")
 	});
 	
-	<?foreach(get_data('found') as $i => $row):?>
+	<?php foreach(get_data('found') as $i => $row):?>
 	
 	$resultList.jqGrid('addRowData', <?=$i?> , {
 		'id' : <?=$i?>,
-		<?foreach($row['properties'] as $j => $propValue):?>
+		<?php foreach($row['properties'] as $j => $propValue):?>
 			'property_<?=$j?>': "<?=$propValue?>",
-		<?endforeach?>
+		<?php endforeach?>
 		'actions': "<img class='icon' src='<?=Template::img('img/bullet_go.png', 'tao')?>'/><a href='#' class='found-action' data-uri='<?=$row["uri"]?>'><?=__('Open')?></a>"
 	}); 
 	
-	<?endforeach?>	
+	<?php endforeach?>	
         $('.found-action', $resultList).click(function(e){
             e.preventDefault();
             if(typeof openAction === 'function'){

@@ -4,10 +4,10 @@
 		    <span class="hintMsg"><?= get_data('msg') ?></span>
 		</span>
     <?php endif; ?>
-    <? if (get_data('errorMessage')): ?>
+    <?php if (get_data('errorMessage')): ?>
         <div class="ui-widget ui-corner-all ui-state-error error-message">
             <?= urldecode(get_data('errorMessage')) ?>
         </div>
-    <? endif ?>
+    <?php endif ?>
     <?= get_data('form') ?>
 </div>

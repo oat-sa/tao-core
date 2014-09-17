@@ -7,7 +7,7 @@
 <div class="data-container-wrapper"></div>
 
 <?php if(has_data('importErrorTitle')):?>
-    <?if(get_data('importErrors')):?>
+    <?php if(get_data('importErrors')):?>
         <?php
         $msg = '<div>' . get_data('importErrorTitle') ?get_data('importErrorTitle') :__('Error during file import') . '</div>';
         $msg .= '<ul>';
@@ -16,7 +16,7 @@
         }
         $msg .= '</ul>';
         ?>
-    <?endif?>
+    <?php endif?>
     <script>
         require(['ui/feedback'], function(feedback){
             feedback().error(<?=$msg?>);

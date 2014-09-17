@@ -1,13 +1,13 @@
-<?if(get_data('exit')):?>
+<?php if(get_data('exit')):?>
 	<script>
 		window.location = "<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao', 'message' => get_data('message')))?>";
 	</script>
 <?else:?>
-	<?if(get_data('message')):?>
+	<?php if(get_data('message')):?>
 		<div id="info-box" class="ui-widget-header ui-corner-all auto-slide">
 			<span><?=get_data('message')?></span>
 		</div>
-	<?endif?>
+	<?php endif?>
 	
 	<div class="main-container">
 		<h2><?=get_data('formTitle')?></h2>
@@ -28,4 +28,4 @@
                     }
 		});
 	</script>
-<?endif?>
+<?php endif?>

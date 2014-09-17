@@ -29,7 +29,7 @@ use oat\tao\helpers\Template;
 		<?php endif; ?>
 	</div>
 	<div class="ui-widget-content ui-corner-bottom report">
-		<? if (get_data('report')->hasChildren() === true): ?>
+		<?php if (get_data('report')->hasChildren() === true): ?>
 		<label class="tao-scope" id="fold">
 			<span><?= __("Show detailed report"); ?></span>
 			<input type="checkbox"/>

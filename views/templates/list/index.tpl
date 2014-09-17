@@ -22,7 +22,7 @@
                 </ol>
             </div>
             <div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom clearfix data-container-footer <?php !$list['editable'] && print 'hidden'?>">
-                <? if ($list['editable']): ?>
+                <?php if ($list['editable']): ?>
                     <button type="button" title="<?= __('Edit this list') ?>" class="list-edit-btn btn-info small square rgt" data-uri="<?= $list['uri'] ?>">
                         <span class="icon-edit"></span>
                     </button>

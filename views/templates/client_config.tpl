@@ -53,13 +53,13 @@ require.config({
         'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.trunc'		: 'lib/jquery.badonkatrunc',
         'i18n_tr'           : '../locales/<?=get_data('locale')?>.json',
-    <?foreach (get_data('extensionsAliases') as $name => $path) :?>
+    <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
         '<?=$name?>_css'        : '../../../<?=$name?>/views/css',
-        <?if(tao_helpers_Mode::is('production')):?>
+        <?php if(tao_helpers_Mode::is('production')):?>
         '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
-        <?endif?>
-    <?endforeach?>
+        <?php endif?>
+    <?php endforeach?>
         'mediaElement'      : 'lib/mediaelement/mediaelement-and-player.min',
         'mathJax'           : [
             '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',

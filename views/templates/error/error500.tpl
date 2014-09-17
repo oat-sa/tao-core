@@ -32,8 +32,8 @@
 			    </ul>
 			</div>
 			
-			<? if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
-				<? if (!empty($message)): ?>
+			<?php if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
+				<?php if (!empty($message)): ?>
 				<p>
 					<strong>Debug Message:</strong>
 					
@@ -41,9 +41,9 @@
 						<?= nl2br($message) ?>
 					</p>
 				</p>
-				<? endif; ?>
+				<?php endif; ?>
 				
-				<? if (!empty($trace)): ?>
+				<?php if (!empty($trace)): ?>
 				<p>
 					<strong>Stack Trace:</strong>
 					
@@ -51,8 +51,8 @@
 						<?= nl2br($trace) ?>
 					</p>
 				</p>
-				<? endif; ?>
-			<? endif; ?>
+				<?php endif; ?>
+			<?php endif; ?>
 			<div id="redirect">
 				<a href="#" id="go_back" class='error_button'><?=__('Go Back')?></a> |
 				<a href="<?= ROOT_URL ?>" id="go_to_tao_bt" class='error_button'><?=__('TAO Home')?></a>

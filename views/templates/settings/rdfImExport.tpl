@@ -46,6 +46,6 @@ if(get_data('importErrors')):?>
         });
     </script>
 <?php endif ?>
-<?if (has_data('download')):?>
+<?php if (has_data('download')):?>
 	<iframe src="<?=get_data('download');?>" style="height: 0px;min-height: 0px"></iframe>
 <?php endif;?>

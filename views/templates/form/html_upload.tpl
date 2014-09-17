@@ -9,15 +9,15 @@ use oat\tao\helpers\Template;
 
 	<script type='text/javascript' src="<?= Template::js('lib/jquery-1.8.0.min.js')?>"></script>
 
-	<?if(get_data('uploaded') === true):?>
+	<?php if(get_data('uploaded') === true):?>
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-			<?if(get_data('setLinear')):?>
+			<?php if(get_data('setLinear')):?>
 			var fileData = '<?=get_data('uploadData')?>';
 			<?else:?>
 			var fileData = '<?=get_data('uploadFilePath')?>';
-			<?endif?>
+			<?php endif?>
 
 			$("<?=get_data('target')?>", window.opener.document).val(fileData);
 
@@ -32,7 +32,7 @@ use oat\tao\helpers\Template;
 			window.close();
 		});
 	</script>
-	<?endif?>
+	<?php endif?>
 </head>
 <body>
 	<form method='post' enctype='multipart/form-data'>

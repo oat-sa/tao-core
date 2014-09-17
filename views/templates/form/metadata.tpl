@@ -37,4 +37,4 @@ if(get_data('metadata')):
 		</tbody>
 	</table>
 </div>
-<?endif?>
+<?php endif?>

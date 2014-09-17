@@ -1,7 +1,7 @@
 
 <div class="main-container" data-tpl="tao/form/export.tpl">
 <h2><?=get_data('formTitle')?></h2>
-    <?if(has_data('myForm')):?>
+    <?php if(has_data('myForm')):?>
     <div class="form-content">
     <?=get_data('myForm')?>
     </div>

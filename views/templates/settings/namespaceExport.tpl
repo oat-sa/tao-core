@@ -27,24 +27,24 @@
 		</span>
 	<table class="form-elt-container">
 		<tbody>
-	<?foreach($namespaces as $ns):?>
+	<?php foreach($namespaces as $ns):?>
 			<tr>
 				<td>
 					<input 
 						type="checkbox" 
 						name="rdftpl_ns_<?=$ns->getModelId()?>"  
 						id="rdftpl_ns_<?=$ns->getModelId()?>"
-					<?if($localNs == $ns->getModelId()):?>
+					<?php if($localNs == $ns->getModelId()):?>
 						class="rdftpl_ns rdftpl_ns_local" 
 					<?else:?>
 						class="rdftpl_ns" 
-					<?endif?>
+					<?php endif?>
 						
 					/>
 				</td>
 				<td><?=(string)$ns?></td>
 			</tr>
-	<?endforeach?>
+	<?php endforeach?>
 			
 		</tbody>
 	</table>

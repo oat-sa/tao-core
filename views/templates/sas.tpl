@@ -30,21 +30,21 @@ use oat\tao\helpers\Template;
             }
             helpers._autoFx();
 
-            <?if(get_data('errorMessage')):?>
+            <?php if(get_data('errorMessage')):?>
                 helpers.createErrorMessage("<?=get_data('errorMessage')?>");
-            <?endif?>
+            <?php endif?>
         });
     });
 	</script>
 
 </head>
 <body>
-<?if(get_data('message')):?>
+<?php if(get_data('message')):?>
 	<div id="info-box" class="ui-widget-header ui-corner-all auto-slide">
 		<span><?=get_data('message')?></span>
 	</div>
 
-<?endif?>
+<?php endif?>
 
 <?php Template::inc(get_data('includeTemplate'), get_data('includeExtension')); ?>
 	

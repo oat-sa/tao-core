@@ -5,16 +5,16 @@ use oat\tao\helpers\Template;
 	<h2><?=get_data('formTitle')?></div>
 	<div class="form-content">
 		
-		<?if(count(get_data('importErrors')) > 0):?>
+		<?php if(count(get_data('importErrors')) > 0):?>
 			<fieldset class='ui-state-error'>
 				<legend><strong><?=get_data('importErrorTitle')?></strong></legend>
 				<ul id='error-details'>
-				<?foreach(get_data('importErrors') as $ierror):?>
+				<?php foreach(get_data('importErrors') as $ierror):?>
 					<li><?=$ierror['message']?></li>
-				<?endforeach?>
+				<?php endforeach?>
 				</ul>
 			</fieldset>
-		<?endif?>
+		<?php endif?>
 		
 		<?=get_data('myForm')?>
 	</div>

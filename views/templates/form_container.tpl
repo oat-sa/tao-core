@@ -7,12 +7,12 @@ Template::inc('form_context.tpl', 'tao')
     <h2><?=get_data('formTitle')?></h2>
     <div id="form-container" class="ui-widget-content ui-corner-bottom">
     
-    	<?if(has_data('errorMessage')):?>
+    	<?php if(has_data('errorMessage')):?>
     		<fieldset class='ui-state-error'>
     			<legend><strong><?=__('Error')?></strong></legend>
     			<?=get_data('errorMessage')?>
     		</fieldset>
-    	<?endif?>
+    	<?php endif?>
     
     	<?=get_data('myForm')?>
     </div>

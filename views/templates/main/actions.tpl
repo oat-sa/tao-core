@@ -1,9 +1,9 @@
-<?if(get_data('actions')):?>
+<?php if(get_data('actions')):?>
 <div id="action-title" class='ui-widget ui-widget-header ui-state-default container-title  ui-corner-top'><?=__('Actions')?></div>
 	<div id="action-items" class="ui-widget ui-widget-content ui-corner-bottom">
-	<?foreach(get_data('actions') as $action):?>
+	<?php foreach(get_data('actions') as $action):?>
 		<div id="action_<?=$action['name']?>">
-		<?if($action['disabled']):
+		<?php if($action['disabled']):
 			// Snippet: determine what is the action icon depending on the current extension.
 			if (get_data('shownExtension') !== false && file_exists(ROOT_PATH .  $action['ext']  .  '/views/img/actions/' . $action['name'] . '_disabled.png')) {
 				$actionIcon = ROOT_URL . $action['ext'].  '/views/img/actions/' . $action['name'] . '_disabled.png';
@@ -24,12 +24,12 @@
 				<img src="<?=$actionIcon?>" /><br />
 				<?=$action['display']?></a>
 			<?else:?>
-				<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>" title="<?=$action['display']?>">
+				<a class="<?php if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>" title="<?=$action['display']?>">
 				<img src="<?=$actionIcon?>" /><br />
 				<?=$action['display']?></a>
-			<?endif;?>
-		<?endif;?>
+			<?php endif;?>
+		<?php endif;?>
 	</div>
-	<?endforeach;?>
+	<?php endforeach;?>
 </div>
-<?endif;?>
+<?php endif;?>

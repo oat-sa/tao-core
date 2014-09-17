@@ -14,15 +14,15 @@
 		<div id="content">
 			<h1>Error</h1>
 			<p id="warning_msg">
-				<? if (!empty($message)): ?>
+				<?php if (!empty($message)): ?>
 				<?= $message ?>
-				<? endif; ?>
+				<?php endif; ?>
 			</p>
-			<? if (isset($returnLink) && $returnLink == true): ?>
+			<?php if (isset($returnLink) && $returnLink == true): ?>
 			<div id="redirect">
 				<a href="<?= ROOT_URL ?>" id="go_to_tao_bt" class="error_button">TAO Home</a>
 			</div>
-			<? endif; ?>
+			<?php endif; ?>
 		</div>
 	</div>
 </body>
