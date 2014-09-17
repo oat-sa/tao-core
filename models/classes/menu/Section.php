@@ -85,7 +85,7 @@ class Section extends MenuElement implements PhpSerializable
 
     public function getUrl()
     {
-        return $this->data['url'];
+        return _url($this->getAction(), $this->getController(), $this->getExtensionId());
     }
 
     public function getName()
