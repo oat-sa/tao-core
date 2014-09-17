@@ -45,19 +45,10 @@ $sections = get_data('sections');
                             <div class="search-form">
                                 <div data-purpose="search" data-current="none" class="search-area search-search"></div>
                                 <div data-purpose="filter" class="search-area search-filter">
-                                    <div class="search-title">
-                                        <?=__('Filter');?>
-                                    </div>
                                     <div class="xhtml_form">
                                         <div class="form-group">
                                             <input type="text" autocomplete="off" placeholder="<?=__('You can use * as a wildcard')?>">
                                         </div>
-                                        <div class="form-toolbar">
-                                            <button type="button" class="btn-success small">
-                                                <span class="icon-filter"></span> <?= __("Filter") ?>
-                                            </button>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>

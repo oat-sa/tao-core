@@ -1,23 +1,29 @@
-<?php 
-use oat\tao\helpers\Template;
-?>
-<h2><?=get_data('formTitle')?></h2>
-<div class="form-container" data-tpl="tao/import.tpl">
-
-	<?if(get_data('importErrors')):?>
-		<fieldset class='ui-state-error'>
-			<legend><strong><?=(get_data('importErrorTitle'))?get_data('importErrorTitle'):__('Error during file import')?></strong></legend>
-			<ul id='error-details'>
-			<?foreach(get_data('importErrors') as $ierror):?>
-				<li><?=$ierror->__toString()?></li>
-			<?endforeach?>
-			</ul>
-		</fieldset>
-	<?endif?>
-
-
-	<?=get_data('myForm')?>
+<div class="main-container" data-tpl="tao/import.tpl">
+    <h2><?=get_data('formTitle')?></h2>
+    <div class="form-content">
+        <?=get_data('myForm')?>
+    </div>
 </div>
+<div class="data-container-wrapper"></div>
+
+<?php if(has_data('importErrorTitle')):?>
+    <?if(get_data('importErrors')):?>
+        <?php
+        $msg = '<div>' . get_data('importErrorTitle') ?get_data('importErrorTitle') :__('Error during file import') . '</div>';
+        $msg .= '<ul>';
+        foreach(get_data('importErrors') as $ierror) {
+            $msg .= '<li><?=$ierror->__toString()?></li>';
+        }
+        $msg .= '</ul>';
+        ?>
+    <?endif?>
+    <script>
+        require(['ui/feedback'], function(feedback){
+            feedback().error(<?=$msg?>);
+        });
+    </script>
+<?php endif ?>
+
 
 <script type="text/javascript">
 require(['jquery'], function($) {

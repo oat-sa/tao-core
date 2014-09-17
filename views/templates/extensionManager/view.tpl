@@ -2,12 +2,7 @@
 use oat\tao\helpers\Template;
 ?><link rel="stylesheet" type="text/css" href="<?= Template::css('extensionManager.css') ?>" />
 
-<? if(isset($message)): ?>
-<div id="message">
-    <pre><?= $message; ?></pre>
-</div>
-<? endif; ?>
-<div class="data-container-wrapper">
+<div class="data-container-wrapper standalone">
     <div class="grid-row">
         <div class="col-6">
             <h2><?= __('Installed Extensions') ?></h2>
@@ -72,7 +67,7 @@ use oat\tao\helpers\Template;
                         </tbody>
                     </table>
                     <div class="actions">
-                        <input class="install btn-info" id="installButton" name="install_extension" value="<?= __('Install') ?>" type="submit" disabled="disabled" />
+                        <button type="button" class="install btn-info small" id="installButton" name="install_extension" value="<?= __('Install') ?>" type="submit" disabled="disabled"><?= __('Install') ?></button>
                     </div>
                 </form>
                 <? else: ?>
