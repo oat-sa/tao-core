@@ -83,7 +83,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 			$this->assertTrue(strlen($perspective->getExtension()) > 0);
 		    $this->assertTrue(strlen($perspective->getId()) > 0);
 			
-			foreach ($perspective->getSections()  as $section) {
+			foreach ($perspective->getChildren()  as $section) {
 			    $this->assertTrue(strlen($section->getName()) > 0);
 			    $this->assertTrue(strlen($section->getUrl()) > 0);
 			}

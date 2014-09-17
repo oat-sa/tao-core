@@ -86,7 +86,7 @@ class tao_actions_form_AdvancedProperty
     	$elementNames = array();
 		foreach($propertyProperties as $propertyProperty){
 		
-			//map properties widgets to form elments 
+			//map properties widgets to form elements
 			$element = tao_helpers_form_GenerisFormFactory::elementMap($propertyProperty);
 			
 			if(!is_null($element)){
@@ -109,8 +109,12 @@ class tao_actions_form_AdvancedProperty
 		}
 		
 		if(count($elementNames) > 0){
-			$groupTitle = "<img src='".TAOBASE_WWW."img/prop_green.png' /> ".__('Property')." #".($index).": "._dh($property->getLabel());
-			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames, array('class' => 'form-group-opened'));
+            $groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
+                . '<span class="property-heading-toolbar">'
+                . '<span class="icon-edit"></span>'
+                . '<span class="icon-bin property-deleter"></span>'
+                . '</span>';
+			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames);
 		}
     	
 		//add an hidden elt for the property uri
@@ -122,6 +126,4 @@ class tao_actions_form_AdvancedProperty
         
     }
 
-} /* end of class tao_actions_form_AdvancedProperty */
-
-?>
+}

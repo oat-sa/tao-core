@@ -33,3 +33,26 @@ $uiClickableActiveBg: whiten($websiteBorder, .2);
 //$uiClickableActiveBg: #aaa;
 
 $uiOverlay: $lightBlueGrey;
+
+// sidebars etc.
+$canvas: mix(#fff, $grey, 85%);
+
+
+
+$darkBar : rgb(51, 51, 51);
+$darkBarTxt : rgb(230, 230, 230);
+$darkBarIcon : rgb(220, 220, 220);
+
+
+$colorWheel-01: #C3BA13;
+$colorWheel-02: #84A610;
+$colorWheel-03: #2B8E0E;
+$colorWheel-04: #0F9787;
+$colorWheel-05: #0E5D91;
+$colorWheel-06: #0D2689;
+$colorWheel-07: #400D83;
+$colorWheel-08: #960E7D;
+$colorWheel-09: #BA122B;
+$colorWheel-10: #C34713;
+$colorWheel-11: #C36F13;
+$colorWheel-12: #C39413;

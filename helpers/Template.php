@@ -25,23 +25,23 @@ class Template {
         
     /**
      * Expects a relative url to the image as path
-     * if extension name is ommited the current extension is used
+     * if extension name is omitted the current extension is used
      * 
      * @param string $path
-     * @param string $extensionName
+     * @param string $extensionId
      * @return string
      */
-    public static function img($path, $extensionName = null) {
-        if (is_null($extensionName)) {
-            $extensionName = \Context::getInstance()->getExtensionName();
+    public static function img($path, $extensionId = null) {
+        if (is_null($extensionId)) {
+            $extensionId = \Context::getInstance()->getExtensionName();
         }
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
         return $ext->getConstant('BASE_WWW').'img/'.$path;
     }
     
     /**
      * Expects a relative url to the css as path
-     * if extension name is ommited the current extension is used
+     * if extension name is omitted the current extension is used
      * 
      * @param string $path
      * @param string $extensionName
@@ -57,7 +57,7 @@ class Template {
     
     /**
      * Expects a relative url to the java script as path
-     * if extension name is ommited the current extension is used
+     * if extension name is omitted the current extension is used
      * 
      * @param string $path
      * @param string $extensionName
@@ -73,7 +73,7 @@ class Template {
     
     /**
      * Expects a relative url to the template that is to be included as path
-     * if extension name is ommited the current extension is used
+     * if extension name is omitted the current extension is used
      *
      * @param string $path
      * @param string $extensionName
@@ -81,22 +81,14 @@ class Template {
      */
     public static function inc($path, $extensionName = null) {
         if (!is_null($extensionName) && $extensionName != \Context::getInstance()->getExtensionName()) {
-            // template is within diffrent extension, change context
+            // template is within different extension, change context
             $formerContext = \Context::getInstance()->getExtensionName();
             \Context::getInstance()->setExtensionName($extensionName);
         }
         
         $absPath = self::getTemplate($path, $extensionName);
         if (file_exists($absPath)) {
-            try {
-                include($absPath);
-            } catch (\Exception $e) {
-                // restore context before rethrowing exception
-                if (isset($formerContext)) {
-                    \Context::getInstance()->setExtensionName($formerContext);
-                }
-                throw $e;
-            }
+            include($absPath);
         } else {
             \common_Logger::w('Failed to include "'.$absPath.'" in template');
         }
@@ -105,7 +97,12 @@ class Template {
             \Context::getInstance()->setExtensionName($formerContext);
         }
     }
-    
+
+    /**
+     * @param $path
+     * @param null $extensionName
+     * @return string
+     */
     public static function getTemplate($path, $extensionName = null) {
         $extensionName = is_null($extensionName) ? \Context::getInstance()->getExtensionName() : $extensionName;
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);

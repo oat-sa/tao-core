@@ -7,7 +7,7 @@ define([
     'tpl!ui/feedback/feedback'
 ], function($, _, tpl){
 
-    //keep a reference to ALL alive feedbacks 
+    //keep a reference to ALL alive feedback
     var currents = [];
 
     //contains the reference to the main feedback box. We expect other containers to be only edge cases.
@@ -20,8 +20,8 @@ define([
         //If 2 messages of the same category appears, only the last one is displayed
         'volatile'      : ['info', 'success'],
 
-        //perisitent feedbacks stay until their are closed. 
-        //Other persistent feedbacks are merged to keep all the infos. 
+        //persistent feedback stay until their are closed.
+        //Other persistent feedback are merged to keep all the info.
         //To prevent UI pollution, they may be collapsed  in a notification area
         'persistent'    : ['warning', 'error']  
     };
@@ -242,6 +242,7 @@ define([
 
     /**
      * Enables you to create a new feedback.
+     * example fb().error("content");
      * @exports ui/feedback
      * @param {jQUeryElement} [$container] - only to specify another container
      * @returns {Object} the feedback object

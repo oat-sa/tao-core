@@ -552,7 +552,7 @@ abstract class tao_models_classes_GenerisService
                 $searchResult = $clazz->searchInstances($props, $opts);
                 $results = array();
                 foreach ($searchResult as $instance){
-                        $results[] = $factory->buildResourceNode($instance);
+                        $results[] = $factory->buildResourceNode($instance, $clazz);
                 }
                 if ($offset > 0) {
                         $returnValue = $results;

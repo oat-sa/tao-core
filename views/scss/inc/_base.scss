@@ -1,3 +1,5 @@
+@import 'inc/bootstrap';
+
 /* Base style that applies on all elements */
 .viewport-hidden {
     position: absolute;
@@ -5,11 +7,21 @@
     top: -10000px
 }
 
+%clearfix {
+    &:before, &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
 s {
     text-decoration: none;
 }
 
-.deleted {
+.deleted, .hidden {
     display: none !important;
 }
 
@@ -146,9 +158,6 @@ small {
     float: none !important;
 }
 
-.debug {
-    border: 1px firebrick solid
-}
 
 // ok, there is no ul.decimal but then again loops are so nice
 $list_styles: armenian, circle, cjk-ideographic, decimal, decimal-leading-zero, disc, georgian, hebrew, hiragana, hiragana-iroha, katakana, katakana-iroha, lower-alpha, lower-greek, lower-latin, lower-roman, square, upper-alpha, upper-latin, upper-roman, none;
@@ -211,6 +220,10 @@ table.matrix {
             display: block;
             margin: 0
         }
+    }
+    tr {
+        &:nth-child(even){background: white;}
+        &:nth-child(odd){background: lighten($lightBlueGrey,5)}
     }
     [data-edit], [data-edit] * {
         border: none;

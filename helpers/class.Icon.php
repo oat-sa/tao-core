@@ -27,7 +27,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-06-06 16:10
+ * @date   2014-08-28 17:00
  * @package tao
  * @subpackage helpers
  */
@@ -56,6 +56,14 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_PROPERTY_ADVANCED = 'icon-property-advanced';
+    const CLASS_PROPERTY_ADD = 'icon-property-add';
+    const CLASS_REPOSITORY_ADD = 'icon-repository-add';
+    const CLASS_REPOSITORY_REMOVE = 'icon-repository-remove';
+    const CLASS_REPOSITORY = 'icon-repository';
+    const CLASS_RESULT_SERVER = 'icon-result-server';
+    const CLASS_FOLDER = 'icon-folder';
+    const CLASS_FOLDER_OPEN = 'icon-folder-open';
     const CLASS_LEFT = 'icon-left';
     const CLASS_RIGHT = 'icon-right';
     const CLASS_UP = 'icon-up';
@@ -66,8 +74,6 @@ class tao_helpers_Icon {
     const CLASS_LAPTOP = 'icon-laptop';
     const CLASS_TABLET = 'icon-tablet';
     const CLASS_PHONE = 'icon-phone';
-    const CLASS_FOLDER = 'icon-folder';
-    const CLASS_FOLDER_OPEN = 'icon-folder-open';
     const CLASS_MOVE = 'icon-move';
     const CLASS_BIN = 'icon-bin';
     const CLASS_SHUFFLE = 'icon-shuffle';
@@ -228,6 +234,38 @@ class tao_helpers_Icon {
      * List of all icons as function
      */
 
+    public static function iconPropertyAdvanced($options=array()){
+        return self::buildIcon(self::CLASS_PROPERTY_ADVANCED, $options);
+    }
+
+    public static function iconPropertyAdd($options=array()){
+        return self::buildIcon(self::CLASS_PROPERTY_ADD, $options);
+    }
+
+    public static function iconRepositoryAdd($options=array()){
+        return self::buildIcon(self::CLASS_REPOSITORY_ADD, $options);
+    }
+
+    public static function iconRepositoryRemove($options=array()){
+        return self::buildIcon(self::CLASS_REPOSITORY_REMOVE, $options);
+    }
+
+    public static function iconRepository($options=array()){
+        return self::buildIcon(self::CLASS_REPOSITORY, $options);
+    }
+
+    public static function iconResultServer($options=array()){
+        return self::buildIcon(self::CLASS_RESULT_SERVER, $options);
+    }
+
+    public static function iconFolder($options=array()){
+        return self::buildIcon(self::CLASS_FOLDER, $options);
+    }
+
+    public static function iconFolderOpen($options=array()){
+        return self::buildIcon(self::CLASS_FOLDER_OPEN, $options);
+    }
+
     public static function iconLeft($options=array()){
         return self::buildIcon(self::CLASS_LEFT, $options);
     }
@@ -266,14 +304,6 @@ class tao_helpers_Icon {
 
     public static function iconPhone($options=array()){
         return self::buildIcon(self::CLASS_PHONE, $options);
-    }
-
-    public static function iconFolder($options=array()){
-        return self::buildIcon(self::CLASS_FOLDER, $options);
-    }
-
-    public static function iconFolderOpen($options=array()){
-        return self::buildIcon(self::CLASS_FOLDER_OPEN, $options);
     }
 
     public static function iconMove($options=array()){

@@ -75,10 +75,10 @@ class tao_actions_form_Import
     	
     	$submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
     	if($nextButton){
-			$submitElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/next.png' /> ".__('Next')."</a>");
+			$submitElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-next"></span> ' .__('Next').'</a>');
     	}
     	else{
-			$submitElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__("Import")."</a>");
+			$submitElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> ' .__('Import').'</a>');
     	}
 		$this->form->setActions(array($submitElt), 'bottom');
 		$this->form->setActions(array(), 'top');

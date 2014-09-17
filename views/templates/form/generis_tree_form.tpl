@@ -7,10 +7,10 @@
 		<div class="breaker"></div>
 	</div>
 	<div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom" style="text-align:center; padding:4px;">
-		<input id="saver-action-<?=get_data('id')?>" type="button" value="<?=__('Save')?>" />
+		<button id="saver-action-<?=get_data('id')?>" type="button" class="btn-info small"><span class="icon-save"></span> <?=__('Save')?></button>
 	</div>
 </div>
-<script type="text/javascript">
+<script>
 require(['jquery', 'generis.tree.select'], function($, GenerisTreeSelectClass) {
 
         new GenerisTreeSelectClass('#<?=get_data('id')?>-tree', '<?=get_data('dataUrl')?>', {

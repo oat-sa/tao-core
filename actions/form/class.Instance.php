@@ -60,11 +60,11 @@ class tao_actions_form_Instance
 		//add translate action in toolbar
 		$actions = tao_helpers_form_FormFactory::getCommonActions();
 		
-		if(!tao_helpers_Context::check('STANDALONE_MODE')){
-			$translateELt = tao_helpers_form_FormFactory::getElement('translate', 'Free');
-			$translateELt->setValue("<a href='#' class='form-translator' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
-			$actions[] = $translateELt;
-		}
+//		if(!tao_helpers_Context::check('STANDALONE_MODE')){
+//			$translateELt = tao_helpers_form_FormFactory::getElement('translate', 'Free');
+//			$translateELt->setValue("<a href='#' class='form-translator' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
+//			$actions[] = $translateELt;
+//		}
 		
 		//add a hidden form element that states that it is an Instance Form.
 		$instanceElt = tao_helpers_form_FormFactory::getElement('tao.forms.instance', 'Hidden');

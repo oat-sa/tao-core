@@ -44,13 +44,18 @@ class FuncHelper
     /**
      * Helps you to get the name of the class for a given URL. The controller class name is used in privileges definition.
      * @param string $url 
+     * @throws ResolverException
      * @return string the className
      */
     public static function getClassNameByUrl($url){
         $class = null;
         if(!empty($url)){
-            $route = new Resolver(new common_http_Request($url));
-            $class = $route->getControllerClass();
+            try{
+                $route = new Resolver(new common_http_Request($url));
+                $class = $route->getControllerClass();
+            } catch(\ResolverException $re){
+                throw new common_exception_Error('The url "'.$url.'" could not be mapped to a controller : ' . $re->getMessage());
+            }
         }
         if (is_null($class)) {
             throw new common_exception_Error('The url "'.$url.'" could not be mapped to a controller');

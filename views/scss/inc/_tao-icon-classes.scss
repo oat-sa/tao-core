@@ -1,5 +1,15 @@
 @import 'inc/tao-icon-vars.scss';
 [class^="icon-"], [class*=" icon-"] { @extend %tao-icon-setup; }
+.icon-style:before { @extend %icon-style; }
+.icon-ownership-transfer:before { @extend %icon-ownership-transfer; }
+.icon-property-advanced:before { @extend %icon-property-advanced; }
+.icon-property-add:before { @extend %icon-property-add; }
+.icon-repository-add:before { @extend %icon-repository-add; }
+.icon-repository-remove:before { @extend %icon-repository-remove; }
+.icon-repository:before { @extend %icon-repository; }
+.icon-result-server:before { @extend %icon-result-server; }
+.icon-folder:before { @extend %icon-folder; }
+.icon-folder-open:before { @extend %icon-folder-open; }
 .icon-left:before { @extend %icon-left; }
 .icon-right:before { @extend %icon-right; }
 .icon-up:before { @extend %icon-up; }
@@ -10,8 +20,6 @@
 .icon-laptop:before { @extend %icon-laptop; }
 .icon-tablet:before { @extend %icon-tablet; }
 .icon-phone:before { @extend %icon-phone; }
-.icon-folder:before { @extend %icon-folder; }
-.icon-folder-open:before { @extend %icon-folder-open; }
 .icon-move:before { @extend %icon-move; }
 .icon-bin:before { @extend %icon-bin; }
 .icon-shuffle:before { @extend %icon-shuffle; }

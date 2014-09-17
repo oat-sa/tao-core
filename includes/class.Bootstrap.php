@@ -388,28 +388,27 @@ class Bootstrap{
 	 */
 	protected function scripts()
 	{
-		
-            //stylesheets to load
-            tao_helpers_Scriptloader::addCssFiles(
-                array(
-                    TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.22.custom.css',
-                    TAOBASE_WWW . 'js/lib/jwysiwyg/jquery.wysiwyg.css',
-                    TAOBASE_WWW . 'js/lib/jquery.jqGrid-4.4.0/css/ui.jqgrid.css',
-                    TAOBASE_WWW . 'css/style.css',
-                    TAOBASE_WWW . 'css/layout.css',
-                    TAOBASE_WWW . 'css/form.css',
-                    TAOBASE_WWW . 'css/grid.css',
-                    TAOBASE_WWW . 'css/widgets.css',
-                    TAOBASE_WWW . 'css/tao-main-style.css'
-            )
-            );
+        $cssFiles = array(
+            TAOBASE_WWW . 'css/layout.css',
+            TAOBASE_WWW . 'css/tao-main-style.css',
+            TAOBASE_WWW . 'css/tao-3.css'
+        );
 
-            //ajax file upload works only without HTTP_AUTH
-            if(!USE_HTTP_AUTH){
-                    tao_helpers_Scriptloader::addCssFile(
-                            TAOBASE_WWW . 'js/lib/jquery.uploadify/uploadify.css'
-                    );
-            }
-	}
+        //stylesheets to load
+        \tao_helpers_Scriptloader::addCssFiles($cssFiles);
+
+        if(\common_session_SessionManager::isAnonymous()) {
+            tao_helpers_Scriptloader::addCssFile(
+                TAOBASE_WWW . 'css/portal.css'
+            );
+        }
+
+        //ajax file upload works only without HTTP_AUTH
+        if(!USE_HTTP_AUTH){
+            tao_helpers_Scriptloader::addCssFile(
+                TAOBASE_WWW . 'js/lib/jquery.uploadify/uploadify.css'
+            );
+        }
+    }
 }
 ?>

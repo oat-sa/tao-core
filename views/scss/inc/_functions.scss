@@ -1,3 +1,28 @@
+@mixin iterate-sprite($iconList, $x, $y, $direction, $prefix:'') {
+    @each $icon in $iconList {
+        #{$prefix}#{$icon} {
+            background-position: $x * 1px $y * 1px;
+        }
+        @if $direction == 'x' {
+            $x: $x - 16;
+        } @else {
+            $y: $y - 16;
+        }
+    }
+}
+
+@mixin tao-icon-setup() {
+    font-family: 'tao';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 @mixin grid-unit($span, $numCols: 12, $gutter: 0) {
     $gridPx: 840;
     $rawSpanPx: (($gridPx - ($numCols * $gutter)) / $numCols);
@@ -8,10 +33,50 @@
     width: $spanPercent;
 }
 
+
+@mixin vendor-prefix($property, $value, $whatToPrefix, $prefixes: (-webkit-, -moz-, -ms-, -o-, '')) {
+    @if $whatToPrefix == 'property' {
+        @each $prefix in $prefixes {
+            #{$prefix + $property}: #{$value};
+        }
+    }
+    @else if $whatToPrefix == 'value' {
+        @each $prefix in $prefixes {
+            #{$property}: #{$prefix + $value};
+        }
+    }
+}
+
+@mixin flex-container() {
+    @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
+    @include vendor-prefix(direction, row, property, (-ms-, -webkit-, ''));
+    @include vendor-prefix(flex-wrap, nowrap, property, (-ms-, -webkit-, ''));
+    @include vendor-prefix(justify-content, flex-start, property, (-webkit-, ''));
+    @include vendor-prefix(align-content, flex-start, property, (-webkit-, ''));
+    @include vendor-prefix(align-items, stretch, property, (-webkit-, ''));
+    -ms-flex-pack: start;
+    -ms-flex-line-pack: start;
+    -ms-flex-align: stretch;
+}
+
+@mixin simple-flex-box($width: auto) {
+
+    @include vendor-prefix(order, 0, property, (-ms-, -webkit-, ''));
+    @include vendor-prefix(align-self, stretch, property, (-webkit-, ''));
+    -ms-flex-item-align: stretch;
+
+    @if ($width == auto) {
+        @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
+    }
+    @else {
+        @include vendor-prefix(flex, 0 0 $width * 1px, property, (-ms-, -webkit-, ''));
+    }
+}
+
+
+
 @mixin box-shadow($horiz: 1px, $vert: 1px, $blur: 2px, $spread: 0, $color: rgba(0, 0, 0, .2)) {
-    -webkit-box-shadow: $horiz $vert $blur $spread $color;
-    -moz-box-shadow: $horiz $vert $blur $spread $color;
-    box-shadow: $horiz $vert $blur $spread $color;
+    @include vendor-prefix(box-shadow, $horiz $vert $blur $spread $color, property);
 }
 
 @mixin simple-border($color: #ddd) {
@@ -109,50 +174,28 @@
     }
 }
 
-@mixin linear-gradient($angle, $colorStops...) {
-    $angleWidthVendorPrefix: "";
-    $angle: "";
-    @if $angle == "to top" or $angle == "bottom" {
-        $angleWidthVendorPrefix: bottom;
-        $angle: to top;
-    } @else if $angle == "to right" or $angle == "left" {
-        $angleWidthVendorPrefix: left;
-        $angle: to right;
-    } @else if $angle == "to bottom" or $angle == "top" {
-        $angleWidthVendorPrefix: top;
-        $angle: to bottom;
-    } @else if $angle == "to left" or $angle == "right" {
-        $angleWidthVendorPrefix: right;
-        $angle: to left;
-    } @else if $angle == "to top right" or $angle == "bottom left" {
-        $angleWidthVendorPrefix: bottom left;
-        $angle: to top right;
-    } @else if $angle == "to bottom right" or $angle == "top left" {
-        $angleWidthVendorPrefix: top left;
-        $angle: to bottom right;
-    } @else if $angle == "to bottom left" or $angle == "top right" {
-        $angleWidthVendorPrefix: top right;
-        $angle: to bottom left;
-    } @else if $angle == "to top left" or $angle == "bottom right" {
-        $angleWidthVendorPrefix: bottom right;
-        $angle: to top left;
-    } @else {
-        $angleWidthVendorPrefix: $angle % 360;
-        $angle: (90 - $angle) % 360;
-    }
-    background: -webkit-linear-gradient($angleWidthVendorPrefix, $colorStops);
-    background: -moz-linear-gradient($angleWidthVendorPrefix, $colorStops);
-    background: -o-linear-gradient($angleWidthVendorPrefix, $colorStops);
-    background: linear-gradient($angle, $colorStops);
+
+@mixin keyframes($name) {
+    @-o-keyframes #{$name} { @content };
+    @-moz-keyframes #{$name} { @content };
+    @-webkit-keyframes #{$name} { @content };
+    @keyframes #{$name} { @content };
 }
 
-/**
- * Use icon within sass: @inclue icon('down');
- */
+
 @mixin icon($name, $namespace: 'icon') {
     font-family: 'tao';
     @extend %#{$namespace}-#{$name};
     display: inline-block;
+}
+
+
+@mixin animation($value, $type:'') {
+    $animation: animation;
+    @if $type != '' {
+        $animation:  $animation + '-' + $type;
+    }
+    @include vendor-prefix($animation, $value, property);
 }
 
 @mixin transition($type : all, $duration : 0.5s, $effect : ease-out){
@@ -162,42 +205,23 @@
     transition: $type $duration $effect;
 }
 
-/*
- * Fade animation
- */
-@keyframes fade {
-    0%   {opacity:0;}
-    50%   {opacity:1;}
-    100% {opacity:0;}
-}
-@-webkit-keyframes fade {
-    0%   {opacity:0;}
-    50%   {opacity:1;}
-    100% {opacity:0;}
-}
-@-moz-keyframes fade {
-    0%   {opacity:0;}
-    50%   {opacity:1;}
-    100% {opacity:0;}
-}
-@-o-keyframes fade {
-    0%   {opacity:0;}
-    50%   {opacity:1;}
-    100% {opacity:0;}
-}
 @mixin fade($duration: 1s){
-       animation: fade 1s forwards;
-      -webkit-animation: fade 1s forwards;
-      -moz-animation: fade 1s forwards;
-      -o-animation: fade 1s forwards;
+
+    @include keyframes(fade) {
+        0%   {opacity:0;}
+        50%   {opacity:1;}
+        100% {opacity:0;}
+    }
+
+    @include vendor-prefix(animation, fade 1s forwards, property);
 }
 
-/*
- * Repeat animation
- */
 @mixin repeat(){
-      animation-iteration-count: infinite;
-      -webkit-animation-iteration-count: infinite;
-      -moz-animation-iteration-count: infinite;  
-      -o-animation-iteration-count: infinite;
+    @include animation(infinite, iteration-count);
+}
+
+@mixin largeHeading() {
+    @include font-size(20);
+    font-family: $headingFont;
+    font-style: normal;
 }

@@ -1,86 +1,62 @@
 <?php
 use oat\tao\helpers\Template;
-
-Template::inc('layout_header.tpl', 'tao')
+use oat\tao\helpers\Layout;
 ?>
-<div class="content-wrap">
-    <div id="main-menu" class="ui-state-default">
-        <a href="<?=_url('entry', 'Main', 'tao')?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
+<!doctype html>
+<html class="no-js">
+<head>
+    <script src="<?= Template::js('lib/modernizr-2.8/modernizr.js', 'tao')?>"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= Layout::getTitle() ?></title>
+    <link rel="shortcut icon" href="<?= BASE_WWW ?>img/favicon.ico"/>
 
-        <div class="left-menu tao-scope">
-            <?php foreach(get_data('menu') as $entry): ?>
-            <span <? if (get_data('shownExtension') == $entry['extension']): ?>class="current-extension"<?php endif ?>>
-            <a href="<?=$entry['url']?>" title="<?=__($entry['description'])?>"><?=__($entry['name'])?></a>
-            </span>
-            <?php endforeach ?>
-        </div>
+    <?= tao_helpers_Scriptloader::render() ?>
+    <?= Layout::getAmdLoader() ?>
+</head>
 
-        <div class="right-menu tao-scope">
-
-
-            <div>
-                <a id="logout" href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Log Out')?>">
-                    <span class="icon-logout"></span>
-                </a>
-            </div>
-            <?php if (tao_models_classes_accessControl_AclProxy::hasAccess('properties', 'UserSettings', 'tao')): ?>
-            <div class="vr">|</div>
-            <div class="usersettings">
-                <a id="usersettings"
-                   href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>"
-                   title="<?=__('My profile')?>">
-                    <span class="icon-user"></span>
-                    <span class="username"><?=get_data('userLabel')?></span>
-                </a>
-            </div>
-            <?php endif ?>
-
-            <div class="vr">|</div>
-
-            <?php foreach(get_data('toolbar') as $action):?>
-            <div>
-                <a id="<?=$action['id']?>" <? if(isset($action['js'])): ?> href="#" data-action="<?=$action['js']?>"
-                <?php else : ?>
-                href="<?=$action['url']?>"
-                <?php endif ?> title="<?=__($action['title'])?>">
-
-                <?php if(isset($action['icon'])): ?>
-                <span class="<?=$action['icon']?>"></span>
-                <?php endif ?>
-
-                <?php if(isset($action['text'])): ?>
-                <?=__($action['text'])?>
-                <?php endif ?>
-
-                </a>
-            </div>
-            <? endforeach ?>
-
-            <div class="breaker"></div>
-        </div>
-    </div>
-
-    <? if(get_data('sections')):?>
-
-    <div id="tabs">
-        <ul>
-            <?php foreach(get_data('sections') as $section):?>
-            <li id="tab-<?=$section['id']?>"><a id="<?=$section['id']?>" href="<?=ROOT_URL . substr($section['url'], 1) ?>"
-                   title="<?=$section['name']?>"><?=__($section['name'])?></a></li>
-            <?php endforeach ?>
-        </ul>
-
-        <div id="sections-aside">
-            <div id="section-trees"></div>
-            <div id="section-actions"></div>
-        </div>
-        <div class="clearfix"></div>
-        <div id="section-meta"></div>
-    </div>
-    <?php endif; ?>
-
+<body>
+<div id="requirement-check" class="feedback-error js-hide">
+    <span class="icon-error"></span>
+    <span class="requirement-msg-area"><?=__('You must activate JavaScript in your browser to run this application.')?></span>
 </div>
-<!-- /content-wrap -->
-<?php Template::inc('layout_footer.tpl', 'tao') ?>
+<script src="<?= Template::js('layout/requirement-check.js', 'tao')?>"></script>
+
+    <div class="content-wrap">
+
+        <?php /* alpha|beta|sandbox message */
+        if(empty($_COOKIE['versionWarning'])) {
+            Template::inc('blocks/version-warning.tpl', 'tao');
+        }?>
+
+        <?php /* <header> + <nav> */
+        Template::inc('blocks/header.tpl', 'tao'); ?>
+
+
+        <div id="feedback-box"></div>
+
+        <?php /* actual content */
+        $contentTemplate = Layout::getContentTemplate();
+        Template::inc($contentTemplate['path'], $contentTemplate['ext']); ?>
+    </div>
+
+<footer class="dark-bar">
+    © 2013 - <?= date('Y') ?> · <?= TAO_VERSION_NAME ?> ·
+    <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
+    · <?= __('All rights reserved.') ?>
+    <?php $releaseMsgData = Layout::getReleaseMsgData();
+    if ($releaseMsgData['is-unstable'] || $releaseMsgData['is-sandbox']): ?>
+        <span class="rgt">
+            <?php if ($releaseMsgData['is-unstable']): ?>
+                <span class="icon-warning"></span>
+
+            <?php endif; ?>
+            <?=$releaseMsgData['version-type']?> ·
+        <a href="<?=$releaseMsgData['link']?>" target="_blank"><?=$releaseMsgData['msg']?></a></span>
+
+    <?php endif; ?>
+</footer>
+<div class="loading-bar"></div>
 </body>
 </html>

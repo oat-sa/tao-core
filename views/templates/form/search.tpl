@@ -11,15 +11,16 @@ if(get_data('found')):?>
 	<br />
 <?endif?>
 
-<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
-	<?=get_data('formTitle')?>
-</div>
-<div id="form-container" class="ui-widget-content ui-corner-bottom">
-	<?=get_data('myForm')?>
+<div class="main-container">
+
+    <h2><?=get_data('formTitle')?></h2>
+    <div class="form-content">
+        <?=get_data('myForm')?>
+    </div>
 </div>
 
 <?if(get_data('found')):?>
-<script type="text/javascript">
+<script>
 require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, generisActions) {
 	var properties = ['id',
 	<?foreach(get_data('properties') as $uri => $property):?>
@@ -68,7 +69,4 @@ require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, 
         });
 });
 </script>
-<?php
-endif;
-Template::inc('footer.tpl', 'tao')
-?>
+<?php endif; ?>

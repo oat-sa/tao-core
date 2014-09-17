@@ -41,7 +41,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 /**
      * If you want striclty to check if the resource is locked,
      * you should use tao_models_classes_lock_OntoLock::singleton()->isLocked($resource)
-     * Controller level convenience method to check if @resource is being locked, prepare data ans sets view, 
+     * Controller level convenience method to check if @resource is being locked, prepare data ans sets view,
      * @return boolean
      */
     protected function isLocked($resource, $view){
@@ -304,10 +304,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	public function getOntologyData()
 	{
 		if(!tao_helpers_Request::isAjax()){
-			//throw new common_exception_IsAjaxAction(__FUNCTION__); 
+            throw new common_exception_IsAjaxAction(__FUNCTION__); 
 		}
-	
-        $user = tao_models_classes_UserService::singleton()->getCurrentUser();
 	
 		$options = array(
 			'subclasses' => true, 
@@ -347,15 +345,20 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if($this->hasRequestParameter('subclasses')){
 			$options['subclasses'] = $this->getRequestParameter('subclasses');
 		}
-	
+        //generate the tree from the given parameters	
         $tree = $this->service->toTree($clazz, $options);
-/*
+
+        //load the user URI from the session
+        $user = common_Session_SessionManager::getSession()->getUser();
+ 
+        //Get the requested section
         $section = MenuService::getSection(
             $this->getRequestParameter('extension'), 
             $this->getRequestParameter('perspective'), 
             $this->getRequestParameter('section')
         );
 
+        //Get the actions from the section and bind them an ActionResolver that helps getting controller/action from action URL.
         $actions = array();
         foreach($section->getActions() as $index => $action){
             try{
@@ -365,37 +368,48 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                     'context'   => $action->getContext()
                 );
             } catch(\ResolverException $re){
-                common_Logger::d('do not handle privileges for action : ' . $action->getName() . ' ' . $action->getUrl());
+                common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
             }
         }
 
+        //then compute ACL for each node of the tree
         if(is_int(array_keys($tree)[0])){
             foreach($tree as $index => $treeNode){
-                $tree[$index] = $this->computeAccessControls($actions, $user, $treeNode);
+                $tree[$index] = $this->computePermissions($actions, $user, $treeNode);
             }
         } else { 
-            $tree = $this->computeAccessControls($actions, $user, $tree);
+            $tree = $this->computePermissions($actions, $user, $tree);
         }
-*/
+
+        //expose the tree
         $this->returnJson($tree);
 	}
 
-    private function computeAccessControls($actions, $user, $node){
+    /**
+     * compulte permissions for a node against actions
+     * @param array[] $actions the actions data with context, name and the resolver
+     * @param User $user the user 
+     * @param array $node a tree node
+     * @return array the node augmented with permissions
+     */
+    private function computePermissions($actions, $user, $node){
         if(isset($node['_data'])){
+            
             foreach($actions as $action){
                 if($node['type'] == $action['context'] || $action['context'] == 'resource'){
                     $resolver = $action['resolver'];
                     try{
-                        $node['_acl'][$action['name']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']); 
+                        $node['permissions'][$action['name']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']);
+                    //@todo should be a checked exception!
                     } catch(Exception $e){
-                        common_Logger::w($e->getMessage() );
+                        common_Logger::d($e->getMessage() );
                     }
                 }
             }
         }
         if(isset($node['children'])){
             foreach($node['children'] as $index => $child){
-                $node['children'][$index] = $this->computeAccessControls($actions, $user, $child);    
+                $node['children'][$index] = $this->computePermissions($actions, $user, $child);    
             }
         }
         return $node;
@@ -403,6 +417,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
 	/**
 	 * Add an instance of the selected class
+     * @requiresRight classUri WRITE 
 	 * @return void
 	 */
 	public function addInstance()
@@ -429,7 +444,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
 	/**
 	 * Add a subclass to the currently selected class
-	 * 
+     * @requiresRight classUri WRITE 
 	 * @throws Exception
 	 */
 	public function addSubClass()
@@ -944,6 +959,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				}
 				$this->setData('properties', $properties);
 				$params = $myForm->getValues('params');
+                if(!isset($params['recursive'])){
+                    // 0 => Current class + sub-classes, 10 => Current class only
+                    $params['recursive'] = 10;
+                }
 				$params['like'] = false;
 				
 				$instances = $this->service->searchInstances($filters, $clazz, $params);

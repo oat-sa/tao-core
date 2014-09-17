@@ -1,0 +1,153 @@
+@import 'inc/bootstrap';
+
+.section-container {
+    top: 0 !important;
+
+    .content-panel.ui-tabs-panel {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding:0;
+        border: none !important;
+        @include flex-container();
+    }
+
+    .tab-container {
+        border: none;
+        display:none;
+        &.ui-tabs-nav {
+            display:block;
+        }
+        a {
+            top: 0 !important;
+        }
+        li {
+            top:0;
+            margin: 0 1px 0px 0;
+            border-top: 1px solid $canvas !important;
+            border-bottom: 1px solid $canvas !important;
+            a {
+                margin-bottom: 0 !important;
+            }
+            &.ui-state-default {
+                cursor:default;
+                background: $canvas !important;
+                margin-right: 1px !important;
+                &.ui-state-active {
+                    border-bottom-color: whiten($info, .25) !important;
+                    border-top-color: whiten($info, .4) !important;
+                    background: whiten($info, .1) !important;
+                    a {
+                        background: transparent !important;
+                        border-color:  transparent !important;
+                        color: $textHighlight !important;
+                    }
+                }
+            }
+            &.ui-state-disabled{
+                display:none;
+            }
+        }
+    }
+
+
+    .navi-container {
+        display:none;
+        background:  $canvas;
+        @include simple-flex-box($treeSidebar);
+        border-right: 1px $uiGeneralContentBorder solid;
+        .block-title {
+            @include font-size(14);
+            padding: 2px 8px;
+            margin: 0;
+        }
+        .tree-action-bar-box {
+            margin: 10px 0;
+            opacity: 0;
+            &.active {
+                opacity: 1;
+                @include vendor-prefix(opacity, .25s ease-in-out, property, (-webkit-, -moz-, ''));
+            }
+        }
+    }
+
+    .content-container {
+        border: none;
+        @include simple-flex-box();
+    }
+
+
+    .content-block {
+        padding: 20px;
+        @include flex-container();
+        .main-container {
+            @include simple-flex-box(500);
+        }
+        .data-container-wrapper {
+            padding: 41px 0px 0px 20px;
+            overflow:hidden;
+            &.standalone {
+                padding: 0px;
+            }
+
+            @include simple-flex-box();
+            .data-container {
+                width: 260px;
+                margin: 0 20px 20px 0;
+                float: left;
+                @include simple-border();
+                .emptyContentFooter {
+                    display:none;
+                }
+                form {
+                    background:none;
+                    border:none;
+                    margin: 0;
+                    padding: 0;
+                }
+                .ui-widget-header {
+                    background: $canvas;
+                    border-width:0px !important;
+                    border-bottom: 1px #ddd solid !important;
+                }
+                .ui-widget-content {
+                    &.data-container-footer {
+                        background: $canvas;
+                        text-align: right !important;
+                        padding:4px;
+                        border-width:0px !important;
+                        border-top: 1px #ddd solid !important;
+                        .square {
+                            width: 28px;
+                            span {
+                                padding: 0;
+                                left: 0
+                            }
+                        }
+                    }
+                    &.container-content {
+                        border-width:0px !important;
+                    }
+                }
+                ol {
+                    margin: 0 0 0 15px;
+                    padding: 10px;
+                }
+
+            }
+        }
+
+        #form-container.ui-widget-content {
+            border:none !important
+        }
+        form:not(.list-container) {
+            border: 1px $uiGeneralContentBorder solid;
+            background: $canvas;
+            padding: 30px;
+            @include simple-border();
+        }
+        [class^="btn-"], [class*=" btn-"] {
+            margin: 0 2px;
+        }
+    }
+}

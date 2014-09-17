@@ -134,6 +134,7 @@ class tao_helpers_I18n
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  boolean langName If set to true, an associative array where keys are language codes and values are language labels. If set to false (default), a simple array of language codes is returned.
      * @return array
+     * @throws common_exception_InconsistentData
      */
     private static function getAvailableLangs()
     {
@@ -183,7 +184,7 @@ class tao_helpers_I18n
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource usage An instance of tao:LanguagesUsages from the knowledge base.
+     * @param core_kernel_classes_Resource $usage  Resource usage An instance of tao:LanguagesUsages from the knowledge base.
      * @return array
      */
     public static function getAvailableLangsByUsage( core_kernel_classes_Resource $usage)

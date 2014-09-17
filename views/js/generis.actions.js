@@ -6,7 +6,11 @@
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @author Jehan Bihin
  */
-define(['jquery', 'helpers'], function($, helpers) {
+define([
+    'jquery',
+    'helpers',
+    'layout/post-render-props'
+], function($, helpers, postRenderProps) {
     
         var mainTree;
     
@@ -25,22 +29,22 @@ define(['jquery', 'helpers'], function($, helpers) {
                  */
                 _listenForActions : function(){
                     var self = this;
-                    $(document).on('click', '#section-actions [data-action]', function(e){
-                        e.preventDefault();
-                        var $elt = $(this);
-                        var action = $elt.data('action');
-                        var url = $elt.attr('href');
-                        var uri = $elt.data('uri');
-                        var classUri = $elt.data('class-uri');
+                    //$(document).on('click', '#section-actions [data-action]', function(e){
+                        //e.preventDefault();
+                        //var $elt = $(this);
+                        //var action = $elt.data('action');
+                        //var url = $elt.attr('href');
+                        //var uri = $elt.data('uri');
+                        //var classUri = $elt.data('class-uri');
                         
-                        if(self[action] && typeof self[action] === 'function'){
-                            self[action](uri, classUri, url);
-                        }
-                    });
+                        //if(self[action] && typeof self[action] === 'function'){
+                            //self[action](uri, classUri, url);
+                        //}
+                    //});
                 },
                 
 		/**
-		 * conveniance method to select a resource
+		 * convenience method to select a resource
 		 * @param {String} uri
 		 */
 		select: function(uri) {
@@ -48,7 +52,7 @@ define(['jquery', 'helpers'], function($, helpers) {
 		},
                 
 		/**
-		 * conveniance method to subclass
+		 * convenience method to subclass
 		 * @param {String} uri
 		 * @param {String} classUri
 		 * @param {String} url
@@ -63,7 +67,7 @@ define(['jquery', 'helpers'], function($, helpers) {
 		},
                 
 		/**
-		 * conveniance method to instanciate
+		 * convenience method to instanciate
 		 * @param {String} uri
 		 * @param {String} classUri
 		 * @param {String} url
@@ -77,7 +81,7 @@ define(['jquery', 'helpers'], function($, helpers) {
 			}
 		},
 		/**
-		 * conveniance method to instanciate
+		 * convenience method to instanciate
 		 * @param {String} uri
 		 * @param {String} classUri
 		 * @param {String} url
@@ -93,7 +97,7 @@ define(['jquery', 'helpers'], function($, helpers) {
 			}
 		},
 		/**
-		 * conveniance method to clone
+		 * convenience method to clone
 		 * @param {String} uri
 		 * @param {String} classUri
 		 * @param {String} url
@@ -163,7 +167,14 @@ define(['jquery', 'helpers'], function($, helpers) {
 		 * @param {String} url
 		 */
 		addProperty: function (uri, classUri, url) {
-			var index = ($(".form-group").size());
+            var $existingProperties = $('.property-block'),
+                index = $existingProperties.length;
+
+            $existingProperties.each(function() {
+                index = Math.max(parseInt(this.id.replace(/[\D]+/, '')), index);
+            });
+            index++;
+
 			$.ajax({
 				url: url,
 				type: "POST",
@@ -173,12 +184,14 @@ define(['jquery', 'helpers'], function($, helpers) {
 				},
 				dataType: 'html',
 				success: function(response){
-					$(".form-group:last").after(response);
-					var formGroupElt = $("#property_" + index);
-					if(formGroupElt){
-						formGroupElt.addClass('form-group-opened');
-					}
-					//window.location = '#propertyAdder';
+                    response = $(response);
+                    // reduce response to a single jquery object by adding the hidden input to the div
+                    var property = response.last(),
+                        input = response.first();
+
+                    input.appendTo(property);
+
+                    postRenderProps.init(property);
 				}
 			});
 		},

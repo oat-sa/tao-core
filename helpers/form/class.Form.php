@@ -496,10 +496,10 @@ abstract class tao_helpers_form_Form
 				$this->getDecorator('group')->setOption('id', $groupName);
 				if(isset($group['options'])){
 					if(isset($group['options']['class'])){
-						$currentClasses = explode(' ',$this->getDecorator('group')->getOption('cssClass'));
+						$currentClasses = array_map('trim', explode(' ',$this->getDecorator('group')->getOption('cssClass')));
 						if(!in_array($group['options']['class'], $currentClasses)){
 							$currentClasses[] = $group['options']['class'];
-							$this->getDecorator('group')->setOption('cssClass', implode(' ', $currentClasses));
+							$this->getDecorator('group')->setOption('cssClass', implode(' ', array_unique($currentClasses)));
 						}
 					}
 				}
@@ -513,7 +513,7 @@ abstract class tao_helpers_form_Form
 			foreach($this->elements as $element){
 				 if($this->getElementGroup($element->getName()) == $groupName){
 				 
-				 	if(!is_null($this->getDecorator()) && !($element instanceof tao_helpers_form_elements_Hidden) ){
+				 	if(!is_null($this->getDecorator())){// && !($element instanceof tao_helpers_form_elements_Hidden) ){
 					 	$returnValue .= $this->getDecorator()->preRender();
 					 }
 					 
@@ -545,7 +545,7 @@ abstract class tao_helpers_form_Form
 					 	}
 					 }
 					 
-					 if(!is_null($this->getDecorator()) && !($element instanceof tao_helpers_form_elements_Hidden) ){
+					 if(!is_null($this->getDecorator())){// && !($element instanceof tao_helpers_form_elements_Hidden) ){
 					 	$returnValue .= $this->getDecorator()->postRender();
 					 }
 				 }
@@ -574,8 +574,6 @@ abstract class tao_helpers_form_Form
     public function renderActions($context = 'bottom')
     {
         $returnValue = (string) '';
-
-        
 		
 		if(isset($this->actions[$context])){
 			
@@ -811,6 +809,7 @@ abstract class tao_helpers_form_Form
      * @param  array elements array of form elements or their identifiers
      * @param  array options
      * @return mixed
+     * @throws common_Exception
      */
     public function createGroup($groupName, $groupTitle = '', $elements = array(), $options = array())
     {
@@ -884,20 +883,20 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string grouName
+     * @param  string groupName
      * @return boolean
      */
-    public function removeGroup($grouName)
+    public function removeGroup($groupName)
     {
         $returnValue = (bool) false;
 
         
 		
-		if(isset($this->groups[$grouName])){
-			foreach($this->groups[$grouName]['elements'] as $element){
+		if(isset($this->groups[$groupName])){
+			foreach($this->groups[$groupName]['elements'] as $element){
 				$this->removeElement($element);
 			}
-			unset($this->groups[$grouName]);
+			unset($this->groups[$groupName]);
 		}
 		
         
@@ -927,6 +926,4 @@ abstract class tao_helpers_form_Form
      */
     public abstract function render();
 
-} /* end of abstract class tao_helpers_form_Form */
-
-?>
+}

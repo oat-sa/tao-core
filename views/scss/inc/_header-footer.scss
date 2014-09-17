@@ -1,0 +1,226 @@
+@import "inc/bootstrap";
+
+#requirement-check {
+    margin: 40px auto;
+    width: 60%;
+    min-width: 500px;
+    max-width: 1000px
+}
+
+.version-warning {
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    padding: 0 20px 0 45px !important;
+    line-height: 2;
+    border-bottom: 1px $uiGeneralContentBorder solid;
+    span {
+        top: 5px !important;
+    }
+}
+
+// html.no-version-warning added by JS
+.no-version-warning {
+    .version-warning {
+        display:none;
+    }
+}
+
+#tao-main-logo {
+    margin: 6px 30px 6px 30px;
+    display: block;
+    width: 79px;
+    height: 52px;
+
+}
+
+//Navigation
+nav {
+    position: relative;
+    z-index: 8000;
+    li {
+        float: left;
+        position: relative;
+        @include font-size(13);
+        & > a {
+            text-align: center;
+            display: block;
+            height: 64px;
+            outline: 0 !important;
+            [class^="icon-"], [class*=" icon-"] {
+                text-shadow: 0 0 0 transparent !important;
+                line-height: 1;
+                color: $darkBarIcon;
+                position: relative;
+                top: 2px;
+            }
+            &:hover {
+                -webkit-transition: background-color 0.3s ease;
+                -o-transition: background-color 0.3s ease;
+                transition: background-color 0.3s ease;
+                background: rgba($info, .5);
+                text-decoration: none;
+                span {
+                    color: white;
+                }
+            }
+        }
+        &.active {
+            & > a {
+                background-color: whiten($info, .05);
+                opacity: 1;
+                color: white(.9) !important;
+                &.hover {
+                    color: white !important;
+                }
+            }
+        }
+        // sub menu
+        ul {
+           // display:none;
+            //@todo make sub menus work
+            background: $darkBar;
+            position: absolute;
+            left: -10000px;
+            opacity: 0;
+            top: 64px;
+            border-top: 1px solid #666;
+            padding: 5px 0 !important;
+            li {
+                display: block;
+                width: 100%;
+                a {
+                    background: $darkBar;
+                    padding: 6px 20px !important;
+                    text-align: left;
+                    display: block;
+                    height: auto;
+                    white-space: nowrap;
+                    &:hover {
+                        background: rgba($info, .5);
+                    }
+                }
+            }
+        }
+        // display sub menu on hover
+        &:hover {
+            ul {
+                -webkit-transition: opacity 0.4s ease;
+                -o-transition: opacity 0.4s ease;
+                transition: opacity 0.4s ease;
+                opacity: 1;
+                left: 0;
+            }
+        }
+    }
+
+    .main-menu {
+        li {
+            min-width: 80px;
+            @include font-size(13);
+            & > a {
+                padding: 13px 15px 11px;
+                span {
+                    @include font-size(20);
+                    padding-bottom: 3px;
+                    display: block;
+                }
+            }
+            ul {
+                min-width: 130px;
+            }
+        }
+    }
+    .settings-menu {
+        padding-right: 20px;
+        li {
+            min-width: 25px;
+            @include font-size(13);
+            & > a {
+                padding: 22px 8px 0px 8px;
+                span {
+                    @include font-size(13);
+                    display: inline-block;
+                }
+                [class^="icon-"], [class*=" icon-"] {
+                    @include font-size(18);
+                    padding: 0 2px;
+                }
+            }
+            ul {
+                min-width: 130px;
+            }
+            &.li-help, &.li-user_settings {
+                padding-left: 15px;
+                position: relative;
+                &:before {
+                    content: ' ';
+                    background: #666;
+                    width: 1px;
+                    position: absolute;
+                    top: 25px;
+                    left: 7px;
+                    height: 20px;
+                }
+            }
+            // display sub menu on hover
+            &:hover {
+                ul {
+                    left: auto;
+                    right: 0;
+                }
+            }
+        }
+
+    }
+}
+
+.dark-bar {
+    background: $darkBar;
+    color: $darkBarTxt;
+    a {
+        color: $darkBarTxt;
+        &:hover {
+            color: white;
+            text-decoration: none;
+        }
+    }
+}
+
+header {
+    position: relative;
+    border-bottom: 1px $uiGeneralContentBorder solid;
+}
+
+// Footer
+footer, .content-wrap:after {
+    // must be the same height as footer
+    height: 34px;
+}
+
+footer {
+    font-size: 11px;
+    padding: 10px;
+    border-top: 1px $uiGeneralContentBorder solid;
+    a {
+        text-decoration: underline
+    }
+    .icon-warning {
+        text-shadow: 0 0 0 transparent;
+        color: #fc6;
+        padding-right: 2px;
+        position: relative;
+        top: 1px;
+    }
+}
+
+.content-wrap {
+    min-height: 100%;
+    // equal to footer height
+    margin-bottom: -34px;
+}
+
+.content-wrap:after {
+    content: "";
+    display: block;
+}

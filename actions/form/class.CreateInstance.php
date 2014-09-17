@@ -81,7 +81,8 @@ class tao_actions_form_CreateInstance
     	
 		//add create action in toolbar
 		$action = tao_helpers_form_FormFactory::getElement('save', 'Free');
-		$value =  "<a href='#' class='form-submiter' ><img src='".Template::img('save.png', 'tao')."' /> ".__('Create')."</a>";
+		$value =  '<a href="#" class="form-submitter btn-success small"><span class="icon-save"></span> ' .__('Create').'</a>';
+
 		$action->setValue($value);
 		
 		$this->form->setActions(array($action), 'top');
@@ -202,6 +203,4 @@ class tao_actions_form_CreateInstance
         
     }
 
-} /* end of class tao_actions_form_CreateInstance */
-
-?>
+}

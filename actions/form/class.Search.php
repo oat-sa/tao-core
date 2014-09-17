@@ -58,7 +58,7 @@ class tao_actions_form_Search
 		
 		//search action in toolbar
 		$searchElt = tao_helpers_form_FormFactory::getElement('search', 'Free');
-		$searchElt->setValue("<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/search.png'  /> ".__('Search')."</a>");
+		$searchElt->setValue('<button type="button" class="form-submitter btn-success small"><span class="icon-find"></span>' .__('Search').'</button>');
 		$this->form->setActions(array($searchElt), 'top');
 		$this->form->setActions(array($searchElt), 'bottom');
     	
@@ -84,7 +84,7 @@ class tao_actions_form_Search
      */
     protected function initElements()
     {
-        
+
         
     	$chainingElt = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
 		$chainingElt->setDescription(__('Filtering mode'));
@@ -92,12 +92,11 @@ class tao_actions_form_Search
 		$chainingElt->setValue('or');
 		$this->form->addElement($chainingElt);
 		
-		$recursiveElt = tao_helpers_form_FormFactory::getElement('recursive', 'Radiobox');
-		$recursiveElt->setDescription(__('Recursive'));
-		$recursiveElt->setOptions(array( '0' =>  __('Current class + Subclasses'),'10' => __('Current class only')));
-		$recursiveElt->setValue('current');
+		$recursiveElt = tao_helpers_form_FormFactory::getElement('recursive', 'Checkbox');
+		$recursiveElt->setDescription(__('Scope'));
+		$recursiveElt->setOptions(array('0' =>  __('Search sub-classes')));
 		$this->form->addElement($recursiveElt);
-		
+
 		$searchClassUriElt = tao_helpers_form_FormFactory::getElement("clazzUri", "Hidden");
 		$searchClassUriElt->setValue(tao_helpers_Uri::encode($this->clazz->getUri()));
 		$this->form->addElement($searchClassUriElt);
@@ -105,21 +104,16 @@ class tao_actions_form_Search
 		$langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
 		$langElt->setDescription(__('Language'));
 		
-		$languages = array_merge(array('  '), tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA)));
+		$languages = array_merge(array('-- any --'), tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA)));
 		$langElt->setOptions($languages);
 		$langElt->setValue(0);
 		$this->form->addElement($langElt);
 		
-		$this->form->createGroup('params', __('Options'), array('chaining', 'recursive', 'lang'));
+		$this->form->createGroup('params', __('<del>Options</del>'), array('chaining', 'recursive', 'lang'));
 		
-		
+
 		$filters = array();
-		
-		$descElt = tao_helpers_form_FormFactory::getElement('desc', 'Label');
-		$descElt->setValue(__('Use the * character to replace any string'));
-		$this->form->addElement($descElt);
-		$filters[] = 'desc';
-		
+
 		$defaultProperties 	= tao_helpers_form_GenerisFormFactory::getDefaultProperties();
 		$classProperties	= $this->getClassProperties();
 
@@ -157,11 +151,9 @@ class tao_actions_form_Search
 				$filters[] = $element->getName();
 			}
 		}
-		$this->form->createGroup('filters', __('Filters'), $filters);
+		$this->form->createGroup('filters', __('<del>Filters</del>'), $filters);
     	
         
     }
 
-} /* end of class tao_actions_form_Search */
-
-?>
+}

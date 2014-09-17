@@ -10,17 +10,15 @@
 @import "inc/resourcemgr";
 @import "inc/mediasizer";
 
-
 #tab-items_preview {
     display: none !important;
 }
-
-
 
 // better z-indices on mobiles
 body {
     z-index: 0;
 }
+
 
 // set all block elements to have no space on top
 address, article, aside, audio, blockquote, canvas, dd, div, dl, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header,
@@ -93,7 +91,8 @@ a[rel="external"] span.icon-external {
     }
 }
 
-.tao-scope {
+
+//.tao-scope {
     @import "inc/buttons";
     @import "inc/jquery-ui";
     @import "inc/jquery.nouislider";
@@ -101,10 +100,13 @@ a[rel="external"] span.icon-external {
     @import "inc/forms";
     @import "inc/components";
 
-    position: relative;
+    body {
 
-    font-family: $regularFont;
-    font-weight: normal;
+        position: relative;
+
+        font-family: $regularFont;
+        font-weight: normal;
+    }
 
     h1, h2, h3, h4, h5, h6 {
         font-weight: normal;
@@ -130,4 +132,4 @@ a[rel="external"] span.icon-external {
     select {
         max-width: 100%
     }
-}
+//}

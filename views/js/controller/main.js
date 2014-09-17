@@ -1,9 +1,26 @@
-define(['uiBootstrap', 'helpers', 'uiForm', 'generis.actions', 'controller/main/toolbar'], 
-    function (UiBootstrap, Helpers, UiForm, GenerisActions, toolbar) {
+define([
+    'jquery',
+    'uiBootstrap',
+    'helpers',
+    'uiForm',
+    'generis.actions',
+    'controller/main/toolbar',
+    'layout/version-warning',
+    'layout/section-height'
+],
+    function (
+        $,
+        UiBootstrap,
+        Helpers, UiForm,
+        GenerisActions,
+        toolbar,
+        versionWarning,
+        sectionHeight
+        ) {
 
     return {
         start : function(){
-            
+
             //initialize legacy components
             UiBootstrap.init();
             Helpers.init();
@@ -12,6 +29,13 @@ define(['uiBootstrap', 'helpers', 'uiForm', 'generis.actions', 'controller/main/
             
             //initialize main components
             toolbar.setUp();
+
+            versionWarning.init();
+
+            sectionHeight.init();
+
+
         }
     };
 });
+

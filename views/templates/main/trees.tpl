@@ -1,27 +1,33 @@
-<?
-	if(has_data('trees')):
-		foreach(get_data('trees') as $i => $tree):
-?>
-		<div class="tree-block">
-			<div class="ui-widget-header ui-corner-top ui-state-default container-title"><?=__((string)$tree['name'])?></div>
-			<div id="tree-actions-<?=$i?>" class="tree-actions">
-				<input type="text"   id="filter-content-<?=$i?>" value="*"  autocomplete='off'  size="10" title="<?=__('Use the * character to replace any string')?>" />
-				<input type='button' id="filter-action-<?=$i?>"  value="<?=__("Filter")?>" />
-				<input type='button' id="filter-cancel-<?=$i?>"  value="<?=__("Finish")?>" class="ui-helper-hidden ui-state-error"/>
-			</div>
-			<div class="ui-widget ui-widget-content ui-corner-bottom">
-				<div id="tree-<?=$i?>"></div>
-			</div>
-		</div>
-<?endforeach?>
+<?php if (has_data('trees')): ?>
+    <?php foreach (get_data('trees') as $i => $tree): ?>
+        <div class="tree-block">
+            <ul id="tree-actions-<?= $i ?>" class="plain search-action-bar action-bar horizontal-action-bar">
+                <li class="tree-search btn-info small action">
+                    <a href=""><?=__('Filter')?><span class="icon-find r"></span></a>
+                    <ul class="plain hidden">
+                        <li class="tree-filters">
+                            <input type="text" id="filter-content-<?= $i ?>" autocomplete="off" size="10"
+                                   placeholder="<?= __('* = any string') ?>"/>
+                            <span id="filter-action-<?= $i ?>" title="<?= __("Filter") ?>" class="icon-filter"></span>
+                            <span id="filter-cancel-<?= $i ?>" title="<?= __("Remove filter") ?>" class="icon-close"></span>
+                        </li>
+                    </ul>
+                </li>
+                <li class="tree-search btn-info small action">
+                    <a href=""><?=__('Search')?><span class="icon-find r"></span></a>
+                </li>
+            </div>
+            <div id="tree-<?= $i ?>"></div>
+        </ul>
+    <?php endforeach; ?>
 
-<?endif?>
-<script type="text/javascript">
-requirejs.config({
-    config: {
-        'tao/controller/main/trees': {
-            'sectionTreesData' : <?=json_encode(get_data('trees'))?>
-        }
-    }
-});
-</script>
+    <script>
+        requirejs.config({
+            config: {
+                'tao/controller/main/trees': {
+                    'sectionTreesData': <?=json_encode(get_data('trees'))?>
+                }
+            }
+        });
+    </script>
+<?php endif ?>

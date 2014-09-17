@@ -69,6 +69,7 @@ class tao_helpers_form_FormFactory
      * @param  string name
      * @param  array options
      * @return tao_helpers_form_Form
+     * @throws common_Exception
      */
     public static function getForm($name = '', $options = array())
     {
@@ -88,7 +89,7 @@ class tao_helpers_form_FormFactory
 					'group'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
 					'error'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')),
 					'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar')),
-					'actions-top'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
+					//'actions-top'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
 				));
 				
 				$myForm->setActions(self::getCommonActions(), 'bottom');
@@ -114,6 +115,8 @@ class tao_helpers_form_FormFactory
      * @param  string name
      * @param  string type
      * @return tao_helpers_form_FormElement
+     * @throws common_Exception
+     * @throws Exception
      */
     public static function getElement($name = '', $type = '')
     {
@@ -189,7 +192,6 @@ class tao_helpers_form_FormFactory
     {
         $returnValue = array();
 
-        
 		
 		switch($context){
 			
@@ -199,7 +201,7 @@ class tao_helpers_form_FormFactory
 				$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
 				$value = '';
 				if($save){
-					$value .=  "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/save.png' /> ".__('Save')."</a>";
+					$value .=  '<a href="#" class="form-submitter btn-success small"><span class="icon-save"></span> ' . __('Save') . '</a>';
 				}
 					
 				$actions->setValue($value);
@@ -212,6 +214,4 @@ class tao_helpers_form_FormFactory
         return (array) $returnValue;
     }
 
-} /* end of class tao_helpers_form_FormFactory */
-
-?>
+}

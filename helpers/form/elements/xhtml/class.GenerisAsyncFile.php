@@ -244,7 +244,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         $returnValue .= '				"sizeLimit": ' . $fileSize . ',';
         $returnValue .= '				"starter" : "#' . $widgetName . '_starter",';
         $returnValue .= '				"target": "#' . $widgetName . '_container input[id=\''.$this->name.'\']",';
-        $returnValue .= '				"submiter": ".form-submiter",';
+        $returnValue .= '				"submitter": ".form-submitter",';
         $returnValue .= '				"auto": '.$auto.',';
         $returnValue .= '				"folder": "/",';
         $returnValue .= '				"height": 22';

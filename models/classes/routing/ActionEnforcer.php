@@ -28,6 +28,9 @@ use common_Logger;
 use common_session_SessionManager;
 use tao_models_classes_AccessDeniedException;
 use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\accessControl\data\DataAccessControl;
+use oat\tao\model\accessControl\data\PermissionException;
+use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 
 /**
  * ActionEnforcer class
@@ -49,7 +52,7 @@ class ActionEnforcer implements IExecutable
     public function __construct($extensionId, $controller, $action, array $parameters) {
         $this->extension = $extensionId;
         $this->controller = $controller;
-        $this->method = $action;
+        $this->action = $action;
         $this->parameters = $parameters;
     }
     
@@ -62,7 +65,7 @@ class ActionEnforcer implements IExecutable
     }
     
     protected function getAction() {
-        return $this->method;
+        return $this->action;
     }
     
     protected function getParameters() {
@@ -82,6 +85,15 @@ class ActionEnforcer implements IExecutable
     protected function verifyAuthorization() {
         $user = common_session_SessionManager::getSession()->getUser();
         if (!AclProxy::hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
+            $func  = new FuncProxy();
+            $data  = new DataAccessControl();
+            //now go into details to see which kind of permissions are not correct
+            if($func->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters()) && 
+               !$data->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())){
+               
+	            throw new PermissionException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+            } 
+
 	        throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
 	    }
     }
@@ -89,7 +101,15 @@ class ActionEnforcer implements IExecutable
 	public function execute()
 	{
 	    // Are we authorized to execute this action?
+        try {
 	    $this->verifyAuthorization();
+        } catch(PermissionException $pe){
+            //forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch error). 
+            \Context::getInstance()->setExtensionName('tao');
+            $this->action       = 'denied';
+            $this->controller   = 'tao_actions_Permission';
+            $this->extension    = 'tao';
+        }
 	    
 	    // get the controller
 	    $controller = $this->getController();

@@ -57,7 +57,7 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 				},
 				ui: {
 					theme_name : "custom",
-                                        theme_path : context.taobase_www + 'js/lib/jsTree/themes/custom/style.css'
+                                        theme_path : context.taobase_www + 'js/lib/jsTree/themes/css/style.css'
 				},
 				callback: {
 					//Before receive data from server, return the POST parameters
@@ -89,6 +89,8 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 							instance.options.selectNode = false;
 						} else {
 							TREE_OBJ.open_branch($("li.node-class:first"));
+                            // always select the first item once the tree is open
+                            $("li.node-class:first a:first").trigger('click');
 						}
 					},
 					//when we receive the data
@@ -140,6 +142,7 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 							}
 						});
 
+                        //already selected
 						if (($("input:hidden[name='uri']").val() == nodeId || $("input:hidden[name='classUri']").val() == nodeId) && nodeId == instance.options.selectNode) {
 							return false;
 						}
@@ -239,132 +242,6 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 					
 					oninit: function(TREE_OBJ) {
 						instance.callGetSectionActions(undefined, TREE_OBJ);
-					}
-				},
-				plugins: {
-					//the right click menu
-					contextmenu : {
-						items : {
-							//edit action
-							select: {
-								label: __("edit"),
-								icon: context.taobase_www +"img/pencil.png",
-								visible: function (NODE, TREE_OBJ) {
-									if (($(NODE).hasClass('node-instance') && instance.options.editInstanceAction) ||
-										($(NODE).hasClass('node-class') && instance.options.editClassAction)) {
-										return true;
-									}
-									return false;
-								},
-								action: function(NODE, TREE_OBJ){
-									TREE_OBJ.select_branch(NODE);		//call the onselect callback
-								},
-								separator_before : true
-							},
-							//new class action
-							subclass: {
-								label: __("new class"),
-								icon: context.taobase_www + "img/class_add.png",
-								visible: function (NODE, TREE_OBJ) {
-									if (NODE.length != 1) {
-										return false;
-									}
-									if (!$(NODE).hasClass('node-class') || !instance.options.subClassAction) {
-										return false;
-									}
-									return TREE_OBJ.check("creatable", NODE);
-								},
-								action: function(NODE, TREE_OBJ) {
-									//specialize the selected class
-									instance.addClass(NODE, TREE_OBJ, {
-										id: $(NODE).prop('id'),
-										url: instance.options.subClassAction
-									});
-								},
-								separator_before : true
-							},
-							//new instance action
-							instance: {
-								label: __("new") + ' ' +  __(options.instanceName),
-								icon	: context.taobase_www + "img/instance_add.png",
-								visible: function (NODE, TREE_OBJ) {
-									if (NODE.length != 1) {
-										return false;
-									}
-									if (!$(NODE).hasClass('node-class') || !instance.options.createInstanceAction) {
-										return false;
-									}
-									return TREE_OBJ.check("creatable", NODE);
-								},
-								action: function (NODE, TREE_OBJ) {
-									//add a new instance of the selected class
-									instance.addInstance(NODE, TREE_OBJ, {
-										url: instance.options.createInstanceAction,
-										id: $(NODE).prop('id'),
-										cssClass: instance.options.instanceClass
-									});
-								}
-							},
-							//move action
-							move: {
-								label: __("move"),
-								icon: context.taobase_www + "img/move.png",
-								visible: function (NODE, TREE_OBJ) {
-										if ($(NODE).hasClass('node-instance')  && instance.options.moveInstanceAction) {
-											return true;
-										}
-										return false;
-									},
-								action: function (NODE, TREE_OBJ) {
-									//move the node
-									instance.moveInstance(NODE, TREE_OBJ);
-								},
-								separator_before : true
-							},
-							//clone action
-							duplicate: {
-								label: __("duplicate"),
-								icon: context.taobase_www + "img/duplicate.png",
-								visible: function (NODE, TREE_OBJ) {
-									if ($(NODE).hasClass('node-instance') && instance.options.duplicateAction) {
-										return true;
-									}
-									return false;
-								},
-								action: function (NODE, TREE_OBJ) {
-									//clone the node
-									instance.cloneNode(NODE, TREE_OBJ, {
-										url: instance.options.duplicateAction
-									});
-								}
-							},
-							//delete action
-							del: {
-								label: __("delete"),
-								icon: context.taobase_www + "img/delete.png",
-								visible: function (NODE, TREE_OBJ) {
-									var ok = true;
-									$.each(NODE, function () {
-										if (TREE_OBJ.check("deletable", this) == false || !instance.options.deleteAction) {
-											ok = false;
-										}
-										return false;
-									});
-									return ok;
-								},
-								action: function (NODE, TREE_OBJ) {
-									//remove the node
-									instance.removeNode(NODE, TREE_OBJ, {
-										url: instance.options.deleteAction
-									});
-									return false;
-								}
-							},
-							//unset the default entries
-							remove: false,
-							create: false,
-							rename: false
-						}
 					}
 				}
 			};
@@ -758,7 +635,7 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 					},
 					ui: {
 						theme_name : "custom",
-                                                 theme_path : context.taobase_www + 'js/lib/jsTree/themes/custom/style.css'
+                                                 theme_path : context.taobase_www + 'js/lib/jsTree/themes/css/style.css'
 					},
 					callback: {
 						//add the type param to the server request to get only the classes

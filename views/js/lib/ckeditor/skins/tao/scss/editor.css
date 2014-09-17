@@ -12,56 +12,6 @@ style all elements inside its main interface.
 To make it easier to maintain, instead of including all styles here, we import
 other files.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @inclue icon('down');
- */
-/*
- * Fade animation
- */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-/*
- * Repeat animation
- */
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -233,56 +183,6 @@ editors:
 To understand why "reset" is needed, check the CKEditor Skin SDK:
 http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @inclue icon('down');
- */
-/*
- * Fade animation
- */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-/*
- * Repeat animation
- */
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -599,6 +499,8 @@ Special outer level classes used in this file:
   -webkit-border-radius: 2px;
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
 
 .cke_float .cke_top {
@@ -734,56 +636,6 @@ The following is a visual representation of the outer elements of a panel:
 This file also defines styles for panel lists (used by combos). For menu-like
 panel contents and color panels check menu.css and colorpanel.css.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @inclue icon('down');
- */
-/*
- * Fade animation
- */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-/*
- * Repeat animation
- */
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -1232,56 +1084,6 @@ Special outer level classes used in this file:
 	.cke_hc: Available when the editor is rendered on "High Contrast".
 	.cke_rtl: Available when the editor UI is on RTL.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @inclue icon('down');
- */
-/*
- * Fade animation
- */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-/*
- * Repeat animation
- */
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -1843,56 +1645,6 @@ The visual representation of a rich combo widget looks as follows:
 | +----------------------+ +------------------------------------------------------+ |
 +-----------------------------------------------------------------------------------+
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @inclue icon('down');
- */
-/*
- * Fade animation
- */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-/*
- * Repeat animation
- */
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -2250,56 +2002,6 @@ a.cke_path_item:active {
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @inclue icon('down');
- */
-/*
- * Fade animation
- */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-/*
- * Repeat animation
- */
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -2471,56 +2173,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   background-color: #fff; }
 
 /* Tao specific stuff */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @inclue icon('down');
- */
-/*
- * Fade animation
- */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-/*
- * Repeat animation
- */
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -2731,56 +2383,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     bottom: -6px; }
 
 /* Icon set */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @inclue icon('down');
- */
-/*
- * Fade animation
- */
-@keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-webkit-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-moz-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-@-o-keyframes fade {
-  0% {
-    opacity: 0; }
-
-  50% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
-/*
- * Repeat animation
- */
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;

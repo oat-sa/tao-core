@@ -10,7 +10,7 @@
 <div class="ui-state-error" style="display:none"><?=__('No result found')?></div>
 <br />
 
-<script type="text/javascript">
+<script>
 /*
  * instantiate the filter nodes widget
  */
