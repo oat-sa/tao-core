@@ -54,11 +54,13 @@ define([
                         var $treeElt = $(this),
                             $actionBar = $('.tree-action-bar-box', $section);
 
+                        var rootNode = $treeElt.data('rootnode');
                         treeFactory($treeElt, $treeElt.data('url'), {
                             serverParameters : {
                                 extension   : context.shownExtension,
                                 perspective : context.shownStructure,
-                                section     : context.section
+                                section     : context.section,
+                                classUri	: rootNode ? rootNode : undefined
                             },
                             actions : {
                                 'selectClass'    : $treeElt.data('action-selectclass'),
