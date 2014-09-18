@@ -61,9 +61,9 @@ define([
                 type: 'GET'
             }).done(function(response) {
                 
-                $rendering = $(layout(response));
-                $edits = $rendering.find('.icon-edit');
-                $removes = $rendering.find('.icon-result-nok');
+                var $rendering = $(layout(response));
+                var $edits = $rendering.find('.icon-edit');
+                var $removes = $rendering.find('.icon-result-nok');
                 
                 for (var i = 0; i < response.records; i++) {
                     $edits.eq(i).click(function() {
@@ -78,8 +78,8 @@ define([
                 }
                 
                 // Now $rendering takes the place of $elt...
-                $forwardBtn = $rendering.find('.usermgr-forward');
-                $backwardBtn = $rendering.find('.usermgr-backward');
+                var $forwardBtn = $rendering.find('.usermgr-forward');
+                var $backwardBtn = $rendering.find('.usermgr-backward');
                 
                 $forwardBtn.click(function() {
                     userMgr._next($rendering, options, data);
