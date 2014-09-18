@@ -60,9 +60,9 @@ require(['jquery', 'context', 'generis.facetFilter', 'grid/tao.grid'], function(
 		var model = [
 	     	{name:'id',index:'id', width: 25, align:"center", sortable: false},
 	    	{name:'property_0',index:'property_0', width: 75, align:"center", sortable: false},
-		<?for($i = 1; $i-1 < count(get_data('properties')); $i++):?>
+		<?php for($i = 1; $i-1 < count(get_data('properties')); $i++):?>
 			 {name:'property_<?=$i?>',index:'property_<?=$i?>'},
-		<?endfor?>
+		<?php endfor?>
 			<?php //{name:'actions',index:'actions', align:"center", sortable: false}, ?>
 		];
 

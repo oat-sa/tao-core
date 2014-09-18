@@ -36,7 +36,7 @@
 						id="rdftpl_ns_<?=$ns->getModelId()?>"
 					<?php if($localNs == $ns->getModelId()):?>
 						class="rdftpl_ns rdftpl_ns_local" 
-					<?else:?>
+					<?php else:?>
 						class="rdftpl_ns" 
 					<?php endif?>
 						
