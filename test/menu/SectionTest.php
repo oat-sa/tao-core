@@ -33,7 +33,7 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class ActionTest extends TaoPhpUnitTestRunner {
+class SectionTest extends TaoPhpUnitTestRunner {
     
     /**
      * Data Provider : provides xml, from legacy and new format, and also the expect result
