@@ -99,8 +99,10 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
               .on('click', actionSelector, function(e){
                 e.preventDefault();
                 var $this = $(this);
-
+               
+                $(actionSelector).removeClass('active'); 
                 if(!$this.hasClass('disabled') && !$this.hasClass('hidden')){
+                    $this.addClass('active');
                     self.exec($this.attr('id'));
                 }
             });
@@ -172,6 +174,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
                 }
             }
             if(_.isPlainObject(action)){
+                
                 binder.exec(action, context || this._resourceContext);
             }
         },
