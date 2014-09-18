@@ -375,7 +375,7 @@ class tao_install_Installator{
 			common_Logger::i('Generates client side translation bundles', 'INSTALL');
             
             //lookup for languages into tao
-            $languages = array('en-US');//tao_helpers_translation_Utils::getAvailableLanguages();
+            $languages = tao_helpers_translation_Utils::getAvailableLanguages();
             $installedExtensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
             $bundleDirPath = $this->options['root_path'] . '/tao/views/locales/';
  

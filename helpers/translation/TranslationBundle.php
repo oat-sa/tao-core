@@ -23,7 +23,7 @@ namespace oat\tao\helpers\translation;
 
 use \common_exception_Error;
 use \common_exception_InvalidArgumentType;
-
+use \common_Logger;
 /**
  * This class enables you to generate a bundle of translations, for a language and extensions. 
  * The bundle contains the translations of all the defined extensions.
@@ -93,10 +93,10 @@ class TranslationBundle {
             $jsFilePath = $extension->getDir() . 'locales/' . $this->langCode . '/messages_po.js';
             if(file_exists($jsFilePath)){
                 try {
-					$translations = json_decode(
-						 file_get_contents($jsFilePath),
-						 false
-					);
+                    $translate = json_decode(file_get_contents($jsFilePath),false);
+                    if($translate != null){
+                        $translations = array_merge($translations, (array)$translate);
+                    }
                 } catch(\tao_helpers_translation_TranslationException $te){
                    common_Logger::w("Unable to generate the translatin bundle for  " . $this->langCode . " : " . $te->getMessage()); 
                 }
