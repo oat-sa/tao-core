@@ -12,7 +12,7 @@
 			}?>
 			<img src="<?=$actionIcon?>" /><br />
 			<span><?=$action['display']?></span>
-		<?else:
+		<?php else:
 			// Snippet: determine what is the action icon depending on the current extension.
 			if (get_data('shownExtension') !== false && file_exists(ROOT_PATH . $action['ext'] .  '/views/img/actions/' . $action['name'] . '.png')) {
 				$actionIcon = ROOT_URL . $action['ext'] .  '/views/img/actions/' . $action['name'] . '.png';
@@ -23,8 +23,8 @@
 				<a href="<?=$action['url']?>" data-action="<?=$action['binding']?>" data-uri="<?=$action['uri']?>" data-class-uri="<?=$action['classUri']?>" title="<?=$action['rowName']?>">
 				<img src="<?=$actionIcon?>" /><br />
 				<?=$action['display']?></a>
-			<?else:?>
-				<a class="<?php if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>" title="<?=$action['display']?>">
+			<?php else:?>
+				<a class="<?= !$action['reload'] ? 'nav' : '' ?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>" title="<?=$action['display']?>">
 				<img src="<?=$actionIcon?>" /><br />
 				<?=$action['display']?></a>
 			<?php endif;?>

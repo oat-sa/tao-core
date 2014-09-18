@@ -331,7 +331,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		if($this->hasRequestParameter('classUri')){
 			$clazz = $this->getCurrentClass();
-			$options['chunk'] = true;
+			$options['chunk'] = !$clazz->equals($this->getRootClass());
 		}
 		else{
 			$clazz = $this->getRootClass();

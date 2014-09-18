@@ -5,7 +5,7 @@ if(get_data('found')):?>
 	<?php if(get_data('foundNumber') > 0):?>
 		<table id="result-list"></table>
 		<div id="result-list-pager"></div> 
-	<?else:?>
+	<?php else:?>
 		<div class="ui-state-error"><?=__('No result found')?></div>
 	<?php endif?>
 	<br />
@@ -31,9 +31,9 @@ require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, 
 	
 	var model = [
 		{name:'id',index:'id', width: 25, align:"center", sortable: false},
-		<?for($i = 0; $i < count(get_data('properties')); $i++):?>
+		<?php for($i = 0; $i < count(get_data('properties')); $i++):?>
 			 {name:'property_<?=$i?>',index:'property_<?=$i?>'},
-		<?endfor?>
+		<?php endfor?>
 		{name:'actions',index:'actions', align:"center", sortable: false},
 	];
 

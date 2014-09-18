@@ -15,7 +15,7 @@ use oat\tao\helpers\Template;
 		$(document).ready(function(){
 			<?php if(get_data('setLinear')):?>
 			var fileData = '<?=get_data('uploadData')?>';
-			<?else:?>
+			<?php else:?>
 			var fileData = '<?=get_data('uploadFilePath')?>';
 			<?php endif?>
 

@@ -59,6 +59,7 @@ $sections = get_data('sections');
                                      $tree->get('className')
                                  ) ?>"
                                  data-url="<?= $tree->get('dataUrl') ?>"
+                                 data-rootNode="<?= $tree->get('rootNode') ?>"
                                  data-action-selectclass="<?= $tree->get('selectClass') ?>"
                                  data-action-selectinstance="<?= $tree->get('selectInstance') ?>"
                                  data-action-delete="<?= $tree->get('delete') ?>"

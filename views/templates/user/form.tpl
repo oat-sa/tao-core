@@ -2,7 +2,7 @@
 	<script>
 		window.location = "<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao', 'message' => get_data('message')))?>";
 	</script>
-<?else:?>
+<?php else:?>
 	<?php if(get_data('message')):?>
 		<div id="info-box" class="ui-widget-header ui-corner-all auto-slide">
 			<span><?=get_data('message')?></span>
