@@ -67,12 +67,12 @@ define([
                 
                 for (var i = 0; i < response.records; i++) {
                     $edits.eq(i).click(function() {
-                        $editElt = $(this);
+                        var $editElt = $(this);
                         options.edit.apply($editElt, [$editElt.parent().data('user-identifier')]);
                     });
                     
                     $removes.eq(i).click(function() {
-                        $removeElt = $(this);
+                        var $removeElt = $(this);
                         options.remove.apply($removeElt, [$removeElt.parent().data('user-identifier')]);
                     });
                 }
