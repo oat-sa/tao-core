@@ -113,7 +113,8 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		
 		$response = new stdClass();
 		$i = 0;
-		foreach($users as $user) {
+		
+		foreach ($users as $user) {
 			
 			$propValues = $user->getPropertiesValues(array(
 				PROPERTY_USER_LOGIN,
@@ -127,38 +128,31 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			
 			$roles = $user->getPropertyValues($rolesProperty);
 			$labels = array();
-			foreach ($roles as $uri){
+			foreach ($roles as $uri) {
 				$r = new core_kernel_classes_Resource($uri);
 				$labels[] = $r->getLabel();
 			}
 			
-			$firstName = empty($propValues[PROPERTY_USER_FIRSTNAME])
-				? '' : (string)current($propValues[PROPERTY_USER_FIRSTNAME]);
-			$lastName = empty($propValues[PROPERTY_USER_LASTNAME])
-				? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
-				
+			$firstName = empty($propValues[PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_FIRSTNAME]);
+			$lastName = empty($propValues[PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
 			$uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
 			$dataRes = empty($propValues[PROPERTY_USER_DEFLG]) ? null : current($propValues[PROPERTY_USER_DEFLG]);
 			
-			$cellData = array(
-				0	=>	(string)current($propValues[PROPERTY_USER_LOGIN]),
-				1	=>	$firstName.' '.$lastName,
-				2	=>	(string)current($propValues[PROPERTY_USER_MAIL]),
-				3	=>	implode(', ', $labels),
-				4	=>	is_null($dataRes)	? '' : $dataRes->getLabel(),
-				5	=>	is_null($uiRes)		? '' : $uiRes->getLabel()
-			);
-			
-			$response->rows[$i]['id']= tao_helpers_Uri::encode($user->getUri());
-			$response->rows[$i]['cell'] = $cellData;
+			$response->users[$i]['id']= tao_helpers_Uri::encode($user->getUri());
+			$response->users[$i]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
+			$response->users[$i]['name'] = $firstName.' '.$lastName;
+			$response->users[$i]['mail'] = (string)current($propValues[PROPERTY_USER_MAIL]);
+			$response->users[$i]['roles'] = implode(', ', $labels);
+			$response->users[$i]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
+			$response->users[$i]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 			$i++;
 		}
 
-		$response->page = floor($start / $limit)+1;
-		$response->total = ceil($counti / $limit);//$total_pages;
+		$response->page = floor($start / $limit) + 1;
+		$response->total = ceil($counti / $limit); //$total_pages;
 		$response->records = count($users);
 
-		echo json_encode($response);
+		$this->returnJson($response, 200);
 	}
 
 	/**
