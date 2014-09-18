@@ -3,13 +3,14 @@
  */
 define([
     'jquery',
+    'i18n',
     'lodash',
     'context',
     'layout/actions/binder',
     'helpers',
     'layout/search',
     'layout/filter'
-], function($, _, appContext, binder, helpers, search, toggleFilter){
+], function($, __, _, appContext, binder, helpers, search, toggleFilter){
     'use strict';
 
     /**
