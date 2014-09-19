@@ -5,8 +5,8 @@ require(['helpers'], function(helpers){
 });
 <?php endif?>
 <?php if(get_data('reload')):?>
-require(['uiBootstrap'], function (uiBootstrap) {
-    uiBootstrap.initTrees();
+require(['jquery'], function ($) {
+   $('.tree').trigger('refresh.taotree'); 
 });
 <?php endif;?>
 </script>
