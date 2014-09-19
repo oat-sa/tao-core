@@ -22,6 +22,8 @@
  *
  */
 
+namespace oat\tao\menu\test;
+
 use oat\tao\model\menu\Action;
 use oat\tao\model\menu\Icon;
 
@@ -33,7 +35,7 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class ActionTest extends TaoPhpUnitTestRunner {
+class ActionTest extends \TaoPhpUnitTestRunner {
     
     /**
      * Data Provider : xml and a mock action that the xml should produce
@@ -83,7 +85,7 @@ class ActionTest extends TaoPhpUnitTestRunner {
      * @param Action $expected the expected object to be produced
      */
     public function testActions($xml, $expected){
-        $result = Action::fromSimpleXMLElement(new SimpleXMLElement($xml));
+        $result = Action::fromSimpleXMLElement(new \SimpleXMLElement($xml));
     
         $this->assertTrue($result instanceof Action);        
         $this->assertEquals($expected, $result);
