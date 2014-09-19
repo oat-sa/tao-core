@@ -325,117 +325,20 @@
 }
 
 .tree-checkbox {
-    .locked li a {
-        color: gray;
+    li > a.clicked {
+        background: none;
+        border: none;
     }
-    ul {
-        background-position: 6px 1px;
-        background-repeat: repeat-y;
-        background-image: url(data:image/gif;base64,R0lGODlhAgACAIAAAB4dGf///yH5BAEAAAEALAAAAAACAAIAAAICRF4AOw==);
-    }
-    li {
-        background-position: -64px -16px;
-        background-repeat: no-repeat;
-        background-image: url("icons.png");
-        &.open {
-            background: url("icons.png") -32px -48px no-repeat;
-        }
-        &.closed {
-            background: url("icons.png") -48px -32px no-repeat;
-        }
-        a, span {
-        }
-        &.node-root ins {
-            background-image: url("icons.png");
-            background-position: 0 0;
-            background-repeat: no-repeat;
-        }
-        &.node-class ins {
-            background-image: url("class.png");
-            background-position: 0 0;
-            background-repeat: no-repeat;
-        }
-        &.node-instance ins {
-            background-image: url("nachtigall.png");
-            background-position: 0 0;
-            background-repeat: no-repeat;
+    li.node-instance >  a { 
+        ins:before {
+            @extend %tao-icon-setup;
             @extend %icon-checkbox;
         }
-
-        &.node-instance a {
-            ins.forbidden {
-                background-position: -16px -48px;
-            }
-            &.undetermined ins {
-                background-position: 0px -16px;
-            }
-            &.checked ins {
-                background-position: 0px -32px;
-            }
-            &:hover ins {
-                background-position: -16px 0px;
-            }
-            &.undetermined:hover ins {
-                background-position: -16px -16px;
-            }
-            &.checked:hover ins {
-                background-position: -16px -32px;
-            }
-        }
-        &.paginate {
-            padding-left: 12px;
-            background-image: none !important;
-            display: inline !important;
-        }
-        &.paginate-more ins {
-            background-image: url("paginate_more.png");
-        }
-        &.paginate-all ins {
-            background-image: url("paginate_all.png");
-        }
-        &.paginate {
-            a {
-                &:hover, &.hover {
-                    background: #91c7ff;
-                    border: 1px solid blue;
-                    padding: 0px;
-                    @include font-size(15);
-                }
-                &.clicked {
-                    background: none;
-                    border: none;
-                    &:hover {
-                        background: none;
-                        border: none;
-                    }
-                }
-            }
-            span.clicked {
-                background: none;
-                border: none;
-            }
-        }
-    }
-    .no_dots {
-        background: transparent;
-        ul {
-            background: transparent;
-        }
-        li.leaf {
-            background-image: none;
-            background-color: transparent;
-        }
-    }
-}
-
-.tree-checkbox {
-    ul  {
-        li.node-instance {
-            a.loading {
-                ins {
-                    background-image: url("throbber.gif") !important;
-                    background-position: 0 0 !important;
-                }
+    
+        &.checked {
+            ins:before {
+                @extend %tao-icon-setup;
+                @extend %icon-checkbox-checked;
             }
         }
     }
