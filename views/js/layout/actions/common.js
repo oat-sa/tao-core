@@ -5,11 +5,12 @@ define([
     'jquery',
     'i18n',
     'lodash',
+    'context',
     'layout/actions/binder',
     'helpers',
     'layout/search',
     'layout/filter'
-], function($, __, _, binder, helpers, search, toggleFilter){
+], function($, __, _, appContext, binder, helpers, search, toggleFilter){
     'use strict';
 
     /**
@@ -22,12 +23,12 @@ define([
      *
      * @this the action (once register it is bound to an action object)
      *
-     * @param {Object} context - the current context
-     * @param {String} [context.uri]
-     * @param {String} [context.classUri]
+     * @param {Object} actionContext - the current actionContext
+     * @param {String} [actionContext.uri]
+     * @param {String} [actionContext.classUri]
      */
-    binder.register('load', function load(context){
-        helpers._load(helpers.getMainContainerSelector(), this.url, _.pick(context, ['uri', 'classUri']));
+    binder.register('load', function load(actionContext){
+        helpers._load(helpers.getMainContainerSelector(), this.url, _.pick(actionContext, ['uri', 'classUri']));
     });
     
     /**
@@ -35,22 +36,22 @@ define([
      *
      * @this the action (once register it is bound to an action object)
      *
-     * @param {Object} context - the current context
-     * @param {String} context.classUri - the URI of the parent class
+     * @param {Object} actionContext - the current actionContext
+     * @param {String} actionContext.classUri - the URI of the parent class
      * 
      * @fires layout/tree#addnode.taotree
      */
-    binder.register('subClass', function subClass(context){
+    binder.register('subClass', function subClass(actionContext){
         $.ajax({
             url: this.url,
             type: "POST",
-            data: {classUri: context.classUri, type: 'class'},
+            data: {classUri: actionContext.classUri, type: 'class'},
             dataType: 'json',
             success: function(response){
                 if (response.uri) {
-                    $(context.tree).trigger('addnode.taotree', [{
+                    $(actionContext.tree).trigger('addnode.taotree', [{
                         'id'        : response.uri, 
-                        'parent'    : context.classUri, 
+                        'parent'    : actionContext.classUri, 
                         'label'     : response.label,
                         'cssClass'  : 'node-class' 
                     }]);
@@ -64,22 +65,22 @@ define([
      *
      * @this the action (once register it is bound to an action object)
      *
-     * @param {Object} context - the current context
-     * @param {String} context.classUri - the URI of the class' instance
+     * @param {Object} actionContext - the current actionContext
+     * @param {String} actionContext.classUri - the URI of the class' instance
      * 
      * @fires layout/tree#addnode.taotree
      */
-    binder.register('instanciate', function instanciate(context){
+    binder.register('instanciate', function instanciate(actionContext){
         $.ajax({
             url: this.url,
             type: "POST",
-            data: {classUri: context.classUri, type: 'instance'},
+            data: {classUri: actionContext.classUri, type: 'instance'},
             dataType: 'json',
             success: function(response){
                 if (response.uri) {
-                    $(context.tree).trigger('addnode.taotree', [{
+                    $(actionContext.tree).trigger('addnode.taotree', [{
                         'id'        : response.uri, 
-                        'parent'    : context.classUri, 
+                        'parent'    : actionContext.classUri, 
                         'label'     : response.label,
                         'cssClass'  : 'node-instance' 
                     }]);
@@ -93,23 +94,23 @@ define([
      *
      * @this the action (once register it is bound to an action object)
      *
-     * @param {Object} context - the current context
-     * @param {String} context.uri - the URI of the base instance
-     * @param {String} context.classUri - the URI of the class' instance
+     * @param {Object} actionContext - the current actionContext
+     * @param {String} actionContext.uri - the URI of the base instance
+     * @param {String} actionContext.classUri - the URI of the class' instance
      * 
      * @fires layout/tree#addnode.taotree
      */
-    binder.register('duplicateNode', function duplicateNode(context){
+    binder.register('duplicateNode', function duplicateNode(actionContext){
         $.ajax({
             url: this.url,
             type: "POST",
-            data: {uri : context.uri, classUri: context.classUri},
+            data: {uri : actionContext.uri, classUri: actionContext.classUri},
             dataType: 'json',
             success: function(response){
                 if (response.uri) {
-                    $(context.tree).trigger('addnode.taotree', [{
+                    $(actionContext.tree).trigger('addnode.taotree', [{
                         'id'        : response.uri, 
-                        'parent'    : context.classUri, 
+                        'parent'    : actionContext.classUri, 
                         'label'     : response.label,
                         'cssClass'  : 'node-instance' 
                     }]);
@@ -123,14 +124,14 @@ define([
      *
      * @this the action (once register it is bound to an action object)
      *
-     * @param {Object} context - the current context 
-     * @param {String} [context.uri]
-     * @param {String} [context.classUri]
+     * @param {Object} actionContext - the current actionContext 
+     * @param {String} [actionContext.uri]
+     * @param {String} [actionContext.classUri]
      * 
      * @fires layout/tree#removenode.taotree
      */
-    binder.register('removeNode', function remove(context){
-        var data = _.pick(context, ['uri', 'classUri']);
+    binder.register('removeNode', function remove(actionContext){
+        var data = _.pick(actionContext, ['uri', 'classUri']);
 	    
         //TODO replace by a nice popup
         if (confirm(__("Please confirm deletion"))) {
@@ -141,8 +142,8 @@ define([
                 dataType: 'json',
                 success: function(response){
                     if (response.deleted) {
-                        $(context.tree).trigger('removenode.taotree', [{
-                            id : context.uri || context.classUri 
+                        $(actionContext.tree).trigger('removenode.taotree', [{
+                            id : actionContext.uri || actionContext.classUri 
                         }]);
                     }
                 }
@@ -155,13 +156,13 @@ define([
      * 
      * @this the action (once register it is bound to an action object)
      *
-     * @param {Object} context - the current context
-     * @param {String} [context.uri]
-     * @param {String} [context.classUri]
+     * @param {Object} actionContext - the current actionContext
+     * @param {String} [actionContext.uri]
+     * @param {String} [actionContext.classUri]
      *
      * @fires layout/tree#removenode.taotree
      */
-    binder.register('filter', function filter(context){
+    binder.register('filter', function filter(actionContext){
     
         //to be removed
         toggleFilter($('.filter-form'));
@@ -172,16 +173,16 @@ define([
      *
      * @this the action (once register it is bound to an action object)
      *
-     * @param {Object} context - the current context
-     * @param {String} [context.uri]
-     * @param {String} [context.classUri]
+     * @param {Object} actionContext - the current actionContext
+     * @param {String} [actionContext.uri]
+     * @param {String} [actionContext.classUri]
      *
      * @fires layout/tree#removenode.taotree
      */
-    binder.register('launchFinder', function remove(context){
+    binder.register('launchFinder', function remove(actionContext){
 
 
-        var data = _.pick(context, ['uri', 'classUri']),
+        var data = _.pick(actionContext, ['uri', 'classUri']),
 
             // used to avoid same query twice
             uniqueValue = data.uri || data.classUri || '',
@@ -213,6 +214,66 @@ define([
         });
     });
 
+    
+    /**
+     * Register the launchEditor action.
+     *
+     * @this the action (once register it is bound to an action object)
+     *
+     * @param {Object} actionContext - the current actionContext
+     * @param {String} [actionContext.uri]
+     * @param {String} [actionContext.classUri]
+     *
+     * @fires layout/tree#removenode.taotree
+     */
+    binder.register('launchEditor', function launchEditor(actionContext){
+
+        var data = _.pick(actionContext, ['uri', 'classUri']);
+        var wideDifferenciator = '[data-content-target="wide"]';
+        console.log(appContext); 
+        $.ajax({
+            url: this.url,
+            type: "GET",
+            data: data,
+            dataType: 'html',
+            success: function(response){
+
+                var $response = $(response);
+
+                //check if the editor should be displayed widely or in the content area
+                if($response.is(wideDifferenciator) || $response.find(wideDifferenciator).length){
+                    //insert into the panel
+                    
+                    var tabId = 'panel-' + appContext.section.toLowerCase() + '_authoring',
+                    $tabContainer = $('#tabs'),
+                    $panel = (function() {
+                        var $wantedPanel = $tabContainer.find('#' + tabId);
+
+                        if(!$wantedPanel.length) {
+                            $wantedPanel = $('<div>', { id: tabId, 'class': 'clear content-panel' }).hide();
+                            $tabContainer.find('.content-panel').after($wantedPanel);
+                        }
+                        return $wantedPanel;
+                    }());
+
+                    $tabContainer.find('.content-panel').not($panel).hide();
+                    window.location.hash = tabId;
+
+                    //TODO move this somewhere else
+                    $response.find('#authoringBack').click(function () {
+                        var $myPanel = $(this).parents('.content-panel'),
+                            $otherPanel = $myPanel.prev();
+                        $myPanel.hide();
+                        $otherPanel.show();
+                    });
+
+                    $panel.html($response).show();
+                } else {
+                    helpers.getMainContainer().html(response);           
+                }
+            }
+        });
+    });
 });
 
 
