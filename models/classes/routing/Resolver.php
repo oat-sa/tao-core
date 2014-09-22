@@ -77,7 +77,19 @@ class Resolver
         }
         return $this->action;
     }
-    
+   
+    /**
+     * Get the controller short name as used into the URL
+     * @return string the name
+     */ 
+    public function getControllerShortName() {
+        $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
+        $parts = explode('/', trim($relativeUrl, '/'));
+        if(count($parts) == 3){
+            return $parts[1];
+        }
+        return null;
+    }
 
     /**
      * Tries to resolve the current request using the routes first

@@ -21,6 +21,7 @@
  */
 
 use oat\tao\helpers\Template;
+use oat\tao\model\routing\FlowController;
 
 /**
  * Top level controller
@@ -164,5 +165,36 @@ abstract class tao_actions_CommonModule extends Module
         header(HTTPToolkit::statusCodeHeader($httpStatus));
         Context::getInstance()->getResponse()->setContentHeader('application/json');
         echo json_encode($data);
+    }
+
+
+    /**
+     * Forward using the TAO FlowController implementation
+     * @see {@link oat\model\routing\FlowController}
+     */
+	public function forward($action, $controller = null, $extension = null, $params = array())
+    {
+        $flow = new FlowController();
+        $flow->forward($action, $controller, $extension, $params);
+    }
+
+    /**
+     * Forward using the TAO FlowController implementation
+     * @see {@link oat\model\routing\FlowController}
+     */
+    public function forwardUrl($url)
+    {
+        $flow = new FlowController();
+        $flow->forwardUrl($url);
+    }
+
+    /**
+     * Redirect using the TAO FlowController implementation
+     * @see {@link oat\model\routing\FlowController}
+     */
+	public function redirect($url, $statusCode = 302)
+    {
+        $flow = new FlowController();
+        $flow->redirect($url, $statusCode);
     }
 }
