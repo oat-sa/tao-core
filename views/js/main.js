@@ -12,7 +12,14 @@
                 //contextual loading, do a dispatch each time an ajax request loads an HTML page
                 $(document).ajaxComplete(function(event, request, settings){
                     if(_.contains(settings.dataTypes, 'html')){
-                       router.dispatch(settings.url, function(){
+
+                       var urls = [settings.url];
+                       var forward = request.getResponseHeader('X-Tao-Forward');
+                       if(forward){
+                           urls.push(forward); 
+                       }
+
+                       router.dispatch(urls, function(){
                            ui.startDomComponent($('.tao-scope'));
                        });
                     }

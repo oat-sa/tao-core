@@ -43,7 +43,7 @@ class FlowController extends ClearFwFlowController
     /**
      * This header is added to the response to inform the client a forward occurs
      */
-    const FORWARD_HEADER = 'X-ClearFw-Forward';
+    const FORWARD_HEADER = 'X-Tao-Forward';
 
 
     /**

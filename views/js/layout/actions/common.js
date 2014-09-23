@@ -230,7 +230,6 @@ define([
 
         var data = _.pick(actionContext, ['uri', 'classUri']);
         var wideDifferenciator = '[data-content-target="wide"]';
-        console.log(appContext); 
         $.ajax({
             url: this.url,
             type: "GET",

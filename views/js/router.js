@@ -106,27 +106,47 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
                     //get the dependencies for the current context
                     var moduleRoutes = routes[route.module];
                     var dependencies = [];
+                    var styles       = [];
+                    var action;
+                    var mapStyle = function mapStyle(style){
+                        return 'css!' + route.extension + '_css/' +  style;
+                    };
+
+                    //resolve controller dependencies
                     if(moduleRoutes.deps){
                        dependencies = dependencies.concat(moduleRoutes.deps);
                     }
-                    if(moduleRoutes.actions && moduleRoutes.actions[route.action]){
-                        dependencies = dependencies.concat(moduleRoutes.actions[route.action]);
+                    if(moduleRoutes.css){
+                        styles = _.isArray(moduleRoutes.css) ? moduleRoutes.css : [moduleRoutes.css];
+                        dependencies = dependencies.concat(_.map(styles, mapStyle));
                     }
+
+                    //resolve actions dependencies
+                    if( (moduleRoutes.actions && moduleRoutes.actions[route.action]) || moduleRoutes[route.action]){
+                        action = moduleRoutes.actions[route.action] || moduleRoutes[route.action];
+                        if(_.isString(action) || _.isArray(action)){
+                            dependencies = dependencies.concat(action);
+                        } 
+                        if(action.deps){
+                            dependencies = dependencies.concat(action.deps);
+                        }
+                        if(action.css){
+                            styles = _.isArray(action.css) ? action.css : [action.css];
+                            dependencies = dependencies.concat(_.map(styles, mapStyle));
+                        }
+                    }
+
+                    //alias controller/ to extension/controller
                     dependencies = _.map(dependencies, function(dep){
                         return /^controller/.test(dep) ?  route.extension + '/' + dep : dep;
                     });
-                    
-                    if(moduleRoutes.css){
-                        var styles = _.isArray(moduleRoutes.css) ? moduleRoutes.css : [moduleRoutes.css];
-                        dependencies = dependencies.concat(_.map(styles, function(style){
-                            return 'css!' + route.extension + '_css/' +  style;
-                        }));
-                    }
 
                     //URL parameters are given by default to the required module (through module.confid()) 
                     if(!_.isEmpty(route.params)){
                         var moduleConfig =  {};
                         _.forEach(dependencies, function(dependency){
+
+                            //inject parameters using the curent requirejs contex. This rely on a private api...
                             moduleConfig[dependency] = _.merge(_.clone(requirejs.s.contexts._.config.config[dependency] || {}), route.params);
                         });
                         requirejs.config({ config : moduleConfig });
