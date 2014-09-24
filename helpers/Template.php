@@ -77,13 +77,19 @@ class Template {
      *
      * @param string $path
      * @param string $extensionName
+     * @param array $data bind additional data to the context
      * @return string
      */
-    public static function inc($path, $extensionName = null) {
-        if (!is_null($extensionName) && $extensionName != \Context::getInstance()->getExtensionName()) {
+    public static function inc($path, $extensionName = null, $data = array()) {
+        $context = \Context::getInstance();
+        if (!is_null($extensionName) && $extensionName != $context->getExtensionName()) {
             // template is within different extension, change context
-            $formerContext = \Context::getInstance()->getExtensionName();
-            \Context::getInstance()->setExtensionName($extensionName);
+            $formerContext = $context->getExtensionName();
+            $context->setExtensionName($extensionName);
+        }
+
+        if(count($data) > 0){
+            \RenderContext::pushContext($data);
         }
         
         $absPath = self::getTemplate($path, $extensionName);
@@ -94,7 +100,7 @@ class Template {
         }
         // restore context
         if (isset($formerContext)) {
-            \Context::getInstance()->setExtensionName($formerContext);
+            $context->setExtensionName($formerContext);
         }
     }
 
