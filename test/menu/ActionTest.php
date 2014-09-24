@@ -26,16 +26,16 @@ namespace oat\tao\menu\test;
 
 use oat\tao\model\menu\Action;
 use oat\tao\model\menu\Icon;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
-require_once dirname(__FILE__) . '/../TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * Unit test the  oat\tao\model\menu\Action 
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class ActionTest extends \TaoPhpUnitTestRunner {
+class ActionTest extends TaoPhpUnitTestRunner {
     
     /**
      * Data Provider : xml and a mock action that the xml should produce

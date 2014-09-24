@@ -18,7 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
+use oat\tao\test\TaoPhpUnitTestRunner;
+
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
