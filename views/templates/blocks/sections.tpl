@@ -8,7 +8,7 @@ $sections = get_data('sections');
 <?php if ($sections): ?>
     <div class="section-container">
         
-        <ul class="tab-container">
+        <ul class="tab-container clearfix">
             <?php foreach ($sections as $section): ?>
 
                 <li class="small">
@@ -22,7 +22,7 @@ $sections = get_data('sections');
 
         <?php foreach ($sections as $section): ?>
             <div class="clear content-wrapper content-panel" id="panel-<?= $section->getId() ?>">
-
+            
                 <section class="navi-container">
                     <div class="section-trees">
                         <?php foreach ($section->getTrees() as $i => $tree): ?>

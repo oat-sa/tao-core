@@ -16,7 +16,7 @@ $settingsMenu = get_data('settings-menu');
                         <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
-                                    <a href="<?= $entry->getUrl() ?>#panel-<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
+                                    <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -66,7 +66,7 @@ $settingsMenu = get_data('settings-menu');
                         <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
                                 <li>
-                                    <a href="<?= $entry->getUrl() ?>#panel-<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
+                                    <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
