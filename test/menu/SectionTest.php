@@ -24,9 +24,9 @@
 
 use oat\tao\model\menu\Section;
 use oat\tao\model\menu\Tree;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
-require_once dirname(__FILE__) . '/../TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * Unit test the  oat\tao\model\menu\Section class 

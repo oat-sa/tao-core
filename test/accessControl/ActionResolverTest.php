@@ -24,9 +24,8 @@
 
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\routing\Resolver;
-
-require_once dirname(__FILE__) . '/../TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+use oat\tao\test\TaoPhpUnitTestRunner;
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * Test {@link oat\tao\model\accessControl\ActionResolver}

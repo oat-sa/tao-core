@@ -19,7 +19,8 @@
  * 
  */
 
-require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
+use oat\tao\test\TaoPhpUnitTestRunner;
+
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 class ReportRenderingHelperTest extends TaoPhpUnitTestRunner {
@@ -57,4 +58,3 @@ class ReportRenderingHelperTest extends TaoPhpUnitTestRunner {
         $this->assertEquals($expected, tao_helpers_report_Rendering::render($report));
     }
 }
-?>

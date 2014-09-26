@@ -19,9 +19,7 @@
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
-?>
-<?php
-require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
+use oat\tao\test\TaoPhpUnitTestRunner;
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**

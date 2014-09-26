@@ -18,8 +18,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+namespace oat\tao\test;
 
-require_once dirname(__FILE__) . '/../../generis/test/GenerisPhpUnitTestRunner.php';
+use oat\generis\test\GenerisPhpUnitTestRunner;
 
 /**
  * Help you to run the test into the TAO Context
@@ -42,12 +43,9 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
     public static function initTest(){
         //connect the API
         if(!self::$connected){
-            common_session_SessionManager::startSession(new common_test_TestUserSession());
+            \common_session_SessionManager::startSession(new \common_test_TestUserSession());
             self::$connected = true;
         }
     }
 
-
-
 }
-?>

@@ -66,5 +66,11 @@
         "files": [
         	"scripts/legacy/autoload.php"
         ]
+    },
+
+    "autoload-dev": {
+        "psr-4": {
+            "oat\\generis\\test\\": "generis/test/"
+        }
     }
 }

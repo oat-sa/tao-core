@@ -23,9 +23,10 @@
  */
 
 use oat\tao\helpers\translation\TranslationBundle;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
-require_once dirname(__FILE__) . '/../TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
+
 
 /**
  * Unit and Integration(fs) test {@link oat\tao\heplers\translation\TranslationBundle}
