@@ -25,7 +25,7 @@
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
+include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 
 /**

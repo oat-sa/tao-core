@@ -25,7 +25,7 @@
 use oat\tao\model\accessControl\func\FuncHelper;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
+include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 /**
  * Unit test the  oat\tao\model\menu\Section class 
