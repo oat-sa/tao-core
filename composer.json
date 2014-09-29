@@ -70,7 +70,7 @@
 
     "autoload-dev": {
         "psr-4": {
-            "oat\\generis\\test\\": "generis/test/"
+            "oat\\tao\\test\\": "test"
         }
     }
 }
