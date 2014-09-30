@@ -10,13 +10,12 @@ define([
     'layout/section',
     'layout/actions',
     'layout/tree',
-    'controller/main/toolbar',
     'layout/version-warning',
     'layout/section-height',
     'layout/loading-bar',
     'ui/feedback'
 ],
-function ($, __, context, helpers, uiForm, section, actions, treeFactory, toolbar, versionWarning, sectionHeight, loadingBar) {
+function ($, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar) {
     'use strict';
 
     /**
@@ -27,9 +26,6 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, toolba
         start : function(){
 
             var $doc = $(document);
-
-            //initialize main components
-            toolbar.setUp();
 
             versionWarning.init();
 

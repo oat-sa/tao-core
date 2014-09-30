@@ -8,9 +8,8 @@ define([
     'context',
     'store',
     'layout/actions',
-    'uiBootstrap',
     'jsTree/plugins/jquery.tree.contextmenu',
-], function($, _, __, context, store, actionManager, uiBootstrap){
+], function($, _, __, context, store, actionManager){
 
     var pageRange = 30;
 

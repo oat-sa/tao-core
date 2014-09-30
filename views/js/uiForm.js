@@ -1,13 +1,8 @@
 /**
  * UiForm class enable you to manage form elements, initialize form component and bind common events
  *
- * @require jquery >= 1.3.2 [http://jquery.com/]
- * @require uiBootstrap [uiBootstrap.js]
- * @require [helpers.js]
- *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
-
 define([
     'module',
     'jquery',
