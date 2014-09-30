@@ -67,7 +67,8 @@ require.config({
         ],
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
         'eyecatcher'        : 'eyecatcher',
-        'jquery.fileDownload'  : 'lib/jquery.fileDownload'
+        'jquery.fileDownload'  : 'lib/jquery.fileDownload',
+        'history'           : 'lib/history'
    },
   
    shim : {

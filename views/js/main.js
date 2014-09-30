@@ -29,7 +29,7 @@
                 router.dispatch(window.location.href);
                 
                 //initialize new components
-                ui.startEventComponents($('.tao-scope'));
+                ui.startEventComponents($('body > .content-wrapper'));
                 
         });
     });
