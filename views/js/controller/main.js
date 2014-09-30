@@ -24,6 +24,7 @@ function ($, context, helpers, uiForm, section, actions, treeFactory, toolbar, v
 
             section
             .on('activate', function(section){
+
                 window.scrollTo(0,0);
 
                 context.section = section.id;

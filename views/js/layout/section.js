@@ -1,3 +1,6 @@
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery', 
     'lodash', 
@@ -12,21 +15,28 @@ define([
 
     //back & forward button, and push state
     History.Adapter.bind(window, 'statechange', function stateChange(){
-        //console.log('stateChange');
         restoreState(History.getState());
     });
-    
+   
+    /**
+     * Restore a state from the history. 
+     * It calls activate or show on the section saved into the state.
+     * @param {History.State} state - a state that has been pushed previously
+     * @returns {Boolean|SectionApi} false if there is nothing to restore 
+     */ 
     function restoreState(state){
-        
-        //console.log('restore state', state); 
-
         if(state && state.data && state.data.section){
 		    return sectionApi.get(state.data.section.id)['_' + state.data.restoreWith]();
         }
     }
 
+
+    /**
+     * Add a new state to the history
+     * @param {Object} section 
+     * @param {String} [restoreWith = 'activate']
+     */
     function pushState(section, restoreWith){
-        //console.log('push state', section);
         var stateUrl = window.location.search + '';
         if(!stateUrl){
           stateUrl = '?';
@@ -42,14 +52,26 @@ define([
         );
     }
 
+    /**
+     * The section API provides you all the methods needed to manage sections.
+     * @typedef SectionApi  
+     * @exports layout/section 
+     */
     var sectionApi = {
         
         scope : $('.section-container'), 
         sections : {},
         selected : null,
-    
+   
+        /**
+         * Find section into the scope and initiliaze them. 
+         * @param {jQueryElement} $scope - the main scope
+         * @returns {SectionApi} instance for chaining
+         * @fires SectionApi#init.section
+         */ 
         init : function($scope){
             var self = this;
+            var restore = true;
             var $openersContainer;
             var defaultSection;
 
@@ -77,7 +99,8 @@ define([
                     panel       : $('#panel-' + id),
                     opener      : $sectionOpener,
                     type        : $panel.find('.section-trees').children().length ? 'tree' : 'content',
-                    active      : defaultSection ? defaultSection === id : index === 0
+                    active      : defaultSection ? defaultSection === id : index === 0,
+                    activated   : false
                  };
             });
             
@@ -85,6 +108,7 @@ define([
             if(_(this.sections).where({'active' : true }).size() === 0){
                 for(var id in this.sections){
                     this.sections[id].active =  true;
+                    restore = false;
                     break;
                 }
             }
@@ -107,33 +131,73 @@ define([
                 $openersContainer.show();
             }
 
+            /**
+             * Once the sections are initialized
+             * @event SectionApi#init.section
+             */
             this.scope.trigger('init.section');    
     
-            if(!restoreState(History.getState())){
-                //console.log('no state to restore, default is ', defaultSection);
 
+            if(!restore || !restoreState(History.getState())){
                 return this.activate();
             }
             return this;
         },
 
+        /**
+         * Activate the selected current section (by pushing a new state to the history)
+         *  
+         * @returns {SectionApi} instance for chaining
+         * @fires SectionApi#activate.section
+         * @fires SectionApi#hide.section
+         * @fires SectionApi#show.section
+         */ 
         activate : function(){
             if(!this.selected){
                 this.current();
             }
 
-            pushState(this.selected);
+            pushState(this.selected, 'activate');
 
             return this;
         },
 
+        /**
+         * Activate the selected section.
+         * Unlike the public one, this method does the job. 
+         *
+         * @private 
+         * @returns {SectionApi} instance for chaining
+         * @fires SectionApi#activate.section
+         * @fires SectionApi#hide.section
+         * @fires SectionApi#show.section
+         */ 
         _activate : function(){
+
             this._show();    
-            this.scope.trigger('activate.section', [this.selected]);    
+            if(this.selected.activated === false){
+                this.selected.activated = true; 
+
+                /**
+                 * A section is activated
+                 * @event SectionApi#activate.section
+                 * @param {Object} section - the section
+                 */
+                this.scope.trigger('activate.section', [this.selected]);    
+            }
 
             return this;
         },
 
+        /**
+         * Shows the selected section (by pushing a new state to the history).
+         * Shows is different from activate just by the events 
+         * that are send (show doesn't trigger the activate event).
+         *  
+         * @returns {SectionApi} instance for chaining
+         * @fires SectionApi#hide.section
+         * @fires SectionApi#show.section
+         */ 
         show : function(){
             if(!this.selected){
                 this.current();
@@ -145,6 +209,15 @@ define([
         },
         
 
+        /**
+         * Shows the selected section.
+         * Unlike the public one, this method does the job. 
+         *
+         * @private 
+         * @returns {SectionApi} instance for chaining
+         * @fires SectionApi#hide.section
+         * @fires SectionApi#show.section
+         */ 
         _show : function(){
     
             var self = this;
@@ -163,25 +236,66 @@ define([
             _.where(this.sections, {'active' : false }).forEach(function(section){
                 section.opener.removeClass('active');
                 section.panel.hide();
+
+                /**
+                 * A section is hidden
+                 * @event SectionApi#hide.section
+                 * @param {Object} section - the section
+                 */
+                self.scope.trigger('hide.section', [section]);
+    
             });
             _.where(this.sections, {'active' : true }).forEach(function(section){
                 section.opener.addClass('active');
                 section.panel.show();
-                //pushState(section);
+
+                /**
+                 * A section is shown
+                 * @event SectionApi#show.section
+                 * @param {Object} section - the section
+                 */
+                self.scope.trigger('show.section', [section]);    
             });
+            
             return this;
         },
 
+        /**
+         * Refresh the sections. 
+         * They are re loaded from the DOM.
+         *
+         * @returns {SectionApi} instance for chaining
+         */ 
         refresh : function(){
             this.sections = {};
             return this.init();
         },
 
+        /**
+         * Make the active section the selected. Useful before chaining with another method : 
+         * @example section.current().show();
+         * 
+         *
+         * @returns {SectionApi} instance for chaining
+         */ 
         current : function(){
             this.selected =  _(this.sections).where({'active' : true }).first();
             return this;
         },
 
+        /**
+         * This method enables you to create a new section. 
+         * If the section already exists, it may be updated (panel's content)
+         * 
+         * @param {Object} data - the section data 
+         * @param {String} data.id - the section identifier
+         * @param {String} data.url - the section url
+         * @param {String} data.name - the section name (already translated please)
+         * @param {Boolean} [data.visible] - is the section opener (ie. the tab) shown ?
+         * @param {String} [data.content] - the panel content
+         *
+         * @returns {SectionApi} instance for chaining
+         */ 
         create : function(data){
             var $openersContainer = this.scope.find('.tab-cotnainer');
             var $sectionOpener, 
@@ -200,6 +314,7 @@ define([
              
             if(!section){
                 
+                //TODO use templates
                 $sectionPanel = $('<div id="panel-' + data.id +'" class="clear"></div>');
                 $sectionOpener = $('<li class="small ' + (!!data.visible ? 'hidden' : '') +'"><a title="'+data.name+'" data-url="'+data.url+'" href="#panel-' + data.id +'>'+data.name+'</a></li>');
                 $openersContainer.append($sectionOpener);
@@ -216,8 +331,6 @@ define([
                 };
                 this.sections[data.id] = section;
                 this.selected = section;
-
-
             }
                         
             if(data.content){
@@ -234,6 +347,14 @@ define([
             return this;
         },
 
+        /**
+         * Select a section using either it's id or url.
+         *
+         * @example section.get('manage_items').activate();
+         *
+         * @param {String} value - id, panel id, short or long URL 
+         * @returns {SectionApi} instance for chaining
+         */
         get : function(value){
             var section;
             if(!_.isString(value)){
@@ -255,6 +376,16 @@ define([
             return this;
         },
 
+        /**
+         * Loads content from a URL to the section's panel.
+         *
+         * @example section.get('manage_items').load();
+         *
+         * @param {String} [url] - the url to load, by default section's URL is used.
+         * @param {Object} [data] - data to add to the request
+         * @returns {SectionApi} instance for chaining
+         * @fires SectionApi#load.section
+         */
         load : function(url, data){
             var self = this;
             var wideDifferenciator = '[data-content-target="wide"]';
@@ -271,11 +402,30 @@ define([
                 this.selected.panel.removeClass('content-panel'); 
             }
 
-            this.selected.panel.empty().load(url, data); 
+            this.selected.panel.empty().load(url, data, function(response){
+                
+                /**
+                 * Section content has been loaded
+                 * @event SectionApi#load.section
+                 * @param {Object} section - the section
+                 * @param {String} response - the received content
+                 */
+                self.scope.trigger('load.section', [self.selected, response]);
+            });
 
             return this;
         },
 
+        /**
+         * Loads content from a URL but try to target first the content block area before the panel.
+         *
+         * @example section.get('manage_items').loadContentBlock('/taoItems/Items/edit');
+         *
+         * @param {String} [url] - the url to load, by default section's URL is used.
+         * @param {Object} [data] - data to add to the request
+         * @returns {SectionApi} instance for chaining
+         * @fires SectionApi#load.section
+         */
         loadContentBlock : function(url, data){
             var $contentblock;
 
@@ -293,6 +443,8 @@ define([
             $contentblock = $('.content-block', this.selected.panel);
 
             if($contentblock.length){
+
+                //do not yet trigger event on content block load, but may be required
                 $contentblock.empty().load(url, data);
                 return this;
             }
@@ -300,6 +452,12 @@ define([
             return this.load(url, data); 
         },
 
+        /**
+         * Update content block's content or the panel if not found. 
+         *
+         * @param {String} [html] - the new content
+         * @returns {SectionApi} instance for chaining
+         */
         updateContentBlock : function(html){
             var $contentblock = $('.content-block', this.selected.panel);
             if($contentblock.length){
@@ -310,7 +468,13 @@ define([
             return this;
         },
 
-
+        /**
+         * Sugar to help you listen for event on sections
+         * 
+         * @param {String} eventName - the name of the event (without the namespace)
+         * @param {Function} cg - the event callback
+         * @returns {SectionApi} instance for chaining
+         */
         on : function(eventName, cb){
             var self = this;
             this.scope.on(eventName + '.section', function(e){
