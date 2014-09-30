@@ -221,11 +221,11 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('shownStructure', $structure);
 		                
         //creates the URL of the action used to configure the client side
-        $clientConfigParameters = array(
+        $clientConfigParams = array(
             'shownExtension' => $extension,
             'shownStructure' => $structure
         );
-        $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParameters));
+        $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParams));
         $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
 
 		$this->setView('layout.tpl', 'tao');

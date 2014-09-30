@@ -1,7 +1,7 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions/common'], function($, _, uuid, binder){
+define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions/common'], function($, _, uuid, binder, commonActions){
 
     /**
      * The data context for actions
@@ -39,6 +39,9 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
             } else {
                 this.$scope = $(document);
             }
+
+            //initialize the registration of common actions
+            commonActions();
 
             this._lookup();
             this.update();

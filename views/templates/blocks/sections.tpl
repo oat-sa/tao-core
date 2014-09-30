@@ -1,12 +1,14 @@
 <?php
+use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
 
 $sections = get_data('sections');
 ?>
 
 <?php if ($sections): ?>
-    <div class="section-container" id="tabs">
-        <ul class="tab-container">
+    <div class="section-container">
+        
+        <ul class="tab-container clearfix">
             <?php foreach ($sections as $section): ?>
 
                 <li class="small">
@@ -17,30 +19,22 @@ $sections = get_data('sections');
 
             <?php endforeach ?>
         </ul>
+
         <?php foreach ($sections as $section): ?>
             <div class="clear content-wrapper content-panel" id="panel-<?= $section->getId() ?>">
-
+            
                 <section class="navi-container">
                     <div class="section-trees">
                         <?php foreach ($section->getTrees() as $i => $tree): ?>
                             <div class="tree-block">
-                                <ul id="tree-actions-<?= $i ?>"
-                                    class="plain search-action-bar action-bar horizontal-action-bar">
-                                    <?php foreach ($section->getActionsByGroup('search') as $action): ?>
-                                        <li class="tree-search btn-info small action"
-                                            data-context="<?= $action->getContext() ?>"
-                                            title="<?= $action->getName() ?>"
-                                            data-action="<?= $action->getBinding() ?>">
-                                            <a class="li-inner" href="<?= $action->getUrl(); ?>">
-                                                <?=
-                                                Layout::renderIcon(
-                                                    $action->getIcon(),
-                                                    ' icon-magicwand'
-                                                ); ?> <?= $action->getName(); ?>
-                                            </a>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
+                                <?php 
+                                    Template::inc('blocks/actions.tpl', 'tao', array(
+                                        'actions_id' => 'tree-actions-'.$i, 
+                                        'actions_classes' => 'search-action-bar horizontal-action-bar', 
+                                        'action_classes' => 'tree-search btn-info small', 
+                                        'actions' => $section->getActionsByGroup('search')
+                                    )); 
+                                ?>
                             </div>
                             <div class="search-form">
                                 <div data-purpose="search" data-current="none" class="search-area search-search"></div>
@@ -67,64 +61,37 @@ $sections = get_data('sections');
                             </div>
                         <?php endforeach; ?>
                     </div>
+    
                     <div class="tree-action-bar-box">
-                        <ul class="action-bar plain tree-action-bar vertical-action-bar">
-                            <?php foreach ($section->getActionsByGroup('tree') as $action): ?>
-                                <li class="action"
-                                    data-context="<?= $action->getContext() ?>"
-                                    title="<?= $action->getName() ?>"
-                                    data-action="<?= $action->getBinding() ?>">
-                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
-                                        <?=
-                                        Layout::renderIcon(
-                                            $action->getIcon(),
-                                            ' icon-magicwand'
-                                        ); ?> <?= $action->getName(); ?>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <ul class="action-bar hidden">
-                            <?php foreach ($section->getActionsByGroup('none') as $action): ?>
-                                <li class="action" 
-                                    data-context="<?= $action->getContext() ?>"
-                                    data-action="<?= $action->getBinding() ?>"
-                                    title="<?= $action->getName() ?>" >
-                                    <a class="li-inner" href="<?= $action->getUrl(); ?>">
-                                        <?= $action->getName(); ?>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
+                        <?php  
+                            Template::inc('blocks/actions.tpl', 'tao', array(
+                                'actions_classes' => 'tree-action-bar vertical-action-bar', 
+                                'actions' => $section->getActionsByGroup('tree')
+                            )); 
+                            Template::inc('blocks/actions.tpl', 'tao', array(
+                                'actions_classes' => 'hidden', 
+                                'actions' => $section->getActionsByGroup('none')
+                            )); 
+                        ?>
                     </div>
 
                 </section>
 
                 <section class="content-container">
-                    <ul class="action-bar plain content-action-bar horizontal-action-bar">
-                        <?php foreach ($section->getActionsByGroup('content') as $action): ?>
-                            <li class="btn-info small action" 
-                                data-context="<?= $action->getContext() ?>"
-                                title="<?= $action->getName() ?>" 
-                                data-action="<?= $action->getBinding() ?>">
-                                <a class="li-inner" href="<?= $action->getUrl(); ?>">
-                                    <?=
-                                    Layout::renderIcon(
-                                        $action->getIcon(),
-                                        ' icon-magicwand'
-                                    ); ?> <?= $action->getName(); ?>
-                                </a>
-                            </li>
+                    <?php  
+                        Template::inc('blocks/actions.tpl', 'tao', array(
+                            'actions_classes' => 'content-action-bar horizontal-action-bar', 
+                            'action_classes' => 'btn-info small', 
+                            'actions' => $section->getActionsByGroup('content')
+                        )); 
+                    ?>
 
-                        <?php endforeach ?>
-                    </ul>
                     <div class="content-block"></div>
+
                 </section>
 
             </div>
         <?php endforeach ?>
-
-
 
         <aside class="meta-container">
             <div id="section-meta"></div>

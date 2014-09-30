@@ -222,15 +222,15 @@ define([
             //TODO move this somewhere else (layout/nav)
 
             //load the links target into the main container instead of loading a new page
-            $(document).off('click', 'a.nav').on('click', 'a.nav', function () {
-                try {
-                    helpers._load(helpers.getMainContainerSelector(helpers.tabs), this.href);
-                }
-                catch (exp) {
-                    return false;
-                }
-                return false;
-            });
+            //$(document).off('click', 'a.nav').on('click', 'a.nav', function () {
+                //try {
+                    //helpers._load(helpers.getMainContainerSelector(helpers.tabs), this.href);
+                //}
+                //catch (exp) {
+                    //return false;
+                //}
+                //return false;
+            //});
         }
     };
 
