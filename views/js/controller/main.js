@@ -1,5 +1,9 @@
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
+    'i18n',
     'context',
     'helpers',
     'uiForm',
@@ -8,31 +12,51 @@ define([
     'layout/tree',
     'controller/main/toolbar',
     'layout/version-warning',
-    'layout/section-height'
+    'layout/section-height',
+    'layout/loading-bar',
+    'ui/feedback'
 ],
-function ($, context, helpers, uiForm, section, actions, treeFactory, toolbar, versionWarning, sectionHeight) {
+function ($, __, context, helpers, uiForm, section, actions, treeFactory, toolbar, versionWarning, sectionHeight, loadingBar) {
     'use strict';
 
+    /**
+     * This controller initialize all the layout components used by the backend : sections, actions, tree, loader, etc.
+     * @exports tao/controller/main
+     */
     return {
         start : function(){
+
+            var $doc = $(document);
 
             //initialize main components
             toolbar.setUp();
 
             versionWarning.init();
-            sectionHeight.init();
 
-            section
-            .on('activate', function(section){
+            //just before an ajax request
+            $doc.ajaxSend(function () {
+                loadingBar.start();
+            });
+
+            //when an ajax request complete
+            $doc.ajaxComplete(function () {
+                loadingBar.stop();
+            });
+
+            //initialize sections 
+            section.on('activate', function(section){
 
                 window.scrollTo(0,0);
 
                 context.section = section.id;
-                
+               
+                //initialize actions 
                 actions.init(section.panel);
 
                 switch(section.type){
                 case 'tree':
+
+                    //set up the tree
                     section.panel.addClass('content-panel');
                     $('.taotree', section.panel).each(function(){
                         var $treeElt = $(this),
@@ -59,11 +83,15 @@ function ($, context, helpers, uiForm, section, actions, treeFactory, toolbar, v
                     });
                     break;
                 case 'content' : 
+
+                    //or load the content block
                     this.loadContentBlock();
                     break;
                 }
             })
             .init();
+            
+            sectionHeight.init();
 
             //initialize legacy components
             helpers.init();
