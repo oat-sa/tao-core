@@ -39,6 +39,11 @@ define(function(){
             'actions' : {
                 'index' : 'controller/list/index'
             }
+        },
+        'Users' : {
+            'actions' : {
+                'index' : 'controller/users/index'
+            }
         }
     };
 });

@@ -10,7 +10,7 @@
         <col/>
         <col/>
         <col/>
-        <col style="width:100px;"/>
+        <col style="width:250px;"/>
     </colgroup>
     <thead>
         <tr>
@@ -32,7 +32,9 @@
                 <td>{{roles}}</td>
                 <td>{{dataLg}}</td>
                 <td>{{guiLg}}</td>
-                <td style="text-align:center;" data-user-identifier="{{id}}"><span class="icon-edit"></span> <span class="icon-result-nok"></span></td>
+                <td style="text-align:center;" data-user-identifier="{{id}}">
+                    <button class="btn-info small edit"><span class="icon-edit"></span> {{__ 'Edit'}}</button> <button class="btn-info small remove"><span class="icon-result-nok"></span> {{__ 'Remove'}}</button>
+                </td>
             </tr>
         {{/users}}
     </tbody>
