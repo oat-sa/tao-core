@@ -23,8 +23,9 @@ define([
 
     function ($, __, context, helpers, feedback, actions, treeFactory, uiForm) {
 
-    var UiBootstrap = {
+        console.warn('Hello I am the UIBootstrap and I am deprecated. I am there since TAO 1.0 but now I am tired, I need to retire.');
 
+    var UiBootstrap = {
         init: function (options) {
 
             //TODO move tabs to layout/section or layout/tabs
