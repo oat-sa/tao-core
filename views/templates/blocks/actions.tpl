@@ -13,5 +13,5 @@ use oat\tao\helpers\Layout;
             <?= Layout::renderIcon( $action->getIcon(), ' icon-magicwand'); ?> <?= $action->getName(); ?>
         </a>
     </li>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 </ul>

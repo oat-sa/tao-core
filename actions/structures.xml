@@ -48,7 +48,7 @@
 
     <structure id="settings" name="Settings" level="8" group="settings">
         <description/>
-        <icon id="icon-tools" src=""/>
+        <icon id="icon-settings" src=""/>
         <sections>
             <section id="settings_ext_mng" name="Extensions manager" url="/tao/ExtensionsManager/index"/>
             <section id="settings_im_export" name="Ontology" url="/tao/RdfImExport/index"/>
