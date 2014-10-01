@@ -48,7 +48,7 @@ $sections = get_data('sections');
                                     </div>
                                 </div>
                             </div>
-                            <div id="tree-<?= $i ?>"
+                            <div id="tree-<?= $section->getId() ?>"
                                  class="taotree taotree-<?= is_null($tree->get('className')) ? 'default' : strtolower(
                                      $tree->get('className')
                                  ) ?>"
