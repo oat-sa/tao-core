@@ -86,6 +86,9 @@
         .main-container {
             @include simple-flex-box(500);
         }
+        & > .grid-container {
+            width : 100%;
+        }
         .data-container-wrapper {
             padding: 41px 0px 0px 20px;
             overflow:hidden;
