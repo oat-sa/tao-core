@@ -25,8 +25,8 @@ define([
      * @returns {Boolean|SectionApi} false if there is nothing to restore 
      */ 
     function restoreState(state){
-        if(state && state.data && state.data.section){
-		    return sectionApi.get(state.data.section.id)['_' + state.data.restoreWith]();
+        if(state && state.data && state.data.sectionId){
+		    return sectionApi.get(state.data.sectionId)['_' + state.data.restoreWith]();
         }
     }
 
@@ -44,7 +44,7 @@ define([
         stateUrl = stateUrl.replace(sectionParamExp, '') + '&section=' + section.id ;
 
         History.pushState({
-                section : section,
+                sectionId : section.id,
                 restoreWith    : restoreWith || 'activate'
             }, 
             section.name || '', 
