@@ -36,11 +36,14 @@ require(['jquery'], function($) {
 		
 		form.submit();
 	});
-	
+
 	//for the csv import options
 	$("#first_row_column_names_0").attr('checked', true);
 	$("#first_row_column_names_0").click(function(){
             $("#column_order").attr('disabled', this.checked);
 	});
+
+        //show the csv fields mapping combos
+        $("#property_mapping > .property-edit-container").show();
 });
 </script>
