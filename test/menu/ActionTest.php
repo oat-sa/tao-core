@@ -43,30 +43,34 @@ class ActionTest extends TaoPhpUnitTestRunner {
      */ 
     public function actionsProvider(){
         return array(
-            array('<action name="search" url="/tao/Roles/search" context="*" group="content">
+            array('<action id="search" name="search" url="/tao/Roles/search" context="*" group="content">
                         <icon id="search" src="images/icon.svg"/>
                     </action>',
                   new Action(array(
+                        'id'      => 'search',
                         'name'      => 'search',
                         'url'       => '/tao/Roles/search',
                         'context'   => '*',
                         'group'     => 'content',
                         'binding'   => 'load',
                         'reload'    => false,
+                        'disabled'    => false,
                         'icon'      => new Icon(array( 'id' => 'search', 'src' => 'images/icon.svg', 'ext' => '')),
                         'extension' => 'tao',
                         'controller' => 'Roles',
                         'action' => 'search'
                   )) 
             ),
-            array('<action name="delete" js="removeNode" url="/tao/Roles/delete" context="resource"/>',
+            array('<action id="delete" name="delete" js="removeNode" url="/tao/Roles/delete" context="resource" disabled="true"/>',
                   new Action(array(
+                        'id'      => 'delete',
                         'name'      => 'delete',
                         'url'       => '/tao/Roles/delete',
                         'context'   => 'resource',
                         'group'     => 'tree',
                         'binding'   => 'removeNode',
                         'reload'    => false,
+                        'disabled'    => true,
                         'icon'      => new Icon(array('id' => null, 'src' => 'actions/delete.png', 'ext' => 'tao')),
                         'extension' => 'tao',
                         'controller' => 'Roles',

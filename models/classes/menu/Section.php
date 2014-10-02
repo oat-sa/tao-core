@@ -170,6 +170,7 @@ class Section extends MenuElement implements PhpSerializable
               'editClassUrl' => array(
                 'attr'   => 'selectClass',
                 'action' => array(
+                    'id'      => 'edit_class',
                     'name'    => 'edit class',
                     'group'   => 'none',
                     'context' => 'class',
@@ -179,6 +180,7 @@ class Section extends MenuElement implements PhpSerializable
               'editInstanceUrl' => array(
                 'attr'   => 'selectInstance',
                 'action' => array(
+                    'id'      => 'edit_instance',
                     'name'    => 'edit instance',
                     'group'   => 'none',
                     'context' => 'instance',
@@ -188,6 +190,7 @@ class Section extends MenuElement implements PhpSerializable
               'addInstanceUrl'  => array(
                 'attr'   => 'addInstance',
                 'action' => array(
+                    'id'      => 'add_instance',
                     'name'    => 'add instance',
                     'group'   => 'none',
                     'context' => 'instance',
@@ -197,6 +200,7 @@ class Section extends MenuElement implements PhpSerializable
               'addSubClassUrl'  => array(
                 'attr'   => 'addClass',
                 'action' => array(
+                    'id'      => 'add_class',
                     'name'    => 'add class',
                     'group'   => 'none',
                     'context' => 'class',
@@ -206,6 +210,7 @@ class Section extends MenuElement implements PhpSerializable
               'deleteUrl' => array(
                 'attr'   => 'addClass',
                 'action' => array(
+                    'id'      => 'add_class',
                     'name'    => 'add class',
                     'group'   => 'none',
                     'context' => 'class',
@@ -215,6 +220,7 @@ class Section extends MenuElement implements PhpSerializable
               'moveInstanceUrl' => array(
                 'attr'   => 'moveInstance',
                 'action' => array(
+                    'id'      => 'move',
                     'name'    => 'move',
                     'group'   => 'none',
                     'context' => 'instance',
@@ -247,7 +253,7 @@ class Section extends MenuElement implements PhpSerializable
                             //try to find an action with the same url
                             foreach($this->actions as $action){
                                 if($action->getRelativeUrl() == $url){
-                                    $actionName = $action->getName();
+                                    $actionName = $action->getId();
                                     break;
                                 }
                             }
