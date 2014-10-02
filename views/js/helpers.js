@@ -24,6 +24,7 @@ define([
         },
 
         getMainContainer: function () {
+            console.warn('deprecated, use section instead');
             var sectionId,
                 sectionIndex;
             if (!context.section) {
@@ -37,6 +38,7 @@ define([
          * @return {String} the current main container jQuery selector (from the opened tab)
          */
         getMainContainerSelector: function ($tabs) {
+            console.warn('deprecated, use section instead');
             var $container = this.getMainContainer();
             if ($container && $container.length > 0) {
                 return $container.selector;
@@ -48,6 +50,7 @@ define([
          * @param {String} name the name of the tab to select
          */
         selectTabByName: function (name) {
+            console.warn('deprecated, use section instead');
             $("#" + name).click();
         },
 
@@ -57,6 +60,7 @@ define([
          * @return the index or -1 if not found
          */
         getTabIndexByName: function (name) {
+            console.warn('deprecated, use section instead');
             var elts = $("div#tabs ul.ui-tabs-nav li a");
             var i = 0;
             while (i < elts.length) {
@@ -70,6 +74,7 @@ define([
         },
 
         openTab: function (title, url, open) {
+            console.warn('deprecated, use section instead');
             open = open || true;
             var idx = this.getTabIndexByUrl(url),
                 $tabs = $('#tabs');
@@ -84,6 +89,7 @@ define([
         },
 
         getTabIndexByUrl: function (url) {
+            console.warn('deprecated, use section instead');
             var elts = $("#tabs ul.ui-tabs-nav li a");
             var i = 0;
             var ret = -1;
@@ -99,6 +105,7 @@ define([
         },
 
         closeTab: function (index) {
+            console.warn('deprecated, use section instead');
             if (index > -1) {
                 $('#tabs').tabs("remove", index);
             }
@@ -111,6 +118,7 @@ define([
          * @param {Object} parameters
          */
         updateTabUrl: function (tabObj, tabName, url) {
+            console.warn('deprecated, use section instead');
             var index = this.getTabIndexByName(tabName);
             tabObj.tabs('url', index, url);
             tabObj.tabs('enable', index);
@@ -126,6 +134,7 @@ define([
          * - disable the submit buttons
          */
         loading: function () {
+            console.warn('deprecated, this should be automated');
             $(window).on('click', function (e) {
                 e.stopPropagation();
                 e.preventDefault();
@@ -140,6 +149,7 @@ define([
          *  - enable back the submit buttons
          */
         loaded: function () {
+            console.warn('deprecated, this should be automated');
             $(window).off('click');
             loadingBar.stop();
         },
@@ -151,23 +161,21 @@ define([
          */
         _load: function (selector, url, data) {
 
-            console.log('@todo: this need to be fixed in test creator', arguments)
-            url = url || ''
+            url = url || '';
 
             if (data) {
                 data.nc = new Date().getTime();
             }
             else {
-                data = {nc: new Date().getTime()}
+                data = {nc: new Date().getTime()};
             }
-            this.loading();
             $(selector).hide().empty().show();
             if (url.indexOf('?') === -1) {
-                $(selector).load(url, data, this.loaded());
+                $(selector).load(url, data);
             }
             else {
                 url += '&' + ($.param(data));
-                $(selector).load(url, this.loaded());
+                $(selector).load(url);
             }
         },
 
@@ -187,6 +195,8 @@ define([
          * apply effect to elements that are only present
          */
         _autoFx: function () {
+            
+            console.warn('deprecated');
             setTimeout(function () {
                 $(".auto-highlight").effect("highlight", {color: "#9FC9FF"}, 2500);
             }, 1000);
@@ -204,6 +214,7 @@ define([
          * @param {int} maxLength
          */
         textCutter: function (selector, maxLength) {
+            console.warn('deprecated, use css instead');
             if (!maxLength) {
                 maxLength = 100;
             }
@@ -218,6 +229,7 @@ define([
         },
 
         createMessage: function (message) {
+            console.warn('deprecated, use feedback instead');
             if (!$('#info-box').length) {
                 $("body").append("<div id='info-box' class='ui-widget-header ui-corner-all auto-slide' >" + message + "</div>")
             }
@@ -250,6 +262,7 @@ define([
          * @return {boolean}
          */
         isFlashPluginEnabled: function () {
+            console.warn('deprecated');
             if ($.browser.msie) {
                 var hasFlash = false;
                 try {
@@ -279,6 +292,7 @@ define([
 
         //http://requirejs.org/docs/faq-advanced.html
         loadCss: function (url) {
+            console.warn('deprecated');
             var link = document.createElement("link");
             link.type = "text/css";
             link.rel = "stylesheet";
