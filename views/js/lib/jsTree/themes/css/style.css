@@ -75,17 +75,15 @@
 #jstree-marker.marker { width: 45px; background-position: -32px top; }
 #jstree-marker.marker_plus { width: 5px; background-position: right top; }
 
-#jstree-dragged.tree-custom li li.open { background: url("icons.png") -48px -32px no-repeat; }
-#jstree-dragged.tree-custom ins { background: url("icons.png") -16px -32px no-repeat; }
-#jstree-dragged.tree-custom ins.forbidden { background: url("icons.png") -16px -16px no-repeat; }
-#jstree-dragged.tree-checkbox li li.open { background: url("icons.png") -48px -32px no-repeat; }
-#jstree-dragged.tree-checkbox ins { background: url("icons.png") 0 -48px no-repeat; }
-#jstree-dragged.tree-checkbox ins.forbidden { background: url("icons.png") -16px -48px no-repeat; }
+#jstree-dragged ul { background: none !important; min-height: inherit; max-height: inherit; padding: 0; margin: 0; }
+#jstree-dragged ul li { margin: 0; }
+#jstree-dragged ul li a { padding: 0 6px; }
+#jstree-dragged ul li a ins { display: none; }
 
-.tree-custom-context a ins { background-image: url("icons.png"); /* background-repeat:no-repeat; */ background-position: -64px -64px; }
-.tree-custom-context a ins.create { background-position: 0 -16px; }
-.tree-custom-context a ins.rename { background-position: -16px 0px; }
-.tree-custom-context a ins.remove { background-position: 0 -32px; }
-.tree-custom-context li a.disabled span { color: #b0b0b0; }
+.tree-css-context a ins { background-image: url("icons.png"); /* background-repeat:no-repeat; */ background-position: -64px -64px; }
+.tree-css-context a ins.create { background-position: 0 -16px; }
+.tree-css-context a ins.rename { background-position: -16px 0px; }
+.tree-css-context a ins.remove { background-position: 0 -32px; }
+.tree-css-context li a.disabled span { color: #b0b0b0; }
 
 .tree-checkbox li > a.clicked { background: none; border: none; }
