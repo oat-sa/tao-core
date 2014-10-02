@@ -38,7 +38,6 @@ define([
             offset          : 0,
             limit           : pageRange
         });
-        
 
         /**
          * Set up the tree using the defined options
@@ -485,6 +484,9 @@ define([
                 async       : tree.settings.data.async,
                 data        : params
             }).done(function(response){
+                if(response && _.isArray(response.children)){
+                    response = response.children;
+                }
                 if(_.isArray(response)){
                    _.forEach(response, function(newNode){
                         if(newNode.type === 'instance'){   //yes the server send also the class, even though I ask him gently...
