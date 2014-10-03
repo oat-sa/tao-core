@@ -111,23 +111,8 @@ class tao_helpers_translation_RDFExtractor
 	        				
 	        				foreach ($children as $child) {
 	        					// Only process if it has a language attribute.
-	        					if ($child->hasAttributeNS($xmlNS, 'lang')){
-	        						$sourceLanguage = 'en-US';
-	        						$targetLanguage = $child->getAttributeNodeNS($xmlNS, 'lang')->value;
-	        						$source = $child->nodeValue;
-	        						$target = $child->nodeValue;
-	        						
-	        						$tu = new tao_helpers_translation_RDFTranslationUnit();
-                                    $tu->setSource($source);
-                                    $tu->setTarget($target);
-	        						$tu->setSourceLanguage($sourceLanguage);
-	        						$tu->setTargetLanguage($targetLanguage);
-	        						$tu->setSubject($about);
-	        						$tu->setPredicate($child->namespaceURI . $child->localName);
-	        						
-	        						$tus[] = $tu;
-	        					}
-	        				}
+								$tus = $this->processUnit($child, $xmlNS, $about, $tus);
+							}
 	        			}
 	        			else{
 	        				// Description about nothing.
@@ -136,7 +121,7 @@ class tao_helpers_translation_RDFExtractor
 	        		}
 	        		
 	        		$this->setTranslationUnits($tus);
-	        		
+
 	        	} catch (DOMException $e){
 	        		throw new tao_helpers_translation_TranslationException("Unable to parse RDF file at '${path}'. DOM returns '" . $e->getMessage() . "'.");
 	        	}	
@@ -216,6 +201,33 @@ class tao_helpers_translation_RDFExtractor
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_translation_RDFExtractor */
+	/**
+	 * @param $child
+	 * @param $xmlNS
+	 * @param $about
+	 * @param $tus
+	 * @return array
+	 */
+	protected function processUnit($child, $xmlNS, $about, $tus)
+	{
+		if ($child->hasAttributeNS($xmlNS, 'lang')) {
+			$sourceLanguage = 'en-US';
+			$targetLanguage = $child->getAttributeNodeNS($xmlNS, 'lang')->value;
+			$source = $child->nodeValue;
+			$target = $child->nodeValue;
 
-?>
+			$tu = new tao_helpers_translation_RDFTranslationUnit();
+			$tu->setSource($source);
+			$tu->setTarget($target);
+			$tu->setSourceLanguage($sourceLanguage);
+			$tu->setTargetLanguage($targetLanguage);
+			$tu->setSubject($about);
+			$tu->setPredicate($child->namespaceURI . $child->localName);
+
+			$tus[] = $tu;
+			return $tus;
+		}
+		return $tus;
+	}
+
+} /* end of class tao_helpers_translation_RDFExtractor */
