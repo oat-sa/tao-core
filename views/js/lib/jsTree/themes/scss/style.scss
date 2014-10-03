@@ -280,31 +280,25 @@
 
 
 #jstree-dragged {
-    &.tree-custom {
-        li li.open {
-            background: url("icons.png") -48px -32px no-repeat;
-        }
-        ins {
-            background: url("icons.png") -16px -32px no-repeat;
-            &.forbidden {
-                background: url("icons.png") -16px -16px no-repeat;
+   ul{  
+        background: none !important;
+        min-height: inherit;
+        max-height: inherit;
+        padding: 0;
+        margin: 0;
+        li {
+            margin: 0;
+            a {
+                padding: 0 6px;
+                ins {
+                  display: none; 
+                }
             }
         }
-    }
-    &.tree-checkbox {
-        li li.open {
-            background: url("icons.png") -48px -32px no-repeat;
-        }
-        ins {
-            background: url("icons.png") 0 -48px no-repeat;
-            &.forbidden {
-                background: url("icons.png") -16px -48px no-repeat;
-            }
-        }
-    }
+   } 
 }
 
-.tree-custom-context {
+.tree-css-context {
     a ins {
         background-image: url("icons.png");
         /* background-repeat:no-repeat; */

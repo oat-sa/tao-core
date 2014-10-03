@@ -23,7 +23,11 @@ define([
 
     function ($, __, context, helpers, feedback, actions, treeFactory, uiForm) {
 
-        console.warn('Hello I am the UIBootstrap and I am deprecated. I am there since TAO 1.0 but now I am tired, I need to retire.');
+    console.warn('Hello I am the UIBootstrap and I am deprecated. I am there since TAO 1.0 but now I am tired, I need to retire.');
+
+    /*
+     * DEPRECATED
+     */
 
     var UiBootstrap = {
         init: function (options) {

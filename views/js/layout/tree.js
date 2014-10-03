@@ -38,7 +38,6 @@ define([
             offset          : 0,
             limit           : pageRange
         });
-        
 
         /**
          * Set up the tree using the defined options
@@ -304,8 +303,15 @@ define([
                     if (type === 'after' || type === 'before') {
                         refNode = tree.parent(refNode);
                     }
+                    
+                    //set the rollback data
+                    $elt.data('tree-state', _.merge($elt.data('tree-state'), {rollback : rollback}));
 
-                    //TODO call the move action
+                    //execute the selectInstance action
+                    actionManager.exec(options.actions.moveInstance, {
+                        uri: $(node).attr('id'),
+                        destinationClassUri: $(refNode).attr('id')
+                    });
 
                     $elt.trigger('change.taotree');
                 }
@@ -331,6 +337,30 @@ define([
                     $elt.data('tree-state', treeState);
 
                     tree.refresh();
+                }
+            },
+
+            /**
+             * Rollback the tree. 
+             * The rollback state must have been set in the state previously, otherwise runs a refresh.
+             *
+             * @event layout/tree#rollback.taotree
+             */
+            'rollback' : function(){
+                var treeState;
+                var tree =  $.tree.reference($elt);
+                if(tree){
+        
+                    treeState = $elt.data('tree-state');
+                    if(treeState.rollback){
+                        tree.rollback(treeState.rollback);
+
+                        //remove the rollback infos.
+                        $elt.data('tree-state', _.omit(treeState, 'rollback'));
+                    } else {
+                        //trigger a full refresh
+                        $elt.trigger('refresh.taotree');
+                    }
                 }
             },
 
@@ -369,7 +399,21 @@ define([
                 var tree =  $.tree.reference($elt);
                 var node = tree.get_node($('#' + data.id, $elt).get(0));
                 tree.remove(node);
-           }
+           },
+
+            /**
+             * Opens a tree branch
+             *
+             * @event layout/tree#openbranch.taotree
+             * @param {Object} data - the data about the node to remove
+             * @param {String} data.id - the id of the node to remove
+             */       
+            'openbranch' : function(data){
+                var tree =  $.tree.reference($elt);
+                var node = tree.get_node($('#' + data.id, $elt).get(0));
+                $('li a', $elt).removeClass('clicked');
+                tree.open_branch(node);
+            }
         };
 
     
@@ -485,6 +529,9 @@ define([
                 async       : tree.settings.data.async,
                 data        : params
             }).done(function(response){
+                if(response && _.isArray(response.children)){
+                    response = response.children;
+                }
                 if(_.isArray(response)){
                    _.forEach(response, function(newNode){
                         if(newNode.type === 'instance'){   //yes the server send also the class, even though I ask him gently...
