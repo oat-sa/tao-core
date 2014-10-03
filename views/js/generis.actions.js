@@ -12,6 +12,11 @@ define([
     'layout/post-render-props'
 ], function($, helpers, postRenderProps) {
     
+    console.warn('Hello I am the GenerisActions  and I am deprecated. I am there from a long but now I am tired, I need to retire. Please talk to my son layout/action.');
+
+    /*
+     * DEPRECATED
+     */
         var mainTree;
     
 	var GenerisActions = {
