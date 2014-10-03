@@ -768,42 +768,32 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
 	public function moveInstance()
 	{
-		
-		if($this->hasRequestParameter('destinationClassUri')){
-			
-			if(!$this->hasRequestParameter('classUri') && $this->hasRequestParameter('uri')){
-				$instance = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-				$clazz = $this->service->getClass($instance);
-			}
-			else{
-				$clazz = $this->getCurrentClass();
-				$instance = $this->getCurrentInstance();
-			}	
-			
-			
-			$destinationUri = $this->getRequestParameter('destinationClassUri');
+	    $response = array();	
+		if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
+            $instance = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+            $clazz = $this->service->getClass($instance);
+			$destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
+
 			if(!empty($destinationUri) && $destinationUri != $clazz->getUri()){
-				$destinationClass = new core_kernel_classes_Class(tao_helpers_Uri::decode($destinationUri));
+				$destinationClass = new core_kernel_classes_Class($destinationUri);
 				
 				$confirmed = $this->getRequestParameter('confirmed');
-				if($confirmed == 'false' || $confirmed ===  false){
+				if(empty($confirmed) || $confirmed == 'false' || $confirmed ===  false){
 					
 					$diff = $this->service->getPropertyDiff($clazz, $destinationClass);
-				
 					if(count($diff) > 0){
-						echo json_encode(array(
+					    return $this->returnJson(array(
 							'status'	=> 'diff',
 							'data'		=> $diff
 						));
-						return true;
 					}
-				}
+				}  
 				
-				$this->setSessionAttribute('showNodeUri', tao_helpers_Uri::encode($instance->getUri()));
-				$status = $this->service->changeClass($instance, $destinationClass);
-				echo json_encode(array('status'	=> $status));
+                $status = $this->service->changeClass($instance, $destinationClass);
+                $response = array('status'	=> $status);
 			}
 		}
+        $this->returnJson($response);
 	}
 	
 	/**

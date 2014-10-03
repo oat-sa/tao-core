@@ -154,6 +154,57 @@ define([
                 });
             }
         });
+        
+        /**
+         * Register the moveNode action: moves a resource.
+         *
+         * @this the action (once register it is bound to an action object)
+         *
+         * @param {Object} actionContext - the current actionContext 
+         * @param {String} [actionContext.uri]
+         * @param {String} [actionContext.classUri]
+         */
+        binder.register('moveNode', function remove(actionContext){
+            var data = _.pick(actionContext, ['uri', 'destinationClassUri', 'confirmed']);
+            
+            //wrap into a private function for recusion calls
+            var _moveNode = function _moveNode(url, data){
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: data,
+                    dataType: 'json',
+                    success: function(response){
+
+                        if (response && response.status === 'diff') {
+                            var message = __("Moving this element will remove the following properties:");
+                            message += "\n";
+                            for (var i = 0; i < response.data.length; i++) {
+                                if (response.data[i].label) {
+                                    message += "- " + response.data[i].label + "\n";
+                                }
+                            }
+                            message += __("Please confirm this operation.") + "\n";
+
+                            if (window.confirm(message)) {
+                                data.confirmed = true;
+                                return  _moveNode(url, data);
+                            } 
+                          } else if (response && response.status === true) {
+                                //open the destination branch
+                                $(actionContext.tree).trigger('openbranch.taotree', [{
+                                    id : actionContext.destinationClassUri
+                                }]);
+                                return;
+                          }
+                    
+                          //ask to rollback the tree
+                          $(actionContext.tree).trigger('rollback.taotree');
+                    }
+                });
+            };
+            _moveNode(this.url, data);
+        });
 
         /**
          * This action helps to filter tree content.

@@ -416,9 +416,9 @@ abstract class tao_models_classes_GenerisService
         $returnValue = array();
     	$sourceProperties = $sourceClass->getProperties(true);
         $destinationProperties = $destinationClass->getProperties(true);
-
         foreach($sourceProperties as $sourcePropertyUri => $sourceProperty){
         	if(!array_key_exists($sourcePropertyUri, $destinationProperties)){
+                $sourceProperty->getLabel();
         		array_push($returnValue, $sourceProperty);
         	}
         }
