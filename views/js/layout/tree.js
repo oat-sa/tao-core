@@ -402,6 +402,20 @@ define([
            },
 
             /**
+             * Select a node
+             *
+             * @event layout/tree#selectnode.taotree
+             * @param {Object} data - the data about the node to select
+             * @param {String} data.id - the id of the node to select
+             */       
+            'selectnode' : function(data){
+                var tree =  $.tree.reference($elt);
+                var node = tree.get_node($('#' + data.id, $elt).get(0));
+                $('li a', $elt).removeClass('clicked');
+                tree.select_branch(node);
+            },
+
+            /**
              * Opens a tree branch
              *
              * @event layout/tree#openbranch.taotree

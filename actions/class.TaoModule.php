@@ -984,7 +984,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					}
 				}
 			}
-			$this->setData('openAction', 'generisActions.select');
 			if(tao_helpers_Context::check('STANDALONE_MODE')){
 				$this->setData('openAction', 'alert');
 			}
