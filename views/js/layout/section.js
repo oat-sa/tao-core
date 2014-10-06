@@ -91,6 +91,8 @@ define([
                  var id = $link.attr('href').replace('#panel-', '');
                  var $panel = $('#panel-' + id);
                  var active = false;
+
+                $panel.removeClass('hidden');
                                       
                  self.sections[id] = {
                     id          : id,

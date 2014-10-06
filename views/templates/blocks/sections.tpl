@@ -21,7 +21,7 @@ $sections = get_data('sections');
         </ul>
 
         <?php foreach ($sections as $section): ?>
-            <div class="clear content-wrapper content-panel" id="panel-<?= $section->getId() ?>">
+            <div class="hidden clear content-wrapper content-panel" id="panel-<?= $section->getId() ?>">
             
                 <section class="navi-container">
                     <div class="section-trees">
