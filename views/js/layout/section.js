@@ -65,11 +65,15 @@ define([
    
         /**
          * Find section into the scope and initiliaze them. 
+         *
          * @param {jQueryElement} $scope - the main scope
+         * @param {Object} [options] - configuration options
+         * @param {Boolean} [options.history = true] - use the history manager
          * @returns {SectionApi} instance for chaining
+         * 
          * @fires SectionApi#init.section
          */ 
-        init : function($scope){
+        init : function($scope, options){
             var self = this;
             var restore = true;
             var $openersContainer;
@@ -79,9 +83,13 @@ define([
             if(paramResult && paramResult.length){
                 defaultSection = paramResult[1];
             }            
+            
+            this.options = options || {};
  
             this.scope = $scope || this.scope || $('.section-container');
             $openersContainer = $('.tab-container', this.scope);
+
+            this.selected = null;
 
             //load sections from the DOM
             $('li', $openersContainer).each(function(index){
@@ -114,7 +122,30 @@ define([
                     break;
                 }
             }
+        
+            this._bindOpener($openersContainer);
 
+            /**
+             * Once the sections are initialized
+             * @event SectionApi#init.section
+             */
+            this.scope.trigger('init.section');    
+    
+
+            if(this.options.history === false || !restore || !restoreState(History.getState())){
+                return this.activate();
+            }
+            return this;
+        },
+
+        /**
+         * Bind the openeers (ie. the tabs) to react on click. 
+         * Also hide them if there is less than 1 visible.
+         * @param {jQueryElement} $openersContainer - the element that contains the openers
+         * @returns {SectionApi} instance for chaining
+         */
+        _bindOpener : function($openersContainer){
+            var self = this;
             //bind click on openers 
             $openersContainer
                 .off('click.section', 'li')
@@ -133,16 +164,6 @@ define([
                 $openersContainer.show();
             }
 
-            /**
-             * Once the sections are initialized
-             * @event SectionApi#init.section
-             */
-            this.scope.trigger('init.section');    
-    
-
-            if(!restore || !restoreState(History.getState())){
-                return this.activate();
-            }
             return this;
         },
 
@@ -158,6 +179,10 @@ define([
             if(!this.selected){
                 this.current();
             }
+
+            if(this.options.history === false){
+                return this._activate();
+            } 
 
             pushState(this.selected, 'activate');
 
@@ -205,6 +230,10 @@ define([
                 this.current();
             }
 
+            if(this.options.history === false){
+                return this._show();
+            }
+ 
             pushState(this.selected, 'show');
 
             return this;
@@ -299,7 +328,7 @@ define([
          * @returns {SectionApi} instance for chaining
          */ 
         create : function(data){
-            var $openersContainer = this.scope.find('.tab-cotnainer');
+            var $openersContainer = this.scope.find('.tab-container');
             var $sectionOpener, 
                 $sectionPanel, 
                 section;
@@ -310,17 +339,26 @@ define([
             if(!_.isString(data.id) || !_.isString(data.url) || !_.isString(data.name)){
                 throw new TypeError("The create() method requires data with id, url and name to create a new section.");
             }
+            if(typeof data.visible === 'undefined'){
+                data.visible = true;
+            }
             
             this.get(data.id);
             section = this.selected && this.selected.id === data.id ? this.selected : undefined;
-             
+            
+
             if(!section){
                 
                 //TODO use templates
                 $sectionPanel = $('<div id="panel-' + data.id +'" class="clear"></div>');
-                $sectionOpener = $('<li class="small ' + (!!data.visible ? 'hidden' : '') +'"><a title="'+data.name+'" data-url="'+data.url+'" href="#panel-' + data.id +'>'+data.name+'</a></li>');
+                if(data.contentBlock === true){
+                    $sectionPanel.append('<section class="content-container"><ul class="plain action-bar content-action-bar horizontal-action-bar"></ul><div class="content-block"></div></section>');
+                }
+                $sectionOpener = $('<li class="small ' + (!data.visible ? 'hidden' : '') +'"><a title="'+data.name+'" data-url="'+data.url+'" href="#panel-' + data.id +'">'+data.name+'</a></li>');
                 $openersContainer.append($sectionOpener);
                 this.scope.append($sectionPanel);
+
+
         
                 section =  {
                     id          : data.id,
@@ -332,19 +370,25 @@ define([
                     active      : false
                 };
                 this.sections[data.id] = section;
-                this.selected = section;
             }
+            this.selected = section;
                         
             if(data.content){
-                section.panel.html(data.content);
+                if(data.contentBlock === true){
+                    this.updateContentBlock(data.content);    
+                } else {
+                    section.panel.html(data.content);
+                }
+
+            } else {
+                if(data.contentBlock === true){
+                    this.loadContentBlock(); 
+                } else {
+                    this.load();
+                }
             }
                 
-            //display the openers only if there is more than 1 section
-            if($('li:not(.hidden)', $openersContainer).length < 2){
-                $openersContainer.hide();
-            } else {
-                $openersContainer.show();
-            }
+            this._bindOpener($openersContainer);
 
             return this;
         },
