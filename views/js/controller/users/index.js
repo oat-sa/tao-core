@@ -38,8 +38,10 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/itemsmgr'], function(
             //initialize the user manager component
             $('#user-list').itemsmgr({
                 'url': helpers._url('data', 'Users', 'tao'),
-                'edit': editUser,
-                'remove': removeUser
+                'actions' : {
+                    'edit': editUser,
+                    'remove': removeUser
+                }
             });
         }
     };

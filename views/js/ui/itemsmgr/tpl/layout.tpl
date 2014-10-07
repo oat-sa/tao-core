@@ -17,7 +17,7 @@
             <th>{{__ 'Login'}}</th>
             <th>{{__ 'Name'}}</th>
             <th>{{__ 'Mail'}}</th>
-            <th>{{__ 'Roles'}}</th> 
+            <th>{{__ 'Roles'}}</th>
             <th>{{__ 'Data Language'}}</th>
             <th>{{__ 'Interface Language'}}</th>
             <th>{{__ 'Actions'}}</th>
@@ -33,7 +33,9 @@
                 <td>{{dataLg}}</td>
                 <td>{{guiLg}}</td>
                 <td style="text-align:center;" data-user-identifier="{{id}}">
-                    <button class="btn-info small edit"><span class="icon-edit"></span> {{__ 'Edit'}}</button> <button class="btn-info small remove"><span class="icon-result-nok"></span> {{__ 'Remove'}}</button>
+                    {{#each ../actions}}
+                        <button class="btn-info small {{this}}"><span class="icon-{{this}}"></span> {{this}}</button>
+                    {{/each}}
                 </td>
             </tr>
         {{/users}}

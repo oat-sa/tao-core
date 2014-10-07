@@ -30,8 +30,7 @@ define([
          * @constructor
          * @param {Object} options - the plugin options
          * @param {String} options.url - the URL of the service used to retrieve the resources.
-         * @param {Function} options.edit - the callback function for items edition, with a single parameter representing the identifier of the items.
-         * @param {Function} options.remove - the callback function for ressourc removal, with a single parameter representing the identifier of the items.
+         * @param {Function} options.actions.xxx - the callback function for items xxx, with a single parameter representing the identifier of the items.
          * @fires itemsMgr#create.itemsmgr
          * @returns {jQueryElement} for chaining
          */
@@ -60,7 +59,7 @@ define([
                 data: data,
                 type: 'GET'
             }).done(function(response) {
-
+                response.actions = _.keys(options.actions);
                 var $rendering = $(layout(response));
 
                 $rendering
@@ -68,14 +67,14 @@ define([
                     .on('click', '.edit', function(e){
                         e.preventDefault();
                         var $editElt = $(this);
-                        options.edit.apply($editElt, [$editElt.parent().data('items-identifier')]);
+                        options.actions.edit.apply($editElt, [$editElt.parent().data('items-identifier')]);
                     });
                 $rendering
                     .off('click', '.remove')
                     .on('click', '.remove', function(e){
                         e.preventDefault();
                         var $removeElt = $(this);
-                        options.remove.apply($removeElt, [$removeElt.parent().data('items-identifier')]);
+                        options.actions.remove.apply($removeElt, [$removeElt.parent().data('items-identifier')]);
                     });
 
                 // Now $rendering takes the place of $elt...
@@ -87,7 +86,7 @@ define([
                 });
 
                 $backwardBtn.click(function() {
-                   itemsMgr._previous($rendering, options, data);
+                    itemsMgr._previous($rendering, options, data);
                 });
 
                 if (data.page === 1) {
