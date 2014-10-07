@@ -212,15 +212,9 @@ define([
          * @this the action (once register it is bound to an action object)
          *
          * @param {Object} actionContext - the current actionContext
-         * @param {String} [actionContext.uri]
-         * @param {String} [actionContext.classUri]
-         *
-         * @fires layout/tree#removenode.taotree
          */
         binder.register('filter', function filter(actionContext){
-        
-            //to be removed
-            toggleFilter($('.filter-form'));
+            toggleFilter($('#panel-' + appContext.section + ' .filter-form'));
         });
 
         /**
@@ -231,8 +225,6 @@ define([
          * @param {Object} actionContext - the current actionContext
          * @param {String} [actionContext.uri]
          * @param {String} [actionContext.classUri]
-         *
-         * @fires layout/tree#removenode.taotree
          */
         binder.register('launchFinder', function remove(actionContext){
 
@@ -250,10 +242,6 @@ define([
 
             if($container.data('current') === uniqueValue) {
                 search.toggle();
-                return;
-            }
-
-            if(this.name.toLowerCase() === 'filter') {
                 return;
             }
 
