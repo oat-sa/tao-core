@@ -262,32 +262,8 @@ define([
          * @return {boolean}
          */
         isFlashPluginEnabled: function () {
-            console.warn('deprecated');
-            if ($.browser.msie) {
-                var hasFlash = false;
-                try {
-                    var fo = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
-                    if (fo) {
-                        hasFlash = true;
-                    }
-                }
-                catch (e) {
-                    if (navigator.mimeTypes ["application/x-shockwave-flash"] !== undefined) {
-                        hasFlash = true;
-                    }
-                }
-                return hasFlash;
-            }
-            else {
-                if (navigator.plugins != null && navigator.plugins.length > 0) {
-                    for (var i in navigator.plugins) {
-                        if (/(Shockwave|Flash)/i.test(navigator.plugins[i]['name'])) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
+            return   (typeof navigator.plugins !== "undefined" && typeof navigator.plugins["Shockwave Flash"] === "object") || 
+                     (window.ActiveXObject && (new window.ActiveXObject("ShockwaveFlash.ShockwaveFlash")) !== false);
         },
 
         //http://requirejs.org/docs/faq-advanced.html
