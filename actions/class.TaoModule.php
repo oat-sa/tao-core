@@ -321,7 +321,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$options['labelFilter'] = $this->getRequestParameter('filter');
 		}
 		
-                if($this->hasRequestParameter("selected")){
+        if($this->hasRequestParameter("selected")){
 			$options['browse'] = array($this->getRequestParameter("selected"));
 		}
 		if($this->hasRequestParameter('hideInstances')){
@@ -364,7 +364,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
             try{
                 $actions[$index] = array(
                     'resolver'  => new ActionResolver($action->getUrl()),
-                    'name'      => $action->getName(),
+                    'id'      => $action->getId(),
                     'context'   => $action->getContext()
                 );
             } catch(\ResolverException $re){
@@ -400,10 +400,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 if($node['type'] == $action['context'] || $action['context'] == 'resource'){
                     $resolver = $action['resolver'];
                     try{
-                        $node['permissions'][$action['name']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']);
+                        $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']);
                     //@todo should be a checked exception!
                     } catch(Exception $e){
-                        common_Logger::d($e->getMessage() );
+                        common_Logger::d('Unable to resolve permission for action ' . $action['id'] . ' : ' . $e->getMessage() );
                     }
                 }
             }
@@ -984,7 +984,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					}
 				}
 			}
-			$this->setData('openAction', 'generisActions.select');
 			if(tao_helpers_Context::check('STANDALONE_MODE')){
 				$this->setData('openAction', 'alert');
 			}

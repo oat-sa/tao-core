@@ -54,8 +54,10 @@
 				<!-- The list of contextual actions to load in the section panel -->
 				<!ELEMENT actions  ( action )*>
 					<!ELEMENT action (icon)?>
-					<!-- Name of the action -->
-					<!ATTLIST action name CDATA #REQUIRED>
+					<!-- Id of the action -->
+					<!ATTLIST action id CDATA #REQUIRED>
+                    <!-- Name of the action -->
+                    <!ATTLIST action name CDATA #REQUIRED>
 					<!-- A javascript method to run instead of loading directly the URL -->
 					<!ATTLIST action js CDATA #IMPLIED>
 					<!-- The URL of the action -->
@@ -64,6 +66,8 @@
 					<!ATTLIST action context CDATA #REQUIRED>
 					<!-- Reload the complete page if true -->
 					<!ATTLIST action reload CDATA #IMPLIED>
+                    <!-- the action is disabled if true -->
+                    <!ATTLIST action disabled CDATA #IMPLIED>
 					<!-- Where to position the action -->
 					<!ATTLIST action group CDATA #REQUIRED>
 					<!-- The JS binding of this action -->

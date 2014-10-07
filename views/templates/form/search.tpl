@@ -21,7 +21,7 @@ if(get_data('found')):?>
 
 <?php if(get_data('found')):?>
 <script>
-require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, generisActions) {
+require(['jquery', 'i18n', 'grid/tao.grid'], function($, __) {
 	var properties = ['id',
 	<?php foreach(get_data('properties') as $uri => $property):?>
 		 '<?=$property->getLabel()?>',
@@ -38,7 +38,7 @@ require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, 
 	];
 
 	var size = <?=count(get_data('found'))?>;
-        var openAction = <?=get_data('openAction')?>;
+        var openAction = <?= get_data('openAction') ? get_data('openAction') : 'false' ?>;
         var $resultList = $("#result-list");
 	$resultList.jqGrid({
 		datatype: "local", 
@@ -65,6 +65,8 @@ require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, 
             e.preventDefault();
             if(typeof openAction === 'function'){
                 openAction($(this).data('uri'));
+            } else {
+                $('.tree').trigger('selectnode.taotree', [{ id : $(this).data('uri')}]);
             }
         });
 });

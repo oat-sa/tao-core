@@ -52,10 +52,10 @@ class SectionTest extends TaoPhpUnitTestRunner {
         />
     </trees>
     <actions>
-        <action name="edit class" url="/taoItems/Items/editItemClass" group="none" context="class" />
-        <action name="edit item"  url="/taoItems/Items/editItem"      group="none" context="instance" />
-        <action name="new class" js="subClass" url="/taoItems/Items/addSubClass" context="class" />
-        <action name="new item" js="instanciate" url="/taoItems/Items/addInstance" context="class" />
+        <action id="edit_class" name="edit class" url="/taoItems/Items/editItemClass" group="none" context="class" />
+        <action id="edit_item" name="edit item"  url="/taoItems/Items/editItem"      group="none" context="instance" />
+        <action id="new_class" name="new class" js="subClass" url="/taoItems/Items/addSubClass" context="class" />
+        <action id="new_item" name="new item" js="instanciate" url="/taoItems/Items/addInstance" context="class" />
     </actions>
 </section>
 XML;
@@ -70,8 +70,8 @@ XML;
               editInstanceUrl="/taoItems/Items/editItem" />
     </trees>
     <actions>
-        <action name="new class" js="subClass" url="/taoItems/Items/addSubClass" context="class" />
-        <action name="new item" js="instanciate" url="/taoItems/Items/addInstance" context="class" />
+        <action id="new_class" name="new class" js="subClass" url="/taoItems/Items/addSubClass" context="class" />
+        <action id="new_item" name="new item" js="instanciate" url="/taoItems/Items/addInstance" context="class" />
     </actions>
 </section>
 XML;
