@@ -1,45 +1,45 @@
 define([
     'jquery',
-    'lodash', 
-    'core/pluginifier', 
-    'tpl!ui/usermgr/tpl/layout'
+    'lodash',
+    'core/pluginifier',
+    'tpl!ui/itemsmgr/tpl/layout'
 ], function($, _, Pluginifier, layout){
 
     'use strict';
-    
-    var ns = 'usermgr';
+
+    var ns = 'itemsmgr';
     var defaults = {
         'start': 0,
         'rows': 25
     };
-    
-    /** 
-     * The UserMgr component makes you able to browse users and bind specific
+
+    /**
+     * The itemsMgr component makes you able to browse itemss and bind specific
      * actions to undertake for edition and removal of them.
-     * 
-     * @exports ui/usermgr
+     *
+     * @exports ui/itemsmgr
      */
-    var userMgr = {
-        
+    var itemsMgr = {
+
         /**
          * Initialize the plugin.
-         * 
+         *
          * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').usermgr({});
-         * 
+         * @example $('selector').itemsmgr({});
+         *
          * @constructor
          * @param {Object} options - the plugin options
-         * @param {String} options.url - the URL of the service used to retrieve the user resources.
-         * @param {Function} options.edit - the callback function for user edition, with a single parameter representing the identifier of the user.
-         * @param {Function} options.remove - the callback function for user removal, with a single parameter representing the identifier of the user.
-         * @fires UserMgr#create.usermgr
+         * @param {String} options.url - the URL of the service used to retrieve the resources.
+         * @param {Function} options.edit - the callback function for items edition, with a single parameter representing the identifier of the items.
+         * @param {Function} options.remove - the callback function for ressourc removal, with a single parameter representing the identifier of the items.
+         * @fires itemsMgr#create.itemsmgr
          * @returns {jQueryElement} for chaining
          */
         init: function(options) {
-            
+
             return this.each(function() {
                 var $elt = $(this);
-                
+
                 options = _.defaults(options, defaults);
 
                 var data = {
@@ -49,73 +49,73 @@ define([
                     'sord': 'asc'
                 };
 
-                userMgr._query($elt, options, data);
+                itemsMgr._query($elt, options, data);
             });
         },
-        
+
         _query: function($elt, options, data) {
-            
+
             $.ajax({
                 url: options.url,
                 data: data,
                 type: 'GET'
             }).done(function(response) {
-                
+
                 var $rendering = $(layout(response));
-                
+
                 $rendering
                     .off('click', '.edit')
                     .on('click', '.edit', function(e){
-                        e.preventDefault();    
+                        e.preventDefault();
                         var $editElt = $(this);
-                        options.edit.apply($editElt, [$editElt.parent().data('user-identifier')]);
+                        options.edit.apply($editElt, [$editElt.parent().data('items-identifier')]);
                     });
                 $rendering
                     .off('click', '.remove')
                     .on('click', '.remove', function(e){
-                        e.preventDefault();    
+                        e.preventDefault();
                         var $removeElt = $(this);
-                        options.remove.apply($removeElt, [$removeElt.parent().data('user-identifier')]);
+                        options.remove.apply($removeElt, [$removeElt.parent().data('items-identifier')]);
                     });
-                
+
                 // Now $rendering takes the place of $elt...
-                var $forwardBtn = $rendering.find('.usermgr-forward');
-                var $backwardBtn = $rendering.find('.usermgr-backward');
-                
+                var $forwardBtn = $rendering.find('.itemsmgr-forward');
+                var $backwardBtn = $rendering.find('.itemsmgr-backward');
+
                 $forwardBtn.click(function() {
-                    userMgr._next($rendering, options, data);
+                    itemsMgr._next($rendering, options, data);
                 });
-                
+
                 $backwardBtn.click(function() {
-                   userMgr._previous($rendering, options, data); 
+                   itemsMgr._previous($rendering, options, data);
                 });
-                
+
                 if (data.page === 1) {
                     $backwardBtn.attr('disabled', '');
                 } else {
                     $backwardBtn.removeAttr('disabled');
                 }
-                
+
                 if (response.page >= response.total) {
                     $forwardBtn.attr('disabled', '');
                 } else {
                     $forwardBtn.removeAttr('disabled');
                 }
-                
+
                 $elt.replaceWith($rendering);
             });
         },
-        
+
         _next: function($elt, options, data) {
             data.page +=1;
-            userMgr._query($elt, options, data);
+            itemsMgr._query($elt, options, data);
         },
-        
+
         _previous: function($elt, options, data) {
             data.page -= 1;
-            userMgr._query($elt, options, data);
+            itemsMgr._query($elt, options, data);
         }
     };
-    
-    Pluginifier.register(ns, userMgr);
+
+    Pluginifier.register(ns, itemsMgr);
 });
