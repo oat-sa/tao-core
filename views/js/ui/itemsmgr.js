@@ -59,23 +59,19 @@ define([
                 data: data,
                 type: 'GET'
             }).done(function(response) {
+                // Add the list of custom actions to the response for the tpl
                 response.actions = _.keys(options.actions);
                 var $rendering = $(layout(response));
 
-                $rendering
-                    .off('click', '.edit')
-                    .on('click', '.edit', function(e){
-                        e.preventDefault();
-                        var $editElt = $(this);
-                        options.actions.edit.apply($editElt, [$editElt.parent().data('items-identifier')]);
-                    });
-                $rendering
-                    .off('click', '.remove')
-                    .on('click', '.remove', function(e){
-                        e.preventDefault();
-                        var $removeElt = $(this);
-                        options.actions.remove.apply($removeElt, [$removeElt.parent().data('items-identifier')]);
-                    });
+                _.forEach(options.actions,function(action,name){
+                    $rendering
+                        .off('click','.'+name)
+                        .on('click','.'+name, function(e){
+                            e.preventDefault();
+                            var $elt = $(this);
+                            action.apply($elt,[$elt.parent().data('items-identifier')]);
+                        });
+                });
 
                 // Now $rendering takes the place of $elt...
                 var $forwardBtn = $rendering.find('.itemsmgr-forward');
