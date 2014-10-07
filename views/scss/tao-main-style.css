@@ -1,4 +1,10 @@
 @charset "CP850";
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -2611,6 +2617,12 @@ textarea {
   margin-top: 0 !important;
   margin-bottom: 0 !important; }
 
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -3701,6 +3713,12 @@ Special outer level classes used in this file:
 	.cke_hc: Available when the editor is rendered on "High Contrast".
 	.cke_rtl: Available when the editor UI is on RTL.
 */
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -4537,6 +4555,12 @@ style all elements inside its main interface.
 To make it easier to maintain, instead of including all styles here, we import
 other files.
 */
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -5106,6 +5130,12 @@ editors:
 To understand why "reset" is needed, check the CKEditor Skin SDK:
 http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 */
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -5957,6 +5987,12 @@ The following is a visual representation of the outer elements of a panel:
 This file also defines styles for panel lists (used by combos). For menu-like
 panel contents and color panels check menu.css and colorpanel.css.
 */
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -6803,6 +6839,12 @@ Special outer level classes used in this file:
 	.cke_hc: Available when the editor is rendered on "High Contrast".
 	.cke_rtl: Available when the editor UI is on RTL.
 */
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -7814,6 +7856,12 @@ The visual representation of a rich combo widget looks as follows:
 | +----------------------+ +------------------------------------------------------+ |
 +-----------------------------------------------------------------------------------+
 */
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -8585,6 +8633,12 @@ a.cke_path_item:active {
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -9154,6 +9208,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   background-color: #fff; }
 
 /* Tao specific stuff */
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -9775,6 +9835,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
     bottom: -6px; }
 
 /* Icon set */
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -10353,6 +10419,12 @@ legend.cke_voice_label {
 */
 .cke_top, .tlb-top {
   display: table; }
+
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
 
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
@@ -11159,6 +11231,12 @@ Special outer level classes used in this file:
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -11784,6 +11862,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   .tlb-text-button-box .tlb-text-button-on .tlb-text, .tlb-text-button-box .tlb-text-button-on [class^="icon-"], .tlb-text-button-box .tlb-text-button-on [class*=" icon-"], .tlb-text-button-box:focus .tlb-text, .tlb-text-button-box:focus [class^="icon-"], .tlb-text-button-box:focus [class*=" icon-"] {
     text-shadow: none;
     color: white; }
+
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
 
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
@@ -12418,6 +12502,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
 
 .help-content {
   display: none; }
+
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
 
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
@@ -13121,6 +13211,12 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
     .resourcemgr .file-selector .file-upload-container {
       display: none;
       padding: 0 5px; }
+
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
 
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
@@ -13873,6 +13969,12 @@ button, input[type="submit"], input[type="reset"] {
 
 .ui-button [class^="icon-"], .ui-button [class*=" icon-"] {
   font-family: tao !important; }
+
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
 
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
@@ -16254,6 +16356,12 @@ html, body {
     .noUi-vertical-wrapper .step-marker.before span:before {
       left: -40%; }
 
+.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
+  content: " ";
+  display: table; }
+.xhtml_form .form-toolbar:after {
+  clear: both; }
+
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"],
 .tlb .tlb-bar .tlb-button-off [class^="icon-"],
 .tlb .tlb-bar .tlb-button-off [class*=" icon-"],
@@ -16804,12 +16912,6 @@ label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   position: absolute;
   left: -10000px;
   top: -10000px; }
-
-.xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after {
-  content: " ";
-  display: table; }
-.xhtml_form .form-toolbar:after {
-  clear: both; }
 
 s {
   text-decoration: none; }

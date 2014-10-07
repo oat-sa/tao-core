@@ -1,10 +1,7 @@
-<div class="main-container" data-tpl="tao/import.tpl">
-    <h2><?=get_data('formTitle')?></h2>
-    <div class="form-content">
-        <?=get_data('myForm')?>
-    </div>
-</div>
-<div class="data-container-wrapper"></div>
+<?php
+use oat\tao\helpers\Template;
+Template::inc('form.tpl', 'tao');
+?>
 
 <?php if(has_data('importErrorTitle')):?>
     <?php if(get_data('importErrors')):?>

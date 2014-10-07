@@ -1,3 +1,3 @@
-<div class="data-container-wrapper standalone">
-	<table id="user-list"></table>
+<div class="data-container-wrapper flex-container-full">
+	<table id="user-list" class="matrix"></table>
 </div>

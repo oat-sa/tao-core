@@ -1,11 +1,11 @@
-<div class="main-container" data-tpl="tao/list/index.tpl">
+<div class="main-container flex-container-main-form">
     <h2><?= __('Create a list') ?></h2>
 
     <div class="form-content">
         <?= get_data('form') ?>
     </div>
 </div>
-<div class="data-container-wrapper">
+<div class="data-container-wrapper flex-container-remainder">
     <?php foreach (get_data('lists') as $i => $list): ?>
         <div id='list-data_<?= $list['uri'] ?>' class="data-container">
             <div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title">
