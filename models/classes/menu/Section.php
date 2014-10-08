@@ -57,6 +57,7 @@ class Section extends MenuElement implements PhpSerializable
 			'extension'  => $extension,
 			'controller' => $controller,
 			'action'     => $action,
+            'binding'    => isset($node['binding']) ? (string)$node['binding'] : null,
             'policy'     => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE
         );
 
@@ -119,7 +120,17 @@ class Section extends MenuElement implements PhpSerializable
     {
         return $this->data['policy'];
     }
-    
+  
+    /**
+     * Get the JavaScript binding to run instead of loading the URL
+     *
+     * @return string|null the binding name or null if none
+     */ 
+    public function getBinding()
+    {
+        return $this->data['binding'];
+    }
+ 
     public function getTrees()
     {
         return $this->trees;

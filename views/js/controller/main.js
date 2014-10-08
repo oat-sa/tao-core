@@ -13,9 +13,9 @@ define([
     'layout/version-warning',
     'layout/section-height',
     'layout/loading-bar',
-    'ui/feedback'
+    'layout/nav'
 ],
-function ($, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar) {
+function ($, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav) {
     'use strict';
 
     /**
@@ -38,6 +38,9 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
             $doc.ajaxComplete(function () {
                 loadingBar.stop();
             });
+
+            //navigation bindings
+            nav.init();
 
             //initialize sections 
             section.on('activate', function(section){

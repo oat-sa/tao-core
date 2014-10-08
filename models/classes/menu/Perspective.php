@@ -78,7 +78,7 @@ class Perspective extends MenuElement implements PhpSerializable
             'name'		  => (string)$node['title'],
             'level'		  => (int)$node['level'],
             'description' => empty($text) ? null : $text,
-            'binding'     => isset($node['js']) ? (string)$node['js'] : null,
+            'binding'     => isset($node['binding']) ? (string)$node['binding'] :  (isset($node['js']) ? (string)$node['js'] : null),
             'structure'   => isset($node['structure']) ? (string)$node['structure'] : null,
             'group'       => self::GROUP_SETTINGS,
             'icon'        => isset($node['icon']) ? Icon::fromArray(array('id' => (string)$node['icon']), $extensionId) : null
