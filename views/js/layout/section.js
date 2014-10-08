@@ -81,7 +81,7 @@ define([
 
             var paramResult = window.location.toString().match(sectionParamExp);
             if(paramResult && paramResult.length){
-                defaultSection = paramResult[1];
+                defaultSection = paramResult[1].replace('#', '');
             }            
             
             this.options = options || {};
