@@ -1,7 +1,40 @@
 @import 'inc/bootstrap';
 
+
 .section-container {
+
+    // some variations of flex children
+    $flexCols: full, half, third, quarter;
+    @for $i from 1 through length($flexCols) {
+        $width: (100 / ($i)) * 1%;
+        $flexCol: #{nth($flexCols, $i)};
+        .flex-container-#{$flexCol} {
+            @include simple-flex-box($width);
+        }
+    }
+
+    // 'whatever-is-left' container
+    .flex-container-remaining {
+        @include simple-flex-box();
+    }
+
+    // main form on left hand side
+    .flex-container-main-form {
+        @include simple-flex-box(500px);
+    }
+
+    // the one for the sidebar that usually holds tree
+    .flex-container-navi {
+        @include simple-flex-box($treeSidebar * 1px);
+    }
+
+    // @todo all simple-flex-box references below should be removed once all templates are upgraded
+
     top: 0 !important;
+
+    .section-header {
+        border: none;
+    }
 
     .content-panel {
         width: 100%;
@@ -57,7 +90,7 @@
     .navi-container {
         display:none;
         background:  $canvas;
-        @include simple-flex-box($treeSidebar);
+        @include simple-flex-box($treeSidebar * 1px);
         border-right: 1px $uiGeneralContentBorder solid;
         .block-title {
             @include font-size(14);
@@ -82,9 +115,9 @@
 
     .content-block {
         padding: 20px;
-        @include flex-container();
+        @include flex-container(wrap);
         .main-container {
-            @include simple-flex-box(500);
+            @include simple-flex-box(500px);
         }
         & > .grid-container {
             width : 100%;
@@ -92,9 +125,6 @@
         .data-container-wrapper {
             padding: 41px 0px 0px 20px;
             overflow:hidden;
-            &.standalone {
-                padding: 0px;
-            }
 
             @include simple-flex-box();
             .data-container {

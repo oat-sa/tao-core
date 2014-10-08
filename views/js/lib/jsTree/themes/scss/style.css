@@ -1,4 +1,4 @@
-.tree li.private ins:after {
+.tree li.private ins:after, .tree-checkbox li.node-instance > a ins:before, .tree-checkbox li.node-instance > a.checked ins:before {
   font-family: 'tao';
   speak: none;
   font-style: normal;
@@ -49,8 +49,11 @@
 .taotree-default {
   content: "\169"; }
 
-.tree-checkbox li.node-instance ins {
+.tree-checkbox li.node-instance > a ins:before {
   content: "\1b2"; }
+
+.tree-checkbox li.node-instance > a.checked ins:before {
+  content: "\1b4"; }
 
 .tree {
   overflow: auto; }
@@ -229,101 +232,32 @@
     width: 5px;
     background-position: right top; }
 
-#jstree-dragged.tree-custom li li.open {
-  background: url("icons.png") -48px -32px no-repeat; }
-#jstree-dragged.tree-custom ins {
-  background: url("icons.png") -16px -32px no-repeat; }
-  #jstree-dragged.tree-custom ins.forbidden {
-    background: url("icons.png") -16px -16px no-repeat; }
-#jstree-dragged.tree-checkbox li li.open {
-  background: url("icons.png") -48px -32px no-repeat; }
-#jstree-dragged.tree-checkbox ins {
-  background: url("icons.png") 0 -48px no-repeat; }
-  #jstree-dragged.tree-checkbox ins.forbidden {
-    background: url("icons.png") -16px -48px no-repeat; }
+#jstree-dragged ul {
+  background: none !important;
+  min-height: inherit;
+  max-height: inherit;
+  padding: 0;
+  margin: 0; }
+  #jstree-dragged ul li {
+    margin: 0; }
+    #jstree-dragged ul li a {
+      padding: 0 6px; }
+      #jstree-dragged ul li a ins {
+        display: none; }
 
-.tree-custom-context a ins {
+.tree-css-context a ins {
   background-image: url("icons.png");
   /* background-repeat:no-repeat; */
   background-position: -64px -64px; }
-  .tree-custom-context a ins.create {
+  .tree-css-context a ins.create {
     background-position: 0 -16px; }
-  .tree-custom-context a ins.rename {
+  .tree-css-context a ins.rename {
     background-position: -16px 0px; }
-  .tree-custom-context a ins.remove {
+  .tree-css-context a ins.remove {
     background-position: 0 -32px; }
-.tree-custom-context li a.disabled span {
+.tree-css-context li a.disabled span {
   color: #b0b0b0; }
 
-.tree-checkbox .locked li a {
-  color: gray; }
-.tree-checkbox ul {
-  background-position: 6px 1px;
-  background-repeat: repeat-y;
-  background-image: url(data:image/gif;base64,R0lGODlhAgACAIAAAB4dGf///yH5BAEAAAEALAAAAAACAAIAAAICRF4AOw==); }
-.tree-checkbox li {
-  background-position: -64px -16px;
-  background-repeat: no-repeat;
-  background-image: url("icons.png"); }
-  .tree-checkbox li.open {
-    background: url("icons.png") -32px -48px no-repeat; }
-  .tree-checkbox li.closed {
-    background: url("icons.png") -48px -32px no-repeat; }
-  .tree-checkbox li.node-root ins {
-    background-image: url("icons.png");
-    background-position: 0 0;
-    background-repeat: no-repeat; }
-  .tree-checkbox li.node-class ins {
-    background-image: url("class.png");
-    background-position: 0 0;
-    background-repeat: no-repeat; }
-  .tree-checkbox li.node-instance ins {
-    background-image: url("nachtigall.png");
-    background-position: 0 0;
-    background-repeat: no-repeat; }
-  .tree-checkbox li.node-instance a ins.forbidden {
-    background-position: -16px -48px; }
-  .tree-checkbox li.node-instance a.undetermined ins {
-    background-position: 0px -16px; }
-  .tree-checkbox li.node-instance a.checked ins {
-    background-position: 0px -32px; }
-  .tree-checkbox li.node-instance a:hover ins {
-    background-position: -16px 0px; }
-  .tree-checkbox li.node-instance a.undetermined:hover ins {
-    background-position: -16px -16px; }
-  .tree-checkbox li.node-instance a.checked:hover ins {
-    background-position: -16px -32px; }
-  .tree-checkbox li.paginate {
-    padding-left: 12px;
-    background-image: none !important;
-    display: inline !important; }
-  .tree-checkbox li.paginate-more ins {
-    background-image: url("paginate_more.png"); }
-  .tree-checkbox li.paginate-all ins {
-    background-image: url("paginate_all.png"); }
-  .tree-checkbox li.paginate a:hover, .tree-checkbox li.paginate a.hover {
-    background: #91c7ff;
-    border: 1px solid blue;
-    padding: 0px;
-    font-size: 15px;
-    font-size: 1.5rem; }
-  .tree-checkbox li.paginate a.clicked {
-    background: none;
-    border: none; }
-    .tree-checkbox li.paginate a.clicked:hover {
-      background: none;
-      border: none; }
-  .tree-checkbox li.paginate span.clicked {
-    background: none;
-    border: none; }
-.tree-checkbox .no_dots {
-  background: transparent; }
-  .tree-checkbox .no_dots ul {
-    background: transparent; }
-  .tree-checkbox .no_dots li.leaf {
-    background-image: none;
-    background-color: transparent; }
-
-.tree-checkbox ul li.node-instance a.loading ins {
-  background-image: url("throbber.gif") !important;
-  background-position: 0 0 !important; }
+.tree-checkbox li > a.clicked {
+  background: none;
+  border: none; }

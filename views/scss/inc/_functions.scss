@@ -47,10 +47,10 @@
     }
 }
 
-@mixin flex-container() {
+@mixin flex-container($wrapBehavior: nowrap) {
     @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
     @include vendor-prefix(direction, row, property, (-ms-, -webkit-, ''));
-    @include vendor-prefix(flex-wrap, nowrap, property, (-ms-, -webkit-, ''));
+    @include vendor-prefix(flex-wrap, $wrapBehavior, property, (-ms-, -webkit-, ''));
     @include vendor-prefix(justify-content, flex-start, property, (-webkit-, ''));
     @include vendor-prefix(align-content, flex-start, property, (-webkit-, ''));
     @include vendor-prefix(align-items, stretch, property, (-webkit-, ''));
@@ -69,7 +69,7 @@
         @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
     }
     @else {
-        @include vendor-prefix(flex, 0 0 $width * 1px, property, (-ms-, -webkit-, ''));
+        @include vendor-prefix(flex, 0 0 $width, property, (-ms-, -webkit-, ''));
     }
 }
 

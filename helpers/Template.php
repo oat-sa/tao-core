@@ -22,7 +22,7 @@
 namespace oat\tao\helpers;
 
 class Template {
-        
+
     /**
      * Expects a relative url to the image as path
      * if extension name is omitted the current extension is used
@@ -113,5 +113,19 @@ class Template {
         $extensionName = is_null($extensionName) ? \Context::getInstance()->getExtensionName() : $extensionName;
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);
         return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$path;
+    }
+
+    /**
+     * @return array|bool
+     */
+    public static function getMessages() {
+        $messages = array();
+        if(has_data('errorMessage')){
+            $messages['error'] = get_data('errorMessage');
+        }
+        if(has_data('message')){
+            $messages['info'] = get_data('message');
+        }
+        return !!count($messages) ? $messages : false;
     }
 }

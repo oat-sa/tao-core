@@ -1,4 +1,4 @@
-<div class="data-container-wrapper standalone">
+<div class="data-container-wrapper flex-container-full">
     <div class="grid-row">
 
         <div class="col-6 rdfImport">
