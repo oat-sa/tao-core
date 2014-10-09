@@ -76,7 +76,8 @@ define([
                 // Now $rendering takes the place of $elt...
                 var $forwardBtn = $rendering.find('.itemsmgr-forward');
                 var $backwardBtn = $rendering.find('.itemsmgr-backward');
-                var $sortBy = $rendering.find('th');
+                var $sortBy = $rendering.find('th[data-sort-by]');
+                var $sortElement = $rendering.find('[data-sort-by="'+ data.sortby +'"]');
 
                 $forwardBtn.click(function() {
                     itemsMgr._next($rendering, options, data);
@@ -87,9 +88,13 @@ define([
                 });
 
                 $sortBy.click(function() {
-                    var sortBy = $(this).data('sort-by');
-                    itemsMgr._sort($rendering, options, data, sortBy);
+                    itemsMgr._sort($rendering, options, data, this);
                 });
+
+                // Remove sorted class from all th
+                $('th.sorted',$rendering).removeClass('sorted');
+                // Add the sorted class to the sorted element and the order class
+                $sortElement.addClass('sorted').addClass('sorted_'+data.sortorder);
 
                 if (data.page === 1) {
                     $backwardBtn.attr('disabled', '');
@@ -102,6 +107,7 @@ define([
                 } else {
                     $forwardBtn.removeAttr('disabled');
                 }
+
 
                 $elt.replaceWith($rendering);
             });
@@ -117,12 +123,18 @@ define([
             itemsMgr._query($elt, options, data);
         },
         _sort: function($elt, options, data, sortBy) {
-            if (data.sortorder == "asc") {
+            var sorting_element = $(sortBy).data('sort-by');
+            if (data.sortorder == "asc" && data.sortby == sorting_element) {
+                // If I already sort asc this element
                 data.sortorder = "desc";
             }else{
+                // If I never sort by this element or
+                // I sort by this element & the order was desc
                 data.sortorder = "asc";
             }
-            data.sortby = sortBy;
+            // Change the sorting element anyway.
+            data.sortby = sorting_element;
+            // Call the query
             itemsMgr._query($elt, options, data);
         }
     };

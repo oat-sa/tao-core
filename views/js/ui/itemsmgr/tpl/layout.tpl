@@ -14,12 +14,12 @@
     </colgroup>
     <thead>
         <tr>
-            <th>{{__ 'Login'}}</th>
-            <th>{{__ 'Name'}}</th>
-            <th>{{__ 'Mail'}}</th>
-            <th>{{__ 'Roles'}}</th>
-            <th>{{__ 'Data Language'}}</th>
-            <th>{{__ 'Interface Language'}}</th>
+            <th data-sort-by="login">{{__ 'Login'}} <span></span></th>
+            <th data-sort-by="name">{{__ 'Name'}}</th>
+            <th data-sort-by="mail">{{__ 'Mail'}}</th>
+            <th data-sort-by="role">{{__ 'Roles'}}</th>
+            <th data-sort-by="dataLg">{{__ 'Data Language'}}</th>
+            <th data-sort-by="guiLg">{{__ 'Interface Language'}}</th>
             <th>{{__ 'Actions'}}</th>
         </tr>
     </thead>
