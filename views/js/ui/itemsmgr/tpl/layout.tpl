@@ -1,6 +1,6 @@
 <div class="grid-row">
     <div class="col-6">Page <strong>{{page}}</strong> of {{total}}</div>
-    <div class="col-6 txt-rgt"><button class="btn-info small usermgr-backward"><span class="icon-backward"></span>Previous</button><button class="btn-info small usermgr-forward"">Next<span class="icon-forward r"></span></button></div>
+    <div class="col-6 txt-rgt"><button class="btn-info small itemsmgr-backward"><span class="icon-backward"></span>Previous</button><button class="btn-info small itemsmgr-forward">Next<span class="icon-forward r"></span></button></div>
 </div>
 <table class="matrix">
     <colgroup>
@@ -43,5 +43,5 @@
 </table>
 <div class="grid-row">
     <div class="col-6">Page <strong>{{page}}</strong> of {{total}}</div>
-    <div class="col-6 txt-rgt"><button class="btn-info small usermgr-backward"><span class="icon-backward"></span>Previous</button><button class="btn-info small usermgr-forward"">Next<span class="icon-forward r"></span></button></div>
+    <div class="col-6 txt-rgt"><button class="btn-info small itemsmgr-backward"><span class="icon-backward"></span>Previous</button><button class="btn-info small itemsmgr-forward"">Next<span class="icon-forward r"></span></button></div>
 </div>
