@@ -76,6 +76,7 @@ define([
                 // Now $rendering takes the place of $elt...
                 var $forwardBtn = $rendering.find('.itemsmgr-forward');
                 var $backwardBtn = $rendering.find('.itemsmgr-backward');
+                var $sortBy = $rendering.find('th');
 
                 $forwardBtn.click(function() {
                     itemsMgr._next($rendering, options, data);
@@ -83,6 +84,11 @@ define([
 
                 $backwardBtn.click(function() {
                     itemsMgr._previous($rendering, options, data);
+                });
+
+                $sortBy.click(function() {
+                    var sortBy = $(this).data('sort-by');
+                    itemsMgr._sort($rendering, options, data, sortBy);
                 });
 
                 if (data.page === 1) {
@@ -108,6 +114,15 @@ define([
 
         _previous: function($elt, options, data) {
             data.page -= 1;
+            itemsMgr._query($elt, options, data);
+        },
+        _sort: function($elt, options, data, sortBy) {
+            if (data.sortorder == "asc") {
+                data.sortorder = "desc";
+            }else{
+                data.sortorder = "asc";
+            }
+            data.sortby = sortBy;
             itemsMgr._query($elt, options, data);
         }
     };
