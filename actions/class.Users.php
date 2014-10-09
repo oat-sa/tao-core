@@ -71,8 +71,8 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	public function data(){
 		$page = $this->getRequestParameter('page');
 		$limit = $this->getRequestParameter('rows');
-		$sidx = $this->getRequestParameter('sidx');
-		$sord = $this->getRequestParameter('sord');
+		$sidx = $this->getRequestParameter('sortby');
+		$sord = $this->getRequestParameter('sortorder');
 		$searchField = $this->getRequestParameter('searchField');
 		$searchOper = $this->getRequestParameter('searchOper');
 		$searchString = $this->getRequestParameter('searchString');
@@ -86,14 +86,14 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		if (!$sidx) {
 		    $sidx = 1;
 		}
-		
+
 		$gau = array(
 				'order' 	=> $sidx,
 				'orderDir'	=> $sord,
 				'start'		=> $start,
 				'limit'		=> $limit
 		);
-		
+
 		if (!is_null($searchField)) {
 			$gau['search'] = array(
 				'field' => $searchField,
@@ -102,20 +102,20 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				'string' => $searchString
 			);
 		}
-		
+
 		// get total user count...
-		$users = $this->userService->getAllUsers(); 
+		$users = $this->userService->getAllUsers();
 		$counti =  count($users);
-		
+
 		// get the users using requested paging...
 		$users = $this->userService->getAllUsers(array('offset' => $start, 'limit' => $limit));
 		$rolesProperty		= new core_kernel_classes_Property(PROPERTY_USER_ROLES);
-		
+
 		$response = new stdClass();
 		$i = 0;
-		
+
 		foreach ($users as $user) {
-			
+
 			$propValues = $user->getPropertiesValues(array(
 				PROPERTY_USER_LOGIN,
 				PROPERTY_USER_FIRSTNAME,
@@ -125,19 +125,19 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				PROPERTY_USER_UILG,
 				PROPERTY_USER_ROLES
 			));
-			
+
 			$roles = $user->getPropertyValues($rolesProperty);
 			$labels = array();
 			foreach ($roles as $uri) {
 				$r = new core_kernel_classes_Resource($uri);
 				$labels[] = $r->getLabel();
 			}
-			
+
 			$firstName = empty($propValues[PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_FIRSTNAME]);
 			$lastName = empty($propValues[PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
 			$uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
 			$dataRes = empty($propValues[PROPERTY_USER_DEFLG]) ? null : current($propValues[PROPERTY_USER_DEFLG]);
-			
+
 			$response->users[$i]['id']= tao_helpers_Uri::encode($user->getUri());
 			$response->users[$i]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
 			$response->users[$i]['name'] = $firstName.' '.$lastName;
@@ -190,7 +190,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				unset($values['password2']);
 
 				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($myFormContainer->getUser());
-				
+
 				if($binder->bind($values)){
 					$this->setData('message', __('User added'));
 					$this->setData('exit', true);
@@ -208,26 +208,26 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		
+
 		$clazz = new core_kernel_classes_Class(CLASS_TAO_USER);
 		$formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
 		$myForm = $formContainer->getForm();
-		
+
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				
+
 				$properties = $myForm->getValues();
 				$instance = $this->createInstance(array($clazz), $properties);
-				
+
 				$this->setData('message', __($instance->getLabel().' created'));
 				//$this->setData('reload', true);
 				$this->setData('selectTreeNode', $instance->getUri());
 			}
 		}
-		
+
 		$this->setData('formTitle', __('Create instance of ').$clazz->getLabel());
 		$this->setData('myForm', $myForm->render());
-	
+
 		$this->setView('form.tpl', 'tao');
 	}
 
@@ -282,7 +282,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				}
 
 				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
-				
+
 				if($binder->bind($values)){
 					$this->setData('message', __('User saved'));
 					$this->setData('exit', true);

@@ -44,8 +44,8 @@ define([
                 var data = {
                     'rows': options.rows,
                     'page': 1,
-                    'sidx': '',
-                    'sord': 'asc'
+                    'sortby': 'id',
+                    'sortorder': 'asc'
                 };
 
                 itemsMgr._query($elt, options, data);
