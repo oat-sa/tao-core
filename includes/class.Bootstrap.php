@@ -301,11 +301,17 @@ class Bootstrap{
         $cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
         session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], TRUE);
         $this->configureSessionHandler();
-
+  
 		// Start the session with a specific name.
 		session_name(GENERIS_SESSION_NAME);
 		session_start();
 		
+		//cookie keep alive
+        if (isset($_COOKIE[session_name()])) {
+            $expiryTime = $sessionParams['lifetime'] + time();
+            setcookie(session_name(), $_COOKIE[session_name()], $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], true);
+        }
+        
 		common_Logger::t("Session with name '" . GENERIS_SESSION_NAME ."' started.");
 	}
 	
