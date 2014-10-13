@@ -308,7 +308,10 @@ class Bootstrap{
 		
 		//cookie keep alive
         if (isset($_COOKIE[session_name()])) {
-            $expiryTime = $sessionParams['lifetime'] + time();
+            if ($sessionParams['lifetime'] !== 0) {
+                $expiryTime = $sessionParams['lifetime'] + time();
+            }
+            
             setcookie(session_name(), $_COOKIE[session_name()], $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], true);
         }
         
