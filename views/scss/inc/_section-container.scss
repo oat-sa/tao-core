@@ -127,90 +127,93 @@
             overflow:hidden;
 
             @include simple-flex-box();
-            .data-container {
+            & > section, .data-container {
                 width: 260px;
                 margin: 0 20px 20px 0;
                 float: left;
                 @include simple-border();
                 .emptyContentFooter {
-                    display:none;
+                    display: none;
                 }
                 form {
-                    background:none;
-                    border:none;
+                    background: none;
+                    border: none;
                     margin: 0;
                     padding: 0;
                 }
-                .ui-widget-header {
+                & > header, .ui-widget-header {
                     background: $canvas;
-                    border-width:0px !important;
+                    border-width: 0px !important;
                     border-bottom: 1px #ddd solid !important;
+                    h1 {
+                        padding: 4px;
+                        margin: 0;
+                        @include font-size(14);
+                    }   
                 }
-                .ui-widget-content {
-                    &.data-container-footer {
-                        background: $canvas;
-                        text-align: right !important;
-                        padding:4px;
-                        border-width:0px !important;
-                        border-top: 1px #ddd solid !important;
-                        .square {
-                            width: 28px;
-                            span {
-                                padding: 0;
-                                left: 0
-                            }
+                & > div, .ui-widget-content, .container-content {
+                    border-width: 0px !important;
+                    overflow-y: auto;
+                    min-height: 250px;
+                }
+                & > footer, .data-container-footer {
+                    background: $canvas;
+                    text-align: right !important;
+                    padding: 4px;
+                    border-width: 0px !important;
+                    border-top: 1px #ddd solid !important;
+                    .square {
+                        width: 28px;
+                        span {
+                            padding: 0;
+                            left: 0
                         }
-                    }
-                    &.container-content {
-                        border-width:0px !important;
                     }
                 }
                 ol {
                     margin: 0 0 0 15px;
                     padding: 10px;
                 }
-
             }
          }
-        
         //TODO data-container like but with html rewritten, same as above, but we will need to keep only one.
-        .new-container {
-            width: 260px;
-            margin: 0 20px 20px 0;
-            float: left;
-            @include simple-border();
-            & > header{
+        /*.new-container {*/
+            /*width: 260px;*/
+            /*margin: 0 20px 20px 0;*/
+            /*float: left;*/
+            /*@include simple-border();*/
+            /*& > header{*/
 
-                background: $canvas;
-                border-width: 0px !important;
-                border-bottom: 1px #ddd solid !important;
-                h1 {
-                    padding: 4px;
-                    margin: 0;
-                    @include font-size(14);
-                }   
-            }
-            & > div {
-                overflow-y: auto;
-                min-height: 400px;
-                max-height: 400px;         
-                border-width: 0px !important;
-            }
-            & > footer{
-                background: $canvas;
-                text-align: right !important;
-                padding:4px;
-                border-width:0px !important;
-                border-top: 1px #ddd solid !important;
-                .square {
-                    width: 28px;
-                    span {
-                        padding: 0;
-                        left: 0
-                    }
-                }
-            }
-        }
+                /*background: $canvas;*/
+                /*border-width: 0px !important;*/
+                /*border-bottom: 1px #ddd solid !important;*/
+                /*h1 {*/
+                    /*padding: 4px;*/
+                    /*margin: 0;*/
+                    /*@include font-size(14);*/
+                /*}   */
+            /*}*/
+            /*& > div {*/
+                /*overflow-y: auto;*/
+                /*min-height: 400px;*/
+                /*max-height: 400px;         */
+                /*border-width: 0px !important;*/
+            /*}*/
+            /*& > footer{*/
+                /*background: $canvas;*/
+                /*text-align: right !important;*/
+                /*padding:4px;*/
+                /*border-width:0px !important;*/
+                /*border-top: 1px #ddd solid !important;*/
+                /*.square {*/
+                    /*width: 28px;*/
+                    /*span {*/
+                        /*padding: 0;*/
+                        /*left: 0*/
+                    /*}*/
+                /*}*/
+            /*}*/
+        /*}*/
         
         
 
