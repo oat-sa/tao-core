@@ -38,7 +38,7 @@
 .tree ul.ltr ins { margin: 0 4px 0 0px; }
 .tree li { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABAAgMAAADwqRilAAAACVBMVEX///8kbHeAgIB/SOz/AAAAAXRSTlMAQObYZgAAAEVJREFUeNpjYIACBwY4EICzArAJhoQiAH6VWM0cBUDAMUQEuVaMxhWBEMIq2IBNcAHRKom2fVgBplXYQmgVthDSGiwhBAAx4grYHitHZwAAAABJRU5ErkJggg==) no-repeat -1000px -1000px; display: block; padding: 0 0 0 11px; margin: 0; }
 .tree li ul { display: none; margin: 0; padding: 0; }
-.tree li a, .tree li span { height: 20px; color: #222222; white-space: nowrap; text-decoration: none; margin: 0; display: block; font-size: 13px; font-size: 1.3rem; border: 1px solid transparent; border-radius: 2px; -webkit-border-radius: 2px; overflow: hidden; text-overflow: ellipsis; }
+.tree li a, .tree li span { height: 20px; color: #222; white-space: nowrap; text-decoration: none; margin: 0; display: block; font-size: 13px; font-size: 1.3rem; border: 1px solid transparent; border-radius: 2px; -webkit-border-radius: 2px; overflow: hidden; text-overflow: ellipsis; }
 .tree li a:hover, .tree li span:hover { color: #0e5d91; }
 .tree li a.clicked, .tree li span.clicked { background: #e4ecef; border-color: #a4bbc5; }
 .tree li a:focus, .tree li span:focus { outline: none; }
@@ -87,3 +87,5 @@
 .tree-css-context li a.disabled span { color: #b0b0b0; }
 
 .tree-checkbox li > a.clicked { background: none; border: none; }
+
+/*# sourceMappingURL=style.css.map */
