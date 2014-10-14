@@ -154,6 +154,40 @@ class tao_helpers_translation_POFile
         return (array) $returnValue;
     }
 
-} /* end of class tao_helpers_translation_POFile */
+    /**
+     * Adds a TranslationUnit instance to the file. It is appenned at the end of
+     * collection.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param tao_helpers_translation_TranslationUnit $translationUnit
+     * @return mixed
+     */
+    public function addTranslationUnit(tao_helpers_translation_TranslationUnit $translationUnit)
+    {
 
-?>
+        // If the translation unit exists, we replace the target with the new one if it exists.
+        // also now we take care about context
+        /** @var tao_helpers_translation_TranslationUnit $tu */
+        foreach ($this->getTranslationUnits() as $tu) {
+            if ($tu->getSource() == $translationUnit->getSource() &&
+                (!$translationUnit->getContext() || $tu->getContext() == $translationUnit->getContext())
+            ) {
+
+                $tu->setTarget($translationUnit->getTarget());
+                $tu->setAnnotations($translationUnit->getAnnotations());
+
+                return;
+            }
+        }
+
+        // If we are here, it means that this TU does not exist.
+        $translationUnit->setSourceLanguage($this->getSourceLanguage());
+        $translationUnit->setTargetLanguage($this->getTargetLanguage());
+
+        $tus = $this->getTranslationUnits();
+        array_push($tus, $translationUnit);
+        $this->setTranslationUnits($tus);
+    }
+
+} /* end of class tao_helpers_translation_POFile */

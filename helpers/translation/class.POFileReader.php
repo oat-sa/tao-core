@@ -44,6 +44,7 @@ class tao_helpers_translation_POFileReader
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
+     * @throws tao_helpers_translation_TranslationException
      * @return mixed
      */
     public function read()
@@ -59,9 +60,21 @@ class tao_helpers_translation_POFileReader
 		
 		$fc = implode('',file($file));
 		
-		$matched = preg_match_all('/((?:#[\.:,\|]{0,1}\s+(?:.*?)\\n)*)(msgid\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+' .
+		$matched = preg_match_all('/((?:#[\.:,\|]{0,1}\s+(?:.*?)\\n)*)'.
+                                  '(msgctxt\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+'.
+                                  '(msgid\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+' .
 								  '(msgstr\s+(?:"(?:[^"]|\\\\")*?(?<!\\\)"\s*)+)/',
 								  $fc, $matches);
+
+        preg_match('/sourceLanguage: (.*?)\\n/s', $fc, $sourceLanguage);
+        preg_match('/targetLanguage: (.*?)\\n/s', $fc, $targetLanguage);
+
+        if (count($sourceLanguage)) {
+            $tf->setSourceLanguage(substr($sourceLanguage[1],0,5));
+        }
+        if (count($targetLanguage)) {
+            $tf->setTargetLanguage(substr($targetLanguage[1],0,5));
+        }
 
 		if (!$matched) {
 			$res = array();
@@ -72,15 +85,17 @@ class tao_helpers_translation_POFileReader
 			for ($i = 0; $i < $matched; $i++) {
                 
                 $annotations = $matches[1][$i];
-				$msgid = preg_replace('/\s*msgid\s*"(.*)"\s*/s','\\1',$matches[2][$i]);
-				$msgstr = preg_replace('/\s*msgstr\s*"(.*)"\s*/s','\\1',$matches[3][$i]);
-                
+                $msgctxt = preg_replace('/\s*msgctxt\s*"(.*)"\s*/s','\\1',$matches[2][$i]);
+                $msgid = preg_replace('/\s*msgid\s*"(.*)"\s*/s','\\1',$matches[3][$i]);
+				$msgstr = preg_replace('/\s*msgstr\s*"(.*)"\s*/s','\\1',$matches[4][$i]);
+
                 // Do not include meta data as a translation unit..
                 if ($msgid !== ''){
                     
                     // Sanitze the strings.
                     $msgid = tao_helpers_translation_POUtils::sanitize($msgid);
     				$msgstr = tao_helpers_translation_POUtils::sanitize($msgstr);
+                    $msgctxt = tao_helpers_translation_POUtils::sanitize($msgctxt);
                     $tu = new tao_helpers_translation_POTranslationUnit();
                     
                     // Set up source & target.
@@ -88,6 +103,9 @@ class tao_helpers_translation_POFileReader
     				if ($msgstr !== '') {
     					$tu->setTarget($msgstr);
     				}
+                    if ($msgctxt){
+                        $tu->setContext($msgctxt);
+                    }
                     
                     // Deal with annotations
                     $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($annotations);  
@@ -101,9 +119,7 @@ class tao_helpers_translation_POFileReader
 		}
 		
 		$this->setTranslationFile($tf);
-        
+
     }
 
 } /* end of class tao_helpers_translation_POFileReader */
-
-?>
