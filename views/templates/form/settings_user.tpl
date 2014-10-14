@@ -1,4 +1,4 @@
-<div class="main-container">
+<div class="main-container flex-container-main-form">
     <?php if(get_data('message')):?>
     <div id="info-box" class="ui-corner-all auto-highlight auto-hide">
     	<?=get_data('message')?>
@@ -12,7 +12,6 @@
 
     <script>
     $(function(){
-    	$("#section-meta").empty();
     	<?php if(get_data('reload')):?>
     		window.location.reload();
     	<?php endif?>

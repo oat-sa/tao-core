@@ -83,6 +83,14 @@ class tao_helpers_translation_TranslationUnit
      */
     private $annotations = array();
 
+    /**
+     * The context of the translation bound to this translation unit.
+     *
+     * @access private
+     * @var string
+     */
+    private $context = '';
+
     // --- OPERATIONS ---
 
     /**
@@ -292,6 +300,24 @@ class tao_helpers_translation_TranslationUnit
     }
 
     /**
+     * @return string
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * @param string $context
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
+    }
+
+
+
+    /**
      * Short description of method getSourceLanguage
      *
      * @access public
@@ -425,5 +451,3 @@ class tao_helpers_translation_TranslationUnit
     }
 
 } /* end of class tao_helpers_translation_TranslationUnit */
-
-?>

@@ -8,7 +8,8 @@ define([
     'context',
     'store',
     'layout/actions',
-    'jsTree/plugins/jquery.tree.contextmenu',
+    'jquery.tree',
+    'lib/jsTree/plugins/jquery.tree.contextmenu'
 ], function($, _, __, context, store, actionManager){
 
     var pageRange = 30;
