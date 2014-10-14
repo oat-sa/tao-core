@@ -11,7 +11,6 @@ define([
     'context',
     'generis.actions',
     'layout/post-render-props',
-    'layout/container-manager',
     'jwysiwyg' ],
     function (
         module,
@@ -20,8 +19,7 @@ define([
         helpers,
         context,
         generisActions,
-        postRenderProps,
-        containerManager
+        postRenderProps
         ) {
 
     function getUrl(action) {
@@ -126,9 +124,6 @@ define([
             }
             // modify properties
             postRenderProps.init();
-
-            containerManager.init();
-
         },
 
         initElements: function () {

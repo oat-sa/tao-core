@@ -116,6 +116,7 @@ class Template {
     }
 
     /**
+     * @FIXME get_data and has_data should be used exclusively inside templates (not namespaced)
      * @return array|bool
      */
     public static function getMessages() {

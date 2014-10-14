@@ -3,7 +3,7 @@ use oat\tao\helpers\Template;
 ?>
 <link rel="stylesheet" type="text/css" href="<?= Template::css('extensionManager.css') ?>" />
 
-<div class="data-container-wrapper flex-container-full">
+<div class="flex-container-full">
     <div class="grid-row">
         <div class="col-6">
             <h2><?= __('Installed Extensions') ?></h2>
