@@ -35,9 +35,9 @@ use oat\tao\helpers\translation\TranslationBundle;
 class tao_install_Installator{
 
     protected $options = array();
-	
+
 	private $toInstall = array();
-	
+
 	private $escapedChecks = array();
 
 	public function __construct($options)
@@ -152,14 +152,14 @@ class tao_install_Installator{
 			$dbCreator = new tao_install_utils_DbalDbCreator($dbConfiguration);
 			
 			common_Logger::d("DbCreator spawned", 'INSTALL');
-	           
+
 			/*
 			 *   3 - Load the database schema
 			 */
-	
+
 			// If the database already exists, drop all tables
 			if ($dbCreator->dbExists($dbName)) {
-				
+
 				try {
 				    //If the target Sgbd is mysql select the database after creating it
 				    if ($installData['db_driver'] == 'pdo_mysql'){
@@ -220,13 +220,13 @@ class tao_install_Installator{
 			
 			common_Logger::d('Removing old config', 'INSTALL');
 			helpers_File::emptyDirectory($this->options['root_path'].'config/');
-			
+
 			common_Logger::d('Writing generis config', 'INSTALL');
 			$generisConfigWriter = new tao_install_utils_ConfigWriter(
 				$this->options['root_path'].'generis/config/sample/generis.conf.php',
 				$this->options['root_path'].'config/generis.conf.php'
 			);
-			
+
 			$generisConfigWriter->createConfig();
 			$generisConfigWriter->writeConstants(array(
 				'LOCAL_NAMESPACE'			=> $installData['module_namespace'],
@@ -239,7 +239,7 @@ class tao_install_Installator{
 				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
 			    'TIME_ZONE'                  => $installData['timezone']
 			));
-			
+
 			/*
 			 * 5b - Prepare the file/cache folder (FILES_PATH/GENERIS_CACHE_PATH not yet defined)
 			 * @todo solve this more elegantly
@@ -392,7 +392,7 @@ class tao_install_Installator{
                    common_Logger::w($e->getMessage(), 'INSTALL');
                 }
             } 
-            
+
 	
 			/*
 			 *  10 - Insert Super User
@@ -439,13 +439,48 @@ class tao_install_Installator{
 			file_put_contents($installData['file_path'].'version', TAO_VERSION);
 		}
 		catch(Exception $e){
+			if ($this->retryInstallation($e)) {
+				return;
+			}
+
 			// In any case, we transmit a single exception type (at the moment)
 			// for a clearer API for client code.
             common_Logger::e('Error Occurs : ' . $e->getMessage() . $e->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception($e->getMessage(), 0, $e);
 		}
 	}
-	
+
+	private function retryInstallation($exception) {
+		$returnValue = false;
+		$err = $exception->getMessage();
+
+		if (strpos($err, 'cannot construct the resource because the uri cannot be empty') === 0 && $this->isWindows()) {
+			/*
+			 * a known issue
+			 * @see http://forge.taotesting.com/issues/3014
+			 * this issue can only be fixed by an administrator
+			 * changing the thread_stack system variable in my.ini as following:
+			 * '256K' on 64bit windows
+			 * '192K' on 32bit windows
+			 */
+
+            common_Logger::e('Error Occurs : ' . $err . $exception->getTraceAsString(), 'INSTALL');
+			throw new tao_install_utils_Exception("Error in mysql system variable 'thread_stack':<br>It is required to change its value in my.ini as following<br>'192K' on 32bit windows<br>'256K' on 64bit windows.<br><br>Note that such configuration changes will only take effect after server restart.<br><br>", 0, $exception);
+		}
+
+		if (!$returnValue) {
+			return false;
+		}
+
+		// it is a known issue, go ahead to retry with the issue fixer
+		$this->install($this->config);
+		return true;
+	}
+
+	private function isWindows() {
+		return strtoupper(substr(PHP_OS, 0, 3)) == 'WIN';
+	}
+
 	/**
      * Generate an alphanum token to be used as a PHP session name.
      *
