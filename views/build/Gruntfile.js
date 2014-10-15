@@ -57,7 +57,9 @@ module.exports = function(grunt) {
     // load separated configs into each extension
     var sassTasks  = [];
     var bundleTasks = []; 
-    ext.getExtensions(true).forEach(function(extension){
+    ext.getExtensions().forEach(function(extension){
+        grunt.log.debug(extension);
+        
         var gruntDir = root + '/' + extension + '/views/build/grunt';
         if(grunt.file.exists(gruntDir)){
             grunt.verbose.write('Load tasks from gruntDir ' + gruntDir);
