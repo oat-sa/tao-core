@@ -86,17 +86,20 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
                             $actionBar.addClass('active');
                         });
                     });
+            
+                    sectionHeight.init(section.panel);
+                    $('.navi-container', section.panel).show();
                     break;
                 case 'content' : 
 
                     //or load the content block
                     this.loadContentBlock();
+                    
                     break;
                 }
             })
             .init();
-            
-            sectionHeight.init();
+
 
             //initialize legacy components
             helpers.init();

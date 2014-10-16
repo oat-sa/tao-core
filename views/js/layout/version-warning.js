@@ -1,9 +1,8 @@
 define([
     'jquery',
-    'layout/section-height',
     'jquery.cookie'
 ],
-    function($, sectionHeight){
+    function($){
 
         var versionWarning = $('.version-warning');
 
@@ -16,7 +15,7 @@ define([
 
             var callback = function() {
                 document.documentElement.className += ' no-version-warning';
-                versionWarning.trigger('hiding.versionwarning')
+                versionWarning.trigger('hiding.versionwarning');
             };
 
             if(!slide) {
@@ -28,7 +27,6 @@ define([
                     versionWarning.slideUp('slow', callback);
                 });
             }
-            sectionHeight.setHeights()
         }
 
     return {

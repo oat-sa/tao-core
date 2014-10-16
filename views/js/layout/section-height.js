@@ -7,7 +7,7 @@ define([
     'jquery.cookie'
 ],
     function($, _){
-
+    'use strict';
 
         /**
          * Bar with the tree actions (providing room for two lines)
@@ -31,8 +31,8 @@ define([
         }
 
 
-        var setHeights = _.throttle(function setHeights() {
-            var $contentPanel = $('.content-panel:visible'),
+        var setHeights = function setHeights($scope) {
+            var $contentPanel = $scope.is('.content-panel') ? $scope : $('.content-panel', $scope),
                 $searchBar,
                 searchBarHeight,
                 $tree,
@@ -43,9 +43,9 @@ define([
                 remainingHeight;
 
             if (!$contentPanel.length) {
-                return
+                return;
             }
-
+            
             $searchBar = $contentPanel.find('.search-action-bar');
             searchBarHeight = $searchBar.outerHeight() + parseInt($searchBar.css('margin-bottom')) + parseInt($searchBar.css('margin-top'));
             $tree = $contentPanel.find('.tree .ltr, .tree .rtl');
@@ -82,23 +82,28 @@ define([
                     maxHeight: (footerTop - contentWrapperTop) - searchBarHeight - getTreeActionIdealHeight()
                 });
             }        
-        }, 100);
-
-        $(window)
-            .off('resize.sectioneight')
-            .on('resize.sectionheight', _.debounce(setHeights, 50));
-
-        $('.version-warning').on('hiding.versionwarning', setHeights);
+        };
 
 
         return {
             /**
              * Initialize behaviour of section height
              */
-            init : function(){
-                $('.taotree').on('ready.taotree', function() {
-                    $('.navi-container').show();
-                    setHeights();
+            init : function($scope){
+
+                $(window)
+                    .off('resize.sectioneight')
+                    .on('resize.sectionheight', _.debounce(function(){ setHeights($scope); }, 50));
+
+                $('.version-warning')
+                    .off('hiding.versionwarning')
+                    .on('hiding.versionwarning', function(){
+
+                    setHeights($scope);
+                });
+
+                $('.taotree', $scope).on('ready.taotree', function() {
+                    setHeights($scope);
                 });
             },
             setHeights: setHeights
