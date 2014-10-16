@@ -12,6 +12,7 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/usermgr'], function($
     var editUser = function editUser(uri) {
         section
             .get('edit_user')
+            .enable()
             .loadContentBlock(helpers._url('edit', 'Users', 'tao'), {uri : uri})
             .show();
     };
@@ -34,6 +35,8 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/usermgr'], function($
      */    
     return {
         start : function(){
+
+            section.get('edit_user').disable();
 
             //initialize the user manager component
             $('#user-list').usermgr({
