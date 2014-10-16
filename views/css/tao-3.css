@@ -134,7 +134,8 @@ footer .icon-warning { text-shadow: 0 0 0 transparent; color: #fc6; padding-righ
 .section-container .tab-container li a { top: 0 !important; margin-bottom: 0 !important; padding: 6px 16px; text-decoration: none; min-height: 32px; color: #222; float: left; }
 .section-container .tab-container li.active, .section-container .tab-container li:hover { border-bottom-color: #4a85ac !important; border-top-color: #6e9dbd !important; background: #266d9c !important; }
 .section-container .tab-container li.active a, .section-container .tab-container li:hover a { background: transparent !important; border-color: transparent !important; color: white !important; text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2); }
-.section-container .tab-container li.disabled { display: none; }
+.section-container .tab-container li.disabled:hover { background: #f2f0ee !important; }
+.section-container .tab-container li.disabled:hover a { cursor: not-allowed !important; color: #222 !important; }
 .section-container .navi-container { display: none; background: #f2f0ee; -ms-order: 0; -webkit-order: 0; order: 0; -webkit-align-self: stretch; align-self: stretch; -ms-flex-item-align: stretch; -ms-flex: 0 0 280px; -webkit-flex: 0 0 280px; flex: 0 0 280px; border-right: 1px #ddd solid; }
 .section-container .navi-container .block-title { font-size: 14px; font-size: 1.4rem; padding: 2px 8px; margin: 0; }
 .section-container .navi-container .tree-action-bar-box { margin: 10px 0; opacity: 0; }

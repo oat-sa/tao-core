@@ -58,7 +58,8 @@ class Section extends MenuElement implements PhpSerializable
 			'controller' => $controller,
 			'action'     => $action,
             'binding'    => isset($node['binding']) ? (string)$node['binding'] : null,
-            'policy'     => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE
+            'policy'     => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE,
+            'disabled'   => isset($node['disabled']) ? true : false
         );
 
         $trees = array();
@@ -131,6 +132,16 @@ class Section extends MenuElement implements PhpSerializable
         return $this->data['binding'];
     }
  
+    /**
+     * Is the section disabled ?
+     *
+     * @return boolean if the section is disabled
+     */ 
+    public function getDisabled()
+    {
+        return $this->data['disabled'];
+    }
+
     public function getTrees()
     {
         return $this->trees;

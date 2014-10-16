@@ -37,6 +37,8 @@
 				<!ATTLIST section policy (merge|override) "merge">
                 <!-- The JS binding to run instead of loading the URL. The binding is the name of an AMD module within TAO -->
                 <!ATTLIST section binding CDATA #IMPLIED>
+                <!-- if a section is disabled -->
+                <!ATTLIST section disabled CDATA #IMPLIED>
 	
 				<!-- The list of trees to load in the section panel -->
 				<!ELEMENT trees  ( tree )*>

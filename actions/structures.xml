@@ -7,7 +7,7 @@
         <sections>
             <section id="list_users" name="Manage users" url="/tao/Users/index"/>
             <section id="add_user" name="Add a user" url="/tao/Users/add"/>
-            <section id="edit_user" name="Edit a user" url="/tao/Users/edit"/>
+            <section id="edit_user" name="Edit a user" url="/tao/Users/edit" disabled="true"/>
             <section id="manage_roles" name="Manage roles" url="/tao/Roles/index">
                 <trees>
                     <tree name="Roles library"

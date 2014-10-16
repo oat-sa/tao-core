@@ -110,7 +110,8 @@ define([
                     opener      : $sectionOpener,
                     type        : $panel.find('.section-trees').children().length ? 'tree' : 'content',
                     active      : defaultSection ? defaultSection === id : index === 0,
-                    activated   : false
+                    activated   : false,
+                    disabled    : $sectionOpener.hasClass('disabled')
                  };
             });
             
@@ -292,14 +293,62 @@ define([
         },
 
         /**
-         * Refresh the sections. 
-         * They are re loaded from the DOM.
+         * refresh the sections. 
+         * they are re loaded from the dom.
          *
-         * @returns {SectionApi} instance for chaining
+         * @returns {sectionapi} instance for chaining
          */ 
         refresh : function(){
             this.sections = {};
             return this.init();
+        },
+
+        /**
+         * Enable the current section 
+         *
+         * @returns {sectionapi} instance for chaining
+         * @fires SectionApi#enable.section
+         */ 
+        enable : function(){
+            if(!this.selected){
+                this.current();
+            }
+            if(this.selected.disabled === true){
+                this.selected.disabled = false;
+                this.selected.opener.removeClass('disabled');
+
+                /**
+                 * A section is enabled
+                 * @event SectionApi#enable.section
+                 * @param {Object} section - the section
+                 */
+                this.scope.trigger('enable.section', [this.selected]); 
+            }
+            return this;
+        },
+
+        /**
+         * Disable the current section 
+         *
+         * @returns {sectionapi} instance for chaining
+         * @fires SectionApi#disable.section
+         */ 
+        disbale : function(){
+            if(!this.selected){
+                this.current();
+            }
+            if(this.selected.disabled === false){
+                this.selected.disabled = true;
+                this.selected.opener.addClass('disabled');
+
+                /**
+                 * A section is disabled
+                 * @event SectionApi#disable.section
+                 * @param {Object} section - the section
+                 */
+                this.scope.trigger('disable.section', [this.selected]); 
+            }
+            return this;
         },
 
         /**
