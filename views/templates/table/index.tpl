@@ -52,8 +52,6 @@ require(['require', 'jquery', 'grid/tao.grid'], function(req, $) {
 			}
 		});
 		myGrid.navGrid('#result-table-grid',{edit:false, add:false, del:false});
-
-		helpers._autoFx();
 	}
 
 	$('#getScoreButton').click(function(e) {
