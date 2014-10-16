@@ -333,7 +333,7 @@ define([
          * @returns {sectionapi} instance for chaining
          * @fires SectionApi#disable.section
          */ 
-        disbale : function(){
+        disable : function(){
             if(!this.selected){
                 this.current();
             }
