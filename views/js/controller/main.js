@@ -62,7 +62,13 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
                             $actionBar = $('.tree-action-bar-box', section.panel);
 
                         var rootNode = $treeElt.data('rootnode');
-                        treeFactory($treeElt, $treeElt.data('url'), {
+                        var treeUrl = context.root_url;
+                        if(/\/$/.test(treeUrl)){
+                            treeUrl += $treeElt.data('url').replace(/^\//, '');
+                        } else {
+                            treeUrl += $treeElt.data('url');
+                        }
+                        treeFactory($treeElt, treeUrl, {
                             serverParameters : {
                                 extension   : context.shownExtension,
                                 perspective : context.shownStructure,
