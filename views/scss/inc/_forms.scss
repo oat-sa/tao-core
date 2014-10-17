@@ -9,6 +9,9 @@ label {
     }
 }
 
+.uploader .file-upload.grid-row {
+    max-width: none;
+}
 
 .file-upload {
     display: inline-block;

@@ -9,8 +9,8 @@ define([
     'i18n',
     'helpers',
     'context',
-    'generis.actions',
-    'layout/post-render-props',
+    'form/property',
+    'form/post-render-props',
     'jwysiwyg' ],
     function (
         module,
@@ -18,7 +18,7 @@ define([
         __,
         helpers,
         context,
-        generisActions,
+        property,
         postRenderProps
         ) {
 
@@ -269,22 +269,26 @@ define([
             /**
              * remove a form group, ie. a property
              */
-            function removeGroup() {
+            function removePropertyGroup() {
                 if (confirm(__('Please confirm property deletion!'))) {
-                    var groupNode = $(this).parents(".form-group").get(0);
-                    if (groupNode) {
-                        $(groupNode).remove();
+                    var $groupNode = $(this).closest(".form-group");
+                    if ($groupNode.length) {
+                        var index = $('.form-group').index($groupNode);
+                        var uri = $('#propertyUri'+index).val();
+                        property.remove(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
+                            $groupNode.remove();
+                        });
                     }
                 }
             }
 
             //property delete button
-            $(".property-deleter").off('click').on('click', removeGroup);
+            $(".property-deleter").off('click').on('click', removePropertyGroup);
 
             //property add button
             $(".property-adder").off('click').on('click', function (e) {
                 e.preventDefault();
-                generisActions.addProperty(null, $("#classUri").val(), getUrl('addClassProperty'));
+                property.add(null, $("#classUri").val(), getUrl('addClassProperty'));
             });
 
             $(".property-mode").off('click').on('click', function () {

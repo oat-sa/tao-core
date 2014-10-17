@@ -28,7 +28,7 @@
  
  */
 class tao_actions_form_AdvancedProperty
-    extends tao_actions_form_Generis
+    extends tao_actions_form_AbstractProperty
 {
     // --- ASSOCIATIONS ---
 
@@ -36,28 +36,6 @@ class tao_actions_form_AdvancedProperty
     // --- ATTRIBUTES ---
 
     // --- OPERATIONS ---
-
-    /**
-     * Short description of method initForm
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
-     */
-    public function initForm()
-    {
-        
-        
-    	(isset($this->options['name'])) ? $name = $this->options['name'] : $name = ''; 
-    	if(empty($name)){
-			$name = 'form_'.(count(self::$forms)+1);
-		}
-		unset($this->options['name']);
-			
-		$this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
-    	
-        
-    }
 
     /**
      * Short description of method initElements
@@ -68,7 +46,6 @@ class tao_actions_form_AdvancedProperty
      */
     public function initElements()
     {
-        
         
     	$property = new core_kernel_classes_Property($this->instance->getUri());
     	
@@ -109,11 +86,7 @@ class tao_actions_form_AdvancedProperty
 		}
 		
 		if(count($elementNames) > 0){
-            $groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
-                . '<span class="property-heading-toolbar">'
-                . '<span class="icon-edit"></span>'
-                . '<span class="icon-bin property-deleter"></span>'
-                . '</span>';
+            $groupTitle = $this->getGroupTitle($property);
 			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames);
 		}
     	
@@ -122,8 +95,7 @@ class tao_actions_form_AdvancedProperty
 		$propUriElt->addAttribute('class', 'property-uri');
 		$propUriElt->setValue(tao_helpers_Uri::encode($property->getUri()));
 		$this->form->addElement($propUriElt);
-    	
-        
+
     }
 
 }

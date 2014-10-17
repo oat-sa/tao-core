@@ -9660,6 +9660,8 @@ table.matrix tbody [data-edit] { width: 30px; }
 label { display: inline-block; cursor: pointer; padding-right: 10px; margin-bottom: 5px; }
 label abbr { border: none; color: #0e5d91; }
 
+.uploader .file-upload.grid-row { max-width: none; }
+
 .file-upload { display: inline-block; position: relative; overflow: hidden; max-width: 300px; }
 .file-upload .file-name { padding: 2px 5px; background: white; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; }
 .file-upload .file-name.placeholder { font-style: italic; color: #d2d2d2; }

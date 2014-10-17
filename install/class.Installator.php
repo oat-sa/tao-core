@@ -168,7 +168,7 @@ class tao_install_Installator{
 					$dbCreator->cleanDb($dbName);
 					
 				} catch (Exception $e){
-					common_Logger::i('Problem cleaning db will try to erase the whole db');
+					common_Logger::i('Problem cleaning db will try to erase the whole db: '.$e->getMessage());
 					try {
 					$dbCreator->destroyTaoDatabase($dbName);
 					} catch (Exception $e){
