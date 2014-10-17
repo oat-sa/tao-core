@@ -1,4 +1,4 @@
-define(['jquery', 'lodash', 'layout/post-render-props'], function ($, _, postRenderProps) {
+define(['jquery', 'lodash', 'form/post-render-props'], function ($, _, postRenderProps) {
 
     /**
      * The data context for actions
@@ -8,7 +8,7 @@ define(['jquery', 'lodash', 'layout/post-render-props'], function ($, _, postRen
      */
 
     /**
-     * @exports layout/property
+     * @exports form/property
      */
     var propertyManager = {
 

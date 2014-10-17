@@ -9,8 +9,8 @@ define([
     'i18n',
     'helpers',
     'context',
-    'layout/property',
-    'layout/post-render-props',
+    'form/property',
+    'form/post-render-props',
     'jwysiwyg' ],
     function (
         module,
