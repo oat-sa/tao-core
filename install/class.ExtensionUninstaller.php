@@ -36,22 +36,6 @@ use oat\tao\model\accessControl\func\AclProxy;
 class tao_install_ExtensionUninstaller
     extends common_ext_ExtensionUninstaller
 {
-    /**
-     * (non-PHPdoc)
-     * @see common_ext_ExtensionUninstaller::uninstall()
-     */
-    public function uninstall()
-    {
-        parent::uninstall();
-        
-        common_Logger::d('Clear acl rules for ' . $this->extension->getId());
-        $this->revokeAccessRules();
-        
-        // we purge the whole cache.
-        $cache = common_cache_FileCache::singleton();
-        $cache->purge();
-       
-    }
     
     /**
      * Uninstall all access rules
@@ -61,7 +45,7 @@ class tao_install_ExtensionUninstaller
      * @return void
      * @since 2.4
      */
-    public function revokeAccessRules() {
+    public function extendedUninstall() {
         foreach ($this->extension->getManifest()->getAclTable() as $tableEntry) {
             $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
             AclProxy::revokeRule($rule);
