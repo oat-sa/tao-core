@@ -50,7 +50,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 $this->setData('label', $resource->getLabel());
                 $this->setData('itemUri', tao_helpers_Uri::encode($resource->getUri()));
                 
-                ;
                 $rEpoch = date('Y-m-d H:i:s', strval($lockData->getEpoch()));
                 
                 $this->setData('epoch',$rEpoch );
@@ -77,6 +76,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
                 $this->setData('ownerLogin', $ownerLogin);
                 $this->setData('ownerMail', $ownerEmail);
+                $this->setData('destinationUrl', tao_helpers_Uri::url(null, null, null, $this->getRequestParameters())); 
                 $this->setView($view);
               
                 
@@ -573,7 +573,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$this->setData('formTitle', __('Manage content of the property ').$property->getLabel().__(' of the instance ').$ownerInstance->getLabel());
 			$this->setData('myForm', $myForm->render());
 		
-			$this->setView('form_content.tpl');
+			$this->setView('form.tpl');
 		}
 		
 	}
