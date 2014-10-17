@@ -54,9 +54,10 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
 
                 switch(section.type){
                 case 'tree':
+                    section.panel.addClass('content-panel');
+                    sectionHeight.init(section.panel);
 
                     //set up the tree
-                    section.panel.addClass('content-panel');
                     $('.taotree', section.panel).each(function(){
                         var $treeElt = $(this),
                             $actionBar = $('.tree-action-bar-box', section.panel);
@@ -84,10 +85,10 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
                         });
                         $treeElt.on('ready.taotree', function() {
                             $actionBar.addClass('active');
+                            sectionHeight.setHeights(section.panel);
                         });
                     });
-            
-                    sectionHeight.init(section.panel);
+
                     $('.navi-container', section.panel).show();
                     break;
                 case 'content' : 

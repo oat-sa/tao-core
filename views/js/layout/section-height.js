@@ -1,12 +1,11 @@
 /**
  * @author Dieter Raber <dieter@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'jquery',
     'lodash',
-    'jquery.cookie'
-],
-    function($, _){
+], function($, _){
     'use strict';
 
         /**
@@ -31,69 +30,53 @@ define([
         }
 
 
+        /**
+         * Resize section heights
+         * @private
+         * @param {jQueryElement} $scope - the section scope
+         */
         var setHeights = function setHeights($scope) {
-            var $contentPanel = $scope.is('.content-panel') ? $scope : $('.content-panel', $scope),
-                $searchBar,
+            var $searchBar, 
                 searchBarHeight,
-                $tree,
-                footerTop,
                 contentWrapperTop,
-                $itemEditorPanel,
-                $itemSidebars,
+                footerTop,
                 remainingHeight;
+            var $contentPanel = $scope.is('.content-panel') ? $scope : $('.content-panel', $scope);
+            var $tree         = $contentPanel.find('.taotree');
 
             if (!$contentPanel.length) {
                 return;
             }
-            
+ 
             $searchBar = $contentPanel.find('.search-action-bar');
             searchBarHeight = $searchBar.outerHeight() + parseInt($searchBar.css('margin-bottom')) + parseInt($searchBar.css('margin-top'));
-            $tree = $contentPanel.find('.tree .ltr, .tree .rtl');
-            $itemSidebars = $('.item-editor-sidebar');
-            footerTop = (function() {
-                var $footer = $('footer'),
-                    footerTop;
-                if(!$itemSidebars.length) {
-                    return $footer.offset().top;
-                }
-                $itemSidebars.hide();
-                footerTop = $footer.offset().top;
-                $itemSidebars.show();
-                return footerTop;
-            }());
             contentWrapperTop = $contentPanel.offset().top;
+            footerTop = $('body > footer').offset().top;
             remainingHeight = footerTop - contentWrapperTop;
 
-
-            $itemEditorPanel = $('#item-editor-panel');
-
-            if(!$itemEditorPanel.length){
-                $contentPanel.find('.content-container').css({ minHeight: remainingHeight });
-            }
-            else {
-                // in the item editor the action bars are constructed slightly differently
-                remainingHeight -= $('.item-editor-action-bar').outerHeight();
-                $itemEditorPanel.find('#item-editor-scroll-outer').css({ minHeight: remainingHeight, maxHeight: remainingHeight, height: remainingHeight });
-                $itemSidebars.css({ minHeight: remainingHeight, maxHeight: remainingHeight, height: remainingHeight });
-            }
-
-            if($tree.length) {
-                $tree.css({
-                    maxHeight: (footerTop - contentWrapperTop) - searchBarHeight - getTreeActionIdealHeight()
-                });
-            }        
+            $contentPanel.find('.content-container').css({ minHeight: remainingHeight });
+            $tree.css({
+                maxHeight: (footerTop - contentWrapperTop) - searchBarHeight - getTreeActionIdealHeight()
+            });
         };
 
-
+        /**
+         * Helps you to manage the section heights
+         * @exports layout/section-height
+         */
         return {
+
             /**
              * Initialize behaviour of section height
+             * @param {jQueryElement} $scope - the section scope
              */
             init : function($scope){
 
                 $(window)
                     .off('resize.sectioneight')
-                    .on('resize.sectionheight', _.debounce(function(){ setHeights($scope); }, 50));
+                    .on('resize.sectionheight', _.debounce(function(){ 
+                        setHeights($scope); 
+                    }, 50));
 
                 $('.version-warning')
                     .off('hiding.versionwarning')
@@ -101,11 +84,12 @@ define([
 
                     setHeights($scope);
                 });
-
-                $('.taotree', $scope).on('ready.taotree', function() {
-                    setHeights($scope);
-                });
             },
+
+            /**
+             * Resize section heights
+             * @param {jQueryElement} $scope - the section scope
+             */
             setHeights: setHeights
         };
     });
