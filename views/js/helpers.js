@@ -279,52 +279,22 @@ define([
         /**
          * simple _url implementation, requires layout_header to set some global variables
          */
-        _url: function (action, module, extension, params) {
+        _url: function (action, controller, extension, params) {
+    
+            var url;
 
-            module = module || context.module;
-            extension = extension || context.extension;
-
-            var paramStr = '',
-                i = 0,
-                j = 0;
-
-            if (_.isString(params)) {
-
-                paramStr = '?' + params;
-
-            }
-            else if (_.isObject(params)) {
-
-                _.forIn(params, function (value, key) {
-
-                    if (i === 0) {
-                        paramStr = '?';
-                    }
-                    else {
-                        paramStr += '&';
-                    }
-
-                    if (_.isArray(value)) {
-                        j = 0;
-                        _.each(value, function (val) {
-                            if (j !== 0) {
-                                paramStr += '&';
-                            }
-                            paramStr += key + '[]=' + encodeURIComponent(val);
-                            j++;
-                        });
-                    }
-                    else {
-                        paramStr += key + '=' + encodeURIComponent(value);
-                    }
-
-
-                    i++;
-                });
-
+            if(typeof action !== 'string' || typeof controller !== 'string' || typeof extension !== 'string'){
+                throw new TypeError('All parts are required to build an URL');
             }
 
-            return context.root_url + extension + '/' + module + '/' + action + paramStr;
+            url = context.root_url + extension + '/' + controller + '/' + action;
+
+            if(_.isString(params)) {
+                url += '?' + params;
+            } else if (_.isPlainObject(params)) {
+                url += '?' + $.params(params);
+            }
+            return url;
         }
     };
 
