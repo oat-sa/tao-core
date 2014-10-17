@@ -15,7 +15,9 @@ use oat\tao\helpers\Template;
 <?php endif; ?>
 <?php if(get_data('reload')): ?>
     require(['jquery'], function ($) {
-        $('.tree').trigger('refresh.taotree');
+        $('.tree').trigger('refresh.taotree', [{
+            selectNode : <?=json_encode(get_data('selectNode'))?>
+        }]);
     });
 <?php endif;?>
 </script>

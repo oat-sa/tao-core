@@ -55,7 +55,8 @@ define([
 
             //bind events from the definition below
             _.forEach(events, function(callback, name){
-                $elt.on(name + '.taotree', function(){
+                $elt.off(name + '.taotree')
+                    .on(name + '.taotree', function(e){
                     callback.apply(this, Array.prototype.slice.call(arguments, 1));
                 });
             });
@@ -165,39 +166,41 @@ define([
                     var treeStore       = store.get('taotree.' + context.section) || {};
                     var $firstClass     = $(".node-class:not(.private):first", $elt);
                     var $firstInstance  = $(".node-instance:not(.private):first", $elt);
+                    var treeState       = $elt.data('tree-state') || {};
+                    var selectNode      = treeState.selectNode || options.selectNode;
                     var $lastSelected;
 
-                    if(options.selectNode){
-                         $lastSelected = $('#' + options.selectNode, $elt);
+                    if(selectNode){
+                         $lastSelected = $('#' + selectNode, $elt);
                     }
                     if((!$lastSelected || !$lastSelected.length) && 
                        treeStore && treeStore.lastSelected){
                          $lastSelected = $('#' +  treeStore.lastSelected, $elt);
                     }
 
-                    _.defer(function(){ //needed as jstree seems to doesn't know the callbacks right now...
-                        
-                        //open the first class
-                        tree.open_branch($firstClass);
+                    //open the first class
+                    tree.open_branch($firstClass, false, function(){
+                       _.delay(function(){ //needed as jstree seems to doesn't know the callbacks right now...
 
-                        //try to select the last one
-                        if($lastSelected && $lastSelected.length && !$lastSelected.hasClass('private')){
-                            tree.select_branch($lastSelected);
+                            //try to select the last one
+                            if($lastSelected && $lastSelected.length && !$lastSelected.hasClass('private')){
+                                tree.select_branch($lastSelected);
 
-                        //or the 1st instance
-                        } else if ($firstInstance.length) {
-                            tree.select_branch($firstInstance);
+                            //or the 1st instance
+                            } else if ($firstInstance.length) {
+                                tree.select_branch($firstInstance);
 
-                        //or the 1st class
-                        } else if ($firstClass.length){
-                            tree.select_branch($firstClass);
-    
-                        //or something else
-                        } else {
-                            tree.select_branch($('.node-class,.node-instance', $elt).get(0));
-                        }
-                    });
-                 
+                            //or the 1st class
+                            } else if ($firstClass.length){
+                                tree.select_branch($firstClass);
+        
+                            //or something else
+                            } else {
+                                tree.select_branch($('.node-class,.node-instance', $elt).get(0));
+                            }
+                        }, 10);
+                    });                 
+
                     /**
                      * The tree state has changed
                      * @event layout/tree#change.taotree
