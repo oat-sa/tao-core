@@ -269,17 +269,21 @@ define([
             /**
              * remove a form group, ie. a property
              */
-            function removeGroup() {
+            function removePropertyGroup() {
                 if (confirm(__('Please confirm property deletion!'))) {
-                    var groupNode = $(this).parents(".form-group").get(0);
-                    if (groupNode) {
-                        $(groupNode).remove();
+                    var $groupNode = $(this).closest(".form-group");
+                    if ($groupNode.length) {
+                        var index = $('.form-group').index($groupNode);
+                        var uri = $('#propertyUri'+index).val();
+                        generisActions.removeProperty(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
+                            $groupNode.remove();
+                        });
                     }
                 }
             }
 
             //property delete button
-            $(".property-deleter").off('click').on('click', removeGroup);
+            $(".property-deleter").off('click').on('click', removePropertyGroup);
 
             //property add button
             $(".property-adder").off('click').on('click', function (e) {

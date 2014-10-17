@@ -201,6 +201,29 @@ define([
 			});
 		},
 		/**
+		 * Remove  property
+		 * @param {String} uri
+		 * @param {String} classUri
+		 * @param {String} url
+		 */
+		removeProperty: function (uri, classUri, url, successCallback) {
+
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: {
+					uri: uri,
+					classUri: classUri
+				},
+				dataType: 'html',
+				success: function(response){
+					if (typeof successCallback == 'function'){
+						successCallback();
+					}
+				}
+			});
+		},
+		/**
 		 * Load the result table with the tree instances in parameter
 		 * @deprecated
 		 * @param {String} uri
