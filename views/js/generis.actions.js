@@ -166,64 +166,6 @@ define([
 			window.open(url, 'preview', params);
 		},
 		/**
-		 * Add a new property
-		 * @param {String} uri
-		 * @param {String} classUri
-		 * @param {String} url
-		 */
-		addProperty: function (uri, classUri, url) {
-            var $existingProperties = $('.property-block'),
-                index = $existingProperties.length;
-
-            $existingProperties.each(function() {
-                index = Math.max(parseInt(this.id.replace(/[\D]+/, '')), index);
-            });
-            index++;
-
-			$.ajax({
-				url: url,
-				type: "POST",
-				data: {
-					index: index,
-					classUri: classUri
-				},
-				dataType: 'html',
-				success: function(response){
-                    response = $(response);
-                    // reduce response to a single jquery object by adding the hidden input to the div
-                    var property = response.last(),
-                        input = response.first();
-
-                    input.appendTo(property);
-
-                    postRenderProps.init(property);
-				}
-			});
-		},
-		/**
-		 * Remove  property
-		 * @param {String} uri
-		 * @param {String} classUri
-		 * @param {String} url
-		 */
-		removeProperty: function (uri, classUri, url, successCallback) {
-
-			$.ajax({
-				url: url,
-				type: "POST",
-				data: {
-					uri: uri,
-					classUri: classUri
-				},
-				dataType: 'html',
-				success: function(response){
-					if (typeof successCallback == 'function'){
-						successCallback();
-					}
-				}
-			});
-		},
-		/**
 		 * Load the result table with the tree instances in parameter
 		 * @deprecated
 		 * @param {String} uri

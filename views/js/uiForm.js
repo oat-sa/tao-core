@@ -9,7 +9,7 @@ define([
     'i18n',
     'helpers',
     'context',
-    'generis.actions',
+    'layout/property',
     'layout/post-render-props',
     'jwysiwyg' ],
     function (
@@ -18,7 +18,7 @@ define([
         __,
         helpers,
         context,
-        generisActions,
+        property,
         postRenderProps
         ) {
 
@@ -275,7 +275,7 @@ define([
                     if ($groupNode.length) {
                         var index = $('.form-group').index($groupNode);
                         var uri = $('#propertyUri'+index).val();
-                        generisActions.removeProperty(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
+                        property.remove(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
                             $groupNode.remove();
                         });
                     }
@@ -288,7 +288,7 @@ define([
             //property add button
             $(".property-adder").off('click').on('click', function (e) {
                 e.preventDefault();
-                generisActions.addProperty(null, $("#classUri").val(), getUrl('addClassProperty'));
+                property.add(null, $("#classUri").val(), getUrl('addClassProperty'));
             });
 
             $(".property-mode").off('click').on('click', function () {
