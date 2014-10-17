@@ -292,7 +292,7 @@ define([
             if(_.isString(params)) {
                 url += '?' + params;
             } else if (_.isPlainObject(params)) {
-                url += '?' + $.params(params);
+                url += '?' + $.param(params);
             }
             return url;
         }
