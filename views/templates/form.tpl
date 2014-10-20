@@ -13,4 +13,4 @@ Template::inc('form_context.tpl', 'tao');
     <div class="data-container-wrapper flex-container-remaining"></div>
 
 
-<?php Template::inc('footer.tpl', 'tao') ?>;
+<?php Template::inc('footer.tpl', 'tao'); ?>
