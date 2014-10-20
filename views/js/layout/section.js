@@ -38,18 +38,20 @@ define([
      */
     function pushState(section, restoreWith){
         var stateUrl = window.location.search + '';
-        if(!stateUrl){
-          stateUrl = '?';
-        }
-        stateUrl = stateUrl.replace(sectionParamExp, '') + '&section=' + section.id ;
+        if(section){
+            if(!stateUrl){
+              stateUrl = '?';
+            }
+            stateUrl = stateUrl.replace(sectionParamExp, '') + '&section=' + section.id ;
 
-        History.pushState({
-                sectionId : section.id,
-                restoreWith    : restoreWith || 'activate'
-            }, 
-            section.name || '', 
-            stateUrl
-        );
+            History.pushState({
+                    sectionId : section.id,
+                    restoreWith    : restoreWith || 'activate'
+                }, 
+                section.name || '', 
+                stateUrl
+            );
+        }
     }
 
     /**
