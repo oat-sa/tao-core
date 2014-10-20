@@ -191,6 +191,32 @@ abstract class tao_helpers_form_FormElement
     }
 
     /**
+     * Add a CSS class jQuery style
+     *
+     * @author Dieter Raber, <dieter@taotesting.com>
+     * @param string $className
+     */
+    public function addClass($className)
+    {
+        $existingClasses = !empty($this->attributes['class']) ? $this->attributes['class'] : array();
+        $existingClasses[] = $className;
+        $this->attributes['class'] = implode(' ', array_unique($existingClasses));
+    }
+
+    /**
+     * Remove a CSS class jQuery style
+     *
+     * @author Dieter Raber, <dieter@taotesting.com>
+     * @param string $className
+     */
+    public function removeClass($className)
+    {
+        $existingClasses = !empty($this->attributes['class']) ? $this->attributes['class'] : array();
+        unset($existingClasses[array_search($className, $existingClasses)]);
+        $this->attributes['class'] = implode(' ', $existingClasses);
+    }
+
+    /**
      * Short description of method addAttribute
      *
      * @author Joel Bout, <joel@taotesting.com>
@@ -202,6 +228,7 @@ abstract class tao_helpers_form_FormElement
     {
 		$this->attributes[$key] = $value;
     }
+
 
     /**
      * Short description of method setAttribute

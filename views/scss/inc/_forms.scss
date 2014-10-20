@@ -471,6 +471,27 @@ label {
     }
 
 
+    .form-group {
+        & > div > div {
+            position: relative;
+            .has-unit {
+                padding-right: 45px
+            }
+            .unit {
+                position: absolute;
+                top: 1px;
+                right: 1px;
+                background: $canvas;
+                width: auto;
+                display: block;
+                padding: 3px 10px;
+                @include border-radius-right();
+                opacity: .8;
+                cursor: default;
+            }
+        }
+    }
+
     .btn-info {
         float:left;
     }
