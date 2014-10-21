@@ -32,7 +32,7 @@
                 <td>{{roles}}</td>
                 <td>{{dataLg}}</td>
                 <td>{{guiLg}}</td>
-                <td style="text-align:center;" data-user-identifier="{{id}}">
+                <td style="text-align:center;" data-item-identifier="{{id}}">
                     {{#each ../actions}}
                         <button class="btn-info small {{this}}"><span class="icon-{{this}}"></span> {{this}}</button>
                     {{/each}}

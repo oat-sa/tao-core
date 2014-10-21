@@ -69,7 +69,7 @@ define([
                         .on('click','.'+name, function(e){
                             e.preventDefault();
                             var $elt = $(this);
-                            action.apply($elt,[$elt.parent().data('items-identifier')]);
+                            action.apply($elt,[$elt.parent().data('item-identifier')]);
                         });
                 });
 
@@ -123,17 +123,17 @@ define([
             itemsMgr._query($elt, options, data);
         },
         _sort: function($elt, options, data, sortBy) {
-            var sorting_element = $(sortBy).data('sort-by');
-            if (data.sortorder == "asc" && data.sortby == sorting_element) {
+            var sortingElement = $(sortBy).data('sort-by');
+            if (data.sortorder == 'asc' && data.sortby == sortingElement) {
                 // If I already sort asc this element
-                data.sortorder = "desc";
+                data.sortorder = 'desc';
             }else{
                 // If I never sort by this element or
                 // I sort by this element & the order was desc
-                data.sortorder = "asc";
+                data.sortorder = 'asc';
             }
             // Change the sorting element anyway.
-            data.sortby = sorting_element;
+            data.sortby = sortingElement;
             // Call the query
             itemsMgr._query($elt, options, data);
         }
