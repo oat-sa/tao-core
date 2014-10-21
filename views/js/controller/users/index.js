@@ -41,7 +41,35 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/itemsmgr'], function(
                 'actions' : {
                     'edit': editUser,
                     'remove': removeUser
-                }
+                },
+                'model' : [
+                    {
+                        id : 'login',
+                        label : __('Login'),
+                        sortable : true
+                    },{
+                        id : 'name',
+                        label : __('Name'),
+                        sortable : true
+                    },
+                    {
+                        id : 'email',
+                        label : __('Email'),
+                        sortable : true
+                    },{
+                        id : 'role',
+                        label : __('Roles'),
+                        sortable : false
+                    },{
+                        id : 'dataLg',
+                        label : __('Data Language'),
+                        sortable : true
+                    },{
+                        id: 'guiLg',
+                        label : __('Interface Language'),
+                        sortable : true
+                    }
+                ]
             });
         }
     };

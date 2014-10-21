@@ -9,8 +9,10 @@ define([
 
     var ns = 'itemsmgr';
     var defaults = {
-        'start': 0,
-        'rows': 25
+        'start'   : 0,
+        'rows'    : 25,
+        'model'   : null,
+        'actions' : null
     };
 
     /**
