@@ -15,9 +15,11 @@ $settingsMenu = get_data('settings-menu');
                     <?php if (count($entry->getChildren()) > 1): ?>
                         <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
+                                <?php if(!$child->getDisabled()) : ?>
                                 <li>
                                     <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
                                 </li>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </ul>
                     <?php endif; ?>
@@ -65,9 +67,11 @@ $settingsMenu = get_data('settings-menu');
                     <?php if (count($entry->getChildren()) > 1): ?>
                         <ul class="plain menu-dropdown">
                             <?php foreach ($entry->getChildren() as $child): ?>
+                                <?php if(!$child->getDisabled()) : ?>
                                 <li>
                                     <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
                                 </li>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </ul>
                     <?php endif; ?>
