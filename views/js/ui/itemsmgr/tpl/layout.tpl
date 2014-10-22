@@ -21,7 +21,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#users}}
+        {{#data}}
             <tr>
                 {{#each this}}
                 <td class="{{@key}}">{{this}}</td>
@@ -32,7 +32,7 @@
                     {{/each}}
                 </td>
             </tr>
-        {{/users}}
+        {{/data}}
     </tbody>
 </table>
 <div class="grid-row">

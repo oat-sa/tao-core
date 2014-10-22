@@ -138,13 +138,13 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
 			$dataRes = empty($propValues[PROPERTY_USER_DEFLG]) ? null : current($propValues[PROPERTY_USER_DEFLG]);
 
-			$response->users[$i]['id']= tao_helpers_Uri::encode($user->getUri());
-			$response->users[$i]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
-			$response->users[$i]['name'] = $firstName.' '.$lastName;
-			$response->users[$i]['mail'] = (string)current($propValues[PROPERTY_USER_MAIL]);
-			$response->users[$i]['roles'] = implode(', ', $labels);
-			$response->users[$i]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
-			$response->users[$i]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
+			$response->data[$i]['id']= tao_helpers_Uri::encode($user->getUri());
+			$response->data[$i]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
+			$response->data[$i]['name'] = $firstName.' '.$lastName;
+			$response->data[$i]['mail'] = (string)current($propValues[PROPERTY_USER_MAIL]);
+			$response->data[$i]['roles'] = implode(', ', $labels);
+			$response->data[$i]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
+			$response->data[$i]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 			$i++;
 		}
 
