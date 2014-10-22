@@ -1,18 +1,24 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'core/pluginifier',
     'tpl!ui/itemsmgr/tpl/layout'
-], function($, _, Pluginifier, layout){
+], function($, _, __, Pluginifier, layout){
 
     'use strict';
 
-    var ns = 'itemsmgr';
-    var defaults = {
+    var ns = 'itemsmgr',
+    defaults = {
         'start'   : 0,
         'rows'    : 25,
         'model'   : null,
         'actions' : null
+    },
+    actionHeader= {
+        id : null,
+        label : __('Actions'),
+        sortable : false
     };
 
     /**
@@ -40,7 +46,6 @@ define([
 
             return this.each(function() {
                 var $elt = $(this);
-
                 options = _.defaults(options, defaults);
 
                 var data = {
@@ -63,8 +68,16 @@ define([
             }).done(function(response) {
                 // Add the list of custom actions to the response for the tpl
                 response.actions = _.keys(options.actions);
+                // Add the column into the model
+                if (options.actions !== null && _.last(options.model).label !== actionHeader.label) {
+                    options.model.push(actionHeader);
+                }
+                // Add the model to the response for the tpl
+                response.model = options.model;
+                // Call the rendering
                 var $rendering = $(layout(response));
 
+                // Attach a listener to every action button created
                 _.forEach(options.actions,function(action,name){
                     $rendering
                         .off('click','.'+name)
