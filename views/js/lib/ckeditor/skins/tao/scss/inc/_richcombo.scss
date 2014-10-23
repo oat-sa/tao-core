@@ -181,8 +181,8 @@ The visual representation of a rich combo widget looks as follows:
   font-size: 1rem;
 }
 
-.cke_combo_arrow:before, .cke_button_arrow:before {
-  @extend .icon-down:before;
+.cke_combo_arrow, .cke_button_arrow {
+  @extend %icon-down;
 }
 
 .cke_hc .cke_combo_arrow {
