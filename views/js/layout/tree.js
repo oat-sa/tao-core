@@ -8,9 +8,10 @@ define([
     'context',
     'store',
     'layout/actions',
+    'ui/feedback',
     'jquery.tree',
     'lib/jsTree/plugins/jquery.tree.contextmenu'
-], function($, _, __, context, store, actionManager){
+], function($, _, __, context, store, actionManager, feedback){
 
     var pageRange = 30;
 
@@ -79,7 +80,7 @@ define([
                 type: "json",
                 async : true,
                 opts: {
-                    method : "POST",
+                    method : "GET",
                     url: url
                 }
             },
@@ -137,11 +138,16 @@ define([
                  */
                 ondata: function(data, tree) {
                     
+                    if(data.error){
+                        feedback().error(data.error);
+                        return [];
+                    }
+
                     //automatically open the children of the received node
                     if (data.children) {
                         data.state = 'open';
                     }
-
+                    
                     computeSelectionAccess(data);
             
                     flattenPermissions(data);
@@ -443,8 +449,8 @@ define([
          */
         var hasAccessTo = function hasAccessTo(actionType, node){
             var action = options.actions[actionType];
-            if(node && action && node.permissions && node.permissions[action.name] !== undefined){
-                return !!node.permissions[action.name];
+            if(node && action && node.permissions && node.permissions[action.id] !== undefined){
+                return !!node.permissions[action.id];
             }
             return true;
         };
