@@ -145,6 +145,11 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$response->users[$i]['roles'] = implode(', ', $labels);
 			$response->users[$i]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
 			$response->users[$i]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
+
+            if (substr($user->getUri(), -10) == '#superUser') {
+                $response->users[$i]['defaultUser'] = true;
+            }
+
 			$i++;
 		}
 
@@ -166,9 +171,12 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		    $message = __('User deletion not permited on a demo instance');
 		} elseif($this->hasRequestParameter('uri')) {
 			$user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-			if($this->userService->removeUser($user)){
-				$message = __('User deleted successfully');
-			}
+
+            if (substr($user->getUri(), -10) == '#superUser') {
+                $message = __('Default user cannot be deleted');
+            } elseif($this->userService->removeUser($user)){
+                $message = __('User deleted successfully');
+            }
 		}
 		$this->redirect(_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao', 'message' => $message)));
 	}

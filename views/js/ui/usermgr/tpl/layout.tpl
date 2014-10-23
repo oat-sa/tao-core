@@ -33,7 +33,8 @@
                 <td>{{dataLg}}</td>
                 <td>{{guiLg}}</td>
                 <td style="text-align:center;" data-user-identifier="{{id}}">
-                    <button class="btn-info small edit"><span class="icon-edit"></span> {{__ 'Edit'}}</button> <button class="btn-info small remove"><span class="icon-result-nok"></span> {{__ 'Remove'}}</button>
+                    <button class="btn-info small edit"><span class="icon-edit"></span> {{__ 'Edit'}}</button>
+                    <button class="btn-info small remove {{#if defaultUser}}disabled{{/if}}"><span class="icon-result-nok"></span> {{__ 'Remove'}}</button>
                 </td>
             </tr>
         {{/users}}

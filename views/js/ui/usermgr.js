@@ -75,7 +75,9 @@ define([
                     .on('click', '.remove', function(e){
                         e.preventDefault();    
                         var $removeElt = $(this);
-                        options.remove.apply($removeElt, [$removeElt.parent().data('user-identifier')]);
+                        if (!$removeElt.hasClass('disabled')) {
+                            options.remove.apply($removeElt, [$removeElt.parent().data('user-identifier')]);
+                        }
                     });
                 
                 // Now $rendering takes the place of $elt...
