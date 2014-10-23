@@ -12,7 +12,7 @@ require(['<?=get_data('client_config_url')?>'], function(){
         $("#instance-deleter").click(function(){
             url = '';
             $.ajax({
-                url: helpers._url('delete'),
+                url: helpers._url('delete', context.module, context.extension),
                 type: "POST",
                 data: {
                     uri: "<?=get_data('uri')?>",
