@@ -395,15 +395,20 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
      */
     private function computePermissions($actions, $user, $node){
         if(isset($node['_data'])){
-            
             foreach($actions as $action){
                 if($node['type'] == $action['context'] || $action['context'] == 'resource'){
                     $resolver = $action['resolver'];
                     try{
-                        $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']);
+                        if($node['type'] == 'class'){
+                            $data = array('classUri' => $node['_data']['uri']);
+                        } else {
+                            $data = $node['_data'];
+                        }
+                        $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $data);
+
                     //@todo should be a checked exception!
                     } catch(Exception $e){
-                        common_Logger::d('Unable to resolve permission for action ' . $action['id'] . ' : ' . $e->getMessage() );
+                        common_Logger::w('Unable to resolve permission for action ' . $action['id'] . ' : ' . $e->getMessage() );
                     }
                 }
             }

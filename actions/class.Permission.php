@@ -31,7 +31,13 @@ class tao_actions_Permission extends tao_actions_CommonModule {
      * Access to resource id denied
      */
     public function denied() {
-        $this->setView('permission/denied.tpl');
+        $accepts = explode(',', $this->getRequest()->getHeader('Accept'));
+        if(array_search('application/json', $accepts) !== false ||  array_search('text/javascript', $accepts) !== false){
+
+            $this->returnJson(array( 'error' =>  __("You've not the required rights to edit this resource.")));
+            return;
+        }
+        return $this->setView('permission/denied.tpl');
     }
 }
 ?>

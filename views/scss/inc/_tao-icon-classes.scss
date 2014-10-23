@@ -1,5 +1,28 @@
+
+                                     /*
+                                    /  \
+                                   |    |
+                                 --:'''':--
+   THIS CODE IS GENERATED          :*_* :
+                                   _:"":\___
+   AUTOMAGICALLY    * *      ____.' :::     '._
+                   * *=====<<=)           \    :
+   DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                     \====:_ ""
+                                    .'     \\
+                                   :       :
+                                  /   :    \
+                                 :   .      '.
+                                 :  : :      :
+                                 :__:-:__.;--'
+                                <*_/   <*/
+                                 
 @import 'inc/tao-icon-vars.scss';
 [class^="icon-"], [class*=" icon-"] { @extend %tao-icon-setup; }
+.icon-icon:before { @extend %icon-icon; }
+.icon-radio-bg:before { @extend %icon-radio-bg; }
+.icon-checkbox-bg:before { @extend %icon-checkbox-bg; }
+.icon-tag:before { @extend %icon-tag; }
 .icon-style:before { @extend %icon-style; }
 .icon-ownership-transfer:before { @extend %icon-ownership-transfer; }
 .icon-property-advanced:before { @extend %icon-property-advanced; }
