@@ -35,6 +35,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
 class TranslationTest extends TaoPhpUnitTestRunner {
 	
 	const RAW_PO = '/samples/sample_raw.po';
+	const RAW_PO_WITH_CONTEXT = '/samples/sample_raw_with_context.po';
 	const ESCAPING_PO = '/samples/sample_escaping.po';
 	const SORTING_PO = '/samples/sample_sort.po';
     const ANNOTATIONS_PO = '/samples/sample_annotations.po';
@@ -77,14 +78,14 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$tu3->setTargetLanguage('en-YA');
 		
 		// Test source and target languages assignment at TranslationUnit level.
-		$this->assertTrue($tu2->getSourceLanguage() == 'en-US');
-		$this->assertTrue($tu3->getTargetLanguage() == 'en-YA');
+		$this->assertEquals('en-US', $tu2->getSourceLanguage());
+		$this->assertEquals('en-YA', $tu3->getTargetLanguage());
 		
 		$tf = new tao_helpers_translation_TranslationFile();
         $tf->setSourceLanguage('en-US');
         $tf->setTargetLanguage('en-YA');
-		$this->assertTrue($tf->getSourceLanguage() == 'en-US');
-		$this->assertTrue($tf->getTargetLanguage() == 'en-YA');
+		$this->assertEquals($tf->getSourceLanguage(), 'en-US');
+		$this->assertEquals($tf->getTargetLanguage(), 'en-YA');
 		
 		$tf->addTranslationUnit($tu1);
 		$tf->addTranslationUnit($tu2);
@@ -96,14 +97,14 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$this->assertTrue($tu2 == $tus[1]);
 		$this->assertTrue($tu3 == $tus[2]);
 		
-		$this->assertTrue($tu1->getSource() == 'May the force be with you.');
-		$this->assertTrue($tu2->getTarget() == 'Hate the dark side smells.');
+		$this->assertEquals('May the force be with you.', $tu1->getSource());
+		$this->assertEquals('Hate the dark side smells.', $tu2->getTarget());
 		
 		$tu3->setSource('Lando Calrician is a great pilot.');
 		$tu3->setTarget('A great pilot Lando Calrician is.');
 		
-		$this->assertTrue($tu3->getSource() == 'Lando Calrician is a great pilot.');
-		$this->assertTrue($tu3->getTarget() == 'A great pilot Lando Calrician is.');
+		$this->assertEquals('Lando Calrician is a great pilot.', $tu3->getSource());
+		$this->assertEquals('A great pilot Lando Calrician is.', $tu3->getTarget());
 		
 		$tu4 = new tao_helpers_translation_TranslationUnit();
         $tu4->setSource('There is another Skywalker.');
@@ -112,7 +113,7 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$tus = $tf->getTranslationUnits();
 		$tu4 = $tus[3];
 		
-		$this->assertTrue($tu4->getTargetLanguage() == 'en-YA');
+		$this->assertEquals('en-YA', $tu4->getTargetLanguage());
 		
 		$newTu = new tao_helpers_translation_TranslationUnit();
         $newTu->setSource('Lando Calrician is a great pilot.');
@@ -121,9 +122,9 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$tus = $tf->getTranslationUnits();
 		$tu3 = $tus[2];
 		
-		$this->assertTrue(count($tus) == 4);
-		$this->assertTrue($tu3->getSource() == 'Lando Calrician is a great pilot.');
-		$this->assertTrue($tu3->getTarget() == 'Han Solo is a great pilot.');
+		$this->assertEquals(4, count($tus));
+		$this->assertEquals('Lando Calrician is a great pilot.', $tu3->getSource());
+		$this->assertEquals('Han Solo is a great pilot.', $tu3->getTarget());
         
         
         // Test Annotable implementation for translationUnit & translationFile.
@@ -176,15 +177,15 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$this->assertTrue($tf->getSourceLanguage() == tao_helpers_translation_Utils::getDefaultLanguage());
 		$this->assertTrue($tf->getTargetLanguage() == tao_helpers_translation_Utils::getDefaultLanguage());
 		
-		$this->assertTrue(count($tus) == 4);
-		$this->assertTrue($tus[0]->getSource() == 'First Try');
-		$this->assertTrue($tus[0]->getTarget() == '');
-		$this->assertTrue($tus[1]->getSource() == 'Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N');
-		$this->assertTrue($tus[1]->getTarget() == '');
-		$this->assertTrue($tus[2]->getSource() == 'This translation will be a very long text');
-		$this->assertTrue($tus[2]->getTarget() == '');
-		$this->assertTrue($tus[3]->getSource() == 'And this one will contain escaping characters');
-		$this->assertTrue($tus[3]->getTarget() == '');
+		$this->assertEquals(count($tus), 4);
+		$this->assertEquals('First Try', $tus[0]->getSource());
+		$this->assertEquals('', $tus[0]->getTarget());
+		$this->assertEquals('Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N', $tus[1]->getSource());
+		$this->assertEquals('', $tus[1]->getTarget());
+		$this->assertEquals('This translation will be a very long text', $tus[2]->getSource());
+		$this->assertEquals('', $tus[2]->getTarget());
+		$this->assertEquals('And this one will contain escaping characters', $tus[3]->getSource());
+		$this->assertEquals('', $tus[3]->getTarget());
 		
 		// We can test here the change of file while keeping the same instance
 		// of FileReader.
@@ -193,17 +194,34 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$tf = $po->getTranslationFile();
 		$tus = $tf->getTranslationUnits();
 		
-		$this->assertTrue(count($tus) == 4);
-		$this->assertTrue($tus[0]->getSource() == 'The blackboard of Lena is full of "Shakespeare" quotes.');
-		$this->assertTrue($tus[0]->getTarget() == 'L\'ardoise de Léna est pleine de citations de "Shakespeare".');
-		$this->assertTrue($tus[1]->getSource() == 'Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N');
-		$this->assertTrue($tus[1]->getTarget() == 'Ce téxtê cÖntîEn$ de drÔlés dE çÄrÂctÈres @ cAµ$£ dé l\'I18N');
-		$this->assertTrue($tus[2]->getSource() == 'This translation will be a very long text');
-		$this->assertTrue($tus[2]->getTarget() == 'C\'est en effet un texte très très long car j\'aime parler. Grâce à ce test, je vais pouvoir vérifier si les msgstr multilignes sont correctement interpretés par ');
-		$this->assertTrue($tus[3]->getSource() == 'And this one will contain escaping characters');
-		$this->assertTrue($tus[3]->getTarget() == "Alors je vais passer une ligne \net aussi faire des tabulations \t car c'est très cool.");
+		$this->assertEquals(4, count($tus));
+		$this->assertEquals('The blackboard of Lena is full of "Shakespeare" quotes.', $tus[0]->getSource());
+		$this->assertEquals('L\'ardoise de Léna est pleine de citations de "Shakespeare".', $tus[0]->getTarget());
+		$this->assertEquals('Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N', $tus[1]->getSource());
+		$this->assertEquals('Ce téxtê cÖntîEn$ de drÔlés dE çÄrÂctÈres @ cAµ$£ dé l\'I18N', $tus[1]->getTarget());
+		$this->assertEquals('This translation will be a very long text', $tus[2]->getSource());
+		$this->assertEquals('C\'est en effet un texte très très long car j\'aime parler. Grâce à ce test, je vais pouvoir vérifier si les msgstr multilignes sont correctement interpretés par ', $tus[2]->getTarget());
+		$this->assertEquals('And this one will contain escaping characters', $tus[3]->getSource());
+		$this->assertEquals("Alors je vais passer une ligne \net aussi faire des tabulations \t car c'est très cool.", $tus[3]->getTarget());
+
+
+		//test ability to read context of po messages
+		$po = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::RAW_PO_WITH_CONTEXT);
+		$po->read();
+		$tf = $po->getTranslationFile();
+		$tus = $tf->getTranslationUnits();
+
+		// Test default values of TranslationFile. PO files can contain language information (feature used by POEdit, at least )
+		$this->assertEquals(tao_helpers_translation_Utils::getDefaultLanguage(), $tf->getSourceLanguage());
+		$this->assertEquals('de-DE', $tf->getTargetLanguage());
+
+		$this->assertEquals(count($tus), 4);
+		$this->assertEquals('label', $tus[0]->getContext());
+		$this->assertEquals('comment', $tus[1]->getContext());
+		$this->assertEquals('', $tus[3]->getContext());
 	}
-	
+
+
 	public function testPOTranslationSorting() {
 		$pr = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::SORTING_PO);
 		$pr->read();
@@ -213,24 +231,24 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		// Ascending case-insensitive.
 		$sortedTus = $tf->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC);
 		$this->assertFalse(empty($sortedTus),'array should not be empty');
-		$this->assertTrue($sortedTus[0]->getSource() == ' This begins with a white space');
-		$this->assertTrue($sortedTus[8]->getSource() == 'kings are great');
-		$this->assertTrue($sortedTus[10]->getSource() == 'öhïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N');
-		
+		$this->assertEquals(' This begins with a white space', $sortedTus[0]->getSource());
+		$this->assertEquals('kings are great', $sortedTus[8]->getSource());
+		$this->assertEquals('öhïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N', $sortedTus[10]->getSource());
+
 		$sortedTus = $tf->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I);
-		$this->assertTrue($sortedTus[3]->getSource() == '12 is also a number');
-		$this->assertTrue($sortedTus[6]->getSource() == 'kings are great');
-		$this->assertTrue($sortedTus[8]->getSource() == 'Zapata');
-		
+		$this->assertEquals('12 is also a number', $sortedTus[3]->getSource());
+		$this->assertEquals('kings are great', $sortedTus[6]->getSource());
+		$this->assertEquals('Zapata', $sortedTus[8]->getSource());
+
 		$sortedTus = $tf->sortBySource(tao_helpers_translation_TranslationFile::SORT_DESC);
-		$this->assertTrue($sortedTus[4]->getSource() == 'Koalas are great');
-		$this->assertTrue($sortedTus[7]->getSource() == '12 is also a number');
-		$this->assertTrue($sortedTus[9]->getSource() == '- List1');
-		
+		$this->assertEquals('Koalas are great', $sortedTus[4]->getSource());
+		$this->assertEquals('12 is also a number', $sortedTus[7]->getSource());
+		$this->assertEquals('- List1', $sortedTus[9]->getSource());
+
 		$sortedTus = $tf->sortBySource(tao_helpers_translation_TranslationFile::SORT_DESC_I);
-		$this->assertTrue($sortedTus[2]->getSource() == 'Zapata');
-		$this->assertTrue($sortedTus[5]->getSource() == 'Ahloa');
-		$this->assertTrue($sortedTus[10]->getSource() == ' This begins with a white space');
+		$this->assertEquals('Zapata', $sortedTus[2]->getSource());
+		$this->assertEquals('Ahloa', $sortedTus[5]->getSource());
+		$this->assertEquals(' This begins with a white space', $sortedTus[10]->getSource());
 	}
 	
 	
@@ -311,11 +329,11 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$extractor = new tao_helpers_translation_StructureExtractor($taoStructurePath);
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
-		$this->assertTrue(count($tus) == 5);
-		$this->assertTrue($tus[0]->getSource() == 'Users');
-		$this->assertTrue($tus[1]->getSource() == 'Manage users');
-		$this->assertTrue($tus[2]->getSource() == 'Add a user');
-		$this->assertTrue($tus[3]->getSource() == 'Edit a user');
+		$this->assertEquals(5, count($tus));
+		$this->assertEquals('Users', $tus[0]->getSource());
+		$this->assertEquals('Manage users', $tus[1]->getSource());
+		$this->assertEquals('Add a user', $tus[2]->getSource());
+		$this->assertEquals('Edit a user', $tus[3]->getSource());
 	}
 	
 	public function testMultipleManfiestExtraction() {
@@ -325,11 +343,11 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$extractor = new tao_helpers_translation_StructureExtractor($taoStructurePaths);
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
-		$this->assertTrue(count($tus) == 23);
-		$this->assertTrue($tus[3]->getSource() == 'search');
-		$this->assertTrue($tus[6]->getSource() == 'delete');
-		$this->assertTrue($tus[15]->getSource() == 'Items');
-		$this->assertTrue($tus[21]->getSource() == 'preview');
+		$this->assertEquals(23, count($tus));
+		$this->assertEquals('search', $tus[3]->getSource());
+		$this->assertEquals('delete', $tus[6]->getSource());
+		$this->assertEquals('Items', $tus[15]->getSource());
+		$this->assertEquals('preview', $tus[21]->getSource());
 	}
 	
 	public function testSourceExtraction() {
@@ -350,10 +368,10 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
 		$this->assertEquals(count($tus), 60);
-		$this->assertTrue($tus[1]->getSource() == 'Import');
-		$this->assertTrue($tus[2]->getSource() == ' Please select the input data format to import ');
-		$this->assertTrue($tus[5]->getSource() == 'Please upload a CSV file formated as "defined" %min by %max the options above.');
-		$this->assertTrue($tus[8]->getsource() == "Please upload \t an RDF file.\n\n");
+		$this->assertEquals('Import', $tus[1]->getSource());
+		$this->assertEquals(' Please select the input data format to import ', $tus[2]->getSource());
+		$this->assertEquals('Please upload a CSV file formated as "defined" %min by %max the options above.', $tus[5]->getSource());
+		$this->assertEquals("Please upload \t an RDF file.\n\n", $tus[8]->getsource());
 	}
 	
 	public function testRDFTranslationModel() {
@@ -371,24 +389,24 @@ class TranslationTest extends TaoPhpUnitTestRunner {
         $this->assertTrue(count($tus) == 6);
         
         // Test 3 Translation Units at random.
-        $this->assertTrue($tus[1]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
-        $this->assertTrue($tus[1]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
-        $this->assertTrue($tus[1]->getSource() == 'Allemand');
-        $this->assertTrue($tus[1]->getTarget() == 'Allemand');
-        $this->assertTrue($tus[1]->getSourceLanguage() == 'en-US');
-        $this->assertTrue($tus[1]->getTargetLanguage() == 'FR');
-        $this->assertTrue($tus[2]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
-        $this->assertTrue($tus[2]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
-        $this->assertTrue($tus[2]->getSource() == 'Deutsch');
-        $this->assertTrue($tus[2]->getTarget() == 'Deutsch');
-        $this->assertTrue($tus[2]->getSourceLanguage() == 'en-US');
-        $this->assertTrue($tus[2]->getTargetLanguage() == 'DE');
-        $this->assertTrue($tus[5]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
-        $this->assertTrue($tus[5]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#comment');
-        $this->assertTrue($tus[5]->getSource() == 'The German language.');
-        $this->assertTrue($tus[5]->getTarget() == 'The German language.');
-        $this->assertTrue($tus[5]->getSourceLanguage() == 'en-US');
-        $this->assertTrue($tus[5]->getTargetLanguage() == 'EN');
+		$this->assertEquals('http://www.tao.lu/Ontologies/TAO.rdf#LangDE', $tus[1]->getSubject());
+		$this->assertEquals('http://www.w3.org/2000/01/rdf-schema#label', $tus[1]->getPredicate());
+		$this->assertEquals('Allemand', $tus[1]->getSource());
+		$this->assertEquals('Allemand', $tus[1]->getTarget());
+		$this->assertEquals('en-US', $tus[1]->getSourceLanguage());
+		$this->assertEquals('FR', $tus[1]->getTargetLanguage());
+		$this->assertEquals('http://www.tao.lu/Ontologies/TAO.rdf#LangDE', $tus[2]->getSubject());
+		$this->assertEquals('http://www.w3.org/2000/01/rdf-schema#label', $tus[2]->getPredicate());
+		$this->assertEquals('Deutsch', $tus[2]->getSource());
+		$this->assertEquals('Deutsch', $tus[2]->getTarget());
+		$this->assertEquals('en-US', $tus[2]->getSourceLanguage());
+		$this->assertEquals('DE', $tus[2]->getTargetLanguage());
+		$this->assertEquals('http://www.tao.lu/Ontologies/TAO.rdf#LangDE', $tus[5]->getSubject());
+		$this->assertEquals('http://www.w3.org/2000/01/rdf-schema#comment', $tus[5]->getPredicate());
+		$this->assertEquals('The German language.', $tus[5]->getSource());
+		$this->assertEquals('The German language.', $tus[5]->getTarget());
+		$this->assertEquals('en-US', $tus[5]->getSourceLanguage());
+		$this->assertEquals('EN', $tus[5]->getTargetLanguage());
     }
 
     public function testRDFTranslationReading(){
@@ -681,4 +699,3 @@ class TranslationTest extends TaoPhpUnitTestRunner {
         
     }
 }
-?>

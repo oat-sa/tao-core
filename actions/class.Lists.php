@@ -19,8 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
 /**
  * This controller provide the actions to manage the lists of data
  *
@@ -97,6 +95,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 
 	/**
 	 * get the JSON data to populate the tree widget
+	 * @throws Exception
 	 * @return void
 	 */
 	public function getListsData(){
@@ -117,6 +116,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 
 	/**
 	 * get the elements in JSON of the list in parameter
+	 * @throws Exception
 	 * @return void
 	 */
 	public function getListElements(){
@@ -138,6 +138,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 
 	/**
 	 * Save a list and it's elements
+	 * @throws Exception
 	 * @return void
 	 */
 	public function saveLists(){
@@ -196,6 +197,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 
 	/**
 	 * Create a list or a list element
+	 * @throws Exception
 	 * @return void
 	 */
 	public function create(){
@@ -232,6 +234,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 	/**
 	 * Rename a list node: change the label of a resource
 	 * Render the json response with the renamed status
+	 * @throws Exception
 	 * @return void
 	 */
 	public function rename(){
@@ -267,7 +270,8 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 	}
 
 	/**
-	 * Removee the list in parameter
+	 * Remove the list in parameter
+	 * @throws Exception
 	 * @return void
 	 */
 	public function removeList(){
@@ -286,6 +290,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 
 	/**
 	 * Remove the list element in parameter
+	 * @throws Exception
 	 * @return void
 	 */
 	public function removeListElement(){
@@ -303,4 +308,3 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 	}
 
 }
-?>

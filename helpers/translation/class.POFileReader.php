@@ -59,9 +59,9 @@ class tao_helpers_translation_POFileReader
         $tf = new tao_helpers_translation_POFile();
 		
 		$fc = implode('',file($file));
-		
-		$matched = preg_match_all('/((?:#[\.:,\|]{0,1}\s+(?:.*?)\\n)*)'.
-                                  '(msgctxt\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+'.
+
+        $matched = preg_match_all('/((?:#[\.:,\|]{0,1}\s+(?:.*?)\\n)*)'.
+                                  '(msgctxt\s+(?:"(?:[^"]|\\\\")*?"\s*)+)?'.
                                   '(msgid\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+' .
 								  '(msgstr\s+(?:"(?:[^"]|\\\\")*?(?<!\\\)"\s*)+)/',
 								  $fc, $matches);
@@ -76,12 +76,8 @@ class tao_helpers_translation_POFileReader
             $tf->setTargetLanguage(substr($targetLanguage[1],0,5));
         }
 
-		if (!$matched) {
-			$res = array();
-		}
-		else {
-			$res = array();
-			
+		if ($matched) {
+
 			for ($i = 0; $i < $matched; $i++) {
                 
                 $annotations = $matches[1][$i];
