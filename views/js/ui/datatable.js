@@ -3,12 +3,12 @@ define([
     'lodash',
     'i18n',
     'core/pluginifier',
-    'tpl!ui/itemsmgr/tpl/layout'
+    'tpl!ui/datatable/tpl/layout'
 ], function($, _, __, Pluginifier, layout){
 
     'use strict';
 
-    var ns = 'itemsmgr',
+    var ns = 'datatable',
     defaults = {
         'start'   : 0,
         'rows'    : 25,
@@ -22,24 +22,24 @@ define([
     };
 
     /**
-     * The itemsMgr component makes you able to browse itemss and bind specific
+     * The dataTable component makes you able to browse itemss and bind specific
      * actions to undertake for edition and removal of them.
      *
-     * @exports ui/itemsmgr
+     * @exports ui/datatable
      */
-    var itemsMgr = {
+    var dataTable = {
 
         /**
          * Initialize the plugin.
          *
          * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').itemsmgr({});
+         * @example $('selector').datatable({});
          *
          * @constructor
          * @param {Object} options - the plugin options
          * @param {String} options.url - the URL of the service used to retrieve the resources.
          * @param {Function} options.actions.xxx - the callback function for items xxx, with a single parameter representing the identifier of the items.
-         * @fires itemsMgr#create.itemsmgr
+         * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
         init: function(options) {
@@ -55,7 +55,7 @@ define([
                     'sortorder': 'asc'
                 };
 
-                itemsMgr._query($elt, options, data);
+                dataTable._query($elt, options, data);
             });
         },
 
@@ -89,21 +89,21 @@ define([
                 });
 
                 // Now $rendering takes the place of $elt...
-                var $forwardBtn = $rendering.find('.itemsmgr-forward');
-                var $backwardBtn = $rendering.find('.itemsmgr-backward');
+                var $forwardBtn = $rendering.find('.datatable-forward');
+                var $backwardBtn = $rendering.find('.datatable-backward');
                 var $sortBy = $rendering.find('th[data-sort-by]');
                 var $sortElement = $rendering.find('[data-sort-by="'+ data.sortby +'"]');
 
                 $forwardBtn.click(function() {
-                    itemsMgr._next($rendering, options, data);
+                    dataTable._next($rendering, options, data);
                 });
 
                 $backwardBtn.click(function() {
-                    itemsMgr._previous($rendering, options, data);
+                    dataTable._previous($rendering, options, data);
                 });
 
                 $sortBy.click(function() {
-                    itemsMgr._sort($rendering, options, data, this);
+                    dataTable._sort($rendering, options, data, this);
                 });
 
                 // Remove sorted class from all th
@@ -130,12 +130,12 @@ define([
 
         _next: function($elt, options, data) {
             data.page +=1;
-            itemsMgr._query($elt, options, data);
+            dataTable._query($elt, options, data);
         },
 
         _previous: function($elt, options, data) {
             data.page -= 1;
-            itemsMgr._query($elt, options, data);
+            dataTable._query($elt, options, data);
         },
         _sort: function($elt, options, data, sortBy) {
             var sortingElement = $(sortBy).data('sort-by');
@@ -150,9 +150,9 @@ define([
             // Change the sorting element anyway.
             data.sortby = sortingElement;
             // Call the query
-            itemsMgr._query($elt, options, data);
+            dataTable._query($elt, options, data);
         }
     };
 
-    Pluginifier.register(ns, itemsMgr);
+    Pluginifier.register(ns, dataTable);
 });

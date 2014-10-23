@@ -2,7 +2,7 @@
  * @author Jérôme Bogaert <jerome@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/itemsmgr'], function($, __, helpers, section) {
+define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/datatable'], function($, __, helpers, section) {
     'use strict';
 
     /**
@@ -36,7 +36,7 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/itemsmgr'], function(
         start : function(){
 
             //initialize the user manager component
-            $('#user-list').itemsmgr({
+            $('#user-list').datatable({
                 'url': helpers._url('data', 'Users', 'tao'),
                 'actions' : {
                     'edit': editUser,
