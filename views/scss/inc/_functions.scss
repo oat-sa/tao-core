@@ -59,20 +59,28 @@
     -ms-flex-align: stretch;
 }
 
-@mixin simple-flex-box($width: auto) {
+@mixin simple-flex-box($width: auto, $minWidth: 1) {
 
     @include vendor-prefix(order, 0, property, (-ms-, -webkit-, ''));
     @include vendor-prefix(align-self, stretch, property, (-webkit-, ''));
     -ms-flex-item-align: stretch;
 
+    // if both, min width and width are set, width will win this conflict
     @if ($width == auto) {
-        @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
+        @if ($minWidth != 1) {
+            @include vendor-prefix(flex, 1 1 $minWidth, property, (-ms-, -webkit-, ''));
+        }
+        @else {
+            @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
+            // @see https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis#Values
+            // for a discussion auto vs. main-size
+            @include vendor-prefix(flex, 1 1 main-size, property, (-ms-, -webkit-, ''));
+        }
     }
     @else {
         @include vendor-prefix(flex, 0 0 $width, property, (-ms-, -webkit-, ''));
     }
 }
-
 
 
 @mixin box-shadow($horiz: 1px, $vert: 1px, $blur: 2px, $spread: 0, $color: rgba(0, 0, 0, .2)) {
