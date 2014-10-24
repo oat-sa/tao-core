@@ -76,19 +76,21 @@ class tao_actions_Export extends tao_actions_CommonModule {
             
             //use method GET to allow direct file download (not ajax compatible)
             $exportData = $_GET;
-            $instanceCount = count($exportData['instances']);
-            
-            if(isset($exportData['instances']) && $instanceCount){
+
+            if(isset($exportData['instances'])) {
+                $instanceCount = count($exportData['instances']);
                 for($i = 0; $i < $instanceCount ; $i++){
                     $exportData['instances'][$i] = tao_helpers_Uri::decode($exportData['instances'][$i]);
                 }
+            } elseif (isset($exportData['exportInstance'])) {
+                $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
             }
-            
+
             $file = $exporter->export($exportData, tao_helpers_Export::getExportPath());
             if (!is_null($file) && file_exists($file)) {
                 return tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
             }
-            
+
         }
         
         $context = Context::getInstance();
