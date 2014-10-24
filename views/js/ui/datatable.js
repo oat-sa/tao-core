@@ -8,14 +8,21 @@ define([
 
     'use strict';
 
-    var ns = 'datatable',
-    defaults = {
+    var ns = 'datatable';
+
+    var dataNs = 'ui.' + ns;
+    
+    var defaults = {
         'start'   : 0,
-        'rows'    : 25,
+        'rows': 25,
+        'page': 1,
+        'sortby': 'id',
+        'sortorder': 'asc',
         'model'   : null,
         'actions' : null
-    },
-    actionHeader= {
+    };
+
+    var actionHeader = {
         id : null,
         label : __('Actions'),
         sortable : false
@@ -44,29 +51,58 @@ define([
          */
         init: function(options) {
 
+            var self = dataTable;
+            options = _.defaults(options, defaults);
+
             return this.each(function() {
                 var $elt = $(this);
-                options = _.defaults(options, defaults);
+                
+                if(!$elt.data(dataNs)){
+               
+                    //add data to the element
+                    $elt.data(dataNs, options);
 
-                var data = {
-                    'rows': options.rows,
-                    'page': 1,
-                    'sortby': 'id',
-                    'sortorder': 'asc'
-                };
+                    $elt.one('load.' + ns , function(){
+                        /**
+                         * @event dataTable#create.datatable
+                         */ 
+                        $elt.trigger('create.' + ns);
+                    }); 
 
-                dataTable._query($elt, options, data, function(){
-
-                    $elt.trigger('create.datatable');
-                });
+                    self._query($elt);
+                } else {
+                    self._refresh($elt);
+                }
             });
         },
 
-        _query: function($elt, options, data, done){
+       /**
+        * Refresh the data table using current options 
+        * 
+        * Called the jQuery way once registered by the Pluginifier.
+        * @example $('selector').datatable('refresh');
+        *
+        * @param {jQueryElement} $elt - plugin's element 
+        */
+        _refresh : function($elt){
+            this._query($elt); 
+        },
+
+        /**
+         * Query the server for data and load the table.
+         *
+         * @private
+         * @param {jQueryElement} $elt - plugin's element 
+         * @fires dataTable#load.datatable
+         */
+        _query: function($elt){
+            var self = this;
+            var options = $elt.data(dataNs);
+            var parameters = _.pick(options, ['rows', 'page', 'sortby', 'sortorder']);
 
             $.ajax({
                 url: options.url,
-                data: data,
+                data: parameters,
                 type: 'GET'
             }).done(function(response) {
 
@@ -97,26 +133,26 @@ define([
                 var $forwardBtn = $rendering.find('.datatable-forward');
                 var $backwardBtn = $rendering.find('.datatable-backward');
                 var $sortBy = $rendering.find('th[data-sort-by]');
-                var $sortElement = $rendering.find('[data-sort-by="'+ data.sortby +'"]');
+                var $sortElement = $rendering.find('[data-sort-by="'+ options.sortby +'"]');
 
                 $forwardBtn.click(function() {
-                    dataTable._next($elt, options, data);
+                    self._next($elt);
                 });
 
                 $backwardBtn.click(function() {
-                    dataTable._previous($elt, options, data);
+                    self._previous($elt);
                 });
 
                 $sortBy.click(function() {
-                    dataTable._sort($elt, options, data, this);
+                    self._sort($elt, $(this).data('sort-by'));
                 });
 
                 // Remove sorted class from all th
                 $('th.sorted',$rendering).removeClass('sorted');
                 // Add the sorted class to the sorted element and the order class
-                $sortElement.addClass('sorted').addClass('sorted_'+data.sortorder);
+                $sortElement.addClass('sorted').addClass('sorted_'+options.sortorder);
 
-                if (data.page === 1) {
+                if (parameters.page === 1) {
                     $backwardBtn.attr('disabled', '');
                 } else {
                     $backwardBtn.removeAttr('disabled');
@@ -131,37 +167,93 @@ define([
 
                 $elt.html($rendering);
 
-                if(_.isFunction(done)){
-                    done();
-                }
+                /**
+                 * @event dataTable#load.dataTable
+                 */ 
+                $elt.trigger('load.datatable');
             });
         },
 
-        _next: function($elt, options, data) {
-            data.page +=1;
-            dataTable._query($elt, options, data);
+       /**
+        * Query next page 
+        * 
+        * Called the jQuery way once registered by the Pluginifier.
+        * @example $('selector').datatable('next');
+        *
+        * @param {jQueryElement} $elt - plugin's element 
+        */
+        _next: function($elt) {
+            var options = $elt.data(dataNs);
+
+            //increase page number
+            options.page += 1;
+            
+            //rebind options to the elt
+            $elt.data(dataNs, options);
+
+            // Call the query
+            this._query($elt);
         },
 
-        _previous: function($elt, options, data) {
-            data.page -= 1;
-            dataTable._query($elt, options, data);
-        },
-        _sort: function($elt, options, data, sortBy) {
-            var sortingElement = $(sortBy).data('sort-by');
-            if (data.sortorder == 'asc' && data.sortby == sortingElement) {
-                // If I already sort asc this element
-                data.sortorder = 'desc';
-            }else{
-                // If I never sort by this element or
-                // I sort by this element & the order was desc
-                data.sortorder = 'asc';
+       /**
+        * Query the previous page 
+        * 
+        * Called the jQuery way once registered by the Pluginifier.
+        * @example $('selector').datatable('previous');
+        *
+        * @param {jQueryElement} $elt - plugin's element 
+        */
+        _previous: function($elt) {
+            var options = $elt.data(dataNs);
+            if(options.page > 1){
+ 
+                //decrease page number
+                options.page -= 1;
+                
+                //rebind options to the elt
+                $elt.data(dataNs, options);
+
+                // Call the query
+                this._query($elt);
             }
+        },
+
+       /**
+        * Query the previous page 
+        * 
+        * Called the jQuery way once registered by the Pluginifier.
+        * @example $('selector').datatable('sort', 'firstname', false);
+        *
+        * @param {jQueryElement} $elt - plugin's element 
+        * @param {String} sortBy - the model id of the col to sort
+        * @param {Boolean} [asc] - sort direction true for asc of deduced
+        */
+        _sort: function($elt, sortBy, asc) {
+            var options = $elt.data(dataNs);
+        
+            if(typeof asc !== 'undefined'){
+                options.sortorder = (!!asc) ? 'asc' : 'desc';
+            } else if (options.sortorder === 'asc' && options.sortby === sortBy) {
+                    // If I already sort asc this element
+                    options.sortorder = 'desc';
+                }else{
+                    // If I never sort by this element or
+                    // I sort by this element & the order was desc
+                    options.sortorder = 'asc';
+                }
+
             // Change the sorting element anyway.
-            data.sortby = sortingElement;
+            options.sortby = sortBy;
+
+            //rebind options to the elt
+            $elt.data(dataNs, options);
+
             // Call the query
-            dataTable._query($elt, options, data);
+            this._query($elt);
         }
     };
 
-    Pluginifier.register(ns, dataTable);
+    Pluginifier.register(ns, dataTable, {
+         expose : ['refresh', 'next', 'previous', 'sort']
+    });
 });
