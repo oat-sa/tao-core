@@ -40,7 +40,7 @@ define([
 
     //the default options
     var defaultOptions = {
-        timeout : 10000
+        timeout : 8000
     };
 
     /**
