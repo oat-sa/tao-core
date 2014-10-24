@@ -23,5 +23,8 @@ table.datatable{
         &.id{
             display:none;
         }
+        &[data-item-identifier] {
+            text-align: center;
+        }
     }
 }
