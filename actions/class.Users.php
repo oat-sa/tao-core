@@ -73,35 +73,26 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		$limit = $this->getRequestParameter('rows');
 		$sidx = $this->getRequestParameter('sortby');
 		$sord = $this->getRequestParameter('sortorder');
-		$searchField = $this->getRequestParameter('searchField');
-		$searchOper = $this->getRequestParameter('searchOper');
-		$searchString = $this->getRequestParameter('searchString');
 		$start = $limit * $page - $limit;
 
-		$rolesClass = new core_kernel_classes_Class(CLASS_ROLE);
-		$rolesInstancesArray = $rolesClass->getInstances(true);
+		switch($sidx) {
+            case 'name'         : $order = PROPERTY_USER_LASTNAME; break;
+            case 'mail'         : $order = PROPERTY_USER_MAIL; break;
+            case 'dataLg'       : $order = PROPERTY_USER_DEFLG; break;
+            case 'guiLg'        : $order = PROPERTY_USER_UILG; break;
+            case 'login': 
+            default:
+		    $order = PROPERTY_USER_LOGIN;
+        }
 
-		$filteredRolesArray = array_diff(array_keys($rolesInstancesArray),$this->filteredRoles);
+        
+        $gau = array(
+            'order' 	=> $order,
+            'orderdir'	=> strtoupper($sord),
+            'start'		=> $start,
+            'limit'		=> $limit
+        );
 
-		if (!$sidx) {
-		    $sidx = 1;
-		}
-
-		$gau = array(
-				'order' 	=> $sidx,
-				'orderDir'	=> $sord,
-				'start'		=> $start,
-				'limit'		=> $limit
-		);
-
-		if (!is_null($searchField)) {
-			$gau['search'] = array(
-				'field' => $searchField,
-				'op' => $searchOper,
-				'filteredRoles'	=> $filteredRolesArray,
-				'string' => $searchString
-			);
-		}
 
 		// get total user count...
 		$users = $this->userService->getAllUsers();
@@ -111,9 +102,8 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		$users = $this->userService->getAllUsers($gau);
 		$rolesProperty		= new core_kernel_classes_Property(PROPERTY_USER_ROLES);
 
-		$response = new stdClass();
-		$i = 0;
 
+		$index = 0;
 		foreach ($users as $user) {
 
 			$propValues = $user->getPropertiesValues(array(
@@ -138,14 +128,14 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
 			$dataRes = empty($propValues[PROPERTY_USER_DEFLG]) ? null : current($propValues[PROPERTY_USER_DEFLG]);
 
-			$response->data[$i]['id']= tao_helpers_Uri::encode($user->getUri());
-			$response->data[$i]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
-			$response->data[$i]['name'] = $firstName.' '.$lastName;
-			$response->data[$i]['mail'] = (string)current($propValues[PROPERTY_USER_MAIL]);
-			$response->data[$i]['roles'] = implode(', ', $labels);
-			$response->data[$i]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
-			$response->data[$i]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
-			$i++;
+			$response->data[$index]['id']= tao_helpers_Uri::encode($user->getUri());
+			$response->data[$index]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
+			$response->data[$index]['name'] = $firstName.' '.$lastName;
+			$response->data[$index]['mail'] = (string)current($propValues[PROPERTY_USER_MAIL]);
+			$response->data[$index]['roles'] = implode(', ', $labels);
+			$response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
+			$response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
+			$index++;
 		}
 
 		$response->page = floor($start / $limit) + 1;
