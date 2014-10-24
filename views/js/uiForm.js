@@ -654,7 +654,8 @@ define([
                     return false;
                 }
                 else {
-                    var $container = helpers.getMainContainer();
+                    //FIXME should use sectionAPI instead
+                    var $container = myForm.closest('.content-block');
                     if (!$container || $container.length === 0) {
                         return true;//go to the link
                     }
