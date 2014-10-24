@@ -55,11 +55,14 @@ define([
                     'sortorder': 'asc'
                 };
 
-                dataTable._query($elt, options, data);
+                dataTable._query($elt, options, data, function(){
+
+                    $elt.trigger('create.datatable');
+                });
             });
         },
 
-        _query: function($elt, options, data) {
+        _query: function($elt, options, data, done){
 
             $.ajax({
                 url: options.url,
@@ -124,7 +127,11 @@ define([
                 }
 
 
-                $elt.replaceWith($rendering);
+                $elt.html($rendering);
+
+                if(_.isFunction(done)){
+                    done();
+                }
             });
         },
 
