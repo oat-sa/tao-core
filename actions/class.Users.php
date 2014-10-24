@@ -60,7 +60,6 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	 * @return void
 	 */
 	public function index(){
-		$this->setData('data', __('list the users'));
 		$this->setView('user/list.tpl');
 	}
 
@@ -151,16 +150,21 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	 * @return vois
 	 */
 	public function delete(){
+        $deleted = false;
 		$message = __('An error occured during user deletion');
 		if (helpers_PlatformInstance::isDemo()) {
 		    $message = __('User deletion not permited on a demo instance');
 		} elseif($this->hasRequestParameter('uri')) {
 			$user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-			if($this->userService->removeUser($user)){
+              if($this->userService->removeUser($user)){
+                $deleted = true;
 				$message = __('User deleted successfully');
-			}
+            }
 		}
-		$this->redirect(_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao', 'message' => $message)));
+        $this->returnJson(array(
+            'deleted' => deleted,
+            'message' => $message
+        ));
 	}
 
 	/**
@@ -275,13 +279,11 @@ class tao_actions_Users extends tao_actions_CommonModule {
 
 				if($binder->bind($values)){
 					$this->setData('message', __('User saved'));
-					$this->setData('exit', true);
 				}
 			}
 		}
 
 		$this->setData('formTitle', __('Edit a user'));
-		$this->setData('Roles', json_encode(""));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('user/form.tpl');
 	}

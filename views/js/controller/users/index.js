@@ -2,7 +2,7 @@
  * @author Jérôme Bogaert <jerome@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/datatable'], function($, __, helpers, section) {
+define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datatable'], function($, __, helpers, section, feedback) {
     'use strict';
 
     /**
@@ -23,10 +23,20 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/datatable'], function
      */
 	var removeUser = function removeUser(uri){
         //TODO use a confirm component
-        //TODO run an ajax request and show a feedback
-		if (window.confirm(__('Please confirm user deletion'))) {
-			window.location = helpers._url('delete', 'Users', 'tao',  {uri : uri});
-		}
+        if (window.confirm(__('Please confirm user deletion'))) {
+            $.ajax({
+                url : helpers._url('delete', 'Users', 'tao'),
+                data:  {uri : uri},
+                type : 'POST'
+            }).done(function(response){
+                if(response.deleted){
+                    feedback().success(response.message);
+                } else {
+                    feedback().error(response.message);
+                }
+                $('#user-list').datatable('refresh');
+            });
+        }
 	};
 
     /**
@@ -35,11 +45,16 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/datatable'], function
      */
     return {
         start : function(){
-
-            section.get('edit_user').disable();
+            var $userList = $('#user-list');
+    
+            section.on('show', function(section){
+                if(section.id === 'list_users'){
+                    $userList.datatable('refresh');
+                }
+            });
 
             //initialize the user manager component
-            $('#user-list').datatable({
+            $userList.datatable({
                 'url': helpers._url('data', 'Users', 'tao'),
                 'actions' : {
                     'edit': editUser,
