@@ -1,0 +1,27 @@
+table.datatable{
+    th{
+        cursor: not-allowed;
+        &[data-sort-by]{
+            cursor: pointer;
+        }
+        &.sorted{
+            &:after{
+                float:right;
+            }
+            &.sorted_asc::after{
+                @extend %tao-icon-setup;
+                @extend %icon-down;
+            }
+            &.sorted_desc::after{
+                @extend %tao-icon-setup;
+                @extend %icon-up;
+            }
+        }
+    }
+    th,
+    td{
+        &.id{
+            display:none;
+        }
+    }
+}
