@@ -1,6 +1,9 @@
 <div class="grid-row">
-    <div class="col-6">Page <strong>{{page}}</strong> of {{total}}</div>
-    <div class="col-6 txt-rgt"><button class="btn-info small datatable-backward"><span class="icon-backward"></span>Previous</button><button class="btn-info small datatable-forward">Next<span class="icon-forward r"></span></button></div>
+    <div class="col-6">{{__ 'Page'}} <strong>{{page}}</strong> {{__ 'of'}} {{total}}</div>
+    <div class="col-6 txt-rgt">
+        <button class="btn-info small datatable-backward"><span class="icon-backward"></span>{{__ 'Previous'}}</button>
+        <button class="btn-info small datatable-forward">{{__ 'Next'}}<span class="icon-forward r"></span></button>
+    </div>
 </div>
 <table class="matrix datatable">
     <colgroup>
@@ -8,9 +11,6 @@
         {{#model}}
         <col/>
         {{/model}}
-        {{#if actions}}
-        <col style="width:250px"/>
-        {{/if}}
     </colgroup>
     <thead>
         <tr>
@@ -26,7 +26,7 @@
                 {{#each this}}
                 <td class="{{@key}}">{{this}}</td>
                 {{/each}}
-                <td style="text-align:center;" data-item-identifier="{{id}}">
+                <td data-item-identifier="{{id}}">
                     {{#each ../actions}}
                     <button class="btn-info small {{this}}"><span class="icon-{{this}}"></span> {{this}}</button>
                     {{/each}}
@@ -36,6 +36,9 @@
     </tbody>
 </table>
 <div class="grid-row">
-    <div class="col-6">Page <strong>{{page}}</strong> of {{total}}</div>
-    <div class="col-6 txt-rgt"><button class="btn-info small datatable-backward"><span class="icon-backward"></span>Previous</button><button class="btn-info small datatable-forward"">Next<span class="icon-forward r"></span></button></div>
+    <div class="col-6">{{__ 'Page'}} <strong>{{page}}</strong> {{__ 'of'}} {{total}}</div>
+    <div class="col-6 txt-rgt">
+        <button class="btn-info small datatable-backward"><span class="icon-backward"></span>{{__ 'Previous'}}</button>
+        <button class="btn-info small datatable-forward">{{__ 'Next'}}<span class="icon-forward r"></span></button>
+    </div>
 </div>
