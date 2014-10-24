@@ -69,8 +69,10 @@ define([
                 data: data,
                 type: 'GET'
             }).done(function(response) {
+
                 // Add the list of custom actions to the response for the tpl
                 response.actions = _.keys(options.actions);
+
                 // Add the column into the model
                 if (options.actions !== null && _.last(options.model).label !== actionHeader.label) {
                     options.model.push(actionHeader);
@@ -98,15 +100,15 @@ define([
                 var $sortElement = $rendering.find('[data-sort-by="'+ data.sortby +'"]');
 
                 $forwardBtn.click(function() {
-                    dataTable._next($rendering, options, data);
+                    dataTable._next($elt, options, data);
                 });
 
                 $backwardBtn.click(function() {
-                    dataTable._previous($rendering, options, data);
+                    dataTable._previous($elt, options, data);
                 });
 
                 $sortBy.click(function() {
-                    dataTable._sort($rendering, options, data, this);
+                    dataTable._sort($elt, options, data, this);
                 });
 
                 // Remove sorted class from all th
