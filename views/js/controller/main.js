@@ -13,9 +13,9 @@ define([
     'layout/version-warning',
     'layout/section-height',
     'layout/loading-bar',
-    'ui/feedback'
+    'layout/nav'
 ],
-function ($, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar) {
+function ($, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav) {
     'use strict';
 
     /**
@@ -39,6 +39,9 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
                 loadingBar.stop();
             });
 
+            //navigation bindings
+            nav.init();
+
             //initialize sections 
             section.on('activate', function(section){
 
@@ -51,15 +54,22 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
 
                 switch(section.type){
                 case 'tree':
+                    section.panel.addClass('content-panel');
+                    sectionHeight.init(section.panel);
 
                     //set up the tree
-                    section.panel.addClass('content-panel');
                     $('.taotree', section.panel).each(function(){
                         var $treeElt = $(this),
                             $actionBar = $('.tree-action-bar-box', section.panel);
 
                         var rootNode = $treeElt.data('rootnode');
-                        treeFactory($treeElt, $treeElt.data('url'), {
+                        var treeUrl = context.root_url;
+                        if(/\/$/.test(treeUrl)){
+                            treeUrl += $treeElt.data('url').replace(/^\//, '');
+                        } else {
+                            treeUrl += $treeElt.data('url');
+                        }
+                        treeFactory($treeElt, treeUrl, {
                             serverParameters : {
                                 extension   : context.shownExtension,
                                 perspective : context.shownStructure,
@@ -75,19 +85,22 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
                         });
                         $treeElt.on('ready.taotree', function() {
                             $actionBar.addClass('active');
+                            sectionHeight.setHeights(section.panel);
                         });
                     });
+
+                    $('.navi-container', section.panel).show();
                     break;
                 case 'content' : 
 
                     //or load the content block
                     this.loadContentBlock();
+                    
                     break;
                 }
             })
             .init();
-            
-            sectionHeight.init();
+
 
             //initialize legacy components
             helpers.init();

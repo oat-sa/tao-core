@@ -109,7 +109,7 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
                     var styles       = [];
                     var action;
                     var mapStyle = function mapStyle(style){
-                        return 'css!' + route.extension + '_css/' +  style;
+                        return 'css!' + route.extension + 'Css/' +  style;
                     };
 
                     //resolve controller dependencies

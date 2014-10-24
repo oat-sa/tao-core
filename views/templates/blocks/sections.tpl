@@ -11,7 +11,7 @@ $sections = get_data('sections');
         <ul class="tab-container clearfix">
             <?php foreach ($sections as $section): ?>
 
-                <li class="small">
+                <li class="small <?php if($section->getDisabled()):?>disabled<?php endif?>">
                     <a href="#panel-<?= $section->getId() ?>"
                        data-url="<?= $section->getUrl() ?>"
                        title="<?= $section->getName(); ?>"><?= __($section->getName()) ?></a>

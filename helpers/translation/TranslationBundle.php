@@ -110,7 +110,10 @@ class TranslationBundle {
             'translations' =>   $translations
         );
         if(is_dir($directory)){
-            $file = $directory. '/' . $this->langCode . '.json';
+            if(!is_dir($directory. '/' . $this->langCode)){
+                mkdir($directory. '/' . $this->langCode);
+            }
+            $file = $directory. '/' . $this->langCode . '/messages.json';
             if(file_put_contents($file, json_encode($content))){
                 return $file;
             } 

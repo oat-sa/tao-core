@@ -10,6 +10,8 @@
 		<!ATTLIST structure level CDATA #REQUIRED>
 		<!-- What group the structure belongs to -->
 		<!ATTLIST structure group CDATA "main">
+        <!-- The JS binding to run instead of loading the URL. The binding is the name of an AMD module within TAO -->
+        <!ATTLIST structure binding CDATA #IMPLIED>
 	
 		<!ELEMENT description (#PCDATA)>
 		
@@ -33,6 +35,10 @@
 				<!ATTLIST section url CDATA #REQUIRED>
 				<!-- The policy on how to handle duplicate section keys -->
 				<!ATTLIST section policy (merge|override) "merge">
+                <!-- The JS binding to run instead of loading the URL. The binding is the name of an AMD module within TAO -->
+                <!ATTLIST section binding CDATA #IMPLIED>
+                <!-- if a section is disabled -->
+                <!ATTLIST section disabled CDATA #IMPLIED>
 	
 				<!-- The list of trees to load in the section panel -->
 				<!ELEMENT trees  ( tree )*>
@@ -58,8 +64,6 @@
 					<!ATTLIST action id CDATA #REQUIRED>
                     <!-- Name of the action -->
                     <!ATTLIST action name CDATA #REQUIRED>
-					<!-- A javascript method to run instead of loading directly the URL -->
-					<!ATTLIST action js CDATA #IMPLIED>
 					<!-- The URL of the action -->
 					<!ATTLIST action url CDATA #IMPLIED>
 					<!-- The context of the action: (class|instance|resource|*) -->
@@ -70,6 +74,8 @@
                     <!ATTLIST action disabled CDATA #IMPLIED>
 					<!-- Where to position the action -->
 					<!ATTLIST action group CDATA #REQUIRED>
+					<!-- DEPRECATED : use binding instead -->
+					<!ATTLIST action js CDATA "_load">
 					<!-- The JS binding of this action -->
 					<!ATTLIST action binding CDATA "_load">
 
@@ -82,7 +88,8 @@
 		<!ELEMENT replace EMPTY>
 		
 			<!ATTLIST replace id CDATA #REQUIRED>
-			
+		
+    <!-- DEPRECATED -->	
 	<!ELEMENT toolbar  ( (toolbaraction)* )>
 		<!-- displayed name of the section -->
 		<!ATTLIST toolbaraction id CDATA #REQUIRED>

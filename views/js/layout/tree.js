@@ -8,8 +8,10 @@ define([
     'context',
     'store',
     'layout/actions',
-    'jsTree/plugins/jquery.tree.contextmenu',
-], function($, _, __, context, store, actionManager){
+    'ui/feedback',
+    'jquery.tree',
+    'lib/jsTree/plugins/jquery.tree.contextmenu'
+], function($, _, __, context, store, actionManager, feedback){
 
     var pageRange = 30;
 
@@ -54,7 +56,8 @@ define([
 
             //bind events from the definition below
             _.forEach(events, function(callback, name){
-                $elt.on(name + '.taotree', function(){
+                $elt.off(name + '.taotree')
+                    .on(name + '.taotree', function(e){
                     callback.apply(this, Array.prototype.slice.call(arguments, 1));
                 });
             });
@@ -77,7 +80,7 @@ define([
                 type: "json",
                 async : true,
                 opts: {
-                    method : "POST",
+                    method : "GET",
                     url: url
                 }
             },
@@ -135,11 +138,16 @@ define([
                  */
                 ondata: function(data, tree) {
                     
+                    if(data.error){
+                        feedback().error(data.error);
+                        return [];
+                    }
+
                     //automatically open the children of the received node
                     if (data.children) {
                         data.state = 'open';
                     }
-
+                    
                     computeSelectionAccess(data);
             
                     flattenPermissions(data);
@@ -164,39 +172,40 @@ define([
                     var treeStore       = store.get('taotree.' + context.section) || {};
                     var $firstClass     = $(".node-class:not(.private):first", $elt);
                     var $firstInstance  = $(".node-instance:not(.private):first", $elt);
-                    var $lastSelected;
+                    var treeState       = $elt.data('tree-state') || {};
+                    var selectNode      = treeState.selectNode || options.selectNode;
+                    var $lastSelected, $selectNode;
 
-                    if(options.selectNode){
-                         $lastSelected = $('#' + options.selectNode, $elt);
-                    }
-                    if((!$lastSelected || !$lastSelected.length) && 
-                       treeStore && treeStore.lastSelected){
-                         $lastSelected = $('#' +  treeStore.lastSelected, $elt);
-                    }
+                    //open the first class
+                    tree.open_branch($firstClass, false, function(){
+                       _.delay(function(){ //needed as jstree seems to doesn't know the callbacks right now...
 
-                    _.defer(function(){ //needed as jstree seems to doesn't know the callbacks right now...
-                        
-                        //open the first class
-                        tree.open_branch($firstClass);
 
-                        //try to select the last one
-                        if($lastSelected && $lastSelected.length && !$lastSelected.hasClass('private')){
-                            tree.select_branch($lastSelected);
+                            //the node to select is given 
+                            if(selectNode){
+                                 $selectNode = $('#' + selectNode, $elt);
+                                 if($selectNode.length && !$selectNode.hasClass('private')){
+                                    return tree.select_branch($selectNode);
+                                 }
+                            }
 
-                        //or the 1st instance
-                        } else if ($firstInstance.length) {
-                            tree.select_branch($firstInstance);
+                            //try to select the last one
+                            if(treeStore && treeStore.lastSelected){
+                                $lastSelected = $('#' +  treeStore.lastSelected, $elt);
+                                if($lastSelected.length && !$lastSelected.hasClass('private')){
+                                    return tree.select_branch($lastSelected);
+                                }
+                            }
 
-                        //or the 1st class
-                        } else if ($firstClass.length){
-                            tree.select_branch($firstClass);
-    
-                        //or something else
-                        } else {
-                            tree.select_branch($('.node-class,.node-instance', $elt).get(0));
-                        }
-                    });
-                 
+                            //or the 1st instance
+                            if ($firstInstance.length) {
+                                return tree.select_branch($firstInstance);
+                            }
+                            //or something else
+                            return tree.select_branch($('.node-class,.node-instance', $elt).get(0));
+                        }, 10);
+                    });                 
+
                     /**
                      * The tree state has changed
                      * @event layout/tree#change.taotree
@@ -440,8 +449,8 @@ define([
          */
         var hasAccessTo = function hasAccessTo(actionType, node){
             var action = options.actions[actionType];
-            if(node && action && node.permissions && node.permissions[action.name] !== undefined){
-                return !!node.permissions[action.name];
+            if(node && action && node.permissions && node.permissions[action.id] !== undefined){
+                return !!node.permissions[action.id];
             }
             return true;
         };

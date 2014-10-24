@@ -50,7 +50,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 $this->setData('label', $resource->getLabel());
                 $this->setData('itemUri', tao_helpers_Uri::encode($resource->getUri()));
                 
-                ;
                 $rEpoch = date('Y-m-d H:i:s', strval($lockData->getEpoch()));
                 
                 $this->setData('epoch',$rEpoch );
@@ -77,6 +76,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
                 $this->setData('ownerLogin', $ownerLogin);
                 $this->setData('ownerMail', $ownerEmail);
+                $this->setData('destinationUrl', tao_helpers_Uri::url(null, null, null, $this->getRequestParameters())); 
                 $this->setView($view);
               
                 
@@ -395,15 +395,20 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
      */
     private function computePermissions($actions, $user, $node){
         if(isset($node['_data'])){
-            
             foreach($actions as $action){
                 if($node['type'] == $action['context'] || $action['context'] == 'resource'){
                     $resolver = $action['resolver'];
                     try{
-                        $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']);
+                        if($node['type'] == 'class'){
+                            $data = array('classUri' => $node['_data']['uri']);
+                        } else {
+                            $data = $node['_data'];
+                        }
+                        $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $data);
+
                     //@todo should be a checked exception!
                     } catch(Exception $e){
-                        common_Logger::d('Unable to resolve permission for action ' . $action['id'] . ' : ' . $e->getMessage() );
+                        common_Logger::w('Unable to resolve permission for action ' . $action['id'] . ' : ' . $e->getMessage() );
                     }
                 }
             }
@@ -573,7 +578,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$this->setData('formTitle', __('Manage content of the property ').$property->getLabel().__(' of the instance ').$ownerInstance->getLabel());
 			$this->setData('myForm', $myForm->render());
 		
-			$this->setView('form_content.tpl');
+			$this->setView('form.tpl');
 		}
 		
 	}
@@ -1090,14 +1095,14 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		echo json_encode ($returnValue);
 	}
-	
+
 	/**
 	 * Get property values for a sub set of filtered instances
 	 * @param {RequestParameter|string} propertyUri Uri of the target property
 	 * @param {RequestParameter|string} classUri Uri of the target class
 	 * @param {RequestParameter|array} filter Array of propertyUri/propertyValue used to filter instances of the target class
 	 * @param {RequestParameter|array} filterNodesOptions Array of options used by other filter nodes
-	 * @return {array} formated for tree 
+	 * @return {array} formated for tree
 	 */
 	public function getFilteredInstancesPropertiesValues()
 	{
@@ -1177,12 +1182,13 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		echo json_encode($data);
 	}
-	
+
 	/**
 	 * returns a FilterState object from the parameters
-	 * 
+	 *
 	 * @param string $identifier
-	 * @return FilterState
+	 * @throws common_Exception
+	 * @return \FilterState
 	 */
 	protected function getFilterState($identifier) {
 		if (!$this->hasRequestParameter($identifier)) {
@@ -1199,9 +1205,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		return $state;
 	}
-	
+
 	/**
 	 * Render the add property sub form.
+	 * @throws Exception
 	 * @return void
 	 */
 	public function addClassProperty()
@@ -1235,8 +1242,38 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		$this->setData('data', $myForm->renderElements());
 		$this->setView('blank.tpl', 'tao');
-	}	
-	
+	}
+
+
+	/**
+	 * Render the add property sub form.
+	 * @throws Exception
+	 * @return void
+	 */
+	public function removeClassProperty()
+	{
+		$success = false;
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+
+		//delete property mode
+		foreach($this->getCurrentClass()->getProperties() as $classProperty){
+			if($classProperty->getUri() == tao_helpers_Uri::decode($this->getRequestParameter('uri'))){
+
+				//delete property and the existing values of this property
+				if($classProperty->delete(true)){
+					$success = true;
+					break;
+				}
+			}
+		}
+
+		if(!$success){
+			throw new Exception("Unable to find property");
+		}
+	}
+
 	/**
 	 * delete an instance or a class
 	 * called via ajax
@@ -1264,4 +1301,3 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		echo json_encode(array('deleted'	=> $deleted));
 	}
 }
-?>

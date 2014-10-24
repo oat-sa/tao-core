@@ -144,7 +144,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
             this._resourceContext = _.omit(context, 'permissions');
 
             _.forEach(this._actions, function(action, id){
-                var permission = permissions[action.name];
+                var permission = permissions[action.id];
         
                 if( permission === false ||
                     (current === 'none' && action.context !== '*') || 

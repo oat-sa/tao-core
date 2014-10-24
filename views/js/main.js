@@ -16,6 +16,7 @@
             function ($, __, _, context, router, ui, history, feedback) {
 
                 var $doc = $(document);
+                var $container = $('body > .content-wrap');
 
                 //fix backspace going back into the history
                 history.fixBrokenBrowsers();
@@ -31,7 +32,7 @@
                        }
 
                        router.dispatch(urls, function(){
-                           ui.startDomComponent($('body > .content-wrapper'));
+                           ui.startDomComponent($container);
                        });
                     }
                 });
@@ -78,7 +79,7 @@
                 });
                 
                 //initialize new components
-                ui.startEventComponents($('body > .content-wrapper'));
+                ui.startEventComponents($container);
                 
         });
     });

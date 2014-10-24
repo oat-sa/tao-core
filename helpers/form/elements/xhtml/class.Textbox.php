@@ -48,7 +48,7 @@ class tao_helpers_form_elements_xhtml_Textbox
     {
         $returnValue = (string) '';
 
-        
+        $hasUnit = !empty($this->unit);
 		
 		if(!isset($this->attributes['noLabel'])){
 			$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
@@ -56,12 +56,15 @@ class tao_helpers_form_elements_xhtml_Textbox
 		else{
 			unset($this->attributes['noLabel']);
 		}
+        if($hasUnit) {
+            $this->addClass('has-unit');
+        }
 		$returnValue .= "<input type='text' name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= ' value="'._dh($this->value).'" />';
 		
-		if(!empty($this->unit)){
-			$returnValue .= " " . _dh($this->unit);
+		if($hasUnit){
+			$returnValue .= '<label class="unit" for="' . $this->name . '">' . _dh($this->unit) . '</label>';
 		}
 		
         

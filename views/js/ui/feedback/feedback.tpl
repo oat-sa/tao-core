@@ -3,6 +3,6 @@
     <div>
         {{{msg}}}
     </div>
-    <span title="{{__ 'Collapse Message'}}" class="icon-remove"></span>
+    {{!-- Collapse not yet implemented <span title="{{__ 'Collapse Message'}}" class="icon-remove"></span>--}}
     <span title="{{__ 'Remove Message'}}" class="icon-close" data-close=":parent .feedback"></span>
 </div>

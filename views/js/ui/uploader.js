@@ -12,7 +12,6 @@ define([
     'tpl!ui/uploader/uploader',
     'tpl!ui/uploader/fileEntry',
     'ui/filesender',
-    'filereader',
     'jqueryui'
 ], function($, _, __, async, Pluginifier, context, bytes, uploaderTpl, fileEntryTpl){
     'use strict';
@@ -142,12 +141,14 @@ define([
                     //manage input selection
                     if(options.read && !tests.filereader) {
                         // Nope... :/
-                        options.$input.fileReader({
-                            id: 'fileReaderSWFObject',
-                            filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
-                            callback: function() {
-                                options.$input.on('change', inputHandler);
-                            }
+                        require(['filereader'], function(){
+                            options.$input.fileReader({
+                                id: 'fileReaderSWFObject',
+                                filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
+                                callback: function() {
+                                    options.$input.on('change', inputHandler);
+                                }
+                            });
                         });
                     } else {
                         options.$input.on('change', inputHandler);

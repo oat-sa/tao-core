@@ -28,7 +28,7 @@
  
  */
 class tao_actions_form_SimpleProperty
-    extends tao_actions_form_Generis
+    extends tao_actions_form_AbstractProperty
 {
     // --- ASSOCIATIONS ---
 
@@ -37,27 +37,6 @@ class tao_actions_form_SimpleProperty
 
     // --- OPERATIONS ---
 
-    /**
-     * Initialize the form
-     *
-     * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
-     */
-    protected function initForm()
-    {
-        
-        
-    	(isset($this->options['name'])) ? $name = $this->options['name'] : $name = ''; 
-    	if(empty($name)){
-			$name = 'form_'.(count(self::$forms)+1);
-		}
-		unset($this->options['name']);
-			
-		$this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
-    	
-        
-    }
 
     /**
      * Initialize the form elements
@@ -156,19 +135,14 @@ class tao_actions_form_SimpleProperty
 		$this->form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
 		
-
 		//add an hidden element with the mode (simple)
 		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
 		$modeElt->setValue('simple');
 		$this->form->addElement($modeElt);
 		$elementNames[] = $modeElt->getName();
-		
+
 		if(count($elementNames) > 0){
-			$groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
-                . '<span class="property-heading-toolbar">'
-                . '<span class="icon-edit"></span>'
-                . '<span class="icon-bin property-deleter"></span>'
-                . '</span>';
+			$groupTitle = $this->getGroupTitle($property);
 			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames);
 		}
     	
@@ -177,8 +151,7 @@ class tao_actions_form_SimpleProperty
 		$propUriElt->addAttribute('class', 'property-uri');
 		$propUriElt->setValue(tao_helpers_Uri::encode($property->getUri()));
 		$this->form->addElement($propUriElt);
-    	
-        
+
     }
 
 }
