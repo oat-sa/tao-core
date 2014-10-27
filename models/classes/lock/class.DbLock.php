@@ -156,11 +156,7 @@ class tao_models_classes_lock_DbLock
 
         }
 
-        $dbWrapper = core_kernel_classes_DbWrapper::singleton();
-        $dbWrapper->query(
-            'DELETE FROM locks WHERE resource_uri = ?', [$resource->getUri()]
-        );
-        return true;
+        return $this->forceReleaseLock($resource);
 	}
 
    /**
@@ -168,8 +164,13 @@ class tao_models_classes_lock_DbLock
     * @param core_kernel_classes_Resource $resource
     */
     public function forceReleaseLock(core_kernel_classes_Resource $resource){
-         $resource->removePropertyValues($this->getLockProperty());
+        $dbWrapper = core_kernel_classes_DbWrapper::singleton();
+        $dbWrapper->query(
+            'DELETE FROM locks WHERE resource_uri = ?', [$resource->getUri()]
+        );
+        return true;
     }
+
     /**
      * Return lock details
      * @param core_kernel_classes_Resource $resource
