@@ -84,14 +84,12 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		    $order = PROPERTY_USER_LOGIN;
         }
 
-        
         $gau = array(
             'order' 	=> $order,
             'orderdir'	=> strtoupper($sord),
-            'start'		=> $start,
+            'offset'    => $start,
             'limit'		=> $limit
         );
-
 
 		// get total user count...
 		$users = $this->userService->getAllUsers();
