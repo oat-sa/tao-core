@@ -197,14 +197,18 @@ define([
                         if ($firstInstance.length) {
                             return tree.select_branch($firstInstance);
                         }
-                        //or something else
+                        //or something 
                         return tree.select_branch($('.node-class,.node-instance', $elt).get(0));
                     };
 
-                    //open the first class
-                     
-                    tree.open_branch($firstClass, false, _.delay(nodeSelection, 10)); //delay needed as jstree seems to doesn't know the callbacks right now...,
-
+                    if($firstClass.hasClass('leaf')){
+                        return tree.select_branch($firstClass);
+                    } else {
+                        //open the first class
+                        tree.open_branch($firstClass, false, function(){
+                            _.delay(nodeSelection, 10); //delay needed as jstree seems to doesn't know the callbacks right now...,
+                        });
+                    }
 
                     /**
                      * The tree state has changed
