@@ -169,42 +169,41 @@ define([
                  */
                 onload: function(tree){
 
+                    var $lastSelected, $selectNode;
                     var treeStore       = store.get('taotree.' + context.section) || {};
                     var $firstClass     = $(".node-class:not(.private):first", $elt);
                     var $firstInstance  = $(".node-instance:not(.private):first", $elt);
                     var treeState       = $elt.data('tree-state') || {};
                     var selectNode      = treeState.selectNode || options.selectNode;
-                    var $lastSelected, $selectNode;
+                    var nodeSelection   = function nodeSelection(){
+                        //the node to select is given 
+                        if(selectNode){
+                             $selectNode = $('#' + selectNode, $elt);
+                             if($selectNode.length && !$selectNode.hasClass('private')){
+                                return tree.select_branch($selectNode);
+                             }
+                        }
+
+                        //try to select the last one
+                        if(treeStore && treeStore.lastSelected){
+                            $lastSelected = $('#' +  treeStore.lastSelected, $elt);
+                            if($lastSelected.length && !$lastSelected.hasClass('private')){
+                                return tree.select_branch($lastSelected);
+                            }
+                        }
+
+                        //or the 1st instance
+                        if ($firstInstance.length) {
+                            return tree.select_branch($firstInstance);
+                        }
+                        //or something else
+                        return tree.select_branch($('.node-class,.node-instance', $elt).get(0));
+                    };
 
                     //open the first class
-                    tree.open_branch($firstClass, false, function(){
-                       _.delay(function(){ //needed as jstree seems to doesn't know the callbacks right now...
+                     
+                    tree.open_branch($firstClass, false, _.delay(nodeSelection, 10)); //delay needed as jstree seems to doesn't know the callbacks right now...,
 
-
-                            //the node to select is given 
-                            if(selectNode){
-                                 $selectNode = $('#' + selectNode, $elt);
-                                 if($selectNode.length && !$selectNode.hasClass('private')){
-                                    return tree.select_branch($selectNode);
-                                 }
-                            }
-
-                            //try to select the last one
-                            if(treeStore && treeStore.lastSelected){
-                                $lastSelected = $('#' +  treeStore.lastSelected, $elt);
-                                if($lastSelected.length && !$lastSelected.hasClass('private')){
-                                    return tree.select_branch($lastSelected);
-                                }
-                            }
-
-                            //or the 1st instance
-                            if ($firstInstance.length) {
-                                return tree.select_branch($firstInstance);
-                            }
-                            //or something else
-                            return tree.select_branch($('.node-class,.node-instance', $elt).get(0));
-                        }, 10);
-                    });                 
 
                     /**
                      * The tree state has changed
