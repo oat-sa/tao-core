@@ -34,7 +34,7 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 	{
 		parent::__construct();
 		//the service is initialized by default
-		$this->service = tao_models_classes_lock_OntoLock::singleton();
+		$this->service = tao_models_classes_lock_DbLock::singleton();
 		$this->defaultData();
 	}
 	

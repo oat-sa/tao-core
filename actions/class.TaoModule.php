@@ -37,7 +37,7 @@ use oat\tao\model\menu\MenuService;
  
  */
 abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
-	
+
 	 /**
      * If you want striclty to check if the resource is locked,
      * you should use tao_models_classes_lock_OntoLock::singleton()->isLocked($resource)
@@ -45,45 +45,61 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
      * @return boolean
      */
     protected function isLocked($resource, $view){
-         if (tao_models_classes_lock_OntoLock::singleton()->isLocked($resource)) {
-                $lockData = tao_models_classes_lock_OntoLock::singleton()->getLockData($resource);
-                $this->setData('label', $resource->getLabel());
-                $this->setData('itemUri', tao_helpers_Uri::encode($resource->getUri()));
-                
-                $rEpoch = date('Y-m-d H:i:s', strval($lockData->getEpoch()));
-                
-                $this->setData('epoch',$rEpoch );
+        $lockService = tao_models_classes_lock_DbLock::singleton();
 
-                $this->setData('owner', $lockData->getOwner()->getUri());
-                $ownerLogin = '';
-                try {
-                    $ownerLogin = $lockData->getOwner()->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
-                    
-                } catch (Exception $e) {
-                    $ownerLogin = 'Unknown User';
-                }
-                $ownerEmail = '';
-                try {
-                    $ownerEmail = $lockData->getOwner()->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_MAIL));
+        if (!$lockService->isLocked($resource)) {
+            return false;
+        }
 
-                } catch (Exception $e) {
-                    $ownerEmail = 'Unknown Email';
-                }
-                $isOwner = ($lockData->getOwner()->getUri() == tao_models_classes_UserService::singleton()->getCurrentUser()->getUri());
-                //$isAdmin = tao_models_classes_UserService::singleton()
+        $lockData = $lockService->getLockData($resource);
+        if ($lockData === false) {
+            return false;
+        }
 
-                $this->setData('isOwner',  $isOwner);
+        $userService = tao_models_classes_UserService::singleton();
 
-                $this->setData('ownerLogin', $ownerLogin);
-                $this->setData('ownerMail', $ownerEmail);
-                $this->setData('destinationUrl', tao_helpers_Uri::url(null, null, null, $this->getRequestParameters())); 
-                $this->setView($view);
-              
-                
-                return true;
-            } else {
-                return false;
-            }
+        $user  = $userService->getCurrentUser();
+        $owner = $lockData->getOwner();
+        $isOwner = ($owner->getUri() == $user->getUri());
+
+        if ($isOwner) {
+            $this->setData('isOwner', true);
+        }
+        elseif ($userService->userHasRoles($user, new core_kernel_classes_Resource(INSTANCE_ROLE_SYSADMIN))) {
+            $this->setData('isAdmin', true);
+        }
+
+        $this->setData('label', $resource->getLabel());
+        $this->setData('itemUri', tao_helpers_Uri::encode($resource->getUri()));
+
+        $rEpoch = date('Y-m-d H:i:s', strval($lockData->getEpoch()));
+
+        $this->setData('epoch',$rEpoch );
+
+        $this->setData('owner', $owner->getUri());
+        $ownerLogin = '';
+        try {
+            $ownerLogin = $owner->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
+
+        } catch (Exception $e) {
+            $ownerLogin = 'Unknown User';
+        }
+        $ownerEmail = '';
+        try {
+            $ownerEmail = $owner->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_MAIL));
+
+        } catch (Exception $e) {
+            $ownerEmail = 'Unknown Email';
+        }
+
+        $this->setData('ownerLogin', $ownerLogin);
+        $this->setData('ownerMail', $ownerEmail);
+        $this->setData('destinationUrl', tao_helpers_Uri::url(null, null, null, $this->getRequestParameters())); 
+        $this->setView($view);
+
+
+        return true;
+
     }
 
     /**
