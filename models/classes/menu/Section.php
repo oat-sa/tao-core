@@ -162,6 +162,14 @@ class Section extends MenuElement implements PhpSerializable
         $this->actions[] = $action;
     }
 
+    public function removeAction(Action $action)
+    {
+        $index = array_search($action, $this->actions, true);
+        if($index !== false) {
+            unset($this->actions[$index]);
+        }
+    }
+
     /**
      * @param string $groupId
      * @return array

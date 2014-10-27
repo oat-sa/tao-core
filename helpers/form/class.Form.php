@@ -439,7 +439,7 @@ abstract class tao_helpers_form_Form
 
         
 		foreach($this->elements as $element){
-			 
+
 			 if($this->getElementGroup($element->getName()) != ''){
 			 	continue;	//render grouped elements after  
 			 }
@@ -509,14 +509,14 @@ abstract class tao_helpers_form_Form
 			if(!is_null($subGroupDecorator)){
 				$returnValue .= $subGroupDecorator->preRender();
 			}
-			
 			foreach($this->elements as $element){
 				 if($this->getElementGroup($element->getName()) == $groupName){
-				 
+
 				 	if(!is_null($this->getDecorator())){// && !($element instanceof tao_helpers_form_elements_Hidden) ){
+
 					 	$returnValue .= $this->getDecorator()->preRender();
 					 }
-					 
+
 					 //render element
 					 $returnValue .= $element->render();
 					 
@@ -533,7 +533,7 @@ abstract class tao_helpers_form_Form
 					 		$returnValue .= $this->getDecorator('help')->postRender();
 					 	}
 					 }
-					 
+
 					 //render error message
 					 if(!$this->isValid() && $element->getError() != ''){
 					 	if(!is_null($this->getDecorator('error'))){
@@ -558,7 +558,7 @@ abstract class tao_helpers_form_Form
 				$this->getDecorator('group')->setOption('id', '');
 			}
 		}
-        
+
 
         return (string) $returnValue;
     }

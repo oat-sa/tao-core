@@ -12,16 +12,23 @@ style all elements inside its main interface.
 To make it easier to maintain, instead of including all styles here, we import
 other files.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -34,140 +41,140 @@ other files.
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\124"; }
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
 
 .cke_button__undo_icon:before {
-  content: "\125"; }
+  content: "\e612"; }
 
 .cke_button__redo_icon:before {
-  content: "\126"; }
+  content: "\e613"; }
 
 .cke_button__find_icon:before {
-  content: "\134"; }
+  content: "\e61f"; }
 
 .cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\135"; }
+  content: "\e620"; }
 
 .cke_button__bulletedlist_icon:before {
-  content: "\13f"; }
+  content: "\e62a"; }
 
 .cke_button__numberedlist_icon:before {
-  content: "\140"; }
+  content: "\e62b"; }
 
 .cke_button__horizontalrule_icon:before {
-  content: "\160"; }
+  content: "\e64c"; }
 
 .cke_button__table_icon:before {
-  content: "\161"; }
+  content: "\e64d"; }
 
 .cke_button__anchor_icon:before {
-  content: "\162"; }
+  content: "\e64e"; }
 
 .cke_button__unlink_icon:before {
-  content: "\163"; }
+  content: "\e64f"; }
 
 .cke_button__link_icon:before {
-  content: "\164"; }
+  content: "\e650"; }
 
 .cke_button__bidirtl_icon:before {
-  content: "\165"; }
+  content: "\e651"; }
 
 .cke_button__bidiltr_icon:before {
-  content: "\166"; }
+  content: "\e652"; }
 
 .cke_button__specialchar_icon:before {
-  content: "\167"; }
+  content: "\e653"; }
 
 .cke_button__sourcedialog_icon:before {
-  content: "\168"; }
+  content: "\e654"; }
 
 .cke_button__newpage_icon:before {
-  content: "\169"; }
+  content: "\e655"; }
 
 .cke_button__templates_icon:before {
-  content: "\16a"; }
+  content: "\e656"; }
 
 .cke_button__cut_icon:before {
-  content: "\16b"; }
+  content: "\e657"; }
 
 .cke_button__replace_icon:before {
-  content: "\16c"; }
+  content: "\e658"; }
 
 .cke_button__copy_icon:before {
-  content: "\16d"; }
+  content: "\e659"; }
 
 .cke_button__paste_icon:before {
-  content: "\16e"; }
+  content: "\e65a"; }
 
 .cke_button__selectall_icon:before {
-  content: "\16f"; }
+  content: "\e65b"; }
 
 .cke_button__pastetext_icon:before {
-  content: "\170"; }
+  content: "\e65c"; }
 
 .cke_button__pastefromword_icon:before {
-  content: "\171"; }
+  content: "\e65d"; }
 
 .cke_button__bold_icon:before {
-  content: "\172"; }
+  content: "\e65e"; }
 
 .cke_button__italic_icon:before {
-  content: "\173"; }
+  content: "\e65f"; }
 
 .cke_button__underline_icon:before {
-  content: "\174"; }
+  content: "\e660"; }
 
 .cke_button__subscript_icon:before {
-  content: "\175"; }
+  content: "\e661"; }
 
 .cke_button__superscript_icon:before {
-  content: "\176"; }
+  content: "\e662"; }
 
 .cke_button__strike_icon:before {
-  content: "\177"; }
+  content: "\e663"; }
 
 .cke_button__outdent_icon:before {
-  content: "\178"; }
+  content: "\e664"; }
 
 .cke_button__indent_icon:before {
-  content: "\179"; }
+  content: "\e665"; }
 
 .cke_button__blockquote_icon:before {
-  content: "\17a"; }
+  content: "\e666"; }
 
 .cke_button__creatediv_icon:before {
-  content: "\17b"; }
+  content: "\e667"; }
 
 .cke_button__justifyleft_icon:before {
-  content: "\17c"; }
+  content: "\e668"; }
 
 .cke_button__justifycenter_icon:before {
-  content: "\17d"; }
+  content: "\e669"; }
 
 .cke_button__justifyright_icon:before {
-  content: "\17e"; }
+  content: "\e66a"; }
 
 .cke_button__justifyblock_icon:before {
-  content: "\17f"; }
+  content: "\e66b"; }
 
 .cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\184"; }
+  content: "\e670"; }
 
 .cke_button__textcolor_icon:before {
-  content: "\196"; }
+  content: "\e682"; }
 
 .cke_button__bgcolor_icon:before {
-  content: "\197"; }
+  content: "\e683"; }
 
 .cke_button__scayt_icon:before {
-  content: "\198"; }
+  content: "\e684"; }
 
 .cke_button__radio_icon:before {
-  content: "\1b1"; }
+  content: "\e69a"; }
 
 .cke_button__taoqtimaths_icon:before {
-  content: "\1c6"; }
+  content: "\e6ac"; }
 
 /* "Reset" styles, necessary to avoid the editor UI being broken by external CSS. */
 /*
@@ -193,16 +200,23 @@ editors:
 To understand why "reset" is needed, check the CKEditor Skin SDK:
 http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -215,140 +229,140 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\124"; }
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
 
 .cke_button__undo_icon:before {
-  content: "\125"; }
+  content: "\e612"; }
 
 .cke_button__redo_icon:before {
-  content: "\126"; }
+  content: "\e613"; }
 
 .cke_button__find_icon:before {
-  content: "\134"; }
+  content: "\e61f"; }
 
 .cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\135"; }
+  content: "\e620"; }
 
 .cke_button__bulletedlist_icon:before {
-  content: "\13f"; }
+  content: "\e62a"; }
 
 .cke_button__numberedlist_icon:before {
-  content: "\140"; }
+  content: "\e62b"; }
 
 .cke_button__horizontalrule_icon:before {
-  content: "\160"; }
+  content: "\e64c"; }
 
 .cke_button__table_icon:before {
-  content: "\161"; }
+  content: "\e64d"; }
 
 .cke_button__anchor_icon:before {
-  content: "\162"; }
+  content: "\e64e"; }
 
 .cke_button__unlink_icon:before {
-  content: "\163"; }
+  content: "\e64f"; }
 
 .cke_button__link_icon:before {
-  content: "\164"; }
+  content: "\e650"; }
 
 .cke_button__bidirtl_icon:before {
-  content: "\165"; }
+  content: "\e651"; }
 
 .cke_button__bidiltr_icon:before {
-  content: "\166"; }
+  content: "\e652"; }
 
 .cke_button__specialchar_icon:before {
-  content: "\167"; }
+  content: "\e653"; }
 
 .cke_button__sourcedialog_icon:before {
-  content: "\168"; }
+  content: "\e654"; }
 
 .cke_button__newpage_icon:before {
-  content: "\169"; }
+  content: "\e655"; }
 
 .cke_button__templates_icon:before {
-  content: "\16a"; }
+  content: "\e656"; }
 
 .cke_button__cut_icon:before {
-  content: "\16b"; }
+  content: "\e657"; }
 
 .cke_button__replace_icon:before {
-  content: "\16c"; }
+  content: "\e658"; }
 
 .cke_button__copy_icon:before {
-  content: "\16d"; }
+  content: "\e659"; }
 
 .cke_button__paste_icon:before {
-  content: "\16e"; }
+  content: "\e65a"; }
 
 .cke_button__selectall_icon:before {
-  content: "\16f"; }
+  content: "\e65b"; }
 
 .cke_button__pastetext_icon:before {
-  content: "\170"; }
+  content: "\e65c"; }
 
 .cke_button__pastefromword_icon:before {
-  content: "\171"; }
+  content: "\e65d"; }
 
 .cke_button__bold_icon:before {
-  content: "\172"; }
+  content: "\e65e"; }
 
 .cke_button__italic_icon:before {
-  content: "\173"; }
+  content: "\e65f"; }
 
 .cke_button__underline_icon:before {
-  content: "\174"; }
+  content: "\e660"; }
 
 .cke_button__subscript_icon:before {
-  content: "\175"; }
+  content: "\e661"; }
 
 .cke_button__superscript_icon:before {
-  content: "\176"; }
+  content: "\e662"; }
 
 .cke_button__strike_icon:before {
-  content: "\177"; }
+  content: "\e663"; }
 
 .cke_button__outdent_icon:before {
-  content: "\178"; }
+  content: "\e664"; }
 
 .cke_button__indent_icon:before {
-  content: "\179"; }
+  content: "\e665"; }
 
 .cke_button__blockquote_icon:before {
-  content: "\17a"; }
+  content: "\e666"; }
 
 .cke_button__creatediv_icon:before {
-  content: "\17b"; }
+  content: "\e667"; }
 
 .cke_button__justifyleft_icon:before {
-  content: "\17c"; }
+  content: "\e668"; }
 
 .cke_button__justifycenter_icon:before {
-  content: "\17d"; }
+  content: "\e669"; }
 
 .cke_button__justifyright_icon:before {
-  content: "\17e"; }
+  content: "\e66a"; }
 
 .cke_button__justifyblock_icon:before {
-  content: "\17f"; }
+  content: "\e66b"; }
 
 .cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\184"; }
+  content: "\e670"; }
 
 .cke_button__textcolor_icon:before {
-  content: "\196"; }
+  content: "\e682"; }
 
 .cke_button__bgcolor_icon:before {
-  content: "\197"; }
+  content: "\e683"; }
 
 .cke_button__scayt_icon:before {
-  content: "\198"; }
+  content: "\e684"; }
 
 .cke_button__radio_icon:before {
-  content: "\1b1"; }
+  content: "\e69a"; }
 
 .cke_button__taoqtimaths_icon:before {
-  content: "\1c6"; }
+  content: "\e6ac"; }
 
 /* Reset for single elements, not their children. */
 .cke_reset {
@@ -519,6 +533,8 @@ Special outer level classes used in this file:
   -webkit-border-radius: 2px;
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
 
 .cke_float .cke_top {
@@ -527,7 +543,7 @@ Special outer level classes used in this file:
 .cke_bottom {
   padding: 1px;
   position: relative;
-  border: 1px solid #dddddd;
+  border: 1px solid #ddd;
   border-radius: 2px;
   -webkit-border-radius: 2px;
   /*
@@ -654,16 +670,23 @@ The following is a visual representation of the outer elements of a panel:
 This file also defines styles for panel lists (used by combos). For menu-like
 panel contents and color panels check menu.css and colorpanel.css.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -676,140 +699,140 @@ panel contents and color panels check menu.css and colorpanel.css.
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\124"; }
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
 
 .cke_button__undo_icon:before {
-  content: "\125"; }
+  content: "\e612"; }
 
 .cke_button__redo_icon:before {
-  content: "\126"; }
+  content: "\e613"; }
 
 .cke_button__find_icon:before {
-  content: "\134"; }
+  content: "\e61f"; }
 
 .cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\135"; }
+  content: "\e620"; }
 
 .cke_button__bulletedlist_icon:before {
-  content: "\13f"; }
+  content: "\e62a"; }
 
 .cke_button__numberedlist_icon:before {
-  content: "\140"; }
+  content: "\e62b"; }
 
 .cke_button__horizontalrule_icon:before {
-  content: "\160"; }
+  content: "\e64c"; }
 
 .cke_button__table_icon:before {
-  content: "\161"; }
+  content: "\e64d"; }
 
 .cke_button__anchor_icon:before {
-  content: "\162"; }
+  content: "\e64e"; }
 
 .cke_button__unlink_icon:before {
-  content: "\163"; }
+  content: "\e64f"; }
 
 .cke_button__link_icon:before {
-  content: "\164"; }
+  content: "\e650"; }
 
 .cke_button__bidirtl_icon:before {
-  content: "\165"; }
+  content: "\e651"; }
 
 .cke_button__bidiltr_icon:before {
-  content: "\166"; }
+  content: "\e652"; }
 
 .cke_button__specialchar_icon:before {
-  content: "\167"; }
+  content: "\e653"; }
 
 .cke_button__sourcedialog_icon:before {
-  content: "\168"; }
+  content: "\e654"; }
 
 .cke_button__newpage_icon:before {
-  content: "\169"; }
+  content: "\e655"; }
 
 .cke_button__templates_icon:before {
-  content: "\16a"; }
+  content: "\e656"; }
 
 .cke_button__cut_icon:before {
-  content: "\16b"; }
+  content: "\e657"; }
 
 .cke_button__replace_icon:before {
-  content: "\16c"; }
+  content: "\e658"; }
 
 .cke_button__copy_icon:before {
-  content: "\16d"; }
+  content: "\e659"; }
 
 .cke_button__paste_icon:before {
-  content: "\16e"; }
+  content: "\e65a"; }
 
 .cke_button__selectall_icon:before {
-  content: "\16f"; }
+  content: "\e65b"; }
 
 .cke_button__pastetext_icon:before {
-  content: "\170"; }
+  content: "\e65c"; }
 
 .cke_button__pastefromword_icon:before {
-  content: "\171"; }
+  content: "\e65d"; }
 
 .cke_button__bold_icon:before {
-  content: "\172"; }
+  content: "\e65e"; }
 
 .cke_button__italic_icon:before {
-  content: "\173"; }
+  content: "\e65f"; }
 
 .cke_button__underline_icon:before {
-  content: "\174"; }
+  content: "\e660"; }
 
 .cke_button__subscript_icon:before {
-  content: "\175"; }
+  content: "\e661"; }
 
 .cke_button__superscript_icon:before {
-  content: "\176"; }
+  content: "\e662"; }
 
 .cke_button__strike_icon:before {
-  content: "\177"; }
+  content: "\e663"; }
 
 .cke_button__outdent_icon:before {
-  content: "\178"; }
+  content: "\e664"; }
 
 .cke_button__indent_icon:before {
-  content: "\179"; }
+  content: "\e665"; }
 
 .cke_button__blockquote_icon:before {
-  content: "\17a"; }
+  content: "\e666"; }
 
 .cke_button__creatediv_icon:before {
-  content: "\17b"; }
+  content: "\e667"; }
 
 .cke_button__justifyleft_icon:before {
-  content: "\17c"; }
+  content: "\e668"; }
 
 .cke_button__justifycenter_icon:before {
-  content: "\17d"; }
+  content: "\e669"; }
 
 .cke_button__justifyright_icon:before {
-  content: "\17e"; }
+  content: "\e66a"; }
 
 .cke_button__justifyblock_icon:before {
-  content: "\17f"; }
+  content: "\e66b"; }
 
 .cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\184"; }
+  content: "\e670"; }
 
 .cke_button__textcolor_icon:before {
-  content: "\196"; }
+  content: "\e682"; }
 
 .cke_button__bgcolor_icon:before {
-  content: "\197"; }
+  content: "\e683"; }
 
 .cke_button__scayt_icon:before {
-  content: "\198"; }
+  content: "\e684"; }
 
 .cke_button__radio_icon:before {
-  content: "\1b1"; }
+  content: "\e69a"; }
 
 .cke_button__taoqtimaths_icon:before {
-  content: "\1c6"; }
+  content: "\e6ac"; }
 
 /* The box that holds an IFRAME. It's inserted into a host document and positioned
    absolutely by the application. It floats above the host document/editor. */
@@ -1112,16 +1135,23 @@ Special outer level classes used in this file:
 	.cke_hc: Available when the editor is rendered on "High Contrast".
 	.cke_rtl: Available when the editor UI is on RTL.
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -1134,140 +1164,140 @@ Special outer level classes used in this file:
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\124"; }
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
 
 .cke_button__undo_icon:before {
-  content: "\125"; }
+  content: "\e612"; }
 
 .cke_button__redo_icon:before {
-  content: "\126"; }
+  content: "\e613"; }
 
 .cke_button__find_icon:before {
-  content: "\134"; }
+  content: "\e61f"; }
 
 .cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\135"; }
+  content: "\e620"; }
 
 .cke_button__bulletedlist_icon:before {
-  content: "\13f"; }
+  content: "\e62a"; }
 
 .cke_button__numberedlist_icon:before {
-  content: "\140"; }
+  content: "\e62b"; }
 
 .cke_button__horizontalrule_icon:before {
-  content: "\160"; }
+  content: "\e64c"; }
 
 .cke_button__table_icon:before {
-  content: "\161"; }
+  content: "\e64d"; }
 
 .cke_button__anchor_icon:before {
-  content: "\162"; }
+  content: "\e64e"; }
 
 .cke_button__unlink_icon:before {
-  content: "\163"; }
+  content: "\e64f"; }
 
 .cke_button__link_icon:before {
-  content: "\164"; }
+  content: "\e650"; }
 
 .cke_button__bidirtl_icon:before {
-  content: "\165"; }
+  content: "\e651"; }
 
 .cke_button__bidiltr_icon:before {
-  content: "\166"; }
+  content: "\e652"; }
 
 .cke_button__specialchar_icon:before {
-  content: "\167"; }
+  content: "\e653"; }
 
 .cke_button__sourcedialog_icon:before {
-  content: "\168"; }
+  content: "\e654"; }
 
 .cke_button__newpage_icon:before {
-  content: "\169"; }
+  content: "\e655"; }
 
 .cke_button__templates_icon:before {
-  content: "\16a"; }
+  content: "\e656"; }
 
 .cke_button__cut_icon:before {
-  content: "\16b"; }
+  content: "\e657"; }
 
 .cke_button__replace_icon:before {
-  content: "\16c"; }
+  content: "\e658"; }
 
 .cke_button__copy_icon:before {
-  content: "\16d"; }
+  content: "\e659"; }
 
 .cke_button__paste_icon:before {
-  content: "\16e"; }
+  content: "\e65a"; }
 
 .cke_button__selectall_icon:before {
-  content: "\16f"; }
+  content: "\e65b"; }
 
 .cke_button__pastetext_icon:before {
-  content: "\170"; }
+  content: "\e65c"; }
 
 .cke_button__pastefromword_icon:before {
-  content: "\171"; }
+  content: "\e65d"; }
 
 .cke_button__bold_icon:before {
-  content: "\172"; }
+  content: "\e65e"; }
 
 .cke_button__italic_icon:before {
-  content: "\173"; }
+  content: "\e65f"; }
 
 .cke_button__underline_icon:before {
-  content: "\174"; }
+  content: "\e660"; }
 
 .cke_button__subscript_icon:before {
-  content: "\175"; }
+  content: "\e661"; }
 
 .cke_button__superscript_icon:before {
-  content: "\176"; }
+  content: "\e662"; }
 
 .cke_button__strike_icon:before {
-  content: "\177"; }
+  content: "\e663"; }
 
 .cke_button__outdent_icon:before {
-  content: "\178"; }
+  content: "\e664"; }
 
 .cke_button__indent_icon:before {
-  content: "\179"; }
+  content: "\e665"; }
 
 .cke_button__blockquote_icon:before {
-  content: "\17a"; }
+  content: "\e666"; }
 
 .cke_button__creatediv_icon:before {
-  content: "\17b"; }
+  content: "\e667"; }
 
 .cke_button__justifyleft_icon:before {
-  content: "\17c"; }
+  content: "\e668"; }
 
 .cke_button__justifycenter_icon:before {
-  content: "\17d"; }
+  content: "\e669"; }
 
 .cke_button__justifyright_icon:before {
-  content: "\17e"; }
+  content: "\e66a"; }
 
 .cke_button__justifyblock_icon:before {
-  content: "\17f"; }
+  content: "\e66b"; }
 
 .cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\184"; }
+  content: "\e670"; }
 
 .cke_button__textcolor_icon:before {
-  content: "\196"; }
+  content: "\e682"; }
 
 .cke_button__bgcolor_icon:before {
-  content: "\197"; }
+  content: "\e683"; }
 
 .cke_button__scayt_icon:before {
-  content: "\198"; }
+  content: "\e684"; }
 
 .cke_button__radio_icon:before {
-  content: "\1b1"; }
+  content: "\e69a"; }
 
 .cke_button__taoqtimaths_icon:before {
-  content: "\1c6"; }
+  content: "\e6ac"; }
 
 /* The box that holds each toolbar. */
 .cke_toolbar {
@@ -1282,7 +1312,7 @@ Special outer level classes used in this file:
 .cke_toolgroup {
   float: left;
   margin: 0 2px 2px 0;
-  border: 1px solid #dddddd;
+  border: 1px solid #ddd;
   border-radius: 2px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 1px;
@@ -1309,7 +1339,7 @@ Special outer level classes used in this file:
   cursor: pointer;
   float: left;
   border: 0;
-  color: #222222; }
+  color: #222; }
 
 .cke .cke_toolbar .cke_button:hover {
   background: #3e7da7 !important;
@@ -1683,16 +1713,23 @@ The visual representation of a rich combo widget looks as follows:
 | +----------------------+ +------------------------------------------------------+ |
 +-----------------------------------------------------------------------------------+
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -1705,140 +1742,140 @@ The visual representation of a rich combo widget looks as follows:
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\124"; }
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
 
 .cke_button__undo_icon:before {
-  content: "\125"; }
+  content: "\e612"; }
 
 .cke_button__redo_icon:before {
-  content: "\126"; }
+  content: "\e613"; }
 
 .cke_button__find_icon:before {
-  content: "\134"; }
+  content: "\e61f"; }
 
 .cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\135"; }
+  content: "\e620"; }
 
 .cke_button__bulletedlist_icon:before {
-  content: "\13f"; }
+  content: "\e62a"; }
 
 .cke_button__numberedlist_icon:before {
-  content: "\140"; }
+  content: "\e62b"; }
 
 .cke_button__horizontalrule_icon:before {
-  content: "\160"; }
+  content: "\e64c"; }
 
 .cke_button__table_icon:before {
-  content: "\161"; }
+  content: "\e64d"; }
 
 .cke_button__anchor_icon:before {
-  content: "\162"; }
+  content: "\e64e"; }
 
 .cke_button__unlink_icon:before {
-  content: "\163"; }
+  content: "\e64f"; }
 
 .cke_button__link_icon:before {
-  content: "\164"; }
+  content: "\e650"; }
 
 .cke_button__bidirtl_icon:before {
-  content: "\165"; }
+  content: "\e651"; }
 
 .cke_button__bidiltr_icon:before {
-  content: "\166"; }
+  content: "\e652"; }
 
 .cke_button__specialchar_icon:before {
-  content: "\167"; }
+  content: "\e653"; }
 
 .cke_button__sourcedialog_icon:before {
-  content: "\168"; }
+  content: "\e654"; }
 
 .cke_button__newpage_icon:before {
-  content: "\169"; }
+  content: "\e655"; }
 
 .cke_button__templates_icon:before {
-  content: "\16a"; }
+  content: "\e656"; }
 
 .cke_button__cut_icon:before {
-  content: "\16b"; }
+  content: "\e657"; }
 
 .cke_button__replace_icon:before {
-  content: "\16c"; }
+  content: "\e658"; }
 
 .cke_button__copy_icon:before {
-  content: "\16d"; }
+  content: "\e659"; }
 
 .cke_button__paste_icon:before {
-  content: "\16e"; }
+  content: "\e65a"; }
 
 .cke_button__selectall_icon:before {
-  content: "\16f"; }
+  content: "\e65b"; }
 
 .cke_button__pastetext_icon:before {
-  content: "\170"; }
+  content: "\e65c"; }
 
 .cke_button__pastefromword_icon:before {
-  content: "\171"; }
+  content: "\e65d"; }
 
 .cke_button__bold_icon:before {
-  content: "\172"; }
+  content: "\e65e"; }
 
 .cke_button__italic_icon:before {
-  content: "\173"; }
+  content: "\e65f"; }
 
 .cke_button__underline_icon:before {
-  content: "\174"; }
+  content: "\e660"; }
 
 .cke_button__subscript_icon:before {
-  content: "\175"; }
+  content: "\e661"; }
 
 .cke_button__superscript_icon:before {
-  content: "\176"; }
+  content: "\e662"; }
 
 .cke_button__strike_icon:before {
-  content: "\177"; }
+  content: "\e663"; }
 
 .cke_button__outdent_icon:before {
-  content: "\178"; }
+  content: "\e664"; }
 
 .cke_button__indent_icon:before {
-  content: "\179"; }
+  content: "\e665"; }
 
 .cke_button__blockquote_icon:before {
-  content: "\17a"; }
+  content: "\e666"; }
 
 .cke_button__creatediv_icon:before {
-  content: "\17b"; }
+  content: "\e667"; }
 
 .cke_button__justifyleft_icon:before {
-  content: "\17c"; }
+  content: "\e668"; }
 
 .cke_button__justifycenter_icon:before {
-  content: "\17d"; }
+  content: "\e669"; }
 
 .cke_button__justifyright_icon:before {
-  content: "\17e"; }
+  content: "\e66a"; }
 
 .cke_button__justifyblock_icon:before {
-  content: "\17f"; }
+  content: "\e66b"; }
 
 .cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\184"; }
+  content: "\e670"; }
 
 .cke_button__textcolor_icon:before {
-  content: "\196"; }
+  content: "\e682"; }
 
 .cke_button__bgcolor_icon:before {
-  content: "\197"; }
+  content: "\e683"; }
 
 .cke_button__scayt_icon:before {
-  content: "\198"; }
+  content: "\e684"; }
 
 .cke_button__radio_icon:before {
-  content: "\1b1"; }
+  content: "\e69a"; }
 
 .cke_button__taoqtimaths_icon:before {
-  content: "\1c6"; }
+  content: "\e6ac"; }
 
 /* The box that hold the entire combo widget */
 .cke_combo {
@@ -1869,7 +1906,7 @@ The visual representation of a rich combo widget looks as follows:
 .cke_combo_button {
   display: inline-block;
   margin: 0 2px 0 0;
-  border: 1px solid #dddddd;
+  border: 1px solid #ddd;
   border-radius: 2px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -2050,16 +2087,23 @@ a.cke_path_item:active {
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -2072,140 +2116,140 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\124"; }
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
 
 .cke_button__undo_icon:before {
-  content: "\125"; }
+  content: "\e612"; }
 
 .cke_button__redo_icon:before {
-  content: "\126"; }
+  content: "\e613"; }
 
 .cke_button__find_icon:before {
-  content: "\134"; }
+  content: "\e61f"; }
 
 .cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\135"; }
+  content: "\e620"; }
 
 .cke_button__bulletedlist_icon:before {
-  content: "\13f"; }
+  content: "\e62a"; }
 
 .cke_button__numberedlist_icon:before {
-  content: "\140"; }
+  content: "\e62b"; }
 
 .cke_button__horizontalrule_icon:before {
-  content: "\160"; }
+  content: "\e64c"; }
 
 .cke_button__table_icon:before {
-  content: "\161"; }
+  content: "\e64d"; }
 
 .cke_button__anchor_icon:before {
-  content: "\162"; }
+  content: "\e64e"; }
 
 .cke_button__unlink_icon:before {
-  content: "\163"; }
+  content: "\e64f"; }
 
 .cke_button__link_icon:before {
-  content: "\164"; }
+  content: "\e650"; }
 
 .cke_button__bidirtl_icon:before {
-  content: "\165"; }
+  content: "\e651"; }
 
 .cke_button__bidiltr_icon:before {
-  content: "\166"; }
+  content: "\e652"; }
 
 .cke_button__specialchar_icon:before {
-  content: "\167"; }
+  content: "\e653"; }
 
 .cke_button__sourcedialog_icon:before {
-  content: "\168"; }
+  content: "\e654"; }
 
 .cke_button__newpage_icon:before {
-  content: "\169"; }
+  content: "\e655"; }
 
 .cke_button__templates_icon:before {
-  content: "\16a"; }
+  content: "\e656"; }
 
 .cke_button__cut_icon:before {
-  content: "\16b"; }
+  content: "\e657"; }
 
 .cke_button__replace_icon:before {
-  content: "\16c"; }
+  content: "\e658"; }
 
 .cke_button__copy_icon:before {
-  content: "\16d"; }
+  content: "\e659"; }
 
 .cke_button__paste_icon:before {
-  content: "\16e"; }
+  content: "\e65a"; }
 
 .cke_button__selectall_icon:before {
-  content: "\16f"; }
+  content: "\e65b"; }
 
 .cke_button__pastetext_icon:before {
-  content: "\170"; }
+  content: "\e65c"; }
 
 .cke_button__pastefromword_icon:before {
-  content: "\171"; }
+  content: "\e65d"; }
 
 .cke_button__bold_icon:before {
-  content: "\172"; }
+  content: "\e65e"; }
 
 .cke_button__italic_icon:before {
-  content: "\173"; }
+  content: "\e65f"; }
 
 .cke_button__underline_icon:before {
-  content: "\174"; }
+  content: "\e660"; }
 
 .cke_button__subscript_icon:before {
-  content: "\175"; }
+  content: "\e661"; }
 
 .cke_button__superscript_icon:before {
-  content: "\176"; }
+  content: "\e662"; }
 
 .cke_button__strike_icon:before {
-  content: "\177"; }
+  content: "\e663"; }
 
 .cke_button__outdent_icon:before {
-  content: "\178"; }
+  content: "\e664"; }
 
 .cke_button__indent_icon:before {
-  content: "\179"; }
+  content: "\e665"; }
 
 .cke_button__blockquote_icon:before {
-  content: "\17a"; }
+  content: "\e666"; }
 
 .cke_button__creatediv_icon:before {
-  content: "\17b"; }
+  content: "\e667"; }
 
 .cke_button__justifyleft_icon:before {
-  content: "\17c"; }
+  content: "\e668"; }
 
 .cke_button__justifycenter_icon:before {
-  content: "\17d"; }
+  content: "\e669"; }
 
 .cke_button__justifyright_icon:before {
-  content: "\17e"; }
+  content: "\e66a"; }
 
 .cke_button__justifyblock_icon:before {
-  content: "\17f"; }
+  content: "\e66b"; }
 
 .cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\184"; }
+  content: "\e670"; }
 
 .cke_button__textcolor_icon:before {
-  content: "\196"; }
+  content: "\e682"; }
 
 .cke_button__bgcolor_icon:before {
-  content: "\197"; }
+  content: "\e683"; }
 
 .cke_button__scayt_icon:before {
-  content: "\198"; }
+  content: "\e684"; }
 
 .cke_button__radio_icon:before {
-  content: "\1b1"; }
+  content: "\e69a"; }
 
 .cke_button__taoqtimaths_icon:before {
-  content: "\1c6"; }
+  content: "\e6ac"; }
 
 /* "Source" button label */
 .cke_button__source_label,
@@ -2231,16 +2275,23 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   background-color: #fff; }
 
 /* Tao specific stuff */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -2253,140 +2304,140 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\124"; }
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
 
 .cke_button__undo_icon:before {
-  content: "\125"; }
+  content: "\e612"; }
 
 .cke_button__redo_icon:before {
-  content: "\126"; }
+  content: "\e613"; }
 
 .cke_button__find_icon:before {
-  content: "\134"; }
+  content: "\e61f"; }
 
 .cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\135"; }
+  content: "\e620"; }
 
 .cke_button__bulletedlist_icon:before {
-  content: "\13f"; }
+  content: "\e62a"; }
 
 .cke_button__numberedlist_icon:before {
-  content: "\140"; }
+  content: "\e62b"; }
 
 .cke_button__horizontalrule_icon:before {
-  content: "\160"; }
+  content: "\e64c"; }
 
 .cke_button__table_icon:before {
-  content: "\161"; }
+  content: "\e64d"; }
 
 .cke_button__anchor_icon:before {
-  content: "\162"; }
+  content: "\e64e"; }
 
 .cke_button__unlink_icon:before {
-  content: "\163"; }
+  content: "\e64f"; }
 
 .cke_button__link_icon:before {
-  content: "\164"; }
+  content: "\e650"; }
 
 .cke_button__bidirtl_icon:before {
-  content: "\165"; }
+  content: "\e651"; }
 
 .cke_button__bidiltr_icon:before {
-  content: "\166"; }
+  content: "\e652"; }
 
 .cke_button__specialchar_icon:before {
-  content: "\167"; }
+  content: "\e653"; }
 
 .cke_button__sourcedialog_icon:before {
-  content: "\168"; }
+  content: "\e654"; }
 
 .cke_button__newpage_icon:before {
-  content: "\169"; }
+  content: "\e655"; }
 
 .cke_button__templates_icon:before {
-  content: "\16a"; }
+  content: "\e656"; }
 
 .cke_button__cut_icon:before {
-  content: "\16b"; }
+  content: "\e657"; }
 
 .cke_button__replace_icon:before {
-  content: "\16c"; }
+  content: "\e658"; }
 
 .cke_button__copy_icon:before {
-  content: "\16d"; }
+  content: "\e659"; }
 
 .cke_button__paste_icon:before {
-  content: "\16e"; }
+  content: "\e65a"; }
 
 .cke_button__selectall_icon:before {
-  content: "\16f"; }
+  content: "\e65b"; }
 
 .cke_button__pastetext_icon:before {
-  content: "\170"; }
+  content: "\e65c"; }
 
 .cke_button__pastefromword_icon:before {
-  content: "\171"; }
+  content: "\e65d"; }
 
 .cke_button__bold_icon:before {
-  content: "\172"; }
+  content: "\e65e"; }
 
 .cke_button__italic_icon:before {
-  content: "\173"; }
+  content: "\e65f"; }
 
 .cke_button__underline_icon:before {
-  content: "\174"; }
+  content: "\e660"; }
 
 .cke_button__subscript_icon:before {
-  content: "\175"; }
+  content: "\e661"; }
 
 .cke_button__superscript_icon:before {
-  content: "\176"; }
+  content: "\e662"; }
 
 .cke_button__strike_icon:before {
-  content: "\177"; }
+  content: "\e663"; }
 
 .cke_button__outdent_icon:before {
-  content: "\178"; }
+  content: "\e664"; }
 
 .cke_button__indent_icon:before {
-  content: "\179"; }
+  content: "\e665"; }
 
 .cke_button__blockquote_icon:before {
-  content: "\17a"; }
+  content: "\e666"; }
 
 .cke_button__creatediv_icon:before {
-  content: "\17b"; }
+  content: "\e667"; }
 
 .cke_button__justifyleft_icon:before {
-  content: "\17c"; }
+  content: "\e668"; }
 
 .cke_button__justifycenter_icon:before {
-  content: "\17d"; }
+  content: "\e669"; }
 
 .cke_button__justifyright_icon:before {
-  content: "\17e"; }
+  content: "\e66a"; }
 
 .cke_button__justifyblock_icon:before {
-  content: "\17f"; }
+  content: "\e66b"; }
 
 .cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\184"; }
+  content: "\e670"; }
 
 .cke_button__textcolor_icon:before {
-  content: "\196"; }
+  content: "\e682"; }
 
 .cke_button__bgcolor_icon:before {
-  content: "\197"; }
+  content: "\e683"; }
 
 .cke_button__scayt_icon:before {
-  content: "\198"; }
+  content: "\e684"; }
 
 .cke_button__radio_icon:before {
-  content: "\1b1"; }
+  content: "\e69a"; }
 
 .cke_button__taoqtimaths_icon:before {
-  content: "\1c6"; }
+  content: "\e6ac"; }
 
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
@@ -2451,16 +2502,40 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     bottom: -6px; }
 
 /* Icon set */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @include icon('down');
- */
-/*
- * Fade animation
- */
-/*
- * Repeat animation
- */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -2473,140 +2548,140 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\124"; }
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
 
 .cke_button__undo_icon:before {
-  content: "\125"; }
+  content: "\e612"; }
 
 .cke_button__redo_icon:before {
-  content: "\126"; }
+  content: "\e613"; }
 
 .cke_button__find_icon:before {
-  content: "\134"; }
+  content: "\e61f"; }
 
 .cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\135"; }
+  content: "\e620"; }
 
 .cke_button__bulletedlist_icon:before {
-  content: "\13f"; }
+  content: "\e62a"; }
 
 .cke_button__numberedlist_icon:before {
-  content: "\140"; }
+  content: "\e62b"; }
 
 .cke_button__horizontalrule_icon:before {
-  content: "\160"; }
+  content: "\e64c"; }
 
 .cke_button__table_icon:before {
-  content: "\161"; }
+  content: "\e64d"; }
 
 .cke_button__anchor_icon:before {
-  content: "\162"; }
+  content: "\e64e"; }
 
 .cke_button__unlink_icon:before {
-  content: "\163"; }
+  content: "\e64f"; }
 
 .cke_button__link_icon:before {
-  content: "\164"; }
+  content: "\e650"; }
 
 .cke_button__bidirtl_icon:before {
-  content: "\165"; }
+  content: "\e651"; }
 
 .cke_button__bidiltr_icon:before {
-  content: "\166"; }
+  content: "\e652"; }
 
 .cke_button__specialchar_icon:before {
-  content: "\167"; }
+  content: "\e653"; }
 
 .cke_button__sourcedialog_icon:before {
-  content: "\168"; }
+  content: "\e654"; }
 
 .cke_button__newpage_icon:before {
-  content: "\169"; }
+  content: "\e655"; }
 
 .cke_button__templates_icon:before {
-  content: "\16a"; }
+  content: "\e656"; }
 
 .cke_button__cut_icon:before {
-  content: "\16b"; }
+  content: "\e657"; }
 
 .cke_button__replace_icon:before {
-  content: "\16c"; }
+  content: "\e658"; }
 
 .cke_button__copy_icon:before {
-  content: "\16d"; }
+  content: "\e659"; }
 
 .cke_button__paste_icon:before {
-  content: "\16e"; }
+  content: "\e65a"; }
 
 .cke_button__selectall_icon:before {
-  content: "\16f"; }
+  content: "\e65b"; }
 
 .cke_button__pastetext_icon:before {
-  content: "\170"; }
+  content: "\e65c"; }
 
 .cke_button__pastefromword_icon:before {
-  content: "\171"; }
+  content: "\e65d"; }
 
 .cke_button__bold_icon:before {
-  content: "\172"; }
+  content: "\e65e"; }
 
 .cke_button__italic_icon:before {
-  content: "\173"; }
+  content: "\e65f"; }
 
 .cke_button__underline_icon:before {
-  content: "\174"; }
+  content: "\e660"; }
 
 .cke_button__subscript_icon:before {
-  content: "\175"; }
+  content: "\e661"; }
 
 .cke_button__superscript_icon:before {
-  content: "\176"; }
+  content: "\e662"; }
 
 .cke_button__strike_icon:before {
-  content: "\177"; }
+  content: "\e663"; }
 
 .cke_button__outdent_icon:before {
-  content: "\178"; }
+  content: "\e664"; }
 
 .cke_button__indent_icon:before {
-  content: "\179"; }
+  content: "\e665"; }
 
 .cke_button__blockquote_icon:before {
-  content: "\17a"; }
+  content: "\e666"; }
 
 .cke_button__creatediv_icon:before {
-  content: "\17b"; }
+  content: "\e667"; }
 
 .cke_button__justifyleft_icon:before {
-  content: "\17c"; }
+  content: "\e668"; }
 
 .cke_button__justifycenter_icon:before {
-  content: "\17d"; }
+  content: "\e669"; }
 
 .cke_button__justifyright_icon:before {
-  content: "\17e"; }
+  content: "\e66a"; }
 
 .cke_button__justifyblock_icon:before {
-  content: "\17f"; }
+  content: "\e66b"; }
 
 .cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\184"; }
+  content: "\e670"; }
 
 .cke_button__textcolor_icon:before {
-  content: "\196"; }
+  content: "\e682"; }
 
 .cke_button__bgcolor_icon:before {
-  content: "\197"; }
+  content: "\e683"; }
 
 .cke_button__scayt_icon:before {
-  content: "\198"; }
+  content: "\e684"; }
 
 .cke_button__radio_icon:before {
-  content: "\1b1"; }
+  content: "\e69a"; }
 
 .cke_button__taoqtimaths_icon:before {
-  content: "\1c6"; }
+  content: "\e6ac"; }
 
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the
@@ -2641,3 +2716,5 @@ legend.cke_voice_label {
 */
 .cke_top {
   display: table; }
+
+/*# sourceMappingURL=editor.css.map */

@@ -98,11 +98,6 @@ $todefine = array(
 	'PROPERTY_OAUTH_SECRET'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret',
     'PROPERTY_OAUTH_CALLBACK'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl',
     
-	'CLASS_GENERIS_COMMENT'				=> 'http://www.tao.lu/Ontologies/generis.rdf#comment',
-	'PROPERTY_GENERIS_RESOURCE_COMMENT'	=> 'http://www.tao.lu/Ontologies/generis.rdf#generisRessourceComment',
-	'PROPERTY_COMMENT_AUTHOR'		=> 'http://www.tao.lu/Ontologies/generis.rdf#commentAuthor',
-	'PROPERTY_COMMENT_TIMESTAMP'	=> 'http://www.tao.lu/Ontologies/generis.rdf#commentTimestamp',
-    
     // @todo properly migrate service and service calls to tao
     'CLASS_CALLOFSERVICES'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfServices',
     'PROPERTY_CALLOFSERVICES_SERVICEDEFINITION'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesServiceDefinition',

@@ -19,6 +19,25 @@
  */
 
 
+                                     /*
+                                    /  \
+                                   |    |
+                                 --:'''':--
+   THIS CODE IS GENERATED          :*_* :
+                                   _:"":\___
+   AUTOMAGICALLY    * *      ____.' :::     '._
+                   * *=====<<=)           \    :
+   DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                     \====:_ ""
+                                    .'     \\
+                                   :       :
+                                  /   :    \
+                                 :   .      '.
+                                 :  : :      :
+                                 :__:-:__.;--'
+                                <*_/   <*/
+                                 
+
 
 /**
  * Icon helper for tao - helpers/class.Icon.php
@@ -27,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-08-28 17:00
+ * @date   2014-10-27 13:51:42
  * @package tao
  * @subpackage helpers
  */
@@ -56,6 +75,12 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_ICON = 'icon-icon';
+    const CLASS_RADIO_BG = 'icon-radio-bg';
+    const CLASS_CHECKBOX_BG = 'icon-checkbox-bg';
+    const CLASS_TAG = 'icon-tag';
+    const CLASS_STYLE = 'icon-style';
+    const CLASS_OWNERSHIP_TRANSFER = 'icon-ownership-transfer';
     const CLASS_PROPERTY_ADVANCED = 'icon-property-advanced';
     const CLASS_PROPERTY_ADD = 'icon-property-add';
     const CLASS_REPOSITORY_ADD = 'icon-repository-add';
@@ -233,6 +258,30 @@ class tao_helpers_Icon {
     /**
      * List of all icons as function
      */
+
+    public static function iconIcon($options=array()){
+        return self::buildIcon(self::CLASS_ICON, $options);
+    }
+
+    public static function iconRadioBg($options=array()){
+        return self::buildIcon(self::CLASS_RADIO_BG, $options);
+    }
+
+    public static function iconCheckboxBg($options=array()){
+        return self::buildIcon(self::CLASS_CHECKBOX_BG, $options);
+    }
+
+    public static function iconTag($options=array()){
+        return self::buildIcon(self::CLASS_TAG, $options);
+    }
+
+    public static function iconStyle($options=array()){
+        return self::buildIcon(self::CLASS_STYLE, $options);
+    }
+
+    public static function iconOwnershipTransfer($options=array()){
+        return self::buildIcon(self::CLASS_OWNERSHIP_TRANSFER, $options);
+    }
 
     public static function iconPropertyAdvanced($options=array()){
         return self::buildIcon(self::CLASS_PROPERTY_ADVANCED, $options);

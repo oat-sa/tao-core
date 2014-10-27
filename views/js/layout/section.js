@@ -154,10 +154,11 @@ define([
                 .off('click.section', 'li')
                 .on('click.section', 'li', function(e){
                      e.preventDefault();
-
                      var id = $(this).children('a').attr('href').replace('#panel-', '');
                      var section = self.sections[id];
-                     self.get(id).activate();
+                     if(!section.disabled){
+                         self.get(id).activate();
+                     }
                 });
 
             //display the openers only if there is more than 1 section

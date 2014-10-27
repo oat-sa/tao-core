@@ -371,8 +371,9 @@ label {
     .property-heading-label {
         padding-left: 5px;
         &:before {
-            font-size: 12px;
-            content: '• ';
+            font-size: 16px;
+            margin-right : 5px;
+            content: '\2022 ';
             line-height: 2px;
             opacity: .8;
         }
@@ -470,6 +471,27 @@ label {
         display:inline-block;
     }
 
+
+    .form-group {
+        & > div > div {
+            position: relative;
+            .has-unit {
+                padding-right: 45px
+            }
+            .unit {
+                position: absolute;
+                top: 1px;
+                right: 1px;
+                background: $canvas;
+                width: auto;
+                display: block;
+                padding: 3px 10px;
+                @include border-radius-right();
+                opacity: .8;
+                cursor: default;
+            }
+        }
+    }
 
     .btn-info {
         float:left;
