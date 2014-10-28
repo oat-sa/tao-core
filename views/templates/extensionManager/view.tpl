@@ -1,8 +1,9 @@
 <?php
 use oat\tao\helpers\Template;
-?><link rel="stylesheet" type="text/css" href="<?= Template::css('extensionManager.css') ?>" />
+?>
+<link rel="stylesheet" type="text/css" href="<?= Template::css('extensionManager.css') ?>" />
 
-<div class="data-container-wrapper standalone">
+<div class="flex-container-full">
     <div class="grid-row">
         <div class="col-6">
             <h2><?= __('Installed Extensions') ?></h2>

@@ -25,6 +25,8 @@ use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
 use oat\tao\model\menu\Action;
+use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
+use oat\tao\model\accessControl\ActionResolver;
 use \common_session_SessionManager;
 
 /**
@@ -221,11 +223,11 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('shownStructure', $structure);
 		                
         //creates the URL of the action used to configure the client side
-        $clientConfigParameters = array(
+        $clientConfigParams = array(
             'shownExtension' => $extension,
             'shownStructure' => $structure
         );
-        $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParameters));
+        $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParams));
         $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
 
 		$this->setView('layout.tpl', 'tao');
@@ -308,6 +310,7 @@ class tao_actions_Main extends tao_actions_CommonModule
     {
 
         $sections = array();
+        $user = common_Session_SessionManager::getSession()->getUser();
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
         foreach ($structure->getChildren() as $section) {
             
@@ -318,6 +321,15 @@ class tao_actions_Main extends tao_actions_CommonModule
                     $section->getExtensionId()
                 )
             ) {
+
+                foreach($section->getActions() as $action){
+                    $resolver = ActionResolver::getByControllerName($action->getController(), $action->getExtensionId());  
+                    if(!FuncProxy::accessPossible($user, $resolver->getController(), $action->getAction())){
+                        $section->removeAction($action); 
+                    }
+                    
+                }
+
 				$sections[] = $section;
             }
         }

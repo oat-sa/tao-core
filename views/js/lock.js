@@ -19,29 +19,35 @@
 
 define(['jquery', 'helpers'], function($, helpers){
 
+    /**
+     * Lock management
+     * @exports lock
+     * @constructor
+     * @param {String} resourceUri - the uri of the locked resource
+     */
     function Lock (resourceUri){
         this.uri = resourceUri;
     }
 
-    /*
-     * @param {type} callback
-     * @returns {undefined}
+    /**
+     * Release the lock on the current resource
+     * @memberOf Lock
+     * @param {Function} cb - callback once release
+     * @param {Function} err - errorback  unable to release 
      */
-    Lock.prototype.release = function (successCallBack, failureCallBack){
+    Lock.prototype.release = function (cb, err){
 
-        var releaseUrl = helpers._url('release', 'lock', 'tao' );
+        var releaseUrl = helpers._url('release', 'Lock', 'tao' );
         var options = { 
             data: { uri : this.uri },
             type: 'POST',
             dataType: 'json'
         };
-        $.ajax(releaseUrl, options).done(function(retData, textStatus, jqxhr){
-            successCallBack();
-        }).fail(function(jqxhr){
-            failureCallBack();
-        });
+        
+        $.ajax(releaseUrl, options)
+            .success(cb)
+            .fail(err);
     };
 
     return Lock;
-    
 });

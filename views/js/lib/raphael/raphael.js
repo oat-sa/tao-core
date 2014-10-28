@@ -1,5 +1,5 @@
 // ┌────────────────────────────────────────────────────────────────────┐ \\
-// │ Raphaël 2.1.1 - JavaScript Vector Library                          │ \\
+// │ Raphaël 2.1.2 - JavaScript Vector Library                          │ \\
 // ├────────────────────────────────────────────────────────────────────┤ \\
 // │ Copyright © 2008-2012 Dmitry Baranovskiy (http://raphaeljs.com)    │ \\
 // │ Copyright © 2008-2012 Sencha Labs (http://sencha.com)              │ \\
@@ -376,9 +376,9 @@
         return "You are running Eve " + version;
     };
     (typeof module != "undefined" && module.exports) ? (module.exports = eve) : (typeof define != "undefined" ? (define("eve", [], function() { return eve; })) : (glob.eve = eve));
-})(this);
+})(window || this);
 // ┌─────────────────────────────────────────────────────────────────────┐ \\
-// │ "Raphaël 2.1.0" - JavaScript Vector Library                         │ \\
+// │ "Raphaël 2.1.2" - JavaScript Vector Library                         │ \\
 // ├─────────────────────────────────────────────────────────────────────┤ \\
 // │ Copyright (c) 2008-2011 Dmitry Baranovskiy (http://raphaeljs.com)   │ \\
 // │ Copyright (c) 2008-2011 Sencha Labs (http://sencha.com)             │ \\
@@ -395,7 +395,7 @@
     } else {
         // Browser globals (glob is window)
         // Raphael adds itself to window
-        factory(glob, glob.eve);
+        factory(glob, glob.eve || (typeof require == "function" && require('eve')) );
     }
 }(this, function (window, eve) {
     /*\
@@ -465,7 +465,7 @@
             }
         }
     }
-    R.version = "2.1.0";
+    R.version = "2.1.2";
     R.eve = eve;
     var loaded,
         separator = /[, ]+/,
@@ -946,8 +946,10 @@
             i.style.display = "none";
             g.doc.body.appendChild(i);
             toHex = cacher(function (color) {
+                var computedStyle;
                 i.style.color = color;
-                return g.doc.defaultView.getComputedStyle(i, E).getPropertyValue("color");
+                computedStyle = g.doc.defaultView.getComputedStyle(i, E);
+                return computedStyle ? computedStyle.getPropertyValue("color") : color;
             });
         }
         return toHex(color);
@@ -2362,11 +2364,11 @@
                 attrs = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
                 attrs2 = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
                 processPath = function (path, d, pcom) {
-                    var nx, ny;
+                    var nx, ny, tq = {T:1, Q:1};
                     if (!path) {
                         return ["C", d.x, d.y, d.x, d.y, d.x, d.y];
                     }
-                    !(path[0] in {T:1, Q:1}) && (d.qx = d.qy = null);
+                    !(path[0] in tq) && (d.qx = d.qy = null);
                     switch (path[0]) {
                         case "M":
                             d.X = path[1];
@@ -5412,7 +5414,6 @@
         var isPointInside = false;
         this.forEach(function (el) {
             if (el.isPointInside(x, y)) {
-                console.log('runned');
                 isPointInside = true;
                 return false; // stop loop
             }
@@ -6078,13 +6079,20 @@
                     case "blur":
                         o.blur(value);
                         break;
-                    case "href":
                     case "title":
-                        var hl = $("title");
-                        var val = R._g.doc.createTextNode(value);
-                        hl.appendChild(val);
-                        node.appendChild(hl);
+                        var title = node.getElementsByTagName("title");
+
+                        // Use the existing <title>.
+                        if (title.length && (title = title[0])) {
+                          title.firstChild.nodeValue = value;
+                        } else {
+                          title = $("title");
+                          var val = R._g.doc.createTextNode(value);
+                          title.appendChild(val);
+                          node.appendChild(title);
+                        }
                         break;
+                    case "href":
                     case "target":
                         var pn = node.parentNode;
                         if (pn.tagName.toLowerCase() != "a") {
@@ -6322,7 +6330,9 @@
         }
         var a = el.attrs,
             node = el.node,
-            fontSize = node.firstChild ? toInt(R._g.doc.defaultView.getComputedStyle(node.firstChild, E).getPropertyValue("font-size"), 10) : 10;
+            computedStyle = node.firstChild ? R._g.doc.defaultView.getComputedStyle(node.firstChild, E) : undefined,
+            fontSize = computedStyle ? toInt(computedStyle.getPropertyValue("font-size"), 10) : 10;
+        
 
         if (params[has]("text")) {
             a.text = params.text;
@@ -7020,7 +7030,7 @@
         eve("raphael.setViewBox", this, this._viewBox, [x, y, w, h, fit]);
         var size = mmax(w / this.width, h / this.height),
             top = this.top,
-            aspectRatio = fit ? "meet" : "xMinYMin",
+            aspectRatio = fit ? "xMidYMid meet" : "xMinYMin",
             vb,
             sw;
         if (x == null) {
@@ -7433,7 +7443,7 @@
             params["stroke-linejoin"] && (stroke.joinstyle = params["stroke-linejoin"] || "miter");
             stroke.miterlimit = params["stroke-miterlimit"] || 8;
             params["stroke-linecap"] && (stroke.endcap = params["stroke-linecap"] == "butt" ? "flat" : params["stroke-linecap"] == "square" ? "square" : "round");
-            if (params["stroke-dasharray"]) {
+            if ("stroke-dasharray" in params) {
                 var dasharray = {
                     "-": "shortdash",
                     ".": "shortdot",
@@ -8107,5 +8117,8 @@
     // Even with AMD, Raphael should be defined globally
     oldRaphael.was ? (g.win.Raphael = R) : (Raphael = R);
 
+    if(typeof exports == "object"){
+        module.exports = R;
+    }
     return R;
 }));

@@ -19,9 +19,7 @@
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
-?>
-<?php
-require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
+use oat\tao\test\TaoPhpUnitTestRunner;
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -214,6 +212,7 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		
 		// Ascending case-insensitive.
 		$sortedTus = $tf->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC);
+		$this->assertFalse(empty($sortedTus),'array should not be empty');
 		$this->assertTrue($sortedTus[0]->getSource() == ' This begins with a white space');
 		$this->assertTrue($sortedTus[8]->getSource() == 'kings are great');
 		$this->assertTrue($sortedTus[10]->getSource() == 'öhïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N');

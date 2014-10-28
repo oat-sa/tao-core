@@ -50,7 +50,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 $this->setData('label', $resource->getLabel());
                 $this->setData('itemUri', tao_helpers_Uri::encode($resource->getUri()));
                 
-                ;
                 $rEpoch = date('Y-m-d H:i:s', strval($lockData->getEpoch()));
                 
                 $this->setData('epoch',$rEpoch );
@@ -77,6 +76,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
                 $this->setData('ownerLogin', $ownerLogin);
                 $this->setData('ownerMail', $ownerEmail);
+                $this->setData('destinationUrl', tao_helpers_Uri::url(null, null, null, $this->getRequestParameters())); 
                 $this->setView($view);
               
                 
@@ -321,7 +321,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$options['labelFilter'] = $this->getRequestParameter('filter');
 		}
 		
-                if($this->hasRequestParameter("selected")){
+        if($this->hasRequestParameter("selected")){
 			$options['browse'] = array($this->getRequestParameter("selected"));
 		}
 		if($this->hasRequestParameter('hideInstances')){
@@ -364,7 +364,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
             try{
                 $actions[$index] = array(
                     'resolver'  => new ActionResolver($action->getUrl()),
-                    'name'      => $action->getName(),
+                    'id'      => $action->getId(),
                     'context'   => $action->getContext()
                 );
             } catch(\ResolverException $re){
@@ -400,10 +400,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 if($node['type'] == $action['context'] || $action['context'] == 'resource'){
                     $resolver = $action['resolver'];
                     try{
-                        $node['permissions'][$action['name']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']);
+                        $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $node['_data']);
                     //@todo should be a checked exception!
                     } catch(Exception $e){
-                        common_Logger::d($e->getMessage() );
+                        common_Logger::d('Unable to resolve permission for action ' . $action['id'] . ' : ' . $e->getMessage() );
                     }
                 }
             }
@@ -573,7 +573,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$this->setData('formTitle', __('Manage content of the property ').$property->getLabel().__(' of the instance ').$ownerInstance->getLabel());
 			$this->setData('myForm', $myForm->render());
 		
-			$this->setView('form_content.tpl');
+			$this->setView('form.tpl');
 		}
 		
 	}
@@ -768,42 +768,32 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
 	public function moveInstance()
 	{
-		
-		if($this->hasRequestParameter('destinationClassUri')){
-			
-			if(!$this->hasRequestParameter('classUri') && $this->hasRequestParameter('uri')){
-				$instance = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-				$clazz = $this->service->getClass($instance);
-			}
-			else{
-				$clazz = $this->getCurrentClass();
-				$instance = $this->getCurrentInstance();
-			}	
-			
-			
-			$destinationUri = $this->getRequestParameter('destinationClassUri');
+	    $response = array();	
+		if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
+            $instance = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+            $clazz = $this->service->getClass($instance);
+			$destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
+
 			if(!empty($destinationUri) && $destinationUri != $clazz->getUri()){
-				$destinationClass = new core_kernel_classes_Class(tao_helpers_Uri::decode($destinationUri));
+				$destinationClass = new core_kernel_classes_Class($destinationUri);
 				
 				$confirmed = $this->getRequestParameter('confirmed');
-				if($confirmed == 'false' || $confirmed ===  false){
+				if(empty($confirmed) || $confirmed == 'false' || $confirmed ===  false){
 					
 					$diff = $this->service->getPropertyDiff($clazz, $destinationClass);
-				
 					if(count($diff) > 0){
-						echo json_encode(array(
+					    return $this->returnJson(array(
 							'status'	=> 'diff',
 							'data'		=> $diff
 						));
-						return true;
 					}
-				}
+				}  
 				
-				$this->setSessionAttribute('showNodeUri', tao_helpers_Uri::encode($instance->getUri()));
-				$status = $this->service->changeClass($instance, $destinationClass);
-				echo json_encode(array('status'	=> $status));
+                $status = $this->service->changeClass($instance, $destinationClass);
+                $response = array('status'	=> $status);
 			}
 		}
+        $this->returnJson($response);
 	}
 	
 	/**
@@ -994,7 +984,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					}
 				}
 			}
-			$this->setData('openAction', 'generisActions.select');
 			if(tao_helpers_Context::check('STANDALONE_MODE')){
 				$this->setData('openAction', 'alert');
 			}
@@ -1101,14 +1090,14 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		echo json_encode ($returnValue);
 	}
-	
+
 	/**
 	 * Get property values for a sub set of filtered instances
 	 * @param {RequestParameter|string} propertyUri Uri of the target property
 	 * @param {RequestParameter|string} classUri Uri of the target class
 	 * @param {RequestParameter|array} filter Array of propertyUri/propertyValue used to filter instances of the target class
 	 * @param {RequestParameter|array} filterNodesOptions Array of options used by other filter nodes
-	 * @return {array} formated for tree 
+	 * @return {array} formated for tree
 	 */
 	public function getFilteredInstancesPropertiesValues()
 	{
@@ -1188,12 +1177,13 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		echo json_encode($data);
 	}
-	
+
 	/**
 	 * returns a FilterState object from the parameters
-	 * 
+	 *
 	 * @param string $identifier
-	 * @return FilterState
+	 * @throws common_Exception
+	 * @return \FilterState
 	 */
 	protected function getFilterState($identifier) {
 		if (!$this->hasRequestParameter($identifier)) {
@@ -1210,9 +1200,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		return $state;
 	}
-	
+
 	/**
 	 * Render the add property sub form.
+	 * @throws Exception
 	 * @return void
 	 */
 	public function addClassProperty()
@@ -1246,8 +1237,38 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		$this->setData('data', $myForm->renderElements());
 		$this->setView('blank.tpl', 'tao');
-	}	
-	
+	}
+
+
+	/**
+	 * Render the add property sub form.
+	 * @throws Exception
+	 * @return void
+	 */
+	public function removeClassProperty()
+	{
+		$success = false;
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+
+		//delete property mode
+		foreach($this->getCurrentClass()->getProperties() as $classProperty){
+			if($classProperty->getUri() == tao_helpers_Uri::decode($this->getRequestParameter('uri'))){
+
+				//delete property and the existing values of this property
+				if($classProperty->delete(true)){
+					$success = true;
+					break;
+				}
+			}
+		}
+
+		if(!$success){
+			throw new Exception("Unable to find property");
+		}
+	}
+
 	/**
 	 * delete an instance or a class
 	 * called via ajax
@@ -1275,4 +1296,3 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		echo json_encode(array('deleted'	=> $deleted));
 	}
 }
-?>

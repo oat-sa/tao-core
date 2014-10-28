@@ -8,10 +8,14 @@
  */
 define([
     'jquery',
-    'helpers',
-    'layout/post-render-props'
-], function($, helpers, postRenderProps) {
+    'helpers'
+], function($, helpers) {
     
+    console.warn('Hello I am the GenerisActions  and I am deprecated. I am there from a long but now I am tired, I need to retire. Please talk to my son layout/action.');
+
+    /*
+     * DEPRECATED
+     */
         var mainTree;
     
 	var GenerisActions = {
@@ -159,41 +163,6 @@ define([
 			}
 			params = params.replace(/,$/, '');
 			window.open(url, 'preview', params);
-		},
-		/**
-		 * Add a new property
-		 * @param {String} uri
-		 * @param {String} classUri
-		 * @param {String} url
-		 */
-		addProperty: function (uri, classUri, url) {
-            var $existingProperties = $('.property-block'),
-                index = $existingProperties.length;
-
-            $existingProperties.each(function() {
-                index = Math.max(parseInt(this.id.replace(/[\D]+/, '')), index);
-            });
-            index++;
-
-			$.ajax({
-				url: url,
-				type: "POST",
-				data: {
-					index: index,
-					classUri: classUri
-				},
-				dataType: 'html',
-				success: function(response){
-                    response = $(response);
-                    // reduce response to a single jquery object by adding the hidden input to the div
-                    var property = response.last(),
-                        input = response.first();
-
-                    input.appendTo(property);
-
-                    postRenderProps.init(property);
-				}
-			});
 		},
 		/**
 		 * Load the result table with the tree instances in parameter

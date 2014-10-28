@@ -48,7 +48,14 @@ module.exports = function(grunt, root){
            var paths = { };
            extensions = extensions || self.getExtensions(true);
            extensions.forEach(function(extension){
-               paths[extension] = path.relative('../js', self.getExtensionPath(extension) + '/views/js');
+               var jsPath = self.getExtensionPath(extension) + '/views/js';
+               var cssPath = self.getExtensionPath(extension) + '/views/css';
+               if(grunt.file.exists(jsPath)){
+                   paths[extension] = path.relative('../js', jsPath);
+               }
+               if(grunt.file.exists(cssPath)){
+                   paths[extension + 'Css'] = path.relative('../js', cssPath);
+               }
            });
            return paths;
        },

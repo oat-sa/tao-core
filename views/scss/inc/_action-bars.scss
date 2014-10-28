@@ -30,6 +30,9 @@
             @include font-size(12);
             padding: 2px 4px;
         }
+        &.active .li-inner{
+            color: white;
+        }
     }
 
     &.horizontal-action-bar {
@@ -44,9 +47,17 @@
                 width: 14px;
             }
             &.btn-info {
-                &:hover {
+                &:hover, &.active {
                     border-color: whiten($info, .3);
                     opacity: 1;
+                }
+            }
+            &.disabled {
+                background: none !important;
+                text-shadow: inherit !important;
+                opacity : 0.45 !important;
+                a {
+                    cursor: not-allowed !important;
                 }
             }
         }

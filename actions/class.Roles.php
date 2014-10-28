@@ -145,7 +145,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 
 				core_kernel_users_Cache::removeIncludedRoles($role); // flush cache for this role.
 				
-				$this->setSessionAttribute('showNodeUri', tao_helpers_Uri::encode($role->getUri()));
+				$this->setData('selectNode', tao_helpers_Uri::encode($role->getUri()));
 				$this->setData('message', __('Role saved'));
 				$this->setData('reload', true);
 			}

@@ -60,7 +60,9 @@ function onLoad(){
 	$('form').bind('submit', function(){
 		if (install.isNextable()){
 			install.setTemplate('step_database_setup');
-		}
+		} else {
+            install.stateChange(true);
+        }
 		
 		return false;
 	});
@@ -100,10 +102,10 @@ function onLoad(){
 				install.getValidator(this, {dataType: 'regexp', pattern: "^[a-zA-Z0-9_\-]{3,63}$"});
 				validify(this);
 			break;
-                        
-                        case 'default_language':
-                            this.isValid = function() { return true; };
-                        break;
+            
+			case 'default_language':
+				this.isValid = function() { return true; };
+				break;
 			
 			default:
 				install.getValidator(this);

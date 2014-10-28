@@ -62,20 +62,21 @@ define([
             }).done(function(response) {
                 
                 var $rendering = $(layout(response));
-                var $edits = $rendering.find('.icon-edit');
-                var $removes = $rendering.find('.icon-result-nok');
                 
-                for (var i = 0; i < response.records; i++) {
-                    $edits.eq(i).click(function() {
+                $rendering
+                    .off('click', '.edit')
+                    .on('click', '.edit', function(e){
+                        e.preventDefault();    
                         var $editElt = $(this);
                         options.edit.apply($editElt, [$editElt.parent().data('user-identifier')]);
                     });
-                    
-                    $removes.eq(i).click(function() {
+                $rendering
+                    .off('click', '.remove')
+                    .on('click', '.remove', function(e){
+                        e.preventDefault();    
                         var $removeElt = $(this);
                         options.remove.apply($removeElt, [$removeElt.parent().data('user-identifier')]);
                     });
-                }
                 
                 // Now $rendering takes the place of $elt...
                 var $forwardBtn = $rendering.find('.usermgr-forward');
@@ -89,7 +90,7 @@ define([
                    userMgr._previous($rendering, options, data); 
                 });
                 
-                if (data.page == 1) {
+                if (data.page === 1) {
                     $backwardBtn.attr('disabled', '');
                 } else {
                     $backwardBtn.removeAttr('disabled');

@@ -35,11 +35,6 @@ class tao_helpers_form_elements_xhtml_Button
     protected $icon = '';
     protected $iconPosition = '';
 
-    protected static function addClass($newClass)
-    {
-        // $clasNa
-    }
-
     public function setIcon($icon, $position = 'before')
     {
         $this->icon         = '<span class="' . $icon . '"></span>';

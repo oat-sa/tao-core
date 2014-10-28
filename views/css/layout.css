@@ -52,7 +52,7 @@ ul.group-list li.group, ul.group-list li.selectable { list-style: none; border-b
 ul.group-list li ul.actions { list-style: none; display: inline-block; min-width: 8px; padding-right: 5px; width: auto; vertical-align: top; }
 ul.group-list li ul.actions li { display: inline-block; margin: 5px 0; padding: 0; width: 16px; height: 16px; }
 ul.group-list li:last-child { border-bottom: 0; list-style: none; }
-ul.group-list li:hover:not(.group) { background-color: #cccccc; }
+ul.group-list li:hover:not(.group) { background-color: #ccc; }
 ul.group-list li.selected { background-color: #9f9; }
 ul.group-list li.selected:hover { background-color: #9c9; }
 ul.group-list li .group-title { background-color: #f0f0f0; cursor: pointer; }
@@ -79,3 +79,5 @@ ul.group-list .autoadd.checked > .selector, ul.group-list .autoadd.checked .grou
 .tileBox .boxLogo { float: left; width: 30%; height: 100%; }
 .tileBox .boxContent { float: left; width: 70%; height: 100%; }
 .tileBox .button { float: right; margin-right: 5px; margin-bottom: 5px; padding: 5px; cursor: pointer; background-color: #aaa; color: #fff; border-width: 1px; border-collapse: collapse; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
+
+/*# sourceMappingURL=layout.css.map */

@@ -1,5 +1,6 @@
 <?php
-require_once dirname(__FILE__) . '/../../tao/test/TaoPhpUnitTestRunner.php';
+namespace oat\tao\test;
+
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 abstract class RestTestCase extends TaoPhpUnitTestRunner
@@ -25,8 +26,8 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
             PROPERTY_USER_LASTNAME => 'Doe',
             PROPERTY_USER_FIRSTNAME => 'John',
             PROPERTY_USER_MAIL => 'jdoe@tao.lu',
-            PROPERTY_USER_DEFLG => tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
-            PROPERTY_USER_UILG => tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
+            PROPERTY_USER_DEFLG => \tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
+            PROPERTY_USER_UILG => \tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
             PROPERTY_USER_ROLES => array(
                 INSTANCE_ROLE_GLOBALMANAGER
             )
@@ -35,15 +36,15 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
         $testUserData[PROPERTY_USER_PASSWORD] = 'test' . rand();
         
         $data = $testUserData;
-        $data[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($data[PROPERTY_USER_PASSWORD]);
-        $tmclass = new core_kernel_classes_Class(CLASS_TAO_USER);
+        $data[PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($data[PROPERTY_USER_PASSWORD]);
+        $tmclass = new \core_kernel_classes_Class(CLASS_TAO_USER);
         $user = $tmclass->createInstanceWithProperties($data);
-        common_Logger::i('Created user ' . $user->getUri());
+        \common_Logger::i('Created user ' . $user->getUri());
         
         // prepare a lookup table of languages and values
-        $usage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_GUI);
-        $propValue = new core_kernel_classes_Property(RDF_VALUE);
-        $langService = tao_models_classes_LanguageService::singleton();
+        $usage = new \core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_GUI);
+        $propValue = new \core_kernel_classes_Property(RDF_VALUE);
+        $langService = \tao_models_classes_LanguageService::singleton();
         
         $lookup = array();
         foreach ($langService->getAvailableLanguagesByUsage($usage) as $lang) {
@@ -65,16 +66,17 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
     public function tearDown()
     {
         // removes the created user
-        $user = new core_kernel_classes_Resource($this->userUri);
+        $user = new \core_kernel_classes_Resource($this->userUri);
         $success = $user->delete();
     }
 
     /**
      * shall be used beyond high level http connections unit tests (default parameters)
-     * 
+     *
      * @param
      *            returnType CURLINFO_HTTP_CODE, etc... (default returns rhe http response data
-     *            
+     *
+     * @return mixed
      */
     protected function curl($url, $method = CURLOPT_HTTPGET, $returnType = "data", $curlopt_httpheaders = array())
     {

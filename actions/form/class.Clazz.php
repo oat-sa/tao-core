@@ -152,13 +152,21 @@ class tao_actions_form_Clazz
         $classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
 
         $i = 0;
+        $systemProperties = $this->getSystemProperties();
+
         foreach ($classProperties as $classProperty) {
             $i++;
             $useEditor  = false;
             $parentProp = true;
             $domains    = $classProperty->getDomain();
             foreach ($domains->getIterator() as $domain) {
-                if ($domain->getUri() == $clazz->getUri()) {
+
+                if (array_search($classProperty->getUri(), $systemProperties) !== false) {
+                    $parentProp = false;
+                    break;
+                }
+
+                if ($domain->getUri() == $clazz->getUri() ) {
                     $parentProp = false;
 
                     //@todo use the getPrivileges method once implemented
@@ -169,7 +177,7 @@ class tao_actions_form_Clazz
                 }
             }
 
-            if ($useEditor) {
+            if ($useEditor || $parentProp ) {
 
                 //instantiate a property form
 
@@ -178,7 +186,7 @@ class tao_actions_form_Clazz
                     $propFormClass = 'tao_actions_form_SimpleProperty';
                 }
 
-                $propFormContainer = new $propFormClass($clazz, $classProperty, array('index' => $i));
+                $propFormContainer = new $propFormClass($clazz, $classProperty, array('index' => $i, 'isParentProperty' => $parentProp ));
                 $propForm          = $propFormContainer->getForm();
 
                 //and get its elements and groups
@@ -187,26 +195,6 @@ class tao_actions_form_Clazz
 
                 unset($propForm);
                 unset($propFormContainer);
-            }
-            // properties where the parent property must be edited
-            else if ($parentProp) {
-                $domainElement = tao_helpers_form_FormFactory::getElement('parentProperty' . $i, 'Free');
-                $value         = '';
-                foreach ($domains->getIterator() as $domain) {
-                    $value .= '<span class="property-heading-toolbar">'
-                        . '<span class="property-parent-label">' . $domain->getLabel() . '</span> '
-                        . '<a href="#" data-parent-property-uri="' . tao_helpers_Uri::encode($domain->getUri()) . 'class="icon-edit"></a>'
-                        . '</span>';
-                }
-                $domainElement->setValue($value);
-                $this->form->addElement($domainElement);
-
-                $groupTitle = '<span class="property-heading-label">' . _dh($classProperty->getLabel()) . '</span>'
-                    . '<span class="property-heading-toolbar">'
-                    . '<span class="icon-edit"></span>'
-                    . '</span>';
-
-                $this->form->createGroup("parent_property_{$i}", $groupTitle, array('parentProperty' . $i));
             }
             // read only properties
             else {
@@ -218,5 +206,21 @@ class tao_actions_form_Clazz
                 $this->form->createGroup("ro_property_{$i}", $groupTitle, array('roProperty' . $i));
             }
         }
+    }
+
+    /**
+     * Returns list of all system property classes
+     * @return array
+     */
+    protected function getSystemProperties()
+    {
+        $constants = get_defined_constants(true);
+
+        $keys = array_filter(array_keys($constants['user']), function ($key) {
+            return strstr($key, 'PROPERTY') !== false;
+
+        });
+
+        return array_intersect_key($constants['user'], array_flip($keys));
     }
 }

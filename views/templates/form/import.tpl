@@ -1,10 +1,7 @@
-<div class="main-container" data-tpl="tao/import.tpl">
-    <h2><?=get_data('formTitle')?></h2>
-    <div class="form-content">
-        <?=get_data('myForm')?>
-    </div>
-</div>
-<div class="data-container-wrapper"></div>
+<?php
+use oat\tao\helpers\Template;
+Template::inc('form.tpl', 'tao');
+?>
 
 <?php if(has_data('importErrorTitle')):?>
     <?php if(get_data('importErrors')):?>
@@ -36,11 +33,14 @@ require(['jquery'], function($) {
 		
 		form.submit();
 	});
-	
+
 	//for the csv import options
 	$("#first_row_column_names_0").attr('checked', true);
 	$("#first_row_column_names_0").click(function(){
             $("#column_order").attr('disabled', this.checked);
 	});
+
+        //show the csv fields mapping combos
+        $("#property_mapping > .property-edit-container").show();
 });
 </script>

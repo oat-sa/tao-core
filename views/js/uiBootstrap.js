@@ -23,8 +23,13 @@ define([
 
     function ($, __, context, helpers, feedback, actions, treeFactory, uiForm) {
 
-    var UiBootstrap = {
+    console.warn('Hello I am the UIBootstrap and I am deprecated. I am there since TAO 1.0 but now I am tired, I need to retire.');
 
+    /*
+     * DEPRECATED
+     */
+
+    var UiBootstrap = {
         init: function (options) {
 
             //TODO move tabs to layout/section or layout/tabs
@@ -222,15 +227,15 @@ define([
             //TODO move this somewhere else (layout/nav)
 
             //load the links target into the main container instead of loading a new page
-            $(document).off('click', 'a.nav').on('click', 'a.nav', function () {
-                try {
-                    helpers._load(helpers.getMainContainerSelector(helpers.tabs), this.href);
-                }
-                catch (exp) {
-                    return false;
-                }
-                return false;
-            });
+            //$(document).off('click', 'a.nav').on('click', 'a.nav', function () {
+                //try {
+                    //helpers._load(helpers.getMainContainerSelector(helpers.tabs), this.href);
+                //}
+                //catch (exp) {
+                    //return false;
+                //}
+                //return false;
+            //});
         }
     };
 

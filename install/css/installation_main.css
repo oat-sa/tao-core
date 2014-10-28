@@ -258,6 +258,11 @@ form > ul > li > select {
 	color: #3A3A3A;
 }
 
+#installation_form .validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
 form > ul > li {
 	position: relative;
 	width:270px;

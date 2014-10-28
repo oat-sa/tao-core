@@ -1,7 +1,7 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions/common'], function($, _, uuid, binder){
+define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions/common'], function($, _, uuid, binder, commonActions){
 
     /**
      * The data context for actions
@@ -40,8 +40,11 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
                 this.$scope = $(document);
             }
 
+            //initialize the registration of common actions
+            commonActions();
+
             this._lookup();
-            this.update();
+            this.updateContext();
             this._listenUpdates();
             this._bind();
         },
@@ -78,7 +81,8 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
                         context : $this.data('context'),
                         state : {
                             disabled    : $this.hasClass('disabled'),
-                            hidden      : $this.hasClass('hidden')
+                            hidden      : $this.hasClass('hidden'),
+                            active      : $this.hasClass('active')
                         }
                     };
                 }
@@ -98,12 +102,9 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
               .off('click', actionSelector) 
               .on('click', actionSelector, function(e){
                 e.preventDefault();
-                var $this = $(this);
-               
-                $(actionSelector).removeClass('active'); 
-                if(!$this.hasClass('disabled') && !$this.hasClass('hidden')){
-                    $this.addClass('active');
-                    self.exec($this.attr('id'));
+                var selected  = self._actions[$(this).attr('id')];
+                if(selected && selected.state.disabled === false &&  selected.state.hidden === false){ 
+                    self.exec(selected);
                 }
             });
         }, 
@@ -123,7 +124,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
               .on('change.taotree.actions', treeSelector, function(e, context){
                 context = context || {};
                 context.tree = this;
-                self.update(context);
+                self.updateContext(context);
             });
         },
 
@@ -131,7 +132,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
          * Update the current context. Context update may change the visibility of the actions.
          * @param {ActionContext} context - the new context
          */
-        update : function update(context){
+        updateContext : function updateContext(context){
             var self = this;
             var current;
             var permissions;
@@ -143,18 +144,34 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
             this._resourceContext = _.omit(context, 'permissions');
 
             _.forEach(this._actions, function(action, id){
-                var $elt = $('#' + id); 
-                var permission = permissions[action.name];
+                var permission = permissions[action.id];
         
                 if( permission === false ||
                     (current === 'none' && action.context !== '*') || 
                     (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
 
-                    $elt.addClass('hidden');
+                    action.state.hidden = true;
 
                 } else {
-                    $elt.removeClass('hidden');
+                    action.state.hidden = false;
                 }
+                self.updateState();
+            });
+        },
+
+        /**
+         * Update the state of the actions regarding the values of their state property
+         */
+        updateState : function updateState(){
+            _.forEach(this._actions, function(action, id){
+                var $elt = $('#' + id);
+                _.forEach(['hidden', 'disabled', 'active'], function(state){
+                    if(action.state[state] === true){
+                        $elt.addClass(state);
+                    } else {
+                        $elt.removeClass(state);
+                    }
+                });
             });
         },
 
@@ -174,7 +191,14 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
                 }
             }
             if(_.isPlainObject(action)){
-                
+
+                //make the executed action active                
+                _.forEach(this._actions, function(otherAction){
+                    otherAction.state.active = false;
+                }); 
+                action.state.active = true; 
+                this.updateState();
+
                 binder.exec(action, context || this._resourceContext);
             }
         },

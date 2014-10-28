@@ -1,51 +1,91 @@
 @import 'inc/bootstrap';
 
+
 .section-container {
+
+    // some variations of flex children
+    $flexCols: full, half, third, quarter;
+    @for $i from 1 through length($flexCols) {
+        $width: (100 / ($i)) * 1%;
+        $flexCol: #{nth($flexCols, $i)};
+        .flex-container-#{$flexCol} {
+            @include simple-flex-box($width);
+        }
+    }
+
+    // 'whatever-is-left' container
+    .flex-container-remaining {
+        @include simple-flex-box();
+    }
+
+    // main form on left hand side
+    .flex-container-main-form {
+        @include simple-flex-box(500px);
+    }
+
+    // the one for the sidebar that usually holds tree
+    .flex-container-navi {
+        @include simple-flex-box($treeSidebar * 1px);
+    }
+
+    // @todo all simple-flex-box references below should be removed once all templates are upgraded
+
     top: 0 !important;
 
-    .content-panel.ui-tabs-panel {
+    .section-header {
+        border: none;
+    }
+
+    .content-panel {
         width: 100%;
         height: 100%;
         margin: 0;
-        padding:0;
+        padding: 0;
         border: none !important;
         @include flex-container();
     }
 
     .tab-container {
         border: none;
-        display:none;
-        &.ui-tabs-nav {
-            display:block;
-        }
-        a {
-            top: 0 !important;
-        }
+        display: none;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
         li {
-            top:0;
+            float: left;
+            position: relative;
+            top: 0;
+            padding: 0;
             margin: 0 1px 0px 0;
             border-top: 1px solid $canvas !important;
             border-bottom: 1px solid $canvas !important;
+            background: $canvas !important;
             a {
+                top: 0 !important;
                 margin-bottom: 0 !important;
+                padding: 6px 16px;
+                text-decoration: none;
+                min-height: 32px;
+                color: $textColor;
+                float: left;
             }
-            &.ui-state-default {
-                cursor:default;
-                background: $canvas !important;
-                margin-right: 1px !important;
-                &.ui-state-active {
-                    border-bottom-color: whiten($info, .25) !important;
-                    border-top-color: whiten($info, .4) !important;
-                    background: whiten($info, .1) !important;
-                    a {
-                        background: transparent !important;
-                        border-color:  transparent !important;
-                        color: $textHighlight !important;
-                    }
+            &.active, &:hover {
+                border-bottom-color: whiten($info, .25) !important;
+                border-top-color: whiten($info, .4) !important;
+                background: whiten($info, .1) !important;
+                a {
+                    background: transparent !important;
+                    border-color:  transparent !important;
+                    color: $textHighlight !important;
+                    text-shadow: 1px 1px 0 black(.2);
                 }
             }
-            &.ui-state-disabled{
-                display:none;
+            &.disabled:hover {
+                background: $canvas !important;
+                a {
+                    cursor: not-allowed !important;
+                    color: $textColor !important;
+                }
             }
         }
     }
@@ -54,7 +94,7 @@
     .navi-container {
         display:none;
         background:  $canvas;
-        @include simple-flex-box($treeSidebar);
+        @include simple-flex-box($treeSidebar * 1px);
         border-right: 1px $uiGeneralContentBorder solid;
         .block-title {
             @include font-size(14);
@@ -79,102 +119,105 @@
 
     .content-block {
         padding: 20px;
-        @include flex-container();
+        @include flex-container(wrap);
         .main-container {
-            @include simple-flex-box(500);
+            @include simple-flex-box(500px);
+        }
+        & > .grid-container {
+            width : 100%;
         }
         .data-container-wrapper {
             padding: 41px 0px 0px 20px;
             overflow:hidden;
-            &.standalone {
-                padding: 0px;
-            }
 
             @include simple-flex-box();
-            .data-container {
+            & > section, .data-container {
                 width: 260px;
                 margin: 0 20px 20px 0;
                 float: left;
                 @include simple-border();
                 .emptyContentFooter {
-                    display:none;
+                    display: none;
                 }
                 form {
-                    background:none;
-                    border:none;
+                    background: none;
+                    border: none;
                     margin: 0;
                     padding: 0;
                 }
-                .ui-widget-header {
+                & > header, .ui-widget-header {
                     background: $canvas;
-                    border-width:0px !important;
+                    border-width: 0px !important;
                     border-bottom: 1px #ddd solid !important;
+                    h1 {
+                        padding: 4px;
+                        margin: 0;
+                        @include font-size(14);
+                    }   
                 }
-                .ui-widget-content {
-                    &.data-container-footer {
-                        background: $canvas;
-                        text-align: right !important;
-                        padding:4px;
-                        border-width:0px !important;
-                        border-top: 1px #ddd solid !important;
-                        .square {
-                            width: 28px;
-                            span {
-                                padding: 0;
-                                left: 0
-                            }
+                & > div, .ui-widget-content, .container-content {
+                    border-width: 0px !important;
+                    overflow-y: auto;
+                    min-height: 250px;
+                }
+                & > footer, .data-container-footer {
+                    background: $canvas;
+                    text-align: right !important;
+                    padding: 4px;
+                    border-width: 0px !important;
+                    border-top: 1px #ddd solid !important;
+                    .square {
+                        width: 28px;
+                        span {
+                            padding: 0;
+                            left: 0
                         }
-                    }
-                    &.container-content {
-                        border-width:0px !important;
                     }
                 }
                 ol {
                     margin: 0 0 0 15px;
                     padding: 10px;
                 }
-
             }
          }
-        
         //TODO data-container like but with html rewritten, same as above, but we will need to keep only one.
-        .new-container {
-            width: 260px;
-            margin: 0 20px 20px 0;
-            float: left;
-            @include simple-border();
-            & > header{
+        /*.new-container {*/
+            /*width: 260px;*/
+            /*margin: 0 20px 20px 0;*/
+            /*float: left;*/
+            /*@include simple-border();*/
+            /*& > header{*/
 
-                background: $canvas;
-                border-width: 0px !important;
-                border-bottom: 1px #ddd solid !important;
-                h1 {
-                    padding: 4px;
-                    margin: 0;
-                    @include font-size(14);
-                }   
-            }
-            & > div {
-                overflow-y: auto;
-                min-height: 400px;
-                max-height: 400px;         
-                border-width: 0px !important;
-            }
-            & > footer{
-                background: $canvas;
-                text-align: right !important;
-                padding:4px;
-                border-width:0px !important;
-                border-top: 1px #ddd solid !important;
-                .square {
-                    width: 28px;
-                    span {
-                        padding: 0;
-                        left: 0
-                    }
-                }
-            }
-        }
+                /*background: $canvas;*/
+                /*border-width: 0px !important;*/
+                /*border-bottom: 1px #ddd solid !important;*/
+                /*h1 {*/
+                    /*padding: 4px;*/
+                    /*margin: 0;*/
+                    /*@include font-size(14);*/
+                /*}   */
+            /*}*/
+            /*& > div {*/
+                /*overflow-y: auto;*/
+                /*min-height: 400px;*/
+                /*max-height: 400px;         */
+                /*border-width: 0px !important;*/
+            /*}*/
+            /*& > footer{*/
+                /*background: $canvas;*/
+                /*text-align: right !important;*/
+                /*padding:4px;*/
+                /*border-width:0px !important;*/
+                /*border-top: 1px #ddd solid !important;*/
+                /*.square {*/
+                    /*width: 28px;*/
+                    /*span {*/
+                        /*padding: 0;*/
+                        /*left: 0*/
+                    /*}*/
+                /*}*/
+            /*}*/
+        /*}*/
         
         
 

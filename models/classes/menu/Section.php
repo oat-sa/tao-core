@@ -57,7 +57,9 @@ class Section extends MenuElement implements PhpSerializable
 			'extension'  => $extension,
 			'controller' => $controller,
 			'action'     => $action,
-            'policy'     => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE
+            'binding'    => isset($node['binding']) ? (string)$node['binding'] : null,
+            'policy'     => isset($node['policy']) ? (string)$node['policy'] : self::POLICY_MERGE,
+            'disabled'   => isset($node['disabled']) ? true : false
         );
 
         $trees = array();
@@ -119,7 +121,27 @@ class Section extends MenuElement implements PhpSerializable
     {
         return $this->data['policy'];
     }
-    
+  
+    /**
+     * Get the JavaScript binding to run instead of loading the URL
+     *
+     * @return string|null the binding name or null if none
+     */ 
+    public function getBinding()
+    {
+        return $this->data['binding'];
+    }
+ 
+    /**
+     * Is the section disabled ?
+     *
+     * @return boolean if the section is disabled
+     */ 
+    public function getDisabled()
+    {
+        return $this->data['disabled'];
+    }
+
     public function getTrees()
     {
         return $this->trees;
@@ -138,6 +160,14 @@ class Section extends MenuElement implements PhpSerializable
     public function addAction(Action $action)
     {
         $this->actions[] = $action;
+    }
+
+    public function removeAction(Action $action)
+    {
+        $index = array_search($action, $this->actions, true);
+        if($index !== false) {
+            unset($this->actions[$index]);
+        }
     }
 
     /**
@@ -170,6 +200,7 @@ class Section extends MenuElement implements PhpSerializable
               'editClassUrl' => array(
                 'attr'   => 'selectClass',
                 'action' => array(
+                    'id'      => 'edit_class',
                     'name'    => 'edit class',
                     'group'   => 'none',
                     'context' => 'class',
@@ -179,6 +210,7 @@ class Section extends MenuElement implements PhpSerializable
               'editInstanceUrl' => array(
                 'attr'   => 'selectInstance',
                 'action' => array(
+                    'id'      => 'edit_instance',
                     'name'    => 'edit instance',
                     'group'   => 'none',
                     'context' => 'instance',
@@ -188,6 +220,7 @@ class Section extends MenuElement implements PhpSerializable
               'addInstanceUrl'  => array(
                 'attr'   => 'addInstance',
                 'action' => array(
+                    'id'      => 'add_instance',
                     'name'    => 'add instance',
                     'group'   => 'none',
                     'context' => 'instance',
@@ -197,6 +230,7 @@ class Section extends MenuElement implements PhpSerializable
               'addSubClassUrl'  => array(
                 'attr'   => 'addClass',
                 'action' => array(
+                    'id'      => 'add_class',
                     'name'    => 'add class',
                     'group'   => 'none',
                     'context' => 'class',
@@ -206,6 +240,7 @@ class Section extends MenuElement implements PhpSerializable
               'deleteUrl' => array(
                 'attr'   => 'addClass',
                 'action' => array(
+                    'id'      => 'add_class',
                     'name'    => 'add class',
                     'group'   => 'none',
                     'context' => 'class',
@@ -215,6 +250,7 @@ class Section extends MenuElement implements PhpSerializable
               'moveInstanceUrl' => array(
                 'attr'   => 'moveInstance',
                 'action' => array(
+                    'id'      => 'move',
                     'name'    => 'move',
                     'group'   => 'none',
                     'context' => 'instance',
@@ -247,7 +283,7 @@ class Section extends MenuElement implements PhpSerializable
                             //try to find an action with the same url
                             foreach($this->actions as $action){
                                 if($action->getRelativeUrl() == $url){
-                                    $actionName = $action->getName();
+                                    $actionName = $action->getId();
                                     break;
                                 }
                             }

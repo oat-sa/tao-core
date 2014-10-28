@@ -4,10 +4,10 @@
  * @require jquery >= 1.4.2 [http://jquery.com/]
  * @require jstree = 0.9.9a2 [http://jstree.com/]
  *
- * @author Jehan Bihin
+ * @author Jehan Bihini
+ * @deprecated use layout/tree instead
  */
-
-define(['jquery', 'i18n', 'class', 'uiBootstrap'], function($, __, Class, uiBootstrap) {
+define(['jquery', 'i18n', 'class'], function($, __, Class) {
 	var GenerisTreeClass = Class.extend({
 		/**
 		 * Constructor
@@ -248,8 +248,6 @@ define(['jquery', 'i18n', 'class', 'uiBootstrap'], function($, __, Class, uiBoot
 					classUri = this.getClassUri(NODE);
 				}
 			}
-			
-			uiBootstrap.initActions(uri, classUri);
 		}
 	});
 

@@ -345,7 +345,7 @@ class tao_helpers_translation_TranslationFile
         $translationUnit->setSourceLanguage($this->getSourceLanguage());
         $translationUnit->setTargetLanguage($this->getTargetLanguage());
         array_push($this->translationUnits, $translationUnit);
-        
+
     }
 
     /**

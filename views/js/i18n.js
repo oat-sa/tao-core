@@ -1,4 +1,4 @@
-define(['lodash', 'json!i18n_tr', 'context', 'core/format'], function(_, i18nTr, context, format){
+define(['lodash', 'json!i18ntr/messages.json', 'context', 'core/format'], function(_, i18nTr, context, format){
     'use strict';   
  
     var translations = i18nTr.translations;
