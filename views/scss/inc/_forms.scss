@@ -512,3 +512,65 @@ input {
     }
 }
 
+div.wysiwyg{
+   border: 1px solid #ccc; padding: 5px; background-color: #fff; 
+    * { margin: 0; padding: 0; }
+
+    ul.panel{
+     border-bottom: 1px solid #ccc; float: left; width: 100%; padding: 0;
+        li { list-style: none; float: left; margin: 1px 2px 3px 0;  background: #fff; -moz-user-select: none; -webkit-user-select: none; user-select: none;}
+        li.separator { width: 1px; height: 16px; margin: 0 4px; border-left: 1px solid #ccc; }
+        li { text-indent: -5000px; opacity: 0.85; filter:alpha(opacity=85); display: block; width: 16px; height: 16px; background: url('jquery.wysiwyg.gif') no-repeat -64px -80px; border: 0; cursor: pointer; margin: 1px; }
+        li.wysiwyg-button-hover,   li.active { opacity: 1.00; filter:alpha(opacity=100); }
+        li.active { background-color: #f9f9f9; border: 1px solid #ccc; border-left-color: #aaa; border-top-color: #aaa; margin: 0; }
+
+        li.bold { background-position: 0 -16px; }
+        li.italic { background-position: -16px -16px; }
+        li.strikeThrough { background-position: -32px -16px; }
+        li.underline { background-position: -48px -16px; }
+
+        li.justifyLeft { background-position: 0 0; }
+        li.justifyCenter { background-position: -16px 0; }
+        li.justifyRight { background-position: -32px 0; }
+        li.justifyFull { background-position: -48px 0; }
+
+        li.indent { background-position: -64px 0; }
+        li.outdent { background-position: -80px 0; }
+
+        li.subscript { background-position: -64px -16px; }
+        li.superscript { background-position: -80px -16px; }
+
+        li.undo { background-position: 0 -64px; }
+        li.redo { background-position: -16px -64px; }
+
+        li.insertOrderedList { background-position: -32px -48px; }
+        li.insertUnorderedList { background-position: -16px -48px; }
+        li.insertHorizontalRule { background-position: 0 -48px; }
+
+        li.h1 { background-position: 0 -32px; }
+        li.h2 { background-position: -16px -32px; }
+        li.h3 { background-position: -32px -32px; }
+        li.h4 { background-position: -48px -32px; }
+        li.h5 { background-position: -64px -32px; }
+        li.h6 { background-position: -80px -32px; }
+
+        li.cut { background-position: -32px -64px; }
+        li.copy { background-position: -48px -64px; }
+        li.paste { background-position: -64px -64px; }
+        li.insertTable { background-position: -64px -48px; }
+
+        li.increaseFontSize { background-position: -16px -80px; }
+        li.decreaseFontSize { background-position: -32px -80px; }
+
+        li.createLink { background-position: -80px -48px; }
+        li.insertImage { background-position: -80px -80px; }
+
+        li.html { background-position: -47px -46px; }
+        li.removeFormat { background-position: -80px -63px; }
+
+        li.empty { background-position: -64px -80px; }
+    }
+
+
+    iframe { border: 0;  clear: left; margin: 4px 0 0 1px; }
+}
