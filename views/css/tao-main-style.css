@@ -45,7 +45,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -657,7 +659,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -1248,7 +1252,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -2779,7 +2785,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -3904,7 +3912,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -4775,7 +4785,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -5379,7 +5391,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -6265,7 +6279,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -7146,7 +7162,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -8192,7 +8210,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -8998,7 +9018,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -9602,7 +9624,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -10275,7 +10299,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -10889,7 +10915,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -11746,7 +11774,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -12407,7 +12437,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -13076,7 +13108,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -13814,7 +13848,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -14614,7 +14650,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -17029,7 +17067,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-radio-bg:before {
   content: "\e600"; }
 
-.icon-checkbox-bg:before {
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after,
+label [class*=" icon-checkbox"]:after, label [class^="icon-radio"]:after,
+label [class*=" icon-radio"]:after {
   content: "\e601"; }
 
 .icon-tag:before {
@@ -18111,9 +18151,15 @@ option {
 
 label {
   position: relative; }
+  label [class^="icon-checkbox"]:after,
+  label [class*=" icon-checkbox"]:after {
+    color: white !important; }
   label [class^="icon-radio"],
   label [class*=" icon-radio"] {
     padding: 0 2px 0 3px; }
+    label [class^="icon-radio"]:after,
+    label [class*=" icon-radio"]:after {
+      color: white !important; }
   label .icon-checkbox,
   label .icon-checkbox-crossed {
     padding: 0 3px 0 3px; }
@@ -18128,6 +18174,18 @@ label {
     color: #555;
     display: inline-block;
     width: 20px; }
+    label [class^="icon-"]:before, label [class^="icon-"]:after,
+    label [class*=" icon-"]:before,
+    label [class*=" icon-"]:after {
+      position: relative; }
+    label [class^="icon-"]:before,
+    label [class*=" icon-"]:before {
+      z-index: 3; }
+    label [class^="icon-"]:after,
+    label [class*=" icon-"]:after {
+      left: -1em;
+      position: relative;
+      z-index: 2; }
   label input[type="radio"],
   label input[type="checkbox"] {
     position: absolute;

@@ -214,9 +214,20 @@ option {
 
 label {
     position: relative;
+    [class^="icon-checkbox"],
+    [class*=" icon-checkbox"] {
+        &:after {
+            @extend .icon-checkbox-bg:before;
+            color:white !important;
+        }
+    }
     [class^="icon-radio"],
     [class*=" icon-radio"] {
         padding: 0 2px 0 3px;
+        &:after {
+            @extend .icon-radio-bg:before;
+            color:white !important;
+        }
     }
     .icon-checkbox,
     .icon-checkbox-crossed {
@@ -233,6 +244,17 @@ label {
         color: #555;
         display: inline-block;
         width: 20px;
+        &:before, &:after {
+            position: relative;
+        }
+        &:before {
+            z-index: 3;
+        }
+        &:after {
+            left:-1em;
+            position: relative;
+            z-index: 2;
+        }
     }
     input[type="radio"],
     input[type="checkbox"] {
