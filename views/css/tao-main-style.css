@@ -8136,6 +8136,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .item-editor-sidebar .media-sizer.media-sizer-synced .media-sizer-cover { display: none; }
 .item-editor-sidebar .media-sizer.media-sizer-synced .media-sizer-link { border-color: #ccc; opacity: 1; }
 
+.datatable-container { overflow-y: auto; }
+
 table.datatable th { cursor: not-allowed; }
 table.datatable th[data-sort-by] { cursor: pointer; }
 table.datatable th.sorted:after { float: right; }
