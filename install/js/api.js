@@ -229,8 +229,8 @@ TaoInstall.prototype.clearRegisteredElements = function(){
  * Notify the API that tao-input elements were added, modified, removed...
  * and that the registered elements can be checked again. 
  */
-TaoInstall.prototype.stateChange = function(){
-	this.checkRegisteredElements();
+TaoInstall.prototype.stateChange = function(loadingNext){
+	this.checkRegisteredElements(loadingNext === true);
 	this.storeDataForRegisteredElements();
 };
 
@@ -642,35 +642,37 @@ TaoInstall.prototype.inject = function(){
 	}
 };
 
-TaoInstall.prototype.checkRegisteredElements = function(){
-	var validity = true;
+TaoInstall.prototype.checkRegisteredElements = function(highlight){
+	var validity = true,
+        setFocus = highlight;
 	
 	for (i in this.registeredElements){
 		
-		var $registeredElement = $(this.registeredElements[i]);
+		var registeredElement = this.registeredElements[i];
 		
-		if (!$registeredElement[0].isValid()){
+		if (registeredElement.isValid()){
+			// The field is valid.
+			// If not mandatory and empty, we call onValidButEmpty otherwise
+			// we call onValid.
+			if ($(registeredElement).prop('tao-mandatory') == false &&
+				registeredElement.getData() == null &&
+				typeof(registeredElement.onValidButEmpty) == 'function'){
+				
+				registeredElement.onValidButEmpty();
+			}
+			else if(typeof(registeredElement.onValid) == 'function') {
+				registeredElement.onValid();
+			}
+		}
+		else{
 			validity = false;
 			
 			// The field is not valid.
 			// If it is not mandatory and that we have no value,
 			// we cannot consider it as 'invalid'.
-			if (typeof($registeredElement[0].onInvalid) == 'function'){
-				$registeredElement[0].onInvalid();
-			}
-		}
-		else{
-			// The field is valid.
-			// If not mandatory and empty, we call onValidButEmpty otherwise
-			// we call onValid.
-			if ($registeredElement.prop('tao-mandatory') == false &&
-				$registeredElement[0].getData() == null &&
-				typeof($registeredElement[0].onValidButEmpty) == 'function'){
-				
-				$registeredElement[0].onValidButEmpty();
-			}
-			else if(typeof($registeredElement[0].onValid) == 'function') {
-				$registeredElement[0].onValid();
+			if (typeof(registeredElement.onInvalid) == 'function'){
+				registeredElement.onInvalid(highlight, setFocus);
+                setFocus = false;
 			}
 		}
 	}

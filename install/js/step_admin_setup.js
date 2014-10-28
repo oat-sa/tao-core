@@ -37,6 +37,8 @@ function onLoad(){
 	$('form').bind('submit', function(){
 		if (install.isNextable()){
 			install.setTemplate('step_licenses');
+		} else {
+            install.stateChange(true);
 		}
 		
 		return false;
