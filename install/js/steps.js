@@ -66,7 +66,15 @@ function getSpinnerOptions(size){
 
 function validify(element){
 	element.onValid = function() { displayValidationMark(element); };
-	element.onInvalid = function () { removeValidationMark(element); };
+	element.onInvalid = function (highlight, setFocus) {
+        removeValidationMark(element);
+        if (highlight) {
+            $(element).addClass('validation-error');
+            if (setFocus) {
+                $(element).focus();
+            }
+        }
+    };
 }
 
 function validifyNotMandatory(element){
@@ -76,7 +84,10 @@ function validifyNotMandatory(element){
 }
 
 function displayValidationMark(element){
-	var $parent = $(element).parent();
+    var $this   = $(element),
+        $parent = $this.parent();
+
+    $this.removeClass('validation-error');
 	$parent.find('.validField').remove();
 	$parent.append('<img src="images/valide.png" alt="valid" class="validField"/>');
 }
