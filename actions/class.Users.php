@@ -146,7 +146,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$response->users[$i]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
 			$response->users[$i]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 
-            if (substr($user->getUri(), -10) == '#superUser') {
+            if ($user->getUri() == LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
                 $response->users[$i]['defaultUser'] = true;
             }
 
@@ -172,7 +172,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		} elseif($this->hasRequestParameter('uri')) {
 			$user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 
-            if (substr($user->getUri(), -10) == '#superUser') {
+            if ($user->getUri() == LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
                 $message = __('Default user cannot be deleted');
             } elseif($this->userService->removeUser($user)){
                 $message = __('User deleted successfully');
