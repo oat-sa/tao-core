@@ -153,6 +153,18 @@ class tao_install_Installator{
 			
 			common_Logger::d("DbCreator spawned", 'INSTALL');
 
+            // If windows + mysql, make sure of mysql thread_stack variable
+			if ($installData['db_driver'] == 'pdo_mysql' && $this->isWindows()) {
+
+                $tsSize = $dbCreator->mysqlThreadStackSize();
+                if (!empty($tsSize) && $tsSize < 196608) {
+			        throw new tao_install_utils_Exception(
+                        "MySql thread_stack size of " . ($tsSize / 1024) . "K is lower then the expected size of 192K<br>"
+                        . "It is required to change thread_stack in my.ini as following<br>'192K' on 32bit windows<br>"
+                        . "'256K' on 64bit windows.<br><br>Note that such configuration changes will only take effect after server restart<br><br>");
+                }
+			}
+
 			/*
 			 *   3 - Load the database schema
 			 */
@@ -439,42 +451,11 @@ class tao_install_Installator{
 			file_put_contents($installData['file_path'].'version', TAO_VERSION);
 		}
 		catch(Exception $e){
-			if ($this->retryInstallation($e)) {
-				return;
-			}
-
 			// In any case, we transmit a single exception type (at the moment)
 			// for a clearer API for client code.
             common_Logger::e('Error Occurs : ' . $e->getMessage() . $e->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception($e->getMessage(), 0, $e);
 		}
-	}
-
-	private function retryInstallation($exception) {
-		$returnValue = false;
-		$err = $exception->getMessage();
-
-		if (strpos($err, 'cannot construct the resource because the uri cannot be empty') === 0 && $this->isWindows()) {
-			/*
-			 * a known issue
-			 * @see http://forge.taotesting.com/issues/3014
-			 * this issue can only be fixed by an administrator
-			 * changing the thread_stack system variable in my.ini as following:
-			 * '256K' on 64bit windows
-			 * '192K' on 32bit windows
-			 */
-
-            common_Logger::e('Error Occurs : ' . $err . $exception->getTraceAsString(), 'INSTALL');
-			throw new tao_install_utils_Exception("Error in mysql system variable 'thread_stack':<br>It is required to change its value in my.ini as following<br>'192K' on 32bit windows<br>'256K' on 64bit windows.<br><br>Note that such configuration changes will only take effect after server restart.<br><br>", 0, $exception);
-		}
-
-		if (!$returnValue) {
-			return false;
-		}
-
-		// it is a known issue, go ahead to retry with the issue fixer
-		$this->install($this->config);
-		return true;
 	}
 
 	private function isWindows() {

@@ -241,6 +241,13 @@ class tao_install_utils_DbalDbCreator {
 
     }
     
+    public function mysqlThreadStackSize(){
+    	if($this->dbConfiguration['driver'] == 'pdo_mysql'){
+    	    return $this->connection
+                        ->query("SHOW variables WHERE `Variable_name` = 'thread_stack'")
+                        ->fetchColumn(1);
+    	}
+    }
 
     public function addModel($modelId,$namespace){
         common_Logger::d('add modelid :' . $k . ' with NS :' . $v);
