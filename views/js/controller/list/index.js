@@ -2,8 +2,7 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback'], function ($, __, helpers, f
     'use strict';
 
     function _addSquareBtn(title, icon, $listToolBar) {
-        var $btn = $('<button>', { 'class': 'btn-info small lft square ' + icon + '-btn', title: __(title) });
-        $btn.prepend($('<span>', { 'class': 'icon-' + icon }));
+        var $btn = $('<button>', { 'class': 'btn-info small lft ' +  'icon-'+ icon, title: __(title) });
         $listToolBar.append($btn);
         return $btn;
     }
@@ -19,10 +18,10 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback'], function ($, __, helpers, f
             $(".list-edit-btn").click(function () {
                 var $btn = $(this),
                     uri = $btn.data('uri'),
-                    $listContainer = $("div[id='list-data_" + uri + "']"),
+                    $listContainer = $("#list-data_" + uri ),
                     // form must be on the inside rather than on the outside as it has been in 2.6
                     $listForm     = $listContainer.find('form'),
-                    $listTitleBar = $listContainer.find('.container-title'),
+                    $listTitleBar = $listContainer.find('.container-title h6'),
                     $listToolBar  = $listContainer.find('.data-container-footer'),
                     $listSaveBtn,
                     $listNewBtn;
@@ -33,11 +32,8 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback'], function ($, __, helpers, f
                     $listContainer.wrapInner($listForm);
                     $listContainer.find('form').append('<input type="hidden" name="uri" value="' + uri + '" />');
 
-                    $("<input type='text' name='label' value='" + $listTitleBar.text() + "'/>")
-                        .prependTo($listContainer.find('div.list-elements'))
-                        .keyup(function () {
-                            $listTitleBar.text($(this).val());
-                        });
+                    var $labelEdit = $("<input type='text' name='label' value='" + $listTitleBar.text() + "'/>");
+                    $listTitleBar.html($labelEdit);
 
                     if ($listContainer.find('.list-element').length) {
                         $listContainer.find('.list-element').replaceWith(function () {
@@ -47,10 +43,8 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback'], function ($, __, helpers, f
 
                     var elementList = $listContainer.find('ol');
                     elementList.addClass('sortable-list');
-                    elementList.find('li').addClass('ui-state-default');
-                    elementList.find('li').prepend('<span class="ui-icon ui-icon-grip-dotted-vertical" ></span>');
-                    elementList.find('li').prepend('<span class="ui-icon ui-icon-arrowthick-2-n-s" ></span>');
-                    elementList.find('li').append('<span class="ui-icon ui-icon-circle-close list-element-deletor" style="cursor:pointer;" ></span>');
+                    elementList.find('li').prepend('<span class="icon-grip" ></span>');
+                    elementList.find('li').append('<span class="icon-checkbox-crossed list-element-delete-btn" style="cursor:pointer;" ></span>');
 
                     elementList.sortable({
                         axis: 'y',
@@ -94,9 +88,8 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback'], function ($, __, helpers, f
                     $listNewBtn.click(function () {
                         var level = $(this).closest('form').find('ol').children().length + 1;
                         $(this).closest('form').find('ol').append(
-                            "<li id='list-element_" + level + "' class='ui-state-default'>" +
-                                "<span class='ui-icon ui-icon-arrowthick-2-n-s' ></span>" +
-                                "<span class='ui-icon ui-icon-grip-dotted-vertical' ></span>" +
+                            "<li id='list-element_" + level + "'>" +
+                                "<span class='icon-grip' ></span>" +
                                 "<input type='text' name='list-element_" + level + "_' />" +
                                 "<span class='icon-add list-element-delete-btn' ></span>" +
                                 "</li>");
