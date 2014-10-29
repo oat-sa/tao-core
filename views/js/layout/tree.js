@@ -201,7 +201,7 @@ define([
                     };
 
                     if($firstClass.hasClass('leaf')){
-                        return tree.select_branch($firstClass);
+                        tree.select_branch($firstClass);
                     } else {
                         //open the first class
                         tree.open_branch($firstClass, false, function(){
@@ -215,6 +215,12 @@ define([
                      * @param {Object} [context] - the tree context (uri, classUri)
                      */       
                     $elt.trigger('change.taotree');
+
+                    /**
+                     * The tree is now ready
+                     * @event layout/tree#ready.taotree
+                     * @param {Object} [context] - the tree context (uri, classUri)
+                     */       
                     $elt.trigger('ready.taotree');
                 },
 
