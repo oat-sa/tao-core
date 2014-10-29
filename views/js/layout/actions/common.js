@@ -9,8 +9,9 @@ define([
     'layout/section',
     'layout/actions/binder',
     'layout/search',
-    'layout/filter'
-], function($, __, _, appContext, section, binder, search, toggleFilter){
+    'layout/filter',
+	'uri'
+], function($, __, _, appContext, section, binder, search, toggleFilter, uri){
     'use strict';
 
     /**
@@ -32,7 +33,7 @@ define([
          * @param {String} [actionContext.classUri]
          */
         binder.register('load', function load(actionContext){
-            section.current().loadContentBlock(this.url, _.pick(actionContext, ['uri', 'classUri']));
+            section.current().loadContentBlock(this.url, _.pick(actionContext, ['uri', 'classUri', 'id']));
         });
         
         /**
@@ -49,12 +50,13 @@ define([
             $.ajax({
                 url: this.url,
                 type: "POST",
-                data: {classUri: actionContext.classUri, type: 'class'},
+                data: {classUri: actionContext.classUri, id: actionContext.id, type: 'class'},
                 dataType: 'json',
                 success: function(response){
                     if (response.uri) {
                         $(actionContext.tree).trigger('addnode.taotree', [{
-                            'id'        : response.uri, 
+                            'id'        : response.uri,
+                            'uri'       : uri.decode(response.uri),
                             'parent'    : actionContext.classUri, 
                             'label'     : response.label,
                             'cssClass'  : 'node-class' 
@@ -78,15 +80,16 @@ define([
             $.ajax({
                 url: this.url,
                 type: "POST",
-                data: {classUri: actionContext.classUri, type: 'instance'},
+                data: {classUri: actionContext.classUri, id: actionContext.id, type: 'instance'},
                 dataType: 'json',
                 success: function(response){
                     if (response.uri) {
                         $(actionContext.tree).trigger('addnode.taotree', [{
-                            'id'        : response.uri, 
+                            'id'        : response.uri,
+                            'uri'		: uri.decode(response.uri),
                             'parent'    : actionContext.classUri, 
                             'label'     : response.label,
-                            'cssClass'  : 'node-instance' 
+                            'cssClass'  : 'node-instance'
                         }]);
                     }
                 }
@@ -108,12 +111,13 @@ define([
             $.ajax({
                 url: this.url,
                 type: "POST",
-                data: {uri : actionContext.uri, classUri: actionContext.classUri},
+                data: _.pick(actionContext, ['uri', 'classUri', 'id']),
                 dataType: 'json',
                 success: function(response){
                     if (response.uri) {
                         $(actionContext.tree).trigger('addnode.taotree', [{
-                            'id'        : response.uri, 
+                            'id'        : response.uri,
+                            'uri'       : uri.decode(response.uri),
                             'parent'    : actionContext.classUri, 
                             'label'     : response.label,
                             'cssClass'  : 'node-instance' 
@@ -135,7 +139,7 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('removeNode', function remove(actionContext){
-            var data = _.pick(actionContext, ['uri', 'classUri']);
+            var data = _.pick(actionContext, ['uri', 'classUri', 'id']);
             
             //TODO replace by a nice popup
             if (confirm(__("Please confirm deletion"))) {
@@ -165,7 +169,7 @@ define([
          * @param {String} [actionContext.classUri]
          */
         binder.register('moveNode', function remove(actionContext){
-            var data = _.pick(actionContext, ['uri', 'destinationClassUri', 'confirmed']);
+            var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed']);
             
             //wrap into a private function for recusion calls
             var _moveNode = function _moveNode(url, data){
@@ -229,11 +233,10 @@ define([
         binder.register('launchFinder', function remove(actionContext){
 
 
-            var data = _.pick(actionContext, ['uri', 'classUri']),
-
-                // used to avoid same query twice
-                uniqueValue = data.uri || data.classUri || '',
-                $container  = search.getContainer('search');
+            var data = _.pick(actionContext, ['uri', 'classUri', 'id']),
+	            // used to avoid same query twice
+	            uniqueValue = data.uri || data.classUri || '',
+	            $container  = search.getContainer('search');
 
             if($container.is(':visible')) {
                 search.toggle();
@@ -271,7 +274,7 @@ define([
          */
         binder.register('launchEditor', function launchEditor(actionContext){
 
-            var data = _.pick(actionContext, ['uri', 'classUri']);
+            var data = _.pick(actionContext, ['id']);
             var wideDifferenciator = '[data-content-target="wide"]';
 
             $.ajax({

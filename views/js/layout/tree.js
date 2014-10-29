@@ -9,9 +9,10 @@ define([
     'store',
     'layout/actions',
     'ui/feedback',
+    'uri',
     'jquery.tree',
     'lib/jsTree/plugins/jquery.tree.contextmenu'
-], function($, _, __, context, store, actionManager, feedback){
+], function($, _, __, context, store, actionManager, feedback, uri){
 
     var pageRange = 30;
 
@@ -272,6 +273,7 @@ define([
                         }
                         nodeContext.classUri = nodeId;
                         nodeContext.permissions = permissions[nodeId];
+                        nodeContext.id = $node.data('uri');
 
                         //execute the selectClass action
                         if(options.actions.selectClass){
@@ -283,6 +285,7 @@ define([
                     if ($node.hasClass('node-instance')){
                         nodeContext.uri = nodeId;
                         nodeContext.classUri = $parentNode.attr('id');
+                        nodeContext.id = $node.data('uri');
 
                         //the last selected node is stored into the browser storage
                         treeStore.lastSelected = nodeId; 
@@ -327,8 +330,8 @@ define([
 
                     //execute the selectInstance action
                     actionManager.exec(options.actions.moveInstance, {
-                        uri: $(node).attr('id'),
-                        destinationClassUri: $(refNode).attr('id')
+                        uri: $(node).data('uri'),
+                        destinationClassUri: $(refNode).data('uri')
                     });
 
                     $elt.trigger('change.taotree');
@@ -400,7 +403,8 @@ define([
                         data: data.label,
                         attributes: {
                             'id': data.id,
-                            'class': data.cssClass
+                            'class': data.cssClass,
+                            'data-uri' : uri.decode(data.uri)
                         }
                     }, parentNode)
                 );

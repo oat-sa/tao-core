@@ -123,6 +123,10 @@ class tao_models_classes_Parser
             $this->fileExtension = $options['extension'];
         }
     }
+    
+    public function getSource(){
+        return $this->source;
+    }
 
     /**
      * Short description of method validate

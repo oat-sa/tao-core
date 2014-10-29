@@ -10,7 +10,7 @@ READS SQL DATA
 SQL SECURITY INVOKER
 BEGIN
 	DECLARE uri VARCHAR(255);
-	INSERT INTO sequence_uri_provider (uri_sequence) VALUES ('');
+	INSERT INTO sequence_uri_provider (uri_sequence) VALUES (null);
 	SELECT CONCAT(modelUri, 'i' , UNIX_TIMESTAMP(), FLOOR(RAND() * 10000), LAST_INSERT_ID()) INTO uri;
 	DELETE FROM sequence_uri_provider;
 	RETURN uri;

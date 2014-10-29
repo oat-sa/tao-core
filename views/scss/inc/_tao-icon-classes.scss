@@ -17,7 +17,7 @@
                                  :__:-:__.;--'
                                 <*_/   <*/
                                  
-@import 'inc/tao-icon-vars.scss';
+@import "inc/tao-icon-vars.scss";
 [class^="icon-"], [class*=" icon-"] { @extend %tao-icon-setup; }
 .icon-icon:before { @extend %icon-icon; }
 .icon-radio-bg:before { @extend %icon-radio-bg; }
