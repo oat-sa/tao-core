@@ -69,9 +69,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
     {
         $returnValue = (string) '';
 
-        
-
-        $widgetName = 'AsyncFileUploader_'.md5($this->name);
+        $widgetName = 'Uploader_'.md5($this->name);
 
         $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
 
@@ -81,24 +79,21 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= "/>";
 		$returnValue .= "<span>";
-		$returnValue .= "<img src='".TAOBASE_WWW."img/file_upload.png' class='icon' />";
-		$returnValue .= "<a href='#' id='{$widgetName}_starter' >".__('Start upload')."</a>";
+		$returnValue .= "<input type='button' id='{$widgetName}_starter' class='btn-upload' value='".__('Start upload')."'/>";
 		$returnValue .= "</span>";
 
 		//get the upload max size
 		$fileSize = tao_helpers_Environment::getFileUploadLimit();
 
-		$extensions = array();
+		$mimetypes = array();
 
 		//add a client validation
 		foreach($this->validators as $validator){
 			//get the valid file extensions
 			if($validator instanceof tao_helpers_form_validators_FileMimeType){
 				$options = $validator->getOptions();
-				if(isset($options['extension'])){
-					foreach($options['extension'] as $extension){
-						$extensions[] = '*.'.$extension;
-					}
+				if(isset($options['mimetype'])){
+					$mimetypes = $options['mimetype'] ;
 				}
 			}
 			//get the max file size
@@ -122,31 +117,56 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 			unset($this->attributes['auto']);
 		}
 
-		//initialize the AsyncFileUpload Js component
-		$id = md5($this->name);
+		//initialize the Uploader Js component
 		$returnValue .= '<script type="text/javascript">
-			$(document).ready(function(){
-				require([\'jquery\', \'AsyncFileUpload\'], function($, AsyncFileUpload){
-					myUploader_'.$id.' = new AsyncFileUpload("#'.$widgetName.'", {
-						"scriptData": {"session_id": "'.session_id().'"},
-						"basePath": "'.TAOBASE_WWW.'",
-						"sizeLimit": '.$fileSize.',';
-		if (count($extensions) > 0) {
- 			$returnValue .='"fileDesc": "'.__('Allowed files types: ').implode(', ', $extensions).'", "fileExt": "'.implode(';', $extensions).'",';
-		}
-		$returnValue .='
-						"starter" : "#'.$widgetName.'_starter",
-						"target": "#'.$widgetName.'_container input[id=\''.$this->name.'\']",
-						"submitter": ".form-submitter",
-						"auto": '.$auto.',
-						"folder": "/"
-					});
-				});
+				require([\'jquery\',  \'ui/feedback\', \'ui/uploader\'], function($, feedback){
+					 $("#' . $widgetName . '_container").uploader({
+							 uploadUrl: "' . ROOT_URL . 'tao/File/upload",
+							inputName: "'.$widgetName.'",
+							autoUpload: ' . $auto . '  ,
+							fileSelect  : function(files, done){
+											var error = [],
+												givenLength = files.length,
+												filters = "'.implode(',',$mimetypes).'".split(",");
+
+												if (filters.length){
+
+													files = _.filter(files, function(file){
+														return _.contains(filters, file.type);
+													});
+
+													if(files.length !== givenLength){
+														error.push( "Unauthorized files have been removed");
+													}
+
+												}
+
+												files = _.filter(files, function(file){
+														return file.size <= ' . $fileSize . ';
+													});
+
+												if(files.length !== givenLength && !error.length){
+													error.push( "Size limit is ' . $fileSize . ' bytes");
+												}
+
+												if (error.length){
+													feedback().error(error.join(","));
+												}
+
+												done(files);
+												if ( '.$auto.' ){
+													$(this).uploader("upload");
+												}
+										 }
+
+					 }).on("upload.uploader", function(e, file, result){
+					 	if ( result && result.uploaded ){
+							$(e.target).append($("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data));
+						}
+					 })
 			});
 			</script>';
         $returnValue .= "</div>";
-
-        
 
         return (string) $returnValue;
     }
@@ -166,5 +186,3 @@ class tao_helpers_form_elements_xhtml_AsyncFile
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_AsyncFile */
-
-?>

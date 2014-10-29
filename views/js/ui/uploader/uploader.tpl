@@ -1,8 +1,8 @@
-<form class="uploader">
+<form class="uploader uploaderContainer">
     <div class="file-upload grid-row">
         <span class="btn-info btn-browse small col-4"><span class="icon-folder-open"></span>{{__ 'Browse...'}}</span>
         <span class="file-name col-8 truncate placeholder">{{__ 'No file selected'}}</span>
-        <input type="file" name="content" {{#if multiple}}multiple{{/if}}>
+        <input type="file" name="{{inputName}}" {{#if multiple}}multiple{{/if}}>
     </div>
     <!--<div class="grid-row" style="display:none;">-->
         <!--<ul class="file-list"></ul>-->
