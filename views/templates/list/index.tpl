@@ -5,33 +5,32 @@
         <?= get_data('form') ?>
     </div>
 </div>
+
 <div class="data-container-wrapper flex-container-remainder">
     <?php foreach (get_data('lists') as $i => $list): ?>
-        <div id='list-data_<?= $list['uri'] ?>' class="data-container">
-            <div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title">
-                <?= $list['label'] ?>
-            </div>
-            <div class="ui-widget ui-widget-content container-content" id='list-elements_<?= $list['uri'] ?>'>
-                <ol>
-                    <?php foreach ($list['elements'] as $level => $element): ?>
-                        <li id="list-element_<?= $level ?>">
+    <section id='list-data_<?= $list["uri"] ?>' class="data-container">
+        <header class="container-title">
+            <h6><?= $list['label'] ?></h6>
+        </header>
+        <div class="container-content" id='list-elements_<?= $list['uri'] ?>'>
+        <ol>
+            <?php foreach ($list['elements'] as $level => $element): ?>
+            <li id="list-element_<?= $level ?>">
                             <span class="list-element"
                                   id="list-element_<?= $level ?>_<?= $element['uri'] ?>"><?= $element['label'] ?></span>
-                        </li>
-                    <?php endforeach ?>
-                </ol>
-            </div>
-            <div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom clearfix data-container-footer <?php !$list['editable'] && print 'hidden'?>">
-                <?php if ($list['editable']): ?>
-                    <button type="button" title="<?= __('Edit this list') ?>" class="list-edit-btn btn-info small square rgt" data-uri="<?= $list['uri'] ?>">
-                        <span class="icon-edit"></span>
-                    </button>
-                    <button type="button" title="<?= __('Delete this list') ?>" class="list-delete-btn btn-warning small square rgt" data-uri="<?= $list['uri'] ?>">
-                        <span class="icon-bin"></span>
-                    </button>
+            </li>
+            <?php endforeach ?>
+        </ol>
+</div>
+<footer class="data-container-footer action-bar  <?php !$list['editable'] && print 'hidden'?>">
+    <?php if ($list['editable']): ?>
+    <button type="button" title="<?= __('Edit this list') ?>" class="icon-edit list-edit-btn btn-info small rgt" data-uri="<?= $list['uri'] ?>">
+    </button>
+    <button type="button" title="<?= __('Delete this list') ?>" class="icon-bin list-delete-btn btn-warning small rgt" data-uri="<?= $list['uri'] ?>">
+    </button>
 
-                <?php endif ?>
-            </div>
-        </div>
-    <?php endforeach ?>
+    <?php endif ?>
+</footer>
+</section>
+<?php endforeach ?>
 </div>
