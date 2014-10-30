@@ -98,9 +98,8 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		// get the users using requested paging...
 		$users = $this->userService->getAllUsers($gau);
 		$rolesProperty		= new core_kernel_classes_Property(PROPERTY_USER_ROLES);
-		
 
-		
+	    $readonly = array();	
 		$index = 0;
 		foreach ($users as $user) {
 			
@@ -125,24 +124,27 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$lastName = empty($propValues[PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
 			$uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
 			$dataRes = empty($propValues[PROPERTY_USER_DEFLG]) ? null : current($propValues[PROPERTY_USER_DEFLG]);
-			
-			$response->data[$index]['id']= tao_helpers_Uri::encode($user->getUri());
-			$response->data[$index]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
+            $id = tao_helpers_Uri::encode($user->getUri());
+
+	
+			$response->data[$index]['id']= $id;
+  			$response->data[$index]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
 			$response->data[$index]['name'] = $firstName.' '.$lastName;
 			$response->data[$index]['mail'] = (string)current($propValues[PROPERTY_USER_MAIL]);
 			$response->data[$index]['roles'] = implode(', ', $labels);
 			$response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
 			$response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
           	
-			if ($user->getUri() == LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
-                $response->users[$i]['defaultUser'] = true;
+            if ($user->getUri() == LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
+                $readonly[] = $id;
             }
 			$index++;
 		}
 
 		$response->page = floor($start / $limit) + 1;
-		$response->total = ceil($counti / $limit); //$total_pages;
+		$response->total = ceil($counti / $limit);
 		$response->records = count($users);
+		$response->readonly = $readonly;
 
 		$this->returnJson($response, 200);
 	}

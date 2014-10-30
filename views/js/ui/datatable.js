@@ -120,17 +120,26 @@ define([
                 // Add the model to the response for the tpl
                 response.model = options.model;
 
+
                 // Call the rendering
                 var $rendering = $(layout(response));
 
+                _.forEach(response.readonly, function(id){
+                    $('[data-item-identifier="'+id+'"] button', $rendering).addClass('disabled');
+                });
+
+
                 // Attach a listener to every action button created
-                _.forEach(options.actions,function(action,name){
+                _.forEach(options.actions, function(action,name){
+                    
                     $rendering
                         .off('click','.'+name)
                         .on('click','.'+name, function(e){
                             e.preventDefault();
                             var $elt = $(this);
-                            action.apply($elt,[$elt.parent().data('item-identifier')]);
+                            if(!$elt.hasClass('disabled')){
+                                action.apply($elt,[$elt.parent().data('item-identifier')]);
+                            }
                         });
                 });
 

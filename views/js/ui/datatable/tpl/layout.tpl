@@ -30,7 +30,9 @@
                     {{#if ../actions}}
                     <td data-item-identifier="{{id}}">
                         {{#each ../../actions}}
+
                         <button class="btn-info small {{this}}"><span class="icon-{{this}}"></span> {{this}}</button>
+
                         {{/each}}
                     </td>
                     {{/if}}
