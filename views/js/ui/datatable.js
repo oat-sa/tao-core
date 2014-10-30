@@ -98,23 +98,28 @@ define([
         _query: function($elt){
             var self = this;
             var options = $elt.data(dataNs);
-            var parameters = _.pick(options, ['rows', 'page', 'sortby', 'sortorder']);
+            var parameters = _.merge({},_.pick(options, ['rows', 'page', 'sortby', 'sortorder']), options.params || {});
 
             $.ajax({
                 url: options.url,
                 data: parameters,
-                type: 'GET'
+                dataType : 'json',
+                type: options.querytype || 'GET'
             }).done(function(response) {
 
                 // Add the list of custom actions to the response for the tpl
-                response.actions = _.keys(options.actions);
+                if(options.actions){
+                    response.actions = _.keys(options.actions);
+                }
 
                 // Add the column into the model
                 if (options.actions !== null && _.last(options.model).label !== actionHeader.label) {
                     options.model.push(actionHeader);
                 }
+
                 // Add the model to the response for the tpl
                 response.model = options.model;
+
                 // Call the rendering
                 var $rendering = $(layout(response));
 
