@@ -2,13 +2,13 @@
  * @author Jérôme Bogaert <jerome@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/usermgr'], function($, __, helpers, section) {
+define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datatable'], function($, __, helpers, section, feedback) {
     'use strict';
-       
+
     /**
      * Edit a user (shows the edit section)
-     * @param {String} uri - the user uri 
-     */     
+     * @param {String} uri - the user uri
+     */
     var editUser = function editUser(uri) {
         section
             .get('edit_user')
@@ -16,33 +16,78 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/usermgr'], function($
             .loadContentBlock(helpers._url('edit', 'Users', 'tao'), {uri : uri})
             .show();
     };
-        
+
     /**
      * Removes a user
-     * @param {String} uri - the user uri 
-     */     
+     * @param {String} uri - the user uri
+     */
 	var removeUser = function removeUser(uri){
-        //TODO use a confirm component 
-        //TODO run an ajax request and show a feedback
-		if (window.confirm(__('Please confirm user deletion'))) {
-			window.location = helpers._url('delete', 'Users', 'tao',  {uri : uri});
-		}
+        //TODO use a confirm component
+        if (window.confirm(__('Please confirm user deletion'))) {
+            $.ajax({
+                url : helpers._url('delete', 'Users', 'tao'),
+                data:  {uri : uri},
+                type : 'POST'
+            }).done(function(response){
+                if(response.deleted){
+                    feedback().success(response.message);
+                } else {
+                    feedback().error(response.message);
+                }
+                $('#user-list').datatable('refresh');
+            });
+        }
 	};
-    
+
     /**
      * The user index controller
      * @exports controller/users/index
-     */    
+     */
     return {
         start : function(){
-
-            section.get('edit_user').disable();
+            var $userList = $('#user-list');
+    
+            section.on('show', function(section){
+                if(section.id === 'list_users'){
+                    $userList.datatable('refresh');
+                }
+            });
 
             //initialize the user manager component
-            $('#user-list').usermgr({
+            $userList.datatable({
                 'url': helpers._url('data', 'Users', 'tao'),
-                'edit': editUser,
-                'remove': removeUser
+                'actions' : {
+                    'edit': editUser,
+                    'remove': removeUser
+                },
+                'model' : [
+                    {
+                        id : 'login',
+                        label : __('Login'),
+                        sortable : true
+                    },{
+                        id : 'name',
+                        label : __('Name'),
+                        sortable : true
+                    },
+                    {
+                        id : 'email',
+                        label : __('Email'),
+                        sortable : true
+                    },{
+                        id : 'role',
+                        label : __('Roles'),
+                        sortable : false
+                    },{
+                        id : 'dataLg',
+                        label : __('Data Language'),
+                        sortable : true
+                    },{
+                        id: 'guiLg',
+                        label : __('Interface Language'),
+                        sortable : true
+                    }
+                ]
             });
         }
     };

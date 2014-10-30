@@ -187,9 +187,7 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
      * @return array
      */
     protected function getExludedProperties() {
-        return array(
-            PROPERTY_COMMENT
-        );
+        return array();
     }
     
     /**

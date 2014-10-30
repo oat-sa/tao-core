@@ -23,11 +23,11 @@ function TaoGridClass(selector, model, dataUrl, options)
 	this.selector = selector;
 	this.jqGrid = null;
 	this.model = model;
-	this.data = new Array(); 			//displayed data (before preformating)
+	this.data = []; 			//displayed data (before preformating)
 	this.dataUrl = dataUrl;
-	this.jqGridModel = new Array();
-	this.jqGridColumns = new Array();
-	this.adapters = new Array();		//adapters used in this grid
+	this.jqGridModel = [];
+	this.jqGridColumns = [];
+	this.adapters = [];		//adapters used in this grid
 	this.options = $.extend([], TaoGridClass.defaultOptions, options);
 
 	//Default dimension
@@ -40,7 +40,7 @@ function TaoGridClass(selector, model, dataUrl, options)
 
 	this.initModel();
 	this.initGrid();
-};
+}
 
 /**
  * TaoGrid Class constants
@@ -142,7 +142,7 @@ TaoGridClass.prototype.initGrid = function()
 //		width		: '100%',
 		autowidth	: true,
 		onSelectRow: function(id){
-		    if(self.options.callback.onSelectRow != null){
+		    if(self.options.callback.onSelectRow !== null){
 		    	self.options.callback.onSelectRow(id);
 		    }
 		}
@@ -195,7 +195,8 @@ TaoGridClass.prototype.empty = function()
 	var gridBody = $(this.selector).children("tbody");
 	var firstRow = gridBody.children("tr.jqgfirstrow");
 	gridBody.empty().append(firstRow);
-	this.data = new Array();
+	this.data = [];
+	this.jqGrid.clearGridData();
 };
 
 
