@@ -9151,7 +9151,7 @@ html, body { background-color: #ffffff; }
 
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { text-decoration: none; }
 
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { color: #ffffff; border-width: 1px; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { color: #a4bbc5; border-width: 1px; }
 
 .ui-state-hover a, .ui-state-hover a:hover { color: #ffffff; text-decoration: none; }
 
