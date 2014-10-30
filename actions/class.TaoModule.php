@@ -404,6 +404,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                         } else {
                             $data = $node['_data'];
                         }
+                        $data['id'] = $node['attributes']['data-uri'];
                         $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $data);
 
                     //@todo should be a checked exception!
@@ -433,7 +434,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		$response = array();
 		
-		$clazz = $this->getCurrentClass();
+		$clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
 		$label = $this->service->createUniqueLabel($clazz);
 		
 		$instance = $this->service->createInstance($clazz, $label);
@@ -456,7 +457,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	    if(!tao_helpers_Request::isAjax()){
 	        throw new Exception("wrong request mode");
 	    }
-	    $clazz = $this->service->createSubClass($this->getCurrentClass());
+	    $parent = new core_kernel_classes_Class($this->getRequestParameter('id'));
+	    $clazz = $this->service->createSubClass($parent);
 	    if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
 	        echo json_encode(array(
 	            'label'	=> $clazz->getLabel(),
