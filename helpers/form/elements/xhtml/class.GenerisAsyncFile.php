@@ -96,8 +96,8 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         	$downloadButtonId = $this->buildDownloadButtonId();
         	$iFrameId = $this->buildIframeId();
         	$returnValue .= "<span class=\"widget_AsyncFile_fileinfo\">${shownFileTxt}</span>";
-        	$returnValue .= "<button id=\"${downloadButtonId}\" type=\"button\" class=\"download btn-neutral icon-download\" title=\"${downloadButtonTitle}\">";
-        	$returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" class=\"delete btn-error icon-remove\" title=\"${deleteButtonTitle}\"/>";
+        	$returnValue .= "<button id=\"${downloadButtonId}\" type=\"button\" class=\"download btn-neutral small icon-download\" title=\"${downloadButtonTitle}\">";
+        	$returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" class=\"delete btn-error small icon-remove\" title=\"${deleteButtonTitle}\"/>";
         	$returnValue .= "<iframe style=\"display:none\" id=\"${iFrameId}\" frameborder=\"0\"/>";
 
         	// Inject behaviour of the Delete/Download buttons component in response.
