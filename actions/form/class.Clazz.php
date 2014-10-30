@@ -143,6 +143,11 @@ class tao_actions_form_Clazz
         $classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
         $classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
         $this->form->addElement($classUriElt);
+        
+        $hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
+        $hiddenId->setValue($clazz->getUri());
+        $this->form->addElement($hiddenId);
+        
 
         $localNamespace = common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri();
 

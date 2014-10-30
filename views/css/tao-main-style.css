@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .xhtml_form .form-toolbar:before, .xhtml_form .form-toolbar:after { content: " "; display: table; }
 .xhtml_form .form-toolbar:after { clear: both; }
 
@@ -6,13 +5,13 @@
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -40,9 +39,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -376,13 +375,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -410,9 +409,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -742,13 +741,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -776,9 +775,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -1453,13 +1452,13 @@ textarea { resize: vertical; }
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -1487,9 +1486,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -2031,13 +2030,13 @@ Special outer level classes used in this file:
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -2065,9 +2064,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -2491,13 +2490,13 @@ other files.
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -2525,9 +2524,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -2880,13 +2879,13 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -2914,9 +2913,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -3390,13 +3389,13 @@ panel contents and color panels check menu.css and colorpanel.css.
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -3424,9 +3423,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -3948,13 +3947,13 @@ Special outer level classes used in this file:
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -3982,9 +3981,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -4514,13 +4513,13 @@ The visual representation of a rich combo widget looks as follows:
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -4548,9 +4547,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -4962,13 +4961,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -4996,9 +4995,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -5342,13 +5341,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -5376,9 +5375,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -5726,13 +5725,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -5760,9 +5759,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -6112,13 +6111,13 @@ legend.cke_voice_label { display: none; }
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -6146,9 +6145,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -6578,13 +6577,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -6612,9 +6611,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -6967,13 +6966,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -7001,9 +7000,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -7361,13 +7360,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -7395,9 +7394,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -7766,13 +7765,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -7800,9 +7799,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -8137,6 +8136,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .item-editor-sidebar .media-sizer.media-sizer-synced .media-sizer-cover { display: none; }
 .item-editor-sidebar .media-sizer.media-sizer-synced .media-sizer-link { border-color: #ccc; opacity: 1; }
 
+.datatable-container { overflow-y: auto; }
+
+table.datatable th { cursor: not-allowed; }
+table.datatable th[data-sort-by] { cursor: pointer; }
+table.datatable th.sorted:after { float: right; }
+table.datatable th.id, table.datatable td.id { display: none; }
+table.datatable th[data-item-identifier], table.datatable td[data-item-identifier] { text-align: center; }
+
 #tab-items_preview { display: none !important; }
 
 body { z-index: 0; }
@@ -8189,13 +8196,13 @@ a[rel="external"] span.icon-external:before { font-size: 11px; font-size: 1.1rem
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -8223,9 +8230,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -9425,13 +9432,13 @@ html, body { background-color: #ffffff; }
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+[class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .icon-icon:before { content: "\f1c5"; }
 
-.icon-radio-bg:before { content: "\e600"; }
+.icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
 
-.icon-checkbox-bg:before { content: "\e601"; }
+.icon-checkbox-bg:before, label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { content: "\e601"; }
 
 .icon-tag:before { content: "\e602"; }
 
@@ -9459,9 +9466,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-right:before, .ui-datepicker-next, .ui-icon-triangle-1-e { content: "\e60f"; }
 
-.icon-up:before, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
+.icon-up:before, table.datatable th.sorted.sorted_desc::after, .ui-icon-triangle-1-n, .toggler.opened:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before { content: "\e610"; }
 
-.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
+.icon-down:before, .select2-container .select2-choice .select2-arrow b:before, .cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before, table.datatable th.sorted.sorted_asc::after, .ui-icon-triangle-1-s, .toggler:after, .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before { content: "\e611"; }
 
 .icon-undo:before, .cke_button__undo_icon:before { content: "\e612"; }
 
@@ -9967,10 +9974,15 @@ input[type="color"].error, input[type="date"].error, input[type="datetime"].erro
 option { background: white; color: #222; }
 
 label { position: relative; }
+label [class^="icon-checkbox"]:after, label [class*=" icon-checkbox"]:after { color: white !important; }
 label [class^="icon-radio"], label [class*=" icon-radio"] { padding: 0 2px 0 3px; }
+label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { color: white !important; }
 label .icon-checkbox, label .icon-checkbox-crossed { padding: 0 3px 0 3px; }
 label .icon-checkbox-checked { padding: 0 0 0 3px; }
 label [class^="icon-"], label [class*=" icon-"] { font-size: 16px; font-size: 1.6rem; position: relative; top: 2px; color: #555; display: inline-block; width: 20px; }
+label [class^="icon-"]:before, label [class^="icon-"]:after, label [class*=" icon-"]:before, label [class*=" icon-"]:after { position: relative; }
+label [class^="icon-"]:before, label [class*=" icon-"]:before { z-index: 3; }
+label [class^="icon-"]:after, label [class*=" icon-"]:after { left: -1em; position: relative; z-index: 2; }
 label input[type="radio"], label input[type="checkbox"] { position: absolute; left: -10000px; top: 0; }
 label input[type="radio"]:focus ~ [class^="icon-"], label input[type="radio"]:focus ~ [class*=" icon-"], label input[type="radio"]:active ~ [class^="icon-"], label input[type="radio"]:active ~ [class*=" icon-"], label input[type="checkbox"]:focus ~ [class^="icon-"], label input[type="checkbox"]:focus ~ [class*=" icon-"], label input[type="checkbox"]:active ~ [class^="icon-"], label input[type="checkbox"]:active ~ [class*=" icon-"] { color: #222; }
 label input[type="radio"].disabled ~ [class^="icon-"], label input[type="radio"].disabled ~ [class*=" icon-"], label input[type="radio"][disabled] ~ [class^="icon-"], label input[type="radio"][disabled] ~ [class*=" icon-"], label input[type="radio"][readonly] ~ [class^="icon-"], label input[type="radio"][readonly] ~ [class*=" icon-"], label input[type="checkbox"].disabled ~ [class^="icon-"], label input[type="checkbox"].disabled ~ [class*=" icon-"], label input[type="checkbox"][disabled] ~ [class^="icon-"], label input[type="checkbox"][disabled] ~ [class*=" icon-"], label input[type="checkbox"][readonly] ~ [class^="icon-"], label input[type="checkbox"][readonly] ~ [class*=" icon-"] { cursor: not-allowed !important; opacity: .4 !important; color: #555; }
@@ -9997,7 +10009,7 @@ label input[type="radio"].disabled ~ [class^="icon-"], label input[type="radio"]
 .xhtml_form .property-heading-icon { margin-left: 5px; }
 .xhtml_form .property-heading-icon:hover { color: #0e5d91; }
 .xhtml_form .property-heading-label { padding-left: 5px; }
-.xhtml_form .property-heading-label:before { font-size: 12px; content: '• '; line-height: 2px; opacity: .8; }
+.xhtml_form .property-heading-label:before { font-size: 16px; margin-right: 5px; content: '\2022 '; line-height: 2px; opacity: .8; }
 .xhtml_form .property-edit-container { display: none; width: 100%; }
 .xhtml_form .property-heading-toolbar { float: right; }
 .xhtml_form .property-heading-toolbar .property-parent-label { display: inline-block; padding: 0 5px; }
@@ -10023,50 +10035,6 @@ label input[type="radio"].disabled ~ [class^="icon-"], label input[type="radio"]
 .xhtml_form .btn-success { float: right; }
 
 input[type="checkbox"], input[type="radio"] { position: relative; top: 1px; margin-right: 3px; }
-
-div.wysiwyg { border: 1px solid #ccc; padding: 5px; background-color: #fff; }
-div.wysiwyg * { margin: 0; padding: 0; }
-div.wysiwyg ul.panel { border-bottom: 1px solid #ccc; float: left; width: 100%; padding: 0; }
-div.wysiwyg ul.panel li { list-style: none; float: left; margin: 1px 2px 3px 0; background: #fff; -moz-user-select: none; -webkit-user-select: none; user-select: none; }
-div.wysiwyg ul.panel li.separator { width: 1px; height: 16px; margin: 0 4px; border-left: 1px solid #ccc; }
-div.wysiwyg ul.panel li { text-indent: -5000px; opacity: 0.85; filter: alpha(opacity=85); display: block; width: 16px; height: 16px; background: url("/tao/views/js/lib/jwysiwyg/jquery.wysiwyg.gif") no-repeat -64px -80px; border: 0; cursor: pointer; margin: 1px; }
-div.wysiwyg ul.panel li.wysiwyg-button-hover, div.wysiwyg ul.panel li.active { opacity: 1.00; filter: alpha(opacity=100); }
-div.wysiwyg ul.panel li.active { background-color: #f9f9f9; border: 1px solid #ccc; border-left-color: #aaa; border-top-color: #aaa; margin: 0; }
-div.wysiwyg ul.panel li.bold { background-position: 0 -16px; }
-div.wysiwyg ul.panel li.italic { background-position: -16px -16px; }
-div.wysiwyg ul.panel li.strikeThrough { background-position: -32px -16px; }
-div.wysiwyg ul.panel li.underline { background-position: -48px -16px; }
-div.wysiwyg ul.panel li.justifyLeft { background-position: 0 0; }
-div.wysiwyg ul.panel li.justifyCenter { background-position: -16px 0; }
-div.wysiwyg ul.panel li.justifyRight { background-position: -32px 0; }
-div.wysiwyg ul.panel li.justifyFull { background-position: -48px 0; }
-div.wysiwyg ul.panel li.indent { background-position: -64px 0; }
-div.wysiwyg ul.panel li.outdent { background-position: -80px 0; }
-div.wysiwyg ul.panel li.subscript { background-position: -64px -16px; }
-div.wysiwyg ul.panel li.superscript { background-position: -80px -16px; }
-div.wysiwyg ul.panel li.undo { background-position: 0 -64px; }
-div.wysiwyg ul.panel li.redo { background-position: -16px -64px; }
-div.wysiwyg ul.panel li.insertOrderedlist { background-position: -32px -48px; }
-div.wysiwyg ul.panel li.insertUnorderedlist { background-position: -16px -48px; }
-div.wysiwyg ul.panel li.insertHorizontalRule { background-position: 0 -48px; }
-div.wysiwyg ul.panel li.h1 { background-position: 0 -32px; }
-div.wysiwyg ul.panel li.h2 { background-position: -16px -32px; }
-div.wysiwyg ul.panel li.h3 { background-position: -32px -32px; }
-div.wysiwyg ul.panel li.h4 { background-position: -48px -32px; }
-div.wysiwyg ul.panel li.h5 { background-position: -64px -32px; }
-div.wysiwyg ul.panel li.h6 { background-position: -80px -32px; }
-div.wysiwyg ul.panel li.cut { background-position: -32px -64px; }
-div.wysiwyg ul.panel li.copy { background-position: -48px -64px; }
-div.wysiwyg ul.panel li.paste { background-position: -64px -64px; }
-div.wysiwyg ul.panel li.insertTable { background-position: -64px -48px; }
-div.wysiwyg ul.panel li.increaseFontSize { background-position: -16px -80px; }
-div.wysiwyg ul.panel li.decreaseFontSize { background-position: -32px -80px; }
-div.wysiwyg ul.panel li.createlink { background-position: -80px -48px; }
-div.wysiwyg ul.panel li.insertImage { background-position: -80px -80px; }
-div.wysiwyg ul.panel li.html { background-position: -47px -46px; }
-div.wysiwyg ul.panel li.removeFormat { background-position: -80px -63px; }
-div.wysiwyg ul.panel li.empty { background-position: -64px -80px; }
-div.wysiwyg iframe { border: 0; clear: left; margin: 4px 0 0 1px; }
 
 /* Style of advanced components */
 /* toggler */
