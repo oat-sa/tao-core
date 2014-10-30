@@ -127,7 +127,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 							fileSelect  : function(files, done){
 											var error = [],
 												givenLength = files.length,
-												filters = "'.implode(',',$mimetypes).'".split(",");
+												filters = "'.implode(',',$mimetypes).'".split(",").filter(function(e){return e.length});
 
 												if (filters.length){
 
