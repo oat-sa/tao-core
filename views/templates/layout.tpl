@@ -10,8 +10,11 @@ use oat\tao\helpers\Layout;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= Layout::getTitle() ?></title>
-    <link rel="shortcut icon" href="<?= BASE_WWW ?>img/favicon.ico"/>
+    <link rel="shortcut icon" href="<?= Template::img('img/favicon.ico') ?>"/>
 
+
+
+    <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
     <?= tao_helpers_Scriptloader::render() ?>
     <?= Layout::getAmdLoader() ?>
 </head>

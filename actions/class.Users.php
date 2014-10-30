@@ -1,23 +1,23 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 ?>
 <?php
@@ -27,7 +27,7 @@
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- 
+
  *
  */
 class tao_actions_Users extends tao_actions_CommonModule {
@@ -51,7 +51,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		parent::__construct();
 		$this->userService = tao_models_classes_UserService::singleton();
 		$this->defaultData();
-		
+
 		$extManager = common_ext_ExtensionsManager::singleton();
 	}
 
@@ -60,7 +60,6 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	 * @return void
 	 */
 	public function index(){
-		$this->setData('data', __('list the users'));
 		$this->setView('user/list.tpl');
 	}
 
@@ -71,51 +70,39 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	public function data(){
 		$page = $this->getRequestParameter('page');
 		$limit = $this->getRequestParameter('rows');
-		$sidx = $this->getRequestParameter('sidx');
-		$sord = $this->getRequestParameter('sord');
-		$searchField = $this->getRequestParameter('searchField');
-		$searchOper = $this->getRequestParameter('searchOper');
-		$searchString = $this->getRequestParameter('searchString');
+		$sidx = $this->getRequestParameter('sortby');
+		$sord = $this->getRequestParameter('sortorder');
 		$start = $limit * $page - $limit;
 
-		$rolesClass = new core_kernel_classes_Class(CLASS_ROLE);
-		$rolesInstancesArray = $rolesClass->getInstances(true);
+		switch($sidx) {
+            case 'name'         : $order = PROPERTY_USER_LASTNAME; break;
+            case 'mail'         : $order = PROPERTY_USER_MAIL; break;
+            case 'dataLg'       : $order = PROPERTY_USER_DEFLG; break;
+            case 'guiLg'        : $order = PROPERTY_USER_UILG; break;
+            case 'login': 
+            default:
+		    $order = PROPERTY_USER_LOGIN;
+        }
 
-		$filteredRolesArray = array_diff(array_keys($rolesInstancesArray),$this->filteredRoles);
+        $gau = array(
+            'order' 	=> $order,
+            'orderdir'	=> strtoupper($sord),
+            'offset'    => $start,
+            'limit'		=> $limit
+        );
 
-		if (!$sidx) {
-		    $sidx = 1;
-		}
-		
-		$gau = array(
-				'order' 	=> $sidx,
-				'orderDir'	=> $sord,
-				'start'		=> $start,
-				'limit'		=> $limit
-		);
-		
-		if (!is_null($searchField)) {
-			$gau['search'] = array(
-				'field' => $searchField,
-				'op' => $searchOper,
-				'filteredRoles'	=> $filteredRolesArray,
-				'string' => $searchString
-			);
-		}
-		
 		// get total user count...
-		$users = $this->userService->getAllUsers(); 
+		$users = $this->userService->getAllUsers();
 		$counti =  count($users);
-		
+
 		// get the users using requested paging...
-		$users = $this->userService->getAllUsers(array('offset' => $start, 'limit' => $limit));
+		$users = $this->userService->getAllUsers($gau);
 		$rolesProperty		= new core_kernel_classes_Property(PROPERTY_USER_ROLES);
-		
-		$response = new stdClass();
-		$i = 0;
-		
+
+
+		$index = 0;
 		foreach ($users as $user) {
-			
+
 			$propValues = $user->getPropertiesValues(array(
 				PROPERTY_USER_LOGIN,
 				PROPERTY_USER_FIRSTNAME,
@@ -125,27 +112,27 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				PROPERTY_USER_UILG,
 				PROPERTY_USER_ROLES
 			));
-			
+
 			$roles = $user->getPropertyValues($rolesProperty);
 			$labels = array();
 			foreach ($roles as $uri) {
 				$r = new core_kernel_classes_Resource($uri);
 				$labels[] = $r->getLabel();
 			}
-			
+
 			$firstName = empty($propValues[PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_FIRSTNAME]);
 			$lastName = empty($propValues[PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
 			$uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
 			$dataRes = empty($propValues[PROPERTY_USER_DEFLG]) ? null : current($propValues[PROPERTY_USER_DEFLG]);
-			
-			$response->users[$i]['id']= tao_helpers_Uri::encode($user->getUri());
-			$response->users[$i]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
-			$response->users[$i]['name'] = $firstName.' '.$lastName;
-			$response->users[$i]['mail'] = (string)current($propValues[PROPERTY_USER_MAIL]);
-			$response->users[$i]['roles'] = implode(', ', $labels);
-			$response->users[$i]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
-			$response->users[$i]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
-			$i++;
+
+			$response->data[$index]['id']= tao_helpers_Uri::encode($user->getUri());
+			$response->data[$index]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
+			$response->data[$index]['name'] = $firstName.' '.$lastName;
+			$response->data[$index]['mail'] = (string)current($propValues[PROPERTY_USER_MAIL]);
+			$response->data[$index]['roles'] = implode(', ', $labels);
+			$response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
+			$response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
+			$index++;
 		}
 
 		$response->page = floor($start / $limit) + 1;
@@ -161,16 +148,21 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	 * @return vois
 	 */
 	public function delete(){
+        $deleted = false;
 		$message = __('An error occured during user deletion');
 		if (helpers_PlatformInstance::isDemo()) {
 		    $message = __('User deletion not permited on a demo instance');
 		} elseif($this->hasRequestParameter('uri')) {
 			$user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-			if($this->userService->removeUser($user)){
+              if($this->userService->removeUser($user)){
+                $deleted = true;
 				$message = __('User deleted successfully');
-			}
+            }
 		}
-		$this->redirect(_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao', 'message' => $message)));
+        $this->returnJson(array(
+            'deleted' => deleted,
+            'message' => $message
+        ));
 	}
 
 	/**
@@ -190,7 +182,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				unset($values['password2']);
 
 				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($myFormContainer->getUser());
-				
+
 				if($binder->bind($values)){
 					$this->setData('message', __('User added'));
 					$this->setData('exit', true);
@@ -208,26 +200,26 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		
+
 		$clazz = new core_kernel_classes_Class(CLASS_TAO_USER);
 		$formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
 		$myForm = $formContainer->getForm();
-		
+
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				
+
 				$properties = $myForm->getValues();
 				$instance = $this->createInstance(array($clazz), $properties);
-				
+
 				$this->setData('message', __($instance->getLabel().' created'));
 				//$this->setData('reload', true);
 				$this->setData('selectTreeNode', $instance->getUri());
 			}
 		}
-		
+
 		$this->setData('formTitle', __('Create instance of ').$clazz->getLabel());
 		$this->setData('myForm', $myForm->render());
-	
+
 		$this->setView('form.tpl', 'tao');
 	}
 
@@ -282,16 +274,14 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				}
 
 				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
-				
+
 				if($binder->bind($values)){
 					$this->setData('message', __('User saved'));
-					$this->setData('exit', true);
 				}
 			}
 		}
 
 		$this->setData('formTitle', __('Edit a user'));
-		$this->setData('Roles', json_encode(""));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('user/form.tpl');
 	}
