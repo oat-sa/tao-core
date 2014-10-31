@@ -96,10 +96,10 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         	$downloadButtonId = $this->buildDownloadButtonId();
         	$iFrameId = $this->buildIframeId();
         	$returnValue .= "<span class=\"widget_AsyncFile_fileinfo\">${shownFileTxt}</span>";
-        	$returnValue .= "<button id=\"${downloadButtonId}\" type=\"button\" class=\"download\" title=\"${downloadButtonTitle}\">";
-        	$returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" class=\"delete\" title=\"${deleteButtonTitle}\"/>";
-        	$returnValue .= "<iframe id=\"${iFrameId}\" frameborder=\"0\"/>";
-        	 
+        	$returnValue .= "<button id=\"${downloadButtonId}\" type=\"button\" class=\"download btn-neutral small icon-download\" title=\"${downloadButtonTitle}\">";
+        	$returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" class=\"delete btn-error small icon-remove\" title=\"${deleteButtonTitle}\"/>";
+        	$returnValue .= "<iframe style=\"display:none\" id=\"${iFrameId}\" frameborder=\"0\"/>";
+
         	// Inject behaviour of the Delete/Download buttons component in response.
         	$returnValue .= self::embedBehaviour($this->buildDeleterBehaviour() . $this->buildDownloaderBehaviour());
         }
@@ -176,19 +176,17 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         $max_post = (int)(ini_get('post_max_size'));
         $memory_limit = (int)(ini_get('memory_limit'));
         $fileSize = min($max_upload, $max_post, $memory_limit) * 1024 * 1024;
-        
-        $extensions = array();
+
+        $mimetypes = array();
         
         //add a client validation
         foreach($this->validators as $validator){
         	//get the valid file extensions
         	if($validator instanceof tao_helpers_form_validators_FileMimeType){
         		$options = $validator->getOptions();
-        		if(isset($options['extension'])){
-        			foreach($options['extension'] as $extension){
-        				$extensions[] = '*.'.$extension;
-        			}
-        		}
+                if(isset($options['mimetype'])){
+                    $mimetypes = $options['mimetype'] ;
+                }
         	}
         	//get the max file size
         	if($validator instanceof tao_helpers_form_validators_FileSize){
@@ -211,58 +209,55 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         	unset($this->attributes['auto']);
         }
         
-        //initialize the AsyncFileUpload Js component
-        $id = md5($this->name);
-         
-        // Build elements as a string that will be injected by jquery.
-        $elements = "<div id=\"{$widgetName}_container\" class=\"form-elt-container file-uploader\">";
-        $elements .= "<input type=\"hidden\" name=\"{$this->name}\" id=\"{$this->name}\" value=\"\" />";
-        $elements .= "<input type=\"file\" name=\"{$widgetName}\" id=\"{$widgetName}\" ";
-        $elements .= $this->renderAttributes();
-        $elements .= " value=\" \"/>";
-         
-        $elements .= "<br/><span>";
-        $elements .= "<img src=\"" . TAOBASE_WWW . "img/file_upload.png\" class=\"icon\" />";
-        $elements .= "<a href=\"#\" id=\"{$widgetName}_starter\" >" . __('Start upload') . "</a>";
-        $elements .= "</span>";
-        
-        if (true == $deleted){
-        	$elements .= "<span class=\"form-elt-info\">" . __('Click the Save button to confirm deletion.') . "</span>";
-        }
-         
-        $returnValue  = '$(document).ready(function() {';
-        $returnValue .= '	require(["jquery", "AsyncFileUpload"], function($, AsyncFileUpload){';
-         
-        // DOM Update...
-        $returnValue .=	'		$("#' . $this->buildWidgetContainerId() . '").html(\'' . $elements . '\');';
-         
-        // Scripting...
-        $returnValue .= '		myUploader_'.$id.' = new AsyncFileUpload("#' . $widgetName . '",';
-        $returnValue .= '			{';
-        $returnValue .= '				"scriptData": {"session_id": "' . session_id() . '"},';
-        $returnValue .= '				"basePath": "' . TAOBASE_WWW . '",';
-        $returnValue .= '				"sizeLimit": ' . $fileSize . ',';
-        $returnValue .= '				"starter" : "#' . $widgetName . '_starter",';
-        $returnValue .= '				"target": "#' . $widgetName . '_container input[id=\''.$this->name.'\']",';
-        $returnValue .= '				"submitter": ".form-submitter",';
-        $returnValue .= '				"auto": '.$auto.',';
-        $returnValue .= '				"folder": "/",';
-        $returnValue .= '				"height": 22';
-         
-        if (count($extensions) > 0) {
-        	$allowedTypes = implode(', ', $extensions);
-        	$allowedTypes = __('Allowed files types: ') . $allowedTypes;
-        	$allowedExtensions = implode(';', $extensions);
-        
-        	$returnValue .='		   ,"fileDesc": "'. $allowedTypes . '"';
-        	$returnValue .='		   ,"fileExt": "' . $allowedExtensions . '"';
-        }
-         
-        $returnValue .= '			}'; // End of options.
-        $returnValue .= '		);'; // End of AsyncFileUpload instantiation.
-        $returnValue .= '	});'; // End of require.
-        $returnValue .= '});'; // End of $(document).ready()
-        
+        //initialize the Uploader Js component
+        $returnValue .= '
+                 require([\'jquery\',  \'ui/feedback\', \'ui/uploader\'], function($, feedback){
+					 $("#' . $this->buildWidgetContainerId().'").uploader({
+							 uploadUrl: "' . ROOT_URL . 'tao/File/upload",
+							inputName: "'.$widgetName.'",
+							autoUpload: ' . $auto . '  ,
+							fileSelect  : function(files, done){
+											var error = [],
+												givenLength = files.length,
+												filters = "'.implode(',',$mimetypes).'".split(",").filter(function(e){return e.length});
+
+												if (filters.length){
+
+													files = _.filter(files, function(file){
+														return _.contains(filters, file.type);
+													});
+
+													if(files.length !== givenLength){
+														error.push( "Unauthorized files have been removed");
+													}
+
+												}
+
+												files = _.filter(files, function(file){
+														return file.size <= ' . $fileSize . ';
+													});
+
+												if(files.length !== givenLength && !error.length){
+													error.push( "Size limit is ' . $fileSize . ' bytes");
+												}
+
+												if (error.length){
+													feedback().error(error.join(","));
+												}
+
+												done(files);
+												if ( '.$auto.' ){
+													$(this).uploader("upload");
+												}
+										 }
+
+					 }).on("upload.uploader", function(e, file, result){
+					 	if ( result && result.uploaded ){
+							$(e.target).append($("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data));
+						}
+					 })
+			});';
+
 
         return (string) $returnValue;
     }
@@ -404,5 +399,3 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_GenerisAsyncFile */
-
-?>
