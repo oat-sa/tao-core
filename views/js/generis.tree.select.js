@@ -12,7 +12,7 @@
  * @author Jehan Bihin (class)
  */
 
-define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers'], function($, __, context, GenerisTreeClass, helpers) {
+define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback'], function($, __, context, GenerisTreeClass, helpers, feedback) {
 	var GenerisTreeSelectClass = GenerisTreeClass.extend({
 		/**
 		 * Constructor
@@ -330,7 +330,7 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers'], function($, __,
 						if (instance.options.saveCallback) {
 							instance.options.saveCallback(toSend);
 						}
-						helpers.createInfoMessage(__('Selection saved successfully'));
+						feedback().info(__('Selection saved successfully'));
 					}
 				},
 				complete: function() {

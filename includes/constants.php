@@ -92,16 +92,12 @@ $todefine = array(
 	'CLASS_MANAGEMENTROLE'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole',
 	'CLASS_WORKERROLE'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole',
 	'CLASS_TAO_USER'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#User',
+	'DEFAULT_USER_URI_SUFFIX'			=> '#superUser',
 	
 	'CLASS_OAUTH_CONSUMER' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer',
 	'PROPERTY_OAUTH_KEY'			    => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey',
 	'PROPERTY_OAUTH_SECRET'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret',
     'PROPERTY_OAUTH_CALLBACK'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl',
-    
-	'CLASS_GENERIS_COMMENT'				=> 'http://www.tao.lu/Ontologies/generis.rdf#comment',
-	'PROPERTY_GENERIS_RESOURCE_COMMENT'	=> 'http://www.tao.lu/Ontologies/generis.rdf#generisRessourceComment',
-	'PROPERTY_COMMENT_AUTHOR'		=> 'http://www.tao.lu/Ontologies/generis.rdf#commentAuthor',
-	'PROPERTY_COMMENT_TIMESTAMP'	=> 'http://www.tao.lu/Ontologies/generis.rdf#commentTimestamp',
     
     // @todo properly migrate service and service calls to tao
     'CLASS_CALLOFSERVICES'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfServices',

@@ -1,4 +1,4 @@
-define(['jquery', 'i18n', 'context', 'helpers'], function($, __, context, helpers){
+define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, context, helpers, feedback){
 
     var ext_installed = [];
     var toInstall = [];
@@ -77,7 +77,7 @@ define(['jquery', 'i18n', 'context', 'helpers'], function($, __, context, helper
                                     installError = 1;
                                     progressConsole('Installation of ' + ext + ' failed');
                             }
-                            helpers.createInfoMessage(data.message);
+                            feedback().info(data.message);
                     }
             });
 
