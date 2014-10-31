@@ -89,7 +89,8 @@ class AuthTestCase extends TaoPhpUnitTestRunner {
 			tao_models_classes_UserService::singleton()->logout();
 		}
 		if(isset($_SESSION)){
-		    session_destroy();
+		    //session not started in testsuite
+		    //session_destroy();
 		}
 	}
 
