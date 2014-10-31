@@ -46,13 +46,13 @@ nav .settings-menu li:hover ul { left: auto; right: 0; }
 .dark-bar a { color: #e6e6e6; }
 .dark-bar a:hover { color: white; text-decoration: none; }
 
-header { position: relative; border-bottom: 1px #ddd solid; }
+.content-wrap > header { position: relative; border-bottom: 1px #ddd solid; }
 
-footer, .content-wrap:after { height: 34px; }
+body > footer, .content-wrap:after { height: 34px; }
 
-footer { font-size: 11px; padding: 10px; border-top: 1px #ddd solid; }
-footer a { text-decoration: underline; }
-footer .icon-warning { text-shadow: 0 0 0 transparent; color: #fc6; padding-right: 2px; position: relative; top: 1px; }
+body > footer { font-size: 11px; padding: 10px; border-top: 1px #ddd solid; }
+body > footer a { text-decoration: underline; }
+body > footer .icon-warning { text-shadow: 0 0 0 transparent; color: #fc6; padding-right: 2px; position: relative; top: 1px; }
 
 .content-wrap { min-height: 100%; margin-bottom: -34px; }
 
@@ -173,7 +173,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .section-container .content-block .data-container-wrapper > section form, .section-container .content-block .data-container-wrapper .data-container form { background: none; border: none; margin: 0; padding: 0; }
 .section-container .content-block .data-container-wrapper > section > header, .section-container .content-block .data-container-wrapper > section .ui-widget-header, .section-container .content-block .data-container-wrapper .data-container > header, .section-container .content-block .data-container-wrapper .data-container .ui-widget-header { background: #f2f0ee; border-width: 0px !important; border-bottom: 1px #ddd solid !important; }
 .section-container .content-block .data-container-wrapper > section > header h1, .section-container .content-block .data-container-wrapper > section .ui-widget-header h1, .section-container .content-block .data-container-wrapper .data-container > header h1, .section-container .content-block .data-container-wrapper .data-container .ui-widget-header h1 { padding: 4px; margin: 0; font-size: 14px; font-size: 1.4rem; }
-.section-container .content-block .data-container-wrapper > section > div, .section-container .content-block .data-container-wrapper > section .ui-widget-content, .section-container .content-block .data-container-wrapper > section .container-content, .section-container .content-block .data-container-wrapper .data-container > div, .section-container .content-block .data-container-wrapper .data-container .ui-widget-content, .section-container .content-block .data-container-wrapper .data-container .container-content { border-width: 0px !important; overflow-y: auto; min-height: 250px; }
+.section-container .content-block .data-container-wrapper > section > div, .section-container .content-block .data-container-wrapper > section .ui-widget-content, .section-container .content-block .data-container-wrapper > section .container-content, .section-container .content-block .data-container-wrapper .data-container > div, .section-container .content-block .data-container-wrapper .data-container .ui-widget-content, .section-container .content-block .data-container-wrapper .data-container .container-content { border-width: 0px !important; overflow-y: auto; min-height: 250px; padding: 5px; }
 .section-container .content-block .data-container-wrapper > section > footer, .section-container .content-block .data-container-wrapper > section .data-container-footer, .section-container .content-block .data-container-wrapper .data-container > footer, .section-container .content-block .data-container-wrapper .data-container .data-container-footer { background: #f2f0ee; text-align: right !important; padding: 4px; border-width: 0px !important; border-top: 1px #ddd solid !important; }
 .section-container .content-block .data-container-wrapper > section > footer .square, .section-container .content-block .data-container-wrapper > section .data-container-footer .square, .section-container .content-block .data-container-wrapper .data-container > footer .square, .section-container .content-block .data-container-wrapper .data-container .data-container-footer .square { width: 28px; }
 .section-container .content-block .data-container-wrapper > section > footer .square span, .section-container .content-block .data-container-wrapper > section .data-container-footer .square span, .section-container .content-block .data-container-wrapper .data-container > footer .square span, .section-container .content-block .data-container-wrapper .data-container .data-container-footer .square span { padding: 0; left: 0; }

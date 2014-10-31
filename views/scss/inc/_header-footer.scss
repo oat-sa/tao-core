@@ -187,18 +187,18 @@ nav {
     }
 }
 
-header {
+.content-wrap > header {
     position: relative;
     border-bottom: 1px $uiGeneralContentBorder solid;
 }
 
 // Footer
-footer, .content-wrap:after {
+body > footer, .content-wrap:after {
     // must be the same height as footer
     height: 34px;
 }
 
-footer {
+body > footer {
     font-size: 11px;
     padding: 10px;
     border-top: 1px $uiGeneralContentBorder solid;
