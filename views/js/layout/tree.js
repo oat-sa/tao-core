@@ -525,7 +525,7 @@ define([
         
 
         var needMore = function needMore(node){
-           if(_.isArray(node) && lastOpened.length && lastOpened.data('count') > pageRange){
+           if(_.isArray(node) && lastOpened && lastOpened.length && lastOpened.data('count') > pageRange){
                node.push(moreNode);
            } else {
                 if(node.count){
