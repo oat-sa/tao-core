@@ -437,6 +437,6 @@ class tao_helpers_Uri
         return (bool) $returnValue;
     }
 
-} /* end of class tao_helpers_Uri */
+}
 
 ?>

@@ -583,6 +583,6 @@ class tao_helpers_translation_TranslationFile
         return (int) $returnValue;
     }
 
-} /* end of class tao_helpers_translation_TranslationFile */
+}
 
 ?>

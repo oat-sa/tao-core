@@ -39,6 +39,6 @@ class tao_helpers_translation_TranslationException
 
     // --- OPERATIONS ---
 
-} /* end of class tao_helpers_translation_TranslationException */
+}
 
 ?>

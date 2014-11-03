@@ -414,6 +414,6 @@ class tao_helpers_grid_Column
         return (array) $returnValue;
     }
 
-} /* end of class tao_helpers_grid_Column */
+}
 
 ?>

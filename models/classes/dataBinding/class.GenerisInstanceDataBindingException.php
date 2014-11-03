@@ -39,6 +39,6 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBindingException
 
     // --- OPERATIONS ---
 
-} /* end of class tao_models_classes_dataBinding_GenerisInstanceDataBindingException */
+}
 
 ?>

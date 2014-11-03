@@ -336,11 +336,12 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$extractor = new tao_helpers_translation_StructureExtractor($taoStructurePaths);
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
-		$this->assertEquals(23, count($tus));
-		$this->assertEquals('search', $tus[3]->getSource());
-		$this->assertEquals('delete', $tus[6]->getSource());
-		$this->assertEquals('Items', $tus[15]->getSource());
-		$this->assertEquals('preview', $tus[21]->getSource());
+
+		$this->assertEquals(26, count($tus));
+		$this->assertEquals('Search', $tus[6]->getSource());
+		$this->assertEquals('Delete', $tus[9]->getSource());
+		$this->assertEquals('Items', $tus[17]->getSource());
+		$this->assertEquals('Preview', $tus[24]->getSource());
 	}
 
 	public function testSourceExtraction() {

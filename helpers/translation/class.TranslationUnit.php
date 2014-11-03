@@ -450,4 +450,4 @@ class tao_helpers_translation_TranslationUnit
         return (bool) $returnValue;
     }
 
-} /* end of class tao_helpers_translation_TranslationUnit */
+} 

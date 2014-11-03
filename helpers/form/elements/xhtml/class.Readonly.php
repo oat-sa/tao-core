@@ -64,6 +64,6 @@ class tao_helpers_form_elements_xhtml_Readonly
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_form_elements_xhtml_Readonly */
+}
 
 ?>

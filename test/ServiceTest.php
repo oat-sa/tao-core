@@ -1,10 +1,5 @@
 <?php
-use oat\tao\model\menu\MenuService;
-use oat\tao\test\TaoPhpUnitTestRunner;
-
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
-
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -23,6 +18,19 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+namespace oat\tao\test;
+
+
+use oat\tao\model\menu\MenuService;
+use oat\tao\test\TaoPhpUnitTestRunner;
+use \tao_models_classes_TaoService;
+use \tao_models_classes_UserService;
+use \core_kernel_classes_Class;
+use \common_ext_NamespaceManager;
+use \common_cache_FileCache;
+use \common_ext_ExtensionsManager;
+
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * This class enable you to test the models managment of the tao extension
@@ -165,6 +173,44 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 		$testModelClass->delete();
 	}
 	
+	/**
+	 * 
+	 * @author Lionel Lecaque, lionel@taotesting.com
+	 */
+	public function testSetUploadFileSource(){
+	    
+	    //backup previous config
+	    $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+	    $previous = $ext->getConfig(tao_models_classes_TaoService::CONFIG_UPLOAD_FILESOURCE);
+	    
+	    $prophet = new \Prophecy\Prophet;
+	    $repo = $prophet->prophesize('core_kernel_versioning_Repository');
+	    
+	    $repo->getUri()->willReturn('#fakeUri');
+	    $mock = $repo->reveal();
+	    $this->taoService->setUploadFileSource($mock);
+	    
+	    $new = $ext->getConfig(tao_models_classes_TaoService::CONFIG_UPLOAD_FILESOURCE);
+	    $this->assertEquals('#fakeUri', $new);
+	    
+	    //restore config
+	    $this->assertTrue($ext->setConfig(tao_models_classes_TaoService::CONFIG_UPLOAD_FILESOURCE,$previous));
+	    
+
+	}
+	/**
+	 * 
+	 * @author Lionel Lecaque, lionel@taotesting.com
+	 */
+	public function testGetUploadFileSource(){
+	    $repo = $this->taoService->getUploadFileSource();
+	    $this->assertInstanceOf('core_kernel_versioning_Repository', $repo);
+	}
+	
+	/**
+	 * 
+	 * @author Lionel Lecaque, lionel@taotesting.com
+	 */
 	public function testFileCacheService(){
 		$fc = common_cache_FileCache::singleton();
 		
@@ -194,7 +240,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 		$fc->remove('testcase3');
 		
 		
-		$e = new Exception('message"\\\'');
+		$e = new \Exception('message"\\\'');
 		$fc->put($e, 'testcase4');
 		$fromCache = $fc->get('testcase4');
 		

@@ -1565,4 +1565,4 @@ class tao_scripts_TaoTranslate
         return basename($f) . '.po';
     }
 
-} /* end of class tao_scripts_TaoTranslate */
+}
