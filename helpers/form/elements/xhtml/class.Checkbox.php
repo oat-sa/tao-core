@@ -142,6 +142,6 @@ class tao_helpers_form_elements_xhtml_Checkbox
         
     }
 
-} /* end of class tao_helpers_form_elements_xhtml_Checkbox */
+}
 
 ?>

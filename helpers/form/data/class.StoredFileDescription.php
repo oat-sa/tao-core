@@ -52,6 +52,6 @@ class tao_helpers_form_data_StoredFileDescription
         
     }
 
-} /* end of class tao_helpers_form_data_StoredFileDescription */
+}
 
 ?>

@@ -67,6 +67,6 @@ class tao_models_grids_CustomUsers
         return (bool) $returnValue;
     }
 
-} /* end of class tao_models_grids_CustomUsers */
+}
 
 ?>

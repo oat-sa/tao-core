@@ -79,6 +79,6 @@ class tao_helpers_form_elements_xhtml_Combobox
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_form_elements_xhtml_Combobox */
+}
 
 ?>

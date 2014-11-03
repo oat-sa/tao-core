@@ -230,4 +230,4 @@ class tao_helpers_translation_RDFExtractor
 		return $tus;
 	}
 
-} /* end of class tao_helpers_translation_RDFExtractor */
+}

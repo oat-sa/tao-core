@@ -72,6 +72,6 @@ class tao_actions_form_Repository
 		        
     }
 
-} /* end of class tao_actions_form_Repository */
+}
 
 ?>

@@ -127,6 +127,6 @@ class tao_helpers_transfert_MailAdapter
         return (int) $returnValue;
     }
 
-} /* end of class tao_helpers_transfert_MailAdapter */
+}
 
 ?>

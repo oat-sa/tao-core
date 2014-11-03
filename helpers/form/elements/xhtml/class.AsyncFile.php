@@ -187,4 +187,4 @@ class tao_helpers_form_elements_xhtml_AsyncFile
         
     }
 
-} /* end of class tao_helpers_form_elements_xhtml_AsyncFile */
+}

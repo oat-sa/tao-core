@@ -96,6 +96,6 @@ class tao_helpers_form_validators_FileSize
         return (bool) $returnValue;
     }
 
-} /* end of class tao_helpers_form_validators_FileSize */
+}
 
 ?>

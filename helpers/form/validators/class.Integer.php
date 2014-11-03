@@ -76,6 +76,6 @@ class tao_helpers_form_validators_Integer
         return (bool) $returnValue;
     }
 
-} /* end of class tao_helpers_form_validators_Integer */
+}
 
 ?>

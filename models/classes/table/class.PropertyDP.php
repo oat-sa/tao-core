@@ -111,6 +111,6 @@ class tao_models_classes_table_PropertyDP
         return $returnValue;
     }
 
-} /* end of class tao_models_classes_table_PropertyDP */
+}
 
 ?>

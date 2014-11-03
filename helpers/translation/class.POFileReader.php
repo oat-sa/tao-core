@@ -118,4 +118,4 @@ class tao_helpers_translation_POFileReader
 
     }
 
-} /* end of class tao_helpers_translation_POFileReader */
+}

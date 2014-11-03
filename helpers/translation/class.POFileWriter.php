@@ -90,6 +90,6 @@ class tao_helpers_translation_POFileWriter
         
     }
 
-} /* end of class tao_helpers_translation_POFileWriter */
+}
 
 ?>

@@ -529,6 +529,6 @@ class tao_scripts_TaoExtensions
        
     }
 
-} /* end of class tao_scripts_TaoExtensions */
+}
 
 ?>
