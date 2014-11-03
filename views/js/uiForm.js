@@ -49,6 +49,7 @@ define([
                     }
 
                     self.initRendering();
+                    console.log('init forms for ', testedUrl);
                     self.initElements();
                     if (self.initGenerisFormPattern.test(testedUrl)) {
                         self.initOntoForms();
