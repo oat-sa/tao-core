@@ -1,12 +1,12 @@
 @import "inc/bootstrap";
 .tree {
-    overflow: auto;
+
+    overflow:auto;
+    max-height: 75vh;
 
     .ltr, .rtl {
-        min-height: 150px;
-        max-height: 75vh;
-        overflow:auto;
         margin-top: 8px;
+        min-height: 150px;
     }
 
     ul {
