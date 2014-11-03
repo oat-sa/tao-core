@@ -166,7 +166,7 @@ define([
                  * 
                  * @param {Object} tree - the tree instance 
                  *
-                 * @fires layout/tree#change.taotree
+                 * @fires layout/tree#ready.taotree
                  */
                 onload: function(tree){
 
@@ -209,13 +209,6 @@ define([
                             _.delay(nodeSelection, 10); //delay needed as jstree seems to doesn't know the callbacks right now...,
                         });
                     }
-
-                    /**
-                     * The tree state has changed
-                     * @event layout/tree#change.taotree
-                     * @param {Object} [context] - the tree context (uri, classUri)
-                     */       
-                    $elt.trigger('change.taotree');
 
                     /**
                      * The tree is now ready
@@ -532,7 +525,7 @@ define([
         
 
         var needMore = function needMore(node){
-           if(_.isArray(node) && lastOpened.length && lastOpened.data('count') > pageRange){
+           if(_.isArray(node) && lastOpened && lastOpened.length && lastOpened.data('count') > pageRange){
                node.push(moreNode);
            } else {
                 if(node.count){
