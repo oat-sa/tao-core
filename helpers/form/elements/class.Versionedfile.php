@@ -45,6 +45,6 @@ abstract class tao_helpers_form_elements_Versionedfile
 
     // --- OPERATIONS ---
 
-} /* end of class tao_helpers_form_elements_Versionedfile */
+}
 
 ?>

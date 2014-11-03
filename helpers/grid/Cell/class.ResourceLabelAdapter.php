@@ -65,6 +65,6 @@ class tao_helpers_grid_Cell_ResourceLabelAdapter
         return $returnValue;
     }
 
-} /* end of class tao_helpers_grid_Cell_ResourceLabelAdapter */
+}
 
 ?>

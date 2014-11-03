@@ -55,6 +55,6 @@ class tao_models_classes_UserException
         
     }
 
-} /* end of class tao_models_classes_UserException */
+}
 
 ?>

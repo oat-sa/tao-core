@@ -190,4 +190,4 @@ class tao_helpers_translation_POFile
         $this->setTranslationUnits($tus);
     }
 
-} /* end of class tao_helpers_translation_POFile */
+}

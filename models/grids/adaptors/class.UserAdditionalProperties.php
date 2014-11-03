@@ -68,6 +68,6 @@ class tao_models_grids_adaptors_UserAdditionalProperties
         return $returnValue;
     }
 
-} /* end of class tao_models_grids_adaptors_UserAdditionalProperties */
+}
 
 ?>

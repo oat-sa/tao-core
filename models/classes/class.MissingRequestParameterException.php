@@ -38,6 +38,6 @@ class tao_models_classes_MissingRequestParameterException
 		parent::__construct('Missing or invalid parameter '.$parameter);
     }
 
-} /* end of class common_exception_Error */
+}
 
 ?>

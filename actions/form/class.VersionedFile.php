@@ -391,6 +391,6 @@ class tao_actions_form_VersionedFile
         return $returnValue;
     }
 
-} /* end of class tao_actions_form_VersionedFile */
+}
 
 ?>

@@ -233,6 +233,6 @@ class tao_helpers_translation_POUtils
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_translation_POUtils */
+}
 
 ?>

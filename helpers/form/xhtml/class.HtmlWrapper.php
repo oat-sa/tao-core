@@ -138,6 +138,6 @@ class tao_helpers_form_xhtml_HtmlWrapper
         
     }
 
-} /* end of class tao_helpers_form_xhtml_HtmlWrapper */
+}
 
 ?>
