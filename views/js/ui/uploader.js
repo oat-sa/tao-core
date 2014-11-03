@@ -26,6 +26,8 @@ define([
         multiple            : false,
         uploadQueueSize     : 3,
         inputName           : 'content',
+        showResetButton     : true,
+        showUploadButton    : true,
         browseBtnClass      : 'btn-browse',
         uploadBtnClass      : 'btn-upload',
         resetBtnClass       : 'btn-reset',

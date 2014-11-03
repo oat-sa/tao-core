@@ -215,7 +215,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
 					 $("#' . $this->buildWidgetContainerId().'").uploader({
 							 uploadUrl: "' . ROOT_URL . 'tao/File/upload",
 							inputName: "'.$widgetName.'",
-							autoUpload: ' . $auto . '  ,
+							autoUpload: "' . $auto . '"  ,
+							showResetButton: "' . !$auto . '" ,
+							showUploadButton: "' . !$auto . '" ,
 							fileSelect  : function(files, done){
 											var error = [],
 												givenLength = files.length,
