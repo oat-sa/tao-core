@@ -101,8 +101,8 @@ class tao_actions_RdfImExport extends tao_actions_CommonModule {
         if(!empty($rdf)){
             common_Logger::i('Saving to '.$path);
             if(file_put_contents($path, $rdf)){
-                $relPath = tao_helpers_Export::getRelativPath($path);
-                $this->setData('download', _url('downloadExportedFiles', 'Export', null, array('filePath' => $relPath, 'fileName' => $name)));
+                // output the rdf directly
+                return tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($path));
             }
         } else {
             common_Logger::w('Exported RDF was empty');

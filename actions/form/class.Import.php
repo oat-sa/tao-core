@@ -56,7 +56,8 @@ extends tao_helpers_form_FormContainer
 		}
 		parent::__construct(array(
 			'importHandler' => get_class($importHandler),
-			'classUri'		=> $class->getUri()
+			'classUri'		=> $class->getUri(),
+		    'id'            => $class->getUri()
 		));
 	}
 
@@ -101,6 +102,9 @@ extends tao_helpers_form_FormContainer
 //		$classUriElt->setValue($class->getUri());
 		$this->form->addElement($classUriElt);
 
+		$classUriElt = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
+		$this->form->addElement($classUriElt);
+		
 		$this->form->addElement($formatElt);
 		$this->form->createGroup('formats', __('Supported import formats'), array('importHandler'));
 
