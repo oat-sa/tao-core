@@ -19,7 +19,7 @@
  * 
  */
 function onLoad(){
-	
+
         // Set up the list of available timezones.
 	/*var availableSampleItems = install.getData('available_sampledata');
 	if (availableSampleItems != null){
@@ -57,13 +57,78 @@ function onLoad(){
 						.attr('disabled', true);
 		$('#submitForm').attr('value', 'Next');
 	};
-	
+
+
+	(function () {
+		var result,
+			availableDrivers = install.getData('available_drivers'),
+
+			optionsTemplateForApi = {database: "dbname", driver: "", host: "localhost", optional: false, overwrite: false},//common option to be merged with passwords
+			dataToBeChecked = [],//internal ,
+			credentialCandidates = [
+				{user: "root", password: ""},
+				{user: "root", password: "root"},
+				{user: "admin", password: ""},
+				{user: "admin", password: "admin"},
+			],
+
+			$loadingIndicator = $('#database'),
+			$checkButton = $('#reCheckDefaults'),
+
+			spinner = new Spinner(getSpinnerOptions('small')),
+
+			checkCredentials = function (testData, cb) {
+				install.checkDatabaseConnection(testData, function (status, data) {
+					if (data && data.value.status === 'valid') {
+						result = testData;
+						//checker.kill();
+					}
+					cb();
+				});
+			},
+			showAutoConfigResults = function () {
+				if (result) {
+					$('#database_host').val(result.host).removeClass('helpTaoInputLabel');
+					$('#database_user').val(result.user).removeClass('helpTaoInputLabel');
+					$('#database_password').val(result.password).removeClass('helpTaoInputLabel');
+					$('#database_driver').val(result.driver).removeClass('helpTaoInputLabel').trigger('change');
+					$('#database_name').focus();
+				}
+				$loadingIndicator.css('visibility', 'hidden');
+				spinner.stop();
+			},
+
+			checker = async.queue(checkCredentials, 3),
+
+			reCheckCredentials = function () {
+				//checker.kill();
+				spinner.spin($loadingIndicator[0]);
+				$loadingIndicator.css('visibility', 'visible').html('<span>' + $loadingIndicator.attr('data-autoconfiguration') + '</span>');
+				checker.push(dataToBeChecked);
+			};
+
+		if (availableDrivers != null && availableDrivers.length > 0){
+			//preparing full package of data nessasery for checking
+			for (var i in availableDrivers) {
+				for (var j in credentialCandidates) {
+					var commonOptions = $.extend({}, optionsTemplateForApi),
+						userPair = $.extend({}, credentialCandidates[j]);
+					commonOptions.driver = availableDrivers[i];
+					dataToBeChecked.push($.extend(commonOptions, userPair));
+				}
+			}
+			checker.drain = showAutoConfigResults;
+			$checkButton.bind('click', reCheckCredentials);//.trigger('click');
+		}
+
+	})();
+
 	$('form').bind('submit', function(){
 		// set a spinner up.
 		$database = $('#database');
-		$database.css('visibility', 'visible');
+		$database.css('visibility', 'visible').html('<span>'+$database.attr('data-next')+'</span>');
 		var spinner = new Spinner(getSpinnerOptions('small')).spin($database[0]);
-		
+
 		setTimeout(function(){ // Fake additional delay for user - 500ms.
 			var host = install.getData('database_host');
 			var user = install.getData('database_user');
