@@ -42,6 +42,6 @@ class tao_models_classes_FileNotFoundException
     	return $this->path;
     }
 
-} /* end of class common_exception_Error */
+}
 
 ?>

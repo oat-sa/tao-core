@@ -209,6 +209,6 @@ class tao_actions_form_Instance
         
     }
 
-} /* end of class tao_actions_form_Instance */
+}
 
 ?>

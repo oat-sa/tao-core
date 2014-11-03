@@ -72,6 +72,6 @@ abstract class tao_helpers_form_elements_GenerisAsyncFile
         
     }
 
-} /* end of class tao_helpers_form_elements_GenerisAsyncFile */
+}
 
 ?>

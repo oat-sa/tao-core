@@ -146,6 +146,6 @@ class tao_scripts_TaoInstall
         
     }
 
-} /* end of class tao_scripts_TaoInstall */
+}
 
 ?>

@@ -165,6 +165,6 @@ class tao_helpers_translation_RDFFileReader
         
     }
 
-} /* end of class tao_helpers_translation_RDFFileReader */
+} /* end of clas*/
 
 ?>

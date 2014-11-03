@@ -272,6 +272,6 @@ class tao_actions_form_Users
         
     }
 
-} /* end of class tao_actions_form_Users */
+}
 
 ?>

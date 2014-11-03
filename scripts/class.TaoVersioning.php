@@ -125,6 +125,6 @@ class tao_scripts_TaoVersioning
         
     }
 
-} /* end of class tao_scripts_TaoVersioning */
+}
 
 ?>

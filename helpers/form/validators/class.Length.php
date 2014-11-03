@@ -102,6 +102,6 @@ class tao_helpers_form_validators_Length
         return (bool) $returnValue;
     }
 
-} /* end of class tao_helpers_form_validators_Length */
+}
 
 ?>
