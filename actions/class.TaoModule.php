@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -17,14 +17,14 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013-2014 (update and modification) Open Assessment Technologies SA;
  * 
  */
-?>
-<?php
 
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\menu\MenuService;
+use oat\generis\model\data\permission\PermissionManager;
 
 /**
  * The TaoModule is an abstract controller, 
@@ -1301,5 +1301,19 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 		echo json_encode(array('deleted'	=> $deleted));
+	}
+	
+
+	/**
+	 * Test whenever the current user has "WRITE" access to the specified id
+	 *
+	 * @param string $resourceId
+	 * @return boolean
+	 */
+	protected function hasWriteAccess($resourceId) {
+	    $user = common_session_SessionManager::getSession()->getUser();
+	    $permisions = PermissionManager::getPermissionModel()->getPermissions($user, array($resourceId));
+	    $writeAccess = in_array('WRITE', $permisions[$resourceId]);
+	    return $writeAccess;
 	}
 }
