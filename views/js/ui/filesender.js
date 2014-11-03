@@ -32,17 +32,11 @@ define( ['jquery', 'lodash'], function($, _){
 	            $form   = this,
 	            id      = opts.frame,
                 $file, xhr, fd;
-    
-			if(!$form || !$form.is('form')){
-				$.error('This plugin can only be called on a FORM element');
-			}
+
 			if(!$form.attr('action') && (!opts.url || opts.url.trim().length === 0)){
 				$.error('An url is required in the options or at least an action ');
 			}
             $file = $form.find("input[type='file']");
-			if($file.length === 0){
-				$.error('This plugin is used to post files, your form should include an input element of type file.');
-			}
 
             if(xhr2){
                 //send using xhr2
@@ -75,6 +69,15 @@ define( ['jquery', 'lodash'], function($, _){
                 xhr.send(fd);
 			
             } else {
+                //for is not really nessasery when using XHR so moving to fallback section
+                if(!$form || !$form.is('form')){
+                    $.error('This plugin can only be called on a FORM element');
+                }
+
+                if($file.length === 0){
+                    $.error('This plugin is used to post files, your form should include an input element of type file.');
+                }
+
                 //send by iframe
 
                 //the iframe identifier is composed by opts.frame + (form.id or form.name or timestamp)
