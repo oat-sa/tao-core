@@ -161,7 +161,7 @@ define([
                 
                 this._trigger();
 
-                if(this.options.timeout[this.level] >= 0){
+                if(this._getTimeout() >= 0){
                     setTimeout(function(){
                     
                         //volatiles messages auto close and peristent collaspe
@@ -171,7 +171,7 @@ define([
                             //self.collapse();
                         //}
 
-                    }, this.options.timeout[this.level]);
+                    }, this._getTimeout());
                 }
             }
             return this;
@@ -208,6 +208,21 @@ define([
             if(_.isFunction(this.options[name])){
                 this.options[name].call(this);
             }
+        },
+
+        /**
+         * Get level-specific or custom timeout for message
+         * @returns {*}
+         * @private
+         */
+        _getTimeout: function (level) {
+            if (_.isUndefined(level)){
+                level = this.level;
+            }
+            if (_.isObject(this.options.timeout)) {
+                return this.options.timeout[level];
+            }
+            return this.options.timeout;
         }
     };
 
