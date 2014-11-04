@@ -25,6 +25,7 @@ use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\menu\MenuService;
 use oat\generis\model\data\permission\PermissionManager;
+use oat\tao\model\accessControl\data\DataAccessControl;
 
 /**
  * The TaoModule is an abstract controller, 
@@ -1312,8 +1313,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
 	protected function hasWriteAccess($resourceId) {
 	    $user = common_session_SessionManager::getSession()->getUser();
-	    $permisions = PermissionManager::getPermissionModel()->getPermissions($user, array($resourceId));
-	    $writeAccess = in_array('WRITE', $permisions[$resourceId]);
-	    return $writeAccess;
+	    return DataAccessControl::hasPrivileges($user, array($resourceId => 'WRITE'));
 	}
 }
