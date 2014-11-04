@@ -91,7 +91,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	 */
 	protected function getAvailableImportHandlers() {
 		return array(
-			new tao_models_classes_import_RdfImporter(),
+//			new tao_models_classes_import_RdfImporter(),
 		    new tao_models_classes_import_CsvImporter()
 		);
 	}
