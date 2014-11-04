@@ -38,14 +38,8 @@ class tao_actions_RdfImExport extends tao_actions_CommonModule {
         $this->setData('importForm', $form->render());
         
         $export = new tao_actions_form_NamespaceExportForm();
-        $form = $export->getForm();
-        if ($form->isSubmited()) {
-            if ($form->isValid()) {
-                $this->export($form);
-            }
-        }
-        $this->setData('exportForm', $form->render());
-        
+        $this->setData('exportForm', $export->getForm()->render());
+
         $this->setView('settings/rdfImExport.tpl', 'tao');
     }
     
@@ -77,36 +71,48 @@ class tao_actions_RdfImExport extends tao_actions_CommonModule {
         
     }
 
-    private function export(tao_helpers_form_Form $form) {
+    public function export() {
         
         common_Logger::i('export submited');
         
-        //file where we export
-        $name = $form->getValue('filename').'.rdf';
-        $path = tao_helpers_Export::getExportFile();
-
-        if(!tao_helpers_File::securityCheck($path, true)){
-            throw new Exception('Unauthorized file name');
+        if(!$this->hasRequestParameter('export_sent') || $this->getRequestParameter('export_sent') != 1){
+            return;
         }
 
-        $modelIds = array();
-        foreach($form->getValue('rdftpl') as $key => $value){
-            if(preg_match("/^ns_/", $key)){
-                $modelIds[] = (int)str_replace('ns_', '', $key);
-            }
-        };
-        $rdf = core_kernel_api_ModelExporter::exportModels($modelIds);
-
-        //save it
-        if(!empty($rdf)){
-            common_Logger::i('Saving to '.$path);
-            if(file_put_contents($path, $rdf)){
-                // output the rdf directly
-                return tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($path));
-            }
-        } else {
-            common_Logger::w('Exported RDF was empty');
+        $models = $this->getRequestParameter('namespaces');
+        if (!is_array($models) || !count($models)) {
+            throw new Exception('No namespaces to export');
         }
+
+        $rdf = core_kernel_api_ModelExporter::exportModels($models);
+
+        if (empty($rdf)) {
+            throw new Exception('Exported RDF was empty');
+        }
+
+        // filename to export to
+        $file = trim($this->getRequestParameter('filename'));
+        if (empty($file)) {
+            $file = 'rdffile';
+        }
+
+        // supply file extension if absent
+        $fileType = strtolower(substr($file, -4));
+        if ($fileType != '.rdf') {
+            $file .= '.rdf';
+        }
+
+        $path = tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR;
+
+        common_Logger::i('Saving to ' . $path . $file);
+
+        if(!file_put_contents($path . $file, $rdf)) {
+            throw new Exception('Check write permissions');
+        }
+
+        // output the rdf directly
+        return tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($path . $file));
+
     }
     
 }

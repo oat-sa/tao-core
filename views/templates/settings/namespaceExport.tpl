@@ -50,17 +50,18 @@
 	</table>
 
 <script type="text/javascript">
-$(document).ready(function(){
-
-	$('#ns_filter_all').click(function(){
-		$('.rdftpl_ns').attr('checked', 'checked');
-	});
-	$('#ns_filter_local').click(function(){
-		$('.rdftpl_ns').removeAttr('checked');
-		$('.rdftpl_ns_local').attr('checked', 'checked');
-	});
-	$('#ns_filter_none').click(function(){
-		$('.rdftpl_ns').removeAttr('checked');
-	});
+require(['jquery'], function($){
+    $(document).ready(function(){
+        $('#ns_filter_all').click(function(){
+            $('.rdftpl_ns').attr('checked', 'checked');
+        });
+        $('#ns_filter_local').click(function(){
+            $('.rdftpl_ns').removeAttr('checked');
+            $('.rdftpl_ns_local').attr('checked', 'checked');
+        });
+        $('#ns_filter_none').click(function(){
+            $('.rdftpl_ns').removeAttr('checked');
+        });
+    });
 });
 </script>
