@@ -1,0 +1,54 @@
+<?php
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ *
+ *
+ */
+
+//quick TZ fix
+if(function_exists("date_default_timezone_set")){
+	date_default_timezone_set('UTC');
+}
+
+require_once dirname(__FILE__) .'/../includes/raw_start.php';
+
+$sorted = \helpers_ExtensionHelper::sortByDependencies(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
+
+foreach ($sorted as $ext) {
+    $installed = common_ext_ExtensionsManager::singleton()->getInstalledVersion($ext->getId());
+    $current = $ext->getVersion();
+    if ($installed !== $current) {
+        echo $ext->getName().' requires update from '.$installed.' to '.$current.PHP_EOL;
+        $updaterClass = $ext->getManifest()->getUpdateHandler();
+        if (!is_null($updaterClass)) {
+            if (class_exists($updaterClass)) {
+                $updater = new $updaterClass($ext);
+                echo '  Running '.$updaterClass.PHP_EOL;
+                $newVersion = $updater->update($installed);
+                if ($newVersion == $current) {
+                    common_ext_ExtensionsManager::singleton()->registerExtension($ext);
+                    echo '  Successfully updated '.$ext->getName().' to '.$newVersion.PHP_EOL;
+                } else {
+                    echo '  Update of '.$ext->getName().' exited with version '.$newVersion.''.PHP_EOL;
+                }
+            }
+            common_cache_FileCache::singleton()->purge();
+        }
+    } else {
+        echo $ext->getName().' already up-to-date'.PHP_EOL;
+    }
+}
