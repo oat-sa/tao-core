@@ -41,6 +41,7 @@ foreach ($sorted as $ext) {
                 $newVersion = $updater->update($installed);
                 if ($newVersion == $current) {
                     common_ext_ExtensionsManager::singleton()->registerExtension($ext);
+                    common_ext_ExtensionsManager::singleton()->setEnabled($ext->getId());
                     echo '  Successfully updated '.$ext->getName().' to '.$newVersion.PHP_EOL;
                 } else {
                     echo '  Update of '.$ext->getName().' exited with version '.$newVersion.''.PHP_EOL;
