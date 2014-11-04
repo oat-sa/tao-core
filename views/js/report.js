@@ -12,7 +12,7 @@ define(['jquery', 'context', 'i18n'], function($, context, __){
 				$top.css('background-color', 'transparent');
 				$top.css('border-color', 'transparent');
 				
-				$('#fold > span').text(__('Hide detailed report'));
+				$('#fold > span.check-txt').text(__('Hide detailed report'));
 			}
 			else {
 				$content.css('display', 'none');
@@ -34,7 +34,7 @@ define(['jquery', 'context', 'i18n'], function($, context, __){
 					$top.css('background-color', '#e6eef4');
 				}
 				
-				$('#fold > span').text(__('Show detailed report'));
+				$('#fold > span.check-txt').text(__('Show detailed report'));
 			}
 		}
 	}
