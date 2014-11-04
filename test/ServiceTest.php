@@ -134,8 +134,8 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 		
 		
 		//clone instance
-		$clonedInstance = $this->taoService->cloneInstance($testInstance, $testModelClass);
-		$this->assertIsA( $clonedInstance, 'core_kernel_classes_Resource');
+		$clonedInstance = $testInstance->duplicate();
+		$this->assertIsA($clonedInstance, 'core_kernel_classes_Resource');
 		$this->assertNotEquals($clonedInstance->getUri(), $testInstance->getUri());
 		$this->assertEquals($testInstance->getUniquePropertyValue($testProperty), $clonedInstance->getUniquePropertyValue($testProperty));
 		

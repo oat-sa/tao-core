@@ -760,7 +760,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		
-		$clone = $this->service->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
+		$clone = $this->getCurrentInstance()->duplicate();
 		if(!is_null($clone)){
 			echo json_encode(array(
 				'label'	=> $clone->getLabel(),

@@ -203,28 +203,8 @@ abstract class tao_models_classes_GenerisService
     public function cloneInstance( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $clazz = null)
     {
         $returnValue = null;
- 
-        if (is_null($clazz)) {
-            $types = $instance->getTypes();
-            $clazz = current($types);
-        }
 
-   		$returnValue = $this->createInstance($clazz);
-		if(!is_null($returnValue)){
-			$properties = $clazz->getProperties(true);
-			foreach($properties as $property){
-			    $this->cloneInstanceProperty($instance, $returnValue, $property);
-			}
-			$label = $instance->getLabel();
-			$cloneLabel = "$label bis";
-			if(preg_match("/bis/", $label)){
-				$cloneNumber = (int)preg_replace("/^(.?)*bis/", "", $label);
-				$cloneNumber++;
-				$cloneLabel = preg_replace("/bis(.?)*$/", "", $label)."bis $cloneNumber" ;
-			}
-
-			$returnValue->setLabel($cloneLabel);
-		}
+        $returnValue = $instance->duplicate();
 
         return $returnValue;
     }
