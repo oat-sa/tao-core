@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -25,30 +25,19 @@
 		<a href="#" id="ns_filter_local" title="<?=__('Local Data (the local namespace containing only the data inserted by the users)')?>"><?=__('Local')?></a>
 		<a href="#" id="ns_filter_none" title="<?=__('Unselect all')?>"><?=__('None')?></a>
 		</span>
-	<table class="form-elt-container">
-		<tbody>
+		<ul class="plain">
 	<?php foreach($namespaces as $ns):?>
-			<tr>
-				<td>
-					<input 
-						type="checkbox" 
-						name="rdftpl_ns_<?=$ns->getModelId()?>"  
-						id="rdftpl_ns_<?=$ns->getModelId()?>"
-					<?php if($localNs == $ns->getModelId()):?>
-						class="rdftpl_ns rdftpl_ns_local" 
-					<?php else:?>
-						class="rdftpl_ns" 
-					<?php endif?>
-						
-					/>
-				</td>
-				<td><?=(string)$ns?></td>
-			</tr>
+			<li><input 
+				type="checkbox" 
+				name="rdftpl_ns_<?=$ns->getModelId()?>"  
+				id="rdftpl_ns_<?=$ns->getModelId()?>"
+				class="rdftpl_ns <?= $localNs == $ns->getModelId() ? 'rdftpl_ns_local' : '' ?>"
+			/>
+			<label for="rdftpl_ns_<?=$ns->getModelId()?>"><?=(string)$ns?></label>
+			</li>
 	<?php endforeach?>
-			
-		</tbody>
-	</table>
-
+		</ul>
+	
 <script type="text/javascript">
 require(['jquery'], function($){
     $(document).ready(function(){

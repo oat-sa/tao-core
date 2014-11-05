@@ -75,9 +75,6 @@ class tao_actions_RdfImExport extends tao_actions_CommonModule {
         
         common_Logger::i('export submited');
         
-        if(!$this->hasRequestParameter('export_sent') || $this->getRequestParameter('export_sent') != 1){
-            return;
-        }
 
         $models = $this->getRequestParameter('namespaces');
         if (!is_array($models) || !count($models)) {
@@ -90,17 +87,7 @@ class tao_actions_RdfImExport extends tao_actions_CommonModule {
             throw new Exception('Exported RDF was empty');
         }
 
-        // filename to export to
-        $file = trim($this->getRequestParameter('filename'));
-        if (empty($file)) {
-            $file = 'rdffile';
-        }
-
-        // supply file extension if absent
-        $fileType = strtolower(substr($file, -4));
-        if ($fileType != '.rdf') {
-            $file .= '.rdf';
-        }
+        $file = 'rdffile.rdf';
 
         $path = tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR;
 
