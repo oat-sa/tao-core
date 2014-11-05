@@ -121,13 +121,14 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 							showUploadButton: "' . !$auto . '" ,
 							fileSelect  : function(files, done){
 											var error = [],
+												files = files.filter(_.isObject),// due to Chrome drag\'n\'drop issue
 												givenLength = files.length,
 												filters = "'.implode(',',$mimetypes).'".split(",").filter(function(e){return e.length});
 
 												if (filters.length){
 
 													files = _.filter(files, function(file){
-														return _.contains(filters, file.type);
+														return !file.type || _.contains(filters, file.type);//IE9 doesnt detect type, so lets rely on server validation
 													});
 
 													if(files.length !== givenLength){
