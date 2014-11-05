@@ -15,6 +15,7 @@
             </h2>
             <div class="form-content">
                 <?=get_data('exportForm')?>
+                <div id="iframe-container"></div>
             </div>
         </div>
         <div class="ext-home-container">
@@ -46,6 +47,3 @@ if(get_data('importErrors')):?>
         });
     </script>
 <?php endif ?>
-<?php if (has_data('download')):?>
-	<iframe src="<?=get_data('download');?>" style="height: 0px;min-height: 0px"></iframe>
-<?php endif;?>
