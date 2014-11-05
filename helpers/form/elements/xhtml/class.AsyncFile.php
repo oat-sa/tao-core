@@ -72,15 +72,8 @@ class tao_helpers_form_elements_xhtml_AsyncFile
         $widgetName = 'Uploader_'.md5($this->name);
 
         $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
-
+		$returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
 		$returnValue .= "<div id='{$widgetName}_container' class='form-elt-container file-uploader'>";
-        $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
-        $returnValue .= "<input type='file' name='{$widgetName}' id='{$widgetName}' ";
-		$returnValue .= $this->renderAttributes();
-		$returnValue .= "/>";
-		$returnValue .= "<span>";
-		$returnValue .= "<input type='button' id='{$widgetName}_starter' class='btn-upload' value='".__('Start upload')."'/>";
-		$returnValue .= "</span>";
 
 		//get the upload max size
 		$fileSize = tao_helpers_Environment::getFileUploadLimit();
@@ -163,7 +156,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 
 					 }).on("upload.uploader", function(e, file, result){
 					 	if ( result && result.uploaded ){
-							$(e.target).append($("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data));
+							$("input[name=\'' . $this->getName() . '\']").val(result.data);
 						}
 					 })
 			});
