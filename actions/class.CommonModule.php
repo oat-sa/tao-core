@@ -102,6 +102,7 @@ abstract class tao_actions_CommonModule extends Module
             $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
         }
 
+        $this->setData('client_timeout', $this->getClientTimeout());
         $this->setData('client_config_url', $this->getClientConfigUrl());
     }
 	
@@ -159,6 +160,21 @@ abstract class tao_actions_CommonModule extends Module
         );
         
         return _url('config', 'ClientConfig', 'tao', array_merge($clientConfigParams, $extraParameters));
+    }
+
+
+    /**
+     * Get the client timeout value from the config.
+     * 
+     * @return int the timeout value in seconds
+     */
+    protected function getClientTimeout(){
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $config = $ext->getConfig('js');
+        if($config != null && isset($config['timeout'])){
+            return (int)$config['timeout'];
+        } 
+        return 30;
     }
     
     protected function returnJson($data, $httpStatus = 200) {
