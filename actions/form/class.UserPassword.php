@@ -92,6 +92,6 @@ class tao_actions_form_UserPassword
         
     }
 
-} /* end of class tao_actions_form_UserPassword */
+}
 
 ?>

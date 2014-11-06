@@ -440,6 +440,6 @@ class tao_helpers_grid_Grid
         
     }
 
-} /* end of class tao_helpers_grid_Grid */
+}
 
 ?>

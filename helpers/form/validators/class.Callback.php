@@ -115,6 +115,6 @@ class tao_helpers_form_validators_Callback
         return (bool) $returnValue;
     }
 
-} /* end of class tao_helpers_form_validators_Callback */
+}
 
 ?>

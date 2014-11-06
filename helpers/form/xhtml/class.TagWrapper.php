@@ -175,6 +175,6 @@ class tao_helpers_form_xhtml_TagWrapper
         
     }
 
-} /* end of class tao_helpers_form_xhtml_TagWrapper */
+}
 
 ?>

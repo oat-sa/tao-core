@@ -108,6 +108,6 @@ class tao_actions_form_UserSettings
         
     }
 
-} /* end of class tao_actions_form_UserSettings */
+}
 
 ?>

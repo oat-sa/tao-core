@@ -300,6 +300,6 @@ class tao_helpers_transfert_Message
         
     }
 
-} /* end of class tao_helpers_transfert_Message */
+}
 
 ?>

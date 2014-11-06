@@ -146,6 +146,6 @@ class tao_actions_form_Translate
         
     }
 
-} /* end of class tao_actions_form_Translate */
+}
 
 ?>
