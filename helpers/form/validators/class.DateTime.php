@@ -142,6 +142,6 @@ class tao_helpers_form_validators_DateTime
         return (bool) $returnValue;
     }
 
-} /* end of class tao_helpers_form_validators_DateTime */
+}
 
 ?>

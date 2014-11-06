@@ -48,7 +48,8 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 * Does EVERYTHING
 	 * @todo cleanup interface
 	 */
-	public function index(){
+	public function index()
+	{
 		$formData = array();
 		if($this->hasRequestParameter('classUri')){
 			if(trim($this->getRequestParameter('classUri')) != ''){
@@ -60,6 +61,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 				$formData['instance'] = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 			}
 		}
+		$formData['id'] = $this->getRequestParameter('id');
 		
 		$handlers = $this->getAvailableExportHandlers();
 		$exporter = $this->getCurrentExporter();
@@ -147,18 +149,4 @@ class tao_actions_Export extends tao_actions_CommonModule {
 		);
 	}
 	
-	/**
-	 * download the exported files in parameters
-	 * @return void
-	 */
-	public function downloadExportedFiles(){
-
-		//get request directly since getRequest changes names
-		if (isset($_GET['filePath'])) {
-            tao_helpers_Export::outputFile($_GET['filePath'], isset($_GET['fileName']) ? $_GET['fileName'] : '');
-        } else {
-            throw new tao_models_classes_MissingRequestParameterException('filePath');
-        }
-	}
 }
-?>

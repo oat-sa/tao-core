@@ -149,6 +149,6 @@ class tao_models_classes_LanguageService
         return $returnValue;
     }
 
-} /* end of class tao_models_classes_LanguageService */
+}
 
 ?>

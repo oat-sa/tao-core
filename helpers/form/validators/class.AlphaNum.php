@@ -65,6 +65,6 @@ class tao_helpers_form_validators_AlphaNum
         
     }
 
-} /* end of class tao_helpers_form_validators_AlphaNum */
+}
 
 ?>

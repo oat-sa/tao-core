@@ -89,4 +89,4 @@ class tao_actions_form_Login
         
     }
 
-} /* end of class tao_actions_form_Login */
+}

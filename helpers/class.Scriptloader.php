@@ -333,6 +333,6 @@ class tao_helpers_Scriptloader
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_Scriptloader */
+}
 
 ?>

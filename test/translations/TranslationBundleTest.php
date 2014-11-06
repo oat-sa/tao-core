@@ -50,16 +50,13 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
         }
     }
    
+
+    
     /**
      * Removes the temporary directory
      */
     public static function tearDownAfterClass(){
-        if(file_exists(self::$tmpDir)){
-            foreach(glob(self::$tmpDir ."/*.json") as $file) {
-                unlink($file);
-            }
-            rmdir(self::$tmpDir);
-        }
+        tao_helpers_File::delTree(self::$tmpDir);  
     }
     /**
      * Provides wrong constructor parameters

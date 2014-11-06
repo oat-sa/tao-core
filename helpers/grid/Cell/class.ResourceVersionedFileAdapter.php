@@ -89,6 +89,6 @@ class tao_helpers_grid_Cell_ResourceVersionedFileAdapter
         return (int) $returnValue;
     }
 
-} /* end of class tao_helpers_grid_Cell_ResourceVersionedFileAdapter */
+}
 
 ?>

@@ -72,12 +72,6 @@ class tao_actions_form_NamespaceExportForm
     public function initElements()
     {
 
-		$nameElt = tao_helpers_form_FormFactory::getElement('filename', 'Textbox');
-		$nameElt->setDescription(__('File name'));
-		$nameElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		$nameElt->setUnit(".rdf");
-		$this->form->addElement($nameElt);
-
 		$nsManager = common_ext_NamespaceManager::singleton();
 
 		$tplElt = new tao_helpers_form_elements_template_Template('rdftpl');

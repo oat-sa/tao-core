@@ -160,6 +160,6 @@ class tao_models_classes_import_CSVMappingForm
         
     }
 
-} /* end of class tao_actions_form_CSVMapping */
+}
 
 ?>

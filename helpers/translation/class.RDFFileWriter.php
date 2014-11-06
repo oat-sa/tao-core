@@ -127,6 +127,6 @@ class tao_helpers_translation_RDFFileWriter
         
     }
 
-} /* end of class tao_helpers_translation_RDFFileWriter */
+}
 
 ?>

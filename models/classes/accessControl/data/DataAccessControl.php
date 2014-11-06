@@ -24,6 +24,7 @@ use oat\tao\helpers\ControllerHelper;
 use common_Logger;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\oatbox\user\User;
+use oat\generis\model\data\permission\PermissionInterface;
 
 /**
  * Interface for data based access control
@@ -50,16 +51,36 @@ class DataAccessControl implements AccessControl
                 throw new \Exception('Missing parameter ' . $paramName . ' for ' . $controller . '/' . $action);
             }
         }
-        if (!empty($required)) {
-            $permissions = PermissionManager::getPermissionModel()->getPermissions($user, array_keys($required));
-            foreach ($required as $id => $right) {
-                if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
-                    common_Logger::d('User \''.$user->getIdentifier().'\' does not have \''.$right.'\' permission for resource \''.$id.'\'');
-                    return false;
-                }
+        
+        return empty($required)
+            ? true
+            : self::hasPrivileges($user, $required);
+    }
+    
+    /**
+     * Whenever or not the user has the required rights
+     * 
+     * required takes the form of:
+     *   resourceId => $right
+     * 
+     * @param User $user
+     * @param array $required
+     * @return boolean
+     */
+    public static function hasPrivileges(User $user, array $required) {
+        foreach ($required as $resourceId => $right) {
+            if (!in_array($right, PermissionManager::getPermissionModel()->getSupportedRights())) {
+                $required[$resourceId] = PermissionInterface::RIGHT_UNSUPPORTED;
             }
         }
-    
+        
+        $permissions = PermissionManager::getPermissionModel()->getPermissions($user, array_keys($required));
+        foreach ($required as $id => $right) {
+            if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
+                common_Logger::d('User \''.$user->getIdentifier().'\' does not have \''.$right.'\' permission for resource \''.$id.'\'');
+                return false;
+            }
+        }
         return true;
     }
 }
