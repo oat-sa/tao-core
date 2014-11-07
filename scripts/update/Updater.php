@@ -21,6 +21,8 @@
 
 namespace oat\tao\scripts\update;
 
+use common_ext_ExtensionsManager;
+
 /**
  * 
  * @author Joel Bout <joel@taotesting.com>
