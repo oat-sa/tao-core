@@ -46,8 +46,12 @@ foreach ($sorted as $ext) {
                 } else {
                     echo '  Update of '.$ext->getName().' exited with version '.$newVersion.''.PHP_EOL;
                 }
+            } else {
+                echo '  Updater '.$updaterClass.' not found'.PHP_EOL;
             }
             common_cache_FileCache::singleton()->purge();
+        } else {
+            echo '  No Updater found for '.$ext->getName().' not found'.PHP_EOL;
         }
     } else {
         echo $ext->getName().' already up-to-date'.PHP_EOL;
