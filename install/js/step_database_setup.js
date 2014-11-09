@@ -124,8 +124,13 @@ function onLoad(){
 	})();
 
 	$('form').bind('submit', function(){
+		if (!install.isNextable()){
+            install.stateChange(true);
+            return false;
+		}
+
 		// set a spinner up.
-		$database = $('#database');
+		var $database = $('#database');
 		$database.css('visibility', 'visible').html('<span>'+$database.attr('data-next')+'</span>');
 		var spinner = new Spinner(getSpinnerOptions('small')).spin($database[0]);
 
