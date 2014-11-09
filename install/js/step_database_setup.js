@@ -129,6 +129,7 @@ function onLoad(){
             return false;
 		}
 
+
 		// set a spinner up.
 		var $database = $('#database');
 		$database.css('visibility', 'visible').html('<span>'+$database.attr('data-next')+'</span>');
