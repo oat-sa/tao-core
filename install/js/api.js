@@ -21,6 +21,7 @@
 /**
  * TaoInstall API interface. 
  */
+
 function TaoInstall (){
 	this.url = 'api.php';
 	this.feedbackUrl = 'http://forge.taotesting.com/support/installation/';
