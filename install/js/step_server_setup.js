@@ -18,7 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-
 function onLoad(){
 	
 	// Set up the list of available languages.
