@@ -61,6 +61,6 @@ class tao_models_classes_ServiceFactory
         return $returnValue;
     }
 
-} /* end of class tao_models_classes_ServiceFactory */
+}
 
 ?>

@@ -14,31 +14,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               
  * 
  */
-
-/**
- * An Exception related to translations.
- *
- * @access public
- * @author Jerome Bogaerts
- * @package tao
- * @since 2.2
- 
- * @version 1.0
- */
-class tao_helpers_translation_TranslationException
-    extends Exception
-{
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
-}
-
-?>
+$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+$config = array(
+    'timeout' => 30
+);
+$ext->setConfig('js', $config);

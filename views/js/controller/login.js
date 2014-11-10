@@ -21,18 +21,19 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'jquery',
+    'i18n',
     'module',
     'ui/feedback',
-    'i18n',
     'layout/version-warning'
-], function (module, feedback, __, versionWarning) {
-
-
+], function ($, __, module, feedback,  versionWarning) {
+    'use strict';
 
     var conf, type, context = $('.entry-pages-container'), $fields = $();
 
     versionWarning.init();
 
+    $('input[type="text"]').eq(0).focus();
 
     // empty $fields sent
     if(context.find('.form-error').length){

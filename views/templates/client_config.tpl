@@ -2,7 +2,7 @@ require.config({
 
     baseUrl : '<?=TAOBASE_WWW?>js',
     catchError: true,
-    waitSeconds:10,
+    waitSeconds: <?=get_data('client_timeout')?>,
     
     config : {
         'context': {

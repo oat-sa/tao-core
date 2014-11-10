@@ -85,6 +85,6 @@ class tao_actions_form_Role
         return $returnValue;
     }
 
-} /* end of class tao_actions_form_Role */
+}
 
 ?>

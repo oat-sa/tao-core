@@ -240,6 +240,6 @@ class tao_actions_form_Import
         
     }
 
-} /* end of class tao_actions_form_Import */
+}
 
 ?>

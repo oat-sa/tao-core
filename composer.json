@@ -52,7 +52,8 @@
 		"psr-4" : {
 			"oat\\tao\\model\\" : "models/classes/",
 			"oat\\tao\\helpers\\" : "helpers",
-			"oat\\tao\\test\\" : "test"
+			"oat\\tao\\test\\" : "test",
+			"oat\\tao\\scripts\\" : "scripts"
 		},
 		"files" : [
 			"scripts/legacy/autoload.php"

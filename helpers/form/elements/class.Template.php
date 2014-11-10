@@ -188,6 +188,6 @@ abstract class tao_helpers_form_elements_Template
         
     }
 
-} /* end of class tao_helpers_form_elements_Template */
+}
 
 ?>

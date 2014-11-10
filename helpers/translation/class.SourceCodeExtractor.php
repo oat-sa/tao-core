@@ -227,6 +227,6 @@ class tao_helpers_translation_SourceCodeExtractor
         
     }
 
-} /* end of class tao_helpers_translation_SourceCodeExtractor */
+}
 
 ?>

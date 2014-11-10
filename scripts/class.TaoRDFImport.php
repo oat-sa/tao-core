@@ -169,6 +169,6 @@ class tao_scripts_TaoRDFImport
         
     }
 
-} /* end of class tao_scripts_TaoRDFImport */
+}
 
 ?>

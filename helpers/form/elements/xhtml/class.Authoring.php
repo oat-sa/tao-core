@@ -77,6 +77,6 @@ class tao_helpers_form_elements_xhtml_Authoring
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_form_elements_xhtml_Authoring */
+}
 
 ?>

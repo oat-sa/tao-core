@@ -393,9 +393,8 @@ label {
     .property-heading-label {
         padding-left: 5px;
         &:before {
-            font-size: 16px;
-            margin-right : 5px;
-            content: '\2022 ';
+            font-size: 12px;
+            content: '• ';
             line-height: 2px;
             opacity: .8;
         }

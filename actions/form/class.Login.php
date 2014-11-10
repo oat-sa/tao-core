@@ -75,6 +75,7 @@ class tao_actions_form_Login
     	}
     	$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
 		$loginElt->setDescription(__('Login'));
+		$loginElt->setAttributes(array('autofocus' => 'autofocus'));
 		$loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($loginElt);
 		
@@ -88,6 +89,4 @@ class tao_actions_form_Login
         
     }
 
-} /* end of class tao_actions_form_Login */
-
-?>
+}

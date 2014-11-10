@@ -111,6 +111,6 @@ class tao_helpers_form_data_UploadFileDescription
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_form_data_UploadFileDescription */
+}
 
 ?>

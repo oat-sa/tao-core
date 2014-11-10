@@ -25,6 +25,9 @@ define([
         read                : false,
         multiple            : false,
         uploadQueueSize     : 3,
+        inputName           : 'content',
+        showResetButton     : true,
+        showUploadButton    : true,
         browseBtnClass      : 'btn-browse',
         uploadBtnClass      : 'btn-upload',
         resetBtnClass       : 'btn-reset',
@@ -101,7 +104,7 @@ define([
                     options.$fileName       = $('.' + options.fileNameClass, $elt);
                     options.$dropZone       = $('.' + options.dropZoneClass, $elt);
                     options.$progressBar    = $('.' + options.progressBarClass, $elt);
-                    options.$form           = $elt.children('form');
+                    options.$form           = $elt.children('.uploaderContainer');
                     options.$uploadBtn      = $('.' + options.uploadBtnClass, $elt);
                     options.$resetBtn       = $('.' + options.resetBtnClass, $elt);
     

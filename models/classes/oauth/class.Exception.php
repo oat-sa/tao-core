@@ -38,6 +38,6 @@ class tao_models_classes_oauth_Exception
 
     // --- OPERATIONS ---
 
-} /* end of class tao_models_classes_oauth_Exception */
+}
 
 ?>

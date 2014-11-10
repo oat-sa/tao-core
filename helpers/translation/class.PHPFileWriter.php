@@ -65,6 +65,6 @@ class tao_helpers_translation_PHPFileWriter
         
     }
 
-} /* end of class tao_helpers_translation_PHPFileWriter */
+}
 
 ?>

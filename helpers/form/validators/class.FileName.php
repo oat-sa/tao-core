@@ -60,6 +60,6 @@ class tao_helpers_form_validators_FileName
         
     }
 
-} /* end of class tao_helpers_form_validators_FileName */
+}
 
 ?>
