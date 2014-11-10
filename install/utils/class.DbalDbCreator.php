@@ -263,7 +263,6 @@ class tao_install_utils_DbalDbCreator {
         }
     } 
     
-    
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
