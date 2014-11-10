@@ -42,7 +42,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion == '2.6') {
 
             //create Js config  
-            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $config = array(
                 'timeout' => 30
             );
