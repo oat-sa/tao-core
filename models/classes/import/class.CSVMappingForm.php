@@ -94,14 +94,14 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
     	// the target class properties. 
     	if ($this->options[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]){
 	    	foreach($this->options['csv_column'] as $i => $column){
-	    		$columnsOptions[$i.'_o'] = __('Column') . ' ' . ($i + 1) . ' : ' . $column;
+	    		$columnsOptions[$i.tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = __('Column') . ' ' . ($i + 1) . ' : ' . $column;
 	    	}
     	}
     	else{
     		// We do not know column so we display more neutral information
     		// about columns to the end user.
     		for ($i = 0; $i < count($this->options['csv_column']); $i++){
-				$columnsOptions[$i.'_o'] = __('Column') . ' ' . ($i + 1);
+				$columnsOptions[$i.tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = __('Column') . ' ' . ($i + 1);
 	    	}
     	}
 

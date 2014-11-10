@@ -45,6 +45,17 @@ abstract class tao_helpers_data_GenerisAdapter
      */
     protected $options = array();
 
+    /**
+     * List of validators applied during importing to data
+     * @var array
+     */
+    protected $validators = array();
+
+    /**
+     * @var array
+     */
+    protected $errorMessages = array();
+
     // --- OPERATIONS ---
 
     /**
@@ -52,16 +63,13 @@ abstract class tao_helpers_data_GenerisAdapter
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  array options
+     * @param  array $options
      * @return mixed
      */
     public function __construct($options = array())
     {
-        
-        
+
     	$this->options = $options;
-    	
-        
     }
 
     /**
@@ -89,16 +97,14 @@ abstract class tao_helpers_data_GenerisAdapter
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  array options
+     * @param  array $options
      * @return mixed
      */
     public function setOptions($options = array())
     {
         
-        
     	$this->options = $options;
-    	
-        
+
     }
 
     /**
@@ -106,17 +112,15 @@ abstract class tao_helpers_data_GenerisAdapter
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string name
-     * @param  value
+     * @param  string $name
+     * @param  mixed $value
      * @return mixed
      */
     public function addOption($name, $value)
     {
         
-        
     	$this->options[$name] = $value;
-    	
-        
+
     }
 
     /**
@@ -125,8 +129,8 @@ abstract class tao_helpers_data_GenerisAdapter
      * @abstract
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string source
-     * @param  Class destination
+     * @param  string $source
+     * @param  core_kernel_classes_Class $destination
      * @return boolean
      */
     public abstract function import($source,  core_kernel_classes_Class $destination = null);
@@ -137,11 +141,60 @@ abstract class tao_helpers_data_GenerisAdapter
      * @abstract
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class source
+     * @param  core_kernel_classes_Class $source
      * @return string
      */
     public abstract function export( core_kernel_classes_Class $source = null);
 
-} /* end of abstract class tao_helpers_data_GenerisAdapter */
+    /**
+     * @return array
+     */
+    public function getValidators()
+    {
+        return $this->validators;
+    }
 
-?>
+    /**
+     * @param $target
+     * @return array
+     */
+    public function getValidator($target)
+    {
+        return isset($this->validators[$target]) ? $this->validators[$target] : array();
+    }
+
+    /**
+     * @param array $validators
+     */
+    public function setValidators($validators)
+    {
+        $this->validators = $validators;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrorMessages()
+    {
+        return $this->errorMessages;
+    }
+
+    /**
+     * @param string $target
+     * @param common_report_Report $message
+     */
+    public function addErrorMessage($target, $message)
+    {
+        if (is_string($target)){
+            $this->errorMessages[$target][] = $message;
+        }
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasErrors(){
+        return count($this->getErrorMessages()) > 0;
+    }
+
+}

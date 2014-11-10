@@ -28,8 +28,7 @@
  * @package tao
  
  */
-class tao_helpers_data_GenerisAdapterCsv
-    extends tao_helpers_data_GenerisAdapter
+class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 {
     
     /**
@@ -115,12 +114,10 @@ class tao_helpers_data_GenerisAdapterCsv
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string $source
      * @param  core_kernel_classes_Class $destination
-     * @return boolean
+     * @return common_report_Report
      */
     public function import($source,  core_kernel_classes_Class $destination = null)
     {
-        $returnValue = (bool) false;
-        
     	if(!isset($this->options['map'])){
         	throw new BadFunctionCallException("import map not set");
         }
@@ -142,7 +139,7 @@ class tao_helpers_data_GenerisAdapterCsv
 			
 			//create the instance with the label defined in the map 
 			$label = $this->options['map'][RDFS_LABEL];
-			
+
 			if($label != 'csv_select' && $label !='csv_null'){
 				if(isset($csvRow[$label])){
 					$resource = $destination->createInstance($csvRow[$label]);
@@ -153,10 +150,10 @@ class tao_helpers_data_GenerisAdapterCsv
 				$resource = $destination->createInstance();
 				common_Logger::t("CSV - Resource creation without label");
 			}
-							
+
 			if($resource instanceof core_kernel_classes_Resource){
 				common_Logger::t("CSV - Resource successfully created");
-				//import the value of each column into the property defined in the map 
+				//import the value of each column into the property defined in the map
 				foreach($this->options['map'] as $propUri => $csvColumn){
 					
 					if ($propUri != RDFS_LABEL) { // Already set at resource instantiation
@@ -172,7 +169,13 @@ class tao_helpers_data_GenerisAdapterCsv
 						    common_Logger::t("CSV - Target property has no range");
 							$range = null;	
 						}
-						
+
+						//stop future action if validation was not passed
+						$valid = $this->validate($destination, $propUri, $csvRow, $csvColumn);
+						if (!$valid) {
+							break;
+						}
+
 						if ($range == null || $range->getUri() == RDFS_LITERAL) {
 							// Deal with the column value as a literal.
 							common_Logger::t("CSV - Importing Literal from CSV");
@@ -185,28 +188,31 @@ class tao_helpers_data_GenerisAdapterCsv
 						}
 					}
 				}
-				
-				// Deal with default values.
-				$this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
-				
-				// Apply 'resourceImported' callbacks.
-				foreach ($this->resourceImported as $callback){
-					$callback($resource);
+
+				if ($valid){
+					// Deal with default values.
+					$this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
+
+					// Apply 'resourceImported' callbacks.
+					foreach ($this->resourceImported as $callback){
+						$callback($resource);
+					}
+
+					$createdResources++;
+				}else{
+					$resource->delete();
 				}
-				
-				$createdResources++;
+
 			}
 			helpers_TimeOutHelper::reset();
 		}
         
 		$this->addOption('to_import', count($csvData));
 		$this->addOption('imported', $createdResources);
-		
-		if($createdResources > 0){
-			$returnValue = true;
-		}
 
-        return (bool) $returnValue;
+		$report = $this->getResult($createdResources);
+
+		return $report;
     }
 
     /**
@@ -382,5 +388,49 @@ class tao_helpers_data_GenerisAdapterCsv
 
     public function onResourceImported(Closure $closure) {
 		$this->resourceImported[] = $closure;
+	}
+
+	/**
+	 * @param core_kernel_classes_Class $destination
+	 * @param $propUri
+	 * @param $csvRow
+	 * @param $csvColumn
+	 * @return array
+	 */
+	protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn)
+	{
+		/**  @var tao_helpers_form_Validator $validator */
+		$validators = $this->getValidator($propUri);
+		foreach ((array)$validators as $validator) {
+			if (!$validator->evaluate(array($destination, $propUri, $csvRow[$csvColumn]))) {
+				$this->addErrorMessage($propUri, common_report_Report::createFailure($validator->getMessage(). ' "' . $csvRow[$csvColumn] . '"'));
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @param $createdResources
+	 * @return common_report_Report
+	 * @throws common_exception_Error
+	 */
+	protected function getResult($createdResources)
+	{
+		$type = common_report_Report::TYPE_SUCCESS;
+		if ($this->hasErrors()) {
+			$type = common_report_Report::TYPE_WARNING;
+		}
+
+		if (!$createdResources) {
+			$type = common_report_Report::TYPE_ERROR;
+		}
+
+		$report = new common_report_Report($type, __('Data imported'));
+		foreach ($this->getErrorMessages() as $group) {
+			$report->add($group);
+		}
+
+		return $report;
 	}
 }

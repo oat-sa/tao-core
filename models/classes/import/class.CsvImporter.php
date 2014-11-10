@@ -29,7 +29,9 @@
  */
 class tao_models_classes_import_CsvImporter implements tao_models_classes_import_ImportHandler
 {
+	const OPTION_POSTFIX = '_O';
 
+	protected $validators = array();
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::getLabel()
@@ -123,6 +125,7 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
 			else {
 				$newMap[$k] = 'csv_null';
 			}
+			$newMap[$k]= str_replace(self::OPTION_POSTFIX, '', $newMap[$k]);
 		    common_Logger::d('map: ' . $k . ' => '. $newMap[$k]);
 		}
 		
@@ -137,14 +140,14 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
 		}
 		$options['staticMap'] = array_merge($staticMap, $this->getStaticData());
 		$options = array_merge($options, $this->getAdditionAdapterOptions());
+
 		$adapter = new tao_helpers_data_GenerisAdapterCsv($options);
+		$adapter->setValidators($this->getValidators());
 
 		//import it!
-		if($adapter->import($form->getValue('importFile'), $class)){
-            $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Data imported successfully'));
+		$report = $adapter->import($form->getValue('importFile'), $class);
+		if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
 			@unlink($form->getValue('importFile'));
-		} else {
-		    $report = new common_report_Report(common_report_Report::TYPE_ERROR, __('Import failed'));
 		}
 		return $report;
     }
@@ -235,4 +238,21 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
 		}
 
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getValidators()
+	{
+		return $this->validators;
+	}
+
+	/**
+	 * @param array $validators
+	 */
+	public function setValidators($validators)
+	{
+		$this->validators = $validators;
+	}
+
 }
