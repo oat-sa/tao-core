@@ -35,8 +35,7 @@ class tao_helpers_data_GenerisAdapterCsv
     /**
      * Short description of attribute loadedFile
      *
-     * @access private
-     * @var CsvFile
+     * @var tao_helpers_data_CsvFile
      */
     private $loadedFile = null;
     
@@ -58,7 +57,7 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array options
+     * @param  array $options
      * @return mixed
      */
     public function __construct($options = array())
@@ -93,7 +92,7 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string csvFile
+     * @param  string $csvFile
      * @return tao_helpers_data_CsvFile
      */
     public function load($csvFile)
@@ -114,8 +113,8 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string source
-     * @param  Class destination
+     * @param  string $source
+     * @param  core_kernel_classes_Class $destination
      * @return boolean
      */
     public function import($source,  core_kernel_classes_Class $destination = null)
@@ -215,7 +214,7 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Class source
+     * @param  core_kernel_classes_Class $source
      * @return boolean
      */
     public function export( core_kernel_classes_Class $source = null)
@@ -230,10 +229,10 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access private
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Property targetProperty
-     * @param  Resource targetResource
-     * @param  string csvRow
-     * @param  string csvColumn
+     * @param  core_kernel_classes_Property $targetProperty
+     * @param  core_kernel_classes_Resource $targetResource
+     * @param  string $csvRow
+     * @param  string $csvColumn
      * @return mixed
      */
     private function importLiteral( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
@@ -255,10 +254,10 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access private
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Property targetProperty
-     * @param  Resource targetResource
-     * @param  string csvRow
-     * @param  string csvColumn
+	 * @param  core_kernel_classes_Property $targetProperty
+	 * @param  core_kernel_classes_Resource $targetResource
+	 * @param  string $csvRow
+	 * @param  string $csvColumn
      * @return mixed
      */
     private function importResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
@@ -290,9 +289,9 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access private
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array staticMap
-     * @param  array map
-     * @param  Resource resource
+     * @param  array $staticMap
+     * @param  array $map
+     * @param  core_kernel_classes_Resource $resource
      * @return mixed
      */
     private function importStaticData($staticMap, $map,  core_kernel_classes_Resource $resource)
@@ -319,9 +318,9 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access private
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string value
-     * @param  array options
-     * @param  Property targetProperty
+     * @param  string $value
+     * @param  array $options
+     * @param  core_kernel_classes_Property $targetProperty
      * @return string
      */
     private function applyCallbacks($value, $options,  core_kernel_classes_Property $targetProperty)
@@ -350,9 +349,9 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Property targetProperty
-     * @param  Resource targetResource
-     * @param  string value
+     * @param  core_kernel_classes_Property $targetProperty
+     * @param  core_kernel_classes_Resource $targetResource
+     * @param  string $value
      * @return mixed
      */
     public function attachResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $value)
@@ -381,34 +380,7 @@ class tao_helpers_data_GenerisAdapterCsv
         }
     }
 
-    /**
-     * Sets the currently loaded CsvFile.
-     *
-     * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  CsvFile csvFile
-     * @return void
-     */
-    protected function setCsvFile( tao_helpers_data_CsvFile $csvFile)
-    {
-
-    }
-
-    /**
-     * Gets the currently loaded CsvFile.
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return tao_helpers_data_CsvFile
-     */
-    public function getCsvFile()
-    {
-		return null;
-    }
-    
     public function onResourceImported(Closure $closure) {
 		$this->resourceImported[] = $closure;
 	}
 }
-
-?>
