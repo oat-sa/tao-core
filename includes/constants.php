@@ -32,8 +32,15 @@
 #TAO version number
 define('TAO_VERSION', '3.0');
 
+$version = TAO_VERSION;
+
 #TAO version label
-define('TAO_VERSION_NAME', 'v3.0');
+if(is_readable(ROOT_PATH.'build')){
+    $content = file_get_contents(ROOT_PATH.'build');
+    $version = 'v' . $version;
+    $version = is_numeric($content) ? $version. '+build' . $content : $version;  
+}
+define('TAO_VERSION_NAME', $version);
 
 #the name to display
 define('PRODUCT_NAME', 'TAO');
