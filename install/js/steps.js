@@ -68,6 +68,19 @@ function validify(element){
 	element.onValid = function() { displayValidationMark(element); };
 	element.onInvalid = function (highlight, setFocus) {
         removeValidationMark(element);
+
+        if (!highlight) {
+            switch ($(element).attr('type')) {
+                case 'checkbox':
+                case 'radio':
+                    break;
+                default:
+                    if (element.value && element.value != element.firstValue) {
+                        highlight = true;
+                    } 
+            }
+        }
+
         if (highlight) {
             $(element).addClass('validation-error');
             if (setFocus) {
