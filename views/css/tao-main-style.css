@@ -10002,7 +10002,7 @@ label input[type="radio"].disabled ~ [class^="icon-"], label input[type="radio"]
 .search-form > div, .filter-form > div { background: transparent; }
 
 .xhtml_form form > div { margin-bottom: 10px; }
-.xhtml_form form > div.property-container { margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px; }
+.xhtml_form form > div.property-container { border-top: 1px solid #ddd; }
 .xhtml_form form > div.property-container .tree ul { background: transparent !important; }
 .xhtml_form [class^="btn-"].btn-success, .xhtml_form [class*=" btn-"].btn-success, .xhtml_form button.btn-success, .xhtml_form input[type="submit"].btn-success, .xhtml_form input[type="reset"].btn-success { background-color: #266d9c; text-shadow: 1px 1px 0 #0b4a74; }
 .xhtml_form .form-toolbar { text-align: right; margin: 30px 0 0 0; }
