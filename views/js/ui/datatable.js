@@ -107,6 +107,8 @@ define([
                 type: options.querytype || 'GET'
             }).done(function(response) {
 
+                var rows = {};
+
                 // Add the list of custom actions to the response for the tpl
                 if(options.actions){
                     response.actions = _.keys(options.actions);
@@ -119,7 +121,6 @@ define([
 
                 // Add the model to the response for the tpl
                 response.model = options.model;
-
 
                 // Call the rendering
                 var $rendering = $(layout(response));

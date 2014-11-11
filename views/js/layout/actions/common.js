@@ -233,18 +233,13 @@ define([
         binder.register('launchFinder', function remove(actionContext){
 
 
-            var data = _.pick(actionContext, ['uri', 'classUri', 'id']),
+            var data = _.pick(actionContext, ['uri', 'classUri', 'id']);
 	            // used to avoid same query twice
-	            uniqueValue = data.uri || data.classUri || '',
-	            $container  = search.getContainer('search');
+	        var uniqueValue = data.uri || data.classUri || '';
+	        var $container  = $('.search-form [data-purpose="search"]');
 
-            if($container.is(':visible')) {
-                search.toggle();
-                return;
-            }
-
-            if($container.data('current') === uniqueValue) {
-                search.toggle();
+            if($container.is(':visible') || $container.data('current') === uniqueValue) {
+                $('.search-form').slideToggle();
                 return;
             }
 
@@ -252,11 +247,11 @@ define([
                 url: this.url,
                 type: "GET",
                 data: data,
-                dataType: 'html',
-                success: function(response){
-                    $container.data('current', uniqueValue);
-                    search.init(response, uniqueValue);
-                }
+                dataType: 'html'
+            }).done(function(response){
+                $container.data('current', uniqueValue);
+                search.init($container, response);
+                $('.search-form').slideToggle();
             });
         });
 
