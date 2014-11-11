@@ -51,6 +51,7 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                 if(section.id === 'list_users'){
                     $userList.datatable('refresh');
                 }
+
             });
 
             //initialize the user manager component

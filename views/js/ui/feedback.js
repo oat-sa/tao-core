@@ -23,7 +23,7 @@ define([
         //persistent feedback stay until their are closed.
         //Other persistent feedback are merged to keep all the info.
         //To prevent UI pollution, they may be collapsed  in a notification area
-        'persistent'    : ['warning', 'error']  
+        'persistent'    : ['warning', 'error']
     };
 
     //extract the available levels from the categories
@@ -40,7 +40,12 @@ define([
 
     //the default options
     var defaultOptions = {
-        timeout : 8000
+        timeout: {
+            info: 2000,
+            success: 2000,
+            warning: 4000,
+            error: 8000
+        }
     };
 
     /**
@@ -156,7 +161,7 @@ define([
                 
                 this._trigger();
 
-                if(this.options.timeout >= 0){
+                if(this._getTimeout() >= 0){
                     setTimeout(function(){
                     
                         //volatiles messages auto close and peristent collaspe
@@ -166,7 +171,7 @@ define([
                             //self.collapse();
                         //}
 
-                    }, this.options.timeout);
+                    }, this._getTimeout());
                 }
             }
             return this;
@@ -203,6 +208,21 @@ define([
             if(_.isFunction(this.options[name])){
                 this.options[name].call(this);
             }
+        },
+
+        /**
+         * Get level-specific or custom timeout for message
+         * @returns {*}
+         * @private
+         */
+        _getTimeout: function (level) {
+            if (_.isUndefined(level)){
+                level = this.level;
+            }
+            if (_.isObject(this.options.timeout)) {
+                return this.options.timeout[level];
+            }
+            return this.options.timeout;
         }
     };
 
