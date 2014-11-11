@@ -4,9 +4,12 @@ define([
     'i18n',
     'module',
     'context',
-    'layout/section'
+    'layout/section',
+    'ui/feedback',
+    'ui/datatable',
+    'uri'
 ],
-function($, _, __, module, context, section){
+function($, _, __, module, context, section, feedback, datatable, uri){
 
     var changeFormLayout = function changeFormLayout($form){
 
@@ -27,11 +30,9 @@ function($, _, __, module, context, section){
             $toolBars.first().remove();
         }
 
-
         // remove 'options', 'filters' and headings
         $form.find('del').remove();
         $formTitle.remove();
-
 
         // select current locale
         if(!$langSelector.val()){
@@ -53,6 +54,25 @@ function($, _, __, module, context, section){
         });
     };
 
+    var buildResponseTable  = function buildResponseTable(data){
+        var $tableContainer = $('<div class="flex-container-full"></div>');
+        section.updateContentBlock($tableContainer);
+
+        $tableContainer.datatable({
+                'url': data.url,
+                'model' : _.values(data.model),
+                'actions' : {
+                   'open' : function openResource(id){
+                            $('.tree').trigger('selectnode.taotree', [{id : uri.encode(id)}]);
+                    } 
+                },
+                'params' : {
+                    'params' : data.params,
+                    'filters': data.filters
+                 } 
+            });
+    };
+
     return {
 
         /**
@@ -62,46 +82,39 @@ function($, _, __, module, context, section){
             var self = this;
             var conf = module.config();
             var $searchForm;
+            var $formElt;
+            var submitHandler = function submitHandler(e){
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                
+                $.ajax({
+                    url : $formElt.attr('action'),
+                    type : 'POST',
+                    data : $formElt.serializeArray(),
+                    dataType : 'json'
+                }).done(function(response){
+                    if(response.result && response.result === true){
+                        buildResponseTable(response);
+                    } else {
+                        feedback().warning(__('No results found'));
+                    }
+                }); 
+            };
             if(searchForm){        
     
                 // build jquery obj, make ids unique
                 $searchForm = $(searchForm.replace(/(for|id)=("|')/g, '$1=$2search_field_'));
+                $formElt = $('form', $searchForm);
 
                 //tweaks form layout 
                 changeFormLayout($searchForm);
 
-                //re-init itself on submit
-                
+                //re-bind form
                 _.defer(function(){     //defer tp bind after the uiForm stuffs
-                    $('.form-submitter', $searchForm)
-                        .off('click')
-                        .on('click', function(e){
-                            e.preventDefault();
-                            e.stopImmediatePropagation();
-                            var $formElt = $('form', $searchForm);
-                            $.ajax({
-                                url : $formElt.attr('action'),
-                                type : 'POST',
-                                data : $formElt.serializeArray()
-                            }).done(function(response){
-                                self.init($container, response);
-                            }); 
-                        });
+                    $('.form-submitter', $searchForm).off('click').on('click', submitHandler);
+                    $formElt.off('submit').on('submit', submitHandler);
                 });
                 $container.html($searchForm);
-
-                if(conf.result && conf.result.model){
-                   console.log({
-                        url: conf.result.url,
-                        model : _.values(conf.result.model),
-                        querytype : 'POST',
-                        params : {
-                            filters : conf.result.filters,
-                            params : conf.result.params
-                        },
-                    });
-           
-                }
             }
         }
     };

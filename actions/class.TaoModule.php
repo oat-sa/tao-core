@@ -932,7 +932,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				
+
 				$filters = $myForm->getValues('filters');
                 $model = array();
 				foreach($filters as $propUri => $filter){
@@ -963,14 +963,20 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
   				$params = $myForm->getValues('params');
                 if(!isset($params['recursive'])){
                     // 0 => Current class + sub-classes, 10 => Current class only
-                    $params['recursive'] = 10;
+                    $params['recursive'] = true;
+                } else {
+                    $params['recursive'] = false;
                 }
 				$params['like'] = false;
-                $this->setData('params', $params);
-				$this->setData('model', $model);
-				$this->setData('filters', $filters);
-                $this->setData('classUri', $clazz->getUri());	
-                $this->setData('results', true);
+                
+                $this->returnJson(array(
+                    'url'  => _url('searchResults', null, null, array('classUri'  => $clazz->getUri())),
+                    'params'    => $params,
+				    'model'     => $model,
+				    'filters'   => $filters,
+                    'result'    => true
+                ));
+                return;
 				//$instances = $this->service->searchInstances($filters, $clazz, $params);
 				
 				//if(count($instances) > 0 ){
@@ -1016,56 +1022,61 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
     public function searchResults(){
         
-		$page = $this->getRequestParameter('page');
-		$limit = $this->getRequestParameter('rows');
+		$page =  (int)$this->getRequestParameter('page');
+		$limit = (int)$this->getRequestParameter('rows');
 		$order = $this->getRequestParameter('sortby');
 		$sord = $this->getRequestParameter('sortorder');
 		$start = $limit * $page - $limit;
 
-        $params = $this->hasRequestParameter('param') ? $this->getRequestParameter('params') : array();
+        $params = $this->hasRequestParameter('params') ? $this->getRequestParameter('params') : array();
         $filters = $this->hasRequestParameter('filters') ? $this->getRequestParameter('filters') : array();
         
-		
+	    if($order == 'id'){
+            $order = RDFS_LABEL;
+        }	
 		$options = array_merge(array(
             'order' 	=> $order,
             'orderdir'	=> strtoupper($sord),
             'offset'    => $start,
             'limit'		=> $limit
 		), $params);
-		
+	
         $clazz = $this->getCurrentClass();
-        $instances = $this->service->searchInstances($filters, $clazz, $options);
-        $counti = $this->service->searchInstances($filters, $clazz, $params);
+        $instances = $clazz->searchInstances($filters, $options);
+        $counti = count($clazz->searchInstances($filters, $params));
 
         $response = new StdClass();
         if(count($instances) > 0 ){
             $properties = array();
-            foreach($filters as $propUri => $filter){
+            foreach(array_keys($filters) as $propUri){
                 $properties[$propUri] = new core_kernel_classes_Property($propUri);
             }
-		    if(!array_key_exists(RDFS_LABEL, $properties)){
-                $properties[RDFS_LABEL] = new core_kernel_classes_Property(RDFS_LABEL);
+
+            if(array_key_exists(RDFS_LABEL, $properties)){
+                unset($instanceProperties[RDFS_LABEL]);
             }
 
             foreach($instances as $instance){
                 
-                $instanceProperties = array();
+                $instanceProperties = array(
+                    'id' => $instance->getUri(),
+                    RDFS_LABEL => $instance->getLabel() 
+
+                );
                 foreach($properties as $i => $property){
                     $value = '';
                     $propertyValues = $instance->getPropertyValuesCollection($property);
-                    foreach($propertyValues->getIterator() as $j => $propertyValue){
+                    foreach($propertyValues->getIterator() as $propertyValue){
                         if($propertyValue instanceof core_kernel_classes_Literal){
                             $value .= (string) $propertyValue;
                         }
                         if($propertyValue instanceof core_kernel_classes_Resource){
                             $value .= $propertyValue->getLabel();
                         }
-                        if($j < $propertyValues->count()){
-                            $value .= "<br />";
-                        }
                     }
                     $instanceProperties[$i] = $value;
                 }
+
                 $response->data[] = $instanceProperties; 
             }
         }
