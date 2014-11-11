@@ -374,26 +374,13 @@ class tao_install_Installator{
              */
 			common_Logger::i('Generates client side translation bundles', 'INSTALL');
             
-            //lookup for languages into tao
-            $languages = tao_helpers_translation_Utils::getAvailableLanguages();
-            $installedExtensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
-            $bundleDirPath = $this->options['root_path'] . '/tao/views/locales/';
- 
-            foreach($languages as $langCode){
-                try{
-                    $bundle = new TranslationBundle($langCode, $installedExtensions);
-                    $file = $bundle->generateTo($bundleDirPath); 
-                    if($file){
-                        common_Logger::d("$file  generated", 'INSTALL');
-                    } else {
-                        common_Logger::w("Unable to generate client translation bundle for language  $langCode", 'INSTALL');
-                    }
-                } catch(common_excpetion_Error $e){
-                   common_Logger::w($e->getMessage(), 'INSTALL');
-                }
-            } 
+//             
+
 
 	
+			$files = tao_models_classes_LanguageService::singleton()->generateClientBundles();
+
+			
 			/*
 			 *  10 - Insert Super User
 			 */
