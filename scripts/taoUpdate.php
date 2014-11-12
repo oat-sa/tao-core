@@ -57,3 +57,8 @@ foreach ($sorted as $ext) {
         echo $ext->getName().' already up-to-date'.PHP_EOL;
     }
 }
+//regenerage all client side translation
+echo 'Regenerate all client side translations' . PHP_EOL;
+tao_models_classes_LanguageService::singleton()->generateClientBundles();
+echo 'Update completed' . PHP_EOL;
+

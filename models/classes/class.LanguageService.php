@@ -20,6 +20,8 @@
  * 
  */
 
+use oat\tao\helpers\translation\TranslationBundle;
+
 /**
  * Short description of class tao_models_classes_LanguageService
  *
@@ -48,13 +50,7 @@ class tao_models_classes_LanguageService
      */
     public function createLanguage($code)
     {
-        $returnValue = null;
-
-        
         throw new common_exception_Error(__METHOD__.' not yet implemented in '.__CLASS__);
-        
-
-        return $returnValue;
     }
 
     /**
@@ -97,12 +93,8 @@ class tao_models_classes_LanguageService
     public function getCode( core_kernel_classes_Resource $language)
     {
         $returnValue = (string) '';
-
-        
-	    $valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+        $valueProperty = new core_kernel_classes_Property(RDF_VALUE);
         $returnValue = $language->getUniquePropertyValue($valueProperty);
-        
-
         return (string) $returnValue;
     }
 
@@ -117,19 +109,69 @@ class tao_models_classes_LanguageService
     public function getAvailableLanguagesByUsage( core_kernel_classes_Resource $usage)
     {
         $returnValue = array();
-
-        
     	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
 	    $returnValue = $langClass->searchInstances(array(
 	    	PROPERTY_LANGUAGE_USAGES => $usage->getUri()
 	    ), array(
 	    	'like' => false
 	    ));
-        
-
         return (array) $returnValue;
     }
 
+    /**
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function generateClientBundles($checkPreviousBundlue = false)
+    {
+        $returnValue = array();
+        
+        $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+        // lookup for languages into tao
+        $languages = tao_helpers_translation_Utils::getAvailableLanguages();
+        $path = ROOT_PATH . 'tao/views/locales/';
+        $generated = 0;
+        $generate = true;
+        foreach ($languages as $langCode) {
+            
+            try {
+                
+                $bundle = new TranslationBundle($langCode, $extensions);
+                
+                if ($checkPreviousBundlue) {
+                    $currenBundle = $path . $langCode . '.json';
+                    if (file_exists($currenBundle)) {
+                        $bundleData = json_decode(file_get_contents($currenBundle), true);
+                        if ($bundleData['serial'] === $bundle->getSerial()) {
+                            $generate = false;
+                        }
+                    }
+                    if ($generate) {
+                        $file = $bundle->generateTo($path, false);
+                    }
+                } else {
+                    $file = $bundle->generateTo($path);
+                }
+                if ($file) {
+                    $generated ++;
+                    $returnValue[] = $file;
+                } else {
+                    if ($generate) {
+                        common_Logger::e('Failure generating message.js for lang ' . $langCode);
+                    } else {
+                        common_Logger::d('Actual File is more recent, skip ' . $langCode);
+                    }
+                }
+            } catch (common_excpetion_Error $e) {
+                
+                common_Logger::e('Failure: ' . $e->getMessage());
+            }
+        }
+        common_Logger::i($generated . ' translation bundles have been (re)generated');
+        
+        return $returnValue;
+    }
+    
     /**
      * Short description of method getDefaultLanguageByUsage
      *
@@ -140,13 +182,7 @@ class tao_models_classes_LanguageService
      */
     public function getDefaultLanguageByUsage( core_kernel_classes_Resource $usage)
     {
-        $returnValue = null;
-
-        
         throw new common_exception_Error(__METHOD__.' not yet implemented in '.__CLASS__);
-        
-
-        return $returnValue;
     }
 
 }
