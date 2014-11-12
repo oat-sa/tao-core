@@ -4,7 +4,7 @@
  * at 10:18
  */
 
-namespace oat\tao\models\media;
+namespace oat\tao\model\media;
 
 
 interface MediaBrowser {
