@@ -14,7 +14,7 @@ interface MediaBrowser {
      * @param array $acceptableMime
      * @return array
      */
-    public function getDirectory($relPath = '/', $acceptableMime = array());
+    public function getDirectory($relPath = '/', $acceptableMime = array(), $depth = 1);
 
     /**
      * @param string $relPath
