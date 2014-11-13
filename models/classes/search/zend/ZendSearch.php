@@ -23,6 +23,8 @@ namespace oat\tao\model\search\zend;
 use oat\tao\model\search\Search;
 use tao_models_classes_FileSourceService;
 use common_Logger;
+use ZendSearch\Lucene\Lucene;
+use ZendSearch\Lucene\Document;
 
 /**
  * Zend Lucene Search implementation 
@@ -39,7 +41,7 @@ class ZendSearch implements Search
     
     /**
      * 
-     * @var unknown
+     * @var Lucene
      */
     private $index;
     
@@ -53,7 +55,16 @@ class ZendSearch implements Search
      * @see \oat\tao\model\search\Search::query()
      */
     public function query($queryString) {
-        return array();
+        $hits = $this->index->find($queryString);
+        
+        $ids = array();
+        foreach ($hits as $hit) {
+            $ids[] = $hit->getDocument()->getField('uri')->getUtf8Value();
+        }
+        
+        \common_Logger::i('found '.count($ids));
+        
+        return $ids;
     }
     
     /**
@@ -63,13 +74,13 @@ class ZendSearch implements Search
     public function index($resourceUris) {
         // hardcoded item indexing
         foreach ($resourceUris as $uri) {
-            $resource = new \core_kernel_classes_Resource($uri);
-            common_Logger::i('index '.$resource->getLabel());
+            $item = new \core_kernel_classes_Resource($uri);
+            common_Logger::i('index '.$item->getLabel());
             
             $doc = new Document();
             $doc->addField(Document\Field::Keyword('uri', $item->getUri()));
             $doc->addField(Document\Field::Text('label', $item->getLabel()));
-            
+
             $itemModels = $item->getPropertyValues(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModel'));
             foreach ($itemModels as $modelUri) {
                 $model = new \core_kernel_classes_Resource($modelUri);
