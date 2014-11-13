@@ -32,17 +32,14 @@
 class tao_models_classes_FileSourceService
     extends tao_models_classes_GenerisService
 {
-
     /**
-     * returns the base class of the filesystems
+     * Returns a filesource
      *
-     * @access public
-     * @author Joel Bout, <joel@taotesting.com>
-     * @return core_kernel_classes_Class
+     * @param string $uri
+     * @return core_kernel_fileSystem_FileSystem
      */
-    public function getFileSourceClass()
-    {
-        return new core_kernel_classes_Class(CLASS_GENERIS_VERSIONEDREPOSITORY);
+    public function getFileSource($uri) {
+        return new core_kernel_fileSystem_FileSystem($uri);
     }
 
     /**
