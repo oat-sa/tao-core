@@ -87,6 +87,11 @@ class ZendSearch implements Search
                 $doc->addField(Document\Field::Keyword('itemtype', $model->getLabel()));
             }
             
+            $content = \taoItems_models_classes_ItemsService::singleton()->getItemContent($item);
+            if (!empty($content)) {
+                $doc->addField(Document\Field::Text('content', $content));
+            }
+            
             $this->index->addDocument($doc);
         }
     }
