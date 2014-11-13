@@ -22,6 +22,8 @@
 namespace oat\tao\scripts\update;
 
 use common_ext_ExtensionsManager;
+use oat\tao\model\search\SearchService;
+use oat\tao\model\search\zend\ZendSearch;
 
 /**
  * 
@@ -50,6 +52,13 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $currentVersion = '2.7.0';
         }
+        
+        if ($currentVersion !== '2.7.1') {
+            SearchService::setSearchImplementation(ZendSearch::createSearch());
+            
+            $currentVersion = '2.7.1';
+        }
+        
         
         return $currentVersion;
     }

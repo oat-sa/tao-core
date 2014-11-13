@@ -34,17 +34,15 @@ class tao_models_classes_FileSourceService
 {
 
     /**
-     * returns the base class of the filesystems
-     *
-     * @access public
-     * @author Joel Bout, <joel@taotesting.com>
-     * @return core_kernel_classes_Class
+     * Returns a filesource
+     * 
+     * @param string $uri
+     * @return core_kernel_fileSystem_FileSystem
      */
-    public function getFileSourceClass()
-    {
-        return new core_kernel_classes_Class(CLASS_GENERIS_VERSIONEDREPOSITORY);
+    public function getFileSource($uri) {
+        return new core_kernel_fileSystem_FileSystem($uri);
     }
-
+    
     /**
      * Add a local Filesource
      *
