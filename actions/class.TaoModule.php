@@ -909,22 +909,44 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$clazz = $this->getRootClass();
 		}
         
+		$this->setData('requestUrl', _url('getSearchResultsUrl'));
 		$this->setData('root', $this->getRootClass()->getUri());
 		$this->setView('TaoModule/search.tpl', 'tao');
 	}
+	
+	/**
+	 * Required for grid
+	 */
+	public function getSearchResultsUrl()
+	{
+	    $url = _url('searchResults', null, null, array(
+	    	'query' => $this->getRequestParameter('query')
+	    ));
+	    
+	    $this->returnJson(array(
+	    	'url' => $url,
+	        'params' => array(
+    	    	'chaining' => 'or'
+    	    ),
+	        'filter' => array(),
+	        'model' => array(
+                RDFS_LABEL => array(
+                    'id' => RDFS_LABEL,
+                    'label' => __('Label'),
+                    'sortable' => false	        	
+	            )
+            ),
+	        'result' => true
+	    ));
+	}
 
+	/**
+	 * Real search results
+	 */
     public function searchResults(){
         
         common_Logger::i('Search "'.$this->getRequestParameter('query').'"');
         $results = SearchService::getSearchImplementation()->query($this->getRequestParameter('query'));
-        
-        /*
-		$page =  (int)$this->getRequestParameter('page');
-		$limit = (int)$this->getRequestParameter('rows');
-		$order = $this->getRequestParameter('sortby');
-		$sord = $this->getRequestParameter('sortorder');
-		$start = $limit * $page - $limit;
-		*/
 
         $counti = count($results);
 
