@@ -30,6 +30,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .taotree-default { content: "\e655"; }
 
+.taotree-media .node-instance ins:before { content: "\e670"; }
+
 .tree-checkbox li.node-instance > a ins:before { content: "\e69b"; }
 
 .tree-checkbox li.node-instance > a.checked ins:before { content: "\e69d"; }
