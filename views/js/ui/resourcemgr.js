@@ -80,9 +80,12 @@ define([
                     $target.on('closed.modal', function(){
                         $elt.trigger('close.' + ns);
                     });
-                    
                     //initialize the components
-                    fileBrowser(options);
+                    for(var i = 0; i < options.roots.length; i++){
+                        options.root = options.roots[i];
+                        fileBrowser(options);
+                    }
+                    $('.file-browser').find('li.root:last').addClass('active');
                     fileSelector(options);
                     filePreview(options);
 
