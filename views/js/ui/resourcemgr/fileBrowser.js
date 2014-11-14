@@ -7,36 +7,33 @@ define(['jquery', 'lodash'], function($, _) {
 
         var root            = options.root || '/';
         var $container      = options.$target;
-        var parentSelector  = '#' + $container.attr('id') + ' .file-browser'; 
-        var $fileBrowser    = $('.file-browser', $container);  
-        var $folderContainer= $('.folders', $fileBrowser);
+        var $fileBrowser    = $('.file-browser', $container);
+        var $divContainer   = $('.'+root, $fileBrowser);
+        var $folderContainer= $('.folders', $divContainer);
         var fileTree        = {};
-
         //create the tree node for the ROOT folder by default
-        $folderContainer.append('<li class="active"><a class="root-folder" data-path="/" href="#">' + root + '</a></li>');
+        $folderContainer.append('<li class="root"><a class="root-folder" data-path="'+root+'/" href="#">' + root + '</a></li>');
 
         //load the content of the ROOT
-        getFolderContent(fileTree, root, function(content){
-    
-            var $rootNode = $('.root-folder', $folderContainer);
-             //create an inner list and append found elements
-             var $innerList = $('<ul></ul>').insertAfter($rootNode);
-             if(content.children){
-                $rootNode.addClass('opened');
-             }  
-             updateFolders(content, $innerList); 
+        getFolderContent(fileTree, root+'/', function(content){
 
-             //internal event to set the file-selector content
-             $container.trigger('folderselect.' + ns , [root, content.children]);
+            var $rootNode = $('.root-folder', $folderContainer);
+            //create an inner list and append found elements
+            var $innerList = $('<ul></ul>').insertAfter($rootNode);
+            if(content.children){
+                $rootNode.addClass('opened');
+            }
+            updateFolders(content, $innerList);
+            //internal event to set the file-selector content
+            $container.trigger('folderselect.' + ns , [root, content.children]);
         });
 
         // by clicking on the tree (using a live binding  because content is not complete yet)
-        $(parentSelector)
-            .off('click', '.folders a') 
+        $divContainer
+            .off('click', '.folders a')
             .on ('click', '.folders a', function(e){
             e.preventDefault();
-
-            var $selected = $(this); 
+            var $selected = $(this);
             var $folders = $('.folders li', $fileBrowser);
             var fullPath = $selected.data('path');
             var subTree = getByPath(fileTree, fullPath);
@@ -44,30 +41,30 @@ define(['jquery', 'lodash'], function($, _) {
             //toggle active element
             $folders.removeClass('active');
             $selected.parent('li').addClass('active');
-                        
+
             //get the folder content
             getFolderContent(subTree, fullPath, function(content){
 
                 if(content){
-                     //either create the inner list of the content is new or just show it 
-                     var $innerList = $selected.siblings('ul');
-                     if(!$innerList.length && content.children && _.find(content.children, 'path') && !content.empty){
-                        $innerList = $('<ul></ul>').insertAfter($selected);     
+                    //either create the inner list of the content is new or just show it
+                    var $innerList = $selected.siblings('ul');
+                    if(!$innerList.length && content.children && _.find(content.children, 'path') && !content.empty){
+                        $innerList = $('<ul></ul>').insertAfter($selected);
                         updateFolders(content, $innerList);
                         $selected.addClass('opened');
 
-                     } else if($innerList.length){
+                    } else if($innerList.length){
                         if($innerList.css('display') === 'none'){
                             $innerList.show();
                             $selected.addClass('opened');
                         } else {
                             $innerList.hide();
                             $selected.removeClass('opened');
-                        } 
-                     }
-                    
-                     //internal event to set the file-selector content
-                     $container.trigger('folderselect.' + ns , [fullPath, content.children]);
+                        }
+                    }
+
+                    //internal event to set the file-selector content
+                    $container.trigger('folderselect.' + ns , [fullPath, content.children]);
                 }
             });
         });
@@ -88,7 +85,7 @@ define(['jquery', 'lodash'], function($, _) {
         $container.on('filedelete.' + ns, function(e, path){
             removeFromPath(fileTree, path);
         });
-   
+
         /**
          * Get the content of a folder, either in the model or load it
          * @param {Object} tree - the tree model
@@ -114,7 +111,7 @@ define(['jquery', 'lodash'], function($, _) {
             } else {
                 cb(content);
             }
-        } 
+        }
 
         /**
          * Get a subTree from a path
@@ -128,12 +125,12 @@ define(['jquery', 'lodash'], function($, _) {
                 if(tree.path === path){
                     match = tree;
                 } else if(tree.children){
-                   _.forEach(tree.children, function(child){
+                    _.forEach(tree.children, function(child){
                         match = getByPath(child, path);
                         if(match){
                             return false;
                         }
-                   });
+                    });
                 }
             }
             return match;
@@ -152,7 +149,7 @@ define(['jquery', 'lodash'], function($, _) {
                 if(tree.path === path){
                     tree.children = data;
                 } else if(tree.children){
-                   _.forEach(tree.children, function(child){
+                    _.forEach(tree.children, function(child){
                         done = setToPath(child, path, data);
                         if(done){
                             return false;
@@ -172,7 +169,7 @@ define(['jquery', 'lodash'], function($, _) {
                 });
                 done = removed.length > 0;
                 if(!done){
-                   _.forEach(tree.children, function(child){
+                    _.forEach(tree.children, function(child){
                         done = removeFromPath(child, path);
                         if(done){
                             return false;
@@ -186,7 +183,7 @@ define(['jquery', 'lodash'], function($, _) {
         /**
          * Get the content of a folder
          * @param {String} path - the folder path
-         * @returns {jQuery.Deferred} the defferred object to run done/complete/fail 
+         * @returns {jQuery.Deferred} the defferred object to run done/complete/fail
          */
         function loadContent(path){
             var parameters = {};
@@ -201,15 +198,15 @@ define(['jquery', 'lodash'], function($, _) {
          * @param {Boolean} [recurse] - internal recursive condition
          */
         function updateFolders(data, $parent, recurse){
-           var $item;
-           if(recurse && data && data.path){
-                $item = $('<li><a data-path="' + data.path + '" href="#">' + data.path.split('/').pop() + '</a></li>').appendTo($parent);
-           }
-           if(data && data.children && _.isArray(data.children) && !data.empty){
+            var $item;
+            if(recurse && data && data.path){
+                $item = $('<li><a data-path="' + data.path + '" href="#">' + data.label+ '</a></li>').appendTo($parent);
+            }
+            if(data && data.children && _.isArray(data.children) && !data.empty){
                 _.forEach(data.children, function(child){
                     updateFolders(child, $parent, true);
                 });
-           } 
+            }
         }
     };
 });
