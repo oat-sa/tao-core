@@ -38,6 +38,30 @@
     &.horizontal-action-bar {
         padding: 5px;
         height: 35px;
+        .search-area {
+            float:right;
+            form {
+                display:inline-block;
+                position: relative;
+                input {
+                    padding-right: 30px;
+                    min-width: 250px !important;
+                }
+                button {
+                    position: absolute;
+                    right: -1px;
+                    top: -1px;
+                    cursor: default;
+                    opacity: .5;
+                    background: transparent;
+                    width: 25px;
+                    height : 25px;
+                    &:before {
+                        color: #666;
+                    }
+                }
+            }
+        }
         li {
             margin: 0 1px;
             border: 1px transparent solid;
