@@ -12,13 +12,20 @@ interface MediaBrowser {
     /**
      * @param string $relPath
      * @param array $acceptableMime
-     * @return array
+     * @return array ['label' => $label,
+     *                'path' => $implIdentifier.'/'.$path,
+     *                'children' => [['label' => $label, 'path', $implIdentifier.'/'.$path, 'url' => $continueUrl]]
+     *               ]
      */
     public function getDirectory($relPath = '/', $acceptableMime = array(), $depth = 1);
 
     /**
      * @param string $relPath
-     * @return array
+     * @return array  ['name' => $filename,
+     *                'mime' => $mimeType,
+     *                'size' => $fileSize,
+     *                'url' => $downloadUrl
+     *               ]
      */
     public function getFileInfo($relPath, $acceptableMime);
 
