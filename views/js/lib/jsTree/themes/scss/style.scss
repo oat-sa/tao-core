@@ -235,6 +235,10 @@
     @extend %icon-test;
 }
 
+.taotree-media .node-instance ins:before{
+  @extend %icon-media;
+}
+
 .taotree-default{
     @extend %icon-new-page;
 }
