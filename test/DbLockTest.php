@@ -27,13 +27,13 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  
  */
-class OntoLockTest extends TaoPhpUnitTestRunner {
+class DbLockTest extends TaoPhpUnitTestRunner {
 	
     protected $tempResource = null;
     protected $lockService = null;
     
     public function setUp() {
-        $this->lockService = tao_models_classes_lock_OntoLock::singleton();
+        $this->lockService = tao_models_classes_lock_DbLock::singleton();
         $this->lockService->setEnabled(true);
     }
 
@@ -44,7 +44,7 @@ class OntoLockTest extends TaoPhpUnitTestRunner {
      */
     public function testService()
     {
-        $this->assertIsA($this->lockService, 'tao_models_classes_lock_OntoLock');
+        $this->assertIsA($this->lockService, 'tao_models_classes_lock_DbLock');
     }
 
     /**

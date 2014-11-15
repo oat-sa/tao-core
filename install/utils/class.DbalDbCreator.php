@@ -19,10 +19,10 @@
  * @author Lionel Lecaque  <lionel@taotesting.com>
  * @license GPLv2
  * @package tao
+ 
  *
  */
 
-use Doctrine\DBAL\DBALException;
 
 class tao_install_utils_DbalDbCreator {
 
@@ -143,6 +143,22 @@ class tao_install_utils_DbalDbCreator {
 
 
     }
+    
+    /**
+     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     */
+    private function createLocksSchema(){
+	    $table = $this->schema->createTable('locks');
+	    $table->addColumn('id', 'integer', array('notnull' => true, 'autoincrement' => true));
+	    $table->addColumn('resource_uri', 'string', array('length' => 255, 'notnull' => true));
+	    $table->addColumn('lock_data', 'string', array('length' => 255, 'notnull' => true));
+	    $table->addOption('engine' , 'MyISAM');
+	    $table->setPrimaryKey(array('id'));
+        $table->addIndex(array('resource_uri'), 'idx_locks_resource_uri');
+
+
+    }
+
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
@@ -218,6 +234,7 @@ class tao_install_utils_DbalDbCreator {
     		$this->schema = new \Doctrine\DBAL\Schema\Schema() ;
 			$this->createModelsSchema();
 			$this->createStatementsSchena();
+			$this->createLocksSchema();
 // 			$this->createResourceToTable();
 // 			$this->createResourceHasClass();
 // 			$this->createClassToTable();
@@ -335,22 +352,12 @@ class tao_install_utils_DbalDbCreator {
         $platform = $this->connection->getDatabasePlatform();
         $tables = $sm->listTableNames();
         
-        while (!empty($tables)) {
-            $oldCount = count($tables);
-            foreach(array_keys($tables) as $id){
-                $name = $tables[$id];
-                try {
-                    $sm->dropTable($name);
-                    common_Logger::d('Droped table: '  . $name);
-                    unset($tables[$id]);
-                } catch (DBALException $e) {
-                    common_Logger::w('Failed to drop: '  . $name);
-                }
-            }
-            if (count($tables) == $oldCount) {
-                throw new common_exception_Error('Unable to clean DB');
-            }
+        foreach($tables as $name){
+        	common_Logger::d('Table to drop: '  . $name);
+            $sm->dropTable($name);
         }
+        
+
     }
 
     /**

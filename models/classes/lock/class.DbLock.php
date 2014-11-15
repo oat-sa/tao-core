@@ -25,7 +25,7 @@
  * @note It would be preferably static but we may want to have the polymorphism on lock but it would be prevented by explicit class method static calls.
  * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
  */
-class tao_models_classes_lock_OntoLock
+class tao_models_classes_lock_DbLock
     implements tao_models_classes_lock_Lock
 {
     private $isEnabled = false ;
@@ -40,8 +40,7 @@ class tao_models_classes_lock_OntoLock
     }
     /**
      * 
-     * @author Lionel Lecaque <lionel@taotesting.com>
-     * @return tao_models_classes_lock_OntoLock
+     * @return tao_models_classes_lock_DbLock
      */
     public static function singleton() {
         $returnValue = null;
@@ -82,7 +81,7 @@ class tao_models_classes_lock_OntoLock
      * @author Lionel Lecaque <lionel@taotesting.com>
      */
     public function restoreEnabled(){
-        if ((!defined("ENABLE_LOCK")) || (!(ENABLE_LOCK))) {
+        if ((!defined('ENABLE_LOCK')) || (!(ENABLE_LOCK))) {
             $this->setEnabled(false);
         } else {
             $this->setEnabled(true);
@@ -99,80 +98,98 @@ class tao_models_classes_lock_OntoLock
         if (!$this->isEnabled()) {
             return false;
         }
-        if (!($this->isLocked($resource))) {
-            $lock = new tao_models_classes_lock_LockData($resource, $owner, microtime(true));
-            $resource->setPropertyValue($this->getLockProperty(), $lock->toJson());
-        } else {
-            throw new common_Exception($resource->getUri()." is already locked");
+        if ($this->isLocked($resource) !== false) {
+            throw new common_Exception($resource->getUri() . ' is already locked');
         }
 
+        $lock = new tao_models_classes_lock_LockData($resource, $owner, microtime(true));
+
+        $dbWrapper = core_kernel_classes_DbWrapper::singleton();
+        $dbWrapper->insert('locks', [
+            'resource_uri' => $resource->getUri(),
+            'lock_data'    => $lock->toJson()
+        ]);
     }
+
     /**
-     * return true is the resource is locked, else otherwise
-     * @return boolean
+	 * Check if the resource is been locked
+	 *
+	 * @param core_kernel_classes_Resource $resource        	
+     * @return boolean TRUE if locked, FALSE otherwise
      */
-    public function isLocked(core_kernel_classes_Resource $resource){       
+    public function isLocked(core_kernel_classes_Resource $resource) {
         if (!$this->isEnabled()) {
             common_Logger::d('Lock is disable : return false');
             return false;
         }
-        $values = $resource->getPropertyValues($this->getLockProperty());
 
-        if ((is_array($values)) && (count($values)>0)) {
-            return true;
-        }
-        return false;
+        $lock = $this->getLockData($resource);
+
+        return $lock !== false;
     }
+
 	/**
 	 * release the lock if owned by @user
 	 *
 	 * @param core_kernel_classes_Resource $resource        	
 	 * @param core_kernel_classes_Resource $user
-	 * @throws common_exception_InconsistentData
-	 * @throw common_Exception no lock to release
+	 * @throws common_exception_Unauthorized
+     * @return TRUE on success FALSE on failure
 	 */
 	public function releaseLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $user) {
-		$lock = $resource->getPropertyValues( $this->getLockProperty () );
-		if (count ( $lock ) == 0) {
+		$lockData = $this->getLockData($resource);
+		if ($lockData === false) {
 			return false;
-		} elseif (count ( $lock ) > 1) {
-			throw new common_exception_InconsistentData('Bad data in lock');
 		}
 
-        $lockdata = tao_models_classes_lock_LockData::getLockData ( array_pop ( $lock ) );
+        $ownerUri = $lockData->getOwner()->getUri();
 
-        $userService = tao_models_classes_UserService::singleton();
+        if ($ownerUri != $user->getUri()) {
 
-        if ($lockdata->getOwner()->getUri() != $user->getUri()) {
-            if (!$userService->userHasRoles($user, new core_kernel_classes_Resource(INSTANCE_ROLE_SYSADMIN))) {
-				throw new common_exception_Unauthorized ( "The resource is owned by" . $lockdata->getOwner () );
+            // user is not the owner, check if admin
+
+            $role = new core_kernel_classes_Resource(INSTANCE_ROLE_SYSADMIN);
+            if (!tao_models_classes_UserService::singleton()->userHasRoles($user, $role)) {
+                // user is not an admin either
+				throw new common_exception_Unauthorized ( "The resource is owned by " . $lockData->getOwner () );
             }
+
         }
 
-        $resource->removePropertyValues( $this->getLockProperty() );
-        return true;
-
+        return $this->forceReleaseLock($resource);
 	}
+
    /**
     *  release the lock
     * @param core_kernel_classes_Resource $resource
     */
     public function forceReleaseLock(core_kernel_classes_Resource $resource){
-         $resource->removePropertyValues($this->getLockProperty());
+        $dbWrapper = core_kernel_classes_DbWrapper::singleton();
+        $dbWrapper->query(
+            'DELETE FROM locks WHERE resource_uri = ?', [$resource->getUri()]
+        );
+        return true;
     }
+
     /**
      * Return lock details
      * @param core_kernel_classes_Resource $resource
-     * @throws common_exception_InconsistentData
-     * @return tao_helpers_lock_LockData
+     * @throws common_Exception
+     * @return tao_helpers_lock_LockData on success or FALSE on failure
      */
     public function getLockData(core_kernel_classes_Resource $resource) {
-        $values = $resource->getPropertyValues($this->getLockProperty());
-        if ((is_array($values)) && (count($values)==1)) {
-            return tao_models_classes_lock_LockData::getLockData(array_pop($values));
-        } else {
+        $dbWrapper = core_kernel_classes_DbWrapper::singleton();
+        $statement = $dbWrapper->getPlatForm()->limitStatement(
+            'SELECT lock_data FROM locks WHERE resource_uri = ?', 1
+        );
+        $result = $dbWrapper->query($statement, [$resource->getUri()]);
+        if (!$result->rowCount()) {
             return false;
         }
+        $lock = $result->fetchColumn();
+        $result->closeCursor();
+
+        return tao_models_classes_lock_LockData::getLockData($lock);
 
     }
 }
