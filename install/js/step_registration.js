@@ -196,11 +196,11 @@ function onLoad(){
 		
 		// When data is changed, tell the Install API.
 		$(".tao-input[type=text], .tao-input[type=password]").bind('keyup click change paste blur', function(event){
-			install.stateChange(event.type == 'blur', this);
+                    install.stateChange();
 		});
 		
 		$(".tao-input[type=radio]").bind("change", function(event){
-			install.stateChange();
+                    install.stateChange();
 		});
 	});
 	
