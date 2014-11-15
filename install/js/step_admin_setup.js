@@ -37,8 +37,6 @@ function onLoad(){
 	$('form').bind('submit', function(){
 		if (install.isNextable()){
 			install.setTemplate('step_licenses');
-		} else {
-            install.stateChange(true);
 		}
 		
 		return false;
@@ -118,7 +116,7 @@ function onLoad(){
 		
 		// When data is changed, tell the Install API.
 		$(".tao-input[type=text], .tao-input[type=password]").bind('keyup click change paste blur', function(event){
-			install.stateChange();
+			install.stateChange(event.type == 'blur', this);
 		});
 		
 	});

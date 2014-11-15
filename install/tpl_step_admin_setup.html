@@ -8,12 +8,14 @@
 	<script type="text/javascript" src="../views/js/lib/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="../views/js/lib/jquery-ui-1.8.23.custom.min.js"></script>
 	<script type="text/javascript" src="../views/js/lib/spin.min.js"></script>
+	<script type="text/javascript" src="../views/js/lib/tooltipster/js/jquery.tooltipster.min.js"></script>
 	<script type="text/javascript" src="js/help.js"></script>
 	<script type="text/javascript" src="js/jquery.labelify.js"></script>
 	<script type="text/javascript" src="js/steps.js"></script>
 	<script type="text/javascript" src="js/step_admin_setup.js"></script>
 	<link rel="stylesheet" type="text/css" href="../views/css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="../views/css/custom-theme/jquery-ui-1.8.22.custom.css"/>
+	<link rel="stylesheet" type="text/css" href="../views/js/lib/tooltipster/css/tooltipster.css"/>
 	<link rel="stylesheet" type="text/css" href="css/installation_main.css"/>
 	<link rel="stylesheet" type="text/css" href="css/step_admin_setup.css"/>
 	<!--[if lt IE 9]>
@@ -57,17 +59,17 @@
                     </li>
                     <li>
                         <label for="superuser_login">Username</label><br />
-                        <input type="text" id="superuser_login" name="superuser_login" class="tao-input" title="e.g. administrator" autocomplete="off"/>
+                        <input type="text" id="superuser_login" name="superuser_login" class="tao-input" title="e.g. administrator" data-tip="Not a valid username" autocomplete="off"/>
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_superuser_login" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                     <li>
                         <label for="superuser_password1">Password (at least 4 characters)</label><br />
-                        <input type="password" id="superuser_password1" name="superuser_password1" class="tao-input" title="password" autocomplete="off"/>
+                        <input type="password" id="superuser_password1" name="superuser_password1" class="tao-input" title="password" data-tip="Not a valid password" autocomplete="off"/>
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_superuser_password" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                     <li>
                         <label for="superuser_password2">Confirm password</label><br />
-                        <input type="password" id="superuser_password2" name="superuser_password2" class="tao-input" title="password" autocomplete="off"/>
+                        <input type="password" id="superuser_password2" name="superuser_password2" class="tao-input" title="password" data-tip="Password and confirm password do not match" autocomplete="off"/>
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_superuser_password2" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                 </ul>  

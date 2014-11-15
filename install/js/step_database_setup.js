@@ -124,12 +124,6 @@ function onLoad(){
 	})();
 
 	$('form').bind('submit', function(){
-		if (!install.isNextable()){
-            install.stateChange(true);
-            return false;
-		}
-
-
 		// set a spinner up.
 		var $database = $('#database');
 		$database.css('visibility', 'visible').html('<span>'+$database.attr('data-next')+'</span>');
@@ -174,7 +168,21 @@ function onLoad(){
 					displayTaoError(msg);
 				}
 				else if (data.value.status == 'invalid-overwrite'){
-					displayTaoError("A database with name '" + database + "' already exists. Check the corresponding check box to overwrite it.");
+
+					var $el = $("#database_overwrite");
+					if (!$el.data('show-tip')) {
+						$el.data('show-tip', true).tooltipster({
+							theme : 'tooltip-error',
+							content : $('<span>', {html: "A database with name '" + database + "' already exists. Click here to overwrite existing data."}),
+							autoClose: false,
+							delay : 200,
+							trigger : 'custom',
+							maxWidth: 300
+						});
+					}
+
+					$el.tooltipster('show');
+
 				}
 				else if (data.value.status == 'invalid-nodriver'){
 					displayTaoError("The database driver '" + driver + "' that should connect to your Relation Database Management System is not available on the server-side.");
@@ -248,11 +256,21 @@ function onLoad(){
 		
 		// When data is changed, tell the Install API.
 		$(".tao-input[type=text], .tao-input[type=password], select").bind('keyup click change paste blur', function(event){
-			install.stateChange();
+			install.stateChange(event.type == 'blur', this);
+			
+			var $el = $("#database_overwrite");
+			if ($el.data('show-tip')) {
+				$el.tooltipster('hide');
+			}
 		});
 		
 		$(".tao-input[type=checkbox]").bind("change", function(event){
 			install.stateChange();
+
+			var $el = $("#database_overwrite");
+			if ($el.data('show-tip')) {
+				$el.tooltipster('hide');
+			}
 		});
 		
 		

@@ -229,8 +229,12 @@ TaoInstall.prototype.clearRegisteredElements = function(){
  * Notify the API that tao-input elements were added, modified, removed...
  * and that the registered elements can be checked again. 
  */
-TaoInstall.prototype.stateChange = function(loadingNext){
-	this.checkRegisteredElements(loadingNext === true);
+TaoInstall.prototype.stateChange = function(isBlurEvent, element){
+	if (!isBlurEvent || element.value == '' || element.value == element.title) {
+		element = false;
+	}
+
+	this.checkRegisteredElements(element);
 	this.storeDataForRegisteredElements();
 };
 
@@ -642,10 +646,9 @@ TaoInstall.prototype.inject = function(){
 	}
 };
 
-TaoInstall.prototype.checkRegisteredElements = function(highlight){
-	var validity = true,
-        setFocus = highlight;
-	
+TaoInstall.prototype.checkRegisteredElements = function(sourceElement){
+	var validity  = true;
+
 	for (i in this.registeredElements){
 		
 		var registeredElement = this.registeredElements[i];
@@ -671,12 +674,11 @@ TaoInstall.prototype.checkRegisteredElements = function(highlight){
 			// If it is not mandatory and that we have no value,
 			// we cannot consider it as 'invalid'.
 			if (typeof(registeredElement.onInvalid) == 'function'){
-				registeredElement.onInvalid(highlight, setFocus);
-                setFocus = false;
+				registeredElement.onInvalid(sourceElement == registeredElement);
 			}
 		}
 	}
-	
+
 	this.setNextable(validity);
 };
 

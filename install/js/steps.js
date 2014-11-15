@@ -66,27 +66,39 @@ function getSpinnerOptions(size){
 
 function validify(element){
 	element.onValid = function() { displayValidationMark(element); };
-	element.onInvalid = function (highlight, setFocus) {
+	element.onInvalid = function (highlight) {
         removeValidationMark(element);
 
-        if (!highlight) {
-            switch ($(element).attr('type')) {
-                case 'checkbox':
-                case 'radio':
-                    break;
-                default:
-                    if (element.value && element.value != element.firstValue) {
-                        highlight = true;
-                    } 
-            }
-        }
+        if (!highlight) return;
 
-        if (highlight) {
-            $(element).addClass('validation-error');
-            if (setFocus) {
-                $(element).focus();
-            }
-        }
+		var $el = $(element),
+			tip = $el.data('tip');
+
+		$el.addClass('validation-error');
+
+		if (!tip) return;
+		
+		if (!$el.data('show-tip')) {
+			$el.tooltipster({
+				theme : 'tooltip-warning',
+				content : $('<span>', {html: tip}),
+				autoClose: false,
+				delay : 200,
+				trigger : 'custom',
+				position: 'bottom',
+				maxWidth: $el.width()
+			});
+
+			$el.data('show-tip', true).on('focus', function(){
+				$(this).tooltipster('hide');
+			});
+		}
+
+		$el.tooltipster('show');
+
+		setTimeout(function(){
+			$el.tooltipster('hide');
+		}, 3000);
     };
 }
 

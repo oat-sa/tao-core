@@ -7,12 +7,14 @@
     <title>Installation Process</title>
 	<script type="text/javascript" src="../views/js/lib/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="../views/js/lib/jquery-ui-1.8.23.custom.min.js"></script>
+	<script type="text/javascript" src="../views/js/lib/tooltipster/js/jquery.tooltipster.js"></script>
 	<script type="text/javascript" src="js/help.js"></script>
 	<script type="text/javascript" src="js/jquery.labelify.js"></script>
 	<script type="text/javascript" src="js/steps.js"></script>
 	<script type="text/javascript" src="js/step_server_setup.js"></script>
 	<link rel="stylesheet" type="text/css" href="../views/css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="../views/css/custom-theme/jquery-ui-1.8.22.custom.css"/>
+	<link rel="stylesheet" type="text/css" href="../views/js/lib/tooltipster/css/tooltipster.css"/>
 	<link rel="stylesheet" type="text/css" href="css/installation_main.css"/>
 	<link rel="stylesheet" type="text/css" href="css/step_server_setup.css"/>
 	<!--[if lt IE 9]>
@@ -39,12 +41,12 @@
                 <ul>
                     <li>
                         <label for="host_name">Enter the host name of the server on which TAO is going to be deployed.</label><br />
-                        <input type="text" id="host_name" name="host_name" class="tao-input" title="http://myplatform.mywebsite.com" autocomplete="off"/>
+                        <input type="text" id="host_name" name="host_name" class="tao-input" title="http://myplatform.mywebsite.com" data-tip="Please enter a vaild host, for example http://myplatform.mywebsite.com" autocomplete="off"/>
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="hlp_host_name" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                     <li>
                         <label for="instance_name">Give a unique name to your TAO installation to make it identifiable among others.</label><br />
-                        <input type="text" id="instance_name" name="instance_name" class="tao-input" title="e.g. instance name" autocomplete="off"/>
+                        <input type="text" id="instance_name" name="instance_name" class="tao-input" title="e.g. instance name" data-tip="A valid instance name must be between 3 and 63 characters, should contains only alphanumeric, dash and underscore without spaces" autocomplete="off"/>
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="hlp_instance_name" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                     <li>

@@ -262,6 +262,39 @@ form > ul > li > select {
     border: 1px solid #ff0000;
     background-color: #ffeeee;
 }
+.tooltip-warning,
+.tooltip-error {
+	border-color: #dfbe7b;
+	background-color: #fbf6ee;
+	color: #d8ae5b;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	max-width: 300px;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+	-ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+	-o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.tooltip-warning .tooltipster-content,
+.tooltip-error .tooltipster-content {
+	font-size: 11px;
+	line-height: 14px;
+	padding: 3px;
+}
+
+.tooltip-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+.tooltip-error .tooltipster-content {
+	font-size: 12px;
+	color: #ff0000;
+}
 
 form > ul > li {
 	position: relative;
