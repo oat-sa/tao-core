@@ -25,6 +25,7 @@ use tao_models_classes_FileSourceService;
 use common_Logger;
 use ZendSearch\Lucene\Lucene;
 use ZendSearch\Lucene\Document;
+use ZendSearch\Lucene\Search\QueryHit;
 
 /**
  * Zend Lucene Search implementation 
@@ -41,7 +42,7 @@ class ZendSearch implements Search
     
     /**
      * 
-     * @var Lucene
+     * @var \ZendSearch\Lucene\SearchIndexInterface
      */
     private $index;
     
@@ -62,7 +63,7 @@ class ZendSearch implements Search
             $ids[] = $hit->getDocument()->getField('uri')->getUtf8Value();
         }
         
-        \common_Logger::i('found '.count($ids));
+        \common_Logger::d('found '.count($ids));
         
         return $ids;
     }
@@ -72,27 +73,16 @@ class ZendSearch implements Search
      * @see \oat\tao\model\search\Search::index()
      */
     public function index($resourceUris) {
+        
+        Lucene::create($this->fileSystem->getPath());
         // hardcoded item indexing
         foreach ($resourceUris as $uri) {
             $item = new \core_kernel_classes_Resource($uri);
-            common_Logger::i('index '.$item->getLabel());
             
-            $doc = new Document();
-            $doc->addField(Document\Field::Keyword('uri', $item->getUri()));
-            $doc->addField(Document\Field::Text('label', $item->getLabel()));
+            $indexer = new ZendIndexer($item);
+            $doc = $indexer->toDocument();
 
-            $itemModels = $item->getPropertyValues(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModel'));
-            foreach ($itemModels as $modelUri) {
-                $model = new \core_kernel_classes_Resource($modelUri);
-                $doc->addField(Document\Field::Keyword('itemtype', $model->getLabel()));
-            }
-            
-            $content = \taoItems_models_classes_ItemsService::singleton()->getItemContent($item);
-            if (!empty($content)) {
-                $doc->addField(Document\Field::Text('content', $content));
-            }
-            
-            $this->index->addDocument($doc);
+            $this->index->addDocument($indexer->toDocument());
         }
     }
     
