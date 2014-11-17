@@ -100,12 +100,6 @@ define([
                                 $editIcon.on('click', function() {
                                     $editContainer.slideToggle(function() {
                                         $editContainer.parent().toggleClass('property-edit-container-open');
-                                        if(!$('.property-edit-container-open').length) {
-                                            _toggleModeBtn('disabled');
-                                        }
-                                        else {
-                                            _toggleModeBtn('enabled');
-                                        }
                                     });
                                 });
                                 return 'regular-property'
@@ -135,7 +129,6 @@ define([
             }
             _wrapPropsInContainer($properties);
             _upgradeRadioButtons($container);
-            _toggleModeBtn('disabled');
         }
 
 
