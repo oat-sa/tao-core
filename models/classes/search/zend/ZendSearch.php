@@ -26,29 +26,31 @@ use common_Logger;
 use ZendSearch\Lucene\Lucene;
 use ZendSearch\Lucene\Document;
 use ZendSearch\Lucene\Search\QueryHit;
+use oat\oatbox\Configurable;
 
 /**
  * Zend Lucene Search implementation 
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
-class ZendSearch implements Search
+class ZendSearch extends Configurable implements Search
 {	
-    /**
-     * 
-     * @var \core_kernel_fileSystem_FileSystem
-     */
-    private $fileSystem;
-    
     /**
      * 
      * @var \ZendSearch\Lucene\SearchIndexInterface
      */
     private $index;
     
-    public function __construct($fileSystemId) {
-        $this->fileSystem = tao_models_classes_FileSourceService::singleton()->getFileSource($fileSystemId);
-        $this->index = Lucene::open($this->fileSystem->getPath());
+    /**
+     * 
+     * @return \ZendSearch\Lucene\SearchIndexInterface
+     */
+    public function getIndex() {
+        if (is_null($this->index)) {
+            $this->fileSystem = tao_models_classes_FileSourceService::singleton()->getFileSource($this->getOption('fileSystem'));
+            $this->index = Lucene::open($this->fileSystem->getPath());
+        }
+        return $this->index;
     }
     
     /**
@@ -56,7 +58,7 @@ class ZendSearch implements Search
      * @see \oat\tao\model\search\Search::query()
      */
     public function query($queryString) {
-        $hits = $this->index->find($queryString);
+        $hits = $this->getIndex()->find($queryString);
         
         $ids = array();
         foreach ($hits as $hit) {
@@ -74,24 +76,19 @@ class ZendSearch implements Search
      */
     public function index($resourceUris) {
         
-        Lucene::create($this->fileSystem->getPath());
-        // hardcoded item indexing
+        // flush existing index
+        $this->flushIndex();
+        
+        // index the resources
         foreach ($resourceUris as $uri) {
-            $item = new \core_kernel_classes_Resource($uri);
-            
-            $indexer = new ZendIndexer($item);
-            $doc = $indexer->toDocument();
-
-            $this->index->addDocument($indexer->toDocument());
+            $indexer = new ZendIndexer(new \core_kernel_classes_Resource($uri));
+            $this->getIndex()->addDocument($indexer->toDocument());
         }
     }
     
-    /**
-     * (non-PHPdoc)
-     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
-     */
-    public function __toPhpCode() {
-        return 'new oat\\tao\\model\\search\\zend\\ZendSearch(\''.$this->fileSystem->getUri().'\')';
+    public function flushIndex() {
+        $fileSystem = tao_models_classes_FileSourceService::singleton()->getFileSource($this->getOption('fileSystem'));
+        Lucene::create($fileSystem->getPath());
     }
     
     /**
@@ -104,8 +101,12 @@ class ZendSearch implements Search
         if (file_exists($privateDataPath)) {
             helpers_File::emptyDirectory($privateDataPath);
         }
+        
         $privateFs = \tao_models_classes_FileSourceService::singleton()->addLocalSource('Zend Search index folder', $privateDataPath);
-        Lucene::create($privateDataPath);
-        return new ZendSearch($privateFs->getUri());
+        $search = new ZendSearch(array(
+            'fileSystem' => $privateFs->getUri()
+        )); 
+        $search->flushIndex();
+        return $search; 
     }
 }

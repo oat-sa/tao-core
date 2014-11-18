@@ -948,8 +948,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         common_Logger::i('Search "'.$this->getRequestParameter('query').'"');
         $results = SearchService::getSearchImplementation()->query($this->getRequestParameter('query'));
 
-        $counti = count($results);
-
         $response = new StdClass();
         if(count($results) > 0 ){
 
