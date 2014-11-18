@@ -43,7 +43,7 @@ define([
             $previewer.previewer(file);
             $propType.text(file.type + ' (' + file.mime + ')'); 
             $propSize.text(bytes.hrSize(file.size)); 
-            $propUrl.html('<a href="' + file.url + '">' + file.file + '</a>'); 
+            $propUrl.html('<a href="' + file.url + '">' + file.display + '</a>');
             $selectButton.removeAttr('disabled');
         }
 

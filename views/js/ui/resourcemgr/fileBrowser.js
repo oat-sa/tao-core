@@ -12,7 +12,7 @@ define(['jquery', 'lodash'], function($, _) {
         var $folderContainer= $('.folders', $divContainer);
         var fileTree        = {};
         //create the tree node for the ROOT folder by default
-        $folderContainer.append('<li class="root"><a class="root-folder" data-path="'+root+'/" href="#">' + root + '</a></li>');
+        $folderContainer.append('<li class="root"><a class="root-folder" data-display="' + root + '" data-path="'+root+'/" href="#">' + root + '</a></li>');
 
         //load the content of the ROOT
         getFolderContent(fileTree, root+'/', function(content){
@@ -36,6 +36,7 @@ define(['jquery', 'lodash'], function($, _) {
             var $selected = $(this);
             var $folders = $('.folders li', $fileBrowser);
             var fullPath = $selected.data('path');
+            var displayPath = $selected.data('display');
             var subTree = getByPath(fileTree, fullPath);
 
             //toggle active element
@@ -64,7 +65,7 @@ define(['jquery', 'lodash'], function($, _) {
                     }
 
                     //internal event to set the file-selector content
-                    $container.trigger('folderselect.' + ns , [fullPath, content.children]);
+                    $container.trigger('folderselect.' + ns , [displayPath, content.children]);
                 }
             });
         });
@@ -200,7 +201,7 @@ define(['jquery', 'lodash'], function($, _) {
         function updateFolders(data, $parent, recurse){
             var $item;
             if(recurse && data && data.path){
-                $item = $('<li><a data-path="' + data.path + '" href="#">' + data.label+ '</a></li>').appendTo($parent);
+                $item = $('<li><a data-path="' + data.path + '" data-display="' + data.relPath + '" href="#">' + data.label+ '</a></li>').appendTo($parent);
             }
             if(data && data.children && _.isArray(data.children) && !data.empty){
                 _.forEach(data.children, function(child){

@@ -1,5 +1,5 @@
 {{#each files}}
-<li data-type="{{type}}" data-file="{{path}}" data-mime="{{mime}}" data-size="{{size}}" data-url="{{url}}"> 
+<li data-type="{{type}}" data-file="{{path}}" data-display="{{display}}" data-mime="{{mime}}" data-size="{{size}}" data-url="{{url}}">
     <span class="desc truncate">{{name}}</span>
     <div class="actions">
         <div class="tlb">

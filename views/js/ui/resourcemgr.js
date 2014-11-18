@@ -61,6 +61,7 @@ define([
                     //auto bind events configured in options
                     _.functions(options).forEach(function(eventName){
                         $elt.on(eventName + '.' + ns, function(){
+
                             options[eventName].apply($elt, arguments);
                         });
                     });
