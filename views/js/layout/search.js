@@ -75,7 +75,6 @@ function($, _, __, section, feedback, datatable, uri){
 
         /**
          * Initialize, only entry point
-         * @throws Error when the element in the DOM are not found
          */
         init : function init(){
             var self = this;
@@ -84,46 +83,45 @@ function($, _, __, section, feedback, datatable, uri){
             var $searchInput = $('input' , $container);
             var $searchBtn = $('button' , $container);
   
-            if(!$container || !$container.length){
-                throw new Error('Unable to find the container element of the search component');
-            }
- 
-            //throttle and control to prevent sending too many requests
-            var running = false;
-            var searchHandler = _.throttle(function searchHandler(query){ 
-                if(running === false){
-                    running = true;
-                    $.ajax({
-                        url : $container.data('url'),
-                        type : 'POST',
-                        data :  {query : query},
-                        dataType : 'json'
-                    }).done(function(response){
-                        if(response && response.result && response.result === true){
-                            buildResponseTable(response);
-                        } else {
-                            feedback().warning(__('No results found'));
-                        }
-                    }).complete(function(){
-                        running = false;
-                    }); 
-                }
-            }, 100);
+            if($container && $container.length){
+     
+                //throttle and control to prevent sending too many requests
+                var running = false;
+                var searchHandler = _.throttle(function searchHandler(query){ 
+                    if(running === false){
+                        running = true;
+                        $.ajax({
+                            url : $container.data('url'),
+                            type : 'POST',
+                            data :  {query : query},
+                            dataType : 'json'
+                        }).done(function(response){
+                            if(response && response.result && response.result === true){
+                                buildResponseTable(response);
+                            } else {
+                                feedback().warning(__('No results found'));
+                            }
+                        }).complete(function(){
+                            running = false;
+                        }); 
+                    }
+                }, 100);
 
-            //clicking the button trigger the request
-            $searchBtn.off('click').on('click', function(e){
-                e.preventDefault();
-                searchHandler($searchInput.val());
-            });
-
-            //or press ENTER
-            $searchInput.off('keypress').on('keypress', function(e){
-                var query = $searchInput.val();
-                if(e.which === 13){
+                //clicking the button trigger the request
+                $searchBtn.off('click').on('click', function(e){
                     e.preventDefault();
-                    searchHandler(query);
-                }
-            });
+                    searchHandler($searchInput.val());
+                });
+
+                //or press ENTER
+                $searchInput.off('keypress').on('keypress', function(e){
+                    var query = $searchInput.val();
+                    if(e.which === 13){
+                        e.preventDefault();
+                        searchHandler(query);
+                    }
+                });
+            }
         }
     };
 
