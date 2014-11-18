@@ -84,6 +84,7 @@ function validifyNotMandatory(element){
         }
     };
 }
+
 function displayTooltip($el) {
     var tip = $el.data('tip');
 
