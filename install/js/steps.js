@@ -68,46 +68,52 @@ function validify(element){
 	element.onValid = function() { displayValidationMark(element); };
 	element.onInvalid = function (highlight) {
         removeValidationMark(element);
-
-        if (!highlight) return;
-
-		var $el = $(element),
-			tip = $el.data('tip');
-
-		$el.addClass('validation-error');
-
-		if (!tip) return;
-		
-		if (!$el.data('show-tip')) {
-			$el.tooltipster({
-				theme : 'tooltip-warning',
-				content : $('<span>', {html: tip}),
-				autoClose: false,
-				delay : 200,
-				trigger : 'custom',
-				position: 'bottom',
-				maxWidth: $el.width()
-			});
-
-			$el.data('show-tip', true).on('focus', function(){
-				$(this).tooltipster('hide');
-			});
-		}
-
-		$el.tooltipster('show');
-
-		setTimeout(function(){
-			$el.tooltipster('hide');
-		}, 3000);
+        if (highlight) {
+            displayTooltip($(element));
+        }
     };
 }
 
 function validifyNotMandatory(element){
 	element.onValid = function() { displayValidationMark(element); };
 	element.onValidButEmpty = function() { removeValidationMark(element); };
-	element.onInvalid = function () { removeValidationMark(element); };
+	element.onInvalid = function (highlight) {
+        removeValidationMark(element);
+        if (highlight) {
+            displayTooltip($(element));
+        }
+    };
 }
+function displayTooltip($el) {
+    var tip = $el.data('tip');
 
+    $el.addClass('validation-error');
+
+    if (!tip) return;
+
+    if (!$el.data('show-tip')) {
+        $el.tooltipster({
+            theme : 'tooltip-warning',
+            content : $('<span>', {html: tip}),
+            autoClose: false,
+            delay : 200,
+            trigger : 'custom',
+            position: 'bottom',
+            maxWidth: $el.width()
+        });
+
+        $el.data('show-tip', true).on('focus', function(){
+            $(this).tooltipster('hide');
+        });
+    }
+
+    $el.tooltipster('show');
+
+    setTimeout(function(){
+        $el.tooltipster('hide');
+    }, 3000);
+    
+}
 function displayValidationMark(element){
     var $this   = $(element),
         $parent = $this.parent();
