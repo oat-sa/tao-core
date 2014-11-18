@@ -894,32 +894,12 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	}
 
 	/**
-	 * search the instances of an ontology
-	 * @return 
+     * Search parameters endpoints.
+     * The response provides parameters to create a datatable.
 	 */
-	public function search()
+	public function searchParams()
 	{
-		$found = false;
-		
-		try{
-			$clazz = $this->getCurrentClass();
-		}
-		catch(Exception $e){
-		    common_Logger::i('Search : could not find current class switch to root class');
-			$clazz = $this->getRootClass();
-		}
-        
-		$this->setData('requestUrl', _url('getSearchResultsUrl'));
-		$this->setData('root', $this->getRootClass()->getUri());
-		$this->setView('TaoModule/search.tpl', 'tao');
-	}
-	
-	/**
-	 * Required for grid
-	 */
-	public function getSearchResultsUrl()
-	{
-	    $url = _url('searchResults', null, null, array(
+	    $url = _url('search', null, null, array(
 	    	'query' => $this->getRequestParameter('query')
 	    ));
 	    
@@ -939,11 +919,12 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	        'result' => true
 	    ));
 	}
-
+	
 	/**
-	 * Real search results
+	 * Search results
+     * The search is pagintaed and initiated by the datatable component.
 	 */
-    public function searchResults(){
+    public function search(){
         
         common_Logger::i('Search "'.$this->getRequestParameter('query').'"');
         $results = SearchService::getSearchImplementation()->query($this->getRequestParameter('query'));
@@ -956,33 +937,16 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 $instanceProperties = array(
                     'id' => $instance->getUri(),
                     RDFS_LABEL => $instance->getLabel() 
-
                 );
-                /*
-                foreach($properties as $i => $property){
-                    $value = '';
-                    $propertyValues = $instance->getPropertyValuesCollection($property);
-                    foreach($propertyValues->getIterator() as $propertyValue){
-                        if($propertyValue instanceof core_kernel_classes_Literal){
-                            $value .= (string) $propertyValue;
-                        }
-                        if($propertyValue instanceof core_kernel_classes_Resource){
-                            $value .= $propertyValue->getLabel();
-                        }
-                    }
-                    $instanceProperties[$i] = $value;
-                }
-                */
 
                 $response->data[] = $instanceProperties; 
             }
         }
 		$response->page = 1;
 		$response->total = 1;
-		$response->records = count($results);
+		$response->records = $counti;
 
 		$this->returnJson($response, 200);
-
     }
 
 	/**
