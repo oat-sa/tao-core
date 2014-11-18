@@ -27,8 +27,7 @@
  * @package tao
  
  */
-class tao_actions_form_Import
-extends tao_helpers_form_FormContainer
+class tao_actions_form_Import extends tao_helpers_form_FormContainer
 {
 	// --- ASSOCIATIONS ---
 
@@ -45,11 +44,15 @@ extends tao_helpers_form_FormContainer
 
 	/**
 	 * Initialise the form for the given importHandlers
-	 * 
-	 * @param array $importHandlers
-	 * @param tao_helpers_form_Form $subForm
+	 *
+	 * @param tao_models_classes_import_ImportHandler $importHandler
+	 * @param array $availableHandlers
+	 * @param core_kernel_classes_Resource $class
+	 * @internal param array $importHandlers
+	 * @internal param tao_helpers_form_Form $subForm
 	 */
-	public function __construct($importHandler, $availableHandlers, $class) {
+	public function __construct($importHandler, $availableHandlers, $class)
+	{
 		$this->importHandlers = $availableHandlers;
 		if (!is_null($importHandler)) {
 		    $this->subForm = $importHandler->getForm();
@@ -109,10 +112,8 @@ extends tao_helpers_form_FormContainer
 		$this->form->createGroup('formats', __('Supported import formats'), array('importHandler'));
 
 		if (!is_null($this->subForm)) {
-			//load dynamically the method regarding the selected format
-			foreach ($this->subForm->getElements() as $element) {
-				$this->form->addElement($element);
-			}
+//			load dynamically the method regarding the selected format
+			$this->form->setElements(array_merge($this->form->getElements(), $this->subForm->getElements()));
 			foreach ($this->subForm->getGroups() as $key => $group) {
 				$this->form->createGroup($key,$group['title'],$group['elements'],$group['options']);
 			}
@@ -120,5 +121,3 @@ extends tao_helpers_form_FormContainer
 	}
 
 }
-
-?>

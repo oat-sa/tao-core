@@ -103,4 +103,8 @@ class tao_actions_Import extends tao_actions_CommonModule {
 		return new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
 	}
 
+	protected function getValidators(){
+		return array();
+	}
+
 }
