@@ -1,69 +1,59 @@
+
+/**  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2014 (update and modification) Open Assessment Technologies SA;
+ */
+
+/**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
     'i18n',
-    'module',
-    'context',
     'layout/section',
     'ui/feedback',
     'ui/datatable',
     'uri'
 ],
-function($, _, __, module, context, section, feedback, datatable, uri){
+function($, _, __, section, feedback, datatable, uri){
+    'use strict';
 
-    var changeFormLayout = function changeFormLayout($form){
-
-        var $toolBars      = $form.find('.form-toolbar');
-        var $formGroups    = $form.find('.form-group');
-        var $filters       = $formGroups.last();
-        var $langSelector  = $form.find('[name="lang"]');
-        var $formContainer = $form.find('.xhtml_form');
-        var $formTitle     = $form.find('h2');
-
-        // remove unwanted classes
-        $formContainer.parent().removeClass(function(idx, className) {
-            return className;
-        });
-
-        // remove first toolbar
-        if($toolBars.length > 1) {
-            $toolBars.first().remove();
-        }
-
-        // remove 'options', 'filters' and headings
-        $form.find('del').remove();
-        $formTitle.remove();
-
-        // select current locale
-        if(!$langSelector.val()){
-            $langSelector.val(context.locale);
-        }
-
-        // add regular placeholder
-        $filters.find('input[type="text"]').each(function() {
-            var $parentDiv;
-            if((/schema_[\d]+_label$/).test(this.name)) {
-                this.placeholder = __('You can use * as a wildcard');
-                $parentDiv = $(this).closest('div');
-                // remove 'original filename when empty
-                if(!$.trim($parentDiv.next().find('span').last().html())) {
-                    $parentDiv.next().remove();
-                }
-                $parentDiv.prependTo($form.find('.form-group:first > div'));
-            }
-        });
-    };
-
+    /**
+     * Create the table that contains the search results
+     * @param {Object} data - the datatable parameters
+     * @param {Object} data.model - the datatable model
+     * @param {Object} data.params - extra parameters to give to the datatable endpoint
+     * @param {Object} data.filters - extra parameters to give to the datatable endpoint
+     */
     var buildResponseTable  = function buildResponseTable(data){
+
+        //update the section container
         var $tableContainer = $('<div class="flex-container-full"></div>');
         section.updateContentBlock($tableContainer);
 
+        //create a datatable
         $tableContainer.datatable({
                 'url': data.url,
                 'model' : _.values(data.model),
                 'actions' : {
                    'open' : function openResource(id){
-                            $('.tree').trigger('selectnode.taotree', [{id : uri.encode(id)}]);
+                        //TODO remove URI encoding here and in the tree
+                        //FIXME if the element isn't shown in the tree, then it wont open... to be fixed in the tree.
+                        $('.tree').trigger('selectnode.taotree', [{id : uri.encode(id)}]);
                     } 
                 },
                 'params' : {
@@ -73,49 +63,69 @@ function($, _, __, module, context, section, feedback, datatable, uri){
             });
     };
 
-    return {
+    /**
+     * Behavior of the tao backend global search.
+     * It runs by himslef using the init method.
+     * 
+     * @example  search.init();
+     *
+     * @exports layout/search
+     */
+    var searchComponent =  {
 
         /**
-         * Initialize post renderer
+         * Initialize, only entry point
+         * @throws Error when the element in the DOM are not found
          */
-        init : function init($container, searchForm){
+        init : function init(){
             var self = this;
-            var conf = module.config();
-            var $searchForm;
-            var $formElt;
-            var submitHandler = function submitHandler(e){
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                
-                $.ajax({
-                    url : $formElt.attr('action'),
-                    type : 'POST',
-                    data : $formElt.serializeArray(),
-                    dataType : 'json'
-                }).done(function(response){
-                    if(response.result && response.result === true){
-                        buildResponseTable(response);
-                    } else {
-                        feedback().warning(__('No results found'));
-                    }
-                }); 
-            };
-            if(searchForm){        
-    
-                // build jquery obj, make ids unique
-                $searchForm = $(searchForm.replace(/(for|id)=("|')/g, '$1=$2search_field_'));
-                $formElt = $('form', $searchForm);
-
-                //tweaks form layout 
-                changeFormLayout($searchForm);
-
-                //re-bind form
-                _.defer(function(){     //defer tp bind after the uiForm stuffs
-                    $('.form-submitter', $searchForm).off('click').on('click', submitHandler);
-                    $formElt.off('submit').on('submit', submitHandler);
-                });
-                $container.html($searchForm);
+           
+            var $container = $('.action-bar .search-area');
+            var $searchInput = $('input' , $container);
+            var $searchBtn = $('button' , $container);
+  
+            if(!$container || !$container.length){
+                throw new Error('Unable to find the container element of the search component');
             }
+ 
+            //throttle and control to prevent sending too many requests
+            var running = false;
+            var searchHandler = _.throttle(function searchHandler(query){ 
+                if(running === false){
+                    running = true;
+                    $.ajax({
+                        url : $container.data('url'),
+                        type : 'POST',
+                        data :  {query : query},
+                        dataType : 'json'
+                    }).done(function(response){
+                        if(response && response.result && response.result === true){
+                            buildResponseTable(response);
+                        } else {
+                            feedback().warning(__('No results found'));
+                        }
+                    }).complete(function(){
+                        running = false;
+                    }); 
+                }
+            }, 100);
+
+            //clicking the button trigger the request
+            $searchBtn.off('click').on('click', function(e){
+                e.preventDefault();
+                searchHandler($searchInput.val());
+            });
+
+            //or press ENTER
+            $searchInput.off('keypress').on('keypress', function(e){
+                var query = $searchInput.val();
+                if(e.which === 13){
+                    e.preventDefault();
+                    searchHandler(query);
+                }
+            });
         }
     };
+
+    return searchComponent;
 });

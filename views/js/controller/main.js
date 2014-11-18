@@ -13,9 +13,10 @@ define([
     'layout/version-warning',
     'layout/section-height',
     'layout/loading-bar',
-    'layout/nav'
+    'layout/nav',
+    'layout/search'
 ],
-function ($, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav) {
+function ($, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
     'use strict';
 
     /**
@@ -41,6 +42,9 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
 
             //navigation bindings
             nav.init();
+
+            //search component
+            search.init();
 
             //initialize sections 
             section.on('activate', function(section){
