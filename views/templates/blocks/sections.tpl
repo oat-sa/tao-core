@@ -25,7 +25,8 @@ $sections = get_data('sections');
             
                 <section class="navi-container">
                     <div class="section-trees">
-                        <?php foreach ($section->getTrees() as $i => $tree): ?>
+                        <?php foreach ($section->getTrees() as $i => $tree):
+                        ?>
                             <div class="tree-block">
                                 <div class="plain action-bar horizontal-action-bar">
                                 </div>
@@ -73,10 +74,14 @@ $sections = get_data('sections');
                             ));
                         ?>
                         <?php
-                        Template::inc('blocks/search.tpl', 'tao', array(
-                                'action_classes' => 'btn-info small',
-                                'actions' => $section->getActionsByGroup('search')
-                            ));
+                        foreach ($section->getTrees() as $i => $tree) {
+                            if (!is_null($tree->get('rootNode'))) {
+                                Template::inc('blocks/search.tpl', 'tao', array(
+                                    'rootNode' => $tree->get('rootNode'),
+                                    'searchLabel' => __('Search %s', $tree->get('className'))
+                                ));
+                            }
+                        }
                         ?>
                     </ul>
 
