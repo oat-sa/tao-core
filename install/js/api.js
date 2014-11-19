@@ -230,9 +230,14 @@ TaoInstall.prototype.clearRegisteredElements = function(){
  * and that the registered elements can be checked again. 
  */
 TaoInstall.prototype.stateChange = function(isBlurEvent, element){
-	if (!isBlurEvent || element.value == '' || element.value == element.title) {
-		element = false;
-	}
+    if (element) {
+        if (element.value == '' || element.value == element.firstValue) {
+            $(element).removeClass('validation-error');
+    		element = false;
+        } else if(!isBlurEvent) {
+    		element = false;
+        }
+    }
 
 	this.checkRegisteredElements(element);
 	this.storeDataForRegisteredElements();
