@@ -82,8 +82,8 @@ define([
                         $elt.trigger('close.' + ns);
                     });
                     //initialize the components
-                    for(var i = 0; i < options.roots.length; i++){
-                        options.root = options.roots[i];
+                    for(var i = 0; i < options.mediaSources.length; i++){
+                        options.root = options.mediaSources[i];
                         fileBrowser(options);
                     }
                     $('.file-browser').find('li.root:last').addClass('active');

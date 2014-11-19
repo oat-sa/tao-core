@@ -201,6 +201,9 @@ define(['jquery', 'lodash'], function($, _) {
         function updateFolders(data, $parent, recurse){
             var $item;
             if(recurse && data && data.path){
+                if(data.relPath === undefined){
+                    data.relPath = data.path;
+                }
                 $item = $('<li><a data-path="' + data.path + '" data-display="' + data.relPath + '" href="#">' + data.label+ '</a></li>').appendTo($parent);
             }
             if(data && data.children && _.isArray(data.children) && !data.empty){
