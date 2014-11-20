@@ -1,5 +1,11 @@
 @import "inc/bootstrap";
 
+@include keyframes(mouseovermenu) {
+    0% { opacity: 0; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
 #requirement-check {
     margin: 40px auto;
     width: 60%;
@@ -105,9 +111,7 @@ nav {
         // display sub menu on hover
         &:hover {
             ul {
-                -webkit-transition: opacity 0.4s ease;
-                -o-transition: opacity 0.4s ease;
-                transition: opacity 0.4s ease;
+                @include animation('mouseovermenu 1s ease');
                 opacity: 1;
                 left: 0;
             }
