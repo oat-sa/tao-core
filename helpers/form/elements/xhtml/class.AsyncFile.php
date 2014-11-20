@@ -72,15 +72,8 @@ class tao_helpers_form_elements_xhtml_AsyncFile
         $widgetName = 'Uploader_'.md5($this->name);
 
         $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
-
+		$returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
 		$returnValue .= "<div id='{$widgetName}_container' class='form-elt-container file-uploader'>";
-        $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
-        $returnValue .= "<input type='file' name='{$widgetName}' id='{$widgetName}' ";
-		$returnValue .= $this->renderAttributes();
-		$returnValue .= "/>";
-		$returnValue .= "<span>";
-		$returnValue .= "<input type='button' id='{$widgetName}_starter' class='btn-upload' value='".__('Start upload')."'/>";
-		$returnValue .= "</span>";
 
 		//get the upload max size
 		$fileSize = tao_helpers_Environment::getFileUploadLimit();
@@ -128,13 +121,14 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 							showUploadButton: "' . !$auto . '" ,
 							fileSelect  : function(files, done){
 											var error = [],
+												files = files.filter(_.isObject),// due to Chrome drag\'n\'drop issue
 												givenLength = files.length,
 												filters = "'.implode(',',$mimetypes).'".split(",").filter(function(e){return e.length});
 
 												if (filters.length){
 
 													files = _.filter(files, function(file){
-														return _.contains(filters, file.type);
+														return !file.type || _.contains(filters, file.type);//IE9 doesnt detect type, so lets rely on server validation
 													});
 
 													if(files.length !== givenLength){
@@ -163,7 +157,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 
 					 }).on("upload.uploader", function(e, file, result){
 					 	if ( result && result.uploaded ){
-							$(e.target).append($("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data));
+							$("input[name=\'' . $this->getName() . '\']").val(result.data);
 						}
 					 })
 			});

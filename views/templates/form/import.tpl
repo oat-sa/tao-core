@@ -24,7 +24,7 @@ Template::inc('form.tpl', 'tao');
 
 <script type="text/javascript">
 require(['jquery'], function($) {
-	
+
 	//by changing the format, the form is sent
 	$(":radio[name='importHandler']").change(function(){
 
@@ -35,12 +35,20 @@ require(['jquery'], function($) {
 	});
 
 	//for the csv import options
-	$("#first_row_column_names_0").attr('checked', true);
-	$("#first_row_column_names_0").click(function(){
-            $("#column_order").attr('disabled', this.checked);
+	$("#first_row_column_names_0").attr('checked', true).click(function(){
+        if ( this.checked ){
+            $("#column_order").attr('disabled','disabled');
+        }else{
+            $("#column_order").removeAttr('disabled');
+        }
 	});
 
         //show the csv fields mapping combos
-        $("#property_mapping > .property-edit-container").show();
+    var $mapper =  $("#property_mapping > .property-edit-container");
+    $mapper.show();
+
+    if ($mapper.length) {
+        $('#formats').hide();
+    }
 });
 </script>
