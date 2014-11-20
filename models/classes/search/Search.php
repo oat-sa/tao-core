@@ -28,11 +28,18 @@ use oat\oatbox\PhpSerializable;
  */
 interface Search extends PhpSerializable 
 {	
+    /**
+     * Search for instances using a Lucene query
+     * 
+     * @param string $queryString
+     * @return array list of ids
+     */
     public function query($queryString);
     
     /**
+     * Index the resources given as a traversable
      * 
-     * @param unknown $resourceUris
+     * @param \Traversable $resourceTraversable
      */
-    public function index($resourceUris);
+    public function index(\Traversable $resourceTraversable);
 }

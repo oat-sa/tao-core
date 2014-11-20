@@ -65,7 +65,7 @@ class ZendSearch extends Configurable implements Search
             $ids[] = $hit->getDocument()->getField('uri')->getUtf8Value();
         }
         
-        \common_Logger::d('found '.count($ids));
+        \common_Logger::d('found '.count($ids)." for \"".$queryString.'" using ZendSearch');
         
         return $ids;
     }
@@ -74,16 +74,20 @@ class ZendSearch extends Configurable implements Search
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::index()
      */
-    public function index($resourceUris) {
+    public function index(\Traversable $resourceTraversable) {
         
         // flush existing index
         $this->flushIndex();
+        $count = 0;
         
         // index the resources
-        foreach ($resourceUris as $uri) {
-            $indexer = new ZendIndexer(new \core_kernel_classes_Resource($uri));
+        foreach ($resourceTraversable as $resource) {
+            $indexer = new ZendIndexer($resource);
             $this->getIndex()->addDocument($indexer->toDocument());
+            $count++;
         }
+        
+        return $count;
     }
     
     public function flushIndex() {

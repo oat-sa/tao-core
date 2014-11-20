@@ -64,7 +64,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
         
         common_Logger::i('Search "'.$query.'" in '.$class->getLabel());
         $results = SearchService::getSearchImplementation()->query($query);
-
+        
         $response = new StdClass();
         if(count($results) > 0 ){
 

@@ -21,6 +21,8 @@
 namespace oat\tao\model\search;
 
 use oat\tao\model\search\zend\ZendSearch;
+use oat\tao\model\menu\MenuService;
+
 /**
  * Search service
  * 
@@ -50,5 +52,32 @@ class SearchService
     public static function setSearchImplementation(Search $impl) {
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $ext->setConfig(self::CONFIG_KEY, $impl);
+    }
+    
+    /**
+     * @return int nr of resources indexed
+     */
+    public static function runIndexing() {
+        $iterator = new \core_kernel_classes_ResourceIterator(self::getIndexedClasses());
+        return self::getSearchImplementation()->index($iterator);
+    }
+    
+    /**
+     * returns the root classes to index
+     * 
+     * @return array
+     */
+    protected static function getIndexedClasses() {
+        $classes = array();
+        foreach (MenuService::getAllPerspectives() as $perspective) {
+            foreach ($perspective->getChildren() as $structure) {
+                foreach ($structure->getTrees() as $tree) {
+                    if (!is_null($tree->get('rootNode'))) {
+                        $classes[$tree->get('rootNode')] = new \core_kernel_classes_Class($tree->get('rootNode'));
+                    }
+                }
+            }
+        }
+        return array_values($classes);
     }
 }
