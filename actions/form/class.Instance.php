@@ -151,6 +151,7 @@ class tao_actions_form_Instance
 					
 				//set label validator
 				if($property->getUri() == RDFS_LABEL){
+					$element->setDescription(__('Label *'));
 					$element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 				}
 
