@@ -26,6 +26,16 @@ if(function_exists("date_default_timezone_set")){
 
 require_once dirname(__FILE__) .'/../includes/raw_start.php';
 
+echo 'Look for missing required extensions' . PHP_EOL;
+$missing = \helpers_ExtensionHelper::getMissingExtensionIds(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
+
+foreach ($missing as $extId) {
+    echo 'Installing ' . $extId . PHP_EOL;
+    $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extId);
+    $installer = new \tao_install_ExtensionInstaller($ext);
+    $installer->install();
+}
+
 $sorted = \helpers_ExtensionHelper::sortByDependencies(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
 
 foreach ($sorted as $ext) {
