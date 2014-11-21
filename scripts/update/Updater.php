@@ -22,6 +22,8 @@
 namespace oat\tao\scripts\update;
 
 use common_ext_ExtensionsManager;
+use tao_helpers_data_GenerisAdapterRdf;
+use common_Logger;
 
 /**
  * 
