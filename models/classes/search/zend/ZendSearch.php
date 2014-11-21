@@ -65,8 +65,6 @@ class ZendSearch extends Configurable implements Search
             $ids[] = $hit->getDocument()->getField('uri')->getUtf8Value();
         }
         
-        \common_Logger::d('found '.count($ids)." for \"".$queryString.'" using ZendSearch');
-        
         return $ids;
     }
     
@@ -87,6 +85,7 @@ class ZendSearch extends Configurable implements Search
             $count++;
         }
         
+        \common_Logger::i('Reindexed '.$count.' resources');
         return $count;
     }
     

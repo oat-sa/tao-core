@@ -62,7 +62,6 @@ class tao_actions_Search extends tao_actions_CommonModule {
         $query = $params['query'];
         $class = new core_kernel_classes_Class($params['rootNode']);
         
-        common_Logger::i('Search "'.$query.'" in '.$class->getLabel());
         $results = SearchService::getSearchImplementation()->query($query);
         
         $response = new StdClass();

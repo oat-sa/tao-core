@@ -105,9 +105,6 @@ class ZendIndexer
             $strings = $index->tokenize($this->resource->getPropertyValues($property));
             
             if (!empty($strings)) {
-                if (strpos($property->getUri(), 'ontent') == false) {
-                    \common_Logger::d('indexing '.$id.' '.($index->isFuzzyMatching() ? 'fuzzy' : 'exact').' with values: '.implode(',', $strings));
-                }
                 
                 if ($index->isFuzzyMatching()) {
                     // cannot store multiple fuzzy strings
