@@ -6,7 +6,12 @@
     <section class="file-browser">
         
         <h1>{{ __ 'Browse resources'}}</h1>
-        <ul class="folders"></ul>
+        <div class="local">
+            <ul class="folders"></ul>
+        </div>
+        <div class="mediamanager">
+            <ul class="folders"></ul>
+        </div>
     </section>
  
 <!-- test editor  -->
