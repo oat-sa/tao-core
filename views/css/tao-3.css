@@ -6,6 +6,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
+@-o-keyframes mouseovermenu { 0% { opacity: 0; }
+  50% { opacity: 0; }
+  100% { opacity: 1; } }
+@-moz-keyframes mouseovermenu { 0% { opacity: 0; }
+  50% { opacity: 0; }
+  100% { opacity: 1; } }
+@-webkit-keyframes mouseovermenu { 0% { opacity: 0; }
+  50% { opacity: 0; }
+  100% { opacity: 1; } }
+@keyframes mouseovermenu { 0% { opacity: 0; }
+  50% { opacity: 0; }
+  100% { opacity: 1; } }
 #requirement-check { margin: 40px auto; width: 60%; min-width: 500px; max-width: 1000px; }
 
 .version-warning { margin: 0; border-radius: 0; border: none; padding: 0 20px 0 45px !important; line-height: 2; border-bottom: 1px #ddd solid; }
@@ -27,7 +39,7 @@ nav li ul { background: #333333; position: absolute; left: -10000px; opacity: 0;
 nav li ul li { display: block; width: 100%; }
 nav li ul li a { background: #333333; padding: 6px 20px !important; text-align: left; display: block; height: auto; white-space: nowrap; }
 nav li ul li a:hover { background: rgba(14, 93, 145, 0.5); }
-nav li:hover ul { -webkit-transition: opacity 0.4s ease; -o-transition: opacity 0.4s ease; transition: opacity 0.4s ease; opacity: 1; left: 0; }
+nav li:hover ul { -webkit-animation: mouseovermenu 1s ease; -moz-animation: mouseovermenu 1s ease; -ms-animation: mouseovermenu 1s ease; -o-animation: mouseovermenu 1s ease; animation: mouseovermenu 1s ease; opacity: 1; left: 0; }
 nav .main-menu li { min-width: 80px; font-size: 13px; font-size: 1.3rem; }
 nav .main-menu li > a { padding: 13px 15px 11px; }
 nav .main-menu li > a span { font-size: 20px; font-size: 2rem; padding-bottom: 3px; display: block; }

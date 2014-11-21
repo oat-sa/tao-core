@@ -64,7 +64,6 @@ define([
                 return $propertyContainer;
             }
             $propertyContainer  = $('<div>', { 'class' : 'property-container' });
-            $propertyContainer.append($('<div>', { 'class' : 'property-title', text: __('Properties') }));
             $('.content-block .form-group').first().before($propertyContainer);
             return $propertyContainer;
         }

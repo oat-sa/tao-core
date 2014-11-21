@@ -43,7 +43,6 @@ interface tao_models_classes_import_ImportHandler
      * Returns a form in order to prepare the import
      * if the import is from a file, the form should include the file element
      * 
-     * @param array $data the users tree selection
      * @return tao_helpers_form_Form
      */
     public function getForm();
@@ -51,10 +50,8 @@ interface tao_models_classes_import_ImportHandler
     /**
      * Starts the import based on the form
      * 
-     * @param core_kernel_classes_Class $pClass
-     * @param tao_helpers_form_Form $pForm
+     * @param core_kernel_classes_Class $class
+     * @param tao_helpers_form_Form $form
      */
     public function import($class, $form);
 }
-
-?>

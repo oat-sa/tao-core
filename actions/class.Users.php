@@ -170,7 +170,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			}
 		}
         $this->returnJson(array(
-            'deleted' => deleted,
+            'deleted' => $deleted,
             'message' => $message
         ));
 	}

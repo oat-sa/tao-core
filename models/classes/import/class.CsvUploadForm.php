@@ -47,7 +47,7 @@ class tao_models_classes_import_CsvUploadForm
     {
     	$this->form = new tao_helpers_form_xhtml_Form('export');
     	$submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
-   	    $submitElt->setValue( "<a href='#' class='form-refresher' > ".__('Next')."</a>");
+   	    $submitElt->setValue( "<input type='button' class='btn-success small form-refresher' value='".__('Next')."' />");
 
 		$this->form->setActions(array($submitElt), 'bottom');
 		$this->form->setActions(array(), 'top');
@@ -119,5 +119,3 @@ class tao_models_classes_import_CsvUploadForm
     }
    
 }
-
-?>

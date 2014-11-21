@@ -56,9 +56,8 @@ define([
         //update current folder
         $container.on('folderselect.' + ns , function(e, fullPath, data, active){    
             var files;
- 
             //update title
-            $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath); 
+            $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath);
 
             //update content here
             if(_.isArray(data)){
@@ -66,9 +65,17 @@ define([
                     return !!item.name;
                 }).map(function(file){
                     file.type = mimeType.getFileType(file);
-                    file.path = (fullPath + '/' + file.name).replace('//', '/');
+                    if(file.identifier === undefined){
+                        file.path = (fullPath + '/' + file.name).replace('//', '/');
+                        file.display = (fullPath + '/' + file.name).replace('//', '/');
+                    }
+                    else{
+                        file.path = (file.identifier + '/' + file.relPath);
+                        file.display = (file.identifier + '/' + file.name);
+                    }
+
                     file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + file.path;
-                    return file; 
+                    return file;
                 });
             
                 updateFiles(fullPath, files);
@@ -96,8 +103,7 @@ define([
 
             $files.removeClass('active');
             $selected.addClass('active');
-        
-            $container.trigger('fileselect.' + ns, [data]); 
+            $container.trigger('fileselect.' + ns, [data]);
         });
 
         //select a file

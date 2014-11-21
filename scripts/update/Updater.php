@@ -22,6 +22,8 @@
 namespace oat\tao\scripts\update;
 
 use common_ext_ExtensionsManager;
+use tao_helpers_data_GenerisAdapterRdf;
+use common_Logger;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\zend\ZendSearch;
 
@@ -53,12 +55,25 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.7.0';
         }
         
-        if ($currentVersion !== '2.7.1') {
-            SearchService::setSearchImplementation(ZendSearch::createSearch());
+        //migrate from 2.7.0 to 2.7.1
+        if ($currentVersion == '2.7.0') {
+
+            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $file = $ext->getDir().'models'.DIRECTORY_SEPARATOR.'ontology'.DIRECTORY_SEPARATOR.'indexation.rdf';
             
-            $currentVersion = '2.7.1';
+            $adapter = new tao_helpers_data_GenerisAdapterRdf();
+            if($adapter->import($file)){
+                $currentVersion = '2.7.1';
+            } else{
+                common_Logger::w('Import failed for '.$file);
+            }
         }
         
+        if ($currentVersion === '2.7.1') {
+            SearchService::setSearchImplementation(ZendSearch::createSearch());
+            
+            $currentVersion = '2.7.2';
+        }
         
         return $currentVersion;
     }
