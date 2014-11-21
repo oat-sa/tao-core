@@ -43,7 +43,7 @@
 		"tao-extension-name" : "tao"
 	},
 	"require" : {
-		"zendframework/zendsearch" : "dev-master",
+		"zendframework/zendsearch" : "dev-multi-value",
 		"oat-sa/oatbox-extension-installer" : "dev-master",
 		"oat-sa/lib-tao-controllermap" : "dev-master",
         "oat-sa/jig" : "dev-master"
