@@ -9,6 +9,9 @@ label {
     }
 }
 
+.uploader .file-upload.grid-row {
+    max-width: none;
+}
 
 .file-upload {
     display: inline-block;
@@ -211,9 +214,20 @@ option {
 
 label {
     position: relative;
+    [class^="icon-checkbox"],
+    [class*=" icon-checkbox"] {
+        &:after {
+            @extend .icon-checkbox-bg:before;
+            color:white !important;
+        }
+    }
     [class^="icon-radio"],
     [class*=" icon-radio"] {
         padding: 0 2px 0 3px;
+        &:after {
+            @extend .icon-radio-bg:before;
+            color:white !important;
+        }
     }
     .icon-checkbox,
     .icon-checkbox-crossed {
@@ -230,6 +244,17 @@ label {
         color: #555;
         display: inline-block;
         width: 20px;
+        &:before, &:after {
+            position: relative;
+        }
+        &:before {
+            z-index: 3;
+        }
+        &:after {
+            left:-1em;
+            position: relative;
+            z-index: 2;
+        }
     }
     input[type="radio"],
     input[type="checkbox"] {
@@ -325,9 +350,7 @@ label {
             margin-bottom: 10px;
 
             &.property-container {
-                margin-top: 20px;
                 border-top: 1px solid $uiGeneralContentBorder;
-                padding-top: 20px;
                 .tree {
                     ul {
                         background: transparent !important;
@@ -468,6 +491,27 @@ label {
     }
 
 
+    .form-group {
+        & > div > div {
+            position: relative;
+            .has-unit {
+                padding-right: 45px
+            }
+            .unit {
+                position: absolute;
+                top: 1px;
+                right: 1px;
+                background: $canvas;
+                width: auto;
+                display: block;
+                padding: 3px 10px;
+                @include border-radius-right();
+                opacity: .8;
+                cursor: default;
+            }
+        }
+    }
+
     .btn-info {
         float:left;
     }
@@ -487,4 +531,6 @@ input {
         margin-right: 3px;
     }
 }
+
+@import "wysiwyg";
 

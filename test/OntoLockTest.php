@@ -16,8 +16,8 @@
  * 
  * Copyright (c) 2013 Open Assessment Technologies S.A.
  */
+use oat\tao\test\TaoPhpUnitTestRunner;
 
-require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**

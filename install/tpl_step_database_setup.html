@@ -8,7 +8,8 @@
 	<script type="text/javascript" src="../views/js/lib/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="../views/js/lib/jquery-ui-1.8.23.custom.min.js"></script>
 	<script type="text/javascript" src="../views/js/lib/spin.min.js"></script>
-	<script type="text/javascript" src="js/help.js"></script>
+    <script type="text/javascript" src="../views/js/lib/async.js"></script>
+    <script type="text/javascript" src="js/help.js"></script>
 	<script type="text/javascript" src="js/jquery.labelify.js"></script>
 	<script type="text/javascript" src="js/steps.js"></script>
 	<script type="text/javascript" src="js/step_database_setup.js"></script>
@@ -35,7 +36,7 @@
             <li id="step_finalization">6. Finalize Installation</li>
         </ul>
         <p id="comments">
-            Now, we will set up the database for storing TAO data.  Please fill out the fields below to proceed.  Click on "?" for additional information.
+            Now, we will set up the database for storing TAO data.  Please fill out the fields below to proceed <span style="text-decoration: underline">or press 'autoconfiguration' button</span>.  Click on "?" for additional information.
             <!--TAO stores the data in a database. We need to get the information to set it up. Please fill in the form below to proceed. "?" gives more information about each field.-->
         </p>
         <div id="forms_content">
@@ -79,10 +80,9 @@
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="hlp_sample_data" class="ui-icon ui-icon-help"></a></div>
                     </li>
                 </ul>  
-                <div id="database">
-                    <span>Checking database connection...</span>
-                </div>    
-                <input id="submitForm" class="disabled" type="submit" value="Next" role="button" disabled="disabled"/>
+                <div id="database" data-autoconfiguration = "Trying to auto-configure database settings.." data-next="Checking database connection..."><span></span></div>
+                <input id="reCheckDefaults" class="enabled" type="button" value="Autoconfiguration" role="button"/>
+              <input id="submitForm" class="disabled" type="submit" value="Next" role="button" disabled="disabled"/>
                 <p id="formComment"><span class="formExample">*</span> Required</p>
             </form>
         </div>

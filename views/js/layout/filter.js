@@ -24,7 +24,8 @@ define([
             }
         }, 300);
 
-        $field.on('keypress', filterHandler);
+        $field.on('keypress', filterHandler)
+              .focus();
     }
 
     /**

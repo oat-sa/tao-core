@@ -1,11 +1,11 @@
 
-<div class="main-container" data-tpl="tao/form/export.tpl">
-<h2><?=get_data('formTitle')?></h2>
+<div class="main-container flex-container-form-main">
+    <h2><?=get_data('formTitle')?></h2>
     <?php if(has_data('myForm')):?>
     <div class="form-content">
     <?=get_data('myForm')?>
     </div>
-<?php endif;?>
+    <?php endif;?>
 </div>
 <div id="iframe-container"></div>
 

@@ -73,6 +73,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $this->setData('base_url',          $base_url);
         $this->setData('shownExtension',    $this->getRequestParameter('shownExtension'));
         $this->setData('shownStructure',    $this->getRequestParameter('shownStructure'));
+        $this->setData('client_timeout',    $this->getClientTimeout());
         
         $this->setView('client_config.tpl');
     }

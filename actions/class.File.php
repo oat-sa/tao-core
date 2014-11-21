@@ -55,10 +55,9 @@ class tao_actions_File extends tao_actions_CommonModule{
 	{
 		$response = array('uploaded' => false);
 
-		if (!empty($_FILES)){
-			if(isset($_FILES['Filedata'])){
-				$response = array_merge($response, $this->uploadFile($_FILES['Filedata'], $_POST['folder'] . '/'));
-			}
+		foreach ((array)$_FILES as $file) {
+			$targetFolder = isset($_POST['folder']) ? $_POST['folder'] : '/';
+			$response = array_merge($response, $this->uploadFile($file, $targetFolder . '/'));
 		}
 		$response = json_encode($response);
 		print $response; 

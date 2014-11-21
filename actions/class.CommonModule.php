@@ -21,6 +21,7 @@
  */
 
 use oat\tao\helpers\Template;
+use oat\tao\model\routing\FlowController;
 
 /**
  * Top level controller
@@ -101,6 +102,7 @@ abstract class tao_actions_CommonModule extends Module
             $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
         }
 
+        $this->setData('client_timeout', $this->getClientTimeout());
         $this->setData('client_config_url', $this->getClientConfigUrl());
     }
 	
@@ -159,10 +161,56 @@ abstract class tao_actions_CommonModule extends Module
         
         return _url('config', 'ClientConfig', 'tao', array_merge($clientConfigParams, $extraParameters));
     }
+
+
+    /**
+     * Get the client timeout value from the config.
+     * 
+     * @return int the timeout value in seconds
+     */
+    protected function getClientTimeout(){
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $config = $ext->getConfig('js');
+        if($config != null && isset($config['timeout'])){
+            return (int)$config['timeout'];
+        } 
+        return 30;
+    }
     
     protected function returnJson($data, $httpStatus = 200) {
         header(HTTPToolkit::statusCodeHeader($httpStatus));
         Context::getInstance()->getResponse()->setContentHeader('application/json');
         echo json_encode($data);
+    }
+
+
+    /**
+     * Forward using the TAO FlowController implementation
+     * @see {@link oat\model\routing\FlowController}
+     */
+	public function forward($action, $controller = null, $extension = null, $params = array())
+    {
+        $flow = new FlowController();
+        $flow->forward($action, $controller, $extension, $params);
+    }
+
+    /**
+     * Forward using the TAO FlowController implementation
+     * @see {@link oat\model\routing\FlowController}
+     */
+    public function forwardUrl($url)
+    {
+        $flow = new FlowController();
+        $flow->forwardUrl($url);
+    }
+
+    /**
+     * Redirect using the TAO FlowController implementation
+     * @see {@link oat\model\routing\FlowController}
+     */
+	public function redirect($url, $statusCode = 302)
+    {
+        $flow = new FlowController();
+        $flow->redirect($url, $statusCode);
     }
 }

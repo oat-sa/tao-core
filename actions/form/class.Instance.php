@@ -151,6 +151,7 @@ class tao_actions_form_Instance
 					
 				//set label validator
 				if($property->getUri() == RDFS_LABEL){
+					$element->setDescription(__('Label *'));
 					$element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 				}
 
@@ -204,11 +205,13 @@ class tao_actions_form_Instance
 			$instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
 			$instanceUriElt->setValue(tao_helpers_Uri::encode($instance->getUri()));
 			$this->form->addElement($instanceUriElt);
+			
+			$hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
+			$hiddenId->setValue($instance->getUri());
+			$this->form->addElement($hiddenId);
 		}
         
         
     }
 
-} /* end of class tao_actions_form_Instance */
-
-?>
+}

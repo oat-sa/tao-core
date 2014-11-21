@@ -19,10 +19,10 @@
  * @author Lionel Lecaque  <lionel@taotesting.com>
  * @license GPLv2
  * @package tao
- 
  *
  */
 
+use Doctrine\DBAL\DBALException;
 
 class tao_install_utils_DbalDbCreator {
 
@@ -335,12 +335,22 @@ class tao_install_utils_DbalDbCreator {
         $platform = $this->connection->getDatabasePlatform();
         $tables = $sm->listTableNames();
         
-        foreach($tables as $name){
-        	common_Logger::d('Table to drop: '  . $name);
-            $sm->dropTable($name);
+        while (!empty($tables)) {
+            $oldCount = count($tables);
+            foreach(array_keys($tables) as $id){
+                $name = $tables[$id];
+                try {
+                    $sm->dropTable($name);
+                    common_Logger::d('Droped table: '  . $name);
+                    unset($tables[$id]);
+                } catch (DBALException $e) {
+                    common_Logger::w('Failed to drop: '  . $name);
+                }
+            }
+            if (count($tables) == $oldCount) {
+                throw new common_exception_Error('Unable to clean DB');
+            }
         }
-        
-
     }
 
     /**

@@ -23,8 +23,8 @@
  */
 
 use oat\tao\model\accessControl\func\FuncHelper;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
-require_once dirname(__FILE__) . '/../TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 /**

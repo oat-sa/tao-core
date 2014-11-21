@@ -14,6 +14,11 @@
 
 define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __, GenerisTreeClass, helpers, context) {
 
+    console.warn('Hello I am the GenerisTreeBrowserClass  and I am deprecated. I am there from a long but now I am tired, I need to retire. Please talk to my son layout/tree.');
+
+    /*
+     * DEPRECATED
+     */
 	var GenerisTreeBrowserClass = GenerisTreeClass.extend({
 		/**
 		 * The GenerisTreeBrowserClass constructor
@@ -595,7 +600,8 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 		},
 
 		/**
-		 * Move an instance node
+		 * Move an instance nf(options.actions.move){
+ode
 		 * @param {Node} NODE Target node
 		 * @param {Tree} TREE_OBJ Target Tree object
 		 */

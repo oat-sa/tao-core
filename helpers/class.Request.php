@@ -129,6 +129,6 @@ class tao_helpers_Request
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_Request */
+}
 
 ?>

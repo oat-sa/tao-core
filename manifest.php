@@ -32,7 +32,7 @@ return array(
 	'label' => 'Tao base',
 	'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '2.6',
+    'version' => '2.7.0',
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
 	   'generis' => '2.7'
@@ -64,7 +64,6 @@ return array(
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_suhosin', 'name' => 'suhosin', 'silent' => true)),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_magic_quotes_gpc', 'name' => 'magic_quotes_gpc', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_register_globals', 'name' => 'register_globals', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
-				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_short_open_tag', 'name' => 'short_open_tag', 'value' => '1')),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_safe_mode', 'name' => 'safe_mode', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_post_max_name_length', 'name' => 'suhosin.post.max_name_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_request_max_varname_length', 'name' => 'suhosin.request.max_varname_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
@@ -82,9 +81,11 @@ return array(
 			dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
 			dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
 		    dirname(__FILE__).'/scripts/install/setupServiceFileStorage.php',
-		    dirname(__FILE__).'/scripts/install/setServiceState.php'
+		    dirname(__FILE__).'/scripts/install/setServiceState.php',
+		    dirname(__FILE__).'/scripts/install/setJsConfig.php'
 		)
 	),
+    'update' => 'oat\\tao\\scripts\\update\\Updater',
 	'optimizableClasses' => array(
 		'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
 		'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'

@@ -23,9 +23,10 @@
  */
 
 use oat\tao\helpers\translation\TranslationBundle;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
-require_once dirname(__FILE__) . '/../TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+
 
 /**
  * Unit and Integration(fs) test {@link oat\tao\heplers\translation\TranslationBundle}
@@ -49,16 +50,13 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
         }
     }
    
+
+    
     /**
      * Removes the temporary directory
      */
     public static function tearDownAfterClass(){
-        if(file_exists(self::$tmpDir)){
-            foreach(glob(self::$tmpDir ."/*.json") as $file) {
-                unlink($file);
-            }
-            rmdir(self::$tmpDir);
-        }
+        tao_helpers_File::delTree(self::$tmpDir);  
     }
     /**
      * Provides wrong constructor parameters

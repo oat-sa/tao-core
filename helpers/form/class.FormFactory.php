@@ -87,7 +87,7 @@ class tao_helpers_form_FormFactory
 				$myForm->setDecorators(array(
 					'element'			=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
 					'group'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
-					'error'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')),
+					'error'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error')),
 					'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar')),
 					//'actions-top'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
 				));
@@ -122,7 +122,7 @@ class tao_helpers_form_FormFactory
     {
         $returnValue = null;
 
-        
+
 		
 		$eltClass = false;
 		

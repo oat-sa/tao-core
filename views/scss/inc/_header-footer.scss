@@ -1,5 +1,11 @@
 @import "inc/bootstrap";
 
+@include keyframes(mouseovermenu) {
+    0% { opacity: 0; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
 #requirement-check {
     margin: 40px auto;
     width: 60%;
@@ -105,9 +111,7 @@ nav {
         // display sub menu on hover
         &:hover {
             ul {
-                -webkit-transition: opacity 0.4s ease;
-                -o-transition: opacity 0.4s ease;
-                transition: opacity 0.4s ease;
+                @include animation('mouseovermenu 1s ease');
                 opacity: 1;
                 left: 0;
             }
@@ -187,18 +191,18 @@ nav {
     }
 }
 
-header {
+.content-wrap > header {
     position: relative;
     border-bottom: 1px $uiGeneralContentBorder solid;
 }
 
 // Footer
-footer, .content-wrap:after {
+body > footer, .content-wrap:after {
     // must be the same height as footer
     height: 34px;
 }
 
-footer {
+body > footer {
     font-size: 11px;
     padding: 10px;
     border-top: 1px $uiGeneralContentBorder solid;

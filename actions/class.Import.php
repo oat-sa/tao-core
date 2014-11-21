@@ -51,7 +51,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 				$report = $importer->import($this->getCurrentClass(), $myForm);
 				
 				if ($report->contains(common_report_Report::TYPE_SUCCESS) === true) {
-				    $this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($this->getCurrentClass()->getUri()));
+				    $this->setData("selectNode", tao_helpers_Uri::encode($this->getCurrentClass()->getUri()));
 				}
 				
 				$this->setData('report', $report);
@@ -101,6 +101,10 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	 */
 	protected function getCurrentClass() {
 		return new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+	}
+
+	protected function getValidators(){
+		return array();
 	}
 
 }

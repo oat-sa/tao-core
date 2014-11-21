@@ -12,7 +12,6 @@ define([
     'tpl!ui/uploader/uploader',
     'tpl!ui/uploader/fileEntry',
     'ui/filesender',
-    'filereader',
     'jqueryui'
 ], function($, _, __, async, Pluginifier, context, bytes, uploaderTpl, fileEntryTpl){
     'use strict';
@@ -26,6 +25,9 @@ define([
         read                : false,
         multiple            : false,
         uploadQueueSize     : 3,
+        inputName           : 'content',
+        showResetButton     : true,
+        showUploadButton    : true,
         browseBtnClass      : 'btn-browse',
         uploadBtnClass      : 'btn-upload',
         resetBtnClass       : 'btn-reset',
@@ -102,7 +104,7 @@ define([
                     options.$fileName       = $('.' + options.fileNameClass, $elt);
                     options.$dropZone       = $('.' + options.dropZoneClass, $elt);
                     options.$progressBar    = $('.' + options.progressBarClass, $elt);
-                    options.$form           = $elt.children('form');
+                    options.$form           = $elt.children('.uploaderContainer');
                     options.$uploadBtn      = $('.' + options.uploadBtnClass, $elt);
                     options.$resetBtn       = $('.' + options.resetBtnClass, $elt);
     
@@ -142,12 +144,14 @@ define([
                     //manage input selection
                     if(options.read && !tests.filereader) {
                         // Nope... :/
-                        options.$input.fileReader({
-                            id: 'fileReaderSWFObject',
-                            filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
-                            callback: function() {
-                                options.$input.on('change', inputHandler);
-                            }
+                        require(['filereader'], function(){
+                            options.$input.fileReader({
+                                id: 'fileReaderSWFObject',
+                                filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
+                                callback: function() {
+                                    options.$input.on('change', inputHandler);
+                                }
+                            });
                         });
                     } else {
                         options.$input.on('change', inputHandler);

@@ -155,7 +155,7 @@ define(['jquery', 'ui/feedback'], function($, feedback){
 
     asyncTest('timeout', function(){
     
-        expect(2);
+        expect(4);
 
         var $container = $('#feedback-box');
         var fb = feedback($container).message('info', 'AWESOME_MESSAGE', { timeout : 10 }).display();
@@ -166,6 +166,12 @@ define(['jquery', 'ui/feedback'], function($, feedback){
             equal($('.feedback-info', $container).length, 0, 'The feedback content has been removed from the container');
             start();
         });
+
+        var fbt = feedback($container.clone()).message('info', 'AWESOME_MESSAGE').display();
+        notEqual(fbt._getTimeout(), fbt._getTimeout('error'), 'Different feedback types have different timeouts by default');
+        notEqual(fb._getTimeout(), fbt._getTimeout(), 'It\'s possible to set custom timeout for message');
+        fbt.close();
+
     });
     
     test('volatile messages', function(){

@@ -61,6 +61,7 @@ define([
                     //auto bind events configured in options
                     _.functions(options).forEach(function(eventName){
                         $elt.on(eventName + '.' + ns, function(){
+
                             options[eventName].apply($elt, arguments);
                         });
                     });
@@ -80,9 +81,12 @@ define([
                     $target.on('closed.modal', function(){
                         $elt.trigger('close.' + ns);
                     });
-                    
                     //initialize the components
-                    fileBrowser(options);
+                    for(var i = 0; i < options.mediaSources.length; i++){
+                        options.root = options.mediaSources[i];
+                        fileBrowser(options);
+                    }
+                    $('.file-browser').find('li.root:last').addClass('active');
                     fileSelector(options);
                     filePreview(options);
 

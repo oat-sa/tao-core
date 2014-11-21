@@ -1,44 +1,50 @@
+                                  /* /  \ |    | --:'''':--
+THIS CODE IS GENERATED          :*_* : _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 .tree li.private ins:after, .tree-checkbox li.node-instance > a ins:before, .tree-checkbox li.node-instance > a.checked ins:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
-.taotree-repository .node-instance ins:before { content: "\e603"; }
+.taotree-repository .node-instance ins:before { content: "\e60a"; }
 
-.taotree-result_server .node-instance ins:before { content: "\e604"; }
+.taotree-result_server .node-instance ins:before { content: "\e60b"; }
 
-.tree .node-class > a > ins:before { content: "\f07b"; }
+.tree .node-class > a > ins:before { content: "\e60c"; }
 
-.tree .node-class.open > a > ins:before { content: "\f07c"; }
+.tree .node-class.open > a > ins:before { content: "\e60d"; }
 
-.tree li.private ins:after { content: "\13e"; }
+.tree li.private ins:after { content: "\e629"; }
 
-.taotree-group .node-instance ins:before { content: "\151"; }
+.taotree-group .node-instance ins:before { content: "\e63c"; }
 
-.taotree-role .node-instance ins:before { content: "\152"; }
+.taotree-role .node-instance ins:before { content: "\e63d"; }
 
-.taotree-test_taker .node-instance ins:before { content: "\153"; }
+.taotree-test_taker .node-instance ins:before { content: "\e63e"; }
 
-.taotree-item .node-instance ins:before { content: "\155"; }
+.taotree-item .node-instance ins:before { content: "\e640"; }
 
-.taotree-test .node-instance ins:before { content: "\156"; }
+.taotree-test .node-instance ins:before { content: "\e641"; }
 
-.taotree-delivery .node-instance ins:before { content: "\157"; }
+.taotree-delivery .node-instance ins:before { content: "\e642"; }
 
-.taotree-result .node-instance ins:before { content: "\158"; }
+.taotree-result .node-instance ins:before { content: "\e644"; }
 
-.taotree-default { content: "\169"; }
+.taotree-default { content: "\e655"; }
 
-.tree-checkbox li.node-instance > a ins:before { content: "\1b2"; }
+.taotree-media .node-instance ins:before { content: "\e670"; }
 
-.tree-checkbox li.node-instance > a.checked ins:before { content: "\1b4"; }
+.tree-checkbox li.node-instance > a ins:before { content: "\e69b"; }
 
-.tree { overflow: auto; }
-.tree .ltr, .tree .rtl { min-height: 150px; max-height: 75vh; overflow: auto; margin-top: 8px; }
+.tree-checkbox li.node-instance > a.checked ins:before { content: "\e69d"; }
+
+.tree { overflow: auto; max-height: 75vh; }
+.tree .ltr, .tree .rtl { margin-top: 8px; min-height: 150px; }
 .tree ul { background: white !important; overflow: hidden; margin: 0 8px; padding: 5px 0; list-style-type: none; }
 .tree ul li { padding-left: 12px; margin: 0 1px; }
 .tree ul ins { display: inline-block; text-decoration: none; width: 16px; height: 19px; position: relative; left: 2px; top: 1px; font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; font-size: 14px; font-size: 1.4rem; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: #3e7da7; }
 .tree ul.ltr ins { margin: 0 4px 0 0px; }
 .tree li { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABAAgMAAADwqRilAAAACVBMVEX///8kbHeAgIB/SOz/AAAAAXRSTlMAQObYZgAAAEVJREFUeNpjYIACBwY4EICzArAJhoQiAH6VWM0cBUDAMUQEuVaMxhWBEMIq2IBNcAHRKom2fVgBplXYQmgVthDSGiwhBAAx4grYHitHZwAAAABJRU5ErkJggg==) no-repeat -1000px -1000px; display: block; padding: 0 0 0 11px; margin: 0; }
 .tree li ul { display: none; margin: 0; padding: 0; }
-.tree li a, .tree li span { height: 20px; color: #222222; white-space: nowrap; text-decoration: none; margin: 0; display: block; font-size: 13px; font-size: 1.3rem; border: 1px solid transparent; border-radius: 2px; -webkit-border-radius: 2px; overflow: hidden; text-overflow: ellipsis; }
+.tree li a, .tree li span { height: 20px; color: #222; white-space: nowrap; text-decoration: none; margin: 0; display: block; font-size: 13px; font-size: 1.3rem; border: 1px solid transparent; border-radius: 2px; -webkit-border-radius: 2px; overflow: hidden; text-overflow: ellipsis; }
 .tree li a:hover, .tree li span:hover { color: #0e5d91; }
 .tree li a.clicked, .tree li span.clicked { background: #e4ecef; border-color: #a4bbc5; }
 .tree li a:focus, .tree li span:focus { outline: none; }
@@ -75,17 +81,17 @@
 #jstree-marker.marker { width: 45px; background-position: -32px top; }
 #jstree-marker.marker_plus { width: 5px; background-position: right top; }
 
-#jstree-dragged.tree-custom li li.open { background: url("icons.png") -48px -32px no-repeat; }
-#jstree-dragged.tree-custom ins { background: url("icons.png") -16px -32px no-repeat; }
-#jstree-dragged.tree-custom ins.forbidden { background: url("icons.png") -16px -16px no-repeat; }
-#jstree-dragged.tree-checkbox li li.open { background: url("icons.png") -48px -32px no-repeat; }
-#jstree-dragged.tree-checkbox ins { background: url("icons.png") 0 -48px no-repeat; }
-#jstree-dragged.tree-checkbox ins.forbidden { background: url("icons.png") -16px -48px no-repeat; }
+#jstree-dragged ul { background: none !important; min-height: inherit; max-height: inherit; padding: 0; margin: 0; }
+#jstree-dragged ul li { margin: 0; }
+#jstree-dragged ul li a { padding: 0 6px; }
+#jstree-dragged ul li a ins { display: none; }
 
-.tree-custom-context a ins { background-image: url("icons.png"); /* background-repeat:no-repeat; */ background-position: -64px -64px; }
-.tree-custom-context a ins.create { background-position: 0 -16px; }
-.tree-custom-context a ins.rename { background-position: -16px 0px; }
-.tree-custom-context a ins.remove { background-position: 0 -32px; }
-.tree-custom-context li a.disabled span { color: #b0b0b0; }
+.tree-css-context a ins { background-image: url("icons.png"); /* background-repeat:no-repeat; */ background-position: -64px -64px; }
+.tree-css-context a ins.create { background-position: 0 -16px; }
+.tree-css-context a ins.rename { background-position: -16px 0px; }
+.tree-css-context a ins.remove { background-position: 0 -32px; }
+.tree-css-context li a.disabled span { color: #b0b0b0; }
 
 .tree-checkbox li > a.clicked { background: none; border: none; }
+
+/*# sourceMappingURL=style.css.map */

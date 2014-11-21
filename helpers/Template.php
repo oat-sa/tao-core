@@ -22,7 +22,7 @@
 namespace oat\tao\helpers;
 
 class Template {
-        
+
     /**
      * Expects a relative url to the image as path
      * if extension name is omitted the current extension is used
@@ -77,13 +77,19 @@ class Template {
      *
      * @param string $path
      * @param string $extensionName
+     * @param array $data bind additional data to the context
      * @return string
      */
-    public static function inc($path, $extensionName = null) {
-        if (!is_null($extensionName) && $extensionName != \Context::getInstance()->getExtensionName()) {
+    public static function inc($path, $extensionName = null, $data = array()) {
+        $context = \Context::getInstance();
+        if (!is_null($extensionName) && $extensionName != $context->getExtensionName()) {
             // template is within different extension, change context
-            $formerContext = \Context::getInstance()->getExtensionName();
-            \Context::getInstance()->setExtensionName($extensionName);
+            $formerContext = $context->getExtensionName();
+            $context->setExtensionName($extensionName);
+        }
+
+        if(count($data) > 0){
+            \RenderContext::pushContext($data);
         }
         
         $absPath = self::getTemplate($path, $extensionName);
@@ -94,7 +100,7 @@ class Template {
         }
         // restore context
         if (isset($formerContext)) {
-            \Context::getInstance()->setExtensionName($formerContext);
+            $context->setExtensionName($formerContext);
         }
     }
 
@@ -107,5 +113,20 @@ class Template {
         $extensionName = is_null($extensionName) ? \Context::getInstance()->getExtensionName() : $extensionName;
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);
         return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$path;
+    }
+
+    /**
+     * @FIXME get_data and has_data should be used exclusively inside templates (not namespaced)
+     * @return array|bool
+     */
+    public static function getMessages() {
+        $messages = array();
+        if(has_data('errorMessage')){
+            $messages['error'] = get_data('errorMessage');
+        }
+        if(has_data('message')){
+            $messages['info'] = get_data('message');
+        }
+        return !!count($messages) ? $messages : false;
     }
 }

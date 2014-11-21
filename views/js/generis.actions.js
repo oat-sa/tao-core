@@ -8,10 +8,14 @@
  */
 define([
     'jquery',
-    'helpers',
-    'layout/post-render-props'
-], function($, helpers, postRenderProps) {
+    'helpers'
+], function($, helpers) {
     
+    console.warn('Hello I am the GenerisActions  and I am deprecated. I am there from a long but now I am tired, I need to retire. Please talk to my son layout/action.');
+
+    /*
+     * DEPRECATED
+     */
         var mainTree;
     
 	var GenerisActions = {
@@ -161,41 +165,6 @@ define([
 			window.open(url, 'preview', params);
 		},
 		/**
-		 * Add a new property
-		 * @param {String} uri
-		 * @param {String} classUri
-		 * @param {String} url
-		 */
-		addProperty: function (uri, classUri, url) {
-            var $existingProperties = $('.property-block'),
-                index = $existingProperties.length;
-
-            $existingProperties.each(function() {
-                index = Math.max(parseInt(this.id.replace(/[\D]+/, '')), index);
-            });
-            index++;
-
-			$.ajax({
-				url: url,
-				type: "POST",
-				data: {
-					index: index,
-					classUri: classUri
-				},
-				dataType: 'html',
-				success: function(response){
-                    response = $(response);
-                    // reduce response to a single jquery object by adding the hidden input to the div
-                    var property = response.last(),
-                        input = response.first();
-
-                    input.appendTo(property);
-
-                    postRenderProps.init(property);
-				}
-			});
-		},
-		/**
 		 * Load the result table with the tree instances in parameter
 		 * @deprecated
 		 * @param {String} uri
@@ -230,77 +199,6 @@ define([
 			}
 			data.classUri = classUri;
 			helpers._load(helpers.getMainContainerSelector(), url, data);
-		},
-		/**
-		 * init and load the meta data component
-		 * @param {String} uri
-		 * @param {String} classUri
-		 */
-		loadMetaData: function(uri, classUri, url) {
-			$("#comment-form-container").dialog('destroy');
-			 $.ajax({
-				url: url,
-				type: "POST",
-				data:{uri: uri, classUri: classUri},
-				dataType: 'html',
-				success: function(response){
-					$('#section-meta').html(response);
-					$('#section-meta').show();
-
-					// close button.
-					$('#meta-close').click(function() {
-						$('#section-meta').empty();
-					});
-					
-					//meta data dialog
-					var commentContainer = $("#comment-form-container");
-					if (commentContainer) {
-
-						
-						
-						$("#comment-editor").click(function(){
-							var commentContainer = $(this).parents('td');
-							if($('.comment-area', commentContainer).length === 0){
-
-								var commentArea = $("<textarea id='comment-area'></textarea>");
-								var commentField = $('span#comment-field', commentContainer);
-								commentArea.val(commentField.html())
-											.width(parseInt(commentContainer.width()) - 5)
-											.height(parseInt(commentContainer.height()));
-								commentField.empty();
-								commentArea.bind('keypress blur' , function(event){
-									if(event.type === 'keypress'){
-										if (event.which !== '13') {
-											return true;
-										}
-										event.preventDefault();
-									}
-									$.ajax({
-										url: helpers._url('saveMetadata', 'MetaData', 'tao'),
-										type: "POST",
-										data: {comment: $(this).val(), uri: $('#uri').val(), classUri:$('#classUri').val() },
-										dataType: 'json',
-										success: function(response){
-											if (response.saved) {
-												// Remove text-area that was receiving the content of the new comment.
-												commentArea.remove();
-												
-												// Add a new row to the comments table with the newly created comment within.
-												var newRow = $('<tr></tr>');
-												newRow.append('<td class="first">' + response.date + '</td>');
-												newRow.append('<td>' + response.author + '</td>');
-												newRow.append('<td class="last">' + response.text + '</td>');
-												$('#meta-addition').before(newRow);
-											}
-										}
-									});
-								});
-								commentContainer.prepend(commentArea);
-							}
-						});
-					}
-				}
-			});
 		}
         };
 

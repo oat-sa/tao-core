@@ -30,10 +30,17 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '2.7');
+define('TAO_VERSION', '3.0');
+
+$version = TAO_VERSION;
 
 #TAO version label
-define('TAO_VERSION_NAME', 'v2.7');
+if(is_readable(ROOT_PATH.'build')){
+    $content = file_get_contents(ROOT_PATH.'build');
+    $version = 'v' . $version;
+    $version = is_numeric($content) ? $version. '+build' . $content : $version;  
+}
+define('TAO_VERSION_NAME', $version);
 
 #the name to display
 define('PRODUCT_NAME', 'TAO');
@@ -92,16 +99,12 @@ $todefine = array(
 	'CLASS_MANAGEMENTROLE'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole',
 	'CLASS_WORKERROLE'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole',
 	'CLASS_TAO_USER'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#User',
+	'DEFAULT_USER_URI_SUFFIX'			=> '#superUser',
 	
 	'CLASS_OAUTH_CONSUMER' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer',
 	'PROPERTY_OAUTH_KEY'			    => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey',
 	'PROPERTY_OAUTH_SECRET'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret',
     'PROPERTY_OAUTH_CALLBACK'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl',
-    
-	'CLASS_GENERIS_COMMENT'				=> 'http://www.tao.lu/Ontologies/generis.rdf#comment',
-	'PROPERTY_GENERIS_RESOURCE_COMMENT'	=> 'http://www.tao.lu/Ontologies/generis.rdf#generisRessourceComment',
-	'PROPERTY_COMMENT_AUTHOR'		=> 'http://www.tao.lu/Ontologies/generis.rdf#commentAuthor',
-	'PROPERTY_COMMENT_TIMESTAMP'	=> 'http://www.tao.lu/Ontologies/generis.rdf#commentTimestamp',
     
     // @todo properly migrate service and service calls to tao
     'CLASS_CALLOFSERVICES'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfServices',

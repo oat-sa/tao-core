@@ -19,7 +19,8 @@
  */
 
 
-require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
+use oat\tao\test\TaoPhpUnitTestRunner;
+
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -51,4 +52,3 @@ class DisplayHelperTest extends TaoPhpUnitTestRunner {
         $this->assertEquals(tao_helpers_Display::textCleaner($input, $joker, $maxLength), $output); 
     }
 }
-?>

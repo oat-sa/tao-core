@@ -17,7 +17,7 @@
  *
  *
  */
-define(['jquery'], function($){
+define(['jquery', 'lodash'], function($, _){
     
     
     function hasAccess(windowElt){
@@ -41,10 +41,12 @@ define(['jquery'], function($){
          * @param {Array} [args] - event arguments
          */
         parent : function(eventName, args){
-            if (hasAccess(window.parent) && window.parent.$) {
-                var _$ = window.parent.$;   //parent window jQuery instance
-                _$(window.parent.document).trigger(eventName, args || []);
-            }
+            _.defer(function(){     //in next tick for thread safety
+                if (hasAccess(window.parent) && window.parent.$) {
+                    var _$ = window.parent.$;   //parent window jQuery instance
+                    _$(window.parent.document).trigger(eventName, args || []);
+                }
+            });
         },
         
         /**
@@ -53,10 +55,12 @@ define(['jquery'], function($){
          * @param {Array} [args] - event arguments
          */
         top : function(eventName, args){
-            if (hasAccess(window.top) && window.top.$) {
-                var _$ = window.top.$;   //parent window jQuery instance
-                _$(window.top.document).trigger(eventName, args || []);
-            }
+            _.defer(function(){     //in next tick for thread safety
+                if (hasAccess(window.top) && window.top.$) {
+                    var _$ = window.top.$;   //parent window jQuery instance
+                    _$(window.top.document).trigger(eventName, args || []);
+                }
+            });
         }
     };
     

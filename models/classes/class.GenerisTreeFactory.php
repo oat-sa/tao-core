@@ -138,7 +138,8 @@ class tao_models_classes_GenerisTreeFactory
             ),
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($class->getUri()),
-				'class' => 'node-class'
+				'class' => 'node-class',
+			    'data-uri' => $class->getUri()
 			)
 		);
     }
@@ -162,7 +163,8 @@ class tao_models_classes_GenerisTreeFactory
             ),
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($resource->getUri()),
-				'class' => 'node-instance'
+				'class' => 'node-instance',
+			    'data-uri' => $resource->getUri()
 			)
 		);
     }

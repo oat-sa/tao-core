@@ -28,15 +28,13 @@
  * @package tao
  
  */
-class tao_helpers_data_GenerisAdapterCsv
-    extends tao_helpers_data_GenerisAdapter
+class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 {
     
     /**
      * Short description of attribute loadedFile
      *
-     * @access private
-     * @var CsvFile
+     * @var tao_helpers_data_CsvFile
      */
     private $loadedFile = null;
     
@@ -58,7 +56,7 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array options
+     * @param  array $options
      * @return mixed
      */
     public function __construct($options = array())
@@ -93,7 +91,7 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string csvFile
+     * @param  string $csvFile
      * @return tao_helpers_data_CsvFile
      */
     public function load($csvFile)
@@ -114,14 +112,12 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string source
-     * @param  Class destination
-     * @return boolean
+     * @param  string $source
+     * @param  core_kernel_classes_Class $destination
+     * @return common_report_Report
      */
     public function import($source,  core_kernel_classes_Class $destination = null)
     {
-        $returnValue = (bool) false;
-        
     	if(!isset($this->options['map'])){
         	throw new BadFunctionCallException("import map not set");
         }
@@ -143,7 +139,7 @@ class tao_helpers_data_GenerisAdapterCsv
 			
 			//create the instance with the label defined in the map 
 			$label = $this->options['map'][RDFS_LABEL];
-			
+
 			if($label != 'csv_select' && $label !='csv_null'){
 				if(isset($csvRow[$label])){
 					$resource = $destination->createInstance($csvRow[$label]);
@@ -154,10 +150,10 @@ class tao_helpers_data_GenerisAdapterCsv
 				$resource = $destination->createInstance();
 				common_Logger::t("CSV - Resource creation without label");
 			}
-							
+
 			if($resource instanceof core_kernel_classes_Resource){
 				common_Logger::t("CSV - Resource successfully created");
-				//import the value of each column into the property defined in the map 
+				//import the value of each column into the property defined in the map
 				foreach($this->options['map'] as $propUri => $csvColumn){
 					
 					if ($propUri != RDFS_LABEL) { // Already set at resource instantiation
@@ -173,7 +169,13 @@ class tao_helpers_data_GenerisAdapterCsv
 						    common_Logger::t("CSV - Target property has no range");
 							$range = null;	
 						}
-						
+
+						//stop future action if validation was not passed
+						$valid = $this->validate($destination, $propUri, $csvRow, $csvColumn);
+						if (!$valid) {
+							break;
+						}
+
 						if ($range == null || $range->getUri() == RDFS_LITERAL) {
 							// Deal with the column value as a literal.
 							common_Logger::t("CSV - Importing Literal from CSV");
@@ -186,28 +188,31 @@ class tao_helpers_data_GenerisAdapterCsv
 						}
 					}
 				}
-				
-				// Deal with default values.
-				$this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
-				
-				// Apply 'resourceImported' callbacks.
-				foreach ($this->resourceImported as $callback){
-					$callback($resource);
+
+				if ($valid){
+					// Deal with default values.
+					$this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
+
+					// Apply 'resourceImported' callbacks.
+					foreach ($this->resourceImported as $callback){
+						$callback($resource);
+					}
+
+					$createdResources++;
+				}else{
+					$resource->delete();
 				}
-				
-				$createdResources++;
+
 			}
 			helpers_TimeOutHelper::reset();
 		}
         
 		$this->addOption('to_import', count($csvData));
 		$this->addOption('imported', $createdResources);
-		
-		if($createdResources > 0){
-			$returnValue = true;
-		}
 
-        return (bool) $returnValue;
+		$report = $this->getResult($createdResources);
+
+		return $report;
     }
 
     /**
@@ -215,7 +220,7 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Class source
+     * @param  core_kernel_classes_Class $source
      * @return boolean
      */
     public function export( core_kernel_classes_Class $source = null)
@@ -230,10 +235,10 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access private
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Property targetProperty
-     * @param  Resource targetResource
-     * @param  string csvRow
-     * @param  string csvColumn
+     * @param  core_kernel_classes_Property $targetProperty
+     * @param  core_kernel_classes_Resource $targetResource
+     * @param  string $csvRow
+     * @param  string $csvColumn
      * @return mixed
      */
     private function importLiteral( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
@@ -255,10 +260,10 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access private
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Property targetProperty
-     * @param  Resource targetResource
-     * @param  string csvRow
-     * @param  string csvColumn
+	 * @param  core_kernel_classes_Property $targetProperty
+	 * @param  core_kernel_classes_Resource $targetResource
+	 * @param  string $csvRow
+	 * @param  string $csvColumn
      * @return mixed
      */
     private function importResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
@@ -290,9 +295,9 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access private
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array staticMap
-     * @param  array map
-     * @param  Resource resource
+     * @param  array $staticMap
+     * @param  array $map
+     * @param  core_kernel_classes_Resource $resource
      * @return mixed
      */
     private function importStaticData($staticMap, $map,  core_kernel_classes_Resource $resource)
@@ -319,9 +324,9 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access private
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string value
-     * @param  array options
-     * @param  Property targetProperty
+     * @param  string $value
+     * @param  array $options
+     * @param  core_kernel_classes_Property $targetProperty
      * @return string
      */
     private function applyCallbacks($value, $options,  core_kernel_classes_Property $targetProperty)
@@ -350,9 +355,9 @@ class tao_helpers_data_GenerisAdapterCsv
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Property targetProperty
-     * @param  Resource targetResource
-     * @param  string value
+     * @param  core_kernel_classes_Property $targetProperty
+     * @param  core_kernel_classes_Resource $targetResource
+     * @param  string $value
      * @return mixed
      */
     public function attachResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $value)
@@ -381,34 +386,51 @@ class tao_helpers_data_GenerisAdapterCsv
         }
     }
 
-    /**
-     * Sets the currently loaded CsvFile.
-     *
-     * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  CsvFile csvFile
-     * @return void
-     */
-    protected function setCsvFile( tao_helpers_data_CsvFile $csvFile)
-    {
-
-    }
-
-    /**
-     * Gets the currently loaded CsvFile.
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return tao_helpers_data_CsvFile
-     */
-    public function getCsvFile()
-    {
-		return null;
-    }
-    
     public function onResourceImported(Closure $closure) {
 		$this->resourceImported[] = $closure;
 	}
-}
 
-?>
+	/**
+	 * @param core_kernel_classes_Class $destination
+	 * @param $propUri
+	 * @param $csvRow
+	 * @param $csvColumn
+	 * @return array
+	 */
+	protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn)
+	{
+		/**  @var tao_helpers_form_Validator $validator */
+		$validators = $this->getValidator($propUri);
+		foreach ((array)$validators as $validator) {
+			if (!$validator->evaluate(array($destination, $propUri, $csvRow[$csvColumn]))) {
+				$this->addErrorMessage($propUri, common_report_Report::createFailure($validator->getMessage(). ' "' . $csvRow[$csvColumn] . '"'));
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @param $createdResources
+	 * @return common_report_Report
+	 * @throws common_exception_Error
+	 */
+	protected function getResult($createdResources)
+	{
+		$type = common_report_Report::TYPE_SUCCESS;
+		if ($this->hasErrors()) {
+			$type = common_report_Report::TYPE_WARNING;
+		}
+
+		if (!$createdResources) {
+			$type = common_report_Report::TYPE_ERROR;
+		}
+
+		$report = new common_report_Report($type, __('Data imported'));
+		foreach ($this->getErrorMessages() as $group) {
+			$report->add($group);
+		}
+
+		return $report;
+	}
+}
