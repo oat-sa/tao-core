@@ -26,6 +26,7 @@ use common_Logger;
 use ZendSearch\Lucene\Lucene;
 use ZendSearch\Lucene\Document;
 use ZendSearch\Lucene\Search\QueryHit;
+use oat\tao\model\search\Index;
 
 /**
  * Zend Index helper 
@@ -44,7 +45,7 @@ class ZendIndexer
     public function toDocument()
     {
         $document = new Document();
-        common_Logger::i('indexing '.$this->resource->getLabel());
+//        common_Logger::i('indexing '.$this->resource->getLabel());
         
         $this->addUri($document);
         $this->indexTypes($document);
@@ -97,45 +98,33 @@ class ZendIndexer
     
     protected function indexProperty(Document $document, \core_kernel_classes_Property $property)
     {
-        \common_Logger::d('property '.$property->getLabel());
-        
-    	switch ($property->getUri()) {
-    		case RDFS_LABEL:
-    		    // if label: tokenize, store
-    		    $document->addField(Document\Field::Text('label', $this->resource->getLabel()));
-    		    break;
-    		    
-    		case 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModel':
-    		case 'http://myfantasy.domain/my_tao30.rdf#i1415962196740059':
-    		    $this->indexKeyword($document, $property);
-    		    break;
-    		case 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent' :
-    		    $content = \taoItems_models_classes_ItemsService::singleton()->getItemContent($this->resource);
-    		    if (!empty($content)) {
-
-    		        //if itemcontent: tokenize, nostore, complex data retrieval
-    		        $document->addField(Document\Field::unStored('content', $content));
-    		    }
-    	}
+        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex'));
+        foreach ($indexes as $indexUri) {
+            $index = new Index($indexUri);
+            $id = $index->getIdentifier();
+            $strings = $index->tokenize($this->resource->getPropertyValues($property));
+            
+            if (!empty($strings)) {
+                if (strpos($property->getUri(), 'ontent') == false) {
+                    \common_Logger::d('indexing '.$id.' '.($index->isFuzzyMatching() ? 'fuzzy' : 'exact').' with values: '.implode(',', $strings));
+                }
+                
+                if ($index->isFuzzyMatching()) {
+                    // cannot store multiple fuzzy strings
+                    $string = implode(' ', $strings);
+                    $field = Document\Field::Text($index->getIdentifier(), $string);
+                    $field->isStored = $index->isStored();
+                    $document->addField($field);
+                } else {
+                    $value = count($strings) > 1 ? $strings : reset($strings);
+                    $field = Document\Field::Keyword($index->getIdentifier(), $value);
+                    $field->isStored = $index->isStored() && !is_array($value); // storage of arrays not supported
+                    $document->addField($field);
+                }
+            }
+        }
     }
     
-    /**
-     * Keyword, no tokenisation, no storage, experimental multiple value support
-     * 
-     * @param Document $document
-     * @param \core_kernel_classes_Property $property
-     */
-    protected function indexKeyword(Document $document, \core_kernel_classes_Property $property) {
-        $val = array();
-        foreach ($this->resource->getPropertyValues($property) as $value) {
-            $valres = new \core_kernel_classes_Resource($value);
-            $val[] = $valres->getLabel();
-        }
-        $field = Document\Field::Keyword('simple', $val);
-        $field->isStored = false;
-        $document->addField($field);
-    }
-
     protected function getIndexedProperties()
     {
         $classProperties = array(new \core_kernel_classes_Property(RDFS_LABEL));

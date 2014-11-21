@@ -80,4 +80,13 @@ class SearchService
         }
         return array_values($classes);
     }
+    
+    public static function getIndexes(\core_kernel_classes_Property $property) {
+        $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex'));
+        $indexes = array();
+        foreach ($indexes as $indexUri) {
+            $indexes[] = new Index($indexUri);
+        }
+        
+    }
 }
