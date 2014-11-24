@@ -22,6 +22,8 @@
 namespace oat\tao\scripts\update;
 
 use common_ext_ExtensionsManager;
+use tao_helpers_data_GenerisAdapterRdf;
+use common_Logger;
 
 /**
  * 
@@ -49,6 +51,20 @@ class Updater extends \common_ext_ExtensionUpdater {
             $ext->setConfig('js', $config);
 
             $currentVersion = '2.7.0';
+        }
+        
+        //migrate from 2.6 to 2.7.0
+        if ($currentVersion == '2.7.0') {
+
+            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $file = $ext->getDir().'models'.DIRECTORY_SEPARATOR.'ontology'.DIRECTORY_SEPARATOR.'indexation.rdf';
+            
+            $adapter = new tao_helpers_data_GenerisAdapterRdf();
+            if($adapter->import($file)){
+                $currentVersion = '2.7.1';
+            } else{
+                common_Logger::w('Import failed for '.$file);
+            }
         }
         
         return $currentVersion;
