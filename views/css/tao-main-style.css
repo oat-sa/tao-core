@@ -10143,6 +10143,14 @@ ul[data-button-group] > li[class^="icon-"], ul[data-button-group] > li[class*=" 
 .previewer .nopreview { color: #ddd; text-align: center; font-size: 20px; font-size: 2rem; }
 .previewer .nopreview:before { font-family: 'tao'; display: inline-block; font-size: 60px; font-size: 6rem; font-family: 'tao'; display: inline-block; display: block !important; }
 
+/* Progress bar */
+.progressbar { height: 2em; text-align: left; border: none; height: 0.8em; background-color: white; border: 1px solid #ddd; }
+.progressbar > span { height: 100%; border: none; background-color: #3e7da7; display: block; color: white; -webkit-transition: width 0.6s ease 0s; -moz-transition: width 0.4s ease 0s; -o-transition: width 0.4s ease 0s; transition: width 0.4s ease 0s; }
+.progressbar > span.info { background-color: #0e5d91; }
+.progressbar > span.success { background-color: #0e914b; }
+.progressbar > span.warning { background-color: #d8ae5b; }
+.progressbar > span.error { background-color: #ba122b; }
+
 body { position: relative; font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif; font-weight: normal; }
 
 h1, h2, h3, h4, h5, h6 { font-weight: normal; font-style: normal; }

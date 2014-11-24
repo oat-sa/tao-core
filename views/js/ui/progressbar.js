@@ -3,10 +3,9 @@
  * @requires jquery
  * @requires lodash
  * @requires core/pluginifier
- * @requires core/dataattrhandler
  */
-define(['jquery', 'lodash', 'handlebars', 'core/pluginifier', 'core/dataattrhandler'], 
-function($, _, Handlebars, Pluginifier, DataAttrHandler){
+define(['jquery', 'lodash', 'core/pluginifier'], 
+function($, _, Pluginifier){
    'use strict';
    
    var ns = 'progressbar';
@@ -15,7 +14,9 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
    
    var defaults = {
        disableClass : 'disabled',
-       value : 0
+       style : 'info',
+       value : 0,
+       showProgress: false
    };
    
    /** 
@@ -29,11 +30,12 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
          * 
          * Called the jQuery way once registered by the Pluginifier.
          * @example $('selector').progressbar({ value : 15 });
-         * @public
          * 
          * @constructor
-         * @param {Object} options - the plugin options
-         * @param {jQueryElement} options.value - the progress value in %
+         * @param {Object} [options] - the plugin options
+         * @param {Number} [options.value] - the progress value in %
+         * @param {String} [options.style = 'info'] - the progress bar style in info, success, warning, error
+         *
          * @fires progressBar#create.progressbar
          * @returns {jQueryElement} for chaining
          */
@@ -42,12 +44,30 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
             
             return this.each(function() {
                 var $elt = $(this);
+                var $pgElt, percent;
                 
                 if(!$elt.data(dataNs)){
+
+                    options.value = parseInt(options.value, 10);
+ 
                     //add data to the element
                     $elt.data(dataNs, options);
 
+                    percent = options.value + '%';
 
+                    $pgElt = $('<span></span>')
+                                .width(percent)
+                                .attr('title', percent)
+                                .addClass(options.style);
+    
+                    if(options.showProgress){
+                        $pgElt.text(percent);
+                    }
+
+                    $elt.addClass('progressbar')
+                        .empty()
+                        .append($pgElt);
+    
                     /**
                      * The plugin have been created.
                      * @event progressBar#create.progressbar
@@ -58,53 +78,62 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
        },
          
        /**
-        * Trigger the adding. 
+        * Trigger the progress value
         * 
         * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').progressbar('add');
-        * @param {jQueryElement} $elt - plugin's element 
-        * @fires progressBar#add.progressbar
-        * @fires progressBar#add
+        *
+        * @example $('selector').progressbar('update', 50);
+        *
+        * @param {jQueryElement} $elt - plugin's element
+        * @param {Number} value - the new value
+        * 
+        * @fires progressBar#update.progressbar
         */
-       _add : function($elt){
+       _update : function($elt, value){
            var options = $elt.data(dataNs);
-           var $target = options.target;
+           var $pgElt, percent;
            
-           //call appendTo, prependTo, etc.
-           var position = options.position + 'To';
-           
-           var applyTemplate = function applyTemplate($content, position, $target, data){
-               $content[position]($target);
+           value = parseInt(value, 10);
+           if(value >= 0 && value <= 100){
+               percent = value + '%'; 
+               $pgElt = $elt.children('span');
 
-               /**
-                * The target has received content.
-                * @event progressBar#add
-                * @param {jQueryElement} - the added content
-                * @param {Object} - the data bound to the added content
-                */
-               $target.trigger('add', [$content, data]);
-               
-               /**
-                * The content has been added.
-                * @event progressBar#add.progressbar
-                * @param {jQueryElement} - the target
-                * @param {jQueryElement} - the added content
-                * @param {Object} - the data bound to the added content
-                */
-               $elt.trigger('add.'+ns, [$target, $content, data]);
+               $pgElt.width( value + '%')
+                     .attr('title', percent);
 
-           };
-           
-           //DOM element or template
-           if(typeof options._template === 'function'){
-
-               options.templateData(function templateDataCallback(data){
-                    applyTemplate($(options._template(data)), position, $target, data);
-               });
-             
-           } else {
-               applyTemplate($(options._html), position, $target);
+               if(options.showProgress){
+                    $pgElt.text(percent);
+               }
+                   
+               options.value = value;
+               $elt.data(dataNs, options);
+    
+                /**
+                 * The progress value has been updated
+                 * @event progressBar#create.progressbar
+                 */
+                $elt.trigger('update.' + ns, value);
+            } 
+       },
+       
+       /**
+        * Get/Set the value
+        * 
+        * Called the jQuery way once registered by the Pluginifier.
+        *
+        * @example var value = $('selector').progressbar('value');
+        *
+        * @param {jQueryElement} $elt - plugin's element
+        * @param {Number} [value] - the new value in setter mode only
+        * @returns {Number} the value in getter mode
+        */
+       _value : function($elt, value){
+           var options = $elt.data(dataNs);
+           if(typeof value !== 'undefined'){
+                return progressBar._update($elt, value);
            }
+    
+           return options.value;
        },
                
        /**
@@ -112,54 +141,32 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
         * 
         * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').progressbar('destroy');
-        * @public
+        * 
         * @fires progressBar#destroy.progressbar
         */
        destroy : function(){
             this.each(function() {
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
-                if(options.bindEvent !== false){
-                    $elt.off(options.bindEvent);
+                if(options){
+
+                    $elt.removeClass('progressbar')
+                        .empty()
+                        .removeData(dataNs);
+
+                    /**
+                     * The plugin have been destroyed.
+                     * @event progressBar#destroy.progressbar
+                     */
+                    $elt.trigger('destroy.' + ns);
                 }
-                $elt.removeData(dataNs);
-                
-                /**
-                 * The plugin have been destroyed.
-                 * @event progressBar#destroy.progressbar
-                 */
-                $elt.trigger('destroy.' + ns);
             });
         }
    };
    
    //Register the toggler to behave as a jQuery plugin.
    Pluginifier.register(ns, progressBar, {
-        expose : ['add']
+        expose : ['update', 'value']
    });
-   
-   /**
-    * The only exposed function is used to start listening on data-attr
-    * 
-    * @public
-    * @example define(['ui/progressbar'], function(progressbar){ progressbar($('rootContainer')); });
-    * @param {jQueryElement} $container - the root context to listen in
-    */
-   return function listenDataAttr($container){
-       
-        new DataAttrHandler('add', {
-            container: $container,
-            listenerEvent: 'click',
-            namespace: dataNs
-        }).init(function($elt, $target) {
-            $elt.progressbar({
-                target: $target,
-                bindEvent: false,
-                content: $($elt.attr('data-content'))
-            });
-        }).trigger(function($elt) {
-            $elt.progressbar('add');
-        });
-    };
 });
 
