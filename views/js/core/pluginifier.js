@@ -122,11 +122,13 @@ define(['jquery', 'lodash'], function($, _){
                 //do not override if exists
                 if(_.isFunction(plugin[privateMethod]) && !_.isFunction(plugin[publicMethod])){
                     plugin[publicMethod] = function(){
-                        var args = arguments;
-                        return this.each(function(){
+                        var returnValue;
+                        var args = Array.prototype.slice.call(arguments, 0);
+                        this.each(function(){
                             //call plugin._method($element, [remainingArgs...]);
-                            plugin[privateMethod].apply(plugin, [$(this)].concat(args));
+                            returnValue = plugin[privateMethod].apply(plugin, [$(this)].concat(args));
                         });
+                        return returnValue || this;
                     };
                 }
             });
