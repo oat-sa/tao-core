@@ -102,7 +102,7 @@ class ZendSearch extends Configurable implements Search
         $privateDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'ZendSearch'.DIRECTORY_SEPARATOR;
         
         if (file_exists($privateDataPath)) {
-            helpers_File::emptyDirectory($privateDataPath);
+            \helpers_File::emptyDirectory($privateDataPath);
         }
         
         $privateFs = \tao_models_classes_FileSourceService::singleton()->addLocalSource('Zend Search index folder', $privateDataPath);
