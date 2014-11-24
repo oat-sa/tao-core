@@ -25,7 +25,7 @@ define(['jquery', 'lodash'], function($, _) {
             }
             updateFolders(content, $innerList);
             //internal event to set the file-selector content
-            $container.trigger('folderselect.' + ns , [root, content.children]);
+            $container.trigger('folderselect.' + ns , [root, content.children, content.path]);
         });
 
         // by clicking on the tree (using a live binding  because content is not complete yet)
@@ -65,7 +65,7 @@ define(['jquery', 'lodash'], function($, _) {
                     }
 
                     //internal event to set the file-selector content
-                    $container.trigger('folderselect.' + ns , [displayPath, content.children]);
+                    $container.trigger('folderselect.' + ns , [displayPath, content.children, content.path]);
                 }
             });
         });

@@ -198,11 +198,10 @@ define([
                 } 
             });
 
-            $container.on('folderselect.' + ns , function(e, fullPath, data){    
+            $container.on('folderselect.' + ns , function(e, fullPath, data, uri){
                 currentPath = fullPath;
-            
                 $uploader.uploader('options', {
-                    uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath
+                    uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath + '&relPath=' + encodeURIComponent(uri)
                 });
             });
 
