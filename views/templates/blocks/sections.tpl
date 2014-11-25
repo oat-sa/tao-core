@@ -54,7 +54,7 @@ $sections = get_data('sections');
                             ));
                         ?>
                         </ul>
-                        <ul class="hidden">
+                        <ul class="hidden action-bar">
                         <?php
                             Template::inc('blocks/actions.tpl', 'tao', array(
                                 'actions' => $section->getActionsByGroup('none')
