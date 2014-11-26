@@ -32,7 +32,7 @@ return array(
 	'label' => 'Tao base',
 	'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '2.7.1',
+    'version' => '2.7',
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
 	   'generis' => '2.7'
@@ -49,8 +49,7 @@ return array(
 				dirname(__FILE__). '/models/ontology/taoaclrole.rdf',
 				dirname(__FILE__). '/models/ontology/oauth.rdf',
                 dirname(__FILE__). '/models/ontology/webservice.rdf',
-                dirname(__FILE__). '/models/ontology/services.rdf',
-		        dirname(__FILE__). '/models/ontology/indexation.rdf',
+                dirname(__FILE__). '/models/ontology/services.rdf'
 		),
 		'checks' => array(
 				array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.3')),
