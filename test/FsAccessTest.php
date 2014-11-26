@@ -50,7 +50,9 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     
     protected function tearDown() {
         parent::tearDown();
-        $this->testUser->delete();
+        if($this->testUser instanceof core_kernel_classes_Resource){
+            $this->testUser->delete();
+        }
     }
     
     public static function tearDownAfterClass() {
