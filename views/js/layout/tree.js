@@ -139,7 +139,7 @@ define([
                         if(_.isString(treeData.filter) && treeData.filter.length){
                             params.filter = treeData.filter;
                         }
-                        if(_.isString(treeData.filter) && treeData.filter.length){
+                        if(_.isString(treeData.loadNode) && treeData.loadNode.length){
                             params.loadNode = treeData.loadNode;
                         }
                     }
