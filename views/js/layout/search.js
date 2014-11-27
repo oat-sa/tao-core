@@ -75,8 +75,13 @@ function($, _, __, module, context, section, feedback, datatable, uri){
 
     return {
 
+        //if in this context the search has been submited at least once
+        _submited : false,
+
         /**
          * Initialize post renderer
+         * @param {jQueryElement} $container - the search container
+         * @param {String} searchForm - html as a string of the search form
          */
         init : function init($container, searchForm){
             var self = this;
@@ -95,6 +100,7 @@ function($, _, __, module, context, section, feedback, datatable, uri){
                 }).done(function(response){
                     if(response.result && response.result === true){
                         buildResponseTable(response);
+                        self._submited = true;
                     } else {
                         feedback().warning(__('No results found'));
                     }
@@ -115,6 +121,19 @@ function($, _, __, module, context, section, feedback, datatable, uri){
                     $formElt.off('submit').on('submit', submitHandler);
                 });
                 $container.html($searchForm);
+            }
+        },
+
+        /**
+         * Reset the searching
+         */
+        reset : function reset(){
+
+            if(this._submited){
+                this._submited = false;
+
+                //reset the trees 
+                $('.tree').trigger('refresh.taotree');
             }
         }
     };
