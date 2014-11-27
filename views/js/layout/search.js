@@ -63,7 +63,7 @@ function($, _, __, module, context, section, feedback, datatable, uri){
                 'model' : _.values(data.model),
                 'actions' : {
                    'open' : function openResource(id){
-                            $('.tree').trigger('selectnode.taotree', [{id : uri.encode(id)}]);
+                            $('.tree').trigger('refresh.taotree', [{loadNode : id}]);
                     } 
                 },
                 'params' : {

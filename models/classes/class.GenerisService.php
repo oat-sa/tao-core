@@ -538,30 +538,45 @@ abstract class tao_models_classes_GenerisService
         $offset = (isset($options['offset'])) ? $options['offset'] : 0;
         //an array used to filter properties; use the format by core_kernel_classes_Class::searchInstances
         $propertyFilter = (isset($options['propertyFilter'])) ? $options['propertyFilter'] : array();
-
-
+        // A unique node URI to be returned from as a tree leaf.
+        $uniqueNode = (isset($options['uniqueNode'])) ? $options['uniqueNode'] : null;
+        
         $factory = new tao_models_classes_GenerisTreeFactory();
-        if (!empty($labelFilter) && $labelFilter!='*') {
-                $props	= array(RDFS_LABEL => $labelFilter);
-                $opts	= array(
-                        'like'		=> true,
-                        'limit'		=> $limit,
-                        'offset'	=> $offset,
-                        'recursive'	=> true
-                ); 
-                $searchResult = $clazz->searchInstances($props, $opts);
-                $results = array();
-                foreach ($searchResult as $instance){
-                        $results[] = $factory->buildResourceNode($instance, $clazz);
-                }
-                if ($offset > 0) {
-                        $returnValue = $results;
-                } else if(count($results) > 0){
-                        $returnValue = $factory->buildClassNode($clazz);
-                        $returnValue['count']		= $clazz->countInstances($props, $opts);;
-                        $returnValue['children']	= $results;
-                }
+        
+        if ($uniqueNode !== null) {
+            // A unique node has to be retrieved.
+            $uniqueResource = new core_kernel_classes_Resource($uniqueNode);
+            $returnValue = $factory->buildClassNode($clazz);
+            $returnValue['count'] = 0;
+            $returnValue['children'] = array();
+            
+            if ($uniqueResource->exists() === true) {
+                $returnValue['count'] = 1;
+                $returnValue['children'][] = $factory->buildResourceNode($uniqueResource, $clazz);
+            }
+        } elseif (!empty($labelFilter) && $labelFilter!='*') {
+            // The result must be a set of filtered nodes.
+            $props	= array(RDFS_LABEL => $labelFilter);
+            $opts	= array(
+                    'like'		=> true,
+                    'limit'		=> $limit,
+                    'offset'	=> $offset,
+                    'recursive'	=> true
+            ); 
+            $searchResult = $clazz->searchInstances($props, $opts);
+            $results = array();
+            foreach ($searchResult as $instance){
+                    $results[] = $factory->buildResourceNode($instance, $clazz);
+            }
+            if ($offset > 0) {
+                    $returnValue = $results;
+            } else if(count($results) > 0){
+                    $returnValue = $factory->buildClassNode($clazz);
+                    $returnValue['count']		= $clazz->countInstances($props, $opts);;
+                    $returnValue['children']	= $results;
+            }
         } else {
+            // Let's walk the tree with super walker! ~~~ p==[w]õ__
             array_walk($browse, function(&$item) {
                 $item = tao_helpers_Uri::decode($item);
             });
