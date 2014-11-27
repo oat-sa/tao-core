@@ -306,7 +306,20 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	}
 	
 	/**
-	 * Render json data from the current ontology root class
+	 * Renders json data from the current ontology root class.
+	 * 
+	 * The possible request parameters are the following:
+	 * 
+	 * * labelFilter: A filter string to be used. The returned hierarchy will be a single root class, with children without class hierarchy.
+	 * * uniqueNode: A URI indicating the returned hiearchy will be a single class, with a single children corresponding to the URI.
+	 * * browse:
+	 * * hideInstances:
+	 * * chunk:
+	 * * offset:
+	 * * limit:
+	 * * subclasses:
+	 * * classUri:
+	 * 
 	 * @return void
 	 */
 	public function getOntologyData()
