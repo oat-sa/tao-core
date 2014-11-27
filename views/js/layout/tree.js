@@ -17,7 +17,20 @@ define([
     var pageRange = 30;
 
     /**
+     * The tree factory helps you to intantiate a new tree from the TAO ontology
      * @exports layout/tree
+     * 
+     * @param {jQueryElement} $elt - that will contain the tree
+     * @param {String} url - the endpoint to load data
+     * @param {Object} [options] - additional configuration options
+     * @param {Object} [options.serverParameters] - add parameters to send to the endpoint (defaults are hideInstance, filter, offset and limit)
+     * @param {Object} [options.actions] - which actions to perform from the tree
+     * @param {String} [options.actions.moveInstance] - the id of the action bound (using actionManager.register) on move
+     * @param {String} [options.actions.selectInstance] - the id of the action bound (using actionManager.register) on item selection
+     * @param {String} [options.actions.selectClass] - the id of the action bound (using actionManager.register) on class selection
+     * @param {String} [options.actions.deleteInstance] - the id of the action bound (using actionManager.register) on delete
+     * @param {String} [options.selectNode] - the URI of the node to be selected by default, the node must be loaded.
+     * 
      */
     var treeFactory = function($elt, url, options){
         
@@ -121,9 +134,14 @@ define([
                     }
                     params.selected = options.selectNode;
 
-                    //check if there is a filter load filter value
-                    if(treeData && _.isString(treeData.filter) && treeData.filter.length){
-                        params.filter = treeData.filter;
+                    //check for additionnal parameters in tree state
+                    if(treeData){
+                        if(_.isString(treeData.filter) && treeData.filter.length){
+                            params.filter = treeData.filter;
+                        }
+                        if(_.isString(treeData.filter) && treeData.filter.length){
+                            params.loadNode = treeData.loadNode;
+                        }
                     }
                     
                     return params;
@@ -340,6 +358,9 @@ define([
              *
              * @event layout/tree#refresh.taotree
              * @param {Object} [data] - some data to bind to the tree
+             * @param {String} [data.filter] - reload the tree in filtering mode
+             * @param {String} [data.selectNode] - reload the tree and select the given node (by URI) if it is already loaded.
+             * @param {String} [data.loadNode] - the URI of a node to display in filtering mode (it will load only this node)
              */
             'refresh' : function(data){
                 var treeState;
