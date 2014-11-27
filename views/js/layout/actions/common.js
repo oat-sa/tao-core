@@ -218,6 +218,8 @@ define([
          * @param {Object} actionContext - the current actionContext
          */
         binder.register('filter', function filter(actionContext){
+            $('#panel-' + appContext.section + ' .search-form').slideUp();
+        
             toggleFilter($('#panel-' + appContext.section + ' .filter-form'));
         });
 
@@ -238,11 +240,19 @@ define([
 	        var uniqueValue = data.uri || data.classUri || '';
 	        var $container  = $('.search-form [data-purpose="search"]');
 
-            if($container.is(':visible') || $container.data('current') === uniqueValue) {
-                $('.search-form').slideToggle();
+            $('.filter-form').slideUp();
+
+            if($container.is(':visible')){                 
+                $('.search-form').slideUp();
+                search.reset();
                 return;
             }
 
+            if($container.data('current') === uniqueValue) {
+                $('.search-form').slideDown();
+                return;
+            }
+    
             $.ajax({
                 url: this.url,
                 type: "GET",
@@ -251,7 +261,7 @@ define([
             }).done(function(response){
                 $container.data('current', uniqueValue);
                 search.init($container, response);
-                $('.search-form').slideToggle();
+                $('.search-form').slideDown();
             });
         });
 
