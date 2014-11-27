@@ -139,10 +139,14 @@ define([
                     if(treeData){
                         if(_.isString(treeData.filter) && treeData.filter.length){
                             params.filter = treeData.filter;
+                            treeData = _.omit(treeData, 'filter');
                         }
                         if(_.isString(treeData.loadNode) && treeData.loadNode.length){
                             params.loadNode = treeData.loadNode;
+                            treeData = _.omit(treeData, 'loadNode');
                         }
+                        
+                        $elt.data('tree-state', treeData);
                     }
                     
                     return params;
