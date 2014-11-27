@@ -30,6 +30,7 @@ define([
      * @param {String} [options.actions.selectClass] - the id of the action bound (using actionManager.register) on class selection
      * @param {String} [options.actions.deleteInstance] - the id of the action bound (using actionManager.register) on delete
      * @param {String} [options.selectNode] - the URI of the node to be selected by default, the node must be loaded.
+     * @param {String} [options.loadNode] - the URI of a node to be loaded from the server side and selected.
      * 
      */
     var treeFactory = function($elt, url, options){
