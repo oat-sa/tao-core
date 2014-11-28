@@ -307,12 +307,25 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	}
 	
 	/**
-	 * Render json data from the current ontology root class
+	 * Renders json data from the current ontology root class.
+	 * 
+	 * The possible request parameters are the following:
+	 * 
+	 * * labelFilter: A filter string to be used. The returned hierarchy will be a single root class, with children without class hierarchy.
+	 * * uniqueNode: A URI indicating the returned hiearchy will be a single class, with a single children corresponding to the URI.
+	 * * browse:
+	 * * hideInstances:
+	 * * chunk:
+	 * * offset:
+	 * * limit:
+	 * * subclasses:
+	 * * classUri:
+	 * 
 	 * @return void
 	 */
 	public function getOntologyData()
 	{
-		if(!tao_helpers_Request::isAjax()){
+		if (!tao_helpers_Request::isAjax()) {
             throw new common_exception_IsAjaxAction(__FUNCTION__); 
 		}
 	
@@ -326,34 +339,42 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			'limit' => 0
 		);
 		
-		if($this->hasRequestParameter('filter')){
+		if ($this->hasRequestParameter('filter')) {
 			$options['labelFilter'] = $this->getRequestParameter('filter');
 		}
 		
-        if($this->hasRequestParameter("selected")){
+		if ($this->hasRequestParameter('loadNode')) {
+		    $options['uniqueNode'] = $this->getRequestParameter('loadNode');
+		}
+		
+        if ($this->hasRequestParameter("selected")) {
 			$options['browse'] = array($this->getRequestParameter("selected"));
 		}
-		if($this->hasRequestParameter('hideInstances')){
-			if((bool) $this->getRequestParameter('hideInstances')){
+		
+		if ($this->hasRequestParameter('hideInstances')) {
+			if((bool) $this->getRequestParameter('hideInstances')) {
 				$options['instances'] = false;
 			}
 		}
-		if($this->hasRequestParameter('classUri')){
+		if ($this->hasRequestParameter('classUri')) {
 			$clazz = $this->getCurrentClass();
 			$options['chunk'] = !$clazz->equals($this->getRootClass());
-		}
-		else{
+		} else {
 			$clazz = $this->getRootClass();
 		}
-		if($this->hasRequestParameter('offset')){
+		
+		if ($this->hasRequestParameter('offset')) {
 			$options['offset'] = $this->getRequestParameter('offset');
 		}
-		if($this->hasRequestParameter('limit')){
+		
+		if ($this->hasRequestParameter('limit')) {
 			$options['limit'] = $this->getRequestParameter('limit');
 		}
-		if($this->hasRequestParameter('subclasses')){
+		
+		if ($this->hasRequestParameter('subclasses')) {
 			$options['subclasses'] = $this->getRequestParameter('subclasses');
 		}
+		
         //generate the tree from the given parameters	
         $tree = $this->service->toTree($clazz, $options);
 
@@ -369,22 +390,22 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
         //Get the actions from the section and bind them an ActionResolver that helps getting controller/action from action URL.
         $actions = array();
-        foreach($section->getActions() as $index => $action){
+        foreach ($section->getActions() as $index => $action) {
             try{
                 $actions[$index] = array(
                     'resolver'  => new ActionResolver($action->getUrl()),
                     'id'      => $action->getId(),
                     'context'   => $action->getContext()
                 );
-            } catch(\ResolverException $re){
+            } catch(\ResolverException $re) {
                 common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
             }
         }
 
         //then compute ACL for each node of the tree
         $treeKeys = array_keys($tree);
-        if(is_int($treeKeys[0])){
-            foreach($tree as $index => $treeNode){
+        if (is_int($treeKeys[0])) {
+            foreach ($tree as $index => $treeNode) {
                 $tree[$index] = $this->computePermissions($actions, $user, $treeNode);
             }
         } else { 

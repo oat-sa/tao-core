@@ -51,9 +51,7 @@ function($, _, __, section, feedback, datatable, uri){
                 'model' : _.values(data.model),
                 'actions' : {
                    'open' : function openResource(id){
-                        //TODO remove URI encoding here and in the tree
-                        //FIXME if the element isn't shown in the tree, then it wont open... to be fixed in the tree.
-                        $('.tree').trigger('selectnode.taotree', [{id : uri.encode(id)}]);
+                            $('.tree').trigger('refresh.taotree', [{loadNode : id}]);
                     } 
                 },
                 'params' : {
