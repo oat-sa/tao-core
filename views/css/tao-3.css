@@ -233,7 +233,9 @@ body > footer {
 
 @media (max-width: 1024px) {
   nav .main-menu li {
-    min-width: 70px; }
+    min-width: 0; }
+    nav .main-menu li > a {
+      padding: 13px 10px 11px; }
   nav .settings-menu {
     position: absolute;
     right: 0px;
@@ -247,7 +249,7 @@ body > footer {
       outline: 0 !important;
       cursor: pointer;
       min-width: 70px;
-      padding: 11px 15px 11px; }
+      padding: 13px 10px 11px; }
       nav .settings-menu .reduced-menu-trigger.active {
         background-color: #1a6596;
         opacity: 1;

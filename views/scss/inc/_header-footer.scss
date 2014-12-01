@@ -236,9 +236,13 @@ body > footer {
     nav {
         .main-menu {
             li {
-                min-width: 70px;
+                min-width: 0;
+                & > a {
+                    padding: 13px 10px 11px;
+                }
             }
         }
+
         .settings-menu {
             position: absolute;
             right: 0px;
@@ -255,7 +259,7 @@ body > footer {
                 outline: 0 !important;
                 cursor:pointer;
                 min-width: 70px;
-                padding: 11px 15px 11px;
+                padding: 13px 10px 11px;
 
                 &.active {
                     background-color: whiten($info, .05);
