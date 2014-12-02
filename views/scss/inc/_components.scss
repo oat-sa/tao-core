@@ -300,3 +300,40 @@ ul[data-button-group], ul.button-group {
         }
     }
 }
+
+/* Progress bar */
+
+.progressbar {
+    height: 2em;
+    text-align: left;
+    border: none;
+    height: 0.8em;
+    background-color: $uiGeneralContentBg;
+    border: 1px solid $uiGeneralContentBorder;
+
+    & > span {
+        height: 100%;
+        border: none;
+        background-color: $uiClickableHoverBg;
+        display: block;
+        color: white();
+
+        -webkit-transition: width 0.6s ease 0s;
+        -moz-transition: width 0.4s ease 0s;
+        -o-transition: width 0.4s ease 0s;
+        transition: width 0.4s ease 0s;
+
+        &.info {
+            background-color: $info;
+        }
+        &.success{
+            background-color: $success;
+        }
+        &.warning{
+            background-color: $warning;
+        }
+        &.error{
+            background-color: $error;
+        }
+    }
+}
