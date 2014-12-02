@@ -392,7 +392,7 @@ label {
         padding-left: 5px;
         &:before {
             font-size: 12px;
-            content: '• ';
+            content: '\2022 ';
             line-height: 2px;
             opacity: .8;
         }
