@@ -25,11 +25,12 @@ namespace oat\tao\model\media;
 interface MediaManagement {
 
     /**
-     * @param array $file data of file to upload
+     * @param string $fileTmp tmp name of the file
+     * @param string $fileName new name of the file
      * @param string $path of the directory in which to upload
-     * @return boolean the upload was successful or not
+     * @return array of file info or an error array
      */
-    public function upload($file, $path);
+    public function upload($fileTmp, $fileName, $path);
 
 
     /**
