@@ -1,4 +1,5 @@
 <?php
+use oat\tao\model\ClientLibRegistry;
 /**  
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -34,17 +35,16 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $this->setContentHeader('application/javascript');
         
         //get extension paths to set up aliases dynamically
-        $extensionsAliases = array();
+        $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();
+                
+        $this->setData('extensionsAliases', $extensionsAliases);
+        
         $extensionManager = common_ext_ExtensionsManager::singleton();
         $langCode = tao_helpers_I18n::getLangCode();
-         
-        foreach($extensionManager->getInstalledExtensions() as $extension){
-            $extManifestConsts = $extension->getConstants();
-            if(isset($extManifestConsts['BASE_WWW'])){
-                 $extensionsAliases[$extension->getId()] = str_replace(ROOT_URL, '../../../', $extManifestConsts['BASE_WWW']) . 'js';
-            }
-        }
-        $this->setData('extensionsAliases', $extensionsAliases);
+
+
+
+
 
         //loads the URLs context
         $base_www = BASE_WWW;

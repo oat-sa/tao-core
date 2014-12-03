@@ -47,19 +47,29 @@ class ClientLibRegistry extends AbstractRegistry
     /**
      * 
      * @author Lionel Lecaque, lionel@taotesting.com
+     * @return array
+     */
+    public function getLibAliasMap()
+    {
+        $extensionsAliases = array();
+        foreach (ClientLibRegistry::getRegistry()->getMap() as $alias => $lib ){
+            $extensionsAliases[$alias] = str_replace(ROOT_URL, '../../../', $lib);
+        }
+        return $extensionsAliases;
+    }
+    
+    
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
      * @param string $id
      * @param string $fullPath
      * @throws ClientLibNotFoundException
      */
     public function register($id, $fullPath)
     {
-        if (! is_file($fullPath) && ! is_dir($fullPath)) {
-            $msg = 'Register a lib that does not exist ' . $fullPath;
-            common_Logger::w($msg);
-            throw new ClientLibNotFoundException($id, $msg);
-        }
         if (self::getRegistry()->isRegistered($id)) {
-            common_Logger::i('Lib already registered');
+            common_Logger::w('Lib already registered');
         }
         self::getRegistry()->set($id, $fullPath);
     }

@@ -38,22 +38,17 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
         TaoPhpUnitTestRunner::initTest();
     }
 
-    public function testRegisterException()
-    {
-        $this->setExpectedException('oat\tao\model\ClientLibNotFoundException');
-        ClientLibRegistry::getRegistry()->register('IMSGlobal/jquery_2_1_1', '/tmp/jquery_2_1_1.js');
-    }
 
     public function testRegister()
     {
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertEmpty($map);
         
-        ClientLibRegistry::getRegistry()->register('OAT/test', dirname(__FILE__) . '/samples/fakeSourceCode/views/js/generis.tree.js');
+        ClientLibRegistry::getRegistry()->register('OAT/test', dirname(__FILE__) . '/samples/fakeSourceCode/views/js/');
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertInternalType('array', $map);
         $this->assertTrue(isset($map['OAT/test']));
-        $this->assertEquals(dirname(__FILE__) . '/samples/fakeSourceCode/views/js/generis.tree.js', $map['OAT/test']);
+        $this->assertEquals(dirname(__FILE__) . '/samples/fakeSourceCode/views/js/', $map['OAT/test']);
         
         ClientLibRegistry::getRegistry()->remove('OAT/test');
     }
