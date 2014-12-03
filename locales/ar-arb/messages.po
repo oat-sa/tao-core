@@ -761,7 +761,7 @@ msgid "Please confirm you want to delete this list element."
 msgstr ".الرجاء تأكيد أنك تريد حذف هذا العنصر من القائمة"
 
 msgid "Please confirm you want to delete this list. This operation cannot be undone."
-msgstr ""
+msgstr ".الرجاء تأكيد أنك تريد حذف هذه القائمة. هذه العملية لا يمكن عكسها"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr ""
