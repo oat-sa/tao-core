@@ -43,9 +43,6 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $langCode = tao_helpers_I18n::getLangCode();
 
 
-
-
-
         //loads the URLs context
         $base_www = BASE_WWW;
         $base_url = BASE_URL;
