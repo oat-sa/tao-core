@@ -17,11 +17,11 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\ClientLibRegistry;
 
 /**
  * Specification of the Generis ExtensionInstaller class to add a new behavior:
@@ -31,18 +31,16 @@ use oat\tao\model\accessControl\func\AclProxy;
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @package tao
  * @since 2.4
- 
+ *       
  */
-class tao_install_ExtensionInstaller
-    extends common_ext_ExtensionInstaller
+class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
 {
     // --- ASSOCIATIONS ---
-
-
+    
     // --- ATTRIBUTES ---
-
+    
     // --- OPERATIONS ---
-
+    
     /**
      * Will create the model of Modules and Actions (MVC) in the persistent
      *
@@ -51,54 +49,28 @@ class tao_install_ExtensionInstaller
      * @return void
      * @since 2.4
      */
-    public function extendedInstall() {
-        
+    public function extendedInstall()
+    {
         $this->installManagementRole();
-        
         $this->applyAccessRules();
-        
+        $this->registerClientLib();
     }
-    
-    /**
-     * Will make the Global Manager include the Management Role of the extension
-     * to install (if it exists).
-     * 
-     * @access public
-     * @author Jerome Bogaerts <jerome@taotesting.com>
-     * @return void
-     * @since 2.4
-     */
-    public function installManagementRole() {
-        
-    	// Try to get a Management Role described by the extension itself.
-    	// (this information comes actually from the Manifest of the extension)
-    	$roleUri = $this->extension->getManifest()->getManagementRoleUri();
-    	if (!empty($roleUri)){
 
-    	    $role = new core_kernel_classes_Resource($roleUri);
-            $roleService = tao_models_classes_RoleService::singleton();
-    	    if (!$role->exists()) {
-        	    // Management role does not exist yet, so we create it
-        	    $roleClass = new core_kernel_classes_Class(CLASS_MANAGEMENTROLE);
-        	    $roleLabel = $this->extension->getId() . ' Manager';
-        	    $role = $roleClass->createInstance($roleLabel, $roleLabel.' Role', $role->getUri());
-        	    $roleService->includeRole($role, new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE));
-        	}
-    
-        	// Take the Global Manager role and make it include
-        	// the Management role of the currently installed extension.
-        	if ($role->getUri() !== INSTANCE_ROLE_GLOBALMANAGER){
-        		$globalManagerRole = new core_kernel_classes_Resource(INSTANCE_ROLE_GLOBALMANAGER);
-        		$roleService->includeRole($globalManagerRole, $role);
-        	}
-        	
-        	common_Logger::d("Management Role " . $role->getUri() . " created for extension '" . $this->extension->getId() . "'.");
-        } else {
-            // There is no Management role described by the Extension Manifest.
-            common_Logger::i("No management role for extension '" . $this->extension->getId() . "'.");
+    /**
+     * Extension may declare client lib to add alias into requireJs
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function registerClientLib()
+    {        
+        $extManifestConsts = $this->extension->getConstants();
+        if(isset($extManifestConsts['BASE_WWW'])){
+            ClientLibRegistry::getRegistry()->register($this->extension->getId(),$extManifestConsts['BASE_WWW']. 'js');
+            ClientLibRegistry::getRegistry()->register($this->extension->getId().'Css',$extManifestConsts['BASE_WWW']. 'css');
+            
         }
     }
-    
+
     /**
      * Will make the Global Manager include the Management Role of the extension
      * to install (if it exists).
@@ -108,11 +80,52 @@ class tao_install_ExtensionInstaller
      * @return void
      * @since 2.4
      */
-    public function applyAccessRules() {
+    public function installManagementRole()
+    {
+        
+        // Try to get a Management Role described by the extension itself.
+        // (this information comes actually from the Manifest of the extension)
+        $roleUri = $this->extension->getManifest()->getManagementRoleUri();
+        if (! empty($roleUri)) {
+            
+            $role = new core_kernel_classes_Resource($roleUri);
+            $roleService = tao_models_classes_RoleService::singleton();
+            if (! $role->exists()) {
+                // Management role does not exist yet, so we create it
+                $roleClass = new core_kernel_classes_Class(CLASS_MANAGEMENTROLE);
+                $roleLabel = $this->extension->getId() . ' Manager';
+                $role = $roleClass->createInstance($roleLabel, $roleLabel . ' Role', $role->getUri());
+                $roleService->includeRole($role, new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE));
+            }
+            
+            // Take the Global Manager role and make it include
+            // the Management role of the currently installed extension.
+            if ($role->getUri() !== INSTANCE_ROLE_GLOBALMANAGER) {
+                $globalManagerRole = new core_kernel_classes_Resource(INSTANCE_ROLE_GLOBALMANAGER);
+                $roleService->includeRole($globalManagerRole, $role);
+            }
+            
+            common_Logger::d("Management Role " . $role->getUri() . " created for extension '" . $this->extension->getId() . "'.");
+        } else {
+            // There is no Management role described by the Extension Manifest.
+            common_Logger::i("No management role for extension '" . $this->extension->getId() . "'.");
+        }
+    }
+
+    /**
+     * Will make the Global Manager include the Management Role of the extension
+     * to install (if it exists).
+     *
+     * @access public
+     * @author Jerome Bogaerts <jerome@taotesting.com>
+     * @return void
+     * @since 2.4
+     */
+    public function applyAccessRules()
+    {
         foreach ($this->extension->getManifest()->getAclTable() as $tableEntry) {
             $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
             AclProxy::applyRule($rule);
         }
     }
-
 }
