@@ -23,11 +23,16 @@ use oat\oatbox\AbstractRegistry;
 use \common_ext_ExtensionsManager;
 use \common_Logger;
 
+/**
+ * 
+ * Registry to store client library paths that will be provide to requireJs
+ *
+ * @author Lionel Lecaque, lionel@taotesting.com
+ */
 class ClientLibRegistry extends AbstractRegistry
 {
 
     /**
-     * (non-PHPdoc)
      * @see \oat\oatbox\AbstractRegistry::getConfigId()
      */
     protected function getConfigId()
@@ -36,7 +41,6 @@ class ClientLibRegistry extends AbstractRegistry
     }
 
     /**
-     * (non-PHPdoc)
      * @see \oat\oatbox\AbstractRegistry::getExtension()
      */
     protected function getExtension()
@@ -45,6 +49,8 @@ class ClientLibRegistry extends AbstractRegistry
     }
 
     /**
+     * 
+     * Return all lib alias with relative path
      * 
      * @author Lionel Lecaque, lionel@taotesting.com
      * @return array
@@ -60,11 +66,11 @@ class ClientLibRegistry extends AbstractRegistry
     
     
     /**
-     * 
+     * Register a new path for given alias, trigger a warning if path already register
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param string $id
      * @param string $fullPath
-     * @throws ClientLibNotFoundException
      */
     public function register($id, $fullPath)
     {
