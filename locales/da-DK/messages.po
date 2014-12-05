@@ -1,12 +1,22 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-RC03\n"
-"PO-Revision-Date: 2014-06-20T16:26:01\n"
+"Project-Id-Version: TAO 3.0\n"
+"PO-Revision-Date: 2014-12-03T16:11:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: da-DK\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#, tao-public
+msgid "\n"
+"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr ""
@@ -23,6 +33,9 @@ msgstr " eksempel "
 msgid " requires a subgrid adapter"
 msgstr " kræver en subgrid adapter"
 
+msgid "\"list saved\""
+msgstr ""
+
 msgid "%s (%s kb)"
 msgstr ""
 
@@ -32,6 +45,15 @@ msgstr "%s udvidelse(r) at installere."
 msgid "(empty)"
 msgstr "(tom)"
 
+msgid "... reloading page."
+msgstr ""
+
+msgid "<del>Filters</del>"
+msgstr ""
+
+msgid "<del>Options</del>"
+msgstr ""
+
 msgid "> Extension %s succesfully installed."
 msgstr ">Udvidelse %s installeret med succes."
 
@@ -40,9 +62,6 @@ msgstr "> Installation udført."
 
 msgid "A fatal error occured during the installation process."
 msgstr "En fatal fejl opstod under installationen."
-
-msgid "A joint initiative of CRP Henri Tudor and the University of Luxembourg"
-msgstr "Et fælles initiativ mellem CRP Henri Tudor og University of Luxembourg"
 
 msgid "A similar resource has already been versioned"
 msgstr "En tilsvarende ressource er allerede blevet versioneret"
@@ -72,14 +91,11 @@ msgstr "Opret en bruger"
 msgid "Add an RDF/XML file"
 msgstr ""
 
+msgid "Add file(s)"
+msgstr ""
+
 msgid "Add grades"
 msgstr "Tilføj klasser"
-
-msgid "Add property"
-msgstr "Opret egenskab"
-
-msgid "add repository"
-msgstr "tilføj opbevaringssted"
 
 msgid "Add the source file."
 msgstr ""
@@ -87,23 +103,20 @@ msgstr ""
 msgid "Advanced Mode"
 msgstr "Avanceret tilstand"
 
-msgid "all"
-msgstr "alle"
-
 msgid "All"
 msgstr "Alle"
+
+msgid "all"
+msgstr "alle"
 
 msgid "All (the complete TAO Module)"
 msgstr "Alt (hele TAO-modulet)"
 
-msgid "All data will be removed in "
+msgid "All fields are required"
 msgstr ""
 
 msgid "All rights reserved."
 msgstr ""
-
-msgid "Allowed files types: "
-msgstr "Tilladte filtyper: "
 
 msgid "Allows the management of the repositories"
 msgstr "Tillader styring af opbevaringssteder"
@@ -131,17 +144,26 @@ msgstr "Tildel bruger til rolle"
 msgid "Author"
 msgstr "Forfatter"
 
+msgid "Author Item"
+msgstr ""
+
 msgid "Authoring"
 msgstr "Forfatter"
 
 msgid "Available Extensions"
 msgstr "Tilgængelige udvidelser"
 
+msgid "Back to listing"
+msgstr ""
+
 msgid "Beta version"
 msgstr ""
 
 msgid "Browse"
 msgstr "Søger"
+
+msgid "Browse folders:"
+msgstr ""
 
 msgid "Browse..."
 msgstr ""
@@ -151,6 +173,9 @@ msgstr ""
 
 msgid "Cancel"
 msgstr "Afslutte"
+
+msgid "Cannot be edited"
+msgstr ""
 
 #, tao-public
 msgid "Change password"
@@ -171,28 +196,25 @@ msgstr ""
 msgid "Choose import format"
 msgstr ""
 
-msgid "Class"
-msgstr "Klasse"
-
 msgid "class selected"
 msgstr "klasse valg"
-
-msgid "Click the Save button to confirm deletion."
-msgstr ""
 
 msgid "Close tab"
 msgstr "Luk fanen"
 
+msgid "Collapse Message"
+msgstr ""
+
 msgid "Column"
 msgstr "Kolonne"
-
-msgid "Comment"
-msgstr "Kommentar"
 
 msgid "Commit message : "
 msgstr "Besked : "
 
 msgid "Confirm"
+msgstr ""
+
+msgid "Connect to the TAO platform"
 msgstr ""
 
 msgid "Continue"
@@ -207,27 +229,17 @@ msgstr "Oprette en liste"
 msgid "Create instance of "
 msgstr "Oprette forekomst af "
 
-#, tao-public
-msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr ""
-
 msgid "CSV"
 msgstr ""
 
 msgid "CSV Options"
 msgstr "CSV Muligheder"
 
-msgid "currency"
-msgstr ""
-
-msgid "Current class + Subclasses"
-msgstr "Nuværende klasse + underklasser"
-
-msgid "Current class only"
-msgstr "Kun denne klasse"
-
 msgid "Current language"
 msgstr "Aktuelt sprog"
+
+msgid "Data imported"
+msgstr ""
 
 msgid "Data imported successfully"
 msgstr "Data importeret succesfuldt"
@@ -241,13 +253,13 @@ msgstr "Data sprog"
 msgid "Data language"
 msgstr "Data sprog"
 
-msgid "Date"
-msgstr "Dato"
-
 msgid "day"
 msgstr ""
 
 msgid "days"
+msgstr ""
+
+msgid "Default user cannot be deleted"
 msgstr ""
 
 msgid "Define the default values"
@@ -256,19 +268,13 @@ msgstr "Definere bestemte værdier"
 msgid "Delete"
 msgstr "Slet"
 
-msgid "delete"
-msgstr "slet"
-
-msgid "Delete property"
-msgstr "Slet egenskab"
-
-msgid "Delete user"
-msgstr "Slet bruger"
+msgid "Delete this list"
+msgstr ""
 
 msgid "Delivery results"
 msgstr "Levere resultater"
 
-msgid "DEMO Sandbox"
+msgid "Demo Sandbox"
 msgstr ""
 
 msgid "Disabled %s', $this->getRequestParameter('id"
@@ -294,17 +300,17 @@ msgstr "Download indhold"
 msgid "Download this file"
 msgstr ""
 
-msgid "Drop file here"
+msgid "Drag file here"
 msgstr ""
 
-msgid "duplicate"
-msgstr "kopiere"
+msgid "Drag files here"
+msgstr ""
+
+msgid "Drop the files to upload"
+msgstr ""
 
 msgid "e-mail"
 msgstr "e-mail"
-
-msgid "edit"
-msgstr "rediger"
 
 msgid "Edit"
 msgstr "Rediger"
@@ -313,28 +319,34 @@ msgstr "Rediger"
 msgid "Edit a user"
 msgstr "Rediger en bruger"
 
-msgid "Edit Comment"
-msgstr "Rediger kommentar"
-
 msgid "Edit Instance"
 msgstr "Rediger forekomst"
 
-msgid "Edit property into parent class "
-msgstr "Rediger egenskaber i overordnede klasse "
-
-msgid "Edit user"
-msgstr "Rediger bruger"
-
-msgid "element"
-msgstr "element"
+msgid "Edit this list"
+msgstr ""
 
 msgid "Element"
 msgstr "Element"
 
-msgid "element deleted"
-msgstr "slet element"
+msgid "element"
+msgstr "element"
+
+msgid "Element deleted"
+msgstr ""
 
 msgid "Element deleted."
+msgstr ""
+
+msgid "Element not deleted"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Enter"
+msgstr ""
+
+msgid "Entity with such field already present"
 msgstr ""
 
 msgid "Error"
@@ -345,9 +357,6 @@ msgstr "Fejl under fil import"
 
 msgid "Exclusive (OR)"
 msgstr "Eksklusive (ELLER)"
-
-msgid "export"
-msgstr "eksport"
 
 msgid "Export"
 msgstr "Eksporter"
@@ -389,13 +398,16 @@ msgstr "Fil opbevaring"
 msgid "File revision"
 msgstr "Fil revision"
 
+msgid "file selected"
+msgstr ""
+
 msgid "File sources"
 msgstr "Kilde fil"
 
 msgid "File Uploader"
 msgstr ""
 
-msgid "Files"
+msgid "files selected"
 msgstr ""
 
 msgid "Filter"
@@ -407,22 +419,16 @@ msgstr "Sortering af resultater"
 msgid "Filtering mode"
 msgstr "Filtreringsmetode"
 
-msgid "Filters"
-msgstr "Filter"
-
-msgid "Finish"
-msgstr "Udfør"
-
 msgid "First Name"
 msgstr "Fornavn"
 
 msgid "First row column names"
 msgstr "Første række kolonnenavne"
 
-msgid "Generating cache..."
+msgid "Go Back"
 msgstr ""
 
-msgid "Go Back"
+msgid "Height"
 msgstr ""
 
 msgid "Hide detailed report"
@@ -440,9 +446,6 @@ msgstr "Import"
 msgid "Import "
 msgstr ""
 
-msgid "Import failed"
-msgstr ""
-
 msgid "Import Metadata from CSV file"
 msgstr ""
 
@@ -454,6 +457,9 @@ msgstr ""
 
 msgid "Inclusive (AND)"
 msgstr "Inklusive (OG)"
+
+msgid "Index"
+msgstr ""
 
 msgid "Install"
 msgstr "Installer"
@@ -497,11 +503,14 @@ msgstr "Forkert filtype!"
 msgid "Invalid login or password. Please try again."
 msgstr "Ingen konto matcher det angivne log ind / password"
 
-msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr "Javascript kræves for at køre denne software. Vær venlig at aktivere dette i browseren."
+msgid "invalid regular expression"
+msgstr ""
 
 msgid "Label"
 msgstr "Etikette"
+
+msgid "Label *"
+msgstr ""
 
 msgid "Language"
 msgstr "Sprog"
@@ -524,17 +533,14 @@ msgstr ""
 msgid "List - Single choice - Radio button"
 msgstr ""
 
-msgid "list deleted"
-msgstr "liste slettet"
+msgid "List deleted"
+msgstr ""
 
-msgid "List Options"
-msgstr "Liste alternativ"
+msgid "List not deleted"
+msgstr ""
 
-msgid "list saved"
-msgstr "liste gemt"
-
-msgid "list the users"
-msgstr "liste brugere"
+msgid "List not saved"
+msgstr ""
 
 msgid "List values"
 msgstr "Liste over værdien"
@@ -557,13 +563,7 @@ msgstr "Lokale data (det lokale navneområdet indeholder kun data indskrevet af 
 msgid "Log in"
 msgstr ""
 
-msgid "Log out"
-msgstr ""
-
 msgid "Log Out"
-msgstr ""
-
-msgid "Logged in as:"
 msgstr ""
 
 msgid "Login"
@@ -574,9 +574,6 @@ msgstr "Login tilgængeligt"
 
 msgid "Login failed"
 msgstr "Loginfejlede"
-
-msgid "Mail"
-msgstr "Mail"
 
 msgid "Manage content of the property "
 msgstr "Administrere indhold af egenskab "
@@ -607,12 +604,6 @@ msgstr "Kortlægge egenskaber hos CSV-kollonner"
 msgid "maximum value: "
 msgstr "maksimum værdi: "
 
-msgid "meta data"
-msgstr "metadata"
-
-msgid "Meta Data"
-msgstr "Metadata"
-
 msgid "minimum value: "
 msgstr "minimum værdi: "
 
@@ -622,8 +613,8 @@ msgstr ""
 msgid "minutes"
 msgstr ""
 
-msgid "move"
-msgstr "flyt"
+msgid "More"
+msgstr ""
 
 msgid "Move to"
 msgstr "Flyt til"
@@ -649,9 +640,6 @@ msgstr "skal være før: "
 msgid "must be numeric"
 msgstr ""
 
-msgid "My profile"
-msgstr ""
-
 #, tao-public
 msgid "My settings"
 msgstr "Mine indstillinger"
@@ -665,20 +653,14 @@ msgstr "Navn"
 msgid "Namespaces"
 msgstr "Navneområde"
 
-msgid "new"
-msgstr "ny"
-
-msgid "new class"
-msgstr "ny klasse"
-
-msgid "New element"
-msgstr "Nyt element"
-
 msgid "New password"
 msgstr "Nyt password"
 
-msgid "new role"
-msgstr "ny rolle"
+msgid "New repository"
+msgstr ""
+
+msgid "New role"
+msgstr ""
 
 msgid "Next"
 msgstr "Næste"
@@ -713,6 +695,9 @@ msgstr ""
 msgid "No result found"
 msgstr "Ingen resultater fundet"
 
+msgid "No results found"
+msgstr ""
+
 msgid "None"
 msgstr ""
 
@@ -725,15 +710,15 @@ msgstr "Intet at installere !"
 msgid "Number of elements"
 msgstr "Antal elementer"
 
+msgid "of"
+msgstr ""
+
 msgid "Old Password"
 msgstr "Gammelt password"
 
 #, tao-public
 msgid "Ontology"
 msgstr ""
-
-msgid "Open"
-msgstr "Åben"
 
 msgid "Option instanceUri is not an option !!"
 msgstr "Valgmulighed instanceUri er ikke muligt !!"
@@ -744,10 +729,10 @@ msgstr "Valgmulighed ownerUri er ikke muligt !!"
 msgid "Option propertyUri is not an option !!"
 msgstr "Valgmulighed propertyUri er ikke muligt !!"
 
-msgid "Options"
-msgstr "Valgmuligheder"
-
 msgid "or"
+msgstr ""
+
+msgid "Page"
 msgstr ""
 
 msgid "Password"
@@ -768,20 +753,29 @@ msgstr "Vil du virkelig slette"
 msgid "Please confirm property deletion!"
 msgstr "Vil du virkelig slette egenskab!"
 
+msgid "Please confirm this operation."
+msgstr ""
+
 msgid "Please confirm user deletion"
 msgstr "Vil du virkelig slette bruger"
 
 msgid "Please confirm you want to delete this list element."
 msgstr "Vil du virkelig slette elementlisten."
 
-msgid "Please confirm you want to delete this list. This operation is not reversible."
-msgstr "Vil du virkelig slette listen? Den kan ikke genskabes."
+msgid "Please confirm you want to delete this list. This operation cannot be undone."
+msgstr ""
 
-msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
-msgstr "Meld fejl, ideer, kommentarer, og andet feedback på TAO Forge"
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
+msgstr ""
+
+msgid "Please select alteast one namespace"
+msgstr ""
 
 msgid "Please upload an RDF file."
 msgstr "Vær venlig at uploade en RDF-fil."
+
+msgid "Post install processing"
+msgstr ""
 
 msgid "Preparing installation..."
 msgstr ""
@@ -789,14 +783,14 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-msgid "Property"
-msgstr "Egenskaber"
+msgid "Previous"
+msgstr ""
+
+msgid "Properties"
+msgstr ""
 
 msgid "RDF"
 msgstr ""
-
-msgid "Recursive"
-msgstr "Rekursiv"
 
 msgid "Remove"
 msgstr "Fjern"
@@ -806,9 +800,6 @@ msgstr "Fjern indhold"
 
 msgid "Remove Message"
 msgstr ""
-
-msgid "remove repository"
-msgstr "fjern opbevaringssted"
 
 msgid "Remove this file"
 msgstr ""
@@ -843,6 +834,9 @@ msgstr ""
 msgid "Requires"
 msgstr "Kræver"
 
+msgid "Reset"
+msgstr ""
+
 msgid "Resource not imported due to multiple super classes"
 msgstr ""
 
@@ -851,6 +845,9 @@ msgstr ""
 
 msgid "Resource saved"
 msgstr "Ressource gemt"
+
+msgid "Responsive mode"
+msgstr ""
 
 msgid "Revision control"
 msgstr "Revision kontrol"
@@ -870,14 +867,14 @@ msgstr "Rolle arkiv"
 msgid "Save"
 msgstr "Gem"
 
+msgid "Scope"
+msgstr ""
+
 msgid "Search"
 msgstr "Søg"
 
-msgid "search"
-msgstr "søg"
-
-msgid "Search results"
-msgstr "Søge resultat"
+msgid "Search sub-classes"
+msgstr ""
 
 msgid "seconds"
 msgstr ""
@@ -922,17 +919,10 @@ msgstr "Enkel metode"
 msgid "Size"
 msgstr ""
 
-msgid "Start upload"
-msgstr "Begynd upload"
-
 msgid "Supported export formats"
 msgstr "Understøttet eksport format"
 
 msgid "Supported import formats"
-msgstr ""
-
-#, tao-public
-msgid "System Settings"
 msgstr ""
 
 #, tao-public
@@ -941,6 +931,9 @@ msgstr "TAO Back Office"
 
 msgid "TAO Home"
 msgstr "TAO Home"
+
+msgid "Tao Home"
+msgstr ""
 
 msgid "TAO Login"
 msgstr ""
@@ -962,6 +955,9 @@ msgstr "filen blev ikke oprettet"
 
 msgid "The format of this field is not valid."
 msgstr "Formatet i dette felt er forkert."
+
+msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
+msgstr ""
 
 msgid "The uploaded file is too large"
 msgstr "Den uploadede fil er for stor"
@@ -1005,6 +1001,9 @@ msgstr ""
 msgid "to translate"
 msgstr ""
 
+msgid "Tools"
+msgstr ""
+
 msgid "Translate"
 msgstr "Oversæt"
 
@@ -1025,6 +1024,9 @@ msgstr "UI sprog."
 
 msgid "Unable to change passwords in demo mode"
 msgstr "Det er ikke muligt at ændre adgangskode i demo versionen"
+
+msgid "Unable to upload file"
+msgstr ""
 
 msgid "Uncheck all"
 msgstr "Fravælg alle"
@@ -1056,23 +1058,17 @@ msgstr "Upload nyt indhold"
 msgid "Upload File"
 msgstr "Upload fil"
 
+msgid "Upload into:"
+msgstr ""
+
 msgid "Upload the file to version"
 msgstr "Upload filen til version"
-
-msgid "Upload to"
-msgstr ""
 
 msgid "URL"
 msgstr ""
 
 msgid "Use default value"
 msgstr "Brug standardværdi"
-
-msgid "Use the * character to replace any string"
-msgstr "Brug * tegnet for at erstatte en tråd"
-
-msgid "User"
-msgstr "Bruger"
 
 msgid "User added"
 msgstr "Bruger tilføjet"
@@ -1081,10 +1077,6 @@ msgid "User deleted successfully"
 msgstr "Bruger slettet"
 
 msgid "User deletion not permited on a demo instance"
-msgstr ""
-
-#, tao-public
-msgid "User Management"
 msgstr ""
 
 msgid "User saved"
@@ -1104,18 +1096,21 @@ msgstr "Version"
 msgid "Versioning"
 msgstr "Versionering"
 
-msgid "Welcome to TAO!"
+msgid "Width"
 msgstr ""
 
 msgid "Yes"
 msgstr "Ja"
 
-msgid "You are not logged in."
+msgid "You can use * as a wildcard"
 msgstr ""
 
-msgid "You cannot modify this property"
-msgstr "Du kan ikke modificere denne egenskab"
-
 msgid "You currently have no access to the platform"
+msgstr ""
+
+msgid "You must activate JavaScript in your browser to run this application."
+msgstr ""
+
+msgid "You've not the required rights to edit this resource."
 msgstr ""
 
