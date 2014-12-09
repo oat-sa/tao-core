@@ -64,7 +64,6 @@ require.config({
             '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
             '../../../taoQtiItem/views/js/MathJaxFallback'
         ],
-        'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
         'eyecatcher'        : 'eyecatcher',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
         'history'           : 'lib/history'
@@ -90,7 +89,6 @@ require.config({
         'grid/tao.grid.downloadFileResource' : ['grid/tao.grid'],
         'grid/tao.grid.rowId'   : ['grid/tao.grid'],
         'AsyncFileUpload'       : ['lib/jquery.uploadify/swfobject', 'lib/jquery.uploadify/jquery.uploadify.v2.1.4.min'],
-        'jquery.fmRunner'       : ['jquery', 'filemanager/fmRunner'],
         'filemanager/jqueryFileTree/jqueryFileTree' : ['jquery'],
         'wfEngine/wfApi/wfApi.min' : ['jquery'],
         'handlebars'            : { exports : 'Handlebars' },
