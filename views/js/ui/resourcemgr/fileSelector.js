@@ -113,7 +113,7 @@ define([
             .on ('click', '.files li a.select', function(e){
             e.preventDefault();
             var data = _.pick($(this).parents('li').data(), ['file', 'type', 'mime', 'size']);
-            if(context.mediaSources.length === 0 && data.file.indexOf('local/') > -1){
+            if(context.mediaSources && context.mediaSources.length === 0 && data.file.indexOf('local/') > -1){
                 data.file = data.file.substring(6);
             }
             $container.trigger('select.' + ns, [[data]]);
