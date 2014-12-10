@@ -241,7 +241,8 @@ body > footer {
     right: 0px;
     top: 0px; }
     nav .settings-menu:hover > ul {
-      right: 20px; }
+      right: 20px;
+      left: auto; }
     nav .settings-menu .reduced-menu-trigger {
       text-align: center;
       display: block;
@@ -278,8 +279,8 @@ body > footer {
     nav .settings-menu > ul {
       border: 1px white solid;
       position: absolute;
-      right: -2000px;
-      left: auto;
+      left: -20000px;
+      right: auto;
       white-space: nowrap;
       background: #333333;
       padding-right: 0; }

@@ -250,6 +250,7 @@ body > footer {
             &:hover {
                 & > ul {
                     right: 20px;
+                    left: auto;
                 }
             }
             .reduced-menu-trigger {
@@ -294,8 +295,8 @@ body > footer {
             & > ul {
                 border: 1px white solid;
                 position: absolute;
-                right: -2000px;
-                left: auto;
+                left: -20000px;
+                right: auto;
                 white-space: nowrap;
                 background: $darkBar;
                 padding-right: 0;
