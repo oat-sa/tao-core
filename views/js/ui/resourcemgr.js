@@ -16,7 +16,7 @@ define([
    var dataNs = 'ui.' + ns;
    
    var defaults = {
-        root            : '/',
+        mediaSources    : ['local'],
         open            : true,
         appendContainer : '.tao-scope:first',
         title           : ''
@@ -148,12 +148,6 @@ define([
             var options = $elt.data(dataNs);
             if(options && options.$target){
                 options.$target.modal('close');
-                
-                /**
-                 * Close the resource manager.
-                 * @event ResourceMgr#close.resourcemgr
-                 */
-                $elt.trigger('close.' + ns);
             }
        }, 
        /**
@@ -167,7 +161,8 @@ define([
             this.each(function() {
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
-                if(options.bindEvent !== false){
+                $elt.data(dataNs, null);
+                if(options.bindEvent !== undefined && options.bindEvent !== false){
                     $elt.off(options.bindEvent);
                 }
                 if(options.targetId){

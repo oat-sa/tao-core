@@ -1,12 +1,22 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-RC03\n"
-"PO-Revision-Date: 2014-06-20T16:26:00\n"
+"Project-Id-Version: TAO 3.0\n"
+"PO-Revision-Date: 2014-12-03T16:11:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: ar-arb\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#, tao-public
+msgid "\n"
+"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr ""
@@ -23,6 +33,9 @@ msgstr "من المثال"
 msgid " requires a subgrid adapter"
 msgstr "يحتاج إلى محول subgrid"
 
+msgid "\"list saved\""
+msgstr ""
+
 msgid "%s (%s kb)"
 msgstr ""
 
@@ -32,6 +45,15 @@ msgstr ""
 msgid "(empty)"
 msgstr "(فارغ)"
 
+msgid "... reloading page."
+msgstr ""
+
+msgid "<del>Filters</del>"
+msgstr ""
+
+msgid "<del>Options</del>"
+msgstr ""
+
 msgid "> Extension %s succesfully installed."
 msgstr ""
 
@@ -40,9 +62,6 @@ msgstr ""
 
 msgid "A fatal error occured during the installation process."
 msgstr ""
-
-msgid "A joint initiative of CRP Henri Tudor and the University of Luxembourg"
-msgstr "مبادرة ثنائية من CRP هنري تودر و جامعة لوكسمبورج"
 
 msgid "A similar resource has already been versioned"
 msgstr "مصدر مشابه تم تعيين اصداره بالفعل"
@@ -72,13 +91,10 @@ msgstr "اضافة مستخدم"
 msgid "Add an RDF/XML file"
 msgstr ""
 
-msgid "Add grades"
+msgid "Add file(s)"
 msgstr ""
 
-msgid "Add property"
-msgstr "إضافة خاصية"
-
-msgid "add repository"
+msgid "Add grades"
 msgstr ""
 
 msgid "Add the source file."
@@ -87,23 +103,20 @@ msgstr ""
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
 
-msgid "all"
+msgid "All"
 msgstr "كل"
 
-msgid "All"
+msgid "all"
 msgstr "كل"
 
 msgid "All (the complete TAO Module)"
 msgstr "الكل"
 
-msgid "All data will be removed in "
+msgid "All fields are required"
 msgstr ""
 
 msgid "All rights reserved."
 msgstr ""
-
-msgid "Allowed files types: "
-msgstr "أنواع الملفات المسموحة"
 
 msgid "Allows the management of the repositories"
 msgstr ""
@@ -130,10 +143,16 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
+msgid "Author Item"
+msgstr ""
+
 msgid "Authoring"
 msgstr "محرر"
 
 msgid "Available Extensions"
+msgstr ""
+
+msgid "Back to listing"
 msgstr ""
 
 msgid "Beta version"
@@ -141,6 +160,9 @@ msgstr ""
 
 msgid "Browse"
 msgstr "تصفح"
+
+msgid "Browse folders:"
+msgstr ""
 
 msgid "Browse..."
 msgstr ""
@@ -150,6 +172,9 @@ msgstr ""
 
 msgid "Cancel"
 msgstr "الغاء"
+
+msgid "Cannot be edited"
+msgstr ""
 
 #, tao-public
 msgid "Change password"
@@ -170,28 +195,25 @@ msgstr ""
 msgid "Choose import format"
 msgstr ""
 
-msgid "Class"
-msgstr "الصنف"
-
 msgid "class selected"
 msgstr "classe sélectionnée"
 
-msgid "Click the Save button to confirm deletion."
+msgid "Close tab"
 msgstr ""
 
-msgid "Close tab"
+msgid "Collapse Message"
 msgstr ""
 
 msgid "Column"
 msgstr "عمود"
 
-msgid "Comment"
-msgstr "تعليق"
-
 msgid "Commit message : "
 msgstr ""
 
 msgid "Confirm"
+msgstr ""
+
+msgid "Connect to the TAO platform"
 msgstr ""
 
 msgid "Continue"
@@ -206,27 +228,17 @@ msgstr "إنشاء قائمة"
 msgid "Create instance of "
 msgstr ""
 
-#, tao-public
-msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr ""
-
 msgid "CSV"
 msgstr ""
 
 msgid "CSV Options"
 msgstr "CSV خيارات"
 
-msgid "currency"
-msgstr ""
-
-msgid "Current class + Subclasses"
-msgstr ""
-
-msgid "Current class only"
-msgstr ""
-
 msgid "Current language"
 msgstr "اللغة الحالية"
+
+msgid "Data imported"
+msgstr ""
 
 msgid "Data imported successfully"
 msgstr "البيانات التي تم استيرادها بنجاح"
@@ -240,13 +252,13 @@ msgstr "لغة البيانات"
 msgid "Data language"
 msgstr "لغة البيانات"
 
-msgid "Date"
-msgstr "التاريخ"
-
 msgid "day"
 msgstr ""
 
 msgid "days"
+msgstr ""
+
+msgid "Default user cannot be deleted"
 msgstr ""
 
 msgid "Define the default values"
@@ -255,19 +267,13 @@ msgstr ""
 msgid "Delete"
 msgstr "حذف"
 
-msgid "delete"
-msgstr "حذف"
-
-msgid "Delete property"
-msgstr "حذف الخاصية"
-
-msgid "Delete user"
-msgstr "حذف المستخدم"
+msgid "Delete this list"
+msgstr ""
 
 msgid "Delivery results"
 msgstr ""
 
-msgid "DEMO Sandbox"
+msgid "Demo Sandbox"
 msgstr ""
 
 msgid "Disabled %s', $this->getRequestParameter('id"
@@ -292,17 +298,17 @@ msgstr ""
 msgid "Download this file"
 msgstr ""
 
-msgid "Drop file here"
+msgid "Drag file here"
 msgstr ""
 
-msgid "duplicate"
-msgstr "تكرار"
+msgid "Drag files here"
+msgstr ""
+
+msgid "Drop the files to upload"
+msgstr ""
 
 msgid "e-mail"
 msgstr ""
-
-msgid "edit"
-msgstr "تحرير"
 
 msgid "Edit"
 msgstr "تحرير"
@@ -311,28 +317,34 @@ msgstr "تحرير"
 msgid "Edit a user"
 msgstr "تحرير مستخدم"
 
-msgid "Edit Comment"
-msgstr "تحرير تعليق"
-
 msgid "Edit Instance"
 msgstr ""
 
-msgid "Edit property into parent class "
+msgid "Edit this list"
 msgstr ""
-
-msgid "Edit user"
-msgstr "تحرير مستخدم"
-
-msgid "element"
-msgstr "عنصر"
 
 msgid "Element"
 msgstr "العنصر"
 
-msgid "element deleted"
-msgstr "عنصر محذوف"
+msgid "element"
+msgstr "عنصر"
+
+msgid "Element deleted"
+msgstr ""
 
 msgid "Element deleted."
+msgstr ""
+
+msgid "Element not deleted"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Enter"
+msgstr ""
+
+msgid "Entity with such field already present"
 msgstr ""
 
 msgid "Error"
@@ -343,9 +355,6 @@ msgstr "خطأ أثناء استيراد الملف"
 
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
-
-msgid "export"
-msgstr ""
 
 msgid "Export"
 msgstr "تصدير"
@@ -387,13 +396,16 @@ msgstr ""
 msgid "File revision"
 msgstr ""
 
+msgid "file selected"
+msgstr ""
+
 msgid "File sources"
 msgstr ""
 
 msgid "File Uploader"
 msgstr ""
 
-msgid "Files"
+msgid "files selected"
 msgstr ""
 
 msgid "Filter"
@@ -405,22 +417,16 @@ msgstr ""
 msgid "Filtering mode"
 msgstr "طريقة التصفية"
 
-msgid "Filters"
-msgstr "Filtres"
-
-msgid "Finish"
-msgstr ""
-
 msgid "First Name"
 msgstr ""
 
 msgid "First row column names"
 msgstr ""
 
-msgid "Generating cache..."
+msgid "Go Back"
 msgstr ""
 
-msgid "Go Back"
+msgid "Height"
 msgstr ""
 
 msgid "Hide detailed report"
@@ -438,9 +444,6 @@ msgstr "استيراد"
 msgid "Import "
 msgstr ""
 
-msgid "Import failed"
-msgstr ""
-
 msgid "Import Metadata from CSV file"
 msgstr ""
 
@@ -452,6 +455,9 @@ msgstr ""
 
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
+
+msgid "Index"
+msgstr ""
 
 msgid "Install"
 msgstr ""
@@ -495,11 +501,14 @@ msgstr "نوع الملف غير صحيح"
 msgid "Invalid login or password. Please try again."
 msgstr "لا يتطابق مع حساب معين الدخول / كلمة السر"
 
-msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr ".مطلوب جافا سكريبت لتشغيل هذا البرنامج ، يرجى تفعيلها في المتصفح"
+msgid "invalid regular expression"
+msgstr ""
 
 msgid "Label"
 msgstr "تسمية"
+
+msgid "Label *"
+msgstr ""
 
 msgid "Language"
 msgstr "اللغة"
@@ -522,17 +531,14 @@ msgstr ""
 msgid "List - Single choice - Radio button"
 msgstr ""
 
-msgid "list deleted"
+msgid "List deleted"
 msgstr "حذف القائمة"
 
-msgid "List Options"
-msgstr "خيارات القائمة"
+msgid "List not deleted"
+msgstr ""
 
-msgid "list saved"
-msgstr "تم حفظ القائمة"
-
-msgid "list the users"
-msgstr "lister les utilisateurs"
+msgid "List not saved"
+msgstr ""
 
 msgid "List values"
 msgstr "قيم القائمة"
@@ -555,13 +561,7 @@ msgstr "(البيانات المحلية (مساحة الاسم المحلي ا�
 msgid "Log in"
 msgstr ""
 
-msgid "Log out"
-msgstr ""
-
 msgid "Log Out"
-msgstr ""
-
-msgid "Logged in as:"
 msgstr ""
 
 msgid "Login"
@@ -571,9 +571,6 @@ msgid "Login available"
 msgstr ""
 
 msgid "Login failed"
-msgstr ""
-
-msgid "Mail"
 msgstr ""
 
 msgid "Manage content of the property "
@@ -605,12 +602,6 @@ msgstr "CSV اختر الخصائص المتعلقة بالاعمدة"
 msgid "maximum value: "
 msgstr ""
 
-msgid "meta data"
-msgstr ""
-
-msgid "Meta Data"
-msgstr "بيانات التعريف"
-
 msgid "minimum value: "
 msgstr ""
 
@@ -620,8 +611,8 @@ msgstr ""
 msgid "minutes"
 msgstr ""
 
-msgid "move"
-msgstr "حرك"
+msgid "More"
+msgstr ""
 
 msgid "Move to"
 msgstr "حرك الى"
@@ -647,9 +638,6 @@ msgstr ""
 msgid "must be numeric"
 msgstr ""
 
-msgid "My profile"
-msgstr ""
-
 #, tao-public
 msgid "My settings"
 msgstr "الإعدادات"
@@ -663,19 +651,13 @@ msgstr "الاسم"
 msgid "Namespaces"
 msgstr "مساحة الاسم"
 
-msgid "new"
-msgstr "جديد"
-
-msgid "new class"
-msgstr "صنف جديد"
-
-msgid "New element"
-msgstr "عنصر جديد"
-
 msgid "New password"
 msgstr "كلمة مرور جديدة"
 
-msgid "new role"
+msgid "New repository"
+msgstr ""
+
+msgid "New role"
 msgstr ""
 
 msgid "Next"
@@ -711,6 +693,9 @@ msgstr ""
 msgid "No result found"
 msgstr "لم يتم العثور على نتائج"
 
+msgid "No results found"
+msgstr ""
+
 msgid "None"
 msgstr ""
 
@@ -723,15 +708,15 @@ msgstr ""
 msgid "Number of elements"
 msgstr "عدد العناصر"
 
+msgid "of"
+msgstr ""
+
 msgid "Old Password"
 msgstr "كلمة السر القديمة"
 
 #, tao-public
 msgid "Ontology"
 msgstr ""
-
-msgid "Open"
-msgstr "فتح"
 
 msgid "Option instanceUri is not an option !!"
 msgstr ""
@@ -742,10 +727,10 @@ msgstr ""
 msgid "Option propertyUri is not an option !!"
 msgstr ""
 
-msgid "Options"
-msgstr "خيارات"
-
 msgid "or"
+msgstr ""
+
+msgid "Page"
 msgstr ""
 
 msgid "Password"
@@ -766,20 +751,29 @@ msgstr "الرجاء تأكيد الحذف"
 msgid "Please confirm property deletion!"
 msgstr "الرجاء تأكيد حذف الخاصية"
 
+msgid "Please confirm this operation."
+msgstr ""
+
 msgid "Please confirm user deletion"
 msgstr "الرجاء تأكيد حذف المستخدم"
 
 msgid "Please confirm you want to delete this list element."
 msgstr ".الرجاء تأكيد أنك تريد حذف هذا العنصر من القائمة"
 
-msgid "Please confirm you want to delete this list. This operation is not reversible."
+msgid "Please confirm you want to delete this list. This operation cannot be undone."
 msgstr ".الرجاء تأكيد أنك تريد حذف هذه القائمة. هذه العملية لا يمكن عكسها"
 
-msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
+msgstr ""
+
+msgid "Please select alteast one namespace"
 msgstr ""
 
 msgid "Please upload an RDF file."
 msgstr ".RDF الرجاء تحميل ملف"
+
+msgid "Post install processing"
+msgstr ""
 
 msgid "Preparing installation..."
 msgstr ""
@@ -787,13 +781,13 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-msgid "Property"
-msgstr "خاصية"
-
-msgid "RDF"
+msgid "Previous"
 msgstr ""
 
-msgid "Recursive"
+msgid "Properties"
+msgstr ""
+
+msgid "RDF"
 msgstr ""
 
 msgid "Remove"
@@ -803,9 +797,6 @@ msgid "Remove content"
 msgstr ""
 
 msgid "Remove Message"
-msgstr ""
-
-msgid "remove repository"
 msgstr ""
 
 msgid "Remove this file"
@@ -841,6 +832,9 @@ msgstr ""
 msgid "Requires"
 msgstr ""
 
+msgid "Reset"
+msgstr ""
+
 msgid "Resource not imported due to multiple super classes"
 msgstr ""
 
@@ -849,6 +843,9 @@ msgstr ""
 
 msgid "Resource saved"
 msgstr "تم حفظ المورد"
+
+msgid "Responsive mode"
+msgstr ""
 
 msgid "Revision control"
 msgstr ""
@@ -868,14 +865,14 @@ msgstr ""
 msgid "Save"
 msgstr "حفظ"
 
+msgid "Scope"
+msgstr ""
+
 msgid "Search"
 msgstr "بحث"
 
-msgid "search"
+msgid "Search sub-classes"
 msgstr ""
-
-msgid "Search results"
-msgstr "البحث عن النتائج"
 
 msgid "seconds"
 msgstr ""
@@ -920,9 +917,6 @@ msgstr "الطريقة البسيطة"
 msgid "Size"
 msgstr ""
 
-msgid "Start upload"
-msgstr "بدء التحميل"
-
 msgid "Supported export formats"
 msgstr "صيغ الاستيراد المعتمدة"
 
@@ -930,14 +924,13 @@ msgid "Supported import formats"
 msgstr ""
 
 #, tao-public
-msgid "System Settings"
-msgstr ""
-
-#, tao-public
 msgid "TAO Back Office"
 msgstr "TAO: Outils d'administration"
 
 msgid "TAO Home"
+msgstr ""
+
+msgid "Tao Home"
 msgstr ""
 
 msgid "TAO Login"
@@ -960,6 +953,9 @@ msgstr ""
 
 msgid "The format of this field is not valid."
 msgstr "تنسيق هذا الحقل غير صالح"
+
+msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
+msgstr ""
 
 msgid "The uploaded file is too large"
 msgstr "الملف المحمول كبير جدا"
@@ -1003,6 +999,9 @@ msgstr ""
 msgid "to translate"
 msgstr ""
 
+msgid "Tools"
+msgstr ""
+
 msgid "Translate"
 msgstr "ترجم"
 
@@ -1022,6 +1021,9 @@ msgid "UI Lang."
 msgstr ""
 
 msgid "Unable to change passwords in demo mode"
+msgstr ""
+
+msgid "Unable to upload file"
 msgstr ""
 
 msgid "Uncheck all"
@@ -1054,10 +1056,10 @@ msgstr ""
 msgid "Upload File"
 msgstr "تحميل الملف"
 
-msgid "Upload the file to version"
+msgid "Upload into:"
 msgstr ""
 
-msgid "Upload to"
+msgid "Upload the file to version"
 msgstr ""
 
 msgid "URL"
@@ -1066,12 +1068,6 @@ msgstr ""
 msgid "Use default value"
 msgstr ""
 
-msgid "Use the * character to replace any string"
-msgstr "استعمل الحرف* لتعويض اي مجموعة من الاشكال"
-
-msgid "User"
-msgstr "المستخدم"
-
 msgid "User added"
 msgstr "مستخدم مضاف"
 
@@ -1079,10 +1075,6 @@ msgid "User deleted successfully"
 msgstr "تم حذف المستخدم بنجاح"
 
 msgid "User deletion not permited on a demo instance"
-msgstr ""
-
-#, tao-public
-msgid "User Management"
 msgstr ""
 
 msgid "User saved"
@@ -1102,18 +1094,21 @@ msgstr ""
 msgid "Versioning"
 msgstr ""
 
-msgid "Welcome to TAO!"
+msgid "Width"
 msgstr ""
 
 msgid "Yes"
 msgstr ""
 
-msgid "You are not logged in."
+msgid "You can use * as a wildcard"
 msgstr ""
 
-msgid "You cannot modify this property"
-msgstr "لا يمكنك تعديل هذه الخاصية"
-
 msgid "You currently have no access to the platform"
+msgstr ""
+
+msgid "You must activate JavaScript in your browser to run this application."
+msgstr ""
+
+msgid "You've not the required rights to edit this resource."
 msgstr ""
 
