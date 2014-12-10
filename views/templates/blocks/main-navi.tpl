@@ -28,63 +28,60 @@ $settingsMenu = get_data('settings-menu');
         <?php endif; ?>
     </ul>
 
-    <ul class="plain clearfix settings-menu rgt">
-        <!--li class="info-listing warning feedback-listing">
-            <ul>
-                <li class="info-listing warning feedback-listing">3</li>
-                <li class="info-listing success feedback-listing">3</li>
-                <li class="warning-listing feedback-listing">3</li>
-                <li class="error-listing feedback-listing">4</li>
-            </ul>
-        </li-->
-        <?php if($settingsMenu): ?>
-            <?php foreach ($settingsMenu as $entry): ?>
-                <?php $className = get_data('shownExtension') === $entry->getExtension() && get_data(
-                    'shownStructure'
-                ) === $entry->getId()
-                    ? 'active li-' . $entry->getId()
-                    : 'li-' . $entry->getId();?>
-                <li class="<?= $className ?>">
-                    <a id="<?= $entry->getId() ?>" <?php 
-                    if (!is_null($entry->getBinding())): ?> href="#" data-action="<?= $entry->getBinding() ?>"
-                    <?php else : ?>
-                        href="<?= $entry->getUrl() ?>"
-                    <?php endif ?> title="<?= __($entry->getName()) ?>">
+    <div class="settings-menu rgt">
+        <span class="reduced-menu-trigger">
+            <span class="icon-mobile-menu"></span>
+            <?=__('Tools')?>
+        </span>
+        <ul class="clearfix plain">
+            <?php if($settingsMenu): ?>
+                <?php foreach ($settingsMenu as $entry): ?>
+                    <?php $className = get_data('shownExtension') === $entry->getExtension() && get_data(
+                        'shownStructure'
+                    ) === $entry->getId()
+                        ? 'active li-' . $entry->getId()
+                        : 'li-' . $entry->getId();?>
+                    <li class="<?= $className ?>">
+                        <a id="<?= $entry->getId() ?>" <?php
+                        if (!is_null($entry->getBinding())): ?> href="#" data-action="<?= $entry->getBinding() ?>"
+                        <?php else : ?>
+                            href="<?= $entry->getUrl() ?>"
+                        <?php endif ?> title="<?= __($entry->getName()) ?>">
 
-                        <?= is_null($entry->getIcon()) ? '' : Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
+                            <?= is_null($entry->getIcon()) ? '' : Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
 
-                        <?php $description = $entry->getDescription();
-                        if ($description): ?>
-                            <?= __($description) ?>
-                        <?php endif ?>
+                            <?php $description = $entry->getDescription();
+                            if ($description): ?>
+                                <?= __($description) ?>
+                            <?php endif ?>
 
-                        <?php if ($entry->getId() === 'user_settings'): ?>
+                            <?php if ($entry->getId() === 'user_settings'): ?>
 
-                            <span class="username"><?= get_data('userLabel') ?></span>
+                                <span class="username"><?= get_data('userLabel') ?></span>
+                            <?php endif; ?>
+
+                        </a>
+                        <?php if (count($entry->getChildren()) > 1): ?>
+                            <ul class="plain menu-dropdown">
+                                <?php foreach ($entry->getChildren() as $child): ?>
+                                    <?php if(!$child->getDisabled()) : ?>
+                                        <li>
+                                            <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
+                                        </li>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </ul>
                         <?php endif; ?>
+                    </li>
+                <?php endforeach ?>
+            <?php endif; ?>
 
-                    </a>
-                    <?php if (count($entry->getChildren()) > 1): ?>
-                        <ul class="plain menu-dropdown">
-                            <?php foreach ($entry->getChildren() as $child): ?>
-                                <?php if(!$child->getDisabled()) : ?>
-                                <li>
-                                    <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
-                                </li>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif; ?>
-                </li>
-            <?php endforeach ?>
-        <?php endif; ?>
-
-        <li data-env="user" class="li-logout">
-            <a id="logout" href="<?= _url('logout', 'Main', 'tao') ?>" title="<?= __('Log Out') ?>">
-                <span class="icon-logout"></span>
-            </a>
-        </li>
-
-    </ul>
+            <li data-env="user" class="li-logout">
+                <a id="logout" href="<?= _url('logout', 'Main', 'tao') ?>" title="<?= __('Log Out') ?>">
+                    <span class="icon-logout"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
 </nav>
 

@@ -1,60 +1,176 @@
-define(['jquery', 'helpers', 'ui/resourcemgr'], function($, helpers){
+define([
+    'jquery',
+    'helpers',
+    'ui/resourcemgr'], function($, helpers){
 
-    //sample
+    module('Init');
 
-    var $uri = $('#uri');
-    var $launcher = $('#launcher');
-    $launcher.attr('disabled', 'disabled');
+    QUnit.asyncTest('Resource manager Loading but not open', function(assert){
+        QUnit.expect(3);
+        var $launcher = $('#launcher');
 
-    $uri.on('change', function(){
-        if($uri.val() === ''){
-            $launcher.attr('disabled', 'disabled');
-        } else {
-            $launcher.removeAttr('disabled');
-        } 
-    });
-    $uri.trigger('change');
+        $launcher.on('create.resourcemgr', function(){
+            assert.ok($('#outside-container .resourcemgr').length === 1, 'The resource manager modal is created');
+            assert.ok($('#outside-container .modal-bg').length === 1, 'The background is set');
+            assert.ok($('#outside-container .resourcemgr').hasClass('opened') === false, 'The modal is hidden');
 
-    $launcher.click(function(e){
-        e.preventDefault();
+            QUnit.start();
+
+        });
+
+        $launcher.on('open.resourcemgr', function(){
+            assert.ok(false, 'This modal should not be open');
+        });
 
         $launcher.resourcemgr({
-            root        : '/',
-            browseUrl   : helpers._url('files', 'ItemContent', 'taoItems'),
-            uploadUrl   : helpers._url('upload', 'ItemContent', 'taoItems'),
-            deleteUrl   : helpers._url('delete', 'ItemContent', 'taoItems'),
-            downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
-            params : {
-                filters : $('#filters').val(),
-                uri : $('#uri').val(),
+            params          : {
+                filters : 'image/gif,audio/mpeg',
+                uri : 'http://myUri',
                 lang : 'en-US'
             },
-            pathParam : 'path',
-            create : function(e){
-                console.log('created');
-            },
-            open : function(e){
-                console.log('opened');
-            },
-            close : function(e){
-                console.log('closed');
-            },
-            select : function(e, files){
-                $('.selected').text('Resources selected: ' + JSON.stringify(files)); 
-            }
-        }); 
-   });
+            open : false
+        });
 
-
-    //test
-
-    module('ResourceManager Stand Alone Test');
-   
-    test('plugin', function(){
-        expect(1);
-        ok(typeof $.fn.resourcemgr === 'function', 'The resourcemgr plugin is loaded');
     });
 
-});
+    QUnit.asyncTest('Resource manager Loading with eventBinding', function(assert){
+        QUnit.expect(3);
+        var $launcher = $('#launcher');
 
+        $launcher.resourcemgr({
+            params          : {
+                filters : 'image/gif,audio/mpeg',
+                uri : 'http://myUri',
+                lang : 'en-US'
+            },
+            open : false,
+            select : function(){
+                assert.ok(true, 'The resource manager bind correctly the select');
+            },
+            create : function(){
+                assert.ok(true, 'The resource manager bind correctly the create');
+                QUnit.start();
+            },
+            close : function(){
+                assert.ok(true, 'The resource manager bind correctly the close');
+            }
+
+        });
+
+        $('#outside-container .resourcemgr').trigger('select.resourcemgr');
+
+    });
+
+    module('Loading');
+
+    QUnit.asyncTest('Resource manager Loading and open', function(assert){
+        QUnit.expect(3);
+        var $launcher = $('#launcher');
+
+        $launcher.on('open.resourcemgr', function(){
+            assert.ok($('#outside-container .resourcemgr').length === 1, 'The resource manager modal is created');
+            assert.ok($('#outside-container .modal-bg').length === 1, 'The background is set');
+            assert.ok($('#outside-container .resourcemgr').hasClass('opened') === true, 'The modal is shown');
+
+            QUnit.start();
+
+        });
+        $launcher.resourcemgr({
+            params          : {
+                filters : 'image/gif,audio/mpeg',
+                uri : 'http://myUri',
+                lang : 'en-US'
+            },
+            open : true
+        });
+
+    });
+
+    QUnit.asyncTest('Resource manager select and close', function(assert){
+        QUnit.expect(1);
+        var $launcher = $('#launcher');
+
+        $launcher.on('close.resourcemgr', function(){
+            assert.ok(true,'the modal is closed on select resource');
+            QUnit.start();
+
+        });
+        $launcher.resourcemgr({
+            params          : {
+                filters : 'image/gif,audio/mpeg',
+                uri : 'http://myUri',
+                lang : 'en-US'
+            },
+            open : true
+        });
+
+        $('#outside-container .resourcemgr').trigger('select.resourcemgr');
+
+    });
+
+    QUnit.asyncTest('Resource manager close and reopen', function(assert){
+        QUnit.expect(2);
+        var $launcher = $('#launcher');
+
+        $launcher.on('close.resourcemgr', function(){
+            assert.ok(true,'the modal is closed on select resource');
+
+            $launcher.on('open.resourcemgr', function(){
+                assert.ok(true,'the modal is reopen');
+                QUnit.start();
+            });
+
+            $launcher.on('create.resourcemgr', function(){
+                assert.ok(true,'the modal should not be created');
+            });
+
+            $launcher.resourcemgr({
+                params          : {
+                    filters : 'image/gif,audio/mpeg',
+                    uri : 'http://myUri',
+                    lang : 'en-US'
+                },
+                open : true
+            });
+
+        });
+        $launcher.resourcemgr({
+            params          : {
+                filters : 'image/gif,audio/mpeg',
+                uri : 'http://myUri',
+                lang : 'en-US'
+            },
+            open : true
+        });
+
+        $('#outside-container .resourcemgr').trigger('select.resourcemgr');
+
+    });
+
+    module('Destroy');
+
+    QUnit.asyncTest('ResourceManager destroy', function(assert){
+        QUnit.expect(1);
+        var $launcher = $('#launcher');
+
+        $launcher.on('destroy.resourcemgr', function(){
+            assert.ok(true,'resource manager is destoyed');
+            QUnit.start();
+        });
+
+        $launcher.resourcemgr({
+            params          : {
+                filters : 'image/gif,audio/mpeg',
+                uri : 'http://myUri',
+                lang : 'en-US'
+            },
+            open : true,
+        });
+
+        $launcher.resourcemgr('destroy');
+
+    });
+
+
+});
 

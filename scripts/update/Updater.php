@@ -26,6 +26,7 @@ use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\zend\ZendSearch;
+use oat\tao\model\ClientLibRegistry;
 
 /**
  * 
@@ -41,12 +42,12 @@ class Updater extends \common_ext_ExtensionUpdater {
     public function update($initialVersion) {
         
         $currentVersion = $initialVersion;
-
+        $extensionManager = common_ext_ExtensionsManager::singleton();
         //migrate from 2.6 to 2.7.0
         if ($currentVersion == '2.6') {
 
             //create Js config  
-            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $ext = $extensionManager->getExtensionById('tao');
             $config = array(
                 'timeout' => 30
             );
@@ -58,7 +59,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         //migrate from 2.7.0 to 2.7.1
         if ($currentVersion == '2.7.0') {
         
-            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $ext = $extensionManager->getExtensionById('tao');
             $file = $ext->getDir().'models'.DIRECTORY_SEPARATOR.'ontology'.DIRECTORY_SEPARATOR.'indexation.rdf';
         
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
@@ -71,10 +72,21 @@ class Updater extends \common_ext_ExtensionUpdater {
         
         if ($currentVersion === '2.7.1') {
             SearchService::setSearchImplementation(ZendSearch::createSearch());
-            
             $currentVersion = '2.7.2';
         }
-        
+
+        if ($currentVersion == '2.7.2') {
+            foreach ($extensionManager->getInstalledExtensions() as $extension) {
+                $extManifestConsts = $extension->getConstants();
+                if (isset($extManifestConsts['BASE_WWW'])) {
+                    
+                    ClientLibRegistry::getRegistry()->register($extension->getId(), $extManifestConsts['BASE_WWW'] . 'js');
+                    ClientLibRegistry::getRegistry()->register($extension->getId() . 'Css', $extManifestConsts['BASE_WWW'] . 'css');
+                    
+                }
+            }
+             $currentVersion = '2.7.3';
+        }
         return $currentVersion;
     }
 }
