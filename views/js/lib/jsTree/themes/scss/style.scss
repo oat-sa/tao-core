@@ -219,8 +219,24 @@
     @extend %icon-result-server;
 }
 
-.taotree-result .node-instance ins:before{
+.taotree-result{
+  .node-instance ins:before{
     @extend %icon-result;
+  }
+  .node-class {
+    & > a > ins:before {
+      @extend %icon-delivery;
+      color: $colorWheel-06;
+      text-shadow: 1px 1px 0 blacken($warning, .2);
+    }
+    &.open {
+      & > a > ins:before {
+        @extend %icon-delivery;
+        color: $colorWheel-06;
+        text-shadow: 1px 1px 0 blacken($warning, .2);
+      }
+    }
+  }
 }
 
 .taotree-role .node-instance ins:before{
