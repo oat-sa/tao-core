@@ -193,17 +193,17 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
 
             var options = $element.data(dataNs);
             var windowWidth = parseInt($(window).width(), 10);
-            
+            var css = {};
+                
             //calculate the final width and height
             var modalWidth = options.width === 'responsive' ? windowWidth * 0.7 : parseInt(options.width, 10);
-            modalWidth = Math.max(modalWidth, options.minWidth);
-            var modalHeight = Math.max($element.height(), options.minHeight);
+            css.width = Math.max(modalWidth, options.minWidth);
+            if(options.minHeight){
+                css.minHeight = parseInt(options.minHeight)+'px';
+            }
 
             //apply style
-            $element.css({
-                 width: modalWidth + 'px',
-                 minHeight : modalHeight + 'px'
-            });
+            $element.css(css);
         }
     };
 
