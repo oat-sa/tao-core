@@ -125,10 +125,27 @@ define([
                 // Call the rendering
                 var $rendering = $(layout(response));
 
-                _.forEach(response.readonly, function(id){
-                    $('[data-item-identifier="'+id+'"] button', $rendering).addClass('disabled');
+                // the readonly property contains an associative array where keys are the ids of the items (lines)
+                // the value can be a boolean (true for disable buttons, false to enable)
+                // it can also bo an array that let you disable/enable the action you want
+                // readonly = {
+                //  id1 : {'view':true, 'delete':false},
+                //  id2 : true
+                //}
+                _.forEach(response.readonly, function(values, id){
+                    if(values === true){
+                        $('[data-item-identifier="'+id+'"] button', $rendering).addClass('disabled');
+                    }
+                    else if(values && typeof values === 'object'){
+                        for (var action in values) {
+                            if (values.hasOwnProperty(action)) {
+                                if(values[action] === true){
+                                    $('[data-item-identifier="'+id+'"] button.'+action, $rendering).addClass('disabled');
+                                }
+                            }
+                        }
+                    }
                 });
-
 
                 // Attach a listener to every action button created
                 _.forEach(options.actions, function(action,name){
