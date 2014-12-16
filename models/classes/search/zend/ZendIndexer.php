@@ -77,7 +77,7 @@ class ZendIndexer
             $document->addField(Document\Field::Text('class', $class->getLabel()));
         }
         
-        $done = array(RDFS_CLASS, TAO_OBJECT_CLASS);
+        $done = array(RDFS_RESOURCE, TAO_OBJECT_CLASS);
         $toDo = array_diff($toDo, $done);
         
         $classLabels = array();
