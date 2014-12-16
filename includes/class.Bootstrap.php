@@ -300,21 +300,21 @@ class Bootstrap{
         
         $this->configureSessionHandler();
   
+        $sessionParams = session_get_cookie_params();
+        $cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
+        session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], TRUE);
+        session_name(GENERIS_SESSION_NAME);
+        
         if (isset($_COOKIE[GENERIS_SESSION_NAME])) {
             
-            $sessionParams = session_get_cookie_params();
-            $cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
-            session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], TRUE);
-            
-            // Start the session with a specific name.
-            session_name(GENERIS_SESSION_NAME);
+            // Resume the session
             session_start();
             
-            //cookie keep alive
-            $expiryTime = ($sessionParams['lifetime'] !== 0) ? ($sessionParams['lifetime'] + time()) : 0;
-            setcookie(session_name(), session_id(), $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], true);
-            
-            common_Logger::i("Session with name '" . GENERIS_SESSION_NAME ."' started.");
+            //cookie keep alive, if lifetime is not 0
+            if ($sessionParams['lifetime'] !== 0) {
+                $expiryTime = $sessionParams['lifetime'] + time();
+                setcookie(session_name(), session_id(), $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], true);
+            }
         }
 	}
 	
