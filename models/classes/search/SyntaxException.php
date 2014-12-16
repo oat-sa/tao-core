@@ -20,28 +20,34 @@
  */
 namespace oat\tao\model\search;
 
-use oat\oatbox\PhpSerializable;
-
 /**
- * Search interface
+ * Search Syntax Exception
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
-interface Search extends PhpSerializable 
+class SyntaxException extends \common_Exception
+    implements \common_exception_UserReadableException 
 {	
-    /**
-     * Search for instances using a Lucene query
-     * 
-     * @param string $queryString
-     * @throws SyntaxException
-     * @return array list of ids
-     */
-    public function query($queryString);
+    private $query;
+    
+    private $error;
     
     /**
-     * Index the resources given as a traversable
      * 
-     * @param \Traversable $resourceTraversable
+     * @param unknown $queryString
+     * @param unknown $userError
      */
-    public function index(\Traversable $resourceTraversable);
+    public function __construct($queryString, $userError) {
+        $this->query = $queryString;
+        $this->error = $userError;
+        parent::__construct('Error in query "'.$queryString.'": '.$userError);    
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see common_exception_UserReadableException::getUserMessage()
+     */
+    public function getUserMessage() {
+        return $this->error;
+    }
 }
