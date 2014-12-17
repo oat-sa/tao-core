@@ -3,14 +3,14 @@
  * Copyright (c) 2006/2007 Sam Collett (http://www.texotela.co.uk)
  * Licensed under the MIT License:
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * Version 1.0
  * Demo: http://www.texotela.co.uk/code/jquery/numeric/
  *
  * $LastChangedDate: 2007-05-29 11:31:36 +0100 (Tue, 29 May 2007) $
  * $Rev: 2005 $
  */
- 
+
 /*
  * Allows only valid characters to be entered into input boxes.
  * Note: does not validate that the final text is a valid number
@@ -25,6 +25,7 @@
  * @example  $(".numeric").numeric(null, callback);
  *
  */
+define(['jquery'], function(jQuery){
 jQuery.fn.numeric = function(decimal, callback)
 {
 	decimal = decimal || ".";
@@ -125,3 +126,5 @@ jQuery.fn.numeric = function(decimal, callback)
 	);
 	return this;
 }
+
+});
