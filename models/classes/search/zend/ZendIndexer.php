@@ -98,7 +98,7 @@ class ZendIndexer
     
     protected function indexProperty(Document $document, \core_kernel_classes_Property $property)
     {
-        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex'));
+        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
         foreach ($indexes as $indexUri) {
             $index = new Index($indexUri);
             $id = $index->getIdentifier();
