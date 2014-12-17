@@ -35,10 +35,11 @@ class tao_actions_Search extends tao_actions_CommonModule {
 	 */
 	public function searchParams()
 	{
+	    $rawQuery = $_POST['query'];
         $this->returnJson(array(
 	    	'url' => _url('search'),
 	        'params' => array(
-	            'query' => $this->getRequestParameter('query'),
+	            'query' => $rawQuery,
     	    	'rootNode' => $this->getRequestParameter('rootNode')
     	    ),
 	        'filter' => array(),
