@@ -141,6 +141,66 @@ class tao_actions_form_SimpleProperty
 		$this->form->addElement($modeElt);
 		$elementNames[] = $modeElt->getName();
 
+        //index part
+        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
+        foreach($indexes as $indexUri){
+            $indexProperty = new \core_kernel_classes_Property($indexUri);
+
+
+            //get and add Label (Text)
+            $label = $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(RDFS_LABEL));
+            $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_label", 'Textbox');
+            $propIndexElt->setDescription(__('Label'));
+            $propIndexElt->addAttribute('class', 'index-label');
+            $propIndexElt->setValue(tao_helpers_Uri::encode($label->literal));
+            $this->form->addElement($propIndexElt);
+            $elementNames[] = $propIndexElt->getName();
+
+
+            //get and add Fuzzy matching (Radiobox)
+            $fuzzyMatching = $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_FUZZY_MATCHING));
+            $options = array(
+                tao_helpers_Uri::encode(INSTANCE_BOOLEAN_TRUE)  => __('True'),
+                tao_helpers_Uri::encode(INSTANCE_BOOLEAN_FALSE) => __('False')
+            );
+            $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_fuzzy-matching", 'Radiobox');
+            $propIndexElt->setOptions($options);
+            $propIndexElt->setDescription(__('Fuzzy Matching'));
+            $propIndexElt->addAttribute('class', 'index-fuzzymatching');
+            $propIndexElt->setValue(tao_helpers_Uri::encode($fuzzyMatching->uriResource));
+            $this->form->addElement($propIndexElt);
+            $elementNames[] = $propIndexElt->getName();
+
+            //get and add identifier (Text)
+            $identifier = $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_IDENTIFIER));
+            $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_identifier", 'Textbox');
+            $propIndexElt->setDescription(__('Identifier'));
+            $propIndexElt->addAttribute('class', 'index-identifier');
+            $propIndexElt->setValue(tao_helpers_Uri::encode($identifier->literal));
+            $this->form->addElement($propIndexElt);
+            $elementNames[] = $propIndexElt->getName();
+
+            //get and add Tokenizer (Combobox)
+            $tokenizerRange = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer');
+            $options = array();
+            /** @var core_kernel_classes_Resource $value */
+            foreach($tokenizerRange->getInstances() as $key => $value){
+                $options[tao_helpers_Uri::encode($value->getUri())] = $value->getLabel();
+            }
+
+            $tokenizer = $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_TOKENIZER));
+            $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_tokenizer", 'Combobox');
+            $propIndexElt->setDescription(__('Tokenizer'));
+            $propIndexElt->addAttribute('class', 'index-tokenizer');
+            $propIndexElt->setOptions($options);
+            $propIndexElt->setEmptyOption(' --- '.__('select').' --- ');
+            $propIndexElt->setValue(tao_helpers_Uri::encode($tokenizer->uriResource));
+            $this->form->addElement($propIndexElt);
+            $elementNames[] = $propIndexElt->getName();
+
+        }
+
+
 		if(count($elementNames) > 0){
 			$groupTitle = $this->getGroupTitle($property);
 			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames);
