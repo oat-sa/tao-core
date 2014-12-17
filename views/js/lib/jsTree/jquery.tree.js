@@ -12,7 +12,7 @@
  *
  */
 
-(function($) {
+define(['jquery'], function($) {
 	// jQuery plugin
 	$.tree = {
 		datastores	: { },
@@ -2045,4 +2045,4 @@
 			}
 		}
 	});
-})(jQuery);
+});

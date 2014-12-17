@@ -1,4 +1,4 @@
-(function ($) {
+define(['jquery', 'jquery.tree'], function ($) {
 	$.extend($.tree.plugins, {
 		"contextmenu" : {
 			object : $("<ul id='jstree-contextmenu' class='tree-context' />"),
@@ -129,4 +129,4 @@
 			})
 		$(document).bind("mousedown", function(event) { if($(event.target).parents("#jstree-contextmenu").size() == 0) $.tree.plugins.contextmenu.hide(); });
 	});
-})(jQuery);
+});

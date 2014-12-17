@@ -1,4 +1,4 @@
-(function ($) {
+define(['jquery', 'jquery.tree'], function ($) {
 	$.extend($.tree.plugins, {
 		"checkbox" : {
 			defaults : {
@@ -93,4 +93,4 @@
 			}
 		}
 	});
-})(jQuery);
+});
