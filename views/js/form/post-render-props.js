@@ -95,14 +95,69 @@ define([
                                 var $editIcon = $property.find('.icon-edit'),
                                     $editContainer = $property.children('div:first');
 
+                                var $indexIcon = $property.find('.icon-add');
+
                                 $editContainer.addClass('property-edit-container');
                                 $editIcon.on('click', function() {
                                     $editContainer.slideToggle(function() {
                                         $editContainer.parent().toggleClass('property-edit-container-open');
                                         if(!$('.property-edit-container-open').length) {
+                                            $('[id*="property_"]',$editContainer).each(function(){
+                                                var $currentTarget = $(this);
+                                                while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                    $currentTarget = $currentTarget.parent();
+                                                }
+                                                $currentTarget.hide();
+                                            });
                                             _toggleModeBtn('disabled');
                                         }
                                         else {
+                                            $('[id*="property_"]',$editContainer).each(function(){
+                                                var $currentTarget = $(this);
+                                                while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                    $currentTarget = $currentTarget.parent();
+                                                }
+                                                $currentTarget.show();
+                                            });
+                                            $('[id*="index_"]',$editContainer).each(function(){
+                                                var $currentTarget = $(this);
+                                                while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                    $currentTarget = $currentTarget.parent();
+                                                }
+                                                $currentTarget.hide();
+                                            });
+                                            _toggleModeBtn('enabled');
+                                        }
+                                    });
+                                });
+                                $indexIcon.on('click', function() {
+                                    $editContainer.slideToggle(function() {
+                                        $editContainer.parent().toggleClass('property-edit-container-open');
+                                        if(!$('.property-edit-container-open').length) {
+                                            $('[id*="index_"]',$editContainer).each(function(){
+                                                var $currentTarget = $(this);
+                                                while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                    $currentTarget = $currentTarget.parent();
+                                                }
+                                                $currentTarget.hide();
+                                            });
+                                            _toggleModeBtn('disabled');
+                                        }
+                                        else {
+                                            $('[id*="property_"]',$editContainer).each(function(){
+                                                var $currentTarget = $(this);
+                                                while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                    $currentTarget = $currentTarget.parent();
+                                                }
+                                                $currentTarget.hide();
+                                            });
+                                            $('[id*="index_"]',$editContainer).each(function(){
+                                                var $currentTarget = $(this);
+                                                while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                    $currentTarget = $currentTarget.parent();
+                                                }
+                                                $currentTarget.show();
+                                            });
                                             _toggleModeBtn('enabled');
                                         }
                                     });

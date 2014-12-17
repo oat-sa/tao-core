@@ -82,7 +82,7 @@ class SearchService
     }
     
     public static function getIndexes(\core_kernel_classes_Property $property) {
-        $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex'));
+        $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
         $indexes = array();
         foreach ($indexes as $indexUri) {
             $indexes[] = new Index($indexUri);
