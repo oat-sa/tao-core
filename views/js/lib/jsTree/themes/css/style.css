@@ -24,7 +24,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .taotree-test .node-instance ins:before { content: "\e641"; }
 
-.taotree-delivery .node-instance ins:before { content: "\e642"; }
+.taotree-delivery .node-instance ins:before, .taotree-result .node-class > a > ins:before, .taotree-result .node-class.open > a > ins:before { content: "\e642"; }
 
 .taotree-result .node-instance ins:before { content: "\e644"; }
 
@@ -73,6 +73,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .tree li a ins.forbidden { background-position: -16px -16px; }
 .tree .locked li a ins { background-position: 0 -48px; }
 .tree li span ins { background-position: -16px 0; }
+
+.taotree-result .node-class > a > ins:before { color: #0D2689; text-shadow: 1px 1px 0 #ac8b48; }
+.taotree-result .node-class.open > a > ins:before { color: #0D2689; text-shadow: 1px 1px 0 #ac8b48; }
 
 #jstree-dragged { position: absolute; top: -10px; left: -10px; margin: 0; padding: 0; }
 #jstree-dragged ul ul ul { display: none; }

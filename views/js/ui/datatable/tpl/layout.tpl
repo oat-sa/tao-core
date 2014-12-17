@@ -41,7 +41,7 @@
         </tbody>
     </table>
 </div>
-<div class="grid-row">
+<div class="grid-row" style="margin-top:20px;">
     <div class="col-6">{{__ 'Page'}} <strong>{{page}}</strong> {{__ 'of'}} {{total}}</div>
     <div class="col-6 txt-rgt">
         <button class="btn-info small datatable-backward"><span class="icon-backward"></span>{{__ 'Previous'}}</button>

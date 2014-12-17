@@ -17,7 +17,8 @@ require.config({
             action                  : '<?=get_data('action')?>',
             shownExtension          : '<?=get_data('shownExtension')?>',
             shownStructure          : '<?=get_data('shownStructure')?>',
-            extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>
+            extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
+            mediaSources            : <?=json_encode(get_data('mediaSources'))?>
         }
     },
     
