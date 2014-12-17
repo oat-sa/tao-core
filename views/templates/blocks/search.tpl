@@ -14,12 +14,12 @@
                 </div>
             </div>
             <hr/>
-            <? foreach (oat\tao\model\search\SearchService::getIndexesByClass(new \core_kernel_classes_Class(get_data('rootNode'))) as $uri => $indexes): ?>
-                <? foreach ($indexes as $index): ?>
+            <?php foreach (oat\tao\model\search\SearchService::getIndexesByClass(new \core_kernel_classes_Class(get_data('rootNode'))) as $uri => $indexes): ?>
+                <?php foreach ($indexes as $index): ?>
                 <div>
                     <span class="<?= ($index->isFuzzyMatching()) ? "icon-find" : "icon-target" ?>"></span> <?= $index->getIdentifier() ?> 
                 </div>
-                <? endforeach; ?>
-            <? endforeach; ?>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
         </div>
 </li>
