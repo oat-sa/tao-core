@@ -297,22 +297,25 @@ class Bootstrap{
         }
         
         // set the session cookie to HTTP only.
+        
+        $this->configureSessionHandler();
+  
         $sessionParams = session_get_cookie_params();
         $cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
         session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], TRUE);
-        $this->configureSessionHandler();
-  
-		// Start the session with a specific name.
-		session_name(GENERIS_SESSION_NAME);
-		session_start();
-		
-		//cookie keep alive
-        if (isset($_COOKIE[session_name()])) {
-            $expiryTime = ($sessionParams['lifetime'] !== 0) ? ($sessionParams['lifetime'] + time()) : 0;
-            setcookie(session_name(), $_COOKIE[session_name()], $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], true);
-        }
+        session_name(GENERIS_SESSION_NAME);
         
-		common_Logger::t("Session with name '" . GENERIS_SESSION_NAME ."' started.");
+        if (isset($_COOKIE[GENERIS_SESSION_NAME])) {
+            
+            // Resume the session
+            session_start();
+            
+            //cookie keep alive, if lifetime is not 0
+            if ($sessionParams['lifetime'] !== 0) {
+                $expiryTime = $sessionParams['lifetime'] + time();
+                setcookie(session_name(), session_id(), $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], true);
+            }
+        }
 	}
 	
     private function configureSessionHandler() {

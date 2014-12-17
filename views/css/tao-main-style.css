@@ -8143,6 +8143,7 @@ table.datatable th[data-sort-by] { cursor: pointer; }
 table.datatable th.sorted:after { float: right; }
 table.datatable th.id, table.datatable td.id { display: none; }
 table.datatable th[data-item-identifier], table.datatable td[data-item-identifier] { text-align: center; }
+table.datatable th button, table.datatable td button { text-transform: capitalize; }
 
 #tab-items_preview { display: none !important; }
 
