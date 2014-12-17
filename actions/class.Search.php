@@ -94,4 +94,27 @@ class tao_actions_Search extends tao_actions_CommonModule {
         }
     }
 
+    public function getIndexes() {
+        
+        if ($this->hasRequestParameter('rootNode') === true) {
+            $rootNodeUri = $this->getRequestParameter('rootNode');
+            $indexes = SearchService::getIndexesByClass(new core_kernel_classes_Class($rootNodeUri));
+            $json = array();
+            
+            foreach ($indexes as $propertyUri => $index) {
+                foreach ($index as $i) {
+                    $json[] = array(
+                        'identifier' => $i->getIdentifier(),
+                        'fuzzyMatching' => $i->isFuzzyMatching(),
+                        'propertyId' => $propertyUri
+                    );
+                }
+                
+            }
+            
+            $this->returnJson($json, 200);
+        } else {
+            $this->returnJson("The 'rootNode' parameter is missing.", 500);
+        }
+    }
 }
