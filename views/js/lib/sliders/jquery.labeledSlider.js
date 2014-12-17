@@ -27,7 +27,7 @@
  *
  * @requires $.noUiSlider
  */
-(function($) {
+define(['jquery', 'lodash', 'nouislider'], function($, _) {
 
     $.fn.labeledSlider = function(options) {
 
@@ -161,4 +161,4 @@
         return this;
     };
 
-}(jQuery));
+});
