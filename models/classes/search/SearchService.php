@@ -35,12 +35,15 @@ class SearchService
     /**
      * 
      */
-    public static function getSearchImplementation() {
+    static public function getSearchImplementation() 
+    {
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $impl = $ext->getConfig(self::CONFIG_KEY);
+        
         if ($impl === false || !$impl instanceof Search) {
             throw new \common_exception_Error('No valid Search implementation found');
         }
+        
         return $impl;
     }
 
@@ -49,7 +52,8 @@ class SearchService
      * 
      * @param Search $impl
      */
-    public static function setSearchImplementation(Search $impl) {
+    static public function setSearchImplementation(Search $impl) 
+    {
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $ext->setConfig(self::CONFIG_KEY, $impl);
     }
@@ -57,7 +61,8 @@ class SearchService
     /**
      * @return int nr of resources indexed
      */
-    public static function runIndexing() {
+    static public function runIndexing() 
+    {
         $iterator = new \core_kernel_classes_ResourceIterator(self::getIndexedClasses());
         return self::getSearchImplementation()->index($iterator);
     }
@@ -67,7 +72,8 @@ class SearchService
      * 
      * @return array
      */
-    protected static function getIndexedClasses() {
+    static protected function getIndexedClasses() 
+    {
         $classes = array();
         foreach (MenuService::getAllPerspectives() as $perspective) {
             foreach ($perspective->getChildren() as $structure) {
@@ -78,15 +84,55 @@ class SearchService
                 }
             }
         }
+        
         return array_values($classes);
     }
     
-    public static function getIndexes(\core_kernel_classes_Property $property) {
+    static public function getIndexes(\core_kernel_classes_Property $property) 
+    {
         $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex'));
         $indexes = array();
-        foreach ($indexes as $indexUri) {
+        
+        foreach ($indexUris as $indexUri) {
             $indexes[] = new Index($indexUri);
         }
         
+        return $indexes;
+    }
+    
+    /**
+     * Get the Search Indexes of a given $class.
+     * 
+     * The returned array is an associative array where keys are the Property URI
+     * the Search Index belongs to, and the values are core_kernel_classes_Resource objects
+     * corresponding to Search Index definitions.
+     * 
+     * @param \core_kernel_classes_Class $class
+     * @param boolean $recursive Whether or not to look for Search Indexes that belong to sub-classes of $class. Default is true.
+     * @return Index[] An array of Search Index to $class.
+     */
+    static public function getIndexesByClass(\core_kernel_classes_Class $class, $recursive = true)
+    {
+        $returnedIndexes = array();
+        
+        // Get properties to the root class hierarchy.
+        $properties = $class->getProperties(true);
+        
+        foreach ($properties as $prop) {
+            $propUri = $prop->getUri();
+            $indexes = self::getIndexes($prop);
+            
+            if (count($indexes) > 0) {
+                if (isset($returnedIndexes[$propUri]) === false) {
+                    $returnedIndexes[$propUri] = array();
+                }
+                
+                foreach ($indexes as $index) {
+                    $returnedIndexes[$propUri][] = new Index($index->getUri());
+                }
+            }
+        }
+        
+        return $returnedIndexes;
     }
 }

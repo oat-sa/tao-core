@@ -5,9 +5,21 @@
         <button class="icon-find" type="button"></button>
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
         <div class="tooltip-content">
-                <div>Tyger Tyger, burning bright,</div>
-                <div>In the forests of the night;</div>
-                <div>What immortal hand or eye,</div>
-                <div>Could frame thy fearful symmetry? </div>
+            <div class="grid-row" style="min-width:250px;">
+                <div class="col-6">
+                    <span class="icon-find"></span> = Fuzzy Matching
+                </div>
+                <div class="col-6">
+                    <span class="icon-target"></span> = Exact Matching
+                </div>
+            </div>
+            <hr/>
+            <? foreach (oat\tao\model\search\SearchService::getIndexesByClass(new \core_kernel_classes_Class(get_data('rootNode'))) as $uri => $indexes): ?>
+                <? foreach ($indexes as $index): ?>
+                <div>
+                    <span class="<?= ($index->isFuzzyMatching()) ? "icon-find" : "icon-target" ?>"></span> <?= $index->getIdentifier() ?> 
+                </div>
+                <? endforeach; ?>
+            <? endforeach; ?>
         </div>
 </li>
