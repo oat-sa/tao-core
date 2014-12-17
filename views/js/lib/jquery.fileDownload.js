@@ -9,7 +9,7 @@
 *   http://www.opensource.org/licenses/mit-license.php
 */
 
-(function($){
+define(['jquery'], function($){
 
 $.extend({
     //
@@ -408,4 +408,4 @@ $.extend({
     }
 });
 
-})(jQuery);
+});
