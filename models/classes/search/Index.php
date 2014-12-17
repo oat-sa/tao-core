@@ -24,12 +24,12 @@ class Index extends \core_kernel_classes_Resource {
     
     public function getIdentifier()
     {
-        return (string)$this->getUniquePropertyValue(new \core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier"));
+        return (string)$this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_IDENTIFIER));
     }
     
     public function getTokenizer()
     {
-        $tokenizerUri = $this->getUniquePropertyValue(new \core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer"));
+        $tokenizerUri = $this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_TOKENIZER));
         $tokenizer = new \core_kernel_classes_Resource($tokenizerUri);
         $implClass = (string)$tokenizer->getUniquePropertyValue(new \core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass"));
         if (!class_exists($implClass)) {
@@ -50,7 +50,7 @@ class Index extends \core_kernel_classes_Resource {
      */
     public function isFuzzyMatching()
     {
-        $res = $this->getUniquePropertyValue(new \core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching"));
+        $res = $this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_FUZZY_MATCHING));
         return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
     }
     

@@ -19,6 +19,7 @@
  */               
 
 use oat\tao\model\search\SearchService;
+use oat\tao\model\search\SyntaxException;
 
 /**
  * Controller for indexed searches
@@ -34,10 +35,11 @@ class tao_actions_Search extends tao_actions_CommonModule {
 	 */
 	public function searchParams()
 	{
+	    $rawQuery = $_POST['query'];
         $this->returnJson(array(
 	    	'url' => _url('search'),
 	        'params' => array(
-	            'query' => $this->getRequestParameter('query'),
+	            'query' => $rawQuery,
     	    	'rootNode' => $this->getRequestParameter('rootNode')
     	    ),
 	        'filter' => array(),
@@ -62,26 +64,34 @@ class tao_actions_Search extends tao_actions_CommonModule {
         $query = $params['query'];
         $class = new core_kernel_classes_Class($params['rootNode']);
         
-        $results = SearchService::getSearchImplementation()->query($query);
-        
-        $response = new StdClass();
-        if(count($results) > 0 ){
-
-            foreach($results as $uri) {
-                $instance = new core_kernel_classes_Resource($uri);
-                $instanceProperties = array(
-                    'id' => $instance->getUri(),
-                    RDFS_LABEL => $instance->getLabel() 
-                );
-
-                $response->data[] = $instanceProperties; 
+        try {
+            $results = SearchService::getSearchImplementation()->query($query);
+            
+            $response = new StdClass();
+            if(count($results) > 0 ){
+    
+                foreach($results as $uri) {
+                    $instance = new core_kernel_classes_Resource($uri);
+                    $instanceProperties = array(
+                        'id' => $instance->getUri(),
+                        RDFS_LABEL => $instance->getLabel() 
+                    );
+    
+                    $response->data[] = $instanceProperties; 
+                }
             }
+    		$response->success = true;
+            $response->page = 1;
+    		$response->total = 1;
+    		$response->records = count($results);
+    		
+    		$this->returnJson($response, 200);
+        } catch (SyntaxException $e) {
+            $this->returnJson(array(
+                'success' => false,
+                'msg' => $e->getUserMessage()
+            ));
         }
-		$response->page = 1;
-		$response->total = 1;
-		$response->records = count($results);
-
-		$this->returnJson($response, 200);
     }
 
     public function getIndexes() {
