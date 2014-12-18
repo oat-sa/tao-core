@@ -34,7 +34,7 @@
 }
 
 
-@mixin vendor-prefix($property, $value, $whatToPrefix, $prefixes: (-webkit-, -moz-, -ms-, -o-, '')) {
+@mixin vendor-prefix($property, $value, $whatToPrefix: property, $prefixes: (-webkit-, -moz-, -ms-, -o-, '')) {
     @if $whatToPrefix == 'property' {
         @each $prefix in $prefixes {
             #{$prefix + $property}: #{$value};
@@ -207,10 +207,7 @@
 }
 
 @mixin transition($type : all, $duration : 0.5s, $effect : ease-out){
-    -webkit-transition: $type $duration $effect;
-    -moz-transition: $type $duration $effect;
-    -o-transition: $type $duration $effect;
-    transition: $type $duration $effect;
+    @include vendor-prefix($type, $duration, $effect);
 }
 
 @mixin fade($duration: 1s){
