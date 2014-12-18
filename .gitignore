@@ -4,3 +4,6 @@
 install/log/install.log
 views/build/.htaccess
 views/js/test/.htaccess
+/views/js/lib/jsTree/themes/scss/style.css.map
+/views/css/tao-3.css.map.orig
+/views/css/tao-3.css.orig
