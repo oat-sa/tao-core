@@ -18,4 +18,9 @@
  *               
  * 
  */
+
+if(!class_exists('common_legacy_LegacyAutoLoader',false)){
+    $root_dir = __DIR__ . '/../../../';
+    require_once $root_dir.'generis/common/legacy/class.LegacyAutoLoader.php';
+}
 common_legacy_LegacyAutoLoader::supportLegacyPrefix('tao_models_classes_','oat\\tao\\model\\');

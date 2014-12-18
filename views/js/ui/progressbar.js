@@ -145,7 +145,7 @@ function($, _, Pluginifier){
         * @fires progressBar#destroy.progressbar
         */
        destroy : function(){
-            this.each(function() {
+            return this.each(function() {
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
                 if(options){
