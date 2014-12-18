@@ -199,6 +199,7 @@ class MenuService {
 
     /**
      * Get the perspective for the extension/section in parameters
+     * or null if not found
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
@@ -208,7 +209,7 @@ class MenuService {
      */
     public static function getPerspective($extension, $perspectiveId)
     {
-        $returnValue = array();
+        $returnValue = null;
 
 		foreach(self::getAllPerspectives() as $perspective){
 		    if ($perspective->getId() == $perspectiveId) {
