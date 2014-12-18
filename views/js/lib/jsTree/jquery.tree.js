@@ -13,6 +13,9 @@
  */
 
 define(['jquery'], function($) {
+
+
+
 	// jQuery plugin
 	$.tree = {
 		datastores	: { },
@@ -1801,11 +1804,9 @@ define(['jquery'], function($) {
 		}
 	};
 
-})(jQuery);
 
 // Datastores
 // HTML and JSON are included here by default
-(function ($) {
 	$.extend($.tree.datastores, {
 		"html" : function () {
 			return {

@@ -12,7 +12,7 @@
  * @author Jehan Bihin (class, remove multi-instances)
  */
 
-define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __, GenerisTreeClass, helpers, context) {
+define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context', 'jquery.tree', 'lib/jsTree/plugins/jquery.tree.contextmenu'], function($, __, GenerisTreeClass, helpers, context) {
 
     console.warn('Hello I am the GenerisTreeBrowserClass  and I am deprecated. I am there from a long but now I am tired, I need to retire. Please talk to my son layout/tree.');
 
@@ -174,9 +174,9 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 							var limit = instance.getMeta(parentNodeId, 'count') - instance.getMeta (parentNodeId, 'displayed');
 							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, {'limit':limit});
 						}
-						
+
 						instance.callGetSectionActions(NODE, TREE_OBJ);
-						
+
 						return false;
 					},
 					//when a node is move by drag n'drop
@@ -241,10 +241,10 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 									'TREE_OBJ'	: TREE_OBJ
 								});
 						}
-						
+
 						instance.callGetSectionActions(NODE, TREE_OBJ);
 					},
-					
+
 					oninit: function(TREE_OBJ) {
 						instance.callGetSectionActions(undefined, TREE_OBJ);
 					}
@@ -254,7 +254,7 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 			if (options.selectNode) {
 				treeOptions.selected = options.selectNode;
 			}
-            
+
             if($(selector).length){
                 var tmpTree = $.tree.reference(selector);
                 if (tmpTree != null) {
@@ -365,7 +365,7 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 			if(this.filter && this.filter != '*'){
 				options.filter = this.filter;
 			}
-			
+
 			$.post(this.dataUrl, options, (function(instance) { return function(DATA) {
 				//Display instances
 				for (var i=0; i < DATA.length; i++){
