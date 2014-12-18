@@ -163,7 +163,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	            $this->setData('reload', true);
 	        }
 	    }
-	    $this->setData('formTitle', __('Edit delivery class'));
+	    $this->setData('formTitle', __('Edit class %s', $clazz->getLabel()));
 	    $this->setData('myForm', $myForm->render());
 	    $this->setView('form.tpl', 'tao');
 	}
