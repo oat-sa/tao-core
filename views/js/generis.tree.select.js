@@ -253,7 +253,7 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback', '
 					unchecked.push($(NODE).prop('id'));
 				}
 			});
-			var returnValue = jQuery.grep(this.checkedNodes, function(value) {
+			var returnValue = $.grep(this.checkedNodes, function(value) {
 				return unchecked.indexOf(value) == -1;
 			});
 

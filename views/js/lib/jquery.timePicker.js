@@ -12,7 +12,9 @@
 
 /*jslint evil: true, white: false, undef: false, nomen: false */
 
-define(['jquery'], function($) {
+define(['jquery'], function(jQuery) {
+
+    var $ = jQuery;
 
 	/*
 	* Lets not redefine timepicker, Prevent "Uncaught RangeError: Maximum call stack size exceeded"
