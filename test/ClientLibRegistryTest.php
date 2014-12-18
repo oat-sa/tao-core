@@ -42,7 +42,7 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
     public function testRegister()
     {
         $map = ClientLibRegistry::getRegistry()->getMap();
-        $this->assertEmpty($map);
+        $this->assertFalse(empty($map));
         
         ClientLibRegistry::getRegistry()->register('OAT/test', dirname(__FILE__) . '/samples/fakeSourceCode/views/js/');
         $map = ClientLibRegistry::getRegistry()->getMap();
