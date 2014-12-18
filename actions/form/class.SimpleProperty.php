@@ -189,14 +189,31 @@ class tao_actions_form_SimpleProperty
             }
 
             $tokenizer = $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_TOKENIZER));
+            $tokenizer = (get_class($tokenizer) === 'core_kernel_classes_Resource')?$tokenizer->getUri():'';
             $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_TOKENIZER), 'Combobox');
             $propIndexElt->setDescription(__('Tokenizer'));
             $propIndexElt->addAttribute('class', 'index-tokenizer');
             $propIndexElt->setOptions($options);
             $propIndexElt->setEmptyOption(' --- '.__('select').' --- ');
-            $propIndexElt->setValue(tao_helpers_Uri::encode($tokenizer->uriResource));
+            $propIndexElt->setValue(tao_helpers_Uri::encode($tokenizer));
             $this->form->addElement($propIndexElt);
             $elementNames[] = $propIndexElt->getName();
+
+            $removeIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_remove", 'Free');
+            $removeIndexElt->setValue(
+                "<a href='#' id='index_{$index}_{$indexUri}_remove' class='btn-error index-remover small'><span class='icon-remove'></span> " . __(
+                    'remove index'
+                ) . "</a>"
+            );
+            $this->form->addElement($removeIndexElt);
+            $elementNames[] = $removeIndexElt;
+
+            $separatorIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_separator", 'Free');
+            $separatorIndexElt->setValue(
+                "<hr id='index_{$index}_{$indexUri}_separator'>"
+            );
+            $this->form->addElement($separatorIndexElt);
+            $elementNames[] = $separatorIndexElt;
 
         }
         $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_add", 'Free');
