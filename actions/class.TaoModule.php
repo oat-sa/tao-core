@@ -298,6 +298,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                                 // if the identifier is unique
                                 $indexProperty = new core_kernel_classes_Property($matches[1]);
                                 if($matches[2] === INDEX_PROPERTY_IDENTIFIER ){
+                                    $value = preg_replace('/\s+/','_',strtolower(rtrim($value)));
                                     $indexClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Index');
                                     $resources = $indexClass->searchInstances(array(INDEX_PROPERTY_IDENTIFIER => $value), array());
                                     $count = count($resources);
