@@ -182,6 +182,28 @@ abstract class tao_actions_CommonModule extends Module
         Context::getInstance()->getResponse()->setContentHeader('application/json');
         echo json_encode($data);
     }
+    
+    /**
+     * Returns a report
+     * 
+     * @param common_report_Report $report
+     */
+    protected function returnReport(common_report_Report $report) {
+        if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
+            $data = $report->getdata();
+            if (!is_null($data) && $data instanceof core_kernel_classes_Resource) {
+                $this->setData('message', __('%s created', $data->getLabel()));
+                $this->setData("selectNode", tao_helpers_Uri::encode($data->getUri()));
+                $this->setData('reload', true);
+            }
+            
+            $this->setView('form.tpl', 'tao');
+        } else {
+            $this->setData('report', $report);
+            $this->setData('title', __('Error'));
+            $this->setView('report.tpl', 'tao');
+        }
+    }
 
 
     /**
