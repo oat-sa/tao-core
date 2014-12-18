@@ -80,10 +80,10 @@ class ZendIndexer
         $done = array(RDFS_RESOURCE, TAO_OBJECT_CLASS);
         $toDo = array_diff($toDo, $done);
         
-        $classLabels = array();
+        $classUris = array();
         while (!empty($toDo)) {
             $class = new \core_kernel_classes_Class(array_pop($toDo));
-            $classLabels[] = $class->getLabel();
+            $classUris[] = $class->getUri();
             foreach ($class->getParentClasses() as $parent) {
                 if (!in_array($parent->getUri(), $done)) {
                     $toDo[] = $parent->getUri();
@@ -91,7 +91,7 @@ class ZendIndexer
             }
             $done[] = $class->getUri();
         }
-        $field = Document\Field::Keyword('class_r', $classLabels);
+        $field = Document\Field::Keyword('type_r', $classUris);
         $field->isStored = false;
         $document->addField($field);
     }

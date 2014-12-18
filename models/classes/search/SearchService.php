@@ -88,7 +88,7 @@ class SearchService
         return array_values($classes);
     }
     
-    public static function getIndexes(\core_kernel_classes_Property $property) {
+    static public function getIndexes(\core_kernel_classes_Property $property) {
         $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
         $indexes = array();
         

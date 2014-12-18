@@ -65,7 +65,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
         $class = new core_kernel_classes_Class($params['rootNode']);
         
         try {
-            $results = SearchService::getSearchImplementation()->query($query);
+            $results = SearchService::getSearchImplementation()->query($query, $class);
             
             $response = new StdClass();
             if(count($results) > 0 ){
