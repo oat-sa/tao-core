@@ -71,6 +71,7 @@ abstract class tao_actions_form_AbstractProperty
 				. '<span class="property-heading-toolbar">'
 				. _dh(implode(' ', $domainLabel))
 				. ' <span class="icon-edit"></span>'
+				. ' <span class="icon-add"></span>'
 				. '</span>';
 
 		}else{
