@@ -163,13 +163,13 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		$formContainer = new tao_actions_form_Clazz($clazz, $resource, $options);
 		$myForm = $formContainer->getForm();
-		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 			
 				$classValues = array();
 				$propertyValues = array();
-				
+				$indexValues = array();
+
 				//in case of deletion of just added properties
 				foreach($_POST as $key => $value){
 					if(preg_match("/^propertyUri/", $key)){
@@ -177,10 +177,13 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						if(!isset($propertyValues[$propNum])){
 							$propertyValues[$propNum] = array();
 						}
+                        if(!isset($indexValues[$propNum])){
+                            $indexValues[$propNum] = array();
+                        }
 					}
 				}
-				
-				//create a table of property models
+
+				//create a table of index models
 				foreach($myForm->getValues() as $key => $value){
 					if(preg_match("/^class_/", $key)){
 						$classKey =  tao_helpers_Uri::decode(str_replace('class_', '', $key));
@@ -215,12 +218,41 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 							}
 						}
 					}
+                    if(preg_match("/^index_/", $key)){
+
+                        $posted = false;
+                        if(isset($_POST[$key])){
+                            $posted = true;
+                        }
+                        else{
+                            $expression = "/^".preg_quote($key, "/")."_[0-9]+/";
+                            foreach($_POST as $postKey => $postValue){
+                                if(preg_match($expression, $postKey)){
+                                    $posted = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if($posted){
+                            $pkey = str_replace('index_', '', $key);
+                            $propNum = substr($pkey, 0, strpos($pkey, '_'));
+                            $propKey = tao_helpers_Uri::decode(preg_replace("/${propNum}_/", '', $pkey, 1));
+                            $indexValues[$propNum][$propKey] = ((is_array($value)) ? array_map(array('tao_helpers_Uri', 'decode'), $value) : tao_helpers_Uri::decode($value));
+                        }
+                        else{
+                            $pkey = str_replace('index_', '', $key);
+                            $propNum = substr($pkey, 0, strpos($pkey, '_'));
+                            if(!isset($indexValues[$propNum])){
+                                $indexValues[$propNum] = array();
+                            }
+                        }
+                    }
 				}
-				
 				$clazz = $this->service->bindProperties($clazz, $classValues);
 				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
 				foreach($propertyValues as $propNum => $properties){
-					if(isset($_POST['propertyUri'.$propNum]) && count($properties) == 0){
+                    $index = $indexValues[$propNum];
+					if(isset($_POST['propertyUri'.$propNum]) && count($properties) == 0 && count($index) == 0){
 						
 						//delete property mode
 						foreach($clazz->getProperties() as $classProperty){
@@ -258,7 +290,21 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						}
 						$property = new core_kernel_classes_Property(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum]));
 						$this->service->bindProperties($property, $properties);
-						
+
+                        //save index
+                        foreach($index as $key => $value){
+                            $matches = array();
+                            if(preg_match('/(http:\/\/.+)_(http:\/\/.+)/', $key, $matches)){
+                                $indexProperty = new core_kernel_classes_Property($matches[1]);
+                                $deletion = $indexProperty->removePropertyValues(new core_kernel_classes_Property($matches[2]));
+                                if($deletion){
+                                    $indexProperty->setPropertyValue(new core_kernel_classes_Property($matches[2]), $value);
+                                }
+                            }
+                        }
+
+
+                        //reload form
 						$myForm->removeGroup("property_".$propNum);
 						
 						//instanciate a property form
@@ -277,7 +323,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						unset($propForm);
 						unset($propFormContainer);
 					}
-					//reload form
+
 				}
 			}
 		}
@@ -1177,6 +1223,83 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	    	}
 		}
 		return $state;
+	}
+
+    /**
+     * remove the index property.
+     * @throws Exception
+     * @return void
+     */
+    public function removeIndexProperty()
+    {
+        if(!tao_helpers_Request::isAjax()){
+            throw new Exception("wrong request mode");
+        }
+        if(!$this->hasRequestParameter('uri')){
+            throw new Exception("wrong request Parameter");
+        }
+
+        if(!$this->hasRequestParameter('index_property')){
+            throw new Exception("wrong request Parameter");
+        }
+
+        $matches = array();
+        preg_match('/^(index_[0-9]+_(.+))_remove$/',$this->getRequestParameter('index_property'),$matches);
+        $indexPropertyUri = tao_helpers_Uri::decode($matches[2]);
+
+        //remove use of index property in property
+        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $property->removePropertyValue(new core_kernel_classes_Property(INDEX_PROPERTY),$indexPropertyUri);
+
+        //remove index property
+        $indexProperty = new \oat\tao\model\search\Index($indexPropertyUri);
+        $indexProperty->delete();
+
+        echo json_encode(array('id' => $matches[1]));
+    }
+
+    /**
+     * Render the add index sub form.
+     * @throws Exception
+     * @return void
+     */
+    public function addIndexProperty()
+    {
+        if(!tao_helpers_Request::isAjax()){
+            throw new Exception("wrong request mode");
+        }
+        if(!$this->hasRequestParameter('uri')){
+            throw new Exception("wrong request Parameter");
+        }
+
+        $clazz = $this->getCurrentClass();
+
+        if(!$this->hasRequestParameter('index')){
+            throw new Exception("wrong request Parameter");
+        }
+
+        $index = $this->getRequestParameter('index');
+
+        //create and attach the new index property to the property
+        $class = new \core_kernel_classes_Class("http://www.tao.lu/Ontologies/TAO.rdf#Index");
+        $indexProperty = $class->createInstanceWithProperties(array(
+                RDFS_LABEL => 'new index',
+                INDEX_PROPERTY_IDENTIFIER => null,
+                INDEX_PROPERTY_TOKENIZER => null,
+                INDEX_PROPERTY_FUZZY_MATCHING => GENERIS_TRUE,
+            ));
+
+        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $property->setPropertyValue(new core_kernel_classes_Property(INDEX_PROPERTY), $indexProperty);
+
+        //generate form
+        $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array('index' => $index));
+        $myForm = $indexFormContainer->getForm();
+
+        $matches = array();
+        $form = trim(preg_replace('/\s+/', ' ', $myForm->render()));
+        preg_match("/<div.+> <form[^>]+>(.+)<div class='form-toolbar' >.+<\/form> <\/div>$/",$form,$matches);
+        echo json_encode(array('form' => $matches[1]));
 	}
 
 	/**

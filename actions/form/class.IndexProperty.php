@@ -27,7 +27,7 @@
  * @package tao
  
  */
-class tao_actions_form_SimpleProperty
+class tao_actions_form_IndexProperty
     extends tao_actions_form_AbstractProperty
 {
     // --- ASSOCIATIONS ---
@@ -53,93 +53,7 @@ class tao_actions_form_SimpleProperty
     	
     	(isset($this->options['index'])) ? $index = $this->options['index'] : $index = 1;
     	
-		$propertyProperties = array_merge(
-			tao_helpers_form_GenerisFormFactory::getDefaultProperties(), 
-			array(new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT),
-				  new core_kernel_classes_Property(TAO_GUIORDER_PROP))
-		);
-    	
     	$elementNames = array();
-		foreach($propertyProperties as $propertyProperty){
-		
-			//map properties widgets to form elements
-			$element = tao_helpers_form_GenerisFormFactory::elementMap($propertyProperty);
-			
-			if(!is_null($element)){
-				//take property values to populate the form
-				$values = $property->getPropertyValuesCollection($propertyProperty);
-				foreach($values->getIterator() as $value){
-					if(!is_null($value)){
-						if($value instanceof core_kernel_classes_Resource){
-							$element->setValue($value->getUri());
-						}
-						if($value instanceof core_kernel_classes_Literal){
-							$element->setValue((string)$value);
-						}
-					}
-				}
-				$element->setName("property_{$index}_{$element->getName()}");
-				$this->form->addElement($element);
-				$elementNames[] = $element->getName();
-                
-                if ($propertyProperty->getUri() == TAO_GUIORDER_PROP){
-                    $element->addValidator(tao_helpers_form_FormFactory::getValidator('Integer'));
-                }
-			}
-		}
-		
-		//build the type list from the "widget/range to type" map
-		$typeElt = tao_helpers_form_FormFactory::getElement("property_{$index}_type", 'Combobox');
-		$typeElt->setDescription(__('Type'));
-		$typeElt->addAttribute('class', 'property-type');
-		$typeElt->setEmptyOption(' --- '.__('select').' --- ');
-		$options = array();
-		$checkRange = false;
-		foreach(tao_helpers_form_GenerisFormFactory::getPropertyMap() as $typeKey => $map){
-			$options[$typeKey] = $map['title'];
-            $widget = $property->getWidget();
-			if($widget instanceof core_kernel_classes_Resource) {
-				if($widget->getUri() == $map['widget']){
-					$typeElt->setValue($typeKey);
-					$checkRange = is_null($map['range']);
-				}
-			}
-		}
-		$typeElt->setOptions($options);
-		$this->form->addElement($typeElt);
-		$elementNames[] = $typeElt->getName();
-		
-		//list drop down
-		$listService = tao_models_classes_ListService::singleton();
-			
-		$listElt = tao_helpers_form_FormFactory::getElement("property_{$index}_range", 'Combobox');
-		$listElt->setDescription(__('List values'));
-		$listElt->addAttribute('class', 'property-listvalues');
-		$listElt->setEmptyOption(' --- '.__('select').' --- ');
-		$listOptions = array();
-		foreach($listService->getLists() as $list){
-			$listOptions[tao_helpers_Uri::encode($list->getUri())] = $list->getLabel();
-			$range = $property->getRange();
-			if(!is_null($range)){
-				if($range->getUri() == $list->getUri()){
-					$listElt->setValue($list->getUri());
-				}
-			}
-		}
-		
-		$listOptions['new'] = ' + '.__('Add / Edit lists');
-		$listElt->setOptions($listOptions);
-		if($checkRange){
-			$listElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		}
-		$this->form->addElement($listElt);
-		$elementNames[] = $listElt->getName();
-		
-		//add an hidden element with the mode (simple)
-		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
-		$modeElt->setValue('simple');
-		$this->form->addElement($modeElt);
-		$elementNames[] = $modeElt->getName();
 
         //index part
         $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
@@ -199,26 +113,6 @@ class tao_actions_form_SimpleProperty
             $elementNames[] = $propIndexElt->getName();
 
         }
-        $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_add", 'Free');
-        $addIndexElt->setValue(
-            "<a href='#' id='index_{$index}_add' class='btn-info index-adder small'><span class='icon-add'></span> " . __(
-                'Add index'
-            ) . "</a>"
-        );
-        $this->form->addElement($addIndexElt);
-        $elementNames[] = $addIndexElt;
-
-
-		if(count($elementNames) > 0){
-			$groupTitle = $this->getGroupTitle($property);
-			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames);
-		}
-    	
-		//add an hidden elt for the property uri
-		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$index}", 'Hidden');
-		$propUriElt->addAttribute('class', 'property-uri');
-		$propUriElt->setValue(tao_helpers_Uri::encode($property->getUri()));
-		$this->form->addElement($propUriElt);
 
     }
 
