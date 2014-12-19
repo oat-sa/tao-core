@@ -46,7 +46,7 @@ class tao_actions_form_Clazz
      */
     protected function initForm()
     {
-        (isset($this->options['name'])) ? $name = $this->options['name'] : $name = '';
+        $name = isset($this->options['name']) ? $this->options['name'] : '';
         if (empty($name)) {
             $name = 'form_' . (count(self::$forms) + 1);
         }
@@ -54,7 +54,7 @@ class tao_actions_form_Clazz
 
         $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
 
-        (isset($this->options['property_mode'])) ? $propMode = $this->options['property_mode'] : $propMode = 'simple';
+        $propMode = isset($this->options['property_mode']) ? $this->options['property_mode'] : 'simple';
 
         //add property action in toolbar
         $actions     = tao_helpers_form_FormFactory::getCommonActions();

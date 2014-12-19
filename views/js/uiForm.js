@@ -293,22 +293,22 @@ define([
 
             $(".property-mode").off('click').on('click', function () {
                 var $btn = $(this),
-                    mode = 'simple';
+                    data  = {
+                        property_mode: 'simple',
+                        id: $("#classUri").val()
+                    };
 
                 if ($btn.hasClass('disabled')) {
                     return;
                 }
 
                 if ($btn.hasClass('property-mode-advanced')) {
-                    mode = 'advanced';
+                    data.property_mode = 'advanced';
                 }
+
                 var url = $btn.parents('form').prop('action');
 
-                helpers.getMainContainer().load(url, {
-                    'property_mode': mode,
-                    'uri': $("#uri").val(),
-                    'classUri': $("#classUri").val()
-                });
+                helpers.getMainContainer().load(url, data);
 
                 return false;
             });
