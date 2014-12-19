@@ -17,7 +17,8 @@ require.config({
             action                  : '<?=get_data('action')?>',
             shownExtension          : '<?=get_data('shownExtension')?>',
             shownStructure          : '<?=get_data('shownStructure')?>',
-            extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>
+            extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
+            mediaSources            : <?=json_encode(get_data('mediaSources'))?>
         }
     },
     
@@ -64,7 +65,6 @@ require.config({
             '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
             '../../../taoQtiItem/views/js/MathJaxFallback'
         ],
-        'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
         'eyecatcher'        : 'eyecatcher',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
         'history'           : 'lib/history'
@@ -90,7 +90,6 @@ require.config({
         'grid/tao.grid.downloadFileResource' : ['grid/tao.grid'],
         'grid/tao.grid.rowId'   : ['grid/tao.grid'],
         'AsyncFileUpload'       : ['lib/jquery.uploadify/swfobject', 'lib/jquery.uploadify/jquery.uploadify.v2.1.4.min'],
-        'jquery.fmRunner'       : ['jquery', 'filemanager/fmRunner'],
         'filemanager/jqueryFileTree/jqueryFileTree' : ['jquery'],
         'wfEngine/wfApi/wfApi.min' : ['jquery'],
         'handlebars'            : { exports : 'Handlebars' },

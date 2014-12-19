@@ -6,8 +6,9 @@ define([
     'core/mimetype',
     'tpl!ui/resourcemgr/tpl/fileSelect',
     'ui/feedback', 
-    'ui/uploader' 
-], function($, _, async, __, mimeType, fileSelectTpl, feedback, uploader){
+    'ui/uploader',
+    'context'
+], function($, _, async, __, mimeType, fileSelectTpl, feedback, uploader, context){
     'use strict';
 
     var ns = 'resourcemgr';
@@ -111,7 +112,11 @@ define([
             .off('click', '.files li a.select')
             .on ('click', '.files li a.select', function(e){
             e.preventDefault();
-            $container.trigger('select.' + ns, [[_.pick($(this).parents('li').data(), ['file', 'type', 'mime', 'size'])]]);
+            var data = _.pick($(this).parents('li').data(), ['file', 'type', 'mime', 'size']);
+            if(context.mediaSources && context.mediaSources.length === 0 && data.file.indexOf('local/') > -1){
+                data.file = data.file.substring(6);
+            }
+            $container.trigger('select.' + ns, [[data]]);
         });
 
         //delete a file

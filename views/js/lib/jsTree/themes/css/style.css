@@ -24,7 +24,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .taotree-test .node-instance ins:before { content: "\e641"; }
 
-.taotree-delivery .node-instance ins:before { content: "\e642"; }
+.taotree-delivery .node-instance ins:before, .taotree-result .node-class > a > ins:before, .taotree-result .node-class.open > a > ins:before { content: "\e642"; }
 
 .taotree-result .node-instance ins:before { content: "\e644"; }
 
@@ -36,15 +36,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .tree-checkbox li.node-instance > a.checked ins:before { content: "\e69d"; }
 
-.tree { overflow: auto; max-height: 75vh; }
-.tree .ltr, .tree .rtl { margin-top: 8px; min-height: 150px; }
-.tree ul { background: white !important; overflow: hidden; margin: 0 8px; padding: 5px 0; list-style-type: none; }
+.tree { overflow: auto; max-height: 75vh; max-width: 280px; }
+.tree .ltr, .tree .rtl { margin-top: 8px; min-height: 150px; overflow: auto; }
+.tree ul { background: white !important; margin: 0 8px; padding: 5px 0; list-style-type: none; }
 .tree ul li { padding-left: 12px; margin: 0 1px; }
 .tree ul ins { display: inline-block; text-decoration: none; width: 16px; height: 19px; position: relative; left: 2px; top: 1px; font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; font-size: 14px; font-size: 1.4rem; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: #3e7da7; }
 .tree ul.ltr ins { margin: 0 4px 0 0px; }
 .tree li { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABAAgMAAADwqRilAAAACVBMVEX///8kbHeAgIB/SOz/AAAAAXRSTlMAQObYZgAAAEVJREFUeNpjYIACBwY4EICzArAJhoQiAH6VWM0cBUDAMUQEuVaMxhWBEMIq2IBNcAHRKom2fVgBplXYQmgVthDSGiwhBAAx4grYHitHZwAAAABJRU5ErkJggg==) no-repeat -1000px -1000px; display: block; padding: 0 0 0 11px; margin: 0; }
 .tree li ul { display: none; margin: 0; padding: 0; }
-.tree li a, .tree li span { height: 20px; color: #222; white-space: nowrap; text-decoration: none; margin: 0; display: block; font-size: 13px; font-size: 1.3rem; border: 1px solid transparent; border-radius: 2px; -webkit-border-radius: 2px; overflow: hidden; text-overflow: ellipsis; }
+.tree li a, .tree li span { height: 20px; color: #222; white-space: nowrap; text-decoration: none; margin: 0; display: block; font-size: 13px; font-size: 1.3rem; border: 1px solid transparent; border-radius: 2px; -webkit-border-radius: 2px; overflow: visible; text-overflow: ellipsis; }
 .tree li a:hover, .tree li span:hover { color: #0e5d91; }
 .tree li a.clicked, .tree li span.clicked { background: #e4ecef; border-color: #a4bbc5; }
 .tree li a:focus, .tree li span:focus { outline: none; }
@@ -62,7 +62,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .tree li.private ins:after { display: inline-block; position: relative; left: -15px; top: 4px; color: #EED401; text-shadow: 0px 0px 1px #666; font-size: 14px; font-size: 1.4rem; }
 .tree li.open ul { display: block; }
 .tree li.closed ul { display: none !important; }
-.tree li li { overflow: hidden; }
+.tree li li { overflow: visible; }
 .tree .locked li a { color: gray; }
 .tree .no_dots { background: transparent; }
 .tree .no_dots ul { background: transparent; }
@@ -73,6 +73,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .tree li a ins.forbidden { background-position: -16px -16px; }
 .tree .locked li a ins { background-position: 0 -48px; }
 .tree li span ins { background-position: -16px 0; }
+
+.taotree-result .node-class > a > ins:before { color: #0D2689; text-shadow: 1px 1px 0 #ac8b48; }
+.taotree-result .node-class.open > a > ins:before { color: #0D2689; text-shadow: 1px 1px 0 #ac8b48; }
 
 #jstree-dragged { position: absolute; top: -10px; left: -10px; margin: 0; padding: 0; }
 #jstree-dragged ul ul ul { display: none; }

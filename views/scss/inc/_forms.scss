@@ -52,8 +52,8 @@ label {
     height: 150px;
     overflow-y: auto;
     border: solid 1px $uiGeneralContentBorder;
-    position: relative; 
-    .dragholder{ 
+    position: relative;
+    .dragholder{
         padding-top: 20px;
         text-align: center;
         color: $uiGeneralContentBorder;
@@ -82,15 +82,15 @@ label {
         list-style-type: none;
         position: relative;
         margin: 0;
-        padding: 0; 
+        padding: 0;
         & > li{
             position: relative;
             padding: 6px 60px 6px 6px;
             @include simple-border;
             @extend .truncate;
             &:before {
-               @extend %tao-icon-setup; 
-               @extend %icon-document; 
+               @extend %tao-icon-setup;
+               @extend %icon-document;
                @include font-size(14);
                line-height: 14px;
                margin-right: 5px;
@@ -99,34 +99,34 @@ label {
             .size {
                 color: $info;
                 margin-left: 5px;
-                font-style: italic; 
+                font-style: italic;
             }
             .status {
-               position: absolute; 
+               position: absolute;
                right: 30px;
                top: 6px;
                &.sending:before {
-                   @extend %tao-icon-setup; 
+                   @extend %tao-icon-setup;
                    @extend %icon-download;
                    @include fade(2s);
                    @include repeat;
                }
                &.success:before{
-                   @extend %tao-icon-setup; 
+                   @extend %tao-icon-setup;
                    @extend %icon-success;
                    color: $success;
                }
                &.error:before{
-                   @extend %tao-icon-setup; 
+                   @extend %tao-icon-setup;
                    @extend %icon-error;
                    color: $error;
                }
             }
             .icon-close {
-               position: absolute; 
+               position: absolute;
                right: 6px;
                top: 6px;
-             } 
+             }
         }
     }
 }
@@ -134,7 +134,7 @@ label {
 
 .pseudo-label-box {
     position: relative;
-    cursor: pointer; 
+    cursor: pointer;
     & > label {
         width: 20px;
         position: absolute;
@@ -197,13 +197,18 @@ select {
         color: $textColor;
         opacity: .55 !important;
     }
-   
+
 
     & ~ .validate-error {
         color: $error;
     }
     &.error {
         border-color: $error;
+        color: $error;
+        & + .form-error{
+            color: $error;
+            text-align: right;
+        }
     }
 }
 
@@ -217,7 +222,7 @@ label {
     [class^="icon-checkbox"],
     [class*=" icon-checkbox"] {
         &:after {
-            @extend .icon-checkbox-bg:before;
+            @extend %icon-checkbox-bg;
             color:white !important;
         }
     }
@@ -225,7 +230,7 @@ label {
     [class*=" icon-radio"] {
         padding: 0 2px 0 3px;
         &:after {
-            @extend .icon-radio-bg:before;
+            @extend %icon-radio-bg;
             color:white !important;
         }
     }
@@ -277,7 +282,7 @@ label {
             @extend .icon-checkbox-crossed:before;
         }
         &.disabled, &[disabled], &[readonly] {
-            & ~[class^="icon-"], 
+            & ~[class^="icon-"],
             & ~[class*=" icon-"]{
                 cursor: not-allowed !important;
                 opacity: .4 !important;
@@ -286,6 +291,24 @@ label {
         }
     }
 }
+
+// IE10+ CSS styles go here
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    label {
+        [class^="icon-radio"],
+        [class*=" icon-radio"],
+        [class^="icon-checkbox"],
+        [class*=" icon-checkbox"] {
+            &:after {
+                color:white !important;
+                left:2px;
+                position: absolute;
+                z-index: 2;
+            }
+        }
+    }
+}
+
 
 .search-form, .filter-form {
     display:none;

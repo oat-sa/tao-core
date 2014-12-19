@@ -29,5 +29,8 @@ table.datatable{
         &[data-item-identifier] {
             text-align: center;
         }
+        button{
+          text-transform: capitalize;
+        }
     }
 }

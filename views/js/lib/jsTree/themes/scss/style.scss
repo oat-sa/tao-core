@@ -3,15 +3,16 @@
 
     overflow:auto;
     max-height: 75vh;
+    max-width: 280px;
 
     .ltr, .rtl {
         margin-top: 8px;
         min-height: 150px;
+        overflow: auto;
     }
 
     ul {
         background: white !important;
-        overflow: hidden;
         margin: 0 8px;
         padding: 5px 0;
         list-style-type: none;
@@ -67,7 +68,7 @@
             display: block;
             @include font-size(13);
             @include simple-border(transparent);
-            overflow: hidden;
+            overflow: visible;
             text-overflow: ellipsis;
             &:hover {
                 color: $info;
@@ -150,7 +151,7 @@
             display: none !important;
         }
         li {
-            overflow: hidden;
+            overflow: visible;
         }
     }
 
@@ -219,8 +220,24 @@
     @extend %icon-result-server;
 }
 
-.taotree-result .node-instance ins:before{
+.taotree-result{
+  .node-instance ins:before{
     @extend %icon-result;
+  }
+  .node-class {
+    & > a > ins:before {
+      @extend %icon-delivery;
+      color: $colorWheel-06;
+      text-shadow: 1px 1px 0 blacken($warning, .2);
+    }
+    &.open {
+      & > a > ins:before {
+        @extend %icon-delivery;
+        color: $colorWheel-06;
+        text-shadow: 1px 1px 0 blacken($warning, .2);
+      }
+    }
+  }
 }
 
 .taotree-role .node-instance ins:before{
@@ -283,7 +300,7 @@
 
 
 #jstree-dragged {
-   ul{  
+   ul{
         background: none !important;
         min-height: inherit;
         max-height: inherit;
@@ -294,11 +311,11 @@
             a {
                 padding: 0 6px;
                 ins {
-                  display: none; 
+                  display: none;
                 }
             }
         }
-   } 
+   }
 }
 
 .tree-css-context {
@@ -326,12 +343,12 @@
         background: none;
         border: none;
     }
-    li.node-instance >  a { 
+    li.node-instance >  a {
         ins:before {
             @extend %tao-icon-setup;
             @extend %icon-checkbox;
         }
-    
+
         &.checked {
             ins:before {
                 @extend %tao-icon-setup;

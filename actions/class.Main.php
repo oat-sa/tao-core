@@ -312,25 +312,27 @@ class tao_actions_Main extends tao_actions_CommonModule
         $sections = array();
         $user = common_Session_SessionManager::getSession()->getUser();
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
-        foreach ($structure->getChildren() as $section) {
-            
-            if (
-                tao_models_classes_accessControl_AclProxy::hasAccess(
-                    $section->getAction(),
-                    $section->getController(),
-                    $section->getExtensionId()
-                )
-            ) {
-
-                foreach($section->getActions() as $action){
-                    $resolver = ActionResolver::getByControllerName($action->getController(), $action->getExtensionId());  
-                    if(!FuncProxy::accessPossible($user, $resolver->getController(), $action->getAction())){
-                        $section->removeAction($action); 
+        if (!is_null($structure)) {
+            foreach ($structure->getChildren() as $section) {
+                
+                if (
+                    tao_models_classes_accessControl_AclProxy::hasAccess(
+                        $section->getAction(),
+                        $section->getController(),
+                        $section->getExtensionId()
+                    )
+                ) {
+    
+                    foreach($section->getActions() as $action){
+                        $resolver = ActionResolver::getByControllerName($action->getController(), $action->getExtensionId());  
+                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $action->getAction())){
+                            $section->removeAction($action); 
+                        }
+                        
                     }
-                    
+    
+    				$sections[] = $section;
                 }
-
-				$sections[] = $section;
             }
         }
         

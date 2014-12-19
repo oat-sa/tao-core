@@ -423,6 +423,7 @@ define([
                 };
                 this.sections[data.id] = section;
             }
+            section.url = section.url === data.url || data.url === undefined ? section.url : data.url;
             this.selected = section;
                         
             if(data.content){

@@ -1,10 +1,19 @@
 @import "inc/bootstrap";
 
-@include keyframes(mouseovermenu) {
-    0% { opacity: 0; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
+@mixin menu-states($state: normal) {
+    @if($state == 'hover') {
+        -webkit-transition: opacity .7s, top 0s;
+        transition: opacity .5s, top 0s;
+        transition-delay: .5s;
+        opacity: 1;
+        top: 64px;
+    }
+    @else {
+        top: -300px;
+        opacity: .3;
+    }
 }
+
 
 #requirement-check {
     margin: 40px auto;
@@ -63,10 +72,8 @@ nav {
                 top: 2px;
             }
             &:hover {
-                -webkit-transition: background-color 0.3s ease;
-                -o-transition: background-color 0.3s ease;
-                transition: background-color 0.3s ease;
-                background: rgba($info, .5);
+                @include vendor-prefix(transition, background-color 1s ease);
+                background-color: rgba($info, .5);
                 text-decoration: none;
                 span {
                     color: white;
@@ -87,11 +94,6 @@ nav {
         ul {
             background: $darkBar;
             position: absolute;
-            left: -10000px;
-            opacity: 0;
-            top: 64px;
-            border-top: 1px solid #666;
-            padding: 5px 0 !important;
             li {
                 display: block;
                 width: 100%;
@@ -108,12 +110,25 @@ nav {
                 }
             }
         }
-        // display sub menu on hover
-        &:hover {
+    }
+
+    .main-menu, .settings-menu {
+        li {
+            @include font-size(13);
             ul {
-                @include animation('mouseovermenu 1s ease');
-                opacity: 1;
-                left: 0;
+                min-width: 130px;
+                background: $darkBar;
+                position: absolute;
+                left: 0px;
+                border-top: 1px solid #666;
+                padding: 5px 0 !important;
+                @include menu-states(normal);
+            }
+            // display sub menu on hover
+            &:hover {
+                & > ul {
+                    @include menu-states(hover);
+                }
             }
         }
     }
@@ -130,9 +145,6 @@ nav {
                     display: block;
                 }
             }
-            ul {
-                min-width: 130px;
-            }
         }
     }
     .settings-menu {
@@ -142,6 +154,7 @@ nav {
         padding-right: 20px;
         li {
             min-width: 25px;
+
             @include font-size(13);
             & > a {
                 padding: 22px 8px 0px 8px;
@@ -153,9 +166,6 @@ nav {
                     @include font-size(18);
                     padding: 0 2px;
                 }
-            }
-            ul {
-                min-width: 130px;
             }
             &.li-help, &.li-user_settings {
                 padding-left: 15px;
@@ -170,12 +180,9 @@ nav {
                     height: 20px;
                 }
             }
-            // display sub menu on hover
-            &:hover {
-                ul {
-                    left: auto;
-                    right: 0;
-                }
+            ul {
+                left: auto;
+                right: -1px;
             }
         }
 
@@ -233,6 +240,7 @@ body > footer {
 }
 
 @media (max-width: 1024px) {
+
     nav {
         .main-menu {
             li {
@@ -250,6 +258,8 @@ body > footer {
             &:hover {
                 & > ul {
                     right: 20px;
+                    left: auto;
+                    @include menu-states(hover);
                 }
             }
             .reduced-menu-trigger {
@@ -270,9 +280,6 @@ body > footer {
                     }
                 }
                 &:hover {
-                    -webkit-transition: background-color 0.3s ease;
-                    -o-transition: background-color 0.3s ease;
-                    transition: background-color 0.3s ease;
                     background: rgba($info, .5);
                     text-decoration: none;
                     span {
@@ -292,13 +299,14 @@ body > footer {
                 }
             }
             & > ul {
-                border: 1px white solid;
+                border-top: 1px #666 solid;
                 position: absolute;
-                right: -2000px;
-                left: auto;
+                @include menu-states(normal);
+                left: -20000px;
+                right: auto;
                 white-space: nowrap;
                 background: $darkBar;
-                padding-right: 0;
+                padding: 5px 0;
                 .username {
                     display:none;
                 }
@@ -313,7 +321,7 @@ body > footer {
                     a {
                         height: auto;
                         line-height: 2.2;
-                        padding: 0 10px;
+                        padding: 0 20px;
                         text-align: left;
                         &:after {
                             content: attr(title)

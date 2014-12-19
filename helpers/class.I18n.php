@@ -179,13 +179,16 @@ class tao_helpers_I18n
     }
 
     /**
-     * Get available languages from the knownledge base depending on a specific
-     * usage (GUI, Data, ...)
+     * Get available languages from the knownledge base depending on a specific usage.
+     * 
+     * By default, TAO considers two built-in usages:
+     * 
+     * * GUI Language ('http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI')
+     * * Data Language ('http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData')
      *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param core_kernel_classes_Resource $usage  Resource usage An instance of tao:LanguagesUsages from the knowledge base.
-     * @return array
+     * @author Jérôme Bogaerts <jerome@taotesting.com>
+     * @param core_kernel_classes_Resource $usage Resource usage An instance of tao:LanguagesUsages from the knowledge base.
+     * @return array An associative array of core_kernel_classes_Resource objects index by language code.
      */
     public static function getAvailableLangsByUsage( core_kernel_classes_Resource $usage)
     {

@@ -136,7 +136,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
           	
             if ($user->getUri() == LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
-                $readonly[] = $id;
+                $readonly[$id] = true;
             }
 			$index++;
 		}
