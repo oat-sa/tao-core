@@ -210,9 +210,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				foreach($myForm->getValues() as $key => $value){
 					if(preg_match("/^class_/", $key)){
 						$classKey =  tao_helpers_Uri::decode(str_replace('class_', '', $key));
-                        if($classKey !== RDFS_LABEL || $clazz != $this->getRootClass()){
-                            $classValues[$classKey] =  tao_helpers_Uri::decode($value);
-                        }
+						$classValues[$classKey] =  tao_helpers_Uri::decode($value);
 					}
 					if(preg_match("/^property_/", $key)){
 						

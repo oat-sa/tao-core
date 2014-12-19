@@ -148,8 +148,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
         
                 if( permission === false ||
                     (current === 'none' && action.context !== '*') || 
-                    (action.context !== '*' && action.context !== 'resource' && current !== action.context) ||
-                    (action.binding === 'removeNode' && current === 'class' && context.parent === context.id)){
+                    (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
 
                     action.state.hidden = true;
 
