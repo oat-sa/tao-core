@@ -8,12 +8,11 @@
     .ltr, .rtl {
         margin-top: 8px;
         min-height: 150px;
-        overflow: scroll;
+        overflow: auto;
     }
 
     ul {
         background: white !important;
-        overflow: visible;
         margin: 0 8px;
         padding: 5px 0;
         list-style-type: none;

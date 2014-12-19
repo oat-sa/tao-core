@@ -37,8 +37,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .tree-checkbox li.node-instance > a.checked ins:before { content: "\e69d"; }
 
 .tree { overflow: auto; max-height: 75vh; max-width: 280px; }
-.tree .ltr, .tree .rtl { margin-top: 8px; min-height: 150px; overflow: scroll; }
-.tree ul { background: white !important; overflow: visible; margin: 0 8px; padding: 5px 0; list-style-type: none; }
+.tree .ltr, .tree .rtl { margin-top: 8px; min-height: 150px; overflow: auto; }
+.tree ul { background: white !important; margin: 0 8px; padding: 5px 0; list-style-type: none; }
 .tree ul li { padding-left: 12px; margin: 0 1px; }
 .tree ul ins { display: inline-block; text-decoration: none; width: 16px; height: 19px; position: relative; left: 2px; top: 1px; font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; font-size: 14px; font-size: 1.4rem; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: #3e7da7; }
 .tree ul.ltr ins { margin: 0 4px 0 0px; }
