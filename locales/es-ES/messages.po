@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0\n"
-"PO-Revision-Date: 2014-12-03T16:11:21\n"
+"Project-Id-Version: TAO 3.0-beta\n"
+"PO-Revision-Date: 2014-12-19T15:46:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -45,6 +45,9 @@ msgstr ""
 msgid "(empty)"
 msgstr ""
 
+msgid "-- Any kind of file --"
+msgstr ""
+
 msgid "... reloading page."
 msgstr ""
 
@@ -60,10 +63,19 @@ msgstr ""
 msgid "> Installation done."
 msgstr ""
 
+msgid "A choice must be selected"
+msgstr ""
+
 msgid "A fatal error occured during the installation process."
 msgstr ""
 
+msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
+msgstr ""
+
 msgid "A similar resource has already been versioned"
+msgstr ""
+
+msgid "A visible section is one that is identifiable by the candidate."
 msgstr ""
 
 msgid "Access Denied"
@@ -75,6 +87,12 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
+msgid "Actual size"
+msgstr ""
+
+msgid "Adapt to item size"
+msgstr ""
+
 msgid "Add"
 msgstr ""
 
@@ -84,11 +102,23 @@ msgstr ""
 msgid "Add a CSV file"
 msgstr ""
 
+msgid "Add a modal feedback"
+msgstr ""
+
 #, tao-public
 msgid "Add a user"
 msgstr ""
 
 msgid "Add an RDF/XML file"
+msgstr ""
+
+msgid "Add another option"
+msgstr ""
+
+msgid "Add choice"
+msgstr ""
+
+msgid "Add else feedback"
 msgstr ""
 
 msgid "Add file(s)"
@@ -97,25 +127,67 @@ msgstr ""
 msgid "Add grades"
 msgstr ""
 
+msgid "Add new pairs"
+msgstr ""
+
+msgid "Add selected item(s) here."
+msgstr ""
+
 msgid "Add the source file."
 msgstr ""
 
 msgid "Advanced Mode"
 msgstr ""
 
-msgid "All"
+msgid "Alignment"
+msgstr ""
+
+msgid "Alignment (optional)"
 msgstr ""
 
 msgid "all"
 msgstr ""
 
+msgid "All"
+msgstr ""
+
 msgid "All (the complete TAO Module)"
+msgstr ""
+
+msgid "All classes in Design Mode will switch to Production Mode. Please confirm."
+msgstr ""
+
+msgid "All classes in Production Mode will switch to Design Mode. Please confirm."
 msgstr ""
 
 msgid "All fields are required"
 msgstr ""
 
 msgid "All rights reserved."
+msgstr ""
+
+msgid "Allow Comment"
+msgstr ""
+
+msgid "Allow Review"
+msgstr ""
+
+msgid "Allow Skipping"
+msgstr ""
+
+msgid "Allow the candidate to review his answers."
+msgstr ""
+
+msgid "Allowed number of associations"
+msgstr ""
+
+msgid "Allowed number of choices"
+msgstr ""
+
+msgid "Allowed number of matches"
+msgstr ""
+
+msgid "Allowed number of uses"
 msgstr ""
 
 msgid "Allows the management of the repositories"
@@ -125,6 +197,9 @@ msgid "Alpha version"
 msgstr ""
 
 msgid "An error occured during user deletion"
+msgstr ""
+
+msgid "An invisible section with a parent that is subject to shuffling can specify whether or not its children, which will appear to the candidate as if they were part of the parent, are shuffled as a block or mixed up with the other children of the parent section."
 msgstr ""
 
 msgid "and"
@@ -140,6 +215,21 @@ msgstr ""
 msgid "Assign User to role"
 msgstr ""
 
+msgid "Associate"
+msgstr ""
+
+msgid "Associate Interaction"
+msgstr ""
+
+msgid "association pairs"
+msgstr ""
+
+msgid "at least"
+msgstr ""
+
+msgid "audio/mpeg"
+msgstr ""
+
 msgid "Author"
 msgstr ""
 
@@ -147,6 +237,12 @@ msgid "Author Item"
 msgstr ""
 
 msgid "Authoring"
+msgstr ""
+
+msgid "Autostart"
+msgstr ""
+
+msgid "Available Classes"
 msgstr ""
 
 msgid "Available Extensions"
@@ -158,10 +254,19 @@ msgstr ""
 msgid "Beta version"
 msgstr ""
 
+msgid "block"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
 msgid "Browse"
 msgstr ""
 
 msgid "Browse folders:"
+msgstr ""
+
+msgid "Browse your computer and select the appropriate file."
 msgstr ""
 
 msgid "Browse..."
@@ -173,7 +278,16 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+msgid "Candidate"
+msgstr ""
+
 msgid "Cannot be edited"
+msgstr ""
+
+msgid "Cannot successfully build the optimized table indexes"
+msgstr ""
+
+msgid "Categories"
 msgstr ""
 
 #, tao-public
@@ -183,10 +297,25 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
+msgid "Check All"
+msgstr ""
+
 msgid "Check all"
 msgstr ""
 
-msgid "Check All"
+msgid "Choice"
+msgstr ""
+
+msgid "Choice Image"
+msgstr ""
+
+msgid "Choice Interaction"
+msgstr ""
+
+msgid "choices"
+msgstr ""
+
+msgid "Choices"
 msgstr ""
 
 msgid "Choose export format"
@@ -196,6 +325,21 @@ msgid "Choose import format"
 msgstr ""
 
 msgid "class selected"
+msgstr ""
+
+msgid "Classes"
+msgstr ""
+
+msgid "Click again to remove"
+msgstr ""
+
+msgid "Click to display interaction widget"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Close console"
 msgstr ""
 
 msgid "Close tab"
@@ -219,22 +363,55 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+msgid "Controls the maximum number of attempts allowed. 0 means unlimited."
+msgstr ""
+
+msgid "correct"
+msgstr ""
+
+msgid "Correct"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
 msgid "Create a list"
 msgstr ""
 
+msgid "Create assocations and fill the score in the form below"
+msgstr ""
+
+msgid "Create gap"
+msgstr ""
+
+msgid "Create hottext"
+msgstr ""
+
 msgid "Create instance of "
+msgstr ""
+
+msgid "Create new extension"
 msgstr ""
 
 msgid "CSV"
 msgstr ""
 
+msgid "CSV file"
+msgstr ""
+
 msgid "CSV Options"
 msgstr ""
 
+msgid "currency"
+msgstr ""
+
 msgid "Current language"
+msgstr ""
+
+msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
+msgstr ""
+
+msgid "Custom Response Processing Mode"
 msgstr ""
 
 msgid "Data imported"
@@ -246,10 +423,10 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "day"
@@ -258,16 +435,52 @@ msgstr ""
 msgid "days"
 msgstr ""
 
+msgid "Default"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
 msgid "Default user cannot be deleted"
+msgstr ""
+
+msgid "Define correct response"
+msgstr ""
+
+msgid "define prompt"
+msgstr ""
+
+msgid "Define the correct response."
 msgstr ""
 
 msgid "Define the default values"
 msgstr ""
 
+msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
+msgstr ""
+
+msgid "Define whether the item should be time dependent on delivery."
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
 msgid "Delete"
 msgstr ""
 
+msgid "Delete else statement"
+msgstr ""
+
 msgid "Delete this list"
+msgstr ""
+
+msgid "Delete this modal feedback"
+msgstr ""
+
+msgid "Delivery Class saved"
+msgstr ""
+
+msgid "Delivery Result"
 msgstr ""
 
 msgid "Delivery results"
@@ -276,7 +489,25 @@ msgstr ""
 msgid "Demo Sandbox"
 msgstr ""
 
+msgid "Description"
+msgstr ""
+
+msgid "Design"
+msgstr ""
+
+msgid "Desktop preview"
+msgstr ""
+
+msgid "Disable this stylesheet temporarily"
+msgstr ""
+
 msgid "Disabled %s', $this->getRequestParameter('id"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Display larger editor"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -289,6 +520,12 @@ msgstr ""
 msgid "Don't set"
 msgstr ""
 
+msgid "done"
+msgstr ""
+
+msgid "Don’t show this again!"
+msgstr ""
+
 msgid "Download"
 msgstr ""
 
@@ -298,16 +535,40 @@ msgstr ""
 msgid "Download this file"
 msgstr ""
 
+msgid "Download this stylesheet"
+msgstr ""
+
 msgid "Drag file here"
 msgstr ""
 
 msgid "Drag files here"
 msgstr ""
 
+msgid "Draw a circle on the image"
+msgstr ""
+
+msgid "Draw a free form on the image"
+msgstr ""
+
+msgid "Draw a rectangle on the image"
+msgstr ""
+
+msgid "Draw an ellipsis on the image"
+msgstr ""
+
 msgid "Drop the files to upload"
 msgstr ""
 
+msgid "Drop the target to select a point"
+msgstr ""
+
+msgid "duplicate"
+msgstr ""
+
 msgid "e-mail"
+msgstr ""
+
+msgid "edit"
 msgstr ""
 
 msgid "Edit"
@@ -317,16 +578,40 @@ msgstr ""
 msgid "Edit a user"
 msgstr ""
 
+msgid "edit choices"
+msgstr ""
+
 msgid "Edit Instance"
+msgstr ""
+
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
+
+msgid "Edit math expression using MathML"
+msgstr ""
+
+msgid "Edit modal feedback title"
+msgstr ""
+
+msgid "Edit stylesheet label"
 msgstr ""
 
 msgid "Edit this list"
 msgstr ""
 
-msgid "Element"
+msgid "Editing Mode"
+msgstr ""
+
+msgid "Editing this element is not supported currently."
 msgstr ""
 
 msgid "element"
+msgstr ""
+
+msgid "Element"
+msgstr ""
+
+msgid "element deleted"
 msgstr ""
 
 msgid "Element deleted"
@@ -338,10 +623,22 @@ msgstr ""
 msgid "Element not deleted"
 msgstr ""
 
+msgid "elements"
+msgstr ""
+
 msgid "Email"
 msgstr ""
 
+msgid "Enable selection"
+msgstr ""
+
+msgid "Enable the test taker to pause and restart the playing."
+msgstr ""
+
 msgid "Enter"
+msgstr ""
+
+msgid "Enter a category"
 msgstr ""
 
 msgid "Entity with such field already present"
@@ -365,11 +662,26 @@ msgstr ""
 msgid "Export Metadata as RDF/XML file"
 msgstr ""
 
+msgid "Extended Text"
+msgstr ""
+
+msgid "Extended Text Interaction"
+msgstr ""
+
 msgid "Extension "
 msgstr ""
 
 #, tao-public
 msgid "Extensions manager"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "Failed to save item"
+msgstr ""
+
+msgid "Feedback"
 msgstr ""
 
 msgid "Field delimiter"
@@ -402,6 +714,12 @@ msgstr ""
 msgid "File sources"
 msgstr ""
 
+msgid "File Upload"
+msgstr ""
+
+msgid "File Upload Interaction"
+msgstr ""
+
 msgid "File Uploader"
 msgstr ""
 
@@ -423,19 +741,124 @@ msgstr ""
 msgid "First row column names"
 msgstr ""
 
+msgid "Fixed"
+msgstr ""
+
+msgid "Fixed position in a shuffled the selection."
+msgstr ""
+
+msgid "Flash video"
+msgstr ""
+
+msgid "Format"
+msgstr ""
+
+msgid "Gap"
+msgstr ""
+
+msgid "Gap Match"
+msgstr ""
+
+msgid "Gap Match Interaction"
+msgstr ""
+
+msgid "Gaps"
+msgstr ""
+
+msgid "Generating cache..."
+msgstr ""
+
+msgid "GIF image"
+msgstr ""
+
 msgid "Go Back"
+msgstr ""
+
+msgid "Grant access rights to the action"
+msgstr ""
+
+msgid "Grant access rights to the entire extension"
+msgstr ""
+
+msgid "Grant access rights to the entire module"
+msgstr ""
+
+msgid "Graphic Associate"
+msgstr ""
+
+msgid "Graphic Associate Interaction"
+msgstr ""
+
+msgid "Graphic Gap"
+msgstr ""
+
+msgid "Graphic Order"
+msgstr ""
+
+msgid "Graphic Order Interaction"
+msgstr ""
+
+msgid "he maximum number of associations that the candidate is allowed to make."
 msgstr ""
 
 msgid "Height"
 msgstr ""
 
+msgid "Height (optional)"
+msgstr ""
+
 msgid "Hide detailed report"
+msgstr ""
+
+msgid "Hotspot"
+msgstr ""
+
+msgid "Hotspot Interaction"
+msgstr ""
+
+msgid "Hottext"
+msgstr ""
+
+msgid "Hottext Interaction"
 msgstr ""
 
 msgid "hour"
 msgstr ""
 
 msgid "hours"
+msgstr ""
+
+msgid "How the math expression should be displayed."
+msgstr ""
+
+msgid "How the math expression should be edited"
+msgstr ""
+
+msgid "identical pair already exists"
+msgstr ""
+
+msgid "identifier"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid.Care is needed to ensure that the format of the required input is clear to the candidate, especially when validity checking of responses is required for progression through a test. This could be done by providing an illustrative sample response in the prompt, for example."
+msgstr ""
+
+msgid "If required it must appear (at least once) in the selection."
+msgstr ""
+
+msgid "If required, it must appears at least once in the selection."
+msgstr ""
+
+msgid "If set, it causes the order of the child elements to be randomized, otherwise it uses the order in which the child elements are defined."
+msgstr ""
+
+msgid "If the candidate can skip the item, without submitting a response."
+msgstr ""
+
+msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr ""
 
 msgid "Import"
@@ -453,10 +876,31 @@ msgstr ""
 msgid "Import report"
 msgstr ""
 
+msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
+msgstr ""
+
 msgid "Inclusive (AND)"
 msgstr ""
 
+msgid "incorrect"
+msgstr ""
+
 msgid "Index"
+msgstr ""
+
+msgid "Individual"
+msgstr ""
+
+msgid "inline"
+msgstr ""
+
+msgid "Inline Choice"
+msgstr ""
+
+msgid "Inline Choice Interaction"
+msgstr ""
+
+msgid "Inline interactions need to be inserted into a text block."
 msgstr ""
 
 msgid "Install"
@@ -475,6 +919,15 @@ msgid "Installing extension %s..."
 msgstr ""
 
 msgid "Instance saved"
+msgstr ""
+
+msgid "Instances"
+msgstr ""
+
+msgid "instances"
+msgstr ""
+
+msgid "Interaction Background"
 msgstr ""
 
 msgid "Interface language"
@@ -498,16 +951,52 @@ msgstr ""
 msgid "Invalid file type!"
 msgstr ""
 
+msgid "invalid identifier"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr ""
 
+msgid "Invalid pattern"
+msgstr ""
+
 msgid "invalid regular expression"
+msgstr ""
+
+msgid "is already used in the test."
+msgstr ""
+
+msgid "is not a valid identifier (alphanum, underscore, dash and dots.)"
+msgstr ""
+
+msgid "Is this choice the correct response?"
+msgstr ""
+
+msgid "Is this pair the correct response?"
+msgstr ""
+
+msgid "Item Reference Properties"
+msgstr ""
+
+msgid "Item Session Control"
+msgstr ""
+
+msgid "Items can optionally be assigned to one or more categories."
+msgstr ""
+
+msgid "JPEG image"
+msgstr ""
+
+msgid "Keep Together"
 msgstr ""
 
 msgid "Label"
 msgstr ""
 
 msgid "Label *"
+msgstr ""
+
+msgid "Landscape"
 msgstr ""
 
 msgid "Language"
@@ -517,6 +1006,27 @@ msgid "Language not supported"
 msgstr ""
 
 msgid "Last Name"
+msgstr ""
+
+msgid "Late submission allowed"
+msgstr ""
+
+msgid "Latex"
+msgstr ""
+
+msgid "LaTex"
+msgstr ""
+
+msgid "leave empty"
+msgstr ""
+
+msgid "left"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Linear"
 msgstr ""
 
 msgid "List"
@@ -531,6 +1041,9 @@ msgstr ""
 msgid "List - Single choice - Radio button"
 msgstr ""
 
+msgid "list deleted"
+msgstr ""
+
 msgid "List deleted"
 msgstr ""
 
@@ -538,6 +1051,9 @@ msgid "List not deleted"
 msgstr ""
 
 msgid "List not saved"
+msgstr ""
+
+msgid "list saved"
 msgstr ""
 
 msgid "List values"
@@ -573,6 +1089,12 @@ msgstr ""
 msgid "Login failed"
 msgstr ""
 
+msgid "Loop"
+msgstr ""
+
+msgid "Lower Bound"
+msgstr ""
+
 msgid "Manage content of the property "
 msgstr ""
 
@@ -584,6 +1106,9 @@ msgid "Manage roles"
 msgstr ""
 
 msgid "Manage Roles and apply them to users."
+msgstr ""
+
+msgid "Manage Rubric Blocks"
 msgstr ""
 
 msgid "Manage the versioned content : "
@@ -599,7 +1124,106 @@ msgstr ""
 msgid "Map the properties to the CSV columns"
 msgstr ""
 
+msgid "Mapping default"
+msgstr ""
+
+msgid "Match"
+msgstr ""
+
+msgid "Match Interaction"
+msgstr ""
+
+msgid "MathJax is not installed."
+msgstr ""
+
+msgid "MathML"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "Max Attempts"
+msgstr ""
+
+msgid "Maximal score for this interaction."
+msgstr ""
+
+msgid "Maximum choices reached"
+msgstr ""
+
+msgid "Maximum Duration"
+msgstr ""
+
+msgid "Maximum duration for the all test."
+msgstr ""
+
+msgid "Maximum duration for this item."
+msgstr ""
+
+msgid "Maximum duration for this section."
+msgstr ""
+
+msgid "Maximum duration for this test part."
+msgstr ""
+
+msgid "Maximum number of choices reached."
+msgstr ""
+
+msgid "Maximum time limit reached for item \"%s\"."
+msgstr ""
+
 msgid "maximum value: "
+msgstr ""
+
+msgid "Media"
+msgstr ""
+
+msgid "Media file path or YouTube video address"
+msgstr ""
+
+msgid "Media Interaction"
+msgstr ""
+
+msgid "Microsoft Excel file"
+msgstr ""
+
+msgid "Microsoft Powerpoint file"
+msgstr ""
+
+msgid "Microsoft Word file"
+msgstr ""
+
+msgid "Migrate"
+msgstr ""
+
+msgid "Mime Type"
+msgstr ""
+
+msgid "Mime type"
+msgstr ""
+
+msgid "MIME-type"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Minimal  score for this interaction."
+msgstr ""
+
+msgid "Minimum Duration"
+msgstr ""
+
+msgid "Minimum duration for the test."
+msgstr ""
+
+msgid "Minimum duration for this item."
+msgstr ""
+
+msgid "Minimum duration for this section."
+msgstr ""
+
+msgid "Minimum duration for this test part."
 msgstr ""
 
 msgid "minimum value: "
@@ -611,13 +1235,43 @@ msgstr ""
 msgid "minutes"
 msgstr ""
 
+msgid "Mobile preview"
+msgstr ""
+
+msgid "Modal feedback is shown to the candidate directly following response processing."
+msgstr ""
+
+msgid "Modal Feedbacks"
+msgstr ""
+
 msgid "More"
+msgstr ""
+
+msgid "move"
+msgstr ""
+
+msgid "Move Down"
 msgstr ""
 
 msgid "Move to"
 msgstr ""
 
+msgid "Move Up"
+msgstr ""
+
 msgid "Moving this element will remove the following properties:"
+msgstr ""
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr ""
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
+msgstr ""
+
+msgid "MP4 video"
+msgstr ""
+
+msgid "MPEG video"
 msgstr ""
 
 msgid "Multiple values delimiter"
@@ -651,6 +1305,18 @@ msgstr ""
 msgid "Namespaces"
 msgstr ""
 
+msgid "Navigation"
+msgstr ""
+
+msgid "new"
+msgstr ""
+
+msgid "new class"
+msgstr ""
+
+msgid "New element"
+msgstr ""
+
 msgid "New password"
 msgstr ""
 
@@ -660,10 +1326,16 @@ msgstr ""
 msgid "New role"
 msgstr ""
 
+msgid "New Rubric Block"
+msgstr ""
+
 msgid "Next"
 msgstr ""
 
 msgid "No"
+msgstr ""
+
+msgid "no configuration property needed"
 msgstr ""
 
 msgid "No extensions available."
@@ -684,6 +1356,9 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
+msgid "No more attempts allowed for item \"%s\"."
+msgstr ""
+
 msgid "No Preview available"
 msgstr ""
 
@@ -696,13 +1371,28 @@ msgstr ""
 msgid "No results found"
 msgstr ""
 
+msgid "No value set"
+msgstr ""
+
+msgid "Non Linear"
+msgstr ""
+
 msgid "None"
+msgstr ""
+
+msgid "None defined yet."
+msgstr ""
+
+msgid "Not shuffled, the position remains fixed."
 msgstr ""
 
 msgid "Nothing imported"
 msgstr ""
 
 msgid "Nothing to install !"
+msgstr ""
+
+msgid "Number of associations"
 msgstr ""
 
 msgid "Number of elements"
@@ -714,8 +1404,14 @@ msgstr ""
 msgid "Old Password"
 msgstr ""
 
+msgid "one association pair"
+msgstr ""
+
 #, tao-public
 msgid "Ontology"
+msgstr ""
+
+msgid "Open File Manager"
 msgstr ""
 
 msgid "Option instanceUri is not an option !!"
@@ -730,7 +1426,19 @@ msgstr ""
 msgid "or"
 msgstr ""
 
+msgid "Order"
+msgstr ""
+
+msgid "Order Interaction"
+msgstr ""
+
+msgid "Ordering"
+msgstr ""
+
 msgid "Page"
+msgstr ""
+
+msgid "Pair scoring"
 msgstr ""
 
 msgid "Password"
@@ -745,10 +1453,22 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr ""
 
+msgid "Pause"
+msgstr ""
+
+msgid "PDF file"
+msgstr ""
+
+msgid "Plain text"
+msgstr ""
+
 msgid "Please confirm deletion"
 msgstr ""
 
 msgid "Please confirm property deletion!"
+msgstr ""
+
+msgid "Please confirm the deletion of the activity"
 msgstr ""
 
 msgid "Please confirm this operation."
@@ -763,16 +1483,94 @@ msgstr ""
 msgid "Please confirm you want to delete this list. This operation cannot be undone."
 msgstr ""
 
+msgid "Please confirm you want to delete this list. This operation is not reversible."
+msgstr ""
+
+msgid "Please define association pairs and their scores below."
+msgstr ""
+
+msgid "Please define the correct association pairs below."
+msgstr ""
+
+msgid "Please define the correct order in the box to the right."
+msgstr ""
+
+msgid "Please define the correct response and the score below."
+msgstr ""
+
+msgid "Please define the correct response below."
+msgstr ""
+
+msgid "Please define the correct response using the slider."
+msgstr ""
+
+msgid "Please enter the score for the given hottexts."
+msgstr ""
+
+msgid "Please fill the gap with the correct choices below."
+msgstr ""
+
+msgid "Please fill the gap with the correct choices."
+msgstr ""
+
+msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
+msgstr ""
+
+msgid "Please fill the gap with the texts below, then edit the score for each pair."
+msgstr ""
+
+msgid "Please order the choices below to set the correct answer"
+msgstr ""
+
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
+msgstr ""
+
+msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
 msgid "Please select alteast one namespace"
 msgstr ""
 
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select the correct hotspot choices below."
+msgstr ""
+
+msgid "Please select the correct hottext choices below."
+msgstr ""
+
+msgid "Please select the picture from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please set the correct associations by linking the choices."
+msgstr ""
+
+msgid "Please the score of each hotspot choice."
+msgstr ""
+
+msgid "Please type the correct response below."
+msgstr ""
+
 msgid "Please upload an RDF file."
 msgstr ""
 
+msgid "PNG image"
+msgstr ""
+
+msgid "Portrait"
+msgstr ""
+
 msgid "Post install processing"
+msgstr ""
+
+msgid "Pre-formatted text"
+msgstr ""
+
+msgid "Preparing CSS, please wait…"
 msgstr ""
 
 msgid "Preparing installation..."
@@ -784,10 +1582,34 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
+msgid "Proctor"
+msgstr ""
+
+msgid "Production"
+msgstr ""
+
 msgid "Properties"
 msgstr ""
 
+msgid "Question"
+msgstr ""
+
+msgid "Quicktime video"
+msgstr ""
+
 msgid "RDF"
+msgstr ""
+
+msgid "Rebuilding indexes, it may take a while."
+msgstr ""
+
+msgid "Recompile the delivery"
+msgstr ""
+
+msgid "Reference"
+msgstr ""
+
+msgid "remove"
 msgstr ""
 
 msgid "Remove"
@@ -796,10 +1618,31 @@ msgstr ""
 msgid "Remove content"
 msgstr ""
 
+msgid "Remove Item Reference"
+msgstr ""
+
 msgid "Remove Message"
 msgstr ""
 
+msgid "Remove pair"
+msgstr ""
+
+msgid "Remove Rubric Block"
+msgstr ""
+
+msgid "Remove Section"
+msgstr ""
+
+msgid "Remove the selected shape"
+msgstr ""
+
 msgid "Remove this file"
+msgstr ""
+
+msgid "Remove this message"
+msgstr ""
+
+msgid "Remove this stylesheet"
 msgstr ""
 
 msgid "Rename"
@@ -826,6 +1669,15 @@ msgstr ""
 msgid "Repository saved, but unable to enable"
 msgstr ""
 
+msgid "required"
+msgstr ""
+
+msgid "Required"
+msgstr ""
+
+msgid "Required field"
+msgstr ""
+
 msgid "required length"
 msgstr ""
 
@@ -844,10 +1696,31 @@ msgstr ""
 msgid "Resource saved"
 msgstr ""
 
+msgid "Response"
+msgstr ""
+
+msgid "Response identifier"
+msgstr ""
+
+msgid "Response processing"
+msgstr ""
+
 msgid "Responsive mode"
 msgstr ""
 
 msgid "Revision control"
+msgstr ""
+
+msgid "Revoke access rights to the action"
+msgstr ""
+
+msgid "Revoke access rights to the entire extension"
+msgstr ""
+
+msgid "Revoke access rights to the entire module"
+msgstr ""
+
+msgid "right"
 msgstr ""
 
 msgid "Right click the tree to manage your lists"
@@ -862,10 +1735,37 @@ msgstr ""
 msgid "Roles library"
 msgstr ""
 
+msgid "Rubric Block"
+msgstr ""
+
+msgid "Rubric Block Properties"
+msgstr ""
+
+msgid "Rubric Blocks"
+msgstr ""
+
 msgid "Save"
 msgstr ""
 
+msgid "Scale "
+msgstr ""
+
 msgid "Scope"
+msgstr ""
+
+msgid "score"
+msgstr ""
+
+msgid "Score"
+msgstr ""
+
+msgid "Score range"
+msgstr ""
+
+msgid "Score value"
+msgstr ""
+
+msgid "Scorer"
 msgstr ""
 
 msgid "Search"
@@ -877,16 +1777,70 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "Select"
+msgid "Section Properties"
 msgstr ""
 
 msgid "select"
 msgstr ""
 
+msgid "Select"
+msgstr ""
+
+msgid "Select a "
+msgstr ""
+
+msgid "select a choice"
+msgstr ""
+
 msgid "Select a language"
 msgstr ""
 
+msgid "Select a test"
+msgstr ""
+
+msgid "Select an image first"
+msgstr ""
+
+msgid "Select an image first."
+msgstr ""
+
+msgid "Select an image."
+msgstr ""
+
+msgid "Select another area to complete the association"
+msgstr ""
+
+msgid "select correct choice"
+msgstr ""
+
+msgid "Select image"
+msgstr ""
+
+msgid "Select media"
+msgstr ""
+
+msgid "Select media file"
+msgstr ""
+
+msgid "Select Point"
+msgstr ""
+
+msgid "Select Point Interaction"
+msgstr ""
+
+msgid "Select the area to add an image"
+msgstr ""
+
 msgid "Select the element destination"
+msgstr ""
+
+msgid "Select the way the response of your interaction should be processed"
+msgstr ""
+
+msgid "Select this area"
+msgstr ""
+
+msgid "Select this area to start an association"
 msgstr ""
 
 msgid "Select this file"
@@ -898,7 +1852,16 @@ msgstr ""
 msgid "Selected file:"
 msgstr ""
 
+msgid "Selection"
+msgstr ""
+
 msgid "Selection saved successfully"
+msgstr ""
+
+msgid "Sequence saved successfully"
+msgstr ""
+
+msgid "Set the score for this response"
 msgstr ""
 
 #, tao-public
@@ -908,19 +1871,82 @@ msgstr ""
 msgid "Settings updated"
 msgstr ""
 
+msgid "Shape position"
+msgstr ""
+
 msgid "Show detailed report"
+msgstr ""
+
+msgid "Show Feedback"
+msgstr ""
+
+msgid "Show Solution"
+msgstr ""
+
+msgid "Show the solution once the answer is submitted."
+msgstr ""
+
+msgid "Shuffle"
+msgstr ""
+
+msgid "Shuffle choices"
 msgstr ""
 
 msgid "Simple Mode"
 msgstr ""
 
+msgid "Simultaneous"
+msgstr ""
+
 msgid "Size"
+msgstr ""
+
+msgid "Size and position"
+msgstr ""
+
+msgid "Slider"
+msgstr ""
+
+msgid "Slider Interaction"
+msgstr ""
+
+msgid "some text ..."
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Step"
+msgstr ""
+
+msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
+msgstr ""
+
+msgid "Submission"
+msgstr ""
+
+msgid "Submit"
 msgstr ""
 
 msgid "Supported export formats"
 msgstr ""
 
 msgid "Supported import formats"
+msgstr ""
+
+msgid "SVG image"
+msgstr ""
+
+msgid "Switch to Design Mode completed"
+msgstr ""
+
+msgid "Switch to Production Mode completed."
+msgstr ""
+
+msgid "Switching to Design..."
+msgstr ""
+
+msgid "Switching to Production..."
 msgstr ""
 
 #, tao-public
@@ -936,6 +1962,15 @@ msgstr ""
 msgid "TAO Login"
 msgstr ""
 
+msgid "Test completed at %d%%"
+msgstr ""
+
+msgid "Test constructor"
+msgstr ""
+
+msgid "Test Saved"
+msgstr ""
+
 msgid "Text - Long - Box"
 msgstr ""
 
@@ -945,7 +1980,34 @@ msgstr ""
 msgid "Text - Short - Field"
 msgstr ""
 
+msgid "Text Block Interaction"
+msgstr ""
+
+msgid "Text Entry"
+msgstr ""
+
+msgid "Text Entry Interaction"
+msgstr ""
+
+msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
+msgstr ""
+
+msgid "The candidate is not allowed to submit wrong responses."
+msgstr ""
+
 msgid "The column "
+msgstr ""
+
+msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
+msgstr ""
+
+msgid "The expectedLength attribute provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
+msgstr ""
+
+msgid "The file path to the image."
+msgstr ""
+
+msgid "The file path to the media."
 msgstr ""
 
 msgid "the file was not uploaded successfully"
@@ -954,10 +2016,121 @@ msgstr ""
 msgid "The format of this field is not valid."
 msgstr ""
 
+msgid "The highlighted choice cannot be associated more than %d time(s)."
+msgstr ""
+
+msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr ""
+
+msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr ""
+
+msgid "The identifier of the item reference."
+msgstr ""
+
+msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr ""
+
+msgid "The identifier of the section."
+msgstr ""
+
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
 msgstr ""
 
+msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr ""
+
+msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
+msgstr ""
+
+msgid "The lower bound of the slider"
+msgstr ""
+
+msgid "The maximum number of association is unlimited."
+msgstr ""
+
+msgid "The maximum number of choices that the candidate is allowed to select to form a valid response."
+msgstr ""
+
+msgid "The maximum number of choices that the candidate is allowed to select."
+msgstr ""
+
+msgid "The maximum number of choices this choice may be associated with."
+msgstr ""
+
+msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
+msgstr ""
+
+msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
+msgstr ""
+
+msgid "The MIME-type attribute describes which kind of file may be uploaded."
+msgstr ""
+
+msgid "The minimum number of answers is "
+msgstr ""
+
+msgid "The minimum number of associations that the candidate is required to make to form a valid response."
+msgstr ""
+
+msgid "The minimum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
+
+msgid "The minimum number of choices this choice must be associated with to form a valid response."
+msgstr ""
+
+msgid "The navigation mode determines the general paths that the candidate may take. A linear mode restricts the candidate to attempt each item in turn. Non Linear removes this restriction."
+msgstr ""
+
+msgid "The number of child elements to be selected."
+msgstr ""
+
+msgid "The number of units corresponding to a step on the slider"
+msgstr ""
+
+msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
+msgstr ""
+
+msgid "The principle identifier of the test."
+msgstr ""
+
+msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
+msgstr ""
+
+msgid "The reference."
+msgstr ""
+
+msgid "The section title."
+msgstr ""
+
+msgid "The selected file is ready to be sent."
+msgstr ""
+
+msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr ""
+
+msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr ""
+
+msgid "The submission mode determines when the candidate's responses are submitted for response processing. A testPart in individual mode requires the candidate to submit their responses on an item-by-item basis. In simultaneous mode the candidate's responses are all submitted together at the end of the testPart."
+msgstr ""
+
+msgid "The test part identifier."
+msgstr ""
+
+msgid "The test title."
+msgstr ""
+
+msgid "The text to be displayed if the image is not available."
+msgstr ""
+
+msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr ""
+
 msgid "The uploaded file is too large"
+msgstr ""
+
+msgid "The upper bound of the slider"
 msgstr ""
 
 msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
@@ -969,6 +2142,24 @@ msgstr ""
 msgid "The value of this field must be numeric"
 msgstr ""
 
+msgid "There are no classes available for optimization."
+msgstr ""
+
+msgid "There is an incomplete element in your item : please click on it to complete it."
+msgstr ""
+
+msgid "There was a problem downloading your CSS, please try again."
+msgstr ""
+
+msgid "There was a problem generating your report, please try again."
+msgstr ""
+
+msgid "This constraint affects the visibility of feedback after the end of the last attempt."
+msgstr ""
+
+msgid "This constraint controls whether or not the candidate is allowed to provide a comment on the item during the session. Comments are not part of the assessed responses."
+msgstr ""
+
 msgid "This field is required"
 msgstr ""
 
@@ -978,10 +2169,16 @@ msgstr ""
 msgid "This field is too short"
 msgstr ""
 
+msgid "this identifier is already in use"
+msgstr ""
+
 msgid "this is required"
 msgstr ""
 
 msgid "This Login is already in use"
+msgstr ""
+
+msgid "This preview may be scaled to fit your screen. The final rendering may differ."
 msgstr ""
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
@@ -993,13 +2190,22 @@ msgstr ""
 msgid "This should not equal "
 msgstr ""
 
+msgid "Time dependent"
+msgstr ""
+
+msgid "Time Limits"
+msgstr ""
+
 msgid "Time zone"
+msgstr ""
+
+msgid "Title"
 msgstr ""
 
 msgid "to translate"
 msgstr ""
 
-msgid "Tools"
+msgid "Top"
 msgstr ""
 
 msgid "Translate"
@@ -1014,6 +2220,9 @@ msgstr ""
 msgid "Translation saved"
 msgstr ""
 
+msgid "Tutor"
+msgstr ""
+
 msgid "Type"
 msgstr ""
 
@@ -1026,10 +2235,13 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr ""
 
+msgid "Uncheck All"
+msgstr ""
+
 msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "undo"
 msgstr ""
 
 msgid "Undo"
@@ -1062,10 +2274,16 @@ msgstr ""
 msgid "Upload the file to version"
 msgstr ""
 
+msgid "Upper Bound"
+msgstr ""
+
 msgid "URL"
 msgstr ""
 
 msgid "Use default value"
+msgstr ""
+
+msgid "Used to control the format of the text entered by the candidate."
 msgstr ""
 
 msgid "User added"
@@ -1088,27 +2306,126 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
+msgid "Validate Responses"
+msgstr ""
+
 msgid "Version"
 msgstr ""
 
 msgid "Versioning"
 msgstr ""
 
+msgid "Views"
+msgstr ""
+
+msgid "Visible"
+msgstr ""
+
+msgid "WAV audio"
+msgstr ""
+
+msgid "We are preparing your report, please wait..."
+msgstr ""
+
+msgid "When selecting child elements each element is normally eligible for selection once only."
+msgstr ""
+
+msgid "Whether a candidate's response that is beyond the maximum duration of the item should still be accepted."
+msgstr ""
+
+msgid "Whether a candidate's response that is beyond the maximum duration of the section should still be accepted."
+msgstr ""
+
+msgid "Whether a candidate's response that is beyond the maximum duration of the test part should still be accepted."
+msgstr ""
+
+msgid "Whether a candidate's response that is beyond the maximum duration should still be accepted."
+msgstr ""
+
+msgid "Who can view the rubric block during the delivery."
+msgstr ""
+
 msgid "Width"
+msgstr ""
+
+msgid "Width (optional)"
+msgstr ""
+
+msgid "Windows Media audio"
+msgstr ""
+
+msgid "Windows Media video"
+msgstr ""
+
+msgid "With Replacement"
+msgstr ""
+
+msgid "XHTML"
 msgstr ""
 
 msgid "Yes"
 msgstr ""
 
+msgid "You can select maximum"
+msgstr ""
+
 msgid "You can use * as a wildcard"
+msgstr ""
+
+msgid "You can use maximum ' + max + ' choices"
 msgstr ""
 
 msgid "You currently have no access to the platform"
 msgstr ""
 
+msgid "You have deleted"
+msgstr ""
+
+msgid "You have deleted an element"
+msgstr ""
+
+msgid "You have deleted an element."
+msgstr ""
+
+msgid "You may make as many association pairs as you want."
+msgstr ""
+
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr ""
 
+msgid "You must have one role or user that have the manage permission on this element."
+msgstr ""
+
+msgid "You must select %1$d to %2$d choices."
+msgstr ""
+
+msgid "You must select 0 to %d choices."
+msgstr ""
+
+msgid "You must select at least"
+msgstr ""
+
+msgid "You must select exactly"
+msgstr ""
+
+msgid "You must select exactly %d choice(s)."
+msgstr ""
+
+msgid "You must use at least ' + min + ' choices"
+msgstr ""
+
+msgid "You need to make"
+msgstr ""
+
 msgid "You've not the required rights to edit this resource."
+msgstr ""
+
+msgid "Your comment..."
+msgstr ""
+
+msgid "Your item has been saved"
+msgstr ""
+
+msgid "ZIP file"
 msgstr ""
 
