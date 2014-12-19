@@ -93,12 +93,13 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 @keyframes loadingbar { 0% { left: -10%; }
   50% { left: 90%; }
   100% { left: -10%; } }
-.loading-bar { height: 6px; position: absolute; width: 100%; top: 87px; display: none; overflow: hidden; z-index: 10000; }
-.loading-bar.fixed { position: fixed; width: 100%; top: 0 !important; }
+.loading-bar { height: 6px; position: absolute; width: 100%; top: 0px; display: none; overflow-x: hidden; overflow-y: visible; z-index: 10000; }
+.loading-bar.fixed { position: fixed; width: 100%; }
+.loading-bar.fixed:before { top: 0 !important; }
 .loading-bar.loading { display: block; }
-.loading-bar.loading:before { position: absolute; top: 0; content: ''; height: 6px; width: 20%; display: block; background: -webkit-linear-gradient(left, transparent 0%, #c35a13 20%, #c35a13 80%, transparent 100%); background: -moz-linear-gradient(left, transparent 0%, #c35a13 20%, #c35a13 80%, transparent 100%); background: -ms-linear-gradient(left, transparent 0%, #c35a13 20%, #c35a13 80%, transparent 100%); background: -o-linear-gradient(left, transparent 0%, #c35a13 20%, #c35a13 80%, transparent 100%); background: linear-gradient(left, transparent 0%, #c35a13 20%, #c35a13 80%, transparent 100%); -webkit-animation: loadingbar 5s linear infinite; -moz-animation: loadingbar 5s linear infinite; -ms-animation: loadingbar 5s linear infinite; -o-animation: loadingbar 5s linear infinite; animation: loadingbar 5s linear infinite; }
+.loading-bar.loading:before { position: absolute; top: 87px; content: ''; height: 6px; width: 20%; display: block; background: -webkit-linear-gradient(left, transparent 0%, #c35a13 20%, #c35a13 80%, transparent 100%); background: -moz-linear-gradient(left, transparent 0%, #c35a13 20%, #c35a13 80%, transparent 100%); background: -ms-linear-gradient(left, transparent 0%, #c35a13 20%, #c35a13 80%, transparent 100%); background: -o-linear-gradient(left, transparent 0%, #c35a13 20%, #c35a13 80%, transparent 100%); background: linear-gradient(left, transparent 0%, #c35a13 20%, #c35a13 80%, transparent 100%); -webkit-animation: loadingbar 5s linear infinite; -moz-animation: loadingbar 5s linear infinite; -ms-animation: loadingbar 5s linear infinite; -o-animation: loadingbar 5s linear infinite; animation: loadingbar 5s linear infinite; }
 
-.no-version-warning .loading-bar { top: 58px; }
+.no-version-warning .loading-bar:before { top: 58px; }
 
                                   /* /  \ |    | --:'''':--
 THIS CODE IS GENERATED          :*_* : _:"":\___
