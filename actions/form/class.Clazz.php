@@ -124,11 +124,6 @@ class tao_actions_form_Clazz
                     }
                 }
                 $element->setName('class_' . $element->getName());
-
-                if(in_array($this->getTopClazz(),$clazz->getParentClasses())){
-                    $element->setAttribute('readOnly', 'readOnly');
-                }
-
                 $this->form->addElement($element);
 
                 //set label validator

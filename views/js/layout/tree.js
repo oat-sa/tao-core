@@ -290,7 +290,6 @@ define([
                         nodeContext.classUri = nodeId;
                         nodeContext.permissions = permissions[nodeId];
                         nodeContext.id = $node.data('uri');
-                        nodeContext.parent = serverParams.classUri;
 
                         //execute the selectClass action
                         if(options.actions.selectClass){

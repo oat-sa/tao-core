@@ -12,7 +12,6 @@
                 <trees>
                     <tree name="Roles library"
                           className="Role"
-                          rootNode="http://www.tao.lu/Ontologies/generis.rdf#ClassRole"
                           dataUrl="/tao/Roles/getOntologyData"
                           selectClass="role-class-properties"
                           selectInstance="role-properties"
@@ -57,7 +56,6 @@
                     <tree name="File sources"
                           className="Repository"
                           dataUrl="/tao/SettingsVersioning/getOntologyData"
-                          rootNode="http://www.tao.lu/Ontologies/generis.rdf#VersionedRepository"
                           selectClass="versioning-index"
                           selectInstance="versioning-properties"
                           delete="versioning-delete"

@@ -49,8 +49,6 @@
 					<!ATTLIST tree dataUrl CDATA #REQUIRED>
 					<!-- the URL to execute contextual actions from the tree -->
 					<!ATTLIST tree className CDATA #IMPLIED>
-                    <!-- The root Node of the tree -->
-					<!ATTLIST tree rootNode CDATA #REQUIRED>
 					<!-- the name of the main class that resources are instances of in the tree -->
 					<!ATTLIST tree
 						selectClass CDATA #IMPLIED
