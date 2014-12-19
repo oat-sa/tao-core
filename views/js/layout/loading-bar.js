@@ -41,7 +41,6 @@ define(['jquery'],
                 $win.trigger('scroll.loadingbar');
             },
             stop: function () {
-                return
                 $loadingBar.removeClass('loading fixed').height(originalHeight);
             }
         };
