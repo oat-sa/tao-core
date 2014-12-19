@@ -337,19 +337,21 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   height: 6px;
   position: absolute;
   width: 100%;
-  top: 87px;
+  top: 0px;
   display: none;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   z-index: 10000; }
   .loading-bar.fixed {
     position: fixed;
-    width: 100%;
-    top: 0 !important; }
+    width: 100%; }
+    .loading-bar.fixed:before {
+      top: 0 !important; }
   .loading-bar.loading {
     display: block; }
     .loading-bar.loading:before {
       position: absolute;
-      top: 0;
+      top: 87px;
       content: '';
       height: 6px;
       width: 20%;
@@ -365,7 +367,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       -o-animation: loadingbar 5s linear infinite;
       animation: loadingbar 5s linear infinite; }
 
-.no-version-warning .loading-bar {
+.no-version-warning .loading-bar:before {
   top: 58px; }
 
                                   /*
