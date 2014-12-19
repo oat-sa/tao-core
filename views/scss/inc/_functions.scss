@@ -86,7 +86,7 @@
             @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
             // @see https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis#Values
             // for a discussion auto vs. main-size
-            @include vendor-prefix(flex, 1 1 main-size, property, (-ms-, -webkit-, ''));
+            @include vendor-prefix(flex, 1 1, property, (-ms-, -webkit-, ''));
         }
     }
     @else {
