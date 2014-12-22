@@ -12,7 +12,7 @@ define([
     'tpl!ui/uploader/uploader',
     'tpl!ui/uploader/fileEntry',
     'ui/filesender',
-    'jqueryui'
+    'ui/progressbar'
 ], function($, _, __, async, Pluginifier, context, bytes, uploaderTpl, fileEntryTpl){
     'use strict';
 
@@ -141,6 +141,7 @@ define([
                         options.$dropZone.removeClass(options.dragOverClass);
                     };
 
+                    
                     //manage input selection
                     if(options.read && !tests.filereader) {
                         // Nope... :/
@@ -369,9 +370,8 @@ define([
             if(options.$progressBar){
                 options.$progressBar
                     .removeClass('success')
-                    .progressbar({
-                        value: 0
-                    });
+                    .progressbar('destroy')
+                    .progressbar({value :  0});
             }
             /**
              * The plugin has been created.
@@ -446,7 +446,7 @@ define([
                 options.$uploadBtn.prop('disabled', true);
                 options.$resetBtn.prop('disabled', true);
 
-                options.$progressBar.progressbar({ value: 0 });
+                options.$progressBar.progressbar('value', 0);
 
                 //start pushing uploads into the queue
                 _.forEach(options.files, function(file, index){   
@@ -477,7 +477,7 @@ define([
                             }
 
                             //update progress bar regarding the number of files uploaded 
-                            options.$progressBar.progressbar({ value: complete });
+                            options.$progressBar.progressbar('value', complete);
         
                             if(complete >= 100){
                                 if(errors.length === length){
@@ -527,9 +527,7 @@ define([
                     var reader = new FileReader();
 
                     reader.onload = function (e) {
-                        options.$progressBar.progressbar({
-                            value: 100
-                        });
+                        options.$progressBar.progressbar('value', 100);
 
                         /**
                          * The read is fininshed
@@ -541,9 +539,7 @@ define([
                     };
                     
                     reader.onloadstart = function (e) {
-                        options.$progressBar.progressbar({
-                            value: 0
-                        });
+                        options.$progressBar.progressbar('value', 0);
 
                         /**
                          * The reading starts
@@ -556,9 +552,7 @@ define([
                     if(options.$progressBar.length){
                         reader.onprogress = function (e) {
                             var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
-                            options.$progressBar.progressbar({
-                                value: percentProgress
-                            });
+                            options.$progressBar.progressbar('value', percentProgress);
                         };
                     }
                     reader.readAsDataURL(file);
