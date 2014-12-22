@@ -352,6 +352,7 @@ define([
                 helpers.getMainContainer().load(url, {
                     'property_mode': mode,
                     'uri': $("#uri").val(),
+                    'id': $("#id").val(),
                     'classUri': $("#classUri").val()
                 });
 

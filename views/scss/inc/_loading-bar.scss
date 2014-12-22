@@ -16,20 +16,25 @@ $loadingBarBorder: whiten($darkBar, .4);
     height: 6px;
     position: absolute;
     width: 100%;
-    top: 87px;
+    top: 0px;
     display:none;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
     z-index: 10000;
+
     &.fixed {
         position: fixed;
         width: 100%;
-        top: 0 !important;
+
+        &:before {
+            top: 0 !important;
+        }
     }
     &.loading {
         display: block;
         &:before {
             position: absolute;
-            top: 0;
+            top: 87px;
             content: '';
             height: 6px;
             width: 20%;
@@ -42,6 +47,8 @@ $loadingBarBorder: whiten($darkBar, .4);
 
 .no-version-warning {
     .loading-bar {
-        top: 58px
+        &:before {
+            top: 58px;
+        }
     }
 }
