@@ -133,7 +133,7 @@ class tao_actions_form_IndexProperty
 
         $removeIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_remove", 'Free');
         $removeIndexElt->setValue(
-            "<a href='#' id='index_{$index}_{$indexUri}_remove' class='btn-error index-remover small'><span class='icon-remove'></span> " . __(
+            "<a href='#' id='{$indexUri}' class='btn-error index-remover small'><span class='icon-remove'></span> " . __(
                 'remove index'
             ) . "</a>"
         );

@@ -1282,9 +1282,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
             throw new Exception("wrong request Parameter");
         }
 
-        $matches = array();
-        preg_match('/^(index_[0-9]+_(.+))_remove$/',$this->getRequestParameter('index_property'),$matches);
-        $indexPropertyUri = tao_helpers_Uri::decode($matches[2]);
+        $indexPropertyUri = tao_helpers_Uri::decode($this->getRequestParameter('index_property'));
 
         //remove use of index property in property
         $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
@@ -1294,7 +1292,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         $indexProperty = new \oat\tao\model\search\Index($indexPropertyUri);
         $indexProperty->delete();
 
-        echo json_encode(array('id' => $matches[1]));
+        echo json_encode(array('id' => $this->getRequestParameter('index_property')));
     }
 
     /**
