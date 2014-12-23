@@ -1326,6 +1326,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 INDEX_PROPERTY_IDENTIFIER => null,
                 INDEX_PROPERTY_TOKENIZER => null,
                 INDEX_PROPERTY_FUZZY_MATCHING => GENERIS_TRUE,
+                INDEX_PROPERTY_DEFAULT_SEARCH => GENERIS_FALSE,
             ));
 
         $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));

@@ -87,6 +87,28 @@ class tao_actions_form_IndexProperty
         $this->form->addElement($propIndexElt);
         $elementNames[] = $propIndexElt->getName();
 
+
+        //get and add Default search
+        $defaultSearch = $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_DEFAULT_SEARCH));
+        if(!is_null($defaultSearch)){
+            $defaultSearch = $defaultSearch->getUri();
+        }
+        else{
+            $defaultSearch = GENERIS_FALSE;
+
+        }
+        $options = array(
+            tao_helpers_Uri::encode(GENERIS_TRUE)  => __('True'),
+            tao_helpers_Uri::encode(GENERIS_FALSE) => __('False')
+        );
+        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_DEFAULT_SEARCH), 'Radiobox');
+        $propIndexElt->setOptions($options);
+        $propIndexElt->setDescription(__('Default search'));
+        $propIndexElt->addAttribute('class', 'index-defaultsearch');
+        $propIndexElt->setValue(tao_helpers_Uri::encode($defaultSearch));
+        $this->form->addElement($propIndexElt);
+        $elementNames[] = $propIndexElt->getName();
+
         //get and add Tokenizer (Combobox)
         $tokenizerRange = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer');
         $options = array();
@@ -103,6 +125,15 @@ class tao_actions_form_IndexProperty
         $this->form->addElement($propIndexElt);
         $elementNames[] = $propIndexElt->getName();
 
+        $removeIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_remove", 'Free');
+        $removeIndexElt->setValue(
+            "<a href='#' id='index_{$index}_{$indexUri}_remove' class='btn-error index-remover small'><span class='icon-remove'></span> " . __(
+                'remove index'
+            ) . "</a>"
+        );
+        $this->form->addElement($removeIndexElt);
+        $elementNames[] = $removeIndexElt;
+        
         $separatorIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_separator", 'Free');
         $separatorIndexElt->setValue(
             "<hr id='index_{$index}_{$indexUri}_separator'>"
