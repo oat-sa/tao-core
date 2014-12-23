@@ -34,6 +34,13 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Fuzzy matching]]></rdfs:label>
   	<rdfs:comment xml:lang="en-US"><![CDATA[Should the string matching be exact or fuzzy]]></rdfs:comment>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch">
+  	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  	<rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Index"/>
+  	<rdfs:range rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#Boolean"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Use by default]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Should this property be used implicitly in the defautl search]]></rdfs:comment>
+  </rdf:Description>
   
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
@@ -78,6 +85,7 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Label Index]]></rdfs:label>
   	<tao:IndexIdentifier><![CDATA[label]]></tao:IndexIdentifier>
   	<tao:IndexFuzzyMatching rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
+  	<tao:IndexDefaultSearch rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
   	<tao:IndexTokenizer rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer"/>
   </rdf:Description>
   
