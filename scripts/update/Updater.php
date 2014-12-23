@@ -59,8 +59,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         //migrate from 2.7.0 to 2.7.1
         if ($currentVersion == '2.7.0') {
         
-            $ext = $extensionManager->getExtensionById('tao');
-            $file = $ext->getDir().'models'.DIRECTORY_SEPARATOR.'ontology'.DIRECTORY_SEPARATOR.'indexation.rdf';
+            $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_1.rdf';
         
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             if ($adapter->import($file)) {
@@ -87,6 +86,20 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
              $currentVersion = '2.7.3';
         }
+
+        if ($currentVersion == '2.7.3') {
+        
+            $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_4.rdf';
+        
+            $adapter = new tao_helpers_data_GenerisAdapterRdf();
+            if ($adapter->import($file)) {
+                $currentVersion = '2.7.4';
+            } else{
+                common_Logger::w('Import failed for '.$file);
+            }
+        }
+        
+        
         return $currentVersion;
     }
 }
