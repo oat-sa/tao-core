@@ -115,6 +115,7 @@ define([
                                         }
                                         else {
                                             if($('[id*="index_"]',$editContainer).length > 0){
+                                                //hide index properties
                                                 $('[id*="index_"]',$editContainer).each(function(){
                                                     var $currentTarget = $(this);
                                                     while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
@@ -122,6 +123,7 @@ define([
                                                     }
                                                     $currentTarget.hide();
                                                 });
+                                                //show properties
                                                 $('[id*="property_"]',$editContainer).each(function(){
                                                     var $currentTarget = $(this);
                                                     while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
@@ -129,6 +131,20 @@ define([
                                                     }
                                                     $currentTarget.show();
                                                 });
+
+                                                //show or hide the list values select
+                                                var elt = $('[class*="property-type"]',$editContainer).parent("div").next("div");
+                                                if (/list$/.test($('[class*="property-type"]',$editContainer).val())) {
+                                                    if (elt.css('display') === 'none') {
+                                                        elt.show();
+                                                        elt.find('select').removeAttr('disabled');
+                                                    }
+                                                }
+                                                else if (elt.css('display') !== 'none') {
+                                                    elt.css('display', 'none');
+                                                    elt.find('select').prop('disabled', "disabled");
+                                                }
+
                                             }
                                             _toggleModeBtn('enabled');
                                         }
