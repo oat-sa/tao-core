@@ -110,6 +110,7 @@ $todefine = array(
     'INDEX_PROPERTY_FUZZY_MATCHING'     => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching',
     'INDEX_PROPERTY_IDENTIFIER'         => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier',
     'INDEX_PROPERTY_TOKENIZER'          => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer',
+    'INDEX_PROPERTY_DEFAULT_SEARCH'     => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch',
 
     // @todo properly migrate service and service calls to tao
     'CLASS_CALLOFSERVICES'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfServices',

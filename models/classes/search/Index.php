@@ -55,6 +55,18 @@ class Index extends \core_kernel_classes_Resource {
     }
     
     /**
+     * Should the property be used by default if no index key is specified
+     * 
+     * @return boolean
+     */
+    public function isDefaultSearchable()
+    {
+        $res = $this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_DEFAULT_SEARCH));
+        return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
+    }
+    
+    
+    /**
      * Should the value be stored
      * 
      * @return boolean
