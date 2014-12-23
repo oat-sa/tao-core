@@ -1320,16 +1320,34 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         $index = $this->getRequestParameter('index');
 
         //create and attach the new index property to the property
+        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         $class = new \core_kernel_classes_Class("http://www.tao.lu/Ontologies/TAO.rdf#Index");
+
+        //get property range to select a default tokenizer
+        /** @var core_kernel_classes_Class $range */
+        $range = $property->getRange();
+        //range is empty select item content
+        $tokenizer = null;
+        if($range === ''){
+            $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentTokenizer');
+        }
+        else if($range->getUri() === RDFS_LITERAL){
+            $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer');
+
+        }
+        else{
+            $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer');
+
+        }
+
         $indexProperty = $class->createInstanceWithProperties(array(
                 RDFS_LABEL => 'new index',
-                INDEX_PROPERTY_IDENTIFIER => null,
-                INDEX_PROPERTY_TOKENIZER => null,
+                INDEX_PROPERTY_IDENTIFIER => 'new_index',
+                INDEX_PROPERTY_TOKENIZER => $tokenizer,
                 INDEX_PROPERTY_FUZZY_MATCHING => GENERIS_TRUE,
                 INDEX_PROPERTY_DEFAULT_SEARCH => GENERIS_FALSE,
             ));
 
-        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         $property->setPropertyValue(new core_kernel_classes_Property(INDEX_PROPERTY), $indexProperty);
 
         //generate form

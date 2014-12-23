@@ -177,6 +177,7 @@ class tao_actions_form_SimpleProperty
             $propIndexElt->setDescription(__('Identifier'));
             $propIndexElt->addAttribute('class', 'index-identifier');
             $propIndexElt->setValue(tao_helpers_Uri::encode($identifier));
+            $propIndexElt->addValidator(new tao_helpers_form_validators_NotEmpty());
             $this->form->addElement($propIndexElt);
             $elementNames[] = $propIndexElt->getName();
 
@@ -217,6 +218,7 @@ class tao_actions_form_SimpleProperty
             $propIndexElt->setOptions($options);
             $propIndexElt->setEmptyOption(' --- '.__('select').' --- ');
             $propIndexElt->setValue(tao_helpers_Uri::encode($tokenizer));
+            $propIndexElt->addValidator(new tao_helpers_form_validators_NotEmpty());
             $this->form->addElement($propIndexElt);
             $elementNames[] = $propIndexElt->getName();
 

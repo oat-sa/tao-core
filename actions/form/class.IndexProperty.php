@@ -81,9 +81,12 @@ class tao_actions_form_IndexProperty
         $elementNames[] = $propIndexElt->getName();
 
         //get and add identifier (Text)
+        $identifier = $indexProperty->getIdentifier();
         $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_IDENTIFIER), 'Textbox');
         $propIndexElt->setDescription(__('Identifier'));
         $propIndexElt->addAttribute('class', 'index-identifier');
+        $propIndexElt->setValue($identifier);
+        $propIndexElt->addValidator(new tao_helpers_form_validators_NotEmpty());
         $this->form->addElement($propIndexElt);
         $elementNames[] = $propIndexElt->getName();
 
@@ -116,12 +119,15 @@ class tao_actions_form_IndexProperty
         foreach($tokenizerRange->getInstances() as $value){
             $options[tao_helpers_Uri::encode($value->getUri())] = $value->getLabel();
         }
-
+        $tokenizer = $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_TOKENIZER));
+        $tokenizer = (get_class($tokenizer) === 'core_kernel_classes_Resource')?$tokenizer->getUri():'';
         $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_TOKENIZER), 'Combobox');
         $propIndexElt->setDescription(__('Tokenizer'));
         $propIndexElt->addAttribute('class', 'index-tokenizer');
         $propIndexElt->setOptions($options);
+        $propIndexElt->setValue(tao_helpers_Uri::encode($tokenizer));
         $propIndexElt->setEmptyOption(' --- '.__('select').' --- ');
+        $propIndexElt->addValidator(new tao_helpers_form_validators_NotEmpty());
         $this->form->addElement($propIndexElt);
         $elementNames[] = $propIndexElt->getName();
 
