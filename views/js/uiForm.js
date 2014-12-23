@@ -310,7 +310,7 @@ define([
                 }
             });
 
-            $(".index-remover").off('click').on('click', function (e) {
+            $('.property-edit-container').off('click', '.index-remover').on('click', '.index-remover', function(e){
                 e.preventDefault();
                 var $groupNode = $(this).closest(".form-group");
                 var index = $('.form-group').index($groupNode) + 1;
@@ -333,7 +333,6 @@ define([
                         });
                     }
                 });
-
             });
 
             $(".property-mode").off('click').on('click', function () {
