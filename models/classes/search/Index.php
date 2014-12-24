@@ -45,23 +45,25 @@ class Index extends \core_kernel_classes_Resource {
     
     /**
      * Should the string matching be fuzzy
+     * defaults to false if no information present
      * 
      * @return boolean
      */
     public function isFuzzyMatching()
     {
-        $res = $this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_FUZZY_MATCHING));
+        $res = $this->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_FUZZY_MATCHING));
         return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
     }
     
     /**
      * Should the property be used by default if no index key is specified
+     * defaults to false if no information present
      * 
      * @return boolean
      */
     public function isDefaultSearchable()
     {
-        $res = $this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_DEFAULT_SEARCH));
+        $res = $this->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_DEFAULT_SEARCH));
         return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
     }
     
