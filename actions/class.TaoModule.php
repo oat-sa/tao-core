@@ -141,18 +141,15 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
 	protected abstract function getRootClass();
 	
-	/**
-	 * Edits the class label and definition
-	 */
-	public function editClass()
+	public function editClassProperties()
 	{
 	    $this->defaultData();
 	    $clazz = $this->getCurrentClass();
-	
+	    
 	    if ($this->hasRequestParameter('property_mode')) {
 	        $this->setSessionAttribute('property_mode', $this->getRequestParameter('property_mode'));
 	    }
-	
+	    
 	    $myForm = $this->getClassForm($clazz, $this->getRootClass());
 	    if ($myForm->isSubmited()) {
 	        if ($myForm->isValid()) {
@@ -167,10 +164,21 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	    $this->setData('myForm', $myForm->render());
 	    $this->setView('form.tpl', 'tao');
 	}
+	
+	/**
+	 * Deprecated alias for getClassForm
+	 * 
+	 * @deprecated
+	 */
+	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topclass = null)
+	{
+	    return $this->getClassForm($clazz, $resource, $topclass);
+	}
 
 	/**
-	 * Edit a class 
-	 * Manage the form submit by saving the class
+	 * Create an edit form for a class and its property
+	 * and handle the submited data on save
+	 * 
 	 * @param core_kernel_classes_Class    $clazz
 	 * @param core_kernel_classes_Resource $resource
 	 * @return tao_helpers_form_Form the generated form
