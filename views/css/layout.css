@@ -52,7 +52,7 @@ ul.group-list li span.label, ul.group-list .group-title .title { padding: 5px 0;
 ul.group-list li span.selector, ul.group-list .group-title .selector { width: 10%; height: 26px; vertical-align: top; display: inline-block; position: absolute; right: 0; }
 ul.group-list li { padding-left: 7px; position: relative; }
 ul.group-list li > .checkable, ul.group-list li .group-title > .checkable { background-image: url(../img/checkbox.png); }
-ul.group-list li > .inherited, ul.group-list li .group-title > .inherited { background-image: url(../img/checkbox_locked.png); }
+ul.group-list li > .checkable, ul.group-list li .group-title > .inherited { background-image: url(../img/checkbox_locked.png); }
 ul.group-list li.group, ul.group-list li.selectable { list-style: none; border-bottom: 1px solid #999; }
 ul.group-list li ul.actions { list-style: none; display: inline-block; min-width: 8px; padding-right: 5px; width: auto; vertical-align: top; }
 ul.group-list li ul.actions li { display: inline-block; margin: 5px 0; padding: 0; width: 16px; height: 16px; }
