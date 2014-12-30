@@ -79,8 +79,9 @@ class SearchService
         foreach (MenuService::getAllPerspectives() as $perspective) {
             foreach ($perspective->getChildren() as $structure) {
                 foreach ($structure->getTrees() as $tree) {
-                    if (!empty($tree->get('rootNode'))) {
-                        $classes[$tree->get('rootNode')] = new \core_kernel_classes_Class($tree->get('rootNode'));
+                    $rootNode = $tree->get('rootNode');
+                    if (!empty($rootNode)) {
+                        $classes[$rootNode] = new \core_kernel_classes_Class($rootNode);
                     }
                 }
             }
