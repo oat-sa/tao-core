@@ -41,12 +41,13 @@ class IndexService
     static public function createIndex(\core_kernel_classes_Property $property, $identifier, \core_kernel_classes_Resource $tokenizer, $isFuzzyMatching, $isDefaultSearchable)
     {
         $class = new \core_kernel_classes_Class(Index::RDF_TYPE);
-        $existingIndex = $this->getIndexById($identifier);
+        $existingIndex = self::getIndexById($identifier);
         if (!is_null($existingIndex)) {
             throw new \common_Exception('Index '.$identifier.' already in use');
         }
         // verify identifier is unused
         $resource = $class->createInstanceWithProperties(array(
+            RDFS_LABEL => $identifier,
             INDEX_PROPERTY_IDENTIFIER => $identifier,
             INDEX_PROPERTY_TOKENIZER => $tokenizer,
             INDEX_PROPERTY_FUZZY_MATCHING => $isFuzzyMatching ? GENERIS_TRUE : GENERIS_FALSE,

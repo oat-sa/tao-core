@@ -29,6 +29,10 @@ class Index extends \core_kernel_classes_Resource {
         return (string)$this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_IDENTIFIER));
     }
     
+    /**
+     * @throws \common_exception_Error
+     * @return oat\tao\model\search\tokenizer\Tokenizer
+     */
     public function getTokenizer()
     {
         $tokenizerUri = $this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_TOKENIZER));
