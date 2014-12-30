@@ -27,6 +27,7 @@ use oat\tao\model\menu\MenuService;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\search\SearchService;
+use oat\tao\model\search\IndexService;
 
 /**
  * The TaoModule is an abstract controller, 
@@ -334,14 +335,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                                 $indexProperty = new core_kernel_classes_Property($matches[1]);
                                 if($matches[2] === INDEX_PROPERTY_IDENTIFIER ){
                                     $value = preg_replace('/\s+/','_',strtolower(rtrim($value)));
-                                    $indexClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Index');
-                                    $resources = $indexClass->searchInstances(array(INDEX_PROPERTY_IDENTIFIER => $value), array());
-                                    $count = count($resources);
-                                    $resource = array_shift($resources);
-                                    if($count !== 0 && $resource->getUri() != $indexProperty->getUri()){
+                                    $existingIndex = IndexService::getIndexById($value);
+                                    if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
                                         throw new Exception("The index identifier should be unique");
                                     }
-
                                 }
                                 $deletion = $indexProperty->removePropertyValues(new core_kernel_classes_Property($matches[2]));
                                 if($deletion){

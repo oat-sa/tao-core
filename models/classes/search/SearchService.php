@@ -20,7 +20,6 @@
  */
 namespace oat\tao\model\search;
 
-use oat\tao\model\search\zend\ZendSearch;
 use oat\tao\model\menu\MenuService;
 
 /**
@@ -59,6 +58,8 @@ class SearchService
     }
     
     /**
+     * Runs a full reindexing of the resources
+     * 
      * @return int nr of resources indexed
      */
     static public function runIndexing() 
@@ -86,52 +87,5 @@ class SearchService
         }
         
         return array_values($classes);
-    }
-    
-    static public function getIndexes(\core_kernel_classes_Property $property) {
-        $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
-        $indexes = array();
-        
-        foreach ($indexUris as $indexUri) {
-            $indexes[] = new Index($indexUri);
-        }
-        
-        return $indexes;
-    }
-    
-    /**
-     * Get the Search Indexes of a given $class.
-     * 
-     * The returned array is an associative array where keys are the Property URI
-     * the Search Index belongs to, and the values are core_kernel_classes_Resource objects
-     * corresponding to Search Index definitions.
-     * 
-     * @param \core_kernel_classes_Class $class
-     * @param boolean $recursive Whether or not to look for Search Indexes that belong to sub-classes of $class. Default is true.
-     * @return Index[] An array of Search Index to $class.
-     */
-    static public function getIndexesByClass(\core_kernel_classes_Class $class, $recursive = true)
-    {
-        $returnedIndexes = array();
-        
-        // Get properties to the root class hierarchy.
-        $properties = $class->getProperties(true);
-        
-        foreach ($properties as $prop) {
-            $propUri = $prop->getUri();
-            $indexes = self::getIndexes($prop);
-            
-            if (count($indexes) > 0) {
-                if (isset($returnedIndexes[$propUri]) === false) {
-                    $returnedIndexes[$propUri] = array();
-                }
-                
-                foreach ($indexes as $index) {
-                    $returnedIndexes[$propUri][] = new Index($index->getUri());
-                }
-            }
-        }
-        
-        return $returnedIndexes;
     }
 }

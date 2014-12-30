@@ -20,6 +20,7 @@
 
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SyntaxException;
+use oat\tao\model\search\IndexService;
 
 /**
  * Controller for indexed searches
@@ -98,7 +99,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
         
         if ($this->hasRequestParameter('rootNode') === true) {
             $rootNodeUri = $this->getRequestParameter('rootNode');
-            $indexes = SearchService::getIndexesByClass(new core_kernel_classes_Class($rootNodeUri));
+            $indexes = IndexService::getIndexesByClass(new core_kernel_classes_Class($rootNodeUri));
             $json = array();
             
             foreach ($indexes as $propertyUri => $index) {

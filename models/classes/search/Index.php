@@ -22,6 +22,8 @@ namespace oat\tao\model\search;
 
 class Index extends \core_kernel_classes_Resource {
     
+    const RDF_TYPE = "http://www.tao.lu/Ontologies/TAO.rdf#Index";
+    
     public function getIdentifier()
     {
         return (string)$this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_IDENTIFIER));

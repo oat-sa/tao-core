@@ -9,7 +9,7 @@
         <strong>ex:</strong> <em>label:exam* AND model:QTI</em>
         </div>
         <hr style="margin:5px 0;"/>
-        <?php foreach (oat\tao\model\search\SearchService::getIndexesByClass(new \core_kernel_classes_Class(get_data('rootNode'))) as $uri => $indexes): ?>
+        <?php foreach (oat\tao\model\search\IndexService::getIndexesByClass(new \core_kernel_classes_Class(get_data('rootNode'))) as $uri => $indexes): ?>
             <?php foreach ($indexes as $index): ?>
             <div>
                 <?php $prop = new core_kernel_classes_Property($uri); ?>
