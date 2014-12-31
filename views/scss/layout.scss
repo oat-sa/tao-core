@@ -199,7 +199,7 @@ ul.group-list {
             background-image: url(../img/checkbox.png);
         }
 
-        & > .checkable, .group-title > .inherited {
+        span.has-inherited {
             background-image: url(../img/checkbox_locked.png);
         }
         
