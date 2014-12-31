@@ -88,7 +88,7 @@ abstract class tao_helpers_grid_Cell_VersionedFileAdapter
      * @param  string rowId
      * @param  string columnId
      * @param  string data
-     * @return core_kernel_classes_Session_int
+     * @return int
      */
     public abstract function getVersion($rowId, $columnId, $data = null);
 

@@ -46,7 +46,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    try {
 	        $user = $authAdapter->authenticate();
     	    $session = new common_session_RestSession($user);
-    	    core_kernel_classes_Session::singleton()->setSession($session);
+    	    \common_session_SessionManager::startSession($session);
 	    } catch (common_user_auth_AuthFailedException $e) {
 	        $this->requireLogin();
 	    } 

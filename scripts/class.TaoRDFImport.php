@@ -86,8 +86,7 @@ class tao_scripts_TaoRDFImport
         if ($userService->loginUser($this->options['user'], $this->options['password'])){
         	$this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
         	
-        	//get the session & determine the target namespace.
-        	$session = core_kernel_classes_Session::singleton();
+        	//determine the target namespace.
         	$targetNamespace = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
         	if (!empty($this->options['model'])){
         		$targetNamespace = $this->options['model'];
