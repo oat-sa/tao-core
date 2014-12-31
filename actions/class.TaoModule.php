@@ -898,17 +898,16 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			}
 		}
 		
-		$datalang = core_kernel_classes_Session::singleton()->getDataLanguage();
-		
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				
-				$values = $myForm->getValues();
-				if(isset($values['translate_lang'])){
-					$lang = $values['translate_lang'];
-					
-					$translated = 0;
-					foreach($values as $key => $value){
+        if($myForm->isSubmited()){
+            if($myForm->isValid()){
+
+                $values = $myForm->getValues();
+                if(isset($values['translate_lang'])){
+                    $datalang = common_session_SessionManager::getSession()->getDataLanguage();
+                    $lang = $values['translate_lang'];
+
+                    $translated = 0;
+                    foreach($values as $key => $value){
 						if(preg_match("/^http/", $key)){
 							$value = trim($value);
 							$property = new core_kernel_classes_Property($key);

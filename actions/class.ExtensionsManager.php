@@ -81,7 +81,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 			$success = true;
 			
 			// reinit user session
-			$session = core_kernel_classes_Session::singleton()->refresh();
+			$session = \common_session_SessionManager::getSession()->refresh();
 		}
 		catch(common_ext_ExtensionException $e) {
 			$message = $e->getMessage();

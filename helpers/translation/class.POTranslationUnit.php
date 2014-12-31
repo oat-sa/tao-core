@@ -197,7 +197,6 @@ class tao_helpers_translation_POTranslationUnit
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array flags An array of PO string flags.
-     * @return core_kernel_classes_Session_void
      */
     public function setFlags($flags)
     {
@@ -209,5 +208,3 @@ class tao_helpers_translation_POTranslationUnit
     }
 
 }
-
-?>

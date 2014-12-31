@@ -96,7 +96,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
 
 
-            $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+            $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
 
             $this->setData('settings-menu', $naviElements);
 
@@ -216,8 +216,8 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }
         
-		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getDataLanguage());
-		$this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+		$this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
+		$this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
