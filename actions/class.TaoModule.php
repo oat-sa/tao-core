@@ -1330,16 +1330,12 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         $range = $property->getRange();
         //range is empty select item content
         $tokenizer = null;
-        if($range === ''){
-            $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContentTokenizer');
-        }
-        else if($range->getUri() === RDFS_LITERAL){
-            $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer');
-
-        }
-        else{
-            $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer');
-
+        if (is_null($range)) {
+            $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAOItem.rdf#RawValueTokenizer');
+        } else {
+            $tokenizer = $range->getUri() === RDFS_LITERAL
+                ? new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer')
+                : new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer');
         }
 
         $indexClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Index');
