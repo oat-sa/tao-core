@@ -269,54 +269,61 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						}
 					}
 					else{
-						
-						if($propMode == 'simple'){
-							$type = $properties['type'];
-							$range = (isset($properties['range']) ? trim($properties['range']) : null);
-							unset($properties['type']);
-							unset($properties['range']);
-							
-							if(isset($propertyMap[$type])){
-								$properties[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
-								$properties[PROPERTY_MULTIPLE] = $propertyMap[$type]['multiple'];
-								if(!empty($range)){
-									$properties[RDFS_RANGE] = $range;
-								}
-								else if (!empty($propertyMap[$type]['range'])){
-									$properties[RDFS_RANGE] = $propertyMap[$type]['range'];
-								}
-								else {
-									$properties[RDFS_RANGE] = RDFS_LITERAL;
-								}
-							}
-						}
-						$property = new core_kernel_classes_Property(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum]));
-						$this->service->bindProperties($property, $properties);
-						
-						$myForm->removeGroup("property_".$propNum);
-						
-						//instanciate a property form
-						$propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
-						if(!class_exists($propFormClass)){
-							$propFormClass = 'tao_actions_form_SimpleProperty';
-						}
-						
-						$propFormContainer = new $propFormClass($clazz, $property, array('index' => $propNum));
-						$propForm = $propFormContainer->getForm();
-						
-						//and get its elements and groups
-						$myForm->setElements(array_merge($myForm->getElements(), $propForm->getElements()));
-						$myForm->setGroups(array_merge($myForm->getGroups(), $propForm->getGroups()));
-						
-						unset($propForm);
-						unset($propFormContainer);
-					}
-					//reload form
-				}
-			}
-		}
-		return $myForm;
-	}
+
+                        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum]));
+                        if($propMode == 'simple') {
+                            $type = $properties['type'];
+                            $range = (isset($properties['range']) ? trim($properties['range']) : null);
+                            unset($properties['type']);
+                            unset($properties['range']);
+                            	
+                            if (isset($propertyMap[$type])) {
+                                $properties[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
+                            }
+                            
+                            if(empty($range)) {
+                                $range = (isset($propertyMap[$type]) && !empty($propertyMap[$type]['range']))
+                                   ? $propertyMap[$type]['range']
+                                   : RDFS_LITERAL;
+                            }
+                            
+                            
+                            $this->service->bindProperties($property, $properties);
+                            
+                            
+                            $property->setRange(new core_kernel_classes_Class($range));
+                            if(isset($propertyMap[$type]['multiple'])) {
+                                $property->setMultiple($propertyMap[$type]['multiple'] == GENERIS_TRUE);
+                            }
+                        } else {
+                            // might break using hard
+                            $this->service->bindProperties($property, $properties);
+                        }
+
+                        $myForm->removeGroup("property_".$propNum);
+
+                        //instanciate a property form
+                        $propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
+                        if(!class_exists($propFormClass)){
+                            $propFormClass = 'tao_actions_form_SimpleProperty';
+                        }
+
+                        $propFormContainer = new $propFormClass($clazz, $property, array('index' => $propNum));
+                        $propForm = $propFormContainer->getForm();
+
+                        //and get its elements and groups
+                        $myForm->setElements(array_merge($myForm->getElements(), $propForm->getElements()));
+                        $myForm->setGroups(array_merge($myForm->getGroups(), $propForm->getGroups()));
+
+                        unset($propForm);
+                        unset($propFormContainer);
+                    }
+                    //reload form
+                }
+            }
+        }
+        return $myForm;
+    }
 	
 	
 	
