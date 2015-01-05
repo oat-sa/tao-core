@@ -232,14 +232,28 @@ class tao_actions_form_SimpleProperty
             $elementNames[] = $separatorIndexElt;
 
         }
-        $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_add", 'Free');
-        $addIndexElt->setValue(
-            "<a href='#' id='index_{$index}_add' class='btn-info index-adder small'><span class='icon-add'></span> " . __(
-                'Add index'
-            ) . "</a>"
-        );
-        $this->form->addElement($addIndexElt);
-        $elementNames[] = $addIndexElt;
+
+        //add this element only when the property is defined (type)
+        if(!is_null($property->getRange())){
+            $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_add", 'Free');
+            $addIndexElt->setValue(
+                "<a href='#' id='index_{$index}_add' class='btn-info index-adder small'><span class='icon-add'></span> " . __(
+                    'Add index'
+                ) . "</a>"
+            );
+            $this->form->addElement($addIndexElt);
+            $elementNames[] = $addIndexElt;
+        }
+        else{
+            $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_p", 'Free');
+            $addIndexElt->setValue(
+                "<p id='index_{$index}_p' >" . __(
+                    'Choose a type for your property first'
+                ) . "</p>"
+            );
+            $this->form->addElement($addIndexElt);
+            $elementNames[] = $addIndexElt;
+        }
 
 
 		if(count($elementNames) > 0){

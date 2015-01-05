@@ -1331,7 +1331,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         //range is empty select item content
         $tokenizer = null;
         if (is_null($range)) {
-            $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAOItem.rdf#RawValueTokenizer');
+            $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer');
         } else {
             $tokenizer = $range->getUri() === RDFS_LITERAL
                 ? new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer')
