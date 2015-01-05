@@ -28,6 +28,7 @@ use oat\tao\model\menu\Action;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use \common_session_SessionManager;
+use \common_Logger;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -130,12 +131,15 @@ class tao_actions_Main extends tao_actions_CommonModule
 			if($myForm->isValid()){
 			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
 				if($success){
+				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "' at '" . time() . "'.");
+				    
 					if ($this->hasRequestParameter('redirect')) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {
 						$this->redirect(_url('entry', 'Main'));
 					}
                 } else {
+                    \common_Logger::i("Unsuccessful login of user '" . $myForm->getValue('login') . "' at '" . time() . "'.");
 					$this->setData('errorMessage', __('Invalid login or password. Please try again.'));
 				}
 			}
