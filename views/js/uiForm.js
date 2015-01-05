@@ -323,7 +323,7 @@ define([
                     data: {uri : uri, index_property : $(this).attr('id')},
                     dataType: 'json',
                     success: function (response) {
-                        var $toRemove = $('[id*="'+response.id+'"');
+                        var $toRemove = $('[id*="'+response.id+'"]');
                         $toRemove.each(function(){
                             var $currentTarget = $(this);
                             while(!_.isEqual($currentTarget.parent()[0], $editContainer[0]) && $currentTarget.parent()[0] !== undefined){
