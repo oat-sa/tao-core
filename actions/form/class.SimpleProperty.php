@@ -209,7 +209,6 @@ class tao_actions_form_SimpleProperty
             $propIndexElt->setDescription(__('Tokenizer'));
             $propIndexElt->addAttribute('class', 'index-tokenizer');
             $propIndexElt->setOptions($options);
-            $propIndexElt->setEmptyOption(' --- '.__('select').' --- ');
             $propIndexElt->setValue(tao_helpers_Uri::encode($tokenizer));
             $propIndexElt->addValidator(new tao_helpers_form_validators_NotEmpty());
             $this->form->addElement($propIndexElt);
