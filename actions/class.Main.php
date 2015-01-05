@@ -131,7 +131,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 			if($myForm->isValid()){
 			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
 				if($success){
-				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "' at '" . time() . "'.");
+				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "'.");
 				    
 					if ($this->hasRequestParameter('redirect')) {
 						$this->redirect($_REQUEST['redirect']);
@@ -139,7 +139,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 						$this->redirect(_url('entry', 'Main'));
 					}
                 } else {
-                    \common_Logger::i("Unsuccessful login of user '" . $myForm->getValue('login') . "' at '" . time() . "'.");
+                    \common_Logger::i("Unsuccessful login of user '" . $myForm->getValue('login') . "'.");
 					$this->setData('errorMessage', __('Invalid login or password. Please try again.'));
 				}
 			}
