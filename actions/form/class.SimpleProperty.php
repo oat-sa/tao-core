@@ -238,7 +238,7 @@ class tao_actions_form_SimpleProperty
             $addIndexElt->setValue(
                 "<a href='#' id='index_{$index}_add' class='btn-info index-adder small'><span class='icon-add'></span> " . __(
                     'Add index'
-                ) . "</a>"
+                ) . "</a><div class='clearfix'></div>"
             );
             $this->form->addElement($addIndexElt);
             $elementNames[] = $addIndexElt;
