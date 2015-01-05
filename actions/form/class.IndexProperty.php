@@ -92,14 +92,7 @@ class tao_actions_form_IndexProperty
 
 
         //get and add Default search
-        $defaultSearch = $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_DEFAULT_SEARCH));
-        if(!is_null($defaultSearch)){
-            $defaultSearch = $defaultSearch->getUri();
-        }
-        else{
-            $defaultSearch = GENERIS_FALSE;
-
-        }
+        $defaultSearch = ($indexProperty->isDefaultSearchable())?GENERIS_TRUE:GENERIS_FALSE;
         $options = array(
             tao_helpers_Uri::encode(GENERIS_TRUE)  => __('True'),
             tao_helpers_Uri::encode(GENERIS_FALSE) => __('False')
