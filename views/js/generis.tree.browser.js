@@ -210,7 +210,7 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context', 'jquery.tree', '
 											return;
 										}
 										if (response.status == 'diff') {
-											var message = __("Moving this element will remove the following properties:");
+											var message = __("Moving this element will replace the properties of the previous class by those of the destination class:");
 											message += "\n";
 											for (var i = 0; i < response.data.length; i++) {
 												if (response.data[i].label) {

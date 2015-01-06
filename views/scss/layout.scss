@@ -199,6 +199,10 @@ ul.group-list {
             background-image: url(../img/checkbox.png);
         }
 
+        span.has-inherited {
+            background-image: url(../img/checkbox_locked.png);
+        }
+        
         &.group, &.selectable {
             list-style: none;
             border-bottom: 1px solid #999;

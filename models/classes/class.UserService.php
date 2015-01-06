@@ -89,8 +89,8 @@ class tao_models_classes_UserService
     {
         $returnValue = null;
 
-    	if($this->generisUserService->isASessionOpened()){
-        	$userUri = core_kernel_classes_Session::singleton()->getUserUri();
+    	if(!common_session_SessionManager::isAnonymous()){
+        	$userUri = \common_session_SessionManager::getSession()->getUser()->getIdentifier();
 			if(!empty($userUri)){
         		$returnValue = new core_kernel_classes_Resource($userUri);
 			} else {
@@ -424,8 +424,8 @@ class tao_models_classes_UserService
 	 * 
 	 * @return boolean True if a session is opened, false otherwise.
 	 */
-	public function isASessionOpened(){
-		return $this->generisUserService->isASessionOpened();
+	public function isASessionOpened() {
+	    return common_user_auth_Service::singleton()->isASessionOpened();
 	}
 	
 	/**

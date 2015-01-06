@@ -161,28 +161,20 @@ class tao_actions_form_Clazz
 
         foreach ($classProperties as $classProperty) {
             $i++;
-            $useEditor  = false;
+            $useEditor = (boolean)preg_match("/^" . preg_quote($localNamespace, '/') . "/", $classProperty->getUri());
+            
             $parentProp = true;
             $domains    = $classProperty->getDomain();
             foreach ($domains->getIterator() as $domain) {
 
-                if (array_search($classProperty->getUri(), $systemProperties) !== false) {
+                if (array_search($classProperty->getUri(), $systemProperties) !== false || $domain->getUri() == $clazz->getUri() ) {
                     $parentProp = false;
-                    break;
-                }
-
-                if ($domain->getUri() == $clazz->getUri() ) {
-                    $parentProp = false;
-
                     //@todo use the getPrivileges method once implemented
-                    if (preg_match("/^" . preg_quote($localNamespace, '/') . "/", $classProperty->getUri())) {
-                        $useEditor = true;
-                    }
                     break;
                 }
             }
 
-            if ($useEditor || $parentProp ) {
+            if ($useEditor) {
 
                 //instantiate a property form
 

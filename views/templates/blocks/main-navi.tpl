@@ -31,7 +31,7 @@ $settingsMenu = get_data('settings-menu');
     <div class="settings-menu rgt">
         <span class="reduced-menu-trigger">
             <span class="icon-mobile-menu"></span>
-            <?=__('Tools')?>
+            <?=__('More')?>
         </span>
         <ul class="clearfix plain">
             <?php if($settingsMenu): ?>

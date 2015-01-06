@@ -34,7 +34,7 @@
 }
 
 
-@mixin vendor-prefix($property, $value, $whatToPrefix, $prefixes: (-webkit-, -moz-, -ms-, -o-, '')) {
+@mixin vendor-prefix($property, $value, $whatToPrefix: property, $prefixes: (-webkit-, -moz-, -ms-, -o-, '')) {
     @if $whatToPrefix == 'property' {
         @each $prefix in $prefixes {
             #{$prefix + $property}: #{$value};
@@ -48,22 +48,34 @@
 }
 
 @mixin flex-container($wrapBehavior: nowrap) {
+    display: box; // 2009 syntax : FF 21
+    // 2012 Syntax
+    @include vendor-prefix(display, flexbox, value, (-ms-, -webkit-, ''));
+    // Final Syntax
     @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
+
     @include vendor-prefix(direction, row, property, (-ms-, -webkit-, ''));
     @include vendor-prefix(flex-wrap, $wrapBehavior, property, (-ms-, -webkit-, ''));
-    @include vendor-prefix(justify-content, flex-start, property, (-webkit-, ''));
-    @include vendor-prefix(align-content, flex-start, property, (-webkit-, ''));
-    @include vendor-prefix(align-items, stretch, property, (-webkit-, ''));
+
+    flex-pack : start; // 2012 syntax : IE10
     -ms-flex-pack: start;
+    @include vendor-prefix(justify-content, flex-start, property, (-webkit-, ''));
+
+    flex-line-pack: start; // 2012 syntax : IE10
     -ms-flex-line-pack: start;
+    @include vendor-prefix(align-content, flex-start, property, (-webkit-, ''));
+
+    flex-align: stretch;
     -ms-flex-align: stretch;
+    @include vendor-prefix(align-items, stretch, property, (-webkit-, ''));
 }
 
 @mixin simple-flex-box($width: auto, $minWidth: 1) {
 
     @include vendor-prefix(order, 0, property, (-ms-, -webkit-, ''));
-    @include vendor-prefix(align-self, stretch, property, (-webkit-, ''));
+    flex-item-align: stretch;
     -ms-flex-item-align: stretch;
+    @include vendor-prefix(align-self, stretch, property, (-webkit-, ''));
 
     // if both, min width and width are set, width will win this conflict
     @if ($width == auto) {
@@ -74,7 +86,7 @@
             @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
             // @see https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis#Values
             // for a discussion auto vs. main-size
-            @include vendor-prefix(flex, 1 1 main-size, property, (-ms-, -webkit-, ''));
+            @include vendor-prefix(flex, 1 1, property, (-ms-, -webkit-, ''));
         }
     }
     @else {
@@ -207,10 +219,7 @@
 }
 
 @mixin transition($type : all, $duration : 0.5s, $effect : ease-out){
-    -webkit-transition: $type $duration $effect;
-    -moz-transition: $type $duration $effect;
-    -o-transition: $type $duration $effect;
-    transition: $type $duration $effect;
+    @include vendor-prefix($type, $duration, $effect);
 }
 
 @mixin fade($duration: 1s){

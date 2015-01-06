@@ -292,9 +292,15 @@ class Section extends MenuElement implements PhpSerializable
                             } else {
     
                                 //otherwise create a new action from the mapping
-                                $newData[$mapping[$attr]['attr']] = $mapping[$attr]['action']['name'];
+                                $newData[$mapping[$attr]['attr']] = $mapping[$attr]['action']['id'];
                                 $actionData = $mapping[$attr]['action'];
                                 $actionData['url'] = $url;
+                                
+                                list($extension, $controller, $action) = explode('/', trim($url, '/'));
+                                $actionData['extension'] = $extension;
+                                $actionData['controller'] = $controller;
+                                $actionData['action'] = $action;
+                                
                                 $this->actions[] = new Action($actionData); 
                             }
                         } else {

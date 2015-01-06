@@ -28,6 +28,7 @@ use oat\tao\model\menu\Action;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use \common_session_SessionManager;
+use \common_Logger;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -96,7 +97,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
 
 
-            $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+            $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
 
             $this->setData('settings-menu', $naviElements);
 
@@ -130,12 +131,15 @@ class tao_actions_Main extends tao_actions_CommonModule
 			if($myForm->isValid()){
 			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
 				if($success){
+				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "' at '" . time() . "'.");
+				    
 					if ($this->hasRequestParameter('redirect')) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {
 						$this->redirect(_url('entry', 'Main'));
 					}
                 } else {
+                    \common_Logger::i("Unsuccessful login of user '" . $myForm->getValue('login') . "' at '" . time() . "'.");
 					$this->setData('errorMessage', __('Invalid login or password. Please try again.'));
 				}
 			}
@@ -216,8 +220,8 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }
         
-		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getDataLanguage());
-		$this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+		$this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
+		$this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
@@ -312,25 +316,27 @@ class tao_actions_Main extends tao_actions_CommonModule
         $sections = array();
         $user = common_Session_SessionManager::getSession()->getUser();
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
-        foreach ($structure->getChildren() as $section) {
-            
-            if (
-                tao_models_classes_accessControl_AclProxy::hasAccess(
-                    $section->getAction(),
-                    $section->getController(),
-                    $section->getExtensionId()
-                )
-            ) {
-
-                foreach($section->getActions() as $action){
-                    $resolver = ActionResolver::getByControllerName($action->getController(), $action->getExtensionId());  
-                    if(!FuncProxy::accessPossible($user, $resolver->getController(), $action->getAction())){
-                        $section->removeAction($action); 
+        if (!is_null($structure)) {
+            foreach ($structure->getChildren() as $section) {
+                
+                if (
+                    tao_models_classes_accessControl_AclProxy::hasAccess(
+                        $section->getAction(),
+                        $section->getController(),
+                        $section->getExtensionId()
+                    )
+                ) {
+    
+                    foreach($section->getActions() as $action){
+                        $resolver = ActionResolver::getByControllerName($action->getController(), $action->getExtensionId());  
+                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $action->getAction())){
+                            $section->removeAction($action); 
+                        }
+                        
                     }
-                    
+    
+    				$sections[] = $section;
                 }
-
-				$sections[] = $section;
             }
         }
         

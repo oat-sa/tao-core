@@ -96,7 +96,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 				
 				if($binder->bind($userSettings)){
 
-				    core_kernel_classes_Session::singleton()->refresh();
+				    \common_session_SessionManager::getSession()->refresh();
 					$uiLangCode		= tao_models_classes_LanguageService::singleton()->getCode($uiLang);
 					$extension      = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 					tao_helpers_I18n::init($extension, $uiLangCode);
