@@ -194,79 +194,80 @@ define([
                                             }
 
                                         }
-
+                                        _toggleModeBtn('enabled');
                                     }
-
-
-
                                 });
                                 $indexIcon.on('click', function() {
-                                    //SlideToggle if the container is open and as index form or is close
-                                    if(!$editContainer.parent().hasClass('property-edit-container-open') ||
-                                        ($editContainer.parent().hasClass('property-edit-container-open') && $($('[id*="index_"]',$editContainer)[0]).is(':visible'))){
-                                        //toggle
-                                        $editContainer.slideToggle(function() {
-                                            $editContainer.parent().toggleClass('property-edit-container-open');
-                                            if(!$('.property-edit-container-open').length) {
-                                                if($('[id*="property_"]',$editContainer).length > 0){
-                                                    $('[id*="index_"]',$editContainer).each(function(){
-                                                        var $currentTarget = $(this);
-                                                        while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
-                                                            $currentTarget = $currentTarget.parent();
-                                                        }
-                                                        $currentTarget.hide();
-                                                    });
-                                                    $('.index-remover',$editContainer).each(function(){
-                                                        $(this).parent().hide();
-                                                    });
+                                    //if advanced mode is toggle on can't see index
+                                    if($('.property-mode').hasClass('property-mode-advanced')){
+                                        //SlideToggle if the container is open and as index form or is close
+                                        if(!$editContainer.parent().hasClass('property-edit-container-open') ||
+                                            ($editContainer.parent().hasClass('property-edit-container-open') && $($('[id*="index_"]',$editContainer)[0]).is(':visible'))){
+                                            //toggle
+                                            $editContainer.slideToggle(function() {
+                                                $editContainer.parent().toggleClass('property-edit-container-open');
+                                                if(!$('.property-edit-container-open').length) {
+                                                    if($('[id*="property_"]',$editContainer).length > 0){
+                                                        $('[id*="index_"]',$editContainer).each(function(){
+                                                            var $currentTarget = $(this);
+                                                            while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                                $currentTarget = $currentTarget.parent();
+                                                            }
+                                                            $currentTarget.hide();
+                                                        });
+                                                        $('.index-remover',$editContainer).each(function(){
+                                                            $(this).parent().hide();
+                                                        });
+                                                    }
                                                 }
-                                                _toggleModeBtn('disabled');
-                                            }
-                                            else {
-                                                if($('[id*="property_"]',$editContainer).length > 0){
-                                                    $('[id*="property_"]',$editContainer).each(function(){
-                                                        var $currentTarget = $(this);
-                                                        while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
-                                                            $currentTarget = $currentTarget.parent();
-                                                        }
-                                                        $currentTarget.hide();
-                                                    });
-                                                    $('[id*="index_"]',$editContainer).each(function(){
-                                                        var $currentTarget = $(this);
-                                                        while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
-                                                            $currentTarget = $currentTarget.parent();
-                                                        }
-                                                        $currentTarget.show();
-                                                    });
-                                                    $('.index-remover',$editContainer).each(function(){
-                                                        $(this).parent().show();
-                                                    });
+                                                else {
+                                                    if($('[id*="property_"]',$editContainer).length > 0){
+                                                        $('[id*="property_"]',$editContainer).each(function(){
+                                                            var $currentTarget = $(this);
+                                                            while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                                $currentTarget = $currentTarget.parent();
+                                                            }
+                                                            $currentTarget.hide();
+                                                        });
+                                                        $('[id*="index_"]',$editContainer).each(function(){
+                                                            var $currentTarget = $(this);
+                                                            while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                                $currentTarget = $currentTarget.parent();
+                                                            }
+                                                            $currentTarget.show();
+                                                        });
+                                                        $('.index-remover',$editContainer).each(function(){
+                                                            $(this).parent().show();
+                                                        });
+                                                    }
+                                                    _toggleModeBtn('disabled');
                                                 }
-                                                _toggleModeBtn('enabled');
-                                            }
-                                        });
-                                    }
-                                    else{
-                                        //switch
-                                        if($('[id*="property_"]',$editContainer).length > 0){
-                                            $('[id*="property_"]',$editContainer).each(function(){
-                                                var $currentTarget = $(this);
-                                                while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
-                                                    $currentTarget = $currentTarget.parent();
-                                                }
-                                                $currentTarget.hide();
-                                            });
-                                            $('[id*="index_"]',$editContainer).each(function(){
-                                                var $currentTarget = $(this);
-                                                while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
-                                                    $currentTarget = $currentTarget.parent();
-                                                }
-                                                $currentTarget.show();
-                                            });
-                                            $('.index-remover',$editContainer).each(function(){
-                                                $(this).parent().show();
                                             });
                                         }
+                                        else{
+                                            //switch
+                                            if($('[id*="property_"]',$editContainer).length > 0){
+                                                $('[id*="property_"]',$editContainer).each(function(){
+                                                    var $currentTarget = $(this);
+                                                    while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                        $currentTarget = $currentTarget.parent();
+                                                    }
+                                                    $currentTarget.hide();
+                                                });
+                                                $('[id*="index_"]',$editContainer).each(function(){
+                                                    var $currentTarget = $(this);
+                                                    while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                        $currentTarget = $currentTarget.parent();
+                                                    }
+                                                    $currentTarget.show();
+                                                });
+                                                $('.index-remover',$editContainer).each(function(){
+                                                    $(this).parent().show();
+                                                });
+                                                _toggleModeBtn('disabled');
+                                            }
+                                        }
+
                                     }
 
                                 });

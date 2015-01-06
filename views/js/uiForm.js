@@ -273,8 +273,7 @@ define([
                 if (confirm(__('Please confirm property deletion!'))) {
                     var $groupNode = $(this).closest(".form-group");
                     if ($groupNode.length) {
-                        var index = $('.form-group').index($groupNode);
-                        var uri = $('#propertyUri'+index).val();
+                        var uri = $groupNode.find('.property-uri').val();
                         property.remove(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
                             $groupNode.remove();
                         });
@@ -296,12 +295,11 @@ define([
                 var $prependTo = $(this).closest('div');
                 var $groupNode = $(this).closest(".form-group");
                 if ($groupNode.length) {
-                    var index = $('.form-group').index($groupNode) + 1;
-                    var uri = $('#propertyUri'+index).val();
+                    var uri = $groupNode.find('.property-uri').val();
                     $.ajax({
                         type: "GET",
                         url: getUrl('addIndexProperty'),
-                        data: {uri : uri, index : index},
+                        data: {uri : uri},
                         dataType: 'json',
                         success: function (response) {
                             $prependTo.before(response.form);
@@ -313,8 +311,7 @@ define([
             $('.property-edit-container').off('click', '.index-remover').on('click', '.index-remover', function(e){
                 e.preventDefault();
                 var $groupNode = $(this).closest(".form-group");
-                var index = $('.form-group').index($groupNode) + 1;
-                var uri = $('#propertyUri'+index).val();
+                var uri = $groupNode.find('.property-uri').val();
 
                 var $editContainer = $($groupNode[0]).children('.property-edit-container');
                 $.ajax({
