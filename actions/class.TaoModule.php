@@ -1315,11 +1315,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
         $clazz = $this->getCurrentClass();
 
-        if(!$this->hasRequestParameter('index')){
-            throw new Exception("wrong request Parameter");
-        }
-
-        $index = $this->getRequestParameter('index');
 
         //create and attach the new index property to the property
         $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
@@ -1362,7 +1357,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         $property->setPropertyValue(new core_kernel_classes_Property(INDEX_PROPERTY), $indexProperty);
 
         //generate form
-        $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array('index' => $index));
+        $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array());
         $myForm = $indexFormContainer->getForm();
 
         $matches = array();

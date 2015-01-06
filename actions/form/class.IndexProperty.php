@@ -47,8 +47,7 @@ class tao_actions_form_IndexProperty
      */
     protected function initElements()
     {
-    	(isset($this->options['index'])) ? $index = $this->options['index'] : $index = 1;
-    	
+
     	$elementNames = array();
 
         //index part
@@ -58,7 +57,7 @@ class tao_actions_form_IndexProperty
 
         //get and add Label (Text)
         $label = $indexProperty->getLabel();
-        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(RDFS_LABEL), 'Textbox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$indexUri}_".tao_helpers_Uri::encode(RDFS_LABEL), 'Textbox');
         $propIndexElt->setDescription(__('Label'));
         $propIndexElt->addAttribute('class', 'index-label');
         $propIndexElt->setValue(tao_helpers_Uri::encode($label));
@@ -72,7 +71,7 @@ class tao_actions_form_IndexProperty
             tao_helpers_Uri::encode(GENERIS_TRUE)  => __('True'),
             tao_helpers_Uri::encode(GENERIS_FALSE) => __('False')
         );
-        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_FUZZY_MATCHING), 'Radiobox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_FUZZY_MATCHING), 'Radiobox');
         $propIndexElt->setOptions($options);
         $propIndexElt->setDescription(__('Fuzzy Matching'));
         $propIndexElt->addAttribute('class', 'index-fuzzymatching');
@@ -82,7 +81,7 @@ class tao_actions_form_IndexProperty
 
         //get and add identifier (Text)
         $identifier = $indexProperty->getIdentifier();
-        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_IDENTIFIER), 'Textbox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_IDENTIFIER), 'Textbox');
         $propIndexElt->setDescription(__('Identifier'));
         $propIndexElt->addAttribute('class', 'index-identifier');
         $propIndexElt->setValue($identifier);
@@ -97,7 +96,7 @@ class tao_actions_form_IndexProperty
             tao_helpers_Uri::encode(GENERIS_TRUE)  => __('True'),
             tao_helpers_Uri::encode(GENERIS_FALSE) => __('False')
         );
-        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_DEFAULT_SEARCH), 'Radiobox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_DEFAULT_SEARCH), 'Radiobox');
         $propIndexElt->setOptions($options);
         $propIndexElt->setDescription(__('Default search'));
         $propIndexElt->addAttribute('class', 'index-defaultsearch');
@@ -114,7 +113,7 @@ class tao_actions_form_IndexProperty
         }
         $tokenizer = $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_TOKENIZER));
         $tokenizer = (get_class($tokenizer) === 'core_kernel_classes_Resource')?$tokenizer->getUri():'';
-        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_TOKENIZER), 'Combobox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_TOKENIZER), 'Combobox');
         $propIndexElt->setDescription(__('Tokenizer'));
         $propIndexElt->addAttribute('class', 'index-tokenizer');
         $propIndexElt->setOptions($options);
@@ -123,7 +122,7 @@ class tao_actions_form_IndexProperty
         $this->form->addElement($propIndexElt);
         $elementNames[] = $propIndexElt->getName();
 
-        $removeIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_remove", 'Free');
+        $removeIndexElt = tao_helpers_form_FormFactory::getElement("index_{$indexUri}_remove", 'Free');
         $removeIndexElt->setValue(
             "<a href='#' id='{$indexUri}' class='btn-error index-remover small'><span class='icon-remove'></span> " . __(
                 'remove index'
@@ -132,9 +131,9 @@ class tao_actions_form_IndexProperty
         $this->form->addElement($removeIndexElt);
         $elementNames[] = $removeIndexElt;
         
-        $separatorIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_separator", 'Free');
+        $separatorIndexElt = tao_helpers_form_FormFactory::getElement("index_{$indexUri}_separator", 'Free');
         $separatorIndexElt->setValue(
-            "<hr id='index_{$index}_{$indexUri}_separator'>"
+            "<hr id='index_{$indexUri}_separator'>"
         );
         $this->form->addElement($separatorIndexElt);
         $elementNames[] = $separatorIndexElt;
