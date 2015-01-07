@@ -12,9 +12,7 @@ define(['jquery', 'lodash'], function($, _) {
         var $folderContainer= $('.folders', $divContainer);
         var fileTree        = {};
         //create the tree node for the ROOT folder by default
-        console.log(root);
         var path = (root === 'local')?'/':root+'://';
-        console.log(path);
         $folderContainer.append('<li class="root"><a class="root-folder" data-display="' + root + '" data-path="'+path+'" href="#">' + root + '</a></li>');
 
         //load the content of the ROOT
