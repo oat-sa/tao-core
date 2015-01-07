@@ -50,6 +50,7 @@ return array(
 				dirname(__FILE__). '/models/ontology/oauth.rdf',
                 dirname(__FILE__). '/models/ontology/webservice.rdf',
                 dirname(__FILE__). '/models/ontology/services.rdf',
+                dirname(__FILE__). '/models/ontology/model.rdf',
 		        dirname(__FILE__). '/models/ontology/indexation.rdf'
 		),
 		'checks' => array(
