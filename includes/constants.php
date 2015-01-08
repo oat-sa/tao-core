@@ -138,6 +138,9 @@ $todefine = array(
     
     'INSTANCE_ROLE_BASEUSER'                        => 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',
     
-    'PROPERTY_USER_FIRSTTIME'                        => 'http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao',
-    'PROPERTY_USER_LASTEXTENSION'                  => 'http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed'
+    'PROPERTY_USER_FIRSTTIME'                       => 'http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao',
+    'PROPERTY_USER_LASTEXTENSION'                   => 'http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed',
+    
+    // models
+	'PROPERTY_ABSTRACTMODEL_STATUS'                 => 'http://www.tao.lu/Ontologies/TAO.rdf#AbstractModelStatus'
 );
