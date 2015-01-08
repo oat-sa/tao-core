@@ -21,6 +21,7 @@
     // main form on left hand side
     .flex-container-main-form {
         @include simple-flex-box(500px);
+        margin: 0 20px 20px 0;
     }
 
     // the one for the sidebar that usually holds tree
@@ -124,7 +125,7 @@
         }
 
         .data-container-wrapper {
-            padding: 0px 20px;
+            padding: 0px 20px 0 0;
             overflow:hidden;
             & > section, .data-container {
                 width: 260px;

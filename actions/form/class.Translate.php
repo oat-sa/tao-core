@@ -78,7 +78,7 @@ class tao_actions_form_Translate
     	$currentLangElt = tao_helpers_form_FormFactory::getElement('current_lang', 'Textbox');
 		$currentLangElt->setDescription(__('Current language'));
 		$currentLangElt->setAttributes(array('readonly' => 'true'));
-		$currentLangElt->setValue(core_kernel_classes_Session::singleton()->getDataLanguage());	//API lang /data lang
+		$currentLangElt->setValue(\common_session_SessionManager::getSession()->getDataLanguage());	//API lang /data lang
 		$this->form->addElement($currentLangElt);
 		
 		$dataLangElement = tao_helpers_form_FormFactory::getElement('translate_lang', 'Combobox');

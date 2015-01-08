@@ -29,6 +29,12 @@
  */
 class tao_actions_ServiceModule extends tao_actions_CommonModule {
 
+    /**
+     * Returns the serviceCallId for the current service call
+     * 
+     * @throws common_exception_Error
+     * @return string
+     */
     protected function getServiceCallId() {
         if (!$this->hasRequestParameter('serviceCallId')) {
         	throw new common_exception_Error('No serviceCallId on service call');
@@ -36,12 +42,23 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule {
         return $this->getRequestParameter('serviceCallId');
     }
     
+    /**
+     * Returns the state stored or NULL ifs none was found
+     * 
+     * @return string
+     */
     protected function getState() {
         $serviceService = tao_models_classes_service_StateStorage::singleton();
         $userUri = common_session_SessionManager::getSession()->getUserUri();
         return is_null($userUri) ? null : $serviceService->get($userUri, $this->getServiceCallId());
     }
     
+    /**
+     * Stores the state of the current service call
+     * 
+     * @param string $state
+     * @return boolean
+     */
     protected function setState($state) {
         $serviceService = tao_models_classes_service_StateStorage::singleton();
         $userUri = common_session_SessionManager::getSession()->getUserUri();
@@ -54,7 +71,7 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule {
             'success' => $success
         ));
     }
-    
+
     public function getUserPropertyValues() {
         if (!$this->hasRequestParameter('property')) {
             throw new common_exception_MissingParameter('property');

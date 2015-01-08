@@ -18,8 +18,8 @@ define([
      * Register common actions.
      *
      * TODO this common actions may be re-structured, split in different files or moved in a more obvious location.
-     * 
-     * @exports layout/actions/common 
+     *
+     * @exports layout/actions/common
      */
     var commonActions = function(){
 
@@ -35,7 +35,7 @@ define([
         binder.register('load', function load(actionContext){
             section.current().loadContentBlock(this.url, _.pick(actionContext, ['uri', 'classUri', 'id']));
         });
-        
+
         /**
          * Register the subClass action: creates a sub class
          *
@@ -43,7 +43,7 @@ define([
          *
          * @param {Object} actionContext - the current actionContext
          * @param {String} actionContext.classUri - the URI of the parent class
-         * 
+         *
          * @fires layout/tree#addnode.taotree
          */
         binder.register('subClass', function subClass(actionContext){
@@ -57,9 +57,9 @@ define([
                         $(actionContext.tree).trigger('addnode.taotree', [{
                             'id'        : response.uri,
                             'uri'       : uri.decode(response.uri),
-                            'parent'    : actionContext.classUri, 
+                            'parent'    : actionContext.classUri,
                             'label'     : response.label,
-                            'cssClass'  : 'node-class' 
+                            'cssClass'  : 'node-class'
                         }]);
                     }
                 }
@@ -73,7 +73,7 @@ define([
          *
          * @param {Object} actionContext - the current actionContext
          * @param {String} actionContext.classUri - the URI of the class' instance
-         * 
+         *
          * @fires layout/tree#addnode.taotree
          */
         binder.register('instanciate', function instanciate(actionContext){
@@ -87,7 +87,7 @@ define([
                         $(actionContext.tree).trigger('addnode.taotree', [{
                             'id'        : response.uri,
                             'uri'		: uri.decode(response.uri),
-                            'parent'    : actionContext.classUri, 
+                            'parent'    : actionContext.classUri,
                             'label'     : response.label,
                             'cssClass'  : 'node-instance'
                         }]);
@@ -104,7 +104,7 @@ define([
          * @param {Object} actionContext - the current actionContext
          * @param {String} actionContext.uri - the URI of the base instance
          * @param {String} actionContext.classUri - the URI of the class' instance
-         * 
+         *
          * @fires layout/tree#addnode.taotree
          */
         binder.register('duplicateNode', function duplicateNode(actionContext){
@@ -118,9 +118,9 @@ define([
                         $(actionContext.tree).trigger('addnode.taotree', [{
                             'id'        : response.uri,
                             'uri'       : uri.decode(response.uri),
-                            'parent'    : actionContext.classUri, 
+                            'parent'    : actionContext.classUri,
                             'label'     : response.label,
-                            'cssClass'  : 'node-instance' 
+                            'cssClass'  : 'node-instance'
                         }]);
                     }
                 }
@@ -132,15 +132,15 @@ define([
          *
          * @this the action (once register it is bound to an action object)
          *
-         * @param {Object} actionContext - the current actionContext 
+         * @param {Object} actionContext - the current actionContext
          * @param {String} [actionContext.uri]
          * @param {String} [actionContext.classUri]
-         * 
+         *
          * @fires layout/tree#removenode.taotree
          */
         binder.register('removeNode', function remove(actionContext){
             var data = _.pick(actionContext, ['uri', 'classUri', 'id']);
-            
+
             //TODO replace by a nice popup
             if (confirm(__("Please confirm deletion"))) {
                 $.ajax({
@@ -151,26 +151,26 @@ define([
                     success: function(response){
                         if (response.deleted) {
                             $(actionContext.tree).trigger('removenode.taotree', [{
-                                id : actionContext.uri || actionContext.classUri 
+                                id : actionContext.uri || actionContext.classUri
                             }]);
                         }
                     }
                 });
             }
         });
-        
+
         /**
          * Register the moveNode action: moves a resource.
          *
          * @this the action (once register it is bound to an action object)
          *
-         * @param {Object} actionContext - the current actionContext 
+         * @param {Object} actionContext - the current actionContext
          * @param {String} [actionContext.uri]
          * @param {String} [actionContext.classUri]
          */
         binder.register('moveNode', function remove(actionContext){
             var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed']);
-            
+
             //wrap into a private function for recusion calls
             var _moveNode = function _moveNode(url, data){
                 $.ajax({
@@ -181,7 +181,7 @@ define([
                     success: function(response){
 
                         if (response && response.status === 'diff') {
-                            var message = __("Moving this element will remove the following properties:");
+                            var message = __("Moving this element will replace the properties of the previous class by those of the destination class :");
                             message += "\n";
                             for (var i = 0; i < response.data.length; i++) {
                                 if (response.data[i].label) {
@@ -193,7 +193,7 @@ define([
                             if (window.confirm(message)) {
                                 data.confirmed = true;
                                 return  _moveNode(url, data);
-                            } 
+                            }
                           } else if (response && response.status === true) {
                                 //open the destination branch
                                 $(actionContext.tree).trigger('openbranch.taotree', [{
@@ -201,7 +201,7 @@ define([
                                 }]);
                                 return;
                           }
-                    
+
                           //ask to rollback the tree
                           $(actionContext.tree).trigger('rollback.taotree');
                     }
@@ -212,14 +212,14 @@ define([
 
         /**
          * This action helps to filter tree content.
-         * 
+         *
          * @this the action (once register it is bound to an action object)
          *
          * @param {Object} actionContext - the current actionContext
          */
         binder.register('filter', function filter(actionContext){
             $('#panel-' + appContext.section + ' .search-form').slideUp();
-        
+
             toggleFilter($('#panel-' + appContext.section + ' .filter-form'));
         });
 
@@ -242,7 +242,7 @@ define([
 
             $('.filter-form').slideUp();
 
-            if($container.is(':visible')){                 
+            if($container.is(':visible')){
                 $('.search-form').slideUp();
                 search.reset();
                 return;
@@ -252,7 +252,7 @@ define([
                 $('.search-form').slideDown();
                 return;
             }
-    
+
             $.ajax({
                 url: this.url,
                 type: "GET",
@@ -265,7 +265,7 @@ define([
             });
         });
 
-        
+
         /**
          * Register the launchEditor action.
          *
@@ -298,7 +298,7 @@ define([
                             content : $response,
                             visible : false
                         })
-                        .show(); 
+                        .show();
                     } else {
                        section.updateContentBlock($response);
                     }
