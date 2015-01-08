@@ -67,8 +67,8 @@ define([
                 }).map(function(file){
                     file.type = mimeType.getFileType(file);
                     if(file.identifier === undefined){
-                        file.path = (fullPath + file.name).replace('//', '/');
-                        file.display = (fullPath + file.name).replace('//', '/');
+                        file.path = (fullPath + '/' + file.name).replace('//', '/');
+                        file.display = (fullPath + '/' + file.name).replace('//', '/');
                     }
                     else{
                         file.path = (file.identifier + file.relPath);
