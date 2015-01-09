@@ -12,10 +12,11 @@ define(['jquery', 'lodash'], function($, _) {
         var $folderContainer= $('.folders', $divContainer);
         var fileTree        = {};
         //create the tree node for the ROOT folder by default
-        $folderContainer.append('<li class="root"><a class="root-folder" data-display="' + root + '" data-path="'+root+'/" href="#">' + root + '</a></li>');
+        var path = (root === 'local')?'/':root+'/';
+        $folderContainer.append('<li class="root"><a class="root-folder" data-display="' + root + '" data-path="'+path+'" href="#">' + root + '</a></li>');
 
         //load the content of the ROOT
-        getFolderContent(fileTree, root+'/', function(content){
+        getFolderContent(fileTree, path, function(content){
 
             var $rootNode = $('.root-folder', $folderContainer);
             //create an inner list and append found elements

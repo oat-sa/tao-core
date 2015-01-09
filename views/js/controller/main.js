@@ -51,6 +51,13 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
 
                 window.scrollTo(0,0);
 
+                // quick work around issue in IE11
+                // IE randomly thinks there is no id and throws an error
+                // I know it's not logical but with this 'fix' everything works fine
+                if(!section || !section.id) {
+                    return;
+                }
+
                 context.section = section.id;
                
                 //initialize actions 

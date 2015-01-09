@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\tao\helpers\form\WidgetRegistry;
+
 /**
  * The FormFactory enable you to create ready-to-use instances of the Form
  * It helps you to get the commonly used instances for the default rendering
@@ -27,7 +29,6 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
 class tao_helpers_form_FormFactory
 {
@@ -113,43 +114,53 @@ class tao_helpers_form_FormFactory
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string name
-     * @param  string type
+     * @param  string widgetId
      * @return tao_helpers_form_FormElement
      * @throws common_Exception
      * @throws Exception
      */
-    public static function getElement($name = '', $type = '')
+    public static function getElement($name = '', $widgetId = '')
     {
-        $returnValue = null;
-
-
-		
-		$eltClass = false;
-		
-		switch(self::$renderMode){
-			case 'xhtml':
-				$eltClass = "tao_helpers_form_elements_xhtml_{$type}";
-
-				if(!class_exists($eltClass)){
-					common_Logger::w("type ".$type." not yet supported", array('FORM'));
-					//throw new Exception("type $type not yet supported");
-					return null;
-				}
-				break;
-			default: 
-				throw new Exception("render mode {self::$renderMode} not yet supported");
-		}
-		if($eltClass){
-			$returnValue = new $eltClass($name);
-			
-			if(!$returnValue instanceof tao_helpers_form_FormElement){
-				throw new common_Exception("$eltClass must be a tao_helpers_form_FormElement");
-			}
-		}
-
+        $eltClass = null;
         
-
+        $definition = WidgetRegistry::getWidgetDefinitionById($widgetId);
+        if (is_null($definition) || !isset($definition['renderers'][self::$renderMode])) {
+            
+            // could be a "pseudo" widget that has not been registered
+            $candidate = "tao_helpers_form_elements_xhtml_{$widgetId}";
+            if (class_exists($candidate)) {
+                $eltClass = $candidate;
+            }
+        } else {
+            $eltClass = $definition['renderers'][self::$renderMode];
+        }
+        
+        if (!is_null($eltClass)) {
+            $returnValue = new $eltClass($name);
+            if(!$returnValue instanceof tao_helpers_form_FormElement){
+                throw new common_Exception("$eltClass must be a tao_helpers_form_FormElement");
+            }
+        } else {
+            $returnValue = null;
+            common_Logger::w("Widget type with id ".$widgetId." not yet supported", array('FORM'));
+        }
+                
         return $returnValue;
+    }
+    
+    public static function getElementByWidget($name, core_kernel_classes_Resource $widget) {
+        $definition = WidgetRegistry::getWidgetDefinition($widget);
+	    if (is_null($definition) || !isset($definition['renderers'][self::$renderMode])) {
+			throw new common_exception_Error("Widget ".$widget->getUri()." not supported in render mode ".self::$renderMode);
+	    }
+	    
+	    $eltClass = $definition['renderers'][self::$renderMode];
+        $returnValue = new $eltClass($name);
+			
+		if(!$returnValue instanceof tao_helpers_form_FormElement){
+			throw new common_Exception("$eltClass must be a tao_helpers_form_FormElement");
+		}
+		return $returnValue;
     }
 
     /**
