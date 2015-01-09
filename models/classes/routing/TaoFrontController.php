@@ -62,11 +62,28 @@ class TaoFrontController implements FrontController
      */
     public function loadModule() {
         $resolver = new Resolver($this->getRequest());
-        
+
         // load the responsible extension
         common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
         \Context::getInstance()->setExtensionName($resolver->getExtensionId());
-        
+
+
+        //if the controller is a rest controller we try to authenticate the user
+        $controllerClass = $resolver->getControllerClass();
+
+        if(is_subclass_of($controllerClass,'tao_actions_CommonRestModule')){
+            $authAdapter = new \tao_models_classes_HttpBasicAuthAdapter(common_http_Request::currentRequest());
+            try {
+                $user = $authAdapter->authenticate();
+                $session = new \common_session_RestSession($user);
+                \common_session_SessionManager::startSession($session);
+            } catch (\common_user_auth_AuthFailedException $e) {
+                $class = new $controllerClass();
+                $class->requireLogin();
+            }
+        }
+
+
         try
         {
             $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $this->getRequest()->getParams());
