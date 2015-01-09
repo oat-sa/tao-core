@@ -99,6 +99,17 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
         }
         
+        if ($currentVersion == '2.7.4') {
+            $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'model_2_7_5.rdf';
+            
+            $adapter = new tao_helpers_data_GenerisAdapterRdf();
+            if ($adapter->import($file)) {
+                $currentVersion = '2.7.5';
+            } else{
+                common_Logger::w('Import failed for '.$file);
+            }
+        }
+        
         
         return $currentVersion;
     }
