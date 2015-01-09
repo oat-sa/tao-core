@@ -2,8 +2,9 @@ define([
     'jquery',
     'lodash',
     'util/bytes',
+    'context',
     'ui/previewer'
-], function($, _, bytes){
+], function($, _, bytes,context){
     'use strict';
 
     var ns = 'resourcemgr';
@@ -36,7 +37,14 @@ define([
 
         $selectButton.on('click', function(e){
             e.preventDefault();
-            $container.trigger('select.' + ns, [[_.pick(currentSelection, ['file', 'type', 'mime', 'size'])]]);
+
+
+            var data = _.pick(currentSelection, ['file', 'type', 'mime', 'size', 'alt']);
+            if(context.mediaSources && context.mediaSources.length === 0 && data.file.indexOf('local/') > -1){
+                data.file = data.file.substring(6);
+            }
+
+            $container.trigger('select.' + ns, [[data]]);
         });
 
         function startPreview(file){

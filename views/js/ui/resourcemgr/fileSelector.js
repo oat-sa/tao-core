@@ -71,8 +71,8 @@ define([
                         file.display = (fullPath + '/' + file.name).replace('//', '/');
                     }
                     else{
-                        file.path = (file.identifier + '/' + file.relPath);
-                        file.display = (file.identifier + '/' + file.name);
+                        file.path = (file.identifier + file.relPath);
+                        file.display = (file.identifier + file.name);
                     }
 
                     file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + file.path;
@@ -112,7 +112,7 @@ define([
             .off('click', '.files li a.select')
             .on ('click', '.files li a.select', function(e){
             e.preventDefault();
-            var data = _.pick($(this).parents('li').data(), ['file', 'type', 'mime', 'size']);
+            var data = _.pick($(this).parents('li').data(), ['file', 'type', 'mime', 'size', 'alt']);
             if(context.mediaSources && context.mediaSources.length === 0 && data.file.indexOf('local/') > -1){
                 data.file = data.file.substring(6);
             }

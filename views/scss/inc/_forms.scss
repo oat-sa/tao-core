@@ -222,7 +222,7 @@ label {
     [class^="icon-checkbox"],
     [class*=" icon-checkbox"] {
         &:after {
-            @extend .icon-checkbox-bg:before;
+            @extend %icon-checkbox-bg;
             color:white !important;
         }
     }
@@ -230,7 +230,7 @@ label {
     [class*=" icon-radio"] {
         padding: 0 2px 0 3px;
         &:after {
-            @extend .icon-radio-bg:before;
+            @extend %icon-radio-bg;
             color:white !important;
         }
     }
@@ -291,6 +291,24 @@ label {
         }
     }
 }
+
+// IE10+ CSS styles go here
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    label {
+        [class^="icon-radio"],
+        [class*=" icon-radio"],
+        [class^="icon-checkbox"],
+        [class*=" icon-checkbox"] {
+            &:after {
+                color:white !important;
+                left:2px;
+                position: absolute;
+                z-index: 2;
+            }
+        }
+    }
+}
+
 
 .search-form, .filter-form {
     display:none;

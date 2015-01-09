@@ -54,7 +54,7 @@ class tao_models_classes_HttpBasicAuthAdapter
     	
         //$headers = $this->request->getHeaders();
         if (!(isset($_SERVER['PHP_AUTH_USER'])) or ($_SERVER['PHP_AUTH_USER']=="")){
-            throw new common_Exception('Rest (Basic) login failed for user (missing login/password)');
+            throw new \oat\oatbox\user\LoginFailedException(array('Rest (Basic) login failed for user (missing login/password)'));
         }
         
         return LoginService::authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);

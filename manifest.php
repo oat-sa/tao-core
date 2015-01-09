@@ -35,7 +35,7 @@ return array(
     'version' => '2.7.5',
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-	   'generis' => '>=2.7'
+	   'generis' => '>=2.7.1'
     ),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAO.rdf'
@@ -45,11 +45,11 @@ return array(
 	),
 	'install' => array(
 		'rdf' => array(
-			dirname(__FILE__). '/models/ontology/tao.rdf',
-			dirname(__FILE__). '/models/ontology/taoaclrole.rdf',
-			dirname(__FILE__). '/models/ontology/oauth.rdf',
-            dirname(__FILE__). '/models/ontology/webservice.rdf',
-            dirname(__FILE__). '/models/ontology/services.rdf',
+				dirname(__FILE__). '/models/ontology/tao.rdf',
+				dirname(__FILE__). '/models/ontology/taoaclrole.rdf',
+				dirname(__FILE__). '/models/ontology/oauth.rdf',
+                dirname(__FILE__). '/models/ontology/webservice.rdf',
+                dirname(__FILE__). '/models/ontology/services.rdf',
 	        dirname(__FILE__). '/models/ontology/indexation.rdf',
 		    dirname(__FILE__). '/models/ontology/model.rdf'
 		),
