@@ -65,8 +65,6 @@ require.config({
             '../../../taoQtiItem/views/js/MathJaxFallback'
         ],
         'ckeditor'          : 'lib/ckeditor/ckeditor',
-//TODO unallowed dependency
-        'ckConfigurator'    : '../../../taoQtiItem/views/js/qtiCreator/editor/ckEditor/ckConfigurator',
 
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',

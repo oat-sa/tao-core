@@ -42,8 +42,6 @@ require.config({
         'mediaElement'      : 'lib/mediaelement/mediaelement-and-player.min',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
-//TODO unallowed dependency
-        'ckConfigurator'    : '../../../taoQtiItem/views/js/qtiCreator/editor/ckEditor/ckConfigurator',
 
 //optimizer needed
         'css-builder'       : 'lib/require-css/css-builder',
