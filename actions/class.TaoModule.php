@@ -1423,11 +1423,18 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 
 		//delete property mode
-		foreach($this->getCurrentClass()->getProperties() as $classProperty){
+		/** @var $classProperty core_kernel_classes_Property */
+        foreach($this->getCurrentClass()->getProperties() as $classProperty){
 			if($classProperty->getUri() == tao_helpers_Uri::decode($this->getRequestParameter('uri'))){
 
+                $indexes = $classProperty->getPropertyValues(new core_kernel_classes_Property(INDEX_PROPERTY));
 				//delete property and the existing values of this property
 				if($classProperty->delete(true)){
+                    //delete index linked to the property
+                    foreach($indexes as $indexUri){
+                        $index = new core_kernel_classes_Resource($indexUri);
+                        $index->delete(true);
+                    }
 					$success = true;
 					break;
 				}
