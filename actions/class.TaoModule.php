@@ -303,8 +303,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 								}
 							}
 						}
-					}
-					else{
+					} else {
 						
                         $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum]));
                         if($propMode == 'simple') {
@@ -317,17 +316,16 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                                 $properties[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
                             }
                             
-                            if(empty($range)) {
-                                $range = (isset($propertyMap[$type]) && !empty($propertyMap[$type]['range']))
-                                   ? $propertyMap[$type]['range']
-                                   : RDFS_LITERAL;
-                            }
-                            
-                            
                             $this->service->bindProperties($property, $properties);
                             
+                            // set the range
+                            if(!empty($range)) {
+                                $property->setRange(new core_kernel_classes_Class($range));
+                            } elseif (isset($propertyMap[$type]) && !empty($propertyMap[$type]['range'])) {
+                                $property->setRange(new core_kernel_classes_Class($propertyMap[$type]['range']));
+                            }
                             
-                            $property->setRange(new core_kernel_classes_Class($range));
+                            // set cardinality
                             if(isset($propertyMap[$type]['multiple'])) {
                                 $property->setMultiple($propertyMap[$type]['multiple'] == GENERIS_TRUE);
                             }
