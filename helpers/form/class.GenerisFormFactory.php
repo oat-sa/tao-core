@@ -52,30 +52,18 @@ class tao_helpers_form_GenerisFormFactory
     public static function elementMap( core_kernel_classes_Property $property)
     {
         $returnValue = null;
-
-        
 		
 		//create the element from the right widget
-		$property->feed();
-		
+        $property->feed();
+        
         $widgetResource = $property->getWidget();
-		if(is_null($widgetResource)){
+		if (is_null($widgetResource)) {
 			return null;
 		}
 		
-		
-		$widget = substr($widgetResource->getUri(), strrpos($widgetResource->getUri(), '#') + 1 );
-		if($widget != 'AsyncFile'){
-			//@TODO: quick fix to make AsyncFile work, need to clean that!!
-			$widget = ucfirst(strtolower($widget));
-		}
-		else
-		{
-			$widget = 'GenerisAsyncFile';
-		}
-		
 		//authoring widget is not used in standalone mode
-		if($widget == 'Authoring' && tao_helpers_Context::check('STANDALONE_MODE')){
+		if ($widgetResource->getUri() == 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring'
+		    && tao_helpers_Context::check('STANDALONE_MODE')) {
 			return null;
 		}
 		
