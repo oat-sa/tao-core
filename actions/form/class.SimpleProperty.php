@@ -156,7 +156,7 @@ class tao_actions_form_SimpleProperty
     	
 		//add an hidden elt for the property uri
 		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$index}", 'Hidden');
-		$propUriElt->setValue($encodedUri);
+		$propUriElt->setValue($property->getUri());
 		$this->form->addElement($propUriElt);
 
     }
