@@ -70,7 +70,6 @@ class tao_helpers_form_xhtml_TagWrapper
 			}
 			$returnValue .= ">";
 		}
-		common_Logger::w($returnValue);
         return (string) $returnValue;
     }
 
