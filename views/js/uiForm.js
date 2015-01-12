@@ -299,7 +299,7 @@ define([
                     $.ajax({
                         type: "GET",
                         url: getUrl('addIndexProperty'),
-                        data: {uri : uri},
+                        data: {uri : uri, index : $(this).data('index')},
                         dataType: 'json',
                         success: function (response) {
                             $prependTo.before(response.form);

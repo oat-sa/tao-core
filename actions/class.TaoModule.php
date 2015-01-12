@@ -1320,6 +1320,11 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
         $clazz = $this->getCurrentClass();
 
+        $index = 1;
+        if($this->hasRequestParameter('index')){
+            $index = $this->getRequestParameter('index');
+        }
+
 
         //create and attach the new index property to the property
         $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
@@ -1340,7 +1345,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
         $indexClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Index');
         $i = 0;
-        $identifierBackup = preg_replace('/\s/','_',$property->getLabel());
+        $identifierBackup = preg_replace('/\s/','_',strtolower($property->getLabel()));
         $identifier = $identifierBackup;
         do{
             if($i !== 0){
@@ -1352,7 +1357,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         }while($count !== 0);
 
         $indexProperty = $class->createInstanceWithProperties(array(
-                RDFS_LABEL => preg_replace('/_/',' ',$identifier),
+                RDFS_LABEL => preg_replace('/_/',' ',ucfirst($identifier)),
                 INDEX_PROPERTY_IDENTIFIER => $identifier,
                 INDEX_PROPERTY_TOKENIZER => $tokenizer,
                 INDEX_PROPERTY_FUZZY_MATCHING => GENERIS_TRUE,
@@ -1362,7 +1367,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         $property->setPropertyValue(new core_kernel_classes_Property(INDEX_PROPERTY), $indexProperty);
 
         //generate form
-        $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array());
+        $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array('index' => $index));
         $myForm = $indexFormContainer->getForm();
 
         $matches = array();

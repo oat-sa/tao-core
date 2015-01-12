@@ -236,7 +236,7 @@ class tao_actions_form_SimpleProperty
         if(!is_null($property->getRange())){
             $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_add", 'Free');
             $addIndexElt->setValue(
-                "<a href='#' id='index_{$index}_add' class='btn-info index-adder small'><span class='icon-add'></span> " . __(
+                "<a href='#' id='index_{$index}_add' data-index='{$index}' class='btn-info index-adder small'><span class='icon-add'></span> " . __(
                     'Add index'
                 ) . "</a><div class='clearfix'></div>"
             );
