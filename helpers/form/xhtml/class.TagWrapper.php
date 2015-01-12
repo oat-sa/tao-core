@@ -31,9 +31,6 @@
 class tao_helpers_form_xhtml_TagWrapper
         implements tao_helpers_form_Decorator
 {
-    // --- ASSOCIATIONS ---
-
-
     // --- ATTRIBUTES ---
 
     /**
@@ -44,21 +41,7 @@ class tao_helpers_form_xhtml_TagWrapper
      */
     protected $tag = 'div';
 
-    /**
-     * Short description of attribute id
-     *
-     * @access protected
-     * @var string
-     */
-    protected $id = '';
-
-    /**
-     * Short description of attribute cssClass
-     *
-     * @access protected
-     * @var string
-     */
-    protected $cssClass = '';
+    protected $attributes = array();
 
     // --- OPERATIONS ---
 
@@ -76,16 +59,18 @@ class tao_helpers_form_xhtml_TagWrapper
         
 		if(!empty($this->tag)){
 			$returnValue .= "<{$this->tag}";
-			if(!empty($this->id)){
-				$returnValue .= " id='{$this->id}' ";	
+			if (isset($this->attributes['cssClass'])) {
+			    // legacy
+			    $this->attributes['class'] = $this->attributes['cssClass'].
+                    (isset($this->attributes['class']) ? ' '.$this->attributes['class'] : '');
+			    unset($this->attributes['cssClass']);
 			}
-			if(!empty($this->cssClass)){
-				$returnValue .= " class='{$this->cssClass}' ";	
+			foreach ($this->attributes as $key => $value) {
+			    $returnValue .= ' '.$key.'=\''.$value.'\' ';
 			}
 			$returnValue .= ">";
 		}
-        
-
+		common_Logger::w($returnValue);
         return (string) $returnValue;
     }
 
@@ -119,15 +104,13 @@ class tao_helpers_form_xhtml_TagWrapper
      */
     public function getOption($key)
     {
-        $returnValue = (string) '';
-
-        
-		if(isset($this->$key)){
-			$returnValue = $this->$key;
-		}
-        
-
-        return (string) $returnValue;
+        if ($key == 'tag') {
+            return $this->tag;
+        } elseif (isset($this->attributes[$key])) {
+            return $this->attributes[$key];
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -141,15 +124,12 @@ class tao_helpers_form_xhtml_TagWrapper
      */
     public function setOption($key, $value)
     {
-        $returnValue = (bool) false;
-
-        
-		
-		$this->$key = $value;
-		
-        
-
-        return (bool) $returnValue;
+        if ($key == 'tag') {
+            $this->tag = $value;
+        } else {
+            $this->attributes[$key] = $value;
+        }
+        return true;
     }
 
     /**
@@ -165,16 +145,9 @@ class tao_helpers_form_xhtml_TagWrapper
         
 		if(isset($options['tag'])){
 			$this->tag = $options['tag'];
+			unset($options['tag']);
 		}
-		if(isset($options['cssClass'])){
-			$this->cssClass = $options['cssClass'];
-		}
-		if(isset($options['id'])){
-			$this->id = $options['id'];
-		}
-        
+		$this->attributes = $options;
     }
 
 }
-
-?>
