@@ -74,7 +74,6 @@ class ZendIndexer
         $toDo = array();
         foreach ($this->resource->getTypes() as $class) {
             $toDo[] = $class->getUri();
-            $document->addField(Document\Field::Text('class', $class->getLabel()));
         }
         
         $done = array(RDFS_RESOURCE, TAO_OBJECT_CLASS);
