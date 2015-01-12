@@ -124,9 +124,9 @@ class ZendIndexer
     
     protected function getIndexedProperties()
     {
-        $classProperties = array(new \core_kernel_classes_Property(RDFS_LABEL));
+        $classProperties = array();
         foreach ($this->resource->getTypes() as $type) {
-            $classProperties = array_merge($classProperties, \tao_helpers_form_GenerisFormFactory::getClassProperties($type));
+            $classProperties = array_merge($classProperties, $type->getProperties(true));
         }
     
         return $classProperties;
