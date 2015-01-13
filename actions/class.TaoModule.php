@@ -1372,11 +1372,12 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		$clazz = $this->getCurrentClass();
 		
+        $propertiesNumber = count($clazz->getProperties(false)) + 1;
 		if($this->hasRequestParameter('index')){
 			$index = $this->getRequestParameter('index');
 		}
 		else{
-			$index = count($clazz->getProperties(false)) + 1;
+            $index = $propertiesNumber;
 		}
 		
 		$propMode = 'simple';
@@ -1390,7 +1391,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$propFormClass = 'tao_actions_form_SimpleProperty';
 		}
 		
-		$propFormContainer = new $propFormClass($clazz, $clazz->createProperty('Property_'.$index), array('index' => $index));
+		$propFormContainer = new $propFormClass($clazz, $clazz->createProperty('Property_'.$propertiesNumber), array('index' => $index));
 		$myForm = $propFormContainer->getForm();
 		
 		$this->setData('data', $myForm->renderElements());

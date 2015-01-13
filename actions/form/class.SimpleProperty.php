@@ -52,7 +52,7 @@ class tao_actions_form_SimpleProperty
     	$property = new core_kernel_classes_Property($this->instance->getUri());
     	
     	(isset($this->options['index'])) ? $index = $this->options['index'] : $index = 1;
-    	
+    	$indexUri = preg_replace('/^(http:\/\/.+)#/','',$property->getUri());
 		$propertyProperties = array_merge(
 			tao_helpers_form_GenerisFormFactory::getDefaultProperties(), 
 			array(new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT),
@@ -78,7 +78,7 @@ class tao_actions_form_SimpleProperty
 						}
 					}
 				}
-				$element->setName("property_{$index}_{$element->getName()}");
+				$element->setName("property_{$indexUri}_{$element->getName()}");
 				$this->form->addElement($element);
 				$elementNames[] = $element->getName();
                 
@@ -89,7 +89,7 @@ class tao_actions_form_SimpleProperty
 		}
 		
 		//build the type list from the "widget/range to type" map
-		$typeElt = tao_helpers_form_FormFactory::getElement("property_{$index}_type", 'Combobox');
+		$typeElt = tao_helpers_form_FormFactory::getElement("property_{$indexUri}_type", 'Combobox');
 		$typeElt->setDescription(__('Type'));
 		$typeElt->addAttribute('class', 'property-type');
 		$typeElt->setEmptyOption(' --- '.__('select').' --- ');
@@ -112,7 +112,7 @@ class tao_actions_form_SimpleProperty
 		//list drop down
 		$listService = tao_models_classes_ListService::singleton();
 			
-		$listElt = tao_helpers_form_FormFactory::getElement("property_{$index}_range", 'Combobox');
+		$listElt = tao_helpers_form_FormFactory::getElement("property_{$indexUri}_range", 'Combobox');
 		$listElt->setDescription(__('List values'));
 		$listElt->addAttribute('class', 'property-listvalues');
 		$listElt->setEmptyOption(' --- '.__('select').' --- ');
@@ -136,14 +136,14 @@ class tao_actions_form_SimpleProperty
 		$elementNames[] = $listElt->getName();
 		
 		//add an hidden element with the mode (simple)
-		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
+		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$indexUri}", 'Hidden');
 		$modeElt->setValue('simple');
 		$this->form->addElement($modeElt);
 		$elementNames[] = $modeElt->getName();
 
         //add an hidden elt for the property uri
         $encodedUri = tao_helpers_Uri::encode($property->getUri());
-        $propUriElt = tao_helpers_form_FormFactory::getElement("uri{$index}", 'Hidden');
+        $propUriElt = tao_helpers_form_FormFactory::getElement("uri{$indexUri}", 'Hidden');
         $propUriElt->addAttribute('class', 'property-uri');
         $propUriElt->setValue($encodedUri);
         $this->form->addElement($propUriElt);
@@ -151,11 +151,11 @@ class tao_actions_form_SimpleProperty
 
 		if(count($elementNames) > 0){
 			$groupTitle = $this->getGroupTitle($property);
-			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames);
+			$this->form->createGroup("property_{$indexUri}", $groupTitle, $elementNames);
 		}
     	
 		//add an hidden elt for the property uri
-		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$index}", 'Hidden');
+		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$indexUri}", 'Hidden');
 		$propUriElt->setValue($property->getUri());
 		$this->form->addElement($propUriElt);
 
