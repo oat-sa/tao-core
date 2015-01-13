@@ -28,17 +28,17 @@
  * - Minor code refactoring
  * - Add the i18n helper
  */
-define(['handlebars', 'i18n', 'lodash'], function(Handlebars, __, _){
+define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
     var buildMap = {};
     var extension = '.tpl';
 
     //register a i18n helper
-    Handlebars.registerHelper('__', function(key){
+    hb.registerHelper('__', function(key){
         return __(key);
     });
 
     //register join helper
-    Handlebars.registerHelper('join', function(arr, glue, delimiter, wrapper){
+    hb.registerHelper('join', function(arr, glue, delimiter, wrapper){
 
         var ret = '';
 
@@ -68,7 +68,7 @@ define(['handlebars', 'i18n', 'lodash'], function(Handlebars, __, _){
 
     //register a classic "for loop" helper
     //it also adds a local variable "i" as the index in each iteration loop
-    Handlebars.registerHelper('for', function(startIndex, stopIndex, increment, options){
+    hb.registerHelper('for', function(startIndex, stopIndex, increment, options){
         var ret = '';
         startIndex = parseInt(startIndex);
         stopIndex = parseInt(stopIndex);
@@ -81,7 +81,7 @@ define(['handlebars', 'i18n', 'lodash'], function(Handlebars, __, _){
         return ret;
     });
 
-    Handlebars.registerHelper('equal', function(var1, var2, options){
+    hb.registerHelper('equal', function(var1, var2, options){
         if(var1 == var2){
             return options.fn(this);
         }else{
@@ -101,17 +101,17 @@ define(['handlebars', 'i18n', 'lodash'], function(Handlebars, __, _){
             }else{
                 req(["text!" + name + extension], function(raw){
                     // Just return the compiled template
-                    onload(Handlebars.compile(raw));
+                    onload(hb.compile(raw));
                 });
             }
         },
         write : function(pluginName, moduleName, write){
             if(moduleName in buildMap){
-                var compiled = Handlebars.precompile(buildMap[moduleName]);
+                var compiled = hb.precompile(buildMap[moduleName]);
                 // Write out precompiled version of the template function as AMD definition.
                 write(
-                    "define('tpl!" + moduleName + "', ['handlebars'], function(Handlebars){ \n" +
-                    "return Handlebars.template(" + compiled.toString() + ");\n" +
+                    "define('tpl!" + moduleName + "', ['handlebars'], function(hb){ \n" +
+                    "return hb.template(" + compiled.toString() + ");\n" +
                     "});\n"
                     );
             }

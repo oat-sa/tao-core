@@ -3,7 +3,7 @@ require.config({
     baseUrl : '<?=TAOBASE_WWW?>js',
     catchError: true,
     waitSeconds: <?=get_data('client_timeout')?>,
-    
+
     config : {
         'context': {
             root_url                : '<?=ROOT_URL?>',
@@ -21,38 +21,55 @@ require.config({
             mediaSources            : <?=json_encode(get_data('mediaSources'))?>
         }
     },
-    
+
     paths : {
-        'jquery'            : 'lib/jquery-1.8.0.min',
-        'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
+
+//require-js plugins
         'text'              : 'lib/text/text',
         'json'              : 'lib/text/json',
         'css'               : 'lib/require-css/css',
+        'tpl'               : 'tpl',
+
+//jquery and plugins
+        'jquery'            : 'lib/jquery-1.8.0.min',
+        'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
+        'select2'           : 'lib/select2/select2.min',
+        'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
+        'jquery.tree'       : 'lib/jsTree/jquery.tree',
+        'jquery.timePicker' : 'lib/jquery.timePicker',
+        'jquery.cookie'     : 'lib/jquery.cookie',
+        'tooltipster'       : 'lib/tooltipster/jquery.tooltipster',
+        'nouislider'        : 'lib/sliders/jquery.nouislider',
+        'jquery.trunc'		: 'lib/jquery.badonkatrunc',
+        'jquery.fileDownload'  : 'lib/jquery.fileDownload',
+
+//polyfills
         'polyfill'          : 'lib/polyfill',
         'filereader'        : 'lib/polyfill/jquery.FileReader.min',
+
+//libs
         'store'             : 'lib/store/store.min',
-        'select2'           : 'lib/select2/select2.min',
         'lodash'            : 'lib/lodash.min',
         'async'             : 'lib/async',
         'moment'            : 'lib/moment.min',
         'handlebars'        : 'lib/handlebars',
-        'tpl'               : 'tpl',
-        'ckeditor'          : 'lib/ckeditor/ckeditor',
-        'ckConfigurator'    : '../../../taoQtiItem/views/js/qtiCreator/editor/ckEditor/ckConfigurator',
+
         'class'             : 'lib/class',
-        'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
-        'jquery.tree'       : 'lib/jsTree/jquery.tree',
-        'jqGrid'            : 'lib/jquery.jqGrid-4.4.0/js/jquery.jqGrid.min',
-        'jquery.timePicker' : 'lib/jquery.timePicker',
-        'jquery.cookie'     : 'lib/jquery.cookie',
         'raphael'           : 'lib/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
-        'raphael-collision' : 'lib/raphael/raphael-collision/raphael-collision',
         'spin'              : 'lib/spin.min',
-        'tooltipster'       : 'lib/tooltipster/js/jquery.tooltipster.min',
-        'nouislider'        : 'lib/sliders/jquery.nouislider',
-        'jquery.trunc'		: 'lib/jquery.badonkatrunc',
+        'history'           : 'lib/history',
+        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player.min',
+        'mathJax'           : [
+            '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
+            '../../../taoQtiItem/views/js/MathJaxFallback'
+        ],
+        'ckeditor'          : 'lib/ckeditor/ckeditor',
+
+//locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',
+
+//extension aliases, and controller loading in prod mode
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
         '<?=$name?>Css'        : '../../../<?=$name?>/views/css',
@@ -60,43 +77,15 @@ require.config({
         '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
         <?php endif?>
     <?php endforeach?>
-        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player.min',
-        'mathJax'           : [
-            '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
-            '../../../taoQtiItem/views/js/MathJaxFallback'
-        ],
-        'eyecatcher'        : 'eyecatcher',
-        'jquery.fileDownload'  : 'lib/jquery.fileDownload',
-        'history'           : 'lib/history'
    },
-  
+
    shim : {
-        'jqueryui'              : ['jquery'],
-        'jquerytools'           : ['jquery'],
-        'select2'               : ['jquery'],
-        'jwysiwyg'              : ['jquery'],
-        'jquery.cookie'         : ['jquery'],
-        'jquery.trunc'			: ['jquery'],
-        'jquery.timePicker'     : ['jquery'],
-        'tooltipster'           : ['jquery', 'css!lib/tooltipster/css/tooltipster'],
-        'nouislider'            : ['jquery'],
-        'jquery.fileDownload'   : ['jquery'],
-        'lib/jsTree/plugins/jquery.tree.checkbox'   : ['jquery.tree'],
-        'lib/jsTree/plugins/jquery.tree.contextmenu'  : ['jquery.tree'],
-        'generis.tree.select'   : ['generis.tree', 'jquery.tree', 'lib/jsTree/plugins/jquery.tree.checkbox'],
-        'generis.tree.browser'  : ['generis.tree', 'jquery.tree', 'lib/jsTree/plugins/jquery.tree.contextmenu'],
-        'jqGrid'                : ['jquery', 'lib/jquery.jqGrid-4.4.0/js/i18n/grid.locale-<?=get_data('lang')?>'],
-        'grid/tao.grid'         : ['jqGrid'],
-        'grid/tao.grid.downloadFileResource' : ['grid/tao.grid'],
-        'grid/tao.grid.rowId'   : ['grid/tao.grid'],
-        'AsyncFileUpload'       : ['lib/jquery.uploadify/swfobject', 'lib/jquery.uploadify/jquery.uploadify.v2.1.4.min'],
-        'filemanager/jqueryFileTree/jqueryFileTree' : ['jquery'],
         'wfEngine/wfApi/wfApi.min' : ['jquery'],
-        'handlebars'            : { exports : 'Handlebars' },
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
+
         'mediaElement' : {
             deps: ['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'],
             exports : 'MediaElementPlayer',
@@ -107,6 +96,7 @@ require.config({
                 return MediaElementPlayer;
             }
         },
+
         'mathJax' : {
             exports : "MathJax",
             init : function(){
@@ -116,7 +106,6 @@ require.config({
                     return MathJax;
                 }
             }
-        },
-        'filereader' : ['jquery', 'polyfill/swfobject']
+        }
     }
 });

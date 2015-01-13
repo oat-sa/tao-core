@@ -10,7 +10,7 @@
  */
 
 /*jslint browser: true, forin: true */
-(function($)
+define(['jquery'], function($)
 {
     /**
      * @constructor
@@ -1311,4 +1311,4 @@
             return false;
         }
     });
-})(jQuery);
+});

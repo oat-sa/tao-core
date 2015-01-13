@@ -2,75 +2,60 @@ require.config({
 
     baseUrl : '../js',
     paths : {
-        'jquery'            : 'lib/jquery-1.8.0.min',
-        'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
-        'jquerytools'       : 'lib/jquery.tools.min',
+
+//require-js plugins
         'text'              : 'lib/text/text',
         'json'              : 'lib/text/json',
         'css'               : 'lib/require-css/css',
-        'css-builder'       : 'lib/require-css/css-builder',
-        'normalize'         : 'lib/require-css/normalize',
+        'tpl'               : 'tpl',
+
+//jquery and plugins
+        'jquery'            : 'lib/jquery-1.8.3',
+        'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
+        'select2'           : 'lib/select2/select2.min',
+        'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
+        'jquery.tree'       : 'lib/jsTree/jquery.tree',
+        'jquery.timePicker' : 'lib/jquery.timePicker',
+        'jquery.cookie'     : 'lib/jquery.cookie',
+        'tooltipster'       : 'lib/tooltipster/jquery.tooltipster',
+        'nouislider'        : 'lib/sliders/jquery.nouislider',
+        'jquery.trunc'		: 'lib/jquery.badonkatrunc',
+        'jquery.fileDownload'  : 'lib/jquery.fileDownload',
+
+//polyfills
         'polyfill'          : 'lib/polyfill',
         'filereader'        : 'lib/polyfill/jquery.FileReader.min',
+
+//libs
         'store'             : 'lib/store/store.min',
-        'select2'           : 'lib/select2/select2.min',
         'lodash'            : 'lib/lodash.min',
         'async'             : 'lib/async',
         'moment'            : 'lib/moment.min',
         'handlebars'        : 'lib/handlebars',
-        'tpl'               : 'tpl',
-        'ckeditor'          : 'lib/ckeditor/ckeditor',
-        'i18ntr'            : '../locales/en-US',
-        'ckConfigurator'    : '../../../taoQtiItem/views/js/qtiCreator/editor/ckEditor/ckConfigurator',
+
         'class'             : 'lib/class',
-        'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
-        'jquery.tree'       : 'lib/jsTree/jquery.tree',
-        'jqtree.contextmenu': 'lib/jsTree/plugins/jquery.tree.contextmenu',
-        'jqtree.checkbox'   : 'lib/jsTree/plugins/jquery.tree.checkbox',
-        'jqGrid'            : 'lib/jquery.jqGrid-4.4.0/js/jquery.jqGrid.min',
-        'jquery.timePicker' : 'lib/jquery.timePicker',
-        'jquery.cookie'     : 'lib/jquery.cookie',
-        'jquery.fileDownload': 'lib/jquery.fileDownload',
         'raphael'           : 'lib/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
-        'raphael-collision' : 'lib/raphael/raphael-collision/raphael-collision',
         'spin'              : 'lib/spin.min',
-        'tooltipster'       : 'lib/tooltipster/js/jquery.tooltipster.min',
-        'nouislider'        : 'lib/sliders/jquery.nouislider',
-        'jquery.trunc'		: 'lib/jquery.badonkatrunc',
+        'history'           : 'lib/history',
+
         'mediaElement'      : 'lib/mediaelement/mediaelement-and-player.min',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
-        'eyecatcher'        : 'eyecatcher',
-        'jquery.filedownload'  : 'lib/jquery.fileDownload',
-        'history'           : 'lib/history',
+        'ckeditor'          : 'lib/ckeditor/ckeditor',
+
+//optimizer needed
+        'css-builder'       : 'lib/require-css/css-builder',
+        'normalize'         : 'lib/require-css/normalize',
+       
+//stub 
+        'i18ntr'            : '../locales/en-US'
    },
   
    shim : {
-        'jqueryui'              : ['jquery'],
-        'jquerytools'           : ['jquery'],
-        'select2'               : ['jquery'],
-        'jwysiwyg'              : ['jquery'],
-        'jquery.cookie'         : ['jquery'],
-        'jquery.trunc'			: ['jquery'],
-        'jquery.timePicker'     : ['jquery'],
-        'tooltipster'           : ['jquery', 'css!lib/tooltipster/css/tooltipster'],
-        'nouislider'            : ['jquery'],
-        'jquery.fileDownload'   : ['jquery'],
-        'lib/jsTree/plugins/jquery.tree.checkbox'   : ['jquery.tree'],
-        'lib/jsTree/plugins/jquery.tree.contextmenu'  : ['jquery.tree'],
-        'generis.tree.select'   : ['generis.tree', 'jquery.tree', 'lib/jsTree/plugins/jquery.tree.checkbox'],
-        'generis.tree.browser'  : ['generis.tree', 'jquery.tree', 'lib/jsTree/plugins/jquery.tree.contextmenu'],
-        'jqGrid'                : ['jquery', 'lib/jquery.jqGrid-4.4.0/js/i18n/grid.locale-en'],
-        'grid/tao.grid'         : ['jqGrid'],
-        'grid/tao.grid.downloadFileResource' : ['grid/tao.grid'],
-        'grid/tao.grid.rowId'   : ['grid/tao.grid'],
-        'AsyncFileUpload'       : ['lib/jquery.uploadify/swfobject', 'lib/jquery.uploadify/jquery.uploadify.v2.1.4.min'],
         'wfEngine/wfApi/wfApi.min' : ['jquery'],
-        'handlebars'            : { exports : 'Handlebars' },
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
-        'filereader' : ['jquery', 'polyfill/swfobject']
     }
 });

@@ -12,7 +12,7 @@
  * @author Jehan Bihin (class)
  */
 
-define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback'], function($, __, context, GenerisTreeClass, helpers, feedback) {
+define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback', 'jquery.tree', 'lib/jsTree/plugins/jquery.tree.checkbox'], function($, __, context, GenerisTreeClass, helpers, feedback) {
 	var GenerisTreeSelectClass = GenerisTreeClass.extend({
 		/**
 		 * Constructor
@@ -253,10 +253,10 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback'], 
 					unchecked.push($(NODE).prop('id'));
 				}
 			});
-			var returnValue = jQuery.grep(this.checkedNodes, function(value) {
+			var returnValue = $.grep(this.checkedNodes, function(value) {
 				return unchecked.indexOf(value) == -1;
 			});
-			
+
 			$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE) {
 				if ($(NODE).hasClass('node-instance')) {
 					var value = $(NODE).prop('id');

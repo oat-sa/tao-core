@@ -13,7 +13,7 @@
 // @warning_level VERBOSE
 // ==/ClosureCompiler==
 
-(function( $ ){
+define(['jquery'], function( $ ){
 
 	'use strict';
 
@@ -1647,4 +1647,4 @@ function closure ( target, options, originalOptions ){
 		});
 	};
 
-}( window['jQuery'] || window['Zepto'] ));
+});
