@@ -1369,7 +1369,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         //generate form
         $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array('index' => $index));
         $myForm = $indexFormContainer->getForm();
-        $matches = array();
         $form = trim(preg_replace('/\s+/', ' ', $myForm->renderElements()));
         echo json_encode(array('form' => $form));
 	}
