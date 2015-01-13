@@ -18,27 +18,36 @@
  *
  *
  */
-namespace oat\tao\model\search\tokenizer;
-
-use oat\tao\model\search\Search;
-use tao_models_classes_FileSourceService;
-use common_Logger;
-use ZendSearch\Lucene\Lucene;
-use ZendSearch\Lucene\Document;
-use ZendSearch\Lucene\Search\QueryHit;
-use oat\oatbox\Configurable;
+namespace oat\tao\model\search;
 
 /**
- * Zend Lucene Search implementation 
+ * Search Syntax Exception
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
-class RawValue implements Tokenizer
+class SyntaxException extends \common_Exception
+    implements \common_exception_UserReadableException 
 {	
-    const URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer';
+    private $query;
     
-    public function getStrings($values)
-    {
-        return $values;
+    private $error;
+    
+    /**
+     * 
+     * @param unknown $queryString
+     * @param unknown $userError
+     */
+    public function __construct($queryString, $userError) {
+        $this->query = $queryString;
+        $this->error = $userError;
+        parent::__construct('Error in query "'.$queryString.'": '.$userError);    
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see common_exception_UserReadableException::getUserMessage()
+     */
+    public function getUserMessage() {
+        return $this->error;
     }
 }

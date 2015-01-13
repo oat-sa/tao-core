@@ -71,11 +71,13 @@ abstract class tao_actions_form_AbstractProperty
 				. '<span class="property-heading-toolbar">'
 				. _dh(implode(' ', $domainLabel))
 				. ' <span class="icon-edit"></span>'
+				. ' <span class="icon-add"></span>'
 				. '</span>';
 
 		}else{
 			$groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
 				. '<span class="property-heading-toolbar">'
+				. ' <span class="icon-add"></span>'
 				. '<span class="icon-edit"></span>'
 				. '<span class="icon-bin property-deleter"></span>'
 				. '</span>';

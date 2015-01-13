@@ -273,8 +273,7 @@ define([
                 if (confirm(__('Please confirm property deletion!'))) {
                     var $groupNode = $(this).closest(".form-group");
                     if ($groupNode.length) {
-                        var index = $('.form-group').index($groupNode);
-                        var uri = $('#propertyUri'+index).val();
+                        var uri = $groupNode.find('.property-uri').val();
                         property.remove(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
                             $groupNode.remove();
                         });
@@ -289,6 +288,48 @@ define([
             $(".property-adder").off('click').on('click', function (e) {
                 e.preventDefault();
                 property.add(null, $("#classUri").val(), getUrl('addClassProperty'));
+            });
+
+            $(".index-adder").off('click').on('click', function (e) {
+                e.preventDefault();
+                var $prependTo = $(this).closest('div');
+                var $groupNode = $(this).closest(".form-group");
+                if ($groupNode.length) {
+                    var uri = $groupNode.find('.property-uri').val();
+                    $.ajax({
+                        type: "GET",
+                        url: getUrl('addIndexProperty'),
+                        data: {uri : uri, index : $(this).data('index')},
+                        dataType: 'json',
+                        success: function (response) {
+                            $prependTo.before(response.form);
+                        }
+                    });
+                }
+            });
+
+            $('.property-edit-container').off('click', '.index-remover').on('click', '.index-remover', function(e){
+                e.preventDefault();
+                var $groupNode = $(this).closest(".form-group");
+                var uri = $groupNode.find('.property-uri').val();
+
+                var $editContainer = $($groupNode[0]).children('.property-edit-container');
+                $.ajax({
+                    type: "POST",
+                    url: getUrl('removeIndexProperty'),
+                    data: {uri : uri, index_property : $(this).attr('id')},
+                    dataType: 'json',
+                    success: function (response) {
+                        var $toRemove = $('[id*="'+response.id+'"]');
+                        $toRemove.each(function(){
+                            var $currentTarget = $(this);
+                            while(!_.isEqual($currentTarget.parent()[0], $editContainer[0]) && $currentTarget.parent()[0] !== undefined){
+                                $currentTarget = $currentTarget.parent();
+                            }
+                            $currentTarget.remove();
+                        });
+                    }
+                });
             });
 
             $(".property-mode").off('click').on('click', function () {

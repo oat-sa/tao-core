@@ -35,9 +35,46 @@
         }
     }
 
+
     &.horizontal-action-bar {
         padding: 5px;
         height: 35px;
+        .search-area {
+            float:right;
+            display:inline-block;
+            position: relative;
+            padding-right: 30px;
+            input {
+                padding-right: 30px;
+                min-width: 250px !important;
+            }
+            button {
+                position: absolute;
+                right: 29px;
+                top: -2px;
+                cursor: default;
+                opacity: .5;
+                background: transparent;
+                width: 25px;
+                height : 25px;
+                &:before {
+                    color: #666;
+                }
+            }
+            span {
+                position: absolute;
+                right: 0px;
+                top: -1px;
+                text-shadow: 0px 0px transparent;
+                color: white;
+                cursor: pointer;
+                display: block;
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                text-align: center
+            }
+        }
         li {
             margin: 0 1px;
             border: 1px transparent solid;

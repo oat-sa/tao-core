@@ -18,27 +18,8 @@
  *
  *
  */
-namespace oat\tao\model\search\tokenizer;
+use oat\tao\model\search\SearchService;
 
-use oat\tao\model\search\Search;
-use tao_models_classes_FileSourceService;
-use common_Logger;
-use ZendSearch\Lucene\Lucene;
-use ZendSearch\Lucene\Document;
-use ZendSearch\Lucene\Search\QueryHit;
-use oat\oatbox\Configurable;
+require_once dirname(__FILE__) .'/../includes/raw_start.php';
 
-/**
- * Zend Lucene Search implementation 
- * 
- * @author Joel Bout <joel@taotesting.com>
- */
-class RawValue implements Tokenizer
-{	
-    const URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer';
-    
-    public function getStrings($values)
-    {
-        return $values;
-    }
-}
+SearchService::runIndexing();
