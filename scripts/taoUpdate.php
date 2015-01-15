@@ -27,45 +27,56 @@ if(function_exists("date_default_timezone_set")){
 require_once dirname(__FILE__) .'/../includes/raw_start.php';
 
 echo 'Look for missing required extensions' . PHP_EOL;
-$missing = \helpers_ExtensionHelper::getMissingExtensionIds(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
+$missingId = \helpers_ExtensionHelper::getMissingExtensionIds(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
 
-foreach ($missing as $extId) {
-    echo 'Installing ' . $extId . PHP_EOL;
-    $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extId);
-    $installer = new \tao_install_ExtensionInstaller($ext);
-    $installer->install();
+$missingExt = array();
+foreach ($missingId as $extId) {
+    $ext= \common_ext_ExtensionsManager::singleton()->getExtensionById($extId);
+    $missingExt[$extId] = $ext;
 }
 
-$sorted = \helpers_ExtensionHelper::sortByDependencies(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
+$merged = array_merge(common_ext_ExtensionsManager::singleton()->getInstalledExtensions(),$missingExt);
+
+
+$sorted = \helpers_ExtensionHelper::sortByDependencies($merged);
 
 foreach ($sorted as $ext) {
-    $installed = common_ext_ExtensionsManager::singleton()->getInstalledVersion($ext->getId());
-    $current = $ext->getVersion();
-    if ($installed !== $current) {
-        echo $ext->getName().' requires update from '.$installed.' to '.$current.PHP_EOL;
-        $updaterClass = $ext->getManifest()->getUpdateHandler();
-        if (!is_null($updaterClass)) {
-            if (class_exists($updaterClass)) {
-                $updater = new $updaterClass($ext);
-                echo '  Running '.$updaterClass.PHP_EOL;
-                $newVersion = $updater->update($installed);
-                if ($newVersion == $current) {
-                    common_ext_ExtensionsManager::singleton()->registerExtension($ext);
-                    common_ext_ExtensionsManager::singleton()->setEnabled($ext->getId());
-                    echo '  Successfully updated '.$ext->getName().' to '.$newVersion.PHP_EOL;
-                } else {
-                    echo '  Update of '.$ext->getName().' exited with version '.$newVersion.''.PHP_EOL;
-                }
-            } else {
-                echo '  Updater '.$updaterClass.' not found'.PHP_EOL;
-            }
-            common_cache_FileCache::singleton()->purge();
-        } else {
-            echo '  No Updater found for '.$ext->getName().' not found'.PHP_EOL;
-        }
-    } else {
-        echo $ext->getName().' already up-to-date'.PHP_EOL;
+    if(!common_ext_ExtensionsManager::singleton()->isInstalled($ext->getId()))
+    {
+        echo 'Installing ' . $ext->getId() . PHP_EOL;
+        $installer = new \tao_install_ExtensionInstaller($ext);
+        $installer->install();  
     }
+    else {
+        $installed = common_ext_ExtensionsManager::singleton()->getInstalledVersion($ext->getId());
+        $current = $ext->getVersion();
+        if ($installed !== $current) {
+            echo $ext->getName().' requires update from '.$installed.' to '.$current.PHP_EOL;
+            $updaterClass = $ext->getManifest()->getUpdateHandler();
+            if (!is_null($updaterClass)) {
+                if (class_exists($updaterClass)) {
+                    $updater = new $updaterClass($ext);
+                    echo '  Running '.$updaterClass.PHP_EOL;
+                    $newVersion = $updater->update($installed);
+                    if ($newVersion == $current) {
+                        common_ext_ExtensionsManager::singleton()->registerExtension($ext);
+                        common_ext_ExtensionsManager::singleton()->setEnabled($ext->getId());
+                        echo '  Successfully updated '.$ext->getName().' to '.$newVersion.PHP_EOL;
+                    } else {
+                        echo '  Update of '.$ext->getName().' exited with version '.$newVersion.''.PHP_EOL;
+                    }
+                } else {
+                    echo '  Updater '.$updaterClass.' not found'.PHP_EOL;
+                }
+                common_cache_FileCache::singleton()->purge();
+            } else {
+                echo '  No Updater found for '.$ext->getName().' not found'.PHP_EOL;
+            }
+        } else {
+            echo $ext->getName().' already up-to-date'.PHP_EOL;
+        }
+    }
+
 }
 //regenerage all client side translation
 echo 'Regenerate all client side translations' . PHP_EOL;
