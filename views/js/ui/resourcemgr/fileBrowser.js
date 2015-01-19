@@ -124,7 +124,7 @@ define(['jquery', 'lodash'], function($, _) {
         function getByPath(tree, path){
             var match;
             if(tree){
-                if(tree.path && (tree.path.indexOf(path) === 0 || tree.label.indexOf(path) === 0)){
+                if(tree.path && tree.path.indexOf(path) === 0){
                     match = tree;
                 } else if(tree.children){
                     _.forEach(tree.children, function(child){

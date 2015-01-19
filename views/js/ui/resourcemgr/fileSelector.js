@@ -138,7 +138,11 @@ define([
             var $switcher = $('.upload-switcher a', $fileSelector);
 
             $uploader.on('upload.uploader', function(e, file, result){
-                $container.trigger('filenew.' + ns, [result, currentPath]);
+                var path = $('[data-display="'+currentPath+'"').data('path');
+                if(typeof path === 'undefined' || path === ''){
+                    path = currentPath;
+                }
+                $container.trigger('filenew.' + ns, [result, path]);
             });
             $uploader.on('fail.uploader', function(e, file, err){
                 errors.push(__('Unable to upload file %s : %s', file.name, err));
