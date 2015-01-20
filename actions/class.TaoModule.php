@@ -1320,6 +1320,11 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
         $clazz = $this->getCurrentClass();
 
+        $index = 1;
+        if($this->hasRequestParameter('index')){
+            $index = $this->getRequestParameter('index');
+        }
+
 
         //create and attach the new index property to the property
         $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
@@ -1340,7 +1345,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
         $indexClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Index');
         $i = 0;
-        $identifierBackup = preg_replace('/\s/','_',$property->getLabel());
+        $identifierBackup = preg_replace('/\s/','_',strtolower($property->getLabel()));
         $identifier = $identifierBackup;
         do{
             if($i !== 0){
@@ -1352,7 +1357,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         }while($count !== 0);
 
         $indexProperty = $class->createInstanceWithProperties(array(
-                RDFS_LABEL => preg_replace('/_/',' ',$identifier),
+                RDFS_LABEL => preg_replace('/_/',' ',ucfirst($identifier)),
                 INDEX_PROPERTY_IDENTIFIER => $identifier,
                 INDEX_PROPERTY_TOKENIZER => $tokenizer,
                 INDEX_PROPERTY_FUZZY_MATCHING => GENERIS_TRUE,
@@ -1362,13 +1367,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         $property->setPropertyValue(new core_kernel_classes_Property(INDEX_PROPERTY), $indexProperty);
 
         //generate form
-        $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array());
+        $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array('index' => $index));
         $myForm = $indexFormContainer->getForm();
-
-        $matches = array();
-        $form = trim(preg_replace('/\s+/', ' ', $myForm->render()));
-        preg_match("/<div.+> <form[^>]+>(.+)<div class='form-toolbar' >.+<\/form> <\/div>$/",$form,$matches);
-        echo json_encode(array('form' => $matches[1]));
+        $form = trim(preg_replace('/\s+/', ' ', $myForm->renderElements()));
+        echo json_encode(array('form' => $form));
 	}
 
 	/**
@@ -1423,11 +1425,18 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 
 		//delete property mode
-		foreach($this->getCurrentClass()->getProperties() as $classProperty){
+		/** @var $classProperty core_kernel_classes_Property */
+        foreach($this->getCurrentClass()->getProperties() as $classProperty){
 			if($classProperty->getUri() == tao_helpers_Uri::decode($this->getRequestParameter('uri'))){
 
+                $indexes = $classProperty->getPropertyValues(new core_kernel_classes_Property(INDEX_PROPERTY));
 				//delete property and the existing values of this property
 				if($classProperty->delete(true)){
+                    //delete index linked to the property
+                    foreach($indexes as $indexUri){
+                        $index = new core_kernel_classes_Resource($indexUri);
+                        $index->delete(true);
+                    }
 					$success = true;
 					break;
 				}

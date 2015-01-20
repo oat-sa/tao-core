@@ -145,98 +145,20 @@ class tao_actions_form_SimpleProperty
         $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
         foreach($indexes as $indexUri){
             $indexProperty = new \oat\tao\model\search\Index($indexUri);
-            $indexUri = tao_helpers_Uri::encode($indexUri);
-
-            //get and add Label (Text)
-            $label = $indexProperty->getLabel();
-            $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(RDFS_LABEL), 'Textbox');
-            $propIndexElt->setDescription(__('Label'));
-            $propIndexElt->addAttribute('class', 'index-label');
-            $propIndexElt->setValue(tao_helpers_Uri::encode($label));
-            $this->form->addElement($propIndexElt);
-            $elementNames[] = $propIndexElt->getName();
-
-
-            //get and add Fuzzy matching (Radiobox)
-            $fuzzyMatching = ($indexProperty->isFuzzyMatching())?GENERIS_TRUE:GENERIS_FALSE;
-            $options = array(
-                tao_helpers_Uri::encode(GENERIS_TRUE)  => __('True'),
-                tao_helpers_Uri::encode(GENERIS_FALSE) => __('False')
-            );
-            $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_FUZZY_MATCHING), 'Radiobox');
-            $propIndexElt->setOptions($options);
-            $propIndexElt->setDescription(__('Fuzzy Matching'));
-            $propIndexElt->addAttribute('class', 'index-fuzzymatching');
-            $propIndexElt->setValue(tao_helpers_Uri::encode($fuzzyMatching));
-            $this->form->addElement($propIndexElt);
-            $elementNames[] = $propIndexElt->getName();
-
-            //get and add identifier (Text)
-            $identifier = $indexProperty->getIdentifier();
-            $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_IDENTIFIER), 'Textbox');
-            $propIndexElt->setDescription(__('Identifier'));
-            $propIndexElt->addAttribute('class', 'index-identifier');
-            $propIndexElt->setValue(tao_helpers_Uri::encode($identifier));
-            $propIndexElt->addValidator(new tao_helpers_form_validators_NotEmpty());
-            $this->form->addElement($propIndexElt);
-            $elementNames[] = $propIndexElt->getName();
-
-            //get and add Default search
-            $defaultSearch = ($indexProperty->isDefaultSearchable())?GENERIS_TRUE:GENERIS_FALSE;
-            $options = array(
-                tao_helpers_Uri::encode(GENERIS_TRUE)  => __('True'),
-                tao_helpers_Uri::encode(GENERIS_FALSE) => __('False')
-            );
-            $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_DEFAULT_SEARCH), 'Radiobox');
-            $propIndexElt->setOptions($options);
-            $propIndexElt->setDescription(__('Default search'));
-            $propIndexElt->addAttribute('class', 'index-defaultsearch');
-            $propIndexElt->setValue(tao_helpers_Uri::encode($defaultSearch));
-            $this->form->addElement($propIndexElt);
-            $elementNames[] = $propIndexElt->getName();
-
-            //get and add Tokenizer (Combobox)
-            $tokenizerRange = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer');
-            $options = array();
-            /** @var core_kernel_classes_Resource $value */
-            foreach($tokenizerRange->getInstances() as $value){
-                $options[tao_helpers_Uri::encode($value->getUri())] = $value->getLabel();
+            $indexFormContainer = new tao_actions_form_IndexProperty($this->getClazz(), $indexProperty, array('index' => $index));
+            /** @var tao_helpers_form_Form $indexForm */
+            $indexForm = $indexFormContainer->getForm();
+            foreach($indexForm->getElements() as $element){
+                $this->form->addElement($element);
+                $elementNames[] = $element->getName();
             }
-
-            $tokenizer = $indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_TOKENIZER));
-            $tokenizer = (get_class($tokenizer) === 'core_kernel_classes_Resource')?$tokenizer->getUri():'';
-            $propIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_".tao_helpers_Uri::encode(INDEX_PROPERTY_TOKENIZER), 'Combobox');
-            $propIndexElt->setDescription(__('Tokenizer'));
-            $propIndexElt->addAttribute('class', 'index-tokenizer');
-            $propIndexElt->setOptions($options);
-            $propIndexElt->setValue(tao_helpers_Uri::encode($tokenizer));
-            $propIndexElt->addValidator(new tao_helpers_form_validators_NotEmpty());
-            $this->form->addElement($propIndexElt);
-            $elementNames[] = $propIndexElt->getName();
-
-            $removeIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_remove", 'Free');
-            $removeIndexElt->setValue(
-                "<a href='#' id='{$indexUri}' class='btn-error index-remover small'><span class='icon-remove'></span> " . __(
-                    'remove index'
-                ) . "</a>"
-            );
-            $this->form->addElement($removeIndexElt);
-            $elementNames[] = $removeIndexElt;
-
-            $separatorIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_{$indexUri}_separator", 'Free');
-            $separatorIndexElt->setValue(
-                "<hr id='index_{$index}_{$indexUri}_separator'>"
-            );
-            $this->form->addElement($separatorIndexElt);
-            $elementNames[] = $separatorIndexElt;
-
         }
 
         //add this element only when the property is defined (type)
         if(!is_null($property->getRange())){
             $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_add", 'Free');
             $addIndexElt->setValue(
-                "<a href='#' id='index_{$index}_add' class='btn-info index-adder small'><span class='icon-add'></span> " . __(
+                "<a href='#' id='index_{$index}_add' data-index='{$index}' class='btn-info index-adder small'><span class='icon-add'></span> " . __(
                     'Add index'
                 ) . "</a><div class='clearfix'></div>"
             );
