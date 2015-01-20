@@ -24,6 +24,8 @@
  *      label and removed when it contains user input. Defaults to blank.
  *  
  */
+define(['jquery'], function(jQuery){
+
 jQuery.fn.labelify = function(settings) {
   settings = jQuery.extend({
     text: "title",
@@ -87,3 +89,5 @@ jQuery.fn.labelify = function(settings) {
 
   });
 };
+
+});

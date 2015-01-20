@@ -217,10 +217,10 @@ abstract class tao_models_classes_GenerisService
 			}
 			$label = $instance->getLabel();
 			$cloneLabel = "$label bis";
-			if(preg_match("/bis/", $label)){
+			if(preg_match("/bis(\s[0-9]+)?$/", $label)){
 				$cloneNumber = (int)preg_replace("/^(.?)*bis/", "", $label);
 				$cloneNumber++;
-				$cloneLabel = preg_replace("/bis(.?)*$/", "", $label)."bis $cloneNumber" ;
+				$cloneLabel = preg_replace("/bis(\s[0-9]+)?$/", "", $label)."bis $cloneNumber" ;
 			}
 
 			$returnValue->setLabel($cloneLabel);

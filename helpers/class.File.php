@@ -385,6 +385,23 @@ class tao_helpers_File
         return $md5;
     }
     
+    /**
+     * Create a zip of a directory or file
+     * 
+     * @param string $src path to the files to zip
+     * @throws common_Exception if unable to create the zip
+     * @return string path to the zip file
+     */
+    public static function createZip($src) {
+        $zipArchive = new \ZipArchive();
+        $path = self::createTempDir().'file.zip';
+        if ($zipArchive->open($path, \ZipArchive::CREATE)!==TRUE) {
+            throw new common_Exception('Unable to create zipfile '.$path);
+        }
+        self::addFilesToZip($zipArchive, $src, DIRECTORY_SEPARATOR);
+        $zipArchive->close();
+        return $path;
+    }
     
     /**
      * Add files or folders (and their content) to the Zip Archive that will contain all the files to the current export session.

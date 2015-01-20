@@ -22,7 +22,6 @@ module.exports = function(grunt) {
     var libs        = ext.getExtensionSources('tao', libsPattern, true).concat([
         'jquery',
         'jqueryui',
-        'jquerytools',
         'filereader',
         'store',
         'select2',
@@ -34,7 +33,6 @@ module.exports = function(grunt) {
         'class',
         'jwysiwyg',
         'jquery.tree',
-        'jqGrid',
         'jquery.timePicker',
         'jquery.cookie',
         'jquery.fileDownload',

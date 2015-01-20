@@ -124,7 +124,6 @@ class tao_actions_form_Clazz
                     }
                 }
                 $element->setName('class_' . $element->getName());
-                $this->form->addElement($element);
 
                 //set label validator
                 if ($property->getUri() == RDFS_LABEL) {
@@ -133,7 +132,16 @@ class tao_actions_form_Clazz
                             tao_helpers_form_FormFactory::getValidator('NotEmpty'),
                         )
                     );
+
+                    $ns = substr($clazz->getUri(), 0, strpos($clazz->getUri(), '#'));
+                    if ($ns != LOCAL_NAMESPACE) {
+                        $readonly = tao_helpers_form_FormFactory::getElement($element->getName(), 'Readonly');
+                        $readonly->setDescription($element->getDescription());
+                        $readonly->setValue($element->getRawValue());
+                        $element = $readonly;
+                    }
                 }
+                $this->form->addElement($element);
 
                 $elementNames[] = $element->getName();
             }
