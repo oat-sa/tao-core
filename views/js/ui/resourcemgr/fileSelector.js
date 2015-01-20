@@ -138,7 +138,7 @@ define([
             var $switcher = $('.upload-switcher a', $fileSelector);
 
             $uploader.on('upload.uploader', function(e, file, result){
-                var path = $('[data-display="'+currentPath+'"').data('path');
+                var path = $('[data-display="'+currentPath+'"]').data('path');
                 if(typeof path === 'undefined' || path === ''){
                     path = currentPath;
                 }
