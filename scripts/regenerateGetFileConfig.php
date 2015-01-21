@@ -31,7 +31,7 @@ $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao
 $file = $taoExtension->getDir().'includes'.DIRECTORY_SEPARATOR.'configGetFile.php';
 
 //verify write access
-if (!is_writable($file)) {
+if (file_exists($file) && !is_writable($file)) {
     echo 'No write access to "' . $file . '", aborting.' . PHP_EOL;
     exit(1);
 }
