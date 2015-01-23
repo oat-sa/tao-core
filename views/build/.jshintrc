@@ -14,7 +14,6 @@
     "maxerr" : 300,
     "maxlen" : 200,
     "nonbsp" : true,
-
     "globals" : {
         "require" : true,
         "define" : true,
@@ -22,8 +21,7 @@
         "module" : true,
         "Modernizr" : true,
         "JSON" : true
-    }
-
+    },
     "browser" : true,
     "qunit"   : true
 }
