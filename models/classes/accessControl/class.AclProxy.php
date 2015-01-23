@@ -54,4 +54,21 @@ class tao_models_classes_accessControl_AclProxy
         return AclProxy::hasAccess($user, $className, $action, $parameters);
     }
     
+    /**
+     * Does not respect params
+     * 
+     * @param string $url
+     * @return boolean
+     */
+    public static function hasAccessUrl($url) {
+        $user = common_session_SessionManager::getSession()->getUser();
+        try {
+            $resolver  = new ActionResolver($url);
+            return AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), array());
+            $className = $resolver->getController();
+        } catch (ResolverException $e) {
+            return false;
+        }
+    }
+    
 }
