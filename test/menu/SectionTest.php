@@ -106,7 +106,7 @@ XML;
 
         $this->assertTrue($tree instanceof Tree);
         $this->assertFalse(is_null($tree->get('selectClass')));
-        $this->assertEquals('edit class', $tree->get('selectClass'));
+        $this->assertEquals('edit_class', $tree->get('selectClass'));
     }
 
 }
