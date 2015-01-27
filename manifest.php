@@ -37,9 +37,10 @@ return array(
     'requires' => array(
 	   'generis' => '>=2.7.1'
     ),
-	'models' => array(
-		'http://www.tao.lu/Ontologies/TAO.rdf'
-	),
+    'models' => array(
+        'http://www.tao.lu/Ontologies/TAO.rdf',
+        'http://www.tao.lu/middleware/wfEngine.rdf'
+    ),
 	'modelsRight' => array (
 		LOCAL_NAMESPACE => '7'
 	),
