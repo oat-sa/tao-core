@@ -121,6 +121,23 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
         }
         
+        if ($currentVersion == '2.7.6') {
+            
+            $query = "DELETE FROM statements "
+                ."WHERE modelId = 1 "
+                ."AND NOT subject LIKE '".LOCAL_NAMESPACE."%' "
+                ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') "
+                ."AND NOT l_language = ''";
+            $success = \common_persistence_SqlPersistence::getPersistence('default')->exec($query);
+
+            // move translations to correct modelid
+            $langService = \tao_models_classes_LanguageService::singleton();
+            $dataUsage = new \core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
+            foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
+                $langService->addTranslationsForLanguage($lang);
+            }
+            $currentVersion = '2.7.7';
+        }
         
         return $currentVersion;
     }
