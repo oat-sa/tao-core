@@ -22,6 +22,7 @@
 
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
+use oat\tao\helpers\translation\rdf\RdfPack;
 
 /**
  * Short description of class tao_models_classes_LanguageService
