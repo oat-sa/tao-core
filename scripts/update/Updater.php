@@ -123,6 +123,14 @@ class Updater extends \common_ext_ExtensionUpdater {
         
         if ($currentVersion == '2.7.6') {
             
+            // add translations to correct modelid
+            $langService = \tao_models_classes_LanguageService::singleton();
+            $dataUsage = new \core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
+            foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
+                $langService->addTranslationsForLanguage($lang);
+            }
+
+            // remove translations from model 1
             $query = "SELECT id from statements "
                 ."WHERE modelId = 1 "
                 ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') "
@@ -139,12 +147,6 @@ class Updater extends \common_ext_ExtensionUpdater {
                 \common_persistence_SqlPersistence::getPersistence('default')->exec($query);
             }
 
-            // move translations to correct modelid
-            $langService = \tao_models_classes_LanguageService::singleton();
-            $dataUsage = new \core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
-            foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
-                $langService->addTranslationsForLanguage($lang);
-            }
             $currentVersion = '2.7.7';
         }
         
