@@ -337,7 +337,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                         //save index
                         foreach($index as $key => $value){
                             $matches = array();
-                            if(preg_match('/(http:\/\/.+)_(http:\/\/.+)/', $key, $matches)){
+                            if(preg_match('/(https?:\/\/.+)_(https?:\/\/.+)/', $key, $matches)){
                                 // if the identifier is unique
                                 $indexProperty = new core_kernel_classes_Property($matches[1]);
                                 if($matches[2] === INDEX_PROPERTY_IDENTIFIER ){
