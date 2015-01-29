@@ -67,11 +67,14 @@ class RdfPack implements \IteratorAggregate {
     
     public function getIterator() {
         $iterator = new \AppendIterator();
-        foreach ($this->extension->getManifest()->getInstallModelFiles() as $rdfpath) {
-            $modelId = FileModel::getModelIdFromXml($rdfpath);
-            $candidate = $this->extension->getDir() . 'locales' . DIRECTORY_SEPARATOR . $this->langCode . DIRECTORY_SEPARATOR . basename($rdfpath) .'.po';
-            if (file_exists($candidate)) {
-                $iterator->append($this->getTriplesFromFile($candidate, $modelId));
+        // english pack is always empty since in default rdfs 
+        if ($this->langCode != 'en-US') {
+            foreach ($this->extension->getManifest()->getInstallModelFiles() as $rdfpath) {
+                $modelId = FileModel::getModelIdFromXml($rdfpath);
+                $candidate = $this->extension->getDir() . 'locales' . DIRECTORY_SEPARATOR . $this->langCode . DIRECTORY_SEPARATOR . basename($rdfpath) .'.po';
+                if (file_exists($candidate)) {
+                    $iterator->append($this->getTriplesFromFile($candidate, $modelId));
+                }
             }
         }
         return $iterator;
