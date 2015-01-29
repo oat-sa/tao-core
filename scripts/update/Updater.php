@@ -123,12 +123,21 @@ class Updater extends \common_ext_ExtensionUpdater {
         
         if ($currentVersion == '2.7.6') {
             
-            $query = "DELETE FROM statements "
+            $query = "SELECT id from statements "
                 ."WHERE modelId = 1 "
-                ."AND NOT subject LIKE '".LOCAL_NAMESPACE."%' "
                 ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') "
-                ."AND NOT l_language = ''";
-            $success = \common_persistence_SqlPersistence::getPersistence('default')->exec($query);
+                ."AND subject IN "
+                    ."( SELECT subject FROM statements "
+                    ." WHERE NOT modelId = 1)";
+            $result = \common_persistence_SqlPersistence::getPersistence('default')->query($query);
+            $toDelete = array();
+            while ($row = $result->fetch()) {
+                $toDelete[] = $row['id'];
+            }
+            foreach (array_chunk($toDelete, 100) as $chunk) {
+                $query = "DELETE from statements where id IN (".implode(',', $chunk).")";
+                \common_persistence_SqlPersistence::getPersistence('default')->exec($query);
+            }
 
             // move translations to correct modelid
             $langService = \tao_models_classes_LanguageService::singleton();
