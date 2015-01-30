@@ -51,7 +51,9 @@ class OntologyUpdater {
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
         
         $smooth  = ModelManager::getModel();
-        $diff->applyTo($smooth);
+        self::logDiff($diff);
+        
+        $smooth->applyDiff($diff);
     }
     
     static public function correctModelId($rdfFile) {
@@ -62,5 +64,21 @@ class OntologyUpdater {
             $modelRdf->add($triple);
         }
     }
+    
+    static protected function logDiff(\helpers_RdfDiff $diff) {
+        $folder = FILES_PATH.'updates'.DIRECTORY_SEPARATOR;
+        $updateId = time();
+        while (file_exists($folder.$updateId)) {
+            $count = isset($count) ? $count + 1 : 0;
+            $updateId = time().'_'.$count;
+        }
+        $path = $folder.$updateId;
+        if (!mkdir($path, 0700, true)) {
+            throw new \common_exception_Error('Unable to log update to '.$path);
+        }
+        
+        FileModel::toFile($path.DIRECTORY_SEPARATOR.'add.rdf', $diff->getTriplesToAdd());
+        FileModel::toFile($path.DIRECTORY_SEPARATOR.'remove.rdf', $diff->getTriplesToRemove());
+    }    
     
 }
