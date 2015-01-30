@@ -123,6 +123,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         
         if ($currentVersion == '2.7.6') {
             
+            OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_1.rdf');
+            OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_4.rdf');
+            OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'model_2_7_5.rdf');
+            OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'index_type_2_7_6.rdf');
+            
+            
+            
+            
+            
             // add translations to correct modelid
             $langService = \tao_models_classes_LanguageService::singleton();
             $dataUsage = new \core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
@@ -146,6 +155,8 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $query = "DELETE from statements where id IN (".implode(',', $chunk).")";
                 \common_persistence_SqlPersistence::getPersistence('default')->exec($query);
             }
+            
+            OntologyUpdater::syncModels();
 
             $currentVersion = '2.7.7';
         }
