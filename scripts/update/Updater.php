@@ -25,6 +25,8 @@ use common_ext_ExtensionsManager;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\ClientLibRegistry;
+use oat\generis\model\kernel\persistence\file\FileModel;
+use oat\generis\model\data\ModelManager;
 
 /**
  * 
@@ -123,40 +125,34 @@ class Updater extends \common_ext_ExtensionUpdater {
         
         if ($currentVersion == '2.7.6') {
             
+            $dir = FILES_PATH.'updates'.DIRECTORY_SEPARATOR.'pre_'.$currentVersion;
+            if (!mkdir($dir, 0700, true)) {
+                throw new \common_exception_Error('Unable to log update to '.$dir);
+            }
+            FileModel::toFile($dir.DIRECTORY_SEPARATOR.'backup.rdf', ModelManager::getModel()->getRdfInterface());
+            
             OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_1.rdf');
             OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_4.rdf');
             OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'model_2_7_5.rdf');
             OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'index_type_2_7_6.rdf');
             
-            
-            
-            
-            
-            // add translations to correct modelid
-            $langService = \tao_models_classes_LanguageService::singleton();
-            $dataUsage = new \core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
-            foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
-                $langService->addTranslationsForLanguage($lang);
-            }
-
-            // remove translations from model 1
-            $query = "SELECT id from statements "
-                ."WHERE modelId = 1 "
-                ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') "
-                ."AND subject IN "
-                    ."( SELECT subject FROM statements "
-                    ." WHERE NOT modelId = 1)";
-            $result = \common_persistence_SqlPersistence::getPersistence('default')->query($query);
-            $toDelete = array();
-            while ($row = $result->fetch()) {
-                $toDelete[] = $row['id'];
-            }
-            foreach (array_chunk($toDelete, 100) as $chunk) {
-                $query = "DELETE from statements where id IN (".implode(',', $chunk).")";
-                \common_persistence_SqlPersistence::getPersistence('default')->exec($query);
-            }
-            
+            // syncronise also adds translations to correct modelid
             OntologyUpdater::syncModels();
+            
+            // remove translations from model 1
+            $persistence = \common_persistence_SqlPersistence::getPersistence('default');
+
+            $result = $persistence->query("SELECT DISTINCT subject FROM statements WHERE NOT modelId = 1");
+            $toCleanup = array();
+            while ($row = $result->fetch()) {
+                $toCleanup[] = $row['subject'];
+            }
+            
+            $query = "DELETE from statements WHERE modelId = 1 AND subject = ? "
+                    ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') ";
+            foreach ($toCleanup as $subject) {
+                $persistence->exec($query,array($subject));
+            }
 
             $currentVersion = '2.7.7';
         }
