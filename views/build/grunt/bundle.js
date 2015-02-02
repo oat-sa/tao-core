@@ -1,4 +1,4 @@
-module.exports = function(grunt) { 
+module.exports = function(grunt) {
 
     var requirejs   = grunt.config('requirejs') || {};
     var clean       = grunt.config('clean') || {};
@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     var root        = grunt.option('root');
     var libs        = grunt.option('mainlibs');
     var ext         = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
+    var out         = 'output/tao';
 
     /**
      * General options
@@ -16,7 +17,7 @@ module.exports = function(grunt) {
         uglify2: {
             mangle : false,
             output: {
-                max_line_len: 666
+                'max_line_len': 666
             }
         },
         //optimize : 'none',
@@ -35,22 +36,22 @@ module.exports = function(grunt) {
     clean.options =  {
         force : true
     };
-    
+
     grunt.log.verbose.writeln('libs');
     grunt.log.verbose.writeln(libs);
 
     /**
      * Remove bundled and bundling files
      */
-    clean.taobundle = ['output',  '../js/main.min.js', '../js/main.min.js.map', '../js/controllers.min.js'];
-    
+    clean.taobundle = [out,  '../js/main.min.js', '../js/main.min.js.map', '../js/controllers.min.js'];
+
     /**
-     * Compile tao files into a bundle 
+     * Compile tao files into a bundle
      */
     requirejs.taobundle = {
         options: {
             baseUrl : '../js',
-            dir : 'output',
+            dir : out,
             mainConfigFile : './config/requirejs.build.js',
             paths : { 'tao' : '.' },
             modules : [{
@@ -71,10 +72,10 @@ module.exports = function(grunt) {
      */
     copy.taobundle = {
         files: [
-            { src: ['output/main.js'],  dest: '../js/main.min.js' },
-            { src: ['output/main.js.map'],  dest: '../js/main.min.js.map' },
-            { src: ['output/controller/routes.js'],  dest: '../js/controllers.min.js' },
-            { src: ['output/controller/routes.js.map'],  dest: '../js/controllers.min.js.map' }
+            { src: [out + '/main.js'],                  dest: '../js/main.min.js' },
+            { src: [out + '/main.js.map'],              dest: '../js/main.min.js.map' },
+            { src: [out + '/controller/routes.js'],     dest: '../js/controllers.min.js' },
+            { src: [out + '/controller/routes.js.map'], dest: '../js/controllers.min.js.map' }
         ]
     };
 
