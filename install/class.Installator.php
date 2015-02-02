@@ -91,7 +91,9 @@ class tao_install_Installator{
 			} else {
 			    $extensionIDs = array('taoCe');
 			}
-			
+
+            $installData['file_path'] = rtrim($installData['file_path'], DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+	
 			/*
 			 *  1 - Check configuration with checks described in the manifest.
 			 */
@@ -258,9 +260,9 @@ class tao_install_Installator{
 			    mkdir($installData['file_path'] , 0700, true);
 		 	}
 		 	$cachePath = $installData['file_path'] .'generis' . DIRECTORY_SEPARATOR .'cache';
-		 	if (!is_dir($cachePath)) {
-                mkdir($installData['file_path'] .'generis' . DIRECTORY_SEPARATOR .'cache', 0700, true);
-		 	}
+            if (!is_dir($cachePath)) {
+                mkdir($cachePath, 0700, true);
+            }
 				
 			
 			/*
