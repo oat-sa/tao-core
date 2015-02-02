@@ -69,7 +69,7 @@ class IndexService
         $indexClass = new core_kernel_classes_Class(Index::RDF_TYPE);
         $resources = $indexClass->searchInstances(array(
                 INDEX_PROPERTY_IDENTIFIER => $identifier
-            ),array()
+            ),array('like' => false)
         );
         if (count($resources) > 1) {
             throw new \common_exception_InconsistentData("Several index exist with the identifier ".$identifier);
