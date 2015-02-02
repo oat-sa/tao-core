@@ -25,6 +25,8 @@ use common_ext_ExtensionsManager;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\ClientLibRegistry;
+use oat\generis\model\kernel\persistence\file\FileModel;
+use oat\generis\model\data\ModelManager;
 
 /**
  * 
@@ -121,6 +123,39 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
         }
         
+        if ($currentVersion == '2.7.6') {
+            
+            $dir = FILES_PATH.'updates'.DIRECTORY_SEPARATOR.'pre_'.$currentVersion;
+            if (!mkdir($dir, 0700, true)) {
+                throw new \common_exception_Error('Unable to log update to '.$dir);
+            }
+            FileModel::toFile($dir.DIRECTORY_SEPARATOR.'backup.rdf', ModelManager::getModel()->getRdfInterface());
+            
+            OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_1.rdf');
+            OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_4.rdf');
+            OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'model_2_7_5.rdf');
+            OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'index_type_2_7_6.rdf');
+            
+            // syncronise also adds translations to correct modelid
+            OntologyUpdater::syncModels();
+            
+            // remove translations from model 1
+            $persistence = \common_persistence_SqlPersistence::getPersistence('default');
+
+            $result = $persistence->query("SELECT DISTINCT subject FROM statements WHERE NOT modelId = 1");
+            $toCleanup = array();
+            while ($row = $result->fetch()) {
+                $toCleanup[] = $row['subject'];
+            }
+            
+            $query = "DELETE from statements WHERE modelId = 1 AND subject = ? "
+                    ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') ";
+            foreach ($toCleanup as $subject) {
+                $persistence->exec($query,array($subject));
+            }
+
+            $currentVersion = '2.7.7';
+        }
         
         return $currentVersion;
     }
