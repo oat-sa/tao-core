@@ -72,7 +72,6 @@ require.config({
 //extension aliases, and controller loading in prod mode
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
-        '<?=$name?>Css'        : '../../../<?=$name?>/views/css',
         <?php if(tao_helpers_Mode::is('production')):?>
         '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
         <?php endif?>
