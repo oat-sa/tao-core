@@ -322,18 +322,18 @@ ul[data-button-group], ul.button-group {
         -moz-transition: width 0.4s ease 0s;
         -o-transition: width 0.4s ease 0s;
         transition: width 0.4s ease 0s;
+    }
 
-        &.info {
-            background-color: $info;
-        }
-        &.success{
-            background-color: $success;
-        }
-        &.warning{
-            background-color: $warning;
-        }
-        &.error{
-            background-color: $error;
-        }
+    &.info > span {
+        background-color: $info;
+    }
+    &.success > span{
+        background-color: $success;
+    }
+    &.warning > span{
+        background-color: $warning;
+    }
+    &.error > span{
+        background-color: $error;
     }
 }
