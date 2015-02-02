@@ -111,6 +111,33 @@ class SearchTestCase extends TaoPhpUnitTestRunner {
     
     /**
      * @depends testCreateIndex
+     */
+    public function testCreateSimilar($index)
+    {
+        $this->assertIsA($index, 'oat\tao\model\search\Index');
+        
+        $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
+        $similar = IndexService::createIndex($this->property, substr($index->getIdentifier(), 0, -2), $tokenizer, true, true);
+        $this->assertIsA($similar, 'oat\tao\model\search\Index');
+        
+        return $similar;
+    }
+    
+    /**
+     * @depends testCreateSimilar
+     */
+    public function testDeleteSimilar($index)
+    {
+        $this->assertIsA($index, 'oat\tao\model\search\Index');
+        $this->assertTrue($index->exists());
+        $index->delete();
+        $this->assertFalse($index->exists());
+    }
+        
+    
+    /**
+     * @depends testCreateIndex
+     * @depends testCreateSimilar
      * @depends testDublicateCreate
      */
     public function testDeleteIndex($index)
