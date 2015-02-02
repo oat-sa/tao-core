@@ -22,6 +22,8 @@
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\ClientLibRegistry;
+use oat\tao\helpers\translation\rdf\RdfPack;
+use oat\generis\model\data\ModelManager;
 
 /**
  * Specification of the Generis ExtensionInstaller class to add a new behavior:
@@ -53,6 +55,7 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
     {
         $this->installManagementRole();
         $this->applyAccessRules();
+        $this->installLanguagePacks();
         $this->registerClientLib();
     }
 
@@ -111,7 +114,24 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
             common_Logger::i("No management role for extension '" . $this->extension->getId() . "'.");
         }
     }
-
+    
+    public function installLanguagePacks()
+    {
+        
+        $langService = tao_models_classes_LanguageService::singleton();
+        $dataUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
+        $dataOptions = array();
+        
+        $rdf = ModelManager::getModel()->getRdfInterface();
+        foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
+            $langCode = $langService->getCode($lang);
+            $pack = new RdfPack($langCode, $this->extension);
+            foreach ($pack as $triple) {
+                $rdf->add($triple);
+            }
+        }
+    }
+    
     /**
      * Will make the Global Manager include the Management Role of the extension
      * to install (if it exists).

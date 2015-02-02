@@ -86,7 +86,8 @@ define([
                 $rdfImportForm      = $('.rdfImport #import'),
                 $rdfExportForm      = $('.rdfExport #export');
 
-
+            // allows to fix label position for list of radio buttons
+            $('.form_desc ~.form_radlst').parent().addClass('bool-list');
 
             // move authoring button to toolbar, unless it is already there
             if($authoringBtn.length && !$authoringBtn.hasClass('btn-info')) {

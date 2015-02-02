@@ -21,6 +21,8 @@
  */
 
 use oat\tao\helpers\translation\TranslationBundle;
+use oat\generis\model\data\ModelManager;
+use oat\tao\helpers\translation\rdf\RdfPack;
 
 /**
  * Short description of class tao_models_classes_LanguageService
@@ -117,6 +119,21 @@ class tao_models_classes_LanguageService
 	    ));
         return (array) $returnValue;
     }
+    
+    public function addTranslationsForLanguage(core_kernel_classes_Resource $language)
+    {
+        $langCode = $this->getCode($language);
+        $rdf = ModelManager::getModel()->getRdfInterface();
+        
+        $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+        foreach ($extensions as $extension) {
+            $pack = new RdfPack($langCode, $extension);
+            foreach ($pack as $triple) {
+                $rdf->add($triple);
+            }
+        }
+    }
+    
 
     /**
      *

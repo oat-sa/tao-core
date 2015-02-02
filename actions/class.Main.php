@@ -133,7 +133,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 				if($success){
 				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "'.");
 				    
-					if ($this->hasRequestParameter('redirect')) {
+					if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {
 						$this->redirect(_url('entry', 'Main'));

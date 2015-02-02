@@ -41,7 +41,7 @@ abstract class tao_helpers_form_elements_GenerisAsyncFile
      * @access public
      * @var string
      */
-    public $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile';
+    public $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile';
 
     // --- OPERATIONS ---
 
