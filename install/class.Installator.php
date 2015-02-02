@@ -246,7 +246,7 @@ class tao_install_Installator{
 			 */
 			//helpers_File::emptyDirectory($installData['file_path']);
 			$file_path = $installData['file_path'];
-			if(is_dir($file_path)){
+			if (is_dir($file_path)) {
 			    common_Logger::i('Data from previous install found and will be removed');
 			    if(is_writable($installData['file_path'])){
 			    helpers_File::emptyDirectory($installData['file_path']);
@@ -256,9 +256,11 @@ class tao_install_Installator{
 			    }
 			} else {
 			    mkdir($installData['file_path'] , 0700, true);
-		 
-			}
-			mkdir($installData['file_path'] .'generis' . DIRECTORY_SEPARATOR .'cache', 0700, true);
+		 	}
+		 	$cachePath = $installData['file_path'] .'generis' . DIRECTORY_SEPARATOR .'cache';
+		 	if (!is_dir($cachePath)) {
+                mkdir($installData['file_path'] .'generis' . DIRECTORY_SEPARATOR .'cache', 0700, true);
+		 	}
 				
 			
 			/*
