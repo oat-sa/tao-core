@@ -43,7 +43,7 @@ module.exports = function(grunt) {
     /**
      * Remove bundled and bundling files
      */
-    clean.taobundle = [out,  '../js/main.min.js', '../js/main.min.js.map', '../js/controllers.min.js'];
+    clean.taobundle = [out];
 
     /**
      * Compile tao files into a bundle
