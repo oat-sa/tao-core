@@ -122,7 +122,7 @@ class tao_helpers_form_xhtml_Form
 		}
 		$returnValue .= ">\n";
 		
-		$returnValue .= "<input type='hidden' name='{$this->name}_sent' value='1' />\n";
+		$returnValue .= "<input type='hidden' class='global' name='{$this->name}_sent' value='1' />\n";
 		
 		
 		//$returnValue .= $this->renderActions('top');
