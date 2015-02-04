@@ -133,8 +133,8 @@ define([
                 e.preventDefault();
                 var myForm = $(this).parents("form");
 
-                if($('[id="tao.forms.class"]').length != 0){
-                    var data = {};
+                if($('[id="tao.forms.class"]').length !== 0){
+                    var formData = {};
                     var clazz = {};
 
                     //get all global data
@@ -146,11 +146,11 @@ define([
 
                         }
                         else{
-                            data[name] = $(this).val();
+                            formData[name] = $(this).val();
                         }
                     });
-                    if(clazz.length !=0){
-                        data.class = clazz;
+                    if(clazz.length !==0){
+                        formData.class = clazz;
                     }
 
                     var properties = [];
@@ -197,7 +197,7 @@ define([
                             }
                             if(!found){
                                 var index = {};
-                                index['uri'] = $(this).attr('data-related-index');
+                                index.uri = $(this).attr('data-related-index');
                                 name = $(this).attr('name').replace(/(index_)?[^_]+_/,'');
                                 if($(this).attr('type') === 'radio'){
                                     if($(this).is(':checked')){
@@ -218,13 +218,11 @@ define([
                         properties.push(property);
                     });
 
-                    data.properties = properties;
-                    $.post(context.root_url + myForm.attr('action').substring(1),
-                        {data : data, id: data.id},
-                        function(data){
-//                            $('div.content-block').html(data);
-                        }
-                    );
+                    formData.properties = properties;
+
+                    if (that.submitForm(myForm, formData)) {
+                        myForm.submit();
+                    }
                 }
                 else{
                     if (that.submitForm(myForm)) {
@@ -351,9 +349,7 @@ define([
                         $_this.after('<span>' + r.name + '</span>');
                     }
                 });
-            });
-
-            $('input.editVersionedFile').click(function () {
+            }).click(function () {
                 var data = {
                     'uri': $("#uri").val(),
                     'propertyUri': $(this).siblings('label.form_desc').prop('for')
@@ -422,7 +418,7 @@ define([
                 $.ajax({
                     type: "POST",
                     url: getUrl('removeIndexProperty'),
-                    data: {uri : uri, index_property : $(this).attr('id')},
+                    data: {uri : uri, indexProperty : $(this).attr('id')},
                     dataType: 'json',
                     success: function (response) {
                         var $toRemove = $('[id*="'+response.id+'"], [data-related-index="'+response.id+'"]');
@@ -793,9 +789,10 @@ define([
         /**
          * Ajax form submit -> post the form data and display back the form into the container
          * @param myForm
+         * @param serialize
          * @return boolean
          */
-        submitForm: function (myForm) {
+        submitForm: function (myForm, serialize) {
 
             try {
                 if (myForm.prop('enctype') === 'multipart/form-data' && myForm.find(".file-uploader").length) {
@@ -808,8 +805,7 @@ define([
                         return true;//go to the link
                     }
                     else {
-
-                        var serialize = myForm.serializeArray();
+                        serialize = typeof serialize !== 'undefined' ? serialize : myForm.serializeArray();
                         $container.load(myForm.prop('action'), serialize);
                     }
                 }
