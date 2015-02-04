@@ -67,6 +67,11 @@ class tao_helpers_form_GenerisFormFactory
 			return null;
 		}
 		
+		// horrible hack to fix file widget
+		if ($widgetResource->getUri() == 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile') {
+		    $widgetResource = new core_kernel_classes_Resource('http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile');
+		}
+		
 		$element = tao_helpers_form_FormFactory::getElementByWidget(tao_helpers_Uri::encode($property->getUri()), $widgetResource);
 		
 		if(!is_null($element)){

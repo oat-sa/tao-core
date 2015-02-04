@@ -55,7 +55,7 @@ define([
         setUpUploader(root);
 
         //update current folder
-        $container.on('folderselect.' + ns , function(e, fullPath, data, active){    
+        $container.on('folderselect.' + ns , function(e, fullPath, data, activePath){    
             var files;
             //update title
             $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath);
@@ -80,9 +80,9 @@ define([
                 });
             
                 updateFiles(fullPath, files);
-
-                if(active){
-                    $('li[data-file="' + active.path + '"]').trigger('click');
+                
+                if(activePath){
+                    $('li[data-file="' + activePath + '"]').trigger('click');
                 } 
             }
         });

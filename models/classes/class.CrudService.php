@@ -82,7 +82,8 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
             throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
         }
         $resource = new core_kernel_classes_Resource($uri);
-        return $resource->getResourceDescription(false);
+        $formater = new core_kernel_classes_ResourceFormatter();
+        return $formater->getResourceDescription($resource,false);
     }
 
     /**
@@ -92,9 +93,10 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
      */
     public function getAll()
     {
+        $formater = new core_kernel_classes_ResourceFormatter();
         $resources = array();
         foreach ($this->getRootClass()->getInstances(true) as $resource) {
-            $resources[] = $resource->getResourceDescription(false);
+            $resources[] = $formater->getResourceDescription($resource,false);
         }
         return $resources;
     }

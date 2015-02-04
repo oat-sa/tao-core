@@ -10027,6 +10027,8 @@ label input[type="radio"].disabled ~ [class^="icon-"], label input[type="radio"]
 .xhtml_form .property-block.regular-property > div { border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; padding: 15px; background: rgba(255, 255, 255, 0.5); margin: 5px 0; position: relative; top: 6px; }
 .xhtml_form .property-block.regular-property > div div { padding: 2px 0; }
 .xhtml_form .property-block.regular-property.property-edit-container-open { padding-top: 10px; }
+.xhtml_form .bool-list { overflow: hidden; }
+.xhtml_form .bool-list .form_desc { float: left; }
 .xhtml_form .form_desc { width: 35%; display: inline-block; padding: 0 10px 0 0; }
 .xhtml_form input[type="text"], .xhtml_form input[type="password"] { width: 65%; max-width: none; }
 .xhtml_form select, .xhtml_form textarea, .xhtml_form .form_radlst { width: 65%; max-width: none; }
@@ -10148,10 +10150,10 @@ ul[data-button-group] > li[class^="icon-"], ul[data-button-group] > li[class*=" 
 /* Progress bar */
 .progressbar { height: 2em; text-align: left; border: none; height: 0.8em; background-color: white; border: 1px solid #ddd; }
 .progressbar > span { height: 100%; border: none; background-color: #3e7da7; display: block; color: white; -webkit-transition: width 0.6s ease 0s; -moz-transition: width 0.4s ease 0s; -o-transition: width 0.4s ease 0s; transition: width 0.4s ease 0s; }
-.progressbar > span.info { background-color: #0e5d91; }
-.progressbar > span.success { background-color: #0e914b; }
-.progressbar > span.warning { background-color: #d8ae5b; }
-.progressbar > span.error { background-color: #ba122b; }
+.progressbar.info > span { background-color: #0e5d91; }
+.progressbar.success > span { background-color: #0e914b; }
+.progressbar.warning > span { background-color: #d8ae5b; }
+.progressbar.error > span { background-color: #ba122b; }
 
 body { position: relative; font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif; font-weight: normal; }
 

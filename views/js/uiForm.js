@@ -86,7 +86,8 @@ define([
                 $rdfImportForm      = $('.rdfImport #import'),
                 $rdfExportForm      = $('.rdfExport #export');
 
-
+            // allows to fix label position for list of radio buttons
+            $('.form_desc ~.form_radlst').parent().addClass('bool-list');
 
             // move authoring button to toolbar, unless it is already there
             if($authoringBtn.length && !$authoringBtn.hasClass('btn-info')) {
@@ -158,10 +159,7 @@ define([
                     $('.regular-property',myForm[0]).each(function(){
                         var property = {};
                         var name = '';
-                        var propNum = 0;
                         $(':input.property',this).each(function(){
-                            propNum = $(this).attr('name').match(/(property_)?([^_]+)_/,'');
-                            propNum = propNum[2];
                             name = $(this).attr('name').replace(/(property_)?[^_]+_/,'');
                             if($(this).attr('type') === 'radio'){
                                 if($(this).is(':checked')){
@@ -214,7 +212,6 @@ define([
                         });
                         //add indexes to related property
                         property.indexes = indexes;
-                        property.propNum = propNum;
                         properties.push(property);
                     });
 
@@ -366,7 +363,7 @@ define([
                 if (confirm(__('Please confirm property deletion!'))) {
                     var $groupNode = $(this).closest(".form-group");
                     if ($groupNode.length) {
-                        var uri = $groupNode.find('.property-uri').val();
+                        var uri = $('[id*="uri"]',$groupNode).val();
                         property.remove(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
                             $groupNode.remove();
                         });

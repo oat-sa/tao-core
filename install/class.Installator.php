@@ -91,7 +91,9 @@ class tao_install_Installator{
 			} else {
 			    $extensionIDs = array('taoCe');
 			}
-			
+
+            $installData['file_path'] = rtrim($installData['file_path'], DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+	
 			/*
 			 *  1 - Check configuration with checks described in the manifest.
 			 */
@@ -246,7 +248,7 @@ class tao_install_Installator{
 			 */
 			//helpers_File::emptyDirectory($installData['file_path']);
 			$file_path = $installData['file_path'];
-			if(is_dir($file_path)){
+			if (is_dir($file_path)) {
 			    common_Logger::i('Data from previous install found and will be removed');
 			    if(is_writable($installData['file_path'])){
 			    helpers_File::emptyDirectory($installData['file_path']);
@@ -256,9 +258,11 @@ class tao_install_Installator{
 			    }
 			} else {
 			    mkdir($installData['file_path'] , 0700, true);
-		 
-			}
-			mkdir($installData['file_path'] .'generis' . DIRECTORY_SEPARATOR .'cache', 0700, true);
+		 	}
+		 	$cachePath = $installData['file_path'] .'generis' . DIRECTORY_SEPARATOR .'cache';
+            if (!is_dir($cachePath)) {
+                mkdir($cachePath, 0700, true);
+            }
 				
 			
 			/*

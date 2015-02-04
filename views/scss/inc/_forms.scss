@@ -492,6 +492,13 @@ label {
         }
     }
 
+    .bool-list {
+        overflow: hidden;
+        .form_desc {
+            float:left;
+        }
+    }
+
     .form_desc {
         width: 35%;
         display:inline-block;

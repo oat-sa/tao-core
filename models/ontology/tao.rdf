@@ -139,18 +139,6 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Test Taker]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Test Taker Role]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole">
-  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole"/>
-  	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole"/>
-  	<rdfs:label xml:lang="en-US"><![CDATA[Workflow Participant]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[The Workflow Participant Role]]></rdfs:comment>
-  </rdf:Description>
-  
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser">
-  	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Workflow User: sub class to group the workflow user, not deletable]]></rdfs:comment>
-    <rdfs:label xml:lang="en-US"><![CDATA[WfUser]]></rdfs:label>
-  </rdf:Description>
   
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder">
   	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>

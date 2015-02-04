@@ -29,6 +29,7 @@ use \core_kernel_classes_Class;
 use \common_ext_NamespaceManager;
 use \common_cache_FileCache;
 use \common_ext_ExtensionsManager;
+use Prophecy\Prophet;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
@@ -239,14 +240,16 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 		$this->assertEquals($fromCache,  $testarr);
 		$fc->remove('testcase3');
 		
-		
-		$e = new \Exception('message"\\\'');
+		$prophet = new Prophet();
+		$eProphecy = $prophet->prophesize('\core_kernel_classes_Resource');
+		$eProphecy->getUri()->willReturn('#fakeUri');
+		$e = $eProphecy->reveal();
 		$fc->put($e, 'testcase4');
 		$fromCache = $fc->get('testcase4');
 		
 		$this->assertTrue(is_object($fromCache), 'object is not returned as object from FileCache');
-		$this->assertIsA($fromCache, 'Exception');
-		$this->assertEquals($e->getMessage(),  $fromCache->getMessage());
+		$this->assertInstanceOf('core_kernel_classes_Resource', $fromCache );
+		$this->assertEquals($e->getUri(),  $fromCache->getUri());
 		$fc->remove('testcase4');
 		
 		$badstring = 'abc\'abc\'\'abc"abc""abc\\abc\\\\abc'."abc\n\nabc\l\nabc\l\nabc".'_NULL_é_NUL_'.chr(0).'_';
