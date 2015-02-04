@@ -214,12 +214,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 //save all properties values
                 foreach($data['properties'] as $i => $propertyValues){
                     $values = array();
-                    //get index values
-                    $indexes = null;
-                    if(isset($propertyValues['indexes'])){
-                        $indexes = $propertyValues['indexes'];
-                        unset($propertyValues['indexes']);
-                    }
 
                     //save property
                     if($propMode === 'simple') {
@@ -262,28 +256,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                         $property = new core_kernel_classes_Property($values['uri']);
                         unset($values['uri']);
                         $this->service->bindProperties($property, $values);
-                    }
-
-                    //save index
-                    if(!is_null($indexes)){
-                        foreach($indexes as $indexValues){
-                            // if the identifier is unique
-
-                            $values = array();
-                            foreach($indexValues as $key => $value){
-                                $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
-                            }
-                            $indexProperty = new core_kernel_classes_Property($values['uri']);
-                            unset($values['uri']);
-                            //sanitize identifier
-                            $values[INDEX_PROPERTY_IDENTIFIER] = preg_replace('/\s/','_',strtolower($values[INDEX_PROPERTY_IDENTIFIER]));
-
-                            $existingIndex = IndexService::getIndexById($values[INDEX_PROPERTY_IDENTIFIER]);
-                            if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
-                                throw new Exception("The index identifier should be unique");
-                            }
-                            $this->service->bindProperties($indexProperty, $values);
-                        }
                     }
 
                     $myForm->removeGroup("property_".tao_helpers_Uri::encode($property->getUri()));
