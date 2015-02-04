@@ -80,6 +80,7 @@ class tao_actions_form_Clazz
         //add a hidden field that states it is a class edition form.
         $classElt = tao_helpers_form_FormFactory::getElement('tao.forms.class', 'Hidden');
         $classElt->setValue('1');
+        $classElt->addClass('global');
         $this->form->addElement($classElt);
 
         $this->form->setActions($actions, 'top');
@@ -141,6 +142,7 @@ class tao_actions_form_Clazz
                         $element = $readonly;
                     }
                 }
+                $element->addClass('global');
                 $this->form->addElement($element);
 
                 $elementNames[] = $element->getName();
@@ -150,10 +152,12 @@ class tao_actions_form_Clazz
         //add an hidden elt for the class uri
         $classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
         $classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
+        $classUriElt->addClass('global');
         $this->form->addElement($classUriElt);
         
         $hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
         $hiddenId->setValue($clazz->getUri());
+        $hiddenId->addClass('global');
         $this->form->addElement($hiddenId);
         
 
