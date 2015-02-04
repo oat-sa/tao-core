@@ -129,10 +129,107 @@ define([
         initElements: function () {
             //save form button
             var that = this;
-            $(".form-submitter").off('click').on('click', function () {
+            $(".form-submitter").off('click').on('click', function (e) {
+                e.preventDefault();
                 var myForm = $(this).parents("form");
-                if (that.submitForm(myForm)) {
-                    myForm.submit();
+
+                if($('[id="tao.forms.class"]').length != 0){
+                    var data = {};
+                    var clazz = {};
+
+                    //get all global data
+                    $('input.global',myForm[0]).each(function(){
+                        var name = $(this).attr('name');
+                        if(name.indexOf('class_') > -1){
+                            name = name.replace('class_','');
+                            clazz[name] = $(this).val();
+
+                        }
+                        else{
+                            data[name] = $(this).val();
+                        }
+                    });
+                    if(clazz.length !=0){
+                        data.class = clazz;
+                    }
+
+                    var properties = [];
+                    //get data for each property
+                    $('.regular-property',myForm[0]).each(function(){
+                        var property = {};
+                        var name = '';
+                        var propNum = 0;
+                        $(':input.property',this).each(function(){
+                            propNum = $(this).attr('name').match(/(property_)?([^_]+)_/,'');
+                            propNum = propNum[2];
+                            name = $(this).attr('name').replace(/(property_)?[^_]+_/,'');
+                            if($(this).attr('type') === 'radio'){
+                                if($(this).is(':checked')){
+                                    property[name] = $(this).val();
+                                }
+                            }
+                            else{
+                                property[name] = $(this).val();
+                            }
+
+                        });
+                        //get data for each index
+                        var indexes = [];
+                        $(':input.index', this).each(function(){
+
+                            var i;
+                            var found = false;
+                            var name = '';
+                            for(i in indexes){
+                                if(indexes[i] && $(this).attr('data-related-index') === indexes[i].uri){
+                                    name = $(this).attr('name').replace(/(index_)?[^_]+_/,'');
+                                    if($(this).attr('type') === 'radio' || $(this).attr('type') === 'checkbox'){
+                                        if($(this).is(':checked')){
+                                            indexes[i][name] = $(this).val();
+                                        }
+                                    }
+                                    else{
+                                        indexes[i][name] = $(this).val();
+                                    }
+
+                                    found = true;
+                                }
+                            }
+                            if(!found){
+                                var index = {};
+                                index['uri'] = $(this).attr('data-related-index');
+                                name = $(this).attr('name').replace(/(index_)?[^_]+_/,'');
+                                if($(this).attr('type') === 'radio'){
+                                    if($(this).is(':checked')){
+                                        index[name] = $(this).val();
+                                    }
+                                }
+                                else{
+                                    index[name] = $(this).val();
+                                }
+                                indexes.push(index);
+                            }
+
+
+                        });
+                        //add indexes to related property
+                        property.indexes = indexes;
+                        property.propNum = propNum;
+                        properties.push(property);
+                    });
+
+                    data.properties = properties;
+                    $.post(context.root_url + myForm.attr('action').substring(1),
+                        {data : data, id: data.id},
+                        function(data){
+//                            $('div.content-block').html(data);
+                        }
+                    );
+                }
+                else{
+                    if (that.submitForm(myForm)) {
+                        myForm.submit();
+                    }
                 }
                 return false;
             });
@@ -295,11 +392,19 @@ define([
                 var $prependTo = $(this).closest('div');
                 var $groupNode = $(this).closest(".form-group");
                 if ($groupNode.length) {
+                    var max = 0;
+                    $groupNode.find('[data-index]').each(function(){
+                        if(max < $(this).data('index')){
+                            max = $(this).data('index');
+                        }
+                    });
+
+                    max = max + 1;
                     var uri = $groupNode.find('.property-uri').val();
                     $.ajax({
                         type: "GET",
                         url: getUrl('addIndexProperty'),
-                        data: {uri : uri, index : $(this).data('index')},
+                        data: {uri : uri, index : max},
                         dataType: 'json',
                         success: function (response) {
                             $prependTo.before(response.form);
@@ -320,7 +425,7 @@ define([
                     data: {uri : uri, index_property : $(this).attr('id')},
                     dataType: 'json',
                     success: function (response) {
-                        var $toRemove = $('[id*="'+response.id+'"]');
+                        var $toRemove = $('[id*="'+response.id+'"], [data-related-index="'+response.id+'"]');
                         $toRemove.each(function(){
                             var $currentTarget = $(this);
                             while(!_.isEqual($currentTarget.parent()[0], $editContainer[0]) && $currentTarget.parent()[0] !== undefined){
@@ -369,6 +474,7 @@ define([
                 else if (elt.css('display') !== 'none') {
                     elt.css('display', 'none');
                     elt.find('select').prop('disabled', "disabled");
+                    elt.find('select option[value=" "]').attr('selected',true);
                 }
             }
 
@@ -702,7 +808,9 @@ define([
                         return true;//go to the link
                     }
                     else {
-                        $container.load(myForm.prop('action'), myForm.serializeArray());
+
+                        var serialize = myForm.serializeArray();
+                        $container.load(myForm.prop('action'), serialize);
                     }
                 }
             }
