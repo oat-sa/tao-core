@@ -95,13 +95,6 @@ class tao_actions_form_AdvancedProperty
             $groupTitle = $this->getGroupTitle($property);
 			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames);
 		}
-    	
-		//add an hidden elt for the property uri
-		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$index}", 'Hidden');
-		$propUriElt->addAttribute('class', 'property-uri');
-		$propUriElt->setValue(tao_helpers_Uri::encode($property->getUri()));
-		$this->form->addElement($propUriElt);
-
     }
 
 }
