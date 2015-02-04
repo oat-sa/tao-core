@@ -202,30 +202,11 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-
-				$classValues = array();
-				$propertyValues = array();
-				$indexValues = array();
-
-				//in case of deletion of just added properties
-				foreach($_POST as $key => $value){
-					if(preg_match("/^propertyUri/", $key)){
-						$propNum = str_replace('propertyUri', '', $key);
-						if(!isset($propertyValues[$propNum])){
-							$propertyValues[$propNum] = array();
-						}
-                        if(!isset($indexValues[$propNum])){
-                            $indexValues[$propNum] = array();
-                        }
-					}
-				}
-
-                //new save mode
+                //get the data from parameters
                 $data = $this->getRequestParameters();
-                common_Logger::w('properties : '.print_r($data,true));
-
 
                 // get class data and save them
+				$classValues = array();
                 foreach($data['class'] as $key => $value){
                     $classKey =  tao_helpers_Uri::decode($key);
                     $classValues[$classKey] =  tao_helpers_Uri::decode($value);
@@ -245,13 +226,12 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                     }
 
                     //save property
-                    if(isset($propertyValues['mode']) && $propertyValues['mode'] === 'simple') {
+                    if($propMode === 'simple') {
                         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
                         $type = $propertyValues['type'];
                         $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
                         unset($propertyValues['type']);
                         unset($propertyValues['range']);
-                        unset($propertyValues['mode']);
 
                         if (isset($propertyMap[$type])) {
                             $values[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
@@ -279,8 +259,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                         }
                     } else {
                         // might break using hard
-                        if(isset($propertyValues['mode'])) unset($propertyValues['mode']);
-
                         foreach($propertyValues as $key => $value){
                             $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
 
@@ -315,7 +293,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                     $myForm->removeGroup("property_".$propNum);
 
                     //instanciate a property form
-                    $propMode = isset($propertyValues['mode']) ? $propertyValues['mode']:'';
                     $propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
                     if(!class_exists($propFormClass)){
                         $propFormClass = 'tao_actions_form_SimpleProperty';
