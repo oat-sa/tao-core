@@ -197,10 +197,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		$formContainer = new tao_actions_form_Clazz($clazz, $resource, $options);
 		$myForm = $formContainer->getForm();
-		
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-			
+
+		if($myForm->isSubmited() || tao_helpers_Request::isAjax()){
+			if($myForm->isValid() || $this->hasRequestParameter('data')){
+
 				$classValues = array();
 				$propertyValues = array();
 				
@@ -213,94 +213,109 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						}
 					}
 				}
-				
-				//create a table of property models
-				foreach($myForm->getValues() as $key => $value){
-					if(preg_match("/^class_/", $key)){
-						$classKey =  tao_helpers_Uri::decode(str_replace('class_', '', $key));
-						$classValues[$classKey] =  tao_helpers_Uri::decode($value);
-					}
-					if(preg_match("/^property_/", $key)){
-						
-						$posted = false;
-						if(isset($_POST[$key])){
-							$posted = true;
-						}
-						else{
-							$expression = "/^".preg_quote($key, "/")."_[0-9]+/";
-							foreach($_POST as $postKey => $postValue){
-								if(preg_match($expression, $postKey)){
-									$posted = true;
-									break;
-								}
-							}
-						}
-						if($posted){
-							$pkey = str_replace('property_', '', $key);
-							$propNum = substr($pkey, 0, strpos($pkey, '_'));
-							$propKey = tao_helpers_Uri::decode(preg_replace("/${propNum}_/", '', $pkey, 1));
-							$propertyValues[$propNum][$propKey] = ((is_array($value)) ? array_map(array('tao_helpers_Uri', 'decode'), $value) : tao_helpers_Uri::decode($value));
-						}
-						else{
-							$pkey = str_replace('property_', '', $key);
-							$propNum = substr($pkey, 0, strpos($pkey, '_'));
-							if(!isset($propertyValues[$propNum])){
-								$propertyValues[$propNum] = array();
-							}
-						}
+                        if(!isset($indexValues[$propNum])){
+                            $indexValues[$propNum] = array();
+                        }
 					}
 				}
-				
-				$clazz = $this->service->bindProperties($clazz, $classValues);
-				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
-				foreach($propertyValues as $propNum => $properties){
-					if(isset($_POST['propertyUri'.$propNum]) && count($properties) == 0){
-						
-						//delete property mode
-						foreach($clazz->getProperties() as $classProperty){
-							if($classProperty->getUri() == tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])){
-								
-								//delete property and the existing values of this property
-								if($classProperty->delete(true)){
-									$myForm->removeGroup("property_".$propNum);
-									break;
-								}
-							}
-						}
-					} else {
-						
-                        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum]));
-                        if($propMode == 'simple') {
-                            $type = $properties['type'];
-                            $range = (isset($properties['range']) ? trim($properties['range']) : null);
-                            unset($properties['type']);
-                            unset($properties['range']);
-                            	
+
+                //new save mode
+                if($this->hasRequestParameter('data')){
+                    $data = $this->getRequestParameter('data');
+                    common_Logger::w('properties : '.print_r($data,true));
+
+
+                    // get class data and save them
+                    foreach($data['class'] as $key => $value){
+                        $classKey =  tao_helpers_Uri::decode($key);
+                        $classValues[$classKey] =  tao_helpers_Uri::decode($value);
+                    }
+                    $clazz = $this->service->bindProperties($clazz, $classValues);
+
+                    //save all properties values
+                    foreach($data['properties'] as $propertyValues){
+                        $propNum = $propertyValues['propNum'];
+                        unset($propertyValues['propNum']);
+                        $values = array();
+                        //get index values
+                        $indexes = null;
+                        if(isset($propertyValues['indexes'])){
+                            $indexes = $propertyValues['indexes'];
+                            unset($propertyValues['indexes']);
+                        }
+
+                        //save property
+                        if(isset($propertyValues['mode']) && $propertyValues['mode'] === 'simple') {
+                            $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
+                            $type = $propertyValues['type'];
+                            $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
+                            unset($propertyValues['type']);
+                            unset($propertyValues['range']);
+                            unset($propertyValues['mode']);
+
                             if (isset($propertyMap[$type])) {
-                                $properties[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
+                                $values[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
                             }
-                            
-                            $this->service->bindProperties($property, $properties);
-                            
+
+                            foreach($propertyValues as $key => $value){
+                                $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
+
+                            }
+                            $property = new core_kernel_classes_Property($values['uri']);
+                            unset($values['uri']);
+                            $this->service->bindProperties($property, $values);
+
                             // set the range
+                            $property->removePropertyValues(new core_kernel_classes_Property(RDFS_RANGE));
                             if(!empty($range)) {
                                 $property->setRange(new core_kernel_classes_Class($range));
                             } elseif (isset($propertyMap[$type]) && !empty($propertyMap[$type]['range'])) {
                                 $property->setRange(new core_kernel_classes_Class($propertyMap[$type]['range']));
                             }
-                            
+
                             // set cardinality
                             if(isset($propertyMap[$type]['multiple'])) {
                                 $property->setMultiple($propertyMap[$type]['multiple'] == GENERIS_TRUE);
                             }
                         } else {
                             // might break using hard
-                            $this->service->bindProperties($property, $properties);
+                            if(isset($propertyValues['mode'])) unset($propertyValues['mode']);
+
+                            foreach($propertyValues as $key => $value){
+                                $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
+
+                            }
+                            $property = new core_kernel_classes_Property($values['uri']);
+                            unset($values['uri']);
+                            $this->service->bindProperties($property, $values);
+                        }
+
+                        //save index
+                        if(!is_null($indexes)){
+                            foreach($indexes as $indexValues){
+                                // if the identifier is unique
+
+                                $values = array();
+                                foreach($indexValues as $key => $value){
+                                    $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
+                                }
+                                $indexProperty = new core_kernel_classes_Property($values['uri']);
+                                unset($values['uri']);
+                                //sanitize identifier
+                                $values[INDEX_PROPERTY_IDENTIFIER] = preg_replace('/\s/','_',strtolower($values[INDEX_PROPERTY_IDENTIFIER]));
+
+                                $existingIndex = IndexService::getIndexById($values[INDEX_PROPERTY_IDENTIFIER]);
+                                if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
+                                    throw new Exception("The index identifier should be unique");
+                                }
+                                $this->service->bindProperties($indexProperty, $values);
+                            }
                         }
 
                         $myForm->removeGroup("property_".$propNum);
 
                         //instanciate a property form
+                        $propMode = isset($propertyValues['mode']) ? $propertyValues['mode']:'';
                         $propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
                         if(!class_exists($propFormClass)){
                             $propFormClass = 'tao_actions_form_SimpleProperty';
@@ -315,8 +330,9 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
                         unset($propForm);
                         unset($propFormContainer);
+
                     }
-                    //reload form
+
                 }
             }
         }
