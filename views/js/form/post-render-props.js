@@ -96,6 +96,8 @@ define([
                                     $editContainer = $property.children('div:first');
 
                                 $editContainer.addClass('property-edit-container');
+
+                                //on click on edit icon show property form or hide it
                                 $editIcon.on('click', function() {
                                     $editContainer.slideToggle(function() {
                                         $editContainer.parent().toggleClass('property-edit-container-open');
