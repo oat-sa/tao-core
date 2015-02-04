@@ -135,13 +135,6 @@ class tao_actions_form_SimpleProperty
 		}
 		$this->form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
-		
-		//add an hidden element with the mode (simple)
-		$modeElt = tao_helpers_form_FormFactory::getElement("{$index}_mode", 'Hidden');
-		$modeElt->setValue('simple');
-		$modeElt->addClass('property');
-		$this->form->addElement($modeElt);
-		$elementNames[] = $modeElt->getName();
 
 
 
