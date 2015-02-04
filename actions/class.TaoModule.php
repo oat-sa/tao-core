@@ -26,6 +26,7 @@ use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\menu\MenuService;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\tao\model\accessControl\data\DataAccessControl;
+use oat\tao\model\lock\LockManager;
 
 /**
  * The TaoModule is an abstract controller, 
@@ -41,7 +42,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
 	/**
 	 * If you want strictly to check if the resource is locked,
-	 * you should use tao_models_classes_lock_OntoLock::singleton()->isLocked($resource)
+	 * you should use LockManager::getImplementation()->isLocked($resource)
 	 * Controller level convenience method to check if @resource is being locked, prepare data ans sets view,
 	 *
 	 * @param core_kernel_classes_Resource $resource
@@ -50,8 +51,9 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * @return boolean
 	 */
     protected function isLocked($resource, $view){
-         if (tao_models_classes_lock_OntoLock::singleton()->isLocked($resource)) {
-                $lockData = tao_models_classes_lock_OntoLock::singleton()->getLockData($resource);
+        
+         if (LockManager::getImplementation()->isLocked($resource)) {
+                $lockData = LockManager::getImplementation()->getLockData($resource);
 
 		        $classes = $resource->getTypes();
 		        $this->setData('id', $resource->getUri());

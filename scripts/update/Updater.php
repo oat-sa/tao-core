@@ -27,6 +27,9 @@ use common_Logger;
 use oat\tao\model\ClientLibRegistry;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\generis\model\data\ModelManager;
+use oat\tao\model\lock\implementation\OntoLock;
+use oat\tao\model\lock\implementation\NoLock;
+use oat\tao\model\lock\LockManager;
 
 /**
  * 
@@ -155,6 +158,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
 
             $currentVersion = '2.7.7';
+        }
+        
+        if ($currentVersion == '2.7.7') {
+            $lockImpl = (defined('ENABLE_LOCK') && 'ENABLE_LOCK')
+                ? new OntoLock()
+                : new NoLock();
+            LockManager::setImplementation($lockImpl);
+            $currentVersion = '2.7.8';
         }
         
         return $currentVersion;

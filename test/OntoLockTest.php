@@ -17,6 +17,7 @@
  * Copyright (c) 2013 Open Assessment Technologies S.A.
  */
 use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\tao\model\lock\implementation\OntoLock;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
@@ -30,29 +31,27 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
 class OntoLockTest extends TaoPhpUnitTestRunner {
 	
     protected $tempResource = null;
-    protected $lockService = null;
+    protected $ontoLock = null;
     
     public function setUp() {
         $resourceClass = new core_kernel_classes_Class(RDFS_RESOURCE);
         $this->tempResource = $resourceClass->createInstance('MyTest');
-        $this->lockService = tao_models_classes_lock_OntoLock::singleton();
-        $this->lockService->setEnabled(true);
-        //$this->owner = tao_models_classes_UserService::singleton()->getCurrentUser();
+        $this->ontoLock = new OntoLock();
+        
         $this->owner = new core_kernel_classes_Resource('#virtualOwner');
     }
     public function tearDown() {
-
         $this->tempResource->delete();
-        $this->lockService->restoreEnabled();
     }
+    
 	public function testSetLock(){
-        $this->assertFalse($this->lockService->isLocked($this->tempResource));
-        $this->lockService->setLock($this->tempResource, $this->owner);
-        $this->assertTrue($this->lockService->isLocked($this->tempResource));
+        $this->assertFalse($this->ontoLock ->isLocked($this->tempResource));
+        $this->ontoLock ->setLock($this->tempResource, $this->owner);
+        $this->assertTrue($this->ontoLock ->isLocked($this->tempResource));
 
         //setting a lock while it is locked should return an exception
         try {
-            $this->lockService->setLock($this->tempResource, $this->owner);
+            $this->ontoLock ->setLock($this->tempResource, $this->owner);
             $this->assertTrue(false);// how to test exceptions aboev correctly ?
 
         } catch (Exception $e) {
@@ -60,22 +59,13 @@ class OntoLockTest extends TaoPhpUnitTestRunner {
                 $this->assertTrue(True);
             }
         }
-
-
 	}
 
     public function testReleaseLock(){
-        $this->assertFalse($this->lockService->isLocked($this->tempResource));
-        $this->lockService->setLock($this->tempResource, $this->owner);
-        $this->assertTrue($this->lockService->isLocked($this->tempResource));
-        $this->lockService->releaseLock($this->tempResource, $this->owner);
-        $this->assertFalse($this->lockService->isLocked($this->tempResource));
-
-        //$this->lockService->setLock(new core_kernel_classes_Resource('http://tao-dev/taodev.rdf#i1382009411219412'), $this->owner);
-
+        $this->assertFalse($this->ontoLock ->isLocked($this->tempResource));
+        $this->ontoLock ->setLock($this->tempResource, $this->owner);
+        $this->assertTrue($this->ontoLock ->isLocked($this->tempResource));
+        $this->ontoLock ->releaseLock($this->tempResource, $this->owner);
+        $this->assertFalse($this->ontoLock ->isLocked($this->tempResource));
     }
-
-
-	
 }
-?>

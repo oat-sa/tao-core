@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -17,8 +17,7 @@
  * Copyright (c) 2013 Open Assessment Technologies S.A.
  * 
  */
-?>
-<?php
+
 /**
  * control the lock on a given resource
  * 
@@ -29,25 +28,23 @@
  */
 class tao_actions_Lock extends tao_actions_CommonModule {
 
-	protected $lockService = null;
 	public function __construct()
 	{
 		parent::__construct();
-		//the service is initialized by default
-		$this->service = tao_models_classes_lock_OntoLock::singleton();
 		$this->defaultData();
 	}
 	
 	public function release($uri)
-	{   try {
-        $this->service->releaseLock(
-            new core_kernel_classes_Resource(tao_helpers_Uri::decode($uri)),
-            tao_models_classes_UserService::singleton()->getCurrentUser());
+	{  
+        try {
+            LockManager::getImplementation()->releaseLock(
+                new core_kernel_classes_Resource(tao_helpers_Uri::decode($uri)),
+                tao_models_classes_UserService::singleton()->getCurrentUser());
         } catch (Exception $e) {
             //the connected user is not the owner of the lock
             //there is no lock on the resource
             //the lock is corrupted
-
+        
             switch (get_class($e)) {
                 case "common_exception_Unauthorized":{break;}
             }
@@ -55,4 +52,3 @@ class tao_actions_Lock extends tao_actions_CommonModule {
     }
 	
 }
-?>

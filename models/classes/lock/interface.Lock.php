@@ -57,5 +57,3 @@ interface tao_models_classes_lock_Lock{
     public function getLockData(core_kernel_classes_Resource $resource);
 
 }
-
-?>
