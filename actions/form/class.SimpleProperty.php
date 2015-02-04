@@ -148,7 +148,7 @@ class tao_actions_form_SimpleProperty
 
 		if(count($elementNames) > 0){
 			$groupTitle = $this->getGroupTitle($property);
-			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames);
+			$this->form->createGroup("property_{$encodedUri}", $groupTitle, $elementNames);
 		}
 
     }

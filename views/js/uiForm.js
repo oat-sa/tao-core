@@ -159,10 +159,7 @@ define([
                     $('.regular-property',myForm[0]).each(function(){
                         var property = {};
                         var name = '';
-                        var propNum = 0;
                         $(':input.property',this).each(function(){
-                            propNum = $(this).attr('name').match(/(property_)?([^_]+)_/,'');
-                            propNum = propNum[2];
                             name = $(this).attr('name').replace(/(property_)?[^_]+_/,'');
                             if($(this).attr('type') === 'radio'){
                                 if($(this).is(':checked')){
@@ -215,7 +212,6 @@ define([
                         });
                         //add indexes to related property
                         property.indexes = indexes;
-                        property.propNum = propNum;
                         properties.push(property);
                     });
 

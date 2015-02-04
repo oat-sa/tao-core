@@ -212,9 +212,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 $clazz = $this->service->bindProperties($clazz, $classValues);
 
                 //save all properties values
-                foreach($data['properties'] as $propertyValues){
-                    $propNum = $propertyValues['propNum'];
-                    unset($propertyValues['propNum']);
+                foreach($data['properties'] as $i => $propertyValues){
                     $values = array();
                     //get index values
                     $indexes = null;
@@ -288,7 +286,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                         }
                     }
 
-                    $myForm->removeGroup("property_".$propNum);
+                    $myForm->removeGroup("property_".tao_helpers_Uri::encode($property->getUri()));
 
                     //instanciate a property form
                     $propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
@@ -296,7 +294,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                         $propFormClass = 'tao_actions_form_SimpleProperty';
                     }
 
-                    $propFormContainer = new $propFormClass($clazz, $property, array('index' => $propNum));
+                    $propFormContainer = new $propFormClass($clazz, $property, array('index' => $i));
                     $propForm = $propFormContainer->getForm();
 
                     //and get its elements and groups
