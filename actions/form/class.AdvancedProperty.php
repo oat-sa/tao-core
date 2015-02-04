@@ -80,10 +80,16 @@ class tao_actions_form_AdvancedProperty
 					}
 				}
 				$element->setName("property_{$index}_{$element->getName()}");
+                $element->addClass('property');
 				$this->form->addElement($element);
 				$elementNames[] = $element->getName();
 			}
 		}
+        $modeElt = tao_helpers_form_FormFactory::getElement("{$index}_uri", 'Hidden');
+        $modeElt->setValue($property->getUri());
+        $modeElt->addClass('property');
+        $this->form->addElement($modeElt);
+        $elementNames[] = $modeElt->getName();
 		
 		if(count($elementNames) > 0){
             $groupTitle = $this->getGroupTitle($property);
