@@ -78,7 +78,8 @@ class tao_actions_form_SimpleProperty
 						}
 					}
 				}
-				$element->setName("property_{$index}_{$element->getName()}");
+				$element->setName("{$index}_{$element->getName()}");
+                $element->addClass('property');
 				$this->form->addElement($element);
 				$elementNames[] = $element->getName();
                 
@@ -89,9 +90,9 @@ class tao_actions_form_SimpleProperty
 		}
 		
 		//build the type list from the "widget/range to type" map
-		$typeElt = tao_helpers_form_FormFactory::getElement("property_{$index}_type", 'Combobox');
+		$typeElt = tao_helpers_form_FormFactory::getElement("{$index}_type", 'Combobox');
 		$typeElt->setDescription(__('Type'));
-		$typeElt->addAttribute('class', 'property-type');
+		$typeElt->addAttribute('class', 'property-type property');
 		$typeElt->setEmptyOption(' --- '.__('select').' --- ');
 		$options = array();
 		$checkRange = false;
@@ -112,9 +113,9 @@ class tao_actions_form_SimpleProperty
 		//list drop down
 		$listService = tao_models_classes_ListService::singleton();
 			
-		$listElt = tao_helpers_form_FormFactory::getElement("property_{$index}_range", 'Combobox');
+		$listElt = tao_helpers_form_FormFactory::getElement("{$index}_range", 'Combobox');
 		$listElt->setDescription(__('List values'));
-		$listElt->addAttribute('class', 'property-listvalues');
+		$listElt->addAttribute('class', 'property-listvalues property');
 		$listElt->setEmptyOption(' --- '.__('select').' --- ');
 		$listOptions = array();
 		foreach($listService->getLists() as $list){
@@ -136,16 +137,21 @@ class tao_actions_form_SimpleProperty
 		$elementNames[] = $listElt->getName();
 		
 		//add an hidden element with the mode (simple)
-		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
+		$modeElt = tao_helpers_form_FormFactory::getElement("{$index}_mode", 'Hidden');
 		$modeElt->setValue('simple');
+		$modeElt->addClass('property');
 		$this->form->addElement($modeElt);
 		$elementNames[] = $modeElt->getName();
 
         //index part
         $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
-        foreach($indexes as $indexUri){
+        foreach($indexes as $i => $indexUri){
             $indexProperty = new \oat\tao\model\search\Index($indexUri);
-            $indexFormContainer = new tao_actions_form_IndexProperty($this->getClazz(), $indexProperty, array('index' => $index));
+            $indexFormContainer = new tao_actions_form_IndexProperty($this->getClazz(), $indexProperty,
+                array('property' => $property->getUri(),
+                    'propertyindex' => $index,
+                    'index' => $i)
+            );
             /** @var tao_helpers_form_Form $indexForm */
             $indexForm = $indexFormContainer->getForm();
             foreach($indexForm->getElements() as $element){
@@ -158,7 +164,7 @@ class tao_actions_form_SimpleProperty
         if(!is_null($property->getRange())){
             $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_add", 'Free');
             $addIndexElt->setValue(
-                "<a href='#' id='index_{$index}_add' data-index='{$index}' class='btn-info index-adder small'><span class='icon-add'></span> " . __(
+                "<a href='#' class='btn-info index-adder small index'><span class='icon-add'></span> " . __(
                     'Add index'
                 ) . "</a><div class='clearfix'></div>"
             );
@@ -168,17 +174,18 @@ class tao_actions_form_SimpleProperty
         else{
             $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_p", 'Free');
             $addIndexElt->setValue(
-                "<p id='index_{$index}_p' >" . __(
+                "<p class='index' >" . __(
                     'Choose a type for your property first'
                 ) . "</p>"
             );
             $this->form->addElement($addIndexElt);
             $elementNames[] = $addIndexElt;
         }
+
         //add an hidden elt for the property uri
         $encodedUri = tao_helpers_Uri::encode($property->getUri());
-        $propUriElt = tao_helpers_form_FormFactory::getElement("uri{$index}", 'Hidden');
-        $propUriElt->addAttribute('class', 'property-uri');
+        $propUriElt = tao_helpers_form_FormFactory::getElement("{$index}_uri", 'Hidden');
+        $propUriElt->addAttribute('class', 'property-uri property');
         $propUriElt->setValue($encodedUri);
         $this->form->addElement($propUriElt);
         $elementNames[] = $propUriElt;
