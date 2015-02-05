@@ -30,6 +30,7 @@ use InterruptedActionException;
 use HttpRequest;
 use Context;
 use FlowController as ClearFwFlowController;
+use tao_helpers_Uri;
 
 /**
  * The FlowController helps you to navigate through MVC actions.
