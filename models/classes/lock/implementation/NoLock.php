@@ -21,7 +21,7 @@
 
 namespace oat\tao\model\lock\implementation;
 
-use tao_models_classes_lock_Lock;
+use \oat\tao\model\lock\LockSystem;
 use oat\oatbox\Configurable;
 use core_kernel_classes_Resource;
 use common_exception_InconsistentData;
@@ -33,7 +33,7 @@ use common_exception_InconsistentData;
  * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
  */
 class NoLock extends Configurable
-    implements \tao_models_classes_lock_Lock
+    implements LockSystem
 {
 
     /**

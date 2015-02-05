@@ -21,10 +21,9 @@
 namespace oat\tao\model\lock\implementation;
 
 use oat\oatbox\Configurable;
+use \oat\tao\model\lock\LockSystem;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
-use tao_models_classes_lock_Lock;
-use tao_models_classes_lock_LockData;
 use common_Exception;
 use common_exception_InconsistentData;
 use common_exception_Unauthorized;
@@ -37,7 +36,8 @@ use common_exception_Unauthorized;
  * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
  */
 class OntoLock extends Configurable
-    implements tao_models_classes_lock_Lock
+    implements LockSystem
+
 {
     /**
      * 
@@ -58,7 +58,7 @@ class OntoLock extends Configurable
     public function setLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $owner)
     {
         if (!($this->isLocked($resource))) {
-        $lock = new tao_models_classes_lock_LockData($resource, $owner, microtime(true));
+        $lock = new OntoLockData($resource, $owner, microtime(true));
         $resource->setPropertyValue($this->getLockProperty(), $lock->toJson());
         } else {
             throw new common_Exception($resource->getUri()." is already locked");
@@ -96,7 +96,7 @@ class OntoLock extends Configurable
 		} elseif (count ( $lock ) > 1) {
 			throw new common_exception_InconsistentData('Bad data in lock');
 		} else {
-			$lockdata = tao_models_classes_lock_LockData::getLockData ( array_pop ( $lock ) );
+			$lockdata = OntoLockData::getLockData ( array_pop ( $lock ) );
 			if ($lockdata->getOwner()->getUri() == $user->getUri ()) {
 				$resource->removePropertyValues( $this->getLockProperty() );
 				return true;
@@ -125,7 +125,7 @@ class OntoLock extends Configurable
     {
         $values = $resource->getPropertyValues($this->getLockProperty());
         if ((is_array($values)) && (count($values)==1)) {
-            return tao_models_classes_lock_LockData::getLockData(array_pop($values));
+            return OntoLockData::getLockData(array_pop($values));
         } else {
             return false;
         }

@@ -16,39 +16,31 @@
  * 
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  * 
- */               
-
+ */
 namespace oat\tao\model\lock;
 
-use oat\tao\model\lock\implementation\NoLock;
 /**
- * 
+ * manage lock on a given resource
+ *
+ * @author plichart
  */
-class LockManager {
+interface Lock {
     
-    const CONFIG_ID = 'lock';
+    /**
+     * @author "Patrick Plichart, <patrick@taotesting.com>"
+     * @return core_kernel_classes_Resource
+     */
+    public function getResource();
     
-    private static $implementation = null;
-
     /**
-     * 
-     * @param LockSystem $implementation
+     * @author "Patrick Plichart, <patrick@taotesting.com>"
+     * @return int epoche
      */
-    static public function setImplementation(LockSystem $implementation) {
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $ext->setConfig(self::CONFIG_ID, $implementation);
-        self::$implementation = $implementation;
-    }
-
+    public function getCreationTime();
+    
     /**
-     * @return LockSystem
+     * @author "Patrick Plichart, <patrick@taotesting.com>"
+     * @return core_kernel_classes_Resource
      */
-    static public function getImplementation() {
-        if (is_null(self::$implementation)) {
-            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-            self::$implementation = $ext->getConfig(self::CONFIG_ID);
-        }
-        return self::$implementation;
-    }
-
+    public function getOwner();
 }
