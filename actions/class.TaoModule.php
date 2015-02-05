@@ -1225,7 +1225,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
             throw new common_exception_MissingParameter("indexProperty parameter is missing");
         }
 
-        $indexPropertyUri = tao_helpers_Uri::decode($this->getRequestParameter('index_property'));
+        $indexPropertyUri = tao_helpers_Uri::decode($this->getRequestParameter('indexProperty'));
 
         //remove use of index property in property
         $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
@@ -1235,7 +1235,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         $indexProperty = new \oat\tao\model\search\Index($indexPropertyUri);
         $indexProperty->delete();
 
-        echo json_encode(array('id' => $this->getRequestParameter('index_property')));
+        echo json_encode(array('id' => $this->getRequestParameter('indexProperty')));
     }
 
     /**
