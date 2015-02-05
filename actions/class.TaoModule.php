@@ -53,47 +53,12 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
     protected function isLocked($resource, $view){
         
          if (LockManager::getImplementation()->isLocked($resource)) {
-                $lockData = LockManager::getImplementation()->getLockData($resource);
-
-		        $classes = $resource->getTypes();
-		        $this->setData('id', $resource->getUri());
-		        $this->setData('classUri', tao_helpers_Uri::encode(end($classes)->getUri()));
-
-	            $this->setData('label', $resource->getLabel());
-                $this->setData('itemUri', tao_helpers_Uri::encode($resource->getUri()));
-
-                $rEpoch = date('Y-m-d H:i:s', strval($lockData->getEpoch()));
-                
-                $this->setData('epoch',$rEpoch );
-
-                $this->setData('owner', $lockData->getOwner()->getUri());
-                try {
-                    $ownerLogin = $lockData->getOwner()->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
-                    
-                } catch (Exception $e) {
-                    $ownerLogin = 'Unknown User';
-                }
-                try {
-                    $ownerEmail = $lockData->getOwner()->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_MAIL));
-
-                } catch (Exception $e) {
-                    $ownerEmail = 'Unknown Email';
-                }
-                $isOwner = ($lockData->getOwner()->getUri() == tao_models_classes_UserService::singleton()->getCurrentUser()->getUri());
-                //$isAdmin = tao_models_classes_UserService::singleton()
-
-                $this->setData('isOwner',  $isOwner);
-
-                $this->setData('ownerLogin', $ownerLogin);
-                $this->setData('ownerMail', $ownerEmail);
-                $this->setData('destinationUrl', tao_helpers_Uri::url(null, null, null, $this->getRequestParameters())); 
-                $this->setView($view);
-              
-                
-                return true;
-            } else {
-                return false;
-            }
+             $this->forward('locked', 'Lock', 'tao', array(
+             	'id' => $resource->getUri(),
+                'destination' =>  tao_helpers_Uri::url(null, null, null, $this->getRequestParameters())
+             ));
+         }
+         return false;
     }
 
     /**

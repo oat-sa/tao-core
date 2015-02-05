@@ -18,12 +18,14 @@
  * 
  */
 
+use oat\tao\model\lock\LockManager;
+use oat\tao\helpers\UserHelper;
+
 /**
  * control the lock on a given resource
  * 
  * @author plichart
  * @package taoGroups
- 
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_actions_Lock extends tao_actions_CommonModule {
@@ -32,6 +34,23 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 	{
 		parent::__construct();
 		$this->defaultData();
+	}
+	
+	public function locked() {
+	    $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
+	    $lockData = LockManager::getImplementation()->getLockData($resource);
+	
+	    $this->setData('id', $resource->getUri());
+	    $this->setData('label', $resource->getLabel());
+	
+	    $this->setData('lockDate', $lockData->getEpoch());
+	    $this->setData('ownerHtml', UserHelper::renderHtmlUser($lockData->getOwner()));
+
+	    $currentUserId = common_session_SessionManager::getSession()->getUser()->getIdentifier();
+	    $this->setData('isOwner',  $lockData->getOwner()->getUri() == $currentUserId);
+	
+	    $this->setData('destination', $this->getRequestParameter('destination'));
+	    $this->setView('Lock/locked.tpl', 'tao');
 	}
 	
 	public function release($uri)
