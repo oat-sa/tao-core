@@ -30,6 +30,8 @@ use oat\generis\model\data\ModelManager;
 use oat\tao\model\lock\implementation\OntoLock;
 use oat\tao\model\lock\implementation\NoLock;
 use oat\tao\model\lock\LockManager;
+use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\accessControl\func\AccessRule;
 
 /**
  * 
@@ -165,6 +167,8 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ? new OntoLock()
                 : new NoLock();
             LockManager::setImplementation($lockImpl);
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Lock')));
+            
             $currentVersion = '2.7.8';
         }
         
