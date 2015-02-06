@@ -111,7 +111,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                                     }
                                 }
                                 
-                            }, 1000))
+                            }, 600))
                             .on('focus', function(){
                                 this.select();
                             })
