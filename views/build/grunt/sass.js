@@ -23,8 +23,8 @@ module.exports = function(grunt) {
     
     sass.ckeditor = {
         files : {
-            '../js/lib/ckeditor/skins/tao/css/editor.css' : '../js/lib/ckeditor/skins/tao/scss/editor.scss',
-            '../js/lib/ckeditor/skins/tao/css/dialog.css' : '../js/lib/ckeditor/skins/tao/scss/dialog.scss',
+            '../js/lib/ckeditor/skins/tao/editor.css' : '../js/lib/ckeditor/skins/tao/scss/editor.scss',
+            '../js/lib/ckeditor/skins/tao/dialog.css' : '../js/lib/ckeditor/skins/tao/scss/dialog.scss',
         }
     };
 
