@@ -26,6 +26,7 @@ use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\menu\MenuService;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\tao\model\accessControl\data\DataAccessControl;
+use oat\tao\model\lock\LockManager;
 
 /**
  * The TaoModule is an abstract controller, 
@@ -41,7 +42,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
 	/**
 	 * If you want strictly to check if the resource is locked,
-	 * you should use tao_models_classes_lock_OntoLock::singleton()->isLocked($resource)
+	 * you should use LockManager::getImplementation()->isLocked($resource)
 	 * Controller level convenience method to check if @resource is being locked, prepare data ans sets view,
 	 *
 	 * @param core_kernel_classes_Resource $resource
@@ -50,48 +51,14 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * @return boolean
 	 */
     protected function isLocked($resource, $view){
-         if (tao_models_classes_lock_OntoLock::singleton()->isLocked($resource)) {
-                $lockData = tao_models_classes_lock_OntoLock::singleton()->getLockData($resource);
-
-		        $classes = $resource->getTypes();
-		        $this->setData('id', $resource->getUri());
-		        $this->setData('classUri', tao_helpers_Uri::encode(end($classes)->getUri()));
-
-	            $this->setData('label', $resource->getLabel());
-                $this->setData('itemUri', tao_helpers_Uri::encode($resource->getUri()));
-
-                $rEpoch = date('Y-m-d H:i:s', strval($lockData->getEpoch()));
-                
-                $this->setData('epoch',$rEpoch );
-
-                $this->setData('owner', $lockData->getOwner()->getUri());
-                try {
-                    $ownerLogin = $lockData->getOwner()->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
-                    
-                } catch (Exception $e) {
-                    $ownerLogin = 'Unknown User';
-                }
-                try {
-                    $ownerEmail = $lockData->getOwner()->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_MAIL));
-
-                } catch (Exception $e) {
-                    $ownerEmail = 'Unknown Email';
-                }
-                $isOwner = ($lockData->getOwner()->getUri() == tao_models_classes_UserService::singleton()->getCurrentUser()->getUri());
-                //$isAdmin = tao_models_classes_UserService::singleton()
-
-                $this->setData('isOwner',  $isOwner);
-
-                $this->setData('ownerLogin', $ownerLogin);
-                $this->setData('ownerMail', $ownerEmail);
-                $this->setData('destinationUrl', tao_helpers_Uri::url(null, null, null, $this->getRequestParameters())); 
-                $this->setView($view);
-              
-                
-                return true;
-            } else {
-                return false;
-            }
+        
+         if (LockManager::getImplementation()->isLocked($resource)) {
+             $this->forward('locked', 'Lock', 'tao', array(
+             	'id' => $resource->getUri(),
+                'destination' =>  tao_helpers_Uri::url(null, null, null, $this->getRequestParameters())
+             ));
+         }
+         return false;
     }
 
     /**

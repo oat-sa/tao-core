@@ -14,19 +14,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
-  * Copyright (c) 2013 Open Assessment Technologies S.A. *
+ * Copyright (c) 2013 Open Assessment Technologies S.A.
+ * 
  */
 
+namespace oat\tao\model\lock\implementation;
+
+use oat\tao\model\lock\Lock;
+use core_kernel_classes_Resource;
+use common_exception_InconsistentData;
 
 /**
  * Implements Lock using a simple property in the ontology for the lock storage
  *
  **/
-
-class tao_models_classes_lock_LockData{
-    private $resource; //the resource being locked core_kernel_classe_Resource
-    private $owner; //the owner of the lock core_kernel_classe_Resource
-    private $epoch; //the epoch when the lock was set up
+class OntoLockData implements Lock {
+    
+    /**
+     * the resource being locked
+     * @var core_kernel_classe_Resource
+     */
+    private $resource;
+    
+    /**
+     * the owner of the lock
+     * @var core_kernel_classe_Resource
+     */
+    private $owner;
+    
+    /**
+     * the epoch when the lock was set up
+     * @var string
+     */
+    private $epoch;
 
     /**
      * 
@@ -40,12 +60,13 @@ class tao_models_classes_lock_LockData{
     		$resource = new core_kernel_classes_Resource($array['resource']);
     		$owner = new core_kernel_classes_Resource($array['owner']);
     		$epoch = $array['epoch'];
-    		return new tao_models_classes_lock_LockData($resource,$owner,$epoch);
+    		return new self($resource,$owner,$epoch);
     	}
     	else {
     		throw new common_exception_InconsistentData('LockData should contain a resource, owner and epoch, one data is missing');
     	}
     }
+    
     /**
      * 
      * @author "Patrick Plichart, <patrick@taotesting.com>"
@@ -58,6 +79,7 @@ class tao_models_classes_lock_LockData{
         $this->owner = $owner;
         $this->epoch = $epoch;
     }
+    
     /**
      * 
      * @author "Patrick Plichart, <patrick@taotesting.com>"
@@ -66,13 +88,15 @@ class tao_models_classes_lock_LockData{
     public function getResource() {
         return $this->resource;
     }
+    
     /**
      * 
      * @author "Patrick Plichart, <patrick@taotesting.com>"
      */
-    public function getEpoch(){
+    public function getCreationTime(){
         return $this->epoch;
     }
+    
     /**
      * 
      * @author "Patrick Plichart, <patrick@taotesting.com>"
@@ -81,6 +105,7 @@ class tao_models_classes_lock_LockData{
     public function getOwner(){
         return $this->owner;
     }
+    
     /**
      * 
      * @author "Patrick Plichart, <patrick@taotesting.com>"
@@ -95,7 +120,4 @@ class tao_models_classes_lock_LockData{
     		)
     	);
     }
-
- 
 }
-?>
