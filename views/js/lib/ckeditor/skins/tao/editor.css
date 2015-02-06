@@ -1080,7 +1080,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .cke_hc .cke_combo_on a.cke_combo_button, .cke_hc .cke_combo_off a.cke_combo_button:hover, .cke_hc .cke_combo_off a.cke_combo_button:focus, .cke_hc .cke_combo_off a.cke_combo_button:active { border-width: 3px; padding: 1px; }
 
 /* The label that shows the current value of the rich combo. By default, it holds the name of the property. See: .cke_combo_inlinelabel */
-.cke_combo_text { line-height: 26px; padding-left: 10px; text-overflow: ellipsis; overflow: hidden; float: left; cursor: default; color: #474747; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); width: 60px; }
+.cke_combo_text { line-height: 26px; padding-left: 10px; padding-top: 4px; text-overflow: ellipsis; overflow: hidden; float: left; cursor: default; color: #474747; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); width: 60px; }
 
 .cke_rtl .cke_combo_text { float: right; text-align: right; padding-left: 0; padding-right: 10px; }
 

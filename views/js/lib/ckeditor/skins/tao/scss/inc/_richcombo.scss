@@ -110,7 +110,10 @@ The visual representation of a rich combo widget looks as follows:
    See: .cke_combo_inlinelabel */
 .cke_combo_text {
   line-height: 26px;
-  padding-left: 10px;
+  padding : {
+    left: 10px;
+    top: 4px;
+  }
   text-overflow: ellipsis;
   overflow: hidden;
   float: left;
