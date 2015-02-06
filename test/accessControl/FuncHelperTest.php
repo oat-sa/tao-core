@@ -41,7 +41,7 @@ class ActionTest extends TaoPhpUnitTestRunner {
      */     
     public function getClassNameByUrlProvider(){
         return array(
-            array('/tao/Main/index', 'tao_actions_Main')
+            array(ROOT_URL. 'tao/Main/index', 'tao_actions_Main')
         );
     }   
  
