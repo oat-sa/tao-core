@@ -19,6 +19,7 @@
                                  
 @import "inc/tao-icon-vars.scss";
 [class^="icon-"], [class*=" icon-"] { @extend %tao-icon-setup; }
+.icon-end-attempt:before { @extend %icon-end-attempt; }
 .icon-icon:before { @extend %icon-icon; }
 .icon-radio-bg:before { @extend %icon-radio-bg; }
 .icon-checkbox-bg:before { @extend %icon-checkbox-bg; }

@@ -29,6 +29,11 @@ use oat\tao\model\search\zend\ZendSearch;
 use oat\tao\model\ClientLibRegistry;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\generis\model\data\ModelManager;
+use oat\tao\model\lock\implementation\OntoLock;
+use oat\tao\model\lock\implementation\NoLock;
+use oat\tao\model\lock\LockManager;
+use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\accessControl\func\AccessRule;
 
 /**
  * 
@@ -155,6 +160,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
 
             $currentVersion = '2.7.7';
+        }
+        
+        if ($currentVersion == '2.7.7') {
+            $lockImpl = (defined('ENABLE_LOCK') && 'ENABLE_LOCK')
+                ? new OntoLock()
+                : new NoLock();
+            LockManager::setImplementation($lockImpl);
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Lock')));
+            
+            $currentVersion = '2.7.8';
         }
         
         return $currentVersion;
