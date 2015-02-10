@@ -149,15 +149,18 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
 
             $('#'+options.modalOverlay).fadeIn(300);
 
-            $element.animate({'opacity': '1', 'top':topOffset+'px'});
-            $element.addClass('opened');
-            Modal._bindEvents($element);
+            $element.animate({'opacity': '1', 'top':topOffset+'px'}, function(){
+                
+                $element.addClass('opened');
+                Modal._bindEvents($element);
 
-           /**
-            * The target has been closed/removed. 
-            * @event Modal#closed.modal
-            */
-            $element.trigger('opened.'+ pluginName);
+               /**
+                * The target has been opened. 
+                * @event Modal#opened.modal
+                */
+                $element.trigger('opened.'+ pluginName);
+            });
+            
           }
        },
 
