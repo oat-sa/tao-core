@@ -20,7 +20,8 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         width: 'responsive',
         minWidth : 0,
         minHeight : 0,
-        vCenter : true
+        vCenter : true,
+        $context : null
     };
 
 
@@ -32,6 +33,10 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         * @param {String} [options.modalOverlay = 'modal-bg'] - the css class for the modal overlay element
         * @param {Boolean} [options .disableClosing = false] - to disable the default closers
         * @param {String|Number|Boolean}  [options.width = 'responsive'] - the width behavior, responsive or a fixed value, or default if false
+        * @param {Number}  [options.minWidth = 0] - the minimum width of the modal
+        * @param {Number}  [options.minHeight = 0] - the minimum height of the modal
+        * @param {Boolean}  [options.vCenter = true] - if the modal should be centered vertically
+        * @param {jQueryElement}  [options.$context = null] - give the context the modal overlay should be append to, if none give, it would be on the window
         * @returns {jQueryElement} for chaining
         */
        init: function(options){
@@ -49,7 +54,15 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             
             //Initialize the overlay for the modal dialog
             if ($('#'+options.modalOverlay).length === 0) {
-               $('<div/>').attr({'id':options.modalOverlay, 'class': options.modalOverlayClass}).insertAfter($modal);
+               var $overlay = $('<div/>').attr({'id':options.modalOverlay, 'class': options.modalOverlayClass});
+               if(options.$context instanceof $ && options.$context.length){
+                   //when a $context is given, position the modal overlay relative to that context
+                   $overlay.css('position', 'absolute');
+                   options.$context.append($overlay);
+               }else{
+                   //the modal overlay is absolute to the window
+                   $modal.after($overlay);
+               }
             }
             
             //Initialize the close button for the modal dialog
