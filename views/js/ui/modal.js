@@ -20,7 +20,8 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         width: 'responsive',
         minWidth : 0,
         minHeight : 0,
-        vCenter : true
+        vCenter : true,
+        $context : null
     };
 
 
@@ -49,7 +50,15 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             
             //Initialize the overlay for the modal dialog
             if ($('#'+options.modalOverlay).length === 0) {
-               $('<div/>').attr({'id':options.modalOverlay, 'class': options.modalOverlayClass}).insertAfter($modal);
+               var $overlay = $('<div/>').attr({'id':options.modalOverlay, 'class': options.modalOverlayClass});
+               if(options.$context instanceof $ && options.$context.length){
+                   //when a $context is given, position the modal overlay relative to that context
+                   $overlay.css('position', 'absolute');
+                   options.$context.append($overlay);
+               }else{
+                   //the modal overlay is absolute to the window
+                   $modal.after($overlay);
+               }
             }
             
             //Initialize the close button for the modal dialog
