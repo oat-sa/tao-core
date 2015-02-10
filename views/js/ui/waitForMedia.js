@@ -39,7 +39,6 @@ define(['jquery'], function($){
                     //the image is already loaded by the browser
                     imageLoaded.call(this);
                 }else{
-                    console.log('loading')
                     //the image is not yet loaded : add "load" listener
                     $(this).on('load'+_ns+' error'+_ns, imageLoaded);
                 }
