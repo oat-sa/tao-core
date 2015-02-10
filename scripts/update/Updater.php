@@ -163,7 +163,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         
         if ($currentVersion == '2.7.7') {
-            $lockImpl = (defined('ENABLE_LOCK') && 'ENABLE_LOCK')
+            $lockImpl = (defined('ENABLE_LOCK') && ENABLE_LOCK)
                 ? new OntoLock()
                 : new NoLock();
             LockManager::setImplementation($lockImpl);
