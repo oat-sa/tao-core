@@ -28,46 +28,65 @@ use common_exception_InconsistentData;
  * Implements Lock using a simple property in the ontology for the lock storage
  *
  **/
-class OntoLockData extends SimpleLock {
+class SimpleLock implements Lock {
+    
+    /**
+     * the resource being locked
+     * @var core_kernel_classe_Resource
+     */
+    private $resource;
+    
+    /**
+     * the owner of the lock
+     * @var string
+     */
+    private $ownerId;
+    
+    /**
+     * the epoch when the lock was set up
+     * @var string
+     */
+    private $epoch;
     
     /**
      * 
-     * @param string $json
-     * @throws common_exception_InconsistentData
-     * @return tao_models_classes_LockData
-     */
-    public static function getLockData($json){
-    	$array = json_decode($json, true);
-    	if(isset($array['resource']) && isset($array['owner']) && isset($array['epoch'])){
-    		$resource = new core_kernel_classes_Resource($array['resource']);
-    		$ownerId = $array['owner'];
-    		$epoch = $array['epoch'];
-    		return new self($resource,$ownerId,$epoch);
-    	}
-    	else {
-    		throw new common_exception_InconsistentData('LockData should contain a resource, owner and epoch, one data is missing');
-    	}
-    }
-
-    /**
      * @author "Patrick Plichart, <patrick@taotesting.com>"
-     * @return core_kernel_classes_Resource
+     * @param core_kernel_classes_Resource $resource
+     * @param core_kernel_classes_Resource $owner
+     * @param float $epoch
      */
-    public function getOwner(){
-        return new core_kernel_classes_Resource($this->getOwnerId());
+    public function __construct(core_kernel_classes_Resource $resource, $ownerId, $epoch) {
+        if (!is_string($ownerId)) {
+            if (is_object($ownerId) && $ownerId instanceof \core_kernel_classes_Resource) {
+                $ownerId = $ownerId->getUri();
+            } else {
+                throw new \common_exception_Error('Unsupported OwnerId');
+            }
+        }
+        $this->resource = $resource;
+        $this->ownerId = $ownerId;
+        $this->epoch = $epoch;
     }
     
     /**
+     * 
      * @author "Patrick Plichart, <patrick@taotesting.com>"
-     * @return string
+     * @return core_kernel_classes_Resource
      */
-    public function toJson(){  	
-    	return json_encode( 
-    		array(
-    			'resource' => $this->getResource()->getUri(), 
-    			'owner' => $this->getOwnerId(),
-    			'epoch' => $this->getCreationTime()	
-    		)
-    	);
+    public function getResource() {
+        return $this->resource;
     }
+    
+    /**
+     * 
+     * @author "Patrick Plichart, <patrick@taotesting.com>"
+     */
+    public function getCreationTime(){
+        return $this->epoch;
+    }
+    
+    public function getOwnerId()
+    {
+        return $this->ownerId;
+    }    
 }
