@@ -30,11 +30,11 @@ interface LockSystem {
     /**
      * set a lock on @resource with owner @user, succeeds also if there is a lock already exists but with the same owner
      *
-     * @throw common_Exception if the resource already has a lock with a different owner
+     * @throws ResourceLockedException if the resource already has a lock with a different owner
      * @param core_kernel_classes_Resource $resource
      * @param core_kernel_classes_Resource $user
      */
-    public function setLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $owner);
+    public function setLock(core_kernel_classes_Resource $resource, $ownerId);
     
     /**
      * return true is the resource is locked, else otherwise
@@ -48,7 +48,7 @@ interface LockSystem {
      * @param core_kernel_classes_Resource $user
      * @throw common_Exception no lock to release
      */
-    public function releaseLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $user);
+    public function releaseLock(core_kernel_classes_Resource $resource, $ownerId);
     
    /**
      *  release the lock 
@@ -60,7 +60,7 @@ interface LockSystem {
     /**
      * Return lock details
      * @param core_kernel_classes_Resource $resource
-     * @return tao_helpers_lock_LockData
+     * @return Lock
      */
     public function getLockData(core_kernel_classes_Resource $resource);
 

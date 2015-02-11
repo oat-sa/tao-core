@@ -21,7 +21,6 @@
 
 namespace oat\tao\helpers\translation\rdf;
 
-use oat\generis\model\data\Model;
 use tao_helpers_translation_POFileReader;
 use common_Utils;
 use core_kernel_classes_Triple;

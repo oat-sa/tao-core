@@ -16,31 +16,17 @@
  * 
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  * 
- */
+ */               
+
 namespace oat\tao\model\lock;
 
+use core_kernel_classes_Resource;
 /**
- * manage lock on a given resource
- *
- * @author plichart
+ * 
  */
-interface Lock {
-    
-    /**
-     * @author "Patrick Plichart, <patrick@taotesting.com>"
-     * @return core_kernel_classes_Resource
-     */
-    public function getResource();
-    
-    /**
-     * @author "Patrick Plichart, <patrick@taotesting.com>"
-     * @return int epoche
-     */
-    public function getCreationTime();
-    
-    /**
-     * @author "Patrick Plichart, <patrick@taotesting.com>"
-     * @return string
-     */
-    public function getOwnerId();
+class ResourceLockedException extends \common_Exception {
+
+    public function __construct(Lock $lock) {
+        parent::__construct('Resource '.$lock->getResource()->getUri().' locked');
+    }
 }
