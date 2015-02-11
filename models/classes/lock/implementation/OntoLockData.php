@@ -38,9 +38,9 @@ class OntoLockData implements Lock {
     
     /**
      * the owner of the lock
-     * @var core_kernel_classe_Resource
+     * @var string
      */
-    private $owner;
+    private $ownerId;
     
     /**
      * the epoch when the lock was set up
@@ -58,9 +58,9 @@ class OntoLockData implements Lock {
     	$array = json_decode($json, true);
     	if(isset($array['resource']) && isset($array['owner']) && isset($array['epoch'])){
     		$resource = new core_kernel_classes_Resource($array['resource']);
-    		$owner = new core_kernel_classes_Resource($array['owner']);
+    		$ownerId = $array['owner'];
     		$epoch = $array['epoch'];
-    		return new self($resource,$owner,$epoch);
+    		return new self($resource,$ownerId,$epoch);
     	}
     	else {
     		throw new common_exception_InconsistentData('LockData should contain a resource, owner and epoch, one data is missing');
@@ -74,9 +74,9 @@ class OntoLockData implements Lock {
      * @param core_kernel_classes_Resource $owner
      * @param float $epoch
      */
-    public function __construct(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $owner, $epoch) {
+    public function __construct(core_kernel_classes_Resource $resource, $ownerId, $epoch) {
         $this->resource = $resource;
-        $this->owner = $owner;
+        $this->ownerId = $ownerId;
         $this->epoch = $epoch;
     }
     
@@ -103,8 +103,13 @@ class OntoLockData implements Lock {
      * @return core_kernel_classes_Resource
      */
     public function getOwner(){
-        return $this->owner;
+        return new core_kernel_classes_Resource($this->ownerId);
     }
+    
+    public function getOwnerId()
+    {
+        return $this->ownerId;
+    }    
     
     /**
      * 
@@ -115,7 +120,7 @@ class OntoLockData implements Lock {
     	return json_encode( 
     		array(
     			'resource' => $this->resource->getUri(), 
-    			'owner' => $this->owner->getUri(),
+    			'owner' => $this->ownerId,
     			'epoch' => $this->epoch	
     		)
     	);

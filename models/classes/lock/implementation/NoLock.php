@@ -41,7 +41,7 @@ class NoLock extends Configurable
      * @param core_kernel_classes_Resource $resource
      * @param core_kernel_classes_Resource $owner
      */
-    public function setLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $owner)
+    public function setLock(core_kernel_classes_Resource $resource, $ownerId)
     {
         // do nothing
     }
@@ -61,7 +61,7 @@ class NoLock extends Configurable
 	 * @param core_kernel_classes_Resource $resource        	
 	 * @param core_kernel_classes_Resource $user
 	 */
-	public function releaseLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $user)
+	public function releaseLock(core_kernel_classes_Resource $resource, $ownerId)
 	{
 	}
 	
