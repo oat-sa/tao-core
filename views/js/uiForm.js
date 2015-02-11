@@ -132,22 +132,26 @@ define([
             var that = this;
             $(".form-submitter").off('click').on('click', function (e) {
                 e.preventDefault();
-                var myForm = $(this).parents("form");
+                var myForm,
+                    formData,
+                    clazz;
+                myForm = $(this).parents("form");
 
                 if($('[id="tao.forms.class"]').length !== 0){
-                    var formData = {};
-                    var clazz = {};
+                    formData = {};
+                    clazz = {};
 
                     //get all global data
                     $('input.global',myForm[0]).each(function(){
-                        var name = $(this).attr('name');
+                        var $global = $(this);
+                        var name = $global.attr('name');
                         if(name.indexOf('class_') > -1){
                             name = name.replace('class_','');
-                            clazz[name] = $(this).val();
+                            clazz[name] = $global.val();
 
                         }
                         else{
-                            formData[name] = $(this).val();
+                            formData[name] = $global.val();
                         }
                     });
                     if(clazz.length !==0){
@@ -160,14 +164,15 @@ define([
                         var property = {};
                         var name = '';
                         $(':input.property',this).each(function(){
-                            name = $(this).attr('name').replace(/(property_)?[^_]+_/,'');
-                            if($(this).attr('type') === 'radio'){
-                                if($(this).is(':checked')){
-                                    property[name] = $(this).val();
+                            var $property = $(this);
+                            name = $property.attr('name').replace(/(property_)?[^_]+_/,'');
+                            if($property.attr('type') === 'radio'){
+                                if($property.is(':checked')){
+                                    property[name] = $property.val();
                                 }
                             }
                             else{
-                                property[name] = $(this).val();
+                                property[name] = $property.val();
                             }
 
                         });
@@ -178,16 +183,17 @@ define([
                             var i;
                             var found = false;
                             var name = '';
+                            var $index = $(this);
                             for(i in indexes){
-                                if(indexes[i] && $(this).attr('data-related-index') === indexes[i].uri){
-                                    name = $(this).attr('name').replace(/(index_)?[^_]+_/,'');
-                                    if($(this).attr('type') === 'radio' || $(this).attr('type') === 'checkbox'){
-                                        if($(this).is(':checked')){
-                                            indexes[i][name] = $(this).val();
+                                if(indexes[i] && $index.attr('data-related-index') === indexes[i].uri){
+                                    name = $index.attr('name').replace(/(index_)?[^_]+_/,'');
+                                    if($index.attr('type') === 'radio' || $index.attr('type') === 'checkbox'){
+                                        if($index.is(':checked')){
+                                            indexes[i][name] = $index.val();
                                         }
                                     }
                                     else{
-                                        indexes[i][name] = $(this).val();
+                                        indexes[i][name] = $index.val();
                                     }
 
                                     found = true;
@@ -195,15 +201,15 @@ define([
                             }
                             if(!found){
                                 var index = {};
-                                index.uri = $(this).attr('data-related-index');
-                                name = $(this).attr('name').replace(/(index_)?[^_]+_/,'');
-                                if($(this).attr('type') === 'radio'){
-                                    if($(this).is(':checked')){
-                                        index[name] = $(this).val();
+                                index.uri = $index.attr('data-related-index');
+                                name = $index.attr('name').replace(/(index_)?[^_]+_/,'');
+                                if($index.attr('type') === 'radio'){
+                                    if($index.is(':checked')){
+                                        index[name] = $index.val();
                                     }
                                 }
                                 else{
-                                    index[name] = $(this).val();
+                                    index[name] = $index.val();
                                 }
                                 indexes.push(index);
                             }
