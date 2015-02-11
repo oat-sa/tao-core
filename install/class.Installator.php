@@ -243,7 +243,7 @@ class tao_install_Installator{
 			));
 
 			/*
-			 * 5b - Prepare the file/cache folder (FILES_PATH/GENERIS_CACHE_PATH not yet defined)
+			 * 5b - Prepare the file/cache folder (FILES_PATH) not yet defined)
 			 * @todo solve this more elegantly
 			 */
 			//helpers_File::emptyDirectory($installData['file_path']);

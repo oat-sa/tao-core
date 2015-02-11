@@ -36,6 +36,10 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 		$this->defaultData();
 	}
 	
+	/**
+	 * actions that get prevented by a lock are forwareded to this action
+	 * parameter view is currently ignored
+	 */
 	public function locked() {
 	    $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
 	    $lockData = LockManager::getImplementation()->getLockData($resource);
@@ -56,17 +60,21 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 	public function release($uri)
 	{  
         try {
-            LockManager::getImplementation()->releaseLock(
+            $success = LockManager::getImplementation()->releaseLock(
                 new core_kernel_classes_Resource(tao_helpers_Uri::decode($uri)),
-                tao_models_classes_UserService::singleton()->getCurrentUser());
-        } catch (Exception $e) {
-            //the connected user is not the owner of the lock
-            //there is no lock on the resource
-            //the lock is corrupted
-        
-            switch (get_class($e)) {
-                case "common_exception_Unauthorized":{break;}
-            }
+                common_session_SessionManager::getSession()->getUser()->getIdentifier()
+            );
+            return $this->returnJson(array(
+                'success' => $success
+            ));
+            
+        //the connected user is not the owner of the lock
+        } catch (common_exception_Unauthorized $e) {
+            
+            return $this->returnJson(array(
+            	'success' => false,
+                'message' => __('You are not authorised to remove this lock')
+            ));
         }
     }
 	

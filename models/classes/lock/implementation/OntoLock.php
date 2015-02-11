@@ -27,6 +27,7 @@ use core_kernel_classes_Property;
 use common_Exception;
 use common_exception_InconsistentData;
 use common_exception_Unauthorized;
+use oat\tao\model\lock\ResourceLockedException;
 
 
 /**
@@ -49,21 +50,18 @@ class OntoLock extends Configurable
     }
 
     /**
-     * set a lock on @resource with owner @user, succeeds also if there is a lock already exists but with the same owner
-     *
-     * @throw common_Exception if the resource already has a lock with a different owner
-     * @param core_kernel_classes_Resource $resource
-     * @param core_kernel_classes_Resource $user
+     * (non-PHPdoc)
+     * @see \oat\tao\model\lock\LockSystem::setLock()
      */
-    public function setLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $owner)
+    public function setLock(core_kernel_classes_Resource $resource, $ownerId)
     {
-        if (!($this->isLocked($resource))) {
-        $lock = new OntoLockData($resource, $owner, microtime(true));
-        $resource->setPropertyValue($this->getLockProperty(), $lock->toJson());
-        } else {
-            throw new common_Exception($resource->getUri()." is already locked");
+        $lock = $this->getLockData($resource);
+        if ($lock === false) {
+            $lock = new OntoLockData($resource, $ownerId, microtime(true));
+            $resource->setPropertyValue($this->getLockProperty(), $lock->toJson());
+        } elseif ($lock->getOwnerId() != $ownerId) {
+            throw new ResourceLockedException($lock);
         }
-
     }
     
     /**
@@ -88,7 +86,7 @@ class OntoLock extends Configurable
 	 * @throws common_exception_InconsistentData
 	 * @throw common_Exception no lock to release
 	 */
-	public function releaseLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $user)
+	public function releaseLock(core_kernel_classes_Resource $resource, $ownerId)
 	{
 		$lock = $resource->getPropertyValues( $this->getLockProperty () );
 		if (count ( $lock ) == 0) {
@@ -97,11 +95,11 @@ class OntoLock extends Configurable
 			throw new common_exception_InconsistentData('Bad data in lock');
 		} else {
 			$lockdata = OntoLockData::getLockData ( array_pop ( $lock ) );
-			if ($lockdata->getOwner()->getUri() == $user->getUri ()) {
+			if ($lockdata->getOwnerId() == $ownerId) {
 				$resource->removePropertyValues( $this->getLockProperty() );
 				return true;
 			} else {
-				throw new common_exception_Unauthorized ( "The resource is owned by" . $lockdata->getOwner () );
+				throw new common_exception_Unauthorized ( "The resource is owned by " . $lockdata->getOwnerId ());
 			}
 		}
 	}
