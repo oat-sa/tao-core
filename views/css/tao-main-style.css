@@ -3776,7 +3776,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .cke_panel_frame { width: 100%; height: 100%; font-size: 12px; overflow: auto; overflow-x: hidden; }
 
 /* The HTML document which is a direct descendant of the IFRAME */
-.cke_panel_container { overflow-y: auto; overflow-x: hidden; }
+.cke_panel_container { overflow: hidden; }
 
 /*
 Here we start the definition of panel lists (e.g. combo panels). The following
@@ -3806,7 +3806,7 @@ is its visual representation:
 +-------------------------------------+
 */
 /* The list of panel items. */
-.cke_panel_list { list-style-type: none; margin: 3px; padding: 0; white-space: nowrap; overflow-y: auto; height: 170px; }
+.cke_panel_list { list-style-type: none; margin: 0; padding: 0; white-space: nowrap; overflow-y: auto; height: 170px; }
 
 /* The item of .cke_panel_list */
 .cke_panel_listItem { margin: 0; padding-bottom: 1px; }
@@ -4916,7 +4916,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .cke_hc .cke_combo_on a.cke_combo_button, .cke_hc .cke_combo_on .tlb-text-button-box a[class^="tlb-text-button-"], .tlb-text-button-box .cke_hc .cke_combo_on a[class^="tlb-text-button-"], .cke_hc .cke_combo_on .tlb-text-button-box a[class*=" tlb-text-button-"], .tlb-text-button-box .cke_hc .cke_combo_on a[class*=" tlb-text-button-"], .cke_hc .cke_combo_off a.cke_combo_button:hover, .cke_hc .cke_combo_off .tlb-text-button-box a[class^="tlb-text-button-"]:hover, .tlb-text-button-box .cke_hc .cke_combo_off a[class^="tlb-text-button-"]:hover, .cke_hc .cke_combo_off .tlb-text-button-box a[class*=" tlb-text-button-"]:hover, .tlb-text-button-box .cke_hc .cke_combo_off a[class*=" tlb-text-button-"]:hover, .cke_hc .cke_combo_off a.cke_combo_button:focus, .cke_hc .cke_combo_off .tlb-text-button-box a[class^="tlb-text-button-"]:focus, .tlb-text-button-box .cke_hc .cke_combo_off a[class^="tlb-text-button-"]:focus, .cke_hc .cke_combo_off .tlb-text-button-box a[class*=" tlb-text-button-"]:focus, .tlb-text-button-box .cke_hc .cke_combo_off a[class*=" tlb-text-button-"]:focus, .cke_hc .cke_combo_off a.cke_combo_button:active, .cke_hc .cke_combo_off .tlb-text-button-box a[class^="tlb-text-button-"]:active, .tlb-text-button-box .cke_hc .cke_combo_off a[class^="tlb-text-button-"]:active, .cke_hc .cke_combo_off .tlb-text-button-box a[class*=" tlb-text-button-"]:active, .tlb-text-button-box .cke_hc .cke_combo_off a[class*=" tlb-text-button-"]:active { border-width: 3px; padding: 1px; }
 
 /* The label that shows the current value of the rich combo. By default, it holds the name of the property. See: .cke_combo_inlinelabel */
-.cke_combo_text, .tlb-text-button-box [class^="tlb-text-button-"] .tlb-text, .tlb-text-button-box [class*=" tlb-text-button-"] .tlb-text { line-height: 26px; padding-left: 10px; text-overflow: ellipsis; overflow: hidden; float: left; cursor: default; color: #474747; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); width: 60px; }
+.cke_combo_text, .tlb-text-button-box [class^="tlb-text-button-"] .tlb-text, .tlb-text-button-box [class*=" tlb-text-button-"] .tlb-text { line-height: 26px; padding-left: 10px; padding-top: 4px; text-overflow: ellipsis; overflow: hidden; float: left; cursor: default; color: #474747; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); width: 60px; }
 
 .cke_rtl .cke_combo_text, .cke_rtl .tlb-text-button-box [class^="tlb-text-button-"] .tlb-text, .tlb-text-button-box [class^="tlb-text-button-"] .cke_rtl .tlb-text, .cke_rtl .tlb-text-button-box [class*=" tlb-text-button-"] .tlb-text, .tlb-text-button-box [class*=" tlb-text-button-"] .cke_rtl .tlb-text { float: right; text-align: right; padding-left: 0; padding-right: 10px; }
 
