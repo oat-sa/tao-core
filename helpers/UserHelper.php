@@ -38,7 +38,7 @@ class UserHelper
         	RDFS_LABEL,
             PROPERTY_USER_MAIL
         ));
-        $label = (isset($props[RDFS_LABEL]) && !empty($props[RDFS_LABEL])) ? reset($props[RDFS_LABEL]) : __('Unknown User'); 
+        $label = (isset($props[RDFS_LABEL]) && !empty($props[RDFS_LABEL])) ? (string)reset($props[RDFS_LABEL]) : '('.$userId.')'; 
         $mail = (isset($props[PROPERTY_USER_MAIL]) && !empty($props[PROPERTY_USER_MAIL])) ? (string)reset($props[PROPERTY_USER_MAIL]) : '';
         return !empty($mail)
             ? '<a href="mailto:'.$mail.'">'.$label.'</a>'
