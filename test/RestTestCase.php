@@ -3,6 +3,10 @@ namespace oat\tao\test;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
+use \common_ext_ExtensionsManager;
+use \common_persistence_Manager;
+
+
 abstract class RestTestCase extends TaoPhpUnitTestRunner
 {
 
@@ -14,12 +18,25 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
 
     protected $password = "";
 
+    private $config;
+    
     public abstract function serviceProvider();
     
+    
+
     
     public function setUp()
     {
         TaoPhpUnitTestRunner::initTest();
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('generis') ;
+        $this->config = $ext->getConfig(common_persistence_Manager::CONFIG_KEY);
+        $conf = $this->config;
+        if(isset($conf['cache']) && isset($conf['cache']['driver'])){
+            $conf['cache']['driver'] = 'no_storage';
+            \common_Logger::i('Set cache on NO STORAGE');
+            
+            $ext->setConfig(common_persistence_Manager::CONFIG_KEY,$conf);
+        }
         
         // creates a user using remote script from joel
         
@@ -71,6 +88,11 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
         // removes the created user
         $user = new \core_kernel_classes_Resource($this->userUri);
         $success = $user->delete();
+        
+        \common_Logger::i('Restore cache persistence');
+        
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('generis') ;
+        $ext->setConfig(common_persistence_Manager::CONFIG_KEY,$this->config);
     }
 
     /**
