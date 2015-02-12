@@ -21,6 +21,7 @@
 
 namespace oat\tao\helpers;
 
+use core_kernel_classes_Resource;
 /**
  * Utility class to render a User
  *
@@ -29,9 +30,10 @@ namespace oat\tao\helpers;
  */
 class UserHelper
 {
-    static public function renderHtmlUser(\core_kernel_classes_Resource $user)
+    static public function renderHtmlUser($userId)
     {
-        
+        // assume generis user
+        $user = new core_kernel_classes_Resource($userId);
         $props = $user->getPropertiesValues(array(
         	RDFS_LABEL,
             PROPERTY_USER_MAIL
