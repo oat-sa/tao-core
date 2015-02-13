@@ -254,11 +254,25 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                         } else {
                             // might break using hard
                             foreach($propertyValues as $key => $value){
-                                $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
+                                if(is_array($value)){
+                                    // set the range
+                                    foreach($value as $v){
+                                        $range[] = new core_kernel_classes_Class(tao_helpers_Uri::decode($v));
+                                    }
+                                }
+                                else{
+                                    $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
+                                }
 
                             }
                             $property = new core_kernel_classes_Property($values['uri']);
                             unset($values['uri']);
+                            $property->removePropertyValues(new core_kernel_classes_Property(RDFS_RANGE));
+                            if(!empty($range)){
+                                foreach($range as $r){
+                                    $property->setRange($r);
+                                }
+                            }
                             $this->service->bindProperties($property, $values);
                         }
 

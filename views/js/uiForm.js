@@ -163,6 +163,16 @@ define([
                     $('.regular-property',myForm[0]).each(function(){
                         var property = {};
                         var name = '';
+
+                        //get range on advanced mode
+                        var range = [];
+                        $('[id*="http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range-TreeBox"]', this).find('.checked').each(function(){
+                             range.push($(this).parent().attr('id'));
+                        });
+                        if(range.length !== 0){
+                            property['http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range'] = range;
+                        }
+
                         $(':input.property',this).each(function(){
                             var $property = $(this);
                             name = $property.attr('name').replace(/(property_)?[^_]+_/,'');
