@@ -62,7 +62,7 @@ class FlowController extends ClearFwFlowController
         $parsedUrl = parse_url($url);
 
         //if new parameters are given, then merge them 
-        if(strlen($parsedUrl['query']) > 0){
+        if(isset($parsedUrl['query']) && strlen($parsedUrl['query']) > 0){
             $newParams = array();
             parse_str($parsedUrl['query'], $newParams);
             if(count($newParams) > 0){
