@@ -1841,9 +1841,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .select2-container .select2-choice abbr:hover { background-position: right -11px; cursor: pointer; }
 
-.select2-drop-mask { border: 0; margin: 0; padding: 0; position: fixed; left: 0; top: 0; min-height: 100%; min-width: 100%; height: auto; width: auto; opacity: 0; z-index: 9998; /* styles required for IE to work */ background-color: #f3f1ef; filter: alpha(opacity=0); }
+.select2-drop-mask { border: 0; margin: 0; padding: 0; position: fixed; left: 0; top: 0; min-height: 100%; min-width: 100%; height: auto; width: auto; opacity: 0; z-index: 19998; /* styles required for IE to work */ background-color: #f3f1ef; filter: alpha(opacity=0); }
 
-.select2-drop { width: 100%; margin-top: -1px; position: absolute; z-index: 9999; top: 100%; background: white; color: #222; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; border-top: 0; border-radius: 0 0 2px 2px; }
+.select2-drop { width: 100%; margin-top: -1px; position: absolute; z-index: 19999; top: 100%; background: white; color: #222; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; border-top: 0; border-radius: 0 0 2px 2px; }
 
 .select2-drop-auto-width { border-top: 1px solid #ddd; width: auto; }
 
@@ -1858,7 +1858,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .select2-container .select2-choice .select2-arrow b { display: block; width: 100%; height: 100%; font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; font-size: 1.05rem; font-size: 10.5px; font-size: 1.05rem; line-height: 2.3; text-align: center; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 .select2-container .select2-choice .select2-arrow b:hover { background-color: #3e7da7; color: white; }
 
-.select2-search { display: inline-block; width: 100%; min-height: 26px; margin: 0; padding-left: 4px; padding-right: 4px; position: relative; z-index: 10000; white-space: nowrap; }
+.select2-search { display: inline-block; width: 100%; min-height: 26px; margin: 0; padding-left: 4px; padding-right: 4px; position: relative; z-index: 100000; white-space: nowrap; }
 
 .select2-search input { width: 100%; height: auto !important; min-height: 26px; padding: 4px 20px 4px 5px; margin: 0; outline: 0; font-family: sans-serif; font-size: 1em; border: 1px solid #ddd; border-radius: 0; -webkit-box-shadow: none; box-shadow: none; background-color: white; background-position: 100% -22px; }
 
