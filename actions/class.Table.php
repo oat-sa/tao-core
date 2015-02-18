@@ -19,8 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
 
 /**
  * Results Controller provide actions performed from url resolution
@@ -31,7 +29,7 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * 
  */
-class tao_actions_Table extends tao_actions_TaoModule {
+abstract class tao_actions_Table extends tao_actions_TaoModule {
 
     /**
      * constructor: initialize the service and the default data
