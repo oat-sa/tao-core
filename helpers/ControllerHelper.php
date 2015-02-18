@@ -21,7 +21,7 @@
 
 namespace oat\tao\helpers;
 
-use oat\controllerMap\parser\Factory;
+use oat\tao\model\controllerMap\Factory;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\generis\model\data\permission\PermissionInterface;
 /**
