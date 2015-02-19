@@ -272,10 +272,9 @@ define([
              */
             function removePropertyGroup() {
                 if (confirm(__('Please confirm property deletion!'))) {
-                    var $groupNode = $(this).closest(".form-group");
+                    var $groupNode = $(this).closest(".property-block");
                     if ($groupNode.length) {
-                        var index = $('.form-group').index($groupNode);
-                        var uri = $('#propertyUri'+index).val();
+                        var uri = $groupNode.find('.property-uri').val();
                         property.remove(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
                             $groupNode.remove();
                         });
