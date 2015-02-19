@@ -36,7 +36,15 @@ define(['jquery', 'lodash', 'form/post-render-props'], function ($, _, postRende
                 },
                 dataType: 'html',
                 success: function (response) {
-                    postRenderProps.init($(response).last());
+
+                    var $response = $(response),
+                        property = $response.first();
+                    if($response.length > 1){
+                        var script = $response.last();
+                        script.appendTo(property);
+                    }
+
+                    postRenderProps.init(property);
                 }
             });
         },
