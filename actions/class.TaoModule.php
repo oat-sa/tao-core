@@ -253,6 +253,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                             }
                         } else {
                             // might break using hard
+                            $range = array();
                             foreach($propertyValues as $key => $value){
                                 if(is_array($value)){
                                     // set the range
