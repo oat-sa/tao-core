@@ -154,7 +154,6 @@ class tao_helpers_form_elements_xhtml_Treeview
                             var tree = $("#'. $widgetTreeName.'");
 	    					$.each(checkedElements, function(i, elt){
 								NODE = $("li[id=\'"+elt+"\']", tree);
-								console.log(NODE);
 								if(NODE.length > 0){
 									parent = TREE_OBJ.parent(NODE);
 									TREE_OBJ.open_branch(parent);
