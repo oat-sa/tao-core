@@ -297,7 +297,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                                 $indexProperty = new core_kernel_classes_Property($values['uri']);
                                 unset($values['uri']);
                                 //sanitize identifier
-                                $values[INDEX_PROPERTY_IDENTIFIER] = preg_replace('/\s/','_',strtolower($values[INDEX_PROPERTY_IDENTIFIER]));
+                                $values[INDEX_PROPERTY_IDENTIFIER] = preg_replace('/[^\w]/','_',strtolower($values[INDEX_PROPERTY_IDENTIFIER]));
 
                                 $existingIndex = IndexService::getIndexById($values[INDEX_PROPERTY_IDENTIFIER]);
                                 if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
@@ -1272,6 +1272,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         if(!$this->hasRequestParameter('uri')){
             throw new Exception("wrong request Parameter");
         }
+        $uri = $this->getRequestParameter('uri');
 
         $clazz = $this->getCurrentClass();
 
@@ -1280,9 +1281,15 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
             $index = $this->getRequestParameter('index');
         }
 
+        $propertyIndex = 1;
+        if($this->hasRequestParameter('propertyIndex')){
+            $propertyIndex = $this->getRequestParameter('propertyIndex');
+        }
+
+
 
         //create and attach the new index property to the property
-        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($uri));
         $class = new \core_kernel_classes_Class("http://www.tao.lu/Ontologies/TAO.rdf#Index");
 
         //get property range to select a default tokenizer
@@ -1300,7 +1307,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
         $indexClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Index');
         $i = 0;
-        $identifierBackup = preg_replace('/\s/','_',strtolower($property->getLabel()));
+        $identifierBackup = preg_replace('/[^\w]/','_',strtolower($property->getLabel()));
         $identifier = $identifierBackup;
         do{
             if($i !== 0){
@@ -1322,7 +1329,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
         $property->setPropertyValue(new core_kernel_classes_Property(INDEX_PROPERTY), $indexProperty);
 
         //generate form
-        $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array('index' => $index));
+        $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array('index' => $index, 'propertyindex' => $propertyIndex));
         $myForm = $indexFormContainer->getForm();
         $form = trim(preg_replace('/\s+/', ' ', $myForm->renderElements()));
         echo json_encode(array('form' => $form));

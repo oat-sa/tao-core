@@ -402,6 +402,10 @@ define([
                 var $groupNode = $(this).closest(".form-group");
                 if ($groupNode.length) {
                     var max = 0;
+                    var $propertyindex = $('.property-uri', $groupNode);
+                    var propertyindex = parseInt($propertyindex.attr('id').replace(/[\D]+/, ''));
+
+
                     $groupNode.find('[data-index]').each(function(){
                         if(max < $(this).data('index')){
                             max = $(this).data('index');
@@ -413,7 +417,7 @@ define([
                     $.ajax({
                         type: "GET",
                         url: getUrl('addIndexProperty'),
-                        data: {uri : uri, index : max},
+                        data: {uri : uri, index : max, propertyIndex : propertyindex},
                         dataType: 'json',
                         success: function (response) {
                             $prependTo.before(response.form);
