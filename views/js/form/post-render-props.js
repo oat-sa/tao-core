@@ -84,35 +84,40 @@ define([
 
 
             $properties.each(function () {
-                var $property = $(this),
-                    type = (function() {
-                        switch($property.attr('id').replace(/_?property_[\d]+/, '')) {
-                            case 'ro':
-                                return 'readonly-property';
-                            case 'parent':
-                                return 'parent-property';
-                            default:
-                                var $editIcon = $property.find('.icon-edit'),
-                                    $editContainer = $property.children('div:first');
+                var $property = $(this);
+                if($property.attr !== undefined){
+                    var type = (function() {
+                            switch($property.attr('id').replace(/_?property_[\d]+/, '')) {
+                                case 'ro':
+                                    return 'readonly-property';
+                                case 'parent':
+                                    return 'parent-property';
+                                default:
+                                    var $editIcon = $property.find('.icon-edit'),
+                                        $editContainer = $property.children('div:first');
 
-                                $editContainer.addClass('property-edit-container');
-                                $editIcon.on('click', function() {
-                                    $editContainer.slideToggle(function() {
-                                        $editContainer.parent().toggleClass('property-edit-container-open');
-                                        if(!$('.property-edit-container-open').length) {
-                                            _toggleModeBtn('disabled');
-                                        }
-                                        else {
-                                            _toggleModeBtn('enabled');
-                                        }
+                                    $editContainer.addClass('property-edit-container');
+
+                                    //on click on edit icon show property form or hide it
+                                    $editIcon.on('click', function() {
+                                        $editContainer.slideToggle(function() {
+                                            $editContainer.parent().toggleClass('property-edit-container-open');
+                                            if(!$('.property-edit-container-open').length) {
+                                                _toggleModeBtn('disabled');
+                                            }
+                                            else {
+                                                _toggleModeBtn('enabled');
+                                            }
+                                        });
                                     });
-                                });
-                                return 'regular-property'
-                        }
-                    }());
-                $property.addClass(!hasAlreadyProperties ? 'property-block-first property-block ' + type : 'property-block ' + type);
-                $propertyContainer.append($property);
-                hasAlreadyProperties = true;
+                                    return 'regular-property';
+                            }
+                        }());
+                    $property.addClass(!hasAlreadyProperties ? 'property-block-first property-block ' + type : 'property-block ' + type);
+                    $propertyContainer.append($property);
+                    hasAlreadyProperties = true;
+
+                }
             });
         }
 

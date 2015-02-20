@@ -36,12 +36,13 @@ define(['jquery', 'lodash', 'form/post-render-props'], function ($, _, postRende
                 },
                 dataType: 'html',
                 success: function (response) {
-                    response = $(response);
-                    // reduce response to a single jquery object by adding the hidden input to the div
-                    var property = response.last(),
-                        input = response.first();
 
-                    input.appendTo(property);
+                    var $response = $(response),
+                        property = $response.first();
+                    if($response.length > 1){
+                        var script = $response.last();
+                        script.appendTo(property);
+                    }
 
                     postRenderProps.init(property);
                 }

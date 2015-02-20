@@ -80,22 +80,22 @@ class tao_actions_form_AdvancedProperty
 					}
 				}
 				$element->setName("property_{$index}_{$element->getName()}");
+                $element->addClass('property');
 				$this->form->addElement($element);
 				$elementNames[] = $element->getName();
 			}
 		}
+        $encodedUri = tao_helpers_Uri::encode($property->getUri());
+        $modeElt = tao_helpers_form_FormFactory::getElement("{$index}_uri", 'Hidden');
+        $modeElt->setValue($encodedUri);
+        $modeElt->addClass('property');
+        $this->form->addElement($modeElt);
+        $elementNames[] = $modeElt->getName();
 		
 		if(count($elementNames) > 0){
             $groupTitle = $this->getGroupTitle($property);
-			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames);
+			$this->form->createGroup("property_{$encodedUri}", $groupTitle, $elementNames);
 		}
-    	
-		//add an hidden elt for the property uri
-		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$index}", 'Hidden');
-		$propUriElt->addAttribute('class', 'property-uri');
-		$propUriElt->setValue(tao_helpers_Uri::encode($property->getUri()));
-		$this->form->addElement($propUriElt);
-
     }
 
 }
