@@ -10143,6 +10143,9 @@ div.wysiwyg iframe { border: 0; clear: left; margin: 4px 0 0 1px; }
 /* Incrementer and duration */
 input[data-increment], input.duration-ctrl { width: 40px !important; min-width: 40px !important; text-align: right; }
 
+.extendedText .incrementer-ctrl-wrapper { right: 10px; }
+.extendedText .incrementer-ctrl-wrapper .incrementer { width: 50px !important; }
+
 .duration-ctrl-wrapper, .incrementer-ctrl-wrapper { position: relative; display: inline-block; border: 1px solid #ddd; border-radius: 2px; -webkit-border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; }
 .duration-ctrl-wrapper .incrementer, .incrementer-ctrl-wrapper .incrementer { text-align: right; border: none; padding-right: 18px; }
 .duration-ctrl-wrapper .incrementer ~ .incrementer-ctrl, .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl { border-left: 1px #ddd solid; display: inline-block; height: 100%; position: absolute; right: 0; top: 0; }
