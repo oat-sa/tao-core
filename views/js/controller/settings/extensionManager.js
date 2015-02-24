@@ -51,9 +51,9 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
                                     $('tr#'+ext).slideUp('normal', function() {
                                             var $tr = $('<tr></tr>').appendTo($('#extensions-manager-container tbody')).hide();
                                             var $orig = $('tr#' + ext + ' td');
-                                            $tr.append('<td class="bordered">' + $($orig[0]).text() + '</td>');
-                                            $tr.append('<td class="bordered">' + $($orig[1]).text() + '</td>');
-                                            $tr.append('<td>' + $($orig[2]).text() + '</td>');
+                                            $tr.append('<td class="ext-id bordered">' + $($orig[0]).text() + '</td>');
+                                            $tr.append('<td class="author">' + $($orig[1]).text() + '</td>');
+                                            $tr.append('<td class="version">' + $($orig[2]).text() + '</td>');
                                             $tr.slideDown('normal', function() {
                                                     $('tr#' + ext).remove();
 
