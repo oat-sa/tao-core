@@ -84,8 +84,9 @@ define([
 
 
             $properties.each(function () {
-                var $property = $(this),
-                    type = (function() {
+                var $property = $(this);
+                if($property.attr !== undefined){
+                    var type = (function() {
                         switch($property.attr('id').replace(/_?property_[\d]+/, '')) {
                             case 'ro':
                                 return 'readonly-property';
@@ -280,12 +281,13 @@ define([
                                         }
                                     }
                                 });
-                                return 'regular-property'
+                                return 'regular-property';
                         }
                     }());
-                $property.addClass(!hasAlreadyProperties ? 'property-block-first property-block ' + type : 'property-block ' + type);
-                $propertyContainer.append($property);
-                hasAlreadyProperties = true;
+                    $property.addClass(!hasAlreadyProperties ? 'property-block-first property-block ' + type : 'property-block ' + type);
+                    $propertyContainer.append($property);
+                    hasAlreadyProperties = true;
+                }
             });
         }
 

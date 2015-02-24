@@ -45,9 +45,9 @@ interface MediaBrowser {
     public function getFileInfo($relPath, $acceptableMime);
 
     /**
-     * @param string $filename
+     * @param string $link
      * @return string path of the file to download
      */
-    public function download($filename);
+    public function download($link);
 
 } 

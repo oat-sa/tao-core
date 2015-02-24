@@ -30,6 +30,11 @@ define(function(){
                 'getSectionTrees' : 'controller/main/trees'
             }
         },
+        'Lock': {
+            'actions' : {
+                'locked' : 'controller/Lock/locked',
+            }
+        },
         'ExtensionsManager' : {
             'actions' : {
                 'index' : 'controller/settings/extensionManager'

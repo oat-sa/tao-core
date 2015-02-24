@@ -87,8 +87,7 @@ panel contents and color panels check menu.css and colorpanel.css.
 
 /* The HTML document which is a direct descendant of the IFRAME */
 .cke_panel_container {
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 /*
@@ -122,7 +121,7 @@ is its visual representation:
 /* The list of panel items. */
 .cke_panel_list {
     list-style-type: none;
-    margin: 3px;
+    margin: 0;
     padding: 0;
     white-space: nowrap;
     overflow-y: auto;

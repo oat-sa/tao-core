@@ -20,7 +20,6 @@
  */
 use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * @author Cédric Alfonsi, <taosupport@tudor.lu>
@@ -36,6 +35,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     
     protected function setUp()
     {
+        $this->disableCache();
         $pass = md5(rand());
         $taoManagerRole = new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
         $this->testUser = tao_models_classes_UserService::singleton()->addUser('testUser', $pass, $taoManagerRole );
@@ -49,6 +49,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     }
     
     protected function tearDown() {
+        $this->restoreCache();
         parent::tearDown();
         if($this->testUser instanceof core_kernel_classes_Resource){
             $this->testUser->delete();
@@ -139,7 +140,6 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         
         // get cookie
         preg_match('/^Set-Cookie:\s*([^;]*)/mi', $output, $m);
-        
         $this->assertTrue(isset($m[1]), 'Failed to get Session Cookie');
         return $m[1];
         
