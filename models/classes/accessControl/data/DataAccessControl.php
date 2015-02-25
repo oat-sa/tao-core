@@ -69,8 +69,13 @@ class DataAccessControl implements AccessControl
      * @return boolean
      */
     static public function hasPrivileges(User $user, array $required) {
-        foreach ($required as $resourceId => $rights) {
-            if (!in_array($rights, PermissionManager::getPermissionModel()->getSupportedRights())) {
+        foreach (array_keys($required) as $resourceId) {
+            $right = $required[$resourceId];
+            if ($right == 'WRITE' && !self::hasWritePrivilege($user, $resourceId)) {
+                common_Logger::d('User \''.$user->getIdentifier().'\' does not have lock for resource \''.$id.'\'');
+                return false;
+            }
+            if (!in_array($right, PermissionManager::getPermissionModel()->getSupportedRights())) {
                 $required[$resourceId] = PermissionInterface::RIGHT_UNSUPPORTED;
             }
         }
@@ -79,9 +84,6 @@ class DataAccessControl implements AccessControl
         foreach ($required as $id => $right) {
             if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
                 common_Logger::d('User \''.$user->getIdentifier().'\' does not have \''.$right.'\' permission for resource \''.$id.'\'');
-                return false;
-            } elseif ($right == 'WRITE' && !self::hasWritePrivilege($user, $resourceId)) {
-                common_Logger::d('User \''.$user->getIdentifier().'\' does not have lock for resource \''.$id.'\'');
                 return false;
             }
         }
