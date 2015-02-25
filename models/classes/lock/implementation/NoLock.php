@@ -81,6 +81,6 @@ class NoLock extends Configurable
      */
     public function getLockData(core_kernel_classes_Resource $resource)
     {
-        throw common_exception_InconsistentData('No lock can exist using '.__CLASS__);
+        return null;
     }
 }

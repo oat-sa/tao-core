@@ -56,7 +56,7 @@ class OntoLock extends Configurable
     public function setLock(core_kernel_classes_Resource $resource, $ownerId)
     {
         $lock = $this->getLockData($resource);
-        if ($lock === false) {
+        if (is_null($lock)) {
             $lock = new OntoLockData($resource, $ownerId, microtime(true));
             $resource->setPropertyValue($this->getLockProperty(), $lock->toJson());
         } elseif ($lock->getOwnerId() != $ownerId) {
@@ -125,7 +125,7 @@ class OntoLock extends Configurable
         if ((is_array($values)) && (count($values)==1)) {
             return OntoLockData::getLockData(array_pop($values));
         } else {
-            return false;
+            return null;
         }
 
     }
