@@ -54,6 +54,14 @@ input[data-increment], input.duration-ctrl {
     min-width: 40px !important;
     text-align:right;
 }
+.extendedText{
+    .incrementer-ctrl-wrapper{
+        right: 10px; // to compensate the next change below
+        .incrementer{
+            width: 50px !important // 10px more than the default 40px value
+        }
+    }
+}
 
 .duration-ctrl-wrapper, .incrementer-ctrl-wrapper {
     position: relative;
