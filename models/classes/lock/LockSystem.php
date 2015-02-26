@@ -58,7 +58,8 @@ interface LockSystem {
     public function forceReleaseLock(core_kernel_classes_Resource $resource);
     
     /**
-     * Return lock details
+     * Return lock details or null if no lock found
+     * 
      * @param core_kernel_classes_Resource $resource
      * @return Lock
      */
