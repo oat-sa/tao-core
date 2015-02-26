@@ -25,12 +25,12 @@ namespace oat\tao\model\media;
 interface MediaManagement {
 
     /**
-     * @param string $fileTmp tmp name of the file
+     * @param string $source file to add
      * @param string $fileName new name of the file
      * @param string $path of the directory in which to upload
      * @return array of file info or an error array
      */
-    public function upload($fileTmp, $fileName, $path);
+    public function add($source, $fileName, $path);
 
 
     /**
