@@ -80,21 +80,12 @@ class Layout{
      * @return string
      */
     public static function getSandboxExpiration(){
-        $d          = new \DateTime();
+        $d          = new \DateTime((new \DateTime())->format('Y-m-d'));
         $weekday    = $d->format('w');
         $weekNumber = $d->format('W');
         $diff       = $weekNumber % 2 ? 7 : 6 - $weekday;
         $d->modify(sprintf('+ %d day', $diff));
-        $date      = $d->format('Y-m-d');
-        $remainder = strtotime($date) - time();
-        $days      = floor($remainder / 86400);
-        $hours     = floor(($remainder % 86400) / 3600);
-        $minutes   = floor(($remainder % 3600) / 60);
-
-        return $days . ' ' . (($days > 1) ? __('days') : __('day')) . ' '
-        . $hours . ' ' . (($hours > 1) ? __('hours') : __('hour')) . ' '
-        . __('and') . ' '
-        . $minutes . ' ' . (($minutes > 1) ? __('minutes') : __('minute')) . '.';
+        return \tao_helpers_Date::displayInterval($d, \tao_helpers_Date::FORMAT_INTERVAL_LONG);
     }
 
     /**
