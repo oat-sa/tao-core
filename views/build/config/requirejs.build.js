@@ -10,7 +10,7 @@ require.config({
         'tpl'               : 'tpl',
 
 //jquery and plugins
-        'jquery'            : 'lib/jquery-1.8.0.min',
+        'jquery'            : 'lib/jqueryamd-1.8.3',
         'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
         'select2'           : 'lib/select2/select2.min',
         'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
@@ -46,11 +46,11 @@ require.config({
 //optimizer needed
         'css-builder'       : 'lib/require-css/css-builder',
         'normalize'         : 'lib/require-css/normalize',
-       
-//stub 
+
+//stub
         'i18ntr'            : '../locales/en-US'
    },
-  
+
    shim : {
         'wfEngine/wfApi/wfApi.min' : ['jquery'],
         'moment'                : { exports : 'moment' },
