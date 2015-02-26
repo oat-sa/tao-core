@@ -45,15 +45,14 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 	    $lockData = LockManager::getImplementation()->getLockData($resource);
 	
 	    $this->setData('id', $resource->getUri());
-	    $this->setData('label', $resource->getLabel());
+	    
+	    $this->setData('topclass-label',
+	        $this->hasRequestParameter('topclass-label') ? $this->getRequestParameter('topclass-label') : __('Resource')
+        );
 	
 	    $this->setData('lockDate', $lockData->getCreationTime());
 	    $this->setData('ownerHtml', UserHelper::renderHtmlUser($lockData->getOwnerId()));
 
-	    $currentUserId = common_session_SessionManager::getSession()->getUser()->getIdentifier();
-	    $this->setData('isOwner',  $lockData->getOwnerId() == $currentUserId);
-	
-	    $this->setData('destination', $this->getRequestParameter('destination'));
 	    $this->setView('Lock/locked.tpl', 'tao');
 	}
 	
