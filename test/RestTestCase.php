@@ -3,6 +3,10 @@ namespace oat\tao\test;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
+use \common_ext_ExtensionsManager;
+use \common_persistence_Manager;
+
+
 abstract class RestTestCase extends TaoPhpUnitTestRunner
 {
 
@@ -14,12 +18,16 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
 
     protected $password = "";
 
+    
     public abstract function serviceProvider();
     
+    
+
     
     public function setUp()
     {
         TaoPhpUnitTestRunner::initTest();
+        $this->disableCache();
         
         // creates a user using remote script from joel
         
@@ -71,6 +79,7 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
         // removes the created user
         $user = new \core_kernel_classes_Resource($this->userUri);
         $success = $user->delete();
+        $this->restoreCache();
     }
 
     /**

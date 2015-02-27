@@ -62,7 +62,7 @@ class FlowController extends ClearFwFlowController
         $parsedUrl = parse_url($url);
 
         //if new parameters are given, then merge them 
-        if(strlen($parsedUrl['query']) > 0){
+        if(isset($parsedUrl['query']) && strlen($parsedUrl['query']) > 0){
             $newParams = array();
             parse_str($parsedUrl['query'], $newParams);
             if(count($newParams) > 0){
@@ -111,7 +111,7 @@ class FlowController extends ClearFwFlowController
 	public function forward($action, $controller = null, $extension = null, $params = array())
 	{
         //as we use a route resolver, it's easier to rebuild the URL to resolve it 
-        $this->forwardUrl(tao_helpers_Uri::url($action, $controller, $extension, $params));
+        $this->forwardUrl(\tao_helpers_Uri::url($action, $controller, $extension, $params));
 	}
 	
 }

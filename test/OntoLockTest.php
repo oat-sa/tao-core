@@ -51,7 +51,7 @@ class OntoLockTest extends TaoPhpUnitTestRunner {
 
         //setting a lock while it is locked should return an exception
         try {
-            $this->ontoLock ->setLock($this->tempResource, $this->owner);
+            $this->ontoLock ->setLock($this->tempResource, $this->owner->getUri());
             $this->assertTrue(false);// how to test exceptions aboev correctly ?
 
         } catch (Exception $e) {
@@ -63,9 +63,9 @@ class OntoLockTest extends TaoPhpUnitTestRunner {
 
     public function testReleaseLock(){
         $this->assertFalse($this->ontoLock ->isLocked($this->tempResource));
-        $this->ontoLock ->setLock($this->tempResource, $this->owner);
+        $this->ontoLock ->setLock($this->tempResource, $this->owner->getUri());
         $this->assertTrue($this->ontoLock ->isLocked($this->tempResource));
-        $this->ontoLock ->releaseLock($this->tempResource, $this->owner);
+        $this->ontoLock ->releaseLock($this->tempResource, $this->owner->getUri());
         $this->assertFalse($this->ontoLock ->isLocked($this->tempResource));
     }
 }
