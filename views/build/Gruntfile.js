@@ -145,8 +145,8 @@ module.exports = function(grunt) {
     /*
      * Create task alias
      */
-    grunt.registerTask('sassall', "Compile all sass files", 'concurrent:sass');
-    grunt.registerTask('bundleall', "Compile all js files", 'concurrent:bundle');
+    grunt.registerTask('sassall', "Compile all sass files", sassTasks);
+    grunt.registerTask('bundleall', "Compile all js files", bundleTasks);
     grunt.registerTask('testall', "Run all tests", ['connect:test', 'junit_qunit', 'concurrent:test']);
     grunt.registerTask('build', "The full build sequence", ['bundleall', 'sassall', 'testall']);
 };
