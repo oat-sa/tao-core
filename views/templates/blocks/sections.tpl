@@ -57,7 +57,9 @@ $sections = get_data('sections');
                                  data-action-selectclass="<?= $tree->get('selectClass') ?>"
                                  data-action-selectinstance="<?= $tree->get('selectInstance') ?>"
                                  data-action-delete="<?= $tree->get('delete') ?>"
-                                 data-action-moveinstance="<?= $tree->get('moveInstance') ?>">
+                                 data-action-moveinstance="<?= $tree->get('moveInstance') ?>"
+                                 data-action-editinstance="<?= $tree->get('editInstance') ?>"
+                                 data-action-viewinstance="<?= $tree->get('viewInstance') ?>">
                             </div>
                         <?php endforeach; ?>
                     </div>

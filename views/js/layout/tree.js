@@ -501,10 +501,14 @@ define([
                 if(node.type === 'class' && !hasAccessTo('selectClass', node)){
                     addClassToNode(node, 'private');
                 }   
-                else if(node.type === 'instance' && !hasAccessTo('selectInstance', node)){
-                    addClassToNode(node, 'private');
-                }   
-
+                else if(node.type === 'instance'){
+                    if (!hasAccessTo('selectInstance', node) || !hasAccessTo('viewInstance', node)) {
+                        addClassToNode(node, 'private');
+                    }
+                    if (!hasAccessTo('editInstance', node)) {
+                        addClassToNode(node, 'readonly');
+                    }
+                }
             }
             if(node.children){
                 _.forEach(node.children, computeSelectionAccess);

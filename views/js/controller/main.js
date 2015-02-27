@@ -78,14 +78,16 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
                         }
                         treeFactory($treeElt, treeUrl, {
                             serverParameters : {
-                                extension   : context.shownExtension,
-                                perspective : context.shownStructure,
-                                section     : context.section,
-                                classUri	: rootNode ? rootNode : undefined
+                                extension    : context.shownExtension,
+                                perspective  : context.shownStructure,
+                                section      : context.section,
+                                classUri     : rootNode ? rootNode : undefined
                             },
                             actions : {
                                 'selectClass'    : $treeElt.data('action-selectclass'),
                                 'selectInstance' : $treeElt.data('action-selectinstance'),
+                                'editInstance'   : $treeElt.data('action-editinstance'),
+                                'viewInstance'   : $treeElt.data('action-viewinstance'),
                                 'moveInstance'   : $treeElt.data('action-moveinstance'),
                                 'delete'         : $treeElt.data('action-delete')
                             }
