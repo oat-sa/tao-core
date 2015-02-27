@@ -26,6 +26,8 @@ define(['jquery', 'lodash'], function($, _) {
             }
             updateFolders(content, $innerList);
             //internal event to set the file-selector content
+            $('.file-browser').find('li.active').removeClass('active');
+            $('li.root',$folderContainer).addClass('active');
             $container.trigger('folderselect.' + ns , [root, content.children, content.path]);
         });
 
@@ -39,10 +41,6 @@ define(['jquery', 'lodash'], function($, _) {
             var fullPath = $selected.data('path');
             var displayPath = $selected.data('display');
             var subTree = getByPath(fileTree, fullPath);
-
-            //toggle active element
-            $folders.removeClass('active');
-            $selected.parent('li').addClass('active');
 
             //get the folder content
             getFolderContent(subTree, fullPath, function(content){
@@ -59,11 +57,15 @@ define(['jquery', 'lodash'], function($, _) {
                         if($innerList.css('display') === 'none'){
                             $innerList.show();
                             $selected.addClass('opened');
-                        } else {
+                        } else if($selected.parent('li').hasClass('active')){
                             $innerList.hide();
                             $selected.removeClass('opened');
                         }
                     }
+
+                    //toggle active element
+                    $folders.removeClass('active');
+                    $selected.parent('li').addClass('active');
 
                     //internal event to set the file-selector content
                     $container.trigger('folderselect.' + ns , [displayPath, content.children, content.path]);
@@ -79,7 +81,7 @@ define(['jquery', 'lodash'], function($, _) {
                 }
                 if(!_.find(subTree.children, {name : file.name})){
                     subTree.children.push(file);
-                    $container.trigger('folderselect.' + ns , [path, subTree.children, file]);
+                    $container.trigger('folderselect.' + ns , [path, subTree.children, path]);
                 }
             }
         });

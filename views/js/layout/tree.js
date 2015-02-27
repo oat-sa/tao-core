@@ -131,7 +131,7 @@ define([
                     var treeData = $elt.data('tree-state');
                     var params = _.clone(serverParams);
                     if($node && $node.length){
-                        params.classUri = $node.attr('id');
+                        params.classUri = $node.data('uri');
                     }
                     params.selected = options.selectNode;
 
@@ -148,7 +148,6 @@ define([
                         
                         $elt.data('tree-state', treeData);
                     }
-                    
                     return params;
                 },
 

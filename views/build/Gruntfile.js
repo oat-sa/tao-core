@@ -92,9 +92,7 @@ module.exports = function(grunt) {
 
     //task to run by extensions concurrently
     grunt.config('concurrent', {
-        bundle : bundleTasks,
-        sass   : sassTasks,
-        test   : testTasks
+        build : ['bundleall', 'sassall']
     });
 
     grunt.config('qunit_junit', {
@@ -145,8 +143,8 @@ module.exports = function(grunt) {
     /*
      * Create task alias
      */
-    grunt.registerTask('sassall', "Compile all sass files", 'concurrent:sass');
-    grunt.registerTask('bundleall', "Compile all js files", 'concurrent:bundle');
-    grunt.registerTask('testall', "Run all tests", ['connect:test', 'junit_qunit', 'concurrent:test']);
-    grunt.registerTask('build', "The full build sequence", ['bundleall', 'sassall', 'testall']);
+    grunt.registerTask('sassall', "Compile all sass files", sassTasks);
+    grunt.registerTask('bundleall', "Compile all js files", bundleTasks);
+    grunt.registerTask('testall', "Run all tests", ['connect:test', 'junit_qunit'].concat(testTasks));
+    grunt.registerTask('build', "The full build sequence", ['concurrent:build']);
 };

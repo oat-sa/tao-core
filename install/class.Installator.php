@@ -221,7 +221,7 @@ class tao_install_Installator{
 			 */
 			
 			common_Logger::d('Removing old config', 'INSTALL');
-			helpers_File::emptyDirectory($this->options['root_path'].'config/');
+			helpers_File::emptyDirectory($this->options['root_path'].'config/', true);
 
 			common_Logger::d('Writing generis config', 'INSTALL');
 			$generisConfigWriter = new tao_install_utils_ConfigWriter(
@@ -243,15 +243,14 @@ class tao_install_Installator{
 			));
 
 			/*
-			 * 5b - Prepare the file/cache folder (FILES_PATH/GENERIS_CACHE_PATH not yet defined)
+			 * 5b - Prepare the file/cache folder (FILES_PATH) not yet defined)
 			 * @todo solve this more elegantly
 			 */
-			//helpers_File::emptyDirectory($installData['file_path']);
 			$file_path = $installData['file_path'];
 			if (is_dir($file_path)) {
 			    common_Logger::i('Data from previous install found and will be removed');
 			    if(is_writable($installData['file_path'])){
-			    helpers_File::emptyDirectory($installData['file_path']);
+    			    helpers_File::emptyDirectory($installData['file_path'], true);
 			    }
 			    else {
 			        throw new common_exception_Error($installData['file_path'] . ' is not writable');

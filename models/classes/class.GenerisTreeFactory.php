@@ -130,7 +130,7 @@ class tao_models_classes_GenerisTreeFactory
     	$label = $class->getLabel();
 		$label = empty($label) ? __('no label') : $label;
 		return array(
-			'data' 	=> $label,
+			'data' 	=> htmlentities($label),
 			'type'	=> 'class',
             '_data' => array(
                 'uri' => $class->getUri(),

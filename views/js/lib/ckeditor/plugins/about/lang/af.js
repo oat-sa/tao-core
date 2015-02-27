@@ -1,1 +1,1 @@
-﻿CKEDITOR.plugins.setLang("about","af",{copy:"Kopiereg &copy; $1. Alle regte voorbehou.",dlgTitle:"Info oor CKEditor",help:"Check $1 for help.",moreInfo:"Vir lisensie-informasie, besoek asb. ons webwerf:",title:"Info oor CKEditor",userGuide:"CKEditor User's Guide"});
+﻿CKEDITOR.plugins.setLang("about","af",{copy:"Kopiereg &copy; $1. Alle regte voorbehou.",dlgTitle:"Meer oor CKEditor",help:"Slaan $1 na vir hulp.",moreInfo:"Vir lisensie-informasie, besoek asb. ons webwerf:",title:"Meer oor CKEditor",userGuide:"CKEditor Gebruikers gits"});
