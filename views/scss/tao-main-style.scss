@@ -1,7 +1,8 @@
 @import "inc/bootstrap";
 @import "inc/fonts";
-@import "inc/normalize";
-@import "inc/main";
+@import "inc/nbase";
+//@import "inc/normalize";
+//@import "inc/main";
 @import "inc/feedback";
 @import "inc/grid";
 @import "inc/select2";
@@ -17,10 +18,10 @@
 
 // better z-indices on mobiles
 body {
-    z-index: 0;
+    z-index: 0;     //ok
 }
 
-
+//ok
 // set all block elements to have no space on top
 address, article, aside, audio, blockquote, canvas, dd, div, dl, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header,
 hgroup, hr, noscript, ol, output, p, pre, section, table, tfoot, ul, video, main {
@@ -29,16 +30,19 @@ hgroup, hr, noscript, ol, output, p, pre, section, table, tfoot, ul, video, main
     padding-bottom: 0;
 }
 
+//ok
 // add margin to some of the block elements
 blockquote, dd, dl, fieldset, figure, h1, h2, h3, h4, h5, h6,
 hr, ol, p, pre, table, ul {
     margin-bottom: 10px;
 }
 
+//ok
 iframe {
     border: none;
 }
 
+//
 code {
     background: whiten($lightBlueGrey, .5);
     padding: 2px 6px;
@@ -97,7 +101,7 @@ a[rel="external"] span.icon-external {
     @import "inc/buttons";
     @import "inc/jquery-ui";
     @import "inc/jquery.nouislider";
-    @import "inc/base";
+//    @import "inc/base";
     @import "inc/forms";
     @import "inc/components";
 
