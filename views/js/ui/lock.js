@@ -152,23 +152,28 @@ define([
 
         release : function release(){
             var self = this;
-            $.ajax({
-                url: self.options.url,
-                type: "POST",
-                data : {uri : self.options.uri},
-                dataType: 'json',
-                success : function(response){
-                    if(response.success){
-                        self._trigger('released');
-                    }
-                    else{
+            if(self.options.url !== ''){
+                $.ajax({
+                    url: self.options.url,
+                    type: "POST",
+                    data : {uri : self.options.uri},
+                    dataType: 'json',
+                    success : function(response){
+                        if(response.success){
+                            self._trigger('released');
+                        }
+                        else{
+                            self._trigger('failed');
+                        }
+                    },
+                    error : function(){
                         self._trigger('failed');
                     }
-                },
-                error : function(response){
-                    self._trigger('failed');
-                }
-            });
+                });
+            }
+            else{
+                self._trigger('failed');
+            }
 
             return this;
 
