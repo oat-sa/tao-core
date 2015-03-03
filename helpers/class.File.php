@@ -480,7 +480,7 @@ class tao_helpers_File
      */
     public static function getSafeFileName($fileName, $directory = null) {
         $lastDot = strrpos($fileName, '.');
-        $file = $lastDot ? substr($fileName, 0, $lastDot) : $string;
+        $file = $lastDot ? substr($fileName, 0, $lastDot) : $fileName;
         $ending = $lastDot ? substr($fileName, $lastDot+1) : '';
         $safeName = self::removeSpecChars($file);
         $safeEnding = empty($ending)

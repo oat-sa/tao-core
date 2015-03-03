@@ -1,5 +1,6 @@
 <?php
-/*  
+
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -24,66 +25,79 @@
  *
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
+ *         
  */
 class tao_helpers_Date
 {
-	const FORMAT_LONG          = 0;
-	const FORMAT_VERBOSE       = 1;
-	const FORMAT_DATEPICKER	   = 2;
-	
-	const FORMAT_INTERVAL_LONG  = 100;
-	const FORMAT_INTERVAL_SHORT = 101;
-	
+
+    const FORMAT_LONG = 0;
+
+    const FORMAT_VERBOSE = 1;
+
+    const FORMAT_DATEPICKER = 2;
+
+    const FORMAT_INTERVAL_LONG = 100;
+
+    const FORMAT_INTERVAL_SHORT = 101;
+
     /**
      * Dispalys a date/time
      * Should in theorie be dependant on the users locale and timezone
      *
-     * @param  mixed timestamp
-     * @param  int format The date format. See tao_helpers_Date's constants.
+     * @param mixed $timestamp            
+     * @param int $format  The date format. See tao_helpers_Date's constants.
      * @return string The formatted date.
      */
     static public function displayeDate($timestamp, $format = self::FORMAT_LONG)
     {
-    	$returnValue = '';
+        $returnValue = '';
         
-    	if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
+        if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
             $dateTime = new DateTime();
             $dateTime->setTimestamp($timestamp->__toString());
-        } else if (is_object($timestamp) && $timestamp instanceof DateTime){
-            $dateTime = $timestamp;
-        } else {
-            $dateTime = new DateTime();
-            $dateTime->setTimestamp($timestamp);
+        } else 
+            if (is_object($timestamp) && $timestamp instanceof DateTime) {
+                $dateTime = $timestamp;
+            } else {
+                $dateTime = new DateTime();
+                $dateTime->setTimestamp($timestamp);
+            }
+        $dateTime->setTimezone(new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone()));
+        switch ($format) {
+            case self::FORMAT_LONG:
+                $returnValue = $dateTime->format('d/m/Y H:i:s');
+                break;
+            case self::FORMAT_DATEPICKER:
+                $returnValue = $dateTime->format('Y-m-d H:i');
+                break;
+            case self::FORMAT_VERBOSE:
+                $returnValue = $dateTime->format('F j, Y, g:i:s a');
+                break;
+            default:
+                common_Logger::w('Unkown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
         }
-    	$dateTime->setTimezone(new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone()));
-    	switch ($format) {
-    		case self::FORMAT_LONG :
-    			$returnValue = $dateTime->format('d/m/Y H:i:s');
-    			break;
-    		case self::FORMAT_DATEPICKER :
-    			$returnValue = $dateTime->format('Y-m-d H:i');
-    			break;
-    		case self::FORMAT_VERBOSE :
-    			$returnValue = $dateTime->format('F j, Y, g:i:s a');
-    			break;
-			default:
-    			common_Logger::w('Unkown date format '.$format.' for '.__FUNCTION__, 'TAO');
-    	}
-    	return $returnValue;
+        return $returnValue;
     }
-    
-    static public function displayInterval($interval, $format = self::FORMAT_LONG) {
+
+    /**
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param unknown $interval            
+     * @param unknown $format            
+     * @return string|Ambigous <string, string>
+     */
+    static public function displayInterval($interval, $format = self::FORMAT_INTERVAL_LONG)
+    {
         if (is_object($interval)) {
             $intervalObj = $interval;
         } else {
             $intervalObj = new DateTime();
             $intervalObj->setTimestamp($interval);
         }
-            
+        
         $intervalObj = $intervalObj instanceof DateTime ? (new \DateTime())->diff($intervalObj, true) : $intervalObj;
-        if (!$intervalObj instanceof DateInterval) {
-            common_Logger::w('Unkown interval format '.get_class($interval).' for '.__FUNCTION__, 'TAO');
+        if (! $intervalObj instanceof DateInterval) {
+            common_Logger::w('Unkown interval format ' . get_class($interval) . ' for ' . __FUNCTION__, 'TAO');
             return '';
         }
         
@@ -93,34 +107,41 @@ class tao_helpers_Date
         } else {
             $returnValue = '';
             switch ($format) {
-        		case self::FORMAT_INTERVAL_SHORT :
-        			$returnValue = $intervalObj->format(array_shift($formatStrings));
-        			break;
-    			case self::FORMAT_INTERVAL_LONG :
-    			    $returnValue = self::formatElapsed($intervalObj, $formatStrings);
-        			break;
-    			default:
-        			common_Logger::w('Unkown date format '.$format.' for '.__FUNCTION__, 'TAO');
-        	}
+                case self::FORMAT_INTERVAL_SHORT:
+                    $returnValue = $intervalObj->format(array_shift($formatStrings));
+                    break;
+                case self::FORMAT_INTERVAL_LONG:
+                    $returnValue = self::formatElapsed($intervalObj, $formatStrings);
+                    break;
+                default:
+                    common_Logger::w('Unkown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
+            }
         }
-    	return $returnValue;
+        return $returnValue;
     }
-    
+
+    /**
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param DateInterval $interval            
+     * @param unknown $formatStrings            
+     * @return string
+     */
     static protected function formatElapsed(DateInterval $interval, $formatStrings)
     {
         $string = '';
-        while (!empty($formatStrings)) {
-            $string .= $interval->format(array_shift($formatStrings))
-                .(count($formatStrings) == 0
-                    ? ''
-                    : (count($formatStrings) == 1
-                        ? __(' and ')
-                        : ' '
-            ));
+        while (! empty($formatStrings)) {
+            $string .= $interval->format(array_shift($formatStrings)) . (count($formatStrings) == 0 ? '' : (count($formatStrings) == 1 ? __(' and ') : ' '));
         }
         return $string;
     }
-                    
+
+    /**
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param DateInterval $interval            
+     * @return multitype:string Ambigous <string, string>
+     */
     static private function getNonNullIntervalFormats(DateInterval $interval)
     {
         $formats = array();
@@ -142,10 +163,15 @@ class tao_helpers_Date
         return $formats;
     }
 
-   static function getTimeStamp($microtime)
+    /**
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param unknown $microtime            
+     * @return number
+     */
+    static function getTimeStamp($microtime)
     {
-    list($usec, $sec) = explode(" ", $microtime);
-    return ((float)$sec);
+        list ($usec, $sec) = explode(" ", $microtime);
+        return ((float) $sec);
     }
-
 }
