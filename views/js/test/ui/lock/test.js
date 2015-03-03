@@ -133,11 +133,20 @@ define(['jquery', 'ui/lock'], function($, lock){
         lk.close();
     });
 
-    QUnit.asyncTest('release fail', function(assert){
+    QUnit.asyncTest('release', function(assert){
 
-        QUnit.expect(3);
+        QUnit.expect(4);
 
         var $container = $('#lock-box');
+        lock($container)
+            .hasLock('LOCKED_RESOURCE',
+            {
+                failed : function(){
+                    assert.ok(true, 'The release failed and callback is called');
+                },
+                uri: 123,
+                url : ''
+            }).release().close();
         lock($container)
             .hasLock('LOCKED_RESOURCE',
             {
@@ -167,7 +176,8 @@ define(['jquery', 'ui/lock'], function($, lock){
                 },
                 uri: 123,
                 url : 'js/test/ui/lock/success.json'
-            }).release();
+            }).release().close();
+
     });
 
     QUnit.asyncTest('callbacks', function(assert){
