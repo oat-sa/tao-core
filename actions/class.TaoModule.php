@@ -53,10 +53,12 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
     protected function isLocked($resource, $view = null){
         
-         if (LockManager::getImplementation()->isLocked($resource)) {
+        $lock = LockManager::getImplementation()->getLockData($resource);
+        if (!is_null($lock) && $lock->getOwnerId() != common_session_SessionManager::getSession()->getUser()->getIdentifier()) {
+         //if (LockManager::getImplementation()->isLocked($resource)) {
              $params = array(
-             	'id' => $resource->getUri(),
-                'destination' =>  tao_helpers_Uri::url(null, null, null, $this->getRequestParameters())
+                'id' => $resource->getUri(),
+                'topclass-label' => $this->getRootClass()->getLabel()
              );
              if (!is_null($view)) {
                  $params['view'] = $view;
