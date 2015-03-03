@@ -288,6 +288,7 @@ define([
                             tree.open_branch($node);
                         }
                         nodeContext.classUri = nodeId;
+                        nodeContext.permissions = permissions[nodeId];
                         nodeContext.id = $node.data('uri');
                         nodeContext.context = ['class', 'resource'];
                         
@@ -414,6 +415,7 @@ define([
                 var params = _.clone(serverParams);
                 params.classUri = data.parent;
                 
+                //load tree branch with new node to get new node permissions
                 $.ajax(tree.settings.data.opts.url, {
                     type        : tree.settings.data.opts.method,
                     dataType    : tree.settings.data.type,
@@ -421,7 +423,6 @@ define([
                     data        : params,
                     success     : function (response) {
                         var items = response.children ? response.children : response;
-                        
                         var node = items.filter(function (child) {
                             return child.attributes && child.attributes.id == data.id;
                         });
@@ -440,7 +441,7 @@ define([
                         }
                     }
                 });
-           },
+            },
 
             /**
              * Remove a node from the tree.
