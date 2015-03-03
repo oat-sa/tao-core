@@ -88,6 +88,8 @@ define([
          * @param {String} [options.progressBarClass = progressbar] - the class to identify the progress bar
          * @param {String} [options.dragOverClass = drag-hover] - the class to set to the drop zone when dragging over
          * @param {Function} [options.fileSelect] - called back before selection with files in params and returns the files to select; filter use case
+         * @param {Function} [options.formAttributes] - object with all the attributes you want to be on the form
+         * @param {Function} [options.defaultErrMsg] - localized error message when something goes wrong
          * @param {Function} [options.uploadBtnText] - text on upload button
          * @returns {jQueryElement} for chaining
          */
@@ -442,7 +444,6 @@ define([
                             .addClass('sending');
 
                     //send (upload) the file
-                    console.log(options.$form);
                     options.$form.sendfile({
                         url : options.uploadUrl, 
                         file : file, 
