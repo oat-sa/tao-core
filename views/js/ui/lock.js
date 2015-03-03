@@ -71,6 +71,11 @@ define([
     /**
      * It provides the lock behavior
      * @typedef lockApi
+     *
+     *
+     * @param {Object} [options] - the plugin options
+     * @param {String} [options.uri =  ''] - The uri of the selected resource
+     * @param {String} [options.url =  ''] - The url to call to release the lock
      */
     var lockApi = {
 
@@ -79,10 +84,12 @@ define([
         category : null,
 
         /**
+         * generate the lock with the right options
          *
-         * @param category the category of the lock (hasLock or locked)
-         * @param msg the message to display
-         * @param options
+         * @example lock().message();
+         * @param {String} [category] - the category of the lock (hasLock or locked)
+         * @param {String} [msg] - the message to display
+         * @param {Object} [options] - the plugin options
          * @fires create.lock
          * @returns {lockApi}
          */
@@ -106,17 +113,35 @@ define([
             return this;
         },
 
+        /**
+         * generate the lock with the right options and open it
+         *
+         * @example lock().hasLock();
+         * @param {String} [msg] - the message to display
+         * @param {Object} [options] - the plugin options
+         * @returns {lockApi}
+         */
         hasLock : function hasLock(msg, options){
             return this.message('hasLock', msg, options)
                        .open();
         },
 
+        /**
+         * generate the lock with the right options and open it
+         *
+         * @example lock().locked();
+         * @param {String} [msg] - the message to display
+         * @param {Object} [options] - the plugin options
+         * @returns {lockApi}
+         */
         locked : function locked(msg, options){
             return this.message('locked', msg, options)
                        .open();
         },
 
         /**
+         * open the lock
+         * @example lock().message().open();
          * @fires open.lock
          * @returns {lockApi}
          */
@@ -134,6 +159,8 @@ define([
         },
 
         /**
+         * close the lock
+         * @example lock().close();
          * @fires close.lock
          */
         close : function close(){
@@ -142,15 +169,17 @@ define([
                 this.setState(states.closed);
 
                 $('#' + this.id).remove();
-        
+
                 this._trigger();
-            
+
                 //clean up ref
                 current = null;
             }
         },
 
         /**
+         * display the lock
+         * @example lock().display();
          * @fires display.lock
          * @returns {lockApi}
          */
@@ -170,6 +199,7 @@ define([
 
         /**
          * call the url to release the lock
+         * @example lock().release();
          * @fires released.lock
          * @fires failed.lock
          * @returns {lockApi}
@@ -222,7 +252,7 @@ define([
     };
 
     /**
-     * COntains the current state of the lock and accessors
+     * Contains the current state of the lock and accessors
      * @typedef lockState
      */
     var lockState = {
