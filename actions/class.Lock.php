@@ -52,8 +52,12 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 	
 	    $this->setData('lockDate', $lockData->getCreationTime());
 	    $this->setData('ownerHtml', UserHelper::renderHtmlUser($lockData->getOwnerId()));
-
-	    $this->setView('Lock/locked.tpl', 'tao');
+	    
+	    if ($this->hasRequestParameter('view') && $this->hasRequestParameter('ext')) {
+	        $this->setView($this->getRequestParameter('view'), $this->getRequestParameter('ext'));
+	    } else {
+	        $this->setView('Lock/locked.tpl', 'tao');
+	    }
 	}
 	
 	public function release($uri)

@@ -60,6 +60,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
              );
              if (!is_null($view)) {
                  $params['view'] = $view;
+                 $params['ext'] = Context::getInstance()->getExtensionName();
              }
              $this->forward('locked', 'Lock', 'tao', $params);
          }
