@@ -147,7 +147,7 @@ define([
          */
         open : function open(){
 
-            this._trigger();
+            this._trigger('open');
 
 
             //close others
@@ -170,7 +170,7 @@ define([
 
                 $('#' + this.id).remove();
 
-                this._trigger();
+                this._trigger('close');
 
                 //clean up ref
                 current = null;
@@ -191,7 +191,7 @@ define([
                     .attr('id', this.id)
                     .appendTo(this._container);
 
-                this._trigger();
+                this._trigger('display');
 
             }
             return this;
@@ -238,14 +238,13 @@ define([
          * @param {String} [eventName] - the name of the event, use the caller name if not set
          */
         _trigger : function _trigger(eventName) {
-            var name = eventName || this._trigger.caller.name;
 
             //trigger the related event
-            this._container.trigger(name + '.lock', [this]);
+            this._container.trigger(eventName + '.lock', [this]);
 
             //run the callback if set in options
-            if(_.isFunction(this.options[name])){
-                this.options[name].call(this);
+            if(_.isFunction(this.options[eventName])){
+                this.options[eventName].call(this);
             }
         }
 
