@@ -413,8 +413,13 @@ define([
                 var tree =  $.tree.reference($elt);
                 var parentNode = tree.get_node($('#' + data.parent, $elt).get(0));
                 var params = _.clone(serverParams);
-                params.classUri = data.parent;
                 
+                params.classUri = data.parent;
+                if (data.cssClass == 'node-class') {
+                    params.hideInstances = 1; //load only class nodes
+                } else {
+                    params.loadNode = data.uri; //load particular instance
+                }
                 //load tree branch with new node to get new node permissions
                 $.ajax(tree.settings.data.opts.url, {
                     type        : tree.settings.data.opts.method,
