@@ -78,6 +78,14 @@ define([
 
         category : null,
 
+        /**
+         *
+         * @param category the category of the lock (hasLock or locked)
+         * @param msg the message to display
+         * @param options
+         * @fires create.lock
+         * @returns {lockApi}
+         */
         message : function message(category, msg, options){
             if(!category || !_.contains(_.keys(categories), category)){
                 category = 'hasLock';
@@ -108,6 +116,10 @@ define([
                        .open();
         },
 
+        /**
+         * @fires open.lock
+         * @returns {lockApi}
+         */
         open : function open(){
 
             this._trigger();
@@ -121,6 +133,9 @@ define([
             return this;
         },
 
+        /**
+         * @fires close.lock
+         */
         close : function close(){
             if(this.isInState(states.displayed)){
 
@@ -135,8 +150,11 @@ define([
             }
         },
 
+        /**
+         * @fires display.lock
+         * @returns {lockApi}
+         */
         display : function display(){
-            var self = this;
             if(this.content){
                 this.setState(states.displayed);
 
@@ -150,6 +168,12 @@ define([
             return this;
         },
 
+        /**
+         * call the url to release the lock
+         * @fires released.lock
+         * @fires failed.lock
+         * @returns {lockApi}
+         */
         release : function release(){
             var self = this;
             if(self.options.url !== ''){
