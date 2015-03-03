@@ -72,7 +72,7 @@ class DataAccessControl implements AccessControl
         foreach (array_keys($required) as $resourceId) {
             $right = $required[$resourceId];
             if ($right == 'WRITE' && !self::hasWritePrivilege($user, $resourceId)) {
-                common_Logger::d('User \''.$user->getIdentifier().'\' does not have lock for resource \''.$id.'\'');
+                common_Logger::d('User \''.$user->getIdentifier().'\' does not have lock for resource \''.$resourceId.'\'');
                 return false;
             }
             if (!in_array($right, PermissionManager::getPermissionModel()->getSupportedRights())) {
