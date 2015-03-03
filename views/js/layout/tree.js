@@ -288,7 +288,6 @@ define([
                             tree.open_branch($node);
                         }
                         nodeContext.classUri = nodeId;
-                        nodeContext.permissions = permissions[nodeId];
                         nodeContext.id = $node.data('uri');
                         nodeContext.context = ['class', 'resource'];
                         
@@ -409,22 +408,38 @@ define([
              * @param {String} data.id - the id of the new node
              * @param {String} data.cssClass - the css class for the new node (node-instance or node-class at least).
              */       
-            'addnode' : function(data){
+            'addnode' : function (data) {
                 var tree =  $.tree.reference($elt);
-                //We don't have permissions for a new node. Because of that we must refresh whole tree.
-                options.selectNode = data.id;
-                tree.refresh();
-                /*var parentNode = tree.get_node($('#' + data.parent, $elt).get(0));
-                tree.select_branch(
-                    tree.create({
-                        data: data.label,
-                        attributes: {
-                            'id': data.id,
-                            'class': data.cssClass,
-                            'data-uri' : uri.decode(data.uri)
+                var parentNode = tree.get_node($('#' + data.parent, $elt).get(0));
+                var params = _.clone(serverParams);
+                params.classUri = data.parent;
+                
+                $.ajax(tree.settings.data.opts.url, {
+                    type        : tree.settings.data.opts.method,
+                    dataType    : tree.settings.data.type,
+                    async       : tree.settings.data.async,
+                    data        : params,
+                    success     : function (response) {
+                        var items = response.children ? response.children : response;
+                        
+                        var node = items.filter(function (child) {
+                            return child.attributes && child.attributes.id == data.id;
+                        });
+                        if (node.length) {
+                            tree.select_branch(
+                                tree.create({
+                                    data: data.label,
+                                    attributes: {
+                                        'id': data.id,
+                                        'class': data.cssClass,
+                                        'data-uri' : uri.decode(data.uri)
+                                    },
+                                    'permissions' : node[0].permissions
+                                }, parentNode)
+                            );
                         }
-                    }, parentNode)
-                );*/
+                    }
+                });
            },
 
             /**
