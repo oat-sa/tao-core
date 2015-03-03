@@ -45,7 +45,10 @@ class Tree  implements PhpSerializable
         return isset($this->data[$attribute]) ? $this->data[$attribute] : null;
     }
  
-    public function getAttributes(){
+    public function getAttributes($fetchAssociative = false){
+        if ($fetchAssociative) {
+            return $this->data;
+        }
         return array_keys($this->data);
     }
    

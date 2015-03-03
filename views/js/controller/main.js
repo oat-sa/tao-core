@@ -71,6 +71,13 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
 
                         var rootNode = $treeElt.data('rootnode');
                         var treeUrl = context.root_url;
+                        var treeActions = {};
+                        $.each($treeElt.data('tree-attributes'), function (key, val) {
+                            if (actions.getBy(val)) {
+                                treeActions[key] = val;
+                            }
+                        });
+                        
                         if(/\/$/.test(treeUrl)){
                             treeUrl += $treeElt.data('url').replace(/^\//, '');
                         } else {
@@ -83,14 +90,7 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
                                 section      : context.section,
                                 classUri     : rootNode ? rootNode : undefined
                             },
-                            actions : {
-                                'selectClass'    : $treeElt.data('action-selectclass'),
-                                'selectInstance' : $treeElt.data('action-selectinstance'),
-                                'editInstance'   : $treeElt.data('action-editinstance'),
-                                'viewInstance'   : $treeElt.data('action-viewinstance'),
-                                'moveInstance'   : $treeElt.data('action-moveinstance'),
-                                'delete'         : $treeElt.data('action-delete')
-                            }
+                            actions : treeActions
                         });
                         $treeElt.on('ready.taotree', function() {
                             $actionBar.addClass('active');

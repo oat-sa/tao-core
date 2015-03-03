@@ -173,7 +173,7 @@ define([
                     }
                     
                     computeSelectionAccess(data);
-            
+                    
                     flattenPermissions(data);
 
                     needMore(data); 
@@ -290,11 +290,9 @@ define([
                         nodeContext.classUri = nodeId;
                         nodeContext.permissions = permissions[nodeId];
                         nodeContext.id = $node.data('uri');
-
-                        //execute the selectClass action
-                        if(options.actions.selectClass){
-                            actionManager.exec(options.actions.selectClass, nodeContext);
-                        }
+                        nodeContext.context = ['class', 'resource'];
+                        
+                        executePossibleAction(options.actions, nodeContext);
                     }
 
                     //exec the  selectInstance action
@@ -302,15 +300,13 @@ define([
                         nodeContext.uri = nodeId;
                         nodeContext.classUri = $parentNode.attr('id');
                         nodeContext.id = $node.data('uri');
-
+                        nodeContext.context = ['instance', 'resource'];
+                        
                         //the last selected node is stored into the browser storage
                         treeStore.lastSelected = nodeId; 
                         store.set('taotree.' + context.section, treeStore);
-
-                        //execute the selectInstance action
-                        if(options.actions.selectInstance){
-                            actionManager.exec(options.actions.selectInstance, nodeContext);
-                        }
+                        
+                        executePossibleAction(options.actions, nodeContext, ['moveInstance']);
                     }
 
                     /**
@@ -415,8 +411,10 @@ define([
              */       
             'addnode' : function(data){
                 var tree =  $.tree.reference($elt);
-                var parentNode = tree.get_node($('#' + data.parent, $elt).get(0));
-
+                //We don't have permissions for a new node. Because of that we must refresh whole tree.
+                options.selectNode = data.id;
+                tree.refresh();
+                /*var parentNode = tree.get_node($('#' + data.parent, $elt).get(0));
                 tree.select_branch(
                     tree.create({
                         data: data.label,
@@ -426,7 +424,7 @@ define([
                             'data-uri' : uri.decode(data.uri)
                         }
                     }, parentNode)
-                );
+                );*/
            },
 
             /**
@@ -606,6 +604,36 @@ define([
             });
         };
         
+        /**
+         * Function executes first found allowed action for tree node.
+         * @param {object} actions - All tree actions
+         * @param {object} [context] - Node context 
+         * @param {object} [context.permissions] - Node permissions
+         * @param {object} [context.context] - The context of the action: (class|instance|resource|*)
+         * @param {array} exclude - list of actions to be excluded.
+         * @returns {undefined}
+         */
+        function executePossibleAction(actions, context, exclude) {
+            var possibleActions;
+            if (!_.isArray(exclude)) {
+                exclude = [];
+            }
+            possibleActions = _.filter(actions, function (action, name) {
+                var possible = context.context.indexOf(action.context) >= 0;
+                if (context.permissions) {
+                    possible = possible && context.permissions[action.id];
+                }
+                possible = possible && exclude.indexOf(name) === -1;
+                return possible;
+            });
+            //execute the first allowed action
+            if(possibleActions.length > 0){
+                actionManager.exec(possibleActions[0], context);
+            } else {
+                feedback().error(__("You don't have sufficient permissions to access"));
+            }
+        }
+        
         return setUpTree();
     };
 
@@ -637,8 +665,6 @@ define([
             }
         }
     }
-
-
 
     return treeFactory; 
 });
