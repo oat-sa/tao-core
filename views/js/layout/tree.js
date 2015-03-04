@@ -415,7 +415,7 @@ define([
                 var params = _.clone(serverParams);
                 
                 params.classUri = data.parent;
-                if (data.cssClass == 'node-class') {
+                if (data.cssClass === 'node-class') {
                     params.hideInstances = 1; //load only class nodes
                 } else {
                     params.loadNode = data.uri; //load particular instance
@@ -428,7 +428,7 @@ define([
                     data        : params,
                     success     : function (response) {
                         var items = response.children ? response.children : response;
-                        var node = items.filter(function (child) {
+                        var node = _.filter(items, function (child) {
                             return child.attributes && child.attributes.id == data.id;
                         });
                         if (node.length) {
@@ -640,11 +640,11 @@ define([
                 exclude = [];
             }
             possibleActions = _.filter(actions, function (action, name) {
-                var possible = context.context.indexOf(action.context) >= 0;
+                var possible = _.contains(context.context, action.context);
                 if (context.permissions) {
                     possible = possible && context.permissions[action.id];
                 }
-                possible = possible && exclude.indexOf(name) === -1;
+                possible = possible && !_.contains(exclude, name);
                 return possible;
             });
             //execute the first allowed action
