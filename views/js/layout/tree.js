@@ -635,7 +635,8 @@ define([
          * @returns {undefined}
          */
         function executePossibleAction(actions, context, exclude) {
-            var possibleActions;
+            var possibleActions,
+                self = this;
             if (!_.isArray(exclude)) {
                 exclude = [];
             }
@@ -649,9 +650,13 @@ define([
             });
             //execute the first allowed action
             if(possibleActions.length > 0){
+                //hide shown earlier message
+                if (self.permissionErrorMessage) {
+                    self.permissionErrorMessage.close();
+                }
                 actionManager.exec(possibleActions[0], context);
             } else {
-                feedback().error(__("You don't have sufficient permissions to access"));
+                self.permissionErrorMessage = feedback().error(__("You don't have sufficient permissions to access"));
             }
         }
         
