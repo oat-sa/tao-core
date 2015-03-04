@@ -303,6 +303,11 @@ define([
             throw new Error('The lock needs to belong to an existing container');
         }
 
+        //if there is already a lock component close it and open a new one
+        if(current !== null){
+            current.close();
+        }
+
         //mixin the new object with the state object
         var lk = _.extend( {
             id          : 'lock',
