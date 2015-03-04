@@ -1,6 +1,8 @@
 // this combines the most common features from normalize, h5bp main and tao base
 
 @charset "UTF-8";
+
+//these vars enables you to include this base in a scoped env.
 $htmlContainer : html !default;
 $bodyContainer : body !default;
 
@@ -41,6 +43,40 @@ hr, noscript, ol, output, p, pre, section, summary, table, tfoot, ul, main {
     white-space: normal;
 }
 
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin: 0.83em 0;
+}
+
+h3 {
+    font-size: 1.17em;
+    margin: 1em 0;
+}
+
+h4 {
+    font-size: 1em;
+    margin: 1.33em 0;
+}
+
+h5 {
+    font-size: 0.83em;
+    margin: 1.67em 0;
+}
+
+h6 {
+    font-size: 0.67em;
+    margin: 2.33em 0;
+}
+
+blockquote {
+    margin: 1em 40px;
+}
+
 blockquote, dd, dl, fieldset, figure, h1, h2, h3, h4, h5, h6,
 hr, ol, p, pre, table, ul {
     display: block;
@@ -66,22 +102,20 @@ svg {
     vertical-align: middle;
 }
 
-button,
-input,
-select,
-textarea {
-    font-family: $regularFont;
-}
+
 
 a, .a {
     cursor: pointer;
     background: transparent;
     text-decoration: none;
     outline: 0;
-    color: $info;
+    color: $uiClickableHoverBg;
+	&:focus {
+		outline: thin dotted;
+	}
     &:hover {
         text-decoration: underline;
-        color: whiten($info, .1);
+        color: $info;
         &:before, &:after {
             text-decoration: none !important;
         }
@@ -91,27 +125,29 @@ a, .a {
         text-decoration: none;
         display: block;
     }
-}
-a[rel="external"] span.icon-external {
-    &:before {
-        @include font-size(11);
-        padding: 0 0 0 4px;
-        position: relative;
-        top: 1px;
-    }
+	&[rel="external"] span.icon-external {
+		&:before {
+		    @include font-size(11);
+		    padding: 0 0 0 4px;
+		    position: relative;
+		    top: 1px;
+		}
+	}
 }
 
+abbr[title] {
+    border-bottom: 1px dotted;
+}
 
 b, .b, strong, .strong {
     font-weight: bold;
 }
 
-i, .i, em, .em {
-    font-style: italic
+i, .i, em, .em, dfn {
+    font-style: italic;
 }
 
-code,
-pre {
+code, pre, kdb, samp {
     font-family: $monospaceFont;
     @include font-size(14);
 }
@@ -150,7 +186,7 @@ q {
 }
 
 small {
-    font-size: 1.1rem;
+    @include font-size(11);
 }
 
 sub,
@@ -174,26 +210,18 @@ img {
     max-width: 100%;
 }
 
-label, button {
-    cursor: pointer;
-}
 
-button {
-    vertical-align: middle;
-    outline: 0;
-    overflow: visible;
-    border: none
-}
-
-button, input {
-    &::-moz-focus-inner {
-        border: 0;
-        padding: 0;
-    }
-}
 
 svg:not(:root) {
     overflow: hidden;
+}
+
+// ok, there is no ul.decimal but then again loops are so nice
+$list_styles: armenian, circle, cjk-ideographic, decimal, decimal-leading-zero, disc, georgian, hebrew, hiragana, hiragana-iroha, katakana, katakana-iroha, lower-alpha, lower-greek, lower-latin, lower-roman, square, upper-alpha, upper-latin, upper-roman, none;
+@for $i from 1 through length($list_styles) {
+    ul.#{nth($list_styles, $i)}, ol.#{nth($list_styles, $i)} {
+        list-style-type: #{nth($list_styles, $i)};
+    }
 }
 
 ul, ol {
@@ -217,7 +245,9 @@ nav {
 }
 
 fieldset {
-    border: 1px solid $borderColor;
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
 
 legend {
@@ -231,15 +261,67 @@ textarea {
     resize: vertical;
 }
 
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-
 table {
     border-collapse: collapse;
     border-spacing: 0;
+}
+table.matrix {
+
+    width: 100%;
+    border: 6px solid whiten($uiClickableDefaultBg, .5);
+    margin-bottom: 10px;
+    td, th {
+        font-weight: normal;
+        padding: 3px 5px;
+        border: 1px solid #ddd;
+    }
+    th {
+        text-align: left;
+        vertical-align: middle;
+        background: whiten($uiClickableDefaultBg, .5);
+    }
+    td {
+        background: transparent;
+        text-align: left;
+        padding: 2px;
+        &.numeric {
+            text-align: right;
+        }
+        label {
+            display: block;
+            margin: 0
+        }
+    }
+    tr {
+        &:nth-child(even){background: white;}
+        &:nth-child(odd){background: lighten($lightBlueGrey,5)}
+    }
+    [data-edit], [data-edit] * {
+        border: none;
+        padding: 6px;
+        cursor: pointer
+    }
+    tbody [data-edit] {
+        width: 30px
+    }
+}
+
+label, button {
+    cursor: pointer;
+}
+
+button {
+    vertical-align: middle;
+    outline: 0;
+    overflow: visible;
+    border: none
+}
+
+button, input {
+    &::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+    }
 }
 
 button,
@@ -281,6 +363,10 @@ input {
         box-sizing: border-box;
         padding: 0;
     }
+}
+
+select {
+	max-width: 100%;
 }
 
 audio:not([controls]),
@@ -337,6 +423,7 @@ audio:not([controls]),
     clear: both;
 }
 
+
 .lft {
     display: inline;
     float: left;
@@ -345,6 +432,22 @@ audio:not([controls]),
 .rgt {
     display: inline;
     float: right;
+}
+
+.txt-ctr {
+    text-align: center
+}
+
+.txt-lft {
+    text-align: left
+}
+
+.txt-rgt {
+    text-align: right
+}
+
+.txt-jty {
+    text-align: justify
 }
 
 ::-moz-selection {
@@ -362,19 +465,19 @@ audio:not([controls]),
 }
 
 .placeholder {
-    color: #000 !important;
+    color: #777 !important;
 }
 
 ::-webkit-input-placeholder {
-    color: #000 !important;
+    color: #777!important;
 }
 
 :-moz-placeholder {
-    color: #000 !important;
+    color: #777 !important;
 }
 
 ::-moz-placeholder {
-    color: #000 !important;
+    color: #777 !important;
 }
 
 .truncate {

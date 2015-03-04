@@ -1,8 +1,6 @@
 @import "inc/bootstrap";
 @import "inc/fonts";
 @import "inc/nbase";
-//@import "inc/normalize";
-//@import "inc/main";
 @import "inc/feedback";
 @import "inc/grid";
 @import "inc/select2";
@@ -42,7 +40,7 @@ iframe {
     border: none;
 }
 
-//
+//ok
 code {
     background: whiten($lightBlueGrey, .5);
     padding: 2px 6px;
@@ -112,6 +110,8 @@ a[rel="external"] span.icon-external {
         font-family: $regularFont;
         font-weight: normal;
     }
+
+//ok
 
     h1, h2, h3, h4, h5, h6 {
         font-weight: normal;

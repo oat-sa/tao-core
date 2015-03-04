@@ -11,18 +11,6 @@
     }
 }
 
-@mixin tao-icon-setup() {
-    font-family: 'tao';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 @mixin grid-unit($span, $numCols: 12, $gutter: 0) {
     $gridPx: 840;
     $rawSpanPx: (($gridPx - ($numCols * $gutter)) / $numCols);
@@ -200,13 +188,6 @@
     @-moz-keyframes #{$name} { @content };
     @-webkit-keyframes #{$name} { @content };
     @keyframes #{$name} { @content };
-}
-
-
-@mixin icon($name, $namespace: 'icon') {
-    font-family: 'tao';
-    @extend %#{$namespace}-#{$name};
-    display: inline-block;
 }
 
 
