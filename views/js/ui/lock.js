@@ -26,7 +26,7 @@ define([
     'use strict';
 
     //keep a reference to alive lock
-    var current = null;
+    var currents = [];
 
     //contains the reference to the main lock box. We expect other containers to be only edge cases.
     var $lockBox;
@@ -149,11 +149,7 @@ define([
 
             this._trigger('open');
 
-
-            //close others
-            current.close();                       //run close
-
-            //and display me
+            // display me
             this.display();
             return this;
         },
@@ -173,7 +169,7 @@ define([
                 this._trigger('close');
 
                 //clean up ref
-                current = null;
+                _.remove(currents, { _state : states.closed });
             }
         },
 
@@ -184,17 +180,22 @@ define([
          * @returns {lockApi}
          */
         display : function display(){
-            if(this.content){
-                this.setState(states.displayed);
+            var self = this;
+            if(self.content){
+                self.setState(states.displayed);
 
-                $(this.content)
-                    .attr('id', this.id)
-                    .appendTo(this._container);
+                $(self.content)
+                    .attr('id', self.id)
+                    .appendTo(self._container);
 
-                this._trigger('display');
+                self._trigger('display');
+
+                $('#release').on('click',function(){
+                    self.release();
+                });
 
             }
-            return this;
+            return self;
         },
 
         /**
@@ -294,7 +295,7 @@ define([
      */
     var lockFactory = function lockFactory( $container ){
         var _container;
-        if(!$lockBox){
+        if(!$container){
             $lockBox = $('#lock-box');
         }
         _container = $container || $lockBox;
@@ -303,19 +304,20 @@ define([
             throw new Error('The lock needs to belong to an existing container');
         }
 
-        //if there is already a lock component close it and open a new one
-        if(current !== null){
-            current.close();
-        }
-
+        //if there is already a lock component in this container close it and open a new one
+        _.forEach(currents, function(lockRef) {
+            if(lockRef !== null && lockRef._container.get(0) === _container.get(0)){
+                lockRef.close();
+            }
+        });
         //mixin the new object with the state object
         var lk = _.extend( {
-            id          : 'lock',
+            id          : 'lock-' + (currents.length + 1),
             _container  : _container
         }, lockState);
 
-        current = lk;
- 
+        currents.push(lk);
+
         //delegate the api calls to the new instance
         return delegate(lk, lockApi);
     }; 
