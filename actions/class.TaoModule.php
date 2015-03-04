@@ -26,6 +26,7 @@ use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\lock\LockManager;
+use oat\tao\helpers\ControllerHelper;
 
 /**
  * The TaoModule is an abstract controller, 
@@ -417,7 +418,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
     private function computePermissions($actions, $user, $node){
         if(isset($node['_data'])){
             foreach($actions as $action){
-                if($node['type'] == $action['context'] || $action['context'] == 'resource'){
+                if($node['type'] == $action['context'] || $action['context'] == 'resource') {
                     $resolver = $action['resolver'];
                     try{
                         if($node['type'] == 'class'){
@@ -426,7 +427,12 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                             $data = $node['_data'];
                         }
                         $data['id'] = $node['attributes']['data-uri'];
-                        $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $data);
+                        $required = array_keys(ControllerHelper::getRequiredRights($resolver->getController(), $resolver->getAction()));
+                        if (count(array_diff($required, array_keys($data))) == 0) {
+                            $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $data);
+                        } else {
+                            common_Logger::d('Unable to determine access to '.$action['id'], 'ACL');
+                        }
 
                     //@todo should be a checked exception!
                     } catch(Exception $e){
