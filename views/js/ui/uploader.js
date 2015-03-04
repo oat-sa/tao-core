@@ -35,13 +35,17 @@ define([
         dropZoneClass       : 'file-drop',
         progressBarClass    : 'progressbar',
         dragOverClass       : 'drag-hover',
+        formAttributes      : {
+            'class' : 'uploader uploaderContainer'
+        },
         defaultErrMsg       : __('Unable to upload file'),
+        uploadBtnText       : __('Upload'),
 
         /**
          * Make files available before file selection. It can be used to filter. 
          * @callback fileSelect
          * @param {Array<File>} files - the selected files
-         * @param {Function} [done] - callback with filterd files
+         * @param {Function} [done] - callback with filtered files
          * @returns {undefined|Array<File>} the files to be selected 
          */
         fileSelect : function(files, done){
@@ -82,8 +86,11 @@ define([
          * @param {String} [options.fileNameClass = file-name] - the class of the elt where the file name is set
          * @param {String} [options.dropZoneClass = file-drop] - the class of the drop file elt
          * @param {String} [options.progressBarClass = progressbar] - the class to identify the progress bar
-         * @param {String} [options.graOverClass = drag-hover] - the class to set to the drop zone when dragging over
+         * @param {String} [options.dragOverClass = drag-hover] - the class to set to the drop zone when dragging over
          * @param {Function} [options.fileSelect] - called back before selection with files in params and returns the files to select; filter use case
+         * @param {Function} [options.formAttributes] - object with all the attributes you want to be on the form
+         * @param {Function} [options.defaultErrMsg] - localized error message when something goes wrong
+         * @param {Function} [options.uploadBtnText] - text on upload button
          * @returns {jQueryElement} for chaining
          */
         init : function(options){
@@ -93,10 +100,27 @@ define([
             options = _.defaults(options || {}, defaults);
 
             return this.each(function(){
-                var $elt = $(this);
+                var $elt = $(this),
+                    $builtInForm;
+
                 if(!$elt.data(dataNs)){
 
                     $elt.html(uploaderTpl(options));
+
+                    // form could be inside $elt ...
+                    $builtInForm = $elt.find('form');
+
+                    // ... if not it could be a wrapper
+                    if(!$builtInForm.length) {
+                        $builtInForm = $elt.closest('form');
+                    }
+
+                    // ... if no form is present wrap $elt in one
+                    if(!$builtInForm.length) {
+                        $elt.wrap($('<form>', options.formAttributes));
+                        $builtInForm = $elt.parent();
+                    }
+
 
                     //retrieve elements 
                     options.$input          = $('input[type=file]', $elt);
@@ -104,7 +128,7 @@ define([
                     options.$fileName       = $('.' + options.fileNameClass, $elt);
                     options.$dropZone       = $('.' + options.dropZoneClass, $elt);
                     options.$progressBar    = $('.' + options.progressBarClass, $elt);
-                    options.$form           = $elt.children('.uploaderContainer');
+                    options.$form           = $builtInForm;
                     options.$uploadBtn      = $('.' + options.uploadBtnClass, $elt);
                     options.$resetBtn       = $('.' + options.resetBtnClass, $elt);
     
@@ -159,7 +183,7 @@ define([
                     }
 
                     // IE Specific hack. It prevents the browseBtn to slightly
-                    // move on click. Special thanks to Dieter Rabber, OAT S.A.
+                    // move on click. Special thanks to Dieter Raber, OAT S.A.
                     options.$input.on('mousedown', function(e){
                         e.preventDefault();
                         $(this).blur();
@@ -392,7 +416,6 @@ define([
         * @fires uploader#end.uploader
         */
         _upload : function($elt){
-
             var length, 
                 $fileEntries,
                 entryHeight,
@@ -419,8 +442,8 @@ define([
                     $status.removeClass('success')
                             .removeClass('error')
                             .addClass('sending');
-                   
-                    //send (upload) the file 
+
+                    //send (upload) the file
                     options.$form.sendfile({
                         url : options.uploadUrl, 
                         file : file, 
