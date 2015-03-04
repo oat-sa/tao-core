@@ -34,6 +34,17 @@ class Layout{
      * @return array
      */
     public static function getReleaseMsgData(){
+
+        // read a custom config for layout in case it exists
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+
+        $extParams = $ext->getConfig('customLayout');
+
+        if(!empty($extParams)) {
+            return $extParams;
+        }
+
+        // regular setup is to use TAO_RELEASE_STATUS
         $params = array(
             'version-type' => '',
             'is-unstable'  => true,
