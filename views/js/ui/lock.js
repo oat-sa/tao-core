@@ -190,7 +190,7 @@ define([
 
                 self._trigger('display');
 
-                $('#release').on('click',function(){
+                $('.release', self._container).on('click',function(){
                     self.release();
                 });
 
