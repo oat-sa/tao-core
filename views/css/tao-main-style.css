@@ -201,7 +201,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -573,7 +573,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -941,7 +941,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -1347,7 +1347,8 @@ textarea { resize: vertical; }
 .feedback-error .icon-error, .tao-error-tooltip .icon-error, .ui-state-error .icon-error { color: #ba122b !important; }
 
 .feedback-info, .tao-info-tooltip { border-color: #3e7da7; background-color: #e6eef4; }
-.feedback-info .icon-info, .tao-info-tooltip .icon-info { color: #0e5d91 !important; }
+.feedback-info .icon-info, .tao-info-tooltip .icon-info, .feedback-info .icon-lock, .tao-info-tooltip .icon-lock { color: #0e5d91 !important; }
+.feedback-info .button-container, .tao-info-tooltip .button-container { margin-top: 20px; }
 
 .feedback-success, .tao-success-tooltip { border-color: #3ea76f; background-color: #e6f4ed; }
 .feedback-success .icon-success, .tao-success-tooltip .icon-success { color: #0e914b !important; }
@@ -1654,7 +1655,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -2234,7 +2235,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -2487,6 +2488,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 editor.css
 ============
 
+
 This is he heart of the skin system. This is the file loaded by the editor to
 style all elements inside its main interface.
 
@@ -2696,7 +2698,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -3087,7 +3089,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -3599,7 +3601,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -4159,7 +4161,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -4727,7 +4729,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -5177,7 +5179,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -5559,7 +5561,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -5945,7 +5947,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -6333,7 +6335,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -6801,7 +6803,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -7192,7 +7194,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -7588,7 +7590,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -7995,7 +7997,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -8429,7 +8431,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -9667,7 +9669,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -9888,6 +9890,8 @@ small { font-size: 1.1rem; font-size: 11px; }
 .txt-rgt { text-align: right; }
 
 .txt-jty { text-align: justify; }
+
+.txt-underline { text-decoration: underline; }
 
 /* fake table stuff */
 .tbl { display: table; float: none !important; }

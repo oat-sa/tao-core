@@ -57,8 +57,11 @@
 .feedback-info {
     border-color: mix(#fff, $info, 20%);
     background-color: mix(#fff, $info, 90%);
-    .icon-info {
+    .icon-info, .icon-lock {
         color: $info !important;
+    }
+    .button-container {
+        margin-top:20px;
     }
 }
 

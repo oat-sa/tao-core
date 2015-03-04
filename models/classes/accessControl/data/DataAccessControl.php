@@ -25,6 +25,7 @@ use common_Logger;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\oatbox\user\User;
 use oat\generis\model\data\permission\PermissionInterface;
+use oat\tao\model\lock\LockManager;
 
 /**
  * Interface for data based access control
@@ -67,8 +68,13 @@ class DataAccessControl implements AccessControl
      * @param array $required
      * @return boolean
      */
-    public static function hasPrivileges(User $user, array $required) {
-        foreach ($required as $resourceId => $right) {
+    static public function hasPrivileges(User $user, array $required) {
+        foreach (array_keys($required) as $resourceId) {
+            $right = $required[$resourceId];
+            if ($right == 'WRITE' && !self::hasWritePrivilege($user, $resourceId)) {
+                common_Logger::d('User \''.$user->getIdentifier().'\' does not have lock for resource \''.$resourceId.'\'');
+                return false;
+            }
             if (!in_array($right, PermissionManager::getPermissionModel()->getSupportedRights())) {
                 $required[$resourceId] = PermissionInterface::RIGHT_UNSUPPORTED;
             }
@@ -82,5 +88,11 @@ class DataAccessControl implements AccessControl
             }
         }
         return true;
+    }
+    
+    static private function hasWritePrivilege(User $user, $resourceId) {
+        $resource = new \core_kernel_classes_Resource($resourceId);
+        $lock = LockManager::getImplementation()->getLockData($resource);
+        return is_null($lock) || $lock->getOwnerId() == $user->getIdentifier();
     }
 }
