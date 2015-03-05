@@ -80,7 +80,8 @@ class Layout{
      * @return string
      */
     public static function getSandboxExpiration(){
-        $d          = new \DateTime((new \DateTime())->format('Y-m-d'));
+        $datetime   = new \DateTime();
+        $d          = new \DateTime($datetime->format('Y-m-d'));
         $weekday    = $d->format('w');
         $weekNumber = $d->format('W');
         $diff       = $weekNumber % 2 ? 7 : 6 - $weekday;
