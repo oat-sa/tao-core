@@ -19,6 +19,7 @@
  * 
  */
 
+use oat\tao\model\websource\WebsourceManager;
 /**
  * Represents the file storage used in services 
  *
@@ -44,7 +45,7 @@ class tao_models_classes_service_FileStorage
             $config = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_KEY);
             $privateFs = new core_kernel_fileSystem_FileSystem($config['private']);
             $publicFs = new core_kernel_fileSystem_FileSystem($config['public']);
-            $accessProvider = tao_models_classes_fsAccess_Manager::singleton()->getProvider($config['provider']);
+            $accessProvider = WebsourceManager::singleton()->getWebsource($config['provider']);
             self::$instance = new self($privateFs, $publicFs, $accessProvider);
         }
         

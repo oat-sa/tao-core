@@ -19,6 +19,11 @@
  * 
  */
 use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\tao\model\websource\WebsourceManager;
+use oat\tao\model\websource\ActionWebSource;
+use oat\tao\model\websource\TokenWebSource;
+use oat\tao\model\websource\DirectWebSource;
+use oat\tao\model\websource\Websource;
 
 
 /**
@@ -71,22 +76,22 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
             self::$fileSystem = tao_models_classes_FileSourceService::singleton()->addLocalSource('test FS', $ext->getConstant('DIR_VIEWS'));
         }
         return array(
-            array(tao_models_classes_fsAccess_DirectAccessProvider::spawnProvider(self::$fileSystem, $ext->getConstant('BASE_WWW'))),
-            array(tao_models_classes_fsAccess_TokenAccessProvider::spawnProvider(self::$fileSystem)),
-            array(tao_models_classes_fsAccess_ActionAccessProvider::spawnProvider(self::$fileSystem))
+            array(DirectWebSource::spawnWebsource(self::$fileSystem, $ext->getConstant('BASE_WWW'))),
+            array(TokenWebSource::spawnWebsource(self::$fileSystem)),
+            array(ActionWebSource::spawnWebsource(self::$fileSystem))
         );
     }
     
     /**
      * @dataProvider fileAccessProviders
      */
-    public function testAccessProviders(tao_models_classes_fsAccess_AccessProvider $access) {
+    public function testAccessProviders(Websource $access) {
         
-        $this->assertInstanceOf('tao_models_classes_fsAccess_AccessProvider', $access);
+        $this->assertInstanceOf('oat\tao\model\websource\Websource', $access);
         $id = $access->getId();
         
-        $fromManager = tao_models_classes_fsAccess_Manager::singleton()->getProvider($id);
-        $this->assertInstanceOf('tao_models_classes_fsAccess_AccessProvider', $fromManager);
+        $fromManager = WebsourceManager::singleton()->getWebsource($id);
+        $this->assertInstanceOf('oat\tao\model\websource\Websource', $fromManager);
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR.'tao.png');
         $this->assertTrue(file_exists($access->getFileSystem()->getPath().'img'.DIRECTORY_SEPARATOR.'tao.png'), 'reference file not found');
@@ -103,9 +108,9 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         $url = $access->getAccessUrl('');
         $this->assertUrlHttpCode($url.'img'.DIRECTORY_SEPARATOR.'tao.png');
         
-        $access->delete();
+        WebsourceManager::singleton()->removeWebsource($access);
         try {
-            tao_models_classes_fsAccess_Manager::singleton()->getProvider($id);
+            WebsourceManager::singleton()->getWebsource($id);
             $this->fail('No exception thrown');
         } catch (common_Exception $e) {
             // all good
