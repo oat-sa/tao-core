@@ -222,8 +222,6 @@ body {
         max-width: 100%;
     }
 
-
-
     svg:not(:root) {
         overflow: hidden;
     }
@@ -321,7 +319,7 @@ body {
             }
             label {
                 display: block;
-                margin: 0
+                margin: 0;
             }
         }
         tr {
@@ -331,10 +329,10 @@ body {
         [data-edit], [data-edit] * {
             border: none;
             padding: 6px;
-            cursor: pointer
+            cursor: pointer;
         }
         tbody [data-edit] {
-            width: 30px
+            width: 30px;
         }
     }
 
@@ -346,7 +344,7 @@ body {
         vertical-align: middle;
         outline: 0;
         overflow: visible;
-        border: none
+        border: none;
     }
 
     button, input {
@@ -437,7 +435,7 @@ body {
     .viewport-hidden {
         position: absolute;
         left: -10000px;
-        top: -10000px
+        top: -10000px;
     }
 
     .clearfix {
@@ -467,19 +465,19 @@ body {
     }
 
     .txt-ctr {
-        text-align: center
+        text-align: center;
     }
 
     .txt-lft {
-        text-align: left
+        text-align: left;
     }
 
     .txt-rgt {
-        text-align: right
+        text-align: right;
     }
 
     .txt-jty {
-        text-align: justify
+        text-align: justify;
     }
 
     // added to make _u_ in ck QTI compatible
