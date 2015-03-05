@@ -45,7 +45,9 @@ body {
         line-height: 1.4;
         background: white;
         border-width: 1px;
-        @include font-size(14);
+        @if($mainContainer != html){
+            @include font-size(14);
+        }
     }
 
     address, article, aside, audio, blockquote, dd, div, dl, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header,
@@ -402,7 +404,7 @@ body {
     audio:not([controls]),
     [hidden], template,
     .hidden, .deleted,
-    .js .js-hide {
+    .js, .js-hide {
         display: none !important;
     }
 
