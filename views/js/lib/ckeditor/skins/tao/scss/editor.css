@@ -122,7 +122,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__italic_icon:before {
   content: "\e65f"; }
 
-.cke_button__underline_icon:before {
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
   content: "\e660"; }
 
 .cke_button__subscript_icon:before {
@@ -310,7 +310,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__italic_icon:before {
   content: "\e65f"; }
 
-.cke_button__underline_icon:before {
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
   content: "\e660"; }
 
 .cke_button__subscript_icon:before {
@@ -780,7 +780,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__italic_icon:before {
   content: "\e65f"; }
 
-.cke_button__underline_icon:before {
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
   content: "\e660"; }
 
 .cke_button__subscript_icon:before {
@@ -873,8 +873,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 /* The HTML document which is a direct descendant of the IFRAME */
 .cke_panel_container {
-  overflow-y: auto;
-  overflow-x: hidden; }
+  overflow: hidden; }
 
 /*
 Here we start the definition of panel lists (e.g. combo panels). The following
@@ -906,7 +905,7 @@ is its visual representation:
 /* The list of panel items. */
 .cke_panel_list {
   list-style-type: none;
-  margin: 3px;
+  margin: 0;
   padding: 0;
   white-space: nowrap;
   overflow-y: auto;
@@ -1245,7 +1244,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__italic_icon:before {
   content: "\e65f"; }
 
-.cke_button__underline_icon:before {
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
   content: "\e660"; }
 
 .cke_button__subscript_icon:before {
@@ -1823,7 +1822,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__italic_icon:before {
   content: "\e65f"; }
 
-.cke_button__underline_icon:before {
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
   content: "\e660"; }
 
 .cke_button__subscript_icon:before {
@@ -1942,6 +1941,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_combo_text {
   line-height: 26px;
   padding-left: 10px;
+  padding-top: 4px;
   text-overflow: ellipsis;
   overflow: hidden;
   float: left;
@@ -2197,7 +2197,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__italic_icon:before {
   content: "\e65f"; }
 
-.cke_button__underline_icon:before {
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
   content: "\e660"; }
 
 .cke_button__subscript_icon:before {
@@ -2385,7 +2385,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__italic_icon:before {
   content: "\e65f"; }
 
-.cke_button__underline_icon:before {
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
   content: "\e660"; }
 
 .cke_button__subscript_icon:before {
@@ -2629,7 +2629,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__italic_icon:before {
   content: "\e65f"; }
 
-.cke_button__underline_icon:before {
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
   content: "\e660"; }
 
 .cke_button__subscript_icon:before {

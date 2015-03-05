@@ -43,7 +43,7 @@ class ActionResolverTest extends TaoPhpUnitTestRunner {
      */     
     public function actionResolverProvider(){
         return array(
-            array('/tao/Main/index', 'tao_actions_Main', 'index'),
+            array(ROOT_URL . 'tao/Main/index', 'tao_actions_Main', 'index'),
         );
     }   
  

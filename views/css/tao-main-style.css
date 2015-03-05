@@ -7,6 +7,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -199,7 +201,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -370,12 +372,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-@font-face { font-family: 'tao'; src: url("font/tao/tao.eot?-90tbgt"); src: url("font/tao/tao.eot?#iefix-90tbgt") format("embedded-opentype"), url("font/tao/tao.woff?-90tbgt") format("woff"), url("font/tao/tao.ttf?-90tbgt") format("truetype"), url("font/tao/tao.svg?-90tbgt#tao") format("svg"); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'tao'; src: url("font/tao/tao.eot?-9dcu34"); src: url("font/tao/tao.eot?#iefix-9dcu34") format("embedded-opentype"), url("font/tao/tao.woff?-9dcu34") format("woff"), url("font/tao/tao.ttf?-9dcu34") format("truetype"), url("font/tao/tao.svg?-9dcu34#tao") format("svg"); font-weight: normal; font-style: normal; }
                                   /* /  \ |    | --:'''':--
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+.icon-end-attempt:before { content: "\e603"; }
 
 .icon-icon:before { content: "\f1c5"; }
 
@@ -569,7 +573,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -743,6 +747,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -935,7 +941,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -1341,7 +1347,8 @@ textarea { resize: vertical; }
 .feedback-error .icon-error, .tao-error-tooltip .icon-error, .ui-state-error .icon-error { color: #ba122b !important; }
 
 .feedback-info, .tao-info-tooltip { border-color: #3e7da7; background-color: #e6eef4; }
-.feedback-info .icon-info, .tao-info-tooltip .icon-info { color: #0e5d91 !important; }
+.feedback-info .icon-info, .tao-info-tooltip .icon-info, .feedback-info .icon-lock, .tao-info-tooltip .icon-lock { color: #0e5d91 !important; }
+.feedback-info .button-container, .tao-info-tooltip .button-container { margin-top: 20px; }
 
 .feedback-success, .tao-success-tooltip { border-color: #3ea76f; background-color: #e6f4ed; }
 .feedback-success .icon-success, .tao-success-tooltip .icon-success { color: #0e914b !important; }
@@ -1453,6 +1460,8 @@ THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+.icon-end-attempt:before { content: "\e603"; }
 
 .icon-icon:before { content: "\f1c5"; }
 
@@ -1646,7 +1655,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -2032,6 +2041,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -2224,7 +2235,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -2477,6 +2488,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 editor.css
 ============
 
+
 This is he heart of the skin system. This is the file loaded by the editor to
 style all elements inside its main interface.
 
@@ -2491,6 +2503,8 @@ THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+.icon-end-attempt:before { content: "\e603"; }
 
 .icon-icon:before { content: "\f1c5"; }
 
@@ -2684,7 +2698,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -2881,6 +2895,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -3073,7 +3089,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -3391,6 +3407,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -3583,7 +3601,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -3760,7 +3778,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .cke_panel_frame { width: 100%; height: 100%; font-size: 12px; overflow: auto; overflow-x: hidden; }
 
 /* The HTML document which is a direct descendant of the IFRAME */
-.cke_panel_container { overflow-y: auto; overflow-x: hidden; }
+.cke_panel_container { overflow: hidden; }
 
 /*
 Here we start the definition of panel lists (e.g. combo panels). The following
@@ -3790,7 +3808,7 @@ is its visual representation:
 +-------------------------------------+
 */
 /* The list of panel items. */
-.cke_panel_list { list-style-type: none; margin: 3px; padding: 0; white-space: nowrap; overflow-y: auto; height: 170px; }
+.cke_panel_list { list-style-type: none; margin: 0; padding: 0; white-space: nowrap; overflow-y: auto; height: 170px; }
 
 /* The item of .cke_panel_list */
 .cke_panel_listItem { margin: 0; padding-bottom: 1px; }
@@ -3948,6 +3966,8 @@ THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+.icon-end-attempt:before { content: "\e603"; }
 
 .icon-icon:before { content: "\f1c5"; }
 
@@ -4141,7 +4161,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -4515,6 +4535,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -4707,7 +4729,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -4896,7 +4918,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .cke_hc .cke_combo_on a.cke_combo_button, .cke_hc .cke_combo_on .tlb-text-button-box a[class^="tlb-text-button-"], .tlb-text-button-box .cke_hc .cke_combo_on a[class^="tlb-text-button-"], .cke_hc .cke_combo_on .tlb-text-button-box a[class*=" tlb-text-button-"], .tlb-text-button-box .cke_hc .cke_combo_on a[class*=" tlb-text-button-"], .cke_hc .cke_combo_off a.cke_combo_button:hover, .cke_hc .cke_combo_off .tlb-text-button-box a[class^="tlb-text-button-"]:hover, .tlb-text-button-box .cke_hc .cke_combo_off a[class^="tlb-text-button-"]:hover, .cke_hc .cke_combo_off .tlb-text-button-box a[class*=" tlb-text-button-"]:hover, .tlb-text-button-box .cke_hc .cke_combo_off a[class*=" tlb-text-button-"]:hover, .cke_hc .cke_combo_off a.cke_combo_button:focus, .cke_hc .cke_combo_off .tlb-text-button-box a[class^="tlb-text-button-"]:focus, .tlb-text-button-box .cke_hc .cke_combo_off a[class^="tlb-text-button-"]:focus, .cke_hc .cke_combo_off .tlb-text-button-box a[class*=" tlb-text-button-"]:focus, .tlb-text-button-box .cke_hc .cke_combo_off a[class*=" tlb-text-button-"]:focus, .cke_hc .cke_combo_off a.cke_combo_button:active, .cke_hc .cke_combo_off .tlb-text-button-box a[class^="tlb-text-button-"]:active, .tlb-text-button-box .cke_hc .cke_combo_off a[class^="tlb-text-button-"]:active, .cke_hc .cke_combo_off .tlb-text-button-box a[class*=" tlb-text-button-"]:active, .tlb-text-button-box .cke_hc .cke_combo_off a[class*=" tlb-text-button-"]:active { border-width: 3px; padding: 1px; }
 
 /* The label that shows the current value of the rich combo. By default, it holds the name of the property. See: .cke_combo_inlinelabel */
-.cke_combo_text, .tlb-text-button-box [class^="tlb-text-button-"] .tlb-text, .tlb-text-button-box [class*=" tlb-text-button-"] .tlb-text { line-height: 26px; padding-left: 10px; text-overflow: ellipsis; overflow: hidden; float: left; cursor: default; color: #474747; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); width: 60px; }
+.cke_combo_text, .tlb-text-button-box [class^="tlb-text-button-"] .tlb-text, .tlb-text-button-box [class*=" tlb-text-button-"] .tlb-text { line-height: 26px; padding-left: 10px; padding-top: 4px; text-overflow: ellipsis; overflow: hidden; float: left; cursor: default; color: #474747; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); width: 60px; }
 
 .cke_rtl .cke_combo_text, .cke_rtl .tlb-text-button-box [class^="tlb-text-button-"] .tlb-text, .tlb-text-button-box [class^="tlb-text-button-"] .cke_rtl .tlb-text, .cke_rtl .tlb-text-button-box [class*=" tlb-text-button-"] .tlb-text, .tlb-text-button-box [class*=" tlb-text-button-"] .cke_rtl .tlb-text { float: right; text-align: right; padding-left: 0; padding-right: 10px; }
 
@@ -4962,6 +4984,8 @@ THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+.icon-end-attempt:before { content: "\e603"; }
 
 .icon-icon:before { content: "\f1c5"; }
 
@@ -5155,7 +5179,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -5343,6 +5367,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -5535,7 +5561,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -5727,6 +5753,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -5919,7 +5947,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -6113,6 +6141,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -6305,7 +6335,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -6579,6 +6609,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -6771,7 +6803,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -6968,6 +7000,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -7160,7 +7194,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -7362,6 +7396,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -7554,7 +7590,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -7767,6 +7803,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -7959,7 +7997,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -8199,6 +8237,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -8391,7 +8431,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -9435,6 +9475,8 @@ AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
 [class^="icon-"], [class*=" icon-"], .cke_button_icon, .tlb .tlb-bar .tlb-button-on [class^="icon-"], .tlb .tlb-bar .tlb-button-on [class*=" icon-"], .tlb .tlb-bar .tlb-button-off [class^="icon-"], .tlb .tlb-bar .tlb-button-off [class*=" icon-"], .tlb .tlb-bar .tlb-button-disabled [class^="icon-"], .tlb .tlb-bar .tlb-button-disabled [class*=" icon-"], .cke_button, .tlb .tlb-bar .tlb-button-on, .tlb .tlb-bar .tlb-button-off, .tlb .tlb-bar .tlb-button-disabled, table.datatable th.sorted.sorted_asc::after, table.datatable th.sorted.sorted_desc::after, .file-drop ul > li:before, .file-drop ul > li .status.sending:before, .file-drop ul > li .status.success:before, .file-drop ul > li .status.error:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+.icon-end-attempt:before { content: "\e603"; }
+
 .icon-icon:before { content: "\f1c5"; }
 
 .icon-radio-bg:before, label [class^="icon-radio"]:after, label [class*=" icon-radio"]:after { content: "\e600"; }
@@ -9627,7 +9669,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .icon-italic:before, .cke_button__italic_icon:before { content: "\e65f"; }
 
-.icon-underline:before, .cke_button__underline_icon:before { content: "\e660"; }
+.icon-underline:before, .cke_button__underline_icon:before, .cke_button__taounderline_icon:before { content: "\e660"; }
 
 .icon-subscript:before, .cke_button__subscript_icon:before { content: "\e661"; }
 
@@ -9848,6 +9890,8 @@ small { font-size: 1.1rem; font-size: 11px; }
 .txt-rgt { text-align: right; }
 
 .txt-jty { text-align: justify; }
+
+.txt-underline { text-decoration: underline; }
 
 /* fake table stuff */
 .tbl { display: table; float: none !important; }

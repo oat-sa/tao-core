@@ -3,6 +3,10 @@ namespace oat\tao\test;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
+use \common_ext_ExtensionsManager;
+use \common_persistence_Manager;
+
+
 abstract class RestTestCase extends TaoPhpUnitTestRunner
 {
 
@@ -14,9 +18,16 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
 
     protected $password = "";
 
+    
+    public abstract function serviceProvider();
+    
+    
+
+    
     public function setUp()
     {
         TaoPhpUnitTestRunner::initTest();
+        $this->disableCache();
         
         // creates a user using remote script from joel
         
@@ -68,6 +79,7 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
         // removes the created user
         $user = new \core_kernel_classes_Resource($this->userUri);
         $success = $user->delete();
+        $this->restoreCache();
     }
 
     /**
@@ -187,6 +199,57 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
         $http_status = $this->curl($url, CURLOPT_HTTPGET, CURLINFO_HTTP_CODE);
                         $this->assertEquals($http_status, "200");
     
+    }
+    
+    /**
+     * @dataProvider serviceProvider
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function testGetAll($service, $topclass = null){
+        if($topclass == null){
+            $this->markTestSkipped('This test do not apply to topclass' , $topclass);
+        }
+        $url = $this->host.$service;
+        $returnedData = $this->curl($url);
+        $data = json_decode($returnedData, true);
+        $this->assertArrayHasKey('success', $data);
+        $this->assertTrue( $data["success"]);
+    
+        $ItemClass = new \core_kernel_classes_Class($topclass);
+        $instances = $ItemClass->getInstances(true);
+        foreach ($data['data'] as $results){
+            $this->assertInternalType('array', $results);
+            $this->assertArrayHasKey('uri', $results);
+            $this->assertArrayHasKey('properties', $results);
+            $this->assertInternalType('array', $instances);
+    
+            $this->assertArrayHasKey($results['uri'], $instances);
+            $resource = $instances[$results['uri']];
+    
+            foreach ($results['properties'] as $propArray){
+                $this->assertInternalType('array', $propArray);
+    
+                $this->assertArrayHasKey('predicateUri',$propArray);
+                $prop = new \core_kernel_classes_Property($propArray['predicateUri']);
+                $values = $resource->getPropertyValues($prop);
+                $this->assertArrayHasKey('values',$propArray);
+                $current = current($propArray['values']);
+                $this->assertInternalType('array',$current);
+    
+                $this->assertArrayHasKey('valueType',$current);
+                if (\common_Utils::isUri(current($values))){
+                    $this->assertEquals('resource', $current['valueType']);
+    
+                } else {
+                    $this->assertEquals('literal', $current['valueType']);
+                }
+                $this->assertArrayHasKey('value',$current);
+                $this->assertEquals(current($values), $current['value']);
+    
+            }
+             
+        }
+         
     }
 
 }

@@ -151,8 +151,9 @@ class tao_helpers_form_elements_xhtml_Treeview
     				callback:{
 	    				onload: function(TREE_OBJ) {
 	    					checkedElements = '.json_encode($this->values).';
+                            var tree = $("#'. $widgetTreeName.'");
 	    					$.each(checkedElements, function(i, elt){
-								NODE = $("li[id=\'"+elt+"\']");
+								NODE = $("li[id=\'"+elt+"\']", tree);
 								if(NODE.length > 0){
 									parent = TREE_OBJ.parent(NODE);
 									TREE_OBJ.open_branch(parent);

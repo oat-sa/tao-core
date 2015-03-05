@@ -130,10 +130,117 @@ define([
         initElements: function () {
             //save form button
             var that = this;
-            $(".form-submitter").off('click').on('click', function () {
-                var myForm = $(this).parents("form");
-                if (that.submitForm(myForm)) {
-                    myForm.submit();
+            $(".form-submitter").off('click').on('click', function (e) {
+                e.preventDefault();
+                var myForm,
+                    formData,
+                    clazz;
+                myForm = $(this).parents("form");
+
+                if($('[id="tao.forms.class"]').length !== 0){
+                    formData = {};
+                    clazz = {};
+
+                    //get all global data
+                    $('input.global',myForm[0]).each(function(){
+                        var $global = $(this);
+                        var name = $global.attr('name');
+                        if(name.indexOf('class_') > -1){
+                            name = name.replace('class_','');
+                            clazz[name] = $global.val();
+
+                        }
+                        else{
+                            formData[name] = $global.val();
+                        }
+                    });
+                    if(clazz.length !==0){
+                        formData.class = clazz;
+                    }
+
+                    var properties = [];
+                    //get data for each property
+                    $('.regular-property',myForm[0]).each(function(){
+                        var property = {};
+                        var name = '';
+
+                        //get range on advanced mode
+                        var range = [];
+                        $('[id*="http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range-TreeBox"]', this).find('.checked').each(function(){
+                             range.push($(this).parent().attr('id'));
+                        });
+                        if(range.length !== 0){
+                            property['http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range'] = range;
+                        }
+
+                        $(':input.property',this).each(function(){
+                            var $property = $(this);
+                            name = $property.attr('name').replace(/(property_)?[^_]+_/,'');
+                            if($property.attr('type') === 'radio'){
+                                if($property.is(':checked')){
+                                    property[name] = $property.val();
+                                }
+                            }
+                            else{
+                                property[name] = $property.val();
+                            }
+
+                        });
+                        //get data for each index
+                        var indexes = [];
+                        $(':input.index', this).each(function(){
+
+                            var i;
+                            var found = false;
+                            var name = '';
+                            var $index = $(this);
+                            for(i in indexes){
+                                if(indexes[i] && $index.attr('data-related-index') === indexes[i].uri){
+                                    name = $index.attr('name').replace(/(index_)?[^_]+_/,'');
+                                    if($index.attr('type') === 'radio' || $index.attr('type') === 'checkbox'){
+                                        if($index.is(':checked')){
+                                            indexes[i][name] = $index.val();
+                                        }
+                                    }
+                                    else{
+                                        indexes[i][name] = $index.val();
+                                    }
+
+                                    found = true;
+                                }
+                            }
+                            if(!found){
+                                var index = {};
+                                index.uri = $index.attr('data-related-index');
+                                name = $index.attr('name').replace(/(index_)?[^_]+_/,'');
+                                if($index.attr('type') === 'radio'){
+                                    if($index.is(':checked')){
+                                        index[name] = $index.val();
+                                    }
+                                }
+                                else{
+                                    index[name] = $index.val();
+                                }
+                                indexes.push(index);
+                            }
+
+
+                        });
+                        //add indexes to related property
+                        property.indexes = indexes;
+                        properties.push(property);
+                    });
+
+                    formData.properties = properties;
+
+                    if (that.submitForm(myForm, formData)) {
+                        myForm.submit();
+                    }
+                }
+                else{
+                    if (that.submitForm(myForm)) {
+                        myForm.submit();
+                    }
                 }
                 return false;
             });
@@ -255,9 +362,7 @@ define([
                         $_this.after('<span>' + r.name + '</span>');
                     }
                 });
-            });
-
-            $('input.editVersionedFile').click(function () {
+            }).click(function () {
                 var data = {
                     'uri': $("#uri").val(),
                     'propertyUri': $(this).siblings('label.form_desc').prop('for')
@@ -274,8 +379,7 @@ define([
                 if (confirm(__('Please confirm property deletion!'))) {
                     var $groupNode = $(this).closest(".form-group");
                     if ($groupNode.length) {
-                        var index = $('.form-group').index($groupNode);
-                        var uri = $('#propertyUri'+index).val();
+                        var uri = $('[id*="uri"]',$groupNode).val();
                         property.remove(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
                             $groupNode.remove();
                         });
@@ -329,6 +433,7 @@ define([
                 else if (elt.css('display') !== 'none') {
                     elt.css('display', 'none');
                     elt.find('select').prop('disabled', "disabled");
+                    elt.find('select option[value=" "]').attr('selected',true);
                 }
             }
 
@@ -647,9 +752,10 @@ define([
         /**
          * Ajax form submit -> post the form data and display back the form into the container
          * @param myForm
+         * @param serialize
          * @return boolean
          */
-        submitForm: function (myForm) {
+        submitForm: function (myForm, serialize) {
 
             try {
                 if (myForm.prop('enctype') === 'multipart/form-data' && myForm.find(".file-uploader").length) {
@@ -662,7 +768,8 @@ define([
                         return true;//go to the link
                     }
                     else {
-                        $container.load(myForm.prop('action'), myForm.serializeArray());
+                        serialize = typeof serialize !== 'undefined' ? serialize : myForm.serializeArray();
+                        $container.load(myForm.prop('action'), serialize);
                     }
                 }
             }

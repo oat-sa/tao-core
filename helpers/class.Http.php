@@ -121,6 +121,9 @@ class tao_helpers_Http
                 }
             }
         }
+        if (!is_uploaded_file($fileData['tmp_name'])) {
+            throw new common_exception_Error('Non uploaded file in filedata, potential attack');
+        }
         return $fileData;
     }
 

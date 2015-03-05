@@ -131,6 +131,11 @@ small {
     text-align: justify
 }
 
+// added to make _u_ in ck QTI compatible
+.txt-underline {
+    text-decoration: underline;
+}
+
 /* fake table stuff */
 .tbl {
     display: table;
