@@ -204,7 +204,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     &:before {
-    @include tao-icon-setup;
         @include icon-down;
     }
     &:hover {
