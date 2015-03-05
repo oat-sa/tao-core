@@ -179,7 +179,6 @@ body {
         @include border-radius();
     }
 
-
     hr {
         display: block;
         height: 1px;
@@ -280,6 +279,24 @@ body {
         margin: 0;
         padding: 0;
     }
+
+    /* fake table stuff */
+    .tbl {
+        display: table;
+        float: none !important;
+    }
+
+    .tbl-row {
+        display: table-row;
+        float: none !important;
+    }
+
+    .tbl-cell {
+        display: table-cell;
+        vertical-align: top;
+        float: none !important;
+    }
+
     table.matrix {
 
         width: 100%;
@@ -463,6 +480,11 @@ body {
 
     .txt-jty {
         text-align: justify
+    }
+
+    // added to make _u_ in ck QTI compatible
+    .txt-underline {
+        text-decoration: underline;
     }
 
     ::-moz-selection {

@@ -24,6 +24,7 @@ use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\helpers\translation\rdf\RdfPack;
 use oat\generis\model\data\ModelManager;
+use oat\tao\model\extension\ExtensionModel;
 
 /**
  * Specification of the Generis ExtensionInstaller class to add a new behavior:
@@ -44,6 +45,16 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
     // --- OPERATIONS ---
     
     /**
+     * Override the default model with the translated model
+     * 
+     * (non-PHPdoc)
+     * @see common_ext_ExtensionInstaller::getExtensionModel()
+     */
+    public function getExtensionModel() {
+        return new ExtensionModel($this->extension);
+    }
+    
+    /**
      * Will create the model of Modules and Actions (MVC) in the persistent
      *
      * @access public
@@ -55,23 +66,7 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
     {
         $this->installManagementRole();
         $this->applyAccessRules();
-        $this->installLanguagePacks();
         $this->registerClientLib();
-    }
-
-    /**
-     * Extension may declare client lib to add alias into requireJs
-     * 
-     * @author Lionel Lecaque, lionel@taotesting.com
-     */
-    public function registerClientLib()
-    {        
-        $extManifestConsts = $this->extension->getConstants();
-        if(isset($extManifestConsts['BASE_WWW'])){
-            ClientLibRegistry::getRegistry()->register($this->extension->getId(),$extManifestConsts['BASE_WWW']. 'js');
-            ClientLibRegistry::getRegistry()->register($this->extension->getId().'Css',$extManifestConsts['BASE_WWW']. 'css');
-            
-        }
     }
 
     /**
@@ -114,24 +109,7 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
             common_Logger::i("No management role for extension '" . $this->extension->getId() . "'.");
         }
     }
-    
-    public function installLanguagePacks()
-    {
-        
-        $langService = tao_models_classes_LanguageService::singleton();
-        $dataUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
-        $dataOptions = array();
-        
-        $rdf = ModelManager::getModel()->getRdfInterface();
-        foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
-            $langCode = $langService->getCode($lang);
-            $pack = new RdfPack($langCode, $this->extension);
-            foreach ($pack as $triple) {
-                $rdf->add($triple);
-            }
-        }
-    }
-    
+
     /**
      * Will make the Global Manager include the Management Role of the extension
      * to install (if it exists).
@@ -146,6 +124,21 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
         foreach ($this->extension->getManifest()->getAclTable() as $tableEntry) {
             $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
             AclProxy::applyRule($rule);
+        }
+    }
+
+    /**
+     * Extension may declare client lib to add alias into requireJs
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function registerClientLib()
+    {        
+        $extManifestConsts = $this->extension->getConstants();
+        if(isset($extManifestConsts['BASE_WWW'])){
+            ClientLibRegistry::getRegistry()->register($this->extension->getId(),$extManifestConsts['BASE_WWW']. 'js');
+            ClientLibRegistry::getRegistry()->register($this->extension->getId().'Css',$extManifestConsts['BASE_WWW']. 'css');
+            
         }
     }
 }

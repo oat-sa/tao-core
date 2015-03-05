@@ -21,7 +21,7 @@
 
 namespace oat\tao\helpers;
 
-use oat\controllerMap\parser\Factory;
+use oat\tao\model\controllerMap\Factory;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\generis\model\data\permission\PermissionInterface;
 /**
@@ -95,11 +95,7 @@ class ControllerHelper
             $rights = array();
             $factory = new Factory();
             $controller = $factory->getActionDescription($controllerClassName, $actionName);
-            foreach ($controller->getRequiredRights() as $paramName => $right) {
-                $rights[$paramName] = in_array($right, PermissionManager::getPermissionModel()->getSupportedRights())
-                ? $right : PermissionInterface::RIGHT_UNSUPPORTED;
-            }
-            \common_cache_FileCache::singleton()->put($rights, self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
+            \common_cache_FileCache::singleton()->put($controller->getRequiredRights(), self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
         }
         return $rights;
     }
