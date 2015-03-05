@@ -1,4 +1,4 @@
-module.exports = function(grunt) { 
+module.exports = function(grunt) {
 
     var sass    = grunt.config('sass') || {};
     var watch   = grunt.config('watch') || {};
@@ -9,9 +9,9 @@ module.exports = function(grunt) {
         unixNewlines : true,
         loadPath : ['../scss/', '../js/lib/'],
         lineNumbers : false,
-        style : 'compact'
+        style : 'compressed'
     };
-    
+
     sass.tao = {
         files : {
             '../css/tao-main-style.css' : '../scss/tao-main-style.scss',
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
             '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss',
         }
     };
-    
+
     sass.ckeditor = {
         files : {
             '../js/lib/ckeditor/skins/tao/editor.css' : '../js/lib/ckeditor/skins/tao/scss/editor.scss',
@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 
     notify.taosass = {
         options: {
-            title: 'Grunt SASS', 
+            title: 'Grunt SASS',
             message: 'SASS files compiled to CSS'
         }
     };
@@ -46,7 +46,7 @@ module.exports = function(grunt) {
     grunt.config('sass', sass);
     grunt.config('watch', watch);
     grunt.config('notify', notify);
-    
+
     //register an alias for main build
     grunt.registerTask('taosass', ['sass:tao']);
 };

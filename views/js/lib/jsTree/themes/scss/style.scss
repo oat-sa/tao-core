@@ -138,8 +138,8 @@
             position: relative;
             left: -15px;
             top: 4px;
-            @extend %tao-icon-setup;
-            @extend %icon-lock;
+            @include tao-icon-setup;
+            @include icon-lock;
             color: #EED401;
             text-shadow: 0px 0px 1px #666;
             @include font-size(14);
@@ -171,14 +171,16 @@
 
     .node-class {
         & > a > ins:before {
-            @extend %icon-folder;
+	    @include tao-icon-setup;
+            @include icon-folder;
             color: $warning;
             top: 2px;
             text-shadow: 1px 1px 0 blacken($warning, .2);
         }
         &.open {
             & > a > ins:before {
-                @extend %icon-folder-open;
+	        @include tao-icon-setup;
+                @include icon-folder-open;
             }
         }
     }
@@ -201,38 +203,46 @@
 }
 
 .taotree-delivery .node-instance ins:before{
-    @extend %icon-delivery;
+    @include tao-icon-setup;
+    @include icon-delivery;
 }
 
 .taotree-group .node-instance ins:before{
-    @extend %icon-users;
+    @include tao-icon-setup;
+    @include icon-users;
 }
 
 .taotree-item .node-instance ins:before{
-    @extend %icon-item;
+    @include tao-icon-setup;
+    @include icon-item;
 }
 
 .taotree-repository .node-instance ins:before{
-    @extend %icon-repository;
+    @include tao-icon-setup;
+    @include icon-repository;
 }
 
 .taotree-result_server .node-instance ins:before{
-    @extend %icon-result-server;
+    @include tao-icon-setup;
+    @include icon-result-server;
 }
 
 .taotree-result{
   .node-instance ins:before{
-    @extend %icon-result;
+    @include tao-icon-setup;
+    @include icon-result;
   }
   .node-class {
     & > a > ins:before {
-      @extend %icon-delivery;
+      @include tao-icon-setup;
+      @include icon-delivery;
       color: $colorWheel-06;
       text-shadow: 1px 1px 0 blacken($warning, .2);
     }
     &.open {
       & > a > ins:before {
-        @extend %icon-delivery;
+        @include tao-icon-setup;
+        @include icon-delivery;
         color: $colorWheel-06;
         text-shadow: 1px 1px 0 blacken($warning, .2);
       }
@@ -241,23 +251,28 @@
 }
 
 .taotree-role .node-instance ins:before{
-    @extend %icon-user;
+    @include tao-icon-setup;
+    @include icon-user;
 }
 
 .taotree-test_taker .node-instance ins:before{
-    @extend %icon-test-taker;
+    @include tao-icon-setup;
+    @include icon-test-taker;
 }
 
 .taotree-test .node-instance ins:before{
-    @extend %icon-test;
+    @include tao-icon-setup;
+    @include icon-test;
 }
 
 .taotree-media .node-instance ins:before{
-  @extend %icon-media;
+    @include tao-icon-setup;
+  @include icon-media;
 }
 
 .taotree-default{
-    @extend %icon-new-page;
+    @include tao-icon-setup;
+    @include icon-new-page;
 }
 
 #jstree-dragged {
@@ -345,14 +360,14 @@
     }
     li.node-instance >  a {
         ins:before {
-            @extend %tao-icon-setup;
-            @extend %icon-checkbox;
+            @include tao-icon-setup;
+            @include icon-checkbox;
         }
 
         &.checked {
             ins:before {
-                @extend %tao-icon-setup;
-                @extend %icon-checkbox-checked;
+                @include tao-icon-setup;
+                @include icon-checkbox-checked;
             }
         }
     }
