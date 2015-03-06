@@ -72,7 +72,7 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
                         var rootNode = $treeElt.data('rootnode');
                         var treeUrl = context.root_url;
                         var treeActions = {};
-                        $.each($treeElt.data('tree-attributes'), function (key, val) {
+                        $.each($treeElt.data('actions'), function (key, val) {
                             if (actions.getBy(val)) {
                                 treeActions[key] = val;
                             }

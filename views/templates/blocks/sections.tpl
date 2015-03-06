@@ -54,7 +54,7 @@ $sections = get_data('sections');
                                  ) ?>"
                                  data-url="<?= $tree->get('dataUrl') ?>"
                                  data-rootNode="<?= $tree->get('rootNode') ?>"
-                                 data-tree-attributes="<?= htmlspecialchars(json_encode($tree->getAttributes(true)), ENT_QUOTES) ?>">
+                                 data-actions="<?= htmlspecialchars(json_encode($tree->getActions()), ENT_QUOTES) ?>">
                             </div>
                         <?php endforeach; ?>
                     </div>
