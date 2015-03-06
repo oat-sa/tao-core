@@ -292,7 +292,7 @@ define([
                         nodeContext.id = $node.data('uri');
                         nodeContext.context = ['class', 'resource'];
                         
-                        executePossibleAction(options.actions, nodeContext);
+                        executePossibleAction(options.actions, nodeContext, ['delete']);
                     }
 
                     //exec the  selectInstance action
@@ -306,7 +306,7 @@ define([
                         treeStore.lastSelected = nodeId; 
                         store.set('taotree.' + context.section, treeStore);
                         
-                        executePossibleAction(options.actions, nodeContext, ['moveInstance']);
+                        executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
                     }
 
                     /**
