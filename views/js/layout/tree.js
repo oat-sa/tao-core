@@ -113,7 +113,7 @@ define([
                     deletable	: true,
                     creatable	: true,
                     draggable	: function($node) {
-                        return $node.hasClass('node-instance') && options.actions && options.actions.moveInstance;
+                        return $node.hasClass('node-instance') && !$node.hasClass('node-undraggable') && options.actions && options.actions.moveInstance;
                     }
                 }
             },
@@ -517,16 +517,24 @@ define([
                 return;
             } 
             if(node.type){
-                if(node.type === 'class' && !hasAccessTo('selectClass', node)){
-                    addClassToNode(node, 'private');
-                }   
-                else if(node.type === 'instance'){
-                    if (!hasAccessTo('selectInstance', node) || !hasAccessTo('viewInstance', node)) {
-                        addClassToNode(node, 'private');
-                    }
-                    if (!hasAccessTo('editInstance', node)) {
-                        addClassToNode(node, 'readonly');
-                    }
+                var actions = _.pluck(_.filter(options.actions, {context: node.type}), 'id'),
+                    keys = _.intersection(_.keys(node.permissions), actions),
+                    values = _.filter(node.permissions, function (val, key) {
+                        return _.contains(keys, key);
+                    }),
+                    containsTrue = _.contains(values, true),
+                    containsFalse = _.contains(values, false);
+            
+                if (containsTrue && !containsFalse) {
+                    addClassToNode(node, 'permissions-full');
+                } else if (containsTrue && containsFalse) {
+                    addClassToNode(node, 'permissions-partial');
+                } else {
+                    addClassToNode(node, 'permissions-none');
+                }
+                
+                if (!hasAccessTo('moveInstance', node)) {
+                    addClassToNode(node, 'node-undraggable');
                 }
             }
             if(node.children){

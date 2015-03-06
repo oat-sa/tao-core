@@ -2,7 +2,7 @@
 THIS CODE IS GENERATED          :*_* : _:"":\___
 AUTOMAGICALLY    * *      ____.' :::     '._ *=====<<=)           \    :
 DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   :    \ :   .      '. :  : :      : :__:-:__.;--' <*_/   <*/
-.tree li.readonly ins:after, .tree li.private ins:after, .tree-checkbox li.node-instance > a ins:before, .tree-checkbox li.node-instance > a.checked ins:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.tree li.private ins:after, .tree li.permissions-partial ins:after, .tree li.permissions-none ins:after, .tree-checkbox li.node-instance > a ins:before, .tree-checkbox li.node-instance > a.checked ins:before { font-family: 'tao'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 .taotree-repository .node-instance ins:before { content: "\e60a"; }
 
@@ -12,9 +12,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .tree .node-class.open > a > ins:before { content: "\e60d"; }
 
-.tree li.private ins:after, .tree li.private.readonly ins:after { content: "\e629"; }
+.tree li.private ins:after, .tree li.permissions-none ins:after { content: "\e629"; }
 
-.tree li.readonly ins:after { content: "\e635"; }
+.tree li.permissions-partial ins:after { content: "\e635"; }
 
 .taotree-group .node-instance ins:before { content: "\e63c"; }
 
@@ -61,9 +61,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 .tree li.paginate span.clicked { background: none; border: none; }
 .tree li.paginate-more ins { background-image: url("paginate_more.png"); }
 .tree li.paginate-all ins { background-image: url("paginate_all.png"); }
-.tree li.readonly ins:after, .tree li.private ins:after { display: inline-block; position: relative; left: -15px; top: 4px; text-shadow: 0px 0px 1px #666; font-size: 14px; font-size: 1.4rem; }
-.tree li.readonly ins:after { color: #EED401; }
-.tree li.private ins:after, .tree li.private.readonly ins:after { color: #BA122B; }
+.tree li.private ins:after, .tree li.permissions-partial ins:after, .tree li.permissions-none ins:after { display: inline-block; position: relative; left: -15px; top: 4px; text-shadow: 0px 0px 1px #666; font-size: 14px; font-size: 1.4rem; }
+.tree li.permissions-partial ins:after { color: #EED401; }
+.tree li.private ins:after, .tree li.permissions-none ins:after { color: #BA122B; }
 .tree li.open ul { display: block; }
 .tree li.closed ul { display: none !important; }
 .tree li li { overflow: visible; }
