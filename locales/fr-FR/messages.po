@@ -1,24 +1,27 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0\n"
-"PO-Revision-Date: 2015-01-06 14:17+0000\n"
-"Last-Translator: Cyril <cyril@taotesting.com>\n"
-"Language: fr-FR\n"
+"Project-Id-Version: TAO 3.0-RC04\n"
+"PO-Revision-Date: 2015-03-09T17:30:15\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.5.1-rc1\n"
+"Language: fr-FR\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: fr-FR\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-POOTLE-MTIME: 1420553832.000000\n"
 
 #, tao-public
 msgid "\n"
 "            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
+
+msgid " and "
+msgstr ""
+
+msgid " Fill in the gaps in a text from a set of choices."
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -39,14 +42,50 @@ msgstr " requiert un adaptateur de sous-grille"
 msgid "\"list saved\""
 msgstr ""
 
+msgid "%d day"
+msgstr ""
+
+msgid "%d days"
+msgstr ""
+
+msgid "%h hour"
+msgstr ""
+
+msgid "%h hours"
+msgstr ""
+
+msgid "%i minute"
+msgstr ""
+
+msgid "%i minutes"
+msgstr ""
+
+msgid "%m month"
+msgstr ""
+
+msgid "%m months"
+msgstr ""
+
 msgid "%s (%s kb)"
 msgstr "%s (%s kb)"
 
 msgid "%s extension(s) to install."
 msgstr "%s extension(s) à installer."
 
+msgid "%s Locked', get_data('topclass-label"
+msgstr ""
+
+msgid "%y year"
+msgstr ""
+
+msgid "%y years"
+msgstr ""
+
 msgid "(empty)"
 msgstr "(vide)"
+
+msgid "-- Any kind of file --"
+msgstr ""
 
 msgid "... reloading page."
 msgstr ""
@@ -63,11 +102,20 @@ msgstr "> Extension %s installée avec succès."
 msgid "> Installation done."
 msgstr "> Installation terminée."
 
+msgid "A choice must be selected"
+msgstr ""
+
 msgid "A fatal error occured during the installation process."
 msgstr "Une erreur fatale s'est produite pendant l'installation."
 
+msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
+msgstr ""
+
 msgid "A similar resource has already been versioned"
 msgstr "Une ressource similaire est déjà versionnée"
+
+msgid "A visible section is one that is identifiable by the candidate."
+msgstr ""
 
 msgid "Access Denied"
 msgstr "Accès refusé"
@@ -78,6 +126,12 @@ msgstr "Accès refusé. Veuillez renouveler votre authentification !"
 msgid "Actions"
 msgstr "Actions"
 
+msgid "Actual size"
+msgstr ""
+
+msgid "Adapt to item size"
+msgstr ""
+
 msgid "Add"
 msgstr "Ajouter"
 
@@ -87,11 +141,23 @@ msgstr "Ajouter / Modifier les listes"
 msgid "Add a CSV file"
 msgstr ""
 
+msgid "Add a modal feedback"
+msgstr ""
+
 #, tao-public
 msgid "Add a user"
 msgstr "Ajouter un utilisateur"
 
 msgid "Add an RDF/XML file"
+msgstr ""
+
+msgid "Add another option"
+msgstr ""
+
+msgid "Add choice"
+msgstr ""
+
+msgid "Add else feedback"
 msgstr ""
 
 msgid "Add file(s)"
@@ -100,11 +166,23 @@ msgstr ""
 msgid "Add grades"
 msgstr "Ajouter des niveaux"
 
+msgid "Add new pairs"
+msgstr ""
+
+msgid "Add selected item(s) here."
+msgstr ""
+
 msgid "Add the source file."
 msgstr " Ajoutez le fichier source."
 
 msgid "Advanced Mode"
 msgstr "Mode avancé"
+
+msgid "Alignment"
+msgstr ""
+
+msgid "Alignment (optional)"
+msgstr ""
 
 msgid "All"
 msgstr "Tout"
@@ -121,17 +199,44 @@ msgstr ""
 msgid "All rights reserved."
 msgstr "Tous droits réservés."
 
+msgid "Allow Comment"
+msgstr ""
+
+msgid "Allow Review"
+msgstr ""
+
+msgid "Allow Skipping"
+msgstr ""
+
+msgid "Allow the candidate to review his answers."
+msgstr ""
+
+msgid "Allowed number of associations"
+msgstr ""
+
+msgid "Allowed number of choices"
+msgstr ""
+
+msgid "Allowed number of matches"
+msgstr ""
+
+msgid "Allowed number of uses"
+msgstr ""
+
 msgid "Allows the management of the repositories"
 msgstr "Permet la gestion des dépôts."
 
 msgid "Alpha version"
 msgstr "Version alpha"
 
+msgid "Alt Text"
+msgstr ""
+
 msgid "An error occured during user deletion"
 msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
 
-msgid "and"
-msgstr "et"
+msgid "An invisible section with a parent that is subject to shuffling can specify whether or not its children, which will appear to the candidate as if they were part of the parent, are shuffled as a block or mixed up with the other children of the parent section."
+msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
@@ -141,8 +246,23 @@ msgstr "Êtes-vous sûr de vouloir supprimer la ressource versionnée ?\n"
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
+msgid "Arrange a list of choices in the correct order."
+msgstr ""
+
 msgid "Assign User to role"
 msgstr "Assigner Utilisateur à un rôle"
+
+msgid "Associate"
+msgstr ""
+
+msgid "Associate Interaction"
+msgstr ""
+
+msgid "association pairs"
+msgstr ""
+
+msgid "at least"
+msgstr ""
 
 msgid "Author"
 msgstr "Auteur"
@@ -153,6 +273,9 @@ msgstr ""
 msgid "Authoring"
 msgstr "Éditeur "
 
+msgid "Autostart"
+msgstr ""
+
 msgid "Available Extensions"
 msgstr "Extensions disponibles"
 
@@ -162,13 +285,28 @@ msgstr ""
 msgid "Beta version"
 msgstr "Version bêta"
 
+msgid "block"
+msgstr ""
+
+msgid "Block"
+msgstr ""
+
+msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
+msgstr ""
+
 msgid "Browse"
 msgstr "Naviguer"
 
 msgid "Browse folders:"
 msgstr ""
 
+msgid "Browse your computer and select the appropriate file."
+msgstr ""
+
 msgid "Browse..."
+msgstr ""
+
+msgid "by:"
 msgstr ""
 
 msgid "Calendar"
@@ -177,7 +315,13 @@ msgstr "Calendrier"
 msgid "Cancel"
 msgstr "Annuler"
 
+msgid "Candidate"
+msgstr ""
+
 msgid "Cannot be edited"
+msgstr ""
+
+msgid "Categories"
 msgstr ""
 
 #, tao-public
@@ -187,11 +331,29 @@ msgstr "Changer le mot de passe"
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check all"
-msgstr "Cocher tout"
+msgid "chars"
+msgstr ""
 
 msgid "Check All"
 msgstr "Cocher Tout"
+
+msgid "Check all"
+msgstr "Cocher tout"
+
+msgid "Choice"
+msgstr ""
+
+msgid "Choice Image"
+msgstr ""
+
+msgid "Choice Interaction"
+msgstr ""
+
+msgid "Choices"
+msgstr ""
+
+msgid "choices"
+msgstr ""
 
 msgid "Choose export format"
 msgstr "Format d'export"
@@ -202,10 +364,28 @@ msgstr "Format d'import"
 msgid "class selected"
 msgstr "classe sélectionnée"
 
+msgid "Click again to remove"
+msgstr ""
+
+msgid "Click to display interaction widget"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
 msgid "Close tab"
 msgstr "Fermer l'onglet"
 
 msgid "Collapse Message"
+msgstr ""
+
+msgid "Collect open-ended information in a short text input (strings or numeric values)."
+msgstr ""
+
+msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
+msgstr ""
+
+msgid "Color Picker"
 msgstr ""
 
 msgid "Column"
@@ -223,23 +403,65 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+msgid "Contraints"
+msgstr ""
+
+msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
+msgstr ""
+
+msgid "Controls the maximum number of attempts allowed. 0 means unlimited."
+msgstr ""
+
+msgid "Correct"
+msgstr ""
+
+msgid "correct"
+msgstr ""
+
 msgid "Create"
 msgstr "Créer"
 
 msgid "Create a list"
 msgstr "Créer une liste"
 
+msgid "Create assocations and fill the score in the form below"
+msgstr ""
+
+msgid "Create association(s) between areas (hotspots) displayed on a picture."
+msgstr ""
+
+msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
+msgstr ""
+
+msgid "Create gap"
+msgstr ""
+
+msgid "Create hottext"
+msgstr ""
+
 msgid "Create instance of "
 msgstr "Créer une instance de "
 
+msgid "Create pair(s) from a series of choices."
+msgstr ""
+
 msgid "CSV"
 msgstr "CSV"
+
+msgid "CSV file"
+msgstr ""
 
 msgid "CSV Options"
 msgstr "Options CSV"
 
 msgid "Current language"
 msgstr "Langue courante"
+
+msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
+msgstr ""
+
+msgid "Custom Response Processing Mode"
+msgstr ""
 
 msgid "Data imported"
 msgstr ""
@@ -256,22 +478,52 @@ msgstr "Langue des données"
 msgid "Data language"
 msgstr "Langue des données"
 
-msgid "day"
-msgstr "jour"
+msgid "date:"
+msgstr ""
 
-msgid "days"
-msgstr "jours"
+msgid "Default"
+msgstr ""
+
+msgid "default"
+msgstr ""
 
 msgid "Default user cannot be deleted"
+msgstr ""
+
+msgid "Define correct response"
+msgstr ""
+
+msgid "define prompt"
+msgstr ""
+
+msgid "Define the correct response."
 msgstr ""
 
 msgid "Define the default values"
 msgstr "Définir les valeurs par défaut"
 
+msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
+msgstr ""
+
+msgid "Define whether the item should be time dependent on delivery."
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
 msgid "Delete"
 msgstr "Supprimer"
 
+msgid "Delete else statement"
+msgstr ""
+
 msgid "Delete this list"
+msgstr ""
+
+msgid "Delete this modal feedback"
+msgstr ""
+
+msgid "Delivery Class saved"
 msgstr ""
 
 msgid "Delivery results"
@@ -280,7 +532,22 @@ msgstr "Résultats de la passation"
 msgid "Demo Sandbox"
 msgstr ""
 
+msgid "Description"
+msgstr ""
+
+msgid "Desktop preview"
+msgstr ""
+
+msgid "Disable this stylesheet temporarily"
+msgstr ""
+
 msgid "Disabled %s', $this->getRequestParameter('id"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Display larger editor"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -294,6 +561,9 @@ msgstr ""
 msgid "Don't set"
 msgstr "Ne pas insérer"
 
+msgid "done"
+msgstr ""
+
 msgid "Download"
 msgstr "Télécharger"
 
@@ -303,13 +573,31 @@ msgstr "Télécharger le contenu"
 msgid "Download this file"
 msgstr ""
 
+msgid "Download this stylesheet"
+msgstr ""
+
 msgid "Drag file here"
 msgstr ""
 
 msgid "Drag files here"
 msgstr ""
 
+msgid "Draw a circle on the image"
+msgstr ""
+
+msgid "Draw a free form on the image"
+msgstr ""
+
+msgid "Draw a rectangle on the image"
+msgstr ""
+
+msgid "Draw an ellipsis on the image"
+msgstr ""
+
 msgid "Drop the files to upload"
+msgstr ""
+
+msgid "Drop the target to select a point"
 msgstr ""
 
 msgid "e-mail"
@@ -322,10 +610,31 @@ msgstr "Éditer"
 msgid "Edit a user"
 msgstr "Éditer un utilisateur"
 
+msgid "edit choices"
+msgstr ""
+
 msgid "Edit Instance"
 msgstr "Modifier Instance"
 
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
+
+msgid "Edit math expression using MathML"
+msgstr ""
+
+msgid "Edit modal feedback title"
+msgstr ""
+
+msgid "Edit stylesheet label"
+msgstr ""
+
 msgid "Edit this list"
+msgstr ""
+
+msgid "Editing Mode"
+msgstr ""
+
+msgid "Editing this element is not supported currently."
 msgstr ""
 
 msgid "Element"
@@ -343,10 +652,28 @@ msgstr ""
 msgid "Element not deleted"
 msgstr ""
 
+msgid "elements"
+msgstr ""
+
 msgid "Email"
 msgstr ""
 
+msgid "Enable selection"
+msgstr ""
+
+msgid "Enable the test taker to pause and restart the playing."
+msgstr ""
+
+msgid "End Attempt"
+msgstr ""
+
+msgid "End Attempt Interaction"
+msgstr ""
+
 msgid "Enter"
+msgstr ""
+
+msgid "Enter a category"
 msgstr ""
 
 msgid "Entity with such field already present"
@@ -370,12 +697,24 @@ msgstr "Export"
 msgid "Export Metadata as RDF/XML file"
 msgstr ""
 
+msgid "Extended Text"
+msgstr ""
+
+msgid "Extended Text Interaction"
+msgstr ""
+
 msgid "Extension "
 msgstr "L'extension "
 
 #, tao-public
 msgid "Extensions manager"
 msgstr "Gestionnaire d'extensions"
+
+msgid "Failed to save item"
+msgstr ""
+
+msgid "Feedback"
+msgstr ""
 
 msgid "Field delimiter"
 msgstr "Séparateur de champ"
@@ -407,10 +746,19 @@ msgstr ""
 msgid "File sources"
 msgstr "Sources du fichier"
 
+msgid "File Upload"
+msgstr ""
+
+msgid "File Upload Interaction"
+msgstr ""
+
 msgid "File Uploader"
 msgstr ""
 
 msgid "files selected"
+msgstr ""
+
+msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr ""
 
 msgid "Filter"
@@ -428,20 +776,116 @@ msgstr "Prénom"
 msgid "First row column names"
 msgstr "Noms de colonne en première ligne"
 
+msgid "Fixed"
+msgstr ""
+
+msgid "Fixed position in a shuffled the selection."
+msgstr ""
+
+msgid "Flash video"
+msgstr ""
+
+msgid "Format"
+msgstr ""
+
+msgid "Gap"
+msgstr ""
+
+msgid "Gap Match"
+msgstr ""
+
+msgid "Gap Match Interaction"
+msgstr ""
+
+msgid "Gaps"
+msgstr ""
+
+msgid "GIF image"
+msgstr ""
+
 msgid "Go Back"
 msgstr "Revenir"
 
+msgid "Graphic Associate"
+msgstr ""
+
+msgid "Graphic Associate Interaction"
+msgstr ""
+
+msgid "Graphic Gap"
+msgstr ""
+
+msgid "Graphic Gap Match Interaction"
+msgstr ""
+
+msgid "Graphic Order"
+msgstr ""
+
+msgid "Graphic Order Interaction"
+msgstr ""
+
+msgid "he maximum number of associations that the candidate is allowed to make."
+msgstr ""
+
 msgid "Height"
+msgstr ""
+
+msgid "Height (optional)"
 msgstr ""
 
 msgid "Hide detailed report"
 msgstr ""
 
-msgid "hour"
-msgstr "heure"
+msgid "Hotspot"
+msgstr ""
+
+msgid "Hotspot Interaction"
+msgstr ""
+
+msgid "Hottext"
+msgstr ""
+
+msgid "Hottext Interaction"
+msgstr ""
 
 msgid "hours"
 msgstr "heures"
+
+msgid "How the math expression should be displayed."
+msgstr ""
+
+msgid "How the math expression should be edited"
+msgstr ""
+
+msgid "identical pair already exists"
+msgstr ""
+
+msgid "identifier"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
+msgstr ""
+
+msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid.Care is needed to ensure that the format of the required input is clear to the candidate, especially when validity checking of responses is required for progression through a test. This could be done by providing an illustrative sample response in the prompt, for example."
+msgstr ""
+
+msgid "If required it must appear (at least once) in the selection."
+msgstr ""
+
+msgid "If required, it must appears at least once in the selection."
+msgstr ""
+
+msgid "If set, it causes the order of the child elements to be randomized, otherwise it uses the order in which the child elements are defined."
+msgstr ""
+
+msgid "If the candidate can skip the item, without submitting a response."
+msgstr ""
+
+msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
+msgstr ""
 
 msgid "Import"
 msgstr "Importer"
@@ -458,10 +902,31 @@ msgstr ""
 msgid "Import report"
 msgstr ""
 
+msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
+msgstr ""
+
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
 
+msgid "incorrect"
+msgstr ""
+
 msgid "Index"
+msgstr ""
+
+msgid "Individual"
+msgstr ""
+
+msgid "inline"
+msgstr ""
+
+msgid "Inline Choice"
+msgstr ""
+
+msgid "Inline Choice Interaction"
+msgstr ""
+
+msgid "Inline interactions need to be inserted into a text block."
 msgstr ""
 
 msgid "Install"
@@ -481,6 +946,9 @@ msgstr "Installation de l'extension %s..."
 
 msgid "Instance saved"
 msgstr "Instance enregistrée"
+
+msgid "Interaction Background"
+msgstr ""
 
 msgid "Interface language"
 msgstr "Langue de l'interface"
@@ -503,10 +971,40 @@ msgstr "Taille du fichier invalide"
 msgid "Invalid file type!"
 msgstr "Type de fichier invalide"
 
+msgid "invalid identifier"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "Identifiant ou mot de passe invalide. Veuillez réessayer."
 
 msgid "invalid regular expression"
+msgstr ""
+
+msgid "is already used in the test."
+msgstr ""
+
+msgid "is not a valid identifier (alphanum, underscore, dash and dots.)"
+msgstr ""
+
+msgid "Is this choice the correct response?"
+msgstr ""
+
+msgid "Is this pair the correct response?"
+msgstr ""
+
+msgid "Item Reference Properties"
+msgstr ""
+
+msgid "Item Session Control"
+msgstr ""
+
+msgid "Items can optionally be assigned to one or more categories."
+msgstr ""
+
+msgid "JPEG image"
+msgstr ""
+
+msgid "Keep Together"
 msgstr ""
 
 msgid "Label"
@@ -523,6 +1021,36 @@ msgstr "Langue non supportée"
 
 msgid "Last Name"
 msgstr "Nom"
+
+msgid "Late submission allowed"
+msgstr ""
+
+msgid "LaTex"
+msgstr ""
+
+msgid "Latex"
+msgstr ""
+
+msgid "leave empty"
+msgstr ""
+
+msgid "left"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Length"
+msgstr ""
+
+msgid "less than a minute"
+msgstr ""
+
+msgid "Linear"
+msgstr ""
+
+msgid "Lines"
+msgstr ""
 
 msgid "List"
 msgstr "Liste"
@@ -578,6 +1106,12 @@ msgstr "Identifiant disponible"
 msgid "Login failed"
 msgstr "Connexion échouée"
 
+msgid "Loop"
+msgstr ""
+
+msgid "Lower Bound"
+msgstr ""
+
 msgid "Manage content of the property "
 msgstr "Gérer le contenu de la propriété "
 
@@ -590,6 +1124,9 @@ msgstr "Gérer les rôles"
 
 msgid "Manage Roles and apply them to users."
 msgstr "Gère des Rôles et les applique aux utilisateurs."
+
+msgid "Manage Rubric Blocks"
+msgstr ""
 
 msgid "Manage the versioned content : "
 msgstr "Gérer le contenu versionné : "
@@ -604,26 +1141,158 @@ msgstr "Gérer les fichiers versionnés"
 msgid "Map the properties to the CSV columns"
 msgstr "Choisissez les propriétés relatives aux colonnes CSV"
 
+msgid "Mapping default"
+msgstr ""
+
+msgid "Match"
+msgstr ""
+
+msgid "Match Interaction"
+msgstr ""
+
+msgid "MathJax is not installed."
+msgstr ""
+
+msgid "MathML"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "Max Attempts"
+msgstr ""
+
+msgid "Max length"
+msgstr ""
+
+msgid "Max Length"
+msgstr ""
+
+msgid "Max Words"
+msgstr ""
+
+msgid "Max words"
+msgstr ""
+
+msgid "Maximal score for this interaction."
+msgstr ""
+
+msgid "maximum"
+msgstr ""
+
+msgid "Maximum choices reached"
+msgstr ""
+
+msgid "Maximum Duration"
+msgstr ""
+
+msgid "Maximum duration for the all test."
+msgstr ""
+
+msgid "Maximum duration for this item."
+msgstr ""
+
+msgid "Maximum duration for this section."
+msgstr ""
+
+msgid "Maximum duration for this test part."
+msgstr ""
+
+msgid "Maximum number of choices reached."
+msgstr ""
+
+msgid "Maximum time limit reached for item \"%s\"."
+msgstr ""
+
 msgid "maximum value: "
 msgstr "Valeur maximale :"
+
+msgid "Media"
+msgstr ""
+
+msgid "Media file path or YouTube video address"
+msgstr ""
+
+msgid "Media Interaction"
+msgstr ""
+
+msgid "Microsoft Excel"
+msgstr ""
+
+msgid "Microsoft Powerpoint"
+msgstr ""
+
+msgid "Microsoft Word"
+msgstr ""
+
+msgid "Mime Type"
+msgstr ""
+
+msgid "MIME-type"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Minimal  score for this interaction."
+msgstr ""
+
+msgid "Minimum Duration"
+msgstr ""
+
+msgid "Minimum duration for the test."
+msgstr ""
+
+msgid "Minimum duration for this item."
+msgstr ""
+
+msgid "Minimum duration for this section."
+msgstr ""
+
+msgid "Minimum duration for this test part."
+msgstr ""
 
 msgid "minimum value: "
 msgstr "Valeur minimale :"
 
-msgid "minute"
-msgstr "minute"
-
 msgid "minutes"
 msgstr "minutes"
 
+msgid "Mobile preview"
+msgstr ""
+
+msgid "Modal feedback is shown to the candidate directly following response processing."
+msgstr ""
+
+msgid "Modal Feedbacks"
+msgstr ""
+
 msgid "More"
+msgstr ""
+
+msgid "Move Down"
 msgstr ""
 
 msgid "Move to"
 msgstr "Déplacer vers"
 
-msgid "Moving this element will remove the following properties:"
-msgstr "Le déplacement de cet élément va supprimer les propriétés suivantes :"
+msgid "Move Up"
+msgstr ""
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr ""
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
+msgstr ""
+
+msgid "MP4 video"
+msgstr ""
+
+msgid "MPEG audio"
+msgstr ""
+
+msgid "MPEG video"
+msgstr ""
 
 msgid "Multiple values delimiter"
 msgstr "Délimiteur de valeurs multiples"
@@ -656,6 +1325,9 @@ msgstr "Nom"
 msgid "Namespaces"
 msgstr "Espaces de nom"
 
+msgid "Navigation"
+msgstr ""
+
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
@@ -665,11 +1337,17 @@ msgstr ""
 msgid "New role"
 msgstr ""
 
+msgid "New Rubric Block"
+msgstr ""
+
 msgid "Next"
 msgstr "Suivant"
 
 msgid "No"
 msgstr "Non"
+
+msgid "no configuration property needed"
+msgstr ""
 
 msgid "No extensions available."
 msgstr "Pas d'extension disponible."
@@ -689,10 +1367,13 @@ msgstr ""
 msgid "no label"
 msgstr "sans étiquette"
 
-msgid "No Preview available"
+msgid "No more attempts allowed for item \"%s\"."
 msgstr ""
 
 msgid "No preview available"
+msgstr ""
+
+msgid "No Preview available"
 msgstr ""
 
 msgid "No result found"
@@ -701,7 +1382,19 @@ msgstr "Aucun résultat n'a été trouvé"
 msgid "No results found"
 msgstr ""
 
+msgid "No value set"
+msgstr ""
+
+msgid "Non Linear"
+msgstr ""
+
 msgid "None"
+msgstr ""
+
+msgid "None defined yet."
+msgstr ""
+
+msgid "Not shuffled, the position remains fixed."
 msgstr ""
 
 msgid "Nothing imported"
@@ -709,6 +1402,9 @@ msgstr "Aucune donnée n'a été importée"
 
 msgid "Nothing to install !"
 msgstr "Rien à installer !"
+
+msgid "Number of associations"
+msgstr ""
 
 msgid "Number of elements"
 msgstr "Nombre d'éléments"
@@ -718,6 +1414,9 @@ msgstr ""
 
 msgid "Old Password"
 msgstr "Ancien mot de passe"
+
+msgid "one association pair"
+msgstr ""
 
 #, tao-public
 msgid "Ontology"
@@ -735,7 +1434,22 @@ msgstr "L'option propertyuri nest pas une option !!"
 msgid "or"
 msgstr ""
 
+msgid "Order"
+msgstr ""
+
+msgid "Order Interaction"
+msgstr ""
+
+msgid "Order the areas (hotspots) displayed on a picture."
+msgstr ""
+
+msgid "Ordering"
+msgstr ""
+
 msgid "Page"
+msgstr ""
+
+msgid "Pair scoring"
 msgstr ""
 
 msgid "Password"
@@ -749,6 +1463,21 @@ msgstr "Mot de passé modifié"
 
 msgid "Passwords are not matching"
 msgstr "Les mots de passe ne correspondent pas"
+
+msgid "pattern"
+msgstr ""
+
+msgid "Pattern"
+msgstr ""
+
+msgid "Pause"
+msgstr ""
+
+msgid "PDF file"
+msgstr ""
+
+msgid "Plain text"
+msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "Veuillez confirmer la suppression."
@@ -768,16 +1497,101 @@ msgstr "Veuillez confirmer la suppression de cet élément de la liste."
 msgid "Please confirm you want to delete this list. This operation cannot be undone."
 msgstr ""
 
+msgid "Please contact %s or an administrator to release it', get_data('ownerHtml"
+msgstr ""
+
+msgid "Please create areas that correspond to the response and associate them a score.\n"
+"You can also position the target to the exact point as the correct response."
+msgstr ""
+
+msgid "Please define association pairs and their scores below."
+msgstr ""
+
+msgid "Please define the correct association pairs below."
+msgstr ""
+
+msgid "Please define the correct order in the box to the right."
+msgstr ""
+
+msgid "Please define the correct response and the score below."
+msgstr ""
+
+msgid "Please define the correct response below."
+msgstr ""
+
+msgid "Please define the correct response using the slider."
+msgstr ""
+
+msgid "Please enter the score for the given hottexts."
+msgstr ""
+
+msgid "Please fill the gap with the correct choices below."
+msgstr ""
+
+msgid "Please fill the gap with the correct choices."
+msgstr ""
+
+msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
+msgstr ""
+
+msgid "Please fill the gap with the texts below, then edit the score for each pair."
+msgstr ""
+
+msgid "Please order the choices below to set the correct answer"
+msgstr ""
+
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
+msgstr ""
+
+msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
 msgid "Please select alteast one namespace"
 msgstr ""
 
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select the correct hotspot choices below."
+msgstr ""
+
+msgid "Please select the correct hottext choices below."
+msgstr ""
+
+msgid "Please select the picture from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please set the correct associations by linking the choices."
+msgstr ""
+
+msgid "Please the score of each hotspot choice."
+msgstr ""
+
+msgid "Please type the correct response below."
+msgstr ""
+
+msgid "Please type the correct response in the box below."
+msgstr ""
+
 msgid "Please upload an RDF file."
 msgstr "Veuillez téléverser un fichier RDF."
 
+msgid "PNG image"
+msgstr ""
+
+msgid "Position one or more points on a picture (response areas are not displayed)."
+msgstr ""
+
 msgid "Post install processing"
+msgstr ""
+
+msgid "Pre-formatted text"
+msgstr ""
+
+msgid "Preparing CSS, please wait…"
 msgstr ""
 
 msgid "Preparing installation..."
@@ -789,22 +1603,70 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
+msgid "Proctor"
+msgstr ""
+
 msgid "Properties"
+msgstr ""
+
+msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
+msgstr ""
+
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
+msgstr ""
+
+msgid "Question"
+msgstr ""
+
+msgid "Quicktime video"
 msgstr ""
 
 msgid "RDF"
 msgstr "RDF"
 
+msgid "recommanded"
+msgstr ""
+
+msgid "Recommendations"
+msgstr ""
+
+msgid "Reference"
+msgstr ""
+
+msgid "Release"
+msgstr ""
+
 msgid "Remove"
 msgstr "Supprimer"
+
+msgid "remove"
+msgstr ""
 
 msgid "Remove content"
 msgstr "Supprimer le contenu"
 
+msgid "Remove Item Reference"
+msgstr ""
+
 msgid "Remove Message"
 msgstr ""
 
+msgid "Remove pair"
+msgstr ""
+
+msgid "Remove Rubric Block"
+msgstr ""
+
+msgid "Remove Section"
+msgstr ""
+
+msgid "Remove the selected shape"
+msgstr ""
+
 msgid "Remove this file"
+msgstr ""
+
+msgid "Remove this stylesheet"
 msgstr ""
 
 msgid "Rename"
@@ -831,6 +1693,15 @@ msgstr "Dépôt enregistré mais impossible à désactiver"
 msgid "Repository saved, but unable to enable"
 msgstr "Dépôt enregistré mais impossible à activer"
 
+msgid "Required"
+msgstr ""
+
+msgid "required"
+msgstr ""
+
+msgid "Required field"
+msgstr ""
+
 msgid "required length"
 msgstr ""
 
@@ -838,6 +1709,9 @@ msgid "Requires"
 msgstr "Nécessite"
 
 msgid "Reset"
+msgstr ""
+
+msgid "Resource"
 msgstr ""
 
 msgid "Resource not imported due to multiple super classes"
@@ -849,11 +1723,23 @@ msgstr ""
 msgid "Resource saved"
 msgstr "Ressource enregistrée"
 
+msgid "Response"
+msgstr ""
+
+msgid "Response identifier"
+msgstr ""
+
+msgid "Response processing"
+msgstr ""
+
 msgid "Responsive mode"
 msgstr ""
 
 msgid "Revision control"
 msgstr "Contrôle de révision"
+
+msgid "right"
+msgstr ""
 
 msgid "Right click the tree to manage your lists"
 msgstr "Utilisez le clic droit pour gérer vos listes"
@@ -867,10 +1753,34 @@ msgstr "Rôles"
 msgid "Roles library"
 msgstr "Bibliothèque de rôles"
 
+msgid "Rubric Block"
+msgstr ""
+
+msgid "Rubric Block Properties"
+msgstr ""
+
+msgid "Rubric Blocks"
+msgstr ""
+
 msgid "Save"
 msgstr "Enregistrer"
 
 msgid "Scope"
+msgstr ""
+
+msgid "Score"
+msgstr ""
+
+msgid "score"
+msgstr ""
+
+msgid "Score range"
+msgstr ""
+
+msgid "Score value"
+msgstr ""
+
+msgid "Scorer"
 msgstr ""
 
 msgid "Search"
@@ -882,17 +1792,86 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "Select"
-msgstr "Choisir"
+msgid "Section Properties"
+msgstr ""
 
 msgid "select"
 msgstr "choisir"
 
+msgid "Select"
+msgstr "Choisir"
+
+msgid "Select a "
+msgstr ""
+
+msgid "select a choice"
+msgstr ""
+
+msgid "Select a choice from a drop-down list."
+msgstr ""
+
 msgid "Select a language"
 msgstr "Sélectionner un langage"
 
+msgid "Select a response identifier from the list."
+msgstr ""
+
+msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
+msgstr ""
+
+msgid "Select a value within a numerical range."
+msgstr ""
+
+msgid "Select an image first"
+msgstr ""
+
+msgid "Select an image first."
+msgstr ""
+
+msgid "Select an image."
+msgstr ""
+
+msgid "Select another area to complete the association"
+msgstr ""
+
+msgid "select correct choice"
+msgstr ""
+
+msgid "Select image"
+msgstr ""
+
+msgid "Select media"
+msgstr ""
+
+msgid "Select media file"
+msgstr ""
+
+msgid "Select one or more areas (hotspots) displayed on an picture."
+msgstr ""
+
+msgid "Select one or more text parts (hottext) within a text."
+msgstr ""
+
+msgid "Select Point"
+msgstr ""
+
+msgid "Select Point Interaction"
+msgstr ""
+
+msgid "Select the area to add an image"
+msgstr ""
+
 msgid "Select the element destination"
 msgstr "Choisir l'élément de destination"
+
+msgid "Select the way the response of your interaction should be processed"
+msgstr ""
+
+msgid "Select this area"
+msgstr ""
+
+msgid "Select this area to start an association"
+msgstr ""
 
 msgid "Select this file"
 msgstr ""
@@ -903,8 +1882,14 @@ msgstr "sélectionné"
 msgid "Selected file:"
 msgstr "Fichier sélectionné :"
 
+msgid "Selection"
+msgstr ""
+
 msgid "Selection saved successfully"
 msgstr "Sélection enregistrée avec succès"
+
+msgid "Set the score for this response"
+msgstr ""
 
 #, tao-public
 msgid "Settings"
@@ -913,13 +1898,58 @@ msgstr "Réglages"
 msgid "Settings updated"
 msgstr "Réglages mis à jour"
 
+msgid "Shape position"
+msgstr ""
+
 msgid "Show detailed report"
+msgstr ""
+
+msgid "Show Feedback"
+msgstr ""
+
+msgid "Show Solution"
+msgstr ""
+
+msgid "Show the solution once the answer is submitted."
+msgstr ""
+
+msgid "Shuffle"
+msgstr ""
+
+msgid "Shuffle choices"
 msgstr ""
 
 msgid "Simple Mode"
 msgstr "Mode simple"
 
+msgid "Simultaneous"
+msgstr ""
+
 msgid "Size"
+msgstr ""
+
+msgid "Size and position"
+msgstr ""
+
+msgid "Slider"
+msgstr ""
+
+msgid "Slider Interaction"
+msgstr ""
+
+msgid "some text ..."
+msgstr ""
+
+msgid "Step"
+msgstr ""
+
+msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
+msgstr ""
+
+msgid "Submission"
+msgstr ""
+
+msgid "Success"
 msgstr ""
 
 msgid "Supported export formats"
@@ -928,17 +1958,29 @@ msgstr "Formats d'export supportés"
 msgid "Supported import formats"
 msgstr ""
 
+msgid "SVG image"
+msgstr ""
+
 #, tao-public
 msgid "TAO Back Office"
 msgstr "Outils d'administration TAO"
 
-msgid "TAO Home"
-msgstr "Menu principal TAO"
-
 msgid "Tao Home"
 msgstr ""
 
+msgid "TAO Home"
+msgstr "Menu principal TAO"
+
 msgid "TAO Login"
+msgstr ""
+
+msgid "Test completed at %d%%"
+msgstr ""
+
+msgid "Test constructor"
+msgstr ""
+
+msgid "Test Saved"
 msgstr ""
 
 msgid "Text - Long - Box"
@@ -950,8 +1992,38 @@ msgstr "Texte - Long - Éditeur HTML"
 msgid "Text - Short - Field"
 msgstr "Texte - Long - Champ"
 
+msgid "Text Block Interaction"
+msgstr ""
+
+msgid "Text Entry"
+msgstr ""
+
+msgid "Text Entry Interaction"
+msgstr ""
+
+msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
+msgstr ""
+
+msgid "The button label."
+msgstr ""
+
+msgid "The candidate is not allowed to submit wrong responses."
+msgstr ""
+
 msgid "The column "
 msgstr "La colonne "
+
+msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
+msgstr ""
+
+msgid "The expectedLength attribute provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
+msgstr ""
+
+msgid "The file path to the image."
+msgstr ""
+
+msgid "The file path to the media."
+msgstr ""
 
 msgid "the file was not uploaded successfully"
 msgstr "le fichier n'a pas été téléversé correctement"
@@ -959,11 +2031,125 @@ msgstr "le fichier n'a pas été téléversé correctement"
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ est invalide."
 
+msgid "The highlighted choice cannot be associated more than %d time(s)."
+msgstr ""
+
+msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr ""
+
+msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr ""
+
+msgid "The identifier of the item reference."
+msgstr ""
+
+msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr ""
+
+msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr ""
+
+msgid "The identifier of the section."
+msgstr ""
+
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
+msgstr ""
+
+msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr ""
+
+msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
+msgstr ""
+
+msgid "The lower bound of the slider"
+msgstr ""
+
+msgid "The maximum number of association is unlimited."
+msgstr ""
+
+msgid "The maximum number of choices that the candidate is allowed to select to form a valid response."
+msgstr ""
+
+msgid "The maximum number of choices that the candidate is allowed to select."
+msgstr ""
+
+msgid "The maximum number of choices this choice may be associated with."
+msgstr ""
+
+msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
+msgstr ""
+
+msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
+msgstr ""
+
+msgid "The MIME-type attribute describes which kind of file may be uploaded."
+msgstr ""
+
+msgid "The minimum number of answers is "
+msgstr ""
+
+msgid "The minimum number of associations that the candidate is required to make to form a valid response."
+msgstr ""
+
+msgid "The minimum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
+
+msgid "The minimum number of choices this choice must be associated with to form a valid response."
+msgstr ""
+
+msgid "The navigation mode determines the general paths that the candidate may take. A linear mode restricts the candidate to attempt each item in turn. Non Linear removes this restriction."
+msgstr ""
+
+msgid "The number of child elements to be selected."
+msgstr ""
+
+msgid "The number of units corresponding to a step on the slider"
+msgstr ""
+
+msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
+msgstr ""
+
+msgid "The principle identifier of the test."
+msgstr ""
+
+msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
+msgstr ""
+
+msgid "The reference."
+msgstr ""
+
+msgid "The section title."
+msgstr ""
+
+msgid "The selected file is ready to be sent."
+msgstr ""
+
+msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr ""
+
+msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr ""
+
+msgid "The submission mode determines when the candidate's responses are submitted for response processing. A testPart in individual mode requires the candidate to submit their responses on an item-by-item basis. In simultaneous mode the candidate's responses are all submitted together at the end of the testPart."
+msgstr ""
+
+msgid "The test part identifier."
+msgstr ""
+
+msgid "The test title."
+msgstr ""
+
+msgid "The text to be displayed if the image is not available."
+msgstr ""
+
+msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
 msgstr ""
 
 msgid "The uploaded file is too large"
 msgstr "Le fichier téléchargé est trop volumineux"
+
+msgid "The upper bound of the slider"
+msgstr ""
 
 msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
 msgstr "La valeur de ce champs doit être formatée telle une date valide, ex. AAAA-MM-JJ"
@@ -974,6 +2160,21 @@ msgstr "La valeur de ce champ doit être un nombre entier."
 msgid "The value of this field must be numeric"
 msgstr "La valeur de ce champ doit être numérique"
 
+msgid "There is an incomplete element in your item : please click on it to complete it."
+msgstr ""
+
+msgid "There was a problem downloading your CSS, please try again."
+msgstr ""
+
+msgid "This %s is currently checked out', get_data('topclass-label"
+msgstr ""
+
+msgid "This constraint affects the visibility of feedback after the end of the last attempt."
+msgstr ""
+
+msgid "This constraint controls whether or not the candidate is allowed to provide a comment on the item during the session. Comments are not part of the assessed responses."
+msgstr ""
+
 msgid "This field is required"
 msgstr "Ce champ est requis."
 
@@ -982,6 +2183,12 @@ msgstr "Ce champ est trop long."
 
 msgid "This field is too short"
 msgstr "Ce champ est trop court."
+
+msgid "this identifier is already in use"
+msgstr ""
+
+msgid "This is not a valid answer"
+msgstr ""
 
 msgid "this is required"
 msgstr ""
@@ -998,13 +2205,25 @@ msgstr "Cela devrait valoir "
 msgid "This should not equal "
 msgstr "Cela ne devrait pas valoir "
 
+msgid "This stylesheet has not been found on the server. you may want to delete this reference"
+msgstr ""
+
+msgid "Time dependent"
+msgstr ""
+
+msgid "Time Limits"
+msgstr ""
+
 msgid "Time zone"
+msgstr ""
+
+msgid "Title"
 msgstr ""
 
 msgid "to translate"
 msgstr ""
 
-msgid "Tools"
+msgid "Top"
 msgstr ""
 
 msgid "Translate"
@@ -1019,6 +2238,12 @@ msgstr "Paramètres de la traductions"
 msgid "Translation saved"
 msgstr "Traduction enregistrée"
 
+msgid "Trigger the end of the item attempt."
+msgstr ""
+
+msgid "Tutor"
+msgstr ""
+
 msgid "Type"
 msgstr "Type"
 
@@ -1027,6 +2252,9 @@ msgstr "Langue Interface"
 
 msgid "Unable to change passwords in demo mode"
 msgstr "Impossible de changer les mots de passe en mode démonstration"
+
+msgid "Unable to release the lock"
+msgstr ""
 
 msgid "Unable to upload file"
 msgstr ""
@@ -1040,10 +2268,16 @@ msgstr "Décocher tout"
 msgid "Undo"
 msgstr ""
 
+msgid "undo"
+msgstr ""
+
 msgid "Uninstall of %s failed', $this->getRequestParameter('id"
 msgstr ""
 
 msgid "Uninstalled %s', $this->getRequestParameter('id"
+msgstr ""
+
+msgid "unknown"
 msgstr ""
 
 msgid "Unknown Error"
@@ -1054,6 +2288,9 @@ msgstr ""
 
 msgid "Upload"
 msgstr "Téléverser"
+
+msgid "Upload a file (e.g. document, picture...) as a response."
+msgstr ""
 
 msgid "Upload a new content"
 msgstr "Téléverser un nouveau contenu"
@@ -1067,11 +2304,17 @@ msgstr ""
 msgid "Upload the file to version"
 msgstr "Téléverser le ficher à la version"
 
+msgid "Upper Bound"
+msgstr ""
+
 msgid "URL"
 msgstr ""
 
 msgid "Use default value"
 msgstr "Utiliser la valeur par défaut"
+
+msgid "Used to control the format of the text entered by the candidate."
+msgstr ""
 
 msgid "User added"
 msgstr "Utilisateur ajouté"
@@ -1093,26 +2336,150 @@ msgstr "Paramètres Utilisateur"
 msgid "Users"
 msgstr "Utilisateurs"
 
+msgid "Validate Responses"
+msgstr ""
+
 msgid "Version"
 msgstr "Version"
 
 msgid "Versioning"
 msgstr "Gestion des versions"
 
+msgid "Views"
+msgstr ""
+
+msgid "Visible"
+msgstr ""
+
+msgid "WAV audio"
+msgstr ""
+
+msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
+msgstr ""
+
+msgid "When selecting child elements each element is normally eligible for selection once only."
+msgstr ""
+
+msgid "Whether a candidate's response that is beyond the maximum duration of the item should still be accepted."
+msgstr ""
+
+msgid "Whether a candidate's response that is beyond the maximum duration of the section should still be accepted."
+msgstr ""
+
+msgid "Whether a candidate's response that is beyond the maximum duration of the test part should still be accepted."
+msgstr ""
+
+msgid "Whether a candidate's response that is beyond the maximum duration should still be accepted."
+msgstr ""
+
+msgid "Who can view the rubric block during the delivery."
+msgstr ""
+
 msgid "Width"
+msgstr ""
+
+msgid "Width (optional)"
+msgstr ""
+
+msgid "Windows Media audio"
+msgstr ""
+
+msgid "Windows Media video"
+msgstr ""
+
+msgid "With Replacement"
+msgstr ""
+
+msgid "words"
+msgstr ""
+
+msgid "Would you like to replace the alt text"
+msgstr ""
+
+msgid "XHTML"
 msgstr ""
 
 msgid "Yes"
 msgstr "Oui"
 
+msgid "You are not authorised to remove this lock"
+msgstr ""
+
+msgid "You can select maximum"
+msgstr ""
+
+msgid "You can select maximum %d choice\",max):__(\"You can select maximum %d choices\",max),self.appendInstruction(interaction,msg,function(data){getResponse(interaction).length>=max?(this.setLevel(\"success"
+msgstr ""
+
 msgid "You can use * as a wildcard"
+msgstr ""
+
+msgid "You can use maximum \"+max+\" choices"
+msgstr ""
+
+msgid "You can use maximum ' + max + ' choices"
 msgstr ""
 
 msgid "You currently have no access to the platform"
 msgstr ""
 
+msgid "You don't have sufficient permissions to access"
+msgstr ""
+
+msgid "You have deleted"
+msgstr ""
+
+msgid "You have deleted an element"
+msgstr ""
+
+msgid "You have deleted an element."
+msgstr ""
+
+msgid "You may make as many association pairs as you want."
+msgstr ""
+
 msgid "You must activate JavaScript in your browser to run this application."
+msgstr ""
+
+msgid "You must at least %d choice\",min):__(\"You must select at least %d choices\",max),self.appendInstruction(interaction,msg,function(){getResponse(interaction).length>=min?this.setLevel(\"success"
+msgstr ""
+
+msgid "You must select %1$d to %2$d choices."
+msgstr ""
+
+msgid "You must select 0 to %d choices."
+msgstr ""
+
+msgid "You must select at least"
+msgstr ""
+
+msgid "You must select exactly"
+msgstr ""
+
+msgid "You must select exactly %d choice\",max):__(\"You must select exactly %d choices\",max),self.appendInstruction(interaction,msg,function(data){getResponse(interaction).length>=max?(this.setLevel(\"success"
+msgstr ""
+
+msgid "You must select exactly %d choice(s)."
+msgstr ""
+
+msgid "You must use at least \"+min+\" choices"
+msgstr ""
+
+msgid "You must use at least ' + min + ' choices"
+msgstr ""
+
+msgid "You need to make"
 msgstr ""
 
 msgid "You've not the required rights to edit this resource."
 msgstr ""
+
+msgid "Your comment..."
+msgstr ""
+
+msgid "Your item has been saved"
+msgstr ""
+
+msgid "ZIP archive"
+msgstr ""
+
