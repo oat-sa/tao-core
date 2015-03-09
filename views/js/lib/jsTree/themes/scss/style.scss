@@ -132,18 +132,27 @@
         &.paginate-all ins {
             background-image: url("paginate_all.png");
         }
-
-        &.private ins:after {
+        
+        &.private ins:after, &.permissions-partial ins:after, &.permissions-none ins:after {
             display: inline-block;
             position: relative;
             left: -15px;
             top: 4px;
             @extend %tao-icon-setup;
-            @extend %icon-lock;
-            color: #EED401;
             text-shadow: 0px 0px 1px #666;
             @include font-size(14);
         }
+        
+        &.permissions-partial ins:after {
+            color: #EED401;
+            @extend %icon-lock;
+        }
+        
+        &.private ins:after, &.permissions-none ins:after {
+            color: #BA122B;
+            @extend %icon-lock;
+        }
+        
         &.open ul {
             display: block;
         }
