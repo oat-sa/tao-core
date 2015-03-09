@@ -12,9 +12,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.' \====:_ "" .'     \ :       : /   
 
 .tree .node-class.open > a > ins:before { content: "\e60d"; }
 
-.tree li.private ins:after, .tree li.permissions-none ins:after { content: "\e629"; }
-
-.tree li.permissions-partial ins:after { content: "\e635"; }
+.tree li.permissions-partial ins:after, .tree li.private ins:after, .tree li.permissions-none ins:after { content: "\e629"; }
 
 .taotree-group .node-instance ins:before { content: "\e63c"; }
 

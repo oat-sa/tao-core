@@ -145,7 +145,7 @@
         
         &.permissions-partial ins:after {
             color: #EED401;
-            @extend %icon-warning;
+            @extend %icon-lock;
         }
         
         &.private ins:after, &.permissions-none ins:after {
