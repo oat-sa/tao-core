@@ -517,7 +517,9 @@ define([
                 return;
             } 
             if(node.type){
-                var actions = _.pluck(_.filter(options.actions, {context: node.type}), 'id'),
+                var actions = _.pluck(_.filter(options.actions, function (val) {
+                    return val.context === node.type || val.context === 'resource';
+                }), 'id'),
                     keys = _.intersection(_.keys(node.permissions), actions),
                     values = _.filter(node.permissions, function (val, key) {
                         return _.contains(keys, key);
