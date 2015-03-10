@@ -175,11 +175,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             
             $currentVersion = '2.7.8';
         }
-        
+
         if ($currentVersion == '2.7.8') {
             if ($this->migrateFsAccess()) {
                 $currentVersion = '2.7.9';
             }
+        }
+        if ($currentVersion == '2.7.9') {
+            // update role classes
+            OntologyUpdater::syncModels();
+            $currentVersion = '2.7.10';
         }
         
         return $currentVersion;
