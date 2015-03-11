@@ -222,13 +222,13 @@ define([
                     dataType: 'json',
                     success : function(response){
                         if(response.success){
-                            self._trigger('released');
+                            self._trigger('released', response);
                         }
                         else{
-                            self._trigger('failed');
+                            self._trigger('failed', response);
                         }
                     },
-                    error : function(){
+                    error : function(what){
                         self._trigger('failed');
                     }
                 });
@@ -249,12 +249,16 @@ define([
         	var id = this._container.data('id');
 			return this.message('hasLock', msg, {
 					uri: id,
-					released : function() {
-						feedback().success(__('The test has been released'));
+					released : function(response) {
+						feedback().success(response.message);
 					    this.close();
 					},
-					failed : function() {
-						feedback().error(__('The test could not be released'));
+					failed : function(response) {
+						if (typeof response !== 'undefined' && typeof response.message !== 'undefined') {
+							feedback().error(response.message);
+						} else {
+							feedback().error('Unknown Error');
+						}
 					}
 			}).open();
         },
@@ -263,14 +267,14 @@ define([
          * trigger the event and the callback if exists
          * @param {String} [eventName] - the name of the event, use the caller name if not set
          */
-        _trigger : function _trigger(eventName) {
+        _trigger : function _trigger(eventName, data) {
 
             //trigger the related event
             this._container.trigger(eventName + '.lock', [this]);
 
             //run the callback if set in options
             if(_.isFunction(this.options[eventName])){
-                this.options[eventName].call(this);
+                this.options[eventName].call(this, data);
             }
         }
 
