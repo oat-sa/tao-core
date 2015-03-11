@@ -228,7 +228,7 @@ define([
                             self._trigger('failed', response);
                         }
                     },
-                    error : function(what){
+                    error : function(){
                         self._trigger('failed');
                     }
                 });
