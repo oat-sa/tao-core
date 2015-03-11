@@ -64,7 +64,7 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 	{  
         try {
             $success = LockManager::getImplementation()->releaseLock(
-                new core_kernel_classes_Resource(tao_helpers_Uri::decode($uri)),
+                new core_kernel_classes_Resource($uri),
                 common_session_SessionManager::getSession()->getUser()->getIdentifier()
             );
             return $this->returnJson(array(
@@ -80,5 +80,14 @@ class tao_actions_Lock extends tao_actions_CommonModule {
             ));
         }
     }
-	
+
+    public function forceRelease($uri)
+    {
+        $success = LockManager::getImplementation()->forceReleaseLock(
+            new core_kernel_classes_Resource($uri)
+        );
+        return $this->returnJson(array(
+            'success' => $success
+        ));
+    }
 }
