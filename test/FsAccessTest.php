@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,9 +16,16 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013-2015 (update and modification) Open Assessment Technologies SA;
  */
+
+
 use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\tao\model\websource\WebsourceManager;
+use oat\tao\model\websource\ActionWebSource;
+use oat\tao\model\websource\TokenWebSource;
+use oat\tao\model\websource\DirectWebSource;
+use oat\tao\model\websource\Websource;
 
 
 /**
@@ -71,22 +78,85 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
             self::$fileSystem = tao_models_classes_FileSourceService::singleton()->addLocalSource('test FS', $ext->getConstant('DIR_VIEWS'));
         }
         return array(
-            array(tao_models_classes_fsAccess_DirectAccessProvider::spawnProvider(self::$fileSystem, $ext->getConstant('BASE_WWW'))),
-            array(tao_models_classes_fsAccess_TokenAccessProvider::spawnProvider(self::$fileSystem)),
-            array(tao_models_classes_fsAccess_ActionAccessProvider::spawnProvider(self::$fileSystem))
+            array(DirectWebSource::spawnWebsource(self::$fileSystem, $ext->getConstant('BASE_WWW'))),
+            array(TokenWebSource::spawnWebsource(self::$fileSystem)),
+            array(ActionWebSource::spawnWebsource(self::$fileSystem))
         );
+    }
+    
+
+    
+    /**
+     * @expectedException common_Exception
+     * @expectedExceptionMessage Missing identifier for websource
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function testAddWebSourceException()
+    {
+        $websource = $this->prophesize('oat\tao\model\websource\BaseWebsource');
+        WebsourceManager::singleton()->addWebsource($websource->reveal());
+    }
+    
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function testAddWebSource()
+    {
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $this->assertFalse($ext->hasConfig(WebsourceManager::CONFIG_PREFIX.'fake'));
+                
+        $websource = $this->prophesize('oat\tao\model\websource\BaseWebsource');
+        $websource->getId()->willReturn('fake');
+        $websource->getOptions()->willReturn('options');
+        $ws = $websource->reveal();
+        WebsourceManager::singleton()->addWebsource($ws);
+        
+        $config = $ext->getConfig(WebsourceManager::CONFIG_PREFIX.'fake');
+       
+
+        $expected = array( 'className' => get_class($ws) , 'options' => 'options');
+        $this->assertEquals($expected, $config);
+        return $ws;
+    }
+    
+    
+    
+    /**
+     * @depends testAddWebSource
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function testRemoveWebSource($websource)
+    {
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $this->assertTrue($ext->hasConfig(WebsourceManager::CONFIG_PREFIX.'fake'));
+        
+        WebsourceManager::singleton()->removeWebsource($websource);
+        $this->assertFalse($ext->hasConfig(WebsourceManager::CONFIG_PREFIX.'fake'));
+    }
+    
+    /**
+     * @expectedException common_Exception
+     * @expectedExceptionMessage Attempting to remove inexistent fake
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function testRemoveWebSourceException()
+    {
+        $websource = $this->prophesize('oat\tao\model\websource\BaseWebsource');
+        $websource->getId()->willReturn('fake');
+        WebsourceManager::singleton()->removeWebsource($websource->reveal());
     }
     
     /**
      * @dataProvider fileAccessProviders
      */
-    public function testAccessProviders(tao_models_classes_fsAccess_AccessProvider $access) {
+    public function testAccessProviders(Websource $access) {
         
-        $this->assertInstanceOf('tao_models_classes_fsAccess_AccessProvider', $access);
+        $this->assertInstanceOf('oat\tao\model\websource\Websource', $access);
         $id = $access->getId();
         
-        $fromManager = tao_models_classes_fsAccess_Manager::singleton()->getProvider($id);
-        $this->assertInstanceOf('tao_models_classes_fsAccess_AccessProvider', $fromManager);
+        $fromManager = WebsourceManager::singleton()->getWebsource($id);
+        $this->assertInstanceOf('oat\tao\model\websource\Websource', $fromManager);
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR.'tao.png');
         $this->assertTrue(file_exists($access->getFileSystem()->getPath().'img'.DIRECTORY_SEPARATOR.'tao.png'), 'reference file not found');
@@ -103,9 +173,9 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         $url = $access->getAccessUrl('');
         $this->assertUrlHttpCode($url.'img'.DIRECTORY_SEPARATOR.'tao.png');
         
-        $access->delete();
+        WebsourceManager::singleton()->removeWebsource($access);
         try {
-            tao_models_classes_fsAccess_Manager::singleton()->getProvider($id);
+            WebsourceManager::singleton()->getWebsource($id);
             $this->fail('No exception thrown');
         } catch (common_Exception $e) {
             // all good

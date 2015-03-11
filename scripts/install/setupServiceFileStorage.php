@@ -1,4 +1,5 @@
 <?php
+use oat\tao\model\websource\TokenWebSource;
 /*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,6 +39,6 @@ if (file_exists($privateDataPath)) {
 $publicFs = tao_models_classes_FileSourceService::singleton()->addLocalSource('public service storage', $publicDataPath);
 $privateFs = tao_models_classes_FileSourceService::singleton()->addLocalSource('private service storage', $privateDataPath);
 
-$provider = tao_models_classes_fsAccess_TokenAccessProvider::spawnProvider($publicFs);
+$websource = TokenWebSource::spawnWebsource($publicFs);
 
-tao_models_classes_service_FileStorage::configure($privateFs, $publicFs, $provider);
+tao_models_classes_service_FileStorage::configure($privateFs, $publicFs, $websource);

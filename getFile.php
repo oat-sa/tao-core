@@ -1,4 +1,5 @@
 <?php
+use oat\tao\model\websource\WebsourceManager;
 /**
  * 
  * This program is free software; you can redistribute it and/or
@@ -19,14 +20,13 @@
  *               
  * 
  */
-$url = $_SERVER['REQUEST_URI'];
-$configPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'configGetFile.php';
 
-$ttl = (int) ini_get('session.gc_maxlifetime');
+require_once '../generis/helpers/class.File.php';
+require_once '../tao/helpers/class.File.php';
 
 $rel = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], '/getFile.php/') + strlen('/getFile.php/'));
 $parts = explode('/', $rel, 4);
-if (count($parts) < 3 || ! file_exists($configPath)) {
+if (count($parts) < 3) {
     header('HTTP/1.0 403 Forbidden');
     die();
 }
@@ -40,9 +40,17 @@ if (count($parts) < 2) {
 }
 list ($subPath, $file) = $parts;
 
+
+$configPath = dirname(__DIR__).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR.'websource_'.$ap.'.conf.php';
+if (!file_exists($configPath)) {
+    header('HTTP/1.0 403 Forbidden');
+    die();
+}
+
 $config = include $configPath;
-$compiledPath = $config[$ap]['folder'];
-$secretPassphrase = $config[$ap]['secret'];
+$compiledPath = $config['options']['path'];
+$secretPassphrase = $config['options']['secret'];
+$ttl = $config['options']['ttl'];
 
 $correctToken = md5($timestamp . $subPath . $secretPassphrase);
 
@@ -61,9 +69,6 @@ if (strpos($filename, '?')) {
     $parts = explode('?', $filename);
     $filename = $parts[0];
 }
-
-require_once '../generis/helpers/class.File.php';
-require_once '../tao/helpers/class.File.php';
 
 if (tao_helpers_File::securityCheck($filename, true)) {
     header('Content-Type: ' . tao_helpers_File::getMimeType($filename, true));

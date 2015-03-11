@@ -201,17 +201,15 @@ class tao_actions_form_Users
 		$uiLangElt->setOptions($guiOptions);
 		
 		// roles field
-		$restrictedRoles = array();
-		$rolesClass = new core_kernel_classes_Class(CLASS_ROLE);
-		$roles = $rolesClass->getInstances(true);
+		$property = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+		$roles = $property->getRange()->getInstances(true);
 		$rolesOptions = array();
 		foreach ($roles as $r){
-			if (false === in_array($r->getUri(), $restrictedRoles)){
-				$rolesOptions[tao_helpers_Uri::encode($r->getUri())] = $r->getLabel();
-			}
+			$rolesOptions[tao_helpers_Uri::encode($r->getUri())] = $r->getLabel();
 		}
+		asort($rolesOptions);
 								 
-		$rolesElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_ROLES));
+		$rolesElt = $this->form->getElement(tao_helpers_Uri::encode($property->getUri()));
 		$rolesElt->setDescription($rolesElt->getDescription() . ' *');
 		$rolesElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$rolesElt->setOptions($rolesOptions);
