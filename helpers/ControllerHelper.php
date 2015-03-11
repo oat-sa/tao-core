@@ -92,10 +92,10 @@ class ControllerHelper
         try {
             $rights = \common_cache_FileCache::singleton()->get(self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
         } catch (\common_cache_NotFoundException $e) {
-            $rights = array();
             $factory = new Factory();
             $controller = $factory->getActionDescription($controllerClassName, $actionName);
-            \common_cache_FileCache::singleton()->put($controller->getRequiredRights(), self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
+            $rights = $controller->getRequiredRights();
+            \common_cache_FileCache::singleton()->put($rights, self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
         }
         return $rights;
     }
