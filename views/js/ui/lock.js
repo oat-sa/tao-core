@@ -21,8 +21,11 @@
 define([
     'jquery', 
     'lodash',
-    'tpl!ui/lock/lock'
-], function($, _, tpl){
+    'i18n',
+    'tpl!ui/lock/lock',
+    'helpers',
+    'ui/feedback'
+], function($, _, __,tpl, helpers, feedback){
     'use strict';
 
     //keep a reference to alive lock
@@ -232,6 +235,26 @@ define([
 
             return this;
 
+        },
+        
+        /**
+         * Default behaviour
+         */
+        register : function() {
+        	var msg = this._container.data('msg');
+        	var id = this._container.data('id');
+        	return this.message('hasLock', msg,
+                {
+                    released : function() {
+                    	feedback().success(__('The test has been released'));
+                        this.close();
+                    },
+                    failed : function() {
+                    	feedback().error(__('The test could not be released'));
+                    },
+                    url: helpers._url('release','Lock','tao'),
+                    uri: id
+                }).open();
         },
 
         /**
