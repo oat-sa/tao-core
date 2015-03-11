@@ -21,8 +21,11 @@
 define([
     'jquery', 
     'lodash',
-    'tpl!ui/lock/lock'
-], function($, _, tpl){
+    'i18n',
+    'tpl!ui/lock/lock',
+    'helpers',
+    'ui/feedback'
+], function($, _, __,tpl, helpers, feedback){
     'use strict';
 
     //keep a reference to alive lock
@@ -47,8 +50,8 @@ define([
 
     //the default options
     var defaultOptions = {
-        uri : '',
-        url : ''
+		msg : __('This resource is locked'),
+		url : helpers._url('release','Lock','tao')
     };
 
     /**
@@ -189,10 +192,14 @@ define([
                     .appendTo(self._container);
 
                 self._trigger('display');
-
-                $('.release', self._container).on('click',function(){
-                    self.release();
-                });
+                
+                if (typeof this.options.uri == 'undefined') {
+                	$('.release', self._container).hide();
+                } else {
+	                $('.release', self._container).on('click',function(){
+	                    self.release();
+	                });
+                }
 
             }
             return self;
@@ -232,6 +239,24 @@ define([
 
             return this;
 
+        },
+        
+        /**
+         * Default behaviour
+         */
+        register : function() {
+        	var msg = this._container.data('msg') || defaultOptions.msg;
+        	var id = this._container.data('id');
+			return this.message('hasLock', msg, {
+					uri: id,
+					released : function() {
+						feedback().success(__('The test has been released'));
+					    this.close();
+					},
+					failed : function() {
+						feedback().error(__('The test could not be released'));
+					}
+			}).open();
         },
 
         /**
