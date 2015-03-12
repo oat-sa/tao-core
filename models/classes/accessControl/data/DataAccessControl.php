@@ -26,6 +26,7 @@ use oat\generis\model\data\permission\PermissionManager;
 use oat\oatbox\user\User;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\tao\model\lock\LockManager;
+use oat\tao\model\controllerMap\ActionNotFoundException;
 
 /**
  * Interface for data based access control
@@ -38,19 +39,24 @@ class DataAccessControl implements AccessControl
      */
     public function hasAccess(User $user, $controller, $action, $parameters) {
         $required = array();
-        foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
-            if (isset($parameters[$paramName])) {
-                if (substr($parameters[$paramName], 0, 7) == 'http_2_') {
-                    common_Logger::w('url encoded parameter detected for '.$paramName);
-                    $cleanName = \tao_helpers_Uri::decode($parameters[$paramName]);
+        try {
+            foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
+                if (isset($parameters[$paramName])) {
+                    if (substr($parameters[$paramName], 0, 7) == 'http_2_') {
+                        common_Logger::w('url encoded parameter detected for '.$paramName);
+                        $cleanName = \tao_helpers_Uri::decode($parameters[$paramName]);
+                    } else {
+                        $cleanName = $parameters[$paramName];
+                    }
+        
+                    $required[$cleanName] = $privileges;
                 } else {
-                    $cleanName = $parameters[$paramName];
+                    throw new \Exception('Missing parameter ' . $paramName . ' for ' . $controller . '/' . $action);
                 }
-    
-                $required[$cleanName] = $privileges;
-            } else {
-                throw new \Exception('Missing parameter ' . $paramName . ' for ' . $controller . '/' . $action);
             }
+        } catch (ActionNotFoundException $e) {
+            // action not found, no access
+            return false;
         }
         
         return empty($required)

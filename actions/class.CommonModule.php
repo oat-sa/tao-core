@@ -189,23 +189,19 @@ abstract class tao_actions_CommonModule extends Module
      * @param common_report_Report $report
      */
     protected function returnReport(common_report_Report $report, $refresh = true) {
-        if ($report->getType() == common_report_Report::TYPE_SUCCESS && $refresh) {
+        if ($refresh) {
             $data = $report->getdata();
-            if (!is_null($data) && $data instanceof core_kernel_classes_Resource) {
-                $this->setData('message', __('%s created', $data->getLabel()));
-                $this->setData("selectNode", tao_helpers_Uri::encode($data->getUri()));
+            if ($report->getType() == common_report_Report::TYPE_SUCCESS &&
+                !is_null($data) && $data instanceof \core_kernel_classes_Resource) {
+                $this->setData('message', $report->getMessage());
+                $this->setData('selectNode', tao_helpers_Uri::encode($data->getUri()));
                 $this->setData('reload', true);
+                return $this->setView('form.tpl', 'tao');
             }
-            
-            $this->setView('form.tpl', 'tao');
-        } else {
-            $title = $report->getType() == common_report_Report::TYPE_ERROR
-                ? __('Error')
-                : __('Success');
-            $this->setData('report', $report);
-            $this->setData('title', $title);
-            $this->setView('report.tpl', 'tao');
         }
+        
+        $this->setData('report', $report);
+        $this->setView('report.tpl', 'tao');
     }
 
 
