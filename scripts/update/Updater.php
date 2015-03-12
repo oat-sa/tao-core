@@ -181,12 +181,22 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $currentVersion = '2.7.9';
             }
         }
+        
         if ($currentVersion == '2.7.9') {
             // update role classes
             OntologyUpdater::syncModels();
             $currentVersion = '2.7.10';
         }
         
+        if ($currentVersion == '2.7.10') {
+            // correct access roles
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lists@getListElements')));
+            AclProxy::revokeRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Lock')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lock@release')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lock@locked')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole', array('act'=>'tao_actions_Lock@forceRelease')));
+            $currentVersion = '2.7.11';
+        }
         return $currentVersion;
     }
     
