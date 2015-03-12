@@ -54,10 +54,7 @@ $sections = get_data('sections');
                                  ) ?>"
                                  data-url="<?= $tree->get('dataUrl') ?>"
                                  data-rootNode="<?= $tree->get('rootNode') ?>"
-                                 data-action-selectclass="<?= $tree->get('selectClass') ?>"
-                                 data-action-selectinstance="<?= $tree->get('selectInstance') ?>"
-                                 data-action-delete="<?= $tree->get('delete') ?>"
-                                 data-action-moveinstance="<?= $tree->get('moveInstance') ?>">
+                                 data-actions="<?= htmlspecialchars(json_encode($tree->getActions()), ENT_QUOTES) ?>">
                             </div>
                         <?php endforeach; ?>
                     </div>

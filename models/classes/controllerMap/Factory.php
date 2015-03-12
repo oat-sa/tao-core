@@ -72,6 +72,11 @@ class Factory
      * @return ActionDescription
      */
     public function getActionDescription($controllerClassName, $actionName) {
+        
+        if (!class_exists($controllerClassName) || !method_exists($controllerClassName, $actionName)) {
+            throw new ActionNotFoundException('Unknown '.$controllerClassName.'@'.$actionName);
+        }
+        
         $reflector = new \ReflectionMethod($controllerClassName, $actionName);
         return new ActionDescription($reflector);
     }

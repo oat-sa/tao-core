@@ -62,13 +62,15 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 	
 	public function release($uri)
 	{  
+	    $resource = new core_kernel_classes_Resource($uri);
         try {
-            $success = LockManager::getImplementation()->releaseLock(
-                new core_kernel_classes_Resource(tao_helpers_Uri::decode($uri)),
-                common_session_SessionManager::getSession()->getUser()->getIdentifier()
-            );
+            $userId = common_session_SessionManager::getSession()->getUser()->getIdentifier();
+            $success = LockManager::getImplementation()->releaseLock($resource, $userId);
             return $this->returnJson(array(
-                'success' => $success
+                'success' => $success,
+                'message' => $success
+                    ? __('%s has been released', $resource->getLabel())
+                    : __('%s could not be released', $resource->getLabel())
             ));
             
         //the connected user is not the owner of the lock

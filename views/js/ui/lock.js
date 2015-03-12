@@ -21,8 +21,11 @@
 define([
     'jquery', 
     'lodash',
-    'tpl!ui/lock/lock'
-], function($, _, tpl){
+    'i18n',
+    'tpl!ui/lock/lock',
+    'helpers',
+    'ui/feedback'
+], function($, _, __,tpl, helpers, feedback){
     'use strict';
 
     //keep a reference to alive lock
@@ -47,8 +50,8 @@ define([
 
     //the default options
     var defaultOptions = {
-        uri : '',
-        url : ''
+		msg : __('This resource is locked'),
+		url : helpers._url('release','Lock','tao')
     };
 
     /**
@@ -189,10 +192,14 @@ define([
                     .appendTo(self._container);
 
                 self._trigger('display');
-
-                $('.release', self._container).on('click',function(){
-                    self.release();
-                });
+                
+                if (typeof this.options.uri == 'undefined') {
+                	$('.release', self._container).hide();
+                } else {
+	                $('.release', self._container).on('click',function(){
+	                    self.release();
+	                });
+                }
 
             }
             return self;
@@ -215,10 +222,10 @@ define([
                     dataType: 'json',
                     success : function(response){
                         if(response.success){
-                            self._trigger('released');
+                            self._trigger('released', response);
                         }
                         else{
-                            self._trigger('failed');
+                            self._trigger('failed', response);
                         }
                     },
                     error : function(){
@@ -233,19 +240,41 @@ define([
             return this;
 
         },
+        
+        /**
+         * Default behaviour
+         */
+        register : function() {
+        	var msg = this._container.data('msg') || defaultOptions.msg;
+        	var id = this._container.data('id');
+			return this.message('hasLock', msg, {
+					uri: id,
+					released : function(response) {
+						feedback().success(response.message);
+					    this.close();
+					},
+					failed : function(response) {
+						if (typeof response !== 'undefined' && typeof response.message !== 'undefined') {
+							feedback().error(response.message);
+						} else {
+							feedback().error('Unknown Error');
+						}
+					}
+			}).open();
+        },
 
         /**
          * trigger the event and the callback if exists
          * @param {String} [eventName] - the name of the event, use the caller name if not set
          */
-        _trigger : function _trigger(eventName) {
+        _trigger : function _trigger(eventName, data) {
 
             //trigger the related event
             this._container.trigger(eventName + '.lock', [this]);
 
             //run the callback if set in options
             if(_.isFunction(this.options[eventName])){
-                this.options[eventName].call(this);
+                this.options[eventName].call(this, data);
             }
         }
 

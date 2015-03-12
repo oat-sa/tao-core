@@ -113,7 +113,7 @@ define([
                     deletable	: true,
                     creatable	: true,
                     draggable	: function($node) {
-                        return $node.hasClass('node-instance') && options.actions && options.actions.moveInstance;
+                        return $node.hasClass('node-instance') && !$node.hasClass('node-undraggable') && options.actions && options.actions.moveInstance;
                     }
                 }
             },
@@ -172,7 +172,7 @@ define([
                     }
                     
                     computeSelectionAccess(data);
-            
+                    
                     flattenPermissions(data);
 
                     needMore(data); 
@@ -289,11 +289,9 @@ define([
                         nodeContext.classUri = nodeId;
                         nodeContext.permissions = permissions[nodeId];
                         nodeContext.id = $node.data('uri');
-
-                        //execute the selectClass action
-                        if(options.actions.selectClass){
-                            actionManager.exec(options.actions.selectClass, nodeContext);
-                        }
+                        nodeContext.context = ['class', 'resource'];
+                        
+                        executePossibleAction(options.actions, nodeContext, ['delete']);
                     }
 
                     //exec the  selectInstance action
@@ -301,15 +299,13 @@ define([
                         nodeContext.uri = nodeId;
                         nodeContext.classUri = $parentNode.attr('id');
                         nodeContext.id = $node.data('uri');
-
+                        nodeContext.context = ['instance', 'resource'];
+                        
                         //the last selected node is stored into the browser storage
                         treeStore.lastSelected = nodeId; 
                         store.set('taotree.' + context.section, treeStore);
-
-                        //execute the selectInstance action
-                        if(options.actions.selectInstance){
-                            actionManager.exec(options.actions.selectInstance, nodeContext);
-                        }
+                        
+                        executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
                     }
 
                     /**
@@ -412,21 +408,44 @@ define([
              * @param {String} data.id - the id of the new node
              * @param {String} data.cssClass - the css class for the new node (node-instance or node-class at least).
              */       
-            'addnode' : function(data){
+            'addnode' : function (data) {
                 var tree =  $.tree.reference($elt);
                 var parentNode = tree.get_node($('#' + data.parent, $elt).get(0));
-
-                tree.select_branch(
-                    tree.create({
-                        data: data.label,
-                        attributes: {
-                            'id': data.id,
-                            'class': data.cssClass,
-                            'data-uri' : uri.decode(data.uri)
+                var params = _.clone(serverParams);
+                
+                params.classUri = data.parent;
+                if (data.cssClass === 'node-class') {
+                    params.hideInstances = 1; //load only class nodes
+                } else {
+                    params.loadNode = data.uri; //load particular instance
+                }
+                //load tree branch with new node to get new node permissions
+                $.ajax(tree.settings.data.opts.url, {
+                    type        : tree.settings.data.opts.method,
+                    dataType    : tree.settings.data.type,
+                    async       : tree.settings.data.async,
+                    data        : params,
+                    success     : function (response) {
+                        var items = response.children ? response.children : response;
+                        var node = _.filter(items, function (child) {
+                            return child.attributes && child.attributes.id == data.id;
+                        });
+                        if (node.length) {
+                            tree.select_branch(
+                                tree.create({
+                                    data: data.label,
+                                    attributes: {
+                                        'id': data.id,
+                                        'class': data.cssClass,
+                                        'data-uri' : uri.decode(data.uri)
+                                    },
+                                    'permissions' : node[0].permissions
+                                }, parentNode)
+                            );
                         }
-                    }, parentNode)
-                );
-           },
+                    }
+                });
+            },
 
             /**
              * Remove a node from the tree.
@@ -497,13 +516,27 @@ define([
                 return;
             } 
             if(node.type){
-                if(node.type === 'class' && !hasAccessTo('selectClass', node)){
-                    addClassToNode(node, 'private');
-                }   
-                else if(node.type === 'instance' && !hasAccessTo('selectInstance', node)){
-                    addClassToNode(node, 'private');
-                }   
-
+                var actions = _.pluck(_.filter(options.actions, function (val) {
+                    return val.context === node.type || val.context === 'resource';
+                }), 'id'),
+                    keys = _.intersection(_.keys(node.permissions), actions),
+                    values = _.filter(node.permissions, function (val, key) {
+                        return _.contains(keys, key);
+                    }),
+                    containsTrue = _.contains(values, true),
+                    containsFalse = _.contains(values, false);
+            
+                if (containsTrue && !containsFalse) {
+                    addClassToNode(node, 'permissions-full');
+                } else if (containsTrue && containsFalse) {
+                    addClassToNode(node, 'permissions-partial');
+                } else {
+                    addClassToNode(node, 'permissions-none');
+                }
+                
+                if (!hasAccessTo('moveInstance', node)) {
+                    addClassToNode(node, 'node-undraggable');
+                }
             }
             if(node.children){
                 _.forEach(node.children, computeSelectionAccess);
@@ -601,6 +634,41 @@ define([
             });
         };
         
+        /**
+         * Function executes first found allowed action for tree node.
+         * @param {object} actions - All tree actions
+         * @param {object} [context] - Node context 
+         * @param {object} [context.permissions] - Node permissions
+         * @param {object} [context.context] - The context of the action: (class|instance|resource|*)
+         * @param {array} exclude - list of actions to be excluded.
+         * @returns {undefined}
+         */
+        function executePossibleAction(actions, context, exclude) {
+            var possibleActions,
+                self = this;
+            if (!_.isArray(exclude)) {
+                exclude = [];
+            }
+            possibleActions = _.filter(actions, function (action, name) {
+                var possible = _.contains(context.context, action.context);
+                if (context.permissions) {
+                    possible = possible && context.permissions[action.id];
+                }
+                possible = possible && !_.contains(exclude, name);
+                return possible;
+            });
+            //execute the first allowed action
+            if(possibleActions.length > 0){
+                //hide shown earlier message
+                if (self.permissionErrorMessage) {
+                    self.permissionErrorMessage.close();
+                }
+                actionManager.exec(possibleActions[0], context);
+            } else {
+                self.permissionErrorMessage = feedback().error(__("You don't have sufficient permissions to access"));
+            }
+        }
+        
         return setUpTree();
     };
 
@@ -632,8 +700,6 @@ define([
             }
         }
     }
-
-
 
     return treeFactory; 
 });

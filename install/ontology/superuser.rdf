@@ -22,10 +22,4 @@
 	    <generis:userTimezone></generis:userTimezone>
         <tao:firstTimeInTao rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
 	</rdf:Description>
-	
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole">
-	  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole"/>
-	  	<rdfs:label xml:lang="en-US"><![CDATA[System Administrator]]></rdfs:label>
-	    <rdfs:comment xml:lang="en-US"><![CDATA[The System Administrator Role]]></rdfs:comment>
-	  </rdf:Description>
 </rdf:RDF>
