@@ -4,11 +4,9 @@ use oat\tao\helpers\Template;
 <link rel="stylesheet" type="text/css" href="<?= Template::css('report.css','tao') ?>" media="screen"/>
 <div class="section-header flex-container-full">
     <h2>
-    <?php if (has_data('title')): ?>
-        <?php echo $title; ?>
-    <?php else: ?>
-        <?php echo __('Import report'); ?>
-    <?php endif; ?>
+    <?= get_data('report')->getType() == common_report_Report::TYPE_ERROR
+            ? __('Error')
+            : __('Success'); ?>
     </h2>
 </div>
 <div class="main-container flex-container-full report">
