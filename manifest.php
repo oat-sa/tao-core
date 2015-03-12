@@ -41,9 +41,6 @@ return array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
         'http://www.tao.lu/middleware/wfEngine.rdf'
     ),
-	'modelsRight' => array (
-		LOCAL_NAMESPACE => '7'
-	),
 	'install' => array(
 		'rdf' => array(
             dirname(__FILE__). '/models/ontology/tao.rdf',

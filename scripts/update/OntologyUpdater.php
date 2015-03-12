@@ -34,10 +34,8 @@ use oat\tao\model\extension\ExtensionModel;
 class OntologyUpdater {
     
     static public function syncModels() {
-        $modelIds = array_diff(
-            core_kernel_persistence_smoothsql_SmoothModel::getReadableModelIds(),
-            core_kernel_persistence_smoothsql_SmoothModel::getUpdatableModelIds()
-        );
+        $currentModel = ModelManager::getModel();
+        $modelIds = array_diff($currentModel->getReadableModels(),array('1'));
         
         $persistence = common_persistence_SqlPersistence::getPersistence('default');
         
@@ -49,11 +47,9 @@ class OntologyUpdater {
         }
         
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
-        
-        $smooth  = ModelManager::getModel();
         self::logDiff($diff);
         
-        $smooth->applyDiff($diff);
+        $diff->applyTo($currentModel);
     }
     
     static public function correctModelId($rdfFile) {
