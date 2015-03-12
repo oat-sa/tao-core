@@ -104,7 +104,7 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('act' => 'tao_actions_Lists@getListElements')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('act' => 'tao_actions_Lock@locked')),
-        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('act' => 'tao_actions_Lock@released')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('act' => 'tao_actions_Lock@release')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',    array('act' => 'tao_actions_Lock@forceRelease')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'entry')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'login')),

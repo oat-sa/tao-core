@@ -192,7 +192,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             // correct access roles
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lists@getListElements')));
             AclProxy::revokeRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Lock')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lock@released')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lock@release')));
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lock@locked')));
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole', array('act'=>'tao_actions_Lock@forceRelease')));
             $currentVersion = '2.7.11';
