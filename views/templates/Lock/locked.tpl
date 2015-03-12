@@ -32,7 +32,14 @@ use oat\tao\helpers\Template;
                 <td><?=tao_helpers_Date::displayeDate(get_data('lockDate'))?></td>
             </tr>
     		<tr>
+            <?php if (has_data('forceRelease') && get_data('forceRelease')) : ?>
+    		  <td colspan="2" class="txt-rgt button-container">
+		              <?=__('Releasing the lock might cause the work in progress by %s to be lost', get_data('ownerHtml'))?>
+    		          <button class="btn btn-warning small forcerelease" data-id="<?= get_data('id')?>"><span class="icon-unlock warning"></span><?=__('Force Release')?></button>
+    		  </td>
+            <?php else : ?>
     		  <td colspan="2" class="em"><?=__('Please contact %s or an administrator to release it', get_data('ownerHtml'))?></td>
+    	    <?php endif;?>
     	    </tr>
         </table>
 	</div>
