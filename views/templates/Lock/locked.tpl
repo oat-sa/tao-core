@@ -21,26 +21,32 @@ use oat\tao\helpers\Template;
     <div class="feedback feedback-warning">
         <table>
     		<tr>
-    		  <th colspan="2"><span class="icon-lock warning-color big"></span> <?=__('This %s is currently checked out', get_data('topclass-label'))?></th>
+    		  <th colspan="2" class="txt-lft"><span class="icon-lock warning-color big"></span> <?=__('This %s is currently checked out', get_data('topclass-label'))?></th>
     	    </tr>
     		<tr>
-    		    <td><?=__('by:')?></td>
-                <td><?=get_data('ownerHtml')?></td>
+    		    <td><?=__('User')?></td>
+                <td class="b"><?=get_data('ownerHtml')?></td>
             </tr>
     		<tr>
-    		    <td><?=__('date:')?></td>
-                <td><?=tao_helpers_Date::displayeDate(get_data('lockDate'))?></td>
+    		    <td><?=__('Date')?></td>
+                <td class="b"><?=tao_helpers_Date::displayeDate(get_data('lockDate'))?></td>
             </tr>
-    		<tr>
             <?php if (has_data('forceRelease') && get_data('forceRelease')) : ?>
-    		  <td colspan="2" class="txt-rgt button-container">
-		              <?=__('Releasing the lock might cause the work in progress by %s to be lost', get_data('ownerHtml'))?>
-    		          <button class="btn btn-warning small forcerelease" data-id="<?= get_data('id')?>"><span class="icon-unlock warning"></span><?=__('Force Release')?></button>
-    		  </td>
-            <?php else : ?>
-    		  <td colspan="2" class="em"><?=__('Please contact %s or an administrator to release it', get_data('ownerHtml'))?></td>
-    	    <?php endif;?>
+    		<tr>
+                <td colspan="2" class="em">
+                    <?=__('Releasing the lock might cause the work in progress by %s to be lost.', get_data('ownerHtml'))?>
+                </td>
+            </tr>
+    		<tr>
+                <td colspan="2" class="txt-rgt button-container">
+                    <button class="btn btn-warning small forcerelease" data-id="<?= get_data('id')?>"><span class="icon-unlock warning"></span><?=__('Force Release')?></button>
+                </td>
     	    </tr>
+            <?php else : ?>
+            <tr>
+    		    <td colspan="2" class="em"><?=__('Please contact %s or an administrator to release it', get_data('ownerHtml'))?></td>
+      	    </tr>
+    	    <?php endif;?>
         </table>
 	</div>
 </div>	
