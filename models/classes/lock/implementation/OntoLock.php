@@ -110,7 +110,7 @@ class OntoLock extends Configurable
     */
     public function forceReleaseLock(core_kernel_classes_Resource $resource)
     {
-         $resource->removePropertyValues($this->getLockProperty());
+         return $resource->removePropertyValues($this->getLockProperty());
     }
     
     /**

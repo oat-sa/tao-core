@@ -20,6 +20,7 @@
 
 use oat\tao\model\lock\LockManager;
 use oat\tao\helpers\UserHelper;
+use oat\tao\model\accessControl\AclProxy;
 
 /**
  * control the lock on a given resource
@@ -44,11 +45,14 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 	    $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
 	    $lockData = LockManager::getImplementation()->getLockData($resource);
 	
-	    $this->setData('id', $resource->getUri());
-	    
 	    $this->setData('topclass-label',
 	        $this->hasRequestParameter('topclass-label') ? $this->getRequestParameter('topclass-label') : __('Resource')
         );
+	    
+	    if (AclProxy::hasAccess(common_session_SessionManager::getSession()->getUser(), __CLASS__, 'forceRelease', array('uri' => $resource->getUri()))) {
+	        $this->setData('id', $resource->getUri());
+            $this->setData('forceRelease', true);
+	    }
 	
 	    $this->setData('lockDate', $lockData->getCreationTime());
 	    $this->setData('ownerHtml', UserHelper::renderHtmlUser($lockData->getOwnerId()));
@@ -82,5 +86,14 @@ class tao_actions_Lock extends tao_actions_CommonModule {
             ));
         }
     }
-	
+
+    public function forceRelease($uri)
+    {
+        $success = LockManager::getImplementation()->forceReleaseLock(
+            new core_kernel_classes_Resource($uri)
+        );
+        return $this->returnJson(array(
+            'success' => $success
+        ));
+    }
 }
