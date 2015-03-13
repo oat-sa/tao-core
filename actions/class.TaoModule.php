@@ -130,7 +130,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	            if ($clazz instanceof core_kernel_classes_Resource) {
 	                $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
 	            }
-	            $this->setData('message', __('Delivery Class saved'));
+	            $this->setData('message', __('%s Class saved', $this->getRootClass()->getLabel()));
 	            $this->setData('reload', true);
 	        }
 	    }
