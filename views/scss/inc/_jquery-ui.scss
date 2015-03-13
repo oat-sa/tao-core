@@ -218,21 +218,25 @@
 }
 
 .ui-icon-triangle-1-n {
-    @extend %icon-up;
+    @include tao-icon-setup;
+    @include icon-up;
 }
 
 .ui-datepicker-next,
 .ui-icon-triangle-1-e {
-    @extend %icon-right;
+    @include tao-icon-setup;
+    @include icon-right;
 }
 
 .ui-icon-triangle-1-s {
-    @extend %icon-down;
+    @include tao-icon-setup;
+    @include icon-down;
 }
 
 .ui-datepicker-prev,
 .ui-icon-triangle-1-w {
-    @extend %icon-left;
+    @include tao-icon-setup;
+    @include icon-left;
 }
 
 /* Misc visuals
