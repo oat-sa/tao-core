@@ -17,9 +17,9 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  *               
  * 
- */    
+ */
 
 /**
- * Default log config, does not lock resources
+ * Default Session config, uses the php internal session handling
  */
-return new oat\tao\model\lock\implementation\NoLock();
+return false;
