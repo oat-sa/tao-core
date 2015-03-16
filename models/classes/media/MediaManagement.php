@@ -27,10 +27,10 @@ interface MediaManagement {
     /**
      * @param string $source file to add
      * @param string $fileName new name of the file
-     * @param string $path of the directory in which to upload
+     * @param string $parent the directory in which to upload / the class where to create the instance etc.
      * @return array of file info or an error array
      */
-    public function add($source, $fileName, $path);
+    public function add($source, $fileName, $parent);
 
 
     /**

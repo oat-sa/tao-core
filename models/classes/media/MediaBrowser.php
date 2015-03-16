@@ -27,6 +27,7 @@ interface MediaBrowser {
     /**
      * @param string $relPath
      * @param array $acceptableMime
+     * @param int $depth
      * @return array ['label' => $label,
      *                'path' => $implIdentifier.'/'.$path,
      *                'children' => [['label' => $label, 'path', $implIdentifier.'/'.$path, 'url' => $continueUrl]]
@@ -36,6 +37,7 @@ interface MediaBrowser {
 
     /**
      * @param string $relPath
+     * @param $acceptableMime
      * @return array  ['name' => $filename,
      *                'mime' => $mimeType,
      *                'size' => $fileSize,
