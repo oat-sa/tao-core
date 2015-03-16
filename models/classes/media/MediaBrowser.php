@@ -25,7 +25,7 @@ namespace oat\tao\model\media;
 interface MediaBrowser {
 
     /**
-     * @param string $relPath
+     * @param string $parentLink
      * @param array $acceptableMime
      * @param int $depth
      * @return array ['label' => $label,
@@ -33,18 +33,16 @@ interface MediaBrowser {
      *                'children' => [['label' => $label, 'path', $implIdentifier.'/'.$path, 'url' => $continueUrl]]
      *               ]
      */
-    public function getDirectory($relPath = '/', $acceptableMime = array(), $depth = 1);
+    public function getDirectory($parentLink = '/', $acceptableMime = array(), $depth = 1);
 
     /**
-     * @param string $relPath
-     * @param $acceptableMime
+     * @param string $link
      * @return array  ['name' => $filename,
      *                'mime' => $mimeType,
      *                'size' => $fileSize,
-     *                'url' => $downloadUrl
      *               ]
      */
-    public function getFileInfo($relPath, $acceptableMime);
+    public function getFileInfo($link);
 
     /**
      * @param string $link
