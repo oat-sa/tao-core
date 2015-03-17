@@ -432,15 +432,7 @@ define([
                         });
                         if (node.length) {
                             tree.select_branch(
-                                tree.create({
-                                    data: data.label,
-                                    attributes: {
-                                        'id': data.id,
-                                        'class': data.cssClass,
-                                        'data-uri' : uri.decode(data.uri)
-                                    },
-                                    'permissions' : node[0].permissions
-                                }, parentNode)
+                                tree.create(node[0], parentNode)
                             );
                         }
                     }
