@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC04\n"
-"PO-Revision-Date: 2015-03-06T15:29:13\n"
+"PO-Revision-Date: 2015-03-09T17:30:15\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -184,11 +184,11 @@ msgstr ""
 msgid "Alignment (optional)"
 msgstr ""
 
-msgid "all"
-msgstr "tout"
-
 msgid "All"
 msgstr "Tout"
+
+msgid "all"
+msgstr "tout"
 
 msgid "All (the complete TAO Module)"
 msgstr "Tout (le module TAO au complet)"
@@ -285,10 +285,10 @@ msgstr ""
 msgid "Beta version"
 msgstr "Version bêta"
 
-msgid "Block"
+msgid "block"
 msgstr ""
 
-msgid "block"
+msgid "Block"
 msgstr ""
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -334,11 +334,11 @@ msgstr "Modifier le mot de passe"
 msgid "chars"
 msgstr ""
 
-msgid "Check all"
-msgstr "Cocher tout"
-
 msgid "Check All"
 msgstr "Cocher Tout"
+
+msgid "Check all"
+msgstr "Cocher tout"
 
 msgid "Choice"
 msgstr ""
@@ -349,10 +349,10 @@ msgstr ""
 msgid "Choice Interaction"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
 msgid "Choose export format"
@@ -412,10 +412,10 @@ msgstr ""
 msgid "Controls the maximum number of attempts allowed. 0 means unlimited."
 msgstr ""
 
-msgid "correct"
+msgid "Correct"
 msgstr ""
 
-msgid "Correct"
+msgid "correct"
 msgstr ""
 
 msgid "Create"
@@ -637,11 +637,11 @@ msgstr ""
 msgid "Editing this element is not supported currently."
 msgstr ""
 
-msgid "element"
-msgstr "élément"
-
 msgid "Element"
 msgstr "Élément"
+
+msgid "element"
+msgstr "élément"
 
 msgid "Element deleted"
 msgstr ""
@@ -860,10 +860,10 @@ msgstr ""
 msgid "identical pair already exists"
 msgstr ""
 
-msgid "Identifier"
+msgid "identifier"
 msgstr ""
 
-msgid "identifier"
+msgid "Identifier"
 msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
@@ -1025,10 +1025,10 @@ msgstr "Nom"
 msgid "Late submission allowed"
 msgstr ""
 
-msgid "Latex"
+msgid "LaTex"
 msgstr ""
 
-msgid "LaTex"
+msgid "Latex"
 msgstr ""
 
 msgid "leave empty"
@@ -1168,10 +1168,10 @@ msgstr ""
 msgid "Max Length"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr ""
 
 msgid "Maximal score for this interaction."
@@ -1636,11 +1636,11 @@ msgstr ""
 msgid "Release"
 msgstr ""
 
-msgid "remove"
-msgstr ""
-
 msgid "Remove"
 msgstr "Supprimer"
+
+msgid "remove"
+msgstr ""
 
 msgid "Remove content"
 msgstr "Supprimer le contenu"
@@ -1768,10 +1768,10 @@ msgstr "Enregistrer"
 msgid "Scope"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
 msgid "Score range"
@@ -1795,11 +1795,11 @@ msgstr ""
 msgid "Section Properties"
 msgstr ""
 
-msgid "Select"
-msgstr "Choisir"
-
 msgid "select"
 msgstr "choisir"
+
+msgid "Select"
+msgstr "Choisir"
 
 msgid "Select a "
 msgstr ""
@@ -1965,11 +1965,11 @@ msgstr ""
 msgid "TAO Back Office"
 msgstr "Outils d'administration TAO"
 
-msgid "TAO Home"
-msgstr "Menu principal TAO"
-
 msgid "Tao Home"
 msgstr ""
+
+msgid "TAO Home"
+msgstr "Menu principal TAO"
 
 msgid "TAO Login"
 msgstr ""
@@ -2259,10 +2259,10 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
 msgid "Undo"
@@ -2421,6 +2421,9 @@ msgid "You can use maximum ' + max + ' choices"
 msgstr ""
 
 msgid "You currently have no access to the platform"
+msgstr ""
+
+msgid "You don't have sufficient permissions to access"
 msgstr ""
 
 msgid "You have deleted"

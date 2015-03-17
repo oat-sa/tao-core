@@ -204,7 +204,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     &:before {
-        @extend %icon-down;
+        @include icon-down;
     }
     &:hover {
         background-color: $uiClickableHoverBg;

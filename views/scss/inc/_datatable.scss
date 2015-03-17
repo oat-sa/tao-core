@@ -12,12 +12,12 @@ table.datatable{
                 float:right;
             }
             &.sorted_asc::after{
-                @extend %tao-icon-setup;
-                @extend %icon-down;
+                @include tao-icon-setup;
+                @include icon-down;
             }
             &.sorted_desc::after{
-                @extend %tao-icon-setup;
-                @extend %icon-up;
+                @include tao-icon-setup;
+                @include icon-up;
             }
         }
     }

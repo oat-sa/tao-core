@@ -13,7 +13,7 @@
         @include font-size(15);
     }
 
-   .file-browser, .file-selector, .file-preview { 
+   .file-browser, .file-selector, .file-preview {
         position: relative;
         display: table-cell;
         vertical-align: top;
@@ -39,7 +39,7 @@
             padding: 6px;
             position: relative;
             clear: both;
-        
+
             &.toggler{
                 cursor: pointer;
                 &:after{
@@ -68,19 +68,21 @@
                 a {
                     color: $textColor;
                     &:before {
-                        @include icon('folder');
+                        @include tao-icon-setup;
+                        @include icon-folder;
                         margin: 0 3px;
                     }
                 }
 
                 a.opened:before {
                     font-style: italic;
-                    @include icon('folder-open');
+                    @include tao-icon-setup;
+                    @include icon-folder-open;
                 }
 
                 &.active > a {
                     background-color: $activeColor;
-                    
+
                 }
             }
         }
@@ -102,7 +104,7 @@
             height: 300px;
             overflow: hidden;
         }
-    
+
         .actions {
             text-align: center;
             margin-bottom: 10px;
@@ -114,8 +116,8 @@
         width: 100%;
         border: solid 1px #fff;
         border-top: none;
-        border-bottom: none;       
- 
+        border-bottom: none;
+
         background-color: $uiGeneralContentBg;
         & > h1 {
             position: relative;
@@ -158,21 +160,25 @@
                 overflow-y: hidden;
 
                 &:before {
-                    @include icon('document');
+                    @include tao-icon-setup;
+                    @include icon-document;
                     margin: 0 4px;
                     @include font-size(16);
                     vertical-align: top;
                 }
                 &[data-type='image']:before{
-                    @include icon('image');
+                    @include tao-icon-setup;
+                    @include icon-image;
                     margin: 0 2px 0 0;
                 }
                 &[data-type='audio']:before{
-                    @include icon('media');
+                    @include tao-icon-setup;
+                    @include icon-media;
                     margin: 0 2px 0 0;
-                } 
+                }
                 &[data-type='video']:before{
-                    @include icon('video');
+                    @include tao-icon-setup;
+                    @include icon-video;
                     margin: 0 2px 0 0;
                 }
 
@@ -187,7 +193,7 @@
                     max-width:250px;
                 }
 
-                .actions { 
+                .actions {
                     float: right;
                     position: relative;
                     height: 35px;

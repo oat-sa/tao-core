@@ -87,15 +87,9 @@
   
   <!-- Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole">
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#ClassRole"/>
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#AbstractRole"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Management]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Management Role Class]]></rdfs:comment>
-  </rdf:Description>
-  
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole">
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#ClassRole"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Worker]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[The Worker Role Class]]></rdfs:comment>
   </rdf:Description>
   
   <!-- Top Level Roles -->
@@ -117,14 +111,6 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Service]]></rdfs:label>
   	<rdfs:comment xml:lang="en-US"><![CDATA[The Service Role]]></rdfs:comment>
   </rdf:Description>
-  
-  <!-- BackOffice Sub Roles -->
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole">
-  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole"/>
-  	<rdfs:label xml:lang="en-US"><![CDATA[Global Manager]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[The Global Manager Role]]></rdfs:comment>
-  </rdf:Description>
-  
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole"/>
   	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"/>
@@ -132,9 +118,29 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[The TAO Manager Role]]></rdfs:comment>
   </rdf:Description>
   
+  
+  <!-- BackOffice Sub Roles -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole">
+  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Global Manager]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[The Global Manager Role]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Lock Manager]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[The role that can unlock all resources]]></rdfs:comment>
+    <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[System Administrator]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[The System Administrator Role]]></rdfs:comment>
+    <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole"/>
+  </rdf:Description>
+  
   <!-- FrontOffice Sub Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
-  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole"/>
+  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
   	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole"/>
   	<rdfs:label xml:lang="en-US"><![CDATA[Test Taker]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Test Taker Role]]></rdfs:comment>

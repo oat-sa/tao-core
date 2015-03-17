@@ -20,6 +20,7 @@
 
 use oat\tao\model\lock\LockManager;
 use oat\tao\helpers\UserHelper;
+use oat\tao\model\accessControl\AclProxy;
 
 /**
  * control the lock on a given resource
@@ -44,11 +45,14 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 	    $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
 	    $lockData = LockManager::getImplementation()->getLockData($resource);
 	
-	    $this->setData('id', $resource->getUri());
-	    
 	    $this->setData('topclass-label',
 	        $this->hasRequestParameter('topclass-label') ? $this->getRequestParameter('topclass-label') : __('Resource')
         );
+	    
+	    if (AclProxy::hasAccess(common_session_SessionManager::getSession()->getUser(), __CLASS__, 'forceRelease', array('uri' => $resource->getUri()))) {
+	        $this->setData('id', $resource->getUri());
+            $this->setData('forceRelease', true);
+	    }
 	
 	    $this->setData('lockDate', $lockData->getCreationTime());
 	    $this->setData('ownerHtml', UserHelper::renderHtmlUser($lockData->getOwnerId()));
@@ -62,13 +66,15 @@ class tao_actions_Lock extends tao_actions_CommonModule {
 	
 	public function release($uri)
 	{  
+	    $resource = new core_kernel_classes_Resource($uri);
         try {
-            $success = LockManager::getImplementation()->releaseLock(
-                new core_kernel_classes_Resource(tao_helpers_Uri::decode($uri)),
-                common_session_SessionManager::getSession()->getUser()->getIdentifier()
-            );
+            $userId = common_session_SessionManager::getSession()->getUser()->getIdentifier();
+            $success = LockManager::getImplementation()->releaseLock($resource, $userId);
             return $this->returnJson(array(
-                'success' => $success
+                'success' => $success,
+                'message' => $success
+                    ? __('%s has been released', $resource->getLabel())
+                    : __('%s could not be released', $resource->getLabel())
             ));
             
         //the connected user is not the owner of the lock
@@ -80,5 +86,14 @@ class tao_actions_Lock extends tao_actions_CommonModule {
             ));
         }
     }
-	
+
+    public function forceRelease($uri)
+    {
+        $success = LockManager::getImplementation()->forceReleaseLock(
+            new core_kernel_classes_Resource($uri)
+        );
+        return $this->returnJson(array(
+            'success' => $success
+        ));
+    }
 }

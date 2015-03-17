@@ -6,10 +6,12 @@
         margin-left: 3px;
         position: relative;
         top: 2px;
-        @include icon('down');
+        @include tao-icon-setup;
+        @include icon-down;
     }
     &.opened:after {
-        @include icon('up');
+        @include tao-icon-setup;
+        @include icon-up;
     }
 }
 
@@ -22,7 +24,8 @@
     &:before {
         margin-right: 5px;
         @include font-size(10.5);
-        @include icon('add');
+        @include tao-icon-setup;
+        @include icon-add;
     }
 }
 
@@ -31,7 +34,8 @@
     &:before {
         margin-right: 5px;
         @include font-size(10.5);
-        @include icon('close');
+        @include tao-icon-setup;
+        @include icon-close;
     }
 }
 .deleter {
@@ -99,12 +103,14 @@ input[data-increment], input.duration-ctrl {
                 &.inc:before {
                     position: relative;
                     bottom: 0px;
-                    @include icon('up');
+                    @include tao-icon-setup;
+                    @include icon-up;
                 }
                 &.dec:before {
                     position: relative;
                     top: 0px;
-                    @include icon('down');
+                    @include tao-icon-setup;
+                    @include icon-down;
                 }
                 &:hover {
                     background-color: $uiClickableHoverBg;
@@ -293,9 +299,9 @@ ul[data-button-group], ul.button-group {
         text-align: center;
         @include font-size(20);
         &:before {
-            @include icon('document');
             @include font-size(60);
-            @include icon('media');
+            @include tao-icon-setup;
+            @include icon-media;
             display: block !important;
         }
     }

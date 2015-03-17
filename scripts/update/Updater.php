@@ -32,6 +32,10 @@ use oat\tao\model\lock\implementation\NoLock;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\websource\TokenWebSource;
+use oat\tao\model\websource\WebsourceManager;
+use oat\tao\model\websource\ActionWebSource;
+use oat\tao\model\websource\DirectWebSource;
 
 /**
  * 
@@ -171,7 +175,82 @@ class Updater extends \common_ext_ExtensionUpdater {
             
             $currentVersion = '2.7.8';
         }
+
+        if ($currentVersion == '2.7.8') {
+            if ($this->migrateFsAccess()) {
+                $currentVersion = '2.7.9';
+            }
+        }
+        
+        if ($currentVersion == '2.7.9') {
+            // update role classes
+            OntologyUpdater::syncModels();
+            $currentVersion = '2.7.10';
+        }
+        
+        if ($currentVersion == '2.7.10') {
+            // correct access roles
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lists@getListElements')));
+            AclProxy::revokeRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Lock')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lock@release')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lock@locked')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole', array('act'=>'tao_actions_Lock@forceRelease')));
+            $currentVersion = '2.7.11';
+        }
+        
+        if ($currentVersion == '2.7.11') {
+            // move session abstraction
+            if (defined("PHP_SESSION_HANDLER") && class_exists(PHP_SESSION_HANDLER)) {
+                if (PHP_SESSION_HANDLER == 'common_session_php_KeyValueSessionHandler') {
+                    $sessionHandler = new \common_session_php_KeyValueSessionHandler(array(
+                        \common_session_php_KeyValueSessionHandler::OPTION_PERSISTENCE => 'session'
+                    ));
+                } else {
+                    $sessionHandler = new PHP_SESSION_HANDLER();  
+                }
+                $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+                $ext->setConfig(\Bootstrap::CONFIG_SESSION_HANDLER, $sessionHandler);
+            }
+            $currentVersion = '2.7.12';
+        }
         
         return $currentVersion;
+    }
+    
+    private function migrateFsAccess() {
+        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $config = $tao->getConfig('filesystemAccess');
+        if (is_array($config)) {
+            foreach ($config as $id => $string) {
+                list($class, $id, $fsUri, $jsconfig) = explode(' ', $string, 4);
+                $config = json_decode($jsconfig, true);
+                $options = array(
+                    TokenWebSource::OPTION_ID => $id,
+                    TokenWebSource::OPTION_FILESYSTEM_ID => $fsUri,
+                );
+                switch ($class) {
+                	case 'tao_models_classes_fsAccess_TokenAccessProvider' :
+                	    $fs = new \core_kernel_fileSystem_FileSystem($fsUri);
+                        $options[TokenWebSource::OPTION_PATH] = $fs->getPath();
+                	    $options[TokenWebSource::OPTION_SECRET] = $config['secret'];
+                	    $options[TokenWebSource::OPTION_TTL] = (int) ini_get('session.gc_maxlifetime');
+                	    $websource = new TokenWebSource($options);
+                	    break;
+                	case 'tao_models_classes_fsAccess_ActionAccessProvider' :
+                	    $websource = new ActionWebSource($options);
+                	    break;
+                	case 'tao_models_classes_fsAccess_DirectAccessProvider' :
+                	    $options[DirectWebSource::OPTION_URL] = $config['accessUrl'];
+                	    $websource = new DirectWebSource($options);
+                	    break;
+                	default:
+                	    throw \common_Exception('unknown implementation '.$class);
+                }
+                WebsourceManager::singleton()->addWebsource($websource);
+            }
+        } else {
+            throw \common_Exception('Error reading former filesystem access configuration');
+        }
+        return true;
     }
 }
