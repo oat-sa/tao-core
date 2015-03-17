@@ -265,9 +265,9 @@ define([
                     var nodeId          = $node.attr('id');
                     var $parentNode     = tree.parent($node);
                     var treeStore       = store.get('taotree.' + context.section) || {};
-                    var nodeContext     = {
-                        permissions : permissions[nodeId] || {}
-                    };
+                    var nodeContext     = permissions[nodeId] ? {
+                        permissions : permissions[nodeId]
+                    } : {};
 
                     //mark all unselected
                     $('a.clicked', $elt)
@@ -530,7 +530,7 @@ define([
                     addClassToNode(node, 'permissions-full');
                 } else if (containsTrue && containsFalse) {
                     addClassToNode(node, 'permissions-partial');
-                } else {
+                } else if (containsFalse) {
                     addClassToNode(node, 'permissions-none');
                 }
                 
