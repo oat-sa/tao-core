@@ -521,6 +521,12 @@ define([
             }
         };
 
+		/**
+		 * Get the CSS class to apply to the node regarding the computed permissions
+		 * @private
+		 * @param {Object} node - the tree node
+		 * @returns {String} the CSS class
+		 */
 		function getPermissionClass(node){
 			var actions = _.pluck(_.filter(options.actions, function (val) {
 				return val.context === node.type || val.context === 'resource';
