@@ -43,7 +43,7 @@
                            data-validate-option="$allowEmpty;"/>
                 </span>
 
-        <div class="media-sizer-link">
+        <div class="media-sizer-sync">
             <span class="icon-link"></span>
         </div>
 
