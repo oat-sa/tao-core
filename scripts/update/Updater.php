@@ -198,6 +198,23 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Search')));
             $currentVersion = '2.7.11';
         }
+        
+        if ($currentVersion == '2.7.11') {
+            // move session abstraction
+            if (defined("PHP_SESSION_HANDLER") && class_exists(PHP_SESSION_HANDLER)) {
+                if (PHP_SESSION_HANDLER == 'common_session_php_KeyValueSessionHandler') {
+                    $sessionHandler = new \common_session_php_KeyValueSessionHandler(array(
+                        \common_session_php_KeyValueSessionHandler::OPTION_PERSISTENCE => 'session'
+                    ));
+                } else {
+                    $sessionHandler = new PHP_SESSION_HANDLER();  
+                }
+                $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+                $ext->setConfig(\Bootstrap::CONFIG_SESSION_HANDLER, $sessionHandler);
+            }
+            $currentVersion = '2.7.12';
+        }
+        
         return $currentVersion;
     }
     
