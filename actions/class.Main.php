@@ -249,12 +249,12 @@ class tao_actions_Main extends tao_actions_CommonModule
         $entries = array();
         foreach (MenuService::getPerspectivesByGroup($groupId) as $i => $perspective) {
             $binding = $perspective->getBinding();
-            $childs = $this->getMenuElementChilds($perspective);
+            $children = $this->getMenuElementChildren($perspective);
             
-            if (!empty($binding) || !empty($childs)) {
+            if (!empty($binding) || !empty($children)) {
                 $entry = array(
                     'perspective' => $perspective,
-                    'childs'      => $childs
+                    'children'    => $children
                 );
                 if (is_null($binding)) {
                     $entry['url'] = _url(
@@ -279,19 +279,19 @@ class tao_actions_Main extends tao_actions_CommonModule
      * @param Perspective $menuElement from the structure.xml
      * @return array menu elements list
      */
-    private function getMenuElementChilds(Perspective $menuElement)
+    private function getMenuElementChildren(Perspective $menuElement)
     {
-        $childs = array();
+        $children = array();
         foreach ($menuElement->getChildren() as $section) {
             if (
                 tao_models_classes_accessControl_AclProxy::hasAccess(
                     $section->getAction(), $section->getController(), $section->getExtensionId()
                 )
             ) {
-                $childs[] = $section;
+                $children[] = $section;
             }
         }
-        return $childs;
+        return $children;
     }
 
     /**

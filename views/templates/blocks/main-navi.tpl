@@ -13,9 +13,9 @@ $settingsMenu = get_data('settings-menu');
                     <a href="<?= $entry->getUrl() ?>" title="<?= __($entry->getDescription()) ?>">
                         <?= Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
                         <?= __($entry->getName()) ?></a>
-                    <?php if (count($item['childs']) > 1): ?>
+                    <?php if (count($item['children']) > 1): ?>
                         <ul class="plain menu-dropdown">
-                            <?php foreach ($item['childs'] as $child): ?>
+                            <?php foreach ($item['children'] as $child): ?>
                                 <?php if(!$child->getDisabled()) : ?>
                                 <li>
                                     <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
@@ -63,9 +63,9 @@ $settingsMenu = get_data('settings-menu');
                             <?php endif; ?>
 
                         </a>
-                        <?php if (count($item['childs']) > 1): ?>
+                        <?php if (count($item['children']) > 1): ?>
                             <ul class="plain menu-dropdown">
-                                <?php foreach ($item['childs'] as $child): ?>
+                                <?php foreach ($item['children'] as $child): ?>
                                     <?php if(!$child->getDisabled()) : ?>
                                         <li>
                                             <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
