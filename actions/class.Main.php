@@ -256,16 +256,8 @@ class tao_actions_Main extends tao_actions_CommonModule
                     'perspective' => $perspective,
                     'children'    => $children
                 );
-                if (is_null($binding)) {
-                    $entry['url'] = _url(
-                        'index',
-                        null,
-                        null,
-                        array('structure' => $perspective->getId(), 'ext' => $perspective->getExtension())
-                    );
-                } else {
-                    $extension   = $perspective->getExtension();
-                    $entry['binding'] = $extension . '/' . $binding;
+                if (!is_null($binding)) {
+                    $entry['binding'] = $perspective->getExtension() . '/' . $binding;
                 }
                 $entries[$i] = $entry;
             }
