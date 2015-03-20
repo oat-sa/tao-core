@@ -6,15 +6,16 @@ $settingsMenu = get_data('settings-menu');
 <nav>
     <ul class="plain clearfix lft main-menu">
         <?php if($mainMenu): ?>
-            <?php foreach ($mainMenu as $entry): ?>
+            <?php foreach ($mainMenu as $item): ?>
+                <?php $entry = $item['perspective']; ?>
                 <li <?php if (get_data('shownExtension') === $entry->getExtension()
                 && get_data('shownStructure') === $entry->getId()): ?>class="active"<?php endif ?>>
                     <a href="<?= $entry->getUrl() ?>" title="<?= __($entry->getDescription()) ?>">
                         <?= Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
                         <?= __($entry->getName()) ?></a>
-                    <?php if (count($entry->getChildren()) > 1): ?>
+                    <?php if (count($item['children']) > 1): ?>
                         <ul class="plain menu-dropdown">
-                            <?php foreach ($entry->getChildren() as $child): ?>
+                            <?php foreach ($item['children'] as $child): ?>
                                 <?php if(!$child->getDisabled()) : ?>
                                 <li>
                                     <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
@@ -35,7 +36,8 @@ $settingsMenu = get_data('settings-menu');
         </span>
         <ul class="clearfix plain">
             <?php if($settingsMenu): ?>
-                <?php foreach ($settingsMenu as $entry): ?>
+                <?php foreach ($settingsMenu as $item): ?>
+                    <?php $entry = $item['perspective']; ?>
                     <?php $className = get_data('shownExtension') === $entry->getExtension() && get_data(
                         'shownStructure'
                     ) === $entry->getId()
@@ -61,9 +63,9 @@ $settingsMenu = get_data('settings-menu');
                             <?php endif; ?>
 
                         </a>
-                        <?php if (count($entry->getChildren()) > 1): ?>
+                        <?php if (count($item['children']) > 1): ?>
                             <ul class="plain menu-dropdown">
-                                <?php foreach ($entry->getChildren() as $child): ?>
+                                <?php foreach ($item['children'] as $child): ?>
                                     <?php if(!$child->getDisabled()) : ?>
                                         <li>
                                             <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
