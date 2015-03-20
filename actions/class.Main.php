@@ -281,17 +281,17 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     private function getMenuElementChilds(Perspective $menuElement)
     {
-        $сhilds = array();
+        $childs = array();
         foreach ($menuElement->getChildren() as $section) {
             if (
                 tao_models_classes_accessControl_AclProxy::hasAccess(
                     $section->getAction(), $section->getController(), $section->getExtensionId()
                 )
             ) {
-                $сhilds[] = $section;
+                $childs[] = $section;
             }
         }
-        return $сhilds;
+        return $childs;
     }
 
     /**
