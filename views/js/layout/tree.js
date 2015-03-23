@@ -265,9 +265,9 @@ define([
                     var nodeId          = $node.attr('id');
                     var $parentNode     = tree.parent($node);
                     var treeStore       = store.get('taotree.' + context.section) || {};
-                    var nodeContext     = {
-                        permissions : permissions[nodeId] || {}
-                    };
+                    var nodeContext     = permissions[nodeId] ? {
+                        permissions : permissions[nodeId]
+                    } : {};
 
                     //mark all unselected
                     $('a.clicked', $elt)
@@ -432,15 +432,7 @@ define([
                         });
                         if (node.length) {
                             tree.select_branch(
-                                tree.create({
-                                    data: data.label,
-                                    attributes: {
-                                        'id': data.id,
-                                        'class': data.cssClass,
-                                        'data-uri' : uri.decode(data.uri)
-                                    },
-                                    'permissions' : node[0].permissions
-                                }, parentNode)
+                                tree.create(node[0], parentNode)
                             );
                         }
                     }
@@ -511,29 +503,15 @@ define([
          * @param {Object} node - the tree node as recevied from the server
          */
         var computeSelectionAccess = function(node){
+
             if(_.isArray(node)){
                 _.forEach(node, computeSelectionAccess);
                 return;
             } 
-            if(node.type){
-                var actions = _.pluck(_.filter(options.actions, function (val) {
-                    return val.context === node.type || val.context === 'resource';
-                }), 'id'),
-                    keys = _.intersection(_.keys(node.permissions), actions),
-                    values = _.filter(node.permissions, function (val, key) {
-                        return _.contains(keys, key);
-                    }),
-                    containsTrue = _.contains(values, true),
-                    containsFalse = _.contains(values, false);
-            
-                if (containsTrue && !containsFalse) {
-                    addClassToNode(node, 'permissions-full');
-                } else if (containsTrue && containsFalse) {
-                    addClassToNode(node, 'permissions-partial');
-                } else {
-                    addClassToNode(node, 'permissions-none');
-                }
-                
+            if(node.type && node.permissions){
+                addClassToNode(node, getPermissionClass(node));
+             }
+             if(node.type){
                 if (!hasAccessTo('moveInstance', node)) {
                     addClassToNode(node, 'node-undraggable');
                 }
@@ -543,6 +521,30 @@ define([
             }
         };
 
+		/**
+		 * Get the CSS class to apply to the node regarding the computed permissions
+		 * @private
+		 * @param {Object} node - the tree node
+		 * @returns {String} the CSS class
+		 */
+		function getPermissionClass(node){
+			var actions = _.pluck(_.filter(options.actions, function (val) {
+				return val.context === node.type || val.context === 'resource';
+			}), 'id');
+			var keys = _.intersection(_.keys(node.permissions), actions);
+			var values = _.filter(node.permissions, function (val, key) {
+				return _.contains(keys, key);
+			});
+			var containsTrue = _.contains(values, true),
+				containsFalse = _.contains(values, false);
+
+			if (containsTrue && !containsFalse) {
+			   return 'permissions-full';
+			} else if (containsTrue && containsFalse) {
+			   return 'permissions-partial';
+			}
+			return 'permissions-none';
+		}
 
         /**
          * Add a title attribute to the nodes

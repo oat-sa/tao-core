@@ -90,7 +90,7 @@ class tao_actions_Main extends tao_actions_CommonModule
     	    $this->setData('entries', $entries);
             $naviElements = $this->getNavigationElementsByGroup('settings');
             foreach($naviElements as $key => $naviElement) {
-                if($naviElement-> getId() !== 'user_settings') {
+                if($naviElement['perspective']->getId() !== 'user_settings') {
                     unset($naviElements[$key]);
                     continue;
                 }
@@ -220,8 +220,8 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }
         
-		$this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
-		$this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
+        $this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
+        $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
@@ -248,61 +248,44 @@ class tao_actions_Main extends tao_actions_CommonModule
     {
         $entries = array();
         foreach (MenuService::getPerspectivesByGroup($groupId) as $i => $perspective) {
-            if ($this->hasAccessToMenuElement($perspective)) {
-
+            $binding = $perspective->getBinding();
+            $children = $this->getMenuElementChildren($perspective);
+            
+            if (!empty($binding) || !empty($children)) {
                 $entry = array(
                     'perspective' => $perspective,
-                    'id'          => $perspective->getId(),
-                    'name'        => $perspective->getName(),
-                    'extension'   => $perspective->getExtension(),
-                    'description' => $perspective->getDescription(),
-                    'icon'        => $perspective->getIcon(),
-                    'group'       => $perspective->getGroup()
+                    'children'    => $children
                 );
-                if (is_null($perspective->getBinding())) {
-                    $entry['url'] = _url(
-                        'index',
-                        null,
-                        null,
-                        array('structure' => $perspective->getId(), 'ext' => $perspective->getExtension())
-                    );
-                } else {
-                    $extension   = $perspective->getExtension();
-                    $entry['binding'] = $extension . '/' . $perspective->getBinding();
+                if (!is_null($binding)) {
+                    $entry['binding'] = $perspective->getExtension() . '/' . $binding;
+                }
+                $entries[$i] = $entry;
             }
-                $entries[$i] = $perspective;
-        }
         }
         return $entries;
     }
     
     /**
-     * Check whether a user can access to the content of a structure
+     * Get nested menu elements depending on user rights.
      *
      * @param Perspective $menuElement from the structure.xml
-     * @return boolean true if the user is allowed
+     * @return array menu elements list
      */
-    private function hasAccessToMenuElement(Perspective $menuElement)
+    private function getMenuElementChildren(Perspective $menuElement)
     {
-        $binding = $menuElement->getBinding();
-        if (!is_null($binding) && !empty($binding)) {
-            return true;
+        $children = array();
+        foreach ($menuElement->getChildren() as $section) {
+            if (
+                tao_models_classes_accessControl_AclProxy::hasAccess(
+                    $section->getAction(), $section->getController(), $section->getExtensionId()
+                )
+            ) {
+                $children[] = $section;
             }
-		foreach ($menuElement->getChildren() as $section) {
-			if (
-				tao_models_classes_accessControl_AclProxy::hasAccess(
-					$section->getAction(),
-					$section->getController(),
-					$section->getExtensionId()
-				)
-			) {
-				return true;
-			}
-		}
-
-        return false;
+        }
+        return $children;
     }
-    
+
     /**
      * Get the sections of the current extension's structure
      *
