@@ -26,7 +26,7 @@ use oat\taoThemingPlatform\model\PlatformThemingService;
 use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
 use \common_ext_ExtensionsManager;
-
+use \tao_helpers_Scriptloader;
 
 class Layout{
 
@@ -235,5 +235,14 @@ class Layout{
         }
         
         return $logoFile;
+    }
+    
+    public static function getThemeUrl() {
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            if ($themingService->hasFile('platformtheme.css')) {
+                return $themingService->getFileUrl('platformtheme.css');
+            }
+        }
     }
 }
