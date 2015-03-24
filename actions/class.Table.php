@@ -29,7 +29,7 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * 
  */
-abstract class tao_actions_Table extends tao_actions_TaoModule {
+abstract class tao_actions_Table extends tao_actions_CommonModule {
 
     /**
      * constructor: initialize the service and the default data
