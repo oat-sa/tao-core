@@ -4976,8 +4976,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :__:-:__.;--'
                              <*_/   <*/
 .item-editor-sidebar .media-sizer {
-  position: relative;
-  min-height: 120px; }
+  position: relative; }
   .item-editor-sidebar .media-sizer label {
     min-width: 90px;
     line-height: 22px; }

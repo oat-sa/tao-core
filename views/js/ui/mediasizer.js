@@ -25,7 +25,12 @@ define([
         showSync: true
     };
 
-    var supportedMedia = ['img'];
+    /**
+     * List of supported elements, image is used in the case of svg
+     *
+     * @type {string[]}
+     */
+    var supportedMedia = ['img', 'image'];
 
     /**
      * Round a decimal value to n digits
@@ -77,10 +82,25 @@ define([
 
             var options = $elt.data(dataNs),
                 $medium = options.target,
-                mediumWidth = $medium.width(),
-                mediumHeight = $medium.height(),
-                naturalWidth = $medium[0].naturalWidth || options.naturalWidth || mediumWidth,
-                naturalHeight = $medium[0].naturalHeight || options.naturalHeight || mediumHeight,
+                mediumSize = (function() {
+                    var attrWidth = $medium.attr('width'),
+                        attrHeight = $medium.attr('height');
+                    if($medium[0].nodeName.toLowerCase() === 'image') {
+                        if(!attrWidth || !attrHeight) {
+                            throw 'SVG images must have a width and a height attribute to be supported';
+                        }
+                        return {
+                            width: parseInt(attrWidth),
+                            height: parseInt(attrHeight)
+                        }
+                    }
+                    return {
+                        width: $medium.width(), // this is independent from the presence of attributes width and height
+                        height: $medium.height()
+                    }
+                }()),
+                naturalWidth = $medium[0].naturalWidth || options.naturalWidth || mediumSize.width,
+                naturalHeight = $medium[0].naturalHeight || options.naturalHeight || mediumSize.height,
                 containerWidth = (function() {
                     var $parentContainer = !!options.parentSelector
                         ? $medium.parents(options.parentSelector)
@@ -98,6 +118,7 @@ define([
                     return $parentContainer.innerWidth();
                 }());
 
+
             return {
                 px: {
                     //original values for all media
@@ -106,8 +127,8 @@ define([
                         height: naturalHeight
                     },
                     current: {
-                        width: mediumWidth,
-                        height: mediumHeight
+                        width: mediumSize.width,
+                        height: mediumSize.height
                     }
                 },
                 '%': {
@@ -116,25 +137,25 @@ define([
                         height: null
                     },
                     current: {
-                        width: mediumWidth * 100 / containerWidth,
+                        width: mediumSize.width * 100 / containerWidth,
                         height: null // height does not work on % - this is just in case you have to loop or something
                     }
                 },
                 ratio: {
                     natural: naturalWidth / naturalHeight,
-                    current: mediumWidth / mediumHeight
+                    current: mediumSize.width / mediumSize.height
                 },
                 containerWidth: containerWidth,
                 sliders: {
                     '%': {
                         min: 0,
                         max: 100,
-                        start: mediumWidth * 100 / containerWidth
+                        start: mediumSize.width * 100 / containerWidth
                     },
                     px: {
                         min: 0,
                         max: Math.max(containerWidth, naturalWidth),
-                        start: mediumWidth
+                        start: mediumSize.width
                     }
                 },
                 currentUnit: '%'
@@ -306,12 +327,16 @@ define([
                 otherBlockUnit,
                 otherBlockWidthValue,
                 otherBlockHeightValue,
-                currentValues,
-                params;
+                currentValues;
 
             // invalid entries
             if (isNaN(value)) {
                 return;
+            }
+
+            if(!options){
+                console.log($elt, $elt.data(dataNs), dataNs, arguments)
+                debugger
             }
 
             // Re-calculate current ratio
@@ -544,6 +569,7 @@ define([
 
                     options.$syncBtn = self._initSyncBtn($elt);
                     options.$resetBtn = self._initResetBtn($elt);
+
 
                     /**
                      * The plugin has been created
