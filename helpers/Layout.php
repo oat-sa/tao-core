@@ -21,6 +21,8 @@
 
 namespace oat\tao\helpers;
 
+use oat\taoThemingPlatform\model\PlatformThemingService;
+
 use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
 use \common_ext_ExtensionsManager;
@@ -212,7 +214,12 @@ class Layout{
 
         if (self::isThemingEnabled() === true) {
             // Get Theming info from taoThemingPlatform...
-            $logoFile = Template::img('tao-logo.png', 'tao');
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+            if ($themingConfig['logo'] !== null) {
+                $logoFile = $themingService->getFileUrl($themingConfig['logo']);
+            }
+            
         } else {
             switch (TAO_RELEASE_STATUS) {
                 case 'alpha':
