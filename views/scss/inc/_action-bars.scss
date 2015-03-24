@@ -23,7 +23,7 @@
         }
         span.glyph {
             text-shadow: 0 0 0 transparent;
-            color: white;
+            color: inherit;
         }
         input {
             width: 100%;
@@ -47,8 +47,10 @@
                 width: 14px;
             }
             &.btn-info {
+                overflow: hidden;
+                background: transparent;
                 &:hover, &.active {
-                    border-color: whiten($info, .3);
+                    border-color: white(.3);
                     opacity: 1;
                 }
             }
