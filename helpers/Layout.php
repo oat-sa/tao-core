@@ -23,6 +23,7 @@ namespace oat\tao\helpers;
 
 use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
+use \common_ext_ExtensionsManager;
 
 
 class Layout{
@@ -38,7 +39,7 @@ class Layout{
             'version-type' => '',
             'is-unstable'  => true,
             'is-sandbox'   => false,
-            'logo'         => 'tao-logo.png',
+            'logo'         => Template::img('tao-logo.png', 'tao'),
             'link'         => 'http://taotesting.com',
             'msg'          => __('Tao Home')
         );
@@ -47,7 +48,7 @@ class Layout{
             case 'alpha':
             case 'demoA':
                 $params['version-type'] = __('Alpha version');
-                $params['logo']         = 'tao-logo-alpha.png';
+                $params['logo']         = self::getLogoUrl();
                 $params['link']         = 'http://forge.taotesting.com/projects/tao';
                 $params['msg']          = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
                 break;
@@ -55,7 +56,7 @@ class Layout{
             case 'beta':
             case 'demoB':
                 $params['version-type'] = __('Beta version');
-                $params['logo']         = 'tao-logo-beta.png';
+                $params['logo']         = self::getLogoUrl();
                 $params['link']         = 'http://forge.taotesting.com/projects/tao';
                 $params['msg']          = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
                 break;
@@ -196,4 +197,36 @@ class Layout{
         return $contentTemplate;
     }
 
+    private static function isThemingEnabled() {
+        $extManager = \common_ext_ExtensionsManager::singleton();
+        return $extManager->isInstalled('taoThemingPlatform') && $extManager->isEnabled('taoThemingPlatform');
+    }
+    
+    /**
+     * Get the logo URL.
+     * 
+     * @return string The absolute URL to the logo image.
+     */
+    public static function getLogoUrl() {
+        $logoFile = Template::img('tao-logo.png', 'tao');
+
+        if (self::isThemingEnabled() === true) {
+            // Get Theming info from taoThemingPlatform...
+            $logoFile = Template::img('tao-logo.png', 'tao');
+        } else {
+            switch (TAO_RELEASE_STATUS) {
+                case 'alpha':
+                case 'demoA':
+                    $logoFile = Template::img('tao-logo-alpha.png', 'tao');
+                    break;
+                    
+                case 'beta':
+                case 'demoB':
+                    $logoFile = Template::img('tao-logo-beta.png', 'tao');
+                    break;
+            }
+        }
+        
+        return $logoFile;
+    }
 }
