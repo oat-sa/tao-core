@@ -10,8 +10,9 @@ define([
     'layout/actions/binder',
     'layout/search',
     'layout/filter',
-	'uri'
-], function($, __, _, appContext, section, binder, search, toggleFilter, uri){
+	'uri',
+	'ui/feedback'
+], function($, __, _, appContext, section, binder, search, toggleFilter, uri, feedback){
     'use strict';
 
     /**
@@ -153,6 +154,9 @@ define([
                             $(actionContext.tree).trigger('removenode.taotree', [{
                                 id : actionContext.uri || actionContext.classUri
                             }]);
+                        } else {
+                            var msg = response.msg || __("Unable to delete the selected class");
+                            feedback().error(msg);
                         }
                     }
                 });

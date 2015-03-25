@@ -30,7 +30,7 @@
  
  *
  */
-abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
+abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 	
 	/**
 	 * Whenever or not the call was made in standAlone mode
@@ -38,12 +38,6 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 	 * @var boolean
 	 */
 	private $isStandAlone;
-	
-	/**
-	 * 
-	 * Enter description here ...
-	 */
-	abstract protected function getClassService();
 	
 	public function __construct() {
 		parent::__construct();
