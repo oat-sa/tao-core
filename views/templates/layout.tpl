@@ -17,6 +17,9 @@ use oat\tao\helpers\Layout;
     <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
     <?= tao_helpers_Scriptloader::render() ?>
     <?= Layout::getAmdLoader() ?>
+    <?php if (($themeUrl = Layout::getThemeUrl()) !== null): ?>
+    <link rel="stylesheet" href="<?= $themeUrl ?>" />
+    <?php endif; ?>
 </head>
 
 <body>
