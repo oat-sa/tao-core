@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC04\n"
-"PO-Revision-Date: 2015-03-09T17:30:15\n"
+"PO-Revision-Date: 2015-03-25T09:05:07\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -165,6 +165,16 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Service Role"
 msgstr ""
 
+# http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "TAO Manager"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The TAO Manager Role"
+msgstr ""
+
 # http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Global Manager"
@@ -175,6 +185,16 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Global Manager Role"
 msgstr ""
 
+# http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Lock Manager"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The role that can unlock all resources"
+msgstr ""
+
 # http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "System Administrator"
@@ -183,16 +203,6 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The System Administrator Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "TAO Manager"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The TAO Manager Role"
 msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
