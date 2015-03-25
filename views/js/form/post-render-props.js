@@ -87,36 +87,206 @@ define([
                 var $property = $(this);
                 if($property.attr !== undefined){
                     var type = (function() {
-                            switch($property.attr('id').replace(/_?property_[\d]+/, '')) {
-                                case 'ro':
-                                    return 'readonly-property';
-                                case 'parent':
-                                    return 'parent-property';
-                                default:
-                                    var $editIcon = $property.find('.icon-edit'),
-                                        $editContainer = $property.children('div:first');
+                        switch($property.attr('id').replace(/_?property_[\d]+/, '')) {
+                            case 'ro':
+                                return 'readonly-property';
+                            case 'parent':
+                                return 'parent-property';
+                            default:
+                                var $editIcon = $property.find('.icon-edit'),
+                                    $editContainer = $property.children('div:first');
 
-                                    $editContainer.addClass('property-edit-container');
+                                var $indexIcon = $property.find('.icon-add');
 
-                                    //on click on edit icon show property form or hide it
-                                    $editIcon.on('click', function() {
+                                $editContainer.addClass('property-edit-container');
+
+                                //on click on edit icon show property form or hide it
+                                $editIcon.on('click', function() {
+                                    //SlideToggle if the container is open and as property form or is close
+                                    if(!$editContainer.parent().hasClass('property-edit-container-open') ||
+                                        ($editContainer.parent().hasClass('property-edit-container-open') && $($('.property',$editContainer)[0]).is(':visible'))){
                                         $editContainer.slideToggle(function() {
                                             $editContainer.parent().toggleClass('property-edit-container-open');
                                             if(!$('.property-edit-container-open').length) {
+                                                if($('.index',$editContainer).length > 0){
+                                                    $('.property',$editContainer).each(function(){
+                                                        var $currentTarget = $(this);
+                                                        while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                            $currentTarget = $currentTarget.parent();
+                                                        }
+                                                        $currentTarget.hide();
+                                                    });
+                                                    $('.index-remover',$editContainer).each(function(){
+                                                        $(this).parent().hide();
+                                                    });
+                                                }
                                                 _toggleModeBtn('disabled');
                                             }
                                             else {
+                                                if($('.index',$editContainer).length > 0){
+                                                    //hide index properties
+                                                    $('.index',$editContainer).each(function(){
+                                                        var $currentTarget = $(this);
+                                                        while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                            $currentTarget = $currentTarget.parent();
+                                                        }
+                                                        $currentTarget.hide();
+                                                    });
+
+                                                    $('.index-remover',$editContainer).each(function(){
+                                                        $(this).parent().hide();
+                                                    });
+
+                                                    //show properties
+                                                    $('.property',$editContainer).each(function(){
+                                                        var $currentTarget = $(this);
+                                                        while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                            $currentTarget = $currentTarget.parent();
+                                                        }
+                                                        $currentTarget.show();
+                                                    });
+
+                                                    //show or hide the list values select
+                                                    var elt = $('[class*="property-type"]',$editContainer).parent("div").next("div");
+                                                    if (/list$/.test($('[class*="property-type"]',$editContainer).val())) {
+                                                        if (elt.css('display') === 'none') {
+                                                            elt.show();
+                                                            elt.find('select').removeAttr('disabled');
+                                                        }
+                                                    }
+                                                    else if (elt.css('display') !== 'none') {
+                                                        elt.css('display', 'none');
+                                                        elt.find('select').prop('disabled', "disabled");
+                                                    }
+
+                                                }
                                                 _toggleModeBtn('enabled');
                                             }
                                         });
-                                    });
-                                    return 'regular-property';
-                            }
-                        }());
+                                    }
+                                    //hide index form and show property
+                                    else{
+                                        if($('.index',$editContainer).length > 0){
+                                            //hide index properties
+                                            $('.index',$editContainer).each(function(){
+                                                var $currentTarget = $(this);
+                                                while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                    $currentTarget = $currentTarget.parent();
+                                                }
+                                                $currentTarget.hide();
+                                            });
+                                            $('.index-remover',$editContainer).each(function(){
+                                                $(this).parent().hide();
+                                            });
+                                            //show properties
+                                            $('.property',$editContainer).each(function(){
+                                                var $currentTarget = $(this);
+                                                while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                    $currentTarget = $currentTarget.parent();
+                                                }
+                                                $currentTarget.show();
+                                            });
+
+                                            //show or hide the list values select
+                                            var elt = $('[class*="property-type"]',$editContainer).parent("div").next("div");
+                                            if (/list$/.test($('[class*="property-type"]',$editContainer).val())) {
+                                                if (elt.css('display') === 'none') {
+                                                    elt.show();
+                                                    elt.find('select').removeAttr('disabled');
+                                                }
+                                            }
+                                            else if (elt.css('display') !== 'none') {
+                                                elt.css('display', 'none');
+                                                elt.find('select').prop('disabled', "disabled");
+                                            }
+
+                                        }
+                                        _toggleModeBtn('enabled');
+
+                                    }
+                                });
+
+                                //on click on index icon show index form or hide it
+                                $indexIcon.on('click', function() {
+                                    //if form property is simple we can show index form
+                                    if($('.property-mode').hasClass('property-mode-advanced')){
+                                        //show index form
+                                        if(!$editContainer.parent().hasClass('property-edit-container-open') ||
+                                            ($editContainer.parent().hasClass('property-edit-container-open') && $($('.index',$editContainer)[0]).is(':visible'))){
+                                            $editContainer.slideToggle(function() {
+                                                $editContainer.parent().toggleClass('property-edit-container-open');
+                                                //hide index form
+                                                if(!$('.property-edit-container-open').length) {
+                                                    if($('.property',$editContainer).length > 0){
+                                                        $('.index',$editContainer).each(function(){
+                                                            var $currentTarget = $(this);
+                                                            while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                                $currentTarget = $currentTarget.parent();
+                                                            }
+                                                            $currentTarget.hide();
+                                                        });
+                                                        $('.index-remover',$editContainer).each(function(){
+                                                            $(this).parent().hide();
+                                                        });
+                                                    }
+                                                }
+                                                //hide property form and show index one
+                                                else {
+                                                    if($('.property',$editContainer).length > 0){
+                                                        $('.property',$editContainer).each(function(){
+                                                            var $currentTarget = $(this);
+                                                            while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                                $currentTarget = $currentTarget.parent();
+                                                            }
+                                                            $currentTarget.hide();
+                                                        });
+                                                        $('.index',$editContainer).each(function(){
+                                                            var $currentTarget = $(this);
+                                                            while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                                $currentTarget = $currentTarget.parent();
+                                                            }
+                                                            $currentTarget.show();
+                                                        });
+                                                        $('.index-remover',$editContainer).each(function(){
+                                                            $(this).parent().show();
+                                                        });
+                                                    }
+                                                    _toggleModeBtn('disabled');
+                                                }
+                                            });
+                                        }
+                                        //hide index form
+                                        else{
+                                            //switch form
+                                            if($('.property',$editContainer).length > 0){
+                                                $('.property',$editContainer).each(function(){
+                                                    var $currentTarget = $(this);
+                                                    while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                        $currentTarget = $currentTarget.parent();
+                                                    }
+                                                    $currentTarget.hide();
+                                                });
+                                                $('.index',$editContainer).each(function(){
+                                                    var $currentTarget = $(this);
+                                                    while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                                        $currentTarget = $currentTarget.parent();
+                                                    }
+                                                    $currentTarget.show();
+                                                });
+                                                $('.index-remover',$editContainer).each(function(){
+                                                    $(this).parent().show();
+                                                });
+                                                _toggleModeBtn('disabled');
+                                            }
+                                        }
+                                    }
+                                });
+                                return 'regular-property';
+                        }
+                    }());
                     $property.addClass(!hasAlreadyProperties ? 'property-block-first property-block ' + type : 'property-block ' + type);
                     $propertyContainer.append($property);
                     hasAlreadyProperties = true;
-
                 }
             });
         }

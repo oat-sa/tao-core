@@ -136,7 +136,44 @@ class tao_actions_form_SimpleProperty
 		$this->form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
 
+        //index part
+        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
+        foreach($indexes as $i => $indexUri){
+            $indexProperty = new \oat\tao\model\search\Index($indexUri);
+            $indexFormContainer = new tao_actions_form_IndexProperty($this->getClazz(), $indexProperty,
+                array('property' => $property->getUri(),
+                    'propertyindex' => $index,
+                    'index' => $i)
+            );
+            /** @var tao_helpers_form_Form $indexForm */
+            $indexForm = $indexFormContainer->getForm();
+            foreach($indexForm->getElements() as $element){
+                $this->form->addElement($element);
+                $elementNames[] = $element->getName();
+            }
+        }
 
+        //add this element only when the property is defined (type)
+        if(!is_null($property->getRange())){
+            $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_add", 'Free');
+            $addIndexElt->setValue(
+                "<a href='#' class='btn-info index-adder small index'><span class='icon-add'></span> " . __(
+                    'Add index'
+                ) . "</a><div class='clearfix'></div>"
+            );
+            $this->form->addElement($addIndexElt);
+            $elementNames[] = $addIndexElt;
+        }
+        else{
+            $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_p", 'Free');
+            $addIndexElt->setValue(
+                "<p class='index' >" . __(
+                    'Choose a type for your property first'
+                ) . "</p>"
+            );
+            $this->form->addElement($addIndexElt);
+            $elementNames[] = $addIndexElt;
+        }
 
         //add an hidden elt for the property uri
         $encodedUri = tao_helpers_Uri::encode($property->getUri());
