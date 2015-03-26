@@ -212,6 +212,26 @@ select {
     }
 }
 
+.form_radlst {
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        &.error {
+
+            + label {
+                border-color: $error;
+                color: $error;
+            }
+        }
+    }
+
+    + .form-error {
+        color: $error;
+        text-align: right;
+    }
+
+}
+
 option {
     background: white;
     color: $textColor;
