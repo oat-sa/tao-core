@@ -39,7 +39,7 @@ class Layout{
     public static function getReleaseMsgData(){
         $params = array(
             'version-type' => '',
-            'is-unstable'  => true,
+            'is-unstable'  => self::isUnstable(),
             'is-sandbox'   => false,
             'logo'         => self::getLogoUrl(),
             'link'         => self::getLinkUrl(),
@@ -59,12 +59,8 @@ class Layout{
 
             case 'demoS':
                 $params['version-type'] = __('Demo Sandbox');
-                $params['is-unstable']   = false;
                 $params['is-sandbox']    = true;
                 break;
-
-            default:
-                $params['is-unstable'] = false;
         }
 
         return $params;
@@ -272,10 +268,9 @@ class Layout{
             // Get Theming info from taoThemingPlatform...
             $themingService = PlatformThemingService::singleton();
             $themingConfig = $themingService->retrieveThemingConfig();
-            if ($themingConfig['message'] !== null) {
+            if (empty($themingConfig['message']) === false) {
                 $message = $themingConfig['message'];
             }
-
         } else {
             switch (TAO_RELEASE_STATUS) {
                 case 'alpha':
@@ -288,5 +283,73 @@ class Layout{
         }
 
         return $message;
+    }
+    
+    public function isUnstable() {
+        $isUnstable = true;
+        
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+            
+            if (empty($themingConfig['stable']) === false) {
+                $isUnstable = !$themingConfig['stable'];
+            }
+        } else {
+            switch (TAO_RELEASE_STATUS) {
+                case 'demoS':
+                case 'stable':
+                    $isUnstable = false;
+                    break;
+            }
+        }
+        
+        return $isUnstable;
+    }
+    
+    public function getLoginMessage() {
+        
+        $message = __("Connect to the TAO platform");
+        
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+        
+            if (empty($themingConfig['login_message']) === false) {
+                $message = $themingConfig['login_message'];
+            }
+        }
+        
+        return $message;
+    }
+    
+    public function getLoginLabel() {
+        $loginLabel = __("Login");
+        
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+        
+            if (empty($themingConfig['login_field']) === false) {
+                $loginLabel = $themingConfig['login_field'];
+            }
+        }
+        
+        return $loginLabel;
+    }
+    
+    public function getPasswordLabel() {
+        $passwordLabel = __("Password");
+    
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+    
+            if (empty($themingConfig['password_field']) === false) {
+                $passwordLabel = $themingConfig['password_field'];
+            }
+        }
+    
+        return $passwordLabel;
     }
 }
