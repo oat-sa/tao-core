@@ -41,26 +41,20 @@ class Layout{
             'version-type' => '',
             'is-unstable'  => true,
             'is-sandbox'   => false,
-            'logo'         => Template::img('tao-logo.png', 'tao'),
-            'link'         => 'http://taotesting.com',
-            'msg'          => __('Tao Home')
+            'logo'         => self::getLogoUrl(),
+            'link'         => self::getLinkUrl(),
+            'msg'          => self::getMessage()
         );
 
         switch(TAO_RELEASE_STATUS){
             case 'alpha':
             case 'demoA':
                 $params['version-type'] = __('Alpha version');
-                $params['logo']         = self::getLogoUrl();
-                $params['link']         = 'http://forge.taotesting.com/projects/tao';
-                $params['msg']          = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
                 break;
 
             case 'beta':
             case 'demoB':
                 $params['version-type'] = __('Beta version');
-                $params['logo']         = self::getLogoUrl();
-                $params['link']         = 'http://forge.taotesting.com/projects/tao';
-                $params['msg']          = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
                 break;
 
             case 'demoS':
@@ -244,5 +238,55 @@ class Layout{
                 return $themingService->getFileUrl('platformtheme.css');
             }
         }
+    }
+
+    public static function getLinkUrl() {
+        $link = 'http://taotesting.com';
+
+        if (self::isThemingEnabled() === true) {
+            // Get Theming info from taoThemingPlatform...
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+            if ($themingConfig['link'] !== null) {
+                $link = $themingConfig['link'];
+            }
+
+        } else {
+            switch (TAO_RELEASE_STATUS) {
+                case 'alpha':
+                case 'demoA':
+                case 'beta':
+                case 'demoB':
+                    $link = 'http://forge.taotesting.com/projects/tao';
+                    break;
+            }
+        }
+
+        return $link;
+    }
+
+    public static function getMessage() {
+        $message = __('Tao Home');
+
+        if (self::isThemingEnabled() === true) {
+            // Get Theming info from taoThemingPlatform...
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+            if ($themingConfig['message'] !== null) {
+                $message = $themingConfig['message'];
+            }
+
+        } else {
+            switch (TAO_RELEASE_STATUS) {
+                case 'alpha':
+                case 'demoA':
+                case 'beta':
+                case 'demoB':
+                    $message = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
+                    break;
+            }
+        }
+
+        return $message;
     }
 }
