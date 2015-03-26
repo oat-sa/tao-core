@@ -285,7 +285,7 @@ class Layout{
         return $message;
     }
     
-    public function isUnstable() {
+    public static function isUnstable() {
         $isUnstable = true;
         
         if (self::isThemingEnabled() === true) {
@@ -307,7 +307,7 @@ class Layout{
         return $isUnstable;
     }
     
-    public function getLoginMessage() {
+    public static function getLoginMessage() {
         
         $message = __("Connect to the TAO platform");
         
@@ -323,7 +323,7 @@ class Layout{
         return $message;
     }
     
-    public function getLoginLabel() {
+    public static function getLoginLabel() {
         $loginLabel = __("Login");
         
         if (self::isThemingEnabled() === true) {
@@ -338,7 +338,7 @@ class Layout{
         return $loginLabel;
     }
     
-    public function getPasswordLabel() {
+    public static function getPasswordLabel() {
         $passwordLabel = __("Password");
     
         if (self::isThemingEnabled() === true) {
