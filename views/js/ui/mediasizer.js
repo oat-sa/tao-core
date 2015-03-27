@@ -178,8 +178,8 @@ define([
                 $syncBtn = $elt.find('.media-sizer-sync');
 
             if(!options.showSync) {
-              //  $syncBtn.hide();
-                $elt.find('.media-sizer').addClass('media-sizer-sync-off');
+                $syncBtn.hide();
+                $mediaSizer.addClass('media-sizer-sync-off');
             }
             // this stays intact even if hidden in case it will be
             // displayed from somewhere else
@@ -332,11 +332,6 @@ define([
             // invalid entries
             if (isNaN(value)) {
                 return;
-            }
-
-            if(!options){
-                console.log($elt, $elt.data(dataNs), dataNs, arguments)
-                debugger
             }
 
             // Re-calculate current ratio
