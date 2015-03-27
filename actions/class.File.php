@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,8 +19,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
+use oat\tao\model\websource\WebsourceManager;
+use oat\tao\model\websource\ActionWebSource;
 /**
  * 
  * Controller use for the file upload components
@@ -256,13 +257,12 @@ class tao_actions_File extends tao_actions_CommonModule{
 	
 	public function accessFile() {
         list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);;
-        list($apKey, $subPath) = explode(' ', base64_decode($code), 2);
+        list($key, $subPath) = explode(' ', base64_decode($code), 2);
         
-        $ap = tao_models_classes_fsAccess_Manager::singleton()->getProvider($apKey);
-        if ($ap instanceof tao_models_classes_fsAccess_ActionAccessProvider) {
-            $path = $ap->getFileSystem()->getPath().$subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR.$filePath);
+        $source = WebsourceManager::singleton()->getWebsource($key);
+        if ($source instanceof ActionWebSource) {
+            $path = $source->getFileSystem()->getPath().$subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR.$filePath);
             tao_helpers_Http::returnFile($path);
         }
     }
 }
-?>

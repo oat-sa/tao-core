@@ -30,153 +30,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-.cke_button_icon, .cke_button {
-  font-family: 'tao';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\e611"; }
-
-.cke_button__undo_icon:before {
-  content: "\e612"; }
-
-.cke_button__redo_icon:before {
-  content: "\e613"; }
-
-.cke_button__find_icon:before {
-  content: "\e61f"; }
-
-.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\e620"; }
-
-.cke_button__bulletedlist_icon:before {
-  content: "\e62a"; }
-
-.cke_button__numberedlist_icon:before {
-  content: "\e62b"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\e64c"; }
-
-.cke_button__table_icon:before {
-  content: "\e64d"; }
-
-.cke_button__anchor_icon:before {
-  content: "\e64e"; }
-
-.cke_button__unlink_icon:before {
-  content: "\e64f"; }
-
-.cke_button__link_icon:before {
-  content: "\e650"; }
-
-.cke_button__bidirtl_icon:before {
-  content: "\e651"; }
-
-.cke_button__bidiltr_icon:before {
-  content: "\e652"; }
-
-.cke_button__specialchar_icon:before {
-  content: "\e653"; }
-
-.cke_button__sourcedialog_icon:before {
-  content: "\e654"; }
-
-.cke_button__newpage_icon:before {
-  content: "\e655"; }
-
-.cke_button__templates_icon:before {
-  content: "\e656"; }
-
-.cke_button__cut_icon:before {
-  content: "\e657"; }
-
-.cke_button__replace_icon:before {
-  content: "\e658"; }
-
-.cke_button__copy_icon:before {
-  content: "\e659"; }
-
-.cke_button__paste_icon:before {
-  content: "\e65a"; }
-
-.cke_button__selectall_icon:before {
-  content: "\e65b"; }
-
-.cke_button__pastetext_icon:before {
-  content: "\e65c"; }
-
-.cke_button__pastefromword_icon:before {
-  content: "\e65d"; }
-
-.cke_button__bold_icon:before {
-  content: "\e65e"; }
-
-.cke_button__italic_icon:before {
-  content: "\e65f"; }
-
-.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
-  content: "\e660"; }
-
-.cke_button__subscript_icon:before {
-  content: "\e661"; }
-
-.cke_button__superscript_icon:before {
-  content: "\e662"; }
-
-.cke_button__strike_icon:before {
-  content: "\e663"; }
-
-.cke_button__outdent_icon:before {
-  content: "\e664"; }
-
-.cke_button__indent_icon:before {
-  content: "\e665"; }
-
-.cke_button__blockquote_icon:before {
-  content: "\e666"; }
-
-.cke_button__creatediv_icon:before {
-  content: "\e667"; }
-
-.cke_button__justifyleft_icon:before {
-  content: "\e668"; }
-
-.cke_button__justifycenter_icon:before {
-  content: "\e669"; }
-
-.cke_button__justifyright_icon:before {
-  content: "\e66a"; }
-
-.cke_button__justifyblock_icon:before {
-  content: "\e66b"; }
-
-.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\e670"; }
-
-.cke_button__textcolor_icon:before {
-  content: "\e682"; }
-
-.cke_button__bgcolor_icon:before {
-  content: "\e683"; }
-
-.cke_button__scayt_icon:before {
-  content: "\e684"; }
-
-.cke_button__radio_icon:before {
-  content: "\e69a"; }
-
-.cke_button__taoqtimaths_icon:before {
-  content: "\e6ac"; }
-
 /* "Reset" styles, necessary to avoid the editor UI being broken by external CSS. */
 /*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
@@ -218,153 +71,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-.cke_button_icon, .cke_button {
-  font-family: 'tao';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\e611"; }
-
-.cke_button__undo_icon:before {
-  content: "\e612"; }
-
-.cke_button__redo_icon:before {
-  content: "\e613"; }
-
-.cke_button__find_icon:before {
-  content: "\e61f"; }
-
-.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\e620"; }
-
-.cke_button__bulletedlist_icon:before {
-  content: "\e62a"; }
-
-.cke_button__numberedlist_icon:before {
-  content: "\e62b"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\e64c"; }
-
-.cke_button__table_icon:before {
-  content: "\e64d"; }
-
-.cke_button__anchor_icon:before {
-  content: "\e64e"; }
-
-.cke_button__unlink_icon:before {
-  content: "\e64f"; }
-
-.cke_button__link_icon:before {
-  content: "\e650"; }
-
-.cke_button__bidirtl_icon:before {
-  content: "\e651"; }
-
-.cke_button__bidiltr_icon:before {
-  content: "\e652"; }
-
-.cke_button__specialchar_icon:before {
-  content: "\e653"; }
-
-.cke_button__sourcedialog_icon:before {
-  content: "\e654"; }
-
-.cke_button__newpage_icon:before {
-  content: "\e655"; }
-
-.cke_button__templates_icon:before {
-  content: "\e656"; }
-
-.cke_button__cut_icon:before {
-  content: "\e657"; }
-
-.cke_button__replace_icon:before {
-  content: "\e658"; }
-
-.cke_button__copy_icon:before {
-  content: "\e659"; }
-
-.cke_button__paste_icon:before {
-  content: "\e65a"; }
-
-.cke_button__selectall_icon:before {
-  content: "\e65b"; }
-
-.cke_button__pastetext_icon:before {
-  content: "\e65c"; }
-
-.cke_button__pastefromword_icon:before {
-  content: "\e65d"; }
-
-.cke_button__bold_icon:before {
-  content: "\e65e"; }
-
-.cke_button__italic_icon:before {
-  content: "\e65f"; }
-
-.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
-  content: "\e660"; }
-
-.cke_button__subscript_icon:before {
-  content: "\e661"; }
-
-.cke_button__superscript_icon:before {
-  content: "\e662"; }
-
-.cke_button__strike_icon:before {
-  content: "\e663"; }
-
-.cke_button__outdent_icon:before {
-  content: "\e664"; }
-
-.cke_button__indent_icon:before {
-  content: "\e665"; }
-
-.cke_button__blockquote_icon:before {
-  content: "\e666"; }
-
-.cke_button__creatediv_icon:before {
-  content: "\e667"; }
-
-.cke_button__justifyleft_icon:before {
-  content: "\e668"; }
-
-.cke_button__justifycenter_icon:before {
-  content: "\e669"; }
-
-.cke_button__justifyright_icon:before {
-  content: "\e66a"; }
-
-.cke_button__justifyblock_icon:before {
-  content: "\e66b"; }
-
-.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\e670"; }
-
-.cke_button__textcolor_icon:before {
-  content: "\e682"; }
-
-.cke_button__bgcolor_icon:before {
-  content: "\e683"; }
-
-.cke_button__scayt_icon:before {
-  content: "\e684"; }
-
-.cke_button__radio_icon:before {
-  content: "\e69a"; }
-
-.cke_button__taoqtimaths_icon:before {
-  content: "\e6ac"; }
-
 /* Reset for single elements, not their children. */
 .cke_reset {
   /* Do not include inheritable rules here. */
@@ -688,153 +394,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-.cke_button_icon, .cke_button {
-  font-family: 'tao';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\e611"; }
-
-.cke_button__undo_icon:before {
-  content: "\e612"; }
-
-.cke_button__redo_icon:before {
-  content: "\e613"; }
-
-.cke_button__find_icon:before {
-  content: "\e61f"; }
-
-.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\e620"; }
-
-.cke_button__bulletedlist_icon:before {
-  content: "\e62a"; }
-
-.cke_button__numberedlist_icon:before {
-  content: "\e62b"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\e64c"; }
-
-.cke_button__table_icon:before {
-  content: "\e64d"; }
-
-.cke_button__anchor_icon:before {
-  content: "\e64e"; }
-
-.cke_button__unlink_icon:before {
-  content: "\e64f"; }
-
-.cke_button__link_icon:before {
-  content: "\e650"; }
-
-.cke_button__bidirtl_icon:before {
-  content: "\e651"; }
-
-.cke_button__bidiltr_icon:before {
-  content: "\e652"; }
-
-.cke_button__specialchar_icon:before {
-  content: "\e653"; }
-
-.cke_button__sourcedialog_icon:before {
-  content: "\e654"; }
-
-.cke_button__newpage_icon:before {
-  content: "\e655"; }
-
-.cke_button__templates_icon:before {
-  content: "\e656"; }
-
-.cke_button__cut_icon:before {
-  content: "\e657"; }
-
-.cke_button__replace_icon:before {
-  content: "\e658"; }
-
-.cke_button__copy_icon:before {
-  content: "\e659"; }
-
-.cke_button__paste_icon:before {
-  content: "\e65a"; }
-
-.cke_button__selectall_icon:before {
-  content: "\e65b"; }
-
-.cke_button__pastetext_icon:before {
-  content: "\e65c"; }
-
-.cke_button__pastefromword_icon:before {
-  content: "\e65d"; }
-
-.cke_button__bold_icon:before {
-  content: "\e65e"; }
-
-.cke_button__italic_icon:before {
-  content: "\e65f"; }
-
-.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
-  content: "\e660"; }
-
-.cke_button__subscript_icon:before {
-  content: "\e661"; }
-
-.cke_button__superscript_icon:before {
-  content: "\e662"; }
-
-.cke_button__strike_icon:before {
-  content: "\e663"; }
-
-.cke_button__outdent_icon:before {
-  content: "\e664"; }
-
-.cke_button__indent_icon:before {
-  content: "\e665"; }
-
-.cke_button__blockquote_icon:before {
-  content: "\e666"; }
-
-.cke_button__creatediv_icon:before {
-  content: "\e667"; }
-
-.cke_button__justifyleft_icon:before {
-  content: "\e668"; }
-
-.cke_button__justifycenter_icon:before {
-  content: "\e669"; }
-
-.cke_button__justifyright_icon:before {
-  content: "\e66a"; }
-
-.cke_button__justifyblock_icon:before {
-  content: "\e66b"; }
-
-.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\e670"; }
-
-.cke_button__textcolor_icon:before {
-  content: "\e682"; }
-
-.cke_button__bgcolor_icon:before {
-  content: "\e683"; }
-
-.cke_button__scayt_icon:before {
-  content: "\e684"; }
-
-.cke_button__radio_icon:before {
-  content: "\e69a"; }
-
-.cke_button__taoqtimaths_icon:before {
-  content: "\e6ac"; }
-
 /* The box that holds an IFRAME. It's inserted into a host document and positioned
    absolutely by the application. It floats above the host document/editor. */
 .cke_panel {
@@ -1152,153 +711,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-.cke_button_icon, .cke_button {
-  font-family: 'tao';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\e611"; }
-
-.cke_button__undo_icon:before {
-  content: "\e612"; }
-
-.cke_button__redo_icon:before {
-  content: "\e613"; }
-
-.cke_button__find_icon:before {
-  content: "\e61f"; }
-
-.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\e620"; }
-
-.cke_button__bulletedlist_icon:before {
-  content: "\e62a"; }
-
-.cke_button__numberedlist_icon:before {
-  content: "\e62b"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\e64c"; }
-
-.cke_button__table_icon:before {
-  content: "\e64d"; }
-
-.cke_button__anchor_icon:before {
-  content: "\e64e"; }
-
-.cke_button__unlink_icon:before {
-  content: "\e64f"; }
-
-.cke_button__link_icon:before {
-  content: "\e650"; }
-
-.cke_button__bidirtl_icon:before {
-  content: "\e651"; }
-
-.cke_button__bidiltr_icon:before {
-  content: "\e652"; }
-
-.cke_button__specialchar_icon:before {
-  content: "\e653"; }
-
-.cke_button__sourcedialog_icon:before {
-  content: "\e654"; }
-
-.cke_button__newpage_icon:before {
-  content: "\e655"; }
-
-.cke_button__templates_icon:before {
-  content: "\e656"; }
-
-.cke_button__cut_icon:before {
-  content: "\e657"; }
-
-.cke_button__replace_icon:before {
-  content: "\e658"; }
-
-.cke_button__copy_icon:before {
-  content: "\e659"; }
-
-.cke_button__paste_icon:before {
-  content: "\e65a"; }
-
-.cke_button__selectall_icon:before {
-  content: "\e65b"; }
-
-.cke_button__pastetext_icon:before {
-  content: "\e65c"; }
-
-.cke_button__pastefromword_icon:before {
-  content: "\e65d"; }
-
-.cke_button__bold_icon:before {
-  content: "\e65e"; }
-
-.cke_button__italic_icon:before {
-  content: "\e65f"; }
-
-.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
-  content: "\e660"; }
-
-.cke_button__subscript_icon:before {
-  content: "\e661"; }
-
-.cke_button__superscript_icon:before {
-  content: "\e662"; }
-
-.cke_button__strike_icon:before {
-  content: "\e663"; }
-
-.cke_button__outdent_icon:before {
-  content: "\e664"; }
-
-.cke_button__indent_icon:before {
-  content: "\e665"; }
-
-.cke_button__blockquote_icon:before {
-  content: "\e666"; }
-
-.cke_button__creatediv_icon:before {
-  content: "\e667"; }
-
-.cke_button__justifyleft_icon:before {
-  content: "\e668"; }
-
-.cke_button__justifycenter_icon:before {
-  content: "\e669"; }
-
-.cke_button__justifyright_icon:before {
-  content: "\e66a"; }
-
-.cke_button__justifyblock_icon:before {
-  content: "\e66b"; }
-
-.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\e670"; }
-
-.cke_button__textcolor_icon:before {
-  content: "\e682"; }
-
-.cke_button__bgcolor_icon:before {
-  content: "\e683"; }
-
-.cke_button__scayt_icon:before {
-  content: "\e684"; }
-
-.cke_button__radio_icon:before {
-  content: "\e69a"; }
-
-.cke_button__taoqtimaths_icon:before {
-  content: "\e6ac"; }
-
 /* The box that holds each toolbar. */
 .cke_toolbar {
   float: left;
@@ -1730,153 +1142,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-.cke_button_icon, .cke_button {
-  font-family: 'tao';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\e611"; }
-
-.cke_button__undo_icon:before {
-  content: "\e612"; }
-
-.cke_button__redo_icon:before {
-  content: "\e613"; }
-
-.cke_button__find_icon:before {
-  content: "\e61f"; }
-
-.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\e620"; }
-
-.cke_button__bulletedlist_icon:before {
-  content: "\e62a"; }
-
-.cke_button__numberedlist_icon:before {
-  content: "\e62b"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\e64c"; }
-
-.cke_button__table_icon:before {
-  content: "\e64d"; }
-
-.cke_button__anchor_icon:before {
-  content: "\e64e"; }
-
-.cke_button__unlink_icon:before {
-  content: "\e64f"; }
-
-.cke_button__link_icon:before {
-  content: "\e650"; }
-
-.cke_button__bidirtl_icon:before {
-  content: "\e651"; }
-
-.cke_button__bidiltr_icon:before {
-  content: "\e652"; }
-
-.cke_button__specialchar_icon:before {
-  content: "\e653"; }
-
-.cke_button__sourcedialog_icon:before {
-  content: "\e654"; }
-
-.cke_button__newpage_icon:before {
-  content: "\e655"; }
-
-.cke_button__templates_icon:before {
-  content: "\e656"; }
-
-.cke_button__cut_icon:before {
-  content: "\e657"; }
-
-.cke_button__replace_icon:before {
-  content: "\e658"; }
-
-.cke_button__copy_icon:before {
-  content: "\e659"; }
-
-.cke_button__paste_icon:before {
-  content: "\e65a"; }
-
-.cke_button__selectall_icon:before {
-  content: "\e65b"; }
-
-.cke_button__pastetext_icon:before {
-  content: "\e65c"; }
-
-.cke_button__pastefromword_icon:before {
-  content: "\e65d"; }
-
-.cke_button__bold_icon:before {
-  content: "\e65e"; }
-
-.cke_button__italic_icon:before {
-  content: "\e65f"; }
-
-.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
-  content: "\e660"; }
-
-.cke_button__subscript_icon:before {
-  content: "\e661"; }
-
-.cke_button__superscript_icon:before {
-  content: "\e662"; }
-
-.cke_button__strike_icon:before {
-  content: "\e663"; }
-
-.cke_button__outdent_icon:before {
-  content: "\e664"; }
-
-.cke_button__indent_icon:before {
-  content: "\e665"; }
-
-.cke_button__blockquote_icon:before {
-  content: "\e666"; }
-
-.cke_button__creatediv_icon:before {
-  content: "\e667"; }
-
-.cke_button__justifyleft_icon:before {
-  content: "\e668"; }
-
-.cke_button__justifycenter_icon:before {
-  content: "\e669"; }
-
-.cke_button__justifyright_icon:before {
-  content: "\e66a"; }
-
-.cke_button__justifyblock_icon:before {
-  content: "\e66b"; }
-
-.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\e670"; }
-
-.cke_button__textcolor_icon:before {
-  content: "\e682"; }
-
-.cke_button__bgcolor_icon:before {
-  content: "\e683"; }
-
-.cke_button__scayt_icon:before {
-  content: "\e684"; }
-
-.cke_button__radio_icon:before {
-  content: "\e69a"; }
-
-.cke_button__taoqtimaths_icon:before {
-  content: "\e6ac"; }
-
 /* The box that hold the entire combo widget */
 .cke_combo {
   display: inline-block;
@@ -2005,6 +1270,19 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   cursor: pointer;
   font-size: 1rem; }
 
+.cke_combo_arrow, .cke_button_arrow {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\e611"; }
+
 .cke_hc .cke_combo_arrow {
   font-size: 10px;
   width: auto;
@@ -2105,153 +1383,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-.cke_button_icon, .cke_button {
-  font-family: 'tao';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\e611"; }
-
-.cke_button__undo_icon:before {
-  content: "\e612"; }
-
-.cke_button__redo_icon:before {
-  content: "\e613"; }
-
-.cke_button__find_icon:before {
-  content: "\e61f"; }
-
-.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\e620"; }
-
-.cke_button__bulletedlist_icon:before {
-  content: "\e62a"; }
-
-.cke_button__numberedlist_icon:before {
-  content: "\e62b"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\e64c"; }
-
-.cke_button__table_icon:before {
-  content: "\e64d"; }
-
-.cke_button__anchor_icon:before {
-  content: "\e64e"; }
-
-.cke_button__unlink_icon:before {
-  content: "\e64f"; }
-
-.cke_button__link_icon:before {
-  content: "\e650"; }
-
-.cke_button__bidirtl_icon:before {
-  content: "\e651"; }
-
-.cke_button__bidiltr_icon:before {
-  content: "\e652"; }
-
-.cke_button__specialchar_icon:before {
-  content: "\e653"; }
-
-.cke_button__sourcedialog_icon:before {
-  content: "\e654"; }
-
-.cke_button__newpage_icon:before {
-  content: "\e655"; }
-
-.cke_button__templates_icon:before {
-  content: "\e656"; }
-
-.cke_button__cut_icon:before {
-  content: "\e657"; }
-
-.cke_button__replace_icon:before {
-  content: "\e658"; }
-
-.cke_button__copy_icon:before {
-  content: "\e659"; }
-
-.cke_button__paste_icon:before {
-  content: "\e65a"; }
-
-.cke_button__selectall_icon:before {
-  content: "\e65b"; }
-
-.cke_button__pastetext_icon:before {
-  content: "\e65c"; }
-
-.cke_button__pastefromword_icon:before {
-  content: "\e65d"; }
-
-.cke_button__bold_icon:before {
-  content: "\e65e"; }
-
-.cke_button__italic_icon:before {
-  content: "\e65f"; }
-
-.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
-  content: "\e660"; }
-
-.cke_button__subscript_icon:before {
-  content: "\e661"; }
-
-.cke_button__superscript_icon:before {
-  content: "\e662"; }
-
-.cke_button__strike_icon:before {
-  content: "\e663"; }
-
-.cke_button__outdent_icon:before {
-  content: "\e664"; }
-
-.cke_button__indent_icon:before {
-  content: "\e665"; }
-
-.cke_button__blockquote_icon:before {
-  content: "\e666"; }
-
-.cke_button__creatediv_icon:before {
-  content: "\e667"; }
-
-.cke_button__justifyleft_icon:before {
-  content: "\e668"; }
-
-.cke_button__justifycenter_icon:before {
-  content: "\e669"; }
-
-.cke_button__justifyright_icon:before {
-  content: "\e66a"; }
-
-.cke_button__justifyblock_icon:before {
-  content: "\e66b"; }
-
-.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\e670"; }
-
-.cke_button__textcolor_icon:before {
-  content: "\e682"; }
-
-.cke_button__bgcolor_icon:before {
-  content: "\e683"; }
-
-.cke_button__scayt_icon:before {
-  content: "\e684"; }
-
-.cke_button__radio_icon:before {
-  content: "\e69a"; }
-
-.cke_button__taoqtimaths_icon:before {
-  content: "\e6ac"; }
-
 /* "Source" button label */
 .cke_button__source_label,
 .cke_button__sourcedialog_label {
@@ -2293,153 +1424,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-.cke_button_icon, .cke_button {
-  font-family: 'tao';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\e611"; }
-
-.cke_button__undo_icon:before {
-  content: "\e612"; }
-
-.cke_button__redo_icon:before {
-  content: "\e613"; }
-
-.cke_button__find_icon:before {
-  content: "\e61f"; }
-
-.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\e620"; }
-
-.cke_button__bulletedlist_icon:before {
-  content: "\e62a"; }
-
-.cke_button__numberedlist_icon:before {
-  content: "\e62b"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\e64c"; }
-
-.cke_button__table_icon:before {
-  content: "\e64d"; }
-
-.cke_button__anchor_icon:before {
-  content: "\e64e"; }
-
-.cke_button__unlink_icon:before {
-  content: "\e64f"; }
-
-.cke_button__link_icon:before {
-  content: "\e650"; }
-
-.cke_button__bidirtl_icon:before {
-  content: "\e651"; }
-
-.cke_button__bidiltr_icon:before {
-  content: "\e652"; }
-
-.cke_button__specialchar_icon:before {
-  content: "\e653"; }
-
-.cke_button__sourcedialog_icon:before {
-  content: "\e654"; }
-
-.cke_button__newpage_icon:before {
-  content: "\e655"; }
-
-.cke_button__templates_icon:before {
-  content: "\e656"; }
-
-.cke_button__cut_icon:before {
-  content: "\e657"; }
-
-.cke_button__replace_icon:before {
-  content: "\e658"; }
-
-.cke_button__copy_icon:before {
-  content: "\e659"; }
-
-.cke_button__paste_icon:before {
-  content: "\e65a"; }
-
-.cke_button__selectall_icon:before {
-  content: "\e65b"; }
-
-.cke_button__pastetext_icon:before {
-  content: "\e65c"; }
-
-.cke_button__pastefromword_icon:before {
-  content: "\e65d"; }
-
-.cke_button__bold_icon:before {
-  content: "\e65e"; }
-
-.cke_button__italic_icon:before {
-  content: "\e65f"; }
-
-.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
-  content: "\e660"; }
-
-.cke_button__subscript_icon:before {
-  content: "\e661"; }
-
-.cke_button__superscript_icon:before {
-  content: "\e662"; }
-
-.cke_button__strike_icon:before {
-  content: "\e663"; }
-
-.cke_button__outdent_icon:before {
-  content: "\e664"; }
-
-.cke_button__indent_icon:before {
-  content: "\e665"; }
-
-.cke_button__blockquote_icon:before {
-  content: "\e666"; }
-
-.cke_button__creatediv_icon:before {
-  content: "\e667"; }
-
-.cke_button__justifyleft_icon:before {
-  content: "\e668"; }
-
-.cke_button__justifycenter_icon:before {
-  content: "\e669"; }
-
-.cke_button__justifyright_icon:before {
-  content: "\e66a"; }
-
-.cke_button__justifyblock_icon:before {
-  content: "\e66b"; }
-
-.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\e670"; }
-
-.cke_button__textcolor_icon:before {
-  content: "\e682"; }
-
-.cke_button__bgcolor_icon:before {
-  content: "\e683"; }
-
-.cke_button__scayt_icon:before {
-  content: "\e684"; }
-
-.cke_button__radio_icon:before {
-  content: "\e69a"; }
-
-.cke_button__taoqtimaths_icon:before {
-  content: "\e6ac"; }
-
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
@@ -2549,89 +1533,107 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\e611"; }
-
-.cke_button__undo_icon:before {
-  content: "\e612"; }
-
-.cke_button__redo_icon:before {
-  content: "\e613"; }
-
-.cke_button__find_icon:before {
-  content: "\e61f"; }
-
-.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
-  content: "\e620"; }
-
-.cke_button__bulletedlist_icon:before {
-  content: "\e62a"; }
-
-.cke_button__numberedlist_icon:before {
-  content: "\e62b"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\e64c"; }
-
-.cke_button__table_icon:before {
-  content: "\e64d"; }
-
 .cke_button__anchor_icon:before {
   content: "\e64e"; }
 
-.cke_button__unlink_icon:before {
-  content: "\e64f"; }
-
-.cke_button__link_icon:before {
-  content: "\e650"; }
-
-.cke_button__bidirtl_icon:before {
-  content: "\e651"; }
+.cke_button__bgcolor_icon:before {
+  content: "\e683"; }
 
 .cke_button__bidiltr_icon:before {
   content: "\e652"; }
 
-.cke_button__specialchar_icon:before {
-  content: "\e653"; }
+.cke_button__bidirtl_icon:before {
+  content: "\e651"; }
 
-.cke_button__sourcedialog_icon:before {
-  content: "\e654"; }
-
-.cke_button__newpage_icon:before {
-  content: "\e655"; }
-
-.cke_button__templates_icon:before {
-  content: "\e656"; }
-
-.cke_button__cut_icon:before {
-  content: "\e657"; }
-
-.cke_button__replace_icon:before {
-  content: "\e658"; }
-
-.cke_button__copy_icon:before {
-  content: "\e659"; }
-
-.cke_button__paste_icon:before {
-  content: "\e65a"; }
-
-.cke_button__selectall_icon:before {
-  content: "\e65b"; }
-
-.cke_button__pastetext_icon:before {
-  content: "\e65c"; }
-
-.cke_button__pastefromword_icon:before {
-  content: "\e65d"; }
+.cke_button__blockquote_icon:before {
+  content: "\e666"; }
 
 .cke_button__bold_icon:before {
   content: "\e65e"; }
 
+.cke_button__bulletedlist_icon:before {
+  content: "\e62a"; }
+
+.cke_button__copy_icon:before {
+  content: "\e659"; }
+
+.cke_button__creatediv_icon:before {
+  content: "\e667"; }
+
+.cke_button__cut_icon:before {
+  content: "\e657"; }
+
+.cke_button__find_icon:before {
+  content: "\e61f"; }
+
+.cke_button__horizontalrule_icon:before {
+  content: "\e64c"; }
+
+.cke_button__image_icon:before {
+  content: "\e620"; }
+
+.cke_button__indent_icon:before {
+  content: "\e665"; }
+
 .cke_button__italic_icon:before {
   content: "\e65f"; }
 
-.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
-  content: "\e660"; }
+.cke_button__justifyblock_icon:before {
+  content: "\e66b"; }
+
+.cke_button__justifycenter_icon:before {
+  content: "\e669"; }
+
+.cke_button__justifyleft_icon:before {
+  content: "\e668"; }
+
+.cke_button__justifyright_icon:before {
+  content: "\e66a"; }
+
+.cke_button__link_icon:before {
+  content: "\e650"; }
+
+.cke_button__newpage_icon:before {
+  content: "\e655"; }
+
+.cke_button__numberedlist_icon:before {
+  content: "\e62b"; }
+
+.cke_button__outdent_icon:before {
+  content: "\e664"; }
+
+.cke_button__paste_icon:before {
+  content: "\e65a"; }
+
+.cke_button__pastefromword_icon:before {
+  content: "\e65d"; }
+
+.cke_button__pastetext_icon:before {
+  content: "\e65c"; }
+
+.cke_button__radio_icon:before {
+  content: "\e69a"; }
+
+.cke_button__redo_icon:before {
+  content: "\e613"; }
+
+.cke_button__replace_icon:before {
+  content: "\e658"; }
+
+.cke_button__scayt_icon:before {
+  content: "\e684"; }
+
+.cke_button__selectall_icon:before {
+  content: "\e65b"; }
+
+.cke_button__sourcedialog_icon:before {
+  content: "\e654"; }
+
+.cke_button__specialchar_icon:before {
+  content: "\e653"; }
+
+.cke_button__strike_icon:before {
+  content: "\e663"; }
 
 .cke_button__subscript_icon:before {
   content: "\e661"; }
@@ -2639,50 +1641,44 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__superscript_icon:before {
   content: "\e662"; }
 
-.cke_button__strike_icon:before {
-  content: "\e663"; }
+.cke_button__table_icon:before {
+  content: "\e64d"; }
 
-.cke_button__outdent_icon:before {
-  content: "\e664"; }
-
-.cke_button__indent_icon:before {
-  content: "\e665"; }
-
-.cke_button__blockquote_icon:before {
-  content: "\e666"; }
-
-.cke_button__creatediv_icon:before {
-  content: "\e667"; }
-
-.cke_button__justifyleft_icon:before {
-  content: "\e668"; }
-
-.cke_button__justifycenter_icon:before {
-  content: "\e669"; }
-
-.cke_button__justifyright_icon:before {
-  content: "\e66a"; }
-
-.cke_button__justifyblock_icon:before {
-  content: "\e66b"; }
-
-.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
-  content: "\e670"; }
+.cke_button__templates_icon:before {
+  content: "\e656"; }
 
 .cke_button__textcolor_icon:before {
   content: "\e682"; }
 
-.cke_button__bgcolor_icon:before {
-  content: "\e683"; }
+.cke_button__underline_icon:before {
+  content: "\e660"; }
 
-.cke_button__scayt_icon:before {
-  content: "\e684"; }
+.cke_button__taounderline_icon:before {
+  content: "\e660"; }
 
-.cke_button__radio_icon:before {
-  content: "\e69a"; }
+.cke_button__undo_icon:before {
+  content: "\e612"; }
+
+.cke_button__unlink_icon:before {
+  content: "\e64f"; }
+
+.cke_button__taomediamanager_icon:before {
+  content: "\e670"; }
+
+.cke_button__taoqtiimage_icon:before {
+  content: "\e620"; }
 
 .cke_button__taoqtimaths_icon:before {
   content: "\e6ac"; }
+
+.cke_button__taoqtimedia_icon:before {
+  content: "\e670"; }
+
+.cke_combo_arrow:before {
+  content: "\e611"; }
+
+.cke_button_arrow:before {
+  content: "\e611"; }
 
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the

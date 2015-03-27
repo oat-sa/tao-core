@@ -30,7 +30,7 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '3.0-RC03');
+define('TAO_VERSION', '3.0-RC04');
 
 $version = TAO_VERSION;
 

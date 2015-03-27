@@ -94,8 +94,8 @@ class tao_helpers_Date
             $intervalObj = new DateTime();
             $intervalObj->setTimestamp($interval);
         }
-        
-        $intervalObj = $intervalObj instanceof DateTime ? (new \DateTime())->diff($intervalObj, true) : $intervalObj;
+        $newDate = new \DateTime();
+        $intervalObj = $intervalObj instanceof DateTime ? $newDate->diff($intervalObj, true) : $intervalObj;
         if (! $intervalObj instanceof DateInterval) {
             common_Logger::w('Unkown interval format ' . get_class($interval) . ' for ' . __FUNCTION__, 'TAO');
             return '';

@@ -52,7 +52,9 @@ require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap{
+class Bootstrap {
+    
+    const CONFIG_SESSION_HANDLER = 'session';
 
 	/**
 	 * @var boolean if the context has been started
@@ -319,24 +321,16 @@ class Bootstrap{
 	}
 	
     private function configureSessionHandler() {
-        
-        if (defined("PHP_SESSION_HANDLER") && class_exists(PHP_SESSION_HANDLER)) {
-                
-                //check if it implements the interface
-                $interfaces = class_implements(PHP_SESSION_HANDLER);
-                if (in_array("common_session_php_SessionHandler", $interfaces)) {
-                $configuredHandler = PHP_SESSION_HANDLER;
-                //give the persistence to be used by the session handler       
-                $sessionHandler = new $configuredHandler(common_persistence_KeyValuePersistence::getPersistence('session'));
-                session_set_save_handler(
-                    array($sessionHandler, 'open'),
-                    array($sessionHandler, 'close'),
-                    array($sessionHandler, 'read'),
-                    array($sessionHandler, 'write'),
-                    array($sessionHandler, 'destroy'),
-                    array($sessionHandler, 'gc')
-                    );
-                }   
+        $sessionHandler = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_SESSION_HANDLER);
+        if ($sessionHandler !== false) {
+            session_set_save_handler(
+                array($sessionHandler, 'open'),
+                array($sessionHandler, 'close'),
+                array($sessionHandler, 'read'),
+                array($sessionHandler, 'write'),
+                array($sessionHandler, 'destroy'),
+                array($sessionHandler, 'gc')
+            );
         }
     }
     

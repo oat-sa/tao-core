@@ -9,7 +9,7 @@ define(['jquery', 'ui/lock'], function($, lock){
     });
 
     QUnit.test('api', function(assert){
-        QUnit.expect(10);
+        QUnit.expect(11);
 
         var lk = lock();
         assert.ok(typeof lk === 'object'                       , 'The lock function creates an object');
@@ -22,6 +22,7 @@ define(['jquery', 'ui/lock'], function($, lock){
         assert.ok(typeof lk.display === 'function'             , 'The lock instance has a display method');
         assert.ok(typeof lk.close === 'function'               , 'The lock instance has a close method');
         assert.ok(typeof lk.release === 'function'             , 'The lock instance has a release method');
+        assert.ok(typeof lk.register === 'function'            , 'The lock instance has a register method');
     });
 
     QUnit.test('factory', function(assert){
@@ -69,6 +70,19 @@ define(['jquery', 'ui/lock'], function($, lock){
 
     });
 
+    QUnit.test('register', function(assert){
+        QUnit.expect(6);
+        
+        var lk = lock($('#alt-lock-box')).register();
+
+        assert.ok(typeof lk === 'object'                       , 'The lock function creates an object');
+        assert.ok(typeof lk.content === 'string'               , 'The content property has been created');
+        assert.equal(lk.category, 'hasLock'                    , 'The category of info is hasLock');
+        assert.equal(lk.options.uri, '123'                     , 'The uri is correctly read from the div');
+        assert.ok(/test-msg/m.test(lk.content)                 , 'The content property contains the message');
+        assert.ok(/feedback-info/m.test(lk.content)            , 'The content property contains the right css class');
+    });
+    
     QUnit.test('default message', function(assert){
         QUnit.expect(5);
         

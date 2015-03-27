@@ -5,22 +5,29 @@ function($, __, helpers, Lock, sectionApi, feedback){
     return {
         start : function(){
 
-		    $("#release").click(function(e) {
+		    $(".forcerelease").click(function(e) {
 		    	
 		        e.preventDefault();
 		        
-		        var uri = $(this).data('id');
-		        var dest = $(this).data('url');
+		        $.ajax({
+                    url: helpers._url('forceRelease', 'Lock', 'tao'),
+                    type: "POST",
+                    data : {uri : $(this).data('id')},
+                    dataType: 'json',
+                    success : function(response){
+                        if(response.success){
+        		            feedback().success(__('The lock has been released'));
+                            $('.tree').trigger('refresh.taotree'); 
+                        }
+                        else{
+        		            feedback().error(__('Unable to release the lock'));
+                        }
+                    },
+                    error : function(){
+    		            feedback().error(__('Unable to release the lock'));
+                    }
+                });
 		        
-		        var successCallBack = function() {
-		            sectionApi.current().loadContentBlock(dest);
-		        };
-		        
-		        var errorBack = function() {
-		            feedback().error(__('Unable to release the lock'));
-		        };
-		
-		        new Lock(uri).release(successCallBack, errorBack);
 		    });
         }
     }

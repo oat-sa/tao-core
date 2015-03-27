@@ -46,13 +46,13 @@
 #tao-main-logo {
     margin: 6px 30px 6px 30px;
     display: block;
-    width: 79px;
+    max-width: 200px;
     height: 52px;
 
 }
 
 //Navigation
-nav {
+.dark-bar nav {
     position: relative;
     z-index: 8000;
     li {
@@ -67,7 +67,7 @@ nav {
             [class^="icon-"], [class*=" icon-"] {
                 text-shadow: 0 0 0 transparent !important;
                 line-height: 1;
-                color: $darkBarIcon;
+                color: inherit;
                 position: relative;
                 top: 2px;
             }
@@ -76,7 +76,7 @@ nav {
                 background-color: rgba($info, .5);
                 text-decoration: none;
                 span {
-                    color: white;
+                    color: inherit;
                 }
             }
         }
@@ -84,9 +84,9 @@ nav {
             & > a {
                 background-color: whiten($info, .05);
                 opacity: 1;
-                color: white(.9) !important;
+                color: white(.9);
                 &.hover {
-                    color: white !important;
+                    color: white;
                 }
             }
         }

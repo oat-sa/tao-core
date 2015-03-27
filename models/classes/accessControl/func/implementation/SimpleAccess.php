@@ -28,6 +28,7 @@ use oat\taoDevTools\actions\ControllerMap;
 use oat\tao\model\accessControl\func\FuncHelper;
 use oat\tao\helpers\ControllerHelper;
 use oat\oatbox\user\User;
+use Zend\Ldap\Filter\MaskFilter;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access
@@ -85,6 +86,9 @@ class SimpleAccess
                 $this->whiteListAction(FuncHelper::getClassName($mask['ext'], $mask['mod']), $mask['act']);
             } elseif (isset($mask['controller'])) {
                 $this->whiteListController($mask['controller']);
+            } elseif (isset($mask['act']) && strpos($mask['act'], '@') !== false) {
+                list($controller, $action) = explode('@', $mask['act'], 2);
+                $this->whiteListAction($controller, $action);
             } else {
                 \common_Logger::w('Unregoginised mask keys: '.implode(',', array_keys($mask)));
             }

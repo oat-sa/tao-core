@@ -27,15 +27,20 @@ interface MediaManagement {
     /**
      * @param string $source file to add
      * @param string $fileName new name of the file
-     * @param string $path of the directory in which to upload
-     * @return array of file info or an error array
+     * @param string $parent the directory in which to upload / the class where to create the instance etc.
+     * @return array of file info ['name' => $filename,
+     *                              'mime' => $mimeType,
+     *                              'size' => $fileSize
+     *                             ]
+     * @throws \common_exception_Error
+     * @throws \tao_models_classes_FileNotFoundException
      */
-    public function add($source, $fileName, $path);
+    public function add($source, $fileName, $parent);
 
 
     /**
      * @param $filename
-     * @return boolean the suppression was successful
+     * @return boolean the removal was successful
      */
     public function delete($filename);
 

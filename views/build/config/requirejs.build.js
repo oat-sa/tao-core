@@ -46,11 +46,11 @@ require.config({
 //optimizer needed
         'css-builder'       : 'lib/require-css/css-builder',
         'normalize'         : 'lib/require-css/normalize',
-       
-//stub 
+
+//stub
         'i18ntr'            : '../locales/en-US'
    },
-  
+
    shim : {
         'wfEngine/wfApi/wfApi.min' : ['jquery'],
         'moment'                : { exports : 'moment' },

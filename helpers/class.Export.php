@@ -62,6 +62,12 @@ class tao_helpers_Export
             $fileName = empty($filename) ? basename($fullpath) : $filename;
             header('Content-Disposition: attachment; fileName="'.$fileName.'"');
             header("Content-Length: " . filesize($fullpath));
+            
+            //Clean all levels of output buffering
+            while (ob_get_level() > 0) { 
+                ob_end_clean();
+            }
+            
             flush();
             $fp = fopen($fullpath, "r");
             if ($fp !== false) {
