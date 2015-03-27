@@ -15,66 +15,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-.tree li.private ins:after, .tree-checkbox li.node-instance > a ins:before, .tree-checkbox li.node-instance > a.checked ins:before {
-  font-family: 'tao';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.taotree-repository .node-instance ins:before {
-  content: "\e60a"; }
-
-.taotree-result_server .node-instance ins:before {
-  content: "\e60b"; }
-
-.tree .node-class > a > ins:before {
-  content: "\e60c"; }
-
-.tree .node-class.open > a > ins:before {
-  content: "\e60d"; }
-
-.tree li.private ins:after {
-  content: "\e629"; }
-
-.taotree-group .node-instance ins:before {
-  content: "\e63c"; }
-
-.taotree-role .node-instance ins:before {
-  content: "\e63d"; }
-
-.taotree-test_taker .node-instance ins:before {
-  content: "\e63e"; }
-
-.taotree-item .node-instance ins:before {
-  content: "\e640"; }
-
-.taotree-test .node-instance ins:before {
-  content: "\e641"; }
-
-.taotree-delivery .node-instance ins:before, .taotree-result .node-class > a > ins:before, .taotree-result .node-class.open > a > ins:before {
-  content: "\e642"; }
-
-.taotree-result .node-instance ins:before {
-  content: "\e644"; }
-
-.taotree-default {
-  content: "\e655"; }
-
-.taotree-media .node-instance ins:before {
-  content: "\e670"; }
-
-.tree-checkbox li.node-instance > a ins:before {
-  content: "\e69b"; }
-
-.tree-checkbox li.node-instance > a.checked ins:before {
-  content: "\e69d"; }
-
 .tree {
   overflow: auto;
   max-height: 75vh;
@@ -181,15 +121,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       background-image: url("paginate_more.png"); }
     .tree li.paginate-all ins {
       background-image: url("paginate_all.png"); }
-    .tree li.private ins:after {
+    .tree li.private ins:after, .tree li.permissions-partial ins:after, .tree li.permissions-none ins:after {
       display: inline-block;
       position: relative;
       left: -15px;
       top: 4px;
-      color: #EED401;
+      font-family: 'tao';
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      /* Better Font Rendering =========== */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       text-shadow: 0px 0px 1px #666;
       font-size: 14px;
       font-size: 1.4rem; }
+    .tree li.permissions-partial ins:after {
+      color: #EED401;
+      content: "\e629"; }
+    .tree li.private ins:after, .tree li.permissions-none ins:after {
+      color: #BA122B;
+      content: "\e629"; }
     .tree li.open ul {
       display: block; }
     .tree li.closed ul {
@@ -206,9 +161,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       background-image: none;
       background-color: transparent; }
   .tree .node-class > a > ins:before {
+    content: "\e60c";
     color: #d8ae5b;
     top: 2px;
     text-shadow: 1px 1px 0 #ac8b48; }
+  .tree .node-class.open > a > ins:before {
+    content: "\e60d"; }
   .tree .node-instance ins {
     background-image: none; }
   .tree ul li a.loading ins {
@@ -221,12 +179,46 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .tree li span ins {
     background-position: -16px 0; }
 
+.taotree-delivery .node-instance ins:before {
+  content: "\e642"; }
+
+.taotree-group .node-instance ins:before {
+  content: "\e63c"; }
+
+.taotree-item .node-instance ins:before {
+  content: "\e640"; }
+
+.taotree-repository .node-instance ins:before {
+  content: "\e60a"; }
+
+.taotree-result_server .node-instance ins:before {
+  content: "\e60b"; }
+
+.taotree-result .node-instance ins:before {
+  content: "\e644"; }
 .taotree-result .node-class > a > ins:before {
+  content: "\e642";
   color: #0D2689;
   text-shadow: 1px 1px 0 #ac8b48; }
 .taotree-result .node-class.open > a > ins:before {
+  content: "\e642";
   color: #0D2689;
   text-shadow: 1px 1px 0 #ac8b48; }
+
+.taotree-role .node-instance ins:before {
+  content: "\e63d"; }
+
+.taotree-test_taker .node-instance ins:before {
+  content: "\e63e"; }
+
+.taotree-test .node-instance ins:before {
+  content: "\e641"; }
+
+.taotree-media .node-instance ins:before {
+  content: "\e670"; }
+
+.taotree-default {
+  content: "\e655"; }
 
 #jstree-dragged {
   position: absolute;
@@ -288,5 +280,29 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tree-checkbox li > a.clicked {
   background: none;
   border: none; }
+.tree-checkbox li.node-instance > a ins:before {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\e69b"; }
+.tree-checkbox li.node-instance > a.checked ins:before {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\e69d"; }
 
 /*# sourceMappingURL=style.css.map */

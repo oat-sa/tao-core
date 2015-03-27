@@ -19,10 +19,18 @@ define([
         disableClass: 'disabled',
         applyToMedium: true,
         denyCustomRatio: true,
-        responsive: true
+        responsive: true,
+        showResponsiveToggle: true,
+        showReset: true,
+        showSync: true
     };
 
-    var supportedMedia = ['img'];
+    /**
+     * List of supported elements, image is used in the case of svg
+     *
+     * @type {string[]}
+     */
+    var supportedMedia = ['img', 'image'];
 
     /**
      * Round a decimal value to n digits
@@ -40,13 +48,28 @@ define([
         return Math.round(value * factor) / factor;
     }
 
+
     /**
      * The MediaSizer component, that helps you to show/hide an element
      * @exports ui/toggler
      */
     var MediaSizer = {
 
-
+        /**
+         * Returns width, height, target element and the reset button
+         * It's meant to be used when triggering an event
+         *
+         * @param $elt
+         * @param options
+         * @returns {{}}
+         * @private
+         */
+        _publicArgs: function ($elt, options) {
+            var params = this._getValues($elt);
+            params.$target = options.target;
+            params.$resetBtn = options.$resetBtn;
+            return params;
+        },
 
         /**
          * Creates object that contains all size related data of the medium (= image, video, etc.)
@@ -56,15 +79,45 @@ define([
          * @private
          */
         _getSizeProps: function ($elt) {
-            
+
             var options = $elt.data(dataNs),
                 $medium = options.target,
-                medium = $medium[0],
-                naturalWidth = medium.naturalWidth || options.naturalWidth || medium.width || medium.style.width,
-                naturalHeight = medium.naturalHeight || options.naturalHeight || medium.height || medium.style.height,
-                containerWidth = options.parentSelector ? 
-                    $medium.parents(options.parentSelector).innerWidth() :
-                    $medium.parent().parent().innerWidth();//@todo fix me !!
+                mediumSize = (function() {
+                    var attrWidth = $medium.attr('width'),
+                        attrHeight = $medium.attr('height');
+                    if($medium[0].nodeName.toLowerCase() === 'image') {
+                        if(!attrWidth || !attrHeight) {
+                            throw 'SVG images must have a width and a height attribute to be supported';
+                        }
+                        return {
+                            width: parseInt(attrWidth),
+                            height: parseInt(attrHeight)
+                        }
+                    }
+                    return {
+                        width: $medium.width(), // this is independent from the presence of attributes width and height
+                        height: $medium.height()
+                    }
+                }()),
+                naturalWidth = $medium[0].naturalWidth || options.naturalWidth || mediumSize.width,
+                naturalHeight = $medium[0].naturalHeight || options.naturalHeight || mediumSize.height,
+                containerWidth = (function() {
+                    var $parentContainer = !!options.parentSelector
+                        ? $medium.parents(options.parentSelector)
+                        : $medium.parent().parent();//@todo this is ugly as it assumes a double container !!
+
+                    if(options.maxWidth){
+                        return options.maxWidth;
+                    }
+
+                    var maxWidth = $parentContainer.css('max-width');
+
+                    if(maxWidth !== 'none'){
+                        return parseInt(maxWidth);
+                    }
+                    return $parentContainer.innerWidth();
+                }());
+
 
             return {
                 px: {
@@ -74,8 +127,8 @@ define([
                         height: naturalHeight
                     },
                     current: {
-                        width: medium.width,
-                        height: medium.height
+                        width: mediumSize.width,
+                        height: mediumSize.height
                     }
                 },
                 '%': {
@@ -84,25 +137,25 @@ define([
                         height: null
                     },
                     current: {
-                        width: medium.width * 100 / containerWidth,
+                        width: mediumSize.width * 100 / containerWidth,
                         height: null // height does not work on % - this is just in case you have to loop or something
                     }
                 },
                 ratio: {
                     natural: naturalWidth / naturalHeight,
-                    current: medium.width / medium.height
+                    current: mediumSize.width / mediumSize.height
                 },
                 containerWidth: containerWidth,
                 sliders: {
                     '%': {
                         min: 0,
                         max: 100,
-                        start: medium.width * 100 / containerWidth
+                        start: mediumSize.width * 100 / containerWidth
                     },
                     px: {
                         min: 0,
                         max: Math.max(containerWidth, naturalWidth),
-                        start: medium.width
+                        start: mediumSize.width
                     }
                 },
                 currentUnit: '%'
@@ -115,19 +168,54 @@ define([
          * Toggle width/height synchronization
          *
          * @param $elt
+         * @returns {*}
          * @private
          */
         _initSyncBtn: function ($elt) {
             var options = $elt.data(dataNs),
                 $mediaSizer = $elt.find('.media-sizer'),
-                self = this;
-            $elt.find('.media-sizer-link').on('click', function () {
+                self = this,
+                $syncBtn = $elt.find('.media-sizer-sync');
+
+            if(!options.showSync) {
+                $syncBtn.hide();
+                $mediaSizer.addClass('media-sizer-sync-off');
+            }
+            // this stays intact even if hidden in case it will be
+            // displayed from somewhere else
+            $syncBtn.on('click', function () {
                 $mediaSizer.toggleClass('media-sizer-synced');
                 options.syncDimensions = $mediaSizer.hasClass('media-sizer-synced');
                 if (options.syncDimensions) {
                     self._sync($elt, options.$fields.px.width, 'blur');
                 }
             });
+            return $syncBtn;
+        },
+
+
+        /**
+         * Button to reset the size to its original values
+         *
+         * @param $elt
+         * @returns {*}
+         * @private
+         */
+        _initResetBtn: function($elt) {
+            var options = $elt.data(dataNs),
+                $resetBtn = $elt.find('.media-sizer-reset');
+
+            if(!options.showReset) {
+                $elt.find('.media-sizer').addClass('media-sizer-reset-off');
+            }
+
+            // this stays intact even if hidden in case it will be
+            // displayed from somewhere else
+            $resetBtn.on('click', function() {
+                // this will take care of all other size changes
+                options.$fields.px.width.val(options.originalSizeProps.px.current.width).trigger('sliderchange');
+            });
+            return $resetBtn;
         },
 
 
@@ -141,10 +229,10 @@ define([
         _initBlocks: function ($elt) {
             var options = $elt.data(dataNs),
                 _blocks = {},
-                $responsiveSwitch = $elt.find('.media-mode-switch'),
+                $responsiveToggleField = $elt.find('.media-mode-switch'),
                 self = this,
                 _checkMode = function () {
-                    if ($responsiveSwitch.is(':checked')) {
+                    if ($responsiveToggleField.is(':checked')) {
                         _blocks['px'].hide();
                         _blocks['%'].show();
                         options.sizeProps.currentUnit = '%';
@@ -160,6 +248,10 @@ define([
                     }
                 };
 
+            if(!options.showResponsiveToggle) {
+                $elt.find('.media-sizer').addClass('media-sizer-responsivetoggle-off');
+            }
+
             _(['px', '%']).forEach(function (unit) {
                 _blocks[unit] = $elt.find('.media-sizer-' + (unit === 'px' ? 'pixel' : 'percent'));
                 _blocks[unit].prop('unit', unit);
@@ -169,10 +261,10 @@ define([
                 }));
             });
 
-            $responsiveSwitch.on('click', function () {
+            $responsiveToggleField.on('click', function () {
                 _checkMode();
-                $elt.trigger('responsiveswitch.' + ns, [$responsiveSwitch.is(':checked')]);
-                $elt.trigger('sizechange.' + ns, self._getValues($elt));
+                $elt.trigger('responsiveswitch.' + ns, [$responsiveToggleField.is(':checked')]);
+                $elt.trigger('sizechange.' + ns, this._publicArgs($elt, options));
             });
 
             //initialize it properly
@@ -270,7 +362,7 @@ define([
                         options.target.attr('width', currentValues.width);
                         options.target.attr('height', currentValues.height);
                     }
-                    $elt.trigger('sizechange.' + ns, this._getValues($elt));
+                    $elt.trigger('sizechange.' + ns, this._publicArgs($elt, options));
                     return;
                 }
             }
@@ -323,7 +415,7 @@ define([
                 options.target.attr('width', currentValues.width);
                 options.target.attr('height', currentValues.height);
             }
-            $elt.trigger('sizechange.' + ns, this._getValues($elt));
+            $elt.trigger('sizechange.' + ns, this._publicArgs($elt, options));
         },
 
 
@@ -447,6 +539,7 @@ define([
                     $target = options.target,
                     type = $target[0].nodeName.toLowerCase();
 
+
                 if (!_.contains(supportedMedia, type)) {
                     throw new Error('MediaSizer::init() Unsupported element type ' + type);
                 }
@@ -463,21 +556,21 @@ define([
                     options.sizeProps = self._getSizeProps($elt);
                     options.originalSizeProps = _.cloneDeep(options.sizeProps);
 
-
                     options.syncDimensions = $elt.find('.media-sizer').hasClass('media-sizer-synced');
 
                     options.$blocks = self._initBlocks($elt);
                     options.$fields = self._initFields($elt);
                     options.$sliders = self._initSliders($elt);
-                    
-                    self._initSyncBtn($elt);
+
+                    options.$syncBtn = self._initSyncBtn($elt);
+                    options.$resetBtn = self._initResetBtn($elt);
 
 
                     /**
-                     * The plugin have been created.
+                     * The plugin has been created
                      * @event MediaSizer#create.toggler
                      */
-                    $elt.trigger('create.' + ns);
+                    $elt.trigger('create.' + ns, self._publicArgs($elt, options));
                 }
             });
         },
@@ -493,8 +586,6 @@ define([
         destroy: function () {
             this.each(function () {
                 var $elt = $(this);
-                var options = $elt.data(dataNs);
-
 
                 /**
                  * The plugin have been destroyed.
