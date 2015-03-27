@@ -3,7 +3,6 @@
 .item-editor-sidebar {
     .media-sizer {
         position: relative;
-       // min-height: 120px;
         label {
             min-width: 90px;
             line-height: 22px;
@@ -18,13 +17,13 @@
 
         &.media-sizer-reset-off {
             .item-editor-unit-input-box {
-                left: 0px;
-                .media-sizer-reset {
-                    display: none;
-                }
-                .media-sizer-sync {
-                    left: 81px;
-                }
+                right: -22px;
+            }
+            .media-sizer-reset {
+                display: none;
+            }
+            .media-sizer-sync {
+                right: 69px;
             }
         }
 
@@ -42,7 +41,7 @@
 
         .item-editor-unit-input-box {
             position: relative;
-            left: -20px;
+            right: -3px;
         }
 
         .media-sizer-reset,
@@ -69,7 +68,7 @@
 
         .media-sizer-sync {
             border-right: none;
-            left: 59px;
+            right: 88px;
             span {
                 -webkit-transform: rotate(45deg);
                 -moz-transform: rotate(45deg);
@@ -81,7 +80,7 @@
         .media-sizer-reset {
             border-left: none;
             border-color: #ccc;
-            right: 11px;
+            right: 6px;
             span {
                 -webkit-transform: rotate(45deg);
                 -moz-transform: rotate(45deg);
