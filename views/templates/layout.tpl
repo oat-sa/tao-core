@@ -48,8 +48,7 @@ use oat\tao\helpers\Layout;
     </div>
 
 <footer class="dark-bar">
-    if (!$val = Layout::getCopyrightNotice()):
-    ?>
+    <?php if (!$val = Layout::getCopyrightNotice()): ?>
     © 2013 - <?= date('Y') ?> · <span class="tao-version"><?= TAO_VERSION_NAME ?></span> ·
     <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
     · <?= __('All rights reserved.') ?>
