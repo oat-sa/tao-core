@@ -21,11 +21,17 @@
 namespace oat\tao\model\messaging;
 
 use oat\tao\model\messaging\transportStrategy\MailAdapter;
+/**
+ * Service to send messages to Tao Users
+ * 
+ * @author bout
+ */
 class MessagingService extends tao_models_classes_Service
 {
     const CONFIG_KEY = 'messaging';
     
     /**
+     * Send a message (destination is part of the message)
      * 
      * @param Message $message
      * @return boolean
@@ -39,6 +45,7 @@ class MessagingService extends tao_models_classes_Service
     }
     
     /**
+     * Test if messaging is available
      * 
      * @return boolean
      */
