@@ -626,6 +626,9 @@ msgstr ""
 msgid "Edit stylesheet label"
 msgstr ""
 
+msgid "Edit stylesheet label"
+msgstr ""
+
 msgid "Edit this list"
 msgstr ""
 
@@ -2476,5 +2479,8 @@ msgid "Your item has been saved"
 msgstr ""
 
 msgid "ZIP archive"
+msgstr ""
+
+msgid "User with this address is not registered."
 msgstr ""
 

@@ -1,15 +1,18 @@
 <?php
 use oat\tao\helpers\Layout;
 ?>
-<div id="login-box" class="entry-point entry-point-container">
-    <h1><?=Layout::getLoginMessage()?></h1>
+<div class="password-recovery-form entry-point entry-point-container">
+    <?php if (!get_data('mailSent')): ?>
+    <h1><?= __("Forgot password?") ?></h1>
     <?= get_data('form') ?>
-    <a href="<?= _url('passwordRecovery', 'Main', 'tao') ?>"> <?= __("Unable to access your account?") ?></a>
+    <?php else: ?>
+    mail sent
+    <?php endif ?>
 </div>
 <script>
     requirejs.config({
         config: {
-            'controller/login': {
+            'tao/controller/passwordRecovery': {
                 'message' : {
                     'info': <?=json_encode(get_data('msg'))?>,
                     'error': <?=json_encode(urldecode(get_data('errorMessage')))?>

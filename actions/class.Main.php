@@ -238,6 +238,38 @@ class tao_actions_Main extends tao_actions_CommonModule
 	}
     
     
+    public function passwordRecovery() 
+    {
+        $myLoginFormContainer = new tao_actions_form_PasswordRecovery();
+        $myForm = $myLoginFormContainer->getForm();
+        
+        if ($myForm->isSubmited()) {
+            $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+
+            $email = $myForm->getValue('userMail');
+
+            $users = $this->userService->searchInstances(
+                array(PROPERTY_USER_MAIL => $email), 
+                $class,
+                array('like' => false, 'recursive' => true)
+            );
+            if (!empty($users)) {
+                $user = current($users);
+                \common_Logger::i("User requests a password (user URI: {$user->uriResource})");
+                $this->setData('mailSent', true);
+            } else {
+                \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$myForm->getValue('userMail')}.");
+                $this->setData('errorMessage', __('User with this address is not registered.'));
+            }
+        }
+        
+        $this->setData('form', $myForm->render());
+        $this->setData('content-template', array('blocks/password-recovery.tpl', 'tao'));
+        
+        $this->setView('layout.tpl', 'tao');
+    }
+    
+        
     /**
      * Get perspective data depending on the group set in structure.xml
      * 
