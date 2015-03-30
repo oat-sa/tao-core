@@ -213,6 +213,10 @@
     @include icon-delivery;
 }
 
+.taotree-booklet .node-instance ins:before{
+    @include icon-delivery;
+}
+
 .taotree-group .node-instance ins:before{
     @include icon-users;
 }
