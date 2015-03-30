@@ -23,6 +23,7 @@ namespace oat\tao\model\messaging\transportStrategy;
 
 use oat\tao\model\messaging\Transport;
 use oat\tao\model\messaging\transportStrategy\AbstractAdapter;
+use oat\tao\model\messaging\Message;
 /**
  * Short description of class tao_helpers_transfert_MailAdapter
  *

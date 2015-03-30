@@ -21,6 +21,7 @@
  */
 namespace oat\tao\model\messaging;
 
+use oat\oatbox\user\User;
 /**
  * Message to be send to an user
  *
@@ -64,12 +65,9 @@ class Message
     protected $from = '';
 
     /**
-     * Short description of attribute to
-     *
-     * @access protected
-     * @var string
+     * @var User
      */
-    protected $to = '';
+    protected $to = null;
 
     /**
      * Short description of attribute title
@@ -151,23 +149,15 @@ class Message
     }
 
     /**
-     * Short description of method getTo
+     * User the message is to be send to
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return string
+     * @return User
      */
     public function getTo()
     {
-        $returnValue = (string) '';
-
-        
-        
-        $returnValue = $this->to;
-        
-        
-
-        return (string) $returnValue;
+        return $this->to;
     }
 
     /**
@@ -176,15 +166,10 @@ class Message
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string to
-     * @return mixed
      */
-    public function setTo($to)
+    public function setTo(User $to)
     {
-        
-        
     	$this->to = $to;
-    	
-        
     }
 
     /**
