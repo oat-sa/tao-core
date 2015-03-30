@@ -21,9 +21,12 @@
 
 namespace oat\tao\helpers;
 
+use oat\taoThemingPlatform\model\PlatformThemingService;
+
 use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
-
+use \common_ext_ExtensionsManager;
+use \tao_helpers_Scriptloader;
 
 class Layout{
 
@@ -36,38 +39,28 @@ class Layout{
     public static function getReleaseMsgData(){
         $params = array(
             'version-type' => '',
-            'is-unstable'  => true,
+            'is-unstable'  => self::isUnstable(),
             'is-sandbox'   => false,
-            'logo'         => 'tao-logo.png',
-            'link'         => 'http://taotesting.com',
-            'msg'          => __('Tao Home')
+            'logo'         => self::getLogoUrl(),
+            'link'         => self::getLinkUrl(),
+            'msg'          => self::getMessage()
         );
 
         switch(TAO_RELEASE_STATUS){
             case 'alpha':
             case 'demoA':
                 $params['version-type'] = __('Alpha version');
-                $params['logo']         = 'tao-logo-alpha.png';
-                $params['link']         = 'http://forge.taotesting.com/projects/tao';
-                $params['msg']          = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
                 break;
 
             case 'beta':
             case 'demoB':
                 $params['version-type'] = __('Beta version');
-                $params['logo']         = 'tao-logo-beta.png';
-                $params['link']         = 'http://forge.taotesting.com/projects/tao';
-                $params['msg']          = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
                 break;
 
             case 'demoS':
                 $params['version-type'] = __('Demo Sandbox');
-                $params['is-unstable']   = false;
                 $params['is-sandbox']    = true;
                 break;
-
-            default:
-                $params['is-unstable'] = false;
         }
 
         return $params;
@@ -196,4 +189,182 @@ class Layout{
         return $contentTemplate;
     }
 
+    private static function isThemingEnabled() {
+        $extManager = \common_ext_ExtensionsManager::singleton();
+        return $extManager->isInstalled('taoThemingPlatform') && $extManager->isEnabled('taoThemingPlatform');
+    }
+    
+    /**
+     * Get the logo URL.
+     * 
+     * @return string The absolute URL to the logo image.
+     */
+    public static function getLogoUrl() {
+        $logoFile = Template::img('tao-logo.png', 'tao');
+
+        if (self::isThemingEnabled() === true) {
+            // Get Theming info from taoThemingPlatform...
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+            if ($themingConfig['logo'] !== null) {
+                $logoFile = $themingService->getFileUrl($themingConfig['logo']);
+            }
+            
+        } else {
+            switch (TAO_RELEASE_STATUS) {
+                case 'alpha':
+                case 'demoA':
+                    $logoFile = Template::img('tao-logo-alpha.png', 'tao');
+                    break;
+                    
+                case 'beta':
+                case 'demoB':
+                    $logoFile = Template::img('tao-logo-beta.png', 'tao');
+                    break;
+            }
+        }
+        
+        return $logoFile;
+    }
+    
+    public static function getThemeUrl() {
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            if ($themingService->hasFile('platformtheme.css')) {
+                return $themingService->getFileUrl('platformtheme.css');
+            }
+        }
+    }
+
+    public static function getLinkUrl() {
+        $link = 'http://taotesting.com';
+
+        if (self::isThemingEnabled() === true) {
+            // Get Theming info from taoThemingPlatform...
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+            if ($themingConfig['link'] !== null) {
+                $link = $themingConfig['link'];
+            }
+
+        } else {
+            switch (TAO_RELEASE_STATUS) {
+                case 'alpha':
+                case 'demoA':
+                case 'beta':
+                case 'demoB':
+                    $link = 'http://forge.taotesting.com/projects/tao';
+                    break;
+            }
+        }
+
+        return $link;
+    }
+
+    public static function getMessage() {
+        $message = __('Tao Home');
+
+        if (self::isThemingEnabled() === true) {
+            // Get Theming info from taoThemingPlatform...
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+            if (empty($themingConfig['message']) === false) {
+                $message = $themingConfig['message'];
+            }
+        } else {
+            switch (TAO_RELEASE_STATUS) {
+                case 'alpha':
+                case 'demoA':
+                case 'beta':
+                case 'demoB':
+                    $message = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
+                    break;
+            }
+        }
+
+        return $message;
+    }
+    
+    public static function isUnstable() {
+        $isUnstable = true;
+        
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+            
+            if (empty($themingConfig['stable']) === false) {
+                $isUnstable = !$themingConfig['stable'];
+            }
+        } else {
+            switch (TAO_RELEASE_STATUS) {
+                case 'demoS':
+                case 'stable':
+                    $isUnstable = false;
+                    break;
+            }
+        }
+        
+        return $isUnstable;
+    }
+    
+    public static function getLoginMessage() {
+        
+        $message = __("Connect to the TAO platform");
+        
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+        
+            if (empty($themingConfig['login_message']) === false) {
+                $message = $themingConfig['login_message'];
+            }
+        }
+        
+        return $message;
+    }
+    
+    public static function getLoginLabel() {
+        $loginLabel = __("Login");
+        
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+        
+            if (empty($themingConfig['login_field']) === false) {
+                $loginLabel = $themingConfig['login_field'];
+            }
+        }
+        
+        return $loginLabel;
+    }
+    
+    public static function getPasswordLabel() {
+        $passwordLabel = __("Password");
+    
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+    
+            if (empty($themingConfig['password_field']) === false) {
+                $passwordLabel = $themingConfig['password_field'];
+            }
+        }
+    
+        return $passwordLabel;
+    }
+    
+    public static function getCopyrightNotice() {
+        $copyrightNotice = '';
+        
+        if (self::isThemingEnabled() === true) {
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+    
+            if (empty($themingConfig['copyright_notice']) === false) {
+                $copyrightNotice = $themingConfig['copyright_notice'];
+            }
+        }
+        
+        return $copyrightNotice;
+    }
 }
