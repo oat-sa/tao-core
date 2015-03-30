@@ -57,8 +57,7 @@ class MailAdapter extends AbstractAdapter
      */
     public function __construct()
     {
-        
-        
+        require_once($_SERVER['DOCUMENT_ROOT'].'/tao/lib/phpmailer/class.phpmailer.php');
     	$this->mailer = new PHPMailer();
     	
     	if(defined('SMTP_HOST')){

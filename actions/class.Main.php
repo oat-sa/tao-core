@@ -21,6 +21,7 @@
  */
 
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\PasswordRecovery\PasswordRecoveryService;
 use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
@@ -243,7 +244,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $myLoginFormContainer = new tao_actions_form_PasswordRecovery();
         $myForm = $myLoginFormContainer->getForm();
         
-        if ($myForm->isSubmited()) {
+        if ($myForm->isSubmited() && $myForm->isValid()) {
             $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 
             $email = $myForm->getValue('userMail');
@@ -256,7 +257,14 @@ class tao_actions_Main extends tao_actions_CommonModule
             if (!empty($users)) {
                 $user = current($users);
                 \common_Logger::i("User requests a password (user URI: {$user->uriResource})");
-                $this->setData('mailSent', true);
+                $passwordRecoveryService = PasswordRecoveryService::singleton();
+                if ($passwordRecoveryService->sendMail($user)) {
+                    $this->setData('mailSent', true);
+                    $this->setData('msg', __('An email has been sent.'));
+                } else {
+                    \common_Logger::i("Unsuccessful recovery password. {$passwordRecoveryService->getErrors()}.");
+                    $this->setData('errorMessage', $passwordRecoveryService->getErrors());
+                }
             } else {
                 \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$myForm->getValue('userMail')}.");
                 $this->setData('errorMessage', __('User with this address is not registered.'));
@@ -269,6 +277,10 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setView('layout.tpl', 'tao');
     }
     
+    public function resetPassword()
+    {
+        
+    }
         
     /**
      * Get perspective data depending on the group set in structure.xml

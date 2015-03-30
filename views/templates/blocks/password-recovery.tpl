@@ -6,7 +6,10 @@ use oat\tao\helpers\Layout;
     <h1><?= __("Forgot password?") ?></h1>
     <?= get_data('form') ?>
     <?php else: ?>
-    mail sent
+    <p>
+        <?= __("A message with further instructions has been sent to your email address.") ?>
+    </p>
+    <a href="<?= _url('login', 'Main', 'tao') ?>"> <?= __("Return to sign in page") ?></a>
     <?php endif ?>
 </div>
 <script>

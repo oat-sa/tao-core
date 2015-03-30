@@ -175,6 +175,14 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#password">
   	<tao:TAOGUIOrder><![CDATA[70]]></tao:TAOGUIOrder>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#User"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Password recovery token]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Password recovery token]]></rdfs:comment>
+        <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  </rdf:Description>
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Lock">
   	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -183,6 +191,7 @@
   	<rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
   </rdf:Description>
+  
   
     <!-- Some user's meta -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed">

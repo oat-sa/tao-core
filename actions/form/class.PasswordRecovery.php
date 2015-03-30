@@ -21,7 +21,7 @@
 use oat\tao\helpers\Layout;
 
 /**
- * This container initialize the login form.
+ * This container initialize the password recovery form.
  *
  * @access public
  * @author Aleh Hutnikau <hutnikau@1pt.com>
