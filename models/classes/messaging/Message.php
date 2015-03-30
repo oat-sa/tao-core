@@ -16,23 +16,20 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+namespace oat\tao\model\messaging;
 
 /**
- * Short description of class tao_helpers_transfert_Message
+ * Message to be send to an user
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_transfert_Message
+class Message
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
 
     /**
      * Short description of attribute STATUS_WAITING
