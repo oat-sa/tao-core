@@ -56,9 +56,8 @@ define([
                 success: function(response){
                     if (response.uri) {
                         $(actionContext.tree).trigger('addnode.taotree', [{
-                            'id'        : response.uri,
                             'uri'       : uri.decode(response.uri),
-                            'parent'    : actionContext.classUri,
+                            'parent'    : actionContext.id,
                             'label'     : response.label,
                             'cssClass'  : 'node-class'
                         }]);
@@ -86,9 +85,8 @@ define([
                 success: function(response){
                     if (response.uri) {
                         $(actionContext.tree).trigger('addnode.taotree', [{
-                            'id'        : response.uri,
                             'uri'		: uri.decode(response.uri),
-                            'parent'    : actionContext.classUri,
+                            'parent'    : actionContext.id,
                             'label'     : response.label,
                             'cssClass'  : 'node-instance'
                         }]);
@@ -112,14 +110,13 @@ define([
             $.ajax({
                 url: this.url,
                 type: "POST",
-                data: _.pick(actionContext, ['uri', 'classUri', 'id']),
+                data: {uri: actionContext.id, classUri: uri.decode(actionContext.classUri)},
                 dataType: 'json',
                 success: function(response){
                     if (response.uri) {
                         $(actionContext.tree).trigger('addnode.taotree', [{
-                            'id'        : response.uri,
                             'uri'       : uri.decode(response.uri),
-                            'parent'    : actionContext.classUri,
+                            'parent'    : uri.decode(actionContext.classUri),
                             'label'     : response.label,
                             'cssClass'  : 'node-instance'
                         }]);
@@ -140,8 +137,11 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('removeNode', function remove(actionContext){
-            var data = _.pick(actionContext, ['uri', 'classUri', 'id']);
-
+            var data = {
+                uri: uri.decode(actionContext.uri),
+                classUri: uri.decode(actionContext.classUri),
+                id: actionContext.id
+            }
             //TODO replace by a nice popup
             if (confirm(__("Please confirm deletion"))) {
                 $.ajax({
