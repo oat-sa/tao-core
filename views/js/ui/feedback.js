@@ -1,3 +1,22 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -6,6 +25,9 @@ define([
     'lodash',
     'tpl!ui/feedback/feedback'
 ], function($, _, tpl){
+
+    //'use strict';
+    // @todo cannot be used here because _trigger() relies on arguments.caller!
 
     //keep a reference to ALL alive feedback
     var currents = [];
@@ -45,7 +67,8 @@ define([
             success: 2000,
             warning: 4000,
             error: 8000
-        }
+        },
+        wrapLongWords: true
     };
 
     /**
@@ -63,6 +86,37 @@ define([
             };
         });
         return receiver;
+    }
+
+    /**
+     * Wrap message that contains words longer than n characters
+     *
+     * @todo charNum will need to be reviewed in case the font of the app is being changed to Roboto as planned
+     * @param msg
+     * @returns {*}
+     */
+    function warpLongWords(msg) {
+        // add whitespaces to provoke line breaks before HTML tags
+        msg = msg.replace(/([\w])</g, '$1 <');
+
+        var charNum = 40,
+            chunkExp = new RegExp('.{1,' + charNum + '}', 'g'),
+            longWords = msg.match(new RegExp('[\\S]{' + charNum + ',}', 'g')) || [],
+            i = longWords.length,
+            cut,
+            cutArr,
+            iw;
+
+        while(i--) {
+            cut = '';
+            cutArr = longWords[i].match(chunkExp);
+            iw = cutArr.length;
+            while(iw--){
+                cut += cutArr[iw].replace(cutArr[iw], cutArr[iw] + ' ');
+            }
+            msg = msg.replace(new RegExp(longWords[i], 'g'), cut);
+        }
+        return msg;
     }
 
     /**
@@ -87,7 +141,7 @@ define([
 
             this.content  = tpl({
                 level : level,
-                msg : msg
+                msg : options.wrapLongWords ? warpLongWords(msg) : msg
             });
 
             this._trigger('create');
@@ -119,7 +173,7 @@ define([
 
             this._trigger();
 
-            // do not manage persisten message until finished
+            // do not manage persistent message until finished
             //if(this.category === 'persistent'){ 
                  //this.merge();
             //} else {
@@ -164,7 +218,7 @@ define([
                 if(this._getTimeout() >= 0){
                     setTimeout(function(){
                     
-                        //volatiles messages auto close and peristent collaspe
+                        //volatiles messages auto close and persistent collapse
         //                if(self.category === 'volatile'){
                             self.close();
                         //} else {
@@ -227,7 +281,7 @@ define([
     };
 
     /**
-     * COntains the current state of the feedback and accessors
+     * Contains the current state of the feedback and accessor
      * @typedef feedbackState
      */
     var feedbackState = {
