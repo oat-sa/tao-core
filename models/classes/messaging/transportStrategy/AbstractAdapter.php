@@ -54,6 +54,13 @@ abstract class AbstractAdapter
      */
     protected $messages = array();
     
+    /*
+     * Error message
+     * 
+     * @var string
+     */
+    protected $errors = '';
+    
     // --- OPERATIONS ---
     
     /**
@@ -101,14 +108,13 @@ abstract class AbstractAdapter
     }
     
     /**
-     * Short description of method getErrors
-     *
      * @access public
      * @author Aleh Hutnikau <hutnikau@1pt.com>
-     * @return string
+     * 
+     * @return string the error message. Empty string if none.
      */
     public function getErrors()
     {
-        $this->messages[] = $message;
+        return $this->errors;
     }
 }

@@ -30,8 +30,8 @@ use oat\oatbox\user\User;
 use oat\oatbox\Configurable;
 
 /**
- * Short description of class tao_helpers_transfert_MailAdapter
- *
+ * MailAdapter sends email messages using PHPMailer. 
+ * 
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -40,7 +40,7 @@ class MailAdapter extends Configurable implements Transport
 {
     /**
      * PHPMailer instance
-     *
+     * @see https://github.com/PHPMailer/PHPMailer
      * @access protected
      * @var PHPMailer
      */
@@ -48,10 +48,8 @@ class MailAdapter extends Configurable implements Transport
     
     protected $errors = '';
     
-    // --- OPERATIONS ---
-
     /**
-     * Short description of method __construct
+     * Initialize PHPMailer
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -77,11 +75,12 @@ class MailAdapter extends Configurable implements Transport
     }
 
     /**
-     * Short description of method send
+     * Sent email message
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return int
+     * @param Message $message
+     * @return boolean whether message was sent
      */
     public function send(Message $message)
     {

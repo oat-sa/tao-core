@@ -88,8 +88,13 @@ class MessagingService extends \tao_models_classes_Service
      */
     public function isAvailable()
     {
+        $result = false;
         $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        return $tao->hasConfig(self::CONFIG_KEY);
+        if ($tao->hasConfig(self::CONFIG_KEY)) {
+            $transport = $tao->getConfig(self::CONFIG_KEY);
+            $result = (is_object($transport) && $transport instanceof Transport);
+        }
+        return $result;
     }
     
     /**

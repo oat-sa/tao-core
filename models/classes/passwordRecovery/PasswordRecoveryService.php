@@ -38,7 +38,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     const PROPERTY_PASSWORD_RECOVERY_TOKEN = 'http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken';
     
     private $errors = ''; 
-
+    
     /**
      * Send email message with password recovery instructions.
      * 
@@ -91,6 +91,16 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     {
         $tokenProperty = new \core_kernel_classes_Property(self::PROPERTY_PASSWORD_RECOVERY_TOKEN);
         return $user->removePropertyValues($tokenProperty);
+    }
+    
+    /**
+     * Get messaging service
+     * 
+     * @return MessagingService
+     */
+    public function getMessagingService()
+    {
+        return MessagingService::singleton();
     }
     
     /**
@@ -147,16 +157,6 @@ class PasswordRecoveryService extends \tao_models_classes_Service
         $user->setPropertyValue($tokenProperty, $token);
 
         return $token;
-    }
-    
-    /**
-     * Get messaging service
-     * 
-     * @return MessagingService
-     */
-    private function getMessagingService()
-    {
-        return MessagingService::singleton();
     }
 }
 

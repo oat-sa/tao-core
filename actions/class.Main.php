@@ -277,7 +277,8 @@ class tao_actions_Main extends tao_actions_CommonModule
                 }
             } else {
                 \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$form->getValue('userMail')}.");
-                $this->setData('errorMessage', __('User with this address is not registered.'));
+                $this->setData('mailSent', true);
+                $this->setData('msg', __('An email has been sent.'));
             }
         }
         
