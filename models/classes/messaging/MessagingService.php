@@ -26,9 +26,44 @@ use oat\tao\model\messaging\transportStrategy\MailAdapter;
  * 
  * @author bout
  */
-class MessagingService extends tao_models_classes_Service
+class MessagingService extends \tao_models_classes_Service
 {
     const CONFIG_KEY = 'messaging';
+    
+    /**
+     * @var Transport
+     */
+    private $transport = null;
+    
+    /**
+     * Get the current transport implementation
+     * 
+     * @return Transport>
+     */
+    public function getTransport()
+    {
+        if (is_null($this->transport)) {
+            $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $transport = $tao->getConfig(self::CONFIG_KEY);
+            if (!is_object($transport) || !$transport instanceof Transport) {
+                throw new \common_exception_InconsistentData('Transport strategy not correctly set for '.__CLASS__);
+            }
+            $this->transport = $transport;
+        }
+        return $this->transport;
+    }
+    
+    /**
+     * Set the transport implementation to use
+     * 
+     * @param Transport $transporter
+     */
+    public function setTransport(Transport $transporter)
+    {
+        $this->transport = $transporter;
+        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $tao->setConfig(self::CONFIG_KEY, $this->transport);
+    }
     
     /**
      * Send a message (destination is part of the message)
@@ -38,10 +73,7 @@ class MessagingService extends tao_models_classes_Service
      */
     public function send(Message $message)
     {
-        $adapter = new MailAdapter();
-        $adapter->addMessage($message);
-        $count = $adapter->send();
-        return $count === 1;
+        return $this->getTransport()->send($message);
     }
     
     /**
@@ -54,4 +86,5 @@ class MessagingService extends tao_models_classes_Service
         $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         return $tao->hasConfig(self::CONFIG_KEY);
     }
+    
 }
