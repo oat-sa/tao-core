@@ -104,11 +104,7 @@ class Message
      */
     public function __construct()
     {
-        
-        
     	$this->status = self::STATUS_WAITING;
-    	
-        
     }
 
     /**
@@ -120,15 +116,7 @@ class Message
      */
     public function getFrom()
     {
-        $returnValue = (string) '';
-
-        
-        
-        $returnValue = $this->from;
-        
-        
-
-        return (string) $returnValue;
+        return (string) $this->from;
     }
 
     /**
@@ -141,11 +129,7 @@ class Message
      */
     public function setFrom($from)
     {
-        
-        
     	$this->from = $from;
-    	
-        
     }
 
     /**
@@ -181,15 +165,7 @@ class Message
      */
     public function getTitle()
     {
-        $returnValue = (string) '';
-
-        
-        
-        $returnValue = $this->title;
-        
-        
-
-        return (string) $returnValue;
+        return (string) $this->title;
     }
 
     /**
@@ -201,11 +177,7 @@ class Message
      */
     public function setTitle($title)
     {
-        
-        
     	$this->title = $title;
-    	
-        
     }
 
     /**
@@ -217,15 +189,7 @@ class Message
      */
     public function getBody()
     {
-        $returnValue = (string) '';
-
-        
-        
-        $returnValue = $this->body;
-        
-        
-
-        return (string) $returnValue;
+        return (string) $this->body;
     }
 
     /**
@@ -238,11 +202,7 @@ class Message
      */
     public function setBody($body)
     {
-        
-        
     	$this->body = $body;
-    	
-        
     }
 
     /**
@@ -254,15 +214,7 @@ class Message
      */
     public function getStatus()
     {
-        $returnValue = (int) 0;
-
-        
-        
-        $returnValue = $this->status;
-        
-        
-
-        return (int) $returnValue;
+        return (int) $this->status;
     }
 
     /**
@@ -275,13 +227,8 @@ class Message
      */
     public function setStatus($status)
     {
-        
-        
     	$this->status = $status;
-    	
-        
     }
-
 }
 
 ?>

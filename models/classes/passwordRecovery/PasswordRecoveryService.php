@@ -40,7 +40,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     private $errors = ''; 
 
     /**
-     * Send email message with password recovery instructions
+     * Send email message with password recovery instructions.
      * 
      * @author Aleh Hutnikau <hutnikau@1pt.com>
      * @param core_kernel_classes_Resource $user The user has requested password recovery.
@@ -52,24 +52,16 @@ class PasswordRecoveryService extends \tao_models_classes_Service
         if (!$messagingService->isAvailable()) {
             throw new PasswordRecoveryException('Messaging service is not available.');
         }
-        
+        $generisUser = new \core_kernel_users_GenerisUser($user);
         $userNameProperty = new \core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME);
-        $userMailProperty = new \core_kernel_classes_Property(PROPERTY_USER_MAIL);
-        
-        $userMail = (string) $user->getOnePropertyValue($userMailProperty);
-        
-        if (!filter_var($userMail, FILTER_VALIDATE_EMAIL)) {
-            throw new PasswordRecoveryException('User email is not valid.');
-        }
-        
+
         $messageData = array(
             'user_name' => (string) $user->getOnePropertyValue($userNameProperty),
             'link' => $this->getPasswordRecoveryLink($user)
         );
         
         $message = new Message();
-        $message->setTo($userMail);
-        $message->setFrom('tao@test.com');
+        $message->setTo($generisUser);
         $message->setBody($this->getMailContent($messageData));
         $message->setTitle(__("Your TAO Password"));
         
@@ -157,6 +149,11 @@ class PasswordRecoveryService extends \tao_models_classes_Service
         return $token;
     }
     
+    /**
+     * Get messaging service
+     * 
+     * @return MessagingService
+     */
     private function getMessagingService()
     {
         return MessagingService::singleton();

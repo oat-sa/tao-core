@@ -19,7 +19,6 @@
  * 
  */
 namespace oat\tao\model\messaging;
-
 use oat\tao\model\messaging\transportStrategy\MailAdapter;
 /**
  * Service to send messages to Tao Users
@@ -30,17 +29,17 @@ class MessagingService extends \tao_models_classes_Service
 {
     const CONFIG_KEY = 'messaging';
     
-    private $errors = '';
-    
     /**
      * @var Transport
      */
     private $transport = null;
+    private $errors = '';
+    
     
     /**
      * Get the current transport implementation
      * 
-     * @return Transport>
+     * @return Transport
      */
     public function getTransport()
     {
@@ -75,17 +74,11 @@ class MessagingService extends \tao_models_classes_Service
      */
     public function send(Message $message)
     {
-<<<<<<< HEAD
-        return $this->getTransport()->send($message);
-=======
-       $adapter = new MailAdapter($this->getConfig());
-        $adapter->addMessage($message);
-        $count = $adapter->send();
-        if ($count === 0) {
-            $this->errors = $adapter->getErrors();
+        $result = $this->getTransport()->send($message);
+        if (!$result) {
+            $this->errors = $this->getTransport()->getErrors();
         }
-        return $count === 1;
->>>>>>> 677a951... Password reset form
+        return $result;
     }
     
     /**
@@ -99,25 +92,11 @@ class MessagingService extends \tao_models_classes_Service
         return $tao->hasConfig(self::CONFIG_KEY);
     }
     
-<<<<<<< HEAD
-=======
     /**
-     * Get the detailed error message. Empty string if none.
-     * @return string
+     * @return string The error message. Empty string if none.
      */
     public function getErrors()
     {
         return $this->errors;
     }
-    
-    /**
-     * Get MailAdapter config
-     * @return array
-     */
-    public function getConfig()
-    {
-        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        return $tao->getConfig(self::CONFIG_KEY);
-    }
->>>>>>> 677a951... Password reset form
 }

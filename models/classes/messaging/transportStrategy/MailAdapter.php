@@ -1,5 +1,6 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,11 +20,15 @@
  *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+
 namespace oat\tao\model\messaging\transportStrategy;
 
 use oat\tao\model\messaging\Transport;
 use oat\tao\model\messaging\transportStrategy\AbstractAdapter;
 use oat\tao\model\messaging\Message;
+use oat\oatbox\user\User;
+use oat\oatbox\Configurable;
+
 /**
  * Short description of class tao_helpers_transfert_MailAdapter
  *
@@ -31,22 +36,18 @@ use oat\tao\model\messaging\Message;
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  */
-class MailAdapter extends AbstractAdapter
+class MailAdapter extends Configurable implements Transport
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
     /**
-     * Short description of attribute mailer
+     * PHPMailer instance
      *
      * @access protected
      * @var PHPMailer
      */
     protected $mailer = null;
-    protected $errors = null;
-
+    
+    protected $errors = '';
+    
     // --- OPERATIONS ---
 
     /**
@@ -58,19 +59,21 @@ class MailAdapter extends AbstractAdapter
      */
     public function __construct($config)
     {
-        require_once($_SERVER['DOCUMENT_ROOT'].'/tao/lib/phpmailer/class.phpmailer.php');
-    	$this->mailer = new \PHPMailer();
-    	
-    	if(!empty($config)){
-            $this->mailer->IsSMTP(); 	
-            $this->mailer->SMTPKeepAlive = true;
-            $this->mailer->SMTPDebug  = $config['DEBUG_MODE'];                    
-            $this->mailer->SMTPAuth   = $config['SMTP_AUTH']; 
-            $this->mailer->Host       = $config['SMTP_HOST']; 
-            $this->mailer->Port       = $config['SMTP_PORT'];
-            $this->mailer->Username   = $config['SMTP_USER'];
-            $this->mailer->Password   = $config['SMTP_PASS'];
-    	}
+        parent::__construct($config);
+        
+        require_once($_SERVER['DOCUMENT_ROOT'] . '/tao/lib/phpmailer/class.phpmailer.php');
+        $this->mailer = new \PHPMailer();
+        
+        $SMTPConfig = $this->getOption('SMTPConfig');
+        
+        $this->mailer->IsSMTP();
+        $this->mailer->SMTPKeepAlive = true;
+        $this->mailer->SMTPDebug = $SMTPConfig['DEBUG_MODE'];
+        $this->mailer->SMTPAuth = $SMTPConfig['SMTP_AUTH'];
+        $this->mailer->Host = $SMTPConfig['SMTP_HOST'];
+        $this->mailer->Port = $SMTPConfig['SMTP_PORT'];
+        $this->mailer->Username = $SMTPConfig['SMTP_USER'];
+        $this->mailer->Password = $SMTPConfig['SMTP_PASS'];
     }
 
     /**
@@ -80,60 +83,78 @@ class MailAdapter extends AbstractAdapter
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return int
      */
-    public function send()
+    public function send(Message $message)
     {
-        $returnValue = (int) 0;
+        $this->mailer->SetFrom($this->getFrom($message));
+        $this->mailer->AddReplyTo($this->getFrom($message));
+        $this->mailer->Subject = $message->getTitle();
+        $this->mailer->AltBody = strip_tags(preg_replace("/<br.*>/i", "\n", $message->getBody()));
+        $this->mailer->MsgHTML($message->getBody());
+        $this->mailer->AddAddress($this->getUserMail($message->getTo()));
 
-        
-        
-        foreach($this->messages as $message){
-		    if($message instanceof \oat\tao\model\messaging\Message){
-	        	
-		    	$this->mailer->SetFrom($message->getFrom());
-				$this->mailer->AddReplyTo($message->getFrom());
-				
-				$this->mailer->Subject    = $message->getTitle();
-				
-				$this->mailer->AltBody    = strip_tags(preg_replace("/<br.*>/i", "\n", $message->getBody()));
-				
-				$this->mailer->MsgHTML($message->getBody());
-				
-				$this->mailer->AddAddress($message->getTo());
-				
-				try{
-					if($this->mailer->Send()) {
-						$message->setStatus(\oat\tao\model\messaging\Message::STATUS_SENT);
-						$returnValue++;
-					}
-					if($this->mailer->IsError()){
-						if(DEBUG_MODE){
-							echo $this->mailer->ErrorInfo."<br>";
-						}
-                                                $this->errors = $this->mailer->ErrorInfo;
-						$message->setStatus(\oat\tao\model\messaging\Message::STATUS_ERROR);
-					}
-				}
-				catch(phpmailerException $pe){
-					if(DEBUG_MODE){
-						print $pe;
-					}
-				}
-		    }
-		    $this->mailer->ClearReplyTos();
-		    $this->mailer->ClearAllRecipients();
+        try {
+            if ($this->mailer->Send()) {
+                $message->setStatus(\oat\tao\model\messaging\Message::STATUS_SENT);
+                $result = true;
+            }
+            if ($this->mailer->IsError()) {
+                if (DEBUG_MODE) {
+                    echo $this->mailer->ErrorInfo . "<br>";
+                }
+                $this->errors = $this->mailer->ErrorInfo;
+                $message->setStatus(\oat\tao\model\messaging\Message::STATUS_ERROR);
+                $result = false;
+            }
+        } catch (phpmailerException $pe) {
+            if (DEBUG_MODE) {
+                print $pe;
+            }
         }
-        
+        $this->mailer->ClearReplyTos();
+        $this->mailer->ClearAllRecipients();
         $this->mailer->SmtpClose();
-        
 
-        return (int) $returnValue;
+        return $result;
     }
     
+    /**
+     * @return string the error message. Empty string if none.
+     */
     public function getErrors()
     {
         return $this->errors;
     }
     
+    /**
+     * Get user email address.
+     * @param User $user
+     * @return string
+     * @throws Exception if email address is not valid
+     */
+    public function getUserMail(User $user)
+    {
+        $userMail = current($user->getPropertyValues(PROPERTY_USER_MAIL));
+        
+        if (!$userMail || !filter_var($userMail, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception('User email is not valid.');
+        }
+        
+        return $userMail;
+    }
+    
+    /**
+     * Get a "From" address. If it was not specified for message then value will be retrieved from config.
+     * @param Message $message (optional)
+     * @return string
+     */
+    public function getFrom(Message $message = null) 
+    {
+        $from = $message === null ? null : $message->getFrom();
+        if (!$from) {
+            $from = $this->getOption('defaultSender');
+        }
+        return $from;
+    }
 }
 
 ?>

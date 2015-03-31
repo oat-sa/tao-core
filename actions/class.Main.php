@@ -241,7 +241,12 @@ class tao_actions_Main extends tao_actions_CommonModule
 		$this->setView('layout.tpl', 'tao');
 	}
     
-    
+    /**
+     * Password recovery request form
+     *
+     * @author Aleh Hutnikau <hutnikau@1pt.com>
+     * @return void
+     */
     public function passwordRecovery() 
     {
         $formContainer = new tao_actions_form_PasswordRecovery();
@@ -257,6 +262,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $class,
                 array('like' => false, 'recursive' => true)
             );
+            
             if (!empty($users)) {
                 $user = current($users);
                 $passwordRecoveryService = PasswordRecoveryService::singleton();
@@ -266,7 +272,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                     $this->setData('mailSent', true);
                     $this->setData('msg', __('An email has been sent.'));
                 } else {
-                    \common_Logger::i("Unsuccessful recovery password. {$passwordRecoveryService->getErrors()}.");
+                    \common_Logger::w("Unsuccessful recovery password. {$passwordRecoveryService->getErrors()}.");
                     $this->setData('errorMessage', $passwordRecoveryService->getErrors());
                 }
             } else {
@@ -281,6 +287,12 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setView('layout.tpl', 'tao');
     }
     
+    /**
+     * Password resrt form
+     *
+     * @author Aleh Hutnikau <hutnikau@1pt.com>
+     * @return void
+     */
     public function resetPassword()
     {
         $token = $this->getRequestParameter('token');
@@ -300,16 +312,15 @@ class tao_actions_Main extends tao_actions_CommonModule
         
         $user = current($users);
         
-        $formContainer = new tao_actions_form_UserPassword();
+        $formContainer = new tao_actions_form_ResetUserPassword();
         $form = $formContainer->getForm();
-        $form->removeElement('oldpassword');
         
-        if($form->isSubmited() && $form->isValid()){
-            $user = $this->userService->getCurrentUser();
+        $form->setValues(array('token'=>$token));
+        
+        if ($form->isSubmited() && $form->isValid()) {
             \common_Logger::i("User {$user->uriResource} has changed the password.");
+            \tao_models_classes_UserService::singleton()->setPassword($user, $form->getValue('newpassword'));
             $passwordRecoveryService->deleteToken($user);
-            //tao_models_classes_UserService::singleton()->setPassword($user, $form->getValue('newpassword'));
-            
             $this->setData('passwordChanged', true);
         }
         
