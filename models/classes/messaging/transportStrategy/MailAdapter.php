@@ -45,6 +45,7 @@ class MailAdapter extends AbstractAdapter
      * @var PHPMailer
      */
     protected $mailer = null;
+    protected $errors = null;
 
     // --- OPERATIONS ---
 
@@ -55,23 +56,21 @@ class MailAdapter extends AbstractAdapter
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
-    public function __construct()
+    public function __construct($config)
     {
         require_once($_SERVER['DOCUMENT_ROOT'].'/tao/lib/phpmailer/class.phpmailer.php');
-    	$this->mailer = new PHPMailer();
+    	$this->mailer = new \PHPMailer();
     	
-    	if(defined('SMTP_HOST')){
-	    	$this->mailer->IsSMTP(); 	
-	    	$this->mailer->SMTPKeepAlive = true;
-			$this->mailer->SMTPDebug  = DEBUG_MODE;                    
-			$this->mailer->SMTPAuth   = SMTP_AUTH; 
-			$this->mailer->Host       = SMTP_HOST; 
-			$this->mailer->Port       = SMTP_PORT;
-			$this->mailer->Username   = SMTP_USER;
-			$this->mailer->Password   = SMTP_PASS;
+    	if(!empty($config)){
+            $this->mailer->IsSMTP(); 	
+            $this->mailer->SMTPKeepAlive = true;
+            $this->mailer->SMTPDebug  = $config['DEBUG_MODE'];                    
+            $this->mailer->SMTPAuth   = $config['SMTP_AUTH']; 
+            $this->mailer->Host       = $config['SMTP_HOST']; 
+            $this->mailer->Port       = $config['SMTP_PORT'];
+            $this->mailer->Username   = $config['SMTP_USER'];
+            $this->mailer->Password   = $config['SMTP_PASS'];
     	}
-		
-        
     }
 
     /**
@@ -88,7 +87,7 @@ class MailAdapter extends AbstractAdapter
         
         
         foreach($this->messages as $message){
-		    if($message instanceof tao_helpers_transfert_Message){
+		    if($message instanceof \oat\tao\model\messaging\Message){
 	        	
 		    	$this->mailer->SetFrom($message->getFrom());
 				$this->mailer->AddReplyTo($message->getFrom());
@@ -103,14 +102,15 @@ class MailAdapter extends AbstractAdapter
 				
 				try{
 					if($this->mailer->Send()) {
-						$message->setStatus(tao_helpers_transfert_Message::STATUS_SENT);
+						$message->setStatus(\oat\tao\model\messaging\Message::STATUS_SENT);
 						$returnValue++;
 					}
 					if($this->mailer->IsError()){
 						if(DEBUG_MODE){
 							echo $this->mailer->ErrorInfo."<br>";
 						}
-						$message->setStatus(tao_helpers_transfert_Message::STATUS_ERROR);
+                                                $this->errors = $this->mailer->ErrorInfo;
+						$message->setStatus(\oat\tao\model\messaging\Message::STATUS_ERROR);
 					}
 				}
 				catch(phpmailerException $pe){
@@ -128,7 +128,12 @@ class MailAdapter extends AbstractAdapter
 
         return (int) $returnValue;
     }
-
+    
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+    
 }
 
 ?>

@@ -99,4 +99,16 @@ abstract class AbstractAdapter
     {
         $this->messages[] = $message;
     }
+    
+    /**
+     * Short description of method getErrors
+     *
+     * @access public
+     * @author Aleh Hutnikau <hutnikau@1pt.com>
+     * @return string
+     */
+    public function getErrors()
+    {
+        $this->messages[] = $message;
+    }
 }

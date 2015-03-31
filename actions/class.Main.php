@@ -28,6 +28,7 @@ use oat\tao\helpers\TaoCe;
 use oat\tao\model\menu\Action;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
+use oat\tao\model\messaging\MessagingService;
 use \common_session_SessionManager;
 use \common_Logger;
 
@@ -148,6 +149,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('form', $myForm->render());
         $this->setData('title', __("TAO Login"));
+        $this->setData('messageServiceIsAvailable', MessagingService::singleton()->isAvailable());
+        
         if ($this->hasRequestParameter('msg')) {
             $this->setData('msg', htmlentities($this->getRequestParameter('msg')));
         }
@@ -241,13 +244,13 @@ class tao_actions_Main extends tao_actions_CommonModule
     
     public function passwordRecovery() 
     {
-        $myLoginFormContainer = new tao_actions_form_PasswordRecovery();
-        $myForm = $myLoginFormContainer->getForm();
+        $formContainer = new tao_actions_form_PasswordRecovery();
+        $form = $formContainer->getForm();
         
-        if ($myForm->isSubmited() && $myForm->isValid()) {
+        if ($form->isSubmited() && $form->isValid()) {
             $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 
-            $email = $myForm->getValue('userMail');
+            $email = $form->getValue('userMail');
 
             $users = $this->userService->searchInstances(
                 array(PROPERTY_USER_MAIL => $email), 
@@ -256,8 +259,9 @@ class tao_actions_Main extends tao_actions_CommonModule
             );
             if (!empty($users)) {
                 $user = current($users);
-                \common_Logger::i("User requests a password (user URI: {$user->uriResource})");
                 $passwordRecoveryService = PasswordRecoveryService::singleton();
+                
+                \common_Logger::i("User requests a password (user URI: {$user->uriResource})");
                 if ($passwordRecoveryService->sendMail($user)) {
                     $this->setData('mailSent', true);
                     $this->setData('msg', __('An email has been sent.'));
@@ -266,12 +270,12 @@ class tao_actions_Main extends tao_actions_CommonModule
                     $this->setData('errorMessage', $passwordRecoveryService->getErrors());
                 }
             } else {
-                \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$myForm->getValue('userMail')}.");
+                \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$form->getValue('userMail')}.");
                 $this->setData('errorMessage', __('User with this address is not registered.'));
             }
         }
         
-        $this->setData('form', $myForm->render());
+        $this->setData('form', $form->render());
         $this->setData('content-template', array('blocks/password-recovery.tpl', 'tao'));
         
         $this->setView('layout.tpl', 'tao');
@@ -279,7 +283,40 @@ class tao_actions_Main extends tao_actions_CommonModule
     
     public function resetPassword()
     {
+        $token = $this->getRequestParameter('token');
+        $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+        $passwordRecoveryService = PasswordRecoveryService::singleton();
         
+        $users = $this->userService->searchInstances(
+            array(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN => $token), 
+            $class,
+            array('like' => false, 'recursive' => true)
+        );
+        
+        if (empty($users)) {
+            \common_Logger::i("Password recovery token not found. Token value: {$token}");
+            throw new Exception('User not found');
+        }
+        
+        $user = current($users);
+        
+        $formContainer = new tao_actions_form_UserPassword();
+        $form = $formContainer->getForm();
+        $form->removeElement('oldpassword');
+        
+        if($form->isSubmited() && $form->isValid()){
+            $user = $this->userService->getCurrentUser();
+            \common_Logger::i("User {$user->uriResource} has changed the password.");
+            $passwordRecoveryService->deleteToken($user);
+            //tao_models_classes_UserService::singleton()->setPassword($user, $form->getValue('newpassword'));
+            
+            $this->setData('passwordChanged', true);
+        }
+        
+        $this->setData('form', $form->render());
+        $this->setData('content-template', array('blocks/password-reset.tpl', 'tao'));
+        
+        $this->setView('layout.tpl', 'tao');
     }
         
     /**
