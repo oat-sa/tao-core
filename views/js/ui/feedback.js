@@ -95,7 +95,7 @@ define([
      * @param msg
      * @returns {*}
      */
-    function warpLongWords(msg) {
+    function wrapLongWords(msg) {
         // add whitespaces to provoke line breaks before HTML tags
         msg = msg.replace(/([\w])</g, '$1 <');
 
@@ -141,7 +141,7 @@ define([
 
             this.content  = tpl({
                 level : level,
-                msg : options.wrapLongWords ? warpLongWords(msg) : msg
+                msg : options.wrapLongWords ? wrapLongWords(msg) : msg
             });
 
             this._trigger('create');
