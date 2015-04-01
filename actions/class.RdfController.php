@@ -488,7 +488,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			$response = array(
 				'label'	=> $instance->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($instance->getUri())
+				'uri' 	=> $instance->getUri()
 			);
 		}
 		$this->returnJson($response);
@@ -1412,21 +1412,34 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		
-		$deleted = false;
-		if($this->hasRequestParameter('uri')){
-			$instance = $this->getCurrentInstance();
-			if(!is_null($instance)){
-				$deleted = $instance->delete();
-			}
-		} elseif($this->hasRequestParameter('classUri')) {
-		    return $this->forward('deleteClass', null, null, (array('id' => tao_helpers_Uri::decode($this->getRequestParameter('classUri')))));
-		}
-		
-		echo json_encode(array('deleted'	=> $deleted));
+        if($this->hasRequestParameter('uri')) {
+            return $this->forward('deleteResource', null, null, (array('id' => tao_helpers_Uri::decode($this->getRequestParameter('uri')))));
+        } elseif ($this->hasRequestParameter('classUri')) {
+            return $this->forward('deleteClass', null, null, (array('id' => tao_helpers_Uri::decode($this->getRequestParameter('classUri')))));
+        } else {
+            throw new common_exception_MissingParameter();
+        }
 	}
+	
+    /**
+     * Generic class deletion action
+     * 
+     * @throws Exception
+     */
+    public function deleteResource()
+    {
+        if(!tao_helpers_Request::isAjax() || !$this->hasRequestParameter('id')){
+            throw new Exception("wrong request mode");
+        }
+        $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
+        $deleted = $this->getClassService()->deleteResource($resource);
+        return $this->returnJson(array(
+            'deleted' => $deleted
+        ));
+    }
 
 	/**
-	 * Generic class deletion controller
+	 * Generic class deletion action
 	 * 
 	 * @throws Exception
 	 */
