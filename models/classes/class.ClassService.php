@@ -37,6 +37,17 @@ abstract class tao_models_classes_ClassService
 	 * @return core_kernel_classes_Class
 	 */
 	abstract public function getRootClass();
+	
+	/**
+	 * Delete a resource
+	 * 
+	 * @param core_kernel_classes_Resource $resource
+	 * @return boolean
+	 */
+    public function deleteResource(core_kernel_classes_Resource $resource)
+	{
+	    return $resource->delete();
+	}
 
 	/**
 	 * Delete a subclass
@@ -46,7 +57,7 @@ abstract class tao_models_classes_ClassService
 	 * @param  Class clazz
 	 * @return boolean
 	 */
-	public function deleteClass( core_kernel_classes_Class $clazz)
+	public function deleteClass(core_kernel_classes_Class $clazz)
 	{
 	    $returnValue = (bool) false;
 	
