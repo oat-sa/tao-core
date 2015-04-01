@@ -23,8 +23,9 @@
 define([
     'jquery', 
     'lodash',
+    'util/wrapLongWords',
     'tpl!ui/feedback/feedback'
-], function($, _, tpl){
+], function($, _, wrapLongWords, tpl){
 
     //'use strict';
     // @todo cannot be used here because _trigger() relies on arguments.caller!
@@ -68,7 +69,10 @@ define([
             warning: 4000,
             error: 8000
         },
-        wrapLongWords: true
+        // Note: value depends on font, font-weight and such.
+        // 40 is pretty good in the current setup but will
+        // never be exact with a non-proportional font.
+        wrapLongWordsAfter: 40
     };
 
     /**
@@ -86,37 +90,6 @@ define([
             };
         });
         return receiver;
-    }
-
-    /**
-     * Wrap message that contains words longer than n characters
-     *
-     * @todo charNum will need to be reviewed in case the font of the app is being changed to Roboto as planned
-     * @param msg
-     * @returns {*}
-     */
-    function wrapLongWords(msg) {
-        // add whitespaces to provoke line breaks before HTML tags
-        msg = msg.replace(/([\w])</g, '$1 <');
-
-        var charNum = 40,
-            chunkExp = new RegExp('.{1,' + charNum + '}', 'g'),
-            longWords = msg.match(new RegExp('[\\S]{' + charNum + ',}', 'g')) || [],
-            i = longWords.length,
-            cut,
-            cutArr,
-            iw;
-
-        while(i--) {
-            cut = '';
-            cutArr = longWords[i].match(chunkExp);
-            iw = cutArr.length;
-            while(iw--){
-                cut += cutArr[iw].replace(cutArr[iw], cutArr[iw] + ' ');
-            }
-            msg = msg.replace(new RegExp(longWords[i], 'g'), cut);
-        }
-        return msg;
     }
 
     /**
@@ -141,7 +114,7 @@ define([
 
             this.content  = tpl({
                 level : level,
-                msg : options.wrapLongWords ? wrapLongWords(msg) : msg
+                msg : !!options.wrapLongWordsAfter ? wrapLongWords(msg, options.wrapLongWordsAfter) : msg
             });
 
             this._trigger('create');
