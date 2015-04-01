@@ -24,14 +24,11 @@ namespace oat\tao\model\media;
 class MediaSource{
 
     const CONFIG_BROWSER_KEY = 'mediaBrowserSources';
-    const CONFIG_MANAGEMENT_KEY = 'mediaManagementSources';
 
     /**
      * @var array
      */
     private static $mediaBrowserSources = array();
-    private static $mediaManagementSources = array();
-
 
     public static function getMediaBrowserSources(){
         $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
@@ -46,19 +43,6 @@ class MediaSource{
         return self::$mediaBrowserSources;
     }
 
-    public static function getMediaManagementSources(){
-        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $configs = $tao->hasConfig(self::CONFIG_MANAGEMENT_KEY)
-            ? $tao->getConfig(self::CONFIG_MANAGEMENT_KEY)
-            : array();
-
-        foreach($configs as $mediaSourceId => $mediaSource){
-            self::getMediaManagementSource($mediaSourceId);
-        }
-
-        return self::$mediaManagementSources;
-    }
-
     /**
      *
      * @param string $mediaSourceId
@@ -66,16 +50,9 @@ class MediaSource{
      */
     public static function getMediaBrowserSource($mediaSourceId){
         if(!isset(self::$mediaBrowserSources[$mediaSourceId])) {
-            self::$mediaBrowserSources[$mediaSourceId] = self::createMediaSource($mediaSourceId, 'browser');
+            self::$mediaBrowserSources[$mediaSourceId] = self::createMediaSource($mediaSourceId);
         }
         return self::$mediaBrowserSources[$mediaSourceId];
-    }
-
-    public static function getMediaManagementSource($mediaSourceId){
-        if(!isset(self::$mediaManagementSources[$mediaSourceId])) {
-            self::$mediaManagementSources[$mediaSourceId] = self::createMediaSource($mediaSourceId, 'management');
-        }
-        return self::$mediaManagementSources[$mediaSourceId];
     }
 
     /**
@@ -83,62 +60,33 @@ class MediaSource{
      *
      * @param string $mediaSourceId
      * @param string $mediaSource
-     * @param string $type
      */
-    public static function addMediaSource($mediaSourceId, $mediaSource, $type = 'browser') {
-        switch($type){
-            case 'browser':
-                $key = self::CONFIG_BROWSER_KEY;
-                break;
-            case 'management':
-                $key = self::CONFIG_MANAGEMENT_KEY;
-                break;
-            default :
-                $key = self::CONFIG_BROWSER_KEY;
-                break;
-        }
+    public static function addMediaSource($mediaSourceId, $mediaSource) {
 
         $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $configs = $tao->hasConfig($key)
-            ? $tao->getConfig($key)
+        $configs = $tao->hasConfig(self::CONFIG_BROWSER_KEY)
+            ? $tao->getConfig(self::CONFIG_BROWSER_KEY)
             : array();
         $configs[$mediaSourceId] = $mediaSource;
-        $tao->setConfig($key, $configs);
+        $tao->setConfig(self::CONFIG_BROWSER_KEY, $configs);
     }
 
     /**
      * Add a new persistence to the system
      *
      * @param string $mediaSourceId
-     * @param string $type
      */
-    public static function removeMediaSource($mediaSourceId, $type = 'browser') {
-        switch($type){
-            case 'browser':
-                $key = self::CONFIG_BROWSER_KEY;
-                $sources = self::$mediaBrowserSources;
-                break;
-            case 'management':
-                $key = self::CONFIG_MANAGEMENT_KEY;
-                $sources = self::$mediaManagementSources;
-                break;
-            default :
-                $key = self::CONFIG_BROWSER_KEY;
-                $sources = self::$mediaBrowserSources;
-                break;
-        }
-
-
+    public static function removeMediaSource($mediaSourceId) {
         $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $configs = $tao->hasConfig($key)
-            ? $tao->getConfig($key)
+        $configs = $tao->hasConfig(self::CONFIG_BROWSER_KEY)
+            ? $tao->getConfig(self::CONFIG_BROWSER_KEY)
             : array();
         if(isset($configs[$mediaSourceId])){
             unset($configs[$mediaSourceId]);
-            if(isset($sources[$mediaSourceId])){
-                unset($sources[$mediaSourceId]);
+            if(isset(self::$mediaBrowserSources[$mediaSourceId])){
+                unset(self::$mediaBrowserSources[$mediaSourceId]);
             }
-            $tao->setConfig($key, $configs);
+            $tao->setConfig(self::CONFIG_BROWSER_KEY, $configs);
         }
         else{
             throw new \common_Exception('Media Sources Configuration for source '.$mediaSourceId.' not found');
@@ -148,26 +96,13 @@ class MediaSource{
 
     /**
      * @param string $mediaSourceId
-     * @param string $type
      * @throws \common_Exception
      * @return MediaBrowser
      */
-    private static function createMediaSource($mediaSourceId, $type = 'browser') {
-        switch($type){
-            case 'browser':
-                $key = self::CONFIG_BROWSER_KEY;
-                break;
-            case 'management':
-                $key = self::CONFIG_MANAGEMENT_KEY;
-                break;
-            default :
-                $key = self::CONFIG_BROWSER_KEY;
-                break;
-        }
-
+    private static function createMediaSource($mediaSourceId) {
         $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        if ($tao->hasConfig($key)) {
-            $configs = $tao->getConfig($key);
+        if ($tao->hasConfig(self::CONFIG_BROWSER_KEY)) {
+            $configs = $tao->getConfig(self::CONFIG_BROWSER_KEY);
             if (isset($configs[$mediaSourceId])) {
                 $config = $configs[$mediaSourceId];
                 return $config;

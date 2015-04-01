@@ -22,7 +22,7 @@
 namespace oat\tao\model\media;
 
 
-interface MediaManagement {
+interface MediaManagement extends MediaBrowser{
 
     /**
      * @param string $source file to add
