@@ -114,7 +114,7 @@ define([
 
             this.content  = tpl({
                 level : level,
-                msg : !!options.wrapLongWordsAfter ? wrapLongWords(msg, options.wrapLongWordsAfter) : msg
+                msg : !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg
             });
 
             this._trigger('create');
