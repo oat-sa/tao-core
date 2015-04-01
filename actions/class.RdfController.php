@@ -289,7 +289,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                                 $indexProperty = new core_kernel_classes_Property($values['uri']);
                                 unset($values['uri']);
                                 //sanitize identifier
-                                $values[INDEX_PROPERTY_IDENTIFIER] = preg_replace('/[^\w]/','_',strtolower($values[INDEX_PROPERTY_IDENTIFIER]));
+                                $values[INDEX_PROPERTY_IDENTIFIER] = preg_replace('/[^a-z_]/','_',strtolower($values[INDEX_PROPERTY_IDENTIFIER]));
 
                                 $existingIndex = IndexService::getIndexById($values[INDEX_PROPERTY_IDENTIFIER]);
                                 if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
