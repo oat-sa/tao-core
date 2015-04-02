@@ -41,7 +41,7 @@ class MediaRetrieval{
         $link = '';
         if(isset($url['scheme']) && $url['scheme'] === 'taomedia'){
             $identifier = (isset($url['host']))? $url['host'] : '';
-            $link = (isset($url['path']))? ltrim($url['path'],'/') : '';
+            $link = (isset($url['path']))? trim($url['path'],'/') : '';
         }
         else{
             $link = ltrim($path,'/');
