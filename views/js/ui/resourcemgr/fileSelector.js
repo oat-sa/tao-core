@@ -15,10 +15,13 @@ define([
 
     function shortenPath(path){
         var tokens = path.replace(/\/$/, '').split('/');
-        var size = tokens.length - 1;
-        return _.map(tokens, function(token, index){
-            return (token && index < size) ? token[0] : token;
-        }).join('/');
+        var start = tokens.length - 3;
+        var end = tokens.length - 1;
+        var title = _.map(tokens, function(token, index){
+            return (index > start && token) ? ((index < end) ? token[0] : token) : undefined;
+        });
+        title = title.filter(Boolean);
+        return title.join('/');
     }
 
     function isTextLarger($element, text){
@@ -58,7 +61,9 @@ define([
         $container.on('folderselect.' + ns , function(e, fullPath, data, activePath){    
             var files;
             //update title
-            $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath);
+            if(fullPath !== activePath){
+                $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath);
+            }
 
             //update content here
             if(_.isArray(data)){
@@ -67,15 +72,13 @@ define([
                 }).map(function(file){
                     file.type = mimeType.getFileType(file);
                     if(file.identifier === undefined){
-                        file.path = (fullPath + '/' + file.name).replace('//', '/');
                         file.display = (fullPath + '/' + file.name).replace('//', '/');
                     }
                     else{
-                        file.path = (file.identifier + file.relPath);
                         file.display = (file.identifier + file.name);
                     }
 
-                    file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + file.path;
+                    file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + file.uri;
                     return file;
                 });
             
@@ -163,7 +166,6 @@ define([
                 multiple    : true,
                 uploadUrl   : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath,
                 fileSelect  : function(files, done){
-            
                     var givenLength = files.length;
                     var fileNames = [];
                     $fileContainer.find('li > .desc').each(function(){
@@ -210,7 +212,7 @@ define([
             $container.on('folderselect.' + ns , function(e, fullPath, data, uri){
                 currentPath = fullPath;
                 $uploader.uploader('options', {
-                    uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath + '&relPath=' + encodeURIComponent(uri)
+                    uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath + '&relPath=' + uri +'/'
                 });
             });
 
