@@ -1,3 +1,22 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
+
 /**
  * UiForm class enable you to manage form elements, initialize form component and bind common events
  *
@@ -22,19 +41,25 @@ define([
         postRenderProps
         ) {
 
-    function getUrl(action) {
-        var conf = module.config();
-        return context.root_url + conf.extension + '/' + conf.module + '/' + action;
-    }
+    'use strict';
+
+        /**
+         * Create a URL based on action and module
+         *
+         * @param action
+         * @returns {string}
+         */
+        function getUrl(action) {
+            var conf = module.config();
+            return context.root_url + conf.extension + '/' + conf.module + '/' + action;
+        }
 
     var UiForm = {
         init: function () {
             var self = this;
             this.counter = 0;
-            this.initFormPattern = new RegExp(['search', 'authoring', 'Import', 'Export', 'IO', 'preview'].join('|'));
             this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode'].join('|'), 'i');
             this.initTranslationFormPattern = /translate/;
-            this.initNav();
 
             $("body").ajaxComplete(function (event, request, settings) {
                 var testedUrl;
@@ -62,23 +87,12 @@ define([
         },
 
         /**
-         * init form navigation (submit by ajax)
-         */
-        initNav: function () {
-            var self = this;
-            $("form").live('submit', function () {
-                return self.submitForm($(this));
-            });
-        },
-
-        /**
          * make some adjustment on the forms
          */
         initRendering: function () {
 
 
             var $container          = $('.content-block .xhtml_form:first'),
-                $firstInp           = $container.find('input[type="text"]:first'),
                 $toolBar            = $container.find('.form-toolbar'),
                 $authoringBtn       = $('.authoringOpener'),
                 $authoringBtnParent,
