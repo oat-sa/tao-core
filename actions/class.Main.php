@@ -21,7 +21,6 @@
  */
 
 use oat\tao\model\menu\MenuService;
-use oat\tao\model\PasswordRecovery\PasswordRecoveryService;
 use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
@@ -241,96 +240,6 @@ class tao_actions_Main extends tao_actions_CommonModule
 		$this->setView('layout.tpl', 'tao');
 	}
     
-    /**
-     * Password recovery request form
-     *
-     * @author Aleh Hutnikau <hutnikau@1pt.com>
-     * @return void
-     */
-    public function passwordRecovery() 
-    {
-        $formContainer = new tao_actions_form_PasswordRecovery();
-        $form = $formContainer->getForm();
-        
-        if ($form->isSubmited() && $form->isValid()) {
-            $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-
-            $email = $form->getValue('userMail');
-
-            $users = $this->userService->searchInstances(
-                array(PROPERTY_USER_MAIL => $email), 
-                $class,
-                array('like' => false, 'recursive' => true)
-            );
-            
-            if (!empty($users)) {
-                $user = current($users);
-                $passwordRecoveryService = PasswordRecoveryService::singleton();
-                
-                \common_Logger::i("User requests a password (user URI: {$user->uriResource})");
-                if ($passwordRecoveryService->sendMail($user)) {
-                    $this->setData('mailSent', true);
-                    $this->setData('msg', __('An email has been sent.'));
-                } else {
-                    \common_Logger::w("Unsuccessful recovery password. {$passwordRecoveryService->getErrors()}.");
-                    $this->setData('errorMessage', $passwordRecoveryService->getErrors());
-                }
-            } else {
-                \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$form->getValue('userMail')}.");
-                $this->setData('mailSent', true);
-                $this->setData('msg', __('An email has been sent.'));
-            }
-        }
-        
-        $this->setData('form', $form->render());
-        $this->setData('content-template', array('blocks/password-recovery.tpl', 'tao'));
-        
-        $this->setView('layout.tpl', 'tao');
-    }
-    
-    /**
-     * Password resrt form
-     *
-     * @author Aleh Hutnikau <hutnikau@1pt.com>
-     * @return void
-     */
-    public function resetPassword()
-    {
-        $token = $this->getRequestParameter('token');
-        $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-        $passwordRecoveryService = PasswordRecoveryService::singleton();
-        
-        $users = $this->userService->searchInstances(
-            array(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN => $token), 
-            $class,
-            array('like' => false, 'recursive' => true)
-        );
-        
-        if (empty($users)) {
-            \common_Logger::i("Password recovery token not found. Token value: {$token}");
-            throw new Exception('User not found');
-        }
-        
-        $user = current($users);
-        
-        $formContainer = new tao_actions_form_ResetUserPassword();
-        $form = $formContainer->getForm();
-        
-        $form->setValues(array('token'=>$token));
-        
-        if ($form->isSubmited() && $form->isValid()) {
-            \common_Logger::i("User {$user->uriResource} has changed the password.");
-            \tao_models_classes_UserService::singleton()->setPassword($user, $form->getValue('newpassword'));
-            $passwordRecoveryService->deleteToken($user);
-            $this->setData('passwordChanged', true);
-        }
-        
-        $this->setData('form', $form->render());
-        $this->setData('content-template', array('blocks/password-reset.tpl', 'tao'));
-        
-        $this->setView('layout.tpl', 'tao');
-    }
-        
     /**
      * Get perspective data depending on the group set in structure.xml
      * 

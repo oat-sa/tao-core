@@ -74,6 +74,37 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     }
     
     /**
+     * Get user by property value
+     * @param string $property uri
+     * @param type $value property value
+     * @return core_kernel_classes_Resource | null
+     */
+    public function getUser($property, $value)
+    {
+        $class = new \core_kernel_classes_Class(CLASS_GENERIS_USER);
+
+        $users = \tao_models_classes_UserService::singleton()->searchInstances(
+            array($property => $value), 
+            $class,
+            array('like' => false, 'recursive' => true)
+        );
+        $user = empty($users) ? null : current($users);
+        
+        return $user;
+    }
+    
+    /**
+     * Change user pasword
+     * @param core_kernel_classes_Resource $user
+     * @param string $newPassword New password value
+     */
+    public function setPassword($user, $newPassword) 
+    {
+        \tao_models_classes_UserService::singleton()->setPassword($user, $newPassword);
+        $this->deleteToken($user);
+    }
+    
+    /**
      * @return string the detailed error message (e.g. Error while sending the message). Empty string if none.
      */
     public function getErrors()
@@ -120,7 +151,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     private function getMailContent($messageData)
     {
         $renderer = new \Renderer();
-        $renderer->setTemplate(Template::getTemplate('blocks/password-recovery-message.tpl', 'tao'));
+        $renderer->setTemplate(Template::getTemplate('passwordRecovery/password-recovery-message.tpl', 'tao'));
         foreach ($messageData as $key => $value) {
             $renderer->setData($key, $value);
         }
@@ -137,7 +168,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     private function getPasswordRecoveryLink(\core_kernel_classes_Resource $user)
     {
         $token = $this->generateRecoveryToken($user);
-        return _url('resetPassword', 'Main', 'tao', array('token' => $token));
+        return _url('resetPassword', 'PasswordRecovery', 'tao', array('token' => $token));
     }
 
     /**

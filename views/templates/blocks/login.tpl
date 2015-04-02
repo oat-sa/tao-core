@@ -5,7 +5,7 @@ use oat\tao\helpers\Layout;
     <h1><?=Layout::getLoginMessage()?></h1>
     <?= get_data('form') ?>
     <?php if (get_data('messageServiceIsAvailable')): ?>
-    <a href="<?= _url('passwordRecovery', 'Main', 'tao') ?>"> <?= __("Unable to access your account?") ?></a>
+    <a href="<?= _url('index', 'PasswordRecovery', 'tao') ?>"> <?= __("Unable to access your account?") ?></a>
     <?php endif; ?>
 </div>
 <script>
