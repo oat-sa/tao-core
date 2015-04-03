@@ -66,21 +66,23 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             if ($user !== null) {
                 \common_Logger::i("User requests a password (user URI: {$user->uriResource})");
                 if ($this->passwordRecoveryService->sendMail($user)) {
-                    $this->setData('recipientMail', $mail);
-                    $this->setData('msg', __('An email has been sent.'));
+                    $this->setData('header', 'An email has been sent.');
+                    $this->setData('info', "A message with further instructions has been sent to your email address: {$mail}");
                 } else {
                     \common_Logger::w("Unsuccessful recovery password. {$this->passwordRecoveryService->getErrors()}.");
-                    $this->setData('errorMessage', $this->passwordRecoveryService->getErrors());
+                    $this->setData('error', $this->passwordRecoveryService->getErrors());
                 }
             } else {
-                \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$form->getValue('userMail')}.");
-                $this->setData('recipientMail', $mail);
-                $this->setData('msg', __('An email has been sent.'));
+                \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$mail}.");
+                $this->setData('header', 'An email has been sent.');
+                $this->setData('info', "A message with further instructions has been sent to your email address: {$mail}");
             }
+            $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
+        } else {
+            $this->setData('form', $form->render());
+            $this->setData('content-template', array('passwordRecovery/index.tpl', 'tao'));
         }
         
-        $this->setData('form', $form->render());
-        $this->setData('content-template', array('passwordRecovery/index.tpl', 'tao'));
         $this->setView('layout.tpl', 'tao');
     }
     
@@ -102,17 +104,20 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
         $user = $this->passwordRecoveryService->getUser(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN, $token);
         if ($user === null) {
             \common_Logger::i("Password recovery token not found. Token value: {$token}");
-            throw new Exception('This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link.');
-        }
-        
-        if ($form->isSubmited() && $form->isValid()) {
-            $this->passwordRecoveryService->setPassword($user, $form->getValue('newpassword'));
-            \common_Logger::i("User {$user->uriResource} has changed the password.");
-            $this->setData('passwordChanged', true);
-        }
-        
-        $this->setData('form', $form->render());
-        $this->setData('content-template', array('passwordRecovery/password-reset.tpl', 'tao'));
+            $this->setData('header', 'User not found');
+            $this->setData('error', 'This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link.');
+            $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
+        } else {
+            if ($form->isSubmited() && $form->isValid()) {
+                $this->passwordRecoveryService->setPassword($user, $form->getValue('newpassword'));
+                \common_Logger::i("User {$user->uriResource} has changed the password.");
+                $this->setData('info', __("Password successfully changed."));
+                $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
+            } else {
+                $this->setData('form', $form->render());
+                $this->setData('content-template', array('passwordRecovery/password-reset.tpl', 'tao'));
+            }
+        } 
         
         $this->setView('layout.tpl', 'tao');
     }

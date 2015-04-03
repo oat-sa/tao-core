@@ -59,7 +59,6 @@ class MailAdapter extends Configurable implements Transport
     {
         parent::__construct($config);
         
-        require_once($_SERVER['DOCUMENT_ROOT'] . '/tao/lib/phpmailer/class.phpmailer.php');
         $this->mailer = new \PHPMailer();
         
         $SMTPConfig = $this->getOption('SMTPConfig');
