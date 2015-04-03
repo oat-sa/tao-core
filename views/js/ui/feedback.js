@@ -114,8 +114,7 @@ define([
             this.category = _.findKey(categories, [this.level]);
             this.options  = _.defaults(options || {}, defaultOptions); 
 
-            console.log(encode);
-            msg = this.options.escapeHtml ? encode.html(msg) : msg; 
+            msg = this.options.encodeHtml ? encode.html(msg) : msg; 
             this.content  = tpl({
                 level : level,
                 msg : !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg
