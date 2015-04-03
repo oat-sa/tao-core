@@ -374,12 +374,11 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addValidators
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  array validators
-     * @return mixed
+     * @param  array $validators
      */
-    public function addValidators($validators)
+    public function addValidators(array $validators)
     {
-		foreach($validators as $validator){
+        foreach ( $validators as $validator) {
 			$this->addValidator($validator);
 		}
     }
