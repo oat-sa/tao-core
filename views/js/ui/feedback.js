@@ -116,8 +116,9 @@ define([
 
             // encode plain text string to html
             msg = this.options.encodeHtml ? encode.html(msg) : msg;
+            
             // wrap long words
-            msg = !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg
+            msg = !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg;
 
             this.content  = tpl({
                 level : level,
