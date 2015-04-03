@@ -53,7 +53,6 @@ class MediaRetrieval{
     /**
      * Check if the identifier exists in the config
      * @param $identifier
-     * @param $localIds array of ids specific to the call controller
      * @return bool
      */
     protected static function isIdentifierValid($identifier){
@@ -62,36 +61,36 @@ class MediaRetrieval{
         if(isset($configs[$identifier])){
             return true;
         }
-
-
         return false;
     }
 
     /**
-     * @param $identifier
-     * @param array $localImplementation
+     * @param $path
+     * @param array $options to pass to the mediaBrowser
+     * @param $link
      * @return \oat\tao\model\media\MediaBrowser
      */
-    public static function getBrowserImplementation($path, $options = array()){
+    public static function getBrowserImplementation($path, $options = array(), &$link = null){
         $mediaInfo = self::getLinkAndIdentifier($path);
-        extract($mediaInfo);
 
-        if(!self::isIdentifierValid($identifier)){
+        if(!self::isIdentifierValid($mediaInfo['identifier'])){
             return false;
         }
 
-        $mediaBrowser = MediaSource::getMediaBrowserSource($identifier);
+        $mediaBrowser = MediaSource::getMediaBrowserSource($mediaInfo['identifier']);
+        $link = $mediaInfo['link'];
         return new $mediaBrowser($options);
     }
 
     /**
-     * @param $identifier
-     * @param array $localImplementation
+     * @param $path
+     * @param array $options
+     * @param $link
      * @return \oat\tao\model\media\MediaManagement or false if the identifier has no MediaManagement implementation
      */
-    public static function getManagementImplementation($path, $options = array()){
+    public static function getManagementImplementation($path, $options = array(), &$link = null){
 
-        $impl = self::getBrowserImplementation($path, $options);
+        $impl = self::getBrowserImplementation($path, $options, $link);
 
         if($impl instanceof MediaManagement){
             return $impl;

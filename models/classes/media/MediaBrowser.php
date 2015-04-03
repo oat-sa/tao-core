@@ -41,6 +41,7 @@ interface MediaBrowser {
      *                'mime' => $mimeType,
      *                'size' => $fileSize,
      *               ]
+     * @throws \Exception
      */
     public function getFileInfo($link);
 
