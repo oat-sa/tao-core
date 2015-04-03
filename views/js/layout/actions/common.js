@@ -155,7 +155,7 @@ define([
                                 id : actionContext.uri || actionContext.classUri
                             }]);
                         } else {
-                            var msg = response.msg || __("Unable to delete the selected class");
+                            var msg = response.msg || __("Unable to delete the selected resource");
                             feedback().error(msg);
                         }
                     }
