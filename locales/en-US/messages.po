@@ -2481,6 +2481,20 @@ msgstr ""
 msgid "ZIP archive"
 msgstr ""
 
-msgid "User with this address is not registered."
+msgid "An email has been sent"
 msgstr ""
 
+msgid "User not found"
+msgstr ""
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
+msgstr ""
+
+msgid "Password successfully changed"
+msgstr ""
+
+msgid "Change password"
+msgstr ""
