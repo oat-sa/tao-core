@@ -409,8 +409,10 @@ define([
              * @param {String} data.cssClass - the css class for the new node (node-instance or node-class at least).
              */       
             'addnode' : function (data) {
+
                 var tree =  $.tree.reference($elt);
-                var parentNode = tree.get_node($('#' + data.parent, $elt).get(0));
+            	var parentNode = tree.get_node($('#' + uri.encode(data.parent), $elt).get(0));
+            	
                 var params = _.clone(serverParams);
                 
                 params.classUri = data.parent;
@@ -428,7 +430,7 @@ define([
                     success     : function (response) {
                         var items = response.children ? response.children : response;
                         var node = _.filter(items, function (child) {
-                            return child.attributes && child.attributes.id == data.id;
+                            return child.attributes && child.attributes['data-uri'] == data.uri;
                         });
                         if (node.length) {
                             tree.select_branch(

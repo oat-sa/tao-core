@@ -42,7 +42,7 @@ class DataAccessControl implements AccessControl
         try {
             foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
                 if (isset($parameters[$paramName])) {
-                    if (substr($parameters[$paramName], 0, 7) == 'http_2_') {
+                    if (preg_match('/^[a-z]*_2_/', $parameters[$paramName]) != 0) {
                         common_Logger::w('url encoded parameter detected for '.$paramName);
                         $cleanName = \tao_helpers_Uri::decode($parameters[$paramName]);
                     } else {

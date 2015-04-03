@@ -1,5 +1,8 @@
+<?php
+use oat\tao\helpers\Layout;
+?>
 <div id="login-box" class="entry-point entry-point-container">
-    <h1><?=__('Connect to the TAO platform')?></h1>
+    <h1><?=Layout::getLoginMessage()?></h1>
     <?= get_data('form') ?>
 </div>
 <script>

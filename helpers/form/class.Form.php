@@ -319,9 +319,11 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  array actions
-     * @param  string context
-     * @return mixed
+     *
+     * @param  array $actions
+     * @param  string $context
+     *
+     * @throws Exception
      */
     public function setActions($actions, $context = 'bottom')
     {
@@ -362,6 +364,28 @@ abstract class tao_helpers_form_Form
         return (array) $returnValue;
     }
 
+	/**
+	 * Get specific action element from context
+	 * @param $name
+	 * @param string $context
+	 *
+	 * @return mixed
+	 */
+	public function getAction($name, $context = 'bottom'){
+
+		foreach($this->getActions($context) as $element){
+			if($element->getName() == $name){
+				$returnValue = $element;
+				break;
+			}
+		}
+		if (is_null($returnValue)) {
+			common_Logger::w('Action with name \''.$name.'\' not found');
+		}
+
+		return $returnValue;
+	}
+
     /**
      * Set the decorator of the type defined in parameter.
      * The different types are element, error, group.
@@ -369,9 +393,12 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  Decorator decorator
-     * @param  string type
+     *
+     * @param tao_helpers_form_Decorator $decorator
+     * @param string $type type
+     *
      * @return mixed
+     * @internal param decorator $Decorator
      */
     public function setDecorator( tao_helpers_form_Decorator $decorator, $type = 'element')
     {

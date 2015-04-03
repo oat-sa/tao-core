@@ -1,18 +1,20 @@
 @import "inc/bootstrap";
+
 .tree {
 
     overflow:auto;
     max-height: 75vh;
     max-width: 280px;
+    background: white;
+    border-right: 5px $canvas solid;
 
     .ltr, .rtl {
         margin-top: 8px;
         min-height: 150px;
-        overflow: auto;
+        overflow: visible;
     }
 
     ul {
-        background: white !important;
         margin: 0 8px;
         padding: 5px 0;
         list-style-type: none;
@@ -210,6 +212,10 @@
 }
 
 .taotree-delivery .node-instance ins:before{
+    @include icon-delivery;
+}
+
+.taotree-booklet .node-instance ins:before{
     @include icon-delivery;
 }
 
