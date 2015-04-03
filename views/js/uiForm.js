@@ -91,6 +91,7 @@ define([
          */
         initRendering: function () {
 
+            var self = this;
 
             var $container          = $('.content-block .xhtml_form:first'),
                 $toolBar            = $container.find('.form-toolbar'),
@@ -137,6 +138,12 @@ define([
                                                                     .find('[id*="ns_filter"]')
                                                                     .addClass('btn-default small');
             }
+
+            $('body').on('submit', '.xhtml_form form', function(e) {
+                e.preventDefault();
+                self.submitForm($(this));
+            });
+
             // modify properties
             postRenderProps.init();
         },
@@ -146,17 +153,16 @@ define([
             var that = this;
             $(".form-submitter").off('click').on('click', function (e) {
                 e.preventDefault();
-                var myForm,
+                var $form = $(this).parents("form"),
                     formData,
                     clazz;
-                myForm = $(this).parents("form");
 
                 if($('[id="tao.forms.class"]').length !== 0){
                     formData = {};
                     clazz = {};
 
                     //get all global data
-                    $('input.global',myForm[0]).each(function(){
+                    $('input.global',$form[0]).each(function(){
                         var $global = $(this);
                         var name = $global.attr('name');
                         if(name.indexOf('class_') > -1){
@@ -174,7 +180,7 @@ define([
 
                     var properties = [];
                     //get data for each property
-                    $('.regular-property',myForm[0]).each(function(){
+                    $('.regular-property',$form[0]).each(function(){
                         var property = {};
                         var name = '';
 
@@ -247,13 +253,13 @@ define([
 
                     formData.properties = properties;
 
-                    if (that.submitForm(myForm, formData)) {
-                        myForm.submit();
+                    if (that.submitForm($form, formData)) {
+                        $form.submit();
                     }
                 }
                 else{
-                    if (that.submitForm(myForm)) {
-                        myForm.submit();
+                    if (that.submitForm($form)) {
+                        $form.submit();
                     }
                 }
                 return false;
@@ -261,18 +267,17 @@ define([
 
             //revert form button
             $(".form-refresher").off('click').on('click', function () {
-                var myForm = $(this).parents('form');
-                $(":input[name='" + myForm.attr('name') + "_sent']").remove();
+                var $form = $(this).parents('form');
+                $(":input[name='" + $form.attr('name') + "_sent']").remove();
 
-                if (that.submitForm(myForm)) {
-                    myForm.submit();
+                if (that.submitForm($form)) {
+                    $form.submit();
                 }
                 return false;
             });
 
             //translate button
             $(".form-translator").off('click').on('click', function () {
-                var url;
                 if ($("#uri") && $("#classUri")) {
                     helpers.getMainContainer().load(getUrl('translateInstance'), {'uri': $("#uri").val(), 'classUri': $("#classUri").val()});
                 }
@@ -437,8 +442,9 @@ define([
              * display or not the list regarding the property type
              */
             function showPropertyList() {
-                var elt = $(this).parent("div").next("div");
-                if (/list$/.test($(this).val())) {
+                var $this = $(this);
+                var elt = $this.parent("div").next("div");
+                if (/list$/.test($this.val())) {
                     if (elt.css('display') === 'none') {
                         elt.show();
                         elt.find('select').removeAttr('disabled');
@@ -455,15 +461,16 @@ define([
              * by selecting a list, the values are displayed or the list editor opens
              */
             function showPropertyListValues() {
-                if ($(this).val() === 'new') {
+                var $this = $(this);
+                if ($this.val() === 'new') {
                     //Open the list editor: a tree in a dialog popup
-                    var rangeId = $(this).prop('id');
+                    var rangeId = $this.prop('id');
                     var dialogId = rangeId.replace('_range', '_dialog');
                     var treeId = rangeId.replace('_range', '_tree');
                     var closerId = rangeId.replace('_range', '_closer');
 
                     //dialog content to embed the list tree
-                    elt = $(this).parent("div");
+                    elt = $this.parent("div");
                     elt.append("<div id='" + dialogId + "' style='display:none;' > " +
                         "<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br /><br />" +
                         "<div id='" + treeId + "' ></div> " +
@@ -500,7 +507,7 @@ define([
                         var removeListEltUrl = url + 'removeListElement';
 
                         //create tree to manage lists
-                        var generisTreeInstance = $("#" + treeId).tree({
+                        $("#" + treeId).tree({
                             data: {
                                 type: "json",
                                 async: true,
@@ -675,10 +682,10 @@ define([
                 }
                 else {
                     //load the instances and display them (the list items)
-                    $(this).parent("div").children("ul.form-elt-list").remove();
-                    var classUri = $(this).val();
+                    $this.parent("div").children("ul.form-elt-list").remove();
+                    var classUri = $this.val();
                     if (classUri !== '') {
-                        $(this).parent("div").children("div.form-error").remove();
+                        $this.parent("div").children("div.form-error").remove();
                         var elt = this;
                         $.ajax({
                             url: context.root_url + 'tao/Lists/getListElements',
@@ -686,9 +693,13 @@ define([
                             data: {listUri: classUri},
                             dataType: 'json',
                             success: function (response) {
-                                var html = "<ul class='form-elt-list'>";
-                                for (i in response) {
-                                    html += '<li>' + response[i] + '</li>';
+                                var html = "<ul class='form-elt-list'>",
+                                    property;
+                                for (property in response) {
+                                    if(!response.hasOwnProperty(property)) {
+                                        continue;
+                                    }
+                                    html += '<li>' + response[property] + '</li>';
                                 }
                                 html += '</ul>';
                                 $(elt).parent("div").append(html);
@@ -701,15 +712,18 @@ define([
             //bind functions to the drop down:
 
             //display the values drop down regarding the selected type
-            $(".property-type").change(showPropertyList);
-            $(".property-type").each(showPropertyList);
+            var $propertyType = $(".property-type"),
+                $propertyListValues = $(".property-listvalues");
+
+            $propertyType.change(showPropertyList);
+            $propertyType.each(showPropertyList);
 
             //display the values of the selected list
-            $(".property-listvalues").change(showPropertyListValues);
-            $(".property-listvalues").each(showPropertyListValues);
+            $propertyListValues.change(showPropertyListValues);
+            $propertyListValues.each(showPropertyListValues);
 
             //show the "green plus" button to manage the lists
-            $(".property-listvalues").each(function () {
+            $propertyListValues.each(function () {
                 var listField = $(this);
                 if (listField.parent().find('img').length === 0) {
                     var listControl = $("<img title='manage lists' style='cursor:pointer;' />");
@@ -722,7 +736,7 @@ define([
                 }
             });
 
-            $(".property-listvalues").each(function () {
+            $propertyListValues.each(function () {
                 var elt = $(this).parent("div");
                 if (!elt.hasClass('form-elt-highlight') && elt.css('display') !== 'none') {
                     elt.addClass('form-elt-highlight');
