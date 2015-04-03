@@ -114,10 +114,14 @@ define([
             this.category = _.findKey(categories, [this.level]);
             this.options  = _.defaults(options || {}, defaultOptions); 
 
-            msg = this.options.encodeHtml ? encode.html(msg) : msg; 
+            // encode plain text string to html
+            msg = this.options.encodeHtml ? encode.html(msg) : msg;
+            // wrap long words
+            msg = !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg
+
             this.content  = tpl({
                 level : level,
-                msg : !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg
+                msg : msg
             });
 
             this._trigger('create');
