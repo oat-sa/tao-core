@@ -16,19 +16,22 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+namespace oat\tao\model\messaging\transportStrategy;
 
+use oat\tao\model\messaging\Transport;
+use oat\tao\model\messaging\transportStrategy\AbstractAdapter;
+use oat\tao\model\messaging\Message;
 /**
  * Short description of class tao_helpers_transfert_MailAdapter
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_transfert_MailAdapter
-    extends tao_helpers_transfert_Adapter
+class MailAdapter extends AbstractAdapter
 {
     // --- ASSOCIATIONS ---
 

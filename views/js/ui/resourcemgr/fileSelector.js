@@ -152,7 +152,7 @@ define([
                 if(errors.length === 0){
                     _.delay(switchUpload, 500);
                 } else {
-                    feedback().error("<ul><li>" + errors.join('</li><li>') + "</li></ul>"); 
+                    feedback().error("<ul><li>" + errors.join('</li><li>') + "</li></ul>", {encodeHtml: false}); 
                 }
                 //reset errors
                 errors = [];

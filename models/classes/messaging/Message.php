@@ -16,23 +16,21 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+namespace oat\tao\model\messaging;
 
+use oat\oatbox\user\User;
 /**
- * Short description of class tao_helpers_transfert_Message
+ * Message to be send to an user
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_transfert_Message
+class Message
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
 
     /**
      * Short description of attribute STATUS_WAITING
@@ -67,12 +65,9 @@ class tao_helpers_transfert_Message
     protected $from = '';
 
     /**
-     * Short description of attribute to
-     *
-     * @access protected
-     * @var string
+     * @var User
      */
-    protected $to = '';
+    protected $to = null;
 
     /**
      * Short description of attribute title
@@ -154,23 +149,15 @@ class tao_helpers_transfert_Message
     }
 
     /**
-     * Short description of method getTo
+     * User the message is to be send to
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return string
+     * @return User
      */
     public function getTo()
     {
-        $returnValue = (string) '';
-
-        
-        
-        $returnValue = $this->to;
-        
-        
-
-        return (string) $returnValue;
+        return $this->to;
     }
 
     /**
@@ -179,15 +166,10 @@ class tao_helpers_transfert_Message
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string to
-     * @return mixed
      */
-    public function setTo($to)
+    public function setTo(User $to)
     {
-        
-        
     	$this->to = $to;
-    	
-        
     }
 
     /**

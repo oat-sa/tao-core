@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\tao\helpers\Layout;
+
 /**
  * This container initialize the login form.
  *
@@ -74,13 +76,13 @@ class tao_actions_form_Login
 			$this->form->addElement($hiddenElt);
     	}
     	$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
-		$loginElt->setDescription(__('Login'));
+		$loginElt->setDescription(Layout::getLoginLabel());
 		$loginElt->setAttributes(array('autofocus' => 'autofocus'));
 		$loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($loginElt);
 		
 		$passElt = tao_helpers_form_FormFactory::getElement('password', 'Hiddenbox');
-		$passElt->setDescription(__('Password'));
+		$passElt->setDescription(Layout::getPasswordLabel());
 		$passElt->addValidator(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty')
 		);

@@ -70,7 +70,7 @@ foreach ($sorted as $ext) {
                 }
                 common_cache_FileCache::singleton()->purge();
             } else {
-                echo '  No Updater found for '.$ext->getName().' not found'.PHP_EOL;
+                echo '  No Updater found for '.$ext->getName().PHP_EOL;
             }
         } else {
             echo $ext->getName().' already up-to-date'.PHP_EOL;

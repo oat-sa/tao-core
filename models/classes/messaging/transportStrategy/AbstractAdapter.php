@@ -16,24 +16,35 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+namespace oat\tao\model\messaging\transportStrategy;
 
+use oat\tao\model\messaging\Message;
 /**
  * Short description of class tao_helpers_transfert_Adapter
  *
  * @abstract
+ *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
+ *         
  */
-abstract class tao_helpers_transfert_Adapter
+abstract class AbstractAdapter
 {
-    // --- ASSOCIATIONS ---
 
-
-    // --- ATTRIBUTES ---
+    /**
+     * Short description of method send
+     *
+     * @abstract
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return int
+     */
+    public abstract function send();
 
     /**
      * Short description of attribute messages
@@ -42,9 +53,9 @@ abstract class tao_helpers_transfert_Adapter
      * @var array
      */
     protected $messages = array();
-
+    
     // --- OPERATIONS ---
-
+    
     /**
      * Short description of method getMessages
      *
@@ -55,13 +66,9 @@ abstract class tao_helpers_transfert_Adapter
     public function getMessages()
     {
         $returnValue = array();
-
-        
         
         $returnValue = $this->messages;
         
-        
-
         return (array) $returnValue;
     }
 
@@ -70,16 +77,13 @@ abstract class tao_helpers_transfert_Adapter
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  array messages
+     * @param
+     *            array messages
      * @return mixed
      */
     public function setMessages($messages)
     {
-        
-        
-    	$this->messages = (array)$messages;
-    	
-        
+        $this->messages = (array) $messages;
     }
 
     /**
@@ -87,28 +91,12 @@ abstract class tao_helpers_transfert_Adapter
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Message message
+     * @param
+     *            Message message
      * @return mixed
      */
-    public function addMessage( tao_helpers_transfert_Message $message)
+    public function addMessage(Message $message)
     {
-        
-        
-    	$this->messages[] = $message;
-    	
-        
+        $this->messages[] = $message;
     }
-
-    /**
-     * Short description of method send
-     *
-     * @abstract
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return int
-     */
-    public abstract function send();
-
-} /* end of abstract class tao_helpers_transfert_Adapter */
-
-?>
+}

@@ -75,8 +75,11 @@ abstract class tao_models_classes_Service {
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @deprecated
-     * @param  string serviceName
+     *
+     * @param  string $serviceName
+     *
      * @return tao_models_classes_Service
+     * @throws common_exception_Error
      */
     public static function getServiceByName($serviceName) {
         $returnValue = null;
@@ -117,7 +120,7 @@ abstract class tao_models_classes_Service {
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return tao_models_classes_Service
+     * @return $this
      */
     public static function singleton() {
         $returnValue = null;
@@ -135,6 +138,3 @@ abstract class tao_models_classes_Service {
     }
 
 }
-
-/* end of abstract class tao_models_classes_Service */
-?>

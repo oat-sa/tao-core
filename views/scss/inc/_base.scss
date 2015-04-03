@@ -25,6 +25,9 @@ body {
     font-size: 14px;
 }
 
+// cannot be scoped
+::-webkit-scrollbar-corner { background-color: ThreeDHighlight;}
+
 #{$mainContainer} {
 
     *, *:before, *:after {
@@ -102,7 +105,6 @@ body {
     h1, h2, h3, h4, h5, h6 {
         font-weight: normal;
         font-style: normal;
-        font-family: $headingFont;
     }
 
     iframe {
