@@ -103,9 +103,16 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             message : __('no file not found in this location'),
             options : {baseUrl : ''},
             validate : function(value, callback, options){
-                
-                var url = (value.indexOf('http') === 0) ? value : options.baseUrl + value;
-                
+
+                //don't check if it is an http resource
+                if(value.indexOf('http') === 0){
+                    callback(true);
+                    return;
+                }
+                else{
+                    var url = options.baseUrl + value;
+                }
+
                 if(url){
                     
                     //request HEAD only for bandwidth saving
