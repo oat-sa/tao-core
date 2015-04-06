@@ -2498,3 +2498,16 @@ msgstr ""
 
 msgid "Change password"
 msgstr ""
+
+msgid "Your TAO Password"
+msgstr ""
+
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
+msgstr ""
+
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr ""
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr ""
+
