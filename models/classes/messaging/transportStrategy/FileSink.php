@@ -45,7 +45,7 @@ class FileSink extends Configurable implements Transport
 
     public function send(Message $message)
     {
-        $messageFile = $this->getFliePath($message->getTo());
+        $messageFile = $this->getFilePath($message->getTo());
         \common_Logger::d($messageFile);
         $written = file_put_contents($messageFile, $message->getBody());
         return $written !== false;
@@ -56,10 +56,14 @@ class FileSink extends Configurable implements Transport
      * @param User $receiver
      * @param boolean $refresh whether the file path must be regenerated.
      */
-    public function getFliePath(User $receiver, $refresh = false)
+    public function getFilePath(User $receiver, $refresh = false)
     {
         if ($this->filePath === null || $refresh) {
-            $path = $this->getOption(self::CONFIG_FILEPATH).\tao_helpers_File::getSafeFileName($receiver->getIdentifier()).DIRECTORY_SEPARATOR;
+            $basePath = $this->getOption(self::CONFIG_FILEPATH);
+            if (is_null($basePath) || !file_exists($basePath)) {
+                throw new \common_exception_InconsistentData('Missing path '.self::CONFIG_FILEPATH.' for '.__CLASS__);
+            }
+            $path = $basePath.\tao_helpers_File::getSafeFileName($receiver->getIdentifier()).DIRECTORY_SEPARATOR;
             if (!file_exists($path)) {
                 mkdir($path);
             }
