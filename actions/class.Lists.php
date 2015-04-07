@@ -162,7 +162,8 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 				}
 
 				$elements = $this->service->getListElements($listClass);
-				foreach($this->getRequestParameters() as $key => $value){
+				// use $_POST instead of getRequestParameters to prevent html encoding
+				foreach($_POST as $key => $value){
 					if(preg_match("/^list\-element_/", $key)){
 						$key = str_replace('list-element_', '', $key);
 						$l = strpos($key, '_');

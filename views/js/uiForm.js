@@ -11,6 +11,7 @@ define([
     'context',
     'form/property',
     'form/post-render-props',
+    'util/encode',
     'jwysiwyg' ],
     function (
         module,
@@ -19,7 +20,8 @@ define([
         helpers,
         context,
         property,
-        postRenderProps
+        postRenderProps,
+        encode
         ) {
 
     function getUrl(action) {
@@ -674,7 +676,7 @@ define([
                             success: function (response) {
                                 var html = "<ul class='form-elt-list'>";
                                 for (i in response) {
-                                    html += '<li>' + response[i] + '</li>';
+                                    html += '<li>' + encode.html(response[i]) + '</li>';
                                 }
                                 html += '</ul>';
                                 $(elt).parent("div").append(html);
