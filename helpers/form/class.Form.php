@@ -122,11 +122,10 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string name
-     * @param  array options
-     * @return mixed
+     * @param  string $name
+     * @param  array $options
      */
-    public function __construct($name = '', $options = array())
+    public function __construct($name = '', array $options = array())
     {
 
 		$this->name = $name;
@@ -139,16 +138,11 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string name
-     * @return mixed
+     * @param  string $name
      */
     public function setName($name)
     {
-
-
 		$this->name = $name;
-
-
     }
 
     /**
@@ -160,15 +154,7 @@ abstract class tao_helpers_form_Form
      */
     public function getName()
     {
-        $returnValue = (string) '';
-
-
-
-		$returnValue = $this->name;
-
-
-
-        return (string) $returnValue;
+        return (string) $this->name;
     }
 
     /**
@@ -176,16 +162,12 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  array options
+     * @param  array $options
      * @return mixed
      */
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
-
-
 		$this->options = $options;
-
-
     }
 
     /**
@@ -193,7 +175,7 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string name
+     * @param  string $name
      * @return tao_helpers_form_FormElement
      */
     public function getElement($name)
@@ -225,15 +207,7 @@ abstract class tao_helpers_form_Form
      */
     public function getElements()
     {
-        $returnValue = array();
-
-
-
-		$returnValue = $this->elements;
-
-
-
-        return (array) $returnValue;
+        return $this->elements;
     }
 
     /**
@@ -241,16 +215,11 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  array elements
-     * @return mixed
+     * @param  array $elements
      */
-    public function setElements($elements)
+    public function setElements(array $elements)
     {
-
-
 		$this->elements = $elements;
-
-
     }
 
     /**
@@ -258,14 +227,12 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string name
+     * @param  string $name
      * @return boolean
      */
     public function removeElement($name)
     {
-        $returnValue = (bool) false;
-
-
+        $returnValue = false;
 
 		foreach($this->elements as $index => $element){
 			if($element->getName() == $name){
@@ -280,9 +247,7 @@ abstract class tao_helpers_form_Form
 			}
 		}
 
-
-
-        return (bool) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -290,8 +255,7 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  FormElement element
-     * @return mixed
+     * @param  tao_helpers_form_FormElement $element
      */
     public function addElement( tao_helpers_form_FormElement $element)
     {
@@ -328,7 +292,6 @@ abstract class tao_helpers_form_Form
     public function setActions($actions, $context = 'bottom')
     {
 
-
 		$this->actions[$context] = array();
 
 		foreach($actions as $action){
@@ -338,7 +301,6 @@ abstract class tao_helpers_form_Form
 			$this->actions[$context][] = $action;
 		}
 
-
     }
 
     /**
@@ -346,20 +308,16 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string context
+     * @param  string $context
      * @return array
      */
     public function getActions($context = 'bottom')
     {
         $returnValue = array();
 
-
-
 		if(isset($this->actions[$context])){
 			$returnValue = $this->actions[$context];
 		}
-
-
 
         return (array) $returnValue;
     }
@@ -402,11 +360,7 @@ abstract class tao_helpers_form_Form
      */
     public function setDecorator( tao_helpers_form_Decorator $decorator, $type = 'element')
     {
-
-
 		$this->decorators[$type] = $decorator;
-
-
     }
 
     /**
@@ -419,13 +373,9 @@ abstract class tao_helpers_form_Form
      */
     public function setDecorators($decorators)
     {
-
-
 		foreach($decorators as $type => $decorator){
 			$this->setDecorator($decorator, $type);
 		}
-
-
     }
 
     /**
@@ -435,7 +385,7 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string type
+     * @param  string $type
      * @return tao_helpers_form_Decorator
      */
     public function getDecorator($type = 'element')
@@ -443,11 +393,9 @@ abstract class tao_helpers_form_Form
         $returnValue = null;
 
 
-
 		if(array_key_exists($type, $this->decorators)){
 			$returnValue  = $this->decorators[$type];
 		}
-
 
 
         return $returnValue;
@@ -462,12 +410,12 @@ abstract class tao_helpers_form_Form
      */
     public function renderElements()
     {
-        $returnValue = (string) '';
+        $returnValue = '';
 
 
 		foreach($this->elements as $element){
 
-			 if($this->getElementGroup($element->getName()) != ''){
+			 if($this->getElementGroup($element->getName()) !== ''){
 			 	continue;	//render grouped elements after
 			 }
 
@@ -475,7 +423,7 @@ abstract class tao_helpers_form_Form
 			 	$returnValue .= $this->getDecorator()->preRender();
 			 }
 
-             if(!$this->isValid() && $element->getError() != '') {
+             if(!$this->isValid() && $element->getError()) {
                 $element->addClass('error');
              }
 
@@ -497,12 +445,12 @@ abstract class tao_helpers_form_Form
 			 }
 
 			 //render error message
-			 if(!$this->isValid() && $element->getError() != ''){
+			 if(!$this->isValid() && $element->getError()){
 			 	if(!is_null($this->getDecorator('error'))){
 			 		$returnValue .= $this->getDecorator('error')->preRender();
 			 	}
 
-			 	$returnValue .= $element->getError();
+			 	$returnValue .= nl2br($element->getError());
 
 				if(!is_null($this->getDecorator('error'))){
 			 		$returnValue .= $this->getDecorator('error')->postRender();
@@ -540,8 +488,8 @@ abstract class tao_helpers_form_Form
 			if(!is_null($subGroupDecorator)){
 				$returnValue .= $subGroupDecorator->preRender();
 			}
-			foreach($this->elements as $element){
-				 if($this->getElementGroup($element->getName()) == $groupName){
+			foreach($group['elements'] as $elementName){
+				 if($this->getElementGroup($elementName) === $groupName && $element = $this->getElement( $elementName )){
 
 				 	if(!is_null($this->getDecorator())){// && !($element instanceof tao_helpers_form_elements_Hidden) ){
 
@@ -549,6 +497,9 @@ abstract class tao_helpers_form_Form
 					 }
 
 					 //render element
+                     if ( ! $this->isValid() && $element->getError()) {
+                         $element->addClass( 'error' );
+                     }
 					 $returnValue .= $element->render();
 
 					 //render element help
@@ -566,11 +517,11 @@ abstract class tao_helpers_form_Form
 					 }
 
 					 //render error message
-					 if(!$this->isValid() && $element->getError() != ''){
+					 if(!$this->isValid() && $element->getError()){
 					 	if(!is_null($this->getDecorator('error'))){
 					 		$returnValue .= $this->getDecorator('error')->preRender();
 					 	}
-					 	$returnValue .= $element->getError();
+					 	$returnValue .= nl2br($element->getError());
 						if(!is_null($this->getDecorator('error'))){
 					 		$returnValue .= $this->getDecorator('error')->postRender();
 					 	}
@@ -591,7 +542,7 @@ abstract class tao_helpers_form_Form
 		}
 
 
-        return (string) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -599,7 +550,7 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string context
+     * @param  string $context
      * @return string
      */
     public function renderActions($context = 'bottom')
@@ -657,9 +608,7 @@ abstract class tao_helpers_form_Form
      */
     public function hasFileUpload()
     {
-        $returnValue = (bool) false;
-
-
+        $returnValue = false;
 
 		foreach($this->elements as $element){
 			if($element instanceof tao_helpers_form_elements_File){
@@ -668,9 +617,7 @@ abstract class tao_helpers_form_Form
 			}
 		}
 
-
-
-        return (bool) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -682,13 +629,7 @@ abstract class tao_helpers_form_Form
      */
     public function isValid()
     {
-        $returnValue = (bool) false;
-
-
-		$returnValue = $this->valid;
-
-
-        return (bool) $returnValue;
+        return $this->valid;
     }
 
     /**
@@ -700,13 +641,7 @@ abstract class tao_helpers_form_Form
      */
     public function isSubmited()
     {
-        $returnValue = (bool) false;
-
-
-		$returnValue = $this->submited;
-
-
-        return (bool) $returnValue;
+        return  $this->submited;
     }
 
     /**
@@ -714,12 +649,10 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  array values
-     * @return mixed
+     * @param  array $values
      */
     public function setValues($values)
     {
-
 
 		foreach($values as $key => $value){
 			foreach($this->elements as $element){
@@ -737,7 +670,6 @@ abstract class tao_helpers_form_Form
 
 		}
 
-
     }
 
     /**
@@ -745,14 +677,12 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string groupName
+     * @param  string $groupName
      * @return array
      */
     public function getValues($groupName = '')
     {
         $returnValue = array();
-
-
 
 		foreach($this->elements as $element){
 			if(!empty($groupName)){
@@ -765,9 +695,7 @@ abstract class tao_helpers_form_Form
 			$returnValue[$element->getName()] = $element->getValue();
 		}
 
-
-
-        return (array) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -775,22 +703,18 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string name
+     * @param  string $name
      * @return boolean
      */
     public function getValue($name)
     {
-        $returnValue = (bool) false;
-
-
 		foreach($this->elements as $element){
 			if($element->getName() == $name){
 				return  $element->getEvaluatedValue();
 			}
 		}
 
-
-        return (bool) $returnValue;
+        return false;
     }
 
     /**
@@ -802,15 +726,7 @@ abstract class tao_helpers_form_Form
      */
     public function getGroups()
     {
-        $returnValue = array();
-
-
-
-        $returnValue = $this->groups;
-
-
-
-        return (array) $returnValue;
+        return $this->groups;
     }
 
     /**
@@ -818,16 +734,12 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  array groups
+     * @param  array $groups
      * @return mixed
      */
     public function setGroups($groups)
     {
-
-
     	$this->groups = $groups;
-
-
     }
 
     /**
@@ -835,14 +747,14 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string groupName
-     * @param  string groupTitle
-     * @param  array elements array of form elements or their identifiers
-     * @param  array options
+     * @param  string $groupName
+     * @param  string $groupTitle
+     * @param  array $elements array of form elements or their identifiers
+     * @param  array $options
      * @return mixed
      * @throws common_Exception
      */
-    public function createGroup($groupName, $groupTitle = '', $elements = array(), $options = array())
+    public function createGroup($groupName, $groupTitle = '', array $elements = array(), array $options = array())
     {
         $identifier = array();
         foreach ($elements as $element) {
@@ -866,13 +778,11 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string groupName
-     * @param  string elementName
-     * @return mixed
+     * @param  string $groupName
+     * @param  string $elementName
      */
     public function addToGroup($groupName, $elementName = '')
     {
-
 
 		if(isset($this->groups[$groupName])){
 			if(isset($this->groups[$groupName]['elements'])){
@@ -882,7 +792,6 @@ abstract class tao_helpers_form_Form
 			}
 		}
 
-
     }
 
     /**
@@ -890,13 +799,12 @@ abstract class tao_helpers_form_Form
      *
      * @access protected
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string elementName
+     * @param  string $elementName
      * @return string
      */
     protected function getElementGroup($elementName)
     {
-        $returnValue = (string) '';
-
+        $returnValue =  '';
 
 		foreach($this->groups as $groupName => $group){
 				if(in_array($elementName, $group['elements'])){
@@ -905,8 +813,7 @@ abstract class tao_helpers_form_Form
 				}
 		}
 
-
-        return (string) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -914,14 +821,10 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string groupName
-     * @return boolean
+     * @param  string $groupName
      */
     public function removeGroup($groupName)
     {
-        $returnValue = (bool) false;
-
-
 
 		if(isset($this->groups[$groupName])){
 			foreach($this->groups[$groupName]['elements'] as $element){
@@ -930,9 +833,6 @@ abstract class tao_helpers_form_Form
 			unset($this->groups[$groupName]);
 		}
 
-
-
-        return (bool) $returnValue;
     }
 
     /**
