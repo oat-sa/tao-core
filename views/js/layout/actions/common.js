@@ -77,7 +77,7 @@ define([
          * @fires layout/tree#addnode.taotree
          */
         binder.register('instanciate', function instanciate(actionContext){
-            classUri = uri.decode(actionContext.classUri);
+            var classUri = uri.decode(actionContext.classUri);
             $.ajax({
                 url: this.url,
                 type: "POST",
