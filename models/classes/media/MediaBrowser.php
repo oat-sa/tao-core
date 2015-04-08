@@ -30,7 +30,7 @@ interface MediaBrowser {
      * @param int $depth
      * @return array ['label' => $label,
      *                'path' => $implIdentifier.'/'.$path,
-     *                'children' => [['label' => $label, 'path', $implIdentifier.'/'.$path, 'url' => $continueUrl]]
+     *                'children' => [['label' => $label, 'path', $implIdentifier.'/'.$path, 'parent' => $parentPath]]
      *               ]
      */
     public function getDirectory($parentLink = '/', $acceptableMime = array(), $depth = 1);
