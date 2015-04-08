@@ -44,9 +44,11 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
      *
      * @param  array $options
      *
+     * @param string $name
+     *
      * @throws Exception
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = array(), $name = '')
     {
         
 		parent::__construct($options);
@@ -59,7 +61,22 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
             'The format of this field is not valid.'
         );
 
+        if (is_string( $name ) && $name) {
+            $this->name = $name;
+        } else {
+            $this->name = str_replace( 'tao_helpers_form_validators_', '', get_class( $this ) );
+        }
+
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
 
     /**
      * Short description of method evaluate
