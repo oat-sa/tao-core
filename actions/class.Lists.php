@@ -149,8 +149,9 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 		if($this->hasRequestParameter('uri')){
 
 			$listClass = $this->service->getList(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-			if(!is_null($listClass)){
-				$listClass->setLabel($this->getRequestParameter('label'));
+			if(!is_null($listClass)) {
+			    // use $_POST instead of getRequestParameters to prevent html encoding
+				$listClass->setLabel($_POST['label']);
 
 				$setLevel = false;
 				$levelProperty = new core_kernel_classes_Property(TAO_LIST_LEVEL_PROP);
