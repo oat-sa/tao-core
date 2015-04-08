@@ -77,16 +77,17 @@ define([
          * @fires layout/tree#addnode.taotree
          */
         binder.register('instanciate', function instanciate(actionContext){
+            classUri = uri.decode(actionContext.classUri);
             $.ajax({
                 url: this.url,
                 type: "POST",
-                data: {classUri: actionContext.classUri, id: actionContext.id, type: 'instance'},
+                data: {classUri: actionContext.classUri, id: classUri, type: 'instance'},
                 dataType: 'json',
                 success: function(response){
                     if (response.uri) {
                         $(actionContext.tree).trigger('addnode.taotree', [{
                             'uri'		: uri.decode(response.uri),
-                            'parent'    : actionContext.id,
+                            'parent'    : classUri,
                             'label'     : response.label,
                             'cssClass'  : 'node-instance'
                         }]);
