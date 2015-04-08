@@ -192,7 +192,11 @@ define([
                 
                         //try to call a server side service to check whether the selected files exists or not.       
                         if(options.fileExistsUrl){
-                            $.getJSON(options.fileExistsUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath + '/' + file.name, function(response){
+                            var pathParam = currentPath;
+                            if(currentPath.indexOf('taomedia://') === -1){
+                                pathParam = currentPath + '/' + file.name;
+                            }
+                            $.getJSON(options.fileExistsUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + pathParam, function(response){
                                 if(response && response.exists === true){
                                     result = window.confirm('Do you want to override ' + file.name + '?');
                                 }
