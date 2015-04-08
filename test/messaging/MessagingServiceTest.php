@@ -19,8 +19,8 @@
  *               
  */
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\tao\test\messaging\MockAdapter;
-use oat\tao\model\passwordRecovery\PasswordRecoveryService;
+use oat\tao\model\messaging\MessagingService;
+use oat\tao\model\messaging\Message;
 use oat\tao\model\messaging\transportStrategy\FileSink;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
@@ -29,7 +29,7 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package tao
  */
-class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
+class MessagingServiceTest extends TaoPhpUnitTestRunner
 {
 
     /**
@@ -38,9 +38,19 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
     protected $userService = null;
     
     /**
-     * @var PasswordRecoveryService
+     * @var MessagingService
      */
-    protected $passwordRecoveryService = null;
+    protected $messagingService = null;
+    
+    /**
+     * @var Message
+     */
+    protected $message = null;
+    
+    /**
+     * @var string Message content
+     */
+    protected $messageBody = "Lorem Ipsum is simply dummy text of the printing and typesetting industry";
 
     /**
      * @var array user data set
@@ -62,28 +72,24 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
     protected $testUser = null;
 
     /**
-     * Password value before encryption
-     * 
-     * @var string
-     */
-    private $clearPassword = '';
-
-    /**
      * tests initialization
      */
     public function setUp()
     {
         TaoPhpUnitTestRunner::initTest();
         $this->userService = tao_models_classes_UserService::singleton();
-        $this->passwordRecoveryService = PasswordRecoveryService::singleton();
-
-        $this->clearPassword = $this->testUserData[PROPERTY_USER_PASSWORD];
-        $this->testUserData[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[PROPERTY_USER_PASSWORD]);
+        $this->messagingService = MessagingService::singleton();
 
         $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
         $this->testUser = $class->createInstance();
         $this->assertNotNull($this->testUser);
         $this->userService->bindProperties($this->testUser, $this->testUserData);
+        
+        $generisUser = new \core_kernel_users_GenerisUser($this->testUser);
+        
+        $this->message = new Message();
+        $this->message->setTo($generisUser);
+        $this->message->setBody($this->messageBody);
     }
 
     /**
@@ -98,22 +104,24 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
 
     public function testSendMail()
     {
-        $transporter = new MockAdapter();
+        $testfolder = tao_helpers_File::createTempDir();
+        $filePath = $testfolder . 'message.html';
         
-        $generisUser = new \core_kernel_users_GenerisUser($this->testUser);
-        $this->assertEmpty($generisUser->getPropertyValues(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN));
-        $generisUser->refresh();
+        $transporter = new FileSink();
+        $transporter->setFilePath($filePath);
         
-        $this->passwordRecoveryService->getMessagingService()->setTransport($transporter);
-        $this->passwordRecoveryService->sendMail($this->testUser);
+        $this->messagingService->setTransport($transporter);
         
-        $this->assertNotNull($transporter->title);
-        $this->assertNotNull($transporter->to);
-        $this->assertContains($this->testUserData[PROPERTY_USER_FIRSTNAME], $transporter->body);
+        $result = $this->messagingService->send($this->message);
         
-        $passwordRecoveryToken = current($generisUser->getPropertyValues(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN));
-        $this->assertNotEmpty($passwordRecoveryToken);
+        $this->assertTrue($result);
+        $this->assertFileExists($filePath);
         
-        $this->assertContains($passwordRecoveryToken, $transporter->body);
+        $messageContent = file_get_contents($filePath);
+        
+        $this->assertContains($this->messageBody, $messageContent);
+        
+        tao_helpers_File::delTree($testfolder);
+        $this->assertFalse(is_dir($testfolder));
     }
 }

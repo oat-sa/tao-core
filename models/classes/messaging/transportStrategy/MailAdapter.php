@@ -96,9 +96,7 @@ class MailAdapter extends Configurable implements Transport
                 $result = true;
             }
             if ($this->mailer->IsError()) {
-                if (DEBUG_MODE) {
-                    echo $this->mailer->ErrorInfo . "<br>";
-                }
+                \common_Logger::e($this->mailer->ErrorInfo);
                 $this->errors = $this->mailer->ErrorInfo;
                 $message->setStatus(\oat\tao\model\messaging\Message::STATUS_ERROR);
                 $result = false;
