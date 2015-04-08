@@ -68,7 +68,7 @@ define(['jquery', 'lodash'], function($, _) {
                     $selected.parent('li').addClass('active');
 
                     //internal event to set the file-selector content
-                    $container.trigger('folderselect.' + ns , [displayPath, content.children, content.path]);
+                    $container.trigger('folderselect.' + ns , [content.label, content.children, content.path]);
                 }
             });
         });
