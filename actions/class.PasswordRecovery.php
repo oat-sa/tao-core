@@ -70,7 +70,7 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
                     $this->setData('info', __('A message with further instructions has been sent to your email address: %s', $mail));
                 } else {
                     \common_Logger::w("Unsuccessful recovery password. {$this->passwordRecoveryService->getErrors()}.");
-                    $this->setData('error', $this->passwordRecoveryService->getErrors());
+                    $this->setData('error', __('Unable to send the password reset request'));
                 }
             } else {
                 \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$mail}.");
