@@ -27,8 +27,7 @@
  * @package tao
  
  */
-class tao_helpers_form_validators_Regex
-    extends tao_helpers_form_Validator
+class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
 {
     // --- ASSOCIATIONS ---
 
@@ -42,21 +41,24 @@ class tao_helpers_form_validators_Regex
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
+     *
+     * @param  array $options
+     *
+     * @throws Exception
      */
-    public function __construct($options = array())
+    public function __construct(array $options = array())
     {
         
-		
 		parent::__construct($options);
 		
 		if(!isset($this->options['format'])){
 			throw new Exception("Please set the format options (define your regular expression)!");
 		}
-		$this->message = __('The format of this field is not valid.');
-		
-        
+
+        $this->message = array_key_exists( 'message', $this->options ) ? $this->options['message'] : __(
+            'The format of this field is not valid.'
+        );
+
     }
 
     /**
@@ -67,22 +69,15 @@ class tao_helpers_form_validators_Regex
      * @param  values
      * @return boolean
      */
-    public function evaluate($values)
+    public function evaluate( $values )
     {
-        $returnValue = (bool) false;
+        $returnValue = false;
 
-        
-        if (is_string($values) || is_numeric($values)) {
-			if(preg_match($this->options['format'], $values)){
-				 $returnValue = true;
-			}
+        if (is_string( $values ) || is_numeric( $values )) {
+            $returnValue = preg_match( $this->options['format'], $values );
         }
-		
-        
 
-        return (bool) $returnValue;
+        return $returnValue;
     }
 
 }
-
-?>
