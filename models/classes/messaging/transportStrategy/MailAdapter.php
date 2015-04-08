@@ -38,13 +38,9 @@ use oat\oatbox\Configurable;
  */
 class MailAdapter extends Configurable implements Transport
 {
-    /**
-     * PHPMailer instance
-     * @see https://github.com/PHPMailer/PHPMailer
-     * @access protected
-     * @var PHPMailer
-     */
-    protected $mailer = null;
+    const CONFIG_SMTP_CONFIG = 'SMTPConfig';
+    
+    const CONFIG_DEFAULT_SENDER = 'defaultSender';
     
     protected $errors = '';
     
@@ -53,24 +49,37 @@ class MailAdapter extends Configurable implements Transport
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
+     * @return \PHPMailer
      */
-    public function __construct($config)
+    protected function getMailer()
     {
-        parent::__construct($config);
+        $mailer = new \PHPMailer();
         
-        $this->mailer = new \PHPMailer();
+        $SMTPConfig = $this->getOption(self::CONFIG_SMTP_CONFIG);
         
-        $SMTPConfig = $this->getOption('SMTPConfig');
+        $mailer->IsSMTP();
+        $mailer->SMTPKeepAlive = true;
+        $mailer->Debugoutput = 'error_log';
         
-        $this->mailer->IsSMTP();
-        $this->mailer->SMTPKeepAlive = true;
-        $this->mailer->SMTPDebug = $SMTPConfig['DEBUG_MODE'];
-        $this->mailer->SMTPAuth = $SMTPConfig['SMTP_AUTH'];
-        $this->mailer->Host = $SMTPConfig['SMTP_HOST'];
-        $this->mailer->Port = $SMTPConfig['SMTP_PORT'];
-        $this->mailer->Username = $SMTPConfig['SMTP_USER'];
-        $this->mailer->Password = $SMTPConfig['SMTP_PASS'];
+        $mailer->Host = $SMTPConfig['SMTP_HOST'];
+        $mailer->Port = $SMTPConfig['SMTP_PORT'];
+        $mailer->Username = $SMTPConfig['SMTP_USER'];
+        $mailer->Password = $SMTPConfig['SMTP_PASS'];
+        
+        if (isset($SMTPConfig['DEBUG_MODE'])) {
+            $mailer->SMTPDebug = $SMTPConfig['DEBUG_MODE'];
+        }
+        if (isset($SMTPConfig['Mailer'])) {
+            $mailer->Mailer = $SMTPConfig['Mailer'];
+        }
+        if (isset($SMTPConfig['SMTP_AUTH'])) {
+            $mailer->SMTPAuth = $SMTPConfig['SMTP_AUTH'];
+        }
+        if (isset($SMTPConfig['SMTP_SECURE'])) {
+            $mailer->SMTPSecure = $SMTPConfig['SMTP_SECURE'];
+        }
+        
+        return $mailer;
     }
 
     /**
@@ -83,34 +92,31 @@ class MailAdapter extends Configurable implements Transport
      */
     public function send(Message $message)
     {
-        $this->mailer->SetFrom($this->getFrom($message));
-        $this->mailer->AddReplyTo($this->getFrom($message));
-        $this->mailer->Subject = $message->getTitle();
-        $this->mailer->AltBody = strip_tags(preg_replace("/<br.*>/i", "\n", $message->getBody()));
-        $this->mailer->MsgHTML($message->getBody());
-        $this->mailer->AddAddress($this->getUserMail($message->getTo()));
+        $mailer = $this->getMailer();
+        $mailer->SetFrom($this->getFrom($message));
+        $mailer->AddReplyTo($this->getFrom($message));
+        $mailer->Subject = $message->getTitle();
+        $mailer->AltBody = strip_tags(preg_replace("/<br.*>/i", "\n", $message->getBody()));
+        $mailer->MsgHTML($message->getBody());
+        $mailer->AddAddress($this->getUserMail($message->getTo()));
 
+        $result = false;
         try {
-            if ($this->mailer->Send()) {
+            if ($mailer->Send()) {
                 $message->setStatus(\oat\tao\model\messaging\Message::STATUS_SENT);
                 $result = true;
             }
-            if ($this->mailer->IsError()) {
-                if (DEBUG_MODE) {
-                    echo $this->mailer->ErrorInfo . "<br>";
-                }
-                $this->errors = $this->mailer->ErrorInfo;
+            if ($mailer->IsError()) {
+                \common_Logger::e($mailer->ErrorInfo);
+                $this->errors = $mailer->ErrorInfo;
                 $message->setStatus(\oat\tao\model\messaging\Message::STATUS_ERROR);
-                $result = false;
             }
         } catch (phpmailerException $pe) {
-            if (DEBUG_MODE) {
-                print $pe;
-            }
+            \common_Logger::e($pe->getMessage());
         }
-        $this->mailer->ClearReplyTos();
-        $this->mailer->ClearAllRecipients();
-        $this->mailer->SmtpClose();
+        $mailer->ClearReplyTos();
+        $mailer->ClearAllRecipients();
+        $mailer->SmtpClose();
 
         return $result;
     }
@@ -149,10 +155,8 @@ class MailAdapter extends Configurable implements Transport
     {
         $from = $message === null ? null : $message->getFrom();
         if (!$from) {
-            $from = $this->getOption('defaultSender');
+            $from = $this->getOption(self::CONFIG_DEFAULT_SENDER);
         }
         return $from;
     }
 }
-
-?>
