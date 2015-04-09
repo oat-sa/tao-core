@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-08T14:37:44\n"
+"PO-Revision-Date: 2015-04-09T09:08:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -293,6 +293,7 @@ msgstr "無法刪除默認的用戶"
 msgid "Define the default values"
 msgstr "設定預設值"
 
+#, tao-public
 msgid "Delete"
 msgstr "刪除"
 
@@ -383,6 +384,7 @@ msgstr "匯入檔案時發生錯誤"
 msgid "Exclusive (OR)"
 msgstr "排除其他 (或)"
 
+#, tao-public
 msgid "Export"
 msgstr "匯出"
 
@@ -426,6 +428,7 @@ msgstr "檔案版本"
 msgid "file selected"
 msgstr "已選檔案"
 
+#, tao-public
 msgid "File sources"
 msgstr "檔案來源"
 
@@ -435,6 +438,7 @@ msgstr "檔案上傳器"
 msgid "files selected"
 msgstr "已選檔案"
 
+#, tao-public
 msgid "Filter"
 msgstr "過濾條件"
 
@@ -480,6 +484,7 @@ msgstr "用RDF檔案導入元數據"
 msgid "Inclusive (AND)"
 msgstr "包容 (和)"
 
+#, tao-public
 msgid "Index"
 msgstr "索引"
 
@@ -681,9 +686,11 @@ msgstr "命名空間"
 msgid "New password"
 msgstr "新密碼"
 
+#, tao-public
 msgid "New repository"
 msgstr "新的存儲庫"
 
+#, tao-public
 msgid "New role"
 msgstr "新角色"
 
@@ -817,6 +824,7 @@ msgstr "預覽"
 msgid "Previous"
 msgstr "上一個"
 
+#, tao-public
 msgid "Properties"
 msgstr "屬性"
 
@@ -901,6 +909,7 @@ msgstr "角色已儲存"
 msgid "Roles"
 msgstr "角色"
 
+#, tao-public
 msgid "Roles library"
 msgstr "角色書庫"
 
@@ -910,6 +919,7 @@ msgstr "儲存"
 msgid "Scope"
 msgstr "範圍"
 
+#, tao-public
 msgid "Search"
 msgstr "搜尋"
 

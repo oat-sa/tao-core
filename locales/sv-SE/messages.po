@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-08T14:37:21\n"
+"PO-Revision-Date: 2015-04-09T09:08:38\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sv-SE\n"
@@ -291,6 +291,7 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
+#, tao-public
 msgid "Delete"
 msgstr "Radera"
 
@@ -380,6 +381,7 @@ msgstr "Fel under filimport"
 msgid "Exclusive (OR)"
 msgstr "Exklusive (ELLER)"
 
+#, tao-public
 msgid "Export"
 msgstr "Exportera"
 
@@ -423,6 +425,7 @@ msgstr ""
 msgid "file selected"
 msgstr ""
 
+#, tao-public
 msgid "File sources"
 msgstr ""
 
@@ -432,6 +435,7 @@ msgstr ""
 msgid "files selected"
 msgstr ""
 
+#, tao-public
 msgid "Filter"
 msgstr "Filter"
 
@@ -477,6 +481,7 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr "Inklusive (OCH)"
 
+#, tao-public
 msgid "Index"
 msgstr ""
 
@@ -678,9 +683,11 @@ msgstr "Namnområden"
 msgid "New password"
 msgstr "Nytt lösenord"
 
+#, tao-public
 msgid "New repository"
 msgstr ""
 
+#, tao-public
 msgid "New role"
 msgstr ""
 
@@ -814,6 +821,7 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
+#, tao-public
 msgid "Properties"
 msgstr ""
 
@@ -898,6 +906,7 @@ msgstr ""
 msgid "Roles"
 msgstr ""
 
+#, tao-public
 msgid "Roles library"
 msgstr ""
 
@@ -907,6 +916,7 @@ msgstr "Spara"
 msgid "Scope"
 msgstr ""
 
+#, tao-public
 msgid "Search"
 msgstr "Sök"
 
