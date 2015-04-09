@@ -29,7 +29,6 @@ define([
     'use strict';
 
     return function(s) {
-        console.log(s)
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     };
 });
