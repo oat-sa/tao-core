@@ -69,6 +69,7 @@ class tao_helpers_translation_StructureExtractor
                         $nodeName = (string)$node['name'];
                         $newTranslationUnit = new tao_helpers_translation_POTranslationUnit();
                         $newTranslationUnit->setSource($nodeName);
+                        $newTranslationUnit->addFlag('tao-public');
                         $translationUnits[$nodeName] = $newTranslationUnit;
                     }
                 }
