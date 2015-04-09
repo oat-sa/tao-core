@@ -150,11 +150,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	            if ($clazz instanceof core_kernel_classes_Resource) {
 	                $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
 	            }
-	            $this->setData('message', __('%s Class saved', $this->getRootClass()->getLabel()));
+	            $this->setData('message', __('%s Class saved', _dh($this->getRootClass()->getLabel())));
 	            $this->setData('reload', true);
 	        }
 	    }
-	    $this->setData('formTitle', __('Edit class %s', $clazz->getLabel()));
+	    $this->setData('formTitle', __('Edit class %s', _dh($clazz->getLabel())));
 	    $this->setData('myForm', $myForm->render());
 	    $this->setView('form.tpl', 'tao');
 	}

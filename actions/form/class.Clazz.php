@@ -60,9 +60,7 @@ class tao_actions_form_Clazz
         $actions     = tao_helpers_form_FormFactory::getCommonActions();
         $propertyElt = tao_helpers_form_FormFactory::getElement('property', 'Free');
         $propertyElt->setValue(
-            "<a href='#' class='btn-info property-adder small'><span class='icon-property-add'></span> " . __(
-                'Add property'
-            ) . "</a>"
+            "<a href='#' class='btn-info property-adder small'><span class='icon-property-add'></span> " . __('Add property') . "</a>"
         );
         $actions[] = $propertyElt;
 
