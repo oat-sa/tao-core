@@ -60,10 +60,11 @@ abstract class tao_models_classes_ClassService
 	public function deleteClass(core_kernel_classes_Class $clazz)
 	{
 	    $returnValue = (bool) false;
-	
+
+        $subclasses = $clazz->getSubClasses(true);
         if($clazz->isSubClassOf($this->getRootClass()) && !$clazz->equals($this->getRootClass())) {
             /** @var core_kernel_classes_Class $subclass */
-            foreach($clazz->getSubClasses(true) as $subclass){
+            foreach($subclasses as $subclass){
                 /** @var core_kernel_classes_Property $classProperty */
                 foreach($subclass->getProperties() as $classProperty){
                     $returnValue = $this->deleteClassProperty($classProperty);
@@ -72,7 +73,7 @@ abstract class tao_models_classes_ClassService
                     $returnValue = $subclass->delete();
                 }
             }
-            if($returnValue){
+            if(count($subclasses) === 0 || $returnValue){
                 $returnValue = $clazz->delete();
             }
         } else {
