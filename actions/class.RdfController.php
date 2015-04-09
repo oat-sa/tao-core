@@ -219,6 +219,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                             unset($propertyValues['indexes']);
                         }
 
+                        $validator = new tao_helpers_form_validators_NotEmpty(array('message' => __('Property\'s label field is required')));
+
                         //save property
                         if($propMode === 'simple') {
                             $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
@@ -234,6 +236,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                             foreach($propertyValues as $key => $value){
                                 $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
 
+                            }
+                            // if the label is not empty
+                            if(!$validator->evaluate($values[RDFS_LABEL])){
+                                throw new Exception($validator->getMessage());
                             }
                             $property = new core_kernel_classes_Property($values['uri']);
                             unset($values['uri']);
@@ -265,6 +271,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                                     $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
                                 }
 
+                            }
+                            // if the label is not empty
+                            if(!$validator->evaluate($values[RDFS_LABEL])){
+                                throw new Exception($validator->getMessage());
                             }
                             $property = new core_kernel_classes_Property($values['uri']);
                             unset($values['uri']);
