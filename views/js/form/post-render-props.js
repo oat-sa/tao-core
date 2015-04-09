@@ -96,9 +96,28 @@ define([
                                 var $editIcon = $property.find('.icon-edit'),
                                     $editContainer = $property.children('div:first');
 
-                                var $indexIcon = $property.find('.icon-add');
+                                var $indexIcon = $property.find('.icon-find');
 
                                 $editContainer.addClass('property-edit-container');
+
+                                $('.property',$editContainer).each(function(){
+                                    var $currentTarget = $(this);
+                                    while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                        $currentTarget = $currentTarget.parent();
+                                    }
+                                    $currentTarget.hide();
+                                });
+
+                                $('.index',$editContainer).each(function(){
+                                    var $currentTarget = $(this);
+                                    while(!_.isEqual($currentTarget.parent()[0], $editContainer[0])){
+                                        $currentTarget = $currentTarget.parent();
+                                    }
+                                    $currentTarget.hide();
+                                });
+                                $('.index-remover',$editContainer).each(function(){
+                                    $(this).parent().hide();
+                                });
 
                                 //on click on edit icon show property form or hide it
                                 $editIcon.on('click', function() {
