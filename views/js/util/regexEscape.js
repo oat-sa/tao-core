@@ -18,36 +18,17 @@
  */
 
 /**
+ * Escapes -\/\\^$*+?.()|[\]{} inside a string. Use when
+ * concatenating a string for usage in new RegExp().
  *
  * @author dieter <dieter@taotesting.com>
  */
 define([
-    'util/regexEscape'
-], function (regexEscape) {
+
+], function () {
     'use strict';
 
-    /**
-     * Wrap very long strings after n characters
-     *
-     * @param str
-     * @param threshold number of characters to break after
-     * @returns {string}
-     */
-    function wrapLongWords(str, threshold) {
-        // add whitespaces to provoke line breaks before HTML tags
-        str = str.replace(/([\w])</g, '$1 <');
-
-        var chunkExp = new RegExp('.{1,' + threshold + '}', 'g'),
-            longWords = str.match(new RegExp('[\\S]{' + threshold + ',}', 'g')) || [],
-            i = longWords.length,
-            cut;
-
-        while(i--) {
-            cut = longWords[i].match(chunkExp).join(' ');
-            str = str.replace(new RegExp(regexEscape(longWords[i]), 'g'), cut);
-        }
-        return str;
-    }
-
-    return wrapLongWords;
+    return function(s) {
+        return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    };
 });
