@@ -280,21 +280,26 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                         //save index
                         if(!is_null($indexes)){
                             foreach($indexes as $indexValues){
-                                // if the identifier is unique
-
                                 $values = array();
                                 foreach($indexValues as $key => $value){
                                     $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
                                 }
-                                $indexProperty = new core_kernel_classes_Property($values['uri']);
-                                unset($values['uri']);
-                                //sanitize identifier
-                                $values[INDEX_PROPERTY_IDENTIFIER] = preg_replace('/[^a-z_]/','_',strtolower($values[INDEX_PROPERTY_IDENTIFIER]));
 
+                                $validator = new tao_helpers_form_validators_Identifier();
+
+                                // if the identifier is valid
+                                $values[INDEX_PROPERTY_IDENTIFIER] = strtolower($values[INDEX_PROPERTY_IDENTIFIER]);
+                                if(!$validator->evaluate($values[INDEX_PROPERTY_IDENTIFIER])){
+                                    throw new Exception($validator->getMessage());
+                                }
+
+                                //if the property exists edit it, else create one
                                 $existingIndex = IndexService::getIndexById($values[INDEX_PROPERTY_IDENTIFIER]);
+                                $indexProperty = new core_kernel_classes_Property($values['uri']);
                                 if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
                                     throw new Exception("The index identifier should be unique");
                                 }
+                                unset($values['uri']);
                                 $this->service->bindProperties($indexProperty, $values);
                             }
                         }
@@ -1303,10 +1308,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
         $indexClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Index');
         $i = 0;
-        $identifierBackup = preg_replace('/[^\w]/','_',strtolower($property->getLabel()));
+        $identifierBackup = preg_replace('/[^a-z_0-9]/','_',strtolower($property->getLabel()));
+        $identifierBackup = ltrim(trim($identifierBackup, '_'),'0..9');
         $identifier = $identifierBackup;
         do{
-            if($i !== 0){
+            if($i !== 0 || $identifier === ''){
                 $identifier = $identifierBackup.'_'.$i;
             }
             $resources = $indexClass->searchInstances(array(INDEX_PROPERTY_IDENTIFIER => $identifier), array());
