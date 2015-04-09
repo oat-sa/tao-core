@@ -33,7 +33,6 @@ class MessagingService extends \tao_models_classes_Service
      * @var Transport
      */
     private $transport = null;
-    private $errors = '';
     
     
     /**
@@ -74,11 +73,7 @@ class MessagingService extends \tao_models_classes_Service
      */
     public function send(Message $message)
     {
-        $result = $this->getTransport()->send($message);
-        if (!$result) {
-            $this->errors = $this->getTransport()->getErrors();
-        }
-        return $result;
+        return $this->getTransport()->send($message);
     }
     
     /**
@@ -95,13 +90,5 @@ class MessagingService extends \tao_models_classes_Service
             $result = (is_object($transport) && $transport instanceof Transport);
         }
         return $result;
-    }
-    
-    /**
-     * @return string The error message. Empty string if none.
-     */
-    public function getErrors()
-    {
-        return $this->errors;
     }
 }

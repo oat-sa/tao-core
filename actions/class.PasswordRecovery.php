@@ -65,13 +65,7 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             
             if ($user !== null) {
                 \common_Logger::i("User requests a password (user URI: {$user->uriResource})");
-                if ($this->passwordRecoveryService->sendMail($user)) {
-                    $this->setData('header', __('An email has been sent'));
-                    $this->setData('info', __('A message with further instructions has been sent to your email address: %s', $mail));
-                } else {
-                    \common_Logger::w("Unsuccessful recovery password. {$this->passwordRecoveryService->getErrors()}.");
-                    $this->setData('error', __('Unable to send the password reset request'));
-                }
+                $this->sendMessage($user);
             } else {
                 \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$mail}.");
                 $this->setData('header', __('An email has been sent'));
@@ -122,4 +116,28 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
         $this->setView('layout.tpl', 'tao');
     }
     
+    /**
+     * Send message with password recovery instructions
+     * 
+     * @author Aleh Hutnikau <hutnikau@1pt.com>
+     * @param User $user
+     * @return void
+     */
+    private function sendMessage(core_kernel_classes_Resource $user)
+    {
+        try {
+            $messageSent = $this->passwordRecoveryService->sendMail($user);
+        } catch (Exception $e) {
+            $messageSent = false;
+            \common_Logger::w("Unsuccessful recovery password. {$e->getMessage()}.");
+        }
+
+        if ($messageSent) {
+            $mail = $this->passwordRecoveryService->getUserMail($user);
+            $this->setData('header', __('An email has been sent'));
+            $this->setData('info', __('A message with further instructions has been sent to your email address: %s', $mail));
+        } else {
+            $this->setData('error', __('Unable to send the password reset request'));
+        }
+    }
 }
