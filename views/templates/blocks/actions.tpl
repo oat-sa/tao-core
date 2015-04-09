@@ -11,7 +11,7 @@ use oat\tao\helpers\Layout;
         data-context="<?= $action->getContext() ?>"
         data-action="<?= $action->getBinding() ?>">
         <a class="li-inner" href="<?= $action->getUrl(); ?>">
-            <?= Layout::renderIcon( $action->getIcon(), ' icon-magicwand'); ?> <?= $action->getName(); ?>
+            <?= Layout::renderIcon( $action->getIcon(), ' icon-magicwand'); ?> <?= __($action->getName()); ?>
         </a>
     </li>
     <?php endforeach; ?>
