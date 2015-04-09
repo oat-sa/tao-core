@@ -22,8 +22,8 @@
  * @author dieter <dieter@taotesting.com>
  */
 define([
-
-], function () {
+    'util/regexEscape'
+], function (regexEscape) {
     'use strict';
 
     /**
@@ -51,7 +51,7 @@ define([
             while(iw--){
                 cut += cutArr[iw].replace(cutArr[iw], cutArr[iw] + ' ');
             }
-            str = str.replace(new RegExp(longWords[i], 'g'), cut);
+            str = str.replace(new RegExp(regexEscape(longWords[i]), 'g'), cut);
         }
         return str;
     }
