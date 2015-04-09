@@ -71,7 +71,6 @@ class tao_actions_form_IndexProperty
         $propIndexElt->addAttribute('class', 'index');
         $propIndexElt->addAttribute('data-related-index', $indexUri);
         $propIndexElt->setValue($label);
-        $propIndexElt->addValidator(new tao_helpers_form_validators_NotEmpty());
         $this->form->addElement($propIndexElt);
         $elementNames[] = $propIndexElt->getName();
 
@@ -99,7 +98,6 @@ class tao_actions_form_IndexProperty
         $propIndexElt->addAttribute('class', 'index');
         $propIndexElt->addAttribute('data-related-index', $indexUri);
         $propIndexElt->setValue($identifier);
-        $propIndexElt->addValidator(new tao_helpers_form_validators_NotEmpty());
         $propIndexElt->addValidator(new tao_helpers_form_validators_Identifier());
         $this->form->addElement($propIndexElt);
         $elementNames[] = $propIndexElt->getName();
