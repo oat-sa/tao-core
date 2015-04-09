@@ -380,12 +380,9 @@ define([
             function removePropertyGroup() {
                 if (confirm(__('Please confirm property deletion!'))) {
                     var $groupNode = $(this).closest(".form-group");
-                    if ($groupNode.length) {
-                        var uri = $('[id*="uri"]',$groupNode).val();
-                        property.remove(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
-                            $groupNode.remove();
-                        });
-                    }
+                    property.remove($(this).data("uri"), $("#id").val(), getUrl('removeClassProperty'),function(){
+                        $groupNode.remove();
+                    });
                 }
             }
 
@@ -395,7 +392,7 @@ define([
             //property add button
             $(".property-adder").off('click').on('click', function (e) {
                 e.preventDefault();
-                property.add(null, $("#classUri").val(), getUrl('addClassProperty'));
+                property.add($("#id").val(), getUrl('addClassProperty'));
             });
 
             $(".property-mode").off('click').on('click', function () {
