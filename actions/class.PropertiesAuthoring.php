@@ -35,7 +35,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
             $this->setSessionAttribute('property_mode', $this->getRequestParameter('property_mode'));
         }
          
-        $myForm = $this->getClassForm($clazz, $clazz);
+        $myForm = $this->getClassForm($clazz);
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 if ($clazz instanceof core_kernel_classes_Resource) {
@@ -134,7 +134,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
      * @param core_kernel_classes_Resource $resource
      * @return tao_helpers_form_Form the generated form
      */
-    protected function getClassForm(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topclass = null)
+    public function getClassForm(core_kernel_classes_Class $clazz)
     {
     
         $propMode = 'simple';
@@ -142,11 +142,11 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
             $propMode = $this->getSessionAttribute('property_mode');
         }
     
-        $options = array('property_mode' => $propMode);
-        if(!is_null($topclass)){
-            $options['topClazz'] = $topclass->getUri();
-        }
-        $formContainer = new tao_actions_form_Clazz($clazz, $resource, $options);
+        $options = array(
+            'property_mode' => $propMode,
+            'topClazz' => new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE)
+        );
+        $formContainer = new tao_actions_form_Clazz($clazz, $clazz, $options);
         $myForm = $formContainer->getForm();
     
         if($myForm->isSubmited()){
@@ -181,6 +181,11 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         return $myForm;
     }
     
+    /**
+     * Default property handling
+     * 
+     * @param array $propertyValues
+     */
     protected function saveSimpleProperty($propertyValues)
     {
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
@@ -215,6 +220,11 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         }
     }
     
+    /**
+     * Advanced property handling
+     *
+     * @param array $propertyValues
+     */
     protected function saveAdvProperty($propertyValues)
     {
         // might break using hard
@@ -242,6 +252,12 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         $this->bindProperties($property, $values);
     }
     
+    /**
+     * Helper to save class and properties
+     * 
+     * @param core_kernel_classes_Resource $resource
+     * @param array $values
+     */
     protected function bindProperties(core_kernel_classes_Resource $resource, $values) {
         $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
         $binder->bind($values);
