@@ -101,7 +101,7 @@ class tao_install_utils_Shield{
             foreach($this->extensions as $extension){
                 foreach($paths as $path){
                     
-                    if(!preg_match("/^\\".DIRECTORY_SEPARATOR."/")){
+                    if(!preg_match("/^\\".DIRECTORY_SEPARATOR."/", $path)){
                         $path = DIRECTORY_SEPARATOR . $path;
                     }
                     $denied = ROOT_PATH . $extension. $path;
