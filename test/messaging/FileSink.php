@@ -21,6 +21,7 @@
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\messaging\Message;
 use oat\tao\model\messaging\transportStrategy\FileSink;
+use Prophecy\Prediction\CallTimesPrediction;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
@@ -40,10 +41,14 @@ class FileSinkTest extends TaoPhpUnitTestRunner
         
         $userMock = $this->prophesize('oat\oatbox\user\User');
         $userMock->getIdentifier()->willReturn('testidentifier');
+        $userMock->getIdentifier()->should(new CallTimesPrediction(1));;
+        
         
         $messageMock = $this->prophesize('oat\tao\model\messaging\Message');
         $messageMock->getTo()->willReturn($userMock->reveal());
+        $messageMock->getTo()->should(new CallTimesPrediction(1));;
         $messageMock->getBody()->willReturn('testBody');
+        $messageMock->getBody()->should(new CallTimesPrediction(1));;
         
         $transporter = new FileSink(array(FileSink::CONFIG_FILEPATH => $testfolder));
         $result = $transporter->send($messageMock->reveal());
@@ -54,6 +59,9 @@ class FileSinkTest extends TaoPhpUnitTestRunner
         $messageContent = file_get_contents($expectedFilePath);
         
         $this->assertEquals('testBody', $messageContent);
+        
+        $userMock->checkProphecyMethodsPredictions();
+        $messageMock->checkProphecyMethodsPredictions();
         
         tao_helpers_File::delTree($testfolder);
         $this->assertFalse(is_dir($testfolder));

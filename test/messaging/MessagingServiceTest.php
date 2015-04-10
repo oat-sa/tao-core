@@ -22,6 +22,7 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\messaging\MessagingService;
 use oat\tao\model\messaging\Message;
 use oat\tao\model\messaging\transportStrategy\FileSink;
+use Prophecy\Prediction\CallTimesPrediction;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
@@ -50,12 +51,13 @@ class MessagingServiceTest extends TaoPhpUnitTestRunner
         $message = new Message();
         $transportProphecy = $this->prophesize('oat\tao\model\messaging\Transport');
         $transportProphecy->send($message)->willReturn(true);
+        $transportProphecy->send($message)->should(new CallTimesPrediction(1));
         
         $messagingService = $this->getMessagingService($transportProphecy->reveal());
         
         $result = $messagingService->send($message);
         
-        $transportProphecy->send($message)->shouldHaveBeenCalled();
+        $transportProphecy->checkProphecyMethodsPredictions();
         $this->assertTrue($result);
     }
     
