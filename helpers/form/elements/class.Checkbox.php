@@ -28,8 +28,7 @@
  * @package tao
  
  */
-abstract class tao_helpers_form_elements_Checkbox
-    extends tao_helpers_form_elements_MultipleElement
+abstract class tao_helpers_form_elements_Checkbox  extends tao_helpers_form_elements_MultipleElement
 {
     // --- ASSOCIATIONS ---
 
@@ -44,6 +43,12 @@ abstract class tao_helpers_form_elements_Checkbox
      */
     protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox';
 
+    /**
+     * Store options that must be render as readonly
+     * @var array
+     */
+    protected $readOnly = array();
+
     // --- OPERATIONS ---
 
     /**
@@ -55,15 +60,34 @@ abstract class tao_helpers_form_elements_Checkbox
      */
     public function getRawValue()
     {
-        $returnValue = array();
-
-        
-        $returnValue = $this->values;
-        
-
-        return (array) $returnValue;
+        return $this->values;
     }
 
-} /* end of abstract class tao_helpers_form_elements_Checkbox */
+    /**
+     * @return array
+     */
+    protected function getReadOnly()
+    {
+        return $this->readOnly;
+    }
 
-?>
+    /**
+     * @param array $readOnly
+     */
+    public function setReadOnly( array $readOnly )
+    {
+        $this->readOnly = $readOnly;
+    }
+
+    /**
+     *
+     * @param $option
+     */
+    public function addReadOnly( $option )
+    {
+        $this->readOnly[] = $option;
+    }
+
+
+}
+
