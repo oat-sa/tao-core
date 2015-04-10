@@ -48,7 +48,7 @@ define([
         binder.register('loadClass', function load(actionContext){
             section.current().loadContentBlock(this.url, {classUri: actionContext.classUri, id: uri.decode(actionContext.classUri)});
         });
-        
+
         /**
          * Register the subClass action: creates a sub class
          *
@@ -155,9 +155,9 @@ define([
                 uri: uri.decode(actionContext.uri),
                 classUri: uri.decode(actionContext.classUri),
                 id: actionContext.id
-            }
+            };
             //TODO replace by a nice popup
-            if (confirm(__("Please confirm deletion"))) {
+            if (window.confirm(__("Please confirm deletion"))) {
                 $.ajax({
                     url: this.url,
                     type: "POST",
