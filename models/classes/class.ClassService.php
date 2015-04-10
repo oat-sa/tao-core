@@ -97,7 +97,7 @@ abstract class tao_models_classes_ClassService
             //delete index linked to the property
             foreach($indexes as $indexUri){
                 $index = new core_kernel_classes_Resource($indexUri);
-                $returnValue = $this->deleteIndexProperty($index);
+                $returnValue = $this->deletePropertyIndex($index);
             }
         }
 
@@ -109,7 +109,7 @@ abstract class tao_models_classes_ClassService
      * @param core_kernel_classes_Resource $index
      * @return bool
      */
-    public function deleteIndexProperty(core_kernel_classes_Resource $index){
+    public function deletePropertyIndex(core_kernel_classes_Resource $index){
         return $index->delete(true);
     }
 }
