@@ -31,97 +31,42 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  */
 class MessagingServiceTest extends TaoPhpUnitTestRunner
 {
-
     /**
-     * @var tao_models_classes_UserService
+     * 
+     * @param Transport $transport
+     * @return MessagingService
      */
-    protected $userService = null;
-    
-    /**
-     * @var MessagingService
-     */
-    protected $messagingService = null;
-    
-    /**
-     * @var Message
-     */
-    protected $message = null;
-    
-    /**
-     * @var string Message content
-     */
-    protected $messageBody = "Lorem Ipsum is simply dummy text of the printing and typesetting industry";
-
-    /**
-     * @var array user data set
-     */
-    protected $testUserData = array(
-        PROPERTY_USER_LOGIN => 'john.doe',
-        PROPERTY_USER_PASSWORD => 'secure',
-        PROPERTY_USER_LASTNAME => 'Doe',
-        PROPERTY_USER_FIRSTNAME => 'John',
-        PROPERTY_USER_MAIL => 'jonhdoe@tao.lu',
-        PROPERTY_USER_DEFLG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-        PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-        PROPERTY_USER_ROLES => INSTANCE_ROLE_BACKOFFICE
-    );
-
-    /**
-     * @var core_kernel_classes_Resource
-     */
-    protected $testUser = null;
-
-    /**
-     * tests initialization
-     */
-    public function setUp()
-    {
-        TaoPhpUnitTestRunner::initTest();
-        $this->userService = tao_models_classes_UserService::singleton();
-        $this->messagingService = MessagingService::singleton();
-
-        $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-        $this->testUser = $class->createInstance();
-        $this->assertNotNull($this->testUser);
-        $this->userService->bindProperties($this->testUser, $this->testUserData);
-        
-        $generisUser = new \core_kernel_users_GenerisUser($this->testUser);
-        
-        $this->message = new Message();
-        $this->message->setTo($generisUser);
-        $this->message->setBody($this->messageBody);
+    protected function getMessagingService($transport) {
+        $messagingService = MessagingService::singleton();
+        $refObject = new ReflectionObject($messagingService);
+        $refProperty = $refObject->getProperty('transport');
+        $refProperty->setAccessible( true );
+        $refProperty->setValue($messagingService, $transport);
+        return $messagingService;
     }
 
-    /**
-     * tests clean up
-     */
-    public function tearDown()
+    public function testSend()
     {
-        if (!is_null($this->userService)) {
-            $this->userService->removeUser($this->testUser);
-        }
-    }
-
-    public function testSendMail()
-    {
-        $testfolder = tao_helpers_File::createTempDir();
-        $filePath = $testfolder . 'message.html';
+        $message = new Message();
+        $transportMock = $this->getMock('oat\tao\model\messaging\Transport');
         
-        $transporter = new FileSink();
-        $transporter->setFilePath($filePath);
+        $transportMock->expects($this->once())
+            ->method('send')
+            ->with($message)
+            ->will($this->returnValue(true));
         
-        $this->messagingService->setTransport($transporter);
+        $messagingService = $this->getMessagingService($transportMock);
         
-        $result = $this->messagingService->send($this->message);
+        $result = $messagingService->send($message);
         
         $this->assertTrue($result);
-        $this->assertFileExists($filePath);
+    }
+    
+    public function testIsAvailable()
+    {
+        $transportMock = $this->getMock('oat\tao\model\messaging\Transport');
+        $messagingService = $this->getMessagingService($transportMock);
         
-        $messageContent = file_get_contents($filePath);
-        
-        $this->assertContains($this->messageBody, $messageContent);
-        
-        tao_helpers_File::delTree($testfolder);
-        $this->assertFalse(is_dir($testfolder));
+        $this->assertTrue($messagingService->isAvailable());
     }
 }

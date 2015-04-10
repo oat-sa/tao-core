@@ -35,18 +35,11 @@ use oat\oatbox\user\User;
 class FileSink extends Configurable implements Transport
 {
     const CONFIG_FILEPATH = 'path';
-    
-    /**
-     * File path to save message.
-     * 
-     * @var string
-     */
-    private $filePath;
 
     public function send(Message $message)
     {
         $messageFile = $this->getFilePath($message->getTo());
-        \common_Logger::d($messageFile);
+        \common_Logger::d('Wrote message to '.$messageFile);
         $written = file_put_contents($messageFile, $message->getBody());
         return $written !== false;
     }
@@ -56,28 +49,16 @@ class FileSink extends Configurable implements Transport
      * @param User $receiver
      * @param boolean $refresh whether the file path must be regenerated.
      */
-    public function getFilePath(User $receiver, $refresh = false)
+    public function getFilePath(User $receiver)
     {
-        if ($this->filePath === null || $refresh) {
-            $basePath = $this->getOption(self::CONFIG_FILEPATH);
-            if (is_null($basePath) || !file_exists($basePath)) {
-                throw new \common_exception_InconsistentData('Missing path '.self::CONFIG_FILEPATH.' for '.__CLASS__);
-            }
-            $path = $basePath.\tao_helpers_File::getSafeFileName($receiver->getIdentifier()).DIRECTORY_SEPARATOR;
-            if (!file_exists($path)) {
-                mkdir($path);
-            }
-            $this->filePath = $path.\tao_helpers_File::getSafeFileName('message.html', $path);
+        $basePath = $this->getOption(self::CONFIG_FILEPATH);
+        if (is_null($basePath) || !file_exists($basePath)) {
+            throw new \common_exception_InconsistentData('Missing path '.self::CONFIG_FILEPATH.' for '.__CLASS__);
         }
-        return $this->filePath;
-    }
-    
-    /**
-     * Set file path to save message
-     * @param string $path
-     */
-    public function setFilePath($path)
-    {
-        $this->filePath = $path;
+        $path = $basePath.\tao_helpers_File::getSafeFileName($receiver->getIdentifier()).DIRECTORY_SEPARATOR;
+        if (!file_exists($path)) {
+            mkdir($path);
+        }
+        return  $path.\tao_helpers_File::getSafeFileName('message.html', $path);
     }
 }

@@ -33,21 +33,19 @@ class MessagingService extends \tao_models_classes_Service
      * @var Transport
      */
     private $transport = null;
-    private $errors = '';
-    
     
     /**
      * Get the current transport implementation
      * 
      * @return Transport
      */
-    public function getTransport()
+    protected function getTransport()
     {
         if (is_null($this->transport)) {
             $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $transport = $tao->getConfig(self::CONFIG_KEY);
             if (!is_object($transport) || !$transport instanceof Transport) {
-                throw new \common_exception_InconsistentData('Transport strategy not correctly set for '.__CLASS__);
+                return false;
             }
             $this->transport = $transport;
         }
@@ -74,11 +72,11 @@ class MessagingService extends \tao_models_classes_Service
      */
     public function send(Message $message)
     {
-        $result = $this->getTransport()->send($message);
-        if (!$result) {
-            $this->errors = $this->getTransport()->getErrors();
+        $transport = $this->getTransport();
+        if ($transport == false) {
+            throw new \common_exception_InconsistentData('Transport strategy not correctly set for '.__CLASS__);
         }
-        return $result;
+        return $this->getTransport()->send($message);
     }
     
     /**
@@ -88,20 +86,7 @@ class MessagingService extends \tao_models_classes_Service
      */
     public function isAvailable()
     {
-        $result = false;
-        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        if ($tao->hasConfig(self::CONFIG_KEY)) {
-            $transport = $tao->getConfig(self::CONFIG_KEY);
-            $result = (is_object($transport) && $transport instanceof Transport);
-        }
-        return $result;
+        return $this->getTransport() !== false;
     }
-    
-    /**
-     * @return string The error message. Empty string if none.
-     */
-    public function getErrors()
-    {
-        return $this->errors;
-    }
+
 }
