@@ -233,8 +233,8 @@ define([
                     }
                     
                     //execute initTree action
-                    if (options.actions && options.actions.initTree) {
-                        actionManager.exec(options.actions.initTree, {
+                    if (options.actions && options.actions.init) {
+                        actionManager.exec(options.actions.init, {
                             uri: $elt.data('rootnode')
                         });
                     }
