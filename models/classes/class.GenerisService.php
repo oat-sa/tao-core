@@ -1,36 +1,36 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
- * 
+ *
+ *
  */
 
 
 /**
- * The Service class is an abstraction of each service instance. 
+ * The Service class is an abstraction of each service instance.
  * Used to centralize the behavior related to every servcie instances.
  *
  * @abstract
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- 
+
  */
 abstract class tao_models_classes_GenerisService
     extends tao_models_classes_Service
@@ -45,8 +45,8 @@ abstract class tao_models_classes_GenerisService
      */
     protected function __construct()
     {
-        
-        
+
+
     }
 
 
@@ -203,7 +203,7 @@ abstract class tao_models_classes_GenerisService
     public function cloneInstance( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $clazz = null)
     {
         $returnValue = null;
- 
+
         if (is_null($clazz)) {
             $types = $instance->getTypes();
             $clazz = current($types);
@@ -228,9 +228,9 @@ abstract class tao_models_classes_GenerisService
 
         return $returnValue;
     }
-    
+
     /**
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param core_kernel_classes_Resource $source
      * @param core_kernel_classes_Resource $destination
@@ -251,7 +251,7 @@ abstract class tao_models_classes_GenerisService
             }
         }
     }
-    
+
 
     /**
      * Clone a Class and move it under the newParentClazz
@@ -267,7 +267,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        
+
 
     	if(!is_null($sourceClazz) && !is_null($newParentClazz)){
         	if((is_null($topLevelClazz))){
@@ -297,7 +297,7 @@ abstract class tao_models_classes_GenerisService
         	}
         }
 
-        
+
 
         return $returnValue;
     }
@@ -397,7 +397,7 @@ abstract class tao_models_classes_GenerisService
 
 		$returnValue = array_merge($returnValue, $clazz->getProperties(false));
 
-        
+
 
         return (array) $returnValue;
     }
@@ -465,7 +465,7 @@ abstract class tao_models_classes_GenerisService
 			print $e;
 		}
 
-        
+
 
         return (array) $returnValue;
     }
@@ -516,7 +516,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = array();
 
-        
+
         // show subclasses yes/no, not implemented
         $subclasses = (isset($options['subclasses'])) ? $options['subclasses'] : true;
         // show instances yes/no
@@ -540,21 +540,10 @@ abstract class tao_models_classes_GenerisService
         $propertyFilter = (isset($options['propertyFilter'])) ? $options['propertyFilter'] : array();
         // A unique node URI to be returned from as a tree leaf.
         $uniqueNode = (isset($options['uniqueNode'])) ? $options['uniqueNode'] : null;
-        
+
         $factory = new tao_models_classes_GenerisTreeFactory();
-        
-        if ($uniqueNode !== null) {
-            // A unique node has to be retrieved.
-            $uniqueResource = new core_kernel_classes_Resource($uniqueNode);
-            $returnValue = $factory->buildClassNode($clazz);
-            $returnValue['count'] = 0;
-            $returnValue['children'] = array();
-            
-            if ($uniqueResource->exists() === true) {
-                $returnValue['count'] = 1;
-                $returnValue['children'][] = $factory->buildResourceNode($uniqueResource, $clazz);
-            }
-        } elseif (!empty($labelFilter) && $labelFilter!='*') {
+
+        if (!empty($labelFilter) && $labelFilter!='*') {
             // The result must be a set of filtered nodes.
             $props	= array(RDFS_LABEL => $labelFilter);
             $opts	= array(
@@ -562,7 +551,7 @@ abstract class tao_models_classes_GenerisService
                     'limit'		=> $limit,
                     'offset'	=> $offset,
                     'recursive'	=> true
-            ); 
+            );
             $searchResult = $clazz->searchInstances($props, $opts);
             $results = array();
             foreach ($searchResult as $instance){
@@ -576,6 +565,12 @@ abstract class tao_models_classes_GenerisService
                     $returnValue['children']	= $results;
             }
         } else {
+
+            //if unique node is set, it is the node to be loaded in the tree
+            if(!is_null($uniqueNode)){
+                $browse = array($uniqueNode);
+            }
+
             // Let's walk the tree with super walker! ~~~ p==[w]õ__
             array_walk($browse, function(&$item) {
                 $item = tao_helpers_Uri::decode($item);
