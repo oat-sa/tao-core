@@ -349,6 +349,32 @@ define([
                 });
             });
 
+            $('input.editVersionedFile').each(function () {
+                var infoUrl = context.root_url + 'tao/File/getPropertyFileInfo';
+                var data = {
+                    'uri': $("#uri").val(),
+                    'propertyUri': $(this).siblings('label.form_desc').prop('for')
+                };
+                var $_this = $(this);
+                $.ajax({
+                    type: "GET",
+                    url: infoUrl,
+                    data: data,
+                    dataType: 'json',
+                    success: function (r) {
+                        $_this.after('<span>' + r.name + '</span>');
+                    }
+                });
+            }).click(function () {
+                var data = {
+                    'uri': $("#uri").val(),
+                    'propertyUri': $(this).siblings('label.form_desc').prop('for')
+                };
+
+                helpers.getMainContainer().load(getUrl('editVersionedFile'), data);
+                return false;
+            });
+
             /**
              * remove a form group, ie. a property
              */
@@ -390,7 +416,7 @@ define([
                     var uri = $groupNode.find('.property-uri').val();
                     $.ajax({
                         type: "GET",
-                        url: getUrl('addPropertyIndex'),
+                        url: helpers._url('addPropertyIndex', 'PropertiesAuthoring', 'tao'),
                         data: {uri : uri, index : max, propertyIndex : propertyindex},
                         dataType: 'json',
                         success: function (response) {
@@ -408,7 +434,7 @@ define([
                 var $editContainer = $($groupNode[0]).children('.property-edit-container');
                 $.ajax({
                     type: "POST",
-                    url: getUrl('removePropertyIndex'),
+                    url: helpers._url('removePropertyIndex', 'PropertiesAuthoring', 'tao'),
                     data: {uri : uri, indexProperty : $(this).attr('id')},
                     dataType: 'json',
                     success: function (response) {
