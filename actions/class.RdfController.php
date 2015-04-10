@@ -219,6 +219,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                             unset($propertyValues['indexes']);
                         }
 
+                        $validator = new tao_helpers_form_validators_NotEmpty(array('message' => __('Property\'s label field is required')));
+
                         //save property
                         if($propMode === 'simple') {
                             $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
@@ -234,6 +236,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                             foreach($propertyValues as $key => $value){
                                 $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
 
+                            }
+                            // if the label is not empty
+                            if(!$validator->evaluate($values[RDFS_LABEL])){
+                                throw new Exception($validator->getMessage());
                             }
                             $property = new core_kernel_classes_Property($values['uri']);
                             unset($values['uri']);
@@ -266,6 +272,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                                 }
 
                             }
+                            // if the label is not empty
+                            if(!$validator->evaluate($values[RDFS_LABEL])){
+                                throw new Exception($validator->getMessage());
+                            }
                             $property = new core_kernel_classes_Property($values['uri']);
                             unset($values['uri']);
                             $property->removePropertyValues(new core_kernel_classes_Property(RDFS_RANGE));
@@ -280,21 +290,26 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                         //save index
                         if(!is_null($indexes)){
                             foreach($indexes as $indexValues){
-                                // if the identifier is unique
-
                                 $values = array();
                                 foreach($indexValues as $key => $value){
                                     $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
                                 }
-                                $indexProperty = new core_kernel_classes_Property($values['uri']);
-                                unset($values['uri']);
-                                //sanitize identifier
-                                $values[INDEX_PROPERTY_IDENTIFIER] = preg_replace('/[^a-z_]/','_',strtolower($values[INDEX_PROPERTY_IDENTIFIER]));
 
+                                $validator = new tao_helpers_form_validators_IndexIdentifier();
+
+                                // if the identifier is valid
+                                $values[INDEX_PROPERTY_IDENTIFIER] = strtolower($values[INDEX_PROPERTY_IDENTIFIER]);
+                                if(!$validator->evaluate($values[INDEX_PROPERTY_IDENTIFIER])){
+                                    throw new Exception($validator->getMessage());
+                                }
+
+                                //if the property exists edit it, else create one
                                 $existingIndex = IndexService::getIndexById($values[INDEX_PROPERTY_IDENTIFIER]);
+                                $indexProperty = new core_kernel_classes_Property($values['uri']);
                                 if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
                                     throw new Exception("The index identifier should be unique");
                                 }
+                                unset($values['uri']);
                                 $this->service->bindProperties($indexProperty, $values);
                             }
                         }
@@ -1225,11 +1240,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	}
 
     /**
-     * remove the index property.
+     * remove the index of the property.
      * @throws Exception
      * @return void
      */
-    public function removeIndexProperty()
+    public function removePropertyIndex()
     {
         if(!tao_helpers_Request::isAjax()){
             throw new Exception("wrong request mode");
@@ -1260,7 +1275,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * @throws Exception
      * @return void
      */
-    public function addIndexProperty()
+    public function addPropertyIndex()
     {
         if(!tao_helpers_Request::isAjax()){
             throw new Exception("wrong request mode");
@@ -1303,20 +1318,21 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
         $indexClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Index');
         $i = 0;
-        $identifierBackup = preg_replace('/[^\w]/','_',strtolower($property->getLabel()));
-        $identifier = $identifierBackup;
+        $indexIdentifierBackup = preg_replace('/[^a-z_0-9]/','_',strtolower($property->getLabel()));
+        $indexIdentifierBackup = ltrim(trim($indexIdentifierBackup, '_'),'0..9');
+        $indexIdentifier = $indexIdentifierBackup;
         do{
             if($i !== 0){
-                $identifier = $identifierBackup.'_'.$i;
+                $indexIdentifier = $indexIdentifierBackup.'_'.$i;
             }
-            $resources = $indexClass->searchInstances(array(INDEX_PROPERTY_IDENTIFIER => $identifier), array());
+            $resources = $indexClass->searchInstances(array(INDEX_PROPERTY_IDENTIFIER => $indexIdentifier), array('like' => false));
             $count = count($resources);
             $i++;
         }while($count !== 0);
 
         $indexProperty = $class->createInstanceWithProperties(array(
-                RDFS_LABEL => preg_replace('/_/',' ',ucfirst($identifier)),
-                INDEX_PROPERTY_IDENTIFIER => $identifier,
+                RDFS_LABEL => preg_replace('/_/',' ',ucfirst($indexIdentifier)),
+                INDEX_PROPERTY_IDENTIFIER => $indexIdentifier,
                 INDEX_PROPERTY_TOKENIZER => $tokenizer,
                 INDEX_PROPERTY_FUZZY_MATCHING => GENERIS_TRUE,
                 INDEX_PROPERTY_DEFAULT_SEARCH => GENERIS_FALSE,

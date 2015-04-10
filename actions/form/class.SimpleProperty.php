@@ -80,12 +80,15 @@ class tao_actions_form_SimpleProperty
 				}
 				$element->setName("{$index}_{$element->getName()}");
                 $element->addClass('property');
-				$this->form->addElement($element);
-				$elementNames[] = $element->getName();
-                
+
                 if ($propertyProperty->getUri() == TAO_GUIORDER_PROP){
                     $element->addValidator(tao_helpers_form_FormFactory::getValidator('Integer'));
                 }
+                if ($propertyProperty->getUri() == RDFS_LABEL){
+                    $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+                }
+				$this->form->addElement($element);
+				$elementNames[] = $element->getName();
 			}
 		}
 		

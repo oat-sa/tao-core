@@ -418,7 +418,7 @@ define([
                     var uri = $groupNode.find('.property-uri').val();
                     $.ajax({
                         type: "GET",
-                        url: getUrl('addIndexProperty'),
+                        url: getUrl('addPropertyIndex'),
                         data: {uri : uri, index : max, propertyIndex : propertyindex},
                         dataType: 'json',
                         success: function (response) {
@@ -436,7 +436,7 @@ define([
                 var $editContainer = $($groupNode[0]).children('.property-edit-container');
                 $.ajax({
                     type: "POST",
-                    url: getUrl('removeIndexProperty'),
+                    url: getUrl('removePropertyIndex'),
                     data: {uri : uri, indexProperty : $(this).attr('id')},
                     dataType: 'json',
                     success: function (response) {
