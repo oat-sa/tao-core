@@ -27,34 +27,9 @@
  * @package tao
  
  */
-class tao_helpers_form_validators_Identifier
+class tao_helpers_form_validators_IndexIdentifier
     extends tao_helpers_form_Validator
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
-    {
-        
-		
-		parent::__construct($options);
-		
-		(isset($options['message'])) ? $this->message = $options['message'] : $this->message = __('This field should start with letter, be alphanumeric and not end with underscore');
-		
-        
-    }
 
     /**
      * Short description of method evaluate
@@ -67,12 +42,18 @@ class tao_helpers_form_validators_Identifier
     public function evaluate($values)
     {
         //evaluate identifier, starts with letter, contains letters, numbers and _, ends with letter, number
-        if(preg_match("/^[a-z]+$|^[a-z]+[a-z_0-9]*[a-z0-9]+$/", $values) === 1){
+        if(preg_match("/^[a-z]+[a-z_0-9]*$/", $values) === 1){
             return true;
+        } else {
+            $this->message = isset($this->options['message'])
+                ? $this->options['message']
+                : (empty($values)
+                    ? __('The index identifier should not be empty')
+                    : __('"%s" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only', $values)
+                );
+            
         }
         return false;
     }
 
 }
-
-?>

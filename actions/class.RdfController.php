@@ -295,7 +295,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                                     $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
                                 }
 
-                                $validator = new tao_helpers_form_validators_Identifier();
+                                $validator = new tao_helpers_form_validators_IndexIdentifier();
 
                                 // if the identifier is valid
                                 $values[INDEX_PROPERTY_IDENTIFIER] = strtolower($values[INDEX_PROPERTY_IDENTIFIER]);
