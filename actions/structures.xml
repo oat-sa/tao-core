@@ -25,20 +25,23 @@
                     <action id="role-properties" name="Properties"  url="/tao/Roles/editRole" group="content" context="instance">
                         <icon id="icon-edit"/>
                     </action>
+                    <action id="role-assign" name="Assign Users"  url="/tao/Roles/assignUsers" group="content" context="instance">
+                        <icon id="icon-edit"/>
+                    </action>
                     <action id="role-filter" name="Filter" context="*" group="search" binding="filter">
                         <icon id="icon-filter"/>
                     </action>
                     <action id="role-search" name="Search" url="/tao/Roles/search" context="*" group="search" binding="launchFinder">
                         <icon id="icon-find"/>
                     </action>
-                    <action id="role-new" name="New role" url="/tao/Roles/addInstance" context="class" group="content" binding="instanciate">
-                        <icon id="icon-tools" src=""/>
+                    <action id="role-export" name="Export" url="/tao/Export/index" context="resource" group="tree">
+                        <icon id="icon-export"/>
                     </action>
                     <action id="role-delete" name="Delete" url="/tao/Roles/delete" context="resource" group="tree" binding="removeNode">
                         <icon id="icon-bin"/>
                     </action>
-                    <action id="role-export" name="Export" url="/tao/Export/index" context="resource" group="content">
-                        <icon id="icon-export"/>
+                    <action id="role-new" name="New role" url="/tao/Roles/addInstance" context="resource" group="tree" binding="instanciate">
+                        <icon id="icon-tools" src=""/>
                     </action>
                 </actions>
             </section>
