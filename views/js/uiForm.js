@@ -34,7 +34,7 @@ define([
             var self = this;
             this.counter = 0;
             this.initFormPattern = new RegExp(['search', 'authoring', 'Import', 'Export', 'IO', 'preview'].join('|'));
-            this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode'].join('|'), 'i');
+            this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode', 'PropertiesAuthoring'].join('|'), 'i');
             this.initTranslationFormPattern = /translate/;
             this.initNav();
 
@@ -325,7 +325,6 @@ define([
                         return $wantedPanel;
                     }());
 
-
                 $.ajax({
                     type: "GET",
                     url: tabUrl,
@@ -369,7 +368,7 @@ define([
                 e.preventDefault();
                 property.add($("#id").val(), helpers._url('addClassProperty', 'PropertiesAuthoring', 'tao'));
             });
-
+            
             $(".property-mode").off('click').on('click', function () {
                 var $btn = $(this),
                     mode = 'simple';
