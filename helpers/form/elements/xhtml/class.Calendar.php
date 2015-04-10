@@ -96,7 +96,7 @@ class tao_helpers_form_elements_xhtml_Calendar
      * array(
      *    array('label' => '-12:00', 'value' => -720),
      *    ...
-     *    array('label' => '+14:00', 'value' => 720)
+     *    array('label' => '+14:00', 'value' => 840)
      * )
      * </pre>
      */
