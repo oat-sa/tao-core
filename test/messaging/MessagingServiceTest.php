@@ -48,17 +48,14 @@ class MessagingServiceTest extends TaoPhpUnitTestRunner
     public function testSend()
     {
         $message = new Message();
-        $transportMock = $this->getMock('oat\tao\model\messaging\Transport');
+        $transportProphecy = $this->prophesize('oat\tao\model\messaging\Transport');
+        $transportProphecy->send($message)->willReturn(true);
         
-        $transportMock->expects($this->once())
-            ->method('send')
-            ->with($message)
-            ->will($this->returnValue(true));
-        
-        $messagingService = $this->getMessagingService($transportMock);
+        $messagingService = $this->getMessagingService($transportProphecy->reveal());
         
         $result = $messagingService->send($message);
         
+        $transportProphecy->send($message)->shouldHaveBeenCalled();
         $this->assertTrue($result);
     }
     

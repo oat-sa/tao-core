@@ -38,23 +38,15 @@ class FileSinkTest extends TaoPhpUnitTestRunner
         $expectedFilePath = $testfolder.'testidentifier'.DIRECTORY_SEPARATOR.'message.html';
         $this->assertFileNotExists($expectedFilePath);
         
-        $userMock = $this->getMock('oat\oatbox\user\User');
-        $userMock->expects($this->once())
-        ->method('getIdentifier')
-        ->will($this->returnValue('testidentifier'));
+        $userMock = $this->prophesize('oat\oatbox\user\User');
+        $userMock->getIdentifier()->willReturn('testidentifier');
         
-        
-        $messageMock = $this->getMock('oat\tao\model\messaging\Message');
-        $messageMock->expects($this->once())
-            ->method('getTo')
-            ->will($this->returnValue($userMock));
-        $messageMock->expects($this->once())
-            ->method('getBody')
-            ->will($this->returnValue('testBody'));
-        
+        $messageMock = $this->prophesize('oat\tao\model\messaging\Message');
+        $messageMock->getTo()->willReturn($userMock->reveal());
+        $messageMock->getBody()->willReturn('testBody');
         
         $transporter = new FileSink(array(FileSink::CONFIG_FILEPATH => $testfolder));
-        $result = $transporter->send($messageMock);
+        $result = $transporter->send($messageMock->reveal());
         
         $this->assertTrue($result);
         $this->assertFileExists($expectedFilePath);
