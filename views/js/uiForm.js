@@ -349,6 +349,32 @@ define([
                 });
             });
 
+            $('input.editVersionedFile').each(function () {
+                var infoUrl = context.root_url + 'tao/File/getPropertyFileInfo';
+                var data = {
+                    'uri': $("#uri").val(),
+                    'propertyUri': $(this).siblings('label.form_desc').prop('for')
+                };
+                var $_this = $(this);
+                $.ajax({
+                    type: "GET",
+                    url: infoUrl,
+                    data: data,
+                    dataType: 'json',
+                    success: function (r) {
+                        $_this.after('<span>' + r.name + '</span>');
+                    }
+                });
+            }).click(function () {
+                var data = {
+                    'uri': $("#uri").val(),
+                    'propertyUri': $(this).siblings('label.form_desc').prop('for')
+                };
+
+                helpers.getMainContainer().load(getUrl('editVersionedFile'), data);
+                return false;
+            });
+
             /**
              * remove a form group, ie. a property
              */
