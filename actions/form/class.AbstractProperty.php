@@ -79,7 +79,7 @@ abstract class tao_actions_form_AbstractProperty
 				. '<span class="property-heading-toolbar">'
 				. ' <span class="icon-add"></span>'
 				. '<span class="icon-edit"></span>'
-				. '<span class="icon-bin property-deleter"></span>'
+				. '<span class="icon-bin property-deleter" data-uri=\''.tao_helpers_Display::encodeAttrValue($property->getUri()).'\'></span>'
 				. '</span>';
 		}
 		return $groupTitle;
