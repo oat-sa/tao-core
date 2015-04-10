@@ -22,6 +22,8 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\test\messaging\MockAdapter;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 use oat\tao\model\messaging\transportStrategy\FileSink;
+use Prophecy\Prediction\CallTimesPrediction;
+use Prophecy\Argument;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
@@ -31,42 +33,10 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  */
 class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
 {
-
-    /**
-     * @var tao_models_classes_UserService
-     */
-    protected $userService = null;
-    
-    /**
-     * @var PasswordRecoveryService
-     */
-    protected $passwordRecoveryService = null;
-
-    /**
-     * @var array user data set
-     */
-    protected $testUserData = array(
-        PROPERTY_USER_LOGIN => 'john.doe',
-        PROPERTY_USER_PASSWORD => 'secure',
-        PROPERTY_USER_LASTNAME => 'Doe',
-        PROPERTY_USER_FIRSTNAME => 'John',
-        PROPERTY_USER_MAIL => 'jonhdoe@tao.lu',
-        PROPERTY_USER_DEFLG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-        PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-        PROPERTY_USER_ROLES => INSTANCE_ROLE_BACKOFFICE
-    );
-
     /**
      * @var core_kernel_classes_Resource
      */
     protected $testUser = null;
-
-    /**
-     * Password value before encryption
-     * 
-     * @var string
-     */
-    private $clearPassword = '';
 
     /**
      * tests initialization
@@ -74,16 +44,7 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
     public function setUp()
     {
         TaoPhpUnitTestRunner::initTest();
-        $this->userService = tao_models_classes_UserService::singleton();
-        $this->passwordRecoveryService = PasswordRecoveryService::singleton();
-
-        $this->clearPassword = $this->testUserData[PROPERTY_USER_PASSWORD];
-        $this->testUserData[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[PROPERTY_USER_PASSWORD]);
-
-        $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-        $this->testUser = $class->createInstance();
-        $this->assertNotNull($this->testUser);
-        $this->userService->bindProperties($this->testUser, $this->testUserData);
+        $this->testUser = $this->createUser();
     }
 
     /**
@@ -91,29 +52,69 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
      */
     public function tearDown()
     {
-        if (!is_null($this->userService)) {
-            $this->userService->removeUser($this->testUser);
+        if (!is_null($this->testUser)) {
+            $this->testUser->delete();
         }
+    }
+    
+    /**
+     * 
+     * @param MessagingService $messagingService
+     * @return PasswordRecoveryService
+     */
+    protected function getPasswordRecoveryService($messagingService) {
+        $passwordRecoveryService = PasswordRecoveryService::singleton();
+        $refObject = new ReflectionObject($passwordRecoveryService);
+        $refProperty = $refObject->getProperty('messagingSerivce');
+        $refProperty->setAccessible( true );
+        $refProperty->setValue($passwordRecoveryService, $messagingService);
+        return $passwordRecoveryService;
+    }
+    
+    protected function createUser() {
+        $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+        return $class->createInstanceWithProperties(array(
+            PROPERTY_USER_LOGIN => 'john.doe',
+            PROPERTY_USER_PASSWORD => core_kernel_users_Service::getPasswordHash()->encrypt('secure'),
+            PROPERTY_USER_LASTNAME => 'Doe',
+            PROPERTY_USER_FIRSTNAME => 'John',
+            PROPERTY_USER_MAIL => 'jonhdoe@tao.lu',
+            PROPERTY_USER_DEFLG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+            PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+            PROPERTY_USER_ROLES => INSTANCE_ROLE_BACKOFFICE
+        ));
     }
 
     public function testSendMail()
     {
-        $transporter = new MockAdapter();
+        $messagingProphecy = $this->prophesize('oat\tao\model\messaging\MessagingService');
+        $messagingProphecy->isAvailable()->willReturn(true);
+        $messagingProphecy->isAvailable()->should(new CallTimesPrediction(1));
+        //$messagingProphecy->send(Argument::type('oat\tao\model\messaging\Message'))->willReturn(true);
+        $user = $this->testUser;
+        $messagingProphecy->send(Argument::type('oat\tao\model\messaging\Message'))->will(function ($args) use ($user) {
+            $message = $args[0];
+            $tokenProperty = new core_kernel_classes_Property(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN);
+            $token = (string)$user->getOnePropertyValue($tokenProperty);
+            if (is_null($token) || strpos($message->getBody(), $token) == false) {
+                throw new Exception('Token not found in body');
+            }
+            return true;
+        });
+        $messagingProphecy->send(Argument::type('oat\tao\model\messaging\Message'))->should(new CallTimesPrediction(1));
+        
+        
+        $passwordRecoveryService = $this->getPasswordRecoveryService($messagingProphecy->reveal());
         
         $generisUser = new \core_kernel_users_GenerisUser($this->testUser);
         $this->assertEmpty($generisUser->getPropertyValues(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN));
         $generisUser->refresh();
         
-        $this->passwordRecoveryService->getMessagingService()->setTransport($transporter);
-        $this->passwordRecoveryService->sendMail($this->testUser);
-        
-        $this->assertNotNull($transporter->title);
-        $this->assertNotNull($transporter->to);
-        $this->assertContains($this->testUserData[PROPERTY_USER_FIRSTNAME], $transporter->body);
+        $this->assertTrue($passwordRecoveryService->sendMail($this->testUser));
         
         $passwordRecoveryToken = current($generisUser->getPropertyValues(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN));
         $this->assertNotEmpty($passwordRecoveryToken);
         
-        $this->assertContains($passwordRecoveryToken, $transporter->body);
+        $messagingProphecy->checkProphecyMethodsPredictions();
     }
 }

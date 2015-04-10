@@ -38,6 +38,11 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     const PROPERTY_PASSWORD_RECOVERY_TOKEN = 'http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken';
     
     /**
+     * @var MessagingService
+     */
+    private $messagingSerivce;
+    
+    /**
      * Send email message with password recovery instructions.
      * 
      * @author Aleh Hutnikau <hutnikau@1pt.com>
@@ -133,7 +138,10 @@ class PasswordRecoveryService extends \tao_models_classes_Service
      */
     public function getMessagingService()
     {
-        return MessagingService::singleton();
+        if (is_null($this->messagingSerivce)) {
+            $this->messagingSerivce = MessagingService::singleton(); 
+        }
+        return $this->messagingSerivce;
     }
     
     /**
