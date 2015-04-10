@@ -50,8 +50,8 @@ class tao_helpers_form_validators_Identifier
         
 		
 		parent::__construct($options);
-		
-		(isset($options['message'])) ? $this->message = $options['message'] : $this->message = __('This field should start with letter, be alphanumeric and not end with underscore');
+
+        $this->message = (isset($options['message'])) ? $options['message'] : __('This field should start with letter, be alphanumeric and not end with underscore');
 		
         
     }
@@ -66,8 +66,8 @@ class tao_helpers_form_validators_Identifier
      */
     public function evaluate($values)
     {
-        //evaluate identifier, starts with letter, contains letters, numbers and _, ends with letter, number
-        if(preg_match("/^[a-z]+$|^[a-z]+[a-z_0-9]*[a-z0-9]+$/", $values) === 1){
+        //evaluate identifier, starts with letter, contains letters, numbers and _
+        if(preg_match("/^[a-z]+[a-z_0-9]*/", $values) === 1){
             return true;
         }
         return false;
