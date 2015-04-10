@@ -1318,21 +1318,21 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
         $indexClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Index');
         $i = 0;
-        $identifierBackup = preg_replace('/[^a-z_0-9]/','_',strtolower($property->getLabel()));
-        $identifierBackup = ltrim(trim($identifierBackup, '_'),'0..9');
-        $identifier = $identifierBackup;
+        $indexIdentifierBackup = preg_replace('/[^a-z_0-9]/','_',strtolower($property->getLabel()));
+        $indexIdentifierBackup = ltrim(trim($indexIdentifierBackup, '_'),'0..9');
+        $indexIdentifier = $indexIdentifierBackup;
         do{
-            if($i !== 0 || $identifier === ''){
-                $identifier = $identifierBackup.'_'.$i;
+            if($i !== 0){
+                $indexIdentifier = $indexIdentifierBackup.'_'.$i;
             }
-            $resources = $indexClass->searchInstances(array(INDEX_PROPERTY_IDENTIFIER => $identifier), array());
+            $resources = $indexClass->searchInstances(array(INDEX_PROPERTY_IDENTIFIER => $indexIdentifier), array('like' => false));
             $count = count($resources);
             $i++;
         }while($count !== 0);
 
         $indexProperty = $class->createInstanceWithProperties(array(
-                RDFS_LABEL => preg_replace('/_/',' ',ucfirst($identifier)),
-                INDEX_PROPERTY_IDENTIFIER => $identifier,
+                RDFS_LABEL => preg_replace('/_/',' ',ucfirst($indexIdentifier)),
+                INDEX_PROPERTY_IDENTIFIER => $indexIdentifier,
                 INDEX_PROPERTY_TOKENIZER => $tokenizer,
                 INDEX_PROPERTY_FUZZY_MATCHING => GENERIS_TRUE,
                 INDEX_PROPERTY_DEFAULT_SEARCH => GENERIS_FALSE,
