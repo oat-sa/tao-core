@@ -34,7 +34,7 @@ define([
             var self = this;
             this.counter = 0;
             this.initFormPattern = new RegExp(['search', 'authoring', 'Import', 'Export', 'IO', 'preview'].join('|'));
-            this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode'].join('|'), 'i');
+            this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode', 'PropertiesAuthoring'].join('|'), 'i');
             this.initTranslationFormPattern = /translate/;
             this.initNav();
 
@@ -90,6 +90,9 @@ define([
 
             // allows to fix label position for list of radio buttons
             $('.form_desc ~.form_radlst').parent().addClass('bool-list');
+
+            // allows long labels if the following input is hidden
+            $('.form_desc + input[type="hidden"]').prev().addClass('hidden-input-label');
 
             // move authoring button to toolbar, unless it is already there
             if($authoringBtn.length && !$authoringBtn.hasClass('btn-info')) {
@@ -322,7 +325,6 @@ define([
                         return $wantedPanel;
                     }());
 
-
                 $.ajax({
                     type: "GET",
                     url: tabUrl,
@@ -345,8 +347,6 @@ define([
                     }
                 });
             });
-
-
 
             $('input.editVersionedFile').each(function () {
                 var infoUrl = context.root_url + 'tao/File/getPropertyFileInfo';
@@ -380,12 +380,9 @@ define([
             function removePropertyGroup() {
                 if (confirm(__('Please confirm property deletion!'))) {
                     var $groupNode = $(this).closest(".form-group");
-                    if ($groupNode.length) {
-                        var uri = $('[id*="uri"]',$groupNode).val();
-                        property.remove(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
-                            $groupNode.remove();
-                        });
-                    }
+                    property.remove($(this).data("uri"), $("#id").val(), helpers._url('removeClassProperty', 'PropertiesAuthoring', 'tao'),function(){
+                        $groupNode.remove();
+                    });
                 }
             }
 
@@ -395,7 +392,7 @@ define([
             //property add button
             $(".property-adder").off('click').on('click', function (e) {
                 e.preventDefault();
-                property.add(null, $("#classUri").val(), getUrl('addClassProperty'));
+                property.add($("#id").val(), helpers._url('addClassProperty', 'PropertiesAuthoring', 'tao'));
             });
 
             $(".index-adder").off('click').on('click', function (e) {
@@ -418,7 +415,7 @@ define([
                     var uri = $groupNode.find('.property-uri').val();
                     $.ajax({
                         type: "GET",
-                        url: getUrl('addPropertyIndex'),
+                        url: helpers._url('addPropertyIndex', 'PropertiesAuthoring', 'tao'),
                         data: {uri : uri, index : max, propertyIndex : propertyindex},
                         dataType: 'json',
                         success: function (response) {
@@ -436,7 +433,7 @@ define([
                 var $editContainer = $($groupNode[0]).children('.property-edit-container');
                 $.ajax({
                     type: "POST",
-                    url: getUrl('removePropertyIndex'),
+                    url: helpers._url('removePropertyIndex', 'PropertiesAuthoring', 'tao'),
                     data: {uri : uri, indexProperty : $(this).attr('id')},
                     dataType: 'json',
                     success: function (response) {

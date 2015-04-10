@@ -231,7 +231,14 @@ define([
                             _.delay(nodeSelection, 10); //delay needed as jstree seems to doesn't know the callbacks right now...,
                         });
                     }
-
+                    
+                    //execute initTree action
+                    if (options.actions && options.actions.init) {
+                        actionManager.exec(options.actions.init, {
+                            uri: $elt.data('rootnode')
+                        });
+                    }
+                    
                     /**
                      * The tree is now ready
                      * @event layout/tree#ready.taotree
