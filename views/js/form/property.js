@@ -14,11 +14,10 @@ define(['jquery', 'lodash', 'form/post-render-props'], function ($, _, postRende
 
         /**
          * Add a new property
-         * @param {String} uri
          * @param {String} classUri
          * @param {String} url
          */
-        add: function (uri, classUri, url) {
+        add: function (classUri, url) {
             var $existingProperties = $('.property-block'),
                 index = $existingProperties.length;
 
@@ -32,7 +31,7 @@ define(['jquery', 'lodash', 'form/post-render-props'], function ($, _, postRende
                 type: "POST",
                 data: {
                     index: index,
-                    classUri: classUri
+                    id: classUri
                 },
                 dataType: 'html',
                 success: function (response) {
