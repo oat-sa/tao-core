@@ -20,19 +20,18 @@
  */
 
 /**
- * Short description of class tao_helpers_form_validators_NotEmpty
+ * Validator to verify the identifiers of the property indexes
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- 
  */
 class tao_helpers_form_validators_IndexIdentifier
     extends tao_helpers_form_Validator
 {
 
     /**
-     * Short description of method evaluate
+     * evalute the identifier
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
