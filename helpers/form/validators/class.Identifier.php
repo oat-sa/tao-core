@@ -66,8 +66,8 @@ class tao_helpers_form_validators_Identifier
      */
     public function evaluate($values)
     {
-        //sanitize identifier
-        if(preg_match("/^[a-z][a-z_0-9]+[a-z0-9]$/", $values) === 1){
+        //evaluate identifier, starts with letter, contains letters, numbers and _, ends with letter, number
+        if(preg_match("/^[a-z]+$|^[a-z]+[a-z_0-9]*[a-z0-9]+$/", $values) === 1){
             return true;
         }
         return false;
