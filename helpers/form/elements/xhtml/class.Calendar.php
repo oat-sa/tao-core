@@ -42,6 +42,7 @@ class tao_helpers_form_elements_xhtml_Calendar
 
 		$uniqueId = uniqid('calendar_');
 		$elementId = tao_helpers_Display::TextCleaner($this->getDescription()).'_'.$uniqueId;
+                $value = '';
 		
 		if(!isset($this->attributes['noLabel'])){
 			$returnValue .= "<label class='form_desc calendar' for='{$this->name}'>"._dh($this->getDescription())."</label>";
@@ -54,25 +55,23 @@ class tao_helpers_form_elements_xhtml_Calendar
 			$this->attributes['size'] = 20;
 		}
 		
-		$returnValue .= "<input type='text' name='{$this->name}' id='$elementId' ";
-		$returnValue .= $this->renderAttributes();
-		
-		if (!empty($this->value)) {
+                if (!empty($this->value)) {
 		    $timeStamp = is_numeric($this->getRawValue()) ? $this->getRawValue() : $this->getEvaluatedValue(); 
-            $returnValue .= ' value="'._dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER)).'"';
-		}
-		$returnValue .= ' />';
-		
-		$returnValue .="<script type=\"text/javascript\">
-			require(['jquery','jqueryui','jquery.timePicker'], function($){
-				$(\"#$elementId\").datetimepicker({
-                                        dateFormat: 'yy-mm-dd',
-                                        beforeShow: function (textbox, instance) {
-                                            $(textbox).parent().append(instance.dpDiv);
-                                        }
-				});
-                                
-			});</script>";
+                    $value .= _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER));
+                }
+                
+		$returnValue .= "<input type='text' id='$elementId' ";
+		$returnValue .= $this->renderAttributes();
+                $returnValue .= ' value="' . $value . '" />';
+                $returnValue .= "<input type='hidden' name='{$this->name}' id='{$elementId}_alt' value='{$value}' /> ";
+		$returnValue .= "<script type=\"text/javascript\">
+                    require(['ui/calendar'], function (Calendar) {
+                        new Calendar({
+                            selector : '#{$elementId}',
+                            altFieldSelector :'#{$elementId}_alt',
+                            timezoneList : " . json_encode($this->getTimeZones()) . "
+                        });
+                    });</script>";
 
         return (string) $returnValue;
     }
@@ -88,6 +87,32 @@ class tao_helpers_form_elements_xhtml_Calendar
         }
     
         return $returnValue;
+    }
+    
+    /**
+     * Function generates array of time zones
+     * @return array Example: 
+     * <pre>
+     * array(
+     *    array('label' => '-12:00', 'value' => -720),
+     *    ...
+     *    array('label' => '+14:00', 'value' => 720)
+     * )
+     * </pre>
+     */
+    private function getTimeZones()
+    {
+        $result = array();
+        for ($tz = -12; $tz <= 14; $tz++) {
+            $sign = $tz > 0 ? '+' : ($tz === 0 ? '' : '-');
+            $hour = str_pad(abs($tz), 2, 0, STR_PAD_LEFT);
+            $label = $tz !== 0 ? ($sign . $hour . ':00') : 'UTC';
+            $result[] = array(
+                'label' => $label,
+                'value' => $tz * 60
+            );
+        }
+        return $result;
     }
 
 }
