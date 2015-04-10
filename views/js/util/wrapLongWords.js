@@ -22,8 +22,8 @@
  * @author dieter <dieter@taotesting.com>
  */
 define([
-
-], function () {
+    'util/regexEscape'
+], function (regexEscape) {
     'use strict';
 
     /**
@@ -40,18 +40,11 @@ define([
         var chunkExp = new RegExp('.{1,' + threshold + '}', 'g'),
             longWords = str.match(new RegExp('[\\S]{' + threshold + ',}', 'g')) || [],
             i = longWords.length,
-            cut,
-            cutArr,
-            iw;
+            cut;
 
         while(i--) {
-            cut = '';
-            cutArr = longWords[i].match(chunkExp);
-            iw = cutArr.length;
-            while(iw--){
-                cut += cutArr[iw].replace(cutArr[iw], cutArr[iw] + ' ');
-            }
-            str = str.replace(new RegExp(longWords[i], 'g'), cut);
+            cut = longWords[i].match(chunkExp).join(' ');
+            str = str.replace(new RegExp(regexEscape(longWords[i]), 'g'), cut);
         }
         return str;
     }

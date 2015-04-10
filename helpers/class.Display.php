@@ -131,9 +131,16 @@ class tao_helpers_Display
      *  Convert special characters to HTML entities
      */
     public static function htmlEscape($string) {
-
         return htmlspecialchars($string);
-        }
+    }
+    
+    /**
+     * Encode the value of an html attribute
+     * 
+     * @param string $string
+     * @return string
+     */
+    public static function encodeAttrValue($string) {
+        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+    }
 }
-
-?>
