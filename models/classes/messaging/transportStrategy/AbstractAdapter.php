@@ -54,13 +54,6 @@ abstract class AbstractAdapter
      */
     protected $messages = array();
     
-    /*
-     * Error message
-     * 
-     * @var string
-     */
-    protected $errors = '';
-    
     // --- OPERATIONS ---
     
     /**
@@ -105,16 +98,5 @@ abstract class AbstractAdapter
     public function addMessage(Message $message)
     {
         $this->messages[] = $message;
-    }
-    
-    /**
-     * @access public
-     * @author Aleh Hutnikau <hutnikau@1pt.com>
-     * 
-     * @return string the error message. Empty string if none.
-     */
-    public function getErrors()
-    {
-        return $this->errors;
     }
 }

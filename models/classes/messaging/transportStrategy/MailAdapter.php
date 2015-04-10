@@ -42,8 +42,6 @@ class MailAdapter extends Configurable implements Transport
     
     const CONFIG_DEFAULT_SENDER = 'defaultSender';
     
-    protected $errors = '';
-    
     /**
      * Initialize PHPMailer
      *
@@ -106,10 +104,7 @@ class MailAdapter extends Configurable implements Transport
                 $message->setStatus(\oat\tao\model\messaging\Message::STATUS_SENT);
                 $result = true;
             }
-
             if ($mailer->IsError()) {
-                \common_Logger::e($mailer->ErrorInfo);
-                $this->errors = $mailer->ErrorInfo;
                 $message->setStatus(\oat\tao\model\messaging\Message::STATUS_ERROR);
             }
         } catch (phpmailerException $pe) {
@@ -120,14 +115,6 @@ class MailAdapter extends Configurable implements Transport
         $mailer->SmtpClose();
 
         return $result;
-    }
-    
-    /**
-     * @return string the error message. Empty string if none.
-     */
-    public function getErrors()
-    {
-        return $this->errors;
     }
     
     /**

@@ -37,8 +37,6 @@ class PasswordRecoveryService extends \tao_models_classes_Service
 
     const PROPERTY_PASSWORD_RECOVERY_TOKEN = 'http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken';
     
-    private $errors = ''; 
-    
     /**
      * Send email message with password recovery instructions.
      * 
@@ -67,9 +65,6 @@ class PasswordRecoveryService extends \tao_models_classes_Service
         
         $result = $messagingService->send($message);
         
-        if (!$result) {
-            $this->errors = $messagingService->getErrors();
-        } 
         return $result;
     }
     
@@ -94,22 +89,29 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     }
     
     /**
+     * Get user mail value
+     * @param core_kernel_classes_Resource $user
+     * @return string | null
+     */
+    public function getUserMail(\core_kernel_classes_Resource $user)
+    {
+        $userMailProperty = new \core_kernel_classes_Property(PROPERTY_USER_MAIL);
+        $result = (string) $user->getOnePropertyValue($userMailProperty);
+        if (!$result || !filter_var($result, FILTER_VALIDATE_EMAIL)) {
+            $result = null;
+        }
+        return $result;
+    }
+    
+    /**
      * Change user pasword
      * @param core_kernel_classes_Resource $user
      * @param string $newPassword New password value
      */
-    public function setPassword($user, $newPassword) 
+    public function setPassword(\core_kernel_classes_Resource $user, $newPassword) 
     {
         \tao_models_classes_UserService::singleton()->setPassword($user, $newPassword);
         $this->deleteToken($user);
-    }
-    
-    /**
-     * @return string the detailed error message (e.g. Error while sending the message). Empty string if none.
-     */
-    public function getErrors()
-    {
-        return $this->errors;
     }
     
     /**
