@@ -91,6 +91,9 @@ define([
             // allows to fix label position for list of radio buttons
             $('.form_desc ~.form_radlst').parent().addClass('bool-list');
 
+            // allows long labels if the following input is hidden
+            $('.form_desc + input[type="hidden"]').prev().addClass('hidden-input-label');
+
             // move authoring button to toolbar, unless it is already there
             if($authoringBtn.length && !$authoringBtn.hasClass('btn-info')) {
                 $authoringBtnParent = $authoringBtn.parent();
