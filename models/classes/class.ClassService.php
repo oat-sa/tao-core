@@ -54,19 +54,62 @@ abstract class tao_models_classes_ClassService
 	 *
 	 * @access public
 	 * @author Joel Bout, <joel@taotesting.com>
-	 * @param  Class clazz
+	 * @param  core_kernel_classes_Class $clazz
 	 * @return boolean
 	 */
 	public function deleteClass(core_kernel_classes_Class $clazz)
 	{
 	    $returnValue = (bool) false;
-	
+
+        $subclasses = $clazz->getSubClasses(true);
         if($clazz->isSubClassOf($this->getRootClass()) && !$clazz->equals($this->getRootClass())) {
-            $returnValue = $clazz->delete();
+            /** @var core_kernel_classes_Class $subclass */
+            foreach($subclasses as $subclass){
+                /** @var core_kernel_classes_Property $classProperty */
+                foreach($subclass->getProperties() as $classProperty){
+                    $returnValue = $this->deleteClassProperty($classProperty);
+                }
+                if($returnValue){
+                    $returnValue = $subclass->delete();
+                }
+            }
+            if(count($subclasses) === 0 || $returnValue){
+                $returnValue = $clazz->delete();
+            }
         } else {
             common_Logger::w('Tried to delete class '.$clazz->getUri().' as if it were a subclass of '.$this->getRootClass()->getUri());
         }
 	
 	    return (bool) $returnValue;
 	}
+
+
+    /**
+     * remove a class property and associate indexes
+     * @param core_kernel_classes_Property $property
+     * @return bool
+     */
+    public function deleteClassProperty(core_kernel_classes_Property $property){
+        $indexes = $property->getPropertyValues(new core_kernel_classes_Property(INDEX_PROPERTY));
+
+        //delete property and the existing values of this property
+        if($returnValue = $property->delete(true)){
+            //delete index linked to the property
+            foreach($indexes as $indexUri){
+                $index = new core_kernel_classes_Resource($indexUri);
+                $returnValue = $this->deletePropertyIndex($index);
+            }
+        }
+
+        return $returnValue;
+    }
+
+    /**
+     * * remove an index property
+     * @param core_kernel_classes_Resource $index
+     * @return bool
+     */
+    public function deletePropertyIndex(core_kernel_classes_Resource $index){
+        return $index->delete(true);
+    }
 }
