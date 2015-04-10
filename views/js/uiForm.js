@@ -11,6 +11,7 @@ define([
     'context',
     'form/property',
     'form/post-render-props',
+    'util/encode',
     'jwysiwyg' ],
     function (
         module,
@@ -19,7 +20,8 @@ define([
         helpers,
         context,
         property,
-        postRenderProps
+        postRenderProps,
+        encode
         ) {
 
     function getUrl(action) {
@@ -88,6 +90,9 @@ define([
 
             // allows to fix label position for list of radio buttons
             $('.form_desc ~.form_radlst').parent().addClass('bool-list');
+
+            // allows long labels if the following input is hidden
+            $('.form_desc + input[type="hidden"]').prev().addClass('hidden-input-label');
 
             // move authoring button to toolbar, unless it is already there
             if($authoringBtn.length && !$authoringBtn.hasClass('btn-info')) {
@@ -344,46 +349,15 @@ define([
                 });
             });
 
-
-
-            $('input.editVersionedFile').each(function () {
-                var infoUrl = context.root_url + 'tao/File/getPropertyFileInfo';
-                var data = {
-                    'uri': $("#uri").val(),
-                    'propertyUri': $(this).siblings('label.form_desc').prop('for')
-                };
-                var $_this = $(this);
-                $.ajax({
-                    type: "GET",
-                    url: infoUrl,
-                    data: data,
-                    dataType: 'json',
-                    success: function (r) {
-                        $_this.after('<span>' + r.name + '</span>');
-                    }
-                });
-            }).click(function () {
-                var data = {
-                    'uri': $("#uri").val(),
-                    'propertyUri': $(this).siblings('label.form_desc').prop('for')
-                };
-
-                helpers.getMainContainer().load(getUrl('editVersionedFile'), data);
-                return false;
-            });
-
             /**
              * remove a form group, ie. a property
              */
             function removePropertyGroup() {
                 if (confirm(__('Please confirm property deletion!'))) {
                     var $groupNode = $(this).closest(".form-group");
-                    if ($groupNode.length) {
-                        var uri = $('[id*="uri"]',$groupNode).val();
-                        property.remove(uri, $("#classUri").val(), getUrl('removeClassProperty'),function(){
-                            $groupNode.remove();
-                        });
-                    }
+                    property.remove($(this).data("uri"), $("#id").val(), helpers._url('removeClassProperty', 'PropertiesAuthoring', 'tao'),function(){
+                        $groupNode.remove();
+                    });
                 }
             }
 
@@ -393,7 +367,7 @@ define([
             //property add button
             $(".property-adder").off('click').on('click', function (e) {
                 e.preventDefault();
-                property.add(null, $("#classUri").val(), getUrl('addClassProperty'));
+                property.add($("#id").val(), helpers._url('addClassProperty', 'PropertiesAuthoring', 'tao'));
             });
 
             $(".property-mode").off('click').on('click', function () {
@@ -674,7 +648,7 @@ define([
                             success: function (response) {
                                 var html = "<ul class='form-elt-list'>";
                                 for (i in response) {
-                                    html += '<li>' + response[i] + '</li>';
+                                    html += '<li>' + encode.html(response[i]) + '</li>';
                                 }
                                 html += '</ul>';
                                 $(elt).parent("div").append(html);
