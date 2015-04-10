@@ -1240,11 +1240,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	}
 
     /**
-     * remove the index property.
+     * remove the index of the property.
      * @throws Exception
      * @return void
      */
-    public function removeIndexProperty()
+    public function removePropertyIndex()
     {
         if(!tao_helpers_Request::isAjax()){
             throw new Exception("wrong request mode");
@@ -1275,7 +1275,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * @throws Exception
      * @return void
      */
-    public function addIndexProperty()
+    public function addPropertyIndex()
     {
         if(!tao_helpers_Request::isAjax()){
             throw new Exception("wrong request mode");
