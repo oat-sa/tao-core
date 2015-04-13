@@ -237,13 +237,6 @@ define([
                         });
                     }
 
-                    //execute initTree action
-                    if (options.actions && options.actions.init) {
-                        actionManager.exec(options.actions.init, {
-                            uri: $elt.data('rootnode')
-                        });
-                    }
-
                     /**
                      * The tree is now ready
                      * @event layout/tree#ready.taotree
@@ -251,7 +244,18 @@ define([
                      */
                     $elt.trigger('ready.taotree');
                 },
-
+                
+                /**
+                 * After a branch is initialized
+                 */
+                oninit : function () {
+                    //execute initTree action
+                    if (options.actions && options.actions.init) {
+                        actionManager.exec(options.actions.init, {
+                            uri: $elt.data('rootnode')
+                        });
+                    }
+                },
 
                 /**
                  * Before a branch is opened
