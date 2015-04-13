@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-09T09:06:10\n"
+"PO-Revision-Date: 2015-04-13T09:45:04\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -29,9 +29,6 @@ msgstr ""
 
 msgid " next"
 msgstr "التالي"
-
-msgid " of the instance "
-msgstr "من المثال"
 
 msgid " requires a subgrid adapter"
 msgstr "يحتاج إلى محول subgrid"
@@ -130,16 +127,19 @@ msgstr ""
 msgid "Add file(s)"
 msgstr ""
 
+msgid "Add property"
+msgstr ""
+
 msgid "Add the source file."
 msgstr ""
 
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
 
-msgid "All"
+msgid "all"
 msgstr "كل"
 
-msgid "all"
+msgid "All"
 msgstr "كل"
 
 msgid "All (the complete TAO Module)"
@@ -168,6 +168,10 @@ msgid "Are you sure you want to delete it?"
 msgstr ""
 
 msgid "Assign User to role"
+msgstr ""
+
+#, tao-public
+msgid "Assign Users"
 msgstr ""
 
 msgid "Author"
@@ -213,10 +217,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Choose export format"
@@ -276,10 +280,10 @@ msgstr "البيانات التي تم استيرادها بنجاح"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "لغة البيانات"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "لغة البيانات"
 
 msgid "Date"
@@ -348,11 +352,11 @@ msgstr ""
 msgid "Edit this list"
 msgstr ""
 
-msgid "Element"
-msgstr "العنصر"
-
 msgid "element"
 msgstr "عنصر"
+
+msgid "Element"
+msgstr "العنصر"
 
 msgid "Element deleted"
 msgstr ""
@@ -503,10 +507,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "لغة الواجهة"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "لغة الواجهة"
 
 msgid "Invalid date range"
@@ -602,9 +606,6 @@ msgstr ""
 msgid "Login failed"
 msgstr ""
 
-msgid "Manage content of the property "
-msgstr ""
-
 msgid "Manage data list"
 msgstr "إدارة قائمة البيانات"
 
@@ -613,9 +614,6 @@ msgid "Manage roles"
 msgstr ""
 
 msgid "Manage Roles and apply them to users."
-msgstr ""
-
-msgid "Manage the versioned content : "
 msgstr ""
 
 #, tao-public
@@ -638,6 +636,10 @@ msgid "minutes"
 msgstr ""
 
 msgid "More"
+msgstr ""
+
+#, tao-public
+msgid "Move role"
 msgstr ""
 
 msgid "Move to"
@@ -781,9 +783,6 @@ msgstr "الرجاء تأكيد الحذف"
 
 msgid "Please confirm property deletion!"
 msgstr "الرجاء تأكيد حذف الخاصية"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr ""
@@ -1000,9 +999,6 @@ msgstr ""
 msgid "The column "
 msgstr ""
 
-msgid "the file was not uploaded successfully"
-msgstr ""
-
 msgid "The format of this field is not valid."
 msgstr "تنسيق هذا الحقل غير صالح"
 
@@ -1081,13 +1077,13 @@ msgstr ""
 msgid "Unable to change passwords in demo mode"
 msgstr ""
 
-msgid "Unable to delete the selected class"
-msgstr ""
-
 msgid "Unable to delete the selected resource"
 msgstr ""
 
 msgid "Unable to release the lock"
+msgstr ""
+
+msgid "Unable to remove the property."
 msgstr ""
 
 msgid "Unable to upload file"
