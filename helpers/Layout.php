@@ -355,7 +355,7 @@ class Layout{
     
     public static function getCopyrightNotice() {
         $copyrightNotice = '';
-    
+        
         if (self::isThemingEnabled() === true) {
             $themingService = PlatformThemingService::singleton();
             $themingConfig = $themingService->retrieveThemingConfig();
@@ -364,7 +364,7 @@ class Layout{
                 $copyrightNotice = $themingConfig['copyright_notice'];
             }
         }
-    
+        
         return $copyrightNotice;
     }
 }

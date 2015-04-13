@@ -1,11 +1,35 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
+
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'jquery', 
     'lodash',
+    'util/wrapLongWords',
+    'util/encode',
     'tpl!ui/feedback/feedback'
-], function($, _, tpl){
+], function($, _, wrapLongWords, encode, tpl){
+
+    //'use strict';
+    // @todo cannot be used here because _trigger() relies on arguments.caller!
 
     //keep a reference to ALL alive feedback
     var currents = [];
@@ -45,7 +69,12 @@ define([
             success: 2000,
             warning: 4000,
             error: 8000
-        }
+        },
+        // Note: value depends on font, font-weight and such.
+        // 40 is pretty good in the current setup but will
+        // never be exact with a non-proportional font.
+        wrapLongWordsAfter: 40,
+        encodeHtml : true
     };
 
     /**
@@ -85,6 +114,12 @@ define([
             this.category = _.findKey(categories, [this.level]);
             this.options  = _.defaults(options || {}, defaultOptions); 
 
+            // encode plain text string to html
+            msg = this.options.encodeHtml ? encode.html(msg) : msg;
+            
+            // wrap long words
+            msg = !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg;
+
             this.content  = tpl({
                 level : level,
                 msg : msg
@@ -119,7 +154,7 @@ define([
 
             this._trigger();
 
-            // do not manage persisten message until finished
+            // do not manage persistent message until finished
             //if(this.category === 'persistent'){ 
                  //this.merge();
             //} else {
@@ -164,7 +199,7 @@ define([
                 if(this._getTimeout() >= 0){
                     setTimeout(function(){
                     
-                        //volatiles messages auto close and peristent collaspe
+                        //volatiles messages auto close and persistent collapse
         //                if(self.category === 'volatile'){
                             self.close();
                         //} else {
@@ -227,7 +262,7 @@ define([
     };
 
     /**
-     * COntains the current state of the feedback and accessors
+     * Contains the current state of the feedback and accessor
      * @typedef feedbackState
      */
     var feedbackState = {

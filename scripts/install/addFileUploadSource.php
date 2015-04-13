@@ -32,3 +32,13 @@ if (file_exists($dataPath)) {
 
 $source = tao_models_classes_FileSourceService::singleton()->addLocalSource('fileUploadDirectory', $dataPath);
 tao_models_classes_TaoService::singleton()->setUploadFileSource($source);
+
+// add .htaccess to prevent php code execution
+if(file_exists($dataPath) && is_dir($dataPath)){
+        $accessFile = $dataPath . '.htaccess';
+        if(!is_writable($dataPath) || (file_exists($accessFile && !is_writable($accessFile)))){
+                        throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${accessFile}.");
+        }
+        file_put_contents($accessFile, "php_flag engine off\n");
+}
+

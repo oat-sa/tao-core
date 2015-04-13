@@ -25,6 +25,9 @@ body {
     font-size: 14px;
 }
 
+// cannot be scoped
+::-webkit-scrollbar-corner { background-color: ThreeDHighlight;}
+
 #{$mainContainer} {
 
     *, *:before, *:after {

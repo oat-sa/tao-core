@@ -66,8 +66,12 @@ class tao_helpers_form_elements_xhtml_Calendar
 		$returnValue .="<script type=\"text/javascript\">
 			require(['jquery','jqueryui','jquery.timePicker'], function($){
 				$(\"#$elementId\").datetimepicker({
-					dateFormat: 'yy-mm-dd',
+                                        dateFormat: 'yy-mm-dd',
+                                        beforeShow: function (textbox, instance) {
+                                            $(textbox).parent().append(instance.dpDiv);
+                                        }
 				});
+                                
 			});</script>";
 
         return (string) $returnValue;
