@@ -543,18 +543,7 @@ abstract class tao_models_classes_GenerisService
         
         $factory = new tao_models_classes_GenerisTreeFactory();
         
-        if ($uniqueNode !== null) {
-            // A unique node has to be retrieved.
-            $uniqueResource = new core_kernel_classes_Resource($uniqueNode);
-            $returnValue = $factory->buildClassNode($clazz);
-            $returnValue['count'] = 0;
-            $returnValue['children'] = array();
-            
-            if ($uniqueResource->exists() === true) {
-                $returnValue['count'] = 1;
-                $returnValue['children'][] = $factory->buildResourceNode($uniqueResource, $clazz);
-            }
-        } elseif (!empty($labelFilter) && $labelFilter!='*') {
+        if (!empty($labelFilter) && $labelFilter!='*') {
             // The result must be a set of filtered nodes.
             $props	= array(RDFS_LABEL => $labelFilter);
             $opts	= array(
@@ -576,6 +565,12 @@ abstract class tao_models_classes_GenerisService
                     $returnValue['children']	= $results;
             }
         } else {
+
+            //if unique node is set, it is the node to be loaded in the tree
+            if(!is_null($uniqueNode)){
+                 $browse = array($uniqueNode);
+            }
+
             // Let's walk the tree with super walker! ~~~ p==[w]õ__
             array_walk($browse, function(&$item) {
                 $item = tao_helpers_Uri::decode($item);
