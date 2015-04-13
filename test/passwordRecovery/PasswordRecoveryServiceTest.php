@@ -19,7 +19,6 @@
  *               
  */
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\tao\test\messaging\MockAdapter;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 use oat\tao\model\messaging\transportStrategy\FileSink;
 use Prophecy\Prediction\CallTimesPrediction;
@@ -90,7 +89,6 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
         $messagingProphecy = $this->prophesize('oat\tao\model\messaging\MessagingService');
         $messagingProphecy->isAvailable()->willReturn(true);
         $messagingProphecy->isAvailable()->should(new CallTimesPrediction(1));
-        //$messagingProphecy->send(Argument::type('oat\tao\model\messaging\Message'))->willReturn(true);
         $user = $this->testUser;
         $messagingProphecy->send(Argument::type('oat\tao\model\messaging\Message'))->will(function ($args) use ($user) {
             $message = $args[0];
