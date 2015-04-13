@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-09T09:07:08\n"
+"PO-Revision-Date: 2015-04-13T09:45:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -30,9 +30,6 @@ msgstr " a été installée."
 
 msgid " next"
 msgstr " suivant"
-
-msgid " of the instance "
-msgstr " de l'instance"
 
 msgid " requires a subgrid adapter"
 msgstr " requiert un adaptateur de sous-grille"
@@ -131,17 +128,20 @@ msgstr "Ajouter un fichier RDF/XML"
 msgid "Add file(s)"
 msgstr "Ajouter un ou des fichier(s)"
 
+msgid "Add property"
+msgstr ""
+
 msgid "Add the source file."
 msgstr " Ajoutez le fichier source."
 
 msgid "Advanced Mode"
 msgstr "Mode avancé"
 
-msgid "All"
-msgstr "Tout"
-
 msgid "all"
 msgstr "tout"
+
+msgid "All"
+msgstr "Tout"
 
 msgid "All (the complete TAO Module)"
 msgstr "Tout (le module TAO au complet)"
@@ -171,6 +171,10 @@ msgstr ""
 
 msgid "Assign User to role"
 msgstr "Assigner Utilisateur à un rôle"
+
+#, tao-public
+msgid "Assign Users"
+msgstr ""
 
 msgid "Author"
 msgstr "Auteur"
@@ -215,11 +219,11 @@ msgstr "Changer le mot de passe"
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check all"
-msgstr "Cocher tout"
-
 msgid "Check All"
 msgstr "Cocher Tout"
+
+msgid "Check all"
+msgstr "Cocher tout"
 
 msgid "Choose export format"
 msgstr "Format d'export"
@@ -278,10 +282,10 @@ msgstr "Données importées avec succès."
 msgid "Data Lang."
 msgstr "Langue des données"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
 msgid "Date"
@@ -351,11 +355,11 @@ msgstr "Modifier Instance"
 msgid "Edit this list"
 msgstr ""
 
-msgid "Element"
-msgstr "Élément"
-
 msgid "element"
 msgstr "élément"
+
+msgid "Element"
+msgstr "Élément"
 
 msgid "Element deleted"
 msgstr ""
@@ -506,10 +510,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid date range"
@@ -605,9 +609,6 @@ msgstr "Identifiant disponible"
 msgid "Login failed"
 msgstr "Connexion échouée"
 
-msgid "Manage content of the property "
-msgstr "Gérer le contenu de la propriété "
-
 msgid "Manage data list"
 msgstr "Gestion des listes"
 
@@ -617,9 +618,6 @@ msgstr "Gérer les rôles"
 
 msgid "Manage Roles and apply them to users."
 msgstr "Gère des Rôles et les applique aux utilisateurs."
-
-msgid "Manage the versioned content : "
-msgstr "Gérer le contenu versionné : "
 
 #, tao-public
 msgid "Manage users"
@@ -641,6 +639,10 @@ msgid "minutes"
 msgstr "minutes"
 
 msgid "More"
+msgstr ""
+
+#, tao-public
+msgid "Move role"
 msgstr ""
 
 msgid "Move to"
@@ -784,9 +786,6 @@ msgstr "Veuillez confirmer la suppression."
 
 msgid "Please confirm property deletion!"
 msgstr "Veuillez confirmer la suppression de la propriété"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr ""
@@ -1003,9 +1002,6 @@ msgstr "Texte - Long - Champ"
 msgid "The column "
 msgstr "La colonne "
 
-msgid "the file was not uploaded successfully"
-msgstr "le fichier n'a pas été téléversé correctement"
-
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ est invalide."
 
@@ -1084,13 +1080,13 @@ msgstr "Langue Interface"
 msgid "Unable to change passwords in demo mode"
 msgstr "Impossible de changer les mots de passe en mode démonstration"
 
-msgid "Unable to delete the selected class"
-msgstr ""
-
 msgid "Unable to delete the selected resource"
 msgstr ""
 
 msgid "Unable to release the lock"
+msgstr ""
+
+msgid "Unable to remove the property."
 msgstr ""
 
 msgid "Unable to upload file"

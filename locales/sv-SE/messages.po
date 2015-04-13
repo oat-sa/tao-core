@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-09T09:08:38\n"
+"PO-Revision-Date: 2015-04-13T09:45:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sv-SE\n"
@@ -28,9 +28,6 @@ msgid " has been installed"
 msgstr ""
 
 msgid " next"
-msgstr ""
-
-msgid " of the instance "
 msgstr ""
 
 msgid " requires a subgrid adapter"
@@ -130,16 +127,19 @@ msgstr ""
 msgid "Add file(s)"
 msgstr ""
 
+msgid "Add property"
+msgstr ""
+
 msgid "Add the source file."
 msgstr ""
 
 msgid "Advanced Mode"
 msgstr "Avancerad metod"
 
-msgid "All"
+msgid "all"
 msgstr ""
 
-msgid "all"
+msgid "All"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -168,6 +168,10 @@ msgid "Are you sure you want to delete it?"
 msgstr ""
 
 msgid "Assign User to role"
+msgstr ""
+
+#, tao-public
+msgid "Assign Users"
 msgstr ""
 
 msgid "Author"
@@ -213,10 +217,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "Ändra lösenord"
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Choose export format"
@@ -276,10 +280,10 @@ msgstr "Data framgångsrikt importerat"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Dataspråk"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Dataspråk"
 
 msgid "Date"
@@ -348,11 +352,11 @@ msgstr ""
 msgid "Edit this list"
 msgstr ""
 
-msgid "Element"
-msgstr "Beståndsdel"
-
 msgid "element"
 msgstr "element"
+
+msgid "Element"
+msgstr "Beståndsdel"
 
 msgid "Element deleted"
 msgstr ""
@@ -503,10 +507,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Gränssnittsspråk"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Gränssnittsspråk"
 
 msgid "Invalid date range"
@@ -602,9 +606,6 @@ msgstr ""
 msgid "Login failed"
 msgstr ""
 
-msgid "Manage content of the property "
-msgstr ""
-
 msgid "Manage data list"
 msgstr "Hantera datalista"
 
@@ -613,9 +614,6 @@ msgid "Manage roles"
 msgstr ""
 
 msgid "Manage Roles and apply them to users."
-msgstr ""
-
-msgid "Manage the versioned content : "
 msgstr ""
 
 #, tao-public
@@ -638,6 +636,10 @@ msgid "minutes"
 msgstr ""
 
 msgid "More"
+msgstr ""
+
+#, tao-public
+msgid "Move role"
 msgstr ""
 
 msgid "Move to"
@@ -781,9 +783,6 @@ msgstr "Vill du verkligen radera?"
 
 msgid "Please confirm property deletion!"
 msgstr "Vill du verkligen radera egenskap?"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr ""
@@ -1000,9 +999,6 @@ msgstr ""
 msgid "The column "
 msgstr ""
 
-msgid "the file was not uploaded successfully"
-msgstr ""
-
 msgid "The format of this field is not valid."
 msgstr "Formatet hos detta fält är ogiltigt"
 
@@ -1081,13 +1077,13 @@ msgstr ""
 msgid "Unable to change passwords in demo mode"
 msgstr ""
 
-msgid "Unable to delete the selected class"
-msgstr ""
-
 msgid "Unable to delete the selected resource"
 msgstr ""
 
 msgid "Unable to release the lock"
+msgstr ""
+
+msgid "Unable to remove the property."
 msgstr ""
 
 msgid "Unable to upload file"

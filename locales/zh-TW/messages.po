@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-09T09:08:58\n"
+"PO-Revision-Date: 2015-04-13T09:45:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -30,9 +30,6 @@ msgstr " 已安裝"
 
 msgid " next"
 msgstr " 下一個"
-
-msgid " of the instance "
-msgstr " 執行實例的 "
 
 msgid " requires a subgrid adapter"
 msgstr " 需要一個subgrid adapter"
@@ -131,16 +128,19 @@ msgstr "新增 RDF/XML 檔案"
 msgid "Add file(s)"
 msgstr "新增檔案"
 
+msgid "Add property"
+msgstr ""
+
 msgid "Add the source file."
 msgstr "新增來源文件。"
 
 msgid "Advanced Mode"
 msgstr "進階模式"
 
-msgid "All"
+msgid "all"
 msgstr "完全"
 
-msgid "all"
+msgid "All"
 msgstr "完全"
 
 msgid "All (the complete TAO Module)"
@@ -171,6 +171,10 @@ msgstr "您確認要刪除？"
 
 msgid "Assign User to role"
 msgstr "分配用戶角色"
+
+#, tao-public
+msgid "Assign Users"
+msgstr ""
 
 msgid "Author"
 msgstr "作者"
@@ -215,10 +219,10 @@ msgstr "更改密碼"
 msgid "Change the password"
 msgstr "更改密碼"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾選"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾選"
 
 msgid "Choose export format"
@@ -278,10 +282,10 @@ msgstr "資料已成功匯入"
 msgid "Data Lang."
 msgstr "資料語言"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "資料語言"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "資料語言"
 
 msgid "Date"
@@ -351,10 +355,10 @@ msgstr "編輯實例"
 msgid "Edit this list"
 msgstr "編輯這個清單"
 
-msgid "Element"
+msgid "element"
 msgstr "元素"
 
-msgid "element"
+msgid "Element"
 msgstr "元素"
 
 msgid "Element deleted"
@@ -506,10 +510,10 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面語言"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面語言"
 
 msgid "Invalid date range"
@@ -605,9 +609,6 @@ msgstr "可用登錄名稱"
 msgid "Login failed"
 msgstr "登錄失敗"
 
-msgid "Manage content of the property "
-msgstr "管理屬性的內容"
-
 msgid "Manage data list"
 msgstr "管理數據清單"
 
@@ -617,9 +618,6 @@ msgstr "管理角色"
 
 msgid "Manage Roles and apply them to users."
 msgstr "管理角色並設定用戶。"
-
-msgid "Manage the versioned content : "
-msgstr "管理多版本的內容: "
 
 #, tao-public
 msgid "Manage users"
@@ -642,6 +640,10 @@ msgstr "分鐘"
 
 msgid "More"
 msgstr "更多"
+
+#, tao-public
+msgid "Move role"
+msgstr ""
 
 msgid "Move to"
 msgstr "移動到"
@@ -784,9 +786,6 @@ msgstr "請確認刪除"
 
 msgid "Please confirm property deletion!"
 msgstr "請確認屬性刪除!"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr "請確認此行動。"
@@ -1003,9 +1002,6 @@ msgstr "文字 - 短 - 欄位"
 msgid "The column "
 msgstr "欄"
 
-msgid "the file was not uploaded successfully"
-msgstr "該檔案沒有被成功上傳"
-
 msgid "The format of this field is not valid."
 msgstr "這個欄位的格式是無效的。"
 
@@ -1084,14 +1080,14 @@ msgstr "介面語言."
 msgid "Unable to change passwords in demo mode"
 msgstr "在試用模式無法更改密碼"
 
-msgid "Unable to delete the selected class"
-msgstr ""
-
 msgid "Unable to delete the selected resource"
 msgstr ""
 
 msgid "Unable to release the lock"
 msgstr "無法解除鎖定"
+
+msgid "Unable to remove the property."
+msgstr ""
 
 msgid "Unable to upload file"
 msgstr "無法上傳檔案"

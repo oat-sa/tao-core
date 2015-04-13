@@ -1,6 +1,5 @@
 <?php
 $GLOBALS['__l10n'][" next"]="التالي";
-$GLOBALS['__l10n'][" of the instance "]="من المثال";
 $GLOBALS['__l10n'][" requires a subgrid adapter"]="يحتاج إلى محول subgrid";
 $GLOBALS['__l10n']["(empty)"]="(فارغ)";
 $GLOBALS['__l10n']["A similar resource has already been versioned"]="مصدر مشابه تم تعيين اصداره بالفعل";
