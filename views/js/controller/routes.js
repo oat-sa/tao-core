@@ -45,11 +45,6 @@ define(function(){
                 'index' : 'controller/list/index'
             }
         },
-        'RdfImExport' : {
-            'actions' : {
-                'index' : 'controller/RdfImExport/index'
-            }
-        },
         'Users' : {
             'deps' : 'controller/users/disable-edit',
             'actions' : {
