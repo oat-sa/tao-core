@@ -17,6 +17,18 @@
  *
  *
  */
+
+
+/**
+ * Parse and extract info from the current browser's URL.
+ *
+ * Be careful, îf you want to parse URLs that isn't the current one of relative to your window domain, use util/url.
+ * For example a relative URL will have as host the current window's host.
+ *
+ * TODO move to util and see how it can be merged with util/url or a least rely on it for some parts.
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define(['lodash'], function(_){
 
    var urlParts = ['hash', 'host', 'hostname', 'pathname', 'port', 'protocol', 'search'];
@@ -168,9 +180,9 @@ define(['lodash'], function(_){
    UrlParser.prototype.checkCORS = function(parsedUrl){
        parsedUrl = parsedUrl || new UrlParser(window.location);
        if(parsedUrl instanceof UrlParser){
-           return this.get('protocol') === parsedUrl.get('protocol')
-                   && this.get('hostname') === parsedUrl.get('hostname')
-                   && this.get('port') === parsedUrl.get('port');
+           return this.get('protocol') === parsedUrl.get('protocol') &&
+                  this.get('hostname') === parsedUrl.get('hostname') &&
+                  this.get('port') === parsedUrl.get('port');
        }
        throw new Error('parsedUrl parameter must be an instanceof UrlParser');
    };
