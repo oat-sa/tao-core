@@ -44,7 +44,7 @@ class MediaRetrieval{
             $link = (isset($url['path']))? trim($url['path'],'/') : '';
         }
         else{
-            $link = ltrim($path,'/');
+            $link = $path;
         }
         return compact('identifier', 'link');
 
