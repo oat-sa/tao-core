@@ -96,7 +96,8 @@ define([
         $(parentSelector)
             .off('click', '.files li')
             .on ('click', '.files li', function(e){
-            if(e.srcElement.className === 'icon-bin'){
+            var target = e.target || e.srcElement;
+            if(target.className === 'icon-bin'){
                 return true;
             }
             var $selected   = $(this); 
@@ -141,7 +142,7 @@ define([
             var $switcher = $('.upload-switcher a', $fileSelector);
 
             $uploader.on('upload.uploader', function(e, file, result){
-                var path = $('[data-display="'+currentPath+'"]').data('path');
+                var path = $('[data-display="'+currentPath+'"]').data('path') || $('[data-display="/'+currentPath+'"]').data('path');
                 if(typeof path === 'undefined' || path === ''){
                     path = currentPath;
                 }
@@ -216,7 +217,7 @@ define([
             $container.on('folderselect.' + ns , function(e, fullPath, data, uri){
                 currentPath = fullPath;
                 $uploader.uploader('options', {
-                    uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath + '&relPath=' + uri +'/'
+                    uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + uri + '&relPath=' + uri 
                 });
             });
 
