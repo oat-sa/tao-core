@@ -214,6 +214,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.7.12';
         }
         
+        if ($currentVersion == '2.7.12') {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao', 'mod' => 'PasswordRecovery', 'act' => 'index')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao', 'mod' => 'PasswordRecovery', 'act' => 'resetPassword')));
+            
+            $currentVersion = '2.7.13';
+        }
         return $currentVersion;
     }
     
