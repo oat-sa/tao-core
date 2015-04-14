@@ -57,12 +57,13 @@
                 <div class="col-10 prop-size"></div>
             </div>
             
-            <div class="grid-row">
-                <div class="col-2">
-                    {{__ 'URL'}}
-                </div>
-                <div class="col-10 prop-url">
-                    <a href="#" target="_blank"></a>
+            <div class="grid-row prop-url">
+                <div class="actions">
+                    <a href="#" download="" target="_blank" class="tlb-button-off download hidden" title="{{__ 'Download this file'}}">
+                        <button class="btn-info small">
+                            <span class="icon-download"></span>{{__ 'Download this file'}}
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
