@@ -31,10 +31,6 @@ define([
             }
         });
 
-        $container.on('filedelete.' + ns, function(){
-            stopPreview();
-        });
-
         $selectButton.on('click', function(e){
             e.preventDefault();
 

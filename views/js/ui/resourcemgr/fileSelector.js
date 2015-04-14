@@ -96,7 +96,9 @@ define([
         $(parentSelector)
             .off('click', '.files li')
             .on ('click', '.files li', function(e){
-            
+            if(e.srcElement.className === 'icon-bin'){
+                return true;
+            }
             var $selected   = $(this); 
             var $files      = $('.files > li', $fileSelector);
             var data        = _.clone($selected.data()); 
@@ -127,11 +129,9 @@ define([
             var path, params = {};
             if(e.namespace === 'deleter' && $target.length){
                 path = $target.data('file');
-                $(this).one('deleted.deleter', function(){
-                    params[options.pathParam] = path;
-                    $.getJSON(options.deleteUrl, _.merge(params, options.params));
-                    $container.trigger('filedelete.' + ns, [path]); 
-                });
+                params[options.pathParam] = path;
+                $.getJSON(options.deleteUrl, _.merge(params, options.params));
+                $container.trigger('filedelete.' + ns, [path]);
             }
         });
        
