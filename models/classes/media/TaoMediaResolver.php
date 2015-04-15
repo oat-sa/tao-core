@@ -20,6 +20,8 @@
  */
 namespace oat\tao\model\media;
 
+use oat\tao\model\media\sourceStrategy\HttpSource;
+
 class TaoMediaResolver
 {
     
@@ -38,8 +40,10 @@ class TaoMediaResolver
             $mediaSource = $mediaService->getMediaSource($urlParts['host']);
             $mediaId = (isset($urlParts['path'])) ? trim($urlParts['path'], '/') : '';
             return new MediaAsset($mediaSource, $mediaId);
+        } elseif (isset($urlParts['scheme']) && in_array($urlParts['scheme'], array('http','https'))) {
+            return new MediaAsset(new HttpSource(), $url);
         } else {
-            throw new \Exception('Cannot resolve '.$url);
+            throw new TaoMediaException('Cannot resolve '.$url);
         }
     }
 
