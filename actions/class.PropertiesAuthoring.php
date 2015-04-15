@@ -107,9 +107,15 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         //delete property mode
         foreach($class->getProperties() as $classProperty) {
             if ($classProperty->equals($property)) {
-    
+
+                $indexes = $property->getPropertyValues(new core_kernel_classes_Property(INDEX_PROPERTY));
                 //delete property and the existing values of this property
-                if($property->delete(true)) {
+                if($property->delete(true)){
+                    //delete index linked to the property
+                    foreach($indexes as $indexUri){
+                        $index = new core_kernel_classes_Resource($indexUri);
+                        $index->delete(true);
+                    }
                     $success = true;
                     break;
                 }

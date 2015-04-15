@@ -74,7 +74,13 @@ abstract class tao_models_classes_ClassService
                 }
             }
             if(count($subclasses) === 0 || $returnValue){
-                $returnValue = $clazz->delete();
+                /** @var core_kernel_classes_Property $classProperty */
+                foreach($clazz->getProperties() as $classProperty){
+                    $returnValue = $this->deleteClassProperty($classProperty);
+                }
+                if($returnValue){
+                    $returnValue = $clazz->delete();
+                }
             }
         } else {
             common_Logger::w('Tried to delete class '.$clazz->getUri().' as if it were a subclass of '.$this->getRootClass()->getUri());
