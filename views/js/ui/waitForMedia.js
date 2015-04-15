@@ -31,14 +31,25 @@ define(['jquery'], function($){
      * @returns {jQueryElement} for chaingin
      */
     $.fn.waitForMedia = function(allLoadedCallback){
-
+        
+        function allLoaded($container) {
+            $container.trigger('all-loaded' + _ns);
+            if(typeof allLoadedCallback === 'function'){
+                allLoadedCallback.call($container[0]);
+            }
+        } 
+        
         return this.each(function(){
 
             var $container = $(this);
             var $img = $container.find('img');
             var count = $img.length;
             var loaded = 0;
-
+            
+            if (count === 0) {
+                allLoaded($container);
+            }
+            
             /**
              * The function to be executed whenever an image is considered loaded
              */
@@ -51,10 +62,7 @@ define(['jquery'], function($){
 
                 loaded++;
                 if(loaded === count){
-                    $container.trigger('all-loaded' + _ns);
-                    if(typeof allLoadedCallback === 'function'){
-                        allLoadedCallback.call($container[0]);
-                    }
+                    allLoaded($container);
                 }
             }
 
