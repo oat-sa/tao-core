@@ -32,6 +32,12 @@ define(['jquery'], function($){
      */
     $.fn.waitForMedia = function(allLoadedCallback){
         
+        /**
+         * The callback function that is called after loading all the documents.
+         * 
+         * @param {jQueryElement} $container The container element on which will be triggered an event.
+         * @returns {undefined}
+         */
         function allLoaded($container) {
             $container.trigger('all-loaded' + _ns);
             if(typeof allLoadedCallback === 'function'){
@@ -41,31 +47,30 @@ define(['jquery'], function($){
         
         return this.each(function(){
 
-            var $container = $(this);
-            var $img = $container.find('img');
-            var count = $img.length;
-            var loaded = 0;
+            var $container = $(this),
+                $img = $container.find('img'),
+                count = $img.length,
+                loaded = 0,
+                imageLoaded = function () {
+                    $(this)
+                        .trigger('loaded' + _ns)
+                        .off('load' + _ns)
+                        .off('error' + _ns);
+
+                    loaded++;
+                    if(loaded === count){
+                        allLoaded($container);
+                    }
+                };
             
             if (count === 0) {
                 allLoaded($container);
+                return;
             }
             
             /**
              * The function to be executed whenever an image is considered loaded
              */
-            function imageLoaded(){
-
-                $(this)
-                    .trigger('loaded' + _ns)
-                    .off('load' + _ns)
-                    .off('error' + _ns);
-
-                loaded++;
-                if(loaded === count){
-                    allLoaded($container);
-                }
-            }
-
             $img.each(function(){
                 if(this.complete){
                     //the image is already loaded by the browser
