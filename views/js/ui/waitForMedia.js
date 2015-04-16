@@ -51,6 +51,9 @@ define(['jquery'], function($){
                 $img = $container.find('img'),
                 count = $img.length,
                 loaded = 0,
+                /**
+                 * The function to be executed whenever an image is considered loaded
+                 */
                 imageLoaded = function () {
                     $(this)
                         .trigger('loaded' + _ns)
@@ -68,9 +71,6 @@ define(['jquery'], function($){
                 return;
             }
             
-            /**
-             * The function to be executed whenever an image is considered loaded
-             */
             $img.each(function(){
                 if(this.complete){
                     //the image is already loaded by the browser
