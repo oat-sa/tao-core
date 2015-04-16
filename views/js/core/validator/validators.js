@@ -102,35 +102,32 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             message : __('no file not found in this location'),
             options : {baseUrl : ''},
             validate : function(value, callback, options){
-
+                
+                if(!value){
+                    callback(false);
+                    return;
+                }
+                
                 //don't check if it is an http resource
                 var url = '';
                 if(value.indexOf('http') === 0){
                     callback(true);
                     return;
-                }
-                else{
+                }else{
                     url = options.baseUrl + value;
                 }
 
-                if(url){
-                    
-                    //request HEAD only for bandwidth saving
-                    $.ajax({
-                        type : 'HEAD',
-                        url : url,
-                        success : function(){
-                            callback(true);
-                        },
-                        error : function(){
-                            callback(false);
-                        }
-                    });
-                
-                }else{
-                    
-                    callback(false);
-                }
+                //request HEAD only for bandwidth saving
+                $.ajax({
+                    type : 'HEAD',
+                    url : url,
+                    success : function(){
+                        callback(true);
+                    },
+                    error : function(){
+                        callback(false);
+                    }
+                });
                 
             }
         },
