@@ -95,16 +95,14 @@ define([
         $(parentSelector)
             .off('click', '.files li')
             .on ('click', '.files li', function(e){
-            var target = e.target || e.srcElement;
-            if(target.className === 'icon-bin'){
-                return true;
-            }
-            var $selected   = $(this); 
+
+            var $selected   = $(this);
             var $files      = $('.files > li', $fileSelector);
             var data        = _.clone($selected.data()); 
 
-            if(!$.contains($selected.find('.actions')[0], e.target)){
+            if($.contains($selected.find('.actions')[0], e.target)){
                 e.preventDefault();
+                return true;
             }
 
             $files.removeClass('active');
