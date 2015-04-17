@@ -3,6 +3,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define(['lodash', 'i18n', 'jquery'], function(_, __, $){
+    'use strict';
 
     /**
      * Defines the validation callback 
@@ -49,9 +50,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             validate : function(value, callback){
 
                 var parsedValue = parseFloat(value),
-                    r = (parsedValue == value)
-                    && _.isNumber(parsedValue)
-                    && !_.isNaN(parsedValue);
+                    r = (parsedValue === value) && _.isNumber(parsedValue) && !_.isNaN(parsedValue);
 
                 if(typeof(callback) === 'function'){
                     callback.call(null, r);
@@ -103,9 +102,17 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             message : __('no file not found in this location'),
             options : {baseUrl : ''},
             validate : function(value, callback, options){
-                
-                var url = (value.indexOf('http') === 0) ? value : options.baseUrl + value;
-                
+
+                //don't check if it is an http resource
+                var url = '';
+                if(value.indexOf('http') === 0){
+                    callback(true);
+                    return;
+                }
+                else{
+                    url = options.baseUrl + value;
+                }
+
                 if(url){
                     
                     //request HEAD only for bandwidth saving
@@ -134,7 +141,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             validate: function(value, callback) {
                 if (typeof callback === 'function') {
                     var valid = false;
-                    if(value != ''){
+                    if(value !== ''){
                         try{
                             new RegExp('^' + value + '$');
                             valid = true;
