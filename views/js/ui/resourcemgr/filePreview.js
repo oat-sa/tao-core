@@ -16,7 +16,8 @@ define([
         var $previewer      = $('.previewer', $container);
         var $propType       = $('.prop-type', $filePreview); 
         var $propSize       = $('.prop-size', $filePreview); 
-        var $propUrl        = $('.prop-url', $filePreview); 
+        var $propUrl        = $('.prop-url', $filePreview);
+        var $link           = $('a',$propUrl);
         var $selectButton   = $('.select-action', $filePreview);
         var currentSelection= [];
 
@@ -47,7 +48,6 @@ define([
             $previewer.previewer(file);
             $propType.text(file.type + ' (' + file.mime + ')'); 
             $propSize.text(bytes.hrSize(file.size));
-            var $link = $('a',$propUrl);
             $link.attr('href', file.url).attr('download', file.file);
             if($link.hasClass('hidden')){
                 $link.removeClass('hidden');
