@@ -61,9 +61,8 @@ define([
         $container.on('folderselect.' + ns , function(e, fullPath, data, activePath){    
             var files;
             //update title
-            if(fullPath !== activePath){
-                $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath);
-            }
+
+            $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath);
 
             //update content here
             if(_.isArray(data)){
