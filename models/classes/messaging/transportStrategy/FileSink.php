@@ -24,6 +24,7 @@ namespace oat\tao\model\messaging\transportStrategy;
 use oat\tao\model\messaging\Transport;
 use oat\oatbox\Configurable;
 use oat\tao\model\messaging\Message;
+use oat\oatbox\user\User;
 /**
  * An implementation that writes the messages to the filesystem
  *
@@ -34,17 +35,30 @@ use oat\tao\model\messaging\Message;
 class FileSink extends Configurable implements Transport
 {
     const CONFIG_FILEPATH = 'path';
-    
+
     public function send(Message $message)
     {
-        $receiver = $message->getTo();
-        $path = $this->getOption(self::CONFIG_FILEPATH).\tao_helpers_File::getSafeFileName($receiver->getIdentifier()).DIRECTORY_SEPARATOR;
+        $messageFile = $this->getFilePath($message->getTo());
+        \common_Logger::d('Wrote message to '.$messageFile);
+        $written = file_put_contents($messageFile, $message->getBody());
+        return $written !== false;
+    }
+    
+    /**
+     * Get file path to save message
+     * @param User $receiver
+     * @param boolean $refresh whether the file path must be regenerated.
+     */
+    public function getFilePath(User $receiver)
+    {
+        $basePath = $this->getOption(self::CONFIG_FILEPATH);
+        if (is_null($basePath) || !file_exists($basePath)) {
+            throw new \common_exception_InconsistentData('Missing path '.self::CONFIG_FILEPATH.' for '.__CLASS__);
+        }
+        $path = $basePath.\tao_helpers_File::getSafeFileName($receiver->getIdentifier()).DIRECTORY_SEPARATOR;
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $messageFile = $path.\tao_helpers_File::getSafeFileName('message.html', $path);
-        \common_Logger::d($messageFile);
-        $written = file_put_contents($messageFile, $message->getBody());
-        return $written !== false;
+        return  $path.\tao_helpers_File::getSafeFileName('message.html', $path);
     }
 }
