@@ -28,8 +28,9 @@
     require([appConfig], function(){
 
         //loads components and the login controller manually
-        require(['jquery', 'ui', 'controller/login'], function($, ui){
+        require(['jquery', 'ui','router', 'controller/login'], function($, ui, router){
             ui.startEventComponents($('.content-wrap'));
+            router.dispatch(window.location.href);
         });
 
     });
