@@ -14,8 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *               
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  * 
  */
 namespace oat\tao\model\media\sourceStrategy;
@@ -26,6 +25,8 @@ use helpers_TimeOutHelper;
 
 /**
  * This media source gives access to files not part of the Tao platform
+ * 
+ * It is not intended to be used to browse for
  */
 class HttpSource implements MediaBrowser
 {
@@ -35,7 +36,7 @@ class HttpSource implements MediaBrowser
      */
     public function getFileInfo($link)
     {
-        
+        throw new \common_Exception(__FUNCTION__.' not implemented');
     }
     
     /**

@@ -1,32 +1,38 @@
 <?php
-/**
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * 
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * 
  */
-
 namespace oat\tao\model\media;
 
+/**
+ * Service to manage the media sources
+ * 
+ * To be used as if it were a singleton until serviceManager in place
+ */
 class MediaService {
 
     const CONFIG_KEY = 'mediaSources';
     
     private static $instance;
     
+    /**
+     * @return \oat\tao\model\media\MediaService
+     */
     public static function singleton()
     {
         if (is_null(self::$instance)) {
@@ -40,6 +46,11 @@ class MediaService {
      */
     private $mediaSources = null;
     
+    /**
+     * Return all configured media sources
+     * 
+     * @return MediaBrowser
+     */
     protected function getMediaSources()
     {
         if (is_null($this->mediaSources)) {
@@ -58,6 +69,13 @@ class MediaService {
         return $this->mediaSources;
     }
     
+    /**
+     * Returns the media source specified by $mediaSourceId
+     * 
+     * @param string $mediaSourceId
+     * @throws \common_Exception
+     * @return MediaBrowser
+     */
     public function getMediaSource($mediaSourceId)
     {
         $sources = $this->getMediaSources();
@@ -67,6 +85,11 @@ class MediaService {
         return $sources[$mediaSourceId];
     }
 
+    /**
+     * Returns all media sources that are browsable 
+     * 
+     * @return MediaBrowser[]
+     */
     public function getBrowsableSources()
     {
         $returnValue = array();
@@ -78,6 +101,15 @@ class MediaService {
         return $returnValue;
     }
     
+    /**
+     * Adds a media source to Tao
+     * 
+     * WARNING: Will always add the mediasource as 'mediamanager' as other 
+     * identifiers are not supported by js widget
+     * 
+     * @param MediaBrowser $source
+     * @return boolean
+     */
     public function addMediaSource(MediaBrowser $source)
     {
         // ensure loaded
@@ -88,6 +120,12 @@ class MediaService {
         return $tao->setConfig(self::CONFIG_KEY, $this->mediaSources);
     }
     
+    /**
+     * Removes a media source for tao
+     * 
+     * @param string $sourceId
+     * @return boolean
+     */
     public function removeMediaSource($sourceId)
     {
         // ensure loaded
