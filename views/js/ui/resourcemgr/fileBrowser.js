@@ -13,7 +13,7 @@ define(['jquery', 'lodash'], function($, _) {
         var $folderContainer= $('.folders', $divContainer);
         var fileTree        = {};
         //create the tree node for the ROOT folder by default
-        $folderContainer.append('<li class="root"><a class="root-folder" data-display="' + root + '" data-path="'+path+'" href="#">' + root + '</a></li>');
+        $folderContainer.append('<li class="root"><a class="root-folder" href="#"></a></li>');
 
         //load the content of the ROOT
         getFolderContent(fileTree, path, function(content){
@@ -28,7 +28,8 @@ define(['jquery', 'lodash'], function($, _) {
             //internal event to set the file-selector content
             $('.file-browser').find('li.active').removeClass('active');
             $('li.root',$folderContainer).addClass('active');
-            $container.trigger('folderselect.' + ns , [root, content.children, content.path]);
+            $rootNode.attr('data-path', content.path).html(content.label);
+            $container.trigger('folderselect.' + ns , [content.label, content.children, content.path]);
         });
 
         // by clicking on the tree (using a live binding  because content is not complete yet)
