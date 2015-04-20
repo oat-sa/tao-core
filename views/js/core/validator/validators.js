@@ -111,12 +111,11 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
                     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
                     '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
                     '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                var url = (pattern.test(value)) ? value : options.baseUrl + value;
-                if(url){
-                    //request HEAD only for bandwidth saving
+                if(!pattern.test(value)){
+                	//request HEAD only for bandwidth saving
                     $.ajax({
                         type : 'HEAD',
-                        url : url,
+                        url : options.baseUrl + value,
                         success : function(){
                             callback(true);
                         },
@@ -127,7 +126,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
                 
                 }else{
                     
-                    callback(false);
+                    callback(true);
                 }
                 
             }
