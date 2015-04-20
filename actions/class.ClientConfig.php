@@ -55,8 +55,6 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
             }
         }
 
-        $mediaSources = MediaService::singleton()->getBrowsableSources();
-        
         //set contextual data
         $this->setData('locale', $langCode);
         
@@ -74,7 +72,6 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $this->setData('shownExtension',    $this->getRequestParameter('shownExtension'));
         $this->setData('shownStructure',    $this->getRequestParameter('shownStructure'));
         $this->setData('client_timeout',    $this->getClientTimeout());
-        $this->setData('mediaSources',      $mediaSources);
 
         $this->setView('client_config.tpl');
     }

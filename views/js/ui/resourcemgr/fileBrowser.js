@@ -6,13 +6,13 @@ define(['jquery', 'lodash'], function($, _) {
     return function(options){
 
         var root            = options.root || '/';
+        var path            = options.path || '/';
         var $container      = options.$target;
         var $fileBrowser    = $('.file-browser', $container);
         var $divContainer   = $('.'+root, $fileBrowser);
         var $folderContainer= $('.folders', $divContainer);
         var fileTree        = {};
         //create the tree node for the ROOT folder by default
-        var path = (root === 'local')?'/':'taomedia://'+root+'/';
         $folderContainer.append('<li class="root"><a class="root-folder" data-display="' + root + '" data-path="'+path+'" href="#">' + root + '</a></li>');
 
         //load the content of the ROOT

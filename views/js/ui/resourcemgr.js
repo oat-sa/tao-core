@@ -16,7 +16,7 @@ define([
    var dataNs = 'ui.' + ns;
    
    var defaults = {
-        mediaSources    : ['local'],
+        mediaSources    : [{'root' : 'local', 'path' : '/'}],
         open            : true,
         appendContainer : '.tao-scope:first',
         title           : ''
@@ -82,11 +82,12 @@ define([
                         $elt.trigger('close.' + ns);
                     });
                     //initialize the components
-                    var mediaSources = options.mediaSources || ['local'];
+                    var mediaSources = options.mediaSources || defaults.mediaSources;
 
 
                     for(var i = 0; i < mediaSources.length; i++){
-                        options.root = mediaSources[i];
+                        options.root = mediaSources[i].root;
+                        options.path = mediaSources[i].path;
                         fileBrowser(options);
                     }
                     $('.file-browser').find('li.root:last').addClass('active');
