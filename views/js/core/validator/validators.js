@@ -103,11 +103,16 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             message : __('no file not found in this location'),
             options : {baseUrl : ''},
             validate : function(value, callback, options){
-                
-                var url = (value.indexOf('http') === 0) ? value : options.baseUrl + value;
-                
+
+                //valid way to know if it is an url
+                var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+                var url = (pattern.test(value)) ? value : options.baseUrl + value;
                 if(url){
-                    
                     //request HEAD only for bandwidth saving
                     $.ajax({
                         type : 'HEAD',

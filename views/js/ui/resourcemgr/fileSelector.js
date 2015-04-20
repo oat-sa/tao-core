@@ -191,6 +191,7 @@ define([
                         //try to call a server side service to check whether the selected files exists or not.       
                         if(options.fileExistsUrl){
                             var pathParam = currentPath + '/' + file.name;
+                            pathParam.replace('//','/');
                             $.getJSON(options.fileExistsUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + pathParam, function(response){
                                 if(response && response.exists === true){
                                     result = window.confirm('Do you want to override ' + file.name + '?');
