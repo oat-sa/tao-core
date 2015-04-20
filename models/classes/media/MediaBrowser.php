@@ -41,7 +41,7 @@ interface MediaBrowser {
      *                'mime' => $mimeType,
      *                'size' => $fileSize,
      *               ]
-     * @throws \Exception
+     * @throws \tao_models_classes_FileNotFoundException
      */
     public function getFileInfo($link);
 

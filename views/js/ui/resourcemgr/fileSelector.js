@@ -77,7 +77,7 @@ define([
                         file.display = (file.identifier + file.name);
                     }
 
-                    file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + file.uri;
+                    file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + encodeURIComponent(file.uri);
                     return file;
                 });
             
