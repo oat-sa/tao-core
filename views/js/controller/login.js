@@ -25,7 +25,8 @@ define([
     'i18n',
     'module',
     'ui/feedback',
-    'layout/version-warning'
+    'layout/version-warning',
+    'layout/time-zone'
 ], function ($, __, module, feedback,  versionWarning) {
     'use strict';
 

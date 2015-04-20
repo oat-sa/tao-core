@@ -13,7 +13,8 @@ define([
     'layout/version-warning',
     'layout/section-height',
     'layout/loading-bar',
-    'layout/nav'
+    'layout/nav',
+    'layout/time-zone'
 ],
 function ($, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav) {
     'use strict';

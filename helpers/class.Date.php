@@ -46,9 +46,11 @@ class tao_helpers_Date
      *
      * @param mixed $timestamp            
      * @param int $format  The date format. See tao_helpers_Date's constants.
+     * @param string $timeZone timezone names. See {@link http://php.net/manual/en/timezones.php} for more details.
+     * If this parameter is not given then the user time zone will be used.
      * @return string The formatted date.
      */
-    static public function displayeDate($timestamp, $format = self::FORMAT_LONG)
+    static public function displayeDate($timestamp, $format = self::FORMAT_LONG, $timeZone = null)
     {
         $returnValue = '';
         
@@ -62,13 +64,16 @@ class tao_helpers_Date
                 $dateTime = new DateTime();
                 $dateTime->setTimestamp($timestamp);
             }
-        $dateTime->setTimezone(new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone()));
+        if ($timeZone === null) {
+            $timeZone = common_session_SessionManager::getSession()->getTimeZone();
+        }
+        $dateTime->setTimezone(new DateTimeZone($timeZone));
         switch ($format) {
             case self::FORMAT_LONG:
                 $returnValue = $dateTime->format('d/m/Y H:i:s');
                 break;
             case self::FORMAT_DATEPICKER:
-                $returnValue = $dateTime->format('Y-m-d H:i');
+                $returnValue = $dateTime->format('Y-m-d H:i P');
                 break;
             case self::FORMAT_VERBOSE:
                 $returnValue = $dateTime->format('F j, Y, g:i:s a');
