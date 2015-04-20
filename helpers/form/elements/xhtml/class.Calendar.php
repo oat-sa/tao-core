@@ -41,8 +41,11 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         
         $uniqueId = uniqid('calendar_');
         $elementId = tao_helpers_Display::TextCleaner($this->getDescription()) . '_' . $uniqueId;
-        $timeZone = common_session_SessionManager::getSession()->getTimeZone();
+        $timeZoneName = common_session_SessionManager::getSession()->getTimeZone();
+        $now = new DateTime("now", new DateTimeZone('UTC'));
+        $timezone = new DateTimeZone($timeZoneName);
         $value = '';
+        $utcValue = '';
         
         if (! isset($this->attributes['noLabel'])) {
             $returnValue .= "<label class='form_desc calendar' for='{$this->name}'>" . _dh($this->getDescription()) . "</label>";
@@ -56,33 +59,42 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         
         if (! empty($this->value)) {
             $timeStamp = is_numeric($this->getRawValue()) ? $this->getRawValue() : $this->getEvaluatedValue();
-            $value .= _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER));
+            $value = _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER));
+            $utcValue = _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER, 'UTC'));
         }
         
         $returnValue .= "<input type='text' id='$elementId' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . $value . '" />';
-        $returnValue .= "<input type='hidden' name='{$this->name}' id='{$elementId}_alt' value='{$timeStamp}' date-timezone='".$timeZone."' /> ";
+        $returnValue .= "<input type='hidden' name='{$this->name}' id='{$elementId}_alt' value='{$utcValue}' data-timezone='" . ($timezone->getOffset($now) / 60) . "' /> ";
         $returnValue .= "<script type=\"text/javascript\">
                     require(['ui/calendar'], function (Calendar) {
                         new Calendar({
+                            pickerOptions : {
+                                controlType: 'select',
+                                timezoneList : " . json_encode($this->getTimeZones()) . "
+                            },
                             selector : '#{$elementId}',
                             altFieldSelector :'#{$elementId}_alt',
-                            timezoneList : " . json_encode($this->getTimeZones()) . "
                         });
                     });</script>";
         
         return (string) $returnValue;
     }
-
+    
+    /**
+     * Gets the Unix timestamp.
+     * Note: this method always return time in UTC timezone.
+     * @return string
+     */
     public function getEvaluatedValue()
     {
         $returnValue = $this->getRawValue();
         
-        if (! empty($returnValue)) {
-            $tz = new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone());
+        if (!empty($returnValue)) {
+            $tz = new DateTimeZone('UTC');
             $dt = new DateTime($returnValue, $tz);
-            $returnValue = $dt->getTimestamp() . '';
+            $returnValue = (string) $dt->getTimestamp();
         }
         
         return $returnValue;
@@ -94,9 +106,9 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
      * @return array Example:
      *         <pre>
      *         array(
-     *         array('label' => '-12:00', 'value' => -720),
-     *         ...
-     *         array('label' => '+14:00', 'value' => 840)
+     *           array('label' => '-12:00', 'value' => -720),
+     *           ...
+     *           array('label' => '+14:00', 'value' => 840)
      *         )
      *         </pre>
      */
@@ -104,13 +116,19 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
     {
         $results = array();
         $now = new DateTime("now", new DateTimeZone('UTC'));
-        foreach (\DateTimeZone::listIdentifiers() as $key) {
+        $timeZones = array_unique(\DateTimeZone::listIdentifiers());
+        foreach ($timeZones as $key) {
             $timezone = new DateTimeZone($key);
-            $results[] = array(
-                'label' => $key,
-                'value' => $timezone->getOffset($now)
+            if (isset($results[$timezone->getOffset($now)])) continue;
+            
+            $sign = ($timezone->getOffset($now) == 0) ? '' : ($timezone->getOffset($now) > 0 ? '+' : '-');
+            
+            $results[$timezone->getOffset($now)] = array(
+                'label' => $sign . gmdate("H:i", abs($timezone->getOffset($now))),
+                'value' => $timezone->getOffset($now) / 60
             );
         }
-        return $results;
+        ksort($results);
+        return array_values($results);
     }
 }

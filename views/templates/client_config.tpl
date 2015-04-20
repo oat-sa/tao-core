@@ -80,7 +80,7 @@ require.config({
 
    shim : {
         'wfEngine/wfApi/wfApi.min' : ['jquery'],
-        'moment'                : { exports : 'moment' },
+        'moment'                : { exports : 'moment', deps : ['layout/time-zone']},
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
