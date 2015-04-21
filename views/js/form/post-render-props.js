@@ -108,25 +108,21 @@ define([
                                 $editIcon.on('click', function() {
                                     //form is close so open it (hide index, show property)
                                     if(!$editContainer.parent().hasClass('property-edit-container-open')){
-                                        $editContainer.slideToggle({
-                                                start : function(){
-                                                    $editContainer.parent().toggleClass('property-edit-container-open');
-                                                    //hide index and show properties
-                                                    _hideIndexes($editContainer);
-                                                    _showProperties($editContainer);
-                                                }
+                                        //hide index and show properties
+                                        _hideIndexes($editContainer);
+                                        _showProperties($editContainer);
+                                        $editContainer.slideToggle( function(){
+                                            $editContainer.parent().toggleClass('property-edit-container-open');
                                         });
                                     }
                                     //it is open so switch between index and property or close it
                                     else{
                                         // close form
                                         if($($('.property',$editContainer)[0]).is(':visible')){
-                                            $editContainer.slideToggle({
-                                                complete : function(){
-                                                    $editContainer.parent().toggleClass('property-edit-container-open');
-                                                    //hide properties
-                                                    _hideProperties($editContainer);
-                                                }
+                                            $editContainer.slideToggle( function(){
+                                                $editContainer.parent().toggleClass('property-edit-container-open');
+                                                //hide properties
+                                                _hideProperties($editContainer);
                                             });
                                         }
                                         // hide index and show properties
@@ -145,26 +141,21 @@ define([
                                     if($('.property-mode').hasClass('property-mode-advanced')){
                                         //form is close so open it (hide property, show index)
                                         if(!$editContainer.parent().hasClass('property-edit-container-open')){
-                                            $editContainer.slideToggle({
-                                                start : function(){
-                                                    $editContainer.parent().toggleClass('property-edit-container-open');
-                                                    //hide index and show properties
-                                                    _hideProperties($editContainer);
-                                                    _showIndexes($editContainer);
-                                                }
-
+                                            //hide index and show properties
+                                            _hideProperties($editContainer);
+                                            _showIndexes($editContainer);
+                                            $editContainer.slideToggle(function(){
+                                                $editContainer.parent().toggleClass('property-edit-container-open');
                                             });
                                         }
                                         //it is open so switch between index and property or close it
                                         else{
                                             // close form
                                             if($($('.index',$editContainer)[0]).is(':visible')){
-                                                $editContainer.slideToggle({
-                                                    complete : function(){
-                                                        $editContainer.parent().toggleClass('property-edit-container-open');
-                                                        //hide indexes
-                                                        _hideIndexes($editContainer);
-                                                    }
+                                                $editContainer.slideToggle(function(){
+                                                    $editContainer.parent().toggleClass('property-edit-container-open');
+                                                    //hide indexes
+                                                    _hideIndexes($editContainer);
                                                 });
                                             }
                                             // hide properties and show indexes
