@@ -169,11 +169,14 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#userUILg">
   	<tao:TAOGUIOrder><![CDATA[50]]></tao:TAOGUIOrder>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#login">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#userTimezone">
   	<tao:TAOGUIOrder><![CDATA[60]]></tao:TAOGUIOrder>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#password">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#login">
   	<tao:TAOGUIOrder><![CDATA[70]]></tao:TAOGUIOrder>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#password">
+  	<tao:TAOGUIOrder><![CDATA[80]]></tao:TAOGUIOrder>
   </rdf:Description>
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Lock">

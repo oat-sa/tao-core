@@ -36,7 +36,7 @@ require.config({
         'select2'           : 'lib/select2/select2.min',
         'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
-        'jquery.timePicker' : 'lib/jquery.timePicker',
+        'jquery.timePicker' : 'lib/jquery.timePicker/jquery.timePicker',
         'jquery.cookie'     : 'lib/jquery.cookie',
         'tooltipster'       : 'lib/tooltipster/jquery.tooltipster',
         'nouislider'        : 'lib/sliders/jquery.nouislider',
@@ -81,6 +81,7 @@ require.config({
    shim : {
         'wfEngine/wfApi/wfApi.min' : ['jquery'],
         'moment'                : { exports : 'moment', deps : ['layout/time-zone']},
+        'jquery.timePicker'     : { deps : ['css!lib/jquery.timePicker/css/styles']},
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},

@@ -214,6 +214,14 @@ class tao_actions_form_Users
 		$rolesElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$rolesElt->setOptions($rolesOptions);
 		
+		// Time zone field
+                $tzElement = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_TIMEZONE));
+                $options = array();
+                foreach (DateTimeZone::listIdentifiers() as $id) {
+                    $options[$id] = $id;
+                }
+                $tzElement->setOptions($options);
+                
 		// password field
 		$this->form->removeElement(tao_helpers_Uri::encode(PROPERTY_USER_PASSWORD));
 		

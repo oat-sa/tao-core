@@ -42,7 +42,6 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         $uniqueId = uniqid('calendar_');
         $elementId = tao_helpers_Display::TextCleaner($this->getDescription()) . '_' . $uniqueId;
         $timeZoneName = common_session_SessionManager::getSession()->getTimeZone();
-        $now = new DateTime("now", new DateTimeZone('UTC'));
         $timezone = new DateTimeZone($timeZoneName);
         $value = '';
         $utcValue = '';
@@ -66,7 +65,7 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         $returnValue .= "<input type='text' id='$elementId' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . $value . '" />';
-        $returnValue .= "<input type='hidden' name='{$this->name}' id='{$elementId}_alt' value='{$utcValue}' data-timezone='" . ($timezone->getOffset($now) / 60) . "' /> ";
+        $returnValue .= "<input type='hidden' name='{$this->name}' id='{$elementId}_alt' value='{$utcValue}' data-timezone='" . $timezone->getName() . "' /> ";
         $returnValue .= "<script type=\"text/javascript\">
                     require(['ui/calendar'], function (Calendar) {
                         new Calendar({
@@ -106,9 +105,9 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
      * @return array Example:
      *         <pre>
      *         array(
-     *           array('label' => '-12:00', 'value' => -720),
+     *           array('label' => 'Antarctica/McMurdo', 'value' => -720),
      *           ...
-     *           array('label' => '+14:00', 'value' => 840)
+     *           array('label' => 'Pacific/Kiritimati', 'value' => 840)
      *         )
      *         </pre>
      */
@@ -116,19 +115,18 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
     {
         $results = array();
         $now = new DateTime("now", new DateTimeZone('UTC'));
-        $timeZones = array_unique(\DateTimeZone::listIdentifiers());
-        foreach ($timeZones as $key) {
+        foreach (\DateTimeZone::listIdentifiers() as $key) {
             $timezone = new DateTimeZone($key);
-            if (isset($results[$timezone->getOffset($now)])) continue;
             
-            $sign = ($timezone->getOffset($now) == 0) ? '' : ($timezone->getOffset($now) > 0 ? '+' : '-');
-            
-            $results[$timezone->getOffset($now)] = array(
-                'label' => $sign . gmdate("H:i", abs($timezone->getOffset($now))),
-                'value' => $timezone->getOffset($now) / 60
+            $offset = ($timezone->getOffset($now) / 60);
+            if ($offset == 0) {
+                $offset = '0000';
+            }
+            $results[] = array(
+                'label' => $key,
+                'value' => $offset
             );
         }
-        ksort($results);
         return array_values($results);
     }
 }

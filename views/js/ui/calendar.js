@@ -40,9 +40,11 @@ define(
          */
         return function (options) {
             var that = this,
-                timezoneOffset;
+                timezoneOffset,
+                timezoneName;
         
             this.init = function () {
+                
                 
                 var $el = $(options.selector),
                     $altEl = $(options.altFieldSelector),
@@ -50,7 +52,7 @@ define(
                         format : 'YYYY-MM-DD HH:mm',
                         pickerOptions : {
                             dateFormat : 'yy-mm-dd',
-                            timeFormat : 'HH:mm Z',
+                            timeFormat : 'HH:mm z',
                             onSelect : function (val, ui) {
                                 var m = moment(val, options.format),
                                     utc;
@@ -58,22 +60,48 @@ define(
                                 $altEl.val(utc.format(options.format));
                             },
                             showTimezone : true,
-                            timezone : timezoneOffset,
-                            beforeShow: function (textbox, instance) {
+                            showMillisec : false,
+                            showMicrosec : false,
+                            showSecond : false,
+                            beforeShow : function (textbox, instance) {
                                 $(textbox).parent().append(instance.dpDiv);
+                            },
+                            afterInject : function () {
+                                if (!this.timezone_select.data('new')) {
+                                    this.timezone_select.find('option').prop('selected', false);
+                                    this.timezone_select.find('option:contains("' + timezoneName + '")').prop('selected', true);
+                                    this.timezone_select.data('new', true);
+                                }
+                                timezoneName = this.timezone_select.find(":selected").text();
                             }
                         }
                     };
-                    
-                timezoneOffset = $altEl.data('timezone') ? $altEl.data('timezone') : (new Date()).getTimezoneOffset();
             
                 options = _.merge(defaultOptions, options);
+                
+                timezoneName = $altEl.data('timezone');
+                timezoneOffset = this.getTimezoneOffset(timezoneName);
                 
                 if (!$el.length || !$altEl.length) {
                     throw new Error("Calendar requires selector and altFieldSelector options of existing DOM elements");
                 }
 
                 $el.datetimepicker(options.pickerOptions);
+            };
+            
+            /**
+             * 
+             * @returns {undefined}
+             */
+            this.getTimezoneOffset = function (tzName) {
+                var value;
+                if (options.pickerOptions.timezoneList) {
+                    value = _.result(_.find(options.pickerOptions.timezoneList, {label: tzName}), 'value');
+                }
+                if (value === undefined) {
+                    value = (new Date()).getTimezoneOffset() * -1;
+                }
+                return value;
             };
             
             /**
