@@ -252,7 +252,7 @@ define([
             var toolbar,
                 toolbars = _.clone(toolbarPresets, true),
                 config,
-                dtdMode = 'html';
+                dtdMode = options.dtdMode || 'html';
 
             // modify DTD to either comply with QTI or XHTML
             if(toolbarType.indexOf('qti') === 0){
@@ -285,7 +285,7 @@ define([
             if(typeof options.positionedPlugins !== 'undefined'){
                 options.positionedPlugins = {};
             }
-
+            
             // set options.positionedPlugins to false to prevent the class from using them at all
             if(false !== options.positionedPlugins){
                 if(dtdMode === 'qti'){
