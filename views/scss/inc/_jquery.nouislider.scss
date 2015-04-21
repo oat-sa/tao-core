@@ -72,8 +72,15 @@
     margin-top: 6px !important;
 }
 
-.noUi-horizontal .noUi-handle:hover:after {
-    border-top: 3px solid $uiClickableHoverBg;
+.noUi-horizontal .noUi-handle {
+    &:hover:after {
+        border-top: 3px solid $uiClickableHoverBg;
+    }
+    &.noUi-active {
+        &:after {
+            border-top-color: $uiClickableHoverBg;
+        }
+    }
 }
 
 .noUi-horizontal.noUi-extended {
