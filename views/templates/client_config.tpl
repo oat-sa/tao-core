@@ -18,7 +18,6 @@ require.config({
             shownExtension          : '<?=get_data('shownExtension')?>',
             shownStructure          : '<?=get_data('shownStructure')?>',
             extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
-            mediaSources            : <?=json_encode(get_data('mediaSources'))?>
         }
     },
 
