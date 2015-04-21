@@ -59,7 +59,7 @@ require.config({
         'scale.raphael'     : 'lib/raphael/scale.raphael',
         'spin'              : 'lib/spin.min',
         'history'           : 'lib/history',
-        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player.min',
+        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player',
         'mathJax'           : [
             '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
             '../../../taoQtiItem/views/js/MathJaxFallback'
@@ -84,17 +84,6 @@ require.config({
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
-
-        'mediaElement' : {
-            deps: ['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'],
-            exports : 'MediaElementPlayer',
-            init : function(){
-                MediaElementPlayer.pluginPath = '<?=TAOBASE_WWW?>js/lib/mediaelement/'; //define the plugin swf path here
-                MediaElementPlayer.plugins = ['flash'];
-                MediaElementPlayer.flashName = 'flashmediaelement.swf';
-                return MediaElementPlayer;
-            }
-        },
 
         'mathJax' : {
             exports : "MathJax",
