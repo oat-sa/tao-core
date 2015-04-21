@@ -82,7 +82,7 @@ class tao_scripts_TaoInstall
         $this->options['db_name'] = (empty($this->options['db_name']) ? $this->options['module_name'] : $this->options['db_name']);
         
         // If no instance_name given, it takes the value of module_name.
-        $this->options['instance_name'] = (empty($this->options['instance_name']) ? $this->options['module_name'] : $this->options['db_name']);
+        $this->options['instance_name'] = (empty($this->options['instance_name']) ? $this->options['module_name'] : $this->options['instance_name']);
         
     	// user password treatment
     	$this->options["user_pass1"] = $this->options['user_pass'];

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC04\n"
-"PO-Revision-Date: 2015-03-06T15:30:12\n"
+"Project-Id-Version: TAO 3.0-RC05\n"
+"PO-Revision-Date: 2015-04-13T09:45:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lb-LU\n"
@@ -135,16 +135,6 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Management Role Class"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Worker"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Worker Role Class"
-msgstr ""
-
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Back Office"
@@ -175,6 +165,16 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Service Role"
 msgstr ""
 
+# http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "TAO Manager"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The TAO Manager Role"
+msgstr ""
+
 # http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Global Manager"
@@ -185,14 +185,24 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Global Manager Role"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
+# http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "TAO Manager"
+msgid "Lock Manager"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
+# http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The TAO Manager Role"
+msgid "The role that can unlock all resources"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "System Administrator"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The System Administrator Role"
 msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
@@ -243,6 +253,16 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Is it the first the user connects to TAO?"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Worker"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The Worker Role Class"
 msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole

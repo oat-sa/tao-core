@@ -32,5 +32,16 @@ define(['jquery', 'ui/waitForMedia'], function($){
         });
 
     });
+    
+    asyncTest('waitForMedia no images', function(){
+        expect(1);
+        var $fixture = $('#qunit-fixture');
+        var $elt = $fixture.find('#div2');
+        $elt.waitForMedia(function(){
+            ok(true, 'callback function was executed');
+            start();
+        });
+
+    });
 
 });
