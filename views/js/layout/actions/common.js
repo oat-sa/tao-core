@@ -38,6 +38,18 @@ define([
         });
 
         /**
+         * Register the load class action: load the url into the content container
+         *
+         * @this the action (once register it is bound to an action object)
+         *
+         * @param {Object} actionContext - the current actionContext
+         * @param {String} actionContext.classUri - the URI of the parent class
+         */
+        binder.register('loadClass', function load(actionContext){
+            section.current().loadContentBlock(this.url, {classUri: actionContext.classUri, id: uri.decode(actionContext.classUri)});
+        });
+
+        /**
          * Register the subClass action: creates a sub class
          *
          * @this the action (once register it is bound to an action object)
@@ -48,16 +60,17 @@ define([
          * @fires layout/tree#addnode.taotree
          */
         binder.register('subClass', function subClass(actionContext){
+            var classUri = uri.decode(actionContext.classUri);
             $.ajax({
                 url: this.url,
                 type: "POST",
-                data: {classUri: actionContext.classUri, id: actionContext.id, type: 'class'},
+                data: {classUri: actionContext.classUri, id: classUri, type: 'class'},
                 dataType: 'json',
                 success: function(response){
                     if (response.uri) {
                         $(actionContext.tree).trigger('addnode.taotree', [{
                             'uri'       : uri.decode(response.uri),
-                            'parent'    : actionContext.id,
+                            'parent'    : classUri,
                             'label'     : response.label,
                             'cssClass'  : 'node-class'
                         }]);
@@ -77,16 +90,17 @@ define([
          * @fires layout/tree#addnode.taotree
          */
         binder.register('instanciate', function instanciate(actionContext){
+            var classUri = uri.decode(actionContext.classUri);
             $.ajax({
                 url: this.url,
                 type: "POST",
-                data: {classUri: actionContext.classUri, id: actionContext.id, type: 'instance'},
+                data: {classUri: actionContext.classUri, id: classUri, type: 'instance'},
                 dataType: 'json',
                 success: function(response){
                     if (response.uri) {
                         $(actionContext.tree).trigger('addnode.taotree', [{
                             'uri'		: uri.decode(response.uri),
-                            'parent'    : actionContext.id,
+                            'parent'    : classUri,
                             'label'     : response.label,
                             'cssClass'  : 'node-instance'
                         }]);
@@ -141,9 +155,9 @@ define([
                 uri: uri.decode(actionContext.uri),
                 classUri: uri.decode(actionContext.classUri),
                 id: actionContext.id
-            }
+            };
             //TODO replace by a nice popup
-            if (confirm(__("Please confirm deletion"))) {
+            if (window.confirm(__("Please confirm deletion"))) {
                 $.ajax({
                     url: this.url,
                     type: "POST",
@@ -155,7 +169,7 @@ define([
                                 id : actionContext.uri || actionContext.classUri
                             }]);
                         } else {
-                            var msg = response.msg || __("Unable to delete the selected class");
+                            var msg = response.msg || __("Unable to delete the selected resource");
                             feedback().error(msg);
                         }
                     }

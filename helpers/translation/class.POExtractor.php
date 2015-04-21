@@ -51,7 +51,7 @@ class tao_helpers_translation_POExtractor
 			$tu->setTarget($target);
 			$tu->setSourceLanguage($sourceLanguage);
 			$tu->setTargetLanguage($targetLanguage);
-			$tu->setAnnotations([$about]);
+			$tu->setAnnotations(array($about));
 			$tu->setContext($child->namespaceURI . $child->localName);
 
 			$tus[] = $tu;

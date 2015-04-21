@@ -9,8 +9,5 @@ use oat\tao\helpers\Template;
             <?=get_data('myForm')?>
         </div>
     </div>
-    <div class="data-container-wrapper flex-container-remaining">
-        <?=get_data('userTree')?>
-    </div>
 
 <?php Template::inc('footer.tpl', 'tao') ?>;

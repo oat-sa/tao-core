@@ -150,18 +150,23 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 				$this->setData('reload', true);
 			}
 		}
-		//get the users related to this role
-		$prop = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
-		$tree = tao_helpers_form_GenerisTreeForm::buildReverseTree($role, $prop);
-		$tree->setData('title', __('Assign User to role'));
-		$tree->setData('dataUrl', _url('getUsers'));
-		$this->setData('userTree', $tree->render());
 		
 		$this->setData('uri', tao_helpers_Uri::encode($role->getUri()));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
 		$this->setData('formTitle', 'Edit Role');
 		$this->setData('myForm', $myForm->render());
 		$this->setView('roles/form.tpl');
+	}
+	
+	public function assignUsers()
+	{
+	    $role = $this->getCurrentInstance();
+	    $prop = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+	    $tree = tao_helpers_form_GenerisTreeForm::buildReverseTree($role, $prop);
+	    $tree->setData('title', __('Assign User to role'));
+	    $tree->setData('dataUrl', _url('getUsers'));
+	    $this->setData('userTree', $tree->render());
+		$this->setView('roles/assignUsers.tpl');
 	}
 
 	/**

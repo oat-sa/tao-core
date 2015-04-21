@@ -332,11 +332,17 @@ class tao_helpers_translation_TranslationFile
         
         // If the translation unit exists, we replace the target with the new one if it exists.
         foreach($this->getTranslationUnits() as $tu) {
+            
         	if ($tu->getSource() == $translationUnit->getSource()) {
-        		
-    			$tu->setTarget($translationUnit->getTarget());
-                $tu->setAnnotations($translationUnit->getAnnotations());
-        		
+        	    // If we are here, it means that this TU is being overriden by
+        	    // another one having the same source...
+        	    //
+        	    // Let's make sure we don't override the existing one with an empty target!
+        	    if ($translationUnit->getTarget() !== '') {
+        	        $tu->setTarget($translationUnit->getTarget());
+        	        $tu->setAnnotations($translationUnit->getAnnotations());
+        	    }
+    			
         		return;
         	}
         }

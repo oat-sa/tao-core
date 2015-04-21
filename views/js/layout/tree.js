@@ -2,9 +2,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 
+    'jquery',
     'lodash',
-    'i18n', 
+    'i18n',
     'context',
     'store',
     'layout/actions',
@@ -19,7 +19,7 @@ define([
     /**
      * The tree factory helps you to intantiate a new tree from the TAO ontology
      * @exports layout/tree
-     * 
+     *
      * @param {jQueryElement} $elt - that will contain the tree
      * @param {String} url - the endpoint to load data
      * @param {Object} [options] - additional configuration options
@@ -31,10 +31,10 @@ define([
      * @param {String} [options.actions.deleteInstance] - the id of the action bound (using actionManager.register) on delete
      * @param {String} [options.selectNode] - the URI of the node to be selected by default, the node must be loaded.
      * @param {String} [options.loadNode] - the URI of a node to be loaded from the server side and selected.
-     * 
+     *
      */
     var treeFactory = function($elt, url, options){
-        
+
         options = options || {};
 
         var lastOpened;
@@ -102,10 +102,10 @@ define([
 
             //theme
             ui: {
-                theme_name : "css",
-                theme_path : context.taobase_www + 'js/lib/jsTree/themes/css/style.css'
+                "theme_name" : "css",
+                "theme_path" : context.taobase_www + 'js/lib/jsTree/themes/css/style.css'
             },
-        
+
             //nodes types
             types: {
                 "default" : {
@@ -137,30 +137,35 @@ define([
 
                     //check for additionnal parameters in tree state
                     if(treeData){
+
+                        //the tree has been loaded/refreshed with the filtering
                         if(_.isString(treeData.filter) && treeData.filter.length){
                             params.filter = treeData.filter;
                             treeData = _.omit(treeData, 'filter');
                         }
+
+                        //the tree has been loaded/refreshed with the loadNode parameter, so it has to be selected
                         if(_.isString(treeData.loadNode) && treeData.loadNode.length){
                             params.loadNode = treeData.loadNode;
+                            treeData.selectNode = uri.encode(params.loadNode);
                             treeData = _.omit(treeData, 'loadNode');
                         }
-                        
+
                         $elt.data('tree-state', treeData);
                     }
                     return params;
                 },
 
                 /**
-                 * Called back once the data are received. 
+                 * Called back once the data are received.
                  * Used to modify them before building the tree.
-                 * 
+                 *
                  * @param {Object} data - the received data
-                 * @param {Object} tree - the tree instance 
+                 * @param {Object} tree - the tree instance
                  * @returns {Object} data the modified data
                  */
                 ondata: function(data, tree) {
-                    
+
                     if(data.error){
                         feedback().error(data.error);
                         return [];
@@ -170,12 +175,12 @@ define([
                     if (data.children) {
                         data.state = 'open';
                     }
-                    
+
                     computeSelectionAccess(data);
-                    
+
                     flattenPermissions(data);
 
-                    needMore(data); 
+                    needMore(data);
 
                     addTitle(data);
 
@@ -185,8 +190,8 @@ define([
                 /**
                  * Once the data are loaded and the tree is ready
                  * Used to modify them before building the tree.
-                 * 
-                 * @param {Object} tree - the tree instance 
+                 *
+                 * @param {Object} tree - the tree instance
                  *
                  * @fires layout/tree#ready.taotree
                  */
@@ -199,7 +204,7 @@ define([
                     var treeState       = $elt.data('tree-state') || {};
                     var selectNode      = treeState.selectNode || options.selectNode;
                     var nodeSelection   = function nodeSelection(){
-                        //the node to select is given 
+                        //the node to select is given
                         if(selectNode){
                              $selectNode = $('#' + selectNode, $elt);
                              if($selectNode.length && !$selectNode.hasClass('private')){
@@ -219,7 +224,7 @@ define([
                         if ($firstInstance.length) {
                             return tree.select_branch($firstInstance);
                         }
-                        //or something 
+                        //or something
                         return tree.select_branch($('.node-class,.node-instance', $elt).get(0));
                     };
 
@@ -236,10 +241,21 @@ define([
                      * The tree is now ready
                      * @event layout/tree#ready.taotree
                      * @param {Object} [context] - the tree context (uri, classUri)
-                     */       
+                     */
                     $elt.trigger('ready.taotree');
                 },
-
+                
+                /**
+                 * After a branch is initialized
+                 */
+                oninit : function () {
+                    //execute initTree action
+                    if (options.actions && options.actions.init) {
+                        actionManager.exec(options.actions.init, {
+                            uri: $elt.data('rootnode')
+                        });
+                    }
+                },
 
                 /**
                  * Before a branch is opened
@@ -251,9 +267,9 @@ define([
 
                 /**
                  * A node is selected.
-                 * 
+                 *
                  * @param {HTMLElement} node - the opened node
-                 * @param {Object} tree - the tree instance 
+                 * @param {Object} tree - the tree instance
                  *
                  * @fires layout/tree#change.taotree
                  * @fires layout/tree#select.taotree
@@ -273,7 +289,7 @@ define([
                     $('a.clicked', $elt)
                         .parent('li')
                         .not('[id="' + nodeId + '"]')
-                        .removeClass('clicked'); 
+                        .removeClass('clicked');
 
                     //the more node makes you load more resources
                     if($node.hasClass('more')){
@@ -290,7 +306,7 @@ define([
                         nodeContext.permissions = permissions[nodeId];
                         nodeContext.id = $node.data('uri');
                         nodeContext.context = ['class', 'resource'];
-                        
+
                         executePossibleAction(options.actions, nodeContext, ['delete']);
                     }
 
@@ -300,11 +316,11 @@ define([
                         nodeContext.classUri = $parentNode.attr('id');
                         nodeContext.id = $node.data('uri');
                         nodeContext.context = ['instance', 'resource'];
-                        
+
                         //the last selected node is stored into the browser storage
-                        treeStore.lastSelected = nodeId; 
+                        treeStore.lastSelected = nodeId;
                         store.set('taotree.' + context.section, treeStore);
-                        
+
                         executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
                     }
 
@@ -312,7 +328,7 @@ define([
                      * A node has been selected
                      * @event layout/tree#select.taotree
                      * @param {Object} [context] - the tree context (uri, classUri)
-                     */       
+                     */
                     $elt
                       .trigger('select.taotree', [nodeContext])
                       .trigger('change.taotree', [nodeContext]);
@@ -330,12 +346,12 @@ define([
                     if ($(refNode).hasClass('node-instance') && type === 'inside') {
                         $.tree.rollback(rollback);
                         return false;
-                    } 
+                    }
 
                     if (type === 'after' || type === 'before') {
                         refNode = tree.parent(refNode);
                     }
-                    
+
                     //set the rollback data
                     $elt.data('tree-state', _.merge($elt.data('tree-state'), {rollback : rollback}));
 
@@ -350,9 +366,9 @@ define([
             }
         };
 
-        //list of events callbacks to be bound to the tree       
+        //list of events callbacks to be bound to the tree
         var events = {
-            
+
             /**
              * Refresh the tree
              *
@@ -376,7 +392,7 @@ define([
             },
 
             /**
-             * Rollback the tree. 
+             * Rollback the tree.
              * The rollback state must have been set in the state previously, otherwise runs a refresh.
              *
              * @event layout/tree#rollback.taotree
@@ -385,7 +401,7 @@ define([
                 var treeState;
                 var tree =  $.tree.reference($elt);
                 if(tree){
-        
+
                     treeState = $elt.data('tree-state');
                     if(treeState.rollback){
                         tree.rollback(treeState.rollback);
@@ -400,21 +416,21 @@ define([
             },
 
             /**
-             * Add a node to the tree. 
+             * Add a node to the tree.
              *
              * @event layout/tree#addnode.taotree
              * @param {Object} data - the data about the node to add
              * @param {String} data.parent - the id/uri of the node that will contain the new node
              * @param {String} data.id - the id of the new node
              * @param {String} data.cssClass - the css class for the new node (node-instance or node-class at least).
-             */       
+             */
             'addnode' : function (data) {
 
                 var tree =  $.tree.reference($elt);
             	var parentNode = tree.get_node($('#' + uri.encode(data.parent), $elt).get(0));
-            	
+
                 var params = _.clone(serverParams);
-                
+
                 params.classUri = data.parent;
                 if (data.cssClass === 'node-class') {
                     params.hideInstances = 1; //load only class nodes
@@ -447,7 +463,7 @@ define([
              * @event layout/tree#removenode.taotree
              * @param {Object} data - the data about the node to remove
              * @param {String} data.id - the id of the node to remove
-             */       
+             */
             'removenode' : function(data){
                 var tree =  $.tree.reference($elt);
                 var node = tree.get_node($('#' + data.id, $elt).get(0));
@@ -460,7 +476,7 @@ define([
              * @event layout/tree#selectnode.taotree
              * @param {Object} data - the data about the node to select
              * @param {String} data.id - the id of the node to select
-             */       
+             */
             'selectnode' : function(data){
                 var tree =  $.tree.reference($elt);
                 var node = tree.get_node($('#' + data.id, $elt).get(0));
@@ -474,7 +490,7 @@ define([
              * @event layout/tree#openbranch.taotree
              * @param {Object} data - the data about the node to remove
              * @param {String} data.id - the id of the node to remove
-             */       
+             */
             'openbranch' : function(data){
                 var tree =  $.tree.reference($elt);
                 var node = tree.get_node($('#' + data.id, $elt).get(0));
@@ -483,13 +499,13 @@ define([
             }
         };
 
-    
+
         /**
-         * Check if a node has access to a type of action regarding it's permissions 
+         * Check if a node has access to a type of action regarding it's permissions
          * @private
          * @param {String} actionType - in selectClass, selectInstance, moveInstance and delete
          * @param {Object} node       - the node data as recevied from the server
-         * @returns {Boolean} true if the action is allowed 
+         * @returns {Boolean} true if the action is allowed
          */
         var hasAccessTo = function hasAccessTo(actionType, node){
             var action = options.actions[actionType];
@@ -500,7 +516,7 @@ define([
         };
 
         /**
-         * Check whether the nodes in a tree are selectable. If not, we add the <strong>private</strong> class. 
+         * Check whether the nodes in a tree are selectable. If not, we add the <strong>private</strong> class.
          * @private
          * @param {Object} node - the tree node as recevied from the server
          */
@@ -509,7 +525,7 @@ define([
             if(_.isArray(node)){
                 _.forEach(node, computeSelectionAccess);
                 return;
-            } 
+            }
             if(node.type && node.permissions){
                 addClassToNode(node, getPermissionClass(node));
              }
@@ -557,7 +573,7 @@ define([
             if(_.isArray(node)){
                 _.forEach(node, addTitle);
                 return;
-            } 
+            }
             if(node.attributes && node.data){
                 node.attributes.title = node.data;
             }
@@ -575,7 +591,7 @@ define([
             if(_.isArray(node)){
                 _.forEach(node, flattenPermissions);
                 return;
-            } 
+            }
             if(node.attributes && node.attributes.id){
                 permissions[node.attributes.id] = node.permissions;
             }
@@ -584,7 +600,7 @@ define([
             }
         };
 
-        
+
 
         var needMore = function needMore(node){
            if(_.isArray(node) && lastOpened && lastOpened.length && lastOpened.data('count') > pageRange){
@@ -592,7 +608,7 @@ define([
            } else {
                 if(node.count){
                     node.attributes['data-count'] = node.count;
-                    
+
                     if(node.count > pageRange && node.children){
                        node.children.push(moreNode);
                     }
@@ -601,7 +617,7 @@ define([
                     _.forEach(node.children, needMore);
                 }
            }
-        }; 
+        };
 
         var loadMore = function loadMore($node, $parentNode, tree){
             var current     = $parentNode.children('ul').children('li.node-instance').length;
@@ -613,7 +629,7 @@ define([
 				'offset'        : current,
 				'limit'         : left < pageRange ? left : pageRange
 			}, serverParams);
-    
+
             $.ajax(tree.settings.data.opts.url, {
                 type        : tree.settings.data.opts.method,
                 dataType    : tree.settings.data.type,
@@ -637,11 +653,11 @@ define([
                 }
             });
         };
-        
+
         /**
          * Function executes first found allowed action for tree node.
          * @param {object} actions - All tree actions
-         * @param {object} [context] - Node context 
+         * @param {object} [context] - Node context
          * @param {object} [context.permissions] - Node permissions
          * @param {object} [context.context] - The context of the action: (class|instance|resource|*)
          * @param {array} exclude - list of actions to be excluded.
@@ -672,7 +688,7 @@ define([
                 self.permissionErrorMessage = feedback().error(__("You don't have sufficient permissions to access"));
             }
         }
-        
+
         return setUpTree();
     };
 
@@ -694,9 +710,9 @@ define([
 
     function addClassToNode(node, clazz){
         if(node && node.attributes){
-            
+
             node.attributes['class'] = node.attributes['class'] || '';
-            
+
             if(node.attributes['class'].length) {
                 node.attributes['class'] = node.attributes['class'] + ' ' + clazz;
             } else {
@@ -705,5 +721,5 @@ define([
         }
     }
 
-    return treeFactory; 
+    return treeFactory;
 });
