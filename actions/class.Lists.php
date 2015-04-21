@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,8 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 /**
  * This controller provide the actions to manage the lists of data
  *
@@ -305,4 +304,3 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 	}
 
 }
-?>
