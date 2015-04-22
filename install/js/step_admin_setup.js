@@ -20,34 +20,55 @@
  */
 //load the AMD config
 require(['config'], function() {
-    require(['jquery', 'spin', 'help', 'jqueryui', 'steps'], function($, Spinner, TaoInstall) {
+    require(['jquery', 'help', 'jqueryui', 'steps'], function ($) {
 
         var install = window.install;
 
         install.onNextable = function() {
             $('#submitForm').removeClass('disabled')
                 .addClass('enabled')
-                .attr('disabled', false);
-            $('#submitForm').attr('value', 'Next');
+                .attr({
+                    disabled: false,
+                    value: 'Next'
+                });
         };
 
         install.onUnnextable = function() {
             $('#submitForm').removeClass('enabled')
                 .addClass('disabled')
-                .attr('disabled', true);
-            $('#submitForm').attr('value', 'Next');
+                .attr({
+                    disabled: true,
+                    value: 'Next'
+                });
         };
 
         $('form').bind('submit', function() {
-            if (install.isNextable()) {
-                install.setTemplate('step_licenses');
-            }
+                var check = {
+                    password: install.getData('superuser_password1')
+                };
+
+                install.сheckPasswordСonformity(check, function(status, data) {
+
+                    if (data && data.value.status === 'valid') {
+                        // Great! We could be sure that provided password is strong enough
+                        if (install.isNextable()) {
+                            install.setTemplate('step_licenses');
+                        }
+                    } else  {
+                        var msg = 'Check you password please';
+                        if (data && data.value.message) {
+                            msg += "\n\n" + data.value.message;
+                        }
+
+                        displayTaoError(msg);
+                    }
+                });
 
             return false;
         });
 
         // Backward management.
-        $('#install_seq li a').each(function() {
+        $('#install_seq').find('a').each(function() {
             $(this).bind('click', onBackward);
         });
 
@@ -55,27 +76,17 @@ require(['config'], function() {
 
         var firstValues = {};
         $('.tao-input').each(function() {
-            $this = $(this);
+            var $this = $(this);
             // Provide a data getter/setter for API handshake.
             install.getDataGetter(this);
             install.getDataSetter(this);
 
             // Get labelifed values from raw DOM for further comparison.
-            if ($this.prop('tagName').toLowerCase() == 'input' && $this.attr('type') == 'text') {
+            if ($this.prop('tagName').toLowerCase() === 'input' && $this.attr('type') === 'text') {
                 firstValues[this.id] = this.getData();
             }
-        });
 
-        // Backward management.
-        $('#install_seq li a').each(function() {
-            $(this).bind('click', onBackward);
-        });
-
-
-        // Register inputs.
-        $('.tao-input').each(function() {
-
-            if (typeof(firstValues[this.id]) != 'undefined') {
+            if (typeof(firstValues[this.id]) !== 'undefined') {
                 this.firstValue = firstValues[this.id];
             }
 

@@ -103,7 +103,7 @@ define(['jquery'], function($){
      * Check the configuration on the server-side. 
      */
     TaoInstall.prototype.checkConfiguration = function(checks, callback){
-        
+
         if (checks != null){
             // We send the checks to perform.
             var data = {type: 'CheckPHPConfig',
@@ -115,8 +115,8 @@ define(['jquery'], function($){
         }
         else{
             // The checks to perform are chosen by the server-side.
-            var data = {type: 'CheckPHPConfig'}
-            if (typeof this.data['extensions'] != undefined) {
+            var data = {type: 'CheckPHPConfig'};
+            if (typeof this.data['extensions'] !== 'undefined') {
                 data['extensions'] = this.data['extensions'];
             }
             var options = {data: data, type: 'GET', dataType: 'json'};
@@ -139,8 +139,29 @@ define(['jquery'], function($){
                        type: 'POST',
                        dataType: 'json'};
                        
-        $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
-                                 .fail(function(jqxhr){callback(jqxhr.status)});
+        $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data);})
+                                 .fail(function(jqxhr){callback(jqxhr.status);});
+    };
+
+    /**
+     * Check if password match current security rules
+     */
+    TaoInstall.prototype.сheckPasswordСonformity = function(check, callback){
+        check.password = this.nullToEmptyString(check.password);
+
+        var config = {"name": "PasswordConformity", "extension": "tao",'id':'xxx'};
+
+        var data = {
+            type: 'CheckCustom',
+            value: $.extend(check, config)
+        };
+
+        var options = {data: JSON.stringify(data),
+                       type: 'POST',
+                       dataType: 'json'};
+
+        $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data);})
+                                 .fail(function(jqxhr){callback(jqxhr.status);});
     };
 
     /**
@@ -339,7 +360,16 @@ define(['jquery'], function($){
                                     var reg = new RegExp(options.pattern);
                                     element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };
                                 break;
-                            
+
+                                case 'server':
+                                    element.isValid = function(){
+                                        jQuery.post('/', {data: $element.val()}, function () {
+                                            console.log('asd');
+                                            displayTaoError('asdasd');
+                                            return false;
+                                        });
+                                    };
+                                    break;
                                 case 'url':
                                     var reg = new RegExp("(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?");
                                     element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };							
