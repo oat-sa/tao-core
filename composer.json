@@ -47,6 +47,7 @@
 		"phpdocumentor/reflection-docblock" : "2.*",
 		"zendframework/zendsearch" : "dev-multi-value",
 		"oat-sa/oatbox-extension-installer" : "dev-master",
+		"phpmailer/phpmailer" : "dev-master",
         "oat-sa/jig" : "dev-master"
     },
 	"minimum-stability" : "dev",

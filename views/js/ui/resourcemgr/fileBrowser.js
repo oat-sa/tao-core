@@ -6,14 +6,14 @@ define(['jquery', 'lodash'], function($, _) {
     return function(options){
 
         var root            = options.root || '/';
+        var path            = options.path || '/';
         var $container      = options.$target;
         var $fileBrowser    = $('.file-browser', $container);
         var $divContainer   = $('.'+root, $fileBrowser);
         var $folderContainer= $('.folders', $divContainer);
         var fileTree        = {};
         //create the tree node for the ROOT folder by default
-        var path = (root === 'local')?'/':root+'/';
-        $folderContainer.append('<li class="root"><a class="root-folder" data-display="' + root + '" data-path="'+path+'" href="#">' + root + '</a></li>');
+        $folderContainer.append('<li class="root"><a class="root-folder" href="#"></a></li>');
 
         //load the content of the ROOT
         getFolderContent(fileTree, path, function(content){
@@ -28,7 +28,8 @@ define(['jquery', 'lodash'], function($, _) {
             //internal event to set the file-selector content
             $('.file-browser').find('li.active').removeClass('active');
             $('li.root',$folderContainer).addClass('active');
-            $container.trigger('folderselect.' + ns , [root, content.children, content.path]);
+            $rootNode.attr('data-path', content.path).html(content.label);
+            $container.trigger('folderselect.' + ns , [content.label, content.children, content.path]);
         });
 
         // by clicking on the tree (using a live binding  because content is not complete yet)
@@ -68,7 +69,7 @@ define(['jquery', 'lodash'], function($, _) {
                     $selected.parent('li').addClass('active');
 
                     //internal event to set the file-selector content
-                    $container.trigger('folderselect.' + ns , [displayPath, content.children, content.path]);
+                    $container.trigger('folderselect.' + ns , [content.label, content.children, content.path]);
                 }
             });
         });
@@ -81,7 +82,7 @@ define(['jquery', 'lodash'], function($, _) {
                 }
                 if(!_.find(subTree.children, {name : file.name})){
                     subTree.children.push(file);
-                    $container.trigger('folderselect.' + ns , [path, subTree.children, path]);
+                    $container.trigger('folderselect.' + ns , [subTree.label, subTree.children, path]);
                 }
             }
         });

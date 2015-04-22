@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-09T09:06:19\n"
+"PO-Revision-Date: 2015-04-13T09:45:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
@@ -29,9 +29,6 @@ msgstr "er blevet installeret"
 
 msgid " next"
 msgstr "næste"
-
-msgid " of the instance "
-msgstr " eksempel "
 
 msgid " requires a subgrid adapter"
 msgstr " kræver en subgrid adapter"
@@ -130,17 +127,20 @@ msgstr ""
 msgid "Add file(s)"
 msgstr ""
 
+msgid "Add property"
+msgstr ""
+
 msgid "Add the source file."
 msgstr ""
 
 msgid "Advanced Mode"
 msgstr "Avanceret tilstand"
 
-msgid "All"
-msgstr "Alle"
-
 msgid "all"
 msgstr "alle"
+
+msgid "All"
+msgstr "Alle"
 
 msgid "All (the complete TAO Module)"
 msgstr "Alt (hele TAO-modulet)"
@@ -170,6 +170,10 @@ msgstr ""
 
 msgid "Assign User to role"
 msgstr "Tildel bruger til rolle"
+
+#, tao-public
+msgid "Assign Users"
+msgstr ""
 
 msgid "Author"
 msgstr "Forfatter"
@@ -214,11 +218,11 @@ msgstr "Ændre adgangskode"
 msgid "Change the password"
 msgstr "Ændre password"
 
-msgid "Check all"
-msgstr "Tjek alle"
-
 msgid "Check All"
 msgstr "Vælg alle"
+
+msgid "Check all"
+msgstr "Tjek alle"
 
 msgid "Choose export format"
 msgstr ""
@@ -277,10 +281,10 @@ msgstr "Data importeret succesfuldt"
 msgid "Data Lang."
 msgstr "Data sprog."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data sprog"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data sprog"
 
 msgid "Date"
@@ -350,11 +354,11 @@ msgstr "Rediger forekomst"
 msgid "Edit this list"
 msgstr ""
 
-msgid "Element"
-msgstr "Element"
-
 msgid "element"
 msgstr "element"
+
+msgid "Element"
+msgstr "Element"
 
 msgid "Element deleted"
 msgstr ""
@@ -505,10 +509,10 @@ msgstr "Installer udvidelser %s..."
 msgid "Instance saved"
 msgstr "Forekomst gemt"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Interface sprog"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Interface sprog"
 
 msgid "Invalid date range"
@@ -604,9 +608,6 @@ msgstr "Login tilgængeligt"
 msgid "Login failed"
 msgstr "Loginfejlede"
 
-msgid "Manage content of the property "
-msgstr "Administrere indhold af egenskab "
-
 msgid "Manage data list"
 msgstr "Administrere dataliste"
 
@@ -616,9 +617,6 @@ msgstr "Administrer roller"
 
 msgid "Manage Roles and apply them to users."
 msgstr "Administrer Roller og knyt dem til brugere."
-
-msgid "Manage the versioned content : "
-msgstr "Administrer versioneret indhold : "
 
 #, tao-public
 msgid "Manage users"
@@ -640,6 +638,10 @@ msgid "minutes"
 msgstr ""
 
 msgid "More"
+msgstr ""
+
+#, tao-public
+msgid "Move role"
 msgstr ""
 
 msgid "Move to"
@@ -783,9 +785,6 @@ msgstr "Vil du virkelig slette"
 
 msgid "Please confirm property deletion!"
 msgstr "Vil du virkelig slette egenskab!"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr ""
@@ -1002,9 +1001,6 @@ msgstr ""
 msgid "The column "
 msgstr "Kolonnen "
 
-msgid "the file was not uploaded successfully"
-msgstr "filen blev ikke oprettet"
-
 msgid "The format of this field is not valid."
 msgstr "Formatet i dette felt er forkert."
 
@@ -1083,13 +1079,13 @@ msgstr "UI sprog."
 msgid "Unable to change passwords in demo mode"
 msgstr "Det er ikke muligt at ændre adgangskode i demo versionen"
 
-msgid "Unable to delete the selected class"
-msgstr ""
-
 msgid "Unable to delete the selected resource"
 msgstr ""
 
 msgid "Unable to release the lock"
+msgstr ""
+
+msgid "Unable to remove the property."
 msgstr ""
 
 msgid "Unable to upload file"
