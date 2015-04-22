@@ -108,26 +108,30 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
                     return;
                 }
                 
-                //don't check if it is an http resource
-                var url = '';
-                if(value.indexOf('http') === 0){
-                    callback(true);
-                    return;
+                //valid way to know if it is an url
+                var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])?)\\.)+[a-z]{2,}|'+ // domain name
+                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+                if(!pattern.test(value)){
+                	//request HEAD only for bandwidth saving
+                    $.ajax({
+                        type : 'HEAD',
+                        url : options.baseUrl + value,
+                        success : function(){
+                            callback(true);
+                        },
+                        error : function(){
+                            callback(false);
+                        }
+                    });
+                
                 }else{
-                    url = options.baseUrl + value;
+                    
+                    callback(true);
                 }
-
-                //request HEAD only for bandwidth saving
-                $.ajax({
-                    type : 'HEAD',
-                    url : url,
-                    success : function(){
-                        callback(true);
-                    },
-                    error : function(){
-                        callback(false);
-                    }
-                });
                 
             }
         },

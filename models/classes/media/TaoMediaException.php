@@ -20,29 +20,9 @@
 namespace oat\tao\model\media;
 
 /**
- * Write interface to the mediaSource
+ * An except relating to media that could not be found or retrieved
  */
-interface MediaManagement extends MediaBrowser{
+class TaoMediaException extends \common_Exception
+{
 
-    /**
-     * @param string $source file to add
-     * @param string $fileName new name of the file
-     * @param string $parent the directory in which to upload / the class where to create the instance etc.
-     * @return array of file info ['name' => $filename,
-     *                              'mime' => $mimeType,
-     *                              'size' => $fileSize
-     *                             ]
-     * @throws \common_exception_Error
-     * @throws \tao_models_classes_FileNotFoundException
-     */
-    public function add($source, $fileName, $parent);
-
-
-    /**
-     * @param $filename
-     * @return boolean the removal was successful
-     */
-    public function delete($filename);
-
-
-} 
+}

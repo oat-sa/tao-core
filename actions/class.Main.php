@@ -27,6 +27,7 @@ use oat\tao\helpers\TaoCe;
 use oat\tao\model\menu\Action;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
+use oat\tao\model\messaging\MessagingService;
 use \common_session_SessionManager;
 use \common_Logger;
 
@@ -147,6 +148,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('form', $myForm->render());
         $this->setData('title', __("TAO Login"));
+        $this->setData('messageServiceIsAvailable', MessagingService::singleton()->isAvailable());
+        
         if ($this->hasRequestParameter('msg')) {
             $this->setData('msg', htmlentities($this->getRequestParameter('msg')));
         }
@@ -236,7 +239,6 @@ class tao_actions_Main extends tao_actions_CommonModule
 
 		$this->setView('layout.tpl', 'tao');
 	}
-    
     
     /**
      * Get perspective data depending on the group set in structure.xml
