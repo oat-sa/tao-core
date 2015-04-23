@@ -115,7 +115,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
                     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
                     '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
                     '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                if(!pattern.test(value)){
+                if(!pattern.test(value) && !/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(value)){
                 	//request HEAD only for bandwidth saving
                     $.ajax({
                         type : 'HEAD',
