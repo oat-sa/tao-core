@@ -604,12 +604,14 @@ class tao_scripts_TaoTranslate
         $translationFile->setTargetLanguage($this->options['language']);
        	$translationFile->addTranslationUnits($sourceCodeExtractor->getTranslationUnits());
        	
-       	$file = MenuService::getStructuresFilePath($this->options['extension']);
-       	if (!is_null($file)) {
-       	    $structureExtractor = new tao_helpers_translation_StructureExtractor(array($file));
+        $file = MenuService::getStructuresFilePath($this->options['extension']);
+        if (!is_null($file)) {
+            $structureExtractor = new tao_helpers_translation_StructureExtractor(array($file));
            	$structureExtractor->extract();
-       		$translationFile->addTranslationUnits($structureExtractor->getTranslationUnits());
-       	}
+            $structureUnits = $structureExtractor->getTranslationUnits();
+            $this->outVerbose(count($structureUnits) . ' units extracted from structures.xml.');
+            $translationFile->addTranslationUnits($structureUnits);
+        }
 
        	// For each TU that was recovered, have a look in an older version
        	// of the translations.

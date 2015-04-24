@@ -1,5 +1,4 @@
 <?php
-use oat\tao\model\ClientLibRegistry;
 /**  
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -17,6 +16,8 @@ use oat\tao\model\ClientLibRegistry;
 *
 * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
 */
+use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\media\MediaService;
 
 /**
  * Generates client side configuration.
@@ -54,8 +55,6 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
             }
         }
 
-        $mediaSources = \oat\tao\model\media\MediaSource::getMediaBrowserSources();
-        
         //set contextual data
         $this->setData('locale', $langCode);
         
@@ -73,7 +72,6 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $this->setData('shownExtension',    $this->getRequestParameter('shownExtension'));
         $this->setData('shownStructure',    $this->getRequestParameter('shownStructure'));
         $this->setData('client_timeout',    $this->getClientTimeout());
-        $this->setData('mediaSources',      $mediaSources);
 
         $this->setView('client_config.tpl');
     }

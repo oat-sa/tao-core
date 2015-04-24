@@ -135,26 +135,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	
 	public function editClassProperties()
 	{
-	    $this->defaultData();
-	    $clazz = $this->getCurrentClass();
-	    
-	    if ($this->hasRequestParameter('property_mode')) {
-	        $this->setSessionAttribute('property_mode', $this->getRequestParameter('property_mode'));
-	    }
-	    
-	    $myForm = $this->getClassForm($clazz, $this->getRootClass());
-	    if ($myForm->isSubmited()) {
-	        if ($myForm->isValid()) {
-	            if ($clazz instanceof core_kernel_classes_Resource) {
-	                $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
-	            }
-	            $this->setData('message', __('%s Class saved', $this->getRootClass()->getLabel()));
-	            $this->setData('reload', true);
-	        }
-	    }
-	    $this->setData('formTitle', __('Edit class %s', $clazz->getLabel()));
-	    $this->setData('myForm', $myForm->render());
-	    $this->setView('form.tpl', 'tao');
+	    return $this->forward('index', 'PropertiesAuthoring', 'tao');
 	}
 	
 	/**
@@ -166,141 +147,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	{
 	    return $this->getClassForm($clazz, $resource, $topclass);
 	}
-
-	/**
-	 * Create an edit form for a class and its property
-	 * and handle the submited data on save
-	 * 
-	 * @param core_kernel_classes_Class    $clazz
-	 * @param core_kernel_classes_Resource $resource
-	 * @return tao_helpers_form_Form the generated form
-	 */
-	protected function getClassForm(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topclass = null)
+	
+	protected function getClassForm($clazz, $resource, $topclass  = null)
 	{
-	
-		$propMode = 'simple';
-		if($this->hasSessionAttribute('property_mode')){
-			$propMode = $this->getSessionAttribute('property_mode');
-		}
-		
-		$options = array('property_mode' => $propMode);
-		if(!is_null($topclass)){
-			$options['topClazz'] = $topclass->getUri();
-		}
-		$formContainer = new tao_actions_form_Clazz($clazz, $resource, $options);
-		$myForm = $formContainer->getForm();
-
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-                //get the data from parameters
-                $data = $this->getRequestParameters();
-
-                // get class data and save them
-                if(isset($data['class'])){
-                    $classValues = array();
-                    foreach($data['class'] as $key => $value){
-                        $classKey =  tao_helpers_Uri::decode($key);
-                        $classValues[$classKey] =  tao_helpers_Uri::decode($value);
-                    }
-
-                    $clazz = $this->service->bindProperties($clazz, $classValues);
-                }
-
-                //save all properties values
-                if(isset($data['properties'])){
-                    foreach($data['properties'] as $i => $propertyValues){
-                        $values = array();
-
-                        //save property
-                        if($propMode === 'simple') {
-                            $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
-                            $type = $propertyValues['type'];
-                            $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
-                            unset($propertyValues['type']);
-                            unset($propertyValues['range']);
-
-                            if (isset($propertyMap[$type])) {
-                                $values[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
-                            }
-
-                            foreach($propertyValues as $key => $value){
-                                $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
-
-                            }
-                            $property = new core_kernel_classes_Property($values['uri']);
-                            unset($values['uri']);
-                            $this->service->bindProperties($property, $values);
-
-                            // set the range
-                            $property->removePropertyValues(new core_kernel_classes_Property(RDFS_RANGE));
-                            if(!empty($range)) {
-                                $property->setRange(new core_kernel_classes_Class($range));
-                            } elseif (isset($propertyMap[$type]) && !empty($propertyMap[$type]['range'])) {
-                                $property->setRange(new core_kernel_classes_Class($propertyMap[$type]['range']));
-                            }
-
-                            // set cardinality
-                            if(isset($propertyMap[$type]['multiple'])) {
-                                $property->setMultiple($propertyMap[$type]['multiple'] == GENERIS_TRUE);
-                            }
-                        } else {
-                            // might break using hard
-                            $range = array();
-                            foreach($propertyValues as $key => $value){
-                                if(is_array($value)){
-                                    // set the range
-                                    foreach($value as $v){
-                                        $range[] = new core_kernel_classes_Class(tao_helpers_Uri::decode($v));
-                                    }
-                                }
-                                else{
-                                    $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
-                                }
-
-                            }
-                            $property = new core_kernel_classes_Property($values['uri']);
-                            unset($values['uri']);
-                            $property->removePropertyValues(new core_kernel_classes_Property(RDFS_RANGE));
-                            if(!empty($range)){
-                                foreach($range as $r){
-                                    $property->setRange($r);
-                                }
-                            }
-                            $this->service->bindProperties($property, $values);
-                        }
-
-                        $myForm->removeGroup("property_".tao_helpers_Uri::encode($property->getUri()));
-
-                        //instanciate a property form
-                        $propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
-                        if(!class_exists($propFormClass)){
-                            $propFormClass = 'tao_actions_form_SimpleProperty';
-                        }
-
-                        $propFormContainer = new $propFormClass($clazz, $property, array('index' => $i));
-                        $propForm = $propFormContainer->getForm();
-
-                        //and get its elements and groups
-                        $myForm->setElements(array_merge($myForm->getElements(), $propForm->getElements()));
-                        $myForm->setGroups(array_merge($myForm->getGroups(), $propForm->getGroups()));
-
-                        unset($propForm);
-                        unset($propFormContainer);
-
-                    }
-                }
-
-            }
-        }
-        return $myForm;
-    }
-	
-	
+        $controller = new tao_actions_PropertiesAuthoring();
+	    return $controller->getClassForm($clazz);
+	}
 	
 /*
  * Actions
  */
- 
 	
 	/**
 	 * Main action
@@ -562,75 +418,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		return $instance;
 	}
 	
-	/**
-	 * Edit property instance
-	 * @return void
-	 */
-	public function editPropertyInstance()
-	{
-		if(!$this->hasRequestParameter('ownerUri') || !$this->hasRequestParameter('ownerClassUri')
-			|| !$this->hasRequestParameter('propertyUri')){
-			var_dump('variables missing');
-		} 
-		else{
-			
-			$ownerClassUri = tao_helpers_Uri::decode($this->getRequestParameter('ownerClassUri'));
-			$ownerUri = tao_helpers_Uri::decode($this->getRequestParameter('ownerUri'));
-			$propertyUri = tao_helpers_Uri::decode($this->getRequestParameter('propertyUri'));
-			
-			$ownerInstance = new core_kernel_classes_Resource($ownerUri);
-			$ownerClass = new core_kernel_classes_Class($ownerClassUri);
-			$property = new core_kernel_classes_Property($propertyUri);
-			$propertyRange = $property->getRange();
-			
-			// If the file does not exist, create it
-			$instance = $ownerInstance->getOnePropertyValue($property);
-			if(is_null($instance)){
-				$instance = $propertyRange->createInstance();
-				$ownerInstance->setPropertyValue($property, $instance->getUri());
-			}
-			
-			$formContainer = new tao_actions_form_Instance($propertyRange, $instance);
-			$myForm = $formContainer->getForm();
-			
-			// Add hidden elements to the form
-			$ownerClassUriElt = tao_helpers_form_FormFactory::getElement("ownerClassUri", "Hidden");
-			$ownerClassUriElt->setValue(tao_helpers_Uri::encode($ownerClassUri));
-			$myForm->addElement($ownerClassUriElt);
-			
-			$ownerUriElt = tao_helpers_form_FormFactory::getElement("ownerUri", "Hidden");
-			$ownerUriElt->setValue(tao_helpers_Uri::encode($ownerUri));
-			$myForm->addElement($ownerUriElt);
-			
-			$propertyUriElt = tao_helpers_form_FormFactory::getElement("propertyUri", "Hidden");
-			$propertyUriElt->setValue(tao_helpers_Uri::encode($propertyUri));
-			$myForm->addElement($propertyUriElt);
-			
-			//add an hidden elt for the instance Uri
-			//usefull to render the revert action
-			$instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
-			$instanceUriElt->setValue(tao_helpers_Uri::encode($ownerInstance->getUri()));
-			$myForm->addElement($instanceUriElt);
-			
-			if($myForm->isSubmited()){
-				if($myForm->isValid()){
-					
-					$properties = $myForm->getValues();
-					$versionedContentInstance = $this->service->bindProperties($instance, $properties);
-					
-					$this->setData('message', __($propertyRange->getLabel().' saved'));
-					$this->setData('reload', true);
-				}
-			}
-			
-			$this->setData('formTitle', __('Manage content of the property ').$property->getLabel().__(' of the instance ').$ownerInstance->getLabel());
-			$this->setData('myForm', $myForm->render());
-		
-			$this->setView('form.tpl');
-		}
-		
-	}
-	
 	public function editInstance() {
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();
@@ -654,145 +441,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		$this->setData('formTitle', __('Edit Instance'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form.tpl', 'tao');
-	}
-	
-	/**
-	 * Edit a versioned file
-	 * @todo refactor
-	 */
-	public function editVersionedFile()
-	{
-		// in need of refactoring
-		throw new common_exception_Error('Functionality currently disabled');
-		if(!$this->hasRequestParameter('uri') || !$this->hasRequestParameter('propertyUri')){
-			
-			throw new Exception('Required variables missing');
-			
-		}else{
-			
-			$ownerUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-			$propertyUri = tao_helpers_Uri::decode($this->getRequestParameter('propertyUri'));
-			
-			$ownerInstance = new core_kernel_classes_Resource($ownerUri);
-			$property = new core_kernel_classes_Property($propertyUri);
-			$propertyRange = $property->getRange();
-			
-			//get the versioned file resource
-			$versionedFileResource = $ownerInstance->getOnePropertyValue($property);
-			
-			//if it does not exist already, create a new versioned file resource
-			if(is_null($versionedFileResource)){
-				//if the file resource does not exist, create it
-				$versionedFileResource = $propertyRange->createInstance();
-				$ownerInstance->setPropertyValue($property, $versionedFileResource->getUri());
-			}
-			$versionedFile = new core_kernel_versioning_File($versionedFileResource->getUri());
-			
-			//create the form
-			$formContainer = new tao_actions_form_VersionedFile(null
-				, array(
-					'instanceUri' => $versionedFile->getUri(),
-					'ownerUri' => $ownerInstance->getUri(),
-					'propertyUri' => $propertyUri
-				)
-			);
-			$myForm = $formContainer->getForm();
-			
-			//if the form was sent successfully
-			if($myForm->isSubmited()){
-				
-				if($myForm->isValid()){
-					
-					// Extract data from form
-					$data = $myForm->getValues();
-					
-					// Extracted values
-					$content = '';
-					$delete = isset($data['file_delete']) && $data['file_delete'] == '1'?true:false;
-					$message = isset($data['commit_message'])?$data['commit_message']:'';
-					$fileName = $data[PROPERTY_FILE_FILENAME];
-					$filePath = $data[PROPERTY_FILE_FILEPATH];
-					$repositoryUri = $data[PROPERTY_FILE_FILESYSTEM];
-					$version = isset($data['file_version']) ? $data['file_version'] : 0;
-					
-					//get the content
-					if(isset($data['file_import']['uploaded_file'])){
-						if(file_exists($data['file_import']['uploaded_file'])){
-							$content = file_get_contents($data['file_import']['uploaded_file']);
-						}
-						else{
-							throw new Exception(__('the file was not uploaded successfully'));
-						}
-					}
-					
-					//the file is already versioned
-					if($versionedFile->isVersioned()){
-						
-						if($delete){
-							
-							$versionedFile->delete();//no need to commit here (already done in the funciton implementation
-							$ownerInstance->removePropertyValues($property);
-							
-						}else{
-							
-							if ($version) {//version = [1..n]
-								//revert to a version
-								$topRevision = count($myForm->getElement('file_version')->getOptions());
-								if ($version < $topRevision) {
-									$versionedFile->revert($version, empty($message)?'Revert to TAO version '.$version : $message);
-								}
-							}
-
-							//a new content was sent
-							if (!empty($content)) {
-								$versionedFile->setContent($content);
-							}
-							
-							//commit the file
-							$versionedFile->commit($message);
-						}
-						
-					} 
-					//the file is already versioned
-					else{
-						//create the versioned file
-						$versionedFile = core_kernel_versioning_File::createVersioned(
-							$fileName,
-							$filePath,
-							new core_kernel_versioning_Repository($repositoryUri),
-							$versionedFile->getUri()
-					    );
-					    					    
-						//a content was sent
-						if(!empty($content)){
-							$versionedFile->setContent($content);
-						}
-						
-						//add the file to the repository
-						$versionedFile->add();
-						
-						//commit the file
-						$versionedFile->commit($message);
-					}
-					
-					$this->setData('message', __($propertyRange->getLabel().' saved'));
-					$this->setData('reload', true);
-					
-					//reload the form to take in account the changes
-					$ctx = Context::getInstance();
-					$this->redirect(_url($ctx->getActionName(), $ctx->getModuleName(), $ctx->getExtensionName(), array(
-						'uri'			=> tao_helpers_Uri::encode($ownerUri),
-						'propertyUri'	=> tao_helpers_Uri::encode($propertyUri)
-					)));
-				}
-			}
-			
-			$this->setData('formTitle', __('Manage the versioned content : ').$ownerInstance->getLabel().' > '.$property->getLabel());
-			$this->setData('myForm', $myForm->render());
-			
-			$this->setView('form/versioned_file.tpl', 'tao');
-		}
-		
 	}
 	
 	/**
@@ -1013,49 +661,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 }
 				$params['like'] = false;
                 
-                $this->returnJson(array(
+                return $this->returnJson(array(
                     'url'  => _url('searchResults', null, null, array('classUri'  => $clazz->getUri())),
                     'params'    => $params,
 				    'model'     => $model,
 				    'filters'   => $filters,
                     'result'    => true
                 ));
-                return;
-				//$instances = $this->service->searchInstances($filters, $clazz, $params);
-				
-				//if(count($instances) > 0 ){
-					//$found = array();
-					//$index = 1;
-					//foreach($instances as $instance){
-						
-						//$instanceProperties = array();
-						//foreach($properties as $i => $property){
-							//$value = '';
-							//$propertyValues = $instance->getPropertyValuesCollection($property);
-							//foreach($propertyValues->getIterator() as $j => $propertyValue){
-								//if($propertyValue instanceof core_kernel_classes_Literal){
-									//$value .= (string) $propertyValue;
-								//}
-								//if($propertyValue instanceof core_kernel_classes_Resource){
-									//$value .= $propertyValue->getLabel();
-								//}
-								//if($j < $propertyValues->count()){
-									//$value .= "<br />";
-								//}
-							//}
-							//$instanceProperties[$i] = $value;
-						//}
-						//$found[$index]['uri'] = tao_helpers_Uri::encode($instance->getUri());
-						//$found[$index]['properties'] = $instanceProperties;
-						//$index++;
-					//}
-				//}
 			}
-			//if(tao_helpers_Context::check('STANDALONE_MODE')){
-				//$this->setData('openAction', 'alert');
-			//}
-			//$this->setData('foundNumber', count($found));
-			//$this->setData('found', $found);
 		}
 		
 		
@@ -1332,74 +945,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	    	}
 		}
 		return $state;
-	}
-
-	/**
-	 * Render the add property sub form.
-	 * @throws Exception
-	 * @return void
-	 */
-	public function addClassProperty()
-	{
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		
-		$clazz = $this->getCurrentClass();
-		
-		if($this->hasRequestParameter('index')){
-			$index = $this->getRequestParameter('index');
-		}
-		else{
-			$index = count($clazz->getProperties(false)) + 1;
-		}
-		
-		$propMode = 'simple';
-		if($this->hasSessionAttribute('property_mode')){
-			$propMode = $this->getSessionAttribute('property_mode');
-		}
-		
-		//instanciate a property form
-		$propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
-		if(!class_exists($propFormClass)){
-			$propFormClass = 'tao_actions_form_SimpleProperty';
-		}
-		
-		$propFormContainer = new $propFormClass($clazz, $clazz->createProperty('Property_'.$index), array('index' => $index));
-		$myForm = $propFormContainer->getForm();
-		
-		$this->setData('data', $myForm->renderElements());
-		$this->setView('blank.tpl', 'tao');
-	}
-
-
-	/**
-	 * Render the add property sub form.
-	 * @throws Exception
-	 * @return void
-	 */
-	public function removeClassProperty()
-	{
-		$success = false;
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-
-		//delete property mode
-		foreach($this->getCurrentClass()->getProperties() as $classProperty){
-			if($classProperty->getUri() == tao_helpers_Uri::decode($this->getRequestParameter('uri'))){
-
-				//delete property and the existing values of this property
-				if($classProperty->delete(true)){
-					$success = true;
-					break;
-				}
-			}
-		}
-
-		if(!$success){
-			throw new Exception("Unable to find property");
-		}
 	}
 
 	/**

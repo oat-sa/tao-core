@@ -19,7 +19,6 @@
  * 
  */
 namespace oat\tao\model\messaging;
-
 use oat\tao\model\messaging\transportStrategy\MailAdapter;
 /**
  * Service to send messages to Tao Users
@@ -38,15 +37,15 @@ class MessagingService extends \tao_models_classes_Service
     /**
      * Get the current transport implementation
      * 
-     * @return Transport>
+     * @return Transport
      */
-    public function getTransport()
+    protected function getTransport()
     {
         if (is_null($this->transport)) {
             $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $transport = $tao->getConfig(self::CONFIG_KEY);
             if (!is_object($transport) || !$transport instanceof Transport) {
-                throw new \common_exception_InconsistentData('Transport strategy not correctly set for '.__CLASS__);
+                return false;
             }
             $this->transport = $transport;
         }
@@ -73,6 +72,10 @@ class MessagingService extends \tao_models_classes_Service
      */
     public function send(Message $message)
     {
+        $transport = $this->getTransport();
+        if ($transport == false) {
+            throw new \common_exception_InconsistentData('Transport strategy not correctly set for '.__CLASS__);
+        }
         return $this->getTransport()->send($message);
     }
     
@@ -83,8 +86,7 @@ class MessagingService extends \tao_models_classes_Service
      */
     public function isAvailable()
     {
-        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        return $tao->hasConfig(self::CONFIG_KEY);
+        return $this->getTransport() !== false;
     }
-    
+
 }

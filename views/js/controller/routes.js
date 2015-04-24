@@ -30,9 +30,14 @@ define(function(){
                 'getSectionTrees' : 'controller/main/trees'
             }
         },
+        'PasswordRecovery': {
+            'actions' : {
+                'index' : 'controller/passwordRecovery'
+            },
+        },
         'Lock': {
             'actions' : {
-                'locked' : 'controller/Lock/locked',
+                'locked' : 'controller/Lock/locked'
             }
         },
         'ExtensionsManager' : {
@@ -43,11 +48,6 @@ define(function(){
         'Lists' : {
             'actions' : {
                 'index' : 'controller/list/index'
-            }
-        },
-        'RdfImExport' : {
-            'actions' : {
-                'index' : 'controller/RdfImExport/index'
             }
         },
         'Users' : {

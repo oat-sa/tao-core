@@ -77,7 +77,7 @@ abstract class tao_actions_form_AbstractProperty
 			$groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
 				. '<span class="property-heading-toolbar">'
 				. '<span class="icon-edit"></span>'
-				. '<span class="icon-bin property-deleter"></span>'
+				. '<span class="icon-bin property-deleter" data-uri=\''.tao_helpers_Display::encodeAttrValue($property->getUri()).'\'></span>'
 				. '</span>';
 		}
 		return $groupTitle;
