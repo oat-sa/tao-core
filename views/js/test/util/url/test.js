@@ -92,15 +92,15 @@ define(['util/url'], function(urlUtil){
     QUnit
         .cases(isAbsoluteDataProvider)
         .test('isAbsolute ', function(data, assert){
-            assert.equal(urlUtil.isAbsolute(data.url), data.absolute, 'The URL ' + data.url + ' ' + (data.url ? 'is' : 'is not') + ' absolute');
-            assert.equal(urlUtil.isAbsolute(urlUtil.parse(data.url)), data.absolute, 'The parsed URL ' + data.url + ' ' + (data.url ? 'is' : 'is not') + ' absolute');
+            assert.equal(urlUtil.isAbsolute(data.url), data.absolute, 'The URL ' + data.url + ' ' + (data.absolute ? 'is' : 'is not') + ' absolute');
+            assert.equal(urlUtil.isAbsolute(urlUtil.parse(data.url)), data.absolute, 'The parsed URL ' + data.url + ' ' + (data.absolute ? 'is' : 'is not') + ' absolute');
         });
 
     QUnit
         .cases(isAbsoluteDataProvider)
         .test('isRelative ', function(data, assert){
-            assert.equal(urlUtil.isRelative(data.url), !data.absolute, 'The URL ' + data.url + ' ' + (data.url ? 'is' : 'is not') + ' relative');
-            assert.equal(urlUtil.isRelative(urlUtil.parse(data.url)), !data.absolute, 'The parsed URL ' + data.url + ' ' + (data.url ? 'is' : 'is not') + ' relative');
+            assert.equal(urlUtil.isRelative(data.url), !data.absolute, 'The URL ' + data.url + ' ' + (!data.absolute ? 'is' : 'is not') + ' relative');
+            assert.equal(urlUtil.isRelative(urlUtil.parse(data.url)), !data.absolute, 'The parsed URL ' + data.url + ' ' + (!data.absolute ? 'is' : 'is not') + ' relative');
         });
 });
 
