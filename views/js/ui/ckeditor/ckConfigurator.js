@@ -129,6 +129,7 @@ define([
          * @param positionedPlugins
          */
         var _updatePlugins = function(ckConfig, positionedPlugins){
+            
             var itCnt,
                 tbCnt = ckConfig.toolbar.length,
                 itLen,
@@ -252,16 +253,16 @@ define([
             var toolbar,
                 toolbars = _.clone(toolbarPresets, true),
                 config,
-                dtdMode = 'html';
+                dtdMode = options.dtdMode || 'html';
 
             // modify DTD to either comply with QTI or XHTML
-            if(toolbarType.indexOf('qti') === 0){
+            if(dtdMode === 'qti' || toolbarType.indexOf('qti') === 0){
                 toolbarType = toolbarType.slice(3).toLowerCase();
                 ckConfig.allowedContent = true;
                 ckConfig.autoParagraph = false;
                 dtdMode = 'qti';
             }
-
+            
             // if there is a toolbar in the options add it to the set
             if(options.toolbar){
                 toolbars[toolbarType] = _.clone(options.toolbar);
@@ -285,7 +286,7 @@ define([
             if(typeof options.positionedPlugins !== 'undefined'){
                 options.positionedPlugins = {};
             }
-
+            
             // set options.positionedPlugins to false to prevent the class from using them at all
             if(false !== options.positionedPlugins){
                 if(dtdMode === 'qti'){

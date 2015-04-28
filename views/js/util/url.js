@@ -58,7 +58,11 @@ define([], function(){
                     }
                 },
                 m   = o.parser.strict.exec(url),
-                parsed = {},
+                parsed = Object.create({
+                    toString : function(){
+                        return this.source;
+                    }
+                }),
                 i   = o.key.length;
 
             while (i--) {
@@ -73,13 +77,37 @@ define([], function(){
             });
 
             return parsed;
+        },
+
+        /**
+         * Check whether an URL is absolute
+         * @param {String|Object} url - the url to check. It can be a parsed URL (result of {@link util/url#parse})
+         * @returns {Boolean|undefined} true if the url is absolute, or undefined if the URL cannot be checked
+         */
+        isAbsolute : function isAbsolute(url){
+            var absoluteExp = /^(?:[a-z]+:)?\/\//i;
+
+            //url from parse
+            if(typeof url === 'object' && url.hasOwnProperty('source')){
+                return url.source !== url.relative;
+            }
+            if(typeof url === 'string'){
+                return absoluteExp.test(url);
+            }
+        },
+
+        /**
+         * Check whether an URL is relative
+         * @param {String|Object} url - the url to check. It can be a parsed URL (result of {@link util/url#parse})
+         * @returns {Boolean|undefined} true if the url is relative, or undefined if the URL cannot be checked
+         */
+        isRelative : function isRelative(url) {
+            var absolute = this.isAbsolute(url);
+            if(typeof absolute === 'boolean'){
+                return !absolute;
+            }
         }
     };
 
     return urlUtil;
 });
-
-
-
-
-

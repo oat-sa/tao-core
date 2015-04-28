@@ -22,6 +22,8 @@
 namespace oat\tao\helpers;
 
 use core_kernel_classes_Resource;
+use Jig\Utils\StringUtils;
+
 /**
  * Utility class to render a User
  *
@@ -38,7 +40,8 @@ class UserHelper
         	RDFS_LABEL,
             PROPERTY_USER_MAIL
         ));
-        $label = (isset($props[RDFS_LABEL]) && !empty($props[RDFS_LABEL])) ? (string)reset($props[RDFS_LABEL]) : '('.$userId.')'; 
+        $label = (isset($props[RDFS_LABEL]) && !empty($props[RDFS_LABEL])) ? (string)reset($props[RDFS_LABEL]) : '('.$userId.')';
+        $label = StringUtils::wrapLongWords($label);
         $mail = (isset($props[PROPERTY_USER_MAIL]) && !empty($props[PROPERTY_USER_MAIL])) ? (string)reset($props[PROPERTY_USER_MAIL]) : '';
         return !empty($mail)
             ? '<a href="mailto:'.$mail.'">'.$label.'</a>'
