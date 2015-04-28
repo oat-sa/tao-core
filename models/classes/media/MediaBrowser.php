@@ -39,8 +39,11 @@ interface MediaBrowser {
      * @param string $link
      * @return array  ['name' => $filename,
      *                'mime' => $mimeType,
+     *                'uri' => $uri,
+     *                'filePath' => $filePath,
      *                'size' => $fileSize,
      *               ]
+     * filePath : relative path to the file (to get a tree)
      * @throws \tao_models_classes_FileNotFoundException
      */
     public function getFileInfo($link);
