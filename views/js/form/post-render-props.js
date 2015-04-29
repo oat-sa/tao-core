@@ -87,36 +87,92 @@ define([
                 var $property = $(this);
                 if($property.attr !== undefined){
                     var type = (function() {
-                            switch($property.attr('id').replace(/_?property_[\d]+/, '')) {
-                                case 'ro':
-                                    return 'readonly-property';
-                                case 'parent':
-                                    return 'parent-property';
-                                default:
-                                    var $editIcon = $property.find('.icon-edit'),
-                                        $editContainer = $property.children('div:first');
+                        switch($property.attr('id').replace(/_?property_[\d]+/, '')) {
+                            case 'ro':
+                                return 'readonly-property';
+                            case 'parent':
+                                return 'parent-property';
+                            default:
+                                var $editIcon = $property.find('.icon-edit'),
+                                    $editContainer = $property.children('div:first');
 
-                                    $editContainer.addClass('property-edit-container');
+                                var $indexIcon = $property.find('.icon-find');
 
-                                    //on click on edit icon show property form or hide it
-                                    $editIcon.on('click', function() {
-                                        $editContainer.slideToggle(function() {
+                                $editContainer.addClass('property-edit-container');
+
+
+                                _hideProperties($editContainer);
+                                _hideIndexes($editContainer);
+
+                                //on click on edit icon show property form or hide it
+                                $editIcon.on('click', function() {
+                                    //form is close so open it (hide index, show property)
+                                    if(!$editContainer.parent().hasClass('property-edit-container-open')){
+                                        //hide index and show properties
+                                        _hideIndexes($editContainer);
+                                        _showProperties($editContainer);
+                                        $editContainer.slideToggle( function(){
                                             $editContainer.parent().toggleClass('property-edit-container-open');
-                                            if(!$('.property-edit-container-open').length) {
-                                                _toggleModeBtn('disabled');
-                                            }
-                                            else {
-                                                _toggleModeBtn('enabled');
-                                            }
                                         });
-                                    });
-                                    return 'regular-property';
-                            }
-                        }());
+                                    }
+                                    //it is open so switch between index and property or close it
+                                    else{
+                                        // close form
+                                        if($($('.property',$editContainer)[0]).is(':visible')){
+                                            $editContainer.slideToggle( function(){
+                                                $editContainer.parent().toggleClass('property-edit-container-open');
+                                                //hide properties
+                                                _hideProperties($editContainer);
+                                            });
+                                        }
+                                        // hide index and show properties
+                                        else{
+                                            //hide index properties
+                                            _hideIndexes($editContainer);
+                                            //show properties
+                                            _showProperties($editContainer);
+                                        }
+                                    }
+                                });
+
+                                //on click on index icon show index form or hide it
+                                $indexIcon.on('click', function() {
+                                    //if form property is simple we can show index form
+                                    if($('.property-mode').hasClass('property-mode-advanced')){
+                                        //form is close so open it (hide property, show index)
+                                        if(!$editContainer.parent().hasClass('property-edit-container-open')){
+                                            //hide index and show properties
+                                            _hideProperties($editContainer);
+                                            _showIndexes($editContainer);
+                                            $editContainer.slideToggle(function(){
+                                                $editContainer.parent().toggleClass('property-edit-container-open');
+                                            });
+                                        }
+                                        //it is open so switch between index and property or close it
+                                        else{
+                                            // close form
+                                            if($($('.index',$editContainer)[0]).is(':visible')){
+                                                $editContainer.slideToggle(function(){
+                                                    $editContainer.parent().toggleClass('property-edit-container-open');
+                                                    //hide indexes
+                                                    _hideIndexes($editContainer);
+                                                });
+                                            }
+                                            // hide properties and show indexes
+                                            else{
+                                                _hideProperties($editContainer);
+                                                //show properties
+                                                _showIndexes($editContainer);
+                                            }
+                                        }
+                                    }
+                                });
+                                return 'regular-property';
+                        }
+                    }());
                     $property.addClass(!hasAlreadyProperties ? 'property-block-first property-block ' + type : 'property-block ' + type);
                     $propertyContainer.append($property);
                     hasAlreadyProperties = true;
-
                 }
             });
         }
@@ -140,6 +196,66 @@ define([
             _wrapPropsInContainer($properties);
             _upgradeRadioButtons($container);
             _toggleModeBtn('disabled');
+        }
+
+        function _hideProperties($container){
+            $('.property',$container).each(function(){
+                var $currentTarget = $(this);
+                while(!_.isEqual($currentTarget.parent()[0], $container[0])){
+                    $currentTarget = $currentTarget.parent();
+                }
+                $currentTarget.hide();
+            });
+            _toggleModeBtn('disabled');
+        }
+
+        function _showProperties($container){
+            $('.property',$container).each(function(){
+                var $currentTarget = $(this);
+                while(!_.isEqual($currentTarget.parent()[0], $container[0])){
+                    $currentTarget = $currentTarget.parent();
+                }
+                $currentTarget.show();
+            });
+            //show or hide the list values select
+            var elt = $('[class*="property-type"]',$container).parent("div").next("div");
+            if (/list$/.test($('[class*="property-type"]',$container).val())) {
+                if (elt.css('display') === 'none') {
+                    elt.show();
+                    elt.find('select').removeAttr('disabled');
+                }
+            }
+            else if (elt.css('display') !== 'none') {
+                elt.css('display', 'none');
+                elt.find('select').prop('disabled', "disabled");
+            }
+            _toggleModeBtn('enabled');
+        }
+
+        function _hideIndexes($container){
+            $('.index',$container).each(function(){
+                var $currentTarget = $(this);
+                while(!_.isEqual($currentTarget.parent()[0], $container[0])){
+                    $currentTarget = $currentTarget.parent();
+                }
+                $currentTarget.hide();
+            });
+            $('.index-remover',$container).each(function(){
+                $(this).parent().hide();
+            });
+        }
+
+        function _showIndexes($container){
+            $('.index',$container).each(function(){
+                var $currentTarget = $(this);
+                while(!_.isEqual($currentTarget.parent()[0], $container[0])){
+                    $currentTarget = $currentTarget.parent();
+                }
+                $currentTarget.show();
+            });
+            $('.index-remover',$container).each(function(){
+                $(this).parent().show();
+            });
         }
 
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +26,8 @@
  * @package tao
  *         
  */
-abstract class tao_models_classes_ClassService extends tao_models_classes_GenerisService
+abstract class tao_models_classes_ClassService
+    extends tao_models_classes_GenerisService
 {
 
     /**
@@ -44,9 +44,9 @@ abstract class tao_models_classes_ClassService extends tao_models_classes_Generi
      * @return boolean
      */
     public function deleteResource(core_kernel_classes_Resource $resource)
-    {
-        return $resource->delete();
-    }
+	{
+	    return $resource->delete();
+	}
 
     /**
      * Delete a subclass
@@ -80,14 +80,34 @@ abstract class tao_models_classes_ClassService extends tao_models_classes_Generi
         return (bool) $returnValue;
     }
 
+
     /**
      * remove a class property
      * 
      * @param core_kernel_classes_Property $property            
      * @return bool
      */
-    public function deleteClassProperty(core_kernel_classes_Property $property)
-    {
-        return $property->delete(true);
+    public function deleteClassProperty(core_kernel_classes_Property $property){
+        $indexes = $property->getPropertyValues(new core_kernel_classes_Property(INDEX_PROPERTY));
+
+        //delete property and the existing values of this property
+        if($returnValue = $property->delete(true)){
+            //delete index linked to the property
+            foreach($indexes as $indexUri){
+                $index = new core_kernel_classes_Resource($indexUri);
+                $returnValue = $this->deletePropertyIndex($index);
+            }
+        }
+
+        return $returnValue;
+    }
+
+    /**
+     * * remove an index property
+     * @param core_kernel_classes_Resource $index
+     * @return bool
+     */
+    public function deletePropertyIndex(core_kernel_classes_Resource $index){
+        return $index->delete(true);
     }
 }

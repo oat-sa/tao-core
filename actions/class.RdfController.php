@@ -25,6 +25,8 @@ use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
+use oat\tao\model\search\SearchService;
+use oat\tao\model\search\IndexService;
 use oat\tao\model\lock\LockManager;
 use oat\tao\helpers\ControllerHelper;
 
@@ -585,140 +587,145 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	}
 	
 	/**
-	 * 
-	 * Search form may be extends by extension to modify search form
-	 * 
-	 * @author Lionel Lecaque, lionel@taotesting.com
-	 * @param core_kernel_classes_Class $clazz
-	 * @return tao_actions_form_Search
+     * Search parameters endpoints.
+     * The response provides parameters to create a datatable.
 	 */
-	protected function getSearchForm($clazz){
-	    return new tao_actions_form_Search($clazz, null, array('recursive' => true));
-	}
-	
-	
-	/**
-	 * search the instances of an ontology
-	 * @return 
-	 */
-	public function search()
+	public function searchParams()
 	{
-		$found = false;
-		
-		try{
-			$clazz = $this->getCurrentClass();
-		}
-		catch(Exception $e){
-		    common_Logger::i('Search : could not find current class switch to root class');
-			$clazz = $this->getRootClass();
-		}
-        
-		$formContainer = $this->getSearchForm($clazz);
-		$myForm = $formContainer->getForm();
-		if (tao_helpers_Context::check('STANDALONE_MODE')) {
-			$standAloneElt = tao_helpers_form_FormFactory::getElement('standalone', 'Hidden');
-			$standAloneElt->setValue(true);
-			$myForm->addElement($standAloneElt);
-		}
-		
-		
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
+	    $url = _url('search', null, null, array(
+	    	'query' => $this->getRequestParameter('query')
+	    ));
+	    
+	    $this->returnJson(array(
+	    	'url' => $url,
+	        'params' => array(
+    	    	'chaining' => 'or'
+    	    ),
+	        'filter' => array(),
+	        'model' => array(
+                RDFS_LABEL => array(
+                    'id' => RDFS_LABEL,
+                    'label' => __('Label'),
+                    'sortable' => false	        	
+	            )
+            ),
+	        'result' => true
+	    ));
+	}
 
-				$filters = $myForm->getValues('filters');
+    /**
+     * search the instances of an ontology
+     * @return
+     */
+    public function search()
+    {
+        $found = false;
+
+        try{
+            $clazz = $this->getCurrentClass();
+        }
+        catch(Exception $e){
+            common_Logger::i('Search : could not find current class switch to root class');
+            $clazz = $this->getRootClass();
+        }
+
+        $formContainer = $this->getSearchForm($clazz);
+        $myForm = $formContainer->getForm();
+        if (tao_helpers_Context::check('STANDALONE_MODE')) {
+            $standAloneElt = tao_helpers_form_FormFactory::getElement('standalone', 'Hidden');
+            $standAloneElt->setValue(true);
+            $myForm->addElement($standAloneElt);
+        }
+
+
+        if($myForm->isSubmited()){
+            if($myForm->isValid()){
+                $filters = $myForm->getValues('filters');
                 $model = array();
-				foreach($filters as $propUri => $filter){
-					if(preg_match("/^http/", $propUri) && !empty($filter)){
-						$property = new core_kernel_classes_Property($propUri);
+                foreach($filters as $propUri => $filter){
+                    if(preg_match("/^http/", $propUri) && !empty($filter)){
+                        $property = new core_kernel_classes_Property($propUri);
                         $model[$property->getUri()] = array(
                             'id' => $property->getUri(),
                             'label' => $property->getLabel(),
                             'sortable' => true
                         );
-					}
-					else{
-						unset($filters[$propUri]);
-					}
-				}
-				$clazz = new core_kernel_classes_Class($myForm->getValue('clazzUri'));
-				if(!array_key_exists(RDFS_LABEL, $model)){
+                    }
+                    else{
+                        unset($filters[$propUri]);
+                    }
+                }
+                $clazz = new core_kernel_classes_Class($myForm->getValue('clazzUri'));
+                if(!array_key_exists(RDFS_LABEL, $model)){
                     $labelProp = new core_kernel_classes_Property(RDFS_LABEL);
-					$model = array_merge(array( 
-                        $labelProp->getUri() => array(
-                            'id' => $labelProp->getUri(),
-                            'label' => $labelProp->getLabel(),
-                            'sortable' => true
-                    )), $model);
-				}
-
-
-  				$params = $myForm->getValues('params');
+                    $model = array_merge(array(
+                            $labelProp->getUri() => array(
+                                'id' => $labelProp->getUri(),
+                                'label' => $labelProp->getLabel(),
+                                'sortable' => true
+                            )), $model);
+                }
+                $params = $myForm->getValues('params');
                 if(!isset($params['recursive'])){
                     // 0 => Current class + sub-classes, 10 => Current class only
                     $params['recursive'] = true;
                 } else {
                     $params['recursive'] = false;
                 }
-				$params['like'] = false;
-                
+                $params['like'] = false;
+
                 return $this->returnJson(array(
-                    'url'  => _url('searchResults', null, null, array('classUri'  => $clazz->getUri())),
-                    'params'    => $params,
-				    'model'     => $model,
-				    'filters'   => $filters,
-                    'result'    => true
-                ));
-			}
-		}
-		
-		
-		$this->setData('myForm', $myForm->render());
-		$this->setData('formTitle', __('Search'));
-		$this->setView('form/search.tpl', 'tao');
-	}
+                        'url'  => _url('searchResults', null, null, array('classUri'  => $clazz->getUri())),
+                        'params'    => $params,
+                        'model'     => $model,
+                        'filters'   => $filters,
+                        'result'    => true
+                    ));
+            }
+        }
 
+
+        $this->setData('myForm', $myForm->render());
+        $this->setData('formTitle', __('Search'));
+        $this->setView('form/search.tpl', 'tao');
+    }
     public function searchResults(){
-        
-		$page =  (int)$this->getRequestParameter('page');
-		$limit = (int)$this->getRequestParameter('rows');
-		$order = $this->getRequestParameter('sortby');
-		$sord = $this->getRequestParameter('sortorder');
-		$start = $limit * $page - $limit;
 
+        $page =  (int)$this->getRequestParameter('page');
+        $limit = (int)$this->getRequestParameter('rows');
+        $order = $this->getRequestParameter('sortby');
+        $sord = $this->getRequestParameter('sortorder');
+        $start = $limit * $page - $limit;
         $params = $this->hasRequestParameter('params') ? $this->getRequestParameter('params') : array();
         $filters = $this->hasRequestParameter('filters') ? $this->getRequestParameter('filters') : array();
-        
-	    if($order == 'id'){
+
+        if($order == 'id'){
             $order = RDFS_LABEL;
-        }	
-		$options = array_merge(array(
-            'order' 	=> $order,
-            'orderdir'	=> strtoupper($sord),
-            'offset'    => $start,
-            'limit'		=> $limit
-		), $params);
-	
+        }
+        $options = array_merge(array(
+                'order' 	=> $order,
+                'orderdir'	=> strtoupper($sord),
+                'offset'    => $start,
+                'limit'		=> $limit
+            ), $params);
+
         $clazz = $this->getCurrentClass();
         $instances = $clazz->searchInstances($filters, $options);
         $counti = count($clazz->searchInstances($filters, $params));
-
         $response = new StdClass();
         if(count($instances) > 0 ){
             $properties = array();
             foreach(array_keys($filters) as $propUri){
                 $properties[$propUri] = new core_kernel_classes_Property($propUri);
             }
-
             if(array_key_exists(RDFS_LABEL, $properties)){
                 unset($instanceProperties[RDFS_LABEL]);
             }
-
             foreach($instances as $instance){
-                
+
                 $instanceProperties = array(
                     'id' => $instance->getUri(),
-                    RDFS_LABEL => $instance->getLabel() 
-
+                    RDFS_LABEL => $instance->getLabel()
                 );
                 foreach($properties as $i => $property){
                     $value = '';
@@ -733,16 +740,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                     }
                     $instanceProperties[$i] = $value;
                 }
-
-                $response->data[] = $instanceProperties; 
+                $response->data[] = $instanceProperties;
             }
         }
-		$response->page = floor($start / $limit) + 1;
-		$response->total = ceil($counti / $limit);
-		$response->records = count($instances);
-
-		$this->returnJson($response, 200);
-
+        $response->page = floor($start / $limit) + 1;
+        $response->total = ceil($counti / $limit);
+        $response->records = count($instances);
+        $this->returnJson($response, 200);
     }
 
 	/**
@@ -946,6 +950,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		}
 		return $state;
 	}
+
 
 	/**
 	 * delete an instance or a class
