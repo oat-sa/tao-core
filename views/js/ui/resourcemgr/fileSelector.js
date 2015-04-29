@@ -46,6 +46,7 @@ define([
 
         var root            = options.root || '/';
         var $container      = options.$target;
+        var excludedFile    = options.excludedFile || [];
         var $fileSelector   = $('.file-selector', $container); 
         var $fileContainer  = $('.files', $fileSelector);
         var $placeholder    = $('.empty', $fileSelector);
@@ -67,7 +68,7 @@ define([
             //update content here
             if(_.isArray(data)){
                 files = _.filter(data, function(item){
-                    return !!item.name;
+                    return !!item.uri && _.indexOf(excludedFile, item.uri) === -1;
                 }).map(function(file){
                     file.type = mimeType.getFileType(file);
                     if(file.identifier === undefined){
