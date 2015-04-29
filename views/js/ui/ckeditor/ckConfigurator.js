@@ -20,6 +20,7 @@ define([
 
         var qtiPositionedPlugins = {
             TaoQtiImage : {insertAfter : 'SpecialChar'},
+            TaoQtiInclude : {insertAfter : 'SpecialChar'},
             TaoUnderline : {insertAfter : 'Italic'}
         };
 
