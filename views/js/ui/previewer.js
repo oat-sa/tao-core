@@ -14,13 +14,13 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
 
     var previewGenerator = {
         placeHolder: _.template("<p class='nopreview' data-type='${type}'>${desc}</p>"),
-        youtubeTemplate: _.template("<video preload='none'><source type='video/youtube' src='${url}'/></video>"),
-        videoTemplate: _.template("<video src='${url}' type='${mime}' preload='none' width='290px' height='300px'></video>"),
-        audioTemplate: _.template("<audio src='${url}' type='${mime}'></audio>"),
-        imageTemplate: _.template("<img src='${url}' alt='${name}' />"),
-        pdfTemplate: _.template("<object data='${url}#toolbar=0' type='application/pdf'><a href='${url} target='_blank'>${name}</a></object>"),
-        flashTemplate: _.template("<object data='${url}' type='application/x-shockwave-flash'><param name='movie' value='${url}'></param></object>"),
-        mathmlTemplate: _.template("<iframe src='${url}'></iframe>"),
+        youtubeTemplate: _.template("<video preload='none'><source type='video/youtube' src=${jsonurl}/></video>"),
+        videoTemplate: _.template("<video src=${jsonurl} type='${mime}' preload='none' width='290px' height='300px'></video>"),
+        audioTemplate: _.template("<audio src=${jsonurl} type='${mime}'></audio>"),
+        imageTemplate: _.template("<img src=${jsonurl} alt='${name}' />"),
+        pdfTemplate: _.template("<object data='${jsonurl}#toolbar=0' type='application/pdf'><a href='${jsonurl} target='_blank'>${name}</a></object>"),
+        flashTemplate: _.template("<object data=${jsonurl} type='application/x-shockwave-flash'><param name='movie' value=${jsonurl}></param></object>"),
+        mathmlTemplate: _.template("<iframe src=${jsonurl}></iframe>"),
         /**
          * Generates the preview tags for a type 
          * @memberOf previewGenerator 
@@ -30,6 +30,7 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
          */
         generate: function generate(type, data) {
             var tmpl = this[type + 'Template'];
+            data.jsonurl = JSON.stringify(data.url)
             if (_.isFunction(tmpl)) {
                 return tmpl(data);
             }

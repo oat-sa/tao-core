@@ -82,7 +82,8 @@ return array(
 			dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
 		    dirname(__FILE__).'/scripts/install/setupServiceFileStorage.php',
 		    dirname(__FILE__).'/scripts/install/setServiceState.php',
-		    dirname(__FILE__).'/scripts/install/setJsConfig.php'
+		    dirname(__FILE__).'/scripts/install/setJsConfig.php',
+		    dirname(__FILE__).'/scripts/install/setupSearch.php'
 		)
 	),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -95,12 +96,14 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'ServiceModule')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'File', 'act' => 'accessFile')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'File', 'act' => 'upload')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'getSectionActions')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'getSectionTrees')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Users', 'act' => 'checkLogin')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'UserSettings')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'GenerisTree')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Search')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('act' => 'tao_actions_Lock@locked')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('act' => 'tao_actions_Lock@release')),

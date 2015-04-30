@@ -15,10 +15,13 @@ define([
 
     function shortenPath(path){
         var tokens = path.replace(/\/$/, '').split('/');
-        var size = tokens.length - 1;
-        return _.map(tokens, function(token, index){
-            return (token && index < size) ? token[0] : token;
-        }).join('/');
+        var start = tokens.length - 3;
+        var end = tokens.length - 1;
+        var title = _.map(tokens, function(token, index){
+            return (index > start && token) ? ((index < end) ? token[0] : token) : undefined;
+        });
+        title = title.filter(Boolean);
+        return title.join('/');
     }
 
     function isTextLarger($element, text){
@@ -43,6 +46,7 @@ define([
 
         var root            = options.root || '/';
         var $container      = options.$target;
+        var excludedFile    = options.excludedFile || [];
         var $fileSelector   = $('.file-selector', $container); 
         var $fileContainer  = $('.files', $fileSelector);
         var $placeholder    = $('.empty', $fileSelector);
@@ -58,24 +62,23 @@ define([
         $container.on('folderselect.' + ns , function(e, fullPath, data, activePath){    
             var files;
             //update title
+
             $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath);
 
             //update content here
             if(_.isArray(data)){
                 files = _.filter(data, function(item){
-                    return !!item.name;
+                    return !!item.uri && _.indexOf(excludedFile, item.uri) === -1;
                 }).map(function(file){
                     file.type = mimeType.getFileType(file);
                     if(file.identifier === undefined){
-                        file.path = (fullPath + '/' + file.name).replace('//', '/');
                         file.display = (fullPath + '/' + file.name).replace('//', '/');
                     }
                     else{
-                        file.path = (file.identifier + file.relPath);
                         file.display = (file.identifier + file.name);
                     }
 
-                    file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + file.path;
+                    file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + encodeURIComponent(file.uri);
                     return file;
                 });
             
@@ -93,13 +96,14 @@ define([
         $(parentSelector)
             .off('click', '.files li')
             .on ('click', '.files li', function(e){
-            
-            var $selected   = $(this); 
+
+            var $selected   = $(this);
             var $files      = $('.files > li', $fileSelector);
             var data        = _.clone($selected.data()); 
 
-            if(!$.contains($selected.find('.actions')[0], e.target)){
+            if($.contains($selected.find('.actions')[0], e.target)){
                 e.preventDefault();
+                return true;
             }
 
             $files.removeClass('active');
@@ -124,11 +128,9 @@ define([
             var path, params = {};
             if(e.namespace === 'deleter' && $target.length){
                 path = $target.data('file');
-                $(this).one('deleted.deleter', function(){
-                    params[options.pathParam] = path;
-                    $.getJSON(options.deleteUrl, _.merge(params, options.params));
-                    $container.trigger('filedelete.' + ns, [path]); 
-                });
+                params[options.pathParam] = path;
+                $.getJSON(options.deleteUrl, _.merge(params, options.params));
+                $container.trigger('filedelete.' + ns, [path]);
             }
         });
        
@@ -138,7 +140,7 @@ define([
             var $switcher = $('.upload-switcher a', $fileSelector);
 
             $uploader.on('upload.uploader', function(e, file, result){
-                var path = $('[data-display="'+currentPath+'"]').data('path');
+                var path = $('[data-display="'+currentPath+'"]').data('path') || $('[data-display="/'+currentPath+'"]').data('path');
                 if(typeof path === 'undefined' || path === ''){
                     path = currentPath;
                 }
@@ -163,7 +165,6 @@ define([
                 multiple    : true,
                 uploadUrl   : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath,
                 fileSelect  : function(files, done){
-            
                     var givenLength = files.length;
                     var fileNames = [];
                     $fileContainer.find('li > .desc').each(function(){
@@ -190,7 +191,9 @@ define([
                 
                         //try to call a server side service to check whether the selected files exists or not.       
                         if(options.fileExistsUrl){
-                            $.getJSON(options.fileExistsUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath + '/' + file.name, function(response){
+                            var pathParam = currentPath + '/' + file.name;
+                            pathParam.replace('//','/');
+                            $.getJSON(options.fileExistsUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + pathParam, function(response){
                                 if(response && response.exists === true){
                                     result = window.confirm('Do you want to override ' + file.name + '?');
                                 }
@@ -208,9 +211,9 @@ define([
             });
 
             $container.on('folderselect.' + ns , function(e, fullPath, data, uri){
-                currentPath = fullPath;
+                currentPath = uri;
                 $uploader.uploader('options', {
-                    uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath + '&relPath=' + encodeURIComponent(uri)
+                    uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath + '&relPath=' + currentPath
                 });
             });
 

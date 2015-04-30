@@ -348,6 +348,32 @@ define([
                 });
             });
 
+            $('input.editVersionedFile').each(function () {
+                var infoUrl = context.root_url + 'tao/File/getPropertyFileInfo';
+                var data = {
+                    'uri': $("#uri").val(),
+                    'propertyUri': $(this).siblings('label.form_desc').prop('for')
+                };
+                var $_this = $(this);
+                $.ajax({
+                    type: "GET",
+                    url: infoUrl,
+                    data: data,
+                    dataType: 'json',
+                    success: function (r) {
+                        $_this.after('<span>' + r.name + '</span>');
+                    }
+                });
+            }).click(function () {
+                var data = {
+                    'uri': $("#uri").val(),
+                    'propertyUri': $(this).siblings('label.form_desc').prop('for')
+                };
+
+                helpers.getMainContainer().load(getUrl('editVersionedFile'), data);
+                return false;
+            });
+
             /**
              * remove a form group, ie. a property
              */
@@ -368,7 +394,61 @@ define([
                 e.preventDefault();
                 property.add($("#id").val(), helpers._url('addClassProperty', 'PropertiesAuthoring', 'tao'));
             });
-            
+
+            $(".index-adder").off('click').on('click', function (e) {
+                e.preventDefault();
+                var $prependTo = $(this).closest('div');
+                var $groupNode = $(this).closest(".form-group");
+                if ($groupNode.length) {
+                    var max = 0;
+                    var $propertyindex = $('.property-uri', $groupNode);
+                    var propertyindex = parseInt($propertyindex.attr('id').replace(/[\D]+/, ''));
+
+
+                    $groupNode.find('[data-index]').each(function(){
+                        if(max < $(this).data('index')){
+                            max = $(this).data('index');
+                        }
+                    });
+
+                    max = max + 1;
+                    var uri = $groupNode.find('.property-uri').val();
+                    $.ajax({
+                        type: "GET",
+                        url: helpers._url('addPropertyIndex', 'PropertiesAuthoring', 'tao'),
+                        data: {uri : uri, index : max, propertyIndex : propertyindex},
+                        dataType: 'json',
+                        success: function (response) {
+                            $prependTo.before(response.form);
+                        }
+                    });
+                }
+            });
+
+            $('.property-edit-container').off('click', '.index-remover').on('click', '.index-remover', function(e){
+                e.preventDefault();
+                var $groupNode = $(this).closest(".form-group");
+                var uri = $groupNode.find('.property-uri').val();
+
+                var $editContainer = $($groupNode[0]).children('.property-edit-container');
+                $.ajax({
+                    type: "POST",
+                    url: helpers._url('removePropertyIndex', 'PropertiesAuthoring', 'tao'),
+                    data: {uri : uri, indexProperty : $(this).attr('id')},
+                    dataType: 'json',
+                    success: function (response) {
+                        var $toRemove = $('[id*="'+response.id+'"], [data-related-index="'+response.id+'"]');
+                        $toRemove.each(function(){
+                            var $currentTarget = $(this);
+                            while(!_.isEqual($currentTarget.parent()[0], $editContainer[0]) && $currentTarget.parent()[0] !== undefined){
+                                $currentTarget = $currentTarget.parent();
+                            }
+                            $currentTarget.remove();
+                        });
+                    }
+                });
+            });
+
             $(".property-mode").off('click').on('click', function () {
                 var $btn = $(this),
                     mode = 'simple';
