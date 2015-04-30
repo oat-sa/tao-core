@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-13T09:45:50\n"
+"Project-Id-Version: TAO 3.0.0\n"
+"PO-Revision-Date: 2015-04-30T09:07:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sv-SE\n"
@@ -130,20 +130,11 @@ msgstr ""
 msgid "Add property"
 msgstr ""
 
-msgid "Add the source file."
-msgstr ""
-
 msgid "Advanced Mode"
 msgstr "Avancerad metod"
 
 msgid "all"
 msgstr ""
-
-msgid "All"
-msgstr ""
-
-msgid "All (the complete TAO Module)"
-msgstr "Alla (hela TAO-modulen)"
 
 msgid "All fields are required"
 msgstr ""
@@ -352,11 +343,11 @@ msgstr ""
 msgid "Edit this list"
 msgstr ""
 
-msgid "element"
-msgstr "element"
-
 msgid "Element"
 msgstr "Beståndsdel"
+
+msgid "element"
+msgstr "element"
 
 msgid "Element deleted"
 msgstr ""
@@ -585,12 +576,6 @@ msgstr ""
 msgid "Loaded at Startup"
 msgstr ""
 
-msgid "Local"
-msgstr ""
-
-msgid "Local Data (the local namespace containing only the data inserted by the users)"
-msgstr "Lokal data (det lokala namnområdet endast innehållande data inskrivet av användare"
-
 msgid "Log in"
 msgstr ""
 
@@ -679,9 +664,6 @@ msgstr ""
 msgid "Name"
 msgstr "Namn"
 
-msgid "Namespaces"
-msgstr "Namnområden"
-
 msgid "New password"
 msgstr "Nytt lösenord"
 
@@ -717,19 +699,16 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No result found"
 msgstr "Inget resultat funnet"
 
 msgid "No results found"
-msgstr ""
-
-msgid "None"
 msgstr ""
 
 msgid "Nothing imported"
@@ -746,10 +725,6 @@ msgstr ""
 
 msgid "Old Password"
 msgstr "Gammalt lösenord"
-
-#, tao-public
-msgid "Ontology"
-msgstr ""
 
 msgid "Option instanceUri is not an option !!"
 msgstr ""
@@ -801,12 +776,6 @@ msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr ""
-
-msgid "Please select alteast one namespace"
-msgstr ""
-
-msgid "Please upload an RDF file."
-msgstr "Var vänlig ladda upp en RDF-fil"
 
 msgid "Post install processing"
 msgstr ""
@@ -925,11 +894,11 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "select"
-msgstr "välj"
-
 msgid "Select"
 msgstr "Välj"
+
+msgid "select"
+msgstr "välj"
 
 msgid "Select a language"
 msgstr "Välj språk"
@@ -1089,10 +1058,10 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undo"
@@ -1108,9 +1077,6 @@ msgid "unknown"
 msgstr ""
 
 msgid "Unknown Error"
-msgstr ""
-
-msgid "Unselect all"
 msgstr ""
 
 msgid "Upload"

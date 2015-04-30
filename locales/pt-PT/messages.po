@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-13T09:45:42\n"
+"Project-Id-Version: TAO 3.0.0\n"
+"PO-Revision-Date: 2015-04-30T09:07:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -130,20 +130,11 @@ msgstr ""
 msgid "Add property"
 msgstr ""
 
-msgid "Add the source file."
-msgstr "Adicione ficheiro fonte"
-
 msgid "Advanced Mode"
 msgstr "Modo avançado"
 
 msgid "all"
 msgstr "todos"
-
-msgid "All"
-msgstr "Todos"
-
-msgid "All (the complete TAO Module)"
-msgstr "Todos (Modulo TAO completo)"
 
 msgid "All fields are required"
 msgstr ""
@@ -354,11 +345,11 @@ msgstr "Editar instância"
 msgid "Edit this list"
 msgstr ""
 
-msgid "element"
-msgstr "elemento"
-
 msgid "Element"
 msgstr "Elemento"
+
+msgid "element"
+msgstr "elemento"
 
 msgid "Element deleted"
 msgstr ""
@@ -587,12 +578,6 @@ msgstr "Carregado"
 msgid "Loaded at Startup"
 msgstr "Carregado no inicio"
 
-msgid "Local"
-msgstr "Local"
-
-msgid "Local Data (the local namespace containing only the data inserted by the users)"
-msgstr "Informação Local (O campo local contendo a informação inserida pelos utilizadores)"
-
 msgid "Log in"
 msgstr "Iniciar sessão"
 
@@ -681,9 +666,6 @@ msgstr "Os meus parâmetros  (%s)"
 msgid "Name"
 msgstr "Nome"
 
-msgid "Namespaces"
-msgstr "Campos"
-
 msgid "New password"
 msgstr "Nova palavra-passe"
 
@@ -719,19 +701,16 @@ msgstr ""
 msgid "no label"
 msgstr "Sem rótulos"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No result found"
 msgstr "Não foram encontrados resultados"
 
 msgid "No results found"
-msgstr ""
-
-msgid "None"
 msgstr ""
 
 msgid "Nothing imported"
@@ -748,10 +727,6 @@ msgstr ""
 
 msgid "Old Password"
 msgstr "Palavra-passe antiga"
-
-#, tao-public
-msgid "Ontology"
-msgstr "Ontologia"
 
 msgid "Option instanceUri is not an option !!"
 msgstr "Opção instanciaUri não é uma opção!!"
@@ -803,12 +778,6 @@ msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr ""
-
-msgid "Please select alteast one namespace"
-msgstr ""
-
-msgid "Please upload an RDF file."
-msgstr "Por favor envie o ficheiro RDF."
 
 msgid "Post install processing"
 msgstr ""
@@ -927,11 +896,11 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "select"
-msgstr "seleccione"
-
 msgid "Select"
 msgstr "Seleccione"
+
+msgid "select"
+msgstr "seleccione"
 
 msgid "Select a language"
 msgstr "Seleccione uma língua"
@@ -1091,11 +1060,11 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr ""
 
-msgid "Uncheck all"
-msgstr "Desmarcar todos"
-
 msgid "Uncheck All"
 msgstr "Desmarcar Todos"
+
+msgid "Uncheck all"
+msgstr "Desmarcar todos"
 
 msgid "Undo"
 msgstr ""
@@ -1111,9 +1080,6 @@ msgstr ""
 
 msgid "Unknown Error"
 msgstr "Erro desconhecido"
-
-msgid "Unselect all"
-msgstr ""
 
 msgid "Upload"
 msgstr "Enviar"
