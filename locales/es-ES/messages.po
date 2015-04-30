@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-13T09:45:17\n"
+"Project-Id-Version: TAO 3.0.0\n"
+"PO-Revision-Date: 2015-04-30T09:07:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -130,19 +130,10 @@ msgstr ""
 msgid "Add property"
 msgstr ""
 
-msgid "Add the source file."
-msgstr ""
-
 msgid "Advanced Mode"
 msgstr ""
 
 msgid "all"
-msgstr ""
-
-msgid "All"
-msgstr ""
-
-msgid "All (the complete TAO Module)"
 msgstr ""
 
 msgid "All fields are required"
@@ -352,10 +343,10 @@ msgstr ""
 msgid "Edit this list"
 msgstr ""
 
-msgid "element"
+msgid "Element"
 msgstr ""
 
-msgid "Element"
+msgid "element"
 msgstr ""
 
 msgid "Element deleted"
@@ -585,12 +576,6 @@ msgstr ""
 msgid "Loaded at Startup"
 msgstr ""
 
-msgid "Local"
-msgstr ""
-
-msgid "Local Data (the local namespace containing only the data inserted by the users)"
-msgstr ""
-
 msgid "Log in"
 msgstr ""
 
@@ -679,9 +664,6 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-msgid "Namespaces"
-msgstr ""
-
 msgid "New password"
 msgstr ""
 
@@ -717,19 +699,16 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No result found"
 msgstr ""
 
 msgid "No results found"
-msgstr ""
-
-msgid "None"
 msgstr ""
 
 msgid "Nothing imported"
@@ -745,10 +724,6 @@ msgid "of"
 msgstr ""
 
 msgid "Old Password"
-msgstr ""
-
-#, tao-public
-msgid "Ontology"
 msgstr ""
 
 msgid "Option instanceUri is not an option !!"
@@ -800,12 +775,6 @@ msgid "Please contact %s or an administrator to release it', get_data('ownerHtml
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
-msgstr ""
-
-msgid "Please select alteast one namespace"
-msgstr ""
-
-msgid "Please upload an RDF file."
 msgstr ""
 
 msgid "Post install processing"
@@ -925,10 +894,10 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
 msgid "Select a language"
@@ -1089,10 +1058,10 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undo"
@@ -1108,9 +1077,6 @@ msgid "unknown"
 msgstr ""
 
 msgid "Unknown Error"
-msgstr ""
-
-msgid "Unselect all"
 msgstr ""
 
 msgid "Upload"
