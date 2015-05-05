@@ -91,7 +91,6 @@ define([
         }
 
         $contentBlock.css( { height: containerHeight, maxHeight: containerHeight });
-        console.log(containerHeight, getTreeActionIdealHeight())
         $tree.css({
             maxHeight: containerHeight - getTreeActionIdealHeight()
         });
