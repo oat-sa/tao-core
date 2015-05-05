@@ -45,7 +45,7 @@ define([
             $hiddenButtons    = $('.tree-action-bar-box .hidden.action-bar li'),
             $buttonCount      = $mainButtons.length + $hiddenButtons.length,
             // at least two rows
-            $requiredRows     = Math.max(Math.ceil($buttonCount/4), 8),
+            $requiredRows     = Math.max(Math.ceil($buttonCount/4), 2),
             idealHeight;
 
         if(!$visibleButtons.length) {
@@ -61,6 +61,7 @@ define([
     /**
      * Compute the height of the navi- and content container
      *
+     * @param $scope jQueryElement
      * @returns {number}
      */
     function getContainerHeight($scope) {
@@ -90,6 +91,7 @@ define([
         }
 
         $contentBlock.css( { height: containerHeight, maxHeight: containerHeight });
+        console.log(containerHeight, getTreeActionIdealHeight())
         $tree.css({
             maxHeight: containerHeight - getTreeActionIdealHeight()
         });
