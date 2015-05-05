@@ -25,47 +25,53 @@ define([
     'jquery',
     'lodash'
 ], function ($, _) {
+
     'use strict';
 
 
-    var $versionWarning = $('.version-warning'),
+    var $versionWarning = $('.version-warning:visible'),
         $window = $(window),
         $footer = $('body > footer');
 
     /**
-     * Bar with the tree actions (providing room for two lines)
+     * Bar with the tree actions (providing room for at least two rows of buttons)
      *
      * @returns {number}
      */
     function getTreeActionIdealHeight() {
-        // we need at least four actions to have a two-row ul
-        var $treeActions = $('.tree-action-bar-box'),
-            $treeActionUl = $treeActions.find('ul'),
-            liNum = $treeActions.find('li:visible').length || 0,
+        var $visibleActionBar = $('.tree-action-bar-box .tree-action-bar'),
+            $mainButtons      = $visibleActionBar.find('li'),
+            $visibleButtons   = $mainButtons.filter(':visible'),
+            $hiddenButtons    = $('.tree-action-bar-box .hidden.action-bar li'),
+            $buttonCount      = $mainButtons.length + $hiddenButtons.length,
+            // at least two rows
+            $requiredRows     = Math.max(Math.ceil($buttonCount/4), 8),
             idealHeight;
 
-        while (liNum < 5) {
-            $treeActionUl.append($('<li class="dummy"><a/></li>'));
-            liNum++;
+        if(!$visibleButtons.length) {
+            $visibleButtons = $('<li class="dummy"><a/></li>');
+            $visibleActionBar.append($visibleButtons);
         }
 
-        idealHeight = $treeActions.outerHeight(true);
-        $treeActionUl.find('li.dummy').remove();
+        idealHeight = ($visibleButtons.outerHeight(true) * $requiredRows) + parseInt($visibleActionBar.css('margin-bottom'));
+        $visibleButtons.filter('.dummy').remove();
         return idealHeight;
     }
 
     /**
-     * Compute the max height of the navi- and content container
+     * Compute the height of the navi- and content container
      *
      * @returns {number}
      */
-    function getContainerMaxHeight($scope) {
-        var winHeight = $window.height(),
+    function getContainerHeight($scope) {
+        var winHeight = $window.innerHeight(),
             footerHeight = $footer.outerHeight(),
-            headerHeight = $('header.dark-bar').outerHeight() + Number($versionWarning.outerHeight()),
-            actionBarHeight = $scope.find('.content-container .action-bar').outerHeight();
+            headerHeight = $('header.dark-bar').outerHeight() + ($versionWarning.length ? $versionWarning.outerHeight() : 0),
+            actionBarHeight = $scope.find('.content-container .action-bar').outerHeight(),
+            $tabs = $('.section-container > .tab-container:visible'),
+            tabHeight = $tabs.length ? $tabs.outerHeight() : 0;
 
-        return winHeight - headerHeight - footerHeight - actionBarHeight;
+        return winHeight - headerHeight - footerHeight - actionBarHeight - tabHeight;
     }
 
 
@@ -75,7 +81,7 @@ define([
      * @param {jQueryElement} $scope - the section scope
      */
     function setHeights($scope) {
-        var containerMaxHeight = getContainerMaxHeight($scope),
+        var containerHeight = getContainerHeight($scope),
             $contentBlock = $scope.find('.content-block'),
             $tree = $scope.find('.taotree');
 
@@ -83,9 +89,9 @@ define([
             return;
         }
 
-        $contentBlock.css( { height: containerMaxHeight, maxHeight: containerMaxHeight });
+        $contentBlock.css( { height: containerHeight, maxHeight: containerHeight });
         $tree.css({
-            maxHeight: containerMaxHeight - getTreeActionIdealHeight()
+            maxHeight: containerHeight - getTreeActionIdealHeight()
         });
     }
 
