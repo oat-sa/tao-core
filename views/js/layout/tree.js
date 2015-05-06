@@ -120,7 +120,13 @@ define([
 
             //lifecycle callbacks
             callback: {
-
+                /**
+                 * Delete node callback.
+                 * @returns {undefined}
+                 */
+                ondelete: function () {
+                    $elt.trigger('delete.taotree', arguments);
+                },
                 /**
                  * Additional parameters to send to the server to retrieve data.
                  * It uses the serverParams object previously defined
