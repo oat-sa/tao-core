@@ -63,7 +63,8 @@ class tao_helpers_I18n
      * @return mixed
      */
     public static function init(common_ext_Extension $extension, $langCode)
-    {
+    {   
+        $langCode = 'fr-FR';
     	// if the langCode is empty do nothing
     	if (empty($langCode)){
     		throw new Exception("Language is not defined");
@@ -98,7 +99,7 @@ class tao_helpers_I18n
      */
     public static function getLangCode()
     {
-        return common_session_SessionManager::getSession()->getInterfaceLanguage();
+        return 'fr-FR';
     }
 
     /**
