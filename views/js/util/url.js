@@ -25,6 +25,14 @@
 define([], function(){
     'use strict';
 
+
+    var parsers = {
+        absolute: /^(?:[a-z]+:)?\/\//i,
+        base64:   /^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/,
+        query:    /(?:^|&)([^&=]*)=?([^&]*)/g,
+        url:      /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+    };
+
     /**
      * The Url util
      * @exports util/url
@@ -47,35 +55,32 @@ define([], function(){
          * @returns {Object} parsedUrl with the properties available in key below and query that contains query string key/values.
          */
         parse : function parse (url) {
-            var	o   = {
-                    key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","queryString","hash"],
-                    q:   {
-                        name:   "query",
-                        parser: /(?:^|&)([^&=]*)=?([^&]*)/g
-                    },
-                    parser: {
-                        strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-                    }
-                },
-                m   = o.parser.strict.exec(url),
-                parsed = Object.create({
-                    toString : function(){
-                        return this.source;
-                    }
-                }),
-                i   = o.key.length;
-
-            while (i--) {
-                parsed[o.key[i]] = m[i] || "";
-            }
-
-            parsed[o.q.name] = {};
-            parsed[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
-                if ($1) {
-                    parsed[o.q.name][$1] = $2;
+            var matches;
+            var	keys    = ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","queryString","hash"];
+            var i       = keys.length;
+            var parsed  = Object.create({
+                toString : function(){
+                    return this.source;
                 }
             });
 
+            parsed.base64 = parsers.base64.test(url);
+
+            if(parsed.base64){
+                parsed.source = url;
+            } else {
+
+                matches = parsers.url.exec(url);
+                while (i--) {
+                    parsed[keys[i]] = matches[i] || "";
+                }
+                parsed.query = {};
+                parsed.queryString.replace(parsers.query, function ($0, $1, $2) {
+                    if ($1) {
+                        parsed.query[$1] = $2;
+                    }
+                });
+            }
             return parsed;
         },
 
@@ -85,14 +90,14 @@ define([], function(){
          * @returns {Boolean|undefined} true if the url is absolute, or undefined if the URL cannot be checked
          */
         isAbsolute : function isAbsolute(url){
-            var absoluteExp = /^(?:[a-z]+:)?\/\//i;
+
 
             //url from parse
             if(typeof url === 'object' && url.hasOwnProperty('source')){
                 return url.source !== url.relative;
             }
             if(typeof url === 'string'){
-                return absoluteExp.test(url);
+                return parsers.absolute.test(url);
             }
         },
 
@@ -105,6 +110,21 @@ define([], function(){
             var absolute = this.isAbsolute(url);
             if(typeof absolute === 'boolean'){
                 return !absolute;
+            }
+        },
+
+        /**
+         * Check whether an URL is encoded in base64
+         * @param {String|Object} url - the url to check. It can be a parsed URL (result of {@link util/url#parse})
+         * @returns {Boolean|undefined} true if the url is base64, or undefined if the URL cannot be checked
+         */
+        isBase64 : function isBase64(url){
+
+            if(typeof url === 'object' && url.hasOwnProperty('source')){
+                return url.base64;
+            }
+            if(typeof url === 'string'){
+                return parsers.base64.test(url);
             }
         }
     };
