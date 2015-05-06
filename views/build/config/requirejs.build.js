@@ -39,7 +39,7 @@ require.config({
         'spin'              : 'lib/spin.min',
         'history'           : 'lib/history',
 
-        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player.min',
+        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
 
