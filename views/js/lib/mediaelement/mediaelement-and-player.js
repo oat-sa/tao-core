@@ -1764,8 +1764,8 @@ define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function (
         mejs.YouTubeApi.flashReady(id);
     }
 
-    window.mejs = mejs;
-    window.MediaElement = mejs.MediaElement;
+    //window.mejs = mejs;
+    //window.MediaElement = mejs.MediaElement;
 
     /*
      * Adds Internationalization and localization to mediaelement.
