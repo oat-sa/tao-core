@@ -56,9 +56,6 @@ define([
         var $browserTitle   = $('.file-browser > h1', $container);
 
         //set up the uploader
-        console.log(options.disallowUpload);
-        console.log(options.disallowUpload || false);
-        console.log(disallowUpload);
         if(disallowUpload){
             var $switcher = $('.upload-switcher', $fileSelector);
             $switcher.remove();
