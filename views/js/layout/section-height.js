@@ -1,95 +1,129 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
+
 /**
  * @author Dieter Raber <dieter@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'jquery',
-    'lodash',
-], function($, _){
+    'lodash'
+], function ($, _) {
+
     'use strict';
 
-        /**
-         * Bar with the tree actions (providing room for two lines)
-         *
-         * @returns {number}
-         */
-        function getTreeActionIdealHeight() {
-            // we need at least four actions to have a two-row ul
-            var $treeActions = $('.tree-action-bar-box'),
-                $treeActionUl = $treeActions.find('ul'),
-                liNum = $treeActions.find('li:visible').length || 0,
-                idealHeight;
 
-            while(liNum < 5){
-                $treeActionUl.append($('<li class="dummy"><a/></li>'));
-                liNum++;
-            }
-            idealHeight = $treeActions.outerHeight() + parseInt($treeActions.css('margin-bottom'));
-            $treeActionUl.find('li.dummy').remove();
-            return idealHeight;
+    var $versionWarning = $('.version-warning:visible'),
+        $window = $(window),
+        $footer = $('body > footer');
+
+    /**
+     * Bar with the tree actions (providing room for at least two rows of buttons)
+     *
+     * @returns {number}
+     */
+    function getTreeActionIdealHeight() {
+        var $visibleActionBar = $('.tree-action-bar-box .tree-action-bar'),
+            $mainButtons      = $visibleActionBar.find('li'),
+            $visibleButtons   = $mainButtons.filter(':visible'),
+            // at least two rows
+            $requiredRows     = Math.max(Math.ceil($mainButtons.length/4), 2),
+            idealHeight;
+
+        if(!$visibleButtons.length) {
+            $visibleButtons = $('<li class="dummy"><a/></li>');
+            $visibleActionBar.append($visibleButtons);
         }
 
+        idealHeight = ($visibleButtons.outerHeight(true) * $requiredRows) + parseInt($visibleActionBar.css('margin-bottom'));
+        $visibleButtons.filter('.dummy').remove();
+        return idealHeight;
+    }
+
+    /**
+     * Compute the height of the navi- and content container
+     *
+     * @param $scope jQueryElement
+     * @returns {number}
+     */
+    function getContainerHeight($scope) {
+        var winHeight = $window.innerHeight(),
+            footerHeight = $footer.outerHeight(),
+            headerHeight = $('header.dark-bar').outerHeight() + ($versionWarning.length ? $versionWarning.outerHeight() : 0),
+            actionBarHeight = $scope.find('.content-container .action-bar').outerHeight(),
+            $tabs = $('.section-container > .tab-container:visible'),
+            tabHeight = $tabs.length ? $tabs.outerHeight() : 0;
+
+        return winHeight - headerHeight - footerHeight - actionBarHeight - tabHeight;
+    }
+
+
+    /**
+     * Resize section heights
+     * @private
+     * @param {jQueryElement} $scope - the section scope
+     */
+    function setHeights($scope) {
+        var containerHeight = getContainerHeight($scope),
+            $contentBlock = $scope.find('.content-block'),
+            $tree = $scope.find('.taotree');
+
+        if (!$tree.length) {
+            return;
+        }
+
+        $contentBlock.css( { height: containerHeight, maxHeight: containerHeight });
+        $tree.css({
+            maxHeight: containerHeight - getTreeActionIdealHeight()
+        });
+    }
+
+    /**
+     * Helps you to manage the section heights
+     * @exports layout/section-height
+     */
+    return {
 
         /**
-         * Resize section heights
-         * @private
+         * Initialize behaviour of section height
          * @param {jQueryElement} $scope - the section scope
          */
-        var setHeights = function setHeights($scope) {
-            var $searchBar, 
-                searchBarHeight,
-                contentWrapperTop,
-                footerTop,
-                remainingHeight;
-            var $contentPanel = $scope.is('.content-panel') ? $scope : $('.content-panel', $scope);
-            var $tree         = $contentPanel.find('.taotree');
+        init: function ($scope) {
 
-            if (!$contentPanel.length) {
-                return;
-            }
- 
-            $searchBar = $contentPanel.find('.search-action-bar');
-            searchBarHeight = $searchBar.outerHeight() + parseInt($searchBar.css('margin-bottom')) + parseInt($searchBar.css('margin-top'));
-            contentWrapperTop = $contentPanel.offset().top;
-            footerTop = $('body > footer').offset().top;
-            remainingHeight = footerTop - contentWrapperTop;
+            $window
+                .off('resize.sectionheight')
+                .on('resize.sectionheight', _.debounce(function () {
+                    setHeights($scope);
+                }, 50));
 
-            $contentPanel.find('.content-container').css({ minHeight: remainingHeight });
-            $tree.css({
-                maxHeight: (footerTop - contentWrapperTop) - searchBarHeight - getTreeActionIdealHeight()
-            });
-        };
-
-        /**
-         * Helps you to manage the section heights
-         * @exports layout/section-height
-         */
-        return {
-
-            /**
-             * Initialize behaviour of section height
-             * @param {jQueryElement} $scope - the section scope
-             */
-            init : function($scope){
-
-                $(window)
-                    .off('resize.sectioneight')
-                    .on('resize.sectionheight', _.debounce(function(){ 
-                        setHeights($scope); 
-                    }, 50));
-
-                $('.version-warning')
-                    .off('hiding.versionwarning')
-                    .on('hiding.versionwarning', function(){
+            $versionWarning
+                .off('hiding.versionwarning')
+                .on('hiding.versionwarning', function () {
 
                     setHeights($scope);
                 });
-            },
+        },
 
-            /**
-             * Resize section heights
-             * @param {jQueryElement} $scope - the section scope
-             */
-            setHeights: setHeights
-        };
-    });
+        /**
+         * Resize section heights
+         * @param {jQueryElement} $scope - the section scope
+         */
+        setHeights: setHeights
+    };
+});

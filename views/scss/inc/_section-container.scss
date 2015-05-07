@@ -119,6 +119,7 @@
 
     .content-block {
         padding: 20px;
+        overflow-y: auto;
         @include flex-container(wrap);
         & > .grid-container {
             width : 100%;
