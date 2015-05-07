@@ -42,10 +42,8 @@ define([
         var $visibleActionBar = $('.tree-action-bar-box .tree-action-bar'),
             $mainButtons      = $visibleActionBar.find('li'),
             $visibleButtons   = $mainButtons.filter(':visible'),
-            $hiddenButtons    = $('.tree-action-bar-box .hidden.action-bar li'),
-            $buttonCount      = $mainButtons.length + $hiddenButtons.length,
             // at least two rows
-            $requiredRows     = Math.max(Math.ceil($buttonCount/4), 2),
+            $requiredRows     = Math.max(Math.ceil($mainButtons.length/4), 2),
             idealHeight;
 
         if(!$visibleButtons.length) {
