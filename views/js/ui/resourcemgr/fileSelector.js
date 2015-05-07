@@ -45,6 +45,7 @@ define([
     return function(options){
 
         var root            = options.root || '/';
+        var disallowUpload  = options.disallowUpload || false;
         var $container      = options.$target;
         var $fileSelector   = $('.file-selector', $container);
         var $fileContainer  = $('.files', $fileSelector);
@@ -54,9 +55,17 @@ define([
         var $pathTitle      = $fileSelector.find('h1 > .title');
         var $browserTitle   = $('.file-browser > h1', $container);
 
-        //set up the uploader 
-        setUpUploader(root);
-
+        //set up the uploader
+        console.log(options.disallowUpload);
+        console.log(options.disallowUpload || false);
+        console.log(disallowUpload);
+        if(disallowUpload){
+            var $switcher = $('.upload-switcher', $fileSelector);
+            $switcher.remove();
+        }
+        else{
+            setUpUploader(root);
+        }
         //update current folder
         $container.on('folderselect.' + ns , function(e, fullPath, data, activePath){    
             var files;
