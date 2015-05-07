@@ -97,7 +97,7 @@ define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function (
                     scriptPath = '';
                 }
 
-                // see if any <script> tags have a file name that matches the 
+                // see if any <script> tags have a file name that matches the
                 for (j = 0; j < jl; j++) {
                     testname = scriptNames[j];
                     filenamePos = scriptFilename.indexOf(testname);
@@ -1050,7 +1050,7 @@ define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function (
                 };
             }
 
-            // special case for Chromium to specify natively supported video codecs (i.e. WebM and Theora) 
+            // special case for Chromium to specify natively supported video codecs (i.e. WebM and Theora)
             if (mejs.MediaFeatures.isChromium) {
                 htmlMediaElement.canPlayType = function(type) {
                     return (type.match(/video\/(webm|ogv|ogg)/gi) !== null) ? 'maybe' : '';
@@ -1062,7 +1062,7 @@ define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function (
 
                 if (!isMediaTag) {
 
-                    // create a real HTML5 Media Element 
+                    // create a real HTML5 Media Element
                     dummy = document.createElement( result.isVideo ? 'video' : 'audio');
                     htmlMediaElement.parentNode.insertBefore(dummy, htmlMediaElement);
                     htmlMediaElement.style.display = 'none';
@@ -1605,7 +1605,7 @@ define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function (
 
             if (player && player.getDuration) {
 
-                // time 
+                // time
                 pluginMediaElement.currentTime = obj.currentTime = player.getCurrentTime();
                 pluginMediaElement.duration = obj.duration = player.getDuration();
 
@@ -1697,7 +1697,7 @@ define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function (
                 player = document.getElementById(id),
                 pluginMediaElement = settings.pluginMediaElement;
 
-            // hook up and return to MediaELementPlayer.success	
+            // hook up and return to MediaELementPlayer.success
             pluginMediaElement.pluginApi =
                 pluginMediaElement.pluginElement = player;
             mejs.MediaPluginBridge.initPlugin(id);
@@ -1942,11 +1942,12 @@ define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function (
      * License: MIT
      *
      */
-    if (typeof jQuery != 'undefined') {
-        mejs.$ = jQuery;
-    } else if (typeof ender != 'undefined') {
-        mejs.$ = ender;
-    }
+    //if (typeof jQuery != 'undefined') {
+        //mejs.$ = jQuery;
+    //} else if (typeof ender != 'undefined') {
+        //mejs.$ = ender;
+    //}
+    mejs.$ = $;
     (function ($) {
 
         // default player values
@@ -3626,7 +3627,7 @@ define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function (
 
                 // newest HTML5 spec has buffered array (FF4, Webkit)
                 if (target && target.buffered && target.buffered.length > 0 && target.buffered.end && target.duration) {
-                    // TODO: account for a real array with multiple values (only Firefox 4 has this so far) 
+                    // TODO: account for a real array with multiple values (only Firefox 4 has this so far)
                     percent = target.buffered.end(0) / target.duration;
                 }
                 // Some browsers (e.g., FF3.6 and Safari 5) cannot calculate target.bufferered.end()
@@ -3836,7 +3837,7 @@ define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function (
 
                         // top/left of full size volume slider background
                         var totalPosition = volumeTotal.position();
-                        // position slider 
+                        // position slider
                         if (mode == 'vertical') {
                             var
                             // height of the full size volume slider background
@@ -5273,7 +5274,7 @@ define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function (
 
     /*
      * ContextMenu Plugin
-     * 
+     *
      *
      */
 
