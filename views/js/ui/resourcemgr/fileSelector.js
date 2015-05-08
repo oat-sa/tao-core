@@ -45,9 +45,9 @@ define([
     return function(options){
 
         var root            = options.root || '/';
+        var disableUpload  = options.disableUpload || false;
         var $container      = options.$target;
-        var excludedFile    = options.excludedFile || [];
-        var $fileSelector   = $('.file-selector', $container); 
+        var $fileSelector   = $('.file-selector', $container);
         var $fileContainer  = $('.files', $fileSelector);
         var $placeholder    = $('.empty', $fileSelector);
         var $uploader       = $('.file-upload-container', $fileSelector);
@@ -55,9 +55,14 @@ define([
         var $pathTitle      = $fileSelector.find('h1 > .title');
         var $browserTitle   = $('.file-browser > h1', $container);
 
-        //set up the uploader 
-        setUpUploader(root);
-
+        //set up the uploader
+        if(disableUpload){
+            var $switcher = $('.upload-switcher', $fileSelector);
+            $switcher.remove();
+        }
+        else{
+            setUpUploader(root);
+        }
         //update current folder
         $container.on('folderselect.' + ns , function(e, fullPath, data, activePath){    
             var files;
@@ -68,7 +73,7 @@ define([
             //update content here
             if(_.isArray(data)){
                 files = _.filter(data, function(item){
-                    return !!item.uri && _.indexOf(excludedFile, item.uri) === -1;
+                    return !!item.uri;
                 }).map(function(file){
                     file.type = mimeType.getFileType(file);
                     if(file.identifier === undefined){
