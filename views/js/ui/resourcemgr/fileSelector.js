@@ -45,7 +45,7 @@ define([
     return function(options){
 
         var root            = options.root || '/';
-        var disallowUpload  = options.disallowUpload || false;
+        var disableUpload  = options.disableUpload || false;
         var $container      = options.$target;
         var $fileSelector   = $('.file-selector', $container);
         var $fileContainer  = $('.files', $fileSelector);
@@ -56,7 +56,7 @@ define([
         var $browserTitle   = $('.file-browser > h1', $container);
 
         //set up the uploader
-        if(disallowUpload){
+        if(disableUpload){
             var $switcher = $('.upload-switcher', $fileSelector);
             $switcher.remove();
         }
