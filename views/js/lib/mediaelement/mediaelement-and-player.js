@@ -11,7 +11,7 @@
  *
  */
 // jshint ignore: start
-define(['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'], function ($) {
+define(['jquery'], function ($) {
 
 
     /*!
