@@ -1,80 +1,143 @@
 /**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ */
+/**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 
-    'lodash', 
+    'jquery',
+    'lodash',
     'context',
     'history'
-
-], function($, _, context){
-
+], function(
+    $,
+    _,
+    context,
+    history
+){
 
     var sectionParamExp = /&section=([^&]*)/;
-    var History = window.History;
+    var location = window.history.location || window.location;
 
     //back & forward button, and push state
-    History.Adapter.bind(window, 'statechange', function stateChange(){
-        restoreState(History.getState());
+    $(window).bind('popstate', function (event) {
+        restoreState(getState());
     });
-   
+
     /**
-     * Restore a state from the history. 
+     * Ensures the state has an identifier and has the right format.
+     * @param {Object} state The state to identify
+     * @returns {Object} Returns the provided state
+     */
+    function setStateId(state) {
+        var sectionPart, data;
+
+        if (!state || !_.isObject(state)) {
+            state = {};
+        }
+
+        if (!state.url) {
+            state.url = location.href;
+        }
+
+        if (!state.id) {
+            sectionPart = state.url.match(sectionParamExp);
+            state.id = sectionPart && sectionPart[1];
+        }
+
+        if (!state.data) {
+            state.data = {};
+        }
+        data = state.data;
+        data.sectionId = data.sectionId || state.sectionId || state.id;
+        data.restoreWith = data.restoreWith || state.restoreWith || 'activate';
+
+        return state;
+    }
+
+    /**
+     * Gets the current history state.
+     *
+     * @returns {Object}
+     */
+    function getState() {
+        var state = history.state;
+        return setStateId(state);
+    }
+
+    /**
+     * Restore a state from the history.
      * It calls activate or show on the section saved into the state.
-     * @param {History.State} state - a state that has been pushed previously
-     * @returns {Boolean|SectionApi} false if there is nothing to restore 
-     */ 
+     * @param {Object} state - a state that has been pushed previously
+     * @returns {Boolean|SectionApi} false if there is nothing to restore
+     */
     function restoreState(state){
         if(state && state.data && state.data.sectionId){
-		    return sectionApi.get(state.data.sectionId)['_' + state.data.restoreWith]();
+           return sectionApi.get(state.data.sectionId)['_' + state.data.restoreWith]();
         }
     }
 
 
     /**
      * Add a new state to the history
-     * @param {Object} section 
+     * @param {Object} section
      * @param {String} [restoreWith = 'activate']
      */
     function pushState(section, restoreWith){
-        var stateUrl = window.location.search + '';
-        if(section){
-            if(!stateUrl){
-              stateUrl = '?';
-            }
-            stateUrl = stateUrl.replace(sectionParamExp, '') + '&section=' + section.id ;
+        var stateUrl = window.location.search + '' || '?';
+        var stateUrlWithoutSection = stateUrl.replace(sectionParamExp, '');
+        var hasNoSection = stateUrl === stateUrlWithoutSection;
+        var method = hasNoSection ? 'replaceState' : 'pushState';
 
-            History.pushState({
+        if(section){
+            stateUrl = stateUrlWithoutSection + '&section=' + section.id ;
+
+            history[method]({
                     sectionId : section.id,
-                    restoreWith    : restoreWith || 'activate'
-                }, 
-                section.name || '', 
+                    restoreWith : restoreWith || 'activate'
+                },
+                section.name || '',
                 stateUrl
             );
+            restoreState(getState());
         }
     }
 
     /**
      * The section API provides you all the methods needed to manage sections.
-     * @typedef SectionApi  
-     * @exports layout/section 
+     * @typedef SectionApi
+     * @exports layout/section
      */
     var sectionApi = {
-        
-        scope : $('.section-container'), 
+
+        scope : $('.section-container'),
         sections : {},
         selected : null,
-   
+
         /**
-         * Find section into the scope and initiliaze them. 
+         * Find section into the scope and initiliaze them.
          *
          * @param {jQueryElement} $scope - the main scope
          * @param {Object} [options] - configuration options
          * @param {Boolean} [options.history = true] - use the history manager
          * @returns {SectionApi} instance for chaining
-         * 
+         *
          * @fires SectionApi#init.section
-         */ 
+         */
         init : function($scope, options){
             var self = this;
             var restore = true;
@@ -84,10 +147,10 @@ define([
             var paramResult = window.location.toString().match(sectionParamExp);
             if(paramResult && paramResult.length){
                 defaultSection = paramResult[1].replace('#', '');
-            }            
-            
+            }
+
             this.options = options || {};
- 
+
             this.scope = $scope || this.scope || $('.section-container');
             $openersContainer = $('.tab-container', this.scope);
 
@@ -103,7 +166,7 @@ define([
                  var active = false;
 
                 $panel.removeClass('hidden');
-                                      
+
                  self.sections[id] = {
                     id          : id,
                     url         : $link.data('url'),
@@ -116,7 +179,7 @@ define([
                     disabled    : $sectionOpener.hasClass('disabled')
                  };
             });
-            
+
             //to be sure at least one is active, for example when the given default section does not exists
             if(_(this.sections).where({'active' : true }).size() === 0){
                 for(var id in this.sections){
@@ -125,31 +188,31 @@ define([
                     break;
                 }
             }
-        
+
             this._bindOpener($openersContainer);
 
             /**
              * Once the sections are initialized
              * @event SectionApi#init.section
              */
-            this.scope.trigger('init.section');    
-    
+            this.scope.trigger('init.section');
 
-            if(this.options.history === false || !restore || !restoreState(History.getState())){
+
+            if(this.options.history === false || !restore || !restoreState(getState())){
                 return this.activate();
             }
             return this;
         },
 
         /**
-         * Bind the openeers (ie. the tabs) to react on click. 
+         * Bind the openeers (ie. the tabs) to react on click.
          * Also hide them if there is less than 1 visible.
          * @param {jQueryElement} $openersContainer - the element that contains the openers
          * @returns {SectionApi} instance for chaining
          */
         _bindOpener : function($openersContainer){
             var self = this;
-            //bind click on openers 
+            //bind click on openers
             $openersContainer
                 .off('click.section', 'li')
                 .on('click.section', 'li', function(e){
@@ -173,12 +236,12 @@ define([
 
         /**
          * Activate the selected current section (by pushing a new state to the history)
-         *  
+         *
          * @returns {SectionApi} instance for chaining
          * @fires SectionApi#activate.section
          * @fires SectionApi#hide.section
          * @fires SectionApi#show.section
-         */ 
+         */
         activate : function(){
             if(!this.selected){
                 this.current();
@@ -186,7 +249,7 @@ define([
 
             if(this.options.history === false){
                 return this._activate();
-            } 
+            }
 
             pushState(this.selected, 'activate');
 
@@ -195,26 +258,26 @@ define([
 
         /**
          * Activate the selected section.
-         * Unlike the public one, this method does the job. 
+         * Unlike the public one, this method does the job.
          *
-         * @private 
+         * @private
          * @returns {SectionApi} instance for chaining
          * @fires SectionApi#activate.section
          * @fires SectionApi#hide.section
          * @fires SectionApi#show.section
-         */ 
+         */
         _activate : function(){
 
-            this._show();    
+            this._show();
             if(this.selected.activated === false){
-                this.selected.activated = true; 
+                this.selected.activated = true;
 
                 /**
                  * A section is activated
                  * @event SectionApi#activate.section
                  * @param {Object} section - the section
                  */
-                this.scope.trigger('activate.section', [this.selected]);    
+                this.scope.trigger('activate.section', [this.selected]);
             }
 
             return this;
@@ -222,13 +285,13 @@ define([
 
         /**
          * Shows the selected section (by pushing a new state to the history).
-         * Shows is different from activate just by the events 
+         * Shows is different from activate just by the events
          * that are send (show doesn't trigger the activate event).
-         *  
+         *
          * @returns {SectionApi} instance for chaining
          * @fires SectionApi#hide.section
          * @fires SectionApi#show.section
-         */ 
+         */
         show : function(){
             if(!this.selected){
                 this.current();
@@ -237,24 +300,24 @@ define([
             if(this.options.history === false){
                 return this._show();
             }
- 
+
             pushState(this.selected, 'show');
 
             return this;
         },
-        
+
 
         /**
          * Shows the selected section.
-         * Unlike the public one, this method does the job. 
+         * Unlike the public one, this method does the job.
          *
-         * @private 
+         * @private
          * @returns {SectionApi} instance for chaining
          * @fires SectionApi#hide.section
          * @fires SectionApi#show.section
-         */ 
+         */
         _show : function(){
-    
+
             var self = this;
             var active = _(this.sections).where({'active' : true }).first();
 
@@ -278,7 +341,7 @@ define([
                  * @param {Object} section - the section
                  */
                 self.scope.trigger('hide.section', [section]);
-    
+
             });
             _.where(this.sections, {'active' : true }).forEach(function(section){
                 section.opener.addClass('active');
@@ -289,29 +352,29 @@ define([
                  * @event SectionApi#show.section
                  * @param {Object} section - the section
                  */
-                self.scope.trigger('show.section', [section]);    
+                self.scope.trigger('show.section', [section]);
             });
-            
+
             return this;
         },
 
         /**
-         * refresh the sections. 
+         * refresh the sections.
          * they are re loaded from the dom.
          *
          * @returns {sectionapi} instance for chaining
-         */ 
+         */
         refresh : function(){
             this.sections = {};
             return this.init();
         },
 
         /**
-         * Enable the current section 
+         * Enable the current section
          *
          * @returns {sectionapi} instance for chaining
          * @fires SectionApi#enable.section
-         */ 
+         */
         enable : function(){
             if(!this.selected){
                 this.current();
@@ -325,17 +388,17 @@ define([
                  * @event SectionApi#enable.section
                  * @param {Object} section - the section
                  */
-                this.scope.trigger('enable.section', [this.selected]); 
+                this.scope.trigger('enable.section', [this.selected]);
             }
             return this;
         },
 
         /**
-         * Disable the current section 
+         * Disable the current section
          *
          * @returns {sectionapi} instance for chaining
          * @fires SectionApi#disable.section
-         */ 
+         */
         disable : function(){
             if(!this.selected){
                 this.current();
@@ -349,28 +412,28 @@ define([
                  * @event SectionApi#disable.section
                  * @param {Object} section - the section
                  */
-                this.scope.trigger('disable.section', [this.selected]); 
+                this.scope.trigger('disable.section', [this.selected]);
             }
             return this;
         },
 
         /**
-         * Make the active section the selected. Useful before chaining with another method : 
+         * Make the active section the selected. Useful before chaining with another method :
          * @example section.current().show();
-         * 
+         *
          *
          * @returns {SectionApi} instance for chaining
-         */ 
+         */
         current : function(){
             this.selected =  _(this.sections).where({'active' : true }).first();
             return this;
         },
 
         /**
-         * This method enables you to create a new section. 
+         * This method enables you to create a new section.
          * If the section already exists, it may be updated (panel's content)
-         * 
-         * @param {Object} data - the section data 
+         *
+         * @param {Object} data - the section data
          * @param {String} data.id - the section identifier
          * @param {String} data.url - the section url
          * @param {String} data.name - the section name (already translated please)
@@ -378,29 +441,29 @@ define([
          * @param {String} [data.content] - the panel content
          *
          * @returns {SectionApi} instance for chaining
-         */ 
+         */
         create : function(data){
             var $openersContainer = this.scope.find('.tab-container');
-            var $sectionOpener, 
-                $sectionPanel, 
+            var $sectionOpener,
+                $sectionPanel,
                 section;
 
             if(!_.isObject(data)){
                 throw new TypeError("The create() method requires an object with section data as parameter.");
-            }    
+            }
             if(!_.isString(data.id) || !_.isString(data.url) || !_.isString(data.name)){
                 throw new TypeError("The create() method requires data with id, url and name to create a new section.");
             }
             if(typeof data.visible === 'undefined'){
                 data.visible = true;
             }
-            
+
             this.get(data.id);
             section = this.selected && this.selected.id === data.id ? this.selected : undefined;
-            
+
 
             if(!section){
-                
+
                 //TODO use templates
                 $sectionPanel = $('<div id="panel-' + data.id +'" class="clear"></div>');
                 if(data.contentBlock === true){
@@ -411,7 +474,7 @@ define([
                 this.scope.append($sectionPanel);
 
 
-        
+
                 section =  {
                     id          : data.id,
                     url         : data.url,
@@ -425,22 +488,22 @@ define([
             }
             section.url = section.url === data.url || data.url === undefined ? section.url : data.url;
             this.selected = section;
-                        
+
             if(data.content){
                 if(data.contentBlock === true){
-                    this.updateContentBlock(data.content);    
+                    this.updateContentBlock(data.content);
                 } else {
                     section.panel.html(data.content);
                 }
 
             } else {
                 if(data.contentBlock === true){
-                    this.loadContentBlock(); 
+                    this.loadContentBlock();
                 } else {
                     this.load();
                 }
             }
-                
+
             this._bindOpener($openersContainer);
 
             return this;
@@ -451,7 +514,7 @@ define([
          *
          * @example section.get('manage_items').activate();
          *
-         * @param {String} value - id, panel id, short or long URL 
+         * @param {String} value - id, panel id, short or long URL
          * @returns {SectionApi} instance for chaining
          */
         get : function(value){
@@ -461,8 +524,8 @@ define([
             }
 
             //try to get the section assuming the value is the id or the url.
-            section = 
-                this.sections[value] || 
+            section =
+                this.sections[value] ||
                 this.sections[value.replace('panel-', '')] ||
                 _(this.sections).where({'url' : value }).first() ||
                 _(this.sections).where({'url' : context.root_url + value }).first();
@@ -470,8 +533,8 @@ define([
                 this.selected = section;
             } else {
                 this.current();
-            }        
-            
+            }
+
             return this;
         },
 
@@ -496,13 +559,13 @@ define([
             url = url || this.selected.url;
 
             if(this.selected.type === 'tree'){
-                this.selected.panel.addClass('content-panel'); 
+                this.selected.panel.addClass('content-panel');
             } else {
-                this.selected.panel.removeClass('content-panel'); 
+                this.selected.panel.removeClass('content-panel');
             }
 
             this.selected.panel.empty().load(url, data, function(response){
-                
+
                 /**
                  * Section content has been loaded
                  * @event SectionApi#load.section
@@ -534,9 +597,9 @@ define([
             url = url || this.selected.url;
 
             if(this.selected.type === 'tree'){
-                this.selected.panel.addClass('content-panel'); 
+                this.selected.panel.addClass('content-panel');
             } else {
-                this.selected.panel.removeClass('content-panel'); 
+                this.selected.panel.removeClass('content-panel');
             }
 
             $contentblock = $('.content-block', this.selected.panel);
@@ -547,12 +610,12 @@ define([
                 $contentblock.empty().load(url, data);
                 return this;
             }
-                
-            return this.load(url, data); 
+
+            return this.load(url, data);
         },
 
         /**
-         * Update content block's content or the panel if not found. 
+         * Update content block's content or the panel if not found.
          *
          * @param {String} [html] - the new content
          * @returns {SectionApi} instance for chaining
@@ -569,7 +632,7 @@ define([
 
         /**
          * Sugar to help you listen for event on sections
-         * 
+         *
          * @param {String} eventName - the name of the event (without the namespace)
          * @param {Function} cg - the event callback
          * @returns {SectionApi} instance for chaining
@@ -578,7 +641,7 @@ define([
             var self = this;
             this.scope.on(eventName + '.section', function(e){
                 cb.apply(self, Array.prototype.slice.call(arguments, 1));
-            }); 
+            });
             return this;
         }
     };
