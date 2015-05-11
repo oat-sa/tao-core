@@ -98,20 +98,23 @@ define([
      * @param {String} [restoreWith = 'activate']
      */
     function pushState(section, restoreWith){
-        var stateUrl = window.location.search + '' || '?';
-        var stateUrlWithoutSection = stateUrl.replace(sectionParamExp, '');
-        var hasNoSection = stateUrl === stateUrlWithoutSection;
-        var method = hasNoSection ? 'replaceState' : 'pushState';
+        var stateUrl;
+        var stateUrlWithoutSection;
+        var hasNoSection;
+        var method;
 
-        if(section){
-            stateUrl = stateUrlWithoutSection + '&section=' + section.id ;
+        if (section) {
+            stateUrl = window.location.search + '' || '?';
+            stateUrlWithoutSection = stateUrl.replace(sectionParamExp, '');
+            hasNoSection = stateUrl === stateUrlWithoutSection;
+            method = hasNoSection ? 'replaceState' : 'pushState';
 
             history[method]({
                     sectionId : section.id,
                     restoreWith : restoreWith || 'activate'
                 },
                 section.name || '',
-                stateUrl
+                stateUrlWithoutSection + '&section=' + section.id
             );
             restoreState(getState());
         }
