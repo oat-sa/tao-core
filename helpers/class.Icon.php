@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2015-04-27 14:03:48
+ * @date   2015-05-12 07:55:02
  * @package tao
  * @subpackage helpers
  */
@@ -255,6 +255,7 @@ class tao_helpers_Icon {
     const CLASS_AUDIO = 'icon-audio';
     const CLASS_GRIP_H = 'icon-grip-h';
     const CLASS_MAGICWAND = 'icon-magicwand';
+    const CLASS_LOOP2 = 'icon-loop2';
 
 	
     /**
@@ -979,6 +980,10 @@ class tao_helpers_Icon {
 
     public static function iconMagicwand($options=array()){
         return self::buildIcon(self::CLASS_MAGICWAND, $options);
+    }
+
+    public static function iconLoop2($options=array()){
+        return self::buildIcon(self::CLASS_LOOP2, $options);
     }
 
 
