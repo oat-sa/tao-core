@@ -119,6 +119,7 @@
 
     .content-block {
         padding: 20px;
+        overflow-y: auto;
         @include flex-container(wrap);
         & > .grid-container {
             width : 100%;
@@ -145,7 +146,7 @@
                     background: $canvas;
                     border-width: 0px !important;
                     border-bottom: 1px #ddd solid !important;
-                    h1 {
+                    h1, h6 {
                         padding: 4px;
                         margin: 0;
                         @include font-size(14);
@@ -156,6 +157,9 @@
                     overflow-y: auto;
                     min-height: 250px;
                     padding: 5px;
+                    .icon-grip {
+                        cursor: move;
+                    }
                 }
                 & > footer, .data-container-footer {
                     background: $canvas;
