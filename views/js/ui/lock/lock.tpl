@@ -6,11 +6,11 @@
         <button class="btn btn-info small release"><span class="icon-result-nok info"></span>{{__ 'Release'}}</button>
     </div>
 
-    <div id="message-container" class="button-container" style="display: none;">
+    <div class="message-container button-container" style="display: none;">
             <label>
                 {{__ 'Message'}}
             </label>
-            <input type="text" name="message" id="message">
+            <input type="text" name="message" class="message">
             <button class="btn-info small commit">{{__ 'Commit'}}</button>
         </div>
     </div>

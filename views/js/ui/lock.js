@@ -256,9 +256,9 @@ define([
         commit : function commit(){
             var self = this;
             if(self.options.commitUrl !== ''){
-                $('#message-container').slideToggle();
-                $('.commit').on('click',function(){
-                    var message = $('#message').val();
+                $('.message-container', self._container).slideToggle();
+                $('.commit', self._container).off('click').on('click',function(){
+                    var message = $('.message', self._container).val();
                     if(message !== ''){
                         $.ajax({
                             url: self.options.commitUrl,
