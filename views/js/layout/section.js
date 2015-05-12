@@ -34,7 +34,7 @@ define([
     var location = window.history.location || window.location;
 
     //back & forward button, and push state
-    $(window).bind('popstate', function (event) {
+    $(window).on('popstate', function (event) {
         restoreState(getState());
     });
 
