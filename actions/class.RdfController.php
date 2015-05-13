@@ -292,7 +292,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         
         if (isset($tree['children'])) {
             usort($tree['children'], 'sortTreeNodes');
-        } else {
+        } elseif(array_values($tree) === $tree) {//is indexed array
             usort($tree, 'sortTreeNodes');
         }
         
