@@ -22,6 +22,7 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
         flashTemplate: _.template("<object data=${jsonurl} type='application/x-shockwave-flash'><param name='movie' value=${jsonurl}></param></object>"),
         mathmlTemplate: _.template("<iframe src=${jsonurl}></iframe>"),
         xmlTemplate: _.template("<pre>${xml}</pre>"),
+        htmlTemplate: _.template("<iframe src=${jsonurl}></iframe>"),
         /**
          * Generates the preview tags for a type 
          * @memberOf previewGenerator 
