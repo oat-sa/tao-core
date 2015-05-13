@@ -25,6 +25,13 @@ namespace oat\tao\model\media;
  * To be used as if it were a singleton until serviceManager in place
  */
 class MediaService {
+    
+    /**
+     * Scheme name used to identify media resource URLs
+     * 
+     * @var string
+     */
+    const SCHEME_NAME = 'taomedia';
 
     const CONFIG_KEY = 'mediaSources';
     
