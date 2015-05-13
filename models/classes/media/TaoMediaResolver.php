@@ -37,7 +37,7 @@ class TaoMediaResolver
     public function resolve($url)
     {
         $urlParts = parse_url($url);
-        if (isset($urlParts['scheme']) && $urlParts['scheme'] === 'taomedia' && isset($urlParts['host'])) {
+        if (isset($urlParts['scheme']) && $urlParts['scheme'] === MediaService::SCHEME_NAME && isset($urlParts['host'])) {
             $mediaService = new MediaService();
             $mediaSource = $mediaService->getMediaSource($urlParts['host']);
             $mediaId = (isset($urlParts['path'])) ? trim($urlParts['path'], '/') : '';
