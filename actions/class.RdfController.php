@@ -281,23 +281,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             $tree = $this->computePermissions($actions, $user, $tree);
         }
         
-        //sort items by name
-        function sortTreeNodes($a, $b) {
-            if (isset($a['data']) && isset($b['data'])) {
-                if ($a['type'] != $b['type']) {
-                    return ($a['type'] == 'class') ? -1 : 1;
-                } else {
-                    return strcasecmp($a['data'], $b['data']);
-                }
-            }
-        }
-        
-        if (isset($tree['children'])) {
-            usort($tree['children'], 'sortTreeNodes');
-        } else {
-            usort($tree, 'sortTreeNodes');
-        }
-        
         //expose the tree
         $this->returnJson($tree);
 	}
