@@ -71,10 +71,26 @@ class tao_models_classes_import_CsvUploadForm
 		else{
 			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty', array('message' => '')));
 		}
-		$fileElt->addValidators(array(
-			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/plain', 'text/csv', 'text/comma-separated-values', 'application/csv', 'application/csv-tab-delimited-table'), 'extension' => array('csv', 'txt'))),
-			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => tao_helpers_Environment::getFileUploadLimit()))
-		));
+        $fileElt->addValidators(array(
+            tao_helpers_form_FormFactory::getValidator('FileMimeType',
+                array(
+                    'mimetype' => array(
+                        'text/plain',
+                        'text/csv',
+                        'text/comma-separated-values',
+                        'text/anytext',
+                        'application/csv',
+                        'application/txt',
+                        'application/csv-tab-delimited-table',
+                        'application/excel',
+                        'application/vnd.ms-excel',
+                        'application/vnd.msexcel',
+                    ),
+                    'extension' => array('csv', 'txt')
+                )),
+            tao_helpers_form_FormFactory::getValidator('FileSize',
+                array('max' => tao_helpers_Environment::getFileUploadLimit()))
+        ));
 		
 		$this->form->addElement($fileElt);
 		$this->form->createGroup('file', __('Import Metadata from CSV file'), array('csv_desc', 'source'));
