@@ -174,6 +174,7 @@ class tao_helpers_File
             'txt' => 'text/plain',
             'htm' => 'text/html',
             'html' => 'text/html',
+            'xhtml' => 'application/xhtml+xml',
             'php' => 'text/html',
             'css' => 'text/css',
             'js' => 'application/javascript',
