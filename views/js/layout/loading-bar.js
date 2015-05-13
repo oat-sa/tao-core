@@ -28,9 +28,6 @@ define(['jquery'],
                 $loadingBar.removeClass('fixed');
             }
             $loadingBar.height($doc.height());
-            if(!$versionWarning.length){
-                $loadingBar.css('top', -28);
-            }
         });
 
         return {
