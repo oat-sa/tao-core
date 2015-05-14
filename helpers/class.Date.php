@@ -35,6 +35,10 @@ class tao_helpers_Date
     const FORMAT_VERBOSE = 1;
 
     const FORMAT_DATEPICKER = 2;
+    
+    const FORMAT_DATE = 3;
+    
+    const FORMAT_TIME = 4;
 
     const FORMAT_INTERVAL_LONG = 100;
 
@@ -73,12 +77,18 @@ class tao_helpers_Date
             case self::FORMAT_VERBOSE:
                 $returnValue = $dateTime->format('F j, Y, g:i:s a');
                 break;
+            case self::FORMAT_DATE:
+                $returnValue = $dateTime->format('d/m/Y');
+                break;
+            case self::FORMAT_TIME:
+                $returnValue = $dateTime->format('H:i');
+                break;
             default:
                 common_Logger::w('Unkown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
         }
         return $returnValue;
     }
-
+    
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
