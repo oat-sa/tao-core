@@ -24,8 +24,9 @@ define([
     'jquery', 
     'lodash',
     'util/wrapLongWords',
+    'util/encode',
     'tpl!ui/feedback/feedback'
-], function($, _, wrapLongWords, tpl){
+], function($, _, wrapLongWords, encode, tpl){
 
     //'use strict';
     // @todo cannot be used here because _trigger() relies on arguments.caller!
@@ -72,7 +73,8 @@ define([
         // Note: value depends on font, font-weight and such.
         // 40 is pretty good in the current setup but will
         // never be exact with a non-proportional font.
-        wrapLongWordsAfter: 40
+        wrapLongWordsAfter: 40,
+        encodeHtml : true
     };
 
     /**
@@ -112,9 +114,15 @@ define([
             this.category = _.findKey(categories, [this.level]);
             this.options  = _.defaults(options || {}, defaultOptions); 
 
+            // encode plain text string to html
+            msg = this.options.encodeHtml ? encode.html(msg) : msg;
+            
+            // wrap long words
+            msg = !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg;
+
             this.content  = tpl({
                 level : level,
-                msg : !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg
+                msg : msg
             });
 
             this._trigger('create');

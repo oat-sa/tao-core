@@ -24,6 +24,8 @@ namespace oat\tao\scripts\update;
 use common_ext_ExtensionsManager;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
+use oat\tao\model\search\SearchService;
+use oat\tao\model\search\zend\ZendSearch;
 use oat\tao\model\ClientLibRegistry;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\generis\model\data\ModelManager;
@@ -78,7 +80,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
         }
         
-        if ($currentVersion == '2.7.1') {
+        if ($currentVersion === '2.7.1') {
+            SearchService::setSearchImplementation(ZendSearch::createSearch());
+            $currentVersion = '2.7.2';
+        }
+
+        if ($currentVersion == '2.7.2') {
             foreach ($extensionManager->getInstalledExtensions() as $extension) {
                 $extManifestConsts = $extension->getConstants();
                 if (isset($extManifestConsts['BASE_WWW'])) {
@@ -88,16 +95,9 @@ class Updater extends \common_ext_ExtensionUpdater {
                     
                 }
             }
-            
-            $currentVersion = '2.7.2';
-            
+             $currentVersion = '2.7.3';
         }
 
-        if ($currentVersion == '2.7.2') {
-            // zendSearch Update only
-            $currentVersion = '2.7.3';
-        }
-        
         if ($currentVersion == '2.7.3') {
         
             $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_4.rdf';
@@ -195,6 +195,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lock@release')));
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lock@locked')));
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole', array('act'=>'tao_actions_Lock@forceRelease')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Search')));
             $currentVersion = '2.7.11';
         }
         
@@ -214,6 +215,22 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.7.12';
         }
         
+        if ($currentVersion == '2.7.12') {
+            // add the property manager
+            OntologyUpdater::syncModels();
+            
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', array('controller' => 'tao_actions_Lists')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', array('controller' => 'tao_actions_PropertiesAuthoring')));
+            $currentVersion = '2.7.13';
+        }
+        
+        if ($currentVersion == '2.7.13') {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao', 'mod' => 'PasswordRecovery', 'act' => 'index')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao', 'mod' => 'PasswordRecovery', 'act' => 'resetPassword')));
+            
+            $currentVersion = '2.7.14';
+        }
+
         return $currentVersion;
     }
     

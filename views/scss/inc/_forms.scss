@@ -190,14 +190,14 @@ select {
     color: $textColor;
     max-width: 300px;
 
-    &.disabled, &[disabled] {
-        cursor: not-allowed !important;
-    }
     &.disabled, &[disabled], &[readonly] {
         color: $textColor;
         opacity: .55 !important;
+        cursor: default;
     }
-
+    &.disabled, &[disabled] {
+        cursor: not-allowed !important;
+    }
 
     & ~ .validate-error {
         color: $error;
@@ -505,10 +505,6 @@ label {
                     padding: 2px 0
                 }
             }
-
-            &.property-edit-container-open {
-                padding-top: 10px;
-            }
         }
     }
 
@@ -523,6 +519,10 @@ label {
         width: 35%;
         display:inline-block;
         padding: 0 10px 0 0;
+        &.hidden-input-label {
+            width: auto;
+        }
+
 
     }
     input {

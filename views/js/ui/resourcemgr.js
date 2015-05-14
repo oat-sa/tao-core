@@ -16,7 +16,7 @@ define([
    var dataNs = 'ui.' + ns;
    
    var defaults = {
-        mediaSources    : ['local'],
+        mediaSources    : [{'root' : 'local', 'path' : '/'}],
         open            : true,
         appendContainer : '.tao-scope:first',
         title           : ''
@@ -82,14 +82,34 @@ define([
                         $elt.trigger('close.' + ns);
                     });
                     //initialize the components
-                    var mediaSources = options.mediaSources || ['local'];
+                    var $fileBrowser    = $('.file-browser', $target);
+                    if(options.mediaSourcesUrl){
+                        $.getJSON(options.mediaSourcesUrl)
+                            .done(function(data){
+                                var mediaSources = data || defaults.mediaSources;
+                                for(var i = 0; i < mediaSources.length; i++){
+                                    options.root = mediaSources[i].root;
+                                    options.path = mediaSources[i].path;
+                                    $fileBrowser.append('<div class="'+options.root+'"><ul class="folders"></ul></div>');
+                                    fileBrowser(options);
+                                }
 
-
-                    for(var i = 0; i < mediaSources.length; i++){
-                        options.root = mediaSources[i];
+                            })
+                            .fail(function(){
+                                for(var i = 0; i < defaults.mediaSources.length; i++){
+                                    options.root = defaults.mediaSources[i].root;
+                                    options.path = defaults.mediaSources[i].path;
+                                    $fileBrowser.append('<div class="'+options.root+'"><ul class="folders"></ul></div>');
+                                    fileBrowser(options);
+                                }
+                            });
+                    }
+                    else if(options.path && options.root){
+                        $fileBrowser.append('<div class="'+options.root+'"><ul class="folders"></ul></div>');
                         fileBrowser(options);
                     }
-                    $('.file-browser').find('li.root:last').addClass('active');
+
+                    $fileBrowser.find('li.root:last').addClass('active');
                     fileSelector(options);
                     filePreview(options);
 

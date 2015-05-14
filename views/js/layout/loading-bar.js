@@ -12,13 +12,11 @@ define(['jquery'],
             $versionWarning = $contentWrap.find('>.version-warning'),
             $header         = $contentWrap.find('header:first()'),
             $headerHeight;
-
-
+        
         $win.on('scroll.loadingbar', function () {
             if(!$loadingBar.hasClass('loading')) {
                 return;
             }
-
             $headerHeight = $versionWarning.length && $versionWarning.is(':visible')
                 ? $header.height() + $versionWarning.height()
                 : $header.height();

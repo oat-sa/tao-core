@@ -37,9 +37,9 @@ require.config({
         'raphael'           : 'lib/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
         'spin'              : 'lib/spin.min',
-        'history'           : 'lib/history',
+        'history'           : 'lib/history/history',
 
-        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player.min',
+        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
 

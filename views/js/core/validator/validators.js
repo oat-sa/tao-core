@@ -3,6 +3,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define(['lodash', 'i18n', 'jquery'], function(_, __, $){
+    'use strict';
 
     /**
      * Defines the validation callback 
@@ -49,9 +50,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             validate : function(value, callback){
 
                 var parsedValue = parseFloat(value),
-                    r = (parsedValue == value)
-                    && _.isNumber(parsedValue)
-                    && !_.isNaN(parsedValue);
+                    r = (parsedValue === value) && _.isNumber(parsedValue) && !_.isNaN(parsedValue);
 
                 if(typeof(callback) === 'function'){
                     callback.call(null, r);
@@ -104,14 +103,23 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             options : {baseUrl : ''},
             validate : function(value, callback, options){
                 
-                var url = (value.indexOf('http') === 0) ? value : options.baseUrl + value;
+                if(!value){
+                    callback(false);
+                    return;
+                }
                 
-                if(url){
-                    
-                    //request HEAD only for bandwidth saving
+                //valid way to know if it is an url
+                var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])?)\\.)+[a-z]{2,}|'+ // domain name
+                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+                if(!pattern.test(value) && !/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(value)){
+                	//request HEAD only for bandwidth saving
                     $.ajax({
                         type : 'HEAD',
-                        url : url,
+                        url : options.baseUrl + value,
                         success : function(){
                             callback(true);
                         },
@@ -122,7 +130,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
                 
                 }else{
                     
-                    callback(false);
+                    callback(true);
                 }
                 
             }
@@ -134,7 +142,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             validate: function(value, callback) {
                 if (typeof callback === 'function') {
                     var valid = false;
-                    if(value != ''){
+                    if(value !== ''){
                         try{
                             new RegExp('^' + value + '$');
                             valid = true;

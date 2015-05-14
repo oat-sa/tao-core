@@ -32,16 +32,17 @@
 class tao_models_classes_FileSourceService
     extends tao_models_classes_GenerisService
 {
+
     /**
      * Returns a filesource
-     *
+     * 
      * @param string $uri
      * @return core_kernel_fileSystem_FileSystem
      */
     public function getFileSource($uri) {
         return new core_kernel_fileSystem_FileSystem($uri);
     }
-
+    
     /**
      * Add a local Filesource
      *

@@ -25,29 +25,13 @@ $sections = get_data('sections');
             
                 <section class="navi-container">
                     <div class="section-trees">
-                        <?php foreach ($section->getTrees() as $i => $tree): ?>
+                        <?php foreach ($section->getTrees() as $i => $tree):
+                        ?>
                             <div class="tree-block">
-                                <?php 
-                                    Template::inc('blocks/actions.tpl', 'tao', array(
-                                        'actions_id' => 'tree-actions-'.$i, 
-                                        'actions_classes' => 'search-action-bar horizontal-action-bar', 
-                                        'action_classes' => 'tree-search btn-info small', 
-                                        'actions' => $section->getActionsByGroup('search')
-                                    )); 
-                                ?>
-                            </div>
-                            <div class="search-form">
-                                <div data-purpose="search" data-current="none" class="search-area search-search"></div>
-                            </div>
-                            <div class="filter-form">
-                                <div class="search-area search-filter">
-                                    <div class="xhtml_form">
-                                        <div class="form-group">
-                                            <input type="text" autocomplete="off" placeholder="<?=__('You can use * as a wildcard')?>">
-                                        </div>
-                                    </div>
+                                <div class="plain action-bar horizontal-action-bar">
                                 </div>
                             </div>
+
                             <div id="tree-<?= $section->getId() ?>"
                                  class="taotree taotree-<?= is_null($tree->get('className')) ? 'default' : strtolower(
                                      $tree->get('className')
@@ -60,28 +44,43 @@ $sections = get_data('sections');
                     </div>
     
                     <div class="tree-action-bar-box">
+                        <ul class="plain action-bar tree-action-bar vertical-action-bar">
                         <?php  
                             Template::inc('blocks/actions.tpl', 'tao', array(
-                                'actions_classes' => 'tree-action-bar vertical-action-bar', 
                                 'actions' => $section->getActionsByGroup('tree')
-                            )); 
+                            ));
+                        ?>
+                        </ul>
+                        <ul class="hidden action-bar">
+                        <?php
                             Template::inc('blocks/actions.tpl', 'tao', array(
-                                'actions_classes' => 'hidden', 
                                 'actions' => $section->getActionsByGroup('none')
                             )); 
                         ?>
+                        </ul>
                     </div>
 
                 </section>
 
                 <section class="content-container">
-                    <?php  
+                    <ul class="plain action-bar content-action-bar horizontal-action-bar">
+                        <?php
                         Template::inc('blocks/actions.tpl', 'tao', array(
-                            'actions_classes' => 'content-action-bar horizontal-action-bar', 
-                            'action_classes' => 'btn-info small', 
-                            'actions' => $section->getActionsByGroup('content')
-                        )); 
-                    ?>
+                                'action_classes' => 'btn-info small',
+                                'actions' => $section->getActionsByGroup('content')
+                            ));
+                        ?>
+                        <?php
+                        foreach ($section->getTrees() as $i => $tree) {
+                            if (!is_null($tree->get('rootNode'))) {
+                                Template::inc('blocks/search.tpl', 'tao', array(
+                                    'rootNode' => $tree->get('rootNode'),
+                                    'searchLabel' => __('Search %s', $tree->get('className'))
+                                ));
+                            }
+                        }
+                        ?>
+                    </ul>
 
                     <div class="content-block"></div>
 
