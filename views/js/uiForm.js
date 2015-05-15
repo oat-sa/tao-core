@@ -44,6 +44,7 @@ define([
         ) {
 
     'use strict';
+        /*jshint camelcase: false */
 
         /**
          * Create a URL based on action and module
@@ -144,147 +145,144 @@ define([
                                                                     .addClass('btn-default small');
             }
 
-            $('body').on('submit', '.xhtml_form form', function(e) {
+            $('body').off('submit').on('submit', '.xhtml_form form', function (e) {
                 e.preventDefault();
-                self.submitForm($(this));
+                var $form = $(this),
+                    formData = self.getFormData($form);
+                return self.submitForm($form, formData);
             });
 
             // modify properties
             postRenderProps.init();
         },
 
-        initElements: function () {
-            //save form button
-            var that = this;
-            $(".form-submitter").off('click').on('click', function (e) {
-                e.preventDefault();
-                var $form = $(this).parents("form"),
-                    formData,
-                    clazz;
+        /**
+         * Retrieve form fields and pack to internal format for transfering
+         * @param {jQueryElement} $form
+         * @returns {object|undefined}
+         */
+        getFormData: function ($form) {
 
-                if($('[id="tao.forms.class"]').length !== 0){
-                    formData = {};
-                    clazz = {};
+            //for backward compatibility
+            if (!$('[id="tao.forms.class"]').length) {
+                return undefined;
+            }
 
-                    //get all global data
-                    $('input.global',$form[0]).each(function(){
-                        var $global = $(this);
-                        var name = $global.attr('name');
-                        if(name.indexOf('class_') > -1){
-                            name = name.replace('class_','');
-                            clazz[name] = $global.val();
+            var formData = {},
+                clazz = {};
 
-                        }
-                        else{
-                            formData[name] = $global.val();
-                        }
-                    });
-                    if(clazz.length !==0){
-                        formData.class = clazz;
-                    }
+            //get all global data
+            $('input.global', $form[0]).each(function () {
+                var $global = $(this);
+                var name = $global.attr('name');
+                if (name.indexOf('class_') > -1) {
+                    name = name.replace('class_', '');
+                    clazz[name] = $global.val();
 
-                    var properties = [];
-                    //get data for each property
-                    $('.regular-property',$form[0]).each(function(){
-                        var property = {};
-                        var name = '';
-
-                        //get range on advanced mode
-                        var range = [];
-                        $('[id*="http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range-TreeBox"]', this).find('.checked').each(function(){
-                             range.push($(this).parent().attr('id'));
-                        });
-                        if(range.length !== 0){
-                            property['http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range'] = range;
-                        }
-
-                        $(':input.property',this).each(function(){
-                            var $property = $(this);
-                            name = $property.attr('name').replace(/(property_)?[^_]+_/,'');
-                            if($property.attr('type') === 'radio'){
-                                if($property.is(':checked')){
-                                    property[name] = $property.val();
-                                }
-                            }
-                            else{
-                                property[name] = $property.val();
-                            }
-
-                        });
-                        //get data for each index
-                        var indexes = [];
-                        $(':input.index', this).each(function(){
-
-                            var i;
-                            var found = false;
-                            var name = '';
-                            var $index = $(this);
-                            for(i in indexes){
-                                if(indexes[i] && $index.attr('data-related-index') === indexes[i].uri){
-                                    name = $index.attr('name').replace(/(index_)?[^_]+_/,'');
-                                    if($index.attr('type') === 'radio' || $index.attr('type') === 'checkbox'){
-                                        if($index.is(':checked')){
-                                            indexes[i][name] = $index.val();
-                                        }
-                                    }
-                                    else{
-                                        indexes[i][name] = $index.val();
-                                    }
-
-                                    found = true;
-                                }
-                            }
-                            if(!found){
-                                var index = {};
-                                index.uri = $index.attr('data-related-index');
-                                name = $index.attr('name').replace(/(index_)?[^_]+_/,'');
-                                if($index.attr('type') === 'radio'){
-                                    if($index.is(':checked')){
-                                        index[name] = $index.val();
-                                    }
-                                }
-                                else{
-                                    index[name] = $index.val();
-                                }
-                                indexes.push(index);
-                            }
-
-
-                        });
-                        //add indexes to related property
-                        property.indexes = indexes;
-                        properties.push(property);
-                    });
-
-                    formData.properties = properties;
-
-                    if (that.submitForm($form, formData)) {
-                        $form.submit();
-                    }
                 }
-                else{
-                    if (that.submitForm($form)) {
-                        $form.submit();
-                    }
+                else {
+                    formData[name] = $global.val();
                 }
-                return false;
             });
+            if (clazz.length !== 0) {
+                formData.class = clazz;
+            }
+
+            var properties = [];
+            //get data for each property
+            $('.regular-property', $form[0]).each(function () {
+                var property = {};
+                var name = '';
+
+                //get range on advanced mode
+                var range = [];
+                $('[id*="http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range-TreeBox"]', this).find('.checked').each(function () {
+                    range.push($(this).parent().attr('id'));
+                });
+                if (range.length !== 0) {
+                    property['http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range'] = range;
+                }
+
+                $(':input.property', this).each(function () {
+                    var $property = $(this);
+                    name = $property.attr('name').replace(/(property_)?[^_]+_/, '');
+                    if ($property.attr('type') === 'radio') {
+                        if ($property.is(':checked')) {
+                            property[name] = $property.val();
+                        }
+                    }
+                    else {
+                        property[name] = $property.val();
+                    }
+
+                });
+                //get data for each index
+                var indexes = [];
+                $(':input.index', this).each(function () {
+
+                    var i;
+                    var found = false;
+                    var name = '';
+                    var $index = $(this);
+                    for (i in indexes) {
+                        if (indexes[i] && $index.attr('data-related-index') === indexes[i].uri) {
+                            name = $index.attr('name').replace(/(index_)?[^_]+_/, '');
+                            if ($index.attr('type') === 'radio' || $index.attr('type') === 'checkbox') {
+                                if ($index.is(':checked')) {
+                                    indexes[i][name] = $index.val();
+                                }
+                            }
+                            else {
+                                indexes[i][name] = $index.val();
+                            }
+
+                            found = true;
+                        }
+                    }
+                    if (!found) {
+                        var index = {};
+                        index.uri = $index.attr('data-related-index');
+                        name = $index.attr('name').replace(/(index_)?[^_]+_/, '');
+                        if ($index.attr('type') === 'radio') {
+                            if ($index.is(':checked')) {
+                                index[name] = $index.val();
+                            }
+                        }
+                        else {
+                            index[name] = $index.val();
+                        }
+                        indexes.push(index);
+                    }
+
+
+                });
+                //add indexes to related property
+                property.indexes = indexes;
+                properties.push(property);
+            });
+
+            formData.properties = properties;
+
+            return formData;
+        },
+
+        initElements: function () {
 
             //revert form button
             $(".form-refresher").off('click').on('click', function () {
                 var $form = $(this).parents('form');
                 $(":input[name='" + $form.attr('name') + "_sent']").remove();
 
-                if (that.submitForm($form)) {
-                    $form.submit();
-                }
-                return false;
+                return $form.submit();
             });
 
             //translate button
+            var $uriElm      = $("#uri"),
+                $classUriElm = $("#classUri");
+
             $(".form-translator").off('click').on('click', function () {
-                if ($("#uri") && $("#classUri")) {
-                    helpers.getMainContainer().load(getUrl('translateInstance'), {'uri': $("#uri").val(), 'classUri': $("#classUri").val()});
+                if ( $uriElm.length && $classUriElm.length) {
+                    helpers.getMainContainer().load(getUrl('translateInstance'), {'uri': $uriElm.val(), 'classUri': $classUriElm.val()});
                 }
                 return false;
             });
@@ -297,17 +295,18 @@ define([
             });
 
             $('.box-checker').off('click').on('click', function () {
-                var checker = $(this);
-                var regexpId = new RegExp('^' + checker.prop('id').replace('_checker', ''), 'i');
+                var $checker = $(this);
+                var regexpId = new RegExp('^' + $checker.prop('id').replace('_checker', ''), 'i');
 
-                if (checker.hasClass('box-checker-uncheck')) {
+                if ($checker.hasClass('box-checker-uncheck')) {
                     $(":checkbox").each(function () {
                         if (regexpId.test(this.id)) {
+                            //noinspection JSPotentiallyInvalidUsageOfThis,JSPotentiallyInvalidUsageOfThis
                             this.checked = false;
                         }
                     });
-                    checker.removeClass('box-checker-uncheck');
-                    checker.text(__('Check all'));
+                    $checker.removeClass('box-checker-uncheck');
+                    $checker.text(__('Check all'));
                 }
                 else {
                     $(":checkbox").each(function () {
@@ -315,8 +314,8 @@ define([
                             this.checked = true;
                         }
                     });
-                    checker.addClass('box-checker-uncheck');
-                    checker.text(__('Uncheck all'));
+                    $checker.addClass('box-checker-uncheck');
+                    $checker.text(__('Uncheck all'));
                 }
 
                 return false;
@@ -523,7 +522,7 @@ define([
                     var closerId = rangeId.replace('_range', '_closer');
 
                     //dialog content to embed the list tree
-                    elt = $this.parent("div");
+                    var elt = $this.parent("div");
                     elt.append("<div id='" + dialogId + "' style='display:none;' > " +
                         "<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br /><br />" +
                         "<div id='" + treeId + "' ></div> " +
@@ -533,7 +532,8 @@ define([
                         "</div>");
 
                     //init dialog events
-                    $("#" + dialogId).dialog({
+                    var $dialogElm = $("#" + dialogId);
+                    $dialogElm.dialog({
                         width: 350,
                         height: 400,
                         autoOpen: false,
@@ -541,17 +541,17 @@ define([
                     });
 
                     //destroy dialog on close
-                    $("#" + dialogId).bind('dialogclose', function (event, ui) {
+                    $dialogElm.bind('dialogclose', function (event, ui) {
                         $.tree.reference("#" + treeId).destroy();
-                        $("#" + dialogId).dialog('destroy');
-                        $("#" + dialogId).remove();
+                        $dialogElm.dialog('destroy');
+                        $dialogElm.remove();
                     });
 
                     $("#" + closerId).click(function () {
                         $("#" + dialogId).dialog('close');
                     });
 
-                    $("#" + dialogId).bind('dialogopen', function (event, ui) {
+                    $dialogElm.bind('dialogopen', function (event, ui) {
                         var url = context.root_url + 'tao/Lists/';
                         var dataUrl = url + 'getListsData';
                         var renameUrl = url + 'rename';
@@ -602,17 +602,20 @@ define([
                                     });
                                 },
                                 ondestroy: function (TREE_OBJ) {
+                                    var $rangeElm = $("#" + rangeId);
+
                                     //empty and build again the list drop down on tree destroying
-                                    $("#" + rangeId + " option").each(function () {
-                                        if ($(this).val() !== "" && $(this).val() !== "new") {
-                                            $(this).remove();
+                                    $rangeElm.find('option').each(function () {
+                                        var $option = $(this);
+                                        if ($option.val() !== "" && $option.val() !== "new") {
+                                            $option.remove();
                                         }
                                     });
                                     $("#" + treeId + " .node-root .node-class").each(function () {
-                                        $("#" + rangeId + " option[value='new']").before("<option value='" + $(this).prop('id') + "'>" + $(this).children("a:first").text() + "</option>");
+                                        $rangeElm.find("option[value='new']").before("<option value='" + $(this).prop('id') + "'>" + $(this).children("a:first").text() + "</option>");
                                     });
-                                    $("#" + rangeId).parent("div").children("ul.form-elt-list").remove();
-                                    $("#" + rangeId).val('');
+                                    $rangeElm.parent("div").children("ul.form-elt-list").remove();
+                                    $rangeElm.val('');
                                 }
                             },
                             plugins: {
@@ -731,7 +734,7 @@ define([
                     });
 
                     //open the dialog window
-                    $("#" + dialogId).dialog('open');
+                    $dialogElm.dialog('open');
                 }
                 else {
                     //load the instances and display them (the list items)
@@ -739,7 +742,7 @@ define([
                     var classUri = $this.val();
                     if (classUri !== '') {
                         $this.parent("div").children("div.form-error").remove();
-                        var elt = this;
+                        //var elt = this;
                         $.ajax({
                             url: context.root_url + 'tao/Lists/getListElements',
                             type: "POST",
@@ -804,7 +807,7 @@ define([
             $('#translate_lang').change(function () {
                 var trLang = $(this).val();
                 if (trLang !== '') {
-                    $("#translation_form :input").each(function () {
+                    $("#translation_form").find(":input").each(function () {
                         if (/^http/.test($(this).prop('name'))) {
                             $(this).val('');
                         }
