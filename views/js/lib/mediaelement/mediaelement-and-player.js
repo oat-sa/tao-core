@@ -1764,7 +1764,12 @@ define(['jquery'], function ($) {
         mejs.YouTubeApi.flashReady(id);
     }
 
-    //window.mejs = mejs;
+    //it required to be in global scope to handle calls between flash and js
+    if (typeof window.mejs === "undefined") {
+        window.mejs = {};
+        window.mejs.MediaPluginBridge = mejs.MediaPluginBridge;
+    }
+
     //window.MediaElement = mejs.MediaElement;
 
     /*
