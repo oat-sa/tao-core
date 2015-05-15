@@ -140,12 +140,15 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
                     if (options.url) {
                         $content.mediaelementplayer({
                             pauseOtherPlayers: false,
-                            width: options.width || 290,
-                            height: options.height || 50,
+                            audioWidth: options.width || 290,
+                            audiHeight: options.height || 50,
                             videoWidth: options.width || 290,
                             videoHeight: options.height || 300,
                             success: function(me, medom) {
                                 me.load();
+
+                                //TODO all this code works only in the resource manager and may have impact on players elsewhere...
+
                                 // stop video and free the socket on escape keypress(modal window hides)
                                 $('body').off('keydown.mediaelement');
                                 $('body').on('keydown.mediaelement', function(event) {
