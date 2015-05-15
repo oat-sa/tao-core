@@ -881,7 +881,7 @@ define(['jquery', 'module'], function ($, module) {
         // none: forces fallback view
         mode: 'auto',
         // remove or reorder to change plugin priority and availability
-        plugins: ['flash'],
+        plugins: config.plugins || ['flash'],
         // shows debug errors on screen
         enablePluginDebug: false,
         // use plugin for browsers that have trouble with Basic Authentication on HTTPS sites
