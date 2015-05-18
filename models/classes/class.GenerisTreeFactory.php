@@ -44,7 +44,7 @@ class tao_models_classes_GenerisTreeFactory
          * @param array $propertyFilter filter resources based on properties uri => value
 	 * @return array
 	 */
-    public function buildTree(core_kernel_classes_Class $class, $showResources, $openNodes = array(), $limit = 10, $offset = 0, $propertyFilter = array(), $uniqueNode = false) {
+    public function buildTree(core_kernel_classes_Class $class, $showResources, $openNodes = array(), $limit = 10, $offset = 0, $propertyFilter = array(), $uniqueNode = null) {
     	return $this->classToNode($class, null, $showResources, $limit, $offset, $openNodes, $propertyFilter, $uniqueNode);
     }
 	
