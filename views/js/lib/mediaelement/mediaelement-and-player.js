@@ -867,8 +867,6 @@ define(['jquery', 'module'], function ($, module) {
         }
     };
 
-
-    debugger;
     /*
      Default options
      */
