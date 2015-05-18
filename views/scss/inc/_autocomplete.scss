@@ -1,0 +1,8 @@
+$autocompleter : autocomplete;
+
+.#{$autocompleter}-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.#{$autocompleter}-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.#{$autocompleter}-selected { background: #F0F0F0; }
+.#{$autocompleter}-suggestions strong { font-weight: normal; color: #3399FF; }
+.#{$autocompleter}-group { padding: 2px 5px; }
+.#{$autocompleter}-group strong { display: block; border-bottom: 1px solid #000; }
