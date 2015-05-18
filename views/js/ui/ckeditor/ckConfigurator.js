@@ -16,8 +16,6 @@ define([
         // This is different from CKEDITOR.config.extraPlugins since it also allows to position the button
         // Valid positioning keys are insertAfter | insertBefore | replace followed by the button name, e.g. 'Anchor'
         // separator bool, defaults to false
-        var positionedPlugins = {};
-
         var qtiPositionedPlugins = {
             TaoQtiImage : {insertAfter : 'SpecialChar'},
             TaoQtiInclude : {insertAfter : 'SpecialChar'},
@@ -131,6 +129,8 @@ define([
          */
         var _updatePlugins = function(ckConfig, positionedPlugins){
             
+            positionedPlugins =  positionedPlugins || {};
+            
             var itCnt,
                 tbCnt = ckConfig.toolbar.length,
                 itLen,
@@ -243,6 +243,9 @@ define([
          * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
          */
         var getConfig = function(editor, toolbarType, options){
+            
+            var positionedPlugins = {};
+            
             if(toolbarType === 'reset'){
                 return originalConfig;
             }
@@ -263,7 +266,7 @@ define([
                 ckConfig.autoParagraph = false;
                 dtdMode = 'qti';
             }
-            
+
             // if there is a toolbar in the options add it to the set
             if(options.toolbar){
                 toolbars[toolbarType] = _.clone(options.toolbar);
