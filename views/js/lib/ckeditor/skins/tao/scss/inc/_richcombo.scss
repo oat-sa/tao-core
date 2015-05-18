@@ -185,7 +185,8 @@ The visual representation of a rich combo widget looks as follows:
 }
 
 .cke_combo_arrow, .cke_button_arrow {
-  @extend %icon-down;
+  @include tao-icon-setup;
+  @include icon-down;
 }
 
 .cke_hc .cke_combo_arrow {
