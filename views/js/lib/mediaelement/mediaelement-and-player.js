@@ -11,8 +11,10 @@
  *
  */
 // jshint ignore: start
-define(['jquery'], function ($) {
+define(['jquery', 'module'], function ($, module) {
 
+
+    var config = module.config();
 
     /*!
      *
@@ -865,6 +867,8 @@ define(['jquery'], function ($) {
         }
     };
 
+
+    debugger;
     /*
      Default options
      */
@@ -877,7 +881,7 @@ define(['jquery'], function ($) {
         // none: forces fallback view
         mode: 'auto',
         // remove or reorder to change plugin priority and availability
-        plugins: ['flash'],
+        plugins: config.plugins || ['flash'],
         // shows debug errors on screen
         enablePluginDebug: false,
         // use plugin for browsers that have trouble with Basic Authentication on HTTPS sites
@@ -885,7 +889,7 @@ define(['jquery'], function ($) {
         // overrides the type specified, useful for dynamic instantiation
         type: '',
         // path to Flash and Silverlight plugins
-        pluginPath: mejs.Utility.getScriptPath(['mediaelement.js','mediaelement.min.js','mediaelement-and-player.js','mediaelement-and-player.min.js']),
+        pluginPath: config.pluginPath || mejs.Utility.getScriptPath(['mediaelement.js','mediaelement.min.js','mediaelement-and-player.js','mediaelement-and-player.min.js']),
         // name of flash file
         flashName: 'flashmediaelement.swf',
         // streamer for RTMP streaming
