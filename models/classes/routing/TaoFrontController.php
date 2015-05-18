@@ -64,9 +64,12 @@ class TaoFrontController implements FrontController
         $resolver = new Resolver($this->getRequest());
 
         // load the responsible extension
-        common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
         \Context::getInstance()->setExtensionName($resolver->getExtensionId());
 
+        // load translations
+        $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
+        \tao_helpers_I18n::init($ext, $uiLang);
 
         //if the controller is a rest controller we try to authenticate the user
         $controllerClass = $resolver->getControllerClass();

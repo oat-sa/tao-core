@@ -36,7 +36,6 @@ require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
  * 	- session
  *  - database
  *  - user
- *  - i18n
  *
  * And it's used to disptach the Control Loop
  *  - control the platform status (redirect to the maintenance page if it is required)
@@ -67,20 +66,13 @@ class Bootstrap {
 	protected static $isDispatched = false;
 
 	/**
-	 * @var common_ext_Extension
-	 */
-	protected $extension = null;
-
-	/**
 	 * Initialize the context
-	 * @param string $extension
+	 * @param string $configFile
 	 * @param array $options
 	 */
-	public function __construct($extension, $options = array())
+	public function __construct($configFile, $options = array())
 	{
 	    common_Profiler::singleton()->register();
-
-		$this->extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extension);
 
 		if(PHP_SAPI == 'cli'){
 			tao_helpers_Context::load('SCRIPT_MODE');
@@ -134,7 +126,6 @@ class Bootstrap {
 			$this->includePath();
 			$this->registerErrorhandler();
 			$this->globalHelpers();
-			$this->i18n();
 			self::$isStarted = true;
 		}
 		common_Profiler::stop('start');
@@ -373,16 +364,6 @@ class Bootstrap {
 		$re		= new HttpRequest();
 		$fc		= new TaoFrontController($re);
 		$fc->loadModule();
-	}
-
-	/**
-	 * Initialize the internationalization
-	 * @see tao_helpers_I18n
-	 */
-	protected function i18n()
-	{
-		$uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
-		tao_helpers_I18n::init($this->extension, $uiLang);
 	}
 
 	/**
