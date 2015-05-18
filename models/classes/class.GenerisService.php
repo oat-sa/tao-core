@@ -564,6 +564,10 @@ abstract class tao_models_classes_GenerisService
                     $returnValue['count']		= $clazz->countInstances($props, $opts);;
                     $returnValue['children']	= $results;
             }
+        } elseif ($uniqueNode !== null) {
+            $instance = new \core_kernel_classes_Resource($uniqueNode);
+            $results[] = $factory->buildResourceNode($instance, $clazz);
+            $returnValue = $results;
         } else {
 
             //if unique node is set, it is the node to be loaded in the tree
@@ -581,7 +585,7 @@ abstract class tao_models_classes_GenerisService
                 $openNodes[] = $clazz->getUri();
             }
 
-            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter, $uniqueNode);
+            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter);
             $returnValue = $chunk ? ($tree['children']) : $tree;
         }
         return $returnValue;
