@@ -27,12 +27,15 @@ use common_Profiler;
 use common_Logger;
 use common_ext_ExtensionsManager;
 use common_session_SessionManager;
+use common_AjaxResponse;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
 use Request;
 use HttpRequest;
 use HTTPToolkit;
+
+use Exception;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -175,7 +178,7 @@ class Bootstrap {
                     }
                 }
             }
-            catch(\Exception $e){
+            catch(Exception $e){
                 $this->catchError($e);
             }
 			self::$isDispatched = true;
@@ -189,7 +192,7 @@ class Bootstrap {
      *
      * @param Exception $exception
      */
-    private function catchError(\Exception $exception)
+    private function catchError(Exception $exception)
     {
     	try {
     		// Rethrow for a direct clean catch...
@@ -238,7 +241,7 @@ class Bootstrap {
                 $this->dispatchError($e, 403);
             }
     	}
-    	catch (\Exception $e) {
+    	catch (Exception $e) {
     		// Last resort.
     		$msg = "System Error: uncaught exception (";
     		$msg .= get_class($e) . ") in (" . $e->getFile() . ")";
