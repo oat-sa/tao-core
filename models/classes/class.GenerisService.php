@@ -568,7 +568,7 @@ abstract class tao_models_classes_GenerisService
 
             //if unique node is set, it is the node to be loaded in the tree
             if(!is_null($uniqueNode)){
-                 $browse = array($uniqueNode);
+                $browse = array($uniqueNode);
             }
 
             // Let's walk the tree with super walker! ~~~ p==[w]õ__
@@ -581,7 +581,7 @@ abstract class tao_models_classes_GenerisService
                 $openNodes[] = $clazz->getUri();
             }
 
-            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter);
+            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter, $uniqueNode);
             $returnValue = $chunk ? ($tree['children']) : $tree;
         }
         return $returnValue;
