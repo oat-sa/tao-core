@@ -1,34 +1,38 @@
 <?php
-/*  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013- (update and modification) Open Assessment Technologies SA;
+ *
  */
+namespace oat\tao\model\mvc;
 
 use oat\tao\helpers\Template;
 use oat\tao\model\routing\TaoFrontController;
-
-/*
- * The generis extension loader is included there ONCE!
- *  1. Load and initialize the API and so the database
- *  2. Initialize the autoloaders
- *  3. Initialize the extension manager
- */
-require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
+use common_Profiler;
+use common_Logger;
+use common_ext_ExtensionsManager;
+use common_session_SessionManager;
+use tao_helpers_Context;
+use tao_helpers_Request;
+use tao_helpers_Uri;
+use Request;
+use HttpRequest;
+use HTTPToolkit;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -72,6 +76,9 @@ class Bootstrap {
 	 */
 	public function __construct($configFile, $options = array())
 	{
+	    
+	    require_once $configFile;
+	    
 	    common_Profiler::singleton()->register();
 
 		if(PHP_SAPI == 'cli'){
@@ -164,11 +171,11 @@ class Bootstrap {
                     }
                     else{
                         
-                        throw new common_exception_SystemUnderMaintenance();
+                        throw new \common_exception_SystemUnderMaintenance();
                     }
                 }
             }
-            catch(Exception $e){
+            catch(\Exception $e){
                 $this->catchError($e);
             }
 			self::$isDispatched = true;
@@ -182,13 +189,13 @@ class Bootstrap {
      *
      * @param Exception $exception
      */
-    private function catchError(Exception $exception)
+    private function catchError(\Exception $exception)
     {
     	try {
     		// Rethrow for a direct clean catch...
     		throw $exception;
     	}
-    	catch (ActionEnforcingException $ae){
+    	catch (\ActionEnforcingException $ae){
     		common_Logger::w("Called module ".$ae->getModuleName().', action '.$ae->getActionName().' not found.', array('TAO', 'BOOT'));
     		
     		$message  = "Called module: ".$ae->getModuleName()."\n";
@@ -196,11 +203,11 @@ class Bootstrap {
     		
     		$this->dispatchError($ae, 404, $message);
     	}
-        catch (tao_models_classes_AccessDeniedException $ue){
+        catch (\tao_models_classes_AccessDeniedException $ue){
     		common_Logger::i('Access denied', array('TAO', 'BOOT'));
             if (!tao_helpers_Request::isAjax()
                 && common_session_SessionManager::isAnonymous()
-    		    && tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
+    		    && \tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
     		) {
                 header(HTTPToolkit::statusCodeHeader(302));
                 header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao', array(
@@ -211,19 +218,19 @@ class Bootstrap {
                 $this->dispatchError($ue, 403);
             }
     	}
-    	catch (tao_models_classes_UserException $ue){
+    	catch (\tao_models_classes_UserException $ue){
     		$this->dispatchError($ue, 403);
     	}
-    	catch (tao_models_classes_FileNotFoundException $e){
+    	catch (\tao_models_classes_FileNotFoundException $e){
     		$this->dispatchError($e, 404);
     	}
-    	catch (common_exception_UserReadableException $e) {
+    	catch (\common_exception_UserReadableException $e) {
     		$this->dispatchError($e, 500, $e->getUserMessage());
     	}
-    	catch (ResolverException $e) {
+    	catch (\ResolverException $e) {
     	    common_Logger::singleton()->handleException($e);
             if (!tao_helpers_Request::isAjax()
-    		    && tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
+    		    && \tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
     		) {
                 header(HTTPToolkit::statusCodeHeader(302));
                 header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao')));
@@ -231,7 +238,7 @@ class Bootstrap {
                 $this->dispatchError($e, 403);
             }
     	}
-    	catch (Exception $e) {
+    	catch (\Exception $e) {
     		// Last resort.
     		$msg = "System Error: uncaught exception (";
     		$msg .= get_class($e) . ") in (" . $e->getFile() . ")";
@@ -382,17 +389,16 @@ class Bootstrap {
         \tao_helpers_Scriptloader::addCssFiles($cssFiles);
 
         if(\common_session_SessionManager::isAnonymous()) {
-            tao_helpers_Scriptloader::addCssFile(
+            \tao_helpers_Scriptloader::addCssFile(
                 TAOBASE_WWW . 'css/portal.css'
             );
         }
 
         //ajax file upload works only without HTTP_AUTH
         if(!USE_HTTP_AUTH){
-            tao_helpers_Scriptloader::addCssFile(
+            \tao_helpers_Scriptloader::addCssFile(
                 TAOBASE_WWW . 'js/lib/jquery.uploadify/uploadify.css'
             );
         }
     }
 }
-?>
