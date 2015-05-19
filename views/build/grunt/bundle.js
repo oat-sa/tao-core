@@ -37,6 +37,17 @@ module.exports = function(grunt) {
         force : true
     };
 
+    copy.options = {
+        process: function (content, srcpath) {
+            //because we change the bundle names during copy
+            if(/routes\.js$/.test(srcpath)){
+                return content.replace('routes.js.map', 'controllers.min.js.map');
+            }
+
+            return content;
+        }
+    };
+
     grunt.log.verbose.writeln('libs');
     grunt.log.verbose.writeln(libs);
 
