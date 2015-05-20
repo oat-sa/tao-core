@@ -715,6 +715,7 @@ define([
 
                 if (this.isProvider) {
                     this.$element.val('');
+                    this.applyPlugin('clear');
                 }
 
                 this.trigger('selectItem', [value, label, this]);
