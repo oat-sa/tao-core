@@ -2,9 +2,8 @@ define([
     'jquery',
     'lodash',
     'ckeditor',
-    'ui/ckeditor/dtdHandler',
-    'mathJax'
-], function($, _, ckeditor, dtdHandler, mathJax) {
+    'ui/ckeditor/dtdHandler'
+], function($, _, ckeditor, dtdHandler) {
     'use strict';
     /**
      * Cache original config
@@ -12,19 +11,6 @@ define([
     var originalConfig = _.cloneDeep(window.CKEDITOR.config);
 
     var ckConfigurator = (function(){
-
-        // This is different from CKEDITOR.config.extraPlugins since it also allows to position the button
-        // Valid positioning keys are insertAfter | insertBefore | replace followed by the button name, e.g. 'Anchor'
-        // separator bool, defaults to false
-        var qtiPositionedPlugins = {
-            TaoQtiImage : {insertAfter : 'SpecialChar'},
-            TaoQtiInclude : {insertAfter : 'SpecialChar'},
-            TaoUnderline : {insertAfter : 'Italic'}
-        };
-
-        if(mathJax){
-            qtiPositionedPlugins.TaoQtiMaths = {insertAfter : 'SpecialChar'};
-        }
 
         /**
          * Toolbar presets that you normally never would need to change, they can however be overridden with options.toolbar.
@@ -128,9 +114,9 @@ define([
          * @param positionedPlugins
          */
         var _updatePlugins = function(ckConfig, positionedPlugins){
-            
+
             positionedPlugins =  positionedPlugins || {};
-            
+
             var itCnt,
                 tbCnt = ckConfig.toolbar.length,
                 itLen,
@@ -235,6 +221,10 @@ define([
          * Options not covered in http://docs.ckeditor.com/#!/api/CKEDITOR.config:
          * options.dtdOverrides         -> @see dtdOverrides which pre-defines them
          * options.positionedPlugins    -> @see ckConfig.positionedPlugins
+         * options.qtiImage             -> enables the qtiImage plugin
+         * options.qtiInclude           -> enables the qtiInclude plugin
+         * options.underline            -> enables the underline plugin
+         * options.mathJax              -> enables the mathJax plugin
          *
          * @param editor instance of ckeditor
          * @param toolbarType block | inline | flow | qtiBlock | qtiInline | qtiFlow | reset to get back to normal
@@ -243,9 +233,7 @@ define([
          * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
          */
         var getConfig = function(editor, toolbarType, options){
-            
-            var positionedPlugins = {};
-            
+
             if(toolbarType === 'reset'){
                 return originalConfig;
             }
@@ -259,6 +247,11 @@ define([
                 config,
                 dtdMode = options.dtdMode || 'html';
 
+            // This is different from CKEDITOR.config.extraPlugins since it also allows to position the button
+            // Valid positioning keys are insertAfter | insertBefore | replace followed by the button name, e.g. 'Anchor'
+            // separator bool, defaults to false
+            var positionedPlugins = {};
+
             // modify DTD to either comply with QTI or XHTML
             if(dtdMode === 'qti' || toolbarType.indexOf('qti') === 0){
                 toolbarType = toolbarType.slice(3).toLowerCase();
@@ -266,6 +259,30 @@ define([
                 ckConfig.autoParagraph = false;
                 dtdMode = 'qti';
             }
+
+            // modify plugins - this will change the toolbar too
+            // this would add the qti plugins in positionedPlugins
+            if (dtdMode === 'qti') {
+                if (options.qtiImage) {
+                    positionedPlugins.TaoQtiImage = {insertAfter: 'SpecialChar'};
+                }
+                if (options.qtiInclude) {
+                    positionedPlugins.TaoQtiInclude = {insertAfter: 'SpecialChar'};
+                }
+                if (options.underline) {
+                    positionedPlugins.TaoUnderline = {insertAfter: 'Italic'};
+                }
+                if (options.mathJax) {
+                    positionedPlugins.TaoQtiMaths = {insertAfter: 'SpecialChar'};
+                }
+
+            }
+            // whatever the dtdMode is qti or not, always delete the plugins options before forwarding to ckEditor
+            _(['qtiImage', 'qtiInclude', 'underline', 'mathJax']).forEach(function(name) {
+               if (options[name]) {
+                   delete options[name];
+               }
+            });
 
             // if there is a toolbar in the options add it to the set
             if(options.toolbar){
@@ -285,21 +302,15 @@ define([
                 ckConfig.toolbar = toolbars[toolbarType];
             }
 
-            // modify plugins - this will change the toolbar too
-            // this would add the qti plugins qtiPositionedPlugins
+            // ensures positionedPlugins has the right format
             if(typeof options.positionedPlugins !== 'undefined'){
                 options.positionedPlugins = {};
             }
-            
+
             // set options.positionedPlugins to false to prevent the class from using them at all
             if(false !== options.positionedPlugins){
-                if(dtdMode === 'qti'){
-                    positionedPlugins = _.assign(qtiPositionedPlugins, _.clone(options.positionedPlugins));
-                }
                 // this would add positionedPlugins (e.g. the media manager)
-                else{
-                    positionedPlugins = _.assign(positionedPlugins, _.clone(options.positionedPlugins));
-                }
+                positionedPlugins = _.assign(positionedPlugins, _.clone(options.positionedPlugins));
                 delete(options.positionedPlugins);
                 _updatePlugins(ckConfig, positionedPlugins);
             }
