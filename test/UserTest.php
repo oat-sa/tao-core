@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\generis\model\user\PasswordConstraintsService;
 use oat\tao\test\TaoPhpUnitTestRunner;
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
@@ -33,7 +34,7 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 	/**
 	 * @var tao_models_classes_UserService
 	 */
-	protected $userService = null;
+	protected $userService;
 	
 	/**
 	 * @var array user data set
@@ -66,12 +67,12 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 	/**
 	 * @var core_kernel_classes_Resource
 	 */
-	protected $testUser = null;
+	protected $testUser;
 	
 	/**
 	 * @var core_kernel_classes_Resource
 	 */
-	protected $testUserUtf8 = null;
+	protected $testUserUtf8;
 	
 	/**
 	 * tests initialization
@@ -89,10 +90,9 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 	 */
 	public function testService(){
 
-		$this->assertIsA($this->userService, 'tao_models_classes_Service');
-		$this->assertIsA($this->userService, 'tao_models_classes_UserService');
-		
-		
+		$this->assertInstanceOf( 'tao_models_classes_Service', $this->userService );
+		$this->assertInstanceOf( 'tao_models_classes_UserService', $this->userService );
+
 	}
 
 	/**
@@ -114,7 +114,7 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 		
 		//check inserted data
 		$this->testUser = $this->getUserByLogin($this->testUserData[PROPERTY_USER_LOGIN]);
-		$this->assertIsA($this->testUser, 'core_kernel_classes_Resource');
+		$this->assertInstanceOf( 'core_kernel_classes_Resource', $this->testUser );
 		foreach($this->testUserData as $prop => $value){
 			try{
 				$p = new core_kernel_classes_Property($prop);
@@ -145,7 +145,7 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 		
 		//check inserted data
 		$this->testUserUtf8 = $this->getUserByLogin($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
-		$this->assertIsA($this->testUserUtf8, 'core_kernel_classes_Resource');
+		$this->assertInstanceOf( 'core_kernel_classes_Resource', $this->testUserUtf8 );
 		foreach($this->testUserUtf8Data as $prop => $value){
 			try{
 				$p = new core_kernel_classes_Property($prop);
@@ -174,20 +174,20 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 		
 		$user->EditPropertyValues($loginProperty, $this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
 	}
-	
+
 	/**
 	 * Test user removing
 	 * @see tao_models_classes_UserService::removeUser
 	 */
 	public function testDelete(){
 		$this->testUser = $this->getUserByLogin($this->testUserData[PROPERTY_USER_LOGIN]);
-		$this->assertIsA($this->testUser, 'core_kernel_classes_Resource');
+		$this->assertInstanceOf( 'core_kernel_classes_Resource', $this->testUser );
 		$this->assertTrue($this->userService->removeUser($this->testUser));
 		$this->assertTrue($this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
 		
 		
 		$this->testUserUtf8 = $this->getUserByLogin($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
-		$this->assertIsA($this->testUserUtf8, 'core_kernel_classes_Resource');
+		$this->assertInstanceOf( 'core_kernel_classes_Resource', $this->testUserUtf8 );
 		$this->assertTrue($this->userService->removeUser($this->testUserUtf8));
 		$this->assertTrue($this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
 	}
@@ -202,4 +202,45 @@ class UserTestCase extends TaoPhpUnitTestRunner {
         $this->assertEquals(1, count($users));
         return current($users);
     }
+
+	public function testPasswordConstraints()
+	{
+
+		$foo = self::getMethod( 'register' );
+
+		$foo->invokeArgs( PasswordConstraintsService::singleton(), array( array( 'length' => 20 ) ) );
+		$this->assertFalse( PasswordConstraintsService::singleton()->validate( 'a2asdjKISj319(*^^#' ) );
+
+		$foo->invokeArgs( PasswordConstraintsService::singleton(), array( array( 'upper' => false, 'length' => 2 ) ) );
+		$this->assertTrue( PasswordConstraintsService::singleton()->validate( 'a2asdjj319(*^^#' ) );
+
+
+		$foo->invokeArgs( PasswordConstraintsService::singleton(), array( array( 'upper' => true, 'length' => 20 ) ) );
+		$this->assertFalse( PasswordConstraintsService::singleton()->validate( 'a2asRdjj319(*^^#' ) );
+
+	}
+
+	protected static function getMethod( $name )
+	{
+		$class  = new ReflectionClass( 'oat\generis\model\user\PasswordConstraintsService' );
+		$method = $class->getMethod( $name );
+		$method->setAccessible( true );
+
+		return $method;
+	}
+
+
+	/**
+	 * Clearing up ( in case if delete test was not executed )
+	 */
+	public function __destruct()
+	{
+		if ($this->testUser) {
+			$this->userService->removeUser( $this->testUser );
+		}
+
+		if ($this->testUserUtf8) {
+			$this->userService->removeUser( $this->testUserUtf8 );
+		}
+	}
 }
