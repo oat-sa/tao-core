@@ -57,9 +57,6 @@
 			"oat\\tao\\helpers\\" : "helpers",
 			"oat\\tao\\test\\" : "test",
 			"oat\\tao\\scripts\\" : "scripts"
-		},
-		"files" : [
-			"scripts/legacy/autoload.php"
-		]
+		}
 	}
 }
