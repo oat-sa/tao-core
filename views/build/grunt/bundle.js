@@ -43,7 +43,6 @@ module.exports = function(grunt) {
             if(/routes\.js$/.test(srcpath)){
                 return content.replace('routes.js.map', 'controllers.min.js.map');
             }
-
             return content;
         }
     };
@@ -87,7 +86,20 @@ module.exports = function(grunt) {
             { src: [out + '/main.js.map'],              dest: '../js/main.min.js.map' },
             { src: [out + '/controller/routes.js'],     dest: '../js/controllers.min.js' },
             { src: [out + '/controller/routes.js.map'], dest: '../js/controllers.min.js.map' }
-        ]
+        ],
+        options : {
+            process: function (content, srcpath) {
+                //because we change the bundle names during copy
+                if(/main\.js$/.test(srcpath)){
+                    return content.replace('main.js.map', 'main.min.js.map');
+                }
+                if(/routes\.js$/.test(srcpath)){
+                    return content.replace('routes.js.map', 'controllers.min.js.map');
+                }
+
+                return content;
+            }
+        }
     };
 
     grunt.config('clean', clean);
