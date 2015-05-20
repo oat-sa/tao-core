@@ -214,6 +214,22 @@ define(['jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker'], functio
         assert.deepEqual(instance.getParams(), expected, 'The ui/autocomplete instance must provide bidirectional access to "params"');
     });
 
+    QUnit.test('ui/autocomplete load options from DOM', function(assert) {
+        var expectedUrl = 'js/test/ui/autocomplete/test.success.json';
+        var expectedOntology = 'http://www.tao.lu/Ontologies/TAO.rdf#User';
+        var expectedParamsRoot = 'params';
+        var $element = $('<input type="text"' +
+                            ' data-url="' + expectedUrl + '"' +
+                            ' data-ontology="' + expectedOntology + '"' +
+                            ' data-params-root="' + expectedParamsRoot + '" />');
+
+        var instance = autocompleteUI($element);
+
+        assert.equal(instance.getUrl(), expectedUrl, 'The ui/autocomplete instance must provide the value loaded from the DOM for the property "url"');
+        assert.equal(instance.getOntology(), expectedOntology, 'The ui/autocomplete instance must provide the value loaded from the DOM for the property "ontology"');
+        assert.equal(instance.getParamsRoot(), expectedParamsRoot, 'The ui/autocomplete instance must provide the value loaded from the DOM for the property "paramsRoot"');
+    });
+
     /**
      * Checks the behavior
      */

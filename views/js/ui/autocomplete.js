@@ -207,6 +207,20 @@ define([
                 this.$element = this.$element.find(':input');
             }
 
+            // loads some options from HTML5 data-* attributes
+            options = _.assign(_.clone(options || {}), _.pick(this.$element.data(), [
+                'url',
+                'ontology',
+                'paramsRoot',
+                'ontologyParam',
+                'queryParam',
+                'type',
+                'valueField',
+                'labelField',
+                'delay',
+                'minChars'
+            ]));
+
             this.$element[this.pluginName](this.parseOptions(options));
             return this;
         },
@@ -252,25 +266,27 @@ define([
             });
 
             // adjust options to be forwarded to the plugin instance
-            pluginOptions.onSelect = this._onSelect.bind(this);
-            pluginOptions.onSearchStart = this._onSearchStart.bind(this);
-            pluginOptions.onSearchComplete = this._onSearchComplete.bind(this);
-            pluginOptions.onSearchError = this._onSearchError.bind(this);
-            pluginOptions.onInvalidateSelection = this._onInvalidateSelection.bind(this);
-            pluginOptions.beforeRender = this._onBeforeRender.bind(this);
-            pluginOptions.transformResult = this._transformResult.bind(this);
-            pluginOptions.deferRequestBy = this.delay || 0;
-            pluginOptions.preventBadQueries = false;
-            pluginOptions.triggerSelectOnValidInput = false;
-            pluginOptions.autoSelectFirst = true;
-            pluginOptions.minChars = this.minChars || 1;
-            pluginOptions.serviceUrl = this.url;
-            pluginOptions.type = this.getType();
-            pluginOptions.params = this.getParams();
-            pluginOptions.paramName = this.getQueryParam();
-            pluginOptions.ajaxSettings = {
-                dataType : 'json'
-            };
+            _.assign(pluginOptions, {
+                'onSelect' : this._onSelect.bind(this),
+                'onSearchStart' : this._onSearchStart.bind(this),
+                'onSearchComplete' : this._onSearchComplete.bind(this),
+                'onSearchError' : this._onSearchError.bind(this),
+                'onInvalidateSelection' : this._onInvalidateSelection.bind(this),
+                'beforeRender' : this._onBeforeRender.bind(this),
+                'transformResult' : this._transformResult.bind(this),
+                'deferRequestBy' : this.delay || 0,
+                'preventBadQueries' : false,
+                'triggerSelectOnValidInput' : false,
+                'autoSelectFirst' : true,
+                'minChars' : this.minChars || 1,
+                'serviceUrl' : this.url,
+                'type' : this.getType(),
+                'params' : this.getParams(),
+                'paramName' : this.getQueryParam(),
+                'ajaxSettings' : {
+                    dataType : 'json'
+                }
+            });
 
             return pluginOptions;
         },
@@ -477,6 +493,11 @@ define([
          * @returns {Autocompleter} this
          */
         setIsProvider : function(isProvider) {
+            if (_.isString(isProvider)) {
+                if ('false' === isProvider.toLowerCase()) {
+                    isProvider = false;
+                }
+            }
             this.isProvider = !!isProvider;
             return this;
         },
@@ -852,14 +873,14 @@ define([
 
     /**
      * Installs the autocompleter onto an element.
-     * @param {jQuery|Element|String} $element The element on which install the autocompleter
+     * @param {jQuery|Element|String} element The element on which install the autocompleter
      * @param {Object} options A list of options to set
      * @returns {Autocompleter} Returns the instance of the autocompleter component
      */
-    var autocompleteFactory = function($element, options) {
+    var autocompleteFactory = function(element, options) {
         var autocomplete = _.clone(Autocompleter, true);
         _.defaults(autocomplete, Defaults);
-        return autocomplete.init($element, options);
+        return autocomplete.init(element, options);
     };
 
     return autocompleteFactory;
