@@ -277,17 +277,10 @@ define([
                 }
 
             }
-            // whatever the dtdMode is qti or not, always delete the plugins options before forwarding to ckEditor
-            _(['qtiImage', 'qtiInclude', 'underline', 'mathJax']).forEach(function(name) {
-               if (options[name]) {
-                   delete options[name];
-               }
-            });
 
             // if there is a toolbar in the options add it to the set
             if(options.toolbar){
                 toolbars[toolbarType] = _.clone(options.toolbar);
-                delete(options.toolbar);
             }
 
             // add toolbars to config
@@ -311,11 +304,13 @@ define([
             if(false !== options.positionedPlugins){
                 // this would add positionedPlugins (e.g. the media manager)
                 positionedPlugins = _.assign(positionedPlugins, _.clone(options.positionedPlugins));
-                delete(options.positionedPlugins);
                 _updatePlugins(ckConfig, positionedPlugins);
             }
 
-            config = _.assign({}, _.cloneDeep(originalConfig), ckConfig, options);
+            // forward the options to ckConfig, exclude local options
+            config = _.assign({}, _.cloneDeep(originalConfig), ckConfig, _.omit(options, [
+                'qtiImage', 'qtiInclude', 'underline', 'mathJax', 'toolbar', 'positionedPlugins'
+            ]));
 
             // debugger: has this config been used?
             //config.aaaConfigurationHasBeenLoadedFromConfigurator = true;
