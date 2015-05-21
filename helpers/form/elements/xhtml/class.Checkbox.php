@@ -27,8 +27,7 @@
  * @package tao
  
  */
-class tao_helpers_form_elements_xhtml_Checkbox
-    extends tao_helpers_form_elements_Checkbox
+class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements_Checkbox
 {
     // --- ASSOCIATIONS ---
 
@@ -37,12 +36,11 @@ class tao_helpers_form_elements_xhtml_Checkbox
 
     // --- OPERATIONS ---
 
-    /**
+	/**
      * Short description of method feed
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return mixed
      */
     public function feed()
     {
@@ -87,13 +85,22 @@ class tao_helpers_form_elements_xhtml_Checkbox
 		foreach($this->options as $optionId => $optionLabel){
 			 $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}_{$i}' id='{$this->name}_{$i}' ";
 			 $returnValue .= $this->renderAttributes();
+
+			 $readOnly = in_array( $optionId, $this->getReadOnly() );
+			 if ($readOnly){
+				 $returnValue .="disabled='disabled' readonly='readonly' ";
+			 }
 			
 			 if(in_array($optionId, $this->values)){
 			 	$returnValue .= " checked='checked' ";	
 			 	$checked++;
 			 }
 			 $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>"._dh($optionLabel)."</label><br />";
-			 $i++;
+
+			 if ($readOnly) {
+				$returnValue .= "<input type='hidden' name='{$this->name}_{$i}' value='$optionId'>";
+			 }
+				$i++;
 		}
 		$returnValue .= "</div>";
 		
@@ -117,7 +124,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string value
+     * @param  string $value
      * @return mixed
      */
     public function setValue($value)
@@ -132,7 +139,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return mixed
+     * @return array
      */
     public function getEvaluatedValue()
     {
@@ -143,5 +150,3 @@ class tao_helpers_form_elements_xhtml_Checkbox
     }
 
 }
-
-?>

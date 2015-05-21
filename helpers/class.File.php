@@ -167,7 +167,7 @@ class tao_helpers_File
      * @author Lionel Lecaque, <lionel@taotesting.com>
      * @return array An associative array of mime-types where keys are the extension related to the mime-type. Values of the array are mime-types.
      */
-    protected static function getMimeTypes()
+    public static function getMimeTypeList()
     {
         $returnValue = array(
 
@@ -253,9 +253,7 @@ class tao_helpers_File
     {
         $returnValue = (string) '';
 
-        $mime_types = self::getMimeTypes();
-
-        foreach($mime_types as $key => $value){
+        foreach(self::getMimeTypeList() as $key => $value){
         	if($value == trim($mimeType)){
         		$returnValue = $key;
         		break;
@@ -276,7 +274,7 @@ class tao_helpers_File
      */
     public static function getMimeType($path, $ext = false)
     {
-        $mime_types = self::getMimeTypes();
+        $mime_types = self::getMimeTypeList();
         
         if (false == $ext){
         	$ext = pathinfo($path, PATHINFO_EXTENSION);

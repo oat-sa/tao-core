@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\generis\model\user\PasswordConstraintsService;
 
 /**
  * This container initialize the user edition form.
@@ -27,8 +28,7 @@
  * @package tao
  
  */
-class tao_actions_form_Users
-    extends tao_actions_form_Instance
+class tao_actions_form_Users extends tao_actions_form_Instance
 {
     // --- ASSOCIATIONS ---
 
@@ -41,7 +41,7 @@ class tao_actions_form_Users
      * @access protected
      * @var Resource
      */
-    protected $user = null;
+    protected $user;
 
     /**
      * Short description of attribute formName
@@ -53,20 +53,20 @@ class tao_actions_form_Users
 
     // --- OPERATIONS ---
 
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Class clazz
-     * @param  Resource user
-     * @param  boolean forceAdd
-     * @return mixed
-     */
+	/**
+	 * Short description of method __construct
+	 *
+	 * @access public
+	 * @author Joel Bout, <joel.bout@tudor.lu>
+	 *
+	 * @param  core_kernel_classes_Class $clazz
+	 * @param  core_kernel_classes_Resource $user
+	 * @param  boolean $forceAdd
+	 *
+	 * @throws Exception
+	 */
     public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null, $forceAdd = false)
     {
-        
-        
     	if (empty($clazz)){
     		throw new Exception('Set the user class in the parameters');	
     	}
@@ -96,8 +96,6 @@ class tao_actions_form_Users
     	$options['topClazz'] = CLASS_GENERIS_USER;
     	
     	parent::__construct($clazz, $this->user, $options);
-    	
-        
     }
 
     /**
@@ -109,15 +107,7 @@ class tao_actions_form_Users
      */
     public function getUser()
     {
-        $returnValue = null;
-
-        
-        
-        $returnValue = $this->user;
-        
-        
-
-        return $returnValue;
+        return $this->user;
     }
 
     /**
@@ -129,8 +119,6 @@ class tao_actions_form_Users
      */
     protected function initForm()
     {
-        
-		
     	parent::initForm();
     	
     	$this->form->setName($this->formName);
@@ -138,8 +126,6 @@ class tao_actions_form_Users
 		$actions = tao_helpers_form_FormFactory::getCommonActions('top');
 		$this->form->setActions($actions, 'top');
 		$this->form->setActions($actions, 'bottom');
-		
-        
     }
 
     /**
@@ -147,12 +133,10 @@ class tao_actions_form_Users
      *
      * @access protected
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return mixed
      */
     protected function initElements()
     {
         
-		
 		if(!isset($this->options['mode'])){
 			throw new Exception("Please set a mode into container options ");
 		}
@@ -162,7 +146,7 @@ class tao_actions_form_Users
 		//login field
 		$loginElement = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
 		$loginElement->setDescription($loginElement->getDescription() . ' *');
-		if($this->options['mode'] == 'add'){
+		if($this->options['mode'] === 'add'){
 			$loginElement->addValidators(array(
 				tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 				tao_helpers_form_FormFactory::getValidator('Callback', array(
@@ -217,13 +201,13 @@ class tao_actions_form_Users
 		// password field
 		$this->form->removeElement(tao_helpers_Uri::encode(PROPERTY_USER_PASSWORD));
 		
-		if($this->options['mode'] == 'add'){
+		if($this->options['mode'] === 'add'){
 			$pass1Element = tao_helpers_form_FormFactory::getElement('password1', 'Hiddenbox');
 			$pass1Element->setDescription(__('Password *'));
-			$pass1Element->addValidators(array(
-				tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-				tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3))
-			));
+			$pass1Element->addValidator( tao_helpers_form_FormFactory::getValidator( 'NotEmpty' ) );
+			$pass1Element->addValidators( PasswordConstraintsService::singleton()->getValidators() );
+			$pass1Element->setBreakOnFirstError( false );
+
 			$this->form->addElement($pass1Element);
 			
 			$pass2Element = tao_helpers_form_FormFactory::getElement('password2', 'Hiddenbox');
@@ -244,9 +228,8 @@ class tao_actions_form_Users
 			
 				$pass2Element = tao_helpers_form_FormFactory::getElement('password2', 'Hiddenbox');
 				$pass2Element->setDescription(__('New password'));
-				$pass2Element->addValidators(array(
-					tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3))
-				));
+				$pass2Element->addValidators( PasswordConstraintsService::singleton()->getValidators() );
+				$pass2Element->setBreakOnFirstError(false);
 				$this->form->addElement($pass2Element);
 				
 				$pass3Element = tao_helpers_form_FormFactory::getElement('password3', 'Hiddenbox');
@@ -264,12 +247,7 @@ class tao_actions_form_Users
 				}
 			}
 		}
-		/**/
-		
-		
-        
+
     }
 
 }
-
-?>

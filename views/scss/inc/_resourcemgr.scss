@@ -170,16 +170,19 @@
                     @include tao-icon-setup;
                     @include icon-image;
                     margin: 0 2px 0 0;
+                    line-height: 2.2;
                 }
                 &[data-type='audio']:before{
                     @include tao-icon-setup;
                     @include icon-media;
                     margin: 0 2px 0 0;
+                    line-height: 2.2;
                 }
                 &[data-type='video']:before{
                     @include tao-icon-setup;
                     @include icon-video;
                     margin: 0 2px 0 0;
+                    line-height: 2.2;
                 }
 
                 &.active, &:hover {
