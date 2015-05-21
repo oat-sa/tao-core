@@ -30,8 +30,8 @@ define([
     /**
      * Capitalize a word or a group of words
      *
-     * @param input the word to capitalize, will be applied after every ' '
-     * @param allWords capitalize all words, similar to PHP's ucWords()
+     * @param {String} input the word to capitalize, will be applied after every ' '
+     * @param {Boolean} allWords capitalize all words, similar to PHP's ucWords()
      * @returns {*}
      */
     var capitalize = function capitalize(input, allWords) {
