@@ -22,16 +22,37 @@
  * @author dieter <dieter@taotesting.com>
  */
 define([
-
-], function () {
+    'lodash'
+], function (_) {
     'use strict';
 
-    var ucfirst = function ucfirst(str){
-        return str.charAt(0).toUpperCase() + str.substr(1);
-    };
 
     /**
-     * @exports ucfirst
+     * Capitalize a word or a group of words
+     *
+     * @param input the word to capitalize, will be applied after every ' '
+     * @param allWords capitalize all words, similar to PHP's ucWords()
+     * @returns {*}
      */
-    return ucfirst;
+    var capitalize = function capitalize(input, allWords) {
+        var ucFirst = function ucFirst(str){
+            return str.charAt(0).toUpperCase() + str.substr(1);
+        };
+
+
+        if(!_.isString(input)) {
+            return input;
+        }
+
+        if(allWords !== false && input.indexOf(' ') > -1) {
+            return _.map(input.split(' '), ucFirst).join(' ');
+        }
+        return ucFirst(input);
+    };
+
+
+    /**
+     * @exports capitalize
+     */
+    return capitalize;
 });
