@@ -123,6 +123,12 @@ define([
         isProvider : false,
 
         /**
+         * When set to true the component prevents auto submit when the user hit enter on the text box.
+         * @type {Boolean}
+         */
+        preventSubmit : false,
+
+        /**
          * Number of miliseconds to defer ajax request.
          * @type {Number}
          */
@@ -202,6 +208,7 @@ define([
          * @returns {Autocompleter} this
          */
         init : function(element, options) {
+            // fetch the element to handle, we need an input element
             this.$element = $(element);
             if (!this.$element.is(':input')) {
                 this.$element = this.$element.find(':input');
@@ -217,10 +224,16 @@ define([
                 'type',
                 'valueField',
                 'labelField',
+                'isProvider',
+                'preventSubmit',
                 'delay',
                 'minChars'
             ]));
 
+            // install the keyboard listener used to prevent auto submits
+            this.on('keyup keydown keypress', this._onKeyEvent.bind(this));
+
+            // apply the nested plugin onto the element
             this.$element[this.pluginName](this.parseOptions(options));
             return this;
         },
@@ -338,7 +351,7 @@ define([
          * @returns {*} Returns the call result
          */
         trigger : function(eventName, params) {
-            arguments[0] = this.adjustEventName(eventName);
+            arguments[0] = adjustEventName(eventName);
             return this.applyElement('triggerHandler', arguments);
         },
 
@@ -349,7 +362,7 @@ define([
          * @returns {Autocompleter} this
          */
         on : function(eventName, callback) {
-            arguments[0] = this.adjustEventName(eventName);
+            arguments[0] = adjustEventName(eventName);
             this.applyElement('on', arguments);
             return this;
         },
@@ -361,7 +374,7 @@ define([
          * @returns {Autocompleter} this
          */
         off : function(eventName, callback) {
-            arguments[0] = this.adjustEventName(eventName);
+            arguments[0] = adjustEventName(eventName);
             this.applyElement('off', arguments);
             return this;
         },
@@ -493,12 +506,27 @@ define([
          * @returns {Autocompleter} this
          */
         setIsProvider : function(isProvider) {
-            if (_.isString(isProvider)) {
-                if ('false' === isProvider.toLowerCase()) {
-                    isProvider = false;
-                }
-            }
-            this.isProvider = !!isProvider;
+            this.isProvider = toBoolean(isProvider);
+            return this;
+        },
+
+        /**
+         * Gets the value of the preventSubmit option.
+         * When set to true the component prevents auto submit when the user hit enter on the text box.
+         * @returns {Boolean}
+         */
+        getPreventSubmit : function() {
+            return this.preventSubmit;
+        },
+
+        /**
+         * Sets the value of the preventSubmit option.
+         * When set to true the component prevents auto submit when the user hit enter on the text box.
+         * @param {Boolean} preventSubmit
+         * @returns {Autocompleter} this
+         */
+        setPreventSubmit : function(preventSubmit) {
+            this.preventSubmit = toBoolean(preventSubmit);
             return this;
         },
 
@@ -722,6 +750,18 @@ define([
         },
 
         /**
+         * Fired on each keyboard actions
+         * @param {Event} event
+         * @private
+         */
+        _onKeyEvent : function(event) {
+            // prevent auto submit when the option preventSubmit is enabled
+            if (this.preventSubmit && 13 === event.which) {
+                event.preventDefault();
+            }
+        },
+
+        /**
          * Fired when the user select a suggestion in the list.
          * @param {Object} suggestion
          * @private
@@ -843,20 +883,23 @@ define([
                 param = this.paramsRoot + '[' + param + ']';
             }
             return param;
-        },
-
-        /**
-         * Adjusts an event name
-         * @param {string} eventName
-         * @returns {string}
-         */
-        adjustEventName : function(eventName) {
-            eventName = eventName.toLowerCase();
-            if (-1 === eventName.indexOf('.')) {
-                eventName += '.' + NS;
-            }
-            return eventName;
         }
+    };
+
+    /**
+     * Adjusts an event name
+     * @param {string} eventName
+     * @returns {string}
+     */
+    var adjustEventName = function(eventName) {
+        var names = _(eventName.split(' ')).map(function(name) {
+            name = name.toLowerCase();
+            if (-1 === name.indexOf('.')) {
+                name += '.' + NS;
+            }
+            return name;
+        });
+        return names.join(' ');
     };
 
     /**
@@ -869,6 +912,20 @@ define([
             s = s.charAt(0).toUpperCase() + s.substr(1);
         }
         return s || '';
+    };
+
+    /**
+     * Converts a value to boolean
+     * @param value
+     * @returns {Boolean}
+     */
+    var toBoolean = function(value) {
+        if (_.isString(value)) {
+            if ('false' === value.toLowerCase() || '0' === value) {
+                value = false;
+            }
+        }
+        return !!value;
     };
 
     /**
