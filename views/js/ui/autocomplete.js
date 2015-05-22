@@ -23,9 +23,9 @@
 define([
     'jquery',
     'lodash',
-    'i18n',
+    'util/capitalize',
     'jquery.autocomplete'
-], function($, _, __) {
+], function($, _, capitalize) {
     'use strict';
 
     /**
@@ -899,18 +899,6 @@ define([
             return name;
         });
         return names.join(' ');
-    };
-
-    /**
-     * Capitalizes the first letter of the provided string.
-     * @param {String} s The string to capitalize
-     * @returns {String} Returns the capitalized version of the string
-     */
-    var capitalize = function(s) {
-        if (s) {
-            s = s.charAt(0).toUpperCase() + s.substr(1);
-        }
-        return s || '';
     };
 
     /**
