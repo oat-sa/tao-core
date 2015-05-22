@@ -127,7 +127,13 @@
 
         .data-container-wrapper {
             padding: 0px 20px 0 0;
-            overflow:hidden;
+            &:before, &:after {
+                content: " ";
+                display: table;
+            }
+            &:after {
+                clear: both;
+            }
             & > section, .data-container {
                 width: 260px;
                 margin: 0 20px 20px 0;
@@ -135,6 +141,9 @@
                 @include simple-border();
                 .emptyContentFooter {
                     display: none;
+                }
+                .tree {
+                    border: none;
                 }
                 form {
                     background: none;
