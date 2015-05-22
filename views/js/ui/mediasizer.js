@@ -25,11 +25,12 @@
  */
 define([
     'jquery',
+    'lodash',
     'core/pluginifier',
     'tpl!ui/mediasizer/mediasizer',
     'nouislider',
     'tooltipster'
-], function ($, Pluginifier, tpl) {
+], function ($, _, Pluginifier, tpl) {
     'use strict';
 
     var ns = 'mediasizer';
@@ -243,7 +244,7 @@ define([
                 self = this,
                 _checkMode = function () {
                     if ($responsiveToggleField.is(':checked')) {
-                        _blocks['px'].hide();
+                        _blocks.px.hide();
                         _blocks['%'].show();
                         options.sizeProps.currentUnit = '%';
                         if (options.$fields && options.$fields['%'].width.val() > options.sizeProps.sliders['%'].max) {
@@ -253,7 +254,7 @@ define([
                     }
                     else {
                         _blocks['%'].hide();
-                        _blocks['px'].show();
+                        _blocks.px.show();
                         options.sizeProps.currentUnit = 'px';
                     }
                 };
@@ -311,7 +312,7 @@ define([
                             unit = $slider.prop('unit');
 
                         options.$fields[unit].width.val(_round($slider.val())).trigger('sliderchange');
-                    })
+                    });
             });
 
             return _sliders;
@@ -470,9 +471,9 @@ define([
                                     return chars;
                                 }());
 
-                            return (_.contains(specChars, c)
-                                || (c >= 48 && c <= 57)
-                                || (c >= 96 && c <= 105));
+                            return (_.contains(specChars, c) ||
+                                (c >= 48 && c <= 57) ||
+                                (c >= 96 && c <= 105));
                         });
 
                         _fields[unit][dim].on('keyup blur sliderchange', function (e) {
