@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 /**
  * Wraps a jQuery autocomplete plugin inside a component.
@@ -26,7 +26,6 @@ define([
     'i18n',
     'jquery.autocomplete'
 ], function($, _, __) {
-
     'use strict';
 
     /**
@@ -39,7 +38,7 @@ define([
      * A list of default values for allowed options
      * @type {Object}
      */
-    var Defaults = {
+    var defaults = {
         /**
          * The name of the wrapped plugin
          * @type {String}
@@ -141,14 +140,14 @@ define([
         minChars : 3
     };
 
-    var Autocompleter = {
+    var autocompleter = {
 
         /**
          * @event beforeSelectItem Fired when the user select a suggestion in the list.
          * @param {Event} event
          * @param {String} value
          * @param {String} label
-         * @param {Autocompleter} instance
+         * @param {autocompleter} instance
          * @returns {Boolean} The handler can returns `false` to prevent default handling
          */
 
@@ -157,14 +156,14 @@ define([
          * @param {Event} event
          * @param {String} value
          * @param {String} label
-         * @param {Autocompleter} instance
+         * @param {autocompleter} instance
          */
 
         /**
          * @event searchStart Fired when the user input text and a query is about to be requested.
          * @param {Event} event
          * @param {Object} params The list of params which will be bound the query
-         * @param {Autocompleter} instance
+         * @param {autocompleter} instance
          * @returns {Boolean} The handler can returns `false` to prevent default handling
          */
 
@@ -173,7 +172,7 @@ define([
          * @param {Event} event
          * @param {String} query The requested fragment
          * @param {Object} suggestions An array containing the results.
-         * @param {Autocompleter} instance
+         * @param {autocompleter} instance
          */
 
         /**
@@ -183,13 +182,13 @@ define([
          * @param {jqXHR} jqXHR
          * @param {String} textStatus
          * @param {Exception} errorThrown
-         * @param {Autocompleter} instance
+         * @param {autocompleter} instance
          */
 
         /**
          * @event invalidateSelection Fired when input is altered after selection has been made.
          * @param {Event} event
-         * @param {Autocompleter} instance
+         * @param {autocompleter} instance
          */
 
         /**
@@ -197,7 +196,7 @@ define([
          * You may manipulate suggestions DOM before it is displayed.
          * @param {Event} event
          * @param {jQuery} $container
-         * @param {Autocompleter} instance
+         * @param {autocompleter} instance
          */
 
         /**
@@ -205,7 +204,7 @@ define([
          * @param {jQuery|Element|String} element The element on which install the autocompleter
          * @param {Object} options A list of options to set
          * The complete list of plugin options can be found at: https://github.com/devbridge/jQuery-Autocomplete
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         init : function(element, options) {
             // fetch the element to handle, we need an input element
@@ -242,7 +241,7 @@ define([
          * Destroys the wrapped plugin instance.
          * All events are detached and suggestion containers removed.
          * The value is conserved.
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         destroy : function() {
             this.applyPlugin('dispose');
@@ -308,7 +307,7 @@ define([
          * Applies options onto the component and the wrapped plugin instance.
          * @param {Object} options A list of named options to set.
          * The complete list of plugin options can be found at: https://github.com/devbridge/jQuery-Autocomplete
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setOptions : function(options) {
             this.applyPlugin('setOptions', [this.parseOptions(options)]);
@@ -359,7 +358,7 @@ define([
          * Installs an event handler.
          * @param {String} eventName The name of the event to listen
          * @param {Function } callback The function called back when the event occurs
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         on : function(eventName, callback) {
             arguments[0] = adjustEventName(eventName);
@@ -371,7 +370,7 @@ define([
          * Uninstalls an event handler.
          * @param {String} eventName The name of the event to release
          * @param {Function } [callback] The callback provided at install
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         off : function(eventName, callback) {
             arguments[0] = adjustEventName(eventName);
@@ -399,7 +398,7 @@ define([
          * Sets the field value.
          * @param {String} value The value to set inside the field
          * @param {String} label The label to display inside the field
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setValue : function(value, label) {
             this.value = value;
@@ -420,7 +419,7 @@ define([
         /**
          * Sets the displayed label.
          * @param {String} label The label to display inside the field
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setLabel : function(label) {
             this.label = label;
@@ -441,7 +440,7 @@ define([
         /**
          * Sets the URI of the target ontology.
          * @param {String} ontology
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setOntology : function(ontology) {
             this.ontology = ontology;
@@ -459,7 +458,7 @@ define([
         /**
          * Sets the name of the field containing the value within the received data.
          * @param {String} valueField
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setValueField : function(valueField) {
             this.valueField = valueField;
@@ -477,7 +476,7 @@ define([
         /**
          * Sets the name of the field containing the label within the received data.
          * @param {String} labelField
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setLabelField : function(labelField) {
             this.labelField = labelField;
@@ -503,7 +502,7 @@ define([
          * it will be directly removed from the input, so the listener
          * has to take care of the selected value and to add it in its own list.
          * @param {Boolean} isProvider
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setIsProvider : function(isProvider) {
             this.isProvider = toBoolean(isProvider);
@@ -523,7 +522,7 @@ define([
          * Sets the value of the preventSubmit option.
          * When set to true the component prevents auto submit when the user hit enter on the text box.
          * @param {Boolean} preventSubmit
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setPreventSubmit : function(preventSubmit) {
             this.preventSubmit = toBoolean(preventSubmit);
@@ -543,7 +542,7 @@ define([
          * Set the root for seach params.
          * When provided, all the search params are wrapped under the same root.
          * @param {String} paramsRoot
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setParamsRoot : function(paramsRoot) {
             this.paramsRoot = paramsRoot;
@@ -573,7 +572,7 @@ define([
         /**
          * Sets a list of extra params to be sent with the query.
          * @param {Object} params
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setParams : function(params) {
             this.params = params;
@@ -592,7 +591,7 @@ define([
         /**
          * Sets the name of the param providing the searched pattern.
          * @param {String} queryParam
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setQueryParam : function(queryParam) {
             this.queryParam = queryParam;
@@ -611,7 +610,7 @@ define([
         /**
          * Sets the name of the param providing the ontology URI.
          * @param {String} ontologyParam
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setOntologyParam : function(ontologyParam) {
             this.ontologyParam = ontologyParam;
@@ -629,7 +628,7 @@ define([
         /**
          * Sets the URL to data source
          * @param {String} url
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setUrl : function(url) {
             this.url = url;
@@ -647,7 +646,7 @@ define([
         /**
          * Sets the request method. Can be either GET or POST, default to GET.
          * @param {String} type
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setType : function(type) {
             this.type = type;
@@ -665,7 +664,7 @@ define([
         /**
          * Sets the number of miliseconds to defer ajax request.
          * @param {Number} delay
-         * @returns {Autocompleter}
+         * @returns {autocompleter}
          */
         setDelay : function(delay) {
             this.delay = Math.max(0, Number(delay));
@@ -683,7 +682,7 @@ define([
         /**
          * Sets the minimum number of characters required to trigger the ajax request.
          * @param {Number} minChars
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         setMinChars : function(minChars) {
             this.minChars = Math.max(1, Number(minChars));
@@ -692,7 +691,7 @@ define([
 
         /**
          * Activates the component if it was deactivated before.
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         enable : function() {
             this.applyPlugin('enable');
@@ -701,7 +700,7 @@ define([
 
         /**
          * Deactivates the component.
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         disable : function() {
             this.applyPlugin('disable');
@@ -710,7 +709,7 @@ define([
 
         /**
          * Hides suggestions.
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         hide : function() {
             this.applyPlugin('hide');
@@ -719,7 +718,7 @@ define([
 
         /**
          * Clears suggestion cache and current suggestions.
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         clear : function() {
             this.applyPlugin('clear');
@@ -728,7 +727,7 @@ define([
 
         /**
          * Clears suggestion cache.
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         clearCache : function() {
             this.applyPlugin('clearCache');
@@ -740,7 +739,7 @@ define([
          * - clears the current selection,
          * - clears suggestion cache and current suggestions,
          * - hides suggestions.
-         * @returns {Autocompleter} this
+         * @returns {autocompleter} this
          */
         reset : function() {
             this.setValue(null, '');
@@ -932,11 +931,11 @@ define([
      * Installs the autocompleter onto an element.
      * @param {jQuery|Element|String} element The element on which install the autocompleter
      * @param {Object} options A list of options to set
-     * @returns {Autocompleter} Returns the instance of the autocompleter component
+     * @returns {autocompleter} Returns the instance of the autocompleter component
      */
     var autocompleteFactory = function(element, options) {
-        var autocomplete = _.clone(Autocompleter, true);
-        _.defaults(autocomplete, Defaults);
+        var autocomplete = _.clone(autocompleter, true);
+        _.defaults(autocomplete, defaults);
         return autocomplete.init(element, options);
     };
 
