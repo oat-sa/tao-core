@@ -13,7 +13,7 @@
             </section>
         </sections>
     </structure>
-    
+
     <structure id="users" name="Users" level="11" group="settings">
         <description/>
         <icon id="icon-users" src=""/>
@@ -30,6 +30,7 @@
                           selectInstance="role-properties"
                           moveInstance="role-move"
                           delete="role-delete"
+                          rootNode="http://www.tao.lu/Ontologies/generis.rdf#ClassRole"
                      />
                 </trees>
                 <actions>
