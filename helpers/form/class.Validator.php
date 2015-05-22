@@ -21,7 +21,7 @@
 
 /**
  * The validators enable you to perform a validation callback on a form element.
- * It's provide a model of validation and must be overriden.
+ * It's provide a model of validation and must be overridden.
  *
  * @abstract
  * @access public
@@ -59,16 +59,12 @@ abstract class tao_helpers_form_Validator
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
+     * @param  array $options
      * @return mixed
      */
-    public function __construct($options = array())
+    public function __construct(array $options = array())
     {
-        
-		
 		$this->options = $options;
-		
-        
     }
 
     /**
@@ -80,15 +76,7 @@ abstract class tao_helpers_form_Validator
      */
     public function getName()
     {
-        $returnValue = (string) '';
-
-        
-		
-		$returnValue = str_replace('tao_helpers_form_validators_', '', get_class($this));
-		
-        
-
-        return (string) $returnValue;
+        return (string) str_replace('tao_helpers_form_validators_', '', get_class($this));
     }
 
     /**
@@ -100,15 +88,7 @@ abstract class tao_helpers_form_Validator
      */
     public function getOptions()
     {
-        $returnValue = array();
-
-        
-        
-        $returnValue = $this->options;
-        
-        
-
-        return (array) $returnValue;
+        return (array) $this->options;
     }
 
     /**
@@ -120,15 +100,7 @@ abstract class tao_helpers_form_Validator
      */
     public function getMessage()
     {
-        $returnValue = (string) '';
-
-        
-		
-		$returnValue = $this->message;
-		
-        
-
-        return (string) $returnValue;
+        return $this->message;
     }
 
     /**
@@ -142,6 +114,4 @@ abstract class tao_helpers_form_Validator
      */
     public abstract function evaluate($values);
 
-} /* end of abstract class tao_helpers_form_Validator */
-
-?>
+}

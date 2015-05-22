@@ -564,13 +564,11 @@ abstract class tao_models_classes_GenerisService
                     $returnValue['count']		= $clazz->countInstances($props, $opts);;
                     $returnValue['children']	= $results;
             }
+        } elseif ($uniqueNode !== null) {
+            $instance = new \core_kernel_classes_Resource($uniqueNode);
+            $results[] = $factory->buildResourceNode($instance, $clazz);
+            $returnValue = $results;
         } else {
-
-            //if unique node is set, it is the node to be loaded in the tree
-            if(!is_null($uniqueNode)){
-                 $browse = array($uniqueNode);
-            }
-
             // Let's walk the tree with super walker! ~~~ p==[w]õ__
             array_walk($browse, function(&$item) {
                 $item = tao_helpers_Uri::decode($item);

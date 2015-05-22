@@ -171,15 +171,18 @@ class tao_helpers_Http
      * If the client asks for partial contents, then partial contents are served, if not, the whole file is send.<br />
      * Works well with big files, without eating up memory.
      * @author "Martin for OAT <code@taotesting.com>"
-     * @param string the file name
-     * @return mixed the file data
+     * @param string $filename the file name
+     * @param boolean $contenttype whether to add content type header or not
+     * @throws common_exception_Error
      */
-    public static function returnFile($filename)
+    public static function returnFile($filename, $contenttype = true)
     {
         if (tao_helpers_File::securityCheck($filename, true)) {
             if (file_exists($filename)) {
                 $mimeType = tao_helpers_File::getMimeType($filename, true);
-                header('Content-Type: ' . $mimeType);
+                if ($contenttype) {
+                    header('Content-Type: ' . $mimeType);
+                }
                 $fp = fopen($filename, 'rb');
                 if ($fp === false) {
                     header("HTTP/1.0 404 Not Found");
