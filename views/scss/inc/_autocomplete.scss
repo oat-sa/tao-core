@@ -1,8 +1,31 @@
+@import 'inc/bootstrap';
+
 $autocompleter : autocomplete;
 
-.#{$autocompleter}-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
-.#{$autocompleter}-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-.#{$autocompleter}-selected { background: #F0F0F0; }
-.#{$autocompleter}-suggestions strong { font-weight: normal; color: #3399FF; }
-.#{$autocompleter}-group { padding: 2px 5px; }
-.#{$autocompleter}-group strong { display: block; border-bottom: 1px solid #000; }
+.#{$autocompleter}-suggestions {
+    @include simple-border();
+    @include border-radius(1);
+    color: $textColor;
+    background: $uiGeneralContentBg;
+    overflow: auto;
+}
+.#{$autocompleter}-suggestion {
+    padding: 2px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.#{$autocompleter}-selected {
+    background-color: $uiClickableHoverBg;
+    color: $textHighlight;
+}
+.#{$autocompleter}-suggestions strong {
+    font-weight: normal;
+    text-decoration: dashed underline;
+}
+.#{$autocompleter}-group {
+    padding: 2px 5px;
+}
+.#{$autocompleter}-group strong {
+    display: block;
+    border-bottom: 1px solid $textColor;
+}
