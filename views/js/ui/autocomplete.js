@@ -23,9 +23,11 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'util/capitalize',
-    'jquery.autocomplete'
-], function($, _, capitalize) {
+    'jquery.autocomplete',
+    'tooltipster'
+], function($, _, __, capitalize) {
     'use strict';
 
     /**
@@ -33,6 +35,16 @@ define([
      * @type {String}
      */
     var NS = 'autocompleter';
+
+    /**
+     * Default config for tooltip displayed when the server returns less records than available
+     * @type {Object}
+     */
+    var tooltipConfigTooMany = {
+        content : __('Too many suggestions match your query. Only a few are listed'),
+        theme : 'tao-info-tooltip',
+        trigger: 'custom'
+    };
 
     /**
      * A list of default values for allowed options
@@ -128,7 +140,7 @@ define([
         preventSubmit : false,
 
         /**
-         * Number of miliseconds to defer ajax request.
+         * Number of milliseconds to defer ajax request.
          * @type {Number}
          */
         delay : 250,
@@ -137,7 +149,13 @@ define([
          * Minimum number of characters required to trigger the ajax request.
          * @type {Number}
          */
-        minChars : 3
+        minChars : 3,
+
+        /**
+         * Flag used to checks if too many suggestions are available on server side for the current query
+         * @type {Boolean}
+         */
+        tooManySuggestions : false
     };
 
     var autocompleter = {
@@ -229,8 +247,15 @@ define([
                 'minChars'
             ]));
 
+            // prepare the tooltip displayed when more suggestions are available on the server side for the current query
+            this.$element.tooltipster(tooltipConfigTooMany);
+
             // install the keyboard listener used to prevent auto submits
             this.on('keyup keydown keypress', this._onKeyEvent.bind(this));
+
+            // install the events listener used to show/hide tooltip
+            this.on('focus', this._onFocus.bind(this));
+            this.on('blur', this._onBlur.bind(this));
 
             // apply the nested plugin onto the element
             this.$element[this.pluginName](this.parseOptions(options));
@@ -245,7 +270,10 @@ define([
          */
         destroy : function() {
             this.applyPlugin('dispose');
-            this.$element && this.$element.off('.' + NS);
+            if (this.$element) {
+                this.$element.off('.' + NS);
+                this.$element.tooltipster('destroy');
+            }
             this.$element = null;
             return this;
         },
@@ -344,6 +372,24 @@ define([
         },
 
         /**
+         * Shows the tooltip displayed when the server returns less records than available
+         */
+        showTooltipTooMany : function() {
+            if (this.$element) {
+                this.$element.tooltipster('show');
+            }
+        },
+
+        /**
+         * Hides the tooltip displayed when the server returns less records than available
+         */
+        hideTooltipTooMany : function() {
+            if (this.$element) {
+                this.$element.tooltipster('hide');
+            }
+        },
+
+        /**
          * Fires an event handler.
          * @param {String} eventName The name of the event to trigger
          * @param {Array} [params] A list of optional parameters
@@ -384,6 +430,14 @@ define([
          */
         getElement : function() {
             return this.$element;
+        },
+
+        /**
+         * Checks if the server can provide more suggestions than displayed for the current query
+         * @returns {Boolean}
+         */
+        hasTooManySuggestions : function() {
+            return !!this.tooManySuggestions;
         },
 
         /**
@@ -721,6 +775,7 @@ define([
          * @returns {autocompleter} this
          */
         clear : function() {
+            this.tooManySuggestions = false;
             this.applyPlugin('clear');
             return this;
         },
@@ -743,7 +798,7 @@ define([
          */
         reset : function() {
             this.setValue(null, '');
-            this.applyPlugin('clear');
+            this.clear();
             this.applyPlugin('hide');
             return this;
         },
@@ -775,7 +830,7 @@ define([
 
                 if (this.isProvider) {
                     this.$element.val('');
-                    this.applyPlugin('clear');
+                    this.clear();
                 }
 
                 this.trigger('selectItem', [value, label, this]);
@@ -813,6 +868,12 @@ define([
          * @private
          */
         _onSearchComplete : function(query, suggestions) {
+            // clear cache when the query returns no records :
+            // this avoids to have to reload the page when the server has a temporary failure
+            if (!suggestions || !suggestions.length) {
+                this.clear();
+            }
+
             return this.trigger('searchComplete', [query, suggestions, this]);
         },
 
@@ -847,6 +908,26 @@ define([
         },
 
         /**
+         * Fired when the input element has the focus
+         * @param {Event} event
+         * @private
+         */
+        _onFocus : function(event) {
+            if (this.hasTooManySuggestions()) {
+                this.showTooltipTooMany();
+            }
+        },
+
+        /**
+         * Fired when the input element lose the focus
+         * @param {Event} event
+         * @private
+         */
+        _onBlur : function(event) {
+            this.hideTooltipTooMany();
+        },
+
+        /**
          * Adjusts the received data to comply to plugin needs
          * @param response
          * @returns {{suggestions: Array}}
@@ -867,6 +948,14 @@ define([
                         data : dataItem[that.valueField]
                     };
                 });
+            }
+
+            // detect when the server has limited the amount of suggestions
+            this.tooManySuggestions = response.total && response.total > 1;
+            if (this.hasTooManySuggestions()) {
+                this.showTooltipTooMany();
+            } else {
+                this.hideTooltipTooMany();
             }
 
             return results;
