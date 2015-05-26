@@ -288,7 +288,7 @@ try{
 	            case 'CheckPHPDatabaseDriver': 
 	            case 'CheckFileSystemComponent':
 	            case 'CheckDatabaseConnection':
-                    case 'CheckTAOForgeConnection':
+                case 'CheckTAOForgeConnection':
 	            case 'CheckCustom':
 	            case 'Install':
 	                $data = new tao_install_services_Data($rawInput);

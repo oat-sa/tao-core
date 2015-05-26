@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\generis\model\user\PasswordConstraintsService;
 
 /**
  * Short description of class tao_actions_form_UserPassword
@@ -27,16 +28,8 @@
  * @package tao
  
  */
-class tao_actions_form_UserPassword
-    extends tao_helpers_form_FormContainer
+class tao_actions_form_UserPassword extends tao_helpers_form_FormContainer
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
      * Short description of method initForm
      *
@@ -60,7 +53,6 @@ class tao_actions_form_UserPassword
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return mixed
      */
     public function initElements()
     {
@@ -78,9 +70,8 @@ class tao_actions_form_UserPassword
 				
 				$pass2Element = tao_helpers_form_FormFactory::getElement('newpassword', 'Hiddenbox');
 				$pass2Element->setDescription(__('New password'));
-				$pass2Element->addValidators(array(
-					tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3))
-				));
+			    $pass2Element->addValidators( PasswordConstraintsService::singleton()->getValidators() );
+			    $pass2Element->setBreakOnFirstError( false );
 				$this->form->addElement($pass2Element);
 				
 				$pass3Element = tao_helpers_form_FormFactory::getElement('newpassword2', 'Hiddenbox');
@@ -93,5 +84,3 @@ class tao_actions_form_UserPassword
     }
 
 }
-
-?>
