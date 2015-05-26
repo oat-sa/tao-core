@@ -258,6 +258,9 @@ define(['jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker'], functio
             url : 'js/test/ui/autocomplete/test.success.json',
 
             onSearchStart : function() {
+                // avoid TU to be broken by multi events calls
+                instance.off('searchStart');
+
                 assert.ok(true, 'The ui/autocomplete instance must fire the searchSearch event when the user inputs a query');
 
                 clearTimeout(stopper);
@@ -268,6 +271,9 @@ define(['jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker'], functio
             },
 
             onSearchComplete : function() {
+                // avoid TU to be broken by multi events calls
+                instance.off('searchComplete');
+
                 assert.ok(true, 'The ui/autocomplete instance must fire the searchComplete event after server response');
 
                 clearTimeout(stopper);
@@ -281,6 +287,9 @@ define(['jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker'], functio
             },
 
             onSelectItem : function() {
+                // avoid TU to be broken by multi events calls
+                instance.off('selectItem');
+
                 assert.ok(true, 'The ui/autocomplete instance must fire the selectItem event when an item is selected');
 
                 assert.equal(element.val(), "user", 'The ui/autocomplete instance keep the value of the selected item in the textbox');
@@ -305,6 +314,9 @@ define(['jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker'], functio
             url : 'js/test/ui/autocomplete/test.blank.json',
 
             onSearchStart : function() {
+                // avoid TU to be broken by multi events calls
+                instance.off('searchStart');
+
                 assert.ok(true, 'The ui/autocomplete instance must fire the searchSearch event when the user inputs a query');
 
                 clearTimeout(stopper);
@@ -315,6 +327,9 @@ define(['jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker'], functio
             },
 
             onSearchComplete : function() {
+                // avoid TU to be broken by multi events calls
+                instance.off('searchComplete');
+
                 assert.ok(true, 'The ui/autocomplete instance must fire the searchComplete event after server response');
 
                 clearTimeout(stopper);
@@ -329,6 +344,9 @@ define(['jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker'], functio
             },
 
             onSelectItem : function() {
+                // avoid TU to be broken by multi events calls
+                instance.off('selectItem');
+
                 assert.ok(false, 'The ui/autocomplete instance must not fire the selectItem event when no item is selectable');
 
                 clearTimeout(stopper);
@@ -350,6 +368,9 @@ define(['jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker'], functio
             isProvider : true,
 
             onSearchStart : function() {
+                // avoid TU to be broken by multi events calls
+                instance.off('searchStart');
+
                 assert.ok(true, 'The ui/autocomplete instance must fire the searchSearch event when the user inputs a query');
 
                 clearTimeout(stopper);
@@ -360,6 +381,9 @@ define(['jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker'], functio
             },
 
             onSearchComplete : function() {
+                // avoid TU to be broken by multi events calls
+                instance.off('searchComplete');
+
                 assert.ok(true, 'The ui/autocomplete instance must fire the searchComplete event after server response');
 
                 clearTimeout(stopper);
@@ -373,6 +397,9 @@ define(['jquery', 'ui/autocomplete', 'lib/simulator/jquery.keystroker'], functio
             },
 
             onSelectItem : function() {
+                // avoid TU to be broken by multi events calls
+                instance.off('selectItem');
+
                 assert.ok(true, 'The ui/autocomplete instance must fire the selectItem event when an item is selected');
 
                 assert.equal(element.val(), '', 'The ui/autocomplete instance must clear the value of the selected item in the textbox');
