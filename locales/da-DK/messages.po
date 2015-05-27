@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-13T09:45:08\n"
+"Project-Id-Version: TAO 3.0.0\n"
+"PO-Revision-Date: 2015-04-30T09:07:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
@@ -130,20 +130,11 @@ msgstr ""
 msgid "Add property"
 msgstr ""
 
-msgid "Add the source file."
-msgstr ""
-
 msgid "Advanced Mode"
 msgstr "Avanceret tilstand"
 
 msgid "all"
 msgstr "alle"
-
-msgid "All"
-msgstr "Alle"
-
-msgid "All (the complete TAO Module)"
-msgstr "Alt (hele TAO-modulet)"
 
 msgid "All fields are required"
 msgstr ""
@@ -354,11 +345,11 @@ msgstr "Rediger forekomst"
 msgid "Edit this list"
 msgstr ""
 
-msgid "element"
-msgstr "element"
-
 msgid "Element"
 msgstr "Element"
+
+msgid "element"
+msgstr "element"
 
 msgid "Element deleted"
 msgstr ""
@@ -587,12 +578,6 @@ msgstr "Indlæste"
 msgid "Loaded at Startup"
 msgstr "Indlæst ved opstart"
 
-msgid "Local"
-msgstr "Lokalt"
-
-msgid "Local Data (the local namespace containing only the data inserted by the users)"
-msgstr "Lokale data (det lokale navneområdet indeholder kun data indskrevet af brugere)"
-
 msgid "Log in"
 msgstr ""
 
@@ -681,9 +666,6 @@ msgstr ""
 msgid "Name"
 msgstr "Navn"
 
-msgid "Namespaces"
-msgstr "Navneområde"
-
 msgid "New password"
 msgstr "Nyt password"
 
@@ -719,19 +701,16 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No result found"
 msgstr "Ingen resultater fundet"
 
 msgid "No results found"
-msgstr ""
-
-msgid "None"
 msgstr ""
 
 msgid "Nothing imported"
@@ -748,10 +727,6 @@ msgstr ""
 
 msgid "Old Password"
 msgstr "Gammelt password"
-
-#, tao-public
-msgid "Ontology"
-msgstr ""
 
 msgid "Option instanceUri is not an option !!"
 msgstr "Valgmulighed instanceUri er ikke muligt !!"
@@ -803,12 +778,6 @@ msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr ""
-
-msgid "Please select alteast one namespace"
-msgstr ""
-
-msgid "Please upload an RDF file."
-msgstr "Vær venlig at uploade en RDF-fil."
 
 msgid "Post install processing"
 msgstr ""
@@ -927,11 +896,11 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "select"
-msgstr "vælg"
-
 msgid "Select"
 msgstr "Vælg"
+
+msgid "select"
+msgstr "vælg"
 
 msgid "Select a language"
 msgstr "Vælg sprog"
@@ -1091,10 +1060,10 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Fravælg alle"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Fravælg alle"
 
 msgid "Undo"
@@ -1110,9 +1079,6 @@ msgid "unknown"
 msgstr ""
 
 msgid "Unknown Error"
-msgstr ""
-
-msgid "Unselect all"
 msgstr ""
 
 msgid "Upload"

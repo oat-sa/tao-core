@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-13T09:45:56\n"
+"Project-Id-Version: TAO 3.0.0\n"
+"PO-Revision-Date: 2015-04-30T09:08:06\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 msgid "\n"
 "            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
 msgstr "\n"
-"建立項目(試題)，管理項目(試題)，管理題庫，組織班級，遞送考試，預備報告，和設定工作流程。"
+"建立題目，管理題目，管理題庫，組織班級，遞送考試，預備報告，和設定工作流程。"
 
 msgid " and "
 msgstr " 和 "
@@ -131,20 +131,11 @@ msgstr "新增檔案"
 msgid "Add property"
 msgstr ""
 
-msgid "Add the source file."
-msgstr "新增來源文件。"
-
 msgid "Advanced Mode"
 msgstr "進階模式"
 
 msgid "all"
 msgstr "完全"
-
-msgid "All"
-msgstr "完全"
-
-msgid "All (the complete TAO Module)"
-msgstr "完全(完整的TAO模)"
 
 msgid "All fields are required"
 msgstr "所有都是必填欄位"
@@ -167,7 +158,7 @@ msgstr "您確定要刪除該版本的資源?\n"
 "過去的紀錄將一併流失。"
 
 msgid "Are you sure you want to delete it?"
-msgstr "您確認要刪除？"
+msgstr "您確認要刪除吗？"
 
 msgid "Assign User to role"
 msgstr "分配用戶角色"
@@ -180,7 +171,7 @@ msgid "Author"
 msgstr "作者"
 
 msgid "Author Item"
-msgstr "創作項目"
+msgstr "創作題目"
 
 msgid "Authoring"
 msgstr "創作"
@@ -204,7 +195,7 @@ msgid "Browse..."
 msgstr "瀏覽..."
 
 msgid "Calendar"
-msgstr "行事曆"
+msgstr "日曆"
 
 msgid "Cancel"
 msgstr "取消"
@@ -232,7 +223,7 @@ msgid "Choose import format"
 msgstr "選擇匯入格式"
 
 msgid "class selected"
-msgstr "班級選擇"
+msgstr "班級已選擇"
 
 msgid "Close tab"
 msgstr "關閉分頁"
@@ -268,13 +259,13 @@ msgid "CSV"
 msgstr "CSV (以逗號分隔)"
 
 msgid "CSV Options"
-msgstr "CVS 選項"
+msgstr "CSV 選項"
 
 msgid "Current language"
 msgstr "目前的語言"
 
 msgid "Data imported"
-msgstr "已導入的資料"
+msgstr "已匯入的資料"
 
 msgid "Data imported successfully"
 msgstr "資料已成功匯入"
@@ -289,10 +280,10 @@ msgid "Data language"
 msgstr "資料語言"
 
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 msgid "Default user cannot be deleted"
-msgstr "無法刪除默認的用戶"
+msgstr "無法刪除預設用戶"
 
 msgid "Define the default values"
 msgstr "設定預設值"
@@ -347,7 +338,7 @@ msgstr "編輯"
 
 #, tao-public
 msgid "Edit a user"
-msgstr "編輯一位使用者"
+msgstr "編輯使用者"
 
 msgid "Edit Instance"
 msgstr "編輯實例"
@@ -355,10 +346,10 @@ msgstr "編輯實例"
 msgid "Edit this list"
 msgstr "編輯這個清單"
 
-msgid "element"
+msgid "Element"
 msgstr "元素"
 
-msgid "Element"
+msgid "element"
 msgstr "元素"
 
 msgid "Element deleted"
@@ -459,7 +450,7 @@ msgid "First row column names"
 msgstr "第一列欄位名稱"
 
 msgid "Force Release"
-msgstr ""
+msgstr "強制釋放"
 
 msgid "Go Back"
 msgstr "返回"
@@ -480,10 +471,10 @@ msgid "Import "
 msgstr "匯入"
 
 msgid "Import Metadata from CSV file"
-msgstr "用CSV檔案導入元數據"
+msgstr "匯入CSV檔案中的元數據"
 
 msgid "Import Metadata from RDF file"
-msgstr "用RDF檔案導入元數據"
+msgstr "用RDF檔案匯入元數據"
 
 msgid "Inclusive (AND)"
 msgstr "包容 (和)"
@@ -588,12 +579,6 @@ msgstr "已載入"
 msgid "Loaded at Startup"
 msgstr "程式啟動時自動載入"
 
-msgid "Local"
-msgstr "本機"
-
-msgid "Local Data (the local namespace containing only the data inserted by the users)"
-msgstr "本地數據 (本地命名空間僅包含由用戶插入的數據)"
-
 msgid "Log in"
 msgstr "登入"
 
@@ -680,10 +665,7 @@ msgid "My settings (%s)"
 msgstr "我的設定 (%s)"
 
 msgid "Name"
-msgstr "名稱"
-
-msgid "Namespaces"
-msgstr "命名空間"
+msgstr "姓名"
 
 msgid "New password"
 msgstr "新密碼"
@@ -720,10 +702,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No result found"
@@ -732,11 +714,8 @@ msgstr "找不到任何資料"
 msgid "No results found"
 msgstr "找不到任何資料"
 
-msgid "None"
-msgstr "無"
-
 msgid "Nothing imported"
-msgstr "沒有導入任何物件"
+msgstr "沒有匯入任何物件"
 
 msgid "Nothing to install !"
 msgstr "沒有任何可安裝的物件"
@@ -749,10 +728,6 @@ msgstr "的"
 
 msgid "Old Password"
 msgstr "舊密碼"
-
-#, tao-public
-msgid "Ontology"
-msgstr "本體論"
 
 msgid "Option instanceUri is not an option !!"
 msgstr "instanceUri （實例統一資源標識符）不是選項"
@@ -805,12 +780,6 @@ msgstr "請聯絡 %s 或系統管理員才可以釋放它', get_data('ownerHtml"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr "請在 TAO Forge 上面報告錯誤,想法,意見或反饋"
 
-msgid "Please select alteast one namespace"
-msgstr "請選擇至少一個命名空間"
-
-msgid "Please upload an RDF file."
-msgstr "請上傳一個RDF檔案。"
-
 msgid "Post install processing"
 msgstr "安裝後處理過程"
 
@@ -834,7 +803,7 @@ msgid "Release"
 msgstr "釋放"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost.', get_data('ownerHtml"
-msgstr ""
+msgstr "釋放鎖有可能會讓 %s 失去正在進行的工作 ', get_data('ownerHtml"
 
 msgid "Remove"
 msgstr "移除"
@@ -928,10 +897,10 @@ msgstr "搜索子類別"
 msgid "seconds"
 msgstr "秒"
 
-msgid "select"
+msgid "Select"
 msgstr "選擇"
 
-msgid "Select"
+msgid "select"
 msgstr "選擇"
 
 msgid "Select a language"
@@ -972,10 +941,10 @@ msgid "Success"
 msgstr "完成"
 
 msgid "Supported export formats"
-msgstr "支援的輸入格式"
+msgstr "支援的匯出格式"
 
 msgid "Supported import formats"
-msgstr "支援的輸入格式"
+msgstr "支援的匯入格式"
 
 #, tao-public
 msgid "TAO Back Office"
@@ -1009,7 +978,7 @@ msgid "The image resizes along with its container, e.g. 50% means half of the co
 msgstr "圖片會依據容器而自動調整大小，例如縮小50％會使容器尺寸縮成一半，而不是圖片縮成一半。"
 
 msgid "The lock has been released"
-msgstr ""
+msgstr "鎖已被釋放"
 
 msgid "The uploaded file is too large"
 msgstr "上傳的檔案過大"
@@ -1081,7 +1050,7 @@ msgid "Unable to change passwords in demo mode"
 msgstr "在試用模式無法更改密碼"
 
 msgid "Unable to delete the selected resource"
-msgstr ""
+msgstr "無法刪除所選的資源"
 
 msgid "Unable to release the lock"
 msgstr "無法解除鎖定"
@@ -1092,10 +1061,10 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr "無法上傳檔案"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾選"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾選"
 
 msgid "Undo"
@@ -1113,9 +1082,6 @@ msgstr "不明"
 msgid "Unknown Error"
 msgstr "不明的錯誤"
 
-msgid "Unselect all"
-msgstr "全部不選"
-
 msgid "Upload"
 msgstr "上傳"
 
@@ -1123,7 +1089,7 @@ msgid "Upload a new content"
 msgstr "上傳新的內容"
 
 msgid "Upload File"
-msgstr "上載檔案"
+msgstr "上傳檔案"
 
 msgid "Upload into:"
 msgstr "上傳到:"
@@ -1138,10 +1104,10 @@ msgid "Use default value"
 msgstr "使用預設值"
 
 msgid "User"
-msgstr ""
+msgstr "使用者"
 
 msgid "User added"
-msgstr "用戶已添加"
+msgstr "已新增用戶"
 
 msgid "User deleted successfully"
 msgstr "刪除用戶成功"
@@ -1173,13 +1139,13 @@ msgid "Yes"
 msgstr "是"
 
 msgid "You are not authorised to remove this lock"
-msgstr "你無權刪除該鎖"
+msgstr "您無權刪除該鎖"
 
 msgid "You can use * as a wildcard"
 msgstr "您可以使用 * 作為通配符"
 
 msgid "You cannot delete the root node"
-msgstr ""
+msgstr "您不能刪除根節點"
 
 msgid "You currently have no access to the platform"
 msgstr "您目前無權進入平台"
@@ -1191,5 +1157,5 @@ msgid "You must activate JavaScript in your browser to run this application."
 msgstr "您必須在瀏覽器中啟用JavaScript才可以應用該程序。"
 
 msgid "You've not the required rights to edit this resource."
-msgstr "你沒有需要的權限來編輯這個資源。"
+msgstr "您沒有需要的權限來編輯這個資源。"
 
