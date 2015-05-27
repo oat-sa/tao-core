@@ -141,7 +141,7 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
                         $content.mediaelementplayer({
                             pauseOtherPlayers: false,
                             audioWidth: options.width || 290,
-                            audiHeight: options.height || 50,
+                            audioHeight: options.height || 50,
                             videoWidth: options.width || 290,
                             videoHeight: options.height || 300,
                             success: function(me, medom) {
