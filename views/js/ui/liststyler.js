@@ -24,20 +24,23 @@
  * @requires lodash
  * @requires core/pluginifier
  * @requires util/strPad
- * @requires util/ucfirst
+ * @requires util/capitalize
  */
 define([
     'jquery',
     'lodash',
     'core/pluginifier',
     'util/strPad',
-    'util/ucfirst'
-], function ($, _, Pluginifier, strPad, ucfirst) {
+    'util/capitalize'
+], function ($, _, Pluginifier, strPad, capitalize) {
     'use strict';
 
     var ns = 'liststyler';
 
+    var currStyle = '';
+
     var defaults = {
+        selected: null
     };
 
     /**
@@ -50,12 +53,12 @@ define([
         disc:   '\u25cf',
         circle: '\u25cb',
         square: '\uffed',
-        decimal: '1.',
+        decimal: '1',
         'decimal-leading-zero': '01',
-        'lower-alpha': 'a.',
-        'upper-alpha': 'A.',
-        'lower-roman': 'i.',
-        'upper-roman': 'I.',
+        'lower-alpha': 'a',
+        'upper-alpha': 'A',
+        'lower-roman': 'i',
+        'upper-roman': 'I',
         'lower-greek': '\u03b1',
         'armenian': '\u0531',
         'georgian': '\u10d0'
@@ -64,30 +67,25 @@ define([
 
     /**
      * Populate selectBox with options
+     *
      * @param selectBox
+     * @param selectedStyle
      */
-    function populate(selectBox) {
+    function populate(selectBox, selectedStyle) {
         _.forOwn(listStyles, function(symbol, style) {
-            selectBox.appendChild(new Option(style, style));
+            selectBox.options.add(new Option(capitalize(style.replace(/-/g, ' ')), style, false, style === selectedStyle));
         });
     }
 
     /**
      * Prepare select2 formatting
      *
-     * @param option
+     * @param state
      * @returns {*}
      */
-    function formatOption (option) {
-        var symbol = listStyles[option.value];
-        var styleArr = option.value.split('-'),
-            l = styleArr.length,
-            i;
-        var text    = '';
-        for(i = 0; i < l; i++){
-            text += (i ? '\u00A0' : '') + ucfirst(styleArr[i]);
-        }
-        return $('<span/>',{ text: text }).data('data-list-symbol', symbol);
+    function formatState (state) {
+        var symbol = listStyles[state.id];
+        return $('<span/>',{ text: state.text, 'data-symbol': symbol });
     }
 
 
@@ -104,36 +102,34 @@ define([
          *
          * Called the jQuery way once registered by the Pluginifier.
 
-         * @example $('selector').liststyler({target : $('target') });
+         * @example $('selector').liststyler();
          * @public
          *
          * @constructor
+         * @param options
          * @returns {*}
          */
         init: function (options) {
 
-
-            //get options using default
-            options = $.extend(true, {}, defaults, options);
-
             return this.each(function () {
-                var $elt = $(this),
-                    $target = options.target || $($elt.data('target'));
+                var $elt = $(this);
 
-                populate(this);
+                //get options using default
+                options = $.extend(true, {}, defaults, options);
 
-                var currClass = '';
+                populate(this, options.selected);
+
+                currStyle = options.selected;
 
                 $elt.on('change', function() {
-                    if(currClass) {
-                        $target.removeClass(currClass);
-                    }
-                    currClass = 'ls-' + this.value;
-                    $target.addClass(currClass);
+                    $elt.trigger('stylechange.' + ns, { newStyle: this.value, oldStyle: currStyle });
+                    currStyle = this.value;
                 });
 
                 $elt.select2({
-                    templateResult: formatOption
+                    formatResult: formatState,
+                    width: 'element',
+                    minimumResultsForSearch: Infinity
                 });
 
                 /**

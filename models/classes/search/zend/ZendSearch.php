@@ -82,6 +82,8 @@ class ZendSearch extends Configurable implements Search
      */
     public function index(\Traversable $resourceTraversable) {
         
+        \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::LONG);
+        
         // flush existing index
         $this->flushIndex();
         $count = 0;
@@ -94,6 +96,8 @@ class ZendSearch extends Configurable implements Search
         }
         
         \common_Logger::i('Reindexed '.$count.' resources');
+        \helpers_TimeOutHelper::reset();
+        
         return $count;
     }
     
