@@ -243,4 +243,12 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 			$this->userService->removeUser( $this->testUserUtf8 );
 		}
 	}
+
+	public static function tearDownAfterClass()
+	{
+		$register = self::getMethod( 'register' );
+		$config   = self::getMethod( 'getConfig' )->invokeArgs( PasswordConstraintsService::singleton(), array() );
+
+		$register->invokeArgs( PasswordConstraintsService::singleton(), array( $config ) );
+	}
 }

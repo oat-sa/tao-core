@@ -10,4 +10,4 @@ use oat\tao\helpers\Template;
         </div>
     </div>
 
-<?php Template::inc('footer.tpl', 'tao') ?>;
+<?php Template::inc('footer.tpl', 'tao') ?>
