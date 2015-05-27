@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-13T09:45:04\n"
+"Project-Id-Version: TAO 3.0.0\n"
+"PO-Revision-Date: 2015-04-30T09:07:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -130,20 +130,11 @@ msgstr ""
 msgid "Add property"
 msgstr ""
 
-msgid "Add the source file."
-msgstr ""
-
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
 
 msgid "all"
 msgstr "كل"
-
-msgid "All"
-msgstr "كل"
-
-msgid "All (the complete TAO Module)"
-msgstr "الكل"
 
 msgid "All fields are required"
 msgstr ""
@@ -352,11 +343,11 @@ msgstr ""
 msgid "Edit this list"
 msgstr ""
 
-msgid "element"
-msgstr "عنصر"
-
 msgid "Element"
 msgstr "العنصر"
+
+msgid "element"
+msgstr "عنصر"
 
 msgid "Element deleted"
 msgstr ""
@@ -585,12 +576,6 @@ msgstr ""
 msgid "Loaded at Startup"
 msgstr ""
 
-msgid "Local"
-msgstr ""
-
-msgid "Local Data (the local namespace containing only the data inserted by the users)"
-msgstr "(البيانات المحلية (مساحة الاسم المحلي الذي يحتوي فقط على البيانات المدرجة من قبل المستخدمين"
-
 msgid "Log in"
 msgstr ""
 
@@ -679,9 +664,6 @@ msgstr ""
 msgid "Name"
 msgstr "الاسم"
 
-msgid "Namespaces"
-msgstr "مساحة الاسم"
-
 msgid "New password"
 msgstr "كلمة مرور جديدة"
 
@@ -717,19 +699,16 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No result found"
 msgstr "لم يتم العثور على نتائج"
 
 msgid "No results found"
-msgstr ""
-
-msgid "None"
 msgstr ""
 
 msgid "Nothing imported"
@@ -746,10 +725,6 @@ msgstr ""
 
 msgid "Old Password"
 msgstr "كلمة السر القديمة"
-
-#, tao-public
-msgid "Ontology"
-msgstr ""
 
 msgid "Option instanceUri is not an option !!"
 msgstr ""
@@ -801,12 +776,6 @@ msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr ""
-
-msgid "Please select alteast one namespace"
-msgstr ""
-
-msgid "Please upload an RDF file."
-msgstr ".RDF الرجاء تحميل ملف"
 
 msgid "Post install processing"
 msgstr ""
@@ -925,11 +894,11 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "select"
-msgstr "اختر"
-
 msgid "Select"
 msgstr "حدد"
+
+msgid "select"
+msgstr "اختر"
 
 msgid "Select a language"
 msgstr "حدد اللغة"
@@ -1089,10 +1058,10 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undo"
@@ -1108,9 +1077,6 @@ msgid "unknown"
 msgstr ""
 
 msgid "Unknown Error"
-msgstr ""
-
-msgid "Unselect all"
 msgstr ""
 
 msgid "Upload"
