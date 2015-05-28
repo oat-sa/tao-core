@@ -1,3 +1,23 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+
 /**
  * @author Dieter Raber <dieter@taotesting.com>
  * @requires jquery
@@ -5,11 +25,12 @@
  */
 define([
     'jquery',
+    'lodash',
     'core/pluginifier',
     'tpl!ui/mediasizer/mediasizer',
     'nouislider',
     'tooltipster'
-], function ($, Pluginifier, tpl) {
+], function ($, _, Pluginifier, tpl) {
     'use strict';
 
     var ns = 'mediasizer';
@@ -75,7 +96,7 @@ define([
          * Creates object that contains all size related data of the medium (= image, video, etc.)
          *
          * @param $elt
-         * @returns {{px: {natural: {width: number, height: number}, current: {width: number, height: number}}, '%': {natural: {width: number, height: number}, current: {width: number, height: null|number}}, ratio: {natural: number, current: number}, containerWidth: number}}
+         * @returns {{px: {natural: {width: (number|*), height: (number|*)}, current: {width: *, height: *}}, %: {natural: {width: number, height: null}, current: {width: number, height: null}}, ratio: {natural: number, current: number}, containerWidth: , sliders: {%: {min: number, max: number, start: number}, px: {min: number, max: number, start: *}}, currentUnit: string}}
          * @private
          */
         _getSizeProps: function ($elt) {
@@ -83,28 +104,18 @@ define([
             var options = $elt.data(dataNs),
                 $medium = options.target,
                 mediumSize = (function() {
-                    var attrWidth = $medium.attr('width'),
-                        attrHeight = $medium.attr('height');
-                    if($medium[0].nodeName.toLowerCase() === 'image') {
-                        if(!attrWidth || !attrHeight) {
-                            throw 'SVG images must have a width and a height attribute to be supported';
-                        }
-                        return {
-                            width: parseInt(attrWidth),
-                            height: parseInt(attrHeight)
-                        }
-                    }
+                    var displaySize = $medium[0].getBoundingClientRect();
                     return {
-                        width: $medium.width(), // this is independent from the presence of attributes width and height
-                        height: $medium.height()
-                    }
+                        width: displaySize.width,
+                        height: displaySize.height
+                    };
                 }()),
                 naturalWidth = $medium[0].naturalWidth || options.naturalWidth || mediumSize.width,
                 naturalHeight = $medium[0].naturalHeight || options.naturalHeight || mediumSize.height,
                 containerWidth = (function() {
-                    var $parentContainer = !!options.parentSelector
-                        ? $medium.parents(options.parentSelector)
-                        : $medium.parent().parent();//@todo this is ugly as it assumes a double container !!
+                    var $parentContainer = !!options.parentSelector ?
+                        $medium.parents(options.parentSelector) :
+                        $medium.parent().parent();//@todo this is ugly as it assumes a double container !!
 
                     if(options.maxWidth){
                         return options.maxWidth;
@@ -233,7 +244,7 @@ define([
                 self = this,
                 _checkMode = function () {
                     if ($responsiveToggleField.is(':checked')) {
-                        _blocks['px'].hide();
+                        _blocks.px.hide();
                         _blocks['%'].show();
                         options.sizeProps.currentUnit = '%';
                         if (options.$fields && options.$fields['%'].width.val() > options.sizeProps.sliders['%'].max) {
@@ -243,7 +254,7 @@ define([
                     }
                     else {
                         _blocks['%'].hide();
-                        _blocks['px'].show();
+                        _blocks.px.show();
                         options.sizeProps.currentUnit = 'px';
                     }
                 };
@@ -301,7 +312,7 @@ define([
                             unit = $slider.prop('unit');
 
                         options.$fields[unit].width.val(_round($slider.val())).trigger('sliderchange');
-                    })
+                    });
             });
 
             return _sliders;
@@ -460,9 +471,9 @@ define([
                                     return chars;
                                 }());
 
-                            return (_.contains(specChars, c)
-                                || (c >= 48 && c <= 57)
-                                || (c >= 96 && c <= 105));
+                            return (_.contains(specChars, c) ||
+                                (c >= 48 && c <= 57) ||
+                                (c >= 96 && c <= 105));
                         });
 
                         _fields[unit][dim].on('keyup blur sliderchange', function (e) {

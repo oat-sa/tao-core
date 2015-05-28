@@ -1,8 +1,6 @@
 <?php
 use oat\tao\helpers\Layout;
 ?>
-<ul id="<?=get_data('actions_id')?>"
-    class="plain action-bar <?=get_data('actions_classes')?>">
 
     <?php foreach (get_data('actions') as $action): ?>
     <li class="action <?= get_data('action_classes')?>"
@@ -15,4 +13,3 @@ use oat\tao\helpers\Layout;
         </a>
     </li>
     <?php endforeach; ?>
-</ul>

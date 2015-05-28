@@ -9,6 +9,10 @@ $monospaceFont: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lu
 $regularFont: 'Franklin Gothic', 'Franklin Gothic Medium', 'Source Sans Pro', sans-serif;
 $headingFont: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 
+// according to https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type these styles are the most compatible ones
+// disc|circle|square|decimal|decimal-leading-zero|lower-roman|upper-roman|lower-greek|lower-latin|upper-latin|armenian|georgian|lower-alpha|upper-alpha|none. lower|upper-latin are aliases of lower|upper-roman
+$list_styles: disc,circle,square,decimal,decimal-leading-zero,lower-roman,upper-roman,lower-greek,lower-latin,upper-latin,armenian,georgian,lower-alpha,upper-alpha,none;
+
 %clearfix {
     &:before, &:after {
         content: " ";

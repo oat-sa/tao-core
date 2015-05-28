@@ -30,7 +30,7 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '3.0.0');
+define('TAO_VERSION', '3.0.1');
 
 $version = TAO_VERSION;
 
@@ -46,7 +46,7 @@ define('TAO_VERSION_NAME', $version);
 define('PRODUCT_NAME', 'TAO');
 
 #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
-define('TAO_RELEASE_STATUS', 'stable');
+define('TAO_RELEASE_STATUS', 'alpha');
 
 #TAO default character encoding (mainly used with multi-byte string functions).
 define('TAO_DEFAULT_ENCODING', 'UTF-8');
@@ -102,8 +102,14 @@ $todefine = array(
 	'CLASS_OAUTH_CONSUMER' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer',
 	'PROPERTY_OAUTH_KEY'			    => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey',
 	'PROPERTY_OAUTH_SECRET'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret',
-    'PROPERTY_OAUTH_CALLBACK'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl',
-    
+    'PROPERTY_OAUTH_CALLBACK'           => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl',
+
+    'INDEX_PROPERTY'                    => 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex',
+    'INDEX_PROPERTY_FUZZY_MATCHING'     => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching',
+    'INDEX_PROPERTY_IDENTIFIER'         => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier',
+    'INDEX_PROPERTY_TOKENIZER'          => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer',
+    'INDEX_PROPERTY_DEFAULT_SEARCH'     => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch',
+
     // @todo properly migrate service and service calls to tao
     'CLASS_CALLOFSERVICES'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfServices',
     'PROPERTY_CALLOFSERVICES_SERVICEDEFINITION'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesServiceDefinition',

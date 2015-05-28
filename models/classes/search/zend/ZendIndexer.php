@@ -74,16 +74,15 @@ class ZendIndexer
         $toDo = array();
         foreach ($this->resource->getTypes() as $class) {
             $toDo[] = $class->getUri();
-            $document->addField(Document\Field::Text('class', $class->getLabel()));
         }
         
-        $done = array(RDFS_CLASS, TAO_OBJECT_CLASS);
+        $done = array(RDFS_RESOURCE, TAO_OBJECT_CLASS);
         $toDo = array_diff($toDo, $done);
         
-        $classLabels = array();
+        $classUris = array();
         while (!empty($toDo)) {
             $class = new \core_kernel_classes_Class(array_pop($toDo));
-            $classLabels[] = $class->getLabel();
+            $classUris[] = $class->getUri();
             foreach ($class->getParentClasses() as $parent) {
                 if (!in_array($parent->getUri(), $done)) {
                     $toDo[] = $parent->getUri();
@@ -91,14 +90,14 @@ class ZendIndexer
             }
             $done[] = $class->getUri();
         }
-        $field = Document\Field::Keyword('class_r', $classLabels);
+        $field = Document\Field::Keyword('type_r', $classUris);
         $field->isStored = false;
         $document->addField($field);
     }
     
     protected function indexProperty(Document $document, \core_kernel_classes_Property $property)
     {
-        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex'));
+        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
         foreach ($indexes as $indexUri) {
             $index = new Index($indexUri);
             $id = $index->getIdentifier();
@@ -124,9 +123,9 @@ class ZendIndexer
     
     protected function getIndexedProperties()
     {
-        $classProperties = array(new \core_kernel_classes_Property(RDFS_LABEL));
+        $classProperties = array();
         foreach ($this->resource->getTypes() as $type) {
-            $classProperties = array_merge($classProperties, \tao_helpers_form_GenerisFormFactory::getClassProperties($type));
+            $classProperties = array_merge($classProperties, $type->getProperties(true));
         }
     
         return $classProperties;

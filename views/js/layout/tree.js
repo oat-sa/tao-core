@@ -120,7 +120,14 @@ define([
 
             //lifecycle callbacks
             callback: {
-
+                /**
+                 * Delete node callback.
+                 * @fires layout/tree#delete.taotree
+                 * @returns {undefined}
+                 */
+                ondelete: function ondelete() {
+                    $elt.trigger('delete.taotree', Array.prototype.slice.call(arguments));
+                },
                 /**
                  * Additional parameters to send to the server to retrieve data.
                  * It uses the serverParams object previously defined
@@ -237,13 +244,6 @@ define([
                         });
                     }
 
-                    //execute initTree action
-                    if (options.actions && options.actions.init) {
-                        actionManager.exec(options.actions.init, {
-                            uri: $elt.data('rootnode')
-                        });
-                    }
-
                     /**
                      * The tree is now ready
                      * @event layout/tree#ready.taotree
@@ -251,7 +251,18 @@ define([
                      */
                     $elt.trigger('ready.taotree');
                 },
-
+                
+                /**
+                 * After a branch is initialized
+                 */
+                oninit : function () {
+                    //execute initTree action
+                    if (options.actions && options.actions.init) {
+                        actionManager.exec(options.actions.init, {
+                            uri: $elt.data('rootnode')
+                        });
+                    }
+                },
 
                 /**
                  * Before a branch is opened
