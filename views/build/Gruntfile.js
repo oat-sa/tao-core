@@ -30,14 +30,31 @@ module.exports = function(grunt) {
     grunt.option('testPort', testPort);
     grunt.option('reports', reportOutput);
 
-
-    //Resolve some common AMD modules (tao core and libraries) to be included in the main bundle and excluded from others
+    //Resolve some shared AMD modules
     var libsPattern =  ['views/js/*.js', 'views/js/core/**/*.js', 'views/js/ui/**/*.js', 'views/js/layout/**/*.js', 'views/js/util/**/*.js', '!views/js/main.*', '!views/js/*.min*', '!views/js/test/**/*.js'];
-    var mainLibs        = ext.getExtensionSources('tao', libsPattern, true);
-    var requireConfig = require('./config/requirejs.test.json');
-    mainLibs.concat(Object.keys(requireConfig.paths));
-    grunt.option('mainlibs', mainLibs);
+    var libs        = ext.getExtensionSources('tao', libsPattern, true).concat([
+        'jquery',
+        'jqueryui',
+        'filereader',
+        'store',
+        'select2',
+        'lodash',
+        'async',
+        'moment',
+        'handlebars',
+        'ckeditor',
+        'class',
+        'jwysiwyg',
+        'jquery.tree',
+        'jquery.timePicker',
+        'jquery.cookie',
+        'jquery.fileDownload',
+        'raphael',
+        'scale.raphael',
+        'tooltipster',
+        'history']);
 
+    grunt.option('mainlibs', libs);
 
     /*
      * Load separated configs into each extension
