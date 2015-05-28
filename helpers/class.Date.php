@@ -1,5 +1,4 @@
 <?php
-
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\dateFormatter\EuropeanFormatter;
+use oat\tao\helpers\dateFormatter\Formatter;
 
 /**
  * Utility to display dates.
@@ -29,6 +30,7 @@
  */
 class tao_helpers_Date
 {
+    const CONFIG_KEY = 'dateService';
 
     const FORMAT_LONG = 0;
 
@@ -39,6 +41,20 @@ class tao_helpers_Date
     const FORMAT_INTERVAL_LONG = 100;
 
     const FORMAT_INTERVAL_SHORT = 101;
+    
+    private static $service;
+    
+    static protected function getDateFormatter()
+    {
+        if (is_null(self::$service)) {
+            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $service = $ext->getConfig(self::CONFIG_KEY);
+            self::$service = is_object($service) && $service instanceof Formatter
+                ? $service
+                : new EuropeanFormatter();
+        }
+        return self::$service;
+    }
 
     /**
      * Dispalys a date/time
@@ -50,33 +66,17 @@ class tao_helpers_Date
      */
     static public function displayeDate($timestamp, $format = self::FORMAT_LONG)
     {
-        $returnValue = '';
-        
         if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
-            $dateTime = new DateTime();
-            $dateTime->setTimestamp($timestamp->__toString());
-        } else 
-            if (is_object($timestamp) && $timestamp instanceof DateTime) {
-                $dateTime = $timestamp;
-            } else {
-                $dateTime = new DateTime();
-                $dateTime->setTimestamp($timestamp);
-            }
-        $dateTime->setTimezone(new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone()));
-        switch ($format) {
-            case self::FORMAT_LONG:
-                $returnValue = $dateTime->format('d/m/Y H:i:s');
-                break;
-            case self::FORMAT_DATEPICKER:
-                $returnValue = $dateTime->format('Y-m-d H:i');
-                break;
-            case self::FORMAT_VERBOSE:
-                $returnValue = $dateTime->format('F j, Y, g:i:s a');
-                break;
-            default:
-                common_Logger::w('Unkown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
+            $ts = $timestamp->__toString();
+        } elseif (is_object($timestamp) && $timestamp instanceof DateTime) {
+            $ts = $timestamp->getTimestamp();
+        } elseif (is_numeric($timestamp)) {
+            $ts = $timestamp;
+        } else {
+            throw new common_Exception('Unexpected timestamp');
         }
-        return $returnValue;
+        
+        return self::getDateFormatter()->format($timestamp, $format);
     }
 
     /**
