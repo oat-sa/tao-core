@@ -107,6 +107,22 @@ class MediaService {
         }
         return $returnValue;
     }
+
+    /**
+     * Returns all media sources that can write
+     *
+     * @return MediaManagement[]
+     */
+    public function getManagementSources()
+    {
+        $returnValue = array();
+        foreach ($this->getMediaSources() as $id => $source) {
+            if ($source instanceof MediaManagement) {
+                $returnValue[$id] = $source;
+            }
+        }
+        return $returnValue;
+    }
     
     /**
      * Adds a media source to Tao
