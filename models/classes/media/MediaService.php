@@ -113,7 +113,7 @@ class MediaService {
      *
      * @return MediaManagement[]
      */
-    public function getManagementSources()
+    public function getWritableSources()
     {
         $returnValue = array();
         foreach ($this->getMediaSources() as $id => $source) {
