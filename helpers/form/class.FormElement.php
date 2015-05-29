@@ -196,10 +196,13 @@ abstract class tao_helpers_form_FormElement
      */
     public function addClass($className)
     {
-        $existingClasses = !empty($this->attributes['class']) ? $this->attributes['class'] : array();
+        $existingClasses = !empty($this->attributes['class'])
+            ? explode(' ',$this->attributes['class'])
+            : array();
         $existingClasses[] = $className;
         $this->attributes['class'] = implode(' ', array_unique($existingClasses));
     }
+    
 
     /**
      * Remove a CSS class jQuery style
@@ -209,10 +212,13 @@ abstract class tao_helpers_form_FormElement
      */
     public function removeClass($className)
     {
-        $existingClasses = !empty($this->attributes['class']) ? $this->attributes['class'] : array();
+        $existingClasses = !empty($this->attributes['class'])
+            ? explode(' ',$this->attributes['class'])
+            : array();
         unset($existingClasses[array_search($className, $existingClasses)]);
         $this->attributes['class'] = implode(' ', $existingClasses);
     }
+    
 
     /**
      * Short description of method addAttribute
