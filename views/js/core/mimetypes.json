@@ -31,7 +31,7 @@
     },
     "xml" : {
         "category" : "sources", 
-        "mimes" : ["application/xml", "application/xml-dtd"],
+        "mimes" : ["application/xml", "application/xml-dtd", "text/xml"],
         "extensions" : ["xml", "dtd", "qti"] 
      },
      "html" : {

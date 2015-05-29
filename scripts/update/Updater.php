@@ -231,6 +231,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.7.14';
         }
 
+        if ($currentVersion == '2.7.14') {
+            // index user logins
+            OntologyUpdater::syncModels();
+            $currentVersion = '2.7.15';
+        }
+
         return $currentVersion;
     }
     

@@ -51,7 +51,8 @@ define([
     //the default options
     var defaultOptions = {
 		msg : __('This resource is locked'),
-		url : helpers._url('release','Lock','tao')
+		releaseUrl : helpers._url('release','Lock','tao'),
+		commitUrl : helpers._url('commitResource','History','taoRevision')
     };
 
     /**
@@ -78,7 +79,8 @@ define([
      *
      * @param {Object} [options] - the plugin options
      * @param {String} [options.uri =  ''] - The uri of the selected resource
-     * @param {String} [options.url =  ''] - The url to call to release the lock
+     * @param {String} [options.releaseUrl =  ''] - The url to call to release the lock
+     * @param {String} [options.commitUrl =  ''] - The url to call to commit the resource
      */
     var lockApi = {
 
@@ -195,10 +197,14 @@ define([
                 
                 if (typeof this.options.uri == 'undefined') {
                 	$('.release', self._container).hide();
+                	$('.check-in', self._container).hide();
                 } else {
 	                $('.release', self._container).on('click',function(){
 	                    self.release();
 	                });
+                    $('.check-in', self._container).on('click',function(){
+                        self.commit();
+                    });
                 }
 
             }
@@ -214,9 +220,9 @@ define([
          */
         release : function release(){
             var self = this;
-            if(self.options.url !== ''){
+            if(self.options.releaseUrl !== ''){
                 $.ajax({
-                    url: self.options.url,
+                    url: self.options.releaseUrl,
                     type: "POST",
                     data : {uri : self.options.uri},
                     dataType: 'json',
@@ -240,6 +246,50 @@ define([
             return this;
 
         },
+
+        /**
+         * ask a message and call the url to commit the resource
+         * @example lock().commit();
+         * @fires commit.lock
+         * @returns {lockApi}
+         */
+        commit : function commit(){
+            var self = this;
+            if(self.options.commitUrl !== ''){
+                $('.message-container', self._container).slideToggle();
+                $('.commit', self._container).off('click').on('click',function(){
+                    var message = $('.message', self._container).val();
+                    if(message !== ''){
+                        $.ajax({
+                            url: self.options.commitUrl,
+                            type: "POST",
+                            data : {id : self.options.uri, message : message},
+                            dataType: 'json',
+                            success : function(response){
+                                if(response.success){
+                                    self._trigger('committed', response);
+                                }
+                                else{
+                                    self._trigger('failed', response);
+                                }
+                            },
+                            error : function(){
+                                self._trigger('failed');
+                            }
+                        });
+                    }
+                    else{
+                        self._trigger('failed',{message : __('Please give a message to your commit')});
+                    }
+                });
+            }
+            else{
+                self._trigger('failed');
+            }
+
+            return this;
+
+        },
         
         /**
          * Default behaviour
@@ -253,6 +303,10 @@ define([
 						feedback().success(response.message);
 					    this.close();
 					},
+                    committed : function(response) {
+                        feedback().success(response.commitMessage);
+                        this.close();
+                    },
 					failed : function(response) {
 						if (typeof response !== 'undefined' && typeof response.message !== 'undefined') {
 							feedback().error(response.message);

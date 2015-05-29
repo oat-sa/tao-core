@@ -245,7 +245,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		}
 		
         //generate the tree from the given parameters	
-        $tree = $this->service->toTree($clazz, $options);
+        $tree = $this->getClassService()->toTree($clazz, $options);
 
         //load the user URI from the session
         $user = common_Session_SessionManager::getSession()->getUser();
@@ -280,7 +280,24 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         } else { 
             $tree = $this->computePermissions($actions, $user, $tree);
         }
-
+        
+        //sort items by name
+        function sortTreeNodes($a, $b) {
+            if (isset($a['data']) && isset($b['data'])) {
+                if ($a['type'] != $b['type']) {
+                    return ($a['type'] == 'class') ? -1 : 1;
+                } else {
+                    return strcasecmp($a['data'], $b['data']);
+                }
+            }
+        }
+        
+        if (isset($tree['children'])) {
+            usort($tree['children'], 'sortTreeNodes');
+        } elseif(array_values($tree) === $tree) {//is indexed array
+            usort($tree, 'sortTreeNodes');
+        }
+        
         //expose the tree
         $this->returnJson($tree);
 	}
@@ -339,9 +356,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		$response = array();
 		
 		$clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
-		$label = $this->service->createUniqueLabel($clazz);
+		$label = $this->getClassService()->createUniqueLabel($clazz);
 		
-		$instance = $this->service->createInstance($clazz, $label);
+		$instance = $this->getClassService()->createInstance($clazz, $label);
 		
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			$response = array(
@@ -362,7 +379,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	        throw new Exception("wrong request mode");
 	    }
 	    $parent = new core_kernel_classes_Class($this->getRequestParameter('id'));
-	    $clazz = $this->service->createSubClass($parent);
+	    $clazz = $this->getClassService()->createSubClass($parent);
 	    if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
 	        echo json_encode(array(
 	            'label'	=> $clazz->getLabel(),
@@ -456,7 +473,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		
-		$clone = $this->service->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
+		$clone = $this->getClassService()->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
 		if(!is_null($clone)){
 			echo json_encode(array(
 				'label'	=> $clone->getLabel(),
@@ -474,7 +491,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	    $response = array();	
 		if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
             $instance = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-            $clazz = $this->service->getClass($instance);
+            $clazz = $this->getClassService()->getClass($instance);
 			$destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
 
 			if(!empty($destinationUri) && $destinationUri != $clazz->getUri()){
@@ -483,7 +500,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 				$confirmed = $this->getRequestParameter('confirmed');
 				if(empty($confirmed) || $confirmed == 'false' || $confirmed ===  false){
 					
-					$diff = $this->service->getPropertyDiff($clazz, $destinationClass);
+					$diff = $this->getClassService()->getPropertyDiff($clazz, $destinationClass);
 					if(count($diff) > 0){
 					    return $this->returnJson(array(
 							'status'	=> 'diff',
@@ -492,7 +509,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 					}
 				}  
 				
-                $status = $this->service->changeClass($instance, $destinationClass);
+                $status = $this->getClassService()->changeClass($instance, $destinationClass);
                 $response = array('status'	=> $status);
 			}
 		}
@@ -520,7 +537,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 				$langElt->setValue($targetLang);
 				$langElt->setAttribute('readonly', 'true');
 				
-				$trData = $this->service->getTranslatedProperties($instance, $targetLang);
+				$trData = $this->getClassService()->getTranslatedProperties($instance, $targetLang);
 				foreach($trData as $key => $value){
 					$element = $myForm->getElement(tao_helpers_Uri::encode($key));
 					if(!is_null($element)){
@@ -577,7 +594,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		$data = array();
 		if($this->hasRequestParameter('lang')){
 			$data = tao_helpers_Uri::encodeArray(
-				$this->service->getTranslatedProperties(
+				$this->getClassService()->getTranslatedProperties(
 					$this->getCurrentInstance(),
 					$this->getRequestParameter('lang') 
 				), 
@@ -819,7 +836,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 			unset ($properties[TAO_ITEM_CONTENT_PROPERTY]);
 		}
 		
-		$instances = $this->service->searchInstances($filter, $clazz, array ('recursive'=>true));
+		$instances = $this->getClassService()->searchInstances($filter, $clazz, array ('recursive'=>true));
 		$index = 0;
 		foreach ($instances as $instance){
 			$returnValue [$index]['uri'] = $instance->getUri();
