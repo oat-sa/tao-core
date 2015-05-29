@@ -74,4 +74,3 @@ class tao_helpers_form_elements_xhtml_Textbox
 
 }
 
-?>
