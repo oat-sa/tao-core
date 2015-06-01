@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
@@ -21,8 +21,14 @@
 define(['lib/history/history'], function(historyLib){
 
     var location = window.history.location || window.location;
-    var domain = location.protocol + '//' + location.hostname;
+    var port = location.port;
+    var protocol = location.protocol;
+    var domain = protocol + '//' + location.hostname;
     var testerUrl = location.href;
+
+    if (('http:' === protocol && 80 !== port) || ('https:' === protocol && 443 !== port)) {
+        domain += ':' + port;
+    }
 
     QUnit.module('API');
 
@@ -97,11 +103,13 @@ define(['lib/history/history'], function(historyLib){
 
     /** back **/
     var backNavigationDataProvider = [{
+        title : 'Step back to Manage Items',
         expected : {
             state : { sectionId : 'manage_items', restoreWith : 'activate' },
             url   : domain + '/Main/index?structure=items&ext=taoItems&section=manage_items'
         }
     }, {
+        title : 'Step back to Root',
         expected : {
             state : null,
             url   : testerUrl
@@ -113,17 +121,19 @@ define(['lib/history/history'], function(historyLib){
         .test('navigation', function(data, assert) {
 
             historyLib.back();
-            assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the last replaced state');
+            assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the right state after stepping back');
             assert.equal(location.href, data.expected.url, 'The current page URL must comply to the target state');
         });
 
     /** forward **/
     var forwardNavigationDataProvider = [{
+        title : 'Step forward to Manage Items',
         expected : {
             state : { sectionId : 'manage_items', restoreWith : 'activate' },
             url   : domain + '/Main/index?structure=items&ext=taoItems&section=manage_items'
         }
     }, {
+        title : 'Step forward to Authoring',
         expected : {
             state : { sectionId : 'authoring', restoreWith : 'activate' },
             url   : domain + '/Main/index?structure=items&ext=taoItems&section=authoring'
@@ -135,7 +145,7 @@ define(['lib/history/history'], function(historyLib){
         .test('navigation', function(data, assert) {
 
             historyLib.forward();
-            assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the last replaced state');
+            assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the right state after stepping forward');
             assert.equal(location.href, data.expected.url, 'The current page URL must comply to the target state');
         });
 
