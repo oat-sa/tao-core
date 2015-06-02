@@ -26,7 +26,7 @@ define(['lib/history/history'], function(historyLib){
     var domain = protocol + '//' + location.hostname;
     var testerUrl = location.href;
 
-    if (('http:' === protocol && 80 !== port) || ('https:' === protocol && 443 !== port)) {
+    if (port && (('http:' === protocol && '80' !== port) || ('https:' === protocol && '443' !== port))) {
         domain += ':' + port;
     }
 
