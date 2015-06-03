@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Ui Test - contextualPopup UI Component</title>
+        <base href="../../../../" />
+        <link rel="stylesheet" type="text/css" href="css/tao-main-style.css" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script  type="text/javascript">
+            
+            //don't start the test now
+            QUnit.config.autostart = false;
+            
+            //load the config
+            require(['/tao/ClientConfig/config'], function(){
+                
+                //load the test
+                require(['test/ui/contextualPopup/test'], function(){
+                    
+                    //Tests loaded, run tests
+                    QUnit.config.reorder = false;
+                    QUnit.start();
+                });
+            });
+        </script>
+        <style>
+            #main-container{
+                position:relative;
+                margin-left: auto;
+                margin-right: auto;
+                width: 60%;
+                background-color: #D2E0E6;
+                padding: 40px 60px;
+              }
+            .container {
+                position : relative;
+                height : 1050px;
+            }
+            .center{
+                position:relative;
+                background-color: #0D3349;
+                width: 10px;
+                height: 10px;
+            }
+            #center1{
+                top : 20px;
+                left : 50px;
+            }
+            #center2{
+                top : 350px;
+                left : 200px;
+                width: 50px;
+                height: 50px;
+            }
+            #center3{
+                top : 700px;
+                left : 300px;
+                width: 150px;
+                height: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <main id="main-container">
+            <div class="container">
+                <div class="grid-row">
+                    <div class="col-12">
+                        <div id="center1" class="center"></div>
+                        <div id="center2" class="center"></div>
+                        <div id="center3" class="center"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div id="form-container"></div>
+        <div id="qunit-fixture"></div>
+    </body>
+</html>
