@@ -59,11 +59,24 @@ define([
         }
 
         return {
-            getPopup : function(){
+            /**
+             * Get the popup JQuery container
+             * 
+             * @returns {jQuery}
+             */
+            getPopup : function getPopup(){
                 return $element;
             },
+            
             setContent : setContent,
-            reposition : function(){
+            
+            /**
+             * Recalculates the position of the popup relative to the anchor
+             * Useful after any changes in layout
+             * 
+             * @returns {undefined}
+             */
+            reposition : function reposition(){
                 var pos = _computePosition($anchor, $container);
                 $element.css({
                     top : pos.popup.top,
@@ -72,26 +85,50 @@ define([
                 $element.children('.arrow').css('left', pos.arrow.left);
                 $element.children('.arrow-cover').css('left', pos.arrow.leftCover);
             },
-            activatePanel : function(groupName){
-                activatePanel($element, groupName);
-            },
-            activateElement : function(qtiClass){
-                activateElement($element, qtiClass);
-            },
-            done : function(){
+            
+            /**
+             * Manually triggers "done" 
+             * 
+             * @returns {undefined}
+             */
+            done : function done(){
                 _done($element);
             },
-            cancel : function(){
+            
+            /**
+             * Manually triggers "cancel" 
+             * 
+             * @returns {undefined}
+             */
+            cancel : function cancel(){
                 _cancel($element);
             },
-            hide : function(){
+            
+            /**
+             * Manually triggers "hide" 
+             * 
+             * @returns {undefined}
+             */
+            hide : function hide(){
                 _hide($element);
             },
-            show : function(){
+            
+            /**
+             * Manually triggers "show" 
+             * 
+             * @returns {undefined}
+             */
+            show : function show(){
                 $element.show();
                 $element.trigger('show' + _ns);
             },
-            destroy : function(){
+            
+            /**
+             * Manually triggers "destroy" 
+             * 
+             * @returns {undefined}
+             */
+            destroy : function destroy(){
                 $element.remove();
                 $element.trigger('destroy' + _ns);
             }
@@ -101,6 +138,7 @@ define([
     /**
      * Hide
      * 
+     * @fires hide.contextual-popup
      * @param {JQuery} $element
      */
     function _hide($element){
@@ -111,6 +149,7 @@ define([
     /**
      * Callback when the "done" button is clicked
      * 
+     * @fires done.contextual-popup
      * @param {JQuery} $element
      */
     function _done($element){
@@ -121,6 +160,7 @@ define([
     /**
      * Callback when the "cancel" button is clicked
      * 
+     * @fires cancel.contextual-popup
      * @param {JQuery} $element
      */
     function _cancel($element){
