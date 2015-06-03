@@ -1,0 +1,34 @@
+#main-container{
+    position:relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    background-color: #D2E0E6;
+    padding: 40px 60px;
+}
+.container {
+    position : relative;
+    height : 1050px;
+}
+.center{
+    position:relative;
+    background-color: #0D3349;
+    width: 10px;
+    height: 10px;
+}
+#center1{
+    top : 20px;
+    left : 50px;
+}
+#center2{
+    top : 350px;
+    left : 200px;
+    width: 50px;
+    height: 50px;
+}
+#center3{
+    top : 700px;
+    left : 300px;
+    width: 150px;
+    height: 150px;
+}
