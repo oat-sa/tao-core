@@ -3,7 +3,9 @@
     <div class="arrow-cover" style="left:{{arrow.leftCover}}px"></div>
     <div class="popup-content">{{{content}}}</div>
     <div class="footer">
+        {{#if controls}}
         <button class="btn btn-info small done">done</button>
         <a href="#" class="btn cancel" title="{{__ "cancel"}}">cancel</a>
+        {{/if}}
     </div>
 </div>

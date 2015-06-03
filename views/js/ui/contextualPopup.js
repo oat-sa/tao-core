@@ -5,7 +5,11 @@ define([
 ], function($, _, popupTpl){
 
     var _ns = '.contextual-popup';
-
+    
+    var _defaults = {
+        controls : false
+    };
+    
     /**
      * Create an element selector reltive to the $anchor and contained in the $container
      * 
@@ -13,15 +17,19 @@ define([
      * @param {JQuery} $container
      * @param {Object} options
      * @param {JQuery|String} [options.content] - the inital content of the popup
+     * @param {Boolean} [options.controls] - add cancel/done button
      * @returns {Object} the new selector instance
      */
     function create($anchor, $container, options){
-
+        
+        options = _.defaults(options, _defaults);
+        
         //anchor must be positioned in css
         var positions = _computePosition($anchor, $container);
         var $element = $(popupTpl({
             popup : positions.popup,
-            arrow : positions.arrow
+            arrow : positions.arrow,
+            controls : options.controls
         }));
 
         //only one 
@@ -76,22 +84,37 @@ define([
             cancel : function(){
                 _cancel($element);
             },
+            hide : function(){
+                _hide($element);
+            },
             show : function(){
                 $element.show();
+                $element.trigger('show' + _ns);
             },
             destroy : function(){
                 $element.remove();
+                $element.trigger('destroy' + _ns);
             }
         };
     }
 
+    /**
+     * Hide
+     * 
+     * @param {JQuery} $element
+     */
+    function _hide($element){
+        $element.hide();
+        $element.trigger('hide' + _ns);
+    }
+    
     /**
      * Callback when the "done" button is clicked
      * 
      * @param {JQuery} $element
      */
     function _done($element){
-        $element.hide();
+        _hide($element);
         $element.trigger('done' + _ns);
     }
 
@@ -101,7 +124,7 @@ define([
      * @param {JQuery} $element
      */
     function _cancel($element){
-        $element.hide();
+        _hide($element);
         $element.trigger('cancel' + _ns);
     }
 
