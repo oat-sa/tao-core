@@ -537,4 +537,6 @@ abstract class tao_helpers_form_FormElement
      * 
      */
     public abstract function render();
+
 }
+

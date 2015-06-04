@@ -128,7 +128,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 												if (filters.length){
 
 													files = _.filter(files, function(file){
-														return !file.type || _.contains(filters, file.type);//IE9 doesnt detect type, so lets rely on server validation
+														return !file.type || _.contains(filters, file.type.replace(/[\'"]+/g, \'\'));//IE9 doesnt detect type, so lets rely on server validation
 													});
 
 													if(files.length !== givenLength){
