@@ -52,7 +52,7 @@ define([
         none:'',
         disc:   '\u25cf',
         circle: '\u25cb',
-        square: '\uffed',
+        square: '\u25fd',
         decimal: '1',
         'decimal-leading-zero': '01',
         'lower-alpha': 'a',
