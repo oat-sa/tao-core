@@ -1,5 +1,7 @@
 define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
-
+    
+    'use strict';
+    
     QUnit.test('init dialog', function(){
 
         var $container = $('#main-container');
