@@ -16,14 +16,14 @@
                                  :  : :      :
                                  :__:-:__.;--'
                                 <*_/   <*/
-                                 
+
 @font-face {
 	font-family: 'tao';
-	src:url('font/tao/tao.eot?-xdl99y');
-	src:url('font/tao/tao.eot?#iefix-xdl99y') format('embedded-opentype'),
-		url('font/tao/tao.ttf?-xdl99y') format('truetype'),
-		url('font/tao/tao.woff?-xdl99y') format('woff'),
-		url('font/tao/tao.svg?-xdl99y#tao') format('svg');
+	src:url(#{$fontPath}tao/tao.eot?-xdl99y);
+	src:url(#{$fontPath}tao/tao.eot?#iefix-xdl99y) format('embedded-opentype'),
+		url(#{$fontPath}tao/tao.ttf?-xdl99y) format('truetype'),
+		url(#{$fontPath}tao/tao.woff?-xdl99y) format('woff'),
+		url(#{$fontPath}tao/tao.svg?-xdl99y#tao) format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
