@@ -4,8 +4,8 @@
     <div class="popup-content">{{{content}}}</div>
     <div class="footer">
         {{#if controls}}
-        <button class="btn btn-info small done">done</button>
-        <a href="#" class="btn cancel" title="{{__ "cancel"}}">cancel</a>
+            {{#if controls.done}}<button class="btn btn-info small done">done</button>{{/if}}
+            {{#if controls.cancel}}<a href="#" class="btn cancel" title="{{__ "cancel"}}">cancel</a>{{/if}}
         {{/if}}
     </div>
 </div>
