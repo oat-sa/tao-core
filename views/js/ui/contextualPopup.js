@@ -27,8 +27,10 @@ define([
     var _ns = '.contextual-popup';
     
     var _defaults = {
-        controls : false
+        controls : false,
+        style : {}
     };
+    
     
     /**
      * Create an element selector reltive to the $anchor and contained in the $container
@@ -43,6 +45,7 @@ define([
     function create($anchor, $container, options){
         
         options = _.defaults(options, _defaults);
+        $anchor.data('contextual-popup-options', options);
         
         //anchor must be positioned in css
         var positions = _computePosition($anchor, $container);
@@ -56,6 +59,7 @@ define([
         $anchor.find('.contextual-popup').remove();
 
         //attach the popup
+        $element.css('width', options.style.popupWidth);
         $anchor.append($element);
         $element.off(_ns).on('click' + _ns, '.done', function(){
             _done($element);
@@ -187,7 +191,14 @@ define([
         _hide($element);
         $element.trigger('cancel' + _ns);
     }
-
+    
+    var _styleDefaults = {
+        popupWidth : 500,
+        arrowWidth : 6,
+        marginTop : 15,
+        marginLeft : 15
+    };
+    
     /**
      * Calculate the position of the popup and arrow relative to the anchor and container elements
      * 
@@ -196,11 +207,13 @@ define([
      * @returns {Object} - Object containing the positioning data
      */
     function _computePosition($anchor, $container){
-
-        var popupWidth = 500;
-        var arrowWidth = 6;
-        var marginTop = 15;
-        var marginLeft = 15;
+        
+        var options = $anchor.data('contextual-popup-options');
+        var styleOpts = _.defaults(options.style || {}, _styleDefaults);
+        var popupWidth = styleOpts.popupWidth;
+        var arrowWidth = styleOpts.arrowWidth;
+        var marginTop = styleOpts.marginTop;
+        var marginLeft = styleOpts.marginLeft;
         var _anchor = {top : $anchor.offset().top, left : $anchor.offset().left, w : $anchor.innerWidth(), h : $anchor.innerHeight()};
         var _container = {top : $container.offset().top, left : $container.offset().left, w : $container.innerWidth()};
         var _popup = {
