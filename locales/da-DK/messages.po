@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0.0\n"
-"PO-Revision-Date: 2015-04-30T09:07:13\n"
+"Project-Id-Version: TAO v3.1-dev\n"
+"PO-Revision-Date: 2015-06-08T14:35:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
@@ -148,6 +148,9 @@ msgstr "Tillader styring af opbevaringssteder"
 msgid "Alpha version"
 msgstr ""
 
+msgid "An email has been sent"
+msgstr ""
+
 msgid "An error occured during user deletion"
 msgstr "En fejl opstod da brugeren skulle fjernes"
 
@@ -215,6 +218,9 @@ msgstr "Vælg alle"
 msgid "Check all"
 msgstr "Tjek alle"
 
+msgid "Check-in"
+msgstr ""
+
 msgid "Choose export format"
 msgstr ""
 
@@ -232,6 +238,9 @@ msgstr ""
 
 msgid "Column"
 msgstr "Kolonne"
+
+msgid "Commit"
+msgstr ""
 
 msgid "Commit message : "
 msgstr "Besked : "
@@ -272,13 +281,16 @@ msgstr "Data importeret succesfuldt"
 msgid "Data Lang."
 msgstr "Data sprog."
 
-msgid "Data Language"
-msgstr "Data sprog"
-
 msgid "Data language"
 msgstr "Data sprog"
 
+msgid "Data Language"
+msgstr "Data sprog"
+
 msgid "Date"
+msgstr ""
+
+msgid "Default search"
 msgstr ""
 
 msgid "Default user cannot be deleted"
@@ -395,6 +407,9 @@ msgstr "Udvidelse "
 msgid "Extensions manager"
 msgstr "Udvidelses manager"
 
+msgid "False"
+msgstr ""
+
 msgid "Field delimiter"
 msgstr "Felt afgrænsning"
 
@@ -451,16 +466,31 @@ msgstr "Første række kolonnenavne"
 msgid "Force Release"
 msgstr ""
 
+msgid "Forgot your password?"
+msgstr ""
+
+msgid "Fuzzy Matching"
+msgstr ""
+
 msgid "Go Back"
 msgstr ""
 
 msgid "Height"
 msgstr ""
 
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
+msgstr ""
+
 msgid "Hide detailed report"
 msgstr ""
 
 msgid "hours"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr ""
 
 msgid "Import"
@@ -616,6 +646,9 @@ msgstr "Kortlægge egenskaber hos CSV-kollonner"
 msgid "maximum value: "
 msgstr "maksimum værdi: "
 
+msgid "Message"
+msgstr ""
+
 msgid "minimum value: "
 msgstr "minimum værdi: "
 
@@ -752,6 +785,9 @@ msgstr "Password*"
 msgid "Password changed"
 msgstr "Adgangskode ændret"
 
+msgid "Password successfully changed"
+msgstr ""
+
 msgid "Passwords are not matching"
 msgstr "Adgangskoder matcher ikke"
 
@@ -776,6 +812,9 @@ msgstr ""
 msgid "Please contact %s or an administrator to release it', get_data('ownerHtml"
 msgstr ""
 
+msgid "Please give a message to your commit"
+msgstr ""
+
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr ""
 
@@ -793,6 +832,9 @@ msgstr ""
 
 #, tao-public
 msgid "Properties"
+msgstr ""
+
+msgid "Property\'s label field is required"
 msgstr ""
 
 msgid "RDF"
@@ -864,6 +906,9 @@ msgstr "Ressource gemt"
 msgid "Responsive mode"
 msgstr ""
 
+msgid "Return to sign in page"
+msgstr ""
+
 msgid "Revision control"
 msgstr "Revision kontrol"
 
@@ -890,17 +935,20 @@ msgstr ""
 msgid "Search"
 msgstr "Søg"
 
+msgid "Search %s', $tree->get('className"
+msgstr ""
+
 msgid "Search sub-classes"
 msgstr ""
 
 msgid "seconds"
 msgstr ""
 
-msgid "Select"
-msgstr "Vælg"
-
 msgid "select"
 msgstr "vælg"
+
+msgid "Select"
+msgstr "Vælg"
 
 msgid "Select a language"
 msgstr "Vælg sprog"
@@ -942,18 +990,15 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Understøttet eksport format"
 
-msgid "Supported import formats"
-msgstr ""
-
 #, tao-public
 msgid "TAO Back Office"
 msgstr "TAO Back Office"
 
-msgid "TAO Home"
-msgstr "TAO Home"
-
 msgid "Tao Home"
 msgstr ""
+
+msgid "TAO Home"
+msgstr "TAO Home"
 
 msgid "TAO Login"
 msgstr ""
@@ -970,10 +1015,10 @@ msgstr ""
 msgid "The column "
 msgstr "Kolonnen "
 
-msgid "The format of this field is not valid."
-msgstr "Formatet i dette felt er forkert."
-
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
+msgstr ""
+
+msgid "The index identifier should not be empty"
 msgstr ""
 
 msgid "The lock has been released"
@@ -1003,11 +1048,17 @@ msgstr "Feltet er for langt"
 msgid "This field is too short"
 msgstr "Feltet er for kort"
 
+msgid "This is not a valid email address."
+msgstr ""
+
 msgid "this is required"
 msgstr ""
 
 msgid "This Login is already in use"
 msgstr "Dette login er allerede i brug"
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
+msgstr ""
 
 msgid "This resource is locked"
 msgstr ""
@@ -1024,7 +1075,16 @@ msgstr "Dette er ikke lige "
 msgid "Time zone"
 msgstr ""
 
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr ""
+
 msgid "to translate"
+msgstr ""
+
+msgid "Tokenizer"
+msgstr ""
+
+msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
 msgid "Translate"
@@ -1039,11 +1099,17 @@ msgstr "Oversættelses parameter"
 msgid "Translation saved"
 msgstr "Oversættelse gemt"
 
+msgid "True"
+msgstr ""
+
 msgid "Type"
 msgstr "Skriv"
 
 msgid "UI Lang."
 msgstr "UI sprog."
+
+msgid "Unable to access your account?"
+msgstr ""
 
 msgid "Unable to change passwords in demo mode"
 msgstr "Det er ikke muligt at ændre adgangskode i demo versionen"
@@ -1057,13 +1123,16 @@ msgstr ""
 msgid "Unable to remove the property."
 msgstr ""
 
+msgid "Unable to send the password reset request"
+msgstr ""
+
 msgid "Unable to upload file"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Fravælg alle"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Fravælg alle"
 
 msgid "Undo"
@@ -1081,6 +1150,9 @@ msgstr ""
 msgid "Unknown Error"
 msgstr ""
 
+msgid "Update"
+msgstr ""
+
 msgid "Upload"
 msgstr "Upload"
 
@@ -1096,9 +1168,6 @@ msgstr ""
 msgid "Upload the file to version"
 msgstr "Upload filen til version"
 
-msgid "URL"
-msgstr ""
-
 msgid "Use default value"
 msgstr "Brug standardværdi"
 
@@ -1112,6 +1181,9 @@ msgid "User deleted successfully"
 msgstr "Bruger slettet"
 
 msgid "User deletion not permited on a demo instance"
+msgstr ""
+
+msgid "User not found"
 msgstr ""
 
 msgid "User saved"
@@ -1140,13 +1212,13 @@ msgstr "Ja"
 msgid "You are not authorised to remove this lock"
 msgstr ""
 
-msgid "You can use * as a wildcard"
-msgstr ""
-
 msgid "You cannot delete the root node"
 msgstr ""
 
 msgid "You currently have no access to the platform"
+msgstr ""
+
+msgid "You do not have the required rights to edit this resource."
 msgstr ""
 
 msgid "You don't have sufficient permissions to access"
@@ -1155,6 +1227,9 @@ msgstr ""
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr ""
 
-msgid "You've not the required rights to edit this resource."
+msgid "Your mail"
+msgstr ""
+
+msgid "Your TAO Password"
 msgstr ""
 

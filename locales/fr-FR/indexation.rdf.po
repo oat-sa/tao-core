@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0.0\n"
-"PO-Revision-Date: 2015-04-30T09:07:27\n"
+"Project-Id-Version: TAO v3.1-dev\n"
+"PO-Revision-Date: 2015-06-08T14:36:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -119,4 +119,9 @@ msgstr "Etiquette d'index"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Type Index"
 msgstr "Type d'index"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Login Index"
+msgstr ""
 
