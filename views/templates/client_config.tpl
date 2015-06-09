@@ -18,7 +18,14 @@ require.config({
             shownExtension          : '<?=get_data('shownExtension')?>',
             shownStructure          : '<?=get_data('shownStructure')?>',
             extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
-        }
+        },
+        'themes' : {
+        	'items' : {
+        		base : '',
+        		default : 'tao',
+        		available : <?=json_encode(get_data('themesAvailable'),JSON_PRETTY_PRINT) ?>,
+        	},
+        },
     },
 
     paths : {
