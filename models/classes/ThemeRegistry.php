@@ -29,6 +29,9 @@ use Jig\Utils\StringUtils;
 class ThemeRegistry extends AbstractRegistry
 {
 
+    const THEME_BASE = 'base';
+    const THEME_DEFAULT = 'tao';
+
     /**
      *
      * @see \oat\oatbox\AbstractRegistry::getExtension()
@@ -47,45 +50,47 @@ class ThemeRegistry extends AbstractRegistry
         return 'themes';
     }
 
-
-    public function createTarget(){
-
-    }
-
+    /**
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param string $name
+     * @param array $targets
+     */
     public function register($name, $targets = array() )
     {
-        $path = StringUtils::removeSpecChars($name);
-        $id = StringUtils::camelize($path);
-        $value = array(
-            'path' => $path,
-            'name' => $name,
-            'targets' => $targets
-        );
-
-
-        $this->set($id, $value);
-    }
-
-    public function getAvailableThemes(){
-
-        $returnValue = array();
-        foreach (ThemeRegistry::getRegistry()->getMap() as $id => $conf ){
-            $array = array(
-                    'id' => $id,
-                    'name' => $conf['name'],
-                    'path' => $conf['path']
-                );
-            if(isset($conf['targets']) &&  !empty($conf['targets']) ){
-                foreach ($conf['targets'] as $target) {
-                    $returnValue[$target][] = $array;
-                }
+        foreach ($targets as $target) {
+            if($this->isRegistered($target)){
+                $array = $this->get($target);
             }
             else {
-                // do we support default mode ?
-                //$returnValue['all'][] = $array;
+                $array = array(
+                    'base'  => ThemeRegistry::THEME_BASE,
+                    'default' => ThemeRegistry::THEME_DEFAULT,
+                    'available' => array()
+                );
             }
+
+            $path = StringUtils::removeSpecChars($name);
+            $id = StringUtils::camelize($path);
+
+
+            $value = array(
+                'id' => $id,
+                'path' => $path,
+                'name' => $name,
+            );
+            $array['available'][] = $value;
+
+            $this->set($target, $array);
         }
-        return $returnValue;
+    }
+
+    /**
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function getAvailableThemes(){
+        return json_encode($this->getMap(),JSON_PRETTY_PRINT);
     }
 }
 

@@ -41,37 +41,58 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
 
     public function testRegister()
     {
-        ThemeRegistry::getRegistry()->register('Black on Light Magenta',array('items','tests'));
+        ThemeRegistry::getRegistry()->register('Black on Light Magenta',array('itemsTest'));
 
         $map = ThemeRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
         $this->assertInternalType('array', $map);
-        $this->assertArrayHasKey('blackOnLightMagenta' , $map);
-        $this->assertInternalType('array', $map['blackOnLightMagenta']);
-        $this->assertArrayHasKey('name', $map['blackOnLightMagenta']);
-        $this->assertEquals('Black on Light Magenta', $map['blackOnLightMagenta']['name']);
-        $this->assertArrayHasKey('targets', $map['blackOnLightMagenta']);
-        $this->assertEquals(array('items','tests'), $map['blackOnLightMagenta']['targets']);
+
+        $this->assertArrayHasKey('itemsTest' , $map);
+        $this->assertInternalType('array', $map['itemsTest']);
+
+        $this->assertInternalType('array' , $map['itemsTest']);
+        $this->assertArrayHasKey('available' , $map['itemsTest']);
+
+        $avaialbe = current($map['itemsTest']['available']);
+        $this->assertInternalType('array' , $avaialbe);
+        $this->assertArrayHasKey('name', $avaialbe);
+
+        $this->assertEquals('Black on Light Magenta', $avaialbe['name']);
 
 
-        ThemeRegistry::getRegistry()->remove('blackOnLightMagenta');
+        ThemeRegistry::getRegistry()->register('Light Blue on Dark Blue',array('itemsTest','testsTest'));
+
+        $map = ThemeRegistry::getRegistry()->getMap();
+
+        $this->assertArrayHasKey('testsTest' , $map);
+        $this->assertInternalType('array', $map['testsTest']);
+
+        $this->assertArrayHasKey('available' , $map['testsTest']);
+
+
+        $avaialbe = current($map['testsTest']['available']);
+        $this->assertInternalType('array' , $avaialbe);
+        $this->assertArrayHasKey('name', $avaialbe);
+
+        $this->assertEquals('Light Blue on Dark Blue', $avaialbe['name']);
+
+        foreach ($map['itemsTest']['available'] as $theme) {
+            $this->assertInternalType('array' , $theme);
+            $this->assertArrayHasKey('id', $theme);
+            $this->assertTrue(
+                in_array(
+                    $theme['id'],
+                    array('blackOnLightMagenta','lightBlueOnDarkBlue')
+                ));
+        }
+        ThemeRegistry::getRegistry()->remove('itemsTest');
+        ThemeRegistry::getRegistry()->remove('testsTest');
+
+
     }
 
-    public function testGetAvaillableTheme()
-    {
-        ThemeRegistry::getRegistry()->register('Black on Light Magenta',array('items','tests'));
-        ThemeRegistry::getRegistry()->register('Light Blue on Dark Blue',array('items'));
-        ThemeRegistry::getRegistry()->register('Black on White');
-
-        $map = ThemeRegistry::getRegistry()->getAvailableThemes();
-        var_dump($map);
-
-//         ThemeRegistry::getRegistry()->remove('blackOnLightMagenta');
-//         ThemeRegistry::getRegistry()->remove('lightBlueOnDarkBlue');
-//         ThemeRegistry::getRegistry()->remove('blackOnWhite');
 
 
-    }
 }
 
 ?>
