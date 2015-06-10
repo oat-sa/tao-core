@@ -36,7 +36,7 @@ interface MediaManagement extends MediaBrowser{
      * @throws \common_exception_Error
      * @throws \tao_models_classes_FileNotFoundException
      */
-    public function add($source, $fileName, $parent, $stimulus);
+    public function add($source, $fileName, $parent, $stimulus = false);
 
 
     /**
