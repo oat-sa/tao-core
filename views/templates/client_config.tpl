@@ -19,7 +19,7 @@ require.config({
             shownStructure          : '<?=get_data('shownStructure')?>',
             extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
         },
-        'themes' : <?= get_data('themesAvailable') ?>,
+        'layout/themes' : <?= get_data('themesAvailable') ?>,
 
     },
 
