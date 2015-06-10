@@ -26,10 +26,6 @@ use Jig\Utils\StringUtils;
 
 class ThemeRegistry extends AbstractRegistry
 {
-
-    const THEME_BASE = 'tao/views/css/tao3-css';
-    const THEME_DEFAULT = 'tao';
-
     /**
      *
      * @see \oat\oatbox\AbstractRegistry::getExtension()
@@ -52,78 +48,77 @@ class ThemeRegistry extends AbstractRegistry
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param string $target
-     * @param array $theme
+     * @param string $themeId
      * @throws \common_Exception
      */
-    public function setDefaultTheme($target, $theme = array())
+    public function setDefaultTheme($target, $themeId)
     {
-        if (is_null($target)){
-            throw new \common_Exception('You should defined on which target you want set the default theme');
-        }
-
-        if($this->isRegistered($target)){
-
-            $previous = $this->get($target);
-            $array['base']  = isset($theme['base']) ? $theme['base'] : $previous['base'];
-            $array['default']  = isset($theme['default']) ? $theme['default'] : $previous['default'];
-            $array['available'] = $previous['available'] ;
-
-            if( isset($theme['id']) && isset($theme['path']) && isset($theme['name'])){
-                $array['available'][] = array(
-                        'id' =>  $theme['id'],
-                        'path' => $theme['path'],
-                        'name' => $theme['name']
-                );
+        if(!$this->isRegistered($target)){
+            throw new \common_Exception('Target '.$target.' does not exist');
+        } else {
+            $array = $this->get($target);
+            $found = false;
+            foreach ($array['available'] as $theme) {
+                if ($theme['id'] == $themeId) {
+                    $found = true;
+                }
             }
-
+            if (!$found) {
+                throw new \common_Exception('Theme '.$themeId.' not found for target '.$target);
+            }
+            $array['default'] = $themeId;
+            $this->set($target, $array);
         }
-        else {
-            $array = array(
-                'base'  =>  $theme['base'] ,
-                'default' => $theme['default'],
-                'available' => array(
-                    'id'   => StringUtils::camelize($theme['id']),
-                    'path' => StringUtils::removeSpecChars($theme['path']),
-                    'name' => $theme['name']
-                )
-            );
-        }
-
-        $this->set($target, $array);
-
     }
+    
+    /**
+     * Adds a new target to the System
+     * 
+     * @param string $targetId
+     * @param string $baseCssPath
+     */
+    public function createTarget($targetId, $baseCssPath)
+    {
+        if ($this->isRegistered($targetId)) {
+            throw new \common_Exception('Target '.$targetId.' already exists');
+        }
+        $array = array(
+            'base'  => $baseCssPath,
+            'available' => array()
+        );
+        $this->set($targetId, $array);
+    }
+    
 
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
+     * @param string $id
      * @param string $name
+     * @param string $path
      * @param array $targets
      */
-    public function register($name, $targets = array() )
+    public function registerTheme($id, $name, $path, $targets = array() )
     {
+        if (preg_match('/^[a-zA-Z0-9]*$/', $id) === 0) {
+            throw new \common_Exception('Invalid id "'.$id.'"');
+        }
         foreach ($targets as $target) {
-            if($this->isRegistered($target)){
+            if(!$this->isRegistered($target)){
+                throw new \common_Exception('Target '.$target.' does not exist');
+            } else {
                 $array = $this->get($target);
-            }
-            else {
-                $array = array(
-                    'base'  => ThemeRegistry::THEME_BASE,
-                    'default' => ThemeRegistry::THEME_DEFAULT,
-                    'available' => array()
+                foreach ($array['available'] as $theme) {
+                    if ($theme['id'] == $id) {
+                        throw new \common_Exception('Theme '.$id.' already exists for target '.$target);
+                    }
+                }
+                $array['available'][] = array(
+                    'id' => $id,
+                    'path' => $path,
+                    'name' => $name,
                 );
             }
-
-            $path = StringUtils::removeSpecChars($name);
-            $id = StringUtils::camelize($path);
-
-
-            $value = array(
-                'id' => $id,
-                'path' => $path,
-                'name' => $name,
-            );
-            $array['available'][] = $value;
-
             $this->set($target, $array);
         }
     }
@@ -132,9 +127,8 @@ class ThemeRegistry extends AbstractRegistry
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function getAvailableThemes(){
+    public function getAvailableThemes()
+    {
         return json_encode($this->getMap(),JSON_PRETTY_PRINT);
     }
 }
-
-?>
