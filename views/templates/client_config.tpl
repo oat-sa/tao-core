@@ -18,7 +18,9 @@ require.config({
             shownExtension          : '<?=get_data('shownExtension')?>',
             shownStructure          : '<?=get_data('shownStructure')?>',
             extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
-        }
+        },
+        'layout/themes' : <?= get_data('themesAvailable') ?>,
+
     },
 
     paths : {
