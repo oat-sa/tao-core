@@ -29,7 +29,7 @@ use Jig\Utils\StringUtils;
 class ThemeRegistry extends AbstractRegistry
 {
 
-    const THEME_BASE = 'base';
+    const THEME_BASE = 'taoQtiItem/views/css/qti-runner.css';
     const THEME_DEFAULT = 'tao';
 
     /**
