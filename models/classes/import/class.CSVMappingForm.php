@@ -73,7 +73,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
 	 */
     public function initElements()
     {
-        
+
         if(!isset($this->options['class_properties'])){
     		throw new Exception('No class properties found');
     	}
@@ -82,6 +82,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
     	}
     	
         $columnsOptions = array();
+        $columnsOptionsLabels = array();
     	$columnsOptionsLiteral =  array();
     	$columnsOptionsLiteral['csv_select'] = ' --- ' . __('Select') . ' --- ';
     	$columnsOptionsLiteral['csv_null']  = ' --- ' . __("Don't set");
@@ -95,6 +96,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
     	if ($this->options[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]){
 	    	foreach($this->options['csv_column'] as $i => $column){
 	    		$columnsOptions[$i.tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = __('Column') . ' ' . ($i + 1) . ' : ' . $column;
+                $columnsOptionsLabels[$i.tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = $this->prepareString($column);
 	    	}
     	}
     	else{
@@ -107,23 +109,26 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
 
     	$i = 0;
     	foreach($this->options['class_properties'] as $propertyUri => $propertyLabel){
-    		
+
     		$propElt = tao_helpers_form_FormFactory::getElement($propertyUri, 'Combobox');
     		$propElt->setDescription($propertyLabel);
-            
+
             // literal or ranged?
-            if (array_key_exists($propertyUri, $this->options['ranged_properties'])){
-                $propElt->setOptions(array_merge($columnsOptionsRanged, $columnsOptions));
-            }
-            else{
-                $propElt->setOptions(array_merge($columnsOptionsLiteral, $columnsOptions));
-            }
+            $options = array_key_exists($propertyUri, $this->options['ranged_properties'])
+                ? array_merge($columnsOptionsRanged, $columnsOptions)
+                : array_merge($columnsOptionsLiteral, $columnsOptions);
 
 			$value = 'csv_select';
 			if (isset($_POST[$propertyUri]) && isset($columnsOptions[$_POST[$propertyUri]])) {
 				$value = $_POST[$propertyUri];
 			}
-			$propElt->setValue($value);
+
+            // We trying compare current label with option labels from file and set most suitable
+            $label = $this->prepareString($propertyLabel);
+            $value = key(preg_grep("/$label/", $columnsOptionsLabels)) ?: $value;
+
+            $propElt->setOptions($options);
+            $propElt->setValue($value);
 
     		$this->form->addElement($propElt);
     		
@@ -164,6 +169,11 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
 		$this->form->addElement($optFirstColumn);
 		
 
+    }
+
+    protected function prepareString($value)
+    {
+        return mb_strtolower(preg_replace('/\s\t\r\n-/', '', $value));
     }
 
 }
