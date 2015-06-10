@@ -17,9 +17,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-
- namespace oat\tao\model;
-
+namespace oat\tao\model;
 
 use oat\oatbox\AbstractRegistry;
 use common_ext_ExtensionsManager;
@@ -29,7 +27,7 @@ use Jig\Utils\StringUtils;
 class ThemeRegistry extends AbstractRegistry
 {
 
-    const THEME_BASE = 'taoQtiItem/views/css/qti-runner.css';
+    const THEME_BASE = 'tao/views/css/tao3-css';
     const THEME_DEFAULT = 'tao';
 
     /**
@@ -37,9 +35,9 @@ class ThemeRegistry extends AbstractRegistry
      * @see \oat\oatbox\AbstractRegistry::getExtension()
      */
     protected function getExtension()
-    {
-        return common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    }
+{
+    return common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+}
 
     /**
      *
@@ -48,6 +46,51 @@ class ThemeRegistry extends AbstractRegistry
     protected function getConfigId()
     {
         return 'themes';
+    }
+
+    /**
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param string $target
+     * @param array $theme
+     * @throws \common_Exception
+     */
+    public function setDefaultTheme($target, $theme = array())
+    {
+        if (is_null($target)){
+            throw new \common_Exception('You should defined on which target you want set the default theme');
+        }
+
+        if($this->isRegistered($target)){
+
+            $previous = $this->get($target);
+            $array['base']  = isset($theme['base']) ? $theme['base'] : $previous['base'];
+            $array['default']  = isset($theme['default']) ? $theme['default'] : $previous['default'];
+            $array['available'] = $previous['available'] ;
+
+            if( isset($theme['id']) && isset($theme['path']) && isset($theme['name'])){
+                $array['available'][] = array(
+                        'id' =>  $theme['id'],
+                        'path' => $theme['path'],
+                        'name' => $theme['name']
+                );
+            }
+
+        }
+        else {
+            $array = array(
+                'base'  =>  $theme['base'] ,
+                'default' => $theme['default'],
+                'available' => array(
+                    'id'   => StringUtils::camelize($theme['id']),
+                    'path' => StringUtils::removeSpecChars($theme['path']),
+                    'name' => $theme['name']
+                )
+            );
+        }
+
+        $this->set($target, $array);
+
     }
 
     /**
