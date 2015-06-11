@@ -251,7 +251,7 @@ define([
                      */
                     $elt.trigger('ready.taotree');
                 },
-                
+
                 /**
                  * After a branch is initialized
                  */
@@ -386,15 +386,29 @@ define([
              * @param {String} [data.loadNode] - the URI of a node to display in filtering mode (it will load only this node)
              */
             'refresh' : function(data){
-                var treeState;
+                var treeState, node, root;
                 var tree =  $.tree.reference($elt);
                 if(tree){
 
-                    //update the state with data to be used later (ie. filter value, etc.)
-                    treeState = _.merge($elt.data('tree-state') || {}, data);
-                    $elt.data('tree-state', treeState);
+                    if (data && data.loadNode) {
+                        node = $elt.find('[data-uri="' + data.loadNode + '"]');
+                        if (node.length) {
+                            tree.select_branch(node);
+                        } else {
+                            // By default the tree is fully refreshed, and the current root may be lost.
+                            // In this case we need to do the refresh within the root element.
+                            // CAUTION: when many roots exists, this can be an issue
+                            root = $elt.children('ul').children('li').first();
+                        }
+                    }
 
-                    tree.refresh();
+                    // only if no node was found or the root needs to be refreshed
+                    if (!node || root) {
+                        //update the state with data to be used later (ie. filter value, etc.)
+                        treeState = _.merge($elt.data('tree-state') || {}, data);
+                        $elt.data('tree-state', treeState);
+                        tree.refresh(root);
+                    }
                 }
             },
 
