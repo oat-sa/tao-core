@@ -153,8 +153,8 @@ define([
 
                         //the tree has been loaded/refreshed with the loadNode parameter, so it has to be selected
                         if(_.isString(treeData.loadNode) && treeData.loadNode.length){
-                            params.loadNode = treeData.loadNode;
-                            treeData.selectNode = uri.encode(params.loadNode);
+                            params.selected = treeData.loadNode;
+                            treeData.selectNode = uri.encode(treeData.loadNode);
                             treeData = _.omit(treeData, 'loadNode');
                         }
 
@@ -386,29 +386,23 @@ define([
              * @param {String} [data.loadNode] - the URI of a node to display in filtering mode (it will load only this node)
              */
             'refresh' : function(data){
-                var treeState, node, root;
+                var treeState, node;
                 var tree =  $.tree.reference($elt);
                 if(tree){
 
+                    // try to select the node within the current loaded tree
                     if (data && data.loadNode) {
                         node = $elt.find('[data-uri="' + data.loadNode + '"]');
                         if (node.length) {
                             tree.select_branch(node);
-                        } else {
-                            // By default the tree is fully refreshed, and the current root may be lost.
-                            // In this case we need to do the refresh within the root element.
-                            // CAUTION: when many roots exists, this can be an issue
-                            root = $elt.children('ul').children('li').first();
+                            return;
                         }
                     }
 
-                    // only if no node was found or the root needs to be refreshed
-                    if (!node || root) {
-                        //update the state with data to be used later (ie. filter value, etc.)
-                        treeState = _.merge($elt.data('tree-state') || {}, data);
-                        $elt.data('tree-state', treeState);
-                        tree.refresh(root);
-                    }
+                    //update the state with data to be used later (ie. filter value, etc.)
+                    treeState = _.merge($elt.data('tree-state') || {}, data);
+                    $elt.data('tree-state', treeState);
+                    tree.refresh();
                 }
             },
 
