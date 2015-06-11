@@ -39,7 +39,7 @@ define([
         /**
          * Get the themes config for.
          *
-         * @example themes().get('item');
+         * @example themes().get('items');
          *
          * @param {String} what - themes are classified, what is the theme for ?
          * @returns {Object?} the themes config
@@ -53,7 +53,7 @@ define([
         /**
          * Get the list of available themes.
          *
-         * @example themes().getAvailable('item');
+         * @example themes().getAvailable('items');
          *
          * @param {String} what - themes are classified, what is the theme for ?
          * @returns {Array} the themes
@@ -64,7 +64,7 @@ define([
             if(themes && _.isArray(themes.available)){
                 available = themes.available;
             }
-            return themes;
+            return available;
         }
     };
 });
