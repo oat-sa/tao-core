@@ -22,18 +22,21 @@ namespace oat\tao\model;
 use oat\oatbox\AbstractRegistry;
 use common_ext_ExtensionsManager;
 use Jig\Utils\StringUtils;
+use oat\tao\model\websource\WebsourceManager;
 
 
 class ThemeRegistry extends AbstractRegistry
 {
+
+    const WEBSOURCE = 'websource_';
     /**
      *
      * @see \oat\oatbox\AbstractRegistry::getExtension()
      */
     protected function getExtension()
-{
-    return common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-}
+    {
+        return common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+    }
 
     /**
      *
@@ -43,6 +46,13 @@ class ThemeRegistry extends AbstractRegistry
     {
         return 'themes';
     }
+
+
+    public function setWebSource($websource)
+    {
+        $this->set(ThemeRegistry::WEBSOURCE, $websource);
+    }
+
 
     /**
      *
@@ -70,25 +80,23 @@ class ThemeRegistry extends AbstractRegistry
             $this->set($target, $array);
         }
     }
-    
+
     /**
      * Adds a new target to the System
-     * 
+     *
      * @param string $targetId
      * @param string $baseCssPath
      */
     public function createTarget($targetId, $baseCssPath)
     {
-        if ($this->isRegistered($targetId)) {
-            throw new \common_Exception('Target '.$targetId.' already exists');
-        }
+
         $array = array(
             'base'  => $baseCssPath,
             'available' => array()
         );
         $this->set($targetId, $array);
     }
-    
+
 
     /**
      *
@@ -123,12 +131,45 @@ class ThemeRegistry extends AbstractRegistry
         }
     }
 
+
+
+    private function updatePath($theme){
+        $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
+        if(strpos($theme['path'] , ThemeRegistry::WEBSOURCE) === 0) {
+            $webUrl = $websource->getAccessUrl(substr($theme['path'],strlen(ThemeRegistry::WEBSOURCE)));
+            $theme['path'] = $webUrl;
+        }
+        else {
+            $theme['path'] = ROOT_URL . $theme['path'] ;
+
+        }
+        return $theme;
+    }
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function getAvailableThemes()
     {
-        return json_encode($this->getMap(),JSON_PRETTY_PRINT);
+
+        $returnValue = array();
+        foreach ($this->getMap() as $target => $value) {
+            //ugly
+            if($target == ThemeRegistry::WEBSOURCE) {
+                continue;
+            }
+            //retrieve all other value
+            $returnValue[$target] = $value;
+
+            // adapt path for all theme
+            $returnValue[$target]['available'] = array();
+            foreach ($value['available'] as $theme) {
+                $returnValue[$target]['available'][] = $this->updatePath($theme);
+            }
+
+            $returnValue[$target]['base'] = ROOT_URL . $value['base'];
+        }
+        return json_encode($returnValue,JSON_PRETTY_PRINT);
     }
 }
