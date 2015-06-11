@@ -89,9 +89,7 @@ class ThemeRegistry extends AbstractRegistry
      */
     public function createTarget($targetId, $baseCssPath)
     {
-        if ($this->isRegistered($targetId)) {
-            throw new \common_Exception('Target '.$targetId.' already exists');
-        }
+
         $array = array(
             'base'  => $baseCssPath,
             'available' => array()
