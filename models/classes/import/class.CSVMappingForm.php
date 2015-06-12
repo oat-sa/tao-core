@@ -173,7 +173,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
 
     protected function prepareString($value)
     {
-        return mb_strtolower(preg_replace('/\s\t\r\n-/', '', $value));
+        return mb_strtolower(preg_replace('/[\s\t\r\n-]/', '', $value));
     }
 
 }
