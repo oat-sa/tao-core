@@ -32,7 +32,7 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback'], function ($, __, helpers, f
                     $listContainer.wrapInner($listForm);
                     $listContainer.find('form').append('<input type="hidden" name="uri" value="' + uri + '" />');
 
-                    var $labelEdit = $("<input type='text' name='label' value='" + $listTitleBar.text() + "'/>");
+                    var $labelEdit = $("<input type='text' name='label' value=''/>").val($listTitleBar.text());
                     $listTitleBar.html($labelEdit);
 
                     if ($listContainer.find('.list-element').length) {
