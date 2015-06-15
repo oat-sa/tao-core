@@ -10,7 +10,7 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback'], function ($, __, helpers, f
     var reQuotes = /(['"])/g;
     var quotesEntities = {
         "'" : '&apos;',
-        '"' : '&quote;'
+        '"' : '&quot;'
     };
 
     var encodeHTML = function(value) {
