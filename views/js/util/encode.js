@@ -26,11 +26,8 @@ define([
 ], function () {
     'use strict';
 
-    var _reQuotes = /(['"])/g;
-    var _quotesEntities = {
-        "'" : '&apos;',
-        '"' : '&quot;'
-    };
+    var _reQuot = /"/g;
+    var _reApos = /'/g;
 
     /**
      * Encodes an HTML string to be safely displayed without code interpretation
@@ -51,9 +48,9 @@ define([
      * @returns {String}
      */
     var encodeAttribute = function encodeAttribute(html) {
-        return encodeHTML(html).replace(_reQuotes, function(substr, $1) {
-            return _quotesEntities[$1] || $1;
-        });
+        // use replaces chain instead of unified replace with map for performances reasons
+        // @see http://jsperf.com/htmlencoderegex/68
+        return encodeHTML(html).replace(_reQuot, '&quot;').replace(_reApos, '&apos;');
     };
 
     return {
