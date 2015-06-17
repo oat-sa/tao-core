@@ -7,18 +7,6 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback'], function ($, __, helpers, f
         return $btn;
     }
 
-    var reQuotes = /(['"])/g;
-    var quotesEntities = {
-        "'" : '&apos;',
-        '"' : '&quot;'
-    };
-
-    var encodeHTML = function(value) {
-        return $('<div />').text(value).html().replace(reQuotes, function(substr, $1) {
-            return quotesEntities[$1] || $1;
-        });
-    };
-
     return {
 
         start: function () {
@@ -49,7 +37,7 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback'], function ($, __, helpers, f
 
                     if ($listContainer.find('.list-element').length) {
                         $listContainer.find('.list-element').replaceWith(function () {
-                            return "<input type='text' name='" + $(this).attr('id') + "' value='" + encodeHTML($(this).text()) + "' />";
+                            return $("<input type='text' name='" + $(this).attr('id') + "' value='' />").val($(this).text());
                         });
                     }
 
