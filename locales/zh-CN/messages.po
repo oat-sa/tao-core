@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-08T14:38:53\n"
+"PO-Revision-Date: 2015-06-18T14:52:07\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -735,10 +735,10 @@ msgstr "没有文件"
 msgid "no label"
 msgstr "无标签"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "没有可用的预览"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "没有可用的预览"
 
 msgid "No result found"
@@ -945,10 +945,10 @@ msgstr "搜索子类别"
 msgid "seconds"
 msgstr "秒"
 
-msgid "select"
+msgid "Select"
 msgstr "选择"
 
-msgid "Select"
+msgid "select"
 msgstr "选择"
 
 msgid "Select a language"
@@ -1130,10 +1130,10 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr "无法上传文件"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾选"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾选"
 
 msgid "Undo"
