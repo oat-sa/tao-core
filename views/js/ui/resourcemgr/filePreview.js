@@ -16,7 +16,8 @@ define([
         var $previewer      = $('.previewer', $container);
         var $propType       = $('.prop-type', $filePreview); 
         var $propSize       = $('.prop-size', $filePreview); 
-        var $propUrl        = $('.prop-url', $filePreview); 
+        var $propUrl        = $('.prop-url', $filePreview);
+        var $link           = $('a',$propUrl);
         var $selectButton   = $('.select-action', $filePreview);
         var currentSelection= [];
 
@@ -29,10 +30,6 @@ define([
             } else {
                 stopPreview();
             }
-        });
-
-        $container.on('filedelete.' + ns, function(){
-            stopPreview();
         });
 
         $selectButton.on('click', function(e){
@@ -50,16 +47,19 @@ define([
         function startPreview(file){
             $previewer.previewer(file);
             $propType.text(file.type + ' (' + file.mime + ')'); 
-            $propSize.text(bytes.hrSize(file.size)); 
-            $propUrl.html('<a href="' + file.url + '">' + file.display + '</a>');
+            $propSize.text(bytes.hrSize(file.size));
+            $link.attr('href', file.url).attr('download', file.file);
+            if($link.hasClass('hidden')){
+                $link.removeClass('hidden');
+            }
             $selectButton.removeAttr('disabled');
         }
 
         function stopPreview(){
             $previewer.previewer('update', {url : false});
-            $propType.empty(); 
-            $propSize.empty(); 
-            $propUrl.empty(); 
+            $propType.empty();
+            $propSize.empty();
+            $('a',$propUrl).addClass('hidden');
             $selectButton.attr('disabled', 'disabled');
         }
     };

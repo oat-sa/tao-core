@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0.0\n"
-"PO-Revision-Date: 2015-04-30T09:07:27\n"
+"Project-Id-Version: TAO v3.1-dev\n"
+"PO-Revision-Date: 2015-06-18T14:49:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -149,6 +149,9 @@ msgstr "Permet la gestion des dépôts."
 msgid "Alpha version"
 msgstr "Version alpha"
 
+msgid "An email has been sent"
+msgstr ""
+
 msgid "An error occured during user deletion"
 msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
 
@@ -216,6 +219,9 @@ msgstr "Cocher Tout"
 msgid "Check all"
 msgstr "Cocher tout"
 
+msgid "Check-in"
+msgstr ""
+
 msgid "Choose export format"
 msgstr "Format d'export"
 
@@ -233,6 +239,9 @@ msgstr "Fermer le message"
 
 msgid "Column"
 msgstr "Colonne"
+
+msgid "Commit"
+msgstr ""
 
 msgid "Commit message : "
 msgstr "Message de modification : "
@@ -273,13 +282,16 @@ msgstr "Données importées avec succès."
 msgid "Data Lang."
 msgstr "Langue des données"
 
-msgid "Data Language"
-msgstr "Langue des données"
-
 msgid "Data language"
 msgstr "Langue des données"
 
+msgid "Data Language"
+msgstr "Langue des données"
+
 msgid "Date"
+msgstr ""
+
+msgid "Default search"
 msgstr ""
 
 msgid "Default user cannot be deleted"
@@ -396,6 +408,9 @@ msgstr "L'extension "
 msgid "Extensions manager"
 msgstr "Gestionnaire d'extensions"
 
+msgid "False"
+msgstr ""
+
 msgid "Field delimiter"
 msgstr "Séparateur de champ"
 
@@ -452,10 +467,19 @@ msgstr "Noms de colonne en première ligne"
 msgid "Force Release"
 msgstr ""
 
+msgid "Forgot your password?"
+msgstr ""
+
+msgid "Fuzzy Matching"
+msgstr ""
+
 msgid "Go Back"
 msgstr "Revenir"
 
 msgid "Height"
+msgstr ""
+
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
 msgstr ""
 
 msgid "Hide detailed report"
@@ -463,6 +487,12 @@ msgstr ""
 
 msgid "hours"
 msgstr "heures"
+
+msgid "Identifier"
+msgstr ""
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr ""
 
 msgid "Import"
 msgstr "Importer"
@@ -617,6 +647,9 @@ msgstr "Choisissez les propriétés relatives aux colonnes CSV"
 msgid "maximum value: "
 msgstr "Valeur maximale :"
 
+msgid "Message"
+msgstr ""
+
 msgid "minimum value: "
 msgstr "Valeur minimale :"
 
@@ -702,10 +735,10 @@ msgstr ""
 msgid "no label"
 msgstr "sans étiquette"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No result found"
@@ -753,6 +786,9 @@ msgstr "Mot de passe *"
 msgid "Password changed"
 msgstr "Mot de passé modifié"
 
+msgid "Password successfully changed"
+msgstr ""
+
 msgid "Passwords are not matching"
 msgstr "Les mots de passe ne correspondent pas"
 
@@ -777,6 +813,9 @@ msgstr ""
 msgid "Please contact %s or an administrator to release it', get_data('ownerHtml"
 msgstr ""
 
+msgid "Please give a message to your commit"
+msgstr ""
+
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr "Merci de rapporter vos bugs, idées ou commentaires sur la Forge TAO"
 
@@ -794,6 +833,9 @@ msgstr ""
 
 #, tao-public
 msgid "Properties"
+msgstr ""
+
+msgid "Property\'s label field is required"
 msgstr ""
 
 msgid "RDF"
@@ -865,6 +907,9 @@ msgstr "Ressource enregistrée"
 msgid "Responsive mode"
 msgstr ""
 
+msgid "Return to sign in page"
+msgstr ""
+
 msgid "Revision control"
 msgstr "Contrôle de révision"
 
@@ -890,6 +935,9 @@ msgstr ""
 #, tao-public
 msgid "Search"
 msgstr "Rechercher"
+
+msgid "Search %s', $tree->get('className"
+msgstr ""
 
 msgid "Search sub-classes"
 msgstr ""
@@ -943,18 +991,15 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Formats d'export supportés"
 
-msgid "Supported import formats"
-msgstr ""
-
 #, tao-public
 msgid "TAO Back Office"
 msgstr "Outils d'administration TAO"
 
-msgid "TAO Home"
-msgstr "Menu principal TAO"
-
 msgid "Tao Home"
 msgstr ""
+
+msgid "TAO Home"
+msgstr "Menu principal TAO"
 
 msgid "TAO Login"
 msgstr "Connexion à TAO"
@@ -971,10 +1016,10 @@ msgstr "Texte - Long - Champ"
 msgid "The column "
 msgstr "La colonne "
 
-msgid "The format of this field is not valid."
-msgstr "Le format de ce champ est invalide."
-
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
+msgstr ""
+
+msgid "The index identifier should not be empty"
 msgstr ""
 
 msgid "The lock has been released"
@@ -1004,11 +1049,17 @@ msgstr "Ce champ est trop long."
 msgid "This field is too short"
 msgstr "Ce champ est trop court."
 
+msgid "This is not a valid email address."
+msgstr ""
+
 msgid "this is required"
 msgstr ""
 
 msgid "This Login is already in use"
 msgstr "Cet identifiant est déjà utilisé"
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
+msgstr ""
 
 msgid "This resource is locked"
 msgstr ""
@@ -1025,7 +1076,16 @@ msgstr "Cela ne devrait pas valoir "
 msgid "Time zone"
 msgstr ""
 
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr ""
+
 msgid "to translate"
+msgstr ""
+
+msgid "Tokenizer"
+msgstr ""
+
+msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
 msgid "Translate"
@@ -1040,11 +1100,17 @@ msgstr "Paramètres de la traductions"
 msgid "Translation saved"
 msgstr "Traduction enregistrée"
 
+msgid "True"
+msgstr ""
+
 msgid "Type"
 msgstr "Type"
 
 msgid "UI Lang."
 msgstr "Langue Interface"
+
+msgid "Unable to access your account?"
+msgstr ""
 
 msgid "Unable to change passwords in demo mode"
 msgstr "Impossible de changer les mots de passe en mode démonstration"
@@ -1056,6 +1122,9 @@ msgid "Unable to release the lock"
 msgstr ""
 
 msgid "Unable to remove the property."
+msgstr ""
+
+msgid "Unable to send the password reset request"
 msgstr ""
 
 msgid "Unable to upload file"
@@ -1082,6 +1151,9 @@ msgstr ""
 msgid "Unknown Error"
 msgstr "Erreur Inconnue"
 
+msgid "Update"
+msgstr ""
+
 msgid "Upload"
 msgstr "Téléverser"
 
@@ -1097,9 +1169,6 @@ msgstr ""
 msgid "Upload the file to version"
 msgstr "Téléverser le ficher à la version"
 
-msgid "URL"
-msgstr ""
-
 msgid "Use default value"
 msgstr "Utiliser la valeur par défaut"
 
@@ -1113,6 +1182,9 @@ msgid "User deleted successfully"
 msgstr "Utilisateur supprimé avec succès."
 
 msgid "User deletion not permited on a demo instance"
+msgstr ""
+
+msgid "User not found"
 msgstr ""
 
 msgid "User saved"
@@ -1141,13 +1213,13 @@ msgstr "Oui"
 msgid "You are not authorised to remove this lock"
 msgstr ""
 
-msgid "You can use * as a wildcard"
-msgstr ""
-
 msgid "You cannot delete the root node"
 msgstr ""
 
 msgid "You currently have no access to the platform"
+msgstr ""
+
+msgid "You do not have the required rights to edit this resource."
 msgstr ""
 
 msgid "You don't have sufficient permissions to access"
@@ -1156,6 +1228,9 @@ msgstr ""
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr ""
 
-msgid "You've not the required rights to edit this resource."
+msgid "Your mail"
+msgstr ""
+
+msgid "Your TAO Password"
 msgstr ""
 

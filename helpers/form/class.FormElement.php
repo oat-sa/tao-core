@@ -49,7 +49,7 @@ abstract class tao_helpers_form_FormElement
      * @access protected
      * @var mixed
      */
-    protected $value = null;
+    protected $value;
 
     /**
      * the list of element attributes (key/value pairs)
@@ -95,9 +95,9 @@ abstract class tao_helpers_form_FormElement
      * the error message to display when the element validation has failed
      *
      * @access protected
-     * @var string
+     * @var array
      */
-    protected $error = '';
+    protected $error = array();
 
     /**
      * to force the validation of the element
@@ -106,6 +106,12 @@ abstract class tao_helpers_form_FormElement
      * @var boolean
      */
     protected $forcedValid = false;
+
+    /**
+     * Stop or not after first validation error occurred
+     * @var bool
+     */
+    protected $breakOnFirstError = true;
 
     /**
      * add a unit to the element (only for rendering purposes)
@@ -127,7 +133,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method __construct
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string name
+     * @param  string $name
      * @return mixed
      */
     public function __construct($name = '')
@@ -143,18 +149,14 @@ abstract class tao_helpers_form_FormElement
      */
     public function getName()
     {
-        $returnValue = (string) '';
-
-		$returnValue = $this->name;
-
-        return (string) $returnValue;
+		return (string)$this->name;
     }
 
     /**
      * Short description of method setName
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string name
+     * @param  string $name
      * @return mixed
      */
     public function setName($name)
@@ -171,18 +173,14 @@ abstract class tao_helpers_form_FormElement
      */
     public function getRawValue()
     {
-        $returnValue = null;
-
-        $returnValue = $this->value;
-
-        return $returnValue;
+        return $this->value;
     }
 
     /**
      * Short description of method setValue
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string value
+     * @param  string $value
      * @return mixed
      */
     public function setValue($value)
@@ -226,8 +224,8 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addAttribute
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string key
-     * @param  string value
+     * @param  string $key
+     * @param  string $value
      * @return mixed
      */
     public function addAttribute($key, $value)
@@ -240,8 +238,8 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setAttribute
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string key
-     * @param  string value
+     * @param  string $key
+     * @param  string $value
      * @return mixed
      */
     public function setAttribute($key, $value)
@@ -253,7 +251,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setAttributes
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  array attributes
+     * @param  array $attributes
      * @return mixed
      */
     public function setAttributes($attributes)
@@ -269,13 +267,13 @@ abstract class tao_helpers_form_FormElement
      */
     protected function renderAttributes()
     {
-        $returnValue = (string) '';
+        $returnValue = '';
 
 		foreach($this->attributes as $key => $value){
 			$returnValue .= " {$key}='{$value}' "; 
 		}
 
-        return (string) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -286,11 +284,7 @@ abstract class tao_helpers_form_FormElement
      */
     public function getWidget()
     {
-        $returnValue = (string) '';
-
-		$returnValue = $this->widget;
-
-        return (string) $returnValue;
+        return (string) $this->widget;
     }
 
     /**
@@ -301,7 +295,6 @@ abstract class tao_helpers_form_FormElement
      */
     public function getDescription()
     {
-        $returnValue = (string) '';
 
 		if(empty($this->description)){
 			$returnValue = ucfirst(strtolower($this->name));
@@ -317,7 +310,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setDescription
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string description
+     * @param  string $description
      * @return mixed
      */
     public function setDescription($description)
@@ -329,7 +322,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setUnit
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string unit
+     * @param  string $unit
      * @return mixed
      */
     public function setUnit($unit)
@@ -345,18 +338,14 @@ abstract class tao_helpers_form_FormElement
      */
     public function getLevel()
     {
-        $returnValue = (int) 0;
-
-		$returnValue = $this->level;
-		
-        return (int) $returnValue;
+        return (int) $this->level;
     }
 
     /**
      * Short description of method setLevel
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  int level
+     * @param  int $level
      * @return mixed
      */
     public function setLevel($level)
@@ -368,8 +357,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addValidator
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  Validator validator
-     * @return mixed
+     * @param  tao_helpers_form_Validator $validator
      */
     public function addValidator( tao_helpers_form_Validator $validator)
     {
@@ -380,7 +368,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addValidators
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  array validators
+     * @param  array $validators
      * @return mixed
      */
     public function addValidators($validators)
@@ -395,7 +383,6 @@ abstract class tao_helpers_form_FormElement
      *
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
-     * @return mixed
      */
     public function setForcedValid()
     {
@@ -410,22 +397,22 @@ abstract class tao_helpers_form_FormElement
      */
     public function validate()
     {
-        $returnValue = (bool) false;
-
 		$returnValue = true;
 		
 		if(!$this->forcedValid){
 			foreach($this->validators as $validator){
 				if(!$validator->evaluate($this->getRawValue())){
-					$this->error = $validator->getMessage();
+					$this->error[] = $validator->getMessage();
 					$returnValue = false;
 					common_Logger::d($this->getName().' is invalid for '.$validator->getName(), array('TAO'));
-					break;
+                    if ($this->isBreakOnFirstError()){
+                        break;
+                    }
 				}
 			}
 		}
 
-        return (bool) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -436,18 +423,14 @@ abstract class tao_helpers_form_FormElement
      */
     public function getError()
     {
-        $returnValue = (string) '';
-		
-		$returnValue = $this->error; 
-
-        return (string) $returnValue;
+        return implode( "\n", $this->error );
     }
 
     /**
      * Short description of method setHelp
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string help
+     * @param  string $help
      * @return mixed
      */
     public function setHelp($help)
@@ -463,23 +446,19 @@ abstract class tao_helpers_form_FormElement
      */
     public function getHelp()
     {
-        $returnValue = (string) '';
-        
-        $returnValue = $this->help;
-
-        return (string) $returnValue;
+        return (string) $this->help;
     }
 
     /**
      * Short description of method removeValidator
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string name
+     * @param  string $name
      * @return boolean
      */
     public function removeValidator($name)
     {
-        $returnValue = (bool) false;
+        $returnValue = false;
 
 		$name = (string) $name;
 		if(strpos($name, 'tao_helpers_form_validators_') === 0){
@@ -490,21 +469,21 @@ abstract class tao_helpers_form_FormElement
 			$returnValue = true;
 		}
 
-        return (bool) $returnValue;
+        return $returnValue;
     }
 
     /**
-     * Reads the submited data into the form element
+     * Reads the submitted data into the form element
      *
      * @author Joel Bout, <joel@taotesting.com>
      */
     public function feed()
     {
-		if (isset($_POST[$this->name])) {
-			if ($this->name != 'uri' && $this->name != 'classUri') {
-				$this->setValue(tao_helpers_Uri::decode($_POST[$this->name]));
-			}
-		}
+        if (isset( $_POST[$this->name] )
+            && $this->name !== 'uri' && $this->name !== 'classUri'
+        ) {
+            $this->setValue( tao_helpers_Uri::decode( $_POST[$this->name] ) );
+        }
     }
 
     /**
@@ -512,15 +491,11 @@ abstract class tao_helpers_form_FormElement
      * unchanged for simple form elements. Used for storage of the data.
      *
      * @author joel bout, joel@taotesting.com
-     * @return mixed
+     * @return string
      */
     public function getEvaluatedValue()
     {
-        $returnValue = null;
-
-        $returnValue = tao_helpers_Uri::decode($this->getRawValue());
-
-        return $returnValue;
+        return tao_helpers_Uri::decode( $this->getRawValue() );
     }
 
     /**
@@ -536,19 +511,32 @@ abstract class tao_helpers_form_FormElement
      */
     public function getValue()
     {
-        $returnValue = null;
+        common_Logger::d( 'deprecated function getValue() called', array( 'TAO', 'DEPRECATED' ) );
 
-        common_Logger::d('deprecated function getValue() called', array('TAO', 'DEPRECATED'));
         return $this->getRawValue();
-
-        return $returnValue;
     }
-    
+
+    /**
+     * @return boolean
+     */
+    public function isBreakOnFirstError()
+    {
+        return $this->breakOnFirstError;
+    }
+
+    /**
+     * @param boolean $breakOnFirstError
+     */
+    public function setBreakOnFirstError( $breakOnFirstError )
+    {
+        $this->breakOnFirstError = $breakOnFirstError;
+    }
+
     /**
      * Will render the Form Element.
      * 
      */
     public abstract function render();
+
 }
 
-?>

@@ -56,7 +56,6 @@ $GLOBALS['__l10n']["Settings"]="Einstellungen";
 $GLOBALS['__l10n']["Test takers library"]="Testpersonen-Bibliothek";
 $GLOBALS['__l10n']["Tests"]="Tests";
 $GLOBALS['__l10n']["Tests library"]="Tests-Bibliothek";
-$GLOBALS['__l10n']["The format of this field is not valid."]="Das Format dieses Feldes ist ungültig";
 $GLOBALS['__l10n']["The uploaded file is too large"]="Die hochgeladene Datei ist zu groß";
 $GLOBALS['__l10n']["This field is too long"]="Dieses Feld ist zu lang";
 $GLOBALS['__l10n']["This field is too short"]="Dieses Feld ist zu klein";

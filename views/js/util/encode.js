@@ -26,11 +26,35 @@ define([
 ], function () {
     'use strict';
 
+    var _reQuot = /"/g;
+    var _reApos = /'/g;
+
+    /**
+     * Encodes an HTML string to be safely displayed without code interpretation
+     *
+     * @param {String} html
+     * @returns {String}
+     */
+    var encodeHTML = function encodeHTML(html) {
+        // @see http://tinyurl.com/ko75kph
+        return document.createElement('a').appendChild(
+            document.createTextNode(html)).parentNode.innerHTML;
+    };
+
+    /**
+     * Encodes an HTML string to be safely use inside an attribute
+     *
+     * @param {String} html
+     * @returns {String}
+     */
+    var encodeAttribute = function encodeAttribute(html) {
+        // use replaces chain instead of unified replace with map for performances reasons
+        // @see http://jsperf.com/htmlencoderegex/68
+        return encodeHTML(html).replace(_reQuot, '&quot;').replace(_reApos, '&apos;');
+    };
+
     return {
-        html: function (html) {
-            // @see http://tinyurl.com/ko75kph
-            return document.createElement('a').appendChild(
-                document.createTextNode(html)).parentNode.innerHTML;
-        }
+        html: encodeHTML,
+        attribute: encodeAttribute
     };
 });

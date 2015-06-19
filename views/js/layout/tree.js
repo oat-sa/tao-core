@@ -120,7 +120,14 @@ define([
 
             //lifecycle callbacks
             callback: {
-
+                /**
+                 * Delete node callback.
+                 * @fires layout/tree#delete.taotree
+                 * @returns {undefined}
+                 */
+                ondelete: function ondelete() {
+                    $elt.trigger('delete.taotree', Array.prototype.slice.call(arguments));
+                },
                 /**
                  * Additional parameters to send to the server to retrieve data.
                  * It uses the serverParams object previously defined
@@ -146,8 +153,8 @@ define([
 
                         //the tree has been loaded/refreshed with the loadNode parameter, so it has to be selected
                         if(_.isString(treeData.loadNode) && treeData.loadNode.length){
-                            params.loadNode = treeData.loadNode;
-                            treeData.selectNode = uri.encode(params.loadNode);
+                            params.selected = treeData.loadNode;
+                            treeData.selectNode = uri.encode(treeData.loadNode);
                             treeData = _.omit(treeData, 'loadNode');
                         }
 
@@ -237,13 +244,6 @@ define([
                         });
                     }
 
-                    //execute initTree action
-                    if (options.actions && options.actions.init) {
-                        actionManager.exec(options.actions.init, {
-                            uri: $elt.data('rootnode')
-                        });
-                    }
-
                     /**
                      * The tree is now ready
                      * @event layout/tree#ready.taotree
@@ -252,6 +252,17 @@ define([
                     $elt.trigger('ready.taotree');
                 },
 
+                /**
+                 * After a branch is initialized
+                 */
+                oninit : function () {
+                    //execute initTree action
+                    if (options.actions && options.actions.init) {
+                        actionManager.exec(options.actions.init, {
+                            uri: $elt.data('rootnode')
+                        });
+                    }
+                },
 
                 /**
                  * Before a branch is opened
@@ -375,14 +386,22 @@ define([
              * @param {String} [data.loadNode] - the URI of a node to display in filtering mode (it will load only this node)
              */
             'refresh' : function(data){
-                var treeState;
+                var treeState, node;
                 var tree =  $.tree.reference($elt);
                 if(tree){
+
+                    // try to select the node within the current loaded tree
+                    if (data && data.loadNode) {
+                        node = $elt.find('[data-uri="' + data.loadNode + '"]');
+                        if (node.length) {
+                            tree.select_branch(node);
+                            return;
+                        }
+                    }
 
                     //update the state with data to be used later (ie. filter value, etc.)
                     treeState = _.merge($elt.data('tree-state') || {}, data);
                     $elt.data('tree-state', treeState);
-
                     tree.refresh();
                 }
             },

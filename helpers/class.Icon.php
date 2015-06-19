@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2015-02-05 08:11:10
+ * @date   2015-05-28 13:02:58
  * @package tao
  * @subpackage helpers
  */
@@ -75,6 +75,7 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_SHARED_FILE = 'icon-shared-file';
     const CLASS_END_ATTEMPT = 'icon-end-attempt';
     const CLASS_ICON = 'icon-icon';
     const CLASS_RADIO_BG = 'icon-radio-bg';
@@ -254,11 +255,18 @@ class tao_helpers_Icon {
     const CLASS_AUDIO = 'icon-audio';
     const CLASS_GRIP_H = 'icon-grip-h';
     const CLASS_MAGICWAND = 'icon-magicwand';
+    const CLASS_LOOP = 'icon-loop';
+    const CLASS_CALENDAR = 'icon-calendar';
+    const CLASS_RELOAD = 'icon-reload';
 
 	
     /**
      * List of all icons as function
      */
+
+    public static function iconSharedFile($options=array()){
+        return self::buildIcon(self::CLASS_SHARED_FILE, $options);
+    }
 
     public static function iconEndAttempt($options=array()){
         return self::buildIcon(self::CLASS_END_ATTEMPT, $options);
@@ -974,6 +982,18 @@ class tao_helpers_Icon {
 
     public static function iconMagicwand($options=array()){
         return self::buildIcon(self::CLASS_MAGICWAND, $options);
+    }
+
+    public static function iconLoop($options=array()){
+        return self::buildIcon(self::CLASS_LOOP, $options);
+    }
+
+    public static function iconCalendar($options=array()){
+        return self::buildIcon(self::CLASS_CALENDAR, $options);
+    }
+
+    public static function iconReload($options=array()){
+        return self::buildIcon(self::CLASS_RELOAD, $options);
     }
 
 

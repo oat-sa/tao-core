@@ -27,6 +27,7 @@ use ZendSearch\Lucene\Lucene;
 use ZendSearch\Lucene\Document;
 use ZendSearch\Lucene\Search\QueryHit;
 use oat\oatbox\Configurable;
+use oat\tao\model\search\SyntaxException;
 
 /**
  * Zend Lucene Search implementation 
@@ -57,8 +58,15 @@ class ZendSearch extends Configurable implements Search
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
-    public function query($queryString) {
-        $hits = $this->getIndex()->find($queryString);
+    public function query($queryString, $rootClass = null) {
+        try {
+            if (!is_null($rootClass)) {
+                $queryString = rtrim($queryString, ' ').' AND type_r:'.str_replace(':', '\\:', $rootClass->getUri());
+            }
+            $hits = $this->getIndex()->find($queryString);
+        } catch (\ZendSearch\Lucene\Exception\RuntimeException $e) {
+            throw new SyntaxException($queryString, __('There is an error in your search query, system returned: %s', $e->getMessage()));
+        }
         
         $ids = array();
         foreach ($hits as $hit) {
@@ -74,6 +82,8 @@ class ZendSearch extends Configurable implements Search
      */
     public function index(\Traversable $resourceTraversable) {
         
+        \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::LONG);
+        
         // flush existing index
         $this->flushIndex();
         $count = 0;
@@ -86,6 +96,8 @@ class ZendSearch extends Configurable implements Search
         }
         
         \common_Logger::i('Reindexed '.$count.' resources');
+        \helpers_TimeOutHelper::reset();
+        
         return $count;
     }
     

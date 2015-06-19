@@ -81,6 +81,9 @@ class tao_actions_form_AdvancedProperty
 				}
 				$element->setName("property_{$index}_{$element->getName()}");
                 $element->addClass('property');
+                if ($propertyProperty->getUri() == RDFS_LABEL){
+                    $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+                }
 				$this->form->addElement($element);
 				$elementNames[] = $element->getName();
 			}
