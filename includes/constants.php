@@ -30,7 +30,7 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '3.1-dev');
+define('TAO_VERSION', '3.0.1-rc01');
 
 $version = TAO_VERSION;
 
@@ -46,7 +46,7 @@ define('TAO_VERSION_NAME', $version);
 define('PRODUCT_NAME', 'TAO');
 
 #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
-define('TAO_RELEASE_STATUS', 'alpha');
+define('TAO_RELEASE_STATUS', 'stable');
 
 #TAO default character encoding (mainly used with multi-byte string functions).
 define('TAO_DEFAULT_ENCODING', 'UTF-8');
