@@ -38,6 +38,7 @@ use oat\tao\model\websource\TokenWebSource;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\DirectWebSource;
+use oat\tao\model\search\strategy\GenerisSearch;
 
 /**
  * 
@@ -235,6 +236,17 @@ class Updater extends \common_ext_ExtensionUpdater {
             // index user logins
             OntologyUpdater::syncModels();
             $currentVersion = '2.7.15';
+        }
+
+        // reset the search impl for machines that missed 2.7.1 update due to merge
+        if ($currentVersion === '2.7.15') {
+            try {
+                SearchService::getSearchImplementation();
+                // all good
+            } catch (common_exception_Error $error) {
+                SearchService::setSearchImplementation(new GenerisSearch());
+            }
+            $currentVersion = '2.7.16';
         }
 
         return $currentVersion;
