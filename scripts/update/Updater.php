@@ -243,7 +243,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             try {
                 SearchService::getSearchImplementation();
                 // all good
-            } catch (common_exception_Error $error) {
+            } catch (\common_exception_Error $error) {
                 SearchService::setSearchImplementation(new GenerisSearch());
             }
             $currentVersion = '2.7.16';
