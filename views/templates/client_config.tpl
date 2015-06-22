@@ -20,7 +20,15 @@ require.config({
             extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
         },
         'ui/themes' : <?= get_data('themesAvailable') ?>,
-
+        'taoQtiTest/controller/runtime/testRunner' : {
+            qtiTools : {
+                actHelp : {
+                    label : 'Help',
+                    icon : 'help',
+                    hook : 'some/amd/module'
+                }
+            }
+        }
     },
 
     paths : {
