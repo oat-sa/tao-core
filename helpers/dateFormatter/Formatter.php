@@ -30,6 +30,11 @@ namespace oat\tao\helpers\dateFormatter;
  */
 interface Formatter 
 {
+    /**
+     * 
+     * @param long $timestamp
+     * @param string $format see constants of tao_helpers_Date for possible values
+     */
     public function format($timestamp, $format);
 
 }
