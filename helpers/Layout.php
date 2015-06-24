@@ -230,6 +230,8 @@ class Layout{
 
     public static function getBranding() {
 
+        $branding = 'TAO';
+
         if (self::isThemingEnabled() === true) {
             // Get Theming info from taoThemingPlatform...
             $themingService = PlatformThemingService::singleton();
@@ -238,8 +240,6 @@ class Layout{
                 $branding = $themingConfig['branding'];
             }
 
-        } else {
-            $branding = 'TAO';
         }
 
         return $branding;
