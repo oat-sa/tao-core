@@ -92,7 +92,7 @@ class ClientLibRegistry extends AbstractRegistry
         
         $found = false;
         foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
-            if (strpos($fullPath, $ext->getConstant('BASE_WWW')) === 0) {
+            if ($ext->hasConstant('BASE_WWW') && strpos($fullPath, $ext->getConstant('BASE_WWW')) === 0) {
                 $found = true;
                 self::getRegistry()->set($id, array(
                     'extId' => $ext->getId(),
@@ -100,9 +100,10 @@ class ClientLibRegistry extends AbstractRegistry
                 ));
                 break;
             }
+            
         }
         if ($found == false) {
-            throw \common_exception_Error('Path '.$fullPath.' not found in Tao');
+            throw new \common_exception_Error('Path '.$fullPath.' not found in Tao');
         }
     }
 }
