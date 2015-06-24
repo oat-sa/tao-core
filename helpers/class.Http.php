@@ -104,6 +104,11 @@ class tao_helpers_Http
     public static function getUploadedFile($name)
     {
 
+        // for large file, the $_FILES may be empty so see this before checking for other updates
+        if(intval($_SERVER['CONTENT_LENGTH'])>0 && count(self::getFiles())===0){
+            throw new FileUploadException('Exceeded filesize limit of ' . tao_helpers_Environment::getFileUploadLimit());
+        }
+
         $files = self::getFiles();
         $fileData = $files[$name];
         if (isset($files[$name])) {
