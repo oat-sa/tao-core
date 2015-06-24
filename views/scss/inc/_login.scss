@@ -75,6 +75,13 @@ $entryArrowHeight: 150;
             z-index: 2;
         }
 
+        .text-link {
+            ::before {
+                position: relative;
+                top: 1px;
+                left: -2px;
+            }
+        }
 
         // color wheel defined in _colors.scss
         &.entry-point-backoffice {
