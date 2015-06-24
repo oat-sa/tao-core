@@ -31,6 +31,7 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-home { content: "\e6b3"; }
 @mixin icon-shared-file { content: "\e6b2"; }
 @mixin icon-end-attempt { content: "\e603"; }
 @mixin icon-icon { content: "\f1c5"; }
