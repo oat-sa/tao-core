@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-18T14:52:07\n"
+"Project-Id-Version: TAO 3.1.0-rc01\n"
+"PO-Revision-Date: 2015-06-24T16:16:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -150,7 +150,7 @@ msgid "Alpha version"
 msgstr "Alpha版本"
 
 msgid "An email has been sent"
-msgstr ""
+msgstr "電子郵件已被送出"
 
 msgid "An error occured during user deletion"
 msgstr "删除用户时发生错误"
@@ -468,7 +468,7 @@ msgid "Force Release"
 msgstr "强制释放"
 
 msgid "Forgot your password?"
-msgstr ""
+msgstr "忘记了您的密码？"
 
 msgid "Fuzzy Matching"
 msgstr ""
@@ -480,7 +480,7 @@ msgid "Height"
 msgstr "长度"
 
 msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
-msgstr ""
+msgstr "您好, %s<br>您忘记了您的 TAO 密码.\", get_data('user_name"
 
 msgid "Hide detailed report"
 msgstr "隐藏详细报告"
@@ -492,7 +492,7 @@ msgid "Identifier"
 msgstr ""
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr ""
+msgstr "如果您不想更改密码，您可以忽略這封電子郵件，您的密码不会改变。"
 
 msgid "Import"
 msgstr "导入"
@@ -735,10 +735,10 @@ msgstr "没有文件"
 msgid "no label"
 msgstr "无标签"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "没有可用的预览"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "没有可用的预览"
 
 msgid "No result found"
@@ -787,7 +787,7 @@ msgid "Password changed"
 msgstr "密码已变更"
 
 msgid "Password successfully changed"
-msgstr ""
+msgstr "密码更改成功"
 
 msgid "Passwords are not matching"
 msgstr "密码不相符"
@@ -908,7 +908,7 @@ msgid "Responsive mode"
 msgstr "回应模式"
 
 msgid "Return to sign in page"
-msgstr ""
+msgstr "回到登錄頁面"
 
 msgid "Revision control"
 msgstr "修订控制"
@@ -945,10 +945,10 @@ msgstr "搜索子类别"
 msgid "seconds"
 msgstr "秒"
 
-msgid "Select"
+msgid "select"
 msgstr "选择"
 
-msgid "select"
+msgid "Select"
 msgstr "选择"
 
 msgid "Select a language"
@@ -1050,7 +1050,7 @@ msgid "This field is too short"
 msgstr "此栏位太短了"
 
 msgid "This is not a valid email address."
-msgstr ""
+msgstr "这不是一个有效的电子邮件地址。"
 
 msgid "this is required"
 msgstr "这是必需的"
@@ -1059,7 +1059,7 @@ msgid "This Login is already in use"
 msgstr "此登录已在使用"
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr ""
+msgstr "此更换密码的链接已没效了。链接有可能已经使用过。如果您还想更换密码，请再次要一个新的链接。"
 
 msgid "This resource is locked"
 msgstr "此资源被锁定"
@@ -1077,7 +1077,7 @@ msgid "Time zone"
 msgstr "时区"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
-msgstr ""
+msgstr "若您想更换密码，点击以下的链接或把链接贴入您的游览器，就可以创建一个新的密码。"
 
 msgid "to translate"
 msgstr "翻译"
@@ -1110,7 +1110,7 @@ msgid "UI Lang."
 msgstr "介面语言."
 
 msgid "Unable to access your account?"
-msgstr ""
+msgstr "无法进入您的账户吗？"
 
 msgid "Unable to change passwords in demo mode"
 msgstr "在试用模式无法更改密码"
@@ -1125,15 +1125,15 @@ msgid "Unable to remove the property."
 msgstr "无法删除属性"
 
 msgid "Unable to send the password reset request"
-msgstr ""
+msgstr "无法送出更换密码的要求"
 
 msgid "Unable to upload file"
 msgstr "无法上传文件"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾选"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾选"
 
 msgid "Undo"
@@ -1152,7 +1152,7 @@ msgid "Unknown Error"
 msgstr "不明的错误"
 
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 msgid "Upload"
 msgstr "上传"
@@ -1185,7 +1185,7 @@ msgid "User deletion not permited on a demo instance"
 msgstr "试用实例不应许删除用户"
 
 msgid "User not found"
-msgstr ""
+msgstr "未找到用户"
 
 msgid "User saved"
 msgstr "用户已储存"
@@ -1229,8 +1229,8 @@ msgid "You must activate JavaScript in your browser to run this application."
 msgstr "您必须在浏览器中启用JavaScript才可以应用该程序。"
 
 msgid "Your mail"
-msgstr ""
+msgstr "您的電子郵件"
 
 msgid "Your TAO Password"
-msgstr ""
+msgstr "您的 TAO 密碼"
 
