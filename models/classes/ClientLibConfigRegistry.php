@@ -49,22 +49,6 @@ class ClientLibConfigRegistry extends AbstractRegistry
     }
 
     /**
-     * 
-     * Return all lib alias with relative path
-     * 
-     * @author Sam, sam@taotesting.com
-     * @return array
-     */
-    public function getLibAliasMap()
-    {
-        $extensionsAliases = array();
-        foreach (ClientLibConfigRegistry::getRegistry()->getMap() as $alias => $lib) {
-            $extensionsAliases[$alias] = str_replace(ROOT_URL, '../../../', $lib);
-        }
-        return $extensionsAliases;
-    }
-
-    /**
      * Register a new path for given alias, trigger a warning if path already register
      *
      * @author Sam, sam@taotesting.com
@@ -76,7 +60,7 @@ class ClientLibConfigRegistry extends AbstractRegistry
         $registry = self::getRegistry();
         $libConfig = array();
         if ($registry->isRegistered($id)) {
-            $libConfig = $registry->get();
+            $libConfig = $registry->get($id);
         }
 
         $libConfig = array_merge_recursive($libConfig, $newLibConfig);
