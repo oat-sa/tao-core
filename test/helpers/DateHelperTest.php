@@ -33,7 +33,7 @@ class DateHelperTest extends TaoPhpUnitTestRunner
      */
     public function testDisplayDate()
     {
-        $mybirthday = DateTime::createFromFormat('Y-m-d H:i', '1980-02-01 10:00');
+        $mybirthday = DateTime::createFromFormat('Y-m-d H:i', '1980-02-01 10:00', new \DateTimeZone(\common_session_SessionManager::getSession()->getTimeZone()));
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday));
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_LONG));
         $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_DATEPICKER));
