@@ -22,6 +22,7 @@ namespace oat\tao\model;
 use oat\oatbox\AbstractRegistry;
 use \common_ext_ExtensionsManager;
 use \common_Logger;
+use oat\tao\helpers\Template;
 
 /**
  * 
@@ -59,7 +60,14 @@ class ClientLibRegistry extends AbstractRegistry
     {
         $extensionsAliases = array();
         foreach (ClientLibRegistry::getRegistry()->getMap() as $alias => $lib ){
-            $extensionsAliases[$alias] = str_replace(ROOT_URL, '../../../', $lib);
+            if (is_array($lib) && isset($lib['extId']) && isset($lib['path'])) {
+                $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($lib['extId']);
+                $extensionsAliases[$alias] = $ext->getConstant('BASE_WWW').$lib['path'];
+            } elseif (is_string($lib)) {
+                $extensionsAliases[$alias] = str_replace(ROOT_URL, '../../../', $lib);
+            } else {
+                throw new \common_exception_InconsistentData('Invalid '.self::getConfigId().' entry found');
+            }
         }
         return $extensionsAliases;
     }
@@ -77,8 +85,24 @@ class ClientLibRegistry extends AbstractRegistry
         if (self::getRegistry()->isRegistered($id)) {
             common_Logger::w('Lib already registered');
         }
-        self::getRegistry()->set($id, $fullPath);
+        
+        if (substr($fullPath, 0, strlen('../../../')) == '../../../') {
+            $fullPath = ROOT_URL.substr($fullPath, strlen('../../../'));
+        }
+        
+        $found = false;
+        foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
+            if (strpos($fullPath, $ext->getConstant('BASE_WWW')) === 0) {
+                $found = true;
+                self::getRegistry()->set($id, array(
+                    'extId' => $ext->getId(),
+                    'path' => substr($fullPath, strlen($ext->getConstant('BASE_WWW')))
+                ));
+                break;
+            }
+        }
+        if ($found == false) {
+            throw \common_exception_Error('Path '.$fullPath.' not found in Tao');
+        }
     }
 }
-
-?>
