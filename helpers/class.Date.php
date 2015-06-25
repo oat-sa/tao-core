@@ -76,7 +76,7 @@ class tao_helpers_Date
             throw new common_Exception('Unexpected timestamp');
         }
         
-        return self::getDateFormatter()->format($timestamp, $format);
+        return self::getDateFormatter()->format($ts, $format);
     }
 
     /**
