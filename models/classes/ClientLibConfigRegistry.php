@@ -63,7 +63,7 @@ class ClientLibConfigRegistry extends AbstractRegistry
             $libConfig = $registry->get($id);
         }
 
-        $libConfig = array_merge_recursive($libConfig, $newLibConfig);
+        $libConfig = array_replace_recursive($libConfig, $newLibConfig);
         $registry->set($id, $libConfig);
     }
 }
