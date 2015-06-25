@@ -59,7 +59,7 @@
         float: left;
         position: relative;
         @include font-size(13);
-        & > a {
+        & > a, & > .a {
             text-align: center;
             display: block;
             height: 64px;
@@ -71,6 +71,8 @@
                 position: relative;
                 top: 2px;
             }
+        }
+        & > a {
             &:hover {
                 @include vendor-prefix(transition, background-color 1s ease);
                 background-color: rgba($info, .5);
@@ -156,7 +158,7 @@
             min-width: 25px;
 
             @include font-size(13);
-            & > a {
+            & > a, & > .a {
                 padding: 22px 8px 0px 8px;
                 span {
                     @include font-size(13);
@@ -192,8 +194,9 @@
 .dark-bar {
     background: $darkBar;
     color: $darkBarTxt;
-    a {
+    a, .a {
         color: $darkBarTxt;
+
         &:hover {
             color: white;
             text-decoration: none;
