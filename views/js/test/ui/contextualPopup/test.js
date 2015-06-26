@@ -4,7 +4,7 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
     
     QUnit.module('init popup');
     
-    QUnit.test('init popup with content string', function(){
+    QUnit.test('with content string', function(){
 
         var $container = $('#main-container');
         var popup1 = contextualPopup($('#center1'), $container, {content : 'content 1'});
@@ -18,7 +18,7 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         popup1.destroy();
     });
     
-    QUnit.test('init popup with jquery element', function(){
+    QUnit.test('with jquery element', function(){
         
         var $container = $('#main-container');
         var $content2 = $('<ul><li>element 1</li><li>element 2</li><li>element 3</li></ul');
@@ -34,7 +34,7 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         popup2.destroy();
     });
     
-    QUnit.test('init popup with controls', function(){
+    QUnit.test('with controls', function(){
         
         var $container = $('#main-container');
         var popup3 = contextualPopup($('#center3'), $container, {content : 'content 3', controls : {done : true, cancel : true}});
@@ -48,7 +48,7 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         popup3.destroy();
     });
     
-    QUnit.test('init popup with positioning on top', function(){
+    QUnit.test('with positioning on top', function(){
         
         var $container = $('#main-container');
         var popup4 = contextualPopup($('#center4'), $container, {content: 'content 4', position:'top'});
@@ -74,11 +74,76 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         popup1.show();
         QUnit.assert.ok(popup1.getPopup().is(':visible'), 'popup is visible again');
     });
-
-
+    
+    QUnit.test('setContent', function(){
+        
+        var $container = $('#main-container');
+        var popup1 = contextualPopup($('#center1'), $container, {content : 'content 1'});
+        QUnit.assert.equal(popup1.getPopup().children('.popup-content').html(), 'content 1', 'intial content');
+        
+        popup1.setContent('content A');
+        QUnit.assert.equal(popup1.getPopup().children('.popup-content').html(), 'content A', 'updated content');
+        
+        var $contentB = $('<p class="some-paragraph">contentB</p>');
+        popup1.setContent($contentB);
+        QUnit.assert.equal(popup1.getPopup().children('.popup-content').children()[0], $contentB[0], 'updated content');
+        
+        popup1.destroy();
+    });
+    
+    QUnit.test('done', function(){
+        
+        //done button hides and trigger event done
+        QUnit.expect(4);
+        
+        var $container = $('#main-container');
+        var popup1 = contextualPopup($('#center1'), $container, {content : 'content 1', controls:{done:true}});
+        $container.off('.contextual-popup').on('done.contextual-popup', function(){
+            QUnit.assert.ok(true, 'triggered done');
+        }).on('hide.contextual-popup', function(){
+            QUnit.assert.ok(true, 'triggered hide');
+        });
+        
+        //done programmatically
+        popup1.done();
+        
+        //redisplay it
+        popup1.show();
+        
+        //done by clicking on the button
+        popup1.getPopup().find('.btn.done').click();
+        
+        popup1.destroy();
+    });
+    
+    QUnit.test('cancel', function(){
+        
+        //cancel button hides and trigger event done
+        QUnit.expect(4);
+        
+        var $container = $('#main-container');
+        var popup1 = contextualPopup($('#center1'), $container, {content : 'content 1', controls:{cancel:true}});
+        $container.off('.contextual-popup').on('cancel.contextual-popup', function(){
+            QUnit.assert.ok(true, 'triggered cancel');
+        }).on('hide.contextual-popup', function(){
+            QUnit.assert.ok(true, 'triggered hide');
+        });
+        
+        //cancel programmatically
+        popup1.cancel();
+        
+        //redisplay it
+        popup1.show();
+        
+        //done by clicking on the button
+        popup1.getPopup().find('.btn.cancel').click();
+        
+        popup1.destroy();
+    });
+    
     QUnit.module('visual test');
     
-    QUnit.test('visual test', function(){
+    QUnit.test('check', function(){
         
         QUnit.expect(0);
         
