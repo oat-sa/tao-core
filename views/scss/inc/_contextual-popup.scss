@@ -23,7 +23,6 @@
     }
     .arrow {
         position: absolute;
-        top: -6px;
         z-index: 301;
         -webkit-transform: rotate(45deg);
         -moz-transform: rotate(45deg);
@@ -42,9 +41,24 @@
         position: absolute;
         z-index: 302;
         left: 6px;
-        top: 0;
         width: 30px;
         height: 15px;
+    }
+    &.bottom{
+        .arrow{
+            top:-6px;
+        }
+        .arrow-cover{
+            top:0px;
+        }
+    }
+    &.top{
+        .arrow{
+            bottom:-6px;
+        }
+        .arrow-cover{
+            bottom:0px;
+        }
     }
     .tooltipstered {
         text-align: right;

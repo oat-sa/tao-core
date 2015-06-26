@@ -21,17 +21,18 @@ define([
     'lodash',
     'tpl!tao/ui/contextualPopup/popup'
 ], function($, _, popupTpl){
-    
+
     'use strict';
-    
+
     var _ns = '.contextual-popup';
-    
+
     var _defaults = {
         controls : false,
-        style : {}
+        style : {},
+        position : 'bottom'
     };
-    
-    
+
+
     /**
      * Create an element selector reltive to the $anchor and contained in the $container
      * 
@@ -43,10 +44,10 @@ define([
      * @returns {Object} the new selector instance
      */
     function create($anchor, $container, options){
-        
+
         options = _.defaults(options, _defaults);
         $anchor.data('contextual-popup-options', options);
-        
+
         //anchor must be positioned in css
         var positions = _computePosition($anchor, $container);
         var $element = $(popupTpl({
@@ -59,6 +60,7 @@ define([
         $anchor.find('.contextual-popup').remove();
 
         //attach the popup
+        $element.addClass(options.position);
         $element.css('width', options.style.popupWidth);
         $anchor.append($element);
         $element.off(_ns).on('click' + _ns, '.done', function(){
@@ -66,11 +68,11 @@ define([
         }).on('click' + _ns, '.cancel', function(){
             _cancel($element);
         });
-        
+
         if(options.content){
             setContent(options.content);
         }
-        
+
         /**
          * Set the popup content
          * @param {JQuery|String} content
@@ -82,7 +84,7 @@ define([
             }
         }
 
-        return {
+        var popup = {
             /**
              * Get the popup JQuery container
              * 
@@ -91,9 +93,7 @@ define([
             getPopup : function getPopup(){
                 return $element;
             },
-            
             setContent : setContent,
-            
             /**
              * Recalculates the position of the popup relative to the anchor
              * Useful after any changes in layout
@@ -109,7 +109,6 @@ define([
                 $element.children('.arrow').css('left', pos.arrow.left);
                 $element.children('.arrow-cover').css('left', pos.arrow.leftCover);
             },
-            
             /**
              * Manually triggers "done" 
              * 
@@ -118,7 +117,6 @@ define([
             done : function done(){
                 _done($element);
             },
-            
             /**
              * Manually triggers "cancel" 
              * 
@@ -127,7 +125,6 @@ define([
             cancel : function cancel(){
                 _cancel($element);
             },
-            
             /**
              * Manually triggers "hide" 
              * 
@@ -136,20 +133,20 @@ define([
             hide : function hide(){
                 _hide($element);
             },
-            
             /**
              * Manually triggers "show" 
              * 
+             * @fires show.contextual-popup
              * @returns {undefined}
              */
             show : function show(){
                 $element.show();
                 $element.trigger('show' + _ns);
             },
-            
             /**
              * Manually triggers "destroy" 
              * 
+             * @fires destroy.contextual-popup
              * @returns {undefined}
              */
             destroy : function destroy(){
@@ -157,6 +154,9 @@ define([
                 $element.trigger('destroy' + _ns);
             }
         };
+        //need to reposition the popup after this has been attached to the dom
+        popup.reposition();
+        return popup;
     }
 
     /**
@@ -169,7 +169,7 @@ define([
         $element.hide();
         $element.trigger('hide' + _ns);
     }
-    
+
     /**
      * Callback when the "done" button is clicked
      * 
@@ -191,14 +191,14 @@ define([
         _hide($element);
         $element.trigger('cancel' + _ns);
     }
-    
+
     var _styleDefaults = {
         popupWidth : 500,
         arrowWidth : 6,
         marginTop : 15,
         marginLeft : 15
     };
-    
+
     /**
      * Calculate the position of the popup and arrow relative to the anchor and container elements
      * 
@@ -207,10 +207,12 @@ define([
      * @returns {Object} - Object containing the positioning data
      */
     function _computePosition($anchor, $container){
-        
+
+        var $contextualPopup = $anchor.children('.contextual-popup');
         var options = $anchor.data('contextual-popup-options');
         var styleOpts = _.defaults(options.style || {}, _styleDefaults);
         var popupWidth = styleOpts.popupWidth;
+        var popupHeight = $contextualPopup.outerHeight();
         var arrowWidth = styleOpts.arrowWidth;
         var marginTop = styleOpts.marginTop;
         var marginLeft = styleOpts.marginLeft;
@@ -221,6 +223,17 @@ define([
             left : -popupWidth / 2 + _anchor.w / 2,
             w : popupWidth
         };
+        
+        switch(options.position){
+            case 'top':
+                _popup.top = -marginTop - popupHeight;
+                $contextualPopup.removeClass('bottom').addClass('top');
+                break;
+            case 'bottom':
+                _popup.top = _anchor.h + marginTop;
+                $contextualPopup.removeClass('top').addClass('bottom');
+                break;
+        }
 
         var offset = _anchor.left - _container.left;
         //do we have enough space on the left ?
