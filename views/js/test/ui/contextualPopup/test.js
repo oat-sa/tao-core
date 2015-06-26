@@ -62,17 +62,20 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
     
     QUnit.module('api');
     
-    QUnit.test('show/hide', function(){
+    QUnit.test('show/hide/isVisible', function(){
         
         var $container = $('#main-container');
         var popup1 = contextualPopup($('#center1'), $container, {content : 'content 1'});
         
         QUnit.assert.equal(popup1.getPopup().length, 1, 'popup created');
         QUnit.assert.ok(popup1.getPopup().is(':visible'), 'popup initially visible');
+        QUnit.assert.ok(popup1.isVisible(), 'popup initially visible');
         popup1.hide();
         QUnit.assert.ok(!popup1.getPopup().is(':visible'), 'popup is hidden');
+        QUnit.assert.ok(!popup1.isVisible(), 'popup is hidden');
         popup1.show();
         QUnit.assert.ok(popup1.getPopup().is(':visible'), 'popup is visible again');
+        QUnit.assert.ok(popup1.isVisible(), 'popup is visible again');
     });
     
     QUnit.test('setContent', function(){

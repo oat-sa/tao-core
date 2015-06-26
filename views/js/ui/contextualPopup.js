@@ -152,6 +152,13 @@ define([
             destroy : function destroy(){
                 $element.remove();
                 $element.trigger('destroy' + _ns);
+            },
+            /**
+             * Tells if the popup is currently hidden or visible
+             * @returns {boolean}
+             */
+            isVisible : function(){
+                return $element.is(':visible');
             }
         };
         //need to reposition the popup after this has been attached to the dom
