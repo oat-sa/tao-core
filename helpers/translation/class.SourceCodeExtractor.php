@@ -31,8 +31,7 @@
  
  * @version 1.0
  */
-class tao_helpers_translation_SourceCodeExtractor
-    extends tao_helpers_translation_TranslationExtractor
+class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translation_TranslationExtractor
 {
     // --- ASSOCIATIONS ---
 
@@ -42,11 +41,15 @@ class tao_helpers_translation_SourceCodeExtractor
     /**
      * Short description of attribute filesTypes
      *
-     * @access private
      * @var array
      */
     private $filesTypes = array();
 
+    /**
+     *
+     * @var array
+     */
+    private $bannedFileType = array( '.min.js' );
     // --- OPERATIONS ---
 
     /**
@@ -54,7 +57,6 @@ class tao_helpers_translation_SourceCodeExtractor
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
      */
     public function extract()
     {
@@ -77,14 +79,12 @@ class tao_helpers_translation_SourceCodeExtractor
      *
      * @access private
      * @author firstname and lastname of author, <author@example.org>
-     * @param  string directory
+     * @param  string $directory
      */
     private function recursiveSearch($directory)
     {
         
-        $pExtension = $this->getFileTypes();
-	
-		if (is_dir($directory)) {	
+		if (is_dir($directory)) {
 	    	// We get the list of files and directories.
 	    	if (($files = scandir($directory)) !== false) {
 	    		
@@ -114,16 +114,14 @@ class tao_helpers_translation_SourceCodeExtractor
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
-     * @param  array paths
-     * @param  array fileTypes
+     * @param  array $paths
+     * @param  array $fileTypes
      * @return mixed
      */
-    public function __construct($paths, $fileTypes)
+    public function __construct($paths, array $fileTypes)
     {
-        
         parent::__construct($paths);
         $this->setFileTypes($fileTypes);
-        
     }
 
     /**
@@ -135,13 +133,7 @@ class tao_helpers_translation_SourceCodeExtractor
      */
     public function getFileTypes()
     {
-        $returnValue = array();
-
-        
-        $returnValue = $this->filesTypes;
-        
-
-        return (array) $returnValue;
+        return $this->filesTypes;
     }
 
     /**
@@ -150,14 +142,11 @@ class tao_helpers_translation_SourceCodeExtractor
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
-     * @param  array fileTypes
-     * @return mixed
+     * @param  array $fileTypes
      */
-    public function setFileTypes($fileTypes)
+    public function setFileTypes(array $fileTypes)
     {
-        
         $this->filesTypes = $fileTypes;
-        
     }
 
     /**
@@ -165,22 +154,21 @@ class tao_helpers_translation_SourceCodeExtractor
      *
      * @access private
      * @author firstname and lastname of author, <author@example.org>
-     * @param  string filePath
-     * @return mixed
+     * @param  string $filePath
      */
     private function getTranslationsInFile($filePath)
     {
         
 	 	// File extension ?
-		$extOk = false;
-		foreach ($this->getFileTypes() as $exp) {
-			if (@preg_match("/\.${exp}$/", $filePath)) {
-				$extOk = true;
-				break;
-			}
-		}
-		
-		if ($extOk) {
+        $extOk = in_array(\Jig\Utils\FsUtils::getFileExtension($filePath), $this->getFileTypes());
+
+        if ($extOk){
+            foreach ($this->getBannedFileType() as $bannedExt){
+                $extOk &= substr_compare($filePath, $bannedExt, strlen($filePath)-strlen($bannedExt), strlen($bannedExt)) !== 0;
+            }
+        }
+
+        if ($extOk) {
             
 		 	// We read the file.
 		 	$lines = file($filePath);
@@ -189,10 +177,19 @@ class tao_helpers_translation_SourceCodeExtractor
 		 		$patternMatch1	= array();
 		 		$patternMatch2	= array();
 				
-                preg_match_all("/__\(['\"](.*?)['\"]\)/u", $line, $patternMatch1);
-				preg_match_all("/\{\{__ ['\"](.*?)['\"]\}\}/u", $line, $patternMatch2);
-                if(!empty($patternMatch1[1])){
-                    $strings = $patternMatch1[1];
+                preg_match_all("/__\\(([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1/u", $line, $patternMatch1); //for php and JS helper function
+				preg_match_all("/\{\{__ ['\"](.*?)['\"]\}\}/u", $line, $patternMatch2); //used for parsing templates
+                if(!empty($patternMatch1[0])){
+                    $strings = array_reduce(
+                        $patternMatch1[0],
+                        function ( $m, $str ) use ( $patternMatch1 ) {
+                            $found = preg_match( "/([\"'])(?:(?=(\\\\?))\\2.)*?\\1/u", $str, $matches ); //matches first passed argument only
+                            $m[]   = $found ? trim( $matches[0], '"\'' ) : $patternMatch1[1];
+
+                            return $m;
+                        },
+                        array()
+                    );
                 }
                 if(!empty($patternMatch2[1])){
                     $strings = array_merge($strings, $patternMatch2[1]);
@@ -218,7 +215,7 @@ class tao_helpers_translation_SourceCodeExtractor
                     }
                     
                     if (!$found) {
-                        array_push($tus, $tu);
+                        $tus[] = $tu;
                         $this->setTranslationUnits($tus);
                     }
                 }
@@ -227,6 +224,20 @@ class tao_helpers_translation_SourceCodeExtractor
         
     }
 
-}
+    /**
+     * @return array
+     */
+    public function getBannedFileType()
+    {
+        return $this->bannedFileType;
+    }
 
-?>
+    /**
+     * @param array $bannedFileType
+     */
+    public function setBannedFileType( $bannedFileType )
+    {
+        $this->bannedFileType = $bannedFileType;
+    }
+
+}
