@@ -248,6 +248,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
             $currentVersion = '2.7.17';
         }
+        
+        if ($currentVersion === '2.7.16') {
+            $registry = ClientLibRegistry::getRegistry();
+            $map = $registry->getLibAliasMap();
+            foreach ($map as $id => $fqp) {
+                $registry->remove($id);
+                $registry->register($id, $fqp);
+            }
+            $currentVersion = '2.7.17';
+        }
 
         return $currentVersion;
     }
