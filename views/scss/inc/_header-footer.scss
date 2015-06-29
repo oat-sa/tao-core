@@ -82,6 +82,9 @@
                 }
             }
         }
+        & > .a {
+            cursor: default
+        }
         &.active {
             & > a {
                 background-color: whiten($info, .05);
@@ -194,9 +197,8 @@
 .dark-bar {
     background: $darkBar;
     color: $darkBarTxt;
-    a, .a {
+    a {
         color: $darkBarTxt;
-
         &:hover {
             color: white;
             text-decoration: none;
@@ -346,3 +348,4 @@ body > footer {
         }
     }
 }
+
