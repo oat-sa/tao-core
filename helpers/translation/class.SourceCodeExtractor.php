@@ -173,27 +173,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
 		 	// We read the file.
 		 	$lines = file($filePath);
 		 	foreach ($lines as $line) {
-                $strings        = array();
-		 		$patternMatch1	= array();
-		 		$patternMatch2	= array();
-				
-                preg_match_all("/__\\(([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1/u", $line, $patternMatch1); //for php and JS helper function
-				preg_match_all("/\{\{__ ['\"](.*?)['\"]\}\}/u", $line, $patternMatch2); //used for parsing templates
-                if(!empty($patternMatch1[0])){
-                    $strings = array_reduce(
-                        $patternMatch1[0],
-                        function ( $m, $str ) use ( $patternMatch1 ) {
-                            $found = preg_match( "/([\"'])(?:(?=(\\\\?))\\2.)*?\\1/u", $str, $matches ); //matches first passed argument only
-                            $m[]   = $found ? trim( $matches[0], '"\'' ) : $patternMatch1[1];
-
-                            return $m;
-                        },
-                        array()
-                    );
-                }
-                if(!empty($patternMatch2[1])){
-                    $strings = array_merge($strings, $patternMatch2[1]);
-                }
+                $strings = $this->getTranslationPhrases( $line );
                 //preg_match_all("/__(\(| )+['\"](.*?)['\"](\))?/u", $line, $string);
                 
                 //lookup for __('to translate') or __ 'to translate'
@@ -238,6 +218,45 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
     public function setBannedFileType( $bannedFileType )
     {
         $this->bannedFileType = $bannedFileType;
+    }
+
+    /**
+     * @param $line
+     *
+     * @return array
+     */
+    protected function getTranslationPhrases( $line )
+    {
+        $strings = array();
+        $patternMatch1 = array();
+        $patternMatch2 = array();
+
+        preg_match_all( "/__\\(([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1/u", $line, $patternMatch1); //for php and JS helper function
+        preg_match_all( "/\{\{__ ['\"](.*?)['\"]\}\}/u", $line, $patternMatch2 ); //used for parsing templates
+
+        if ( ! empty( $patternMatch1[0] )) {
+            $strings = array_reduce(
+                $patternMatch1[0],
+                function ( $m, $str ) use ( $patternMatch1 ) {
+                    $found = preg_match(
+                        "/([\"'])(?:(?=(\\\\?))\\2.)*?\\1/u",
+                        $str,
+                        $matches
+                    ); //matches first passed argument only
+                    $m[]   = $found ? trim( $matches[0], '"\'' ) : $patternMatch1[1];
+
+                    return $m;
+                },
+                array()
+            );
+        }
+        if ( ! empty( $patternMatch2[1] )) {
+            $strings = array_merge( $strings, $patternMatch2[1] );
+
+            return $strings;
+        }
+
+        return $strings;
     }
 
 }
