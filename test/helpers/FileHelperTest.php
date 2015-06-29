@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,18 +16,20 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013- (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-use oat\tao\test\TaoPhpUnitTestRunner;
+namespace oat\tao\helpers\test;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
+use oat\tao\test\TaoPhpUnitTestRunner;
+use tao_helpers_File;
+use ZipArchive;
 
 /**
  * @author Cédric Alfonsi, <taosupport@tudor.lu>
  * @package tao
  
  */
-class tao_test_FileHelperTest extends TaoPhpUnitTestRunner {
+class FileHelperTest extends TaoPhpUnitTestRunner {
 	
     protected $deep = 3;
     protected $fileCount = 5;
@@ -106,7 +108,7 @@ class tao_test_FileHelperTest extends TaoPhpUnitTestRunner {
         $this->assertTrue(is_dir($testfolder));
         
         $zip = new ZipArchive();
-        $this->assertTrue($zip->open(dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'fileHelper.zip'));
+        $this->assertTrue($zip->open(dirname(__DIR__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'fileHelper.zip'));
         $this->assertTrue($zip->extractTo($testfolder));
         $zip->close();
         
@@ -131,5 +133,19 @@ class tao_test_FileHelperTest extends TaoPhpUnitTestRunner {
         $this->assertFalse(is_dir($testfolder));
     }
     
+    public function testRelPath()
+    {
+        $testDir = tao_helpers_File::createTempDir();
+        $this->assertTrue(mkdir($testDir.'sub'.DIRECTORY_SEPARATOR));
+        
+        $path = $testDir.'sub';
+        $this->assertEquals('sub', \tao_helpers_File::getRelPath($testDir, $path));
+        
+        $path = $testDir.'sub/';
+        $this->assertEquals('../', \tao_helpers_File::getRelPath($path, $testDir));
+        
+        $this->assertTrue(tao_helpers_File::delTree($testDir));
+        $this->assertFalse(is_dir($testDir));
+    }
+    
 }
-?>
