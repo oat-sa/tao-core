@@ -239,14 +239,14 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         // reset the search impl for machines that missed 2.7.1 update due to merge
-        if ($currentVersion === '2.7.15') {
+        if ($currentVersion === '2.7.15' || $currentVersion === '2.7.16') {
             try {
                 SearchService::getSearchImplementation();
                 // all good
             } catch (\common_exception_Error $error) {
                 SearchService::setSearchImplementation(new GenerisSearch());
             }
-            $currentVersion = '2.7.16';
+            $currentVersion = '2.7.17';
         }
 
         return $currentVersion;
