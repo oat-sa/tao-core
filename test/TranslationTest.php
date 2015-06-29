@@ -692,4 +692,49 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$this->assertEquals(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
 
 	}
+
+
+	public function testParsingSource(){
+
+		$class = new ReflectionClass('tao_helpers_translation_SourceCodeExtractor');
+		$method = $class->getMethod('getTranslationPhrases');
+        $method->setAccessible(true);
+
+		$translator = new tao_helpers_translation_SourceCodeExtractor( '', array() );
+
+		$this->assertEquals( array(), $method->invokeArgs( $translator, array( '_(\'Maximum choices reached\'),' ) ) );
+
+		$this->assertEquals(
+			array( 'Maximum choices reached' ),
+			$method->invokeArgs( $translator, array( '__(\'Maximum choices reached\'),' ) )
+		);
+
+
+		$this->assertEquals(
+			array( 'Maximum choices reached' ),
+			$method->invokeArgs( $translator, array( '__("Maximum choices reached"),' ) )
+		);
+
+		$this->assertEquals(
+			array( "Item \\'%s\\' has no mode" ),
+			$method->invokeArgs( $translator, array( "__('Item \\'%s\\' has no mode')," ) )
+		);
+
+		$this->assertEquals(
+			array( 'Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button "Add file(s)".' ),
+			$method->invokeArgs(
+				$translator,
+				array( "title : __('Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\".')," )
+			)
+		);
+
+		$this->assertEquals(
+			array( 'You must select exactly %d choice', 'You must select exactly %d choices' ),
+			$method->invokeArgs(
+				$translator,
+				array( "msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);" )
+			)
+		);
+
+	}
 }
