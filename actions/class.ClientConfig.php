@@ -17,7 +17,7 @@
 * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
 */
 use oat\tao\model\ClientLibRegistry;
-use oat\tao\model\media\MediaService;
+use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ThemeRegistry;
 
 /**
@@ -40,10 +40,11 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();
         $this->setData('extensionsAliases', $extensionsAliases);
 
+        $libConfigs = ClientLibConfigRegistry::getRegistry()->getMap();
+        $this->setData('libConfigs', $libConfigs);
+
         $themesAvailable = ThemeRegistry::getRegistry()->getAvailableThemes();
         $this->setData('themesAvailable', $themesAvailable);
-
-
 
         $extensionManager = common_ext_ExtensionsManager::singleton();
         $langCode = tao_helpers_I18n::getLangCode();
