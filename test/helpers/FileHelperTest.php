@@ -141,8 +141,8 @@ class FileHelperTest extends TaoPhpUnitTestRunner {
         $path = $testDir.'sub';
         $this->assertEquals('sub', \tao_helpers_File::getRelPath($testDir, $path));
         
-        $path = $testDir.'sub/';
-        $this->assertEquals('../', \tao_helpers_File::getRelPath($path, $testDir));
+        $path = $testDir.'sub'.DIRECTORY_SEPARATOR;
+        $this->assertEquals('..'.DIRECTORY_SEPARATOR, \tao_helpers_File::getRelPath($path, $testDir));
         
         $this->assertTrue(tao_helpers_File::delTree($testDir));
         $this->assertFalse(is_dir($testDir));
