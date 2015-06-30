@@ -19,11 +19,11 @@
                                  
 @font-face {
 	font-family: 'tao';
-	src:url('font/tao/tao.eot?vfvsqmn');
-	src:url('font/tao/tao.eot?#iefixvfvsqmn') format('embedded-opentype'),
-		url('font/tao/tao.ttf?vfvsqmn') format('truetype'),
-		url('font/tao/tao.woff?vfvsqmn') format('woff'),
-		url('font/tao/tao.svg?vfvsqmn#tao') format('svg');
+	src:url('#{$fontPath}tao/tao.eot?vfvsqmn');
+	src:url('#{$fontPath}tao/tao.eot?#iefixvfvsqmn') format('embedded-opentype'),
+		url('#{$fontPath}tao/tao.ttf?vfvsqmn') format('truetype'),
+		url('#{$fontPath}tao/tao.woff?vfvsqmn') format('woff'),
+		url('#{$fontPath}tao/tao.svg?vfvsqmn#tao') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
