@@ -219,7 +219,28 @@ class tao_models_classes_Parser
         helpers_TimeOutHelper::reset();
         return (bool) $returnValue;
     }
+    
+    /**
+     * Excecute parser validation and stops at the first valid one, and returns the identified schema
+     * 
+     * @param array $xsds
+     * @return string
+     */
+    public function validateMultiple($xsds = array())
+    {
+        $returnValue = '';
 
+        foreach ($xsds as $xsd) {
+            $this->validate($xsd);
+            if ($this->isValid()) {
+                $returnValue = $xsd;
+                break;
+            }
+        }
+
+        return $returnValue;
+    }
+    
     /**
      * Short description of method isValid
      *
