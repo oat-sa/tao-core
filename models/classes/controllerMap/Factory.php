@@ -67,8 +67,8 @@ class Factory
     /**
      * Get a description of the action
      *
-     * @param $controllerClassName
-     * @param $actionName
+     * @param string $controllerClassName
+     * @param string $actionName
      * @return ActionDescription
      * @throws ActionNotFoundException
      */
