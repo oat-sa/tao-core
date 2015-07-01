@@ -142,24 +142,6 @@ class FactoryTest extends TaoPhpUnitTestRunner {
     }
 
     /**
-     * Call protected/private method of a class.
-     *
-     * @param object &$object    Instantiated object that we will run method on.
-     * @param string $methodName Method name to call
-     * @param array  $parameters Array of parameters to pass into method.
-     *
-     * @return mixed Method return.
-     */
-    public function invokeMethod(&$object, $methodName, array $parameters = array())
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $parameters);
-    }
-
-    /**
      * Test {@link Factory::getControllerDescription}
      *
      * @dataProvider controllerNameProvider
@@ -227,9 +209,9 @@ class FactoryTest extends TaoPhpUnitTestRunner {
     {
         $methodName = 'isControllerClassNameValid';
 
-        $this->assertFalse( $this->invokeMethod($this->factory, $methodName, array('FakeStandaloneController') ), 'has valid descendant' );
-        $this->assertFalse( $this->invokeMethod($this->factory, $methodName, array('FakeAbstractController') ), 'is not abstract' );
-        $this->assertTrue(  $this->invokeMethod($this->factory, $methodName, array('FakeValidController') ), 'is valid' );
+        $this->assertFalse( $this->invokeProtectedMethod($this->factory, $methodName, array('FakeStandaloneController') ), 'has valid descendant' );
+        $this->assertFalse( $this->invokeProtectedMethod($this->factory, $methodName, array('FakeAbstractController') ), 'is not abstract' );
+        $this->assertTrue(  $this->invokeProtectedMethod($this->factory, $methodName, array('FakeValidController') ), 'is valid' );
     }
 
     /**
@@ -243,13 +225,13 @@ class FactoryTest extends TaoPhpUnitTestRunner {
     {
         $extension = new common_ext_Extension( $extensionId );
 
-        $controllers = $this->invokeMethod($this->factory, 'getControllerClasses', array($extension));
+        $controllers = $this->invokeProtectedMethod($this->factory, 'getControllerClasses', array($extension));
         $this->assertNotNull($controllers);
         $this->assertContainsOnly('string', $controllers, true);
 
         $validCount = 0;
         foreach( $controllers as $className ){
-            if( $this->invokeMethod($this->factory, 'isControllerClassNameValid', array($className) ) ){
+            if( $this->invokeProtectedMethod($this->factory, 'isControllerClassNameValid', array($className) ) ){
                 $validCount++;
             }
         }
