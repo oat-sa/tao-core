@@ -63,13 +63,14 @@ class Factory
         $reflector = new ReflectionClass($controllerClassName);
         return new ControllerDescription($reflector);
     }
-    
+
     /**
      * Get a description of the action
-     * 
-     * @param string $controllerClassName
-     * @param string $actionName
+     *
+     * @param $controllerClassName
+     * @param $actionName
      * @return ActionDescription
+     * @throws ActionNotFoundException
      */
     public function getActionDescription($controllerClassName, $actionName) {
         
@@ -123,25 +124,41 @@ class Factory
                 }
             }
         }
-    
-        // validate the classes
-        foreach (array_keys($returnValue) as $key) {
-            $class = $returnValue[$key];
-            if (!class_exists($class)) {
-                common_Logger::w($class.' not found');
-                unset($returnValue[$key]);
-            } elseif (!is_subclass_of($class, 'Module')) {
-                common_Logger::w($class.' does not inherit Module');
-                unset($returnValue[$key]);
-            } else {
-                // abstract so just move along
-                $reflection = new \ReflectionClass($class);
-                if ($reflection->isAbstract()) {
-                    unset($returnValue[$key]);
-                }
-            }
-        }
+
+        $returnValue = array_filter( $returnValue, array($this, 'isControllerClassNameValid') );
     
         return (array) $returnValue;
+    }
+
+    /**
+     * Validates controller class name to:
+     *  - exist
+     *  - have valid base class
+     *  - be not abstract
+     *
+     * @param string $controllerClassName
+     *
+     * @return bool
+     */
+    private function isControllerClassNameValid($controllerClassName)
+    {
+        $returnValue = true;
+
+        if (!class_exists($controllerClassName)) {
+            common_Logger::w($controllerClassName.' not found');
+            $returnValue = false;
+        } elseif (!is_subclass_of($controllerClassName, 'Module')) {
+            common_Logger::w($controllerClassName.' does not inherit Module');
+            $returnValue = false;
+        } else {
+            // abstract so just move along
+            $reflection = new \ReflectionClass($controllerClassName);
+            if ($reflection->isAbstract()) {
+                common_Logger::w($controllerClassName.' is abstract');
+                $returnValue = false;
+            }
+        }
+
+        return $returnValue;
     }
 }
