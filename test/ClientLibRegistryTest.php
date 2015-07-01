@@ -29,6 +29,10 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 class ClientLibRegistryTest extends TaoPhpUnitTestRunner
 {
 
+    protected $baseWwwStub = '';
+
+    protected $realExtensionConstants = [];
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -36,22 +40,70 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
     public function setUp()
     {
         TaoPhpUnitTestRunner::initTest();
+
+        $this->baseWwwStub = 'http://taotesting.com/samples/fakeSourceCode/views/';
     }
 
+    protected function stubExtensionConstants($extensionId, $stubConstants)
+    {
+        $this->restoreExtensionConstants($extensionId);
+
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
+        if( !is_null($ext) )
+        {
+            $this->realExtensionConstants[$extensionId] = $ext->getManifest()->getConstants();
+
+            foreach( $stubConstants as $name => $value){
+                if( !array_key_exists($name, $this->realExtensionConstants[$extensionId]) ){
+                    unset( $stubConstants[$name] );
+                }
+            }
+
+            $newConstants = array_merge($this->realExtensionConstants[$extensionId], $stubConstants);
+
+            $this->invokeProtectedMethod($ext->getManifest(), 'setConstants', array( $newConstants ));
+        }
+    }
+
+    protected function restoreExtensionConstants($extensionId)
+    {
+        if( !isset($this->realExtensionConstants[$extensionId]) ){
+            return;
+        }
+
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
+        if( !is_null($ext) )
+        {
+            $this->invokeProtectedMethod($ext->getManifest(), 'setConstants', array($this->realExtensionConstants[$extensionId]));
+        }
+    }
 
     public function testRegister()
     {
+        $this->stubExtensionConstants(
+            'tao',
+            array( 'BASE_WWW' => $this->baseWwwStub )
+        );
+
+        $shortDirname = 'js/';
+
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
-        
-        ClientLibRegistry::getRegistry()->register('OAT/test', dirname(__FILE__) . '/samples/fakeSourceCode/views/js/');
+
+        ClientLibRegistry::getRegistry()->register('OAT/test', $this->baseWwwStub . $shortDirname);
         $map = ClientLibRegistry::getRegistry()->getMap();
+
         $this->assertInternalType('array', $map);
         $this->assertTrue(isset($map['OAT/test']));
-        $this->assertEquals(dirname(__FILE__) . '/samples/fakeSourceCode/views/js/', $map['OAT/test']);
+        $this->assertTrue(isset($map['OAT/test']['path']));
+        $this->assertEquals($shortDirname, $map['OAT/test']['path']);
         
         ClientLibRegistry::getRegistry()->remove('OAT/test');
+
+        $this->restoreExtensionConstants('tao');
     }
+
+
 }
 
 ?>
