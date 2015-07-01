@@ -91,7 +91,7 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
         $returnValue = false;
 
         if (is_string( $values ) || is_numeric( $values )) {
-            $returnValue = preg_match( $this->options['format'], $values );
+            $returnValue = (preg_match( $this->options['format'], $values ) === 1);
         }
 
         return $returnValue;
