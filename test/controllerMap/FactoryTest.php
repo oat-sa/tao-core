@@ -16,7 +16,7 @@
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- * @author Konstantin Sasim <sasim@taotesting.com>
+ * @author Konstantin Sasim <sasim@1pt.com>
  * @license GPLv2
  * @package tao
  *
@@ -26,6 +26,10 @@ use oat\tao\model\controllerMap\Factory;
 use oat\tao\model\controllerMap\ControllerDescription;
 use oat\tao\model\controllerMap\ActionDescription;
 use oat\tao\test\TaoPhpUnitTestRunner;
+
+use oat\tao\test\controllerMap\stubs\ValidNamespacedController;
+
+//include_once __DIR__ . '/stubs/class.ValidController.php';
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 /* stubs for controller class name validation */
@@ -61,14 +65,14 @@ class FactoryTest extends TaoPhpUnitTestRunner {
     public function controllerNameProvider()
     {
         return array(
-            array('tao_actions_Main'),
-            array('oat\\taoQtiItem\\controller\\Parser'),
+            array('tao_test_controllerMap_stubs_ValidController'),
+            array('oat\\tao\\test\\controllerMap\\stubs\\ValidNamespacedController'),
         );
     }
 
     /**
      * Provides valid data for {@link self::testGetActionDescription}:
-     *  - controller name (non-namespaced, namespaced)
+     *  - controller class name (non-namespaced, namespaced)
      *  - action name
      *  - description
      *  - required rights
@@ -79,24 +83,46 @@ class FactoryTest extends TaoPhpUnitTestRunner {
     {
         return array(
             array(
-                'tao_actions_Main',
-                'index',
-                'The main action, load the layout',
-                array()
-            ),
-            array(
-                'taoItems_actions_ItemExport',
-                'index',
-                'overwrite the parent index to add the requiresRight for Items only',
+                'tao_test_controllerMap_stubs_ValidController',
+                'validAction',
+                'Valid non-namespaced stub controller action',
                 array(
                     'id' => 'READ'
-                )),
-            array(
-                'oat\\taoQtiItem\\controller\\Parser',
-                'getJson',
-                '',
-                array()
+                )
             ),
+            array(
+                'oat\\tao\\test\\controllerMap\\stubs\\ValidNamespacedController',
+                'validAction',
+                'Valid namespaced stub controller action',
+                array(
+                    'id' => 'WRITE'
+                )
+            ),
+        );
+    }
+
+    /**
+     * Provides invalid data for {@link self::testGetActionDescriptionForMissingAction}:
+     *  - controller class name
+     *  - action name
+     *
+     * @return array[] the data
+     */
+    public function missingControllerActionNameProvider()
+    {
+        return array(
+            array(
+                'tao_actions_Main',
+                'missingAction'
+            ),
+            array(
+                'missing_Controller',
+                'index',
+            ),
+            array(
+                'missing_Controller',
+                'missingAction'
+            )
         );
     }
 
@@ -137,7 +163,7 @@ class FactoryTest extends TaoPhpUnitTestRunner {
      * Test {@link Factory::getControllerDescription}
      *
      * @dataProvider controllerNameProvider
-     * @param $controllerClassName
+     * @param string $controllerClassName
      */
     public function testGetControllerDescription($controllerClassName)
     {
@@ -149,13 +175,26 @@ class FactoryTest extends TaoPhpUnitTestRunner {
     }
 
     /**
+     * Negative test {@link Factory::getControllerDescription}
+     *
+     * @dataProvider missingControllerActionNameProvider
+     * @param string $controllerClassName
+     * @param string $actionName
+     * @expectedException oat\tao\model\controllerMap\ActionNotFoundException
+     */
+    public function testGetActionDescriptionForMissingAction($controllerClassName, $actionName)
+    {
+        $this->factory->getActionDescription($controllerClassName, $actionName);
+    }
+
+    /**
      * Test {@link Factory::getActionDescription}
      *
      * @dataProvider controllerActionNameProvider
-     * @param $controllerClassName
-     * @param $actionName
-     * @param $descriptionStub
-     * @param $rightsStub
+     * @param string $controllerClassName
+     * @param string $actionName
+     * @param string $descriptionStub
+     * @param array  $rightsStub
      */
     public function testGetActionDescription($controllerClassName, $actionName, $descriptionStub, $rightsStub)
     {
@@ -171,7 +210,7 @@ class FactoryTest extends TaoPhpUnitTestRunner {
      * Test {@link Factory::getControllers}
      *
      * @dataProvider extensionNameProvider
-     * @param $extensionId
+     * @param string $extensionId
      */
     public function testGetControllers($extensionId)
     {
@@ -198,7 +237,7 @@ class FactoryTest extends TaoPhpUnitTestRunner {
      *
      * @dependsOn testIsControllerClassNameValid
      * @dataProvider extensionNameProvider
-     * @param $extensionId
+     * @param string $extensionId
      */
     public function testGetControllersClasses($extensionId)
     {
