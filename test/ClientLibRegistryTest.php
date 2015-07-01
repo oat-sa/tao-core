@@ -29,11 +29,14 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 class ClientLibRegistryTest extends TaoPhpUnitTestRunner
 {
 
+    /** @var string */
     protected $baseWwwStub = '';
 
+    /** @var array */
     protected $realExtensionConstants = [];
 
     /**
+     * Initialize TestRunner and add TestCase settings
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
@@ -44,6 +47,10 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
         $this->baseWwwStub = 'http://taotesting.com/samples/fakeSourceCode/views/';
     }
 
+    /**
+     * @param string $extensionId
+     * @param array  $stubConstants
+     */
     protected function stubExtensionConstants($extensionId, $stubConstants)
     {
         $this->restoreExtensionConstants($extensionId);
@@ -65,6 +72,11 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
         }
     }
 
+    /**
+     * Restores stubbed extension constants back to initial state
+     *
+     * @param string $extensionId
+     */
     protected function restoreExtensionConstants($extensionId)
     {
         if( !isset($this->realExtensionConstants[$extensionId]) ){
@@ -78,6 +90,12 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
         }
     }
 
+    /**
+     * Test:
+     *  - {@link ClientLibRegistry::getMap}
+     *  - {@link ClientLibRegistry::register}
+     *  - {@link ClientLibRegistry::remove}
+     */
     public function testRegister()
     {
         $this->stubExtensionConstants(
@@ -99,6 +117,9 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
         $this->assertEquals($shortDirname, $map['OAT/test']['path']);
         
         ClientLibRegistry::getRegistry()->remove('OAT/test');
+
+        $map = ClientLibRegistry::getRegistry()->getMap();
+        $this->assertFalse(isset($map['OAT/test']));
 
         $this->restoreExtensionConstants('tao');
     }
