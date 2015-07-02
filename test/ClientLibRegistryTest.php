@@ -21,6 +21,7 @@ namespace oat\tao\test;
 
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\tao\helpers\Template;
 
 /**
  * 
@@ -53,14 +54,13 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
         $this->assertFalse(empty($map));
         $this->assertFalse(isset($map[$libId]));
         
-        $taoViewsPath = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('BASE_WWW');
+        ClientLibRegistry::getRegistry()->register($libId, Template::js('fakePath/views/js/'));
         
-        ClientLibRegistry::getRegistry()->register($libId, $taoViewsPath . 'fakePath/views/js/');
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertInternalType('array', $map);
         $this->assertTrue(isset($map[$libId]));
         
-        $this->assertEquals('fakePath/views/js/', $map[$libId]['path']);
+        $this->assertEquals('js/fakePath/views/js/', $map[$libId]['path']);
         
         return $libId;
         
