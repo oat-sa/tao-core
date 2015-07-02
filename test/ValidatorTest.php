@@ -357,7 +357,7 @@ class ValidatorTest extends TaoPhpUnitTestRunner {
 		foreach ($pValues as $val) {
 			$nfo = $val;
 			if (is_array($val) && isset($val['name'])) $nfo = $val['name'];
-			$this->assertTrue($pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as false');
+			$this->assertTrue((bool)$pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as false');
 		}
 	}
 
@@ -367,7 +367,7 @@ class ValidatorTest extends TaoPhpUnitTestRunner {
 			$nfo = $val;
 			if (is_array($val) && isset($val['uploaded_file'])) $nfo = $val['uploaded_file'];
 			if (is_array($nfo)) $nfo = implode('-', $nfo);
-			$this->assertFalse($pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as true');
+			$this->assertFalse((bool)$pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as true');
 		}
 	}
 
