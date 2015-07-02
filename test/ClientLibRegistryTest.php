@@ -54,7 +54,7 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
         $this->assertFalse(empty($map));
         $this->assertFalse(isset($map[$libId]));
         
-        ClientLibRegistry::getRegistry()->register($libId, Template::js('fakePath/views/js/'));
+        ClientLibRegistry::getRegistry()->register($libId, Template::js('fakePath/views/js/', 'tao'));
         
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertInternalType('array', $map);
