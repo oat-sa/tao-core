@@ -17,6 +17,12 @@
  *
  *
  */
+
+/**
+ * NOTE: under certain circumstances iframes will not grow higher than 150px.
+ * This has been addressed in CSS already. Should this re-occur though refer to this gist
+ * https://gist.github.com/dietertaotesting/512eef98b1db36dd3f59
+ */
 define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNotifier) {
     'use strict';
 
@@ -103,10 +109,6 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
         eventHeight : function ($frame, diff) {
             var self = this;
 
-            if(!diff || parseInt(diff, 10) < 10){
-               // diff = 10;
-            }
-
             $frame.on('load.eventHeight', function () {
                 var newdiff = parseInt($frame.contents().height(), 10) - parseInt($frame.height(), 10);
                 if(newdiff > diff){
@@ -146,5 +148,3 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
     };
     return Resizer;
 });
-
-
