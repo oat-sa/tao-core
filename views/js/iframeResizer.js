@@ -22,9 +22,9 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
 
     /**
      * Helps you to resize an iframe from it's content
-     * 
+     *
      * todo migrate to a jQuery plugin ?
-     * 
+     *
      * @author Bertrand Chevrier <betrand@taotesting.com>
      * @exports iframeResizer
      */
@@ -32,11 +32,11 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
 
         /**
          * Set the height of an iframe regarding it's content, on load and if the style changes.
-         * 
+         *
          * @param {jQueryElement} $frame - the iframe to resize
          * @param {string} [restrict = 'body'] - restrict the elements that can have a style change
          * @param {Number} [plus] - additional height
-         * @returns {jQueryElement} $frame for chaining 
+         * @returns {jQueryElement} $frame for chaining
          */
         autoHeight : function ($frame, restrict, plus) {
             var self = this;
@@ -46,7 +46,7 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
                 var $frameContent = $frame.contents();
                 var height = $frameContent.height();
 
-                //call resizePop to change only to the last value within a time frame of 10ms
+                //call resizePop to change only to the last value within a time frame of 1ms
                 var sizing = false;
                 var resizePop = function resizePop () {
                     if (sizing === false) {
@@ -62,11 +62,9 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
                 self._adaptHeight($frame, height);
 
                 try {
-                    
-                    $($frameContent[0].document).find('img')
-                    
+
                     //then listen for size change
-                    var onSizeChange = function() {
+                    var onSizeChange = function onSizeChange () {
                         var newHeight = $frameContent.height();
                         if (newHeight > height) {
                            height = newHeight;
@@ -77,16 +75,13 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
                            resizePop();
                         }
                     };
-                    
-                    $frameContent.find(restrict).sizeChange(function () {
-                        onSizeChange();
-                    });
-                    
-                    $frameContent[0].resize(function() {
-                        onSizeChange();
-                    });
-                    
+
+                    $frameContent.find(restrict).sizeChange(onSizeChange);
+
+                    $frameContent.on('resize', onSizeChange);
+
                 } catch (e) {
+                    console.warning("Fallback to set interval");
                     //fallback to an interval mgt
                     setInterval(function () {
                         var newHeight = $frameContent.height();
@@ -107,7 +102,7 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
          */
         eventHeight : function ($frame, diff) {
             var self = this;
-            
+
             if(!diff || parseInt(diff, 10) < 10){
                // diff = 10;
             }
