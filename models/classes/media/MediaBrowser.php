@@ -51,6 +51,7 @@ interface MediaBrowser {
     /**
      * @param string $link
      * @return string path of the file to download
+     * @throws \tao_models_classes_FileNotFoundException
      */
     public function download($link);
 
