@@ -19,7 +19,7 @@
  */
 
 /**
- * NOTE: under certain circumstances iframes will never grow higher than 150px.
+ * NOTE: under certain circumstances iframes will not grow higher than 150px.
  * This has been addressed in CSS already. Should this re-occur though refer to this gist
  * https://gist.github.com/dietertaotesting/512eef98b1db36dd3f59
  */
