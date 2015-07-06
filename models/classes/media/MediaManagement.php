@@ -32,10 +32,11 @@ interface MediaManagement extends MediaBrowser{
      *                              'mime' => $mimeType,
      *                              'size' => $fileSize
      *                             ]
+     * @param bool $stimulus if it is a stimulus or not
      * @throws \common_exception_Error
      * @throws \tao_models_classes_FileNotFoundException
      */
-    public function add($source, $fileName, $parent);
+    public function add($source, $fileName, $parent, $stimulus = false);
 
 
     /**
