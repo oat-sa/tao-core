@@ -165,8 +165,7 @@ class tao_models_classes_Parser
                     $this->valid = $dom->schemaValidate($schema);
                 }
 
-                if(!$this->valid){
-                    echo($this->source);
+                if (!$this->valid) {
                     $this->addErrors(libxml_get_errors());
                 }
                 libxml_clear_errors();
