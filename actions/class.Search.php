@@ -91,7 +91,9 @@ class tao_actions_Search extends tao_actions_CommonModule {
             $this->returnJson(array(
                 'success' => false,
                 'msg' => $e->getUserMessage()
-            ));
+            ),
+                DEBUG_MODE ? 500 : 200
+            );
         }
     }
 
