@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+    'use strict';
 
     var root        = grunt.option('root');
     var testPort    = grunt.option('testPort');
@@ -60,6 +61,17 @@ module.exports = function(grunt) {
             }
         }
     });
+
+    /*
+     * Single file test
+     */
+    qunit.single = {
+        options : {
+            console : true,
+            urls : [testUrl + grunt.option('test')]
+        }
+    };
+
 
     /*
      * Tao extension tests
