@@ -36,7 +36,7 @@
      },
      "html" : {
         "category" : "sources", 
-        "mimes" : ["text/html", "text/xhtml", "application/xhtml+xml"], 
+        "mimes" : ["text/html", "text/xhtml", "application/xhtml+xml", "application/qti+xml"],
         "extensions" : ["html", "htm", "html5", "xhtml"] 
     },
     "font" : {

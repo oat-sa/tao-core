@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0.0\n"
-"PO-Revision-Date: 2015-04-30T09:07:43\n"
+"Project-Id-Version: TAO v3.1-dev\n"
+"PO-Revision-Date: 2015-06-18T14:51:23\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -148,6 +148,9 @@ msgstr "Permite a gestão dos repositórios"
 msgid "Alpha version"
 msgstr "Versão Alpha"
 
+msgid "An email has been sent"
+msgstr ""
+
 msgid "An error occured during user deletion"
 msgstr "Ocorreu um erro durante a eliminação do utilizador"
 
@@ -215,6 +218,9 @@ msgstr "Marcar Todos"
 msgid "Check all"
 msgstr "Marcar todos"
 
+msgid "Check-in"
+msgstr ""
+
 msgid "Choose export format"
 msgstr "Seleccione o formato de exportação:"
 
@@ -232,6 +238,9 @@ msgstr ""
 
 msgid "Column"
 msgstr "Coluna"
+
+msgid "Commit"
+msgstr ""
 
 msgid "Commit message : "
 msgstr "Mensagem de envio:"
@@ -272,13 +281,16 @@ msgstr "Informação importada com sucesso"
 msgid "Data Lang."
 msgstr "Infor. do Idioma"
 
-msgid "Data Language"
-msgstr "Informação do Idioma"
-
 msgid "Data language"
 msgstr "Informação do Idioma"
 
+msgid "Data Language"
+msgstr "Informação do Idioma"
+
 msgid "Date"
+msgstr ""
+
+msgid "Default search"
 msgstr ""
 
 msgid "Default user cannot be deleted"
@@ -395,6 +407,9 @@ msgstr "Extensão"
 msgid "Extensions manager"
 msgstr "Gestor de extensões"
 
+msgid "False"
+msgstr ""
+
 msgid "Field delimiter"
 msgstr "Delimitador de campo"
 
@@ -451,16 +466,31 @@ msgstr "1ª linha Nomes da coluna"
 msgid "Force Release"
 msgstr ""
 
+msgid "Forgot your password?"
+msgstr ""
+
+msgid "Fuzzy Matching"
+msgstr ""
+
 msgid "Go Back"
 msgstr "Retroceder"
 
 msgid "Height"
 msgstr ""
 
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
+msgstr ""
+
 msgid "Hide detailed report"
 msgstr ""
 
 msgid "hours"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr ""
 
 msgid "Import"
@@ -616,6 +646,9 @@ msgstr "Mapear propriedades das colunas CSV"
 msgid "maximum value: "
 msgstr "Valor máximo:"
 
+msgid "Message"
+msgstr ""
+
 msgid "minimum value: "
 msgstr "Valor mínimo:"
 
@@ -701,10 +734,10 @@ msgstr ""
 msgid "no label"
 msgstr "Sem rótulos"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No result found"
@@ -752,6 +785,9 @@ msgstr "Palavra-passe*"
 msgid "Password changed"
 msgstr "Palavra-passe alterada"
 
+msgid "Password successfully changed"
+msgstr ""
+
 msgid "Passwords are not matching"
 msgstr "As palavras-passes não são iguais"
 
@@ -776,6 +812,9 @@ msgstr ""
 msgid "Please contact %s or an administrator to release it', get_data('ownerHtml"
 msgstr ""
 
+msgid "Please give a message to your commit"
+msgstr ""
+
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr ""
 
@@ -793,6 +832,9 @@ msgstr ""
 
 #, tao-public
 msgid "Properties"
+msgstr ""
+
+msgid "Property\'s label field is required"
 msgstr ""
 
 msgid "RDF"
@@ -864,6 +906,9 @@ msgstr "Recurso guardado"
 msgid "Responsive mode"
 msgstr ""
 
+msgid "Return to sign in page"
+msgstr ""
+
 msgid "Revision control"
 msgstr "Controle de revisão"
 
@@ -889,6 +934,9 @@ msgstr ""
 #, tao-public
 msgid "Search"
 msgstr "Procurar"
+
+msgid "Search %s', $tree->get('className"
+msgstr ""
 
 msgid "Search sub-classes"
 msgstr ""
@@ -942,18 +990,15 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Formatos de exportação suportados"
 
-msgid "Supported import formats"
-msgstr ""
-
 #, tao-public
 msgid "TAO Back Office"
 msgstr "TAO Back Office"
 
-msgid "TAO Home"
-msgstr "Inicio TAO"
-
 msgid "Tao Home"
 msgstr ""
+
+msgid "TAO Home"
+msgstr "Inicio TAO"
 
 msgid "TAO Login"
 msgstr ""
@@ -970,10 +1015,10 @@ msgstr "Texto - Pequeno - Campo"
 msgid "The column "
 msgstr "A coluna"
 
-msgid "The format of this field is not valid."
-msgstr "O formato deste campo não é valido"
-
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
+msgstr ""
+
+msgid "The index identifier should not be empty"
 msgstr ""
 
 msgid "The lock has been released"
@@ -1003,11 +1048,17 @@ msgstr "Este campo é demasiado grande"
 msgid "This field is too short"
 msgstr "Este campo é demasiado pequeno"
 
+msgid "This is not a valid email address."
+msgstr ""
+
 msgid "this is required"
 msgstr ""
 
 msgid "This Login is already in use"
 msgstr "Esta sessão já se encontra em uso"
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
+msgstr ""
 
 msgid "This resource is locked"
 msgstr ""
@@ -1024,7 +1075,16 @@ msgstr "Isto não deve ser igual"
 msgid "Time zone"
 msgstr ""
 
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr ""
+
 msgid "to translate"
+msgstr ""
+
+msgid "Tokenizer"
+msgstr ""
+
+msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
 msgid "Translate"
@@ -1039,11 +1099,17 @@ msgstr "Parâmetros de tradução"
 msgid "Translation saved"
 msgstr "Tradução guardada"
 
+msgid "True"
+msgstr ""
+
 msgid "Type"
 msgstr "Tipo"
 
 msgid "UI Lang."
 msgstr "UI Língua"
+
+msgid "Unable to access your account?"
+msgstr ""
 
 msgid "Unable to change passwords in demo mode"
 msgstr "Não é permitido mudar a palavra-passe em modo de demonstração"
@@ -1055,6 +1121,9 @@ msgid "Unable to release the lock"
 msgstr ""
 
 msgid "Unable to remove the property."
+msgstr ""
+
+msgid "Unable to send the password reset request"
 msgstr ""
 
 msgid "Unable to upload file"
@@ -1081,6 +1150,9 @@ msgstr ""
 msgid "Unknown Error"
 msgstr "Erro desconhecido"
 
+msgid "Update"
+msgstr ""
+
 msgid "Upload"
 msgstr "Enviar"
 
@@ -1096,9 +1168,6 @@ msgstr ""
 msgid "Upload the file to version"
 msgstr "Enviar ficheiro para versão"
 
-msgid "URL"
-msgstr ""
-
 msgid "Use default value"
 msgstr "Usar o valor padrão"
 
@@ -1112,6 +1181,9 @@ msgid "User deleted successfully"
 msgstr "Utilizador eliminado com sucesso"
 
 msgid "User deletion not permited on a demo instance"
+msgstr ""
+
+msgid "User not found"
 msgstr ""
 
 msgid "User saved"
@@ -1140,13 +1212,13 @@ msgstr "Sim"
 msgid "You are not authorised to remove this lock"
 msgstr ""
 
-msgid "You can use * as a wildcard"
-msgstr ""
-
 msgid "You cannot delete the root node"
 msgstr ""
 
 msgid "You currently have no access to the platform"
+msgstr ""
+
+msgid "You do not have the required rights to edit this resource."
 msgstr ""
 
 msgid "You don't have sufficient permissions to access"
@@ -1155,6 +1227,9 @@ msgstr ""
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr ""
 
-msgid "You've not the required rights to edit this resource."
+msgid "Your mail"
+msgstr ""
+
+msgid "Your TAO Password"
 msgstr ""
 

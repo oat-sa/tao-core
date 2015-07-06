@@ -33,8 +33,6 @@ define([
 
     versionWarning.init();
 
-    $('input[type="text"]').eq(0).focus();
-
     // empty $fields sent
     if(context.find('.form-error').length){
         conf = {

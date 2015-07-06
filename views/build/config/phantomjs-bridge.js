@@ -10,6 +10,10 @@
 (function() {
   'use strict';
 
+  //little polyfill added  for phantomJS
+  window.console.warning = window.console.warning || window.console.log;
+
+
   // Don't re-order tests.
   QUnit.config.reorder = false;
   // Run tests serially, not in parallel.

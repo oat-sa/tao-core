@@ -18,7 +18,12 @@ require.config({
             shownExtension          : '<?=get_data('shownExtension')?>',
             shownStructure          : '<?=get_data('shownStructure')?>',
             extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
-        }
+        },
+        'ui/themes' : <?= get_data('themesAvailable') ?>,
+//dynamic lib config
+    <?php foreach (get_data('libConfigs') as $name => $config) :?>
+        '<?=$name?>'        : <?=json_encode($config)?>,
+    <?php endforeach?>
     },
 
     paths : {
