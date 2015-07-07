@@ -59,7 +59,7 @@ module.exports = function(grunt) {
                         return next();
                     });
 
-                    //allow  requests
+                    //allow post requests
                     middlewares.unshift(function(req, res, next) {
                         if (req.method.toLowerCase() === 'post') {
                             var filepath = path.join(options.base[0], req.url);
