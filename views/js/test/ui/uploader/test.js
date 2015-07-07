@@ -1,12 +1,9 @@
-define(['jquery', 'ui', 'ui/uploader', 'ui/deleter'], function($, ui, uploader, deleter){
+define(['jquery', 'ui/uploader'], function($){
+    'use strict';
 
-    deleter('.tao-scope');
-
-    $('#upload-container').uploader({
-        uploadUrl   : 'http://tao26.localdomain/taoItems/ItemContent/upload?uri=' + encodeURIComponent('http://tao26.localdomain/bertao.rdf#i1404285379397511') + '&lang=en-US&path=/',
-        multiple    : true,
-        upload      : true,
-        read        : false
+    QUnit.test('plugin', function(assert){
+       QUnit.expect(1);
+       assert.ok(typeof $.fn.uploader === 'function', 'The uploader plugin is registered');
     });
- 
+
 });
