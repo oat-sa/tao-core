@@ -19,7 +19,7 @@
 define([
     'jquery',
     'lodash',
-    'tpl!tao/ui/contextualPopup/popup'
+    'tpl!ui/contextualPopup/popup'
 ], function($, _, popupTpl){
 
     'use strict';
@@ -35,7 +35,7 @@ define([
 
     /**
      * Create an element selector reltive to the $anchor and contained in the $container
-     * 
+     *
      * @param {JQuery} $anchor
      * @param {JQuery} $container
      * @param {Object} options
@@ -56,7 +56,7 @@ define([
             controls : options.controls
         }));
 
-        //only one 
+        //only one
         $anchor.find('.contextual-popup').remove();
 
         //attach the popup
@@ -87,7 +87,7 @@ define([
         var popup = {
             /**
              * Get the popup JQuery container
-             * 
+             *
              * @returns {jQuery}
              */
             getPopup : function getPopup(){
@@ -97,7 +97,7 @@ define([
             /**
              * Recalculates the position of the popup relative to the anchor
              * Useful after any changes in layout
-             * 
+             *
              * @returns {undefined}
              */
             reposition : function reposition(){
@@ -110,32 +110,32 @@ define([
                 $element.children('.arrow-cover').css('left', pos.arrow.leftCover);
             },
             /**
-             * Manually triggers "done" 
-             * 
+             * Manually triggers "done"
+             *
              * @returns {undefined}
              */
             done : function done(){
                 _done($element);
             },
             /**
-             * Manually triggers "cancel" 
-             * 
+             * Manually triggers "cancel"
+             *
              * @returns {undefined}
              */
             cancel : function cancel(){
                 _cancel($element);
             },
             /**
-             * Manually triggers "hide" 
-             * 
+             * Manually triggers "hide"
+             *
              * @returns {undefined}
              */
             hide : function hide(){
                 _hide($element);
             },
             /**
-             * Manually triggers "show" 
-             * 
+             * Manually triggers "show"
+             *
              * @fires show.contextual-popup
              * @returns {undefined}
              */
@@ -144,8 +144,8 @@ define([
                 $element.trigger('show' + _ns);
             },
             /**
-             * Manually triggers "destroy" 
-             * 
+             * Manually triggers "destroy"
+             *
              * @fires destroy.contextual-popup
              * @returns {undefined}
              */
@@ -168,7 +168,7 @@ define([
 
     /**
      * Hide
-     * 
+     *
      * @fires hide.contextual-popup
      * @param {JQuery} $element
      */
@@ -179,7 +179,7 @@ define([
 
     /**
      * Callback when the "done" button is clicked
-     * 
+     *
      * @fires done.contextual-popup
      * @param {JQuery} $element
      */
@@ -190,7 +190,7 @@ define([
 
     /**
      * Callback when the "cancel" button is clicked
-     * 
+     *
      * @fires cancel.contextual-popup
      * @param {JQuery} $element
      */
@@ -208,7 +208,7 @@ define([
 
     /**
      * Calculate the position of the popup and arrow relative to the anchor and container elements
-     * 
+     *
      * @param {JQuery} $anchor
      * @param {JQuery} $container
      * @returns {Object} - Object containing the positioning data
@@ -230,7 +230,7 @@ define([
             left : -popupWidth / 2 + _anchor.w / 2,
             w : popupWidth
         };
-        
+
         switch(options.position){
             case 'top':
                 _popup.top = -marginTop - popupHeight;
