@@ -125,7 +125,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
 
             // We trying compare current label with option labels from file and set most suitable
             $label = $this->prepareString($propertyLabel);
-            $value = key(preg_grep("/$label/", $columnsOptionsLabels)) ?: $value;
+            $value = key(preg_grep("/^$label$/", $columnsOptionsLabels)) ?: $value;
 
             $propElt->setOptions($options);
             $propElt->setValue($value);
