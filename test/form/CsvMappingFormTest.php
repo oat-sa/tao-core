@@ -3,7 +3,7 @@
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
+include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 class CsvMappingFormTestCase extends TaoPhpUnitTestRunner
 {
