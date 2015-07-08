@@ -5,12 +5,12 @@ use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-class CSVMappingFormTestCase extends TaoPhpUnitTestRunner
+class CsvMappingFormTestCase extends TaoPhpUnitTestRunner
 {
     public function testMapping()
     {
 
-        $csv_column = array('login', 'password', 'title', 'last-name', 'firstname', 'gender', 'email', 'token', 'abelabel');
+        $csv_column = array('login', 'password', 'title', 'last-name', 'firstname', 'gender', 'mail', 'token', 'abelabel');
 
         $properties = tao_helpers_Uri::encodeArray(array(
             RDFS_LABEL => 'Label',
