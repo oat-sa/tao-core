@@ -50,7 +50,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             validate : function(value, callback){
 
                 var parsedValue = parseFloat(value),
-                    r = (parsedValue === value) && _.isNumber(parsedValue) && !_.isNaN(parsedValue);
+                    r = (parsedValue.toString() === value.toString()) && _.isNumber(parsedValue) && !_.isNaN(parsedValue);
 
                 if(typeof(callback) === 'function'){
                     callback.call(null, r);
