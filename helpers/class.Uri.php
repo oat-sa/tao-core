@@ -300,7 +300,7 @@ class tao_helpers_Uri
      * @param  boolean uniqueMode
      * @return array
      */
-    public static function encodeArray($uris, $encodeMode = 3, $dotMode = true, $uniqueMode = false)
+    public static function encodeArray($uris, $encodeMode = self::ENCODE_ARRAY_ALL, $dotMode = true, $uniqueMode = false)
     {
         $returnValue = array();
 
