@@ -152,7 +152,7 @@ define([
                 $container.trigger('filenew.' + ns, [result, path]);
             });
             $uploader.on('fail.uploader', function(e, file, err){
-                errors.push(__('Unable to upload file %s : %s', file.name, err));
+                errors.push(__('Unable to upload file %s : %s', file.name, err.message));
             });
 
             $uploader.on('end.uploader', function(){

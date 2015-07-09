@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2015-05-28 13:02:58
+ * @date   2015-06-19 15:53:03
  * @package tao
  * @subpackage helpers
  */
@@ -75,6 +75,7 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_HOME = 'icon-home';
     const CLASS_SHARED_FILE = 'icon-shared-file';
     const CLASS_END_ATTEMPT = 'icon-end-attempt';
     const CLASS_ICON = 'icon-icon';
@@ -263,6 +264,10 @@ class tao_helpers_Icon {
     /**
      * List of all icons as function
      */
+
+    public static function iconHome($options=array()){
+        return self::buildIcon(self::CLASS_HOME, $options);
+    }
 
     public static function iconSharedFile($options=array()){
         return self::buildIcon(self::CLASS_SHARED_FILE, $options);

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-18T14:52:07\n"
+"Project-Id-Version: TAO v3.1.0-rc02\n"
+"PO-Revision-Date: 2015-07-08T16:47:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -34,9 +34,6 @@ msgstr "下一个"
 msgid " requires a subgrid adapter"
 msgstr "需要一个subgrid adapter"
 
-msgid "\"list saved\""
-msgstr "\"列表已储存\""
-
 msgid "%d day"
 msgstr "%d天"
 
@@ -64,11 +61,29 @@ msgstr "%m月"
 msgid "%s (%s kb)"
 msgstr "%s (%s kb)"
 
+msgid "%s Class saved"
+msgstr ""
+
+msgid "%s could not be released"
+msgstr ""
+
 msgid "%s extension(s) to install."
 msgstr "%s扩充程式需要安装。"
 
-msgid "%s Locked', get_data('topclass-label"
-msgstr "%s 被锁定', get_data('topclass-label"
+msgid "%s has been deleted"
+msgstr ""
+
+msgid "%s has been released"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr ""
+
+msgid "%s Locked"
+msgstr ""
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
+msgstr ""
 
 msgid "%y year"
 msgstr "%y年"
@@ -96,6 +111,9 @@ msgstr ">安装已完成。"
 
 msgid "A fatal error occured during the installation process."
 msgstr "安装下列项目时发生错误。"
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
 
 msgid "A similar resource has already been versioned"
 msgstr "类似的资源已经有版本"
@@ -136,6 +154,9 @@ msgstr "进阶模式"
 
 msgid "all"
 msgstr "完全"
+
+msgid "All data will be removed in %s"
+msgstr ""
 
 msgid "All fields are required"
 msgstr "所有都是必填栏目"
@@ -197,8 +218,14 @@ msgstr "浏览文件夹："
 msgid "Browse..."
 msgstr "浏览..."
 
+msgid "buffer"
+msgstr ""
+
 msgid "Calendar"
 msgstr "日历"
+
+msgid "cancel"
+msgstr ""
 
 msgid "Cancel"
 msgstr "取消"
@@ -213,10 +240,10 @@ msgstr "更改密码"
 msgid "Change the password"
 msgstr "更改密码"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -282,10 +309,10 @@ msgstr "资料已成功导入"
 msgid "Data Lang."
 msgstr "资料语言"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "资料语言"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "资料语言"
 
 msgid "Date"
@@ -310,8 +337,8 @@ msgstr "删除这个列表"
 msgid "Demo Sandbox"
 msgstr "演示用沙盘"
 
-msgid "Disabled %s', $this->getRequestParameter('id"
-msgstr "停止%s', $this->getRequestParameter('id"
+msgid "Disabled %s"
+msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -352,16 +379,19 @@ msgstr "编辑"
 msgid "Edit a user"
 msgstr "编辑使用者"
 
+msgid "Edit class %s"
+msgstr ""
+
 msgid "Edit Instance"
 msgstr "编辑实例"
 
 msgid "Edit this list"
 msgstr "编辑这个清单"
 
-msgid "Element"
+msgid "element"
 msgstr "元素"
 
-msgid "element"
+msgid "Element"
 msgstr "元素"
 
 msgid "Element deleted"
@@ -479,7 +509,7 @@ msgstr "返回"
 msgid "Height"
 msgstr "长度"
 
-msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
 msgstr ""
 
 msgid "Hide detailed report"
@@ -531,10 +561,10 @@ msgstr "正在安装扩展程序%s..."
 msgid "Instance saved"
 msgstr "实体已储存"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面语言"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面语言"
 
 msgid "Invalid date range"
@@ -573,6 +603,9 @@ msgstr "不支持语言"
 msgid "Last Name"
 msgstr "姓氏"
 
+msgid "length"
+msgstr ""
+
 msgid "less than a minute"
 msgstr "少于一分钟"
 
@@ -596,6 +629,9 @@ msgstr "清单未删除"
 
 msgid "List not saved"
 msgstr "清单未储存"
+
+msgid "list saved"
+msgstr ""
 
 msgid "List values"
 msgstr "清单中的值"
@@ -759,6 +795,9 @@ msgstr "元素的数量"
 msgid "of"
 msgstr "的"
 
+msgid "offset"
+msgstr ""
+
 msgid "Old Password"
 msgstr "旧密码"
 
@@ -792,6 +831,9 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr "密码不相符"
 
+msgid "platform"
+msgstr ""
+
 msgid "Please confirm deletion"
 msgstr "请确认删除"
 
@@ -810,8 +852,8 @@ msgstr "您将要删除此清单元素，请确认。"
 msgid "Please confirm you want to delete this list. This operation cannot be undone."
 msgstr "请确认您将要删除此清单元素。 此行动无法复取消。"
 
-msgid "Please contact %s or an administrator to release it', get_data('ownerHtml"
-msgstr "请联络%s或系统管理员才可以释放它', get_data('ownerHtml"
+msgid "Please contact %s or an administrator to release it"
+msgstr ""
 
 msgid "Please give a message to your commit"
 msgstr ""
@@ -841,11 +883,17 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
+msgid "readable"
+msgstr ""
+
 msgid "Release"
 msgstr "释放"
 
-msgid "Releasing the lock might cause the work in progress by %s to be lost.', get_data('ownerHtml"
-msgstr "释放锁有可能会让%s失去正在进行的工作', get_data('ownerHtml"
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "remain"
+msgstr ""
 
 msgid "Remove"
 msgstr "移除"
@@ -936,7 +984,7 @@ msgstr "范围"
 msgid "Search"
 msgstr "搜寻"
 
-msgid "Search %s', $tree->get('className"
+msgid "Search %s"
 msgstr ""
 
 msgid "Search sub-classes"
@@ -988,6 +1036,12 @@ msgstr "大小"
 msgid "Success"
 msgstr "完成"
 
+msgid "Successfully imported \"%s"
+msgstr ""
+
+msgid "Successfully imported class \"%s"
+msgstr ""
+
 msgid "Supported export formats"
 msgstr "支援的导出格式"
 
@@ -1037,8 +1091,8 @@ msgstr "此栏位的值必须是一个整数"
 msgid "The value of this field must be numeric"
 msgstr "此栏位的值必须是数字"
 
-msgid "This %s is currently checked out', get_data('topclass-label"
-msgstr "这%s已经被借出', get_data('topclass-label"
+msgid "This %s is currently checked out"
+msgstr ""
 
 msgid "This field is required"
 msgstr "此栏位是必需的"
@@ -1115,6 +1169,9 @@ msgstr ""
 msgid "Unable to change passwords in demo mode"
 msgstr "在试用模式无法更改密码"
 
+msgid "Unable to delete %s"
+msgstr ""
+
 msgid "Unable to delete the selected resource"
 msgstr "无法删除所选的资源"
 
@@ -1130,6 +1187,9 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr "无法上传文件"
 
+msgid "Unable to upload file %s : %s"
+msgstr ""
+
 msgid "Uncheck All"
 msgstr "全部取消勾选"
 
@@ -1139,11 +1199,11 @@ msgstr "全部取消勾选"
 msgid "Undo"
 msgstr "复原"
 
-msgid "Uninstall of %s failed', $this->getRequestParameter('id"
-msgstr "卸载%s失败', $this->getRequestParameter('id"
+msgid "Uninstall of %s failed"
+msgstr ""
 
-msgid "Uninstalled %s', $this->getRequestParameter('id"
-msgstr "已卸载%s', $this->getRequestParameter('id"
+msgid "Uninstalled %s"
+msgstr ""
 
 msgid "unknown"
 msgstr "不明"
@@ -1194,6 +1254,9 @@ msgstr "用户已储存"
 msgid "User Settings"
 msgstr "用户设定"
 
+msgid "userAgent"
+msgstr ""
+
 #, tao-public
 msgid "Users"
 msgstr "用户"
@@ -1206,6 +1269,9 @@ msgstr "版本"
 
 msgid "Width"
 msgstr "宽度"
+
+msgid "width"
+msgstr ""
 
 msgid "Yes"
 msgstr "是"

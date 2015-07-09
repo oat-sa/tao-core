@@ -23,14 +23,15 @@
  * Copyright (C) 2013 Selvakumar Arumugam
  * You may use attrchange plugin under the terms of the MIT Licese.
  * https://github.com/meetselva/attrchange/blob/master/MIT-License.txt
- * 
+ *
  * MODIFIED VERSION:
  * @author Bertrand Chevrier <bertrand@taotesting.com> for OAT SA
  * - Code refactoring to fit AMD modules
- * - Specific implementation of the original attrchange plugin to detect 
+ * - Specific implementation of the original attrchange plugin to detect
  */
 define(['jquery', 'lodash'], function($, _){
-    
+    'use strict';
+
     /**
      * Check whether DOM3 Events / MutationObserver are supported
      * @todo use Modernizr.hasEvent once integrated
@@ -39,7 +40,7 @@ define(['jquery', 'lodash'], function($, _){
     function isDOM3EventSupported(){
          return window.MutationObserver || window.WebKitMutationObserver || false;
     }
-    
+
     /**
      * Check whether DOM2 Events (based on DOMAttrModified) are supported
      * @todo use Modernizr.hasEvent once integrated
@@ -68,7 +69,7 @@ define(['jquery', 'lodash'], function($, _){
 
    /**
     * Register a jquery plugin that helps you to execute the given callback when a resize MAY happen.
-    * 
+    *
     * !!! The callback MUST NOT modify in any way the element it is observing, or you'll fall into an infinite loop !!!
     *
     * @example $iframe.contents().find('body').sizeChange(function(){ $iframe.height($iframe.contents().height()); });
@@ -77,13 +78,13 @@ define(['jquery', 'lodash'], function($, _){
     */
    $.fn.sizeChange = function(cb) {
         var $this = this;
-        var running = false;       
- 
+        var running = false;
+
         cb = cb || $.noop();
         if($this.length === 0){
             return $this;
         }
-        
+
         var execCb = _.throttle(function execCb(done){
             cb();
             _.delay(done, 1);
@@ -93,15 +94,15 @@ define(['jquery', 'lodash'], function($, _){
                 cb();
             });
         }, 10);
-        
-        
+
+
         if (isDOM3EventSupported()) { //DOM3,  Modern Browsers
             var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
             var mutationOptions = {
                     childList : this[0].nodeName !== 'IFRAME',
-                    subtree: true, 
+                    subtree: true,
                     attributes: true,
-                    attributeFilter : ['style', 'width', 'heigh']
+                    attributeFilter : ['style', 'width', 'height']
             };
 
             var observer = new MutationObserver(function(mutations) {
@@ -113,7 +114,7 @@ define(['jquery', 'lodash'], function($, _){
                     }
                 }
             });
-            
+
             var start = function start(){
                 $this.each(function() {
                     observer.observe(this, mutationOptions);
@@ -141,11 +142,11 @@ define(['jquery', 'lodash'], function($, _){
                     execCb(runs);
                 }
             });
-        } else { 
+        } else {
             throw new Error('Event listening not supported');
         }
 
         return this;
     };
- 
+
 });

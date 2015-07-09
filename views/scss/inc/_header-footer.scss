@@ -59,7 +59,7 @@
         float: left;
         position: relative;
         @include font-size(13);
-        & > a {
+        & > a, & > .a {
             text-align: center;
             display: block;
             height: 64px;
@@ -71,6 +71,8 @@
                 position: relative;
                 top: 2px;
             }
+        }
+        & > a {
             &:hover {
                 @include vendor-prefix(transition, background-color 1s ease);
                 background-color: rgba($info, .5);
@@ -79,6 +81,9 @@
                     color: inherit;
                 }
             }
+        }
+        & > .a {
+            cursor: default
         }
         &.active {
             & > a {
@@ -156,7 +161,7 @@
             min-width: 25px;
 
             @include font-size(13);
-            & > a {
+            & > a, & > .a {
                 padding: 22px 8px 0px 8px;
                 span {
                     @include font-size(13);
@@ -167,7 +172,7 @@
                     padding: 0 2px;
                 }
             }
-            &.li-help, &.li-user_settings {
+            &.li-help, &.li-user_settings, &.sep-before {
                 padding-left: 15px;
                 position: relative;
                 &:before {
@@ -343,3 +348,4 @@ body > footer {
         }
     }
 }
+
