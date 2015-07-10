@@ -76,6 +76,7 @@ class ThemeRegistry extends AbstractRegistry
      * 
      * @param string $targetId
      * @param string $baseCssPath
+     * @throws \common_Exception
      */
     public function createTarget($targetId, $baseCssPath)
     {
@@ -91,12 +92,14 @@ class ThemeRegistry extends AbstractRegistry
     
 
     /**
+     * Adds a theme to the registry
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param string $id
      * @param string $name
      * @param string $path
      * @param array $targets
+     * @throws \common_Exception
      */
     public function registerTheme($id, $name, $path, $targets = array() )
     {
