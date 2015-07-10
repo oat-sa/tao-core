@@ -27,10 +27,12 @@
 			<?php endif; ?>
 	    </div>	    
 		<ul class="plain links">
-			<?php if (!empty($returnLink) && !empty($_SERVER['HTTP_REFERER'])) : ?>
-			<li><a href="<?= $_SERVER['HTTP_REFERER'] ?>"><?=__('Go Back')?></a></li>
+		<?php if (!empty($returnLink)): ?>
+			<?php if (!empty($_SERVER['HTTP_REFERER'])) : ?>				
+				<li><a href="<?= $_SERVER['HTTP_REFERER'] ?>"><?=__('Go Back')?></a></li>
 			<?php endif; ?>
 			<li><a href="<?= ROOT_URL ?>"><?=__('TAO Home')?></a></li>
+		<?php endif; ?>
 		</ul>
 
     </div>
