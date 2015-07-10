@@ -1,25 +1,47 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!doctype html>
+<html class="no-js" lang="">
 <head>
-	<title>Currenly Under Maintenance</title>
-	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/custom-theme/jquery-ui-1.8.22.custom.css" />
-	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/errors.css" />
-	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/maintenance.css" />
-</head>
-<body>
-	<div id="main" class="ui-widget-content ui-corner-all" style="background-image: url(<?= ROOT_URL ?>tao/views/img/errors/maintenance.png);">
-		<div id="content">
-			<h1>Currently Under Maintenance</h1>
-			<p id="warning_msg">
-				<img src="<?= ROOT_URL ?>tao/views/img/warning_error_tpl.png" alt="warning" class="embedWarning" />
-				This TAO Platform is currently <strong>under maintenance</strong> and should be available in a few moments.
-				We apologize for any inconvenience.
-			</p>
-		</div>
-	</div>
-</body>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Currently Under Maintenance</title>
+    <link rel="stylesheet" href="<?= ROOT_URL ?>tao/views/css/tao-main-style.css">
+    <link rel="stylesheet" href="<?= ROOT_URL ?>tao/views/css/error-pages.css">
+    <style>
+    .error-code { 
+        font-size: 15rem; 
+    }
 
+    .error-code:after { 
+        left: -10px;
+    }
+    </style>
+</head>
+
+<body>
+
+<div class="content-wrap">
+    <header class="dark-bar clearfix">
+        <a href="<?= ROOT_URL ?>" class="lft" target="_blank">
+            <img src="<?= ROOT_URL ?>tao/views/img/tao-logo.png" alt="TAO Logo" id="tao-main-logo">
+        </a>
+        <h1>Currently Under Maintenance</h1>
+    </header>
+
+    <div class="section-container">
+        <div class="error-code">Maintenance</div>
+        <div class="error-text">
+            <p>This TAO instance is currently under maintenance and should be back shortly.<br>
+                We apologize for the inconvenience.</p>
+        </div>
+
+    </div>
+</div>
+
+<footer class="dark-bar">
+    © 2013 - 2015 · <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
+    · All rights reserved.
+</footer>
+
+</body>
 </html>
