@@ -88,6 +88,7 @@ define([
             return;
         }
 
+        console.log(containerHeight)
         $contentBlock.css( { height: containerHeight, maxHeight: containerHeight });
         $tree.css({
             maxHeight: containerHeight - getTreeActionIdealHeight()
@@ -115,7 +116,7 @@ define([
             $versionWarning
                 .off('hiding.versionwarning')
                 .on('hiding.versionwarning', function () {
-
+                    $versionWarning = $('.version-warning:visible');
                     setHeights($scope);
                 });
         },
