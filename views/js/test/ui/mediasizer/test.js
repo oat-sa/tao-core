@@ -5,30 +5,30 @@ define(['jquery', 'ui/mediasizer'], function($) {
 
     $('#_' + mode).show()
 
-    module('MediaSizer Stand Alone Test');
+    QUnit.module('MediaSizer Stand Alone Test');
 
-    test('plugin', function() {
-        expect(1);
-        ok(typeof $.fn.mediasizer === 'function', 'The MediaSizer plugin is registered');
+    QUnit.test('plugin', function(assert) {
+        QUnit.expect(1);
+        assert.ok(typeof $.fn.mediasizer === 'function', 'The MediaSizer plugin is registered');
     });
 
-    asyncTest('Initialization', function() {
-        expect(4);
+    QUnit.asyncTest('Initialization', function(assert) {
+        QUnit.expect(4);
 
         var $container = $('#qunit-fixture-tmp');
-        ok($container.length === 1, 'Fixture is available');
+        assert.ok($container.length === 1, 'Fixture is available');
 
         var $elt = $('#media-sizer-container', $container);
-        ok($elt.length === 1, 'MediaSizer link is available');
+        assert.ok($elt.length === 1, 'MediaSizer link is available');
 
         var $target = $('#_' + mode + ' img', $container);
-        ok($target.length === 1, 'Target is available');
+        assert.ok($target.length === 1, 'Target is available');
 
         $elt.on('create.mediasizer', function() {
             var data = $elt.data('ui.mediasizer');
-            ok(typeof data === 'object', 'The element is running the plugin');
+            assert.ok(typeof data === 'object', 'The element is running the plugin');
 
-            start();
+            QUnit.start();
         });
         $elt.mediasizer({
             target: $target

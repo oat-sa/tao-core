@@ -19,7 +19,7 @@
  */
 
 define([
-    'jquery', 
+    'jquery',
     'lodash',
     'i18n',
     'tpl!ui/lock/lock',
@@ -58,10 +58,10 @@ define([
     /**
      * Object delegation. This enables us to separate the instance from Api.
      * An instance can call methods from the API like it was it, so each object will not contain the function definition.
-     * @private 
+     * @private
      * @param {Object} receiver - the object that receive the methods
      * @param {Object} provider - it provides the methods to the receiver
-     * @returns {Object} the receiver augmented by the provider's methods. 
+     * @returns {Object} the receiver augmented by the provider's methods.
      */
     function delegate (receiver, provider) {
         _(provider).functions().forEach(function delegateMethod(methodName) {
@@ -194,8 +194,8 @@ define([
                     .appendTo(self._container);
 
                 self._trigger('display');
-                
-                if (typeof this.options.uri == 'undefined') {
+
+                if (typeof this.options.uri === 'undefined') {
                 	$('.release', self._container).hide();
                 	$('.check-in', self._container).hide();
                 } else {
@@ -290,7 +290,7 @@ define([
             return this;
 
         },
-        
+
         /**
          * Default behaviour
          */
@@ -347,7 +347,7 @@ define([
          * Check if the current state is one of the given values
          * @param {String|Array} verify - the statue to check
          * @returns {Boolean} true if the object is in the state to verify
-         */        
+         */
         isInState : function isInState(verify){
             if(_.isString(verify)){
                 verify = [verify];
@@ -365,7 +365,7 @@ define([
                 throw new Error('Unkown state ' + state );
             }
             this._state = state;
-        } 
+        }
     };
 
     /**
@@ -382,7 +382,7 @@ define([
             $lockBox = $('#lock-box');
         }
         _container = $container || $lockBox;
-       
+
         if(!_container || !_container.length){
             throw new Error('The lock needs to belong to an existing container');
         }
@@ -403,7 +403,7 @@ define([
 
         //delegate the api calls to the new instance
         return delegate(lk, lockApi);
-    }; 
+    };
 
 
     return lockFactory;

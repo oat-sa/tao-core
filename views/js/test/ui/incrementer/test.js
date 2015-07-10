@@ -1,45 +1,45 @@
 define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
     
     
-    module('Incrementer Stand Alone Test');
+    QUnit.module('Incrementer Stand Alone Test');
    
-    test('plugin', function(){
-        expect(1);
-        ok(typeof $.fn.incrementer === 'function', 'The Durationer plugin is registered');
+    QUnit.test('plugin', function(assert){
+        QUnit.expect(1);
+        assert.ok(typeof $.fn.incrementer === 'function', 'The Durationer plugin is registered');
     });
 
-    test('initialization', function(){
-        expect(4);
+    QUnit.test('initialization', function(assert){
+        QUnit.expect(4);
 
         var $container = $('#container-1');
-        ok($container.length === 1, 'Test the fixture is available');
+        assert.ok($container.length === 1, 'Test the fixture is available');
 
         var $elt = $(':text', $container);
-        ok($elt.length === 1, 'Test input is available');
+        assert.ok($elt.length === 1, 'Test input is available');
 
         $elt.on('create.incrementer', function(){
-            ok(typeof $elt.data('ui.incrementer') === 'object');
+            assert.ok(typeof $elt.data('ui.incrementer') === 'object');
 
             var $control = $container.find('.ctrl > a');
-            equal($control.length, 2, 'The plugins has created controls');
+            assert.equal($control.length, 2, 'The plugins has created controls');
         });
         $elt.incrementer();
     });
 
-    test('update seconds', function(){
-        expect(3);
+    QUnit.test('update seconds', function(assert){
+        QUnit.expect(3);
 
         var $container = $('#container-1');
-        ok($container.length === 1, 'Test the fixture is available');
+        assert.ok($container.length === 1, 'Test the fixture is available');
 
         var $elt = $(':text', $container);
-        ok($elt.length === 1, 'Test input is available');
+        assert.ok($elt.length === 1, 'Test input is available');
 
         $elt.on('create.incrementer', function(){
             $container.find('.ctrl > a.inc').click();
         });
         $elt.on('increment.incrementer', function(){
-            equal($elt.val(), 2, "The value has been incremented");
+            assert.equal($elt.val(), 2, "The value has been incremented");
         });
 
         $elt.incrementer({
@@ -49,21 +49,21 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
         });
     });
     
-    test('increment decimal 0.5 + 1.00 = 1', function(){
-        expect(3);
+    QUnit.test('increment decimal 0.5 + 1.00 = 1', function(assert){
+        QUnit.expect(3);
         
         var $container = $('#container-1');
-        ok($container.length === 1, 'Test the fixture is available');
+        assert.ok($container.length === 1, 'Test the fixture is available');
         
         var $elt = $(':text', $container);
-        ok($elt.length === 1, 'Test input is available');
+        assert.ok($elt.length === 1, 'Test input is available');
         $elt.val(0.5);
         
         $elt.on('create.incrementer', function(){
             $container.find('.ctrl > a.inc').click();
         });
          $elt.on('increment.incrementer', function(){
-            equal($elt.val(), 1, "The value has been incremented");
+            assert.equal($elt.val(), 1, "The value has been incremented");
         });
         
         $elt.incrementer({
@@ -72,21 +72,21 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
         
     });
     
-    test('increment decimal 1.01 + 1.00 = 2', function(){
-        expect(3);
+    QUnit.test('increment decimal 1.01 + 1.00 = 2', function(assert){
+        QUnit.expect(3);
         
         var $container = $('#container-1');
-        ok($container.length === 1, 'Test the fixture is available');
+        assert.ok($container.length === 1, 'Test the fixture is available');
         
         var $elt = $(':text', $container);
-        ok($elt.length === 1, 'Test input is available');
+        assert.ok($elt.length === 1, 'Test input is available');
         $elt.val(1.01);
         
         $elt.on('create.incrementer', function(){
             $container.find('.ctrl > a.inc').click();
         });
          $elt.on('increment.incrementer', function(){
-            equal($elt.val(), 2, "The value has been incremented");
+            assert.equal($elt.val(), 2, "The value has been incremented");
         });
         
         $elt.incrementer({
@@ -94,21 +94,21 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
         });
     });
     
-    test('decrement decimal 0.5 - 1.00 = 0', function(){
-        expect(3);
+    QUnit.test('decrement decimal 0.5 - 1.00 = 0', function(assert){
+        QUnit.expect(3);
         
         var $container = $('#container-1');
-        ok($container.length === 1, 'Test the fixture is available');
+        assert.ok($container.length === 1, 'Test the fixture is available');
         
         var $elt = $(':text', $container);
-        ok($elt.length === 1, 'Test input is available');
+        assert.ok($elt.length === 1, 'Test input is available');
         $elt.val(0.5);
         
         $elt.on('create.incrementer', function(){
             $container.find('.ctrl > a.dec').click();
         });
          $elt.on('decrement.incrementer', function(){
-            equal($elt.val(), 0, "The value has been decremented");
+            assert.equal($elt.val(), 0, "The value has been decremented");
         });
         
         $elt.incrementer({
@@ -116,21 +116,21 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
         });
     });
     
-    test('decrement decimal 0 - 1.00 = -1', function(){
-        expect(3);
+    QUnit.test('decrement decimal 0 - 1.00 = -1', function(assert){
+        QUnit.expect(3);
         
         var $container = $('#container-1');
-        ok($container.length === 1, 'Test the fixture is available');
+        assert.ok($container.length === 1, 'Test the fixture is available');
         
         var $elt = $(':text', $container);
-        ok($elt.length === 1, 'Test input is available');
+        assert.ok($elt.length === 1, 'Test input is available');
         $elt.val(0);
         
         $elt.on('create.incrementer', function(){
             $container.find('.ctrl > a.dec').click();
         });
          $elt.on('decrement.incrementer', function(){
-            equal($elt.val(), -1, "The value has been decremented");
+            assert.equal($elt.val(), -1, "The value has been decremented");
         });
         
         $elt.incrementer({
@@ -138,40 +138,40 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
         });
     });
     
-     module('Incrementer Data Attr Test');
+     QUnit.module('Incrementer Data Attr Test');
      
-     test('initialization', function(){
-        expect(3);
+     QUnit.test('initialization', function(assert){
+        QUnit.expect(3);
         
         var $container = $('#container-2');
-        ok($container.length === 1, 'Test the fixture is available');
+        assert.ok($container.length === 1, 'Test the fixture is available');
         
         var $elt = $(':text', $container);
-        ok($elt.length === 1, 'Test input is available');
+        assert.ok($elt.length === 1, 'Test input is available');
         
         $elt.on('create.incrementer', function(){
             $container.find('.ctrl > a.inc').click();
         });
          $elt.on('increment.incrementer', function(){
-            equal($elt.val(), 5, "The value has been incremented");
+            assert.equal($elt.val(), 5, "The value has been incremented");
         });
        
         incrementer($container);
     });
     
-     test('decimal', function(){
+     QUnit.test('decimal', function(assert){
         
         var $container = $('#container-3');
-        ok($container.length === 1, 'Test the fixture is available');
+        assert.ok($container.length === 1, 'Test the fixture is available');
         
         var $elt = $(':text', $container);
-        ok($elt.length === 1, 'Test input is available');
+        assert.ok($elt.length === 1, 'Test input is available');
         
         incrementer($container);
         var options = $elt.data('ui.incrementer');
         
-        equal(options.decimal, 2, 'option decimal ok');
-        equal(options.step, 1, 'option step ok');
+        assert.equal(options.decimal, 2, 'option decimal ok');
+        assert.equal(options.step, 1, 'option step ok');
     });
 });
 
