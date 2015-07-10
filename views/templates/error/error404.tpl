@@ -16,7 +16,7 @@
         <a href="<?= ROOT_URL ?>" class="lft" target="_blank">
             <img src="<?= ROOT_URL ?>tao/views/img/tao-logo.png" alt="TAO Logo" id="tao-main-logo">
         </a>
-		<h1>Error 500 - Page Not Found</h1>
+		<h1>Error 404 - Page Not Found</h1>
     </header>
 
     <div class="section-container">
