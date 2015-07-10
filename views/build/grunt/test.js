@@ -79,6 +79,17 @@ module.exports = function(grunt) {
     });
 
     /*
+     * Single file test
+     */
+    qunit.single = {
+        options : {
+            console : true,
+            urls : [testUrl + grunt.option('test')]
+        }
+    };
+
+
+    /*
      * Tao extension tests
      */
 
