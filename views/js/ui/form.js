@@ -18,7 +18,7 @@
  *
  */
 define(['jquery'], function($){
-    
+
     'use strict';
 
     /**
@@ -32,14 +32,27 @@ define(['jquery'], function($){
         });
     };
 
-   /**
-    * Manages general behavior on form elements
-    * 
-    * @param {jQueryElement} $container - the root context to lookup inside
-    */
+    /**
+     * Prevent clicks and focus on disbled elements
+     * @param {String} selector - to scope the listening
+     */
+    var preventDisabled = function preventDisabled(selector){
+
+        $(document).on('click', selector + ' .disabled, ' + selector + ' :disabled', function (e) {
+            e.preventDefault();
+            return false;
+        });
+    };
+
+    /**
+     * Manages general behavior on form elements
+     *
+     * @param {jQueryElement} $container - the root context to lookup inside
+     */
     return function listenFormBehavior($container){
-        var selector = $container.selector || '.tao-scope'; 
+        var selector = $container.selector || '.tao-scope';
 
         pseudoLabel(selector);
+        preventDisabled(selector);
     };
 });
