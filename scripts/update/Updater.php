@@ -39,6 +39,10 @@ use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\DirectWebSource;
 use oat\tao\model\search\strategy\GenerisSearch;
+use oat\tao\model\menu\MenuService;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\entryPoint\BackOfficeEntrypoint;
+use oat\tao\model\entryPoint\EntryPointService;
 
 /**
  * 
@@ -55,6 +59,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         
         $currentVersion = $initialVersion;
         $extensionManager = common_ext_ExtensionsManager::singleton();
+        $serviceManager = ServiceManager::getServiceManager();
+        
         //migrate from 2.6 to 2.7.0
         if ($currentVersion == '2.6') {
 
@@ -262,6 +268,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         // semantic versioning
         if ($currentVersion === '2.7.17') {
             $currentVersion = '2.8.0';
+        }
+        
+        if ($currentVersion === '2.8.0') {
+            EntryPointService::getRegistry()->registerEntryPoint(new BackOfficeEntrypoint());
+            $currentVersion = '2.8.1';
         }
 
         return $currentVersion;
