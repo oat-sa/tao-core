@@ -21,7 +21,6 @@ namespace oat\tao\model;
 
 use oat\oatbox\AbstractRegistry;
 use common_ext_ExtensionsManager;
-use Jig\Utils\StringUtils;
 use oat\tao\model\websource\WebsourceManager;
 
 
@@ -134,8 +133,34 @@ class ThemeRegistry extends AbstractRegistry
         }
     }
 
+    /**
+     *
+     * @author Joel Bout, joel@taotesting.com
+     *
+     * @param string $id
+     * @throws \common_Exception
+     */
+    public function unregisterTheme($id)
+    {
+        if (preg_match('/^[a-zA-Z0-9]*$/', $id) === 0) {
+            throw new \common_Exception('Invalid id "'.$id.'"');
+        }
 
+        $map = $this->getMap();
+        foreach ($map as $target => $themes) {
+            foreach ($themes['available'] as $key => $theme) {
+                if ($theme['id'] == $id) {
+                    unset($map[$target]['available'][$key]);
+                }
+            }
+            $this->set($target, $themes);
+        }
+    }
 
+    /**
+     * @param $theme
+     * @return mixed
+     */
     private function updatePath($theme){
         $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
         if(strpos($theme['path'] , ThemeRegistry::WEBSOURCE) === 0) {
