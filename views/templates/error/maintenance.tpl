@@ -7,15 +7,6 @@
     <title>Currently Under Maintenance</title>
     <link rel="stylesheet" href="<?= ROOT_URL ?>tao/views/css/tao-main-style.css">
     <link rel="stylesheet" href="<?= ROOT_URL ?>tao/views/css/error-pages.css">
-    <style>
-    .error-code { 
-        font-size: 15rem; 
-    }
-
-    .error-code:after { 
-        left: -10px;
-    }
-    </style>
 </head>
 
 <body>
@@ -29,7 +20,7 @@
     </header>
 
     <div class="section-container">
-        <div class="error-code">Maintenance</div>
+        <div class="error-code small">Maintenance</div>
         <div class="error-text">
             <p>This TAO instance is currently under maintenance and should be back shortly.<br>
                 We apologize for the inconvenience.</p>
