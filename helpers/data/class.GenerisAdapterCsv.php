@@ -129,7 +129,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         
         $createdResources = 0;
         $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
-        
+
     	for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++){
     	    helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::SHORT);
     		common_Logger::d("CSV - Importing CSV row ${rowIterator}.");
@@ -171,7 +171,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 						}
 
 						//stop future action if validation was not passed
-						$valid = $this->validate($destination, $propUri, $csvRow, $csvColumn);
+						$valid = $this->validate($resource, $propUri, $csvRow, $csvColumn);
 						if (!$valid) {
 							break;
 						}
@@ -206,7 +206,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			}
 			helpers_TimeOutHelper::reset();
 		}
-        
+
 		$this->addOption('to_import', count($csvData));
 		$this->addOption('imported', $createdResources);
 
@@ -397,13 +397,24 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 	 * @param $csvColumn
 	 * @return array
 	 */
-	protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn)
+	protected function validate(core_kernel_classes_Resource $resource, $propUri, $csvRow, $csvColumn)
 	{
 		/**  @var tao_helpers_form_Validator $validator */
 		$validators = $this->getValidator($propUri);
 		foreach ((array)$validators as $validator) {
-			if (!$validator->evaluate(array($destination, $propUri, $csvRow[$csvColumn]))) {
-				$this->addErrorMessage($propUri, common_report_Report::createFailure($validator->getMessage(). ' "' . $csvRow[$csvColumn] . '"'));
+            $validator->setOptions( array(
+                'resourceClass' => new core_kernel_classes_Class($resource->getUri()),
+                'property'      => $propUri
+            ));
+
+            if (!$validator->evaluate($csvRow[$csvColumn])) {
+                $field = new core_kernel_classes_Resource($propUri);
+				$this->addErrorMessage(
+                    $propUri,
+                    common_report_Report::createFailure(
+                        $resource->getLabel(). ', ' .$field->getLabel(). ': ' .$validator->getMessage(). ' "' . $csvRow[$csvColumn] . '"'
+                    )
+                );
 				return false;
 			}
 		}
@@ -417,16 +428,20 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 	 */
 	protected function getResult($createdResources)
 	{
+        $message = __('Data imported');
 		$type = common_report_Report::TYPE_SUCCESS;
+
 		if ($this->hasErrors()) {
 			$type = common_report_Report::TYPE_WARNING;
+            $message = __('Data imported. Some records are invalid.');
 		}
 
 		if (!$createdResources) {
 			$type = common_report_Report::TYPE_ERROR;
+            $message = __('Data not imported. All records are invalid.');
 		}
 
-		$report = new common_report_Report($type, __('Data imported'));
+		$report = new common_report_Report($type, $message);
 		foreach ($this->getErrorMessages() as $group) {
 			$report->add($group);
 		}
