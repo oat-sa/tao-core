@@ -54,16 +54,16 @@ define(['jquery'],
                 $versionWarning: $contentWrap.find('.version-warning'),
                 $header: $contentWrap.find('header:first()')
             },
-            $headerHeight   = getHeaderHeight(headerElements);
+            headerHeight   = getHeaderHeight(headerElements);
         
         $win.on('scroll.loadingbar', function () {
             if(!$loadingBar.hasClass('loading')) {
                 return;
             }
             // status of height would change for instance when version warning is hidden
-            $headerHeight = getHeaderHeight(headerElements);
+            headerHeight = getHeaderHeight(headerElements);
 
-            if ($headerHeight <= $win.scrollTop()) {
+            if (headerHeight <= $win.scrollTop()) {
                 $loadingBar.addClass('fixed');
             }
             else {
