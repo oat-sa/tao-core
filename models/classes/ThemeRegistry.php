@@ -113,6 +113,10 @@ class ThemeRegistry extends AbstractRegistry
         if (preg_match('/^[a-zA-Z0-9]*$/', $id) === 0) {
             throw new \common_Exception('Invalid id "'.$id.'"');
         }
+        if (!is_array($targets) || count($targets) === 0){
+            throw new \common_Exception('No targets were provided for theme '.$id);
+        }
+
         foreach ($targets as $target) {
             if(!$this->isRegistered($target)){
                 throw new \common_Exception('Target '.$target.' does not exist');
@@ -146,14 +150,22 @@ class ThemeRegistry extends AbstractRegistry
             throw new \common_Exception('Invalid id "'.$id.'"');
         }
 
+        $isDeleted = false;
+
         $map = $this->getMap();
+        unset($map[ThemeRegistry::WEBSOURCE]);//still ugly but looks better than 'continue'
         foreach ($map as $target => $themes) {
             foreach ($themes['available'] as $key => $theme) {
                 if ($theme['id'] == $id) {
-                    unset($map[$target]['available'][$key]);
+                    unset($themes['available'][$key]);
+                    $isDeleted = true;
                 }
             }
             $this->set($target, $themes);
+        }
+
+        if ( !$isDeleted ){
+            throw new \common_Exception('Theme '.$id.' not found for any target');
         }
     }
 
