@@ -113,7 +113,7 @@ class ThemeRegistry extends AbstractRegistry
         if (preg_match('/^[a-zA-Z0-9]*$/', $id) === 0) {
             throw new \common_Exception('Invalid id "'.$id.'"');
         }
-        if (count($targets) == 0){
+        if (!is_array($targets) || count($targets) === 0){
             throw new \common_Exception('No targets were provided for theme '.$id);
         }
 
