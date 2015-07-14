@@ -38,23 +38,6 @@ class tao_helpers_form_validators_DateTime
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
-    {
-        
-		 
-		parent::__construct($options);
-		
-        
-    }
-
-    /**
      * Short description of method evaluate
      *
      * @access public

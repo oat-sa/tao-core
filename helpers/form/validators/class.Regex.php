@@ -50,24 +50,31 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
      */
     public function __construct(array $options = array(), $name = '')
     {
-        
 		parent::__construct($options);
-		
-		if(!isset($this->options['format'])){
-			throw new Exception("Please set the format options (define your regular expression)!");
-		}
 
-        $this->message = array_key_exists( 'message', $this->options ) ? $this->options['message'] : __(
-            'The format of this field is not valid.'
-        );
-
-        if (is_string( $name ) && $name) {
+        if (is_string( $name ) && !empty($name)) {
             $this->name = $name;
         } else {
             $this->name = str_replace( 'tao_helpers_form_validators_', '', get_class( $this ) );
         }
 
     }
+
+    public function setOptions(array $options)
+    {
+        parent::setOptions($options);
+
+        if(!isset($this->options['format'])){
+            throw new Exception("Please set the format options (define your regular expression)!");
+        }
+    }
+
+
+    protected function getDefaultMessage()
+    {
+        return __('The format of this field is not valid.');
+    }
+
 
     /**
      * @return string

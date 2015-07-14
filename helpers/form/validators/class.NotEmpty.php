@@ -37,24 +37,11 @@ class tao_helpers_form_validators_NotEmpty
 
     // --- OPERATIONS ---
 
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
+    protected function getDefaultMessage()
     {
-        
-		
-		parent::__construct($options);
-		
-		(isset($options['message'])) ? $this->message = $options['message'] : $this->message = __('This field is required');
-		
-        
+        return __('This field is required');
     }
+
 
     /**
      * Short description of method evaluate

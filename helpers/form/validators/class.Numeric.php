@@ -28,18 +28,6 @@
 class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
 {
 
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
-     * @param array options
-     * @return mixed
-     */
-    public function __construct($options = array())
-    {
-        parent::__construct($options);
-    }
 
     /**
      * Short description of method evaluate

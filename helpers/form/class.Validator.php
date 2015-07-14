@@ -64,7 +64,7 @@ abstract class tao_helpers_form_Validator
      */
     public function __construct(array $options = array())
     {
-		$this->options = $options;
+        $this->setOptions($options);
     }
 
     /**
@@ -101,6 +101,21 @@ abstract class tao_helpers_form_Validator
     public function getMessage()
     {
         return $this->message;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDefaultMessage()
+    {
+        return __('');
+    }
+
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+
+        (isset($options['message'])) ? $this->message = $options['message'] : $this->message = $this->getDefaultMessage();
     }
 
     /**

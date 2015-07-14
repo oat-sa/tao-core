@@ -31,29 +31,20 @@
 class tao_helpers_form_validators_FileMimeType
     extends tao_helpers_form_Validator
 {
-
-
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
+    protected function getDefaultMessage()
     {
-        
-
-		parent::__construct($options);
-
-		$this->message = __('Invalid file type!');
-		if(!isset($this->options['mimetype'])){
-			throw new common_Exception("Please define the mimetype option for the FileMimeType Validator");
-		}
-
-       
+        return __('Invalid file type!');
     }
+
+    public function setOptions(array $options)
+    {
+        parent::setOptions($options);
+
+        if(!isset($this->options['mimetype'])){
+            throw new common_Exception("Please define the mimetype option for the FileMimeType Validator");
+        }
+    }
+
 
     /**
      * Short description of method evaluate
