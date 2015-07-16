@@ -275,7 +275,7 @@ msgid "Confirm"
 msgstr ""
 
 msgid "Connect to the TAO platform"
-msgstr ""
+msgstr "Conectar a la plataforma TAO"
 
 msgid "Continue"
 msgstr ""
@@ -643,13 +643,13 @@ msgid "Loaded at Startup"
 msgstr ""
 
 msgid "Log in"
-msgstr ""
+msgstr "Iniciar sesión"
 
 msgid "Log Out"
 msgstr ""
 
 msgid "Login"
-msgstr ""
+msgstr "Inicio de sesión"
 
 msgid "Login available"
 msgstr ""
@@ -814,7 +814,7 @@ msgid "Page"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 msgid "Password *"
 msgstr ""
