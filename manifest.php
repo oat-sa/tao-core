@@ -74,7 +74,8 @@ return array(
             dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
             dirname(__FILE__).'/scripts/install/setupServiceFileStorage.php',
             dirname(__FILE__).'/scripts/install/setServiceState.php',
-            dirname(__FILE__).'/scripts/install/setJsConfig.php'
+            dirname(__FILE__).'/scripts/install/setJsConfig.php',
+            dirname(__FILE__).'/scripts/install/setDefaultTheme.php',
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
