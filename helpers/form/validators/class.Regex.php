@@ -65,16 +65,9 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
         parent::setOptions($options);
 
         if(!isset($this->options['format'])){
-            throw new Exception("Please set the format options (define your regular expression)!");
+            throw new common_Exception("Please set the format options (define your regular expression)!");
         }
     }
-
-
-    protected function getDefaultMessage()
-    {
-        return __('The format of this field is not valid.');
-    }
-
 
     /**
      * @return string
@@ -83,7 +76,6 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
     {
         return $this->name;
     }
-
 
     /**
      * Short description of method evaluate
@@ -102,6 +94,11 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
         }
 
         return $returnValue;
+    }
+
+    protected function getDefaultMessage()
+    {
+        return __('The format of this field is not valid.');
     }
 
 }

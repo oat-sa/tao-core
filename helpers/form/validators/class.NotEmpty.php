@@ -37,12 +37,6 @@ class tao_helpers_form_validators_NotEmpty
 
     // --- OPERATIONS ---
 
-    protected function getDefaultMessage()
-    {
-        return __('This field is required');
-    }
-
-
     /**
      * Short description of method evaluate
      *
@@ -55,28 +49,26 @@ class tao_helpers_form_validators_NotEmpty
     {
         $returnValue = (bool) false;
 
-        
         if (is_string($values)){
         	$values = trim($values);
         }
-        
-		if (!empty($values)){
-			if(count($values) >= 1){
-				$returnValue = true;
-			}
-			else{
-				$value = trim($values);
-				if(!empty($value)){
-					$returnValue = true;
-				}
-			}
-		}
-		else{
-			$returnValue = false;
-		}
-        
+
+        $isScalar = is_bool($values) || is_int($values) || is_float($values);
+
+        if( $isScalar === true ){
+            $returnValue = true;
+        } elseif( is_array($values) ) {
+            $returnValue = (count($values) >= 1);
+        } else {
+            $returnValue = !empty($values);
+        }
 
         return (bool) $returnValue;
+    }
+
+    protected function getDefaultMessage()
+    {
+        return __('This field is required');
     }
 
 }
