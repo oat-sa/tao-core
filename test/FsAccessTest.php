@@ -163,15 +163,17 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         $this->assertUrlHttpCode($url);
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png');
-        $this->assertFalse(file_exists($access->getFileSystem()->getPath().'img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png'), 'reference file should not found');
+        $this->assertFalse(file_exists($access->getFileSystem()->getPath().'img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png'), 'reference file should not be found');
         $this->assertUrlHttpCode($url, '404');
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR);
         $this->assertUrlHttpCode($url.'tao.png');
-        $this->assertUrlHttpCode($url.'errors'.DIRECTORY_SEPARATOR.'404.png');
+
+        $url = $access->getAccessUrl('css'.DIRECTORY_SEPARATOR);
+        $this->assertUrlHttpCode($url.'font/tao/tao.woff');
         
         $url = $access->getAccessUrl('');
-        $this->assertUrlHttpCode($url.'img'.DIRECTORY_SEPARATOR.'tao.png');
+        $this->assertUrlHttpCode($url.'img/tao.png');
         
         WebsourceManager::singleton()->removeWebsource($access);
         try {
