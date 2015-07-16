@@ -1,9 +1,13 @@
 module.exports = function(grunt) {
+    'use strict';
+
 
     var root        = grunt.option('root');
     var testPort    = grunt.option('testPort');
     var reportOutput= grunt.option('reports');
     var ext         = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
+    var fs          = require('fs');
+    var path        = require('path');
     var qunit       = grunt.config('qunit') || {};
     var testUrl     = 'http://127.0.0.1:' + testPort;
 
@@ -55,11 +59,35 @@ module.exports = function(grunt) {
                         return next();
                     });
 
+                    //allow post requests
+                    middlewares.unshift(function(req, res, next) {
+                        if (req.method.toLowerCase() === 'post') {
+                            var filepath = path.join(options.base[0], req.url);
+                            if (fs.existsSync(filepath)) {
+                                fs.createReadStream(filepath).pipe(res);
+                                return;
+                            }
+                        }
+                        return next();
+                    });
+
+
                     return middlewares;
                 }
             }
         }
     });
+
+    /*
+     * Single file test
+     */
+    qunit.single = {
+        options : {
+            console : true,
+            urls : [testUrl + grunt.option('test')]
+        }
+    };
+
 
     /*
      * Tao extension tests

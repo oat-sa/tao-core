@@ -21,7 +21,7 @@
  */
 
 /**
- * A parameter was missing for the request
+ * File was not found exception
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -43,5 +43,3 @@ class tao_models_classes_FileNotFoundException
     }
 
 }
-
-?>
