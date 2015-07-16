@@ -16,7 +16,7 @@
         <a href="<?= ROOT_URL ?>" class="lft" target="_blank">
             <img src="<?= ROOT_URL ?>tao/views/img/tao-logo.png" alt="TAO Logo" id="tao-main-logo">
         </a>
-		<h1>Error 500 - Page Not Found</h1>
+		<h1>Error 404 - Page Not Found</h1>
     </header>
 
     <div class="section-container">
@@ -38,12 +38,12 @@
 	    <?php if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
 	    	<?php if (!empty($message)): ?>
 	    		<h2>Debug Message</h2>    		
-	    		<pre><?= nl2br($message) ?></pre>
+	    		<pre><?= $message ?></pre>
 	    	<?php endif; ?>
 	    	
 	    	<?php if (!empty($trace)): ?>
 	    		<h2>Stack Trace</h2>    		
-	    		<pre><?= nl2br($trace) ?></pre>
+	    		<pre><?= $trace ?></pre>
 	    	<?php endif; ?>
 	    <?php endif; ?>
 
