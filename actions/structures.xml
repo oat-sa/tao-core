@@ -107,9 +107,4 @@
             <section id="settings_my_password" name="Change password" url="/tao/UserSettings/password"/>
         </sections>
     </structure>
-
-    <entrypoint id="backoffice" title="Test Developers and Administrators" label="TAO Back Office" url="tao/Main/index">
-        <description>
-            <![CDATA[Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows.]]></description>
-    </entrypoint>
 </structures>

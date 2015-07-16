@@ -27,6 +27,7 @@ use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\messaging\MessagingService;
+use oat\tao\model\entryPoint\EntryPointService;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -62,12 +63,13 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
     public function entry()
     {
-	    $entries = array();
-	    foreach (MenuService::getEntryPoints() as $entry) {
-	        if ($entry->hasAccess()) {
-	            $entries[] = $entry;
-	        }
-	    }
+        $entries = array();
+        foreach (EntryPointService::getRegistry()->getEntryPoints() as $entry) {
+            if (tao_models_classes_accessControl_AclProxy::hasAccessUrl($entry->getUrl())) {
+                $entries[] = $entry;
+            }
+        }
+        
 	    if (empty($entries)) {
 	        // no access -> error
 	        if (common_session_SessionManager::isAnonymous()) {
