@@ -21,7 +21,6 @@ namespace oat\tao\model;
 
 use oat\oatbox\AbstractRegistry;
 use common_ext_ExtensionsManager;
-use Jig\Utils\StringUtils;
 use oat\tao\model\websource\WebsourceManager;
 
 
@@ -114,6 +113,10 @@ class ThemeRegistry extends AbstractRegistry
         if (preg_match('/^[a-zA-Z0-9]*$/', $id) === 0) {
             throw new \common_Exception('Invalid id "'.$id.'"');
         }
+        if (!is_array($targets) || count($targets) === 0){
+            throw new \common_Exception('No targets were provided for theme '.$id);
+        }
+
         foreach ($targets as $target) {
             if(!$this->isRegistered($target)){
                 throw new \common_Exception('Target '.$target.' does not exist');
@@ -134,8 +137,42 @@ class ThemeRegistry extends AbstractRegistry
         }
     }
 
+    /**
+     *
+     * @author Joel Bout, joel@taotesting.com
+     *
+     * @param string $id
+     * @throws \common_Exception
+     */
+    public function unregisterTheme($id)
+    {
+        if (preg_match('/^[a-zA-Z0-9]*$/', $id) === 0) {
+            throw new \common_Exception('Invalid id "'.$id.'"');
+        }
 
+        $isDeleted = false;
 
+        $map = $this->getMap();
+        unset($map[ThemeRegistry::WEBSOURCE]);//still ugly but looks better than 'continue'
+        foreach ($map as $target => $themes) {
+            foreach ($themes['available'] as $key => $theme) {
+                if ($theme['id'] == $id) {
+                    unset($themes['available'][$key]);
+                    $isDeleted = true;
+                }
+            }
+            $this->set($target, $themes);
+        }
+
+        if ( !$isDeleted ){
+            throw new \common_Exception('Theme '.$id.' not found for any target');
+        }
+    }
+
+    /**
+     * @param $theme
+     * @return mixed
+     */
     private function updatePath($theme){
         $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
         if(strpos($theme['path'] , ThemeRegistry::WEBSOURCE) === 0) {
