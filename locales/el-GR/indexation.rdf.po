@@ -1,14 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-24T16:16:28\n"
-"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
-"MIME-Version: 1.0\n"
+"PO-Revision-Date: 2015-06-22 13:36+0000\n"
+"Last-Translator: christofili <christofili@gmail.com>\n"
 "Language: el-GR\n"
-"sourceLanguage: en-US\n"
-"targetLanguage: el-GR\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.1-rc1\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: el-GR\n"
+"X-POOTLE-MTIME: 1434980211.000000\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -23,12 +26,12 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Identifier"
-msgstr ""
+msgstr "Αναγνωριστικό"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Humanreadable identifier of the index"
-msgstr ""
+msgstr "Αναγνώσιμο αναγνωριστικό του ευρετηρίου"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -43,7 +46,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Fuzzy matching"
-msgstr ""
+msgstr "Ασαφής συνδυασμός"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -63,7 +66,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer"
-msgstr ""
+msgstr "Αναγνωριστής λεκτικών μονάδων"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -103,7 +106,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Label Tokenizer"
-msgstr ""
+msgstr "Ετικέτα αναγνωριστή λεκτικών μονάδων"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -124,4 +127,3 @@ msgstr ""
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login Index"
 msgstr ""
-

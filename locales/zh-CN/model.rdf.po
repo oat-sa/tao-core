@@ -1,14 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-24T16:16:47\n"
-"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
-"MIME-Version: 1.0\n"
+"PO-Revision-Date: 2015-04-30 17:19+0000\n"
+"Last-Translator: Michael <michael.t@examguardian.com>\n"
 "Language: zh-CN\n"
-"sourceLanguage: en-US\n"
-"targetLanguage: zh-CN\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Pootle 2.5.1-rc1\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: zh-CN\n"
+"X-POOTLE-MTIME: 1430414340.000000\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -58,7 +61,7 @@ msgstr "开发"
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "this model has not been tested in a production environment, we advise to be carefull with it"
-msgstr "此模型无法在生产环境测试，我们建议您小心使用"
+msgstr "这个模型无法在生产环境测试，我们建议您小心使用"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -68,7 +71,7 @@ msgstr "试验"
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "this model is still in conception, but you can try it, give your feedback and it will be improved."
-msgstr "此模型还在开发当中，您可以试用，也请您回应您的建议。"
+msgstr "这个模型还在开发当中，您可以试用，也请您回应您的建议。"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -89,4 +92,3 @@ msgstr "模型"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Select the associated model"
 msgstr "请选相关的模型"
-

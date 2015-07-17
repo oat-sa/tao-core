@@ -1,22 +1,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-24T16:16:36\n"
-"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
-"MIME-Version: 1.0\n"
+"PO-Revision-Date: 2015-06-03 08:49+0000\n"
+"Last-Translator: sveinbjorn <sveinbjorn@namsmat.is>\n"
 "Language: is-IS\n"
-"sourceLanguage: en-US\n"
-"targetLanguage: is-IS\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n%10!=1 || n%100==11);\n"
+"X-Generator: Pootle 2.5.1-rc1\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: is-IS\n"
+"X-POOTLE-MTIME: 1433321346.000000\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Base User"
-msgstr ""
+msgstr "Grunnnotandi"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Base User Role"
-msgstr ""
-
+msgstr "Hlutverk grunnnotanda"

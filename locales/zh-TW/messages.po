@@ -1,17 +1,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-24T16:16:49\n"
-"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
-"MIME-Version: 1.0\n"
+"PO-Revision-Date: 2015-04-30 16:54+0000\n"
+"Last-Translator: Michael <michael.t@examguardian.com>\n"
 "Language: zh-TW\n"
-"sourceLanguage: en-US\n"
-"targetLanguage: zh-TW\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Pootle 2.5.1-rc1\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: zh-TW\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-POOTLE-MTIME: 1430412886.000000\n"
 
 #, tao-public
 msgid "\n"
@@ -274,19 +277,19 @@ msgid "Current language"
 msgstr "目前的語言"
 
 msgid "Data imported"
-msgstr "已匯入的資料"
+msgstr "已匯入的數據"
 
 msgid "Data imported successfully"
-msgstr "資料已成功匯入"
+msgstr "數據已成功匯入"
 
 msgid "Data Lang."
-msgstr "資料語言"
+msgstr "數據語言"
 
 msgid "Data language"
-msgstr "資料語言"
+msgstr "數據語言"
 
 msgid "Data Language"
-msgstr "資料語言"
+msgstr "數據語言"
 
 msgid "Date"
 msgstr "日期"
@@ -1233,4 +1236,3 @@ msgstr ""
 
 msgid "Your TAO Password"
 msgstr ""
-

@@ -1,29 +1,32 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-24T16:16:36\n"
-"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
-"MIME-Version: 1.0\n"
+"PO-Revision-Date: 2015-06-03 10:48+0000\n"
+"Last-Translator: sveinbjorn <sveinbjorn@namsmat.is>\n"
 "Language: is-IS\n"
-"sourceLanguage: en-US\n"
-"targetLanguage: is-IS\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n%10!=1 || n%100==11);\n"
+"X-Generator: Pootle 2.5.1-rc1\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: is-IS\n"
+"X-POOTLE-MTIME: 1433328502.000000\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Index"
-msgstr ""
+msgstr "Yfirlit"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Index class"
-msgstr ""
+msgstr "Yfirlitsflokkur"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Identifier"
-msgstr ""
+msgstr "Auðkenni"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -53,7 +56,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Use by default"
-msgstr ""
+msgstr "Nota sem sjálfgefið"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -124,4 +127,3 @@ msgstr ""
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login Index"
 msgstr ""
-
