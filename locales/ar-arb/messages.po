@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-rc02\n"
-"PO-Revision-Date: 2015-07-08T16:42:31\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-17T13:10:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -238,10 +238,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check-in"
@@ -307,10 +307,10 @@ msgstr "البيانات التي تم استيرادها بنجاح"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "لغة البيانات"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "لغة البيانات"
 
 msgid "Date"
@@ -385,11 +385,11 @@ msgstr ""
 msgid "Edit this list"
 msgstr ""
 
-msgid "Element"
-msgstr "العنصر"
-
 msgid "element"
 msgstr "عنصر"
+
+msgid "Element"
+msgstr "العنصر"
 
 msgid "Element deleted"
 msgstr ""
@@ -558,10 +558,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "لغة الواجهة"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "لغة الواجهة"
 
 msgid "Invalid date range"
@@ -768,10 +768,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No result found"
@@ -836,6 +836,9 @@ msgstr "الرجاء تأكيد الحذف"
 
 msgid "Please confirm property deletion!"
 msgstr "الرجاء تأكيد حذف الخاصية"
+
+msgid "Please confirm the deletion of the activity"
+msgstr ""
 
 msgid "Please confirm this operation."
 msgstr ""
@@ -990,11 +993,11 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "Select"
-msgstr "حدد"
-
 msgid "select"
 msgstr "اختر"
+
+msgid "Select"
+msgstr "حدد"
 
 msgid "Select a language"
 msgstr "حدد اللغة"
