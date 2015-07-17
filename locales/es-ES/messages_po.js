@@ -1,1 +1,1 @@
-[]
+{"Connect to the TAO platform":"Conectar a la plataforma TAO","Log in":"Iniciar sesi\u00f3n","Login":"Inicio de sesi\u00f3n","Password":"Contrase\u00f1a"}

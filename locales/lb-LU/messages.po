@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-rc02\n"
-"PO-Revision-Date: 2015-07-08T16:45:31\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-17T13:12:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lb-LU\n"
@@ -238,10 +238,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check-in"
@@ -307,11 +307,11 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
-msgstr ""
-
 msgid "Data language"
 msgstr "Daten Sprooch"
+
+msgid "Data Language"
+msgstr ""
 
 msgid "Date"
 msgstr ""
@@ -558,11 +558,11 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
-msgstr "Interface Sprooch"
-
 msgid "Interface Language"
 msgstr ""
+
+msgid "Interface language"
+msgstr "Interface Sprooch"
 
 msgid "Invalid date range"
 msgstr ""
@@ -837,6 +837,9 @@ msgstr "Wirklech Läschen?"
 msgid "Please confirm property deletion!"
 msgstr "W.e.g. konfirméiert d'Läschen vun der Proprietéit"
 
+msgid "Please confirm the deletion of the activity"
+msgstr ""
+
 msgid "Please confirm this operation."
 msgstr ""
 
@@ -990,11 +993,11 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "Select"
-msgstr ""
-
 msgid "select"
 msgstr "auswielen"
+
+msgid "Select"
+msgstr ""
 
 msgid "Select a language"
 msgstr "Sprooch auswielen"

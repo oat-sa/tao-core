@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-rc02\n"
-"PO-Revision-Date: 2015-07-08T16:47:11\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-17T13:14:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -240,10 +240,10 @@ msgstr "更改密码"
 msgid "Change the password"
 msgstr "更改密码"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -309,10 +309,10 @@ msgstr "资料已成功导入"
 msgid "Data Lang."
 msgstr "资料语言"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "资料语言"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "资料语言"
 
 msgid "Date"
@@ -561,10 +561,10 @@ msgstr "正在安装扩展程序%s..."
 msgid "Instance saved"
 msgstr "实体已储存"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面语言"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面语言"
 
 msgid "Invalid date range"
@@ -840,6 +840,9 @@ msgstr "请确认删除"
 msgid "Please confirm property deletion!"
 msgstr "请确认属性删除!"
 
+msgid "Please confirm the deletion of the activity"
+msgstr ""
+
 msgid "Please confirm this operation."
 msgstr "请确认此行动。"
 
@@ -993,10 +996,10 @@ msgstr "搜索子类别"
 msgid "seconds"
 msgstr "秒"
 
-msgid "Select"
+msgid "select"
 msgstr "选择"
 
-msgid "select"
+msgid "Select"
 msgstr "选择"
 
 msgid "Select a language"
