@@ -136,19 +136,16 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
     		
 			$resource = null;
 			$csvRow = $csvData->getRow($rowIterator);
-
-			//create the instance with the label defined in the map
-			$label = $this->options['map'][RDFS_LABEL];
 				
 			try {
 			    // default values
 			    $evaluatedData = $this->options['staticMap'];
 			         
-    			// validate
+    			// validate csv values
 			    foreach ($this->options['map'] as $propUri => $csvColumn) {
 			        $this->validate($destination, $propUri, $csvRow, $csvColumn);
 			    }
-			    // evaluate values
+			    // evaluate csv values
 			    foreach($this->options['map'] as $propUri => $csvColumn){
 			        
 			        if ($csvColumn != 'csv_null' && $csvColumn != 'csv_select') {
@@ -171,11 +168,11 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			    $createdResources++;
 			    
 			} catch (tao_helpers_data_ValidationException $valExc) {
-		        $targetProperty = new core_kernel_classes_Property($propUri);
-			    $this->addErrorMessage(
+			    $targetProperty = new core_kernel_classes_Property($propUri);
+                $this->addErrorMessage(
 			        $propUri,
 			        common_report_Report::createFailure(
-			            $label. ', ' .$valExc->getProperty()->getLabel(). ': ' .$valExc->getUserMessage(). ' "' . $valExc->getValue() . '"'
+			            'Row '.$rowIterator. ' ' .$valExc->getProperty()->getLabel(). ': ' .$valExc->getUserMessage(). ' "' . $valExc->getValue() . '"'
 			        )
 			    );
 			    $valid = false;

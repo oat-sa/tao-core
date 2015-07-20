@@ -20,63 +20,43 @@
  */
 
 /**
- * Short description of class tao_helpers_form_validators_Unique
+ * Validator to ensure a property value is unique
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
 class tao_helpers_form_validators_Unique
     extends tao_helpers_form_Validator
 {
+    /**
+     * (non-PHPdoc)
+     * @see tao_helpers_form_Validator::getDefaultMessage()
+     */
     protected function getDefaultMessage()
     {
         return __('Entity with such field already present');
     }
 
     /**
-     * Short description of method evaluate
-     *
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  mixed $values
-     * @return boolean
-     * @throws common_exception_Error
+     * (non-PHPdoc)
+     * @see tao_helpers_form_Validator::evaluate()
      */
     public function evaluate($values)
     {
-		$result = true;
-
-        if( !array_key_exists('resourceClass', $this->options) ){
-            throw new common_exception_Error('Resource class not set');
-        }
-
-        if( !array_key_exists('property', $this->options) ){
+        if (!array_key_exists('property', $this->options)) {
             throw new common_exception_Error('Property not set');
         }
-
-        /** @var core_kernel_classes_Class $resource */
-        $resource = $this->options['resourceClass'];
-        if( !( $this->options['resourceClass'] instanceof core_kernel_classes_Class ) ){
-            throw new common_exception_Error('Resource class is invalid');
+        
+        $property = new core_kernel_classes_Property($this->options['property']);
+        $domain = $property->getDomain();
+        foreach ($domain as $class) {
+            $resources = $class->searchInstances(array($property->getUri() => $values), array('recursive' => true, 'like' => false));
+            if (count($resources) > 0) {
+                return false;
+            }
         }
-
-        $recursiveParent = (array_key_exists('recursiveParent', $this->options) ? $this->options['recursiveParent'] : true);
-
-        /** @var string $property */
-        $property = $this->options['property'];
-
-		$parentClasses = $resource->getParentClasses($recursiveParent);
-
-		if (is_array($parentClasses)) {
-			$veryParentClass = end($parentClasses);
-			if ($veryParentClass) {
-				$resources = $veryParentClass->searchInstances(array($property => $values,), array('recursive' => $recursiveParent));
-				$result = (count($resources) === 0);
-			}
-		}
-
-		return $result;
+        return true;
     }
 
 }
