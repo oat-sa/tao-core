@@ -213,10 +213,12 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
     }
     
     /**
+     * Evaluates the raw values provided by the csv file into
+     * the actual values to be assigned to  the resource
      * 
-     * @param unknown $column
+     * @param string $column
      * @param core_kernel_classes_Property $property
-     * @param unknown $value
+     * @param mixed $value
      * @return array
      */
     protected function evaluateValues($column, core_kernel_classes_Property $property, $value)

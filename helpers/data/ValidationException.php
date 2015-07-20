@@ -21,35 +21,67 @@
 namespace oat\tao\helpers\data;
 
 /**
- * Short description of class tao_helpers_data_CsvFile
+ * Validation during preprocessing of a value that should be
+ * assigned to a given property
  *
  * @access public
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
 class ValidationException extends \Exception implements \common_exception_UserReadableException
 {
+    /**
+     * @param \core_kernel_classes_Property $property
+     */
     private $property;
 
+    /**
+     * @var mixed
+     */
     private $value;
     
+    /**
+     * Message that is save to display to user
+     * 
+     * @var string
+     */
     private $userMessage;
     
-    public function __construct($property, $value, $userMessage) {
+    /**
+     * 
+     * @param \core_kernel_classes_Property $property
+     * @param mixed $value
+     * @param string $userMessage
+     */
+    public function __construct(\core_kernel_classes_Property $property, $value, $userMessage) {
         parent::__construct($userMessage.' '.$property->getUri().' '.$value);
         $this->property = $property;
         $this->value = $value;
         $this->userMessage = $userMessage;
     }
     
+    /**
+     * Returns the property the value should be assigned to
+     * 
+     * @return core_kernel_classes_Property
+     */
     public function getProperty() {
         return $this->property;
     }
     
+    /**
+     * Returns the value that failed validation
+     * 
+     * @return mixed
+     */
     public function getValue() {
         return $this->value;
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see common_exception_UserReadableException::getUserMessage()
+     */
     public function getUserMessage() {
         return $this->userMessage;
     }
