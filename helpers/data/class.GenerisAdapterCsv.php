@@ -136,74 +136,65 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
     		
 			$resource = null;
 			$csvRow = $csvData->getRow($rowIterator);
-			
-			//create the instance with the label defined in the map 
+
+			//create the instance with the label defined in the map
 			$label = $this->options['map'][RDFS_LABEL];
+				
+			try {
+    			// validate
+			    foreach ($this->options['map'] as $propUri => $csvColumn) {
+			        $this->validate($destination, $propUri, $csvRow, $csvColumn);
+			    }
+			    
+			    // create resource
+			    $resource = $destination->createInstance();
+			    common_Logger::t("CSV - Resource creation without label");
+			    
+			    // set values
+			    foreach($this->options['map'] as $propUri => $csvColumn){
+			        	
+		            $targetProperty = new core_kernel_classes_Property($propUri);
+		            $ranges = $targetProperty->getPropertyValues($rangeProperty);
+		            if (count($ranges) > 0) {
+		                // @todo support multi-valued ranges in CSV import.
+		                common_Logger::t("CSV - Target property has " . $ranges[0] . " for range");
+		                $range = new core_kernel_classes_Resource($ranges[0]);
+		            } else {
+		                common_Logger::t("CSV - Target property has no range");
+		                $range = null;
+		            }
 
-			if($label != 'csv_select' && $label !='csv_null'){
-				if(isset($csvRow[$label])){
-					$resource = $destination->createInstance($csvRow[$label]);
-					common_Logger::t("CSV - Resource creation with label");
-				}
+		            if ($range == null || $range->getUri() == RDFS_LITERAL) {
+		                // Deal with the column value as a literal.
+		                common_Logger::t("CSV - Importing Literal from CSV");
+		                $this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
+		            } else {
+		                // Deal with the column value as a resource existing in the Knowledge Base.
+		                common_Logger::t("CSV - Importing Resource from CSV");
+		                $this->importResource($targetProperty, $resource, $csvRow, $csvColumn);
+		            }
+			    }
+			    
+			    $this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
+			    
+			    // Apply 'resourceImported' callbacks.
+			    foreach ($this->resourceImported as $callback){
+			        $callback($resource);
+			    }
+			    
+			    $createdResources++;
+			    
+			} catch (tao_helpers_data_ValidationException $valExc) {
+		        $targetProperty = new core_kernel_classes_Property($propUri);
+			    $this->addErrorMessage(
+			        $propUri,
+			        common_report_Report::createFailure(
+			            $label. ', ' .$valExc->getProperty()->getLabel(). ': ' .$valExc->getUserMessage(). ' "' . $valExc->getValue() . '"'
+			        )
+			    );
+			    $valid = false;
 			}
-			if(is_null($resource)){
-				$resource = $destination->createInstance();
-				common_Logger::t("CSV - Resource creation without label");
-			}
-
-			if($resource instanceof core_kernel_classes_Resource){
-				common_Logger::t("CSV - Resource successfully created");
-				//import the value of each column into the property defined in the map
-				foreach($this->options['map'] as $propUri => $csvColumn){
-					
-					if ($propUri != RDFS_LABEL) { // Already set at resource instantiation
-					
-						$targetProperty = new core_kernel_classes_Property($propUri);
-						$ranges = $targetProperty->getPropertyValues($rangeProperty);
-						if (count($ranges) > 0) {
-							// @todo support multi-valued ranges in CSV import.
-							common_Logger::t("CSV - Target property has " . $ranges[0] . " for range");
-							$range = new core_kernel_classes_Resource($ranges[0]);
-						} 
-						else {
-						    common_Logger::t("CSV - Target property has no range");
-							$range = null;	
-						}
-
-						//stop future action if validation was not passed
-						$valid = $this->validate($resource, $propUri, $csvRow, $csvColumn);
-						if (!$valid) {
-							break;
-						}
-
-						if ($range == null || $range->getUri() == RDFS_LITERAL) {
-							// Deal with the column value as a literal.
-							common_Logger::t("CSV - Importing Literal from CSV");
-							$this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
-						}
-						else {
-							// Deal with the column value as a resource existing in the Knowledge Base.
-							common_Logger::t("CSV - Importing Resource from CSV");
-							$this->importResource($targetProperty, $resource, $csvRow, $csvColumn);
-						}
-					}
-				}
-
-				if ($valid){
-					// Deal with default values.
-					$this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
-
-					// Apply 'resourceImported' callbacks.
-					foreach ($this->resourceImported as $callback){
-						$callback($resource);
-					}
-
-					$createdResources++;
-				}else{
-					$resource->delete();
-				}
-
-			}
+			
 			helpers_TimeOutHelper::reset();
 		}
 
@@ -395,27 +386,21 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 	 * @param $propUri
 	 * @param $csvRow
 	 * @param $csvColumn
+	 * @throws tao_helpers_data_ValidationException
 	 * @return array
 	 */
-	protected function validate(core_kernel_classes_Resource $resource, $propUri, $csvRow, $csvColumn)
+	protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn)
 	{
 		/**  @var tao_helpers_form_Validator $validator */
 		$validators = $this->getValidator($propUri);
 		foreach ((array)$validators as $validator) {
             $validator->setOptions( array(
-                'resourceClass' => new core_kernel_classes_Class($resource->getUri()),
+                'resourceClass' => $destination,
                 'property'      => $propUri
             ));
 
             if (!$validator->evaluate($csvRow[$csvColumn])) {
-                $field = new core_kernel_classes_Resource($propUri);
-				$this->addErrorMessage(
-                    $propUri,
-                    common_report_Report::createFailure(
-                        $resource->getLabel(). ', ' .$field->getLabel(). ': ' .$validator->getMessage(). ' "' . $csvRow[$csvColumn] . '"'
-                    )
-                );
-				return false;
+                throw new tao_helpers_data_ValidationException(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn], $validator->getMessage());
 			}
 		}
 		return true;
