@@ -141,13 +141,14 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			$label = $this->options['map'][RDFS_LABEL];
 				
 			try {
+			    // default values
+			    $evaluatedData = $this->options['staticMap'];
+			         
     			// validate
 			    foreach ($this->options['map'] as $propUri => $csvColumn) {
 			        $this->validate($destination, $propUri, $csvRow, $csvColumn);
 			    }
-			    
 			    // evaluate values
-			    $evaluatedData = array();
 			    foreach($this->options['map'] as $propUri => $csvColumn){
 			        
 			        if ($csvColumn != 'csv_null' && $csvColumn != 'csv_select') {
@@ -155,12 +156,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			            if (isset($csvRow[$csvColumn]) && !is_null($csvRow[$csvColumn])) {
 			                $property = new core_kernel_classes_Property($propUri);
 			                $evaluatedData[$propUri] = $this->evaluateValues($csvColumn, $property, $csvRow[$csvColumn]);
-			            }
-			        } else {
-			            // use defautl value
-			            if (isset($this->options['staticMap'][$propUri]) && !is_null($this->options['staticMap'][$propUri])) {
-			                $evaluatedData[$propUri] = $this->options['staticMap'][$propUri];
-			                 
 			            }
 			        }
 			    }

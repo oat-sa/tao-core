@@ -93,7 +93,7 @@ class tao_models_classes_import_CsvUploadForm
         ));
 		
 		$this->form->addElement($fileElt);
-		$this->form->createGroup('file', __('Import Metadata from CSV file'), array('csv_desc', 'source'));
+		$this->form->createGroup('file', __('Import Metadata from CSV file'), array('source'));
 		
 		$csvSentElt = tao_helpers_form_FormFactory::getElement('import_sent_csv', 'Hidden');
 		$csvSentElt->setValue(1);
