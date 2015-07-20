@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,9 +16,10 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013- (update and modification) Open Assessment Technologies SA 
  */
 
+use oat\tao\helpers\data\ValidationException;
 /**
  * Adapter for CSV format
  *
@@ -26,7 +27,6 @@
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @deprecated
  * @package tao
- 
  */
 class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 {
@@ -146,36 +146,27 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			        $this->validate($destination, $propUri, $csvRow, $csvColumn);
 			    }
 			    
-			    // create resource
-			    $resource = $destination->createInstance();
-			    common_Logger::t("CSV - Resource creation without label");
-			    
-			    // set values
+			    // evaluate values
+			    $evaluatedData = array();
 			    foreach($this->options['map'] as $propUri => $csvColumn){
-			        	
-		            $targetProperty = new core_kernel_classes_Property($propUri);
-		            $ranges = $targetProperty->getPropertyValues($rangeProperty);
-		            if (count($ranges) > 0) {
-		                // @todo support multi-valued ranges in CSV import.
-		                common_Logger::t("CSV - Target property has " . $ranges[0] . " for range");
-		                $range = new core_kernel_classes_Resource($ranges[0]);
-		            } else {
-		                common_Logger::t("CSV - Target property has no range");
-		                $range = null;
-		            }
-
-		            if ($range == null || $range->getUri() == RDFS_LITERAL) {
-		                // Deal with the column value as a literal.
-		                common_Logger::t("CSV - Importing Literal from CSV");
-		                $this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
-		            } else {
-		                // Deal with the column value as a resource existing in the Knowledge Base.
-		                common_Logger::t("CSV - Importing Resource from CSV");
-		                $this->importResource($targetProperty, $resource, $csvRow, $csvColumn);
-		            }
+			        
+			        if ($csvColumn != 'csv_null' && $csvColumn != 'csv_select') {
+			            // process value
+			            if (isset($csvRow[$csvColumn]) && !is_null($csvRow[$csvColumn])) {
+			                $property = new core_kernel_classes_Property($propUri);
+			                $evaluatedData[$propUri] = $this->evaluateValues($csvColumn, $property, $csvRow[$csvColumn]);
+			            }
+			        } else {
+			            // use defautl value
+			            if (isset($this->options['staticMap'][$propUri]) && !is_null($this->options['staticMap'][$propUri])) {
+			                $evaluatedData[$propUri] = $this->options['staticMap'][$propUri];
+			                 
+			            }
+			        }
 			    }
 			    
-			    $this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
+			    // create resource
+			    $resource = $destination->createInstanceWithProperties($evaluatedData);
 			    
 			    // Apply 'resourceImported' callbacks.
 			    foreach ($this->resourceImported as $callback){
@@ -220,94 +211,40 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
         return (bool) $returnValue;
     }
-
+    
     /**
-     * Short description of method importLiteral
-     *
-     * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  core_kernel_classes_Property $targetProperty
-     * @param  core_kernel_classes_Resource $targetResource
-     * @param  string $csvRow
-     * @param  string $csvColumn
-     * @return mixed
+     * 
+     * @param unknown $column
+     * @param core_kernel_classes_Property $property
+     * @param unknown $value
+     * @return array
      */
-    private function importLiteral( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
+    protected function evaluateValues($column, core_kernel_classes_Property $property, $value)
     {
-    	if ($csvColumn == 'csv_null' || $csvColumn == 'csv_select') {
-    		// We do not use the value contained in $literal but an empty string.
-    		common_Logger::t("CSV - Importing an empty string");
-    		$targetResource->setPropertyValue($targetProperty, '');
-    	}
-    	else if (isset($csvRow[$csvColumn]) && $csvRow[$csvColumn] != null) {
-    		$literal = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
-            common_Logger::t("CSV - Importing ${literal}");
-    		$targetResource->setPropertyValue($targetProperty, $literal);
-    	}
-    }
-
-    /**
-     * Short description of method importResource
-     *
-     * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-	 * @param  core_kernel_classes_Property $targetProperty
-	 * @param  core_kernel_classes_Resource $targetResource
-	 * @param  string $csvRow
-	 * @param  string $csvColumn
-     * @return mixed
-     */
-    private function importResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
-    {
-    	if ($csvColumn != 'csv_select' && $csvColumn != 'csv_null') {
-    		
-    		// We have to import the cell value as a resource for the target property.
-    		$value = $csvRow[$csvColumn];
-    		
-    		if ($value != null) {
-    		    common_Logger::t("CSV - Importing a resource");
-    			$value = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
-    			$this->attachResource($targetProperty, $targetResource, $value);
-    		}
-            else {
-                // We have here an exception. The column mapped related to $targetProperty
-                // is mapped but not value was found for the current cell. If an entry
-                // in the static data map corresponds to the current property, the default
-                // value should be used to set the property value.
+        $range = $property->getRange();
+        // assume literal if no range defined
+        $range = is_null($range) ? new core_kernel_classes_Class(RDFS_LITERAL) : $range;
+        
+        $evaluatedValue = $this->applyCallbacks($value, $this->options, $property);
+        // ensure it's an array
+        $evaluatedValue = is_array($evaluatedValue) ? $evaluatedValue : array($evaluatedValue);
+        
+        if ($range->getUri() != RDFS_LITERAL) {
+            // validate resources
+            foreach ($evaluatedValue as $key => $eVal) {
+                $resource = new core_kernel_classes_Resource($eVal);
+                if ($resource->exists()) {
+                    if (!$resource->hasType($range)) {
+                        // value outside of range
+                        unset($evaluatedValue[$key]);
+                    }
+                } else {
+                    // value not found
+                    unset($evaluatedValue[$key]);
+                }
             }
-    	}
-        else{
-            common_Logger::d("CSV - A default value will be affected.");
         }
-    }
-
-    /**
-     * Short description of method importStaticData
-     *
-     * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array $staticMap
-     * @param  array $map
-     * @param  core_kernel_classes_Resource $resource
-     * @return mixed
-     */
-    private function importStaticData($staticMap, $map,  core_kernel_classes_Resource $resource)
-    {
-    	foreach($staticMap as $cleanUri => $value){
-			// If the property was not included in the original CSV file...
-			if(!array_key_exists($cleanUri, $map) || $map[$cleanUri] == 'csv_null' || $map[$cleanUri] == 'csv_select'){
-				if($cleanUri == RDF_TYPE){
-					$resource->setType(new core_kernel_classes_Class($value));
-				}
-				else{
-					$values = (is_array($value)) ? $value : array($value);
-						
-					foreach ($values as $v){
-						$resource->setPropertyValue(new core_kernel_classes_Property($cleanUri), $v);
-					}
-				}
-			}	
-		}
+        return $evaluatedValue;
     }
 
     /**
@@ -341,42 +278,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         return (string) $returnValue;
     }
 
-    /**
-     * Short description of method attachResource
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  core_kernel_classes_Property $targetProperty
-     * @param  core_kernel_classes_Resource $targetResource
-     * @param  string $value
-     * @return mixed
-     */
-    public function attachResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $value)
-    {
-        // We have to check if the resource identified by value exists in the Ontology.
-        $resource = new core_kernel_classes_Resource($value);
-        if ($resource->exists()) {
-        	// Is the range correct ?
-        	$targetPropertyRanges = $targetProperty->getPropertyValuesCollection(new core_kernel_classes_Property(RDFS_RANGE));
-        	$rangeCompliance = true;
-        	
-        	// If $targetPropertyRange->count = 0, we consider that the resouce
-        	// may be attached because $rangeCompliance = true.
-        	foreach ($targetPropertyRanges->getIterator() as $range) {
-        		// Check all classes in target property's range.
-        	    if ($resource->hasType(new core_kernel_classes_Class($range))) {
-        			$rangeCompliance = false;
-        			break;
-        	    }
-        		
-        	}
-        	
-        	if (true == $rangeCompliance) {
-        		$targetResource->setPropertyValue($targetProperty, $resource->getUri());
-        	}
-        }
-    }
-
     public function onResourceImported(Closure $closure) {
 		$this->resourceImported[] = $closure;
 	}
@@ -400,7 +301,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
             ));
 
             if (!$validator->evaluate($csvRow[$csvColumn])) {
-                throw new tao_helpers_data_ValidationException(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn], $validator->getMessage());
+                throw new ValidationException(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn], $validator->getMessage());
 			}
 		}
 		return true;
