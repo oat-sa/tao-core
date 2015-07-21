@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-17T13:14:55\n"
+"PO-Revision-Date: 2015-07-21T14:04:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -12,12 +12,6 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#, tao-public
-msgid "\n"
-"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr "\n"
-"建立題目，管理題目，管理題庫，組織班級，遞送考試，預備報告，和設定工作流程。"
 
 msgid " and "
 msgstr " 和 "
@@ -240,10 +234,10 @@ msgstr "更改密碼"
 msgid "Change the password"
 msgstr "更改密碼"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾選"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾選"
 
 msgid "Check-in"
@@ -291,6 +285,9 @@ msgstr "建立一個清單"
 msgid "Create instance of "
 msgstr "建立實例"
 
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
+
 msgid "CSV"
 msgstr "CSV (以逗號分隔)"
 
@@ -301,19 +298,19 @@ msgid "Current language"
 msgstr "目前的語言"
 
 msgid "Data imported"
-msgstr "已匯入的資料"
+msgstr "已匯入的數據"
 
 msgid "Data imported successfully"
-msgstr "資料已成功匯入"
+msgstr "數據已成功匯入"
 
 msgid "Data Lang."
-msgstr "資料語言"
+msgstr "數據語言"
 
 msgid "Data language"
-msgstr "資料語言"
+msgstr "數據語言"
 
 msgid "Data Language"
-msgstr "資料語言"
+msgstr "數據語言"
 
 msgid "Date"
 msgstr "日期"
@@ -771,10 +768,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No result found"
@@ -996,10 +993,10 @@ msgstr "搜索子類別"
 msgid "seconds"
 msgstr "秒"
 
-msgid "select"
+msgid "Select"
 msgstr "選擇"
 
-msgid "Select"
+msgid "select"
 msgstr "選擇"
 
 msgid "Select a language"
@@ -1048,18 +1045,20 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "支援的匯出格式"
 
-#, tao-public
 msgid "TAO Back Office"
 msgstr "TAO 後台"
-
-msgid "Tao Home"
-msgstr "TAO 主頁"
 
 msgid "TAO Home"
 msgstr "TAO 首頁"
 
+msgid "Tao Home"
+msgstr "TAO 主頁"
+
 msgid "TAO Login"
 msgstr "TAO 登入"
+
+msgid "Test Developers and Administrators"
+msgstr ""
 
 msgid "Text - Long - Box"
 msgstr "文字 - 長 - 方箱"
@@ -1193,10 +1192,10 @@ msgstr "無法上傳檔案"
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾選"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾選"
 
 msgid "Undo"
