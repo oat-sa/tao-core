@@ -1,26 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-04-30 17:33+0000\n"
-"Last-Translator: Michael <michael.t@examguardian.com>\n"
-"Language: zh-CN\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T14:03:42\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.5.1-rc1\n"
+"Language: zh-CN\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: zh-CN\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-POOTLE-MTIME: 1430415211.000000\n"
-
-#, tao-public
-msgid "\n"
-"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr "\n"
-"创建题目，管理题目，管理题库，组织班级，递送考试，预备报告，和设定工作流程。"
 
 msgid " and "
 msgstr "和"
@@ -243,10 +234,10 @@ msgstr "更改密码"
 msgid "Change the password"
 msgstr "更改密码"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -293,6 +284,9 @@ msgstr "创建一个清单"
 
 msgid "Create instance of "
 msgstr "创建实例"
+
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
 
 msgid "CSV"
 msgstr "CSV (以逗号分隔)"
@@ -512,8 +506,8 @@ msgstr "返回"
 msgid "Height"
 msgstr "长度"
 
-msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
-msgstr "您好, %s<br>您忘记了您的 TAO 密码.\", get_data('user_name"
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
+msgstr ""
 
 msgid "Hide detailed report"
 msgstr "隐藏详细报告"
@@ -999,10 +993,10 @@ msgstr "搜索子类别"
 msgid "seconds"
 msgstr "秒"
 
-msgid "select"
+msgid "Select"
 msgstr "选择"
 
-msgid "Select"
+msgid "select"
 msgstr "选择"
 
 msgid "Select a language"
@@ -1051,18 +1045,20 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "支援的导出格式"
 
-#, tao-public
 msgid "TAO Back Office"
 msgstr "TAO后台"
-
-msgid "Tao Home"
-msgstr "TAO主页"
 
 msgid "TAO Home"
 msgstr "TAO首页"
 
+msgid "Tao Home"
+msgstr "TAO主页"
+
 msgid "TAO Login"
 msgstr "TAO登入"
+
+msgid "Test Developers and Administrators"
+msgstr ""
 
 msgid "Text - Long - Box"
 msgstr "文字-长-方箱"
@@ -1193,6 +1189,9 @@ msgstr "无法送出更换密码的要求"
 msgid "Unable to upload file"
 msgstr "无法上传文件"
 
+msgid "Unable to upload file %s : %s"
+msgstr ""
+
 msgid "Uncheck all"
 msgstr "全部取消勾选"
 
@@ -1302,3 +1301,4 @@ msgstr "您的電子郵件"
 
 msgid "Your TAO Password"
 msgstr "您的 TAO 密碼"
+

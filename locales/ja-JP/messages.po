@@ -1,25 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-01 20:29+0000\n"
-"Last-Translator: joel.bout <joel@taotesting.com>\n"
-"Language: ja-JP\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T14:01:36\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.5.1-rc1\n"
+"Language: ja-JP\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: ja-JP\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-POOTLE-MTIME: 1433190588.000000\n"
-
-#, tao-public
-msgid "\n"
-"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr ""
 
 msgid " and "
 msgstr ""
@@ -241,10 +233,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check-in"
@@ -290,6 +282,9 @@ msgid "Create a list"
 msgstr ""
 
 msgid "Create instance of "
+msgstr ""
+
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
 msgstr ""
 
 msgid "CSV"
@@ -996,10 +991,10 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
 msgid "Select a language"
@@ -1048,17 +1043,19 @@ msgstr ""
 msgid "Supported export formats"
 msgstr ""
 
-#, tao-public
 msgid "TAO Back Office"
-msgstr ""
-
-msgid "Tao Home"
 msgstr ""
 
 msgid "TAO Home"
 msgstr ""
 
+msgid "Tao Home"
+msgstr ""
+
 msgid "TAO Login"
+msgstr ""
+
+msgid "Test Developers and Administrators"
 msgstr ""
 
 msgid "Text - Long - Box"
@@ -1190,6 +1187,9 @@ msgstr ""
 msgid "Unable to upload file"
 msgstr ""
 
+msgid "Unable to upload file %s : %s"
+msgstr ""
+
 msgid "Uncheck all"
 msgstr ""
 
@@ -1299,3 +1299,4 @@ msgstr ""
 
 msgid "Your TAO Password"
 msgstr ""
+

@@ -1,25 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-16 21:06+0000\n"
-"Last-Translator: bgeukdjian <bgeukdjian@outlook.com>\n"
-"Language: el-GR\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T13:59:36\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.1-rc1\n"
+"Language: el-GR\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: el-GR\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-POOTLE-MTIME: 1434488781.000000\n"
-
-#, tao-public
-msgid "\n"
-"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr ""
 
 msgid " and "
 msgstr " καί "
@@ -35,9 +27,6 @@ msgstr "επόμενη"
 
 msgid " requires a subgrid adapter"
 msgstr " απαιτεί έναν προσαρμοστή υπο-πλέγματος"
-
-msgid "\"list saved\""
-msgstr "\"κατάλογος έχει αποθηκευτεί\""
 
 msgid "%d day"
 msgstr "%d μέρα"
@@ -244,10 +233,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check-in"
@@ -293,6 +282,9 @@ msgid "Create a list"
 msgstr ""
 
 msgid "Create instance of "
+msgstr ""
+
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
 msgstr ""
 
 msgid "CSV"
@@ -774,10 +766,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No result found"
@@ -999,10 +991,10 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
 msgid "Select a language"
@@ -1051,17 +1043,19 @@ msgstr ""
 msgid "Supported export formats"
 msgstr ""
 
-#, tao-public
 msgid "TAO Back Office"
-msgstr ""
-
-msgid "Tao Home"
 msgstr ""
 
 msgid "TAO Home"
 msgstr ""
 
+msgid "Tao Home"
+msgstr ""
+
 msgid "TAO Login"
+msgstr ""
+
+msgid "Test Developers and Administrators"
 msgstr ""
 
 msgid "Text - Long - Box"
@@ -1196,10 +1190,10 @@ msgstr ""
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undo"
@@ -1305,3 +1299,4 @@ msgstr ""
 
 msgid "Your TAO Password"
 msgstr ""
+

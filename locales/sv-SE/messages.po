@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-24T16:16:46\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T14:03:26\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sv-SE\n"
@@ -12,11 +12,6 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#, tao-public
-msgid "\n"
-"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr ""
 
 msgid " and "
 msgstr ""
@@ -238,10 +233,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "Ändra lösenord"
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check-in"
@@ -287,6 +282,9 @@ msgid "Create a list"
 msgstr "Skapa en lista"
 
 msgid "Create instance of "
+msgstr ""
+
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
 msgstr ""
 
 msgid "CSV"
@@ -993,11 +991,11 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "select"
-msgstr "välj"
-
 msgid "Select"
 msgstr "Välj"
+
+msgid "select"
+msgstr "välj"
 
 msgid "Select a language"
 msgstr "Välj språk"
@@ -1045,17 +1043,19 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Stödda exportformat"
 
-#, tao-public
 msgid "TAO Back Office"
 msgstr "TAO Styrning"
-
-msgid "Tao Home"
-msgstr ""
 
 msgid "TAO Home"
 msgstr ""
 
+msgid "Tao Home"
+msgstr ""
+
 msgid "TAO Login"
+msgstr ""
+
+msgid "Test Developers and Administrators"
 msgstr ""
 
 msgid "Text - Long - Box"
@@ -1185,6 +1185,9 @@ msgid "Unable to send the password reset request"
 msgstr ""
 
 msgid "Unable to upload file"
+msgstr ""
+
+msgid "Unable to upload file %s : %s"
 msgstr ""
 
 msgid "Uncheck all"
