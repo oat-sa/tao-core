@@ -64,10 +64,28 @@ msgstr "%m meses"
 msgid "%s (%s kb)"
 msgstr "%s (%s kb)"
 
+msgid "%s Class saved"
+msgstr ""
+
+msgid "%s could not be released"
+msgstr ""
+
 msgid "%s extension(s) to install."
 msgstr "%s extensi(ón/ones) a instalar."
 
-msgid "%s Locked', get_data('topclass-label"
+msgid "%s has been deleted"
+msgstr ""
+
+msgid "%s has been released"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr ""
+
+msgid "%s Locked"
+msgstr ""
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
 msgstr ""
 
 msgid "%y year"
@@ -95,6 +113,9 @@ msgid "> Installation done."
 msgstr ""
 
 msgid "A fatal error occured during the installation process."
+msgstr ""
+
+msgid "A message with further instructions has been sent to your email address: %s"
 msgstr ""
 
 msgid "A similar resource has already been versioned"
@@ -135,6 +156,9 @@ msgid "Advanced Mode"
 msgstr ""
 
 msgid "all"
+msgstr ""
+
+msgid "All data will be removed in %s"
 msgstr ""
 
 msgid "All fields are required"
@@ -197,7 +221,13 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
+msgid "buffer"
+msgstr ""
+
 msgid "Calendar"
+msgstr ""
+
+msgid "cancel"
 msgstr ""
 
 msgid "Cancel"
@@ -250,7 +280,7 @@ msgid "Confirm"
 msgstr ""
 
 msgid "Connect to the TAO platform"
-msgstr ""
+msgstr "Conectar a la plataforma TAO"
 
 msgid "Continue"
 msgstr ""
@@ -310,7 +340,7 @@ msgstr ""
 msgid "Demo Sandbox"
 msgstr ""
 
-msgid "Disabled %s', $this->getRequestParameter('id"
+msgid "Disabled %s"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -351,16 +381,19 @@ msgstr "Editar"
 msgid "Edit a user"
 msgstr "Editar un usuario"
 
+msgid "Edit class %s"
+msgstr ""
+
 msgid "Edit Instance"
 msgstr "Editar la instancia"
 
 msgid "Edit this list"
 msgstr "Editar esta lista"
 
-msgid "Element"
+msgid "element"
 msgstr ""
 
-msgid "element"
+msgid "Element"
 msgstr ""
 
 msgid "Element deleted"
@@ -478,7 +511,7 @@ msgstr "Regresar"
 msgid "Height"
 msgstr "Altura"
 
-msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
 msgstr ""
 
 msgid "Hide detailed report"
@@ -572,6 +605,9 @@ msgstr ""
 msgid "Last Name"
 msgstr "Apellido"
 
+msgid "length"
+msgstr ""
+
 msgid "less than a minute"
 msgstr "menos de un minuto"
 
@@ -596,6 +632,9 @@ msgstr "Lista no borrada"
 msgid "List not saved"
 msgstr "Lista no guardada"
 
+msgid "list saved"
+msgstr ""
+
 msgid "List values"
 msgstr ""
 
@@ -609,13 +648,13 @@ msgid "Loaded at Startup"
 msgstr ""
 
 msgid "Log in"
-msgstr ""
+msgstr "Iniciar sesión"
 
 msgid "Log Out"
 msgstr ""
 
 msgid "Login"
-msgstr ""
+msgstr "Inicio de sesión"
 
 msgid "Login available"
 msgstr ""
@@ -758,6 +797,9 @@ msgstr ""
 msgid "of"
 msgstr ""
 
+msgid "offset"
+msgstr ""
+
 msgid "Old Password"
 msgstr ""
 
@@ -777,7 +819,7 @@ msgid "Page"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 msgid "Password *"
 msgstr ""
@@ -791,10 +833,16 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr ""
 
+msgid "platform"
+msgstr ""
+
 msgid "Please confirm deletion"
 msgstr ""
 
 msgid "Please confirm property deletion!"
+msgstr ""
+
+msgid "Please confirm the deletion of the activity"
 msgstr ""
 
 msgid "Please confirm this operation."
@@ -809,7 +857,7 @@ msgstr ""
 msgid "Please confirm you want to delete this list. This operation cannot be undone."
 msgstr ""
 
-msgid "Please contact %s or an administrator to release it', get_data('ownerHtml"
+msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please give a message to your commit"
@@ -840,10 +888,16 @@ msgstr ""
 msgid "RDF"
 msgstr ""
 
+msgid "readable"
+msgstr ""
+
 msgid "Release"
 msgstr ""
 
-msgid "Releasing the lock might cause the work in progress by %s to be lost.', get_data('ownerHtml"
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -935,7 +989,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-msgid "Search %s', $tree->get('className"
+msgid "Search %s"
 msgstr ""
 
 msgid "Search sub-classes"
@@ -987,6 +1041,12 @@ msgstr ""
 msgid "Success"
 msgstr ""
 
+msgid "Successfully imported \"%s"
+msgstr ""
+
+msgid "Successfully imported class \"%s"
+msgstr ""
+
 msgid "Supported export formats"
 msgstr ""
 
@@ -1036,7 +1096,7 @@ msgstr ""
 msgid "The value of this field must be numeric"
 msgstr ""
 
-msgid "This %s is currently checked out', get_data('topclass-label"
+msgid "This %s is currently checked out"
 msgstr ""
 
 msgid "This field is required"
@@ -1114,6 +1174,9 @@ msgstr ""
 msgid "Unable to change passwords in demo mode"
 msgstr ""
 
+msgid "Unable to delete %s"
+msgstr ""
+
 msgid "Unable to delete the selected resource"
 msgstr ""
 
@@ -1138,10 +1201,10 @@ msgstr ""
 msgid "Undo"
 msgstr ""
 
-msgid "Uninstall of %s failed', $this->getRequestParameter('id"
+msgid "Uninstall of %s failed"
 msgstr ""
 
-msgid "Uninstalled %s', $this->getRequestParameter('id"
+msgid "Uninstalled %s"
 msgstr ""
 
 msgid "unknown"
@@ -1193,6 +1256,9 @@ msgstr ""
 msgid "User Settings"
 msgstr ""
 
+msgid "userAgent"
+msgstr ""
+
 #, tao-public
 msgid "Users"
 msgstr ""
@@ -1204,6 +1270,9 @@ msgid "Versioning"
 msgstr ""
 
 msgid "Width"
+msgstr ""
+
+msgid "width"
 msgstr ""
 
 msgid "Yes"

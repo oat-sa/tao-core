@@ -34,9 +34,6 @@ msgstr " suivant"
 msgid " requires a subgrid adapter"
 msgstr " requiert un adaptateur de sous-grille"
 
-msgid "\"list saved\""
-msgstr "liste enregistrée"
-
 msgid "%d day"
 msgstr "%d jour"
 
@@ -64,11 +61,29 @@ msgstr "%m mois"
 msgid "%s (%s kb)"
 msgstr "%s (%s kb)"
 
+msgid "%s Class saved"
+msgstr ""
+
+msgid "%s could not be released"
+msgstr ""
+
 msgid "%s extension(s) to install."
 msgstr "%s extension(s) à installer."
 
-msgid "%s Locked', get_data('topclass-label"
-msgstr "%s Verrouillé', données_obtenues('premièrequalité-étiquette"
+msgid "%s has been deleted"
+msgstr ""
+
+msgid "%s has been released"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr ""
+
+msgid "%s Locked"
+msgstr ""
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
+msgstr ""
 
 msgid "%y year"
 msgstr "%y année"
@@ -96,6 +111,9 @@ msgstr "> Installation terminée."
 
 msgid "A fatal error occured during the installation process."
 msgstr "Une erreur fatale s'est produite pendant l'installation."
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
 
 msgid "A similar resource has already been versioned"
 msgstr "Une ressource similaire est déjà versionnée"
@@ -136,6 +154,9 @@ msgstr "Mode avancé"
 
 msgid "all"
 msgstr "tout"
+
+msgid "All data will be removed in %s"
+msgstr ""
 
 msgid "All fields are required"
 msgstr "Tous les champs sont requis"
@@ -197,8 +218,14 @@ msgstr "Parcourir les dossiers:"
 msgid "Browse..."
 msgstr "Naviguer..."
 
+msgid "buffer"
+msgstr ""
+
 msgid "Calendar"
 msgstr "Calendrier"
+
+msgid "cancel"
+msgstr ""
 
 msgid "Cancel"
 msgstr "Annuler"
@@ -352,17 +379,20 @@ msgstr "Éditer"
 msgid "Edit a user"
 msgstr "Éditer un utilisateur"
 
+msgid "Edit class %s"
+msgstr ""
+
 msgid "Edit Instance"
 msgstr "Modifier Instance"
 
 msgid "Edit this list"
 msgstr "Modifier cette liste"
 
-msgid "Element"
-msgstr "Élément"
-
 msgid "element"
 msgstr "élément"
+
+msgid "Element"
+msgstr "Élément"
 
 msgid "Element deleted"
 msgstr "Élément supprimé"
@@ -479,7 +509,7 @@ msgstr "Revenir"
 msgid "Height"
 msgstr "Hauteur"
 
-msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
 msgstr ""
 
 msgid "Hide detailed report"
@@ -573,6 +603,9 @@ msgstr "Langue non supportée"
 msgid "Last Name"
 msgstr "Nom"
 
+msgid "length"
+msgstr ""
+
 msgid "less than a minute"
 msgstr "Moins d'une minute"
 
@@ -596,6 +629,9 @@ msgstr "Liste non supprimée"
 
 msgid "List not saved"
 msgstr "Liste non enregistré"
+
+msgid "list saved"
+msgstr ""
 
 msgid "List values"
 msgstr "Liste des valeurs"
@@ -759,6 +795,9 @@ msgstr "Nombre d'éléments"
 msgid "of"
 msgstr "de"
 
+msgid "offset"
+msgstr ""
+
 msgid "Old Password"
 msgstr "Ancien mot de passe"
 
@@ -792,11 +831,17 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr "Les mots de passe ne correspondent pas"
 
+msgid "platform"
+msgstr ""
+
 msgid "Please confirm deletion"
 msgstr "Veuillez confirmer la suppression."
 
 msgid "Please confirm property deletion!"
 msgstr "Veuillez confirmer la suppression de la propriété"
+
+msgid "Please confirm the deletion of the activity"
+msgstr ""
 
 msgid "Please confirm this operation."
 msgstr "Veuillez confirmer cette opération."
@@ -840,6 +885,9 @@ msgstr ""
 
 msgid "RDF"
 msgstr "RDF"
+
+msgid "readable"
+msgstr ""
 
 msgid "Release"
 msgstr "Publication"
@@ -936,7 +984,7 @@ msgstr "Etendue"
 msgid "Search"
 msgstr "Rechercher"
 
-msgid "Search %s', $tree->get('className"
+msgid "Search %s"
 msgstr ""
 
 msgid "Search sub-classes"
@@ -987,6 +1035,12 @@ msgstr "Taille"
 
 msgid "Success"
 msgstr "Succès"
+
+msgid "Successfully imported \"%s"
+msgstr ""
+
+msgid "Successfully imported class \"%s"
+msgstr ""
 
 msgid "Supported export formats"
 msgstr "Formats d'export supportés"
@@ -1115,6 +1169,9 @@ msgstr ""
 msgid "Unable to change passwords in demo mode"
 msgstr "Impossible de changer les mots de passe en mode démonstration"
 
+msgid "Unable to delete %s"
+msgstr ""
+
 msgid "Unable to delete the selected resource"
 msgstr "Autoriser la suppression de la ressource sélectionnée"
 
@@ -1194,6 +1251,9 @@ msgstr "Utilisateur enregistré"
 msgid "User Settings"
 msgstr "Paramètres Utilisateur"
 
+msgid "userAgent"
+msgstr ""
+
 #, tao-public
 msgid "Users"
 msgstr "Utilisateurs"
@@ -1206,6 +1266,9 @@ msgstr "Gestion des versions"
 
 msgid "Width"
 msgstr "Largeur"
+
+msgid "width"
+msgstr ""
 
 msgid "Yes"
 msgstr "Oui"

@@ -39,6 +39,9 @@ use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\DirectWebSource;
 use oat\tao\model\search\strategy\GenerisSearch;
+use oat\tao\model\menu\MenuService;
+use oat\tao\model\entryPoint\BackOfficeEntrypoint;
+use oat\tao\model\entryPoint\EntryPointService;
 
 /**
  * 
@@ -55,6 +58,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         
         $currentVersion = $initialVersion;
         $extensionManager = common_ext_ExtensionsManager::singleton();
+        
         //migrate from 2.6 to 2.7.0
         if ($currentVersion == '2.6') {
 
@@ -239,14 +243,34 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         // reset the search impl for machines that missed 2.7.1 update due to merge
-        if ($currentVersion === '2.7.15') {
+        if ($currentVersion === '2.7.15' || $currentVersion === '2.7.16') {
             try {
                 SearchService::getSearchImplementation();
                 // all good
             } catch (\common_exception_Error $error) {
                 SearchService::setSearchImplementation(new GenerisSearch());
             }
-            $currentVersion = '2.7.16';
+            $currentVersion = '2.7.17';
+        }
+        
+        if ($currentVersion === '2.7.16') {
+            $registry = ClientLibRegistry::getRegistry();
+            $map = $registry->getLibAliasMap();
+            foreach ($map as $id => $fqp) {
+                $registry->remove($id);
+                $registry->register($id, $fqp);
+            }
+            $currentVersion = '2.7.17';
+        }
+        
+        // semantic versioning
+        if ($currentVersion === '2.7.17') {
+            $currentVersion = '2.8.0';
+        }
+        
+        if ($currentVersion === '2.8.0') {
+            EntryPointService::getRegistry()->registerEntryPoint(new BackOfficeEntrypoint());
+            $currentVersion = '2.8.1';
         }
 
         return $currentVersion;

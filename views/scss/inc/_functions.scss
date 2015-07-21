@@ -11,6 +11,22 @@
     }
 }
 
+@mixin linear-gradient($colorList, $direction: 'to right') {
+    $percentage: 0;
+    $count: length($colorList);
+    $increment: 100 / ($count - 1);
+    $css: #{$direction + ', '};
+    $sep: ', ';
+    @each $color in $colorList {
+        @if ($percentage >= 100) {
+            $sep: '';
+        }
+        $css: #{$css + $color + ' ' + $percentage + '%' + $sep};
+        $percentage: $percentage + $increment;
+    }
+    background: linear-gradient( #{$css} );
+}
+
 @mixin grid-unit($span, $numCols: 12, $gutter: 0) {
     $gridPx: 840;
     $rawSpanPx: (($gridPx - ($numCols * $gutter)) / $numCols);

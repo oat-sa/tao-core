@@ -83,11 +83,11 @@ define([
                 optionsType = 'string';
             } else {
                 keyOptions.key = '[' + options + ']';
-                keyOptions.charCode = 0;
+                keyOptions.charCode = options;
                 keyOptions.keyCode = options;
 
                 strokeOptions.key = '[' + options + ']';
-                strokeOptions.charCode = 0;
+                strokeOptions.charCode = options;
                 strokeOptions.keyCode = options;
             }
         }
