@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-18T14:50:16\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T14:01:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -12,11 +12,6 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#, tao-public
-msgid "\n"
-"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr ""
 
 msgid " and "
 msgstr ""
@@ -33,53 +28,68 @@ msgstr ""
 msgid " requires a subgrid adapter"
 msgstr ""
 
-msgid "\"list saved\""
-msgstr ""
-
 msgid "%d day"
-msgstr ""
+msgstr "%d dagur"
 
 msgid "%d days"
-msgstr ""
+msgstr "%d dagar"
 
 msgid "%h hour"
-msgstr ""
+msgstr "%h klukkutími"
 
 msgid "%h hours"
-msgstr ""
+msgstr "%h klukkustundir"
 
 msgid "%i minute"
-msgstr ""
+msgstr "%i mínúta"
 
 msgid "%i minutes"
-msgstr ""
+msgstr "%i mínútur"
 
 msgid "%m month"
-msgstr ""
+msgstr "%m mánuður"
 
 msgid "%m months"
-msgstr ""
+msgstr "%m mánuðir"
 
 msgid "%s (%s kb)"
+msgstr "%s (%s kb)"
+
+msgid "%s Class saved"
+msgstr ""
+
+msgid "%s could not be released"
 msgstr ""
 
 msgid "%s extension(s) to install."
 msgstr ""
 
-msgid "%s Locked', get_data('topclass-label"
+msgid "%s has been deleted"
+msgstr ""
+
+msgid "%s has been released"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr ""
+
+msgid "%s Locked"
+msgstr ""
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
 msgstr ""
 
 msgid "%y year"
-msgstr ""
+msgstr "%y ár"
 
 msgid "%y years"
-msgstr ""
+msgstr "%y ár"
 
 msgid "(empty)"
-msgstr ""
+msgstr "(tómt)"
 
 msgid "... reloading page."
-msgstr ""
+msgstr "... endurhleð síðu."
 
 msgid "<del>Filters</del>"
 msgstr ""
@@ -91,49 +101,55 @@ msgid "> Extension %s succesfully installed."
 msgstr ""
 
 msgid "> Installation done."
-msgstr ""
+msgstr "> Uppsetningu lokið."
 
 msgid "A fatal error occured during the installation process."
+msgstr "Kerfisvilla kom upp í uppsetningarferlinu."
+
+msgid "A message with further instructions has been sent to your email address: %s"
 msgstr ""
 
 msgid "A similar resource has already been versioned"
 msgstr ""
 
 msgid "Access Denied"
-msgstr ""
+msgstr "Aðgangur óheimill."
 
 msgid "Access denied. Please renew your authentication!"
-msgstr ""
+msgstr "Aðgangur óheimill. Endurnýjaðu aðgangsheimildir þínar!"
 
 msgid "Actions"
-msgstr ""
+msgstr "Aðgerðir"
 
 msgid "Add"
-msgstr ""
+msgstr "Bæta við"
 
 msgid "Add / Edit lists"
-msgstr ""
+msgstr "Bæta við / breyta listum"
 
 msgid "Add a CSV file"
-msgstr ""
+msgstr "Bæta við CSV skrá"
 
 #, tao-public
 msgid "Add a user"
-msgstr ""
+msgstr "Bæta við notanda"
 
 msgid "Add an RDF/XML file"
-msgstr ""
+msgstr "Bæta við RDF/XML skrá"
 
 msgid "Add file(s)"
-msgstr ""
+msgstr "Bæta við skrá(m)"
 
 msgid "Add property"
-msgstr ""
+msgstr "Bæta við stillingu"
 
 msgid "Advanced Mode"
-msgstr ""
+msgstr "Ítarlegri hamur"
 
 msgid "all"
+msgstr "allt"
+
+msgid "All data will be removed in %s"
 msgstr ""
 
 msgid "All fields are required"
@@ -146,7 +162,7 @@ msgid "Allows the management of the repositories"
 msgstr ""
 
 msgid "Alpha version"
-msgstr ""
+msgstr "Alpha útgáfa"
 
 msgid "An email has been sent"
 msgstr ""
@@ -159,84 +175,90 @@ msgid "Are you sure to delete the versioned resource?\n"
 msgstr ""
 
 msgid "Are you sure you want to delete it?"
-msgstr ""
+msgstr "Ertu viss um að þú viljir eyða þessu?"
 
 msgid "Assign User to role"
-msgstr ""
+msgstr "Úthluta notanda hlutverki"
 
 #, tao-public
 msgid "Assign Users"
 msgstr ""
 
 msgid "Author"
-msgstr ""
+msgstr "Höfundur"
 
 msgid "Author Item"
-msgstr ""
+msgstr "Hanna atriði"
 
 msgid "Authoring"
-msgstr ""
+msgstr "Hönnun"
 
 msgid "Available Extensions"
-msgstr ""
+msgstr "Viðbætur í boði"
 
 msgid "Back to listing"
-msgstr ""
+msgstr "Til baka í lista"
 
 msgid "Beta version"
-msgstr ""
+msgstr "Beta útgáfa"
 
 msgid "Browse"
-msgstr ""
+msgstr "Vafra"
 
 msgid "Browse folders:"
-msgstr ""
+msgstr "Vafra í möppum:"
 
 msgid "Browse..."
+msgstr "Vafra..."
+
+msgid "buffer"
 msgstr ""
 
 msgid "Calendar"
+msgstr "Dagatal"
+
+msgid "cancel"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Hætta við"
 
 msgid "Cannot be edited"
-msgstr ""
+msgstr "Ekki hægt að breyta"
 
 #, tao-public
 msgid "Change password"
-msgstr ""
+msgstr "Breyta lykilorði"
 
 msgid "Change the password"
-msgstr ""
-
-msgid "Check All"
-msgstr ""
+msgstr "Breyta lykilorðinu"
 
 msgid "Check all"
-msgstr ""
+msgstr "Merkja við allt"
+
+msgid "Check All"
+msgstr "Merkja við allt"
 
 msgid "Check-in"
 msgstr ""
 
 msgid "Choose export format"
-msgstr ""
+msgstr "Veldu útflutningssnið"
 
 msgid "Choose import format"
-msgstr ""
+msgstr "Veldu innflutningssnið"
 
 msgid "class selected"
-msgstr ""
+msgstr "flokkur valinn"
 
 msgid "Close tab"
-msgstr ""
+msgstr "Loka flipa"
 
 msgid "Collapse Message"
 msgstr ""
 
 msgid "Column"
-msgstr ""
+msgstr "Dálkur"
 
 msgid "Commit"
 msgstr ""
@@ -245,37 +267,40 @@ msgid "Commit message : "
 msgstr ""
 
 msgid "Confirm"
-msgstr ""
+msgstr "Staðfesta"
 
 msgid "Connect to the TAO platform"
-msgstr ""
+msgstr "Tengjast TAO svæðum."
 
 msgid "Continue"
-msgstr ""
+msgstr "Áfram"
 
 msgid "Create"
-msgstr ""
+msgstr "Búa til"
 
 msgid "Create a list"
-msgstr ""
+msgstr "Búa til lista"
 
 msgid "Create instance of "
 msgstr ""
 
-msgid "CSV"
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
 msgstr ""
+
+msgid "CSV"
+msgstr "CSV"
 
 msgid "CSV Options"
-msgstr ""
+msgstr "CSV valmöguleikar"
 
 msgid "Current language"
-msgstr ""
+msgstr "Núverandi tungumál"
 
 msgid "Data imported"
-msgstr ""
+msgstr "Innflutningur gagna"
 
 msgid "Data imported successfully"
-msgstr ""
+msgstr "Innflutningur gagna tókst"
 
 msgid "Data Lang."
 msgstr ""
@@ -287,33 +312,34 @@ msgid "Data Language"
 msgstr ""
 
 msgid "Date"
-msgstr ""
+msgstr "Dagsetning"
 
 msgid "Default search"
 msgstr ""
 
 msgid "Default user cannot be deleted"
-msgstr ""
+msgstr "Ekki hægt að eyða sjálfgefnum notanda"
 
 msgid "Define the default values"
-msgstr ""
+msgstr "Skilgreindu sjálfgefin gildi"
 
 #, tao-public
 msgid "Delete"
-msgstr ""
+msgstr "Eyða"
 
 msgid "Delete this list"
-msgstr ""
+msgstr "Eyða þessum lista"
 
 msgid "Demo Sandbox"
 msgstr ""
 
-msgid "Disabled %s', $this->getRequestParameter('id"
+msgid "Disabled %s"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr ""
+msgstr "Vilt þú setja inn eftirfarandi viðbætur:\n"
+" %s?"
 
 msgid "does not match"
 msgstr ""
@@ -322,43 +348,46 @@ msgid "Don't set"
 msgstr ""
 
 msgid "Download"
-msgstr ""
+msgstr "Sækja"
 
 msgid "Download content"
-msgstr ""
+msgstr "Sækja efni"
 
 msgid "Download this file"
-msgstr ""
+msgstr "Sækja þessa skrá"
 
 msgid "Drag file here"
-msgstr ""
+msgstr "Draga skrá hingað"
 
 msgid "Drag files here"
-msgstr ""
+msgstr "Draga skrá hingað"
 
 msgid "Drop the files to upload"
 msgstr ""
 
 msgid "e-mail"
-msgstr ""
+msgstr "netfang"
 
 msgid "Edit"
-msgstr ""
+msgstr "Breyta"
 
 #, tao-public
 msgid "Edit a user"
+msgstr "Breyta notanda"
+
+msgid "Edit class %s"
 msgstr ""
 
 msgid "Edit Instance"
-msgstr ""
+msgstr "Breyta tilviki"
 
 msgid "Edit this list"
+msgstr "Breyta lista"
+
+msgid "element"
 msgstr ""
 
 msgid "Element"
-msgstr ""
-
-msgid "element"
 msgstr ""
 
 msgid "Element deleted"
@@ -371,16 +400,16 @@ msgid "Element not deleted"
 msgstr ""
 
 msgid "Email"
-msgstr ""
+msgstr "Netfang"
 
 msgid "Enter"
-msgstr ""
+msgstr "Enter"
 
 msgid "Entity with such field already present"
 msgstr ""
 
 msgid "Error"
-msgstr ""
+msgstr "Villa"
 
 msgid "Error during file import"
 msgstr ""
@@ -390,20 +419,20 @@ msgstr ""
 
 #, tao-public
 msgid "Export"
-msgstr ""
+msgstr "Flytja út"
 
 msgid "Export "
-msgstr ""
+msgstr "Flytja út "
 
 msgid "Export Metadata as RDF/XML file"
 msgstr ""
 
 msgid "Extension "
-msgstr ""
+msgstr "Viðbót "
 
 #, tao-public
 msgid "Extensions manager"
-msgstr ""
+msgstr "Viðbótastjóri"
 
 msgid "False"
 msgstr ""
@@ -415,16 +444,16 @@ msgid "Field encloser"
 msgstr ""
 
 msgid "File"
-msgstr ""
+msgstr "Skrá"
 
 msgid "File name"
-msgstr ""
+msgstr "Skráarheiti"
 
 msgid "File path"
-msgstr ""
+msgstr "Skráarslóð"
 
 msgid "File Properties"
-msgstr ""
+msgstr "Skráarstillingar"
 
 msgid "File repository"
 msgstr ""
@@ -456,7 +485,7 @@ msgid "Filtering mode"
 msgstr ""
 
 msgid "First Name"
-msgstr ""
+msgstr "Nafn"
 
 msgid "First row column names"
 msgstr ""
@@ -471,19 +500,19 @@ msgid "Fuzzy Matching"
 msgstr ""
 
 msgid "Go Back"
-msgstr ""
+msgstr "Til baka"
 
 msgid "Height"
-msgstr ""
+msgstr "Hæð"
 
-msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
 msgstr ""
 
 msgid "Hide detailed report"
 msgstr ""
 
 msgid "hours"
-msgstr ""
+msgstr "klukkustundir"
 
 msgid "Identifier"
 msgstr ""
@@ -508,10 +537,10 @@ msgstr ""
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "Yfirlit"
 
 msgid "Install"
-msgstr ""
+msgstr "Innsetning"
 
 msgid "Installation done."
 msgstr ""
@@ -523,7 +552,7 @@ msgid "Installed Extensions"
 msgstr ""
 
 msgid "Installing extension %s..."
-msgstr ""
+msgstr "Set upp viðbætur %s..."
 
 msgid "Instance saved"
 msgstr ""
@@ -535,7 +564,7 @@ msgid "Interface language"
 msgstr ""
 
 msgid "Invalid date range"
-msgstr ""
+msgstr "Ógilt tímabil."
 
 msgid "Invalid field length"
 msgstr ""
@@ -544,10 +573,10 @@ msgid "Invalid field range"
 msgstr ""
 
 msgid "Invalid file size"
-msgstr ""
+msgstr "Ógild skráarstærð"
 
 msgid "Invalid file type!"
-msgstr ""
+msgstr "Ógild skráarstærð!"
 
 msgid "Invalid login or password. Please try again."
 msgstr ""
@@ -562,36 +591,42 @@ msgid "Label *"
 msgstr ""
 
 msgid "Language"
-msgstr ""
+msgstr "Tungumál"
 
 msgid "Language not supported"
-msgstr ""
+msgstr "Tungumál ekki í boði"
 
 msgid "Last Name"
+msgstr "Eftirnafn"
+
+msgid "length"
 msgstr ""
 
 msgid "less than a minute"
-msgstr ""
+msgstr "minna en mínúta"
 
 msgid "List"
-msgstr ""
+msgstr "Listi"
 
 msgid "List - Multiple choice - Check box"
-msgstr ""
+msgstr "Listi - Fjölval - Gátreitur"
 
 msgid "List - Single choice - Drop down"
-msgstr ""
+msgstr "Listi - Einfalt val - Felligluggi"
 
 msgid "List - Single choice - Radio button"
-msgstr ""
+msgstr "Listi - Einfalt val - "
 
 msgid "List deleted"
-msgstr ""
+msgstr "Lista eytt"
 
 msgid "List not deleted"
 msgstr ""
 
 msgid "List not saved"
+msgstr ""
+
+msgid "list saved"
 msgstr ""
 
 msgid "List values"
@@ -601,25 +636,25 @@ msgid "Lists"
 msgstr ""
 
 msgid "Loaded"
-msgstr ""
+msgstr "Hlaðið"
 
 msgid "Loaded at Startup"
 msgstr ""
 
 msgid "Log in"
-msgstr ""
+msgstr "Innskráning"
 
 msgid "Log Out"
-msgstr ""
+msgstr "Útskráning"
 
 msgid "Login"
-msgstr ""
+msgstr "Innskráning"
 
 msgid "Login available"
-msgstr ""
+msgstr "Innskráning möguleg"
 
 msgid "Login failed"
-msgstr ""
+msgstr "Innskráning mistókst"
 
 msgid "Manage data list"
 msgstr ""
@@ -642,26 +677,26 @@ msgid "Map the properties to the CSV columns"
 msgstr ""
 
 msgid "maximum value: "
-msgstr ""
+msgstr "hæsta gildi: "
 
 msgid "Message"
 msgstr ""
 
 msgid "minimum value: "
-msgstr ""
+msgstr "lægsta gildi: "
 
 msgid "minutes"
-msgstr ""
+msgstr "mínútur"
 
 msgid "More"
-msgstr ""
+msgstr "Meira"
 
 #, tao-public
 msgid "Move role"
 msgstr ""
 
 msgid "Move to"
-msgstr ""
+msgstr "Færa í"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr ""
@@ -698,27 +733,27 @@ msgid "Name"
 msgstr ""
 
 msgid "New password"
-msgstr ""
+msgstr "Nýtt lykilorð"
 
 #, tao-public
 msgid "New repository"
-msgstr ""
+msgstr "Nýtt skráasafn"
 
 #, tao-public
 msgid "New role"
-msgstr ""
+msgstr "Nýtt hlutverk"
 
 msgid "Next"
-msgstr ""
+msgstr "Áfram"
 
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 msgid "No extensions available."
-msgstr ""
+msgstr "Engar viðbætur tiltækar."
 
 msgid "no file"
-msgstr ""
+msgstr "engin skrá"
 
 msgid "no file not found in this location"
 msgstr ""
@@ -732,23 +767,23 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
-msgstr ""
-
 msgid "No Preview available"
 msgstr ""
 
-msgid "No result found"
+msgid "No preview available"
 msgstr ""
+
+msgid "No result found"
+msgstr "Engin niðurstaða fannst"
 
 msgid "No results found"
-msgstr ""
+msgstr "Engar niðurstöður fundust"
 
 msgid "Nothing imported"
-msgstr ""
+msgstr "Ekkert flutt inn"
 
 msgid "Nothing to install !"
-msgstr ""
+msgstr "Ekkert til að setja inn !"
 
 msgid "Number of elements"
 msgstr ""
@@ -756,8 +791,11 @@ msgstr ""
 msgid "of"
 msgstr ""
 
-msgid "Old Password"
+msgid "offset"
 msgstr ""
+
+msgid "Old Password"
+msgstr "Gamalt lykilorð"
 
 msgid "Option instanceUri is not an option !!"
 msgstr ""
@@ -787,19 +825,25 @@ msgid "Password successfully changed"
 msgstr ""
 
 msgid "Passwords are not matching"
+msgstr "Lykilorðin stemma ekki"
+
+msgid "platform"
 msgstr ""
 
 msgid "Please confirm deletion"
-msgstr ""
+msgstr "Staðfesta eyðingu"
 
 msgid "Please confirm property deletion!"
 msgstr ""
 
-msgid "Please confirm this operation."
+msgid "Please confirm the deletion of the activity"
 msgstr ""
 
+msgid "Please confirm this operation."
+msgstr "Staðfesta þessa aðgerð."
+
 msgid "Please confirm user deletion"
-msgstr ""
+msgstr "Staðfesta eyðingu notanda"
 
 msgid "Please confirm you want to delete this list element."
 msgstr ""
@@ -807,7 +851,7 @@ msgstr ""
 msgid "Please confirm you want to delete this list. This operation cannot be undone."
 msgstr ""
 
-msgid "Please contact %s or an administrator to release it', get_data('ownerHtml"
+msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please give a message to your commit"
@@ -830,34 +874,40 @@ msgstr ""
 
 #, tao-public
 msgid "Properties"
-msgstr ""
+msgstr "Stillingar"
 
 msgid "Property\'s label field is required"
 msgstr ""
 
 msgid "RDF"
+msgstr "RDF"
+
+msgid "readable"
 msgstr ""
 
 msgid "Release"
 msgstr ""
 
-msgid "Releasing the lock might cause the work in progress by %s to be lost.', get_data('ownerHtml"
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "remain"
 msgstr ""
 
 msgid "Remove"
-msgstr ""
+msgstr "Fjarlægja"
 
 msgid "Remove content"
-msgstr ""
+msgstr "Fjarlægja efni"
 
 msgid "Remove Message"
-msgstr ""
+msgstr "Fjarlægja skilaboð"
 
 msgid "Remove this file"
-msgstr ""
+msgstr "Fjarlægja þessa skrá"
 
 msgid "Rename"
-msgstr ""
+msgstr "Endurnefna"
 
 msgid "Repeat new password"
 msgstr ""
@@ -872,13 +922,13 @@ msgid "Repository saved and disabled"
 msgstr ""
 
 msgid "Repository saved and enabled"
-msgstr ""
+msgstr "Skráasafn vistað og virkjað"
 
 msgid "Repository saved, but unable to disable"
-msgstr ""
+msgstr "Skráasafn vistað, en ekki hægt að óvirkja það"
 
 msgid "Repository saved, but unable to enable"
-msgstr ""
+msgstr "Skráasafn vistað, en ekki hægt að virkja það"
 
 msgid "required length"
 msgstr ""
@@ -887,7 +937,7 @@ msgid "Requires"
 msgstr ""
 
 msgid "Reset"
-msgstr ""
+msgstr "Endurstilla"
 
 msgid "Resource"
 msgstr ""
@@ -924,32 +974,32 @@ msgid "Roles library"
 msgstr ""
 
 msgid "Save"
-msgstr ""
+msgstr "Vista"
 
 msgid "Scope"
 msgstr ""
 
 #, tao-public
 msgid "Search"
-msgstr ""
+msgstr "Leita"
 
-msgid "Search %s', $tree->get('className"
+msgid "Search %s"
 msgstr ""
 
 msgid "Search sub-classes"
-msgstr ""
+msgstr "Leita í undirflokkum"
 
 msgid "seconds"
-msgstr ""
+msgstr "sekúndur"
 
 msgid "Select"
-msgstr ""
+msgstr "Velja"
 
 msgid "select"
-msgstr ""
+msgstr "velja"
 
 msgid "Select a language"
-msgstr ""
+msgstr "Veldu tungumál"
 
 msgid "Select the element destination"
 msgstr ""
@@ -968,37 +1018,45 @@ msgstr ""
 
 #, tao-public
 msgid "Settings"
-msgstr ""
+msgstr "Stillingar"
 
 msgid "Settings updated"
-msgstr ""
+msgstr "Stillingar uppfærðar"
 
 msgid "Show detailed report"
 msgstr ""
 
 msgid "Simple Mode"
-msgstr ""
+msgstr "Einfaldur hamur"
 
 msgid "Size"
-msgstr ""
+msgstr "Stærð"
 
 msgid "Success"
+msgstr "Í lagi"
+
+msgid "Successfully imported \"%s"
+msgstr ""
+
+msgid "Successfully imported class \"%s"
 msgstr ""
 
 msgid "Supported export formats"
 msgstr ""
 
-#, tao-public
 msgid "TAO Back Office"
-msgstr ""
-
-msgid "Tao Home"
 msgstr ""
 
 msgid "TAO Home"
 msgstr ""
 
+msgid "Tao Home"
+msgstr ""
+
 msgid "TAO Login"
+msgstr ""
+
+msgid "Test Developers and Administrators"
 msgstr ""
 
 msgid "Text - Long - Box"
@@ -1034,7 +1092,7 @@ msgstr ""
 msgid "The value of this field must be numeric"
 msgstr ""
 
-msgid "This %s is currently checked out', get_data('topclass-label"
+msgid "This %s is currently checked out"
 msgstr ""
 
 msgid "This field is required"
@@ -1053,7 +1111,7 @@ msgid "this is required"
 msgstr ""
 
 msgid "This Login is already in use"
-msgstr ""
+msgstr "Notandanafn er nú þegar í notkun"
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr ""
@@ -1071,7 +1129,7 @@ msgid "This should not equal "
 msgstr ""
 
 msgid "Time zone"
-msgstr ""
+msgstr "Tímabelti"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr ""
@@ -1086,7 +1144,7 @@ msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
 msgid "Translate"
-msgstr ""
+msgstr "Þýða"
 
 msgid "Translate to"
 msgstr ""
@@ -1095,13 +1153,13 @@ msgid "Translation parameters"
 msgstr ""
 
 msgid "Translation saved"
-msgstr ""
+msgstr "Þýðing vistuð"
 
 msgid "True"
 msgstr ""
 
 msgid "Type"
-msgstr ""
+msgstr "Gerð"
 
 msgid "UI Lang."
 msgstr ""
@@ -1110,6 +1168,9 @@ msgid "Unable to access your account?"
 msgstr ""
 
 msgid "Unable to change passwords in demo mode"
+msgstr ""
+
+msgid "Unable to delete %s"
 msgstr ""
 
 msgid "Unable to delete the selected resource"
@@ -1125,40 +1186,43 @@ msgid "Unable to send the password reset request"
 msgstr ""
 
 msgid "Unable to upload file"
-msgstr ""
+msgstr "Get ekki hlaðið upp skrá"
 
-msgid "Uncheck All"
+msgid "Unable to upload file %s : %s"
 msgstr ""
 
 msgid "Uncheck all"
 msgstr ""
 
+msgid "Uncheck All"
+msgstr ""
+
 msgid "Undo"
 msgstr ""
 
-msgid "Uninstall of %s failed', $this->getRequestParameter('id"
+msgid "Uninstall of %s failed"
 msgstr ""
 
-msgid "Uninstalled %s', $this->getRequestParameter('id"
+msgid "Uninstalled %s"
 msgstr ""
 
 msgid "unknown"
-msgstr ""
+msgstr "óþekkt"
 
 msgid "Unknown Error"
-msgstr ""
+msgstr "Óþekkt villa"
 
 msgid "Update"
 msgstr ""
 
 msgid "Upload"
-msgstr ""
+msgstr "Hlaða upp"
 
 msgid "Upload a new content"
-msgstr ""
+msgstr "Hlaða upp nýju efni"
 
 msgid "Upload File"
-msgstr ""
+msgstr "Hlaða upp skrá"
 
 msgid "Upload into:"
 msgstr ""
@@ -1185,27 +1249,33 @@ msgid "User not found"
 msgstr ""
 
 msgid "User saved"
-msgstr ""
+msgstr "Notandi vistaður"
 
 #, tao-public
 msgid "User Settings"
+msgstr "Notandastillingar"
+
+msgid "userAgent"
 msgstr ""
 
 #, tao-public
 msgid "Users"
-msgstr ""
+msgstr "Notendur"
 
 msgid "Version"
-msgstr ""
+msgstr "Útgáfunúmer"
 
 msgid "Versioning"
-msgstr ""
+msgstr "Útgáfustjórn"
 
 msgid "Width"
+msgstr "Breidd"
+
+msgid "width"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
+msgstr "Já"
 
 msgid "You are not authorised to remove this lock"
 msgstr ""
@@ -1223,7 +1293,7 @@ msgid "You don't have sufficient permissions to access"
 msgstr ""
 
 msgid "You must activate JavaScript in your browser to run this application."
-msgstr ""
+msgstr "Þú þarft að virkja JavaScript í vafranum þínum til að keyra þetta forrit."
 
 msgid "Your mail"
 msgstr ""

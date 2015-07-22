@@ -7,6 +7,16 @@
 .section-container {
     font-size: 1.6rem;
     margin-left: 140px;
+    pre {
+        padding : 20px;
+        @include simple-border();
+        font-family: $monospaceFont;
+        @include font-size(14);
+        background: #eee;
+        width: 1024px;
+        color: #57a157;
+        text-shadow: 1px 1px 1px #fff;
+    }
 }
 
 .error-code {
@@ -20,6 +30,12 @@
         color: #cd1632;
         position: relative;
         left: -20px;
+    }
+    &.small {
+        font-size: 15rem;
+        &:before {
+            left: -10px;
+        }
     }
 }
 

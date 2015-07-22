@@ -1,43 +1,43 @@
 define(['jquery', 'ui/datatable'], function($){
     
     
-    module('DataTable Test');
+    QUnit.module('DataTable Test');
    
-    test('plugin', function(){
-       expect(1);
-       ok(typeof $.fn.datatable === 'function', 'The datatable plugin is registered');
+    QUnit.test('plugin', function(assert){
+       QUnit.expect(1);
+       assert.ok(typeof $.fn.datatable === 'function', 'The datatable plugin is registered');
     });
    
-    asyncTest('Initialization', function(){
-        expect(2);
+    QUnit.asyncTest('Initialization', function(assert){
+        QUnit.expect(2);
         
         var $elt = $('#container-1');
-        ok($elt.length === 1, 'Test the fixture is available');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
         
         
         $elt.on('create.datatable', function(){
-            ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            start();
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            QUnit.start();
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json'
         });
     });
 
-    asyncTest('Model loading', function(){
-        expect(6);
+    QUnit.asyncTest('Model loading', function(assert){
+        QUnit.expect(6);
         
         var $elt = $('#container-1');
-        ok($elt.length === 1, 'Test the fixture is available');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
         
         
         $elt.on('create.datatable', function(){
-            ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
-            equal($elt.find('.datatable thead th:eq(1)').text(), 'Login', 'the login label is created');
-            equal($elt.find('.datatable thead th:eq(2)').text(), 'Name', 'the name label is created');
-            equal($elt.find('.datatable thead th:eq(1)').data('sort-by'), 'login', 'the login col is sortable');
-            start();
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
+            assert.equal($elt.find('.datatable thead th:eq(1)').text(), 'Login', 'the login label is created');
+            assert.equal($elt.find('.datatable thead th:eq(2)').text(), 'Name', 'the name label is created');
+            assert.equal($elt.find('.datatable thead th:eq(1)').data('sort-by'), 'login', 'the login col is sortable');
+            QUnit.start();
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
@@ -69,20 +69,20 @@ define(['jquery', 'ui/datatable'], function($){
         });
     });
 
-    asyncTest('Pagination disabled', function(){
-        expect(6);
+    QUnit.asyncTest('Pagination disabled', function(assert){
+        QUnit.expect(6);
         
         var $elt = $('#container-1');
-        ok($elt.length === 1, 'Test the fixture is available');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
         
         
         $elt.on('create.datatable', function(){
-            ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            ok($elt.find('.datatable-backward').length === 2, 'there is 2 backward buttons');
-            ok($elt.find('.datatable-forward').length === 2, 'there is 2 forward buttons');
-            ok($elt.find('.datatable-backward:first').prop('disabled'), 'the backward button is disabled');
-            ok($elt.find('.datatable-forward:last').prop('disabled'), 'the forward button is disabled');
-            start();
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable-backward').length === 2, 'there is 2 backward buttons');
+            assert.ok($elt.find('.datatable-forward').length === 2, 'there is 2 forward buttons');
+            assert.ok($elt.find('.datatable-backward:first').prop('disabled'), 'the backward button is disabled');
+            assert.ok($elt.find('.datatable-forward:last').prop('disabled'), 'the forward button is disabled');
+            QUnit.start();
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
@@ -114,21 +114,21 @@ define(['jquery', 'ui/datatable'], function($){
         });
     });
 
-    asyncTest('Pagination enabled', function(){
-        expect(7);
+    QUnit.asyncTest('Pagination enabled', function(assert){
+        QUnit.expect(7);
         
         var $elt = $('#container-1');
-        ok($elt.length === 1, 'Test the fixture is available');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
         
         
         $elt.on('create.datatable', function(){
-            ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            ok($elt.find('.datatable-backward').length === 2, 'there is 2 backward buttons');
-            ok($elt.find('.datatable-forward').length === 2, 'there is 2 forward buttons');
-            ok($elt.find('.datatable-forward:first').prop('disabled') === false, 'the forward button is enabled');
-            ok($elt.find('.datatable-forward:last').prop('disabled') === false, 'the forward button is disabled');
-            ok($elt.find('.datatable-backward:first').prop('disabled'), 'the backward button is disabled (on the 1st page)');
-            start();
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable-backward').length === 2, 'there is 2 backward buttons');
+            assert.ok($elt.find('.datatable-forward').length === 2, 'there is 2 forward buttons');
+            assert.ok($elt.find('.datatable-forward:first').prop('disabled') === false, 'the forward button is enabled');
+            assert.ok($elt.find('.datatable-forward:last').prop('disabled') === false, 'the forward button is disabled');
+            assert.ok($elt.find('.datatable-backward:first').prop('disabled'), 'the backward button is disabled (on the 1st page)');
+            QUnit.start();
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/largedata.json',

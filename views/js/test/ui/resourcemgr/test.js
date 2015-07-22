@@ -1,9 +1,7 @@
-define([
-    'jquery',
-    'helpers',
-    'ui/resourcemgr'], function($, helpers){
+define(['jquery', 'ui/resourcemgr'], function($){
+    'use strict';
 
-    module('Init');
+    QUnit.module('Init');
 
     QUnit.asyncTest('Resource manager Loading but not open', function(assert){
         QUnit.expect(3);
@@ -61,19 +59,17 @@ define([
 
     });
 
-    module('Loading');
+    QUnit.module('Loading');
 
-    QUnit.asyncTest('Resource manager Loading and open', function(assert){
+    QUnit.asyncTest('Resource manager loading and open', function(assert){
         QUnit.expect(3);
         var $launcher = $('#launcher');
 
         $launcher.on('open.resourcemgr', function(){
             assert.ok($('#outside-container .resourcemgr').length === 1, 'The resource manager modal is created');
             assert.ok($('#outside-container .modal-bg').length === 1, 'The background is set');
-            assert.ok($('#outside-container .resourcemgr').hasClass('opened') === true, 'The modal is shown');
-
+            assert.ok($('#outside-container .resourcemgr').css('display') !== 'none', 'The modal is shown');
             QUnit.start();
-
         });
         $launcher.resourcemgr({
             params          : {
@@ -147,12 +143,15 @@ define([
 
     });
 
-    module('Destroy');
+    QUnit.module('Destroy');
 
     QUnit.asyncTest('ResourceManager destroy', function(assert){
         QUnit.expect(1);
         var $launcher = $('#launcher');
 
+        $launcher.on('open.resourcemgr', function(){
+            $launcher.resourcemgr('destroy');
+        });
         $launcher.on('destroy.resourcemgr', function(){
             assert.ok(true,'resource manager is destoyed');
             QUnit.start();
@@ -164,13 +163,8 @@ define([
                 uri : 'http://myUri',
                 lang : 'en-US'
             },
-            open : true,
+            open : true
         });
-
-        $launcher.resourcemgr('destroy');
-
     });
-
-
 });
 

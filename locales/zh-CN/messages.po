@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-18T14:52:07\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T14:03:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -12,12 +12,6 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#, tao-public
-msgid "\n"
-"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr "\n"
-"创建题目，管理题目，管理题库，组织班级，递送考试，预备报告，和设定工作流程。"
 
 msgid " and "
 msgstr "和"
@@ -33,9 +27,6 @@ msgstr "下一个"
 
 msgid " requires a subgrid adapter"
 msgstr "需要一个subgrid adapter"
-
-msgid "\"list saved\""
-msgstr "\"列表已储存\""
 
 msgid "%d day"
 msgstr "%d天"
@@ -64,11 +55,29 @@ msgstr "%m月"
 msgid "%s (%s kb)"
 msgstr "%s (%s kb)"
 
+msgid "%s Class saved"
+msgstr ""
+
+msgid "%s could not be released"
+msgstr ""
+
 msgid "%s extension(s) to install."
 msgstr "%s扩充程式需要安装。"
 
-msgid "%s Locked', get_data('topclass-label"
-msgstr "%s 被锁定', get_data('topclass-label"
+msgid "%s has been deleted"
+msgstr ""
+
+msgid "%s has been released"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr ""
+
+msgid "%s Locked"
+msgstr ""
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
+msgstr ""
 
 msgid "%y year"
 msgstr "%y年"
@@ -96,6 +105,9 @@ msgstr ">安装已完成。"
 
 msgid "A fatal error occured during the installation process."
 msgstr "安装下列项目时发生错误。"
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
 
 msgid "A similar resource has already been versioned"
 msgstr "类似的资源已经有版本"
@@ -137,8 +149,11 @@ msgstr "进阶模式"
 msgid "all"
 msgstr "完全"
 
+msgid "All data will be removed in %s"
+msgstr ""
+
 msgid "All fields are required"
-msgstr "所有都是必填栏目"
+msgstr "所有都是必填栏"
 
 msgid "All rights reserved."
 msgstr "保留所有权利。"
@@ -150,7 +165,7 @@ msgid "Alpha version"
 msgstr "Alpha版本"
 
 msgid "An email has been sent"
-msgstr ""
+msgstr "电子邮件已被送出"
 
 msgid "An error occured during user deletion"
 msgstr "删除用户时发生错误"
@@ -197,8 +212,14 @@ msgstr "浏览文件夹："
 msgid "Browse..."
 msgstr "浏览..."
 
+msgid "buffer"
+msgstr ""
+
 msgid "Calendar"
 msgstr "日历"
+
+msgid "cancel"
+msgstr ""
 
 msgid "Cancel"
 msgstr "取消"
@@ -213,10 +234,10 @@ msgstr "更改密码"
 msgid "Change the password"
 msgstr "更改密码"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -264,6 +285,9 @@ msgstr "创建一个清单"
 msgid "Create instance of "
 msgstr "创建实例"
 
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
+
 msgid "CSV"
 msgstr "CSV (以逗号分隔)"
 
@@ -274,16 +298,16 @@ msgid "Current language"
 msgstr "目前的语言"
 
 msgid "Data imported"
-msgstr "已导入的资料"
+msgstr "已导入的数据"
 
 msgid "Data imported successfully"
-msgstr "资料已成功导入"
+msgstr "数据已成功导入"
 
 msgid "Data Lang."
-msgstr "资料语言"
+msgstr "数据语言"
 
 msgid "Data language"
-msgstr "资料语言"
+msgstr "数据语言"
 
 msgid "Data Language"
 msgstr "资料语言"
@@ -295,10 +319,10 @@ msgid "Default search"
 msgstr ""
 
 msgid "Default user cannot be deleted"
-msgstr "无法删除预设用户"
+msgstr "无法删除默认用户"
 
 msgid "Define the default values"
-msgstr "设定预设值"
+msgstr "设定默认值"
 
 #, tao-public
 msgid "Delete"
@@ -310,8 +334,8 @@ msgstr "删除这个列表"
 msgid "Demo Sandbox"
 msgstr "演示用沙盘"
 
-msgid "Disabled %s', $this->getRequestParameter('id"
-msgstr "停止%s', $this->getRequestParameter('id"
+msgid "Disabled %s"
+msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -352,16 +376,19 @@ msgstr "编辑"
 msgid "Edit a user"
 msgstr "编辑使用者"
 
+msgid "Edit class %s"
+msgstr ""
+
 msgid "Edit Instance"
 msgstr "编辑实例"
 
 msgid "Edit this list"
 msgstr "编辑这个清单"
 
-msgid "Element"
+msgid "element"
 msgstr "元素"
 
-msgid "element"
+msgid "Element"
 msgstr "元素"
 
 msgid "Element deleted"
@@ -371,7 +398,7 @@ msgid "Element deleted."
 msgstr "元素已被删除。"
 
 msgid "Element not deleted"
-msgstr "元素没删除"
+msgstr "元素没被删除"
 
 msgid "Email"
 msgstr "电子邮件"
@@ -380,7 +407,7 @@ msgid "Enter"
 msgstr "输入"
 
 msgid "Entity with such field already present"
-msgstr "此栏位已经存在"
+msgstr "此栏已经存在"
 
 msgid "Error"
 msgstr "错误"
@@ -412,10 +439,10 @@ msgid "False"
 msgstr ""
 
 msgid "Field delimiter"
-msgstr "栏位分隔符"
+msgstr "栏的分隔符"
 
 msgid "Field encloser"
-msgstr "栏位罩壳"
+msgstr "栏的罩壳"
 
 msgid "File"
 msgstr "文件"
@@ -468,7 +495,7 @@ msgid "Force Release"
 msgstr "强制释放"
 
 msgid "Forgot your password?"
-msgstr ""
+msgstr "忘记了您的密码？"
 
 msgid "Fuzzy Matching"
 msgstr ""
@@ -479,7 +506,7 @@ msgstr "返回"
 msgid "Height"
 msgstr "长度"
 
-msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
 msgstr ""
 
 msgid "Hide detailed report"
@@ -492,7 +519,7 @@ msgid "Identifier"
 msgstr ""
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr ""
+msgstr "如果您不想更改密码，您可以忽略这封电子邮件，您的密码不会改变。"
 
 msgid "Import"
 msgstr "导入"
@@ -541,10 +568,10 @@ msgid "Invalid date range"
 msgstr "无效的日期范围"
 
 msgid "Invalid field length"
-msgstr "栏位长度无效"
+msgstr "栏的长度无效"
 
 msgid "Invalid field range"
-msgstr "栏位范围无效"
+msgstr "栏的范围无效"
 
 msgid "Invalid file size"
 msgstr "文件大小无效"
@@ -573,6 +600,9 @@ msgstr "不支持语言"
 msgid "Last Name"
 msgstr "姓氏"
 
+msgid "length"
+msgstr ""
+
 msgid "less than a minute"
 msgstr "少于一分钟"
 
@@ -596,6 +626,9 @@ msgstr "清单未删除"
 
 msgid "List not saved"
 msgstr "清单未储存"
+
+msgid "list saved"
+msgstr ""
 
 msgid "List values"
 msgstr "清单中的值"
@@ -667,10 +700,10 @@ msgid "Move to"
 msgstr "移动到"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
-msgstr "当您移动此元素时，您将会用目标类的属性取代之前类别的属性:"
+msgstr "当您移动这个元素时，您将会用目标类的属性取代之前类别的属性:"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr "当您移动此元素时，您将会用目标类的属性取代之前类别的属性:"
+msgstr "当您移动这个元素时，您将会用目标类的属性取代之前类别的属性:"
 
 msgid "Multiple values delimiter"
 msgstr "多个值分隔符"
@@ -724,7 +757,7 @@ msgid "no file"
 msgstr "没有文件"
 
 msgid "no file not found in this location"
-msgstr "在这位置未找到文件"
+msgstr "在这个位置未找到文件"
 
 msgid "No file selected"
 msgstr "未选取任何文件"
@@ -735,10 +768,10 @@ msgstr "没有文件"
 msgid "no label"
 msgstr "无标签"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "没有可用的预览"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "没有可用的预览"
 
 msgid "No result found"
@@ -758,6 +791,9 @@ msgstr "元素的数量"
 
 msgid "of"
 msgstr "的"
+
+msgid "offset"
+msgstr ""
 
 msgid "Old Password"
 msgstr "旧密码"
@@ -787,10 +823,13 @@ msgid "Password changed"
 msgstr "密码已变更"
 
 msgid "Password successfully changed"
-msgstr ""
+msgstr "密码更改成功"
 
 msgid "Passwords are not matching"
 msgstr "密码不相符"
+
+msgid "platform"
+msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "请确认删除"
@@ -798,20 +837,23 @@ msgstr "请确认删除"
 msgid "Please confirm property deletion!"
 msgstr "请确认属性删除!"
 
+msgid "Please confirm the deletion of the activity"
+msgstr ""
+
 msgid "Please confirm this operation."
-msgstr "请确认此行动。"
+msgstr "请确认这个行动。"
 
 msgid "Please confirm user deletion"
 msgstr "删除用户，请确认"
 
 msgid "Please confirm you want to delete this list element."
-msgstr "您将要删除此清单元素，请确认。"
+msgstr "您将要删除这个清单元素，请确认。"
 
 msgid "Please confirm you want to delete this list. This operation cannot be undone."
 msgstr "请确认您将要删除此清单元素。 此行动无法复取消。"
 
-msgid "Please contact %s or an administrator to release it', get_data('ownerHtml"
-msgstr "请联络%s或系统管理员才可以释放它', get_data('ownerHtml"
+msgid "Please contact %s or an administrator to release it"
+msgstr ""
 
 msgid "Please give a message to your commit"
 msgstr ""
@@ -841,11 +883,17 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
+msgid "readable"
+msgstr ""
+
 msgid "Release"
 msgstr "释放"
 
-msgid "Releasing the lock might cause the work in progress by %s to be lost.', get_data('ownerHtml"
-msgstr "释放锁有可能会让%s失去正在进行的工作', get_data('ownerHtml"
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "remain"
+msgstr ""
 
 msgid "Remove"
 msgstr "移除"
@@ -908,7 +956,7 @@ msgid "Responsive mode"
 msgstr "回应模式"
 
 msgid "Return to sign in page"
-msgstr ""
+msgstr "回到登錄頁面"
 
 msgid "Revision control"
 msgstr "修订控制"
@@ -936,7 +984,7 @@ msgstr "范围"
 msgid "Search"
 msgstr "搜寻"
 
-msgid "Search %s', $tree->get('className"
+msgid "Search %s"
 msgstr ""
 
 msgid "Search sub-classes"
@@ -988,21 +1036,29 @@ msgstr "大小"
 msgid "Success"
 msgstr "完成"
 
+msgid "Successfully imported \"%s"
+msgstr ""
+
+msgid "Successfully imported class \"%s"
+msgstr ""
+
 msgid "Supported export formats"
 msgstr "支援的导出格式"
 
-#, tao-public
 msgid "TAO Back Office"
 msgstr "TAO后台"
-
-msgid "Tao Home"
-msgstr "TAO主页"
 
 msgid "TAO Home"
 msgstr "TAO首页"
 
+msgid "Tao Home"
+msgstr "TAO主页"
+
 msgid "TAO Login"
 msgstr "TAO登入"
+
+msgid "Test Developers and Administrators"
+msgstr ""
 
 msgid "Text - Long - Box"
 msgstr "文字-长-方箱"
@@ -1011,7 +1067,7 @@ msgid "Text - Long - HTML editor"
 msgstr "文字-长- HTML编辑器"
 
 msgid "Text - Short - Field"
-msgstr "文字-短-栏位"
+msgstr "文字-短-栏"
 
 msgid "The column "
 msgstr "栏"
@@ -1029,40 +1085,40 @@ msgid "The uploaded file is too large"
 msgstr "上传的文件过大"
 
 msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
-msgstr "此栏位的值必须是有效的日期格式，如YYYY-MM-DD (西元年份-月份-日）"
+msgstr "这个栏的值必须是有效的日期格式，如YYYY-MM-DD (西元年份-月份-日）"
 
 msgid "The value of this field must be an integer"
-msgstr "此栏位的值必须是一个整数"
+msgstr "这个栏的值必须是一个整数"
 
 msgid "The value of this field must be numeric"
-msgstr "此栏位的值必须是数字"
+msgstr "这个栏的值必须是数字"
 
-msgid "This %s is currently checked out', get_data('topclass-label"
-msgstr "这%s已经被借出', get_data('topclass-label"
+msgid "This %s is currently checked out"
+msgstr ""
 
 msgid "This field is required"
-msgstr "此栏位是必需的"
+msgstr "这个栏是必须填写"
 
 msgid "This field is too long"
-msgstr "此栏位太长了"
+msgstr "这个栏太长了"
 
 msgid "This field is too short"
-msgstr "此栏位太短了"
+msgstr "这个栏太短了"
 
 msgid "This is not a valid email address."
-msgstr ""
+msgstr "这不是一个有效的电子邮件地址。"
 
 msgid "this is required"
 msgstr "这是必需的"
 
 msgid "This Login is already in use"
-msgstr "此登录已在使用"
+msgstr "这个登录已在使用"
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr ""
+msgstr "这个更换密码的链接已没效了。链接有可能已经使用过。如果您还想更换密码，请再次要一个新的链接。"
 
 msgid "This resource is locked"
-msgstr "此资源被锁定"
+msgstr "这个资源被锁定"
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
 msgstr "这角色仍然给了多个用户。 请先删除这些用户的角色。"
@@ -1077,7 +1133,7 @@ msgid "Time zone"
 msgstr "时区"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
-msgstr ""
+msgstr "若您想更换密码，点击以下的链接或把链接贴入您的游览器，就可以创建一个新的密码。"
 
 msgid "to translate"
 msgstr "翻译"
@@ -1110,10 +1166,13 @@ msgid "UI Lang."
 msgstr "介面语言."
 
 msgid "Unable to access your account?"
-msgstr ""
+msgstr "无法进入您的账户吗？"
 
 msgid "Unable to change passwords in demo mode"
 msgstr "在试用模式无法更改密码"
+
+msgid "Unable to delete %s"
+msgstr ""
 
 msgid "Unable to delete the selected resource"
 msgstr "无法删除所选的资源"
@@ -1125,25 +1184,28 @@ msgid "Unable to remove the property."
 msgstr "无法删除属性"
 
 msgid "Unable to send the password reset request"
-msgstr ""
+msgstr "无法送出更换密码的要求"
 
 msgid "Unable to upload file"
 msgstr "无法上传文件"
 
-msgid "Uncheck All"
-msgstr "全部取消勾选"
+msgid "Unable to upload file %s : %s"
+msgstr ""
 
 msgid "Uncheck all"
+msgstr "全部取消勾选"
+
+msgid "Uncheck All"
 msgstr "全部取消勾选"
 
 msgid "Undo"
 msgstr "复原"
 
-msgid "Uninstall of %s failed', $this->getRequestParameter('id"
-msgstr "卸载%s失败', $this->getRequestParameter('id"
+msgid "Uninstall of %s failed"
+msgstr ""
 
-msgid "Uninstalled %s', $this->getRequestParameter('id"
-msgstr "已卸载%s', $this->getRequestParameter('id"
+msgid "Uninstalled %s"
+msgstr ""
 
 msgid "unknown"
 msgstr "不明"
@@ -1152,7 +1214,7 @@ msgid "Unknown Error"
 msgstr "不明的错误"
 
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 msgid "Upload"
 msgstr "上传"
@@ -1185,7 +1247,7 @@ msgid "User deletion not permited on a demo instance"
 msgstr "试用实例不应许删除用户"
 
 msgid "User not found"
-msgstr ""
+msgstr "未找到用户"
 
 msgid "User saved"
 msgstr "用户已储存"
@@ -1193,6 +1255,9 @@ msgstr "用户已储存"
 #, tao-public
 msgid "User Settings"
 msgstr "用户设定"
+
+msgid "userAgent"
+msgstr ""
 
 #, tao-public
 msgid "Users"
@@ -1207,11 +1272,14 @@ msgstr "版本"
 msgid "Width"
 msgstr "宽度"
 
+msgid "width"
+msgstr ""
+
 msgid "Yes"
 msgstr "是"
 
 msgid "You are not authorised to remove this lock"
-msgstr "您无权删除该锁"
+msgstr "您无权删除这个锁"
 
 msgid "You cannot delete the root node"
 msgstr "您不能删除根节点"
@@ -1226,11 +1294,11 @@ msgid "You don't have sufficient permissions to access"
 msgstr "您没有足够的权限进入"
 
 msgid "You must activate JavaScript in your browser to run this application."
-msgstr "您必须在浏览器中启用JavaScript才可以应用该程序。"
+msgstr "您必须在浏览器中启用JavaScript才可以应用这个程序。"
 
 msgid "Your mail"
-msgstr ""
+msgstr "您的電子郵件"
 
 msgid "Your TAO Password"
-msgstr ""
+msgstr "您的 TAO 密碼"
 

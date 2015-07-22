@@ -1,4 +1,5 @@
 define(['core/eventifier'], function(eventifier){
+    'use strict';
 
     QUnit.module('eventifier');
 

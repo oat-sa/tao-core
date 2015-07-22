@@ -115,7 +115,7 @@ define([
             $versionWarning
                 .off('hiding.versionwarning')
                 .on('hiding.versionwarning', function () {
-
+                    $versionWarning = $('.version-warning:visible');
                     setHeights($scope);
                 });
         },

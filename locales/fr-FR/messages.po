@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-18T14:49:41\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T14:00:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -12,12 +12,6 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#, tao-public
-msgid "\n"
-"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr "\n"
-" Créer des items, gérer les items et les banques de tests, organiser les groupes et les passations, préparer les rapports, mise en place des processus de travail."
 
 msgid " and "
 msgstr " et "
@@ -33,9 +27,6 @@ msgstr " suivant"
 
 msgid " requires a subgrid adapter"
 msgstr " requiert un adaptateur de sous-grille"
-
-msgid "\"list saved\""
-msgstr "liste enregistrée"
 
 msgid "%d day"
 msgstr "%d jour"
@@ -64,11 +55,29 @@ msgstr "%m mois"
 msgid "%s (%s kb)"
 msgstr "%s (%s kb)"
 
+msgid "%s Class saved"
+msgstr ""
+
+msgid "%s could not be released"
+msgstr ""
+
 msgid "%s extension(s) to install."
 msgstr "%s extension(s) à installer."
 
-msgid "%s Locked', get_data('topclass-label"
-msgstr "%s Verrouillé', données_obtenues('premièrequalité-étiquette"
+msgid "%s has been deleted"
+msgstr ""
+
+msgid "%s has been released"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr ""
+
+msgid "%s Locked"
+msgstr ""
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
+msgstr ""
 
 msgid "%y year"
 msgstr "%y année"
@@ -96,6 +105,9 @@ msgstr "> Installation terminée."
 
 msgid "A fatal error occured during the installation process."
 msgstr "Une erreur fatale s'est produite pendant l'installation."
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
 
 msgid "A similar resource has already been versioned"
 msgstr "Une ressource similaire est déjà versionnée"
@@ -137,6 +149,9 @@ msgstr "Mode avancé"
 msgid "all"
 msgstr "tout"
 
+msgid "All data will be removed in %s"
+msgstr ""
+
 msgid "All fields are required"
 msgstr "Tous les champs sont requis"
 
@@ -161,7 +176,7 @@ msgstr "Êtes-vous sûr de vouloir supprimer la ressource versionnée ?\n"
 "L'historique sera également perdu."
 
 msgid "Are you sure you want to delete it?"
-msgstr ""
+msgstr "Êtes-vous sûr(e) de vouloir le supprimer  ?"
 
 msgid "Assign User to role"
 msgstr "Assigner Utilisateur à un rôle"
@@ -174,7 +189,7 @@ msgid "Author"
 msgstr "Auteur"
 
 msgid "Author Item"
-msgstr ""
+msgstr "Créer l'item"
 
 msgid "Authoring"
 msgstr "Éditeur "
@@ -197,14 +212,20 @@ msgstr "Parcourir les dossiers:"
 msgid "Browse..."
 msgstr "Naviguer..."
 
+msgid "buffer"
+msgstr ""
+
 msgid "Calendar"
 msgstr "Calendrier"
+
+msgid "cancel"
+msgstr ""
 
 msgid "Cancel"
 msgstr "Annuler"
 
 msgid "Cannot be edited"
-msgstr ""
+msgstr "Ne peut être modifié"
 
 #, tao-public
 msgid "Change password"
@@ -213,11 +234,11 @@ msgstr "Changer le mot de passe"
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check All"
-msgstr "Cocher Tout"
-
 msgid "Check all"
 msgstr "Cocher tout"
+
+msgid "Check All"
+msgstr "Cocher Tout"
 
 msgid "Check-in"
 msgstr ""
@@ -264,6 +285,9 @@ msgstr "Créer une liste"
 msgid "Create instance of "
 msgstr "Créer une instance de "
 
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
+
 msgid "CSV"
 msgstr "CSV"
 
@@ -289,7 +313,7 @@ msgid "Data Language"
 msgstr "Langue des données"
 
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 msgid "Default search"
 msgstr ""
@@ -305,12 +329,12 @@ msgid "Delete"
 msgstr "Supprimer"
 
 msgid "Delete this list"
-msgstr ""
+msgstr "Supprimer cette liste"
 
 msgid "Demo Sandbox"
 msgstr "Démonstration"
 
-msgid "Disabled %s', $this->getRequestParameter('id"
+msgid "Disabled %s"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -319,7 +343,7 @@ msgstr "Souhaitez-vous installer le(s) extension(s) suivante(s) :\n"
 "%s ?"
 
 msgid "does not match"
-msgstr ""
+msgstr "Ne correspond pas"
 
 msgid "Don't set"
 msgstr "Ne pas insérer"
@@ -331,16 +355,16 @@ msgid "Download content"
 msgstr "Télécharger le contenu"
 
 msgid "Download this file"
-msgstr ""
+msgstr "Télécharger ce fichier"
 
 msgid "Drag file here"
-msgstr ""
+msgstr "Glisser le fichier ici"
 
 msgid "Drag files here"
-msgstr ""
+msgstr "Glisser le fichier ici"
 
 msgid "Drop the files to upload"
-msgstr ""
+msgstr "Choisissez des fichiers à envoyer"
 
 msgid "e-mail"
 msgstr "courriel"
@@ -352,35 +376,38 @@ msgstr "Éditer"
 msgid "Edit a user"
 msgstr "Éditer un utilisateur"
 
+msgid "Edit class %s"
+msgstr ""
+
 msgid "Edit Instance"
 msgstr "Modifier Instance"
 
 msgid "Edit this list"
-msgstr ""
-
-msgid "Element"
-msgstr "Élément"
+msgstr "Modifier cette liste"
 
 msgid "element"
 msgstr "élément"
 
+msgid "Element"
+msgstr "Élément"
+
 msgid "Element deleted"
-msgstr ""
+msgstr "Élément supprimé"
 
 msgid "Element deleted."
-msgstr ""
+msgstr "Élément supprimé."
 
 msgid "Element not deleted"
-msgstr ""
+msgstr "Élément non supprimé"
 
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 msgid "Enter"
-msgstr ""
+msgstr "Entrée"
 
 msgid "Entity with such field already present"
-msgstr ""
+msgstr "Une entité avec un même champ existe déjà"
 
 msgid "Error"
 msgstr "Erreur"
@@ -399,7 +426,7 @@ msgid "Export "
 msgstr "Export"
 
 msgid "Export Metadata as RDF/XML file"
-msgstr ""
+msgstr "Expoter les métadonnées comme un fichier RDF/XML"
 
 msgid "Extension "
 msgstr "L'extension "
@@ -427,7 +454,7 @@ msgid "File path"
 msgstr "Chemin du fichier"
 
 msgid "File Properties"
-msgstr ""
+msgstr "Propriétés du fichier"
 
 msgid "File repository"
 msgstr "Dépôt de fichiers"
@@ -436,17 +463,17 @@ msgid "File revision"
 msgstr "Révision du fichier"
 
 msgid "file selected"
-msgstr ""
+msgstr "Sélectionner le fichier"
 
 #, tao-public
 msgid "File sources"
 msgstr "Sources du fichier"
 
 msgid "File Uploader"
-msgstr ""
+msgstr "Téléchargeur de fichier"
 
 msgid "files selected"
-msgstr ""
+msgstr "fichiers sélectionnés"
 
 #, tao-public
 msgid "Filter"
@@ -465,7 +492,7 @@ msgid "First row column names"
 msgstr "Noms de colonne en première ligne"
 
 msgid "Force Release"
-msgstr ""
+msgstr "Forcer la publication"
 
 msgid "Forgot your password?"
 msgstr ""
@@ -477,13 +504,13 @@ msgid "Go Back"
 msgstr "Revenir"
 
 msgid "Height"
-msgstr ""
+msgstr "Hauteur"
 
-msgid "Hi, %s<br>You indicated that you have forgotten your TAO password.\", get_data('user_name"
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
 msgstr ""
 
 msgid "Hide detailed report"
-msgstr ""
+msgstr "Cacher le rapport détaillé"
 
 msgid "hours"
 msgstr "heures"
@@ -501,17 +528,17 @@ msgid "Import "
 msgstr "Import"
 
 msgid "Import Metadata from CSV file"
-msgstr ""
+msgstr "Importer des méta-données à partir d'un fichier CSV"
 
 msgid "Import Metadata from RDF file"
-msgstr ""
+msgstr "Importer des méta-données à partir d'un fichier RDF"
 
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
 
 #, tao-public
 msgid "Index"
-msgstr ""
+msgstr "Index"
 
 msgid "Install"
 msgstr "Installer"
@@ -556,13 +583,13 @@ msgid "Invalid login or password. Please try again."
 msgstr "Identifiant ou mot de passe invalide. Veuillez réessayer."
 
 msgid "invalid regular expression"
-msgstr ""
+msgstr "Expression régulière non valide"
 
 msgid "Label"
 msgstr "Libellé"
 
 msgid "Label *"
-msgstr ""
+msgstr "Etiquette *"
 
 msgid "Language"
 msgstr "Langue"
@@ -573,8 +600,11 @@ msgstr "Langue non supportée"
 msgid "Last Name"
 msgstr "Nom"
 
-msgid "less than a minute"
+msgid "length"
 msgstr ""
+
+msgid "less than a minute"
+msgstr "Moins d'une minute"
 
 msgid "List"
 msgstr "Liste"
@@ -589,12 +619,15 @@ msgid "List - Single choice - Radio button"
 msgstr "Liste - Choix multiple - Bouton radio"
 
 msgid "List deleted"
-msgstr ""
+msgstr "Liste supprimée"
 
 msgid "List not deleted"
-msgstr ""
+msgstr "Liste non supprimée"
 
 msgid "List not saved"
+msgstr "Liste non enregistré"
+
+msgid "list saved"
 msgstr ""
 
 msgid "List values"
@@ -657,7 +690,7 @@ msgid "minutes"
 msgstr "minutes"
 
 msgid "More"
-msgstr ""
+msgstr "Plus"
 
 #, tao-public
 msgid "Move role"
@@ -667,10 +700,10 @@ msgid "Move to"
 msgstr "Déplacer vers"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
-msgstr ""
+msgstr "En bougeant cet élément, les propriétés de la classe précédente seront remplacées par ceux de la classe de destination :"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr ""
+msgstr "En bougeant cet élément, les propriétés de la classe précédente seront remplacées par celles de la classe de destination :"
 
 msgid "Multiple values delimiter"
 msgstr "Délimiteur de valeurs multiples"
@@ -688,7 +721,7 @@ msgid "must be before: "
 msgstr "doit être avant :"
 
 msgid "must be numeric"
-msgstr ""
+msgstr "Doit être numérique"
 
 #, tao-public
 msgid "My settings"
@@ -705,11 +738,11 @@ msgstr "Nouveau mot de passe"
 
 #, tao-public
 msgid "New repository"
-msgstr ""
+msgstr "Nouveau répoertoire"
 
 #, tao-public
 msgid "New role"
-msgstr ""
+msgstr "Nouveau rôle"
 
 msgid "Next"
 msgstr "Suivant"
@@ -724,28 +757,28 @@ msgid "no file"
 msgstr "pas de fichier"
 
 msgid "no file not found in this location"
-msgstr ""
+msgstr "pas de fichier trouvé à cette endroit"
 
 msgid "No file selected"
-msgstr ""
+msgstr "Pas de fichier sélectionné"
 
 msgid "No files"
-msgstr ""
+msgstr "Aucun fichier"
 
 msgid "no label"
 msgstr "sans étiquette"
 
-msgid "No preview available"
-msgstr ""
-
 msgid "No Preview available"
-msgstr ""
+msgstr "Aucun aperçu disponible"
+
+msgid "No preview available"
+msgstr "Aucun aperçu disponible"
 
 msgid "No result found"
 msgstr "Aucun résultat n'a été trouvé"
 
 msgid "No results found"
-msgstr ""
+msgstr "Aucun résultat trouvé"
 
 msgid "Nothing imported"
 msgstr "Aucune donnée n'a été importée"
@@ -757,6 +790,9 @@ msgid "Number of elements"
 msgstr "Nombre d'éléments"
 
 msgid "of"
+msgstr "de"
+
+msgid "offset"
 msgstr ""
 
 msgid "Old Password"
@@ -772,10 +808,10 @@ msgid "Option propertyUri is not an option !!"
 msgstr "L'option propertyuri nest pas une option !!"
 
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 msgid "Page"
-msgstr ""
+msgstr "Page"
 
 msgid "Password"
 msgstr "Mot de passe"
@@ -792,14 +828,20 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr "Les mots de passe ne correspondent pas"
 
+msgid "platform"
+msgstr ""
+
 msgid "Please confirm deletion"
 msgstr "Veuillez confirmer la suppression."
 
 msgid "Please confirm property deletion!"
 msgstr "Veuillez confirmer la suppression de la propriété"
 
-msgid "Please confirm this operation."
+msgid "Please confirm the deletion of the activity"
 msgstr ""
+
+msgid "Please confirm this operation."
+msgstr "Veuillez confirmer cette opération."
 
 msgid "Please confirm user deletion"
 msgstr "Veuillez confirmer la suppression de l'utilisateur."
@@ -808,9 +850,9 @@ msgid "Please confirm you want to delete this list element."
 msgstr "Veuillez confirmer la suppression de cet élément de la liste."
 
 msgid "Please confirm you want to delete this list. This operation cannot be undone."
-msgstr ""
+msgstr "Veuillez confirmer que vous voulez supprimer cette liste. Cette opération ne peut pas être annulée."
 
-msgid "Please contact %s or an administrator to release it', get_data('ownerHtml"
+msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please give a message to your commit"
@@ -820,20 +862,20 @@ msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr "Merci de rapporter vos bugs, idées ou commentaires sur la Forge TAO"
 
 msgid "Post install processing"
-msgstr ""
+msgstr "Traitement après installation"
 
 msgid "Preparing installation..."
 msgstr "Préparation de l'installation..."
 
 msgid "Preview"
-msgstr ""
+msgstr "Aperçu"
 
 msgid "Previous"
-msgstr ""
+msgstr "Précédent"
 
 #, tao-public
 msgid "Properties"
-msgstr ""
+msgstr "Propriétés"
 
 msgid "Property\'s label field is required"
 msgstr ""
@@ -841,10 +883,16 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
-msgid "Release"
+msgid "readable"
 msgstr ""
 
-msgid "Releasing the lock might cause the work in progress by %s to be lost.', get_data('ownerHtml"
+msgid "Release"
+msgstr "Publication"
+
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -857,7 +905,7 @@ msgid "Remove Message"
 msgstr "Enlever ce message"
 
 msgid "Remove this file"
-msgstr ""
+msgstr "Supprimer ce fichier"
 
 msgid "Rename"
 msgstr "Renommer"
@@ -884,28 +932,28 @@ msgid "Repository saved, but unable to enable"
 msgstr "Dépôt enregistré mais impossible à activer"
 
 msgid "required length"
-msgstr ""
+msgstr "taille requise"
 
 msgid "Requires"
 msgstr "Nécessite"
 
 msgid "Reset"
-msgstr ""
+msgstr "Réinitialiser"
 
 msgid "Resource"
-msgstr ""
+msgstr "Ressource"
 
 msgid "Resource not imported due to multiple super classes"
-msgstr ""
+msgstr "La ressource n'a pas pu être importer a cause de la présence de plusieurs super-classes"
 
 msgid "Resource not imported due to multiple types"
-msgstr ""
+msgstr "La ressource n'a pas pu être importer a cause de la présence de plusieurs types"
 
 msgid "Resource saved"
 msgstr "Ressource enregistrée"
 
 msgid "Responsive mode"
-msgstr ""
+msgstr "Mode réactif"
 
 msgid "Return to sign in page"
 msgstr ""
@@ -930,20 +978,20 @@ msgid "Save"
 msgstr "Enregistrer"
 
 msgid "Scope"
-msgstr ""
+msgstr "Etendue"
 
 #, tao-public
 msgid "Search"
 msgstr "Rechercher"
 
-msgid "Search %s', $tree->get('className"
+msgid "Search %s"
 msgstr ""
 
 msgid "Search sub-classes"
-msgstr ""
+msgstr "Chercher des sous-classes"
 
 msgid "seconds"
-msgstr ""
+msgstr "secondes"
 
 msgid "Select"
 msgstr "Choisir"
@@ -958,7 +1006,7 @@ msgid "Select the element destination"
 msgstr "Choisir l'élément de destination"
 
 msgid "Select this file"
-msgstr ""
+msgstr "Sélectionner le fichier"
 
 msgid "selected"
 msgstr "sélectionné"
@@ -977,32 +1025,40 @@ msgid "Settings updated"
 msgstr "Réglages mis à jour"
 
 msgid "Show detailed report"
-msgstr ""
+msgstr "Montrer le détail du rapport"
 
 msgid "Simple Mode"
 msgstr "Mode simple"
 
 msgid "Size"
-msgstr ""
+msgstr "Taille"
 
 msgid "Success"
+msgstr "Succès"
+
+msgid "Successfully imported \"%s"
+msgstr ""
+
+msgid "Successfully imported class \"%s"
 msgstr ""
 
 msgid "Supported export formats"
 msgstr "Formats d'export supportés"
 
-#, tao-public
 msgid "TAO Back Office"
 msgstr "Outils d'administration TAO"
-
-msgid "Tao Home"
-msgstr ""
 
 msgid "TAO Home"
 msgstr "Menu principal TAO"
 
+msgid "Tao Home"
+msgstr "La maison de TAO"
+
 msgid "TAO Login"
 msgstr "Connexion à TAO"
+
+msgid "Test Developers and Administrators"
+msgstr ""
 
 msgid "Text - Long - Box"
 msgstr "Texte - Long - Boîte"
@@ -1017,13 +1073,13 @@ msgid "The column "
 msgstr "La colonne "
 
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
-msgstr ""
+msgstr "L'image se redimensionne avec son contenant, par ex. 50% signifie la moitié de la taille du contenant, et non la moitié de la taille de l'image."
 
 msgid "The index identifier should not be empty"
 msgstr ""
 
 msgid "The lock has been released"
-msgstr ""
+msgstr "Le verrou a été supprimé"
 
 msgid "The uploaded file is too large"
 msgstr "Le fichier téléchargé est trop volumineux"
@@ -1037,7 +1093,7 @@ msgstr "La valeur de ce champ doit être un nombre entier."
 msgid "The value of this field must be numeric"
 msgstr "La valeur de ce champ doit être numérique"
 
-msgid "This %s is currently checked out', get_data('topclass-label"
+msgid "This %s is currently checked out"
 msgstr ""
 
 msgid "This field is required"
@@ -1053,7 +1109,7 @@ msgid "This is not a valid email address."
 msgstr ""
 
 msgid "this is required"
-msgstr ""
+msgstr "ceci est obligatoire"
 
 msgid "This Login is already in use"
 msgstr "Cet identifiant est déjà utilisé"
@@ -1062,7 +1118,7 @@ msgid "This password reset link is no longer valid. It may have already been use
 msgstr ""
 
 msgid "This resource is locked"
-msgstr ""
+msgstr "La ressource est verrouillée"
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
 msgstr "Ce rôle est encore affecté à un ou plusieurs utilisateurs. Veuillez d'abord retirer le rôle pour ce(s) utilisateur(s)."
@@ -1074,13 +1130,13 @@ msgid "This should not equal "
 msgstr "Cela ne devrait pas valoir "
 
 msgid "Time zone"
-msgstr ""
+msgstr "Fuseau horaire"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr ""
 
 msgid "to translate"
-msgstr ""
+msgstr "Non traduite"
 
 msgid "Tokenizer"
 msgstr ""
@@ -1115,11 +1171,14 @@ msgstr ""
 msgid "Unable to change passwords in demo mode"
 msgstr "Impossible de changer les mots de passe en mode démonstration"
 
-msgid "Unable to delete the selected resource"
+msgid "Unable to delete %s"
 msgstr ""
 
+msgid "Unable to delete the selected resource"
+msgstr "Autoriser la suppression de la ressource sélectionnée"
+
 msgid "Unable to release the lock"
-msgstr ""
+msgstr "Autoriser la publication de la serrure"
 
 msgid "Unable to remove the property."
 msgstr ""
@@ -1128,25 +1187,28 @@ msgid "Unable to send the password reset request"
 msgstr ""
 
 msgid "Unable to upload file"
-msgstr ""
+msgstr "Autoriser le téléchargement du fichier"
 
-msgid "Uncheck All"
-msgstr "Décocher tout"
+msgid "Unable to upload file %s : %s"
+msgstr ""
 
 msgid "Uncheck all"
 msgstr "Décocher tout"
 
+msgid "Uncheck All"
+msgstr "Décocher tout"
+
 msgid "Undo"
+msgstr "Annuler une action"
+
+msgid "Uninstall of %s failed"
 msgstr ""
 
-msgid "Uninstall of %s failed', $this->getRequestParameter('id"
-msgstr ""
-
-msgid "Uninstalled %s', $this->getRequestParameter('id"
+msgid "Uninstalled %s"
 msgstr ""
 
 msgid "unknown"
-msgstr ""
+msgstr "inconnu"
 
 msgid "Unknown Error"
 msgstr "Erreur Inconnue"
@@ -1164,7 +1226,7 @@ msgid "Upload File"
 msgstr "Téléverser le fichier"
 
 msgid "Upload into:"
-msgstr ""
+msgstr "Envoyer vers :"
 
 msgid "Upload the file to version"
 msgstr "Téléverser le ficher à la version"
@@ -1173,7 +1235,7 @@ msgid "Use default value"
 msgstr "Utiliser la valeur par défaut"
 
 msgid "User"
-msgstr ""
+msgstr "Utilisateur"
 
 msgid "User added"
 msgstr "Utilisateur ajouté"
@@ -1182,7 +1244,7 @@ msgid "User deleted successfully"
 msgstr "Utilisateur supprimé avec succès."
 
 msgid "User deletion not permited on a demo instance"
-msgstr ""
+msgstr "Suppression d'un utilisateur non permis dans une instance de démonstration"
 
 msgid "User not found"
 msgstr ""
@@ -1193,6 +1255,9 @@ msgstr "Utilisateur enregistré"
 #, tao-public
 msgid "User Settings"
 msgstr "Paramètres Utilisateur"
+
+msgid "userAgent"
+msgstr ""
 
 #, tao-public
 msgid "Users"
@@ -1205,28 +1270,31 @@ msgid "Versioning"
 msgstr "Gestion des versions"
 
 msgid "Width"
+msgstr "Largeur"
+
+msgid "width"
 msgstr ""
 
 msgid "Yes"
 msgstr "Oui"
 
 msgid "You are not authorised to remove this lock"
-msgstr ""
+msgstr "Vous n'êtes pas autorisé à supprimer cette fermeture"
 
 msgid "You cannot delete the root node"
-msgstr ""
+msgstr "Vous ne pouvez pas supprimer le noeud de la racine"
 
 msgid "You currently have no access to the platform"
-msgstr ""
+msgstr "Vous n'avez actuellement pas accès à la plate-forme"
 
 msgid "You do not have the required rights to edit this resource."
 msgstr ""
 
 msgid "You don't have sufficient permissions to access"
-msgstr ""
+msgstr "Vous n'avez pas les permissions suffisantes pour accéder à cela"
 
 msgid "You must activate JavaScript in your browser to run this application."
-msgstr ""
+msgstr "JavaScript doit être activé dans votre navigateur pour lancer cette applcation"
 
 msgid "Your mail"
 msgstr ""

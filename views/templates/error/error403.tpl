@@ -39,12 +39,12 @@
         <?php if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
             <?php if (!empty($message)): ?>
                 <h2>Debug Message</h2>          
-                <pre><?= nl2br($message) ?></pre>
+                <pre><?= $message ?></pre>
             <?php endif; ?>
             
             <?php if (!empty($trace)): ?>
                 <h2>Stack Trace</h2>            
-                <pre><?= nl2br($trace) ?></pre>
+                <pre><?= $trace ?></pre>
             <?php endif; ?>
         <?php endif; ?>
 
