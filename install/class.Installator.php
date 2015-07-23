@@ -37,6 +37,8 @@ class tao_install_Installator{
     protected $options = array();
 
 	private $toInstall = array();
+    
+	private $log = array();
 
 	private $escapedChecks = array();
 
@@ -74,10 +76,10 @@ class tao_install_Installator{
 			/*
 			 * 0 - Check input parameters. 
 			 */
-			common_Logger::i("Checking install data");
+			$this->log('i', "Checking install data");
 			self::checkInstallData($installData);
 			
-			common_Logger::i("Starting TAO install", 'INSTALL');
+			$this->log('i', "Starting TAO install", 'INSTALL');
 	        
 			// Sanitize $installData if needed.
 			if(!preg_match("/\/$/", $installData['module_url'])){
@@ -110,7 +112,7 @@ class tao_install_Installator{
 			foreach ($reports as $r){
 				$msg = $r->getMessage();
 				$component = $r->getComponent();
-				common_Logger::i($msg);
+				$this->log('i', $msg);
 
 				if ($r->getStatus() !== common_configuration_Report::VALID && !$component->isOptional()){
 					throw new tao_install_utils_Exception($msg);
@@ -120,7 +122,7 @@ class tao_install_Installator{
 			/*
 			 *  2 - Test DB connection (done by the constructor)
 			 */
-			common_Logger::i("Spawning DbCreator", 'INSTALL');
+			$this->log('i', "Spawning DbCreator", 'INSTALL');
 			$dbName = $installData['db_name'];
 			if($installData['db_driver'] == 'pdo_oci'){
 				$installData['db_name'] = $installData['db_host'];
@@ -152,7 +154,7 @@ class tao_install_Installator{
 				
 			$dbCreator = new tao_install_utils_DbalDbCreator($dbConfiguration);
 			
-			common_Logger::d("DbCreator spawned", 'INSTALL');
+			$this->log('d', "DbCreator spawned", 'INSTALL');
 
 			/*
 			 *   3 - Load the database schema
@@ -169,21 +171,21 @@ class tao_install_Installator{
 					$dbCreator->cleanDb($dbName);
 					
 				} catch (Exception $e){
-					common_Logger::i('Problem cleaning db will try to erase the whole db: '.$e->getMessage());
+					$this->log('i', 'Problem cleaning db will try to erase the whole db: '.$e->getMessage());
 					try {
 					$dbCreator->destroyTaoDatabase($dbName);
 					} catch (Exception $e){
-						common_Logger::i('isssue during db cleaning : ' . $e->getMessage());
+						$this->log('i', 'isssue during db cleaning : ' . $e->getMessage());
 					}
 				}
-				common_Logger::i("Dropped all tables", 'INSTALL');
+				$this->log('i', "Dropped all tables", 'INSTALL');
 			}
 			// Else create it
 			else {
 				try {
 
 					$dbCreator->createDatabase($installData['db_name']);
-					common_Logger::i("Created database ".$installData['db_name'], 'INSTALL');
+					$this->log('i', "Created database ".$installData['db_name'], 'INSTALL');
 				} catch (Exception $e){
 					throw new tao_install_utils_Exception('Unable to create the database, make sure that '.$installData['db_user'].' is granted to create databases. Otherwise create the database with your super user and give to  '.$installData['db_user'].' the right to use it.');
 				}
@@ -202,21 +204,21 @@ class tao_install_Installator{
 	
 			// Create tao tables
 			$dbCreator->initTaoDataBase();	
-            common_Logger::i('Created tables', 'INSTALL');
+            $this->log('i', 'Created tables', 'INSTALL');
             
 			$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
 			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
-				common_Logger::i('Installing stored procedures for ' . $installData['db_driver'], 'INSTALL');
+				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'], 'INSTALL');
 				$dbCreator->loadProc($storedProcedureFile);
 			}
 			else {
-			    common_Logger::e('Could not find storefile : ' . $storedProcedureFile);
+			    $this->log('e', 'Could not find storefile : ' . $storedProcedureFile);
 			}
 			
 			/*
 			 *  4 - Create the local namespace
 			 */
-// 			common_Logger::i('Creating local namespace', 'INSTALL');
+// 			$this->log('i', 'Creating local namespace', 'INSTALL');
 // 			$dbCreator->addLocalModel('8',$installData['module_namespace']);
 // 			$dbCreator->addModels();
 			
@@ -224,10 +226,11 @@ class tao_install_Installator{
 			 *  5 - Create the generis config files
 			 */
 			
-			common_Logger::d('Removing old config', 'INSTALL');
-			helpers_File::emptyDirectory($this->options['root_path'].'config/', true);
-
-			common_Logger::d('Writing generis config', 'INSTALL');
+			$this->log('d', 'Removing old config', 'INSTALL');
+            if (!helpers_File::emptyDirectory($this->options['root_path'].'config/', true)) {
+                throw new common_exception_Error('Unable to empty ' . $this->options['root_path'] . 'config/ folder.');
+            }
+			$this->log('d', 'Writing generis config', 'INSTALL');
 			$generisConfigWriter = new tao_install_utils_ConfigWriter(
 				$this->options['root_path'].'generis/config/sample/generis.conf.php',
 				$this->options['root_path'].'config/generis.conf.php'
@@ -252,26 +255,21 @@ class tao_install_Installator{
 			 */
 			$file_path = $installData['file_path'];
 			if (is_dir($file_path)) {
-			    common_Logger::i('Data from previous install found and will be removed');
-			    if(is_writable($installData['file_path'])){
-    			    helpers_File::emptyDirectory($installData['file_path'], true);
-			    }
-			    else {
-			        throw new common_exception_Error($installData['file_path'] . ' is not writable');
-			    }
+			    $this->log('i', 'Data from previous install found and will be removed');
+                if (!helpers_File::emptyDirectory($installData['file_path'], true)) {
+                    throw new common_exception_Error('Unable to empty ' . $installData['file_path'] . ' folder.');
+                }
 			} else {
 			    mkdir($installData['file_path'] , 0700, true);
 		 	}
-		 	$cachePath = $installData['file_path'] .'generis' . DIRECTORY_SEPARATOR .'cache';
-            if (!is_dir($cachePath)) {
-                mkdir($cachePath, 0700, true);
-            }
+		 	$cachePath = $installData['file_path'] . 'generis' . DIRECTORY_SEPARATOR . 'cache';
+            mkdir($cachePath, 0700, true);
 				
 			
 			/*
 			 * 6 - Run the extensions bootstrap
 			 */
-			common_Logger::d('Running the extensions bootstrap', 'INSTALL');
+			$this->log('d', 'Running the extensions bootstrap', 'INSTALL');
 			require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
 			
 			/*
@@ -301,7 +299,7 @@ class tao_install_Installator{
 			$models = $modelCreator->getLanguageModels();
                         foreach ($models as $ns => $modelFiles){
                             foreach ($modelFiles as $file){
-                                common_Logger::d("Inserting language description model '".$file."'", 'INSTALL');
+                                $this->log('d', "Inserting language description model '".$file."'", 'INSTALL');
                                 $modelCreator->insertLocalModel($file);
                             }
                         }
@@ -325,11 +323,11 @@ class tao_install_Installator{
 					$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
 					
 					if (!common_ext_ExtensionsManager::singleton()->isInstalled($ext->getId())) {
-					    common_Logger::d('Extension ' . $id . ' needs to be installed');
+					    $this->log('d', 'Extension ' . $id . ' needs to be installed');
 						$toInstall[$id] = $ext;
 					}
 				} catch (common_ext_ExtensionException $e) {
-					common_Logger::w('Extension '.$id.' not found');
+					$this->log('w', 'Extension '.$id.' not found');
 				}
 			}
 	
@@ -337,7 +335,7 @@ class tao_install_Installator{
 				$modified = false;
 				foreach ($toInstall as $key => $extension) {
 					// if all dependencies are installed
-				    common_Logger::d('Considering extension ' . $key);
+				    $this->log('d', 'Considering extension ' . $key);
 					$installed	= array_keys(common_ext_extensionsmanager::singleton()->getinstalledextensions());
 					$missing	= array_diff(array_keys($extension->getDependencies()), $installed);
 					if (count($missing) == 0) {
@@ -348,9 +346,10 @@ class tao_install_Installator{
 							set_time_limit(300);
 							
 							$extinstaller->install();
-							common_Logger::w('Extension '.$key.' installed');
+                            $this->log('ext', $key);
+                            $this->log('i', 'Extension '.$key.' installed');
 						} catch (common_ext_ExtensionException $e) {
-							common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getId().'"');
+							$this->log('w', 'Exception('.$e->getMessage().') during install for extension "'.$extension->getId().'"');
 							throw new tao_install_utils_Exception("An error occured during the installation of extension '" . $extension->getId() . "'.");
 						}
 						unset($toInstall[$key]);
@@ -358,7 +357,7 @@ class tao_install_Installator{
 					} else {
 						$missing = array_diff($missing, array_keys($toInstall));
 						foreach ($missing as $extID) {
-						    common_Logger::d('Extension ' . $extID . ' is required but missing, added to install list');
+						    $this->log('d', 'Extension ' . $extID . ' is required but missing, added to install list');
 							$toInstall[$extID] = common_ext_ExtensionsManager::singleton()->getExtensionById($extID);
 							$modified = true;
 						}
@@ -373,7 +372,7 @@ class tao_install_Installator{
             /*
              *  9bis - Generates client side translation bundles (depends on extension install)
              */
-			common_Logger::i('Generates client side translation bundles', 'INSTALL');
+			$this->log('i', 'Generates client side translation bundles', 'INSTALL');
             
 //             
 
@@ -385,7 +384,7 @@ class tao_install_Installator{
 			/*
 			 *  10 - Insert Super User
 			 */
-			common_Logger::i('Spawning SuperUser '.$installData['user_login'], 'INSTALL');
+			$this->log('i', 'Spawning SuperUser '.$installData['user_login'], 'INSTALL');
 			$modelCreator->insertSuperUser(array(
 				'login'			=> $installData['user_login'],
 				'password'		=> core_kernel_users_Service::getPasswordHash()->encrypt($installData['user_pass1']),
@@ -404,7 +403,7 @@ class tao_install_Installator{
 			 */
 			if($installData['module_mode'] == 'production'){
 				$extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
-				common_Logger::i('Securing tao for production', 'INSTALL');
+				$this->log('i', 'Securing tao for production', 'INSTALL');
 				
 				// 11.1 Remove Generis User
 				$dbCreator->removeGenerisUser();
@@ -423,7 +422,7 @@ class tao_install_Installator{
 			/*
 			 *  12 - Create the version file
 			 */
-			common_Logger::d('Creating TAO version file', 'INSTALL');
+			$this->log('d', 'Creating TAO version file', 'INSTALL');
 			file_put_contents($installData['file_path'].'version', TAO_VERSION);
 		}
 		catch(Exception $e){
@@ -433,7 +432,7 @@ class tao_install_Installator{
 
 			// In any case, we transmit a single exception type (at the moment)
 			// for a clearer API for client code.
-            common_Logger::e('Error Occurs : ' . $e->getMessage() . $e->getTraceAsString(), 'INSTALL');
+            $this->log('e', 'Error Occurs : ' . $e->getMessage() . $e->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception($e->getMessage(), 0, $e);
 		}
 	}
@@ -452,7 +451,7 @@ class tao_install_Installator{
 			 * '192K' on 32bit windows
 			 */
 
-            common_Logger::e('Error Occurs : ' . $err . $exception->getTraceAsString(), 'INSTALL');
+            $this->log('e', 'Error Occurs : ' . $err . $exception->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception("Error in mysql system variable 'thread_stack':<br>It is required to change its value in my.ini as following<br>'192K' on 32bit windows<br>'256K' on 64bit windows.<br><br>Note that such configuration changes will only take effect after server restart.<br><br>", 0, $exception);
 		}
 
@@ -548,4 +547,37 @@ class tao_install_Installator{
 	public function isEscapedCheck($id){
 		return in_array($id, $this->getEscapedChecks());
 	}
+    
+    /**
+     * Log message and add it to $this->log array;
+     * @see common_Logger class
+     * @param string $logLevel
+     * <ul>
+     *   <li>'w' - warning</li>
+     *   <li>'t' - trace</li>
+     *   <li>'d' - debug</li>
+     *   <li>'i' - info</li>
+     *   <li>'e' - error</li>
+     *   <li>'f' - fatal</li>
+     *   <li>'ext' - installed extensions</li>
+     * </ul>  
+     * @param string $message
+     * @param array $tags
+     */
+    public function log($logLevel, $message, $tags = array())
+    {
+        if (method_exists('common_Logger', $logLevel)) {
+            call_user_func('common_Logger::' . $logLevel, array($message, $tags));
+        }
+        $this->log[$logLevel][] = $message;
+    }
+    
+    /**
+     * Get array of log messages
+     * @return array
+     */
+    public function getLog()
+    {
+        return $this->log;
+    }
 }
