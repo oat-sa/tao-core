@@ -38,6 +38,8 @@ class tao_helpers_Date
 
     const FORMAT_DATEPICKER = 2;
 
+    const FORMAT_ISO8601 = 3;
+
     const FORMAT_INTERVAL_LONG = 100;
 
     const FORMAT_INTERVAL_SHORT = 101;
@@ -169,9 +171,11 @@ class tao_helpers_Date
      * @param unknown $microtime            
      * @return number
      */
-    static function getTimeStamp($microtime)
+    static function getTimeStamp($microtime, $microseconds = false)
     {
         list ($usec, $sec) = explode(" ", $microtime);
-        return ((float) $sec);
+        $timestamp = $microseconds ? $sec + $usec : $sec;
+
+        return ((float)$timestamp);
     }
 }

@@ -52,6 +52,11 @@ class EuropeanFormatter extends Configurable implements Formatter
         	case \tao_helpers_Date::FORMAT_VERBOSE:
         	    $formatString = 'F j, Y, g:i:s a';
         	    break;
+			case \tao_helpers_Date::FORMAT_ISO8601:
+				$milliseconds = round(fmod($timestamp, 1), 6) * 1000000;
+				$milliseconds = str_pad($milliseconds, 6, '0', STR_PAD_RIGHT);
+				$formatString = 'Y-m-d\TH:i:s.'.$milliseconds.'P';
+				break;
         	default:
         	    common_Logger::w('Unkown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
         	    $formatString = '';
