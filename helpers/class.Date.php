@@ -71,7 +71,7 @@ class tao_helpers_Date
         if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
             $ts = $timestamp->__toString();
         } elseif (is_object($timestamp) && $timestamp instanceof DateTime) {
-            $ts = $timestamp->getTimestamp();
+            $ts = self::getTimeStampWithMicroseconds($timestamp);
         } elseif (is_numeric($timestamp)) {
             $ts = $timestamp;
         } else {
@@ -177,5 +177,10 @@ class tao_helpers_Date
         $timestamp = $microseconds ? $sec + $usec : $sec;
 
         return ((float)$timestamp);
+    }
+
+    static function getTimeStampWithMicroseconds(DateTime $dt)
+    {
+        return floatval(join('.', array($dt->getTimestamp(), $dt->format('u'))));
     }
 }
