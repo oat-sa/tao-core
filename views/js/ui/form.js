@@ -27,7 +27,8 @@ define(['jquery'], function($){
      */
     var pseudoLabel = function pseudoLabel(selector){
 
-        $(document).on('click', selector + ' .pseudo-label-box', function () {
+        $(document).on('click', selector + ' .pseudo-label-box', function (e) {
+            e.stopPropagation();
             $(this).find('input').trigger('click').focus();
         });
     };
