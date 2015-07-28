@@ -273,6 +273,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.8.1';
         }
 
+        // semantic versioning
+        if ($currentVersion === '2.8.1') {
+            $currentVersion = '2.9';
+        }
         return $currentVersion;
     }
     
