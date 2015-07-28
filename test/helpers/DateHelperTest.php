@@ -63,6 +63,16 @@ class DateHelperTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     *
+     * @author Ivan Klimchuk, klimchuk@1pt.com
+     */
+    public function testGetTimeStampWithMicroseconds()
+    {
+        $datetime = new DateTime('2015-07-22T17:59:08.956902Z');
+        $this->assertEquals('1437587948.956902', tao_helpers_Date::getTimeStampWithMicroseconds($datetime));
+    }
+
+    /**
      * 
      * @author Lionel Lecaque, lionel@taotesting.com
      */

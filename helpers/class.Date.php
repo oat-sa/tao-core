@@ -181,6 +181,6 @@ class tao_helpers_Date
 
     static function getTimeStampWithMicroseconds(DateTime $dt)
     {
-        return floatval(join('.', array($dt->getTimestamp(), $dt->format('u'))));
+        return join('.', array($dt->getTimestamp(), $dt->format('u')));
     }
 }
