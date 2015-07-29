@@ -1,7 +1,8 @@
 define(['jquery', 'ui/lock'], function($, lock){
     'use strict';
+
     QUnit.module('lock');
-   
+
     QUnit.test('module', function(assert){
         QUnit.expect(1);
 
@@ -47,7 +48,7 @@ define(['jquery', 'ui/lock'], function($, lock){
 
     QUnit.test('state', function(assert){
         QUnit.expect(11);
-        
+
         var lk = lock().message();
         var lock2 = lock().message();
 
@@ -72,7 +73,7 @@ define(['jquery', 'ui/lock'], function($, lock){
 
     QUnit.test('register', function(assert){
         QUnit.expect(6);
-        
+
         var lk = lock($('#alt-lock-box')).register();
 
         assert.ok(typeof lk === 'object'                       , 'The lock function creates an object');
@@ -82,10 +83,10 @@ define(['jquery', 'ui/lock'], function($, lock){
         assert.ok(/test-msg/m.test(lk.content)                 , 'The content property contains the message');
         assert.ok(/feedback-info/m.test(lk.content)            , 'The content property contains the right css class');
     });
-    
+
     QUnit.test('default message', function(assert){
         QUnit.expect(5);
-        
+
         var lk = lock();
         var r2 = lk.message();
 
@@ -152,46 +153,53 @@ define(['jquery', 'ui/lock'], function($, lock){
         QUnit.expect(4);
 
         var $container = $('#lock-box');
-        lock($container)
-            .hasLock('LOCKED_RESOURCE',
-            {
-                failed : function(){
-                    assert.ok(true, 'The release failed and callback is called');
-                },
-                uri: 123,
-                url : ''
-            }).release().close();
-        lock($container)
-            .hasLock('LOCKED_RESOURCE',
-            {
-                failed : function(){
-                    assert.ok(true, 'The release failed and callback is called');
-                },
-                uri: 123,
-                url : 'js/test/ui/lock/error.json'
-            }).release().close();
 
         lock($container)
-            .hasLock('LOCKED_RESOURCE',
-            {
+            .hasLock('LOCKED_RESOURCE', {
                 failed : function(){
                     assert.ok(true, 'The release failed and callback is called');
                 },
                 uri: 123,
-                url : 'js/test/ui/lock/wrong.json'
-            }).release().close();
+                releaseUrl : ''
+            })
+            .release()
+            .close();
 
         lock($container)
-            .hasLock('LOCKED_RESOURCE',
-            {
+            .hasLock('LOCKED_RESOURCE', {
+                failed : function(){
+                    assert.ok(true, 'The release failed and callback is called');
+                },
+                uri: 123,
+                releaseUrl : 'error.json'
+            })
+            .release()
+            .close();
+
+        lock($container)
+            .hasLock('LOCKED_RESOURCE', {
+                failed : function(){
+                    assert.ok(true, 'The release failed and callback is called');
+                },
+                uri: 123,
+                releaseUrl : 'wrong.json'
+            })
+            .release()
+            .close();
+
+        setTimeout(function(){
+            lock($container)
+            .hasLock('LOCKED_RESOURCE', {
                 released : function(){
                     assert.ok(true, 'The release works and callback is called');
                     QUnit.start();
                 },
                 uri: 123,
-                url : 'js/test/ui/lock/success.json'
-            }).release().close();
-
+                releaseUrl : 'success.json'
+            })
+            .release()
+            .close();
+        }, 200);
     });
 
     QUnit.asyncTest('callbacks', function(assert){
@@ -210,7 +218,7 @@ define(['jquery', 'ui/lock'], function($, lock){
                 close : function(){
                     assert.ok(true, 'The close callback is called');
                     QUnit.start();
-                } 
+                }
             })
             .display()
             .close();

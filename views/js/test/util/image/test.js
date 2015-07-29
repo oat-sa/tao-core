@@ -23,41 +23,41 @@ define(['util/image'], function(imageUtil){
     var width = 53;
     var height = 40;  
  
-    test('utilitary structure', function(){
-        expect(2);
+    QUnit.test('utilitary structure', function(assert){
+        QUnit.expect(2);
         
-        ok(typeof imageUtil === 'object');
-        ok(typeof imageUtil.getSize === 'function');
+        assert.ok(typeof imageUtil === 'object');
+        assert.ok(typeof imageUtil.getSize === 'function');
     });
     
-    asyncTest('getSize', function(){
-        expect(3);
+    QUnit.asyncTest('getSize', function(assert){
+        QUnit.expect(3);
         
         imageUtil.getSize(imageUrl, function(size){
-            notEqual(size, null, 'The size is not null');
-            equal(size.width, width, 'Check the image width');
-            equal(size.height, height, 'Check the image height');
-            start(); 
+            assert.notEqual(size, null, 'The size is not null');
+            assert.equal(size.width, width, 'Check the image width');
+            assert.equal(size.height, height, 'Check the image height');
+            QUnit.start(); 
         }); 
     });
     
-    asyncTest('getSize with a short timeout', function(){
-        expect(3);
+    QUnit.asyncTest('getSize with a short timeout', function(assert){
+        QUnit.expect(3);
         
         imageUtil.getSize(imageUrl, 1, function(size){
-            notEqual(size, null, 'The size is not null');
-            equal(size.width, width, 'Check the image width');
-            equal(size.height, height, 'Check the image height');
-            start(); 
+            assert.notEqual(size, null, 'The size is not null');
+            assert.equal(size.width, width, 'Check the image width');
+            assert.equal(size.height, height, 'Check the image height');
+            QUnit.start(); 
         }); 
     });
 
-    asyncTest('wrong url', function(){
-        expect(1);
+    QUnit.asyncTest('wrong url', function(assert){
+        QUnit.expect(1);
         
         imageUtil.getSize("img/a-fake-url.png", function(size){
             strictEqual(size, null, 'The size is null');
-            start(); 
+            QUnit.start(); 
         }); 
     });
 });

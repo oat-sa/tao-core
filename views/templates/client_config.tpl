@@ -18,6 +18,7 @@ require.config({
             shownExtension          : '<?=get_data('shownExtension')?>',
             shownStructure          : '<?=get_data('shownStructure')?>',
             extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
+            timeout                 : <?=get_data('client_timeout')?>,
         },
         'ui/themes' : <?= get_data('themesAvailable') ?>,
 //dynamic lib config

@@ -33,6 +33,14 @@ class tao_models_classes_Parser
 {
 
     /**
+     * XML content string
+     *
+     * @access protected
+     * @var string
+     */
+    protected $content = null;
+    
+    /**
      * Short description of attribute source
      *
      * @access protected
@@ -136,90 +144,62 @@ class tao_models_classes_Parser
      * @param  string schema
      * @return boolean
      */
-    public function validate($schema = ''){
-
+    public function validate($schema = '')
+    {
         //You know sometimes you think you have enough time, but it is not always true ...
         //(timeout in hudson with the generis-hard test suite)
         helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::MEDIUM);
-
-        $forced = $this->valid;
-
-        $this->valid = true;
-
-        try{
-            switch($this->sourceType){
-                case self::SOURCE_FILE:
-                    //check file
-                    if(!file_exists($this->source)){
-                        throw new Exception("File {$this->source} not found.");
-                    }
-                    if(!is_readable($this->source)){
-                        throw new Exception("Unable to read file {$this->source}.");
-                    }
-                    if(!preg_match("/\.{$this->fileExtension}$/", basename($this->source))){
-                        throw new Exception("Wrong file extension in ".basename($this->source).", {$this->fileExtension} extension is expected");
-                    }
-                    if(!tao_helpers_File::securityCheck($this->source)){
-                        throw new Exception("{$this->source} seems to contain some security issues");
-                    }
-                    break;
-                case self::SOURCE_URL:
-                    //only same domain
-                    if(!preg_match("/^".preg_quote(BASE_URL, '/')."/", $this->source)){
-                        throw new Exception("The given uri must be in the domain {$_SERVER['HTTP_HOST']}");
-                    }
-                    break;
-            }
-        }catch(Exception $e){
-            if($forced){
-                throw $e;
-            }else{
-                $this->addError($e);
-            }
-        }
-
-        if($this->valid && !$forced){ //valida can be true if forceValidation has been called
-            $this->valid = false;
-
-            try{
-
+        
+        $content = $this->getContent();
+        if (!empty($content)) {
+            try {
                 libxml_use_internal_errors(true);
 
                 $dom = new DomDocument();
-                $loadResult = false;
-                switch($this->sourceType){
-                    case self::SOURCE_FILE:
-                        $loadResult = $dom->load($this->source);
-                        break;
-                    case self::SOURCE_URL:
-                        $xmlContent = tao_helpers_Request::load($this->source, true);
-                        $loadResult = $dom->loadXML($xmlContent);
-                        break;
-                    case self::SOURCE_STRING:
-                        $loadResult = $dom->loadXML($this->source);
-                        break;
-                }
-                if($loadResult){
-                    if(!empty($schema)){
-                        $this->valid = $dom->schemaValidate($schema);
-                    }else{
-                        $this->valid = true; //only well-formed
-                    }
+                $dom->formatOutput = true;
+                $dom->preserveWhiteSpace = false;
+                
+                $this->valid = $dom->loadXML($content);
+
+                if ($this->valid && !empty($schema)) {
+                    $this->valid = $dom->schemaValidate($schema);
                 }
 
-                if(!$this->valid){
+                if (!$this->valid) {
                     $this->addErrors(libxml_get_errors());
                 }
                 libxml_clear_errors();
-            }catch(DOMException $de){
+            } catch(DOMException $de) {
                 $this->addError($de);
             }
         }
-        $returnValue = $this->valid;
+        
+        
         helpers_TimeOutHelper::reset();
-        return (bool) $returnValue;
+        return (bool) $this->valid;
     }
+    
+    /**
+     * Excecute parser validation and stops at the first valid one, and returns the identified schema
+     * 
+     * @param array $xsds
+     * @return string
+     */
+    public function validateMultiple($xsds = array())
+    {
+        $returnValue = '';
 
+        foreach ($xsds as $xsd) {
+            $this->errors = array();
+            if ($this->validate($xsd)) {
+                $returnValue = $xsd;
+                break;
+            }
+        }
+
+        return $returnValue;
+    }
+    
     /**
      * Short description of method isValid
      *
@@ -229,17 +209,6 @@ class tao_models_classes_Parser
      */
     public function isValid(){
         return (bool) $this->valid;
-    }
-
-    /**
-     * Short description of method forceValidation
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
-     */
-    public function forceValidation(){
-        $this->valid = true;
     }
 
     /**
@@ -311,7 +280,55 @@ class tao_models_classes_Parser
             );
         }
     }
-
+    
+    /**
+     * Get XML content.
+     *
+     * @access protected
+     * @author Aleh Hutnikau, <hutnikau@1pt.com>
+     * @param boolean $refresh load content again.
+     * @return string
+     */
+    protected function getContent($refresh = false)
+    {
+        if ($this->content === null || $refresh) {
+            try{
+                switch ($this->sourceType) {
+                    case self::SOURCE_FILE:
+                        //check file
+                        if(!file_exists($this->source)){
+                            throw new Exception("File {$this->source} not found.");
+                        }
+                        if(!is_readable($this->source)){
+                            throw new Exception("Unable to read file {$this->source}.");
+                        }
+                        if(!preg_match("/\.{$this->fileExtension}$/", basename($this->source))){
+                            throw new Exception("Wrong file extension in ".basename($this->source).", {$this->fileExtension} extension is expected");
+                        }
+                        if(!tao_helpers_File::securityCheck($this->source)){
+                            throw new Exception("{$this->source} seems to contain some security issues");
+                        }
+                        $this->content = file_get_contents($this->source);
+                        break;
+                    case self::SOURCE_URL:
+                        //only same domain
+                        if(!preg_match("/^".preg_quote(BASE_URL, '/')."/", $this->source)){
+                            throw new Exception("The given uri must be in the domain {$_SERVER['HTTP_HOST']}");
+                        }
+                        $this->content = tao_helpers_Request::load($this->source, true);
+                        break;
+                    case self::SOURCE_STRING:
+                        $this->content = $this->source;
+                        break;
+                }
+            } catch(Exception $e) {
+                $this->addError($e);
+            }
+        }
+        
+        return $this->content;
+    }
+    
     /**
      * Short description of method addErrors
      *

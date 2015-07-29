@@ -19,6 +19,8 @@
  *               
  */
 
+use \oat\generis\model\user\PasswordConstraintsService;
+
 /**
  * This container initialize the password reset form.
  *
@@ -59,9 +61,8 @@ class tao_actions_form_ResetUserPassword extends tao_helpers_form_FormContainer
         
         $pass1Element = tao_helpers_form_FormFactory::getElement('newpassword', 'Hiddenbox');
         $pass1Element->setDescription(__('New password'));
-        $pass1Element->addValidators(array(
-            tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3))
-        ));
+        $pass1Element->addValidators(PasswordConstraintsService::singleton()->getValidators());
+        $pass1Element->setBreakOnFirstError(false);
         $this->form->addElement($pass1Element);
 
         $pass2Element = tao_helpers_form_FormFactory::getElement('newpassword2', 'Hiddenbox');

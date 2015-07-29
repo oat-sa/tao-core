@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-rc02\n"
-"PO-Revision-Date: 2015-07-08T16:45:31\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T14:01:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lb-LU\n"
@@ -12,11 +12,6 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#, tao-public
-msgid "\n"
-"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr ""
 
 msgid " and "
 msgstr ""
@@ -289,6 +284,9 @@ msgstr ""
 msgid "Create instance of "
 msgstr ""
 
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
+
 msgid "CSV"
 msgstr ""
 
@@ -307,11 +305,11 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
-msgstr ""
-
 msgid "Data language"
 msgstr "Daten Sprooch"
+
+msgid "Data Language"
+msgstr ""
 
 msgid "Date"
 msgstr ""
@@ -558,11 +556,11 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
-msgstr "Interface Sprooch"
-
 msgid "Interface Language"
 msgstr ""
+
+msgid "Interface language"
+msgstr "Interface Sprooch"
 
 msgid "Invalid date range"
 msgstr ""
@@ -768,10 +766,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No result found"
@@ -836,6 +834,9 @@ msgstr "Wirklech Läschen?"
 
 msgid "Please confirm property deletion!"
 msgstr "W.e.g. konfirméiert d'Läschen vun der Proprietéit"
+
+msgid "Please confirm the deletion of the activity"
+msgstr ""
 
 msgid "Please confirm this operation."
 msgstr ""
@@ -1042,17 +1043,19 @@ msgstr ""
 msgid "Supported export formats"
 msgstr ""
 
-#, tao-public
 msgid "TAO Back Office"
-msgstr ""
-
-msgid "Tao Home"
 msgstr ""
 
 msgid "TAO Home"
 msgstr ""
 
+msgid "Tao Home"
+msgstr ""
+
 msgid "TAO Login"
+msgstr ""
+
+msgid "Test Developers and Administrators"
 msgstr ""
 
 msgid "Text - Long - Box"
@@ -1187,10 +1190,10 @@ msgstr ""
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undo"

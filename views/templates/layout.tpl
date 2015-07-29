@@ -1,9 +1,18 @@
 <?php
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
+
+$releaseMsgData = Layout::getReleaseMsgData();
+
+// yellow bar if
+// never removed by user
+// and version considered unstable resp. sandbox
+$hasVersionWarning = empty($_COOKIE['versionWarning'])
+    && ($releaseMsgData['is-unstable']
+    || $releaseMsgData['is-sandbox']);
 ?>
 <!doctype html>
-<html class="no-js">
+<html class="no-js<?php if (!$hasVersionWarning): ?> no-version-warning<?php endif;?>">
 <head>
     <script src="<?= Template::js('lib/modernizr-2.8/modernizr.js', 'tao')?>"></script>
     <meta charset="utf-8">
@@ -32,7 +41,7 @@ use oat\tao\helpers\Layout;
     <div class="content-wrap">
 
         <?php /* alpha|beta|sandbox message */
-        if(empty($_COOKIE['versionWarning'])) {
+        if($hasVersionWarning) {
             Template::inc('blocks/version-warning.tpl', 'tao');
         }?>
 
