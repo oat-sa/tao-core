@@ -22,6 +22,7 @@
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
+use oat\taoBackOffice\model\menuStructure\ClassActionRegistry;
 
 class Section extends MenuElement implements PhpSerializable
 {
@@ -70,6 +71,20 @@ class Section extends MenuElement implements PhpSerializable
         $actions = array();
         foreach ($node->xpath("actions/action") as $actionNode) {
             $actions[] = Action::fromSimpleXMLElement($actionNode);
+        }
+        
+        $includeClassActions = isset($node->actions) && isset($node->actions['allowClassActions']) && $node->actions['allowClassActions'] == 'true';
+        
+        if ($includeClassActions) {
+            foreach ($trees as $tree) {
+                $rootNodeUri = $tree->get('rootNode');
+                if (!empty($rootNodeUri)) {
+                    $rootNode = new \core_kernel_classes_Class($rootNodeUri);
+                    foreach (ClassActionRegistry::getRegistry()->getClassActions($rootNode) as $action) {
+                        $actions[] = $action;
+                    }
+                }
+            }
         }
 
         return new static($data, $trees, $actions);
