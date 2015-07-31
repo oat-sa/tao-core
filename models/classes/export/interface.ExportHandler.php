@@ -52,7 +52,7 @@ interface tao_models_classes_export_ExportHandler
      * 
      * @param array $formValues the values returned by the form provided by getForm
      * @param string $destPath path to export the resources to
-     * @return string filepath
+     * @return \common_report_Report | string report
      */
     public function export($formValues, $destPath);
 }
