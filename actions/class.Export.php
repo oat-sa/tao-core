@@ -76,18 +76,38 @@ class tao_actions_Export extends tao_actions_CommonModule {
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
             }
             
-            $file = $exporter->export($exportData, tao_helpers_Export::getExportPath());
-            if (!is_null($file) && file_exists($file)) {
-                return tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
+            $report = $exporter->export($exportData, tao_helpers_Export::getExportPath());
+
+            $file = $report;
+            $errors = array();
+            if($report instanceof common_report_Report){
+                $file = $report->getData();
+
+                if($report->containsError()){
+                    $iterator = $report->getErrors();
+                    foreach($iterator as $element){
+                        common_Logger::w($element->getMessage());
+                        $errors[] = $element->getMessage();
+                    }
+                }
             }
-            
+
+            if (!empty($errors)) {
+                echo implode(' ', $errors);
+
+            } elseif (!is_null($file) && file_exists($file)) {
+                tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
+            }
+            return;
+
+
         }
         
         $context = Context::getInstance();
         $this->setData('export_extension', $context->getExtensionName());
         $this->setData('export_module', $context->getModuleName());
         $this->setData('export_action', $context->getActionName());
-        
+
         $this->setData('formTitle', __('Export '));
         $this->setView('form/export.tpl', 'tao');
 		

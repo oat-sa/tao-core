@@ -10,7 +10,16 @@
 <div id="iframe-container"></div>
 
 <script>
-    require(['jquery', 'lodash', 'helpers', 'uiForm'], function($, _, helpers, uiForm){
+    require([
+        'jquery',
+        'lodash',
+        'i18n',
+        'helpers',
+        'uiForm',
+        'ui/feedback',
+        'jquery.fileDownload'
+        ],
+        function($, _, __, helpers, uiForm, feedback){
 
         var $form = $('#exportChooser'),
             $submitter = $form.find('.form-submitter'),
@@ -40,15 +49,12 @@
                     }
                 });
                 params.instances = instances;
-                
-                
-                //build download url
-                var url = helpers._url('<?=get_data('export_action')?>', '<?=get_data('export_module')?>', '<?=get_data('export_extension')?>', params);
-                
-                //use the iframe to embed download in the page
-                var $iframe = $('<iframe>', {src : url}).hide();
-                $iframeContainer.empty().append($iframe);
 
+                $.fileDownload(helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>", params), {
+                    failCallback: function (html) {
+                        feedback().error(html);
+                    }
+                });
             }
 
         });
