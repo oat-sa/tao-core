@@ -174,10 +174,13 @@ class tao_helpers_Date
      */
     static function getTimeStamp($microtime, $microseconds = false)
     {
-        list ($usec, $sec) = explode(" ", $microtime);
-        $timestamp = $microseconds ? $sec + $usec : $sec;
+        $parts = array_reverse(explode(" ", $microtime));
 
-        return ((float)$timestamp);
+        $timestamp = $microseconds && isset($parts[1])
+            ? $parts[0] . '.' . round($parts[1] * 1000000, 0)
+            : $parts[0];
+
+        return $timestamp;
     }
 
     static function getTimeStampWithMicroseconds(DateTime $dt)
