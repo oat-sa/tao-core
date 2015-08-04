@@ -45,7 +45,7 @@ class tao_helpers_Date
     const FORMAT_INTERVAL_SHORT = 101;
     
     private static $service;
-    
+
     static protected function getDateFormatter()
     {
         if (is_null(self::$service)) {
@@ -55,6 +55,7 @@ class tao_helpers_Date
                 ? $service
                 : new EuropeanFormatter();
         }
+
         return self::$service;
     }
 
@@ -77,7 +78,7 @@ class tao_helpers_Date
         } else {
             throw new common_Exception('Unexpected timestamp');
         }
-        
+
         return self::getDateFormatter()->format($ts, $format);
     }
 
