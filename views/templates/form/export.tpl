@@ -7,7 +7,7 @@
     </div>
     <?php endif;?>
 </div>
-<div id="iframe-container"></div>
+<div id="report-feedback" class="hidden"></div>
 
 <script>
     require([
@@ -52,7 +52,11 @@
 
                 $.fileDownload(helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>", params), {
                     failCallback: function (html) {
-                        feedback().error(html);
+                        var $error = $('#report-feedback');
+                        $error.html(html);
+                        $('#import-continue').remove();
+                        $('.feedback-success').remove();
+                        $error.removeClass('hidden');
                     }
                 });
             }
