@@ -90,6 +90,7 @@ class tao_actions_Export extends tao_actions_CommonModule
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
             }
 
+            $file = null;
             try {
                 $report = $exporter->export($exportData, tao_helpers_Export::getExportPath());
                 $file = $report;
@@ -98,23 +99,17 @@ class tao_actions_Export extends tao_actions_CommonModule
                 $report = common_report_Report::createFailure($e->getUserMessage());
             }
 
-
-            $errors = array();
+            $html = '';
             if ($report instanceof common_report_Report) {
                 $file = $report->getData();
 
-                if ($report->containsError()) {
-                    $iterator = $report->getErrors();
-                    foreach ($iterator as $element) {
-                        common_Logger::w($element->getMessage());
-                        $errors[] = $element->getMessage();
-                    }
+                if ($report->getType() === common_report_Report::TYPE_ERROR) {
+                    $html = tao_helpers_report_Rendering::render($report);
                 }
             }
 
-            if (!empty($errors)) {
-                echo implode("\n", $errors);
-
+            if ($html !== '') {
+                echo $html;
             } elseif (!is_null($file) && file_exists($file)) {
                 tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
             }
