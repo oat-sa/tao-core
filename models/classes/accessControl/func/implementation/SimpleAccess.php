@@ -28,7 +28,6 @@ use oat\taoDevTools\actions\ControllerMap;
 use oat\tao\model\accessControl\func\FuncHelper;
 use oat\tao\helpers\ControllerHelper;
 use oat\oatbox\user\User;
-use Zend\Ldap\Filter\MaskFilter;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access

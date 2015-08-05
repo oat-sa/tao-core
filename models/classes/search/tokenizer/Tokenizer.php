@@ -21,7 +21,7 @@
 namespace oat\tao\model\search\tokenizer;
 
 /**
- * Zend Lucene Search implementation 
+ * Tokenizer interface for TAO property values 
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
