@@ -210,6 +210,6 @@ class ThemeRegistry extends AbstractRegistry
 
             $returnValue[$target]['base'] = ROOT_URL . $value['base'];
         }
-        return json_encode($returnValue,JSON_PRETTY_PRINT);
+        return json_encode($returnValue);
     }
 }
