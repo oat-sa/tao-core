@@ -26,7 +26,11 @@ table.datatable{
         &.id{
             display:none;
         }
-        &[data-item-identifier] {
+        &.checkboxes{
+            width: 20px;
+            text-align: center;
+        }
+        &.actions {
             text-align: center;
         }
         button{

@@ -46,6 +46,7 @@ define([
          * @param {Object} options - the plugin options
          * @param {String} options.url - the URL of the service used to retrieve the resources.
          * @param {Function} options.actions.xxx - the callback function for items xxx, with a single parameter representing the identifier of the items.
+         * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
@@ -93,21 +94,28 @@ define([
          *
          * @private
          * @param {jQueryElement} $elt - plugin's element 
+         * @fires dataTable#query.datatable
+         * @fires dataTable#beforeload.datatable
          * @fires dataTable#load.datatable
          */
         _query: function($elt){
             var self = this;
             var options = $elt.data(dataNs);
             var parameters = _.merge({},_.pick(options, ['rows', 'page', 'sortby', 'sortorder']), options.params || {});
-
-            $.ajax({
+            var ajaxConfig = {
                 url: options.url,
                 data: parameters,
                 dataType : 'json',
                 type: options.querytype || 'GET'
-            }).done(function(response) {
+            };
 
-                var rows = {};
+            /**
+             * @event dataTable#query.dataTable
+             * @param {Object} ajaxConfig - The config object used to setup the AJAX request
+             */
+            $elt.trigger('query.datatable', [ajaxConfig]);
+
+            $.ajax(ajaxConfig).done(function(response) {
 
                 // Add the list of custom actions to the response for the tpl
                 if(options.actions){
@@ -121,6 +129,15 @@ define([
 
                 // Add the model to the response for the tpl
                 response.model = options.model;
+
+                // Forward options to the response
+                response.selectable = !!options.selectable;
+
+                /**
+                 * @event dataTable#beforeload.dataTable
+                 * @param {Object} response - The response object provided by the AJAX request
+                 */
+                $elt.trigger('beforeload.datatable', [response]);
 
                 // Call the rendering
                 var $rendering = $(layout(response));
@@ -156,7 +173,7 @@ define([
                             e.preventDefault();
                             var $elt = $(this);
                             if(!$elt.hasClass('disabled')){
-                                action.apply($elt,[$elt.parent().data('item-identifier')]);
+                                action.apply($elt,[$elt.closest('[data-item-identifier]').data('item-identifier')]);
                             }
                         });
                 });
@@ -166,6 +183,8 @@ define([
                 var $backwardBtn = $rendering.find('.datatable-backward');
                 var $sortBy = $rendering.find('th[data-sort-by]');
                 var $sortElement = $rendering.find('[data-sort-by="'+ options.sortby +'"]');
+                var $checkAll = $rendering.find('th.checkboxes input');
+                var $checkboxes = $rendering.find('td.checkboxes input');
 
                 $forwardBtn.click(function() {
                     self._next($elt);
@@ -177,6 +196,27 @@ define([
 
                 $sortBy.click(function() {
                     self._sort($elt, $(this).data('sort-by'));
+                });
+
+                // check/uncheck all checkboxes
+                $checkAll.click(function() {
+                    if (this.checked) {
+                        $checkAll.attr('checked', 'checked');
+                        $checkboxes.attr('checked', 'checked');
+                    } else {
+                        $checkAll.removeAttr('checked');
+                        $checkboxes.removeAttr('checked');
+                    }
+                });
+
+                // when check/uncheck a box, toggle the check/uncheck all
+                $checkboxes.click(function() {
+                    var $checked = $checkboxes.filter(':checked');
+                    if ($checked.length === $checkboxes.length) {
+                        $checkAll.attr('checked', 'checked');
+                    } else {
+                        $checkAll.removeAttr('checked');
+                    }
                 });
 
                 // Remove sorted class from all th
@@ -201,8 +241,9 @@ define([
 
                 /**
                  * @event dataTable#load.dataTable
+                 * @param {Object} response - The response object provided by the AJAX request
                  */ 
-                $elt.trigger('load.datatable');
+                $elt.trigger('load.datatable', [response]);
             });
         },
 
@@ -282,10 +323,27 @@ define([
 
             // Call the query
             this._query($elt);
+        },
+
+        /**
+         * Gets the selected items. Returns an array of identifiers.
+         *
+         * @param {jQueryElement} $elt - plugin's element
+         * @returns {Array} - Returns an array of identifiers.
+         */
+        _selection: function($elt) {
+            var $selected = $elt.find('[data-item-identifier]').has('td.checkboxes input:checked');
+            var selection = [];
+
+            $selected.each(function() {
+                selection.push($(this).data('item-identifier'));
+            });
+
+            return selection;
         }
     };
 
     Pluginifier.register(ns, dataTable, {
-         expose : ['refresh', 'next', 'previous', 'sort']
+         expose : ['refresh', 'next', 'previous', 'sort', 'selection']
     });
 });

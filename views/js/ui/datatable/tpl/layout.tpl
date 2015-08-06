@@ -8,6 +8,9 @@
 <div class="datatable-container">
     <table class="matrix datatable">
         <colgroup>
+            {{#if selectable}}
+            <col/>
+            {{/if}}
             <col/>
             {{#model}}
             <col/>
@@ -15,6 +18,9 @@
         </colgroup>
         <thead>
             <tr>
+                {{#if selectable}}
+                <th class="checkboxes"><input type="checkbox" name="checkall" value="1" /></th>
+                {{/if}}
                 <th class="id"></th>
             {{#model}}
                 <th {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</th>
@@ -23,12 +29,15 @@
         </thead>
         <tbody>
             {{#data}}
-                <tr>
+                <tr data-item-identifier="{{id}}">
+                    {{#if ../selectable}}
+                    <td class="checkboxes"><input type="checkbox" name="cb[{{id}}]" value="1" /></td>
+                    {{/if}}
                     {{#each this}}
                     <td class="{{@key}}">{{this}}</td>
                     {{/each}}
                     {{#if ../actions}}
-                    <td data-item-identifier="{{id}}">
+                    <td class="actions">
                         {{#each ../../actions}}
 
                         <button class="btn-info small {{this}}"><span class="icon-{{this}}"></span> {{this}}</button>
