@@ -40,7 +40,7 @@
                     <td class="actions">
                         {{#each ../../actions}}
 
-                        <button class="btn-info small {{this}}"><span class="icon-{{this}}"></span> {{this}}</button>
+                        <button class="btn-info small {{#if name}}{{name}}{{else}}{{@key}}{{/if}}"{{#if title}} title="{{title}}"{{/if}}><span class="icon-{{#if icon}}{{icon}}{{else}}{{#if name}}{{name}}{{else}}{{@key}}{{/if}}{{/if}}"></span> {{#if label}}{{label}}{{else}}{{#unless name}}{{@key}}{{/unless}}{{/if}}</button>
 
                         {{/each}}
                     </td>

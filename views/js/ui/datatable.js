@@ -145,7 +145,7 @@ define([
 
             // Add the list of custom actions to the data set for the tpl
             if(options.actions){
-                dataset.actions = _.keys(options.actions);
+                dataset.actions = options.actions;
             }
 
             // Add the column into the model
@@ -194,8 +194,11 @@ define([
             });
 
             // Attach a listener to every action button created
-            _.forEach(options.actions, function(action,name){
-
+            _.forEach(options.actions, function(action, name){
+                if (!_.isFunction(action)) {
+                    name = action.name || name;
+                    action = action.action || function() {};
+                }
                 $rendering
                     .off('click','.'+name)
                     .on('click','.'+name, function(e){
