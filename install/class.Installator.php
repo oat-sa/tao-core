@@ -21,6 +21,7 @@
  */
 
 use oat\tao\helpers\translation\TranslationBundle;
+use oat\tao\helpers\InstallHelper;
 
 /**
  *
@@ -318,58 +319,8 @@ class tao_install_Installator{
 	        /*
 			 * 9 - Install the extensions
 			 */			
+			InstallHelper::installRecursively($extensionIDs, $installData);
 			
-			$toInstall = array();
-			foreach ($extensionIDs as $id) {
-				try {
-					$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
-					
-					if (!common_ext_ExtensionsManager::singleton()->isInstalled($ext->getId())) {
-					    common_Logger::d('Extension ' . $id . ' needs to be installed');
-						$toInstall[$id] = $ext;
-					}
-				} catch (common_ext_ExtensionException $e) {
-					common_Logger::w('Extension '.$id.' not found');
-				}
-			}
-	
-			while (!empty($toInstall)) {
-				$modified = false;
-				foreach ($toInstall as $key => $extension) {
-					// if all dependencies are installed
-				    common_Logger::d('Considering extension ' . $key);
-					$installed	= array_keys(common_ext_extensionsmanager::singleton()->getinstalledextensions());
-					$missing	= array_diff(array_keys($extension->getDependencies()), $installed);
-					if (count($missing) == 0) {
-						try {
-						    $importLocalData = ($installData['import_local'] == true);
-							$extinstaller = new tao_install_ExtensionInstaller($extension, $importLocalData);
-							
-							set_time_limit(300);
-							
-							$extinstaller->install();
-							common_Logger::w('Extension '.$key.' installed');
-						} catch (common_ext_ExtensionException $e) {
-							common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getId().'"');
-							throw new tao_install_utils_Exception("An error occured during the installation of extension '" . $extension->getId() . "'.");
-						}
-						unset($toInstall[$key]);
-						$modified = true;
-					} else {
-						$missing = array_diff($missing, array_keys($toInstall));
-						foreach ($missing as $extID) {
-						    common_Logger::d('Extension ' . $extID . ' is required but missing, added to install list');
-							$toInstall[$extID] = common_ext_ExtensionsManager::singleton()->getExtensionById($extID);
-							$modified = true;
-						}
-					}
-				}
-				// no extension could be installed, and no new requirements was added
-				if (!$modified) {
-					throw new common_exception_Error('Unfulfilable/Cyclic reference found in extensions');
-				}
-			}
-
             /*
              *  9bis - Generates client side translation bundles (depends on extension install)
              */
