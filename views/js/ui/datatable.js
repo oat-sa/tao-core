@@ -338,7 +338,7 @@ define([
          *
          * @param {jQueryElement} $elt - plugin's element
          * @param {String} sortBy - the model id of the col to sort
-         * @param {Boolean} [asc] - sort direction true for asc of deduced
+         * @param {Boolean|String} [asc] - sort direction true for asc of deduced
          * @returns {Object} - returns the options
          * @private
          */
@@ -346,7 +346,12 @@ define([
             var options = $elt.data(dataNs);
 
             if (typeof asc !== 'undefined') {
-                options.sortorder = (!!asc) ? 'asc' : 'desc';
+                switch (asc) {
+                    case 'asc': break;
+                    case 'desc': break;
+                    default: asc = (!!asc) ? 'asc' : 'desc';
+                }
+                options.sortorder = asc;
             } else if (options.sortorder === 'asc' && options.sortby === sortBy) {
                 // If I already sort asc this element
                 options.sortorder = 'desc';
