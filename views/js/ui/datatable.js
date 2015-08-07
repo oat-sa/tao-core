@@ -208,15 +208,33 @@ define([
             $checkboxes = $rendering.find('td.checkboxes input');
 
             $forwardBtn.click(function() {
+                /**
+                 * @event dataTable#forward.dataTable
+                 */
+                $elt.trigger('forward.datatable');
+
                 self._next($elt);
             });
 
             $backwardBtn.click(function() {
+                /**
+                 * @event dataTable#backward.dataTable
+                 */
+                $elt.trigger('backward.datatable');
+
                 self._previous($elt);
             });
 
             $sortBy.click(function() {
-                self._sort($elt, $(this).data('sort-by'));
+                var column = $(this).data('sort-by');
+
+                /**
+                 * @event dataTable#sort.dataTable
+                 * @param {String} column - The name of the column to sort
+                 */
+                $elt.trigger('sort.datatable', [column]);
+
+                self._sort($elt, column);
             });
 
             // check/uncheck all checkboxes
@@ -228,6 +246,11 @@ define([
                     $checkAll.removeAttr('checked');
                     $checkboxes.removeAttr('checked');
                 }
+
+                /**
+                 * @event dataTable#select.dataTable
+                 */
+                $elt.trigger('select.datatable');
             });
 
             // when check/uncheck a box, toggle the check/uncheck all
@@ -238,6 +261,11 @@ define([
                 } else {
                     $checkAll.removeAttr('checked');
                 }
+
+                /**
+                 * @event dataTable#select.dataTable
+                 */
+                $elt.trigger('select.datatable');
             });
 
             // Remove sorted class from all th
