@@ -40,30 +40,44 @@ class JsonLdExport implements \JsonSerializable
     /**
      * List of uris to exclude during export:
      * 
-     * 'id' was introduced by bug
-     * 
      * @var array
      */
     private $blackList = array(RDF_TYPE);
 
-    public function getBlackList()
+    /**
+     * Gets a list of properties to exclude
+     * 
+     * @return array()
+     */
+    protected function getBlackList()
     {
     	return $this->blackList;
     }
     
     /**
      * Blacklist a property
+     * 
+     * @param string $propertyUri
      */
     public function blackList($propertyUri)
     {
         $this->blackList[] = $propertyUri;
     }
     
+    /**
+     * Create an Exported for the specified resurce
+     * 
+     * @param core_kernel_classes_Resource $resource
+     */
     public function __construct(core_kernel_classes_Resource $resource)
     {
         $this->resource = $resource;
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
+     */
     public function jsonSerialize()
     {
         $triples = $this->resource->getRdfTriples()->toArray();
@@ -90,9 +104,13 @@ class JsonLdExport implements \JsonSerializable
         
         $data = array(
             '@context' => array_flip($map),
-            '@id' => $this->resource->getUri(),
-            '@type' => $this->transfromArray($this->resource->getTypes())
+            '@id' => $this->resource->getUri()
         );
+        
+        $types = $this->resource->getTypes();
+        if (!empty($types)) {
+            $data['@type'] = $this->transfromArray($types);
+        }
         
         foreach ($triples as $triple) {
             $key = $map[$triple->predicate];
@@ -108,6 +126,12 @@ class JsonLdExport implements \JsonSerializable
         return $data;
     }
     
+    /**
+     * Encode a values array
+     * 
+     * @param array $values
+     * @return mixed
+     */
     private function transfromArray($values)
     {
         if (count($values) > 1) {
@@ -121,6 +145,12 @@ class JsonLdExport implements \JsonSerializable
         }
     }
     
+    /**
+     * Encode the value in a json-ld compatible way
+     * 
+     * @param mixed $value
+     * @return string
+     */
     protected function encodeValue($value)
     {
         return is_string($value)
@@ -131,6 +161,12 @@ class JsonLdExport implements \JsonSerializable
         ); 
     }
     
+    /**
+     * Generate a key for the property to use during export
+     * 
+     * @param string $uri
+     * @return string
+     */
     protected function generateId($uri)
     {
         $property = new \core_kernel_classes_Property($uri);
