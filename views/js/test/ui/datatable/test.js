@@ -1,4 +1,4 @@
-define(['jquery', 'ui/datatable'], function($){
+define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], function($, dataset){
     
     
     QUnit.module('DataTable Test');
@@ -24,7 +24,7 @@ define(['jquery', 'ui/datatable'], function($){
         });
     });
 
-    QUnit.asyncTest('Model loading', function(assert){
+    QUnit.asyncTest('Model loading using AJAX', function(assert){
         QUnit.expect(11);
         
         var $elt = $('#container-1');
@@ -53,6 +53,132 @@ define(['jquery', 'ui/datatable'], function($){
         $elt.on('load.datatable', function(event, response) {
             assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
             QUnit.start();
+        });
+        $elt.datatable({
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'role',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            }]
+        });
+    });
+
+    QUnit.asyncTest('Model loading using predefined data', function(assert){
+        QUnit.expect(8);
+
+        var $elt = $('#container-1');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        QUnit.stop(2);
+
+        $elt.on('create.datatable', function(){
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
+            assert.equal($elt.find('.datatable thead th:eq(1)').text(), 'Login', 'the login label is created');
+            assert.equal($elt.find('.datatable thead th:eq(2)').text(), 'Name', 'the name label is created');
+            assert.equal($elt.find('.datatable thead th:eq(1)').data('sort-by'), 'login', 'the login col is sortable');
+            QUnit.start();
+        });
+        $elt.on('query.datatable', function(event, ajaxConfig) {
+            assert.ok(false, 'the query event must not be triggered!');
+        });
+        $elt.on('beforeload.datatable', function(event, response) {
+            assert.equal(typeof response, 'object', 'the beforeload event is triggered and provides the response data');
+            QUnit.start();
+        });
+        $elt.on('load.datatable', function(event, response) {
+            assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
+            QUnit.start();
+        });
+        $elt.datatable({
+            url : 'js/test/ui/datatable/data.json',
+            data: dataset,
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'role',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            }]
+        });
+    });
+
+    QUnit.asyncTest('Data rendering', function(assert){
+        QUnit.expect(13);
+
+        var renderCalled = false;
+        var $elt = $('#container-1');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        QUnit.stop(5);
+
+        $elt.on('create.datatable', function(){
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
+            assert.equal($elt.find('.datatable thead th:eq(1)').text(), 'Login', 'the login label is created');
+            assert.equal($elt.find('.datatable thead th:eq(2)').text(), 'Name', 'the name label is created');
+            assert.equal($elt.find('.datatable thead th:eq(1)').data('sort-by'), 'login', 'the login col is sortable');
+            QUnit.start();
+        });
+        $elt.on('query.datatable', function(event, ajaxConfig) {
+            assert.equal(typeof ajaxConfig, 'object', 'the query event is triggered and provides an object');
+            assert.equal(typeof ajaxConfig.url, 'string', 'the query event provides an object containing the target url');
+            assert.equal(typeof ajaxConfig.data, 'object', 'the query event provides an object containing the request parameters');
+            QUnit.start();
+        });
+        $elt.on('beforeload.datatable', function(event, response) {
+            assert.equal(typeof response, 'object', 'the beforeload event is triggered and provides the response data');
+            QUnit.start();
+        });
+        $elt.on('load.datatable', function(event, response) {
+            assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
+            QUnit.start();
+
+            if (!renderCalled) {
+                renderCalled = true;
+                setTimeout(function() {
+                    $elt.datatable('render', dataset);
+                }, 1);
+            }
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',

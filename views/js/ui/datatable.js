@@ -47,6 +47,7 @@ define([
          * @param {String} options.url - the URL of the service used to retrieve the resources.
          * @param {Function} options.actions.xxx - the callback function for items xxx, with a single parameter representing the identifier of the items.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
+         * @param {Object} options.data - inject predefined data to avoid the first query.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
@@ -68,9 +69,13 @@ define([
                          * @event dataTable#create.datatable
                          */ 
                         $elt.trigger('create.' + ns);
-                    }); 
+                    });
 
-                    self._query($elt);
+                    if (options.data) {
+                        self._render($elt, options.data);
+                    } else {
+                        self._query($elt);
+                    }
                 } else {
                     self._refresh($elt);
                 }
@@ -95,8 +100,6 @@ define([
          * @private
          * @param {jQueryElement} $elt - plugin's element 
          * @fires dataTable#query.datatable
-         * @fires dataTable#beforeload.datatable
-         * @fires dataTable#load.datatable
          */
         _query: function($elt){
             var self = this;
@@ -116,145 +119,166 @@ define([
             $elt.trigger('query.datatable', [ajaxConfig]);
 
             $.ajax(ajaxConfig).done(function(response) {
-
-                // Add the list of custom actions to the response for the tpl
-                if(options.actions){
-                    response.actions = _.keys(options.actions);
-                }
-
-                // Add the column into the model
-                if (options.actions !== null && _.last(options.model).label !== actionHeader.label) {
-                    options.model.push(actionHeader);
-                }
-
-                // Add the model to the response for the tpl
-                response.model = options.model;
-
-                // Forward options to the response
-                response.selectable = !!options.selectable;
-
-                /**
-                 * @event dataTable#beforeload.dataTable
-                 * @param {Object} response - The response object provided by the AJAX request
-                 */
-                $elt.trigger('beforeload.datatable', [response]);
-
-                // Call the rendering
-                var $rendering = $(layout(response));
-
-                // the readonly property contains an associative array where keys are the ids of the items (lines)
-                // the value can be a boolean (true for disable buttons, false to enable)
-                // it can also bo an array that let you disable/enable the action you want
-                // readonly = {
-                //  id1 : {'view':true, 'delete':false},
-                //  id2 : true
-                //}
-                _.forEach(response.readonly, function(values, id){
-                    if(values === true){
-                        $('[data-item-identifier="'+id+'"] button', $rendering).addClass('disabled');
-                    }
-                    else if(values && typeof values === 'object'){
-                        for (var action in values) {
-                            if (values.hasOwnProperty(action)) {
-                                if(values[action] === true){
-                                    $('[data-item-identifier="'+id+'"] button.'+action, $rendering).addClass('disabled');
-                                }
-                            }
-                        }
-                    }
-                });
-
-                // Attach a listener to every action button created
-                _.forEach(options.actions, function(action,name){
-                    
-                    $rendering
-                        .off('click','.'+name)
-                        .on('click','.'+name, function(e){
-                            e.preventDefault();
-                            var $elt = $(this);
-                            if(!$elt.hasClass('disabled')){
-                                action.apply($elt,[$elt.closest('[data-item-identifier]').data('item-identifier')]);
-                            }
-                        });
-                });
-
-                // Now $rendering takes the place of $elt...
-                var $forwardBtn = $rendering.find('.datatable-forward');
-                var $backwardBtn = $rendering.find('.datatable-backward');
-                var $sortBy = $rendering.find('th[data-sort-by]');
-                var $sortElement = $rendering.find('[data-sort-by="'+ options.sortby +'"]');
-                var $checkAll = $rendering.find('th.checkboxes input');
-                var $checkboxes = $rendering.find('td.checkboxes input');
-
-                $forwardBtn.click(function() {
-                    self._next($elt);
-                });
-
-                $backwardBtn.click(function() {
-                    self._previous($elt);
-                });
-
-                $sortBy.click(function() {
-                    self._sort($elt, $(this).data('sort-by'));
-                });
-
-                // check/uncheck all checkboxes
-                $checkAll.click(function() {
-                    if (this.checked) {
-                        $checkAll.attr('checked', 'checked');
-                        $checkboxes.attr('checked', 'checked');
-                    } else {
-                        $checkAll.removeAttr('checked');
-                        $checkboxes.removeAttr('checked');
-                    }
-                });
-
-                // when check/uncheck a box, toggle the check/uncheck all
-                $checkboxes.click(function() {
-                    var $checked = $checkboxes.filter(':checked');
-                    if ($checked.length === $checkboxes.length) {
-                        $checkAll.attr('checked', 'checked');
-                    } else {
-                        $checkAll.removeAttr('checked');
-                    }
-                });
-
-                // Remove sorted class from all th
-                $('th.sorted',$rendering).removeClass('sorted');
-                // Add the sorted class to the sorted element and the order class
-                $sortElement.addClass('sorted').addClass('sorted_'+options.sortorder);
-
-                if (parameters.page === 1) {
-                    $backwardBtn.attr('disabled', '');
-                } else {
-                    $backwardBtn.removeAttr('disabled');
-                }
-
-                if (response.page >= response.total) {
-                    $forwardBtn.attr('disabled', '');
-                } else {
-                    $forwardBtn.removeAttr('disabled');
-                }
-
-
-                $elt.html($rendering);
-
-                /**
-                 * @event dataTable#load.dataTable
-                 * @param {Object} response - The response object provided by the AJAX request
-                 */ 
-                $elt.trigger('load.datatable', [response]);
+                self._render($elt, response);
             });
         },
 
-       /**
-        * Query next page 
-        * 
-        * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').datatable('next');
-        *
-        * @param {jQueryElement} $elt - plugin's element 
-        */
+        /**
+         * Renders the table using the provided data set
+         *
+         * @param {jQueryElement} $elt - plugin's element
+         * @param {Object} dataset - the data set to render
+         * @private
+         * @fires dataTable#beforeload.datatable
+         * @fires dataTable#load.datatable
+         */
+        _render: function($elt, dataset) {
+            var self = this;
+            var options = $elt.data(dataNs);
+            var $rendering;
+            var $forwardBtn;
+            var $backwardBtn;
+            var $sortBy;
+            var $sortElement;
+            var $checkAll;
+            var $checkboxes;
+
+            // Add the list of custom actions to the data set for the tpl
+            if(options.actions){
+                dataset.actions = _.keys(options.actions);
+            }
+
+            // Add the column into the model
+            if (options.actions !== null && _.last(options.model).label !== actionHeader.label) {
+                options.model.push(actionHeader);
+            }
+
+            // Add the model to the data set for the tpl
+            dataset.model = options.model;
+
+            // Forward options to the data set
+            dataset.selectable = !!options.selectable;
+
+            /**
+             * @event dataTable#beforeload.dataTable
+             * @param {Object} dataset - The data set object used to render the table
+             */
+            $elt.trigger('beforeload.datatable', [dataset]);
+
+            // Call the rendering
+            $rendering = $(layout(dataset));
+
+            // the readonly property contains an associative array where keys are the ids of the items (lines)
+            // the value can be a boolean (true for disable buttons, false to enable)
+            // it can also bo an array that let you disable/enable the action you want
+            // readonly = {
+            //  id1 : {'view':true, 'delete':false},
+            //  id2 : true
+            //}
+            _.forEach(dataset.readonly, function(values, id){
+                if(values === true){
+                    $('[data-item-identifier="'+id+'"] button', $rendering).addClass('disabled');
+                }
+                else if(values && typeof values === 'object'){
+                    for (var action in values) {
+                        if (values.hasOwnProperty(action)) {
+                            if(values[action] === true){
+                                $('[data-item-identifier="'+id+'"] button.'+action, $rendering).addClass('disabled');
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Attach a listener to every action button created
+            _.forEach(options.actions, function(action,name){
+
+                $rendering
+                    .off('click','.'+name)
+                    .on('click','.'+name, function(e){
+                        e.preventDefault();
+                        var $elt = $(this);
+                        if(!$elt.hasClass('disabled')){
+                            action.apply($elt,[$elt.closest('[data-item-identifier]').data('item-identifier')]);
+                        }
+                    });
+            });
+
+            // Now $rendering takes the place of $elt...
+            $forwardBtn = $rendering.find('.datatable-forward');
+            $backwardBtn = $rendering.find('.datatable-backward');
+            $sortBy = $rendering.find('th[data-sort-by]');
+            $sortElement = $rendering.find('[data-sort-by="'+ options.sortby +'"]');
+            $checkAll = $rendering.find('th.checkboxes input');
+            $checkboxes = $rendering.find('td.checkboxes input');
+
+            $forwardBtn.click(function() {
+                self._next($elt);
+            });
+
+            $backwardBtn.click(function() {
+                self._previous($elt);
+            });
+
+            $sortBy.click(function() {
+                self._sort($elt, $(this).data('sort-by'));
+            });
+
+            // check/uncheck all checkboxes
+            $checkAll.click(function() {
+                if (this.checked) {
+                    $checkAll.attr('checked', 'checked');
+                    $checkboxes.attr('checked', 'checked');
+                } else {
+                    $checkAll.removeAttr('checked');
+                    $checkboxes.removeAttr('checked');
+                }
+            });
+
+            // when check/uncheck a box, toggle the check/uncheck all
+            $checkboxes.click(function() {
+                var $checked = $checkboxes.filter(':checked');
+                if ($checked.length === $checkboxes.length) {
+                    $checkAll.attr('checked', 'checked');
+                } else {
+                    $checkAll.removeAttr('checked');
+                }
+            });
+
+            // Remove sorted class from all th
+            $('th.sorted',$rendering).removeClass('sorted');
+            // Add the sorted class to the sorted element and the order class
+            $sortElement.addClass('sorted').addClass('sorted_'+options.sortorder);
+
+            if (dataset.page === 1) {
+                $backwardBtn.attr('disabled', '');
+            } else {
+                $backwardBtn.removeAttr('disabled');
+            }
+
+            if (dataset.page >= dataset.total) {
+                $forwardBtn.attr('disabled', '');
+            } else {
+                $forwardBtn.removeAttr('disabled');
+            }
+
+            $elt.html($rendering);
+
+            /**
+             * @event dataTable#load.dataTable
+             * @param {Object} dataset - The data set used to render the table
+             */
+            $elt.trigger('load.datatable', [dataset]);
+        },
+
+        /**
+         * Query next page
+         *
+         * Called the jQuery way once registered by the Pluginifier.
+         * @example $('selector').datatable('next');
+         *
+         * @param {jQueryElement} $elt - plugin's element
+         */
         _next: function($elt) {
             var options = $elt.data(dataNs);
 
@@ -344,6 +368,6 @@ define([
     };
 
     Pluginifier.register(ns, dataTable, {
-         expose : ['refresh', 'next', 'previous', 'sort', 'selection']
+         expose : ['refresh', 'next', 'previous', 'sort', 'selection', 'render']
     });
 });
