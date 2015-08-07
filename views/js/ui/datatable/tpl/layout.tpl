@@ -1,3 +1,12 @@
+{{#if tools}}
+<aside class="action-bar">
+    {{#each ../tools}}
+
+    <button class="btn-info small tool-{{#if id}}{{id}}{{else}}{{@key}}{{/if}}{{#if massAction}} invisible{{/if}}"{{#if title}} title="{{title}}"{{/if}}><span class="icon-{{#if icon}}{{icon}}{{else}}{{#if id}}{{id}}{{else}}{{@key}}{{/if}}{{/if}}"></span> {{#if label}}{{label}}{{else}}{{#unless id}}{{@key}}{{/unless}}{{/if}}</button>
+
+    {{/each}}
+</aside>
+{{/if}}
 <div class="grid-row">
     <div class="col-6">{{__ 'Page'}} <strong>{{page}}</strong> {{__ 'of'}} {{total}}</div>
     <div class="col-6 txt-rgt">
@@ -22,12 +31,12 @@
                 <th class="checkboxes"><input type="checkbox" name="checkall" value="1" /></th>
                 {{/if}}
                 <th class="id"></th>
-            {{#model}}
+                {{#model}}
                 <th {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</th>
-            {{/model}}
-            {{#if actions}}
+                {{/model}}
+                {{#if actions}}
                 <th class="actions">{{__ 'Actions'}}</th>
-            {{/if}}
+                {{/if}}
             </tr>
         </thead>
         <tbody>

@@ -136,10 +136,14 @@ define([
             var $sortElement;
             var $checkAll;
             var $checkboxes;
+            var $massActionBtns = $();
 
             // Add the list of custom actions to the data set for the tpl
-            if(options.actions){
+            if (options.actions) {
                 dataset.actions = options.actions;
+            }
+            if (options.tools) {
+                dataset.tools = options.tools;
             }
 
             // Add the model to the data set for the tpl
@@ -147,6 +151,9 @@ define([
 
             // Forward options to the data set
             dataset.selectable = !!options.selectable;
+            if (dataset.rows) {
+                options.rows = dataset.rows;
+            }
             if (dataset.sortby) {
                 options = this._sortOptions($elt, dataset.sortby, dataset.sortorder);
             }
@@ -184,17 +191,49 @@ define([
 
             // Attach a listener to every action button created
             _.forEach(options.actions, function(action, name){
+                var css;
+
                 if (!_.isFunction(action)) {
                     name = action.id || name;
                     action = action.action || function() {};
                 }
+
+                css = '.' + name;
+
                 $rendering
-                    .off('click','.'+name)
-                    .on('click','.'+name, function(e){
-                        e.preventDefault();
+                    .off('click', css)
+                    .on('click', css, function(e) {
                         var $elt = $(this);
-                        if(!$elt.hasClass('disabled')){
-                            action.apply($elt,[$elt.closest('[data-item-identifier]').data('item-identifier')]);
+                        e.preventDefault();
+                        if (!$elt.hasClass('disabled')) {
+                            action.apply($elt, [$elt.closest('[data-item-identifier]').data('item-identifier')]);
+                        }
+                    });
+            });
+
+            // Attach a listener to every tool button created
+            _.forEach(options.tools, function(action, name) {
+                var massAction = false;
+                var css;
+
+                if (!_.isFunction(action)) {
+                    name = action.id || name;
+                    massAction = action.massAction;
+                    action = action.action || function() {};
+                }
+
+                css = '.tool-' + name;
+                if (massAction) {
+                    $massActionBtns = $massActionBtns.add($rendering.find(css));
+                }
+
+                $rendering
+                    .off('click', css)
+                    .on('click', css, function(e) {
+                        var $elt = $(this);
+                        e.preventDefault();
+                        if (!$elt.hasClass('disabled')) {
+                            action.apply($elt, [self._selection($elt)]);
                         }
                     });
             });
@@ -247,6 +286,10 @@ define([
                     $checkboxes.removeAttr('checked');
                 }
 
+                if ($massActionBtns.length) {
+                    $massActionBtns.toggleClass('invisible', !$checkboxes.filter(':checked').length);
+                }
+
                 /**
                  * @event dataTable#select.dataTable
                  */
@@ -260,6 +303,10 @@ define([
                     $checkAll.attr('checked', 'checked');
                 } else {
                     $checkAll.removeAttr('checked');
+                }
+
+                if ($massActionBtns.length) {
+                    $massActionBtns.toggleClass('invisible', !$checkboxes.filter(':checked').length);
                 }
 
                 /**
