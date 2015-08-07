@@ -22,12 +22,6 @@ define([
         'actions' : null
     };
 
-    var actionHeader = {
-        id : null,
-        label : __('Actions'),
-        sortable : false
-    };
-
     /**
      * The dataTable component makes you able to browse itemss and bind specific
      * actions to undertake for edition and removal of them.
@@ -148,11 +142,6 @@ define([
                 dataset.actions = options.actions;
             }
 
-            // Add the column into the model
-            if (options.actions !== null && _.last(options.model).label !== actionHeader.label) {
-                options.model.push(actionHeader);
-            }
-
             // Add the model to the data set for the tpl
             dataset.model = options.model;
 
@@ -196,7 +185,7 @@ define([
             // Attach a listener to every action button created
             _.forEach(options.actions, function(action, name){
                 if (!_.isFunction(action)) {
-                    name = action.name || name;
+                    name = action.id || name;
                     action = action.action || function() {};
                 }
                 $rendering

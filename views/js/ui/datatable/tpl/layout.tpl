@@ -25,6 +25,9 @@
             {{#model}}
                 <th {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</th>
             {{/model}}
+            {{#if actions}}
+                <th class="actions">{{__ 'Actions'}}</th>
+            {{/if}}
             </tr>
         </thead>
         <tbody>
@@ -33,14 +36,14 @@
                     {{#if ../selectable}}
                     <td class="checkboxes"><input type="checkbox" name="cb[{{id}}]" value="1" /></td>
                     {{/if}}
-                    {{#each this}}
-                    <td class="{{@key}}">{{this}}</td>
+                    {{#each ../model}}
+                    <td class="{{id}}">{{property id ../this}}</td>
                     {{/each}}
                     {{#if ../actions}}
                     <td class="actions">
                         {{#each ../../actions}}
 
-                        <button class="btn-info small {{#if name}}{{name}}{{else}}{{@key}}{{/if}}"{{#if title}} title="{{title}}"{{/if}}><span class="icon-{{#if icon}}{{icon}}{{else}}{{#if name}}{{name}}{{else}}{{@key}}{{/if}}{{/if}}"></span> {{#if label}}{{label}}{{else}}{{#unless name}}{{@key}}{{/unless}}{{/if}}</button>
+                        <button class="btn-info small {{#if id}}{{id}}{{else}}{{@key}}{{/if}}"{{#if title}} title="{{title}}"{{/if}}><span class="icon-{{#if icon}}{{icon}}{{else}}{{#if id}}{{id}}{{else}}{{@key}}{{/if}}{{/if}}"></span> {{#if label}}{{label}}{{else}}{{#unless id}}{{@key}}{{/unless}}{{/if}}</button>
 
                         {{/each}}
                     </td>
