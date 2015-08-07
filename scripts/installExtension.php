@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -34,3 +34,4 @@ if (count($parms) != 1) {
 $extId = array_shift($parms);
 
 InstallHelper::installRecursively(array($extId));
+
