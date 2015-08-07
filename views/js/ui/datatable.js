@@ -82,14 +82,14 @@ define([
             });
         },
 
-       /**
-        * Refresh the data table using current options 
-        * 
-        * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').datatable('refresh');
-        *
-        * @param {jQueryElement} $elt - plugin's element 
-        */
+        /**
+         * Refresh the data table using current options
+         *
+         * Called the jQuery way once registered by the Pluginifier.
+         * @example $('selector').datatable('refresh');
+         *
+         * @param {jQueryElement} $elt - plugin's element
+         */
         _refresh : function($elt){
             this._query($elt); 
         },
@@ -158,6 +158,9 @@ define([
 
             // Forward options to the data set
             dataset.selectable = !!options.selectable;
+            if (dataset.sortby) {
+                options = this._sortOptions($elt, dataset.sortby, dataset.sortorder);
+            }
 
             /**
              * @event dataTable#beforeload.dataTable
@@ -292,14 +295,14 @@ define([
             this._query($elt);
         },
 
-       /**
-        * Query the previous page 
-        * 
-        * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').datatable('previous');
-        *
-        * @param {jQueryElement} $elt - plugin's element 
-        */
+        /**
+         * Query the previous page
+         *
+         * Called the jQuery way once registered by the Pluginifier.
+         * @example $('selector').datatable('previous');
+         *
+         * @param {jQueryElement} $elt - plugin's element
+         */
         _previous: function($elt) {
             var options = $elt.data(dataNs);
             if(options.page > 1){
@@ -315,38 +318,50 @@ define([
             }
         },
 
-       /**
-        * Query the previous page 
-        * 
-        * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').datatable('sort', 'firstname', false);
-        *
-        * @param {jQueryElement} $elt - plugin's element 
-        * @param {String} sortBy - the model id of the col to sort
-        * @param {Boolean} [asc] - sort direction true for asc of deduced
-        */
+        /**
+         * Query the previous page
+         *
+         * Called the jQuery way once registered by the Pluginifier.
+         * @example $('selector').datatable('sort', 'firstname', false);
+         *
+         * @param {jQueryElement} $elt - plugin's element
+         * @param {String} sortBy - the model id of the col to sort
+         * @param {Boolean} [asc] - sort direction true for asc of deduced
+         */
         _sort: function($elt, sortBy, asc) {
+            this._sortOptions($elt, sortBy, asc);
+            this._query($elt);
+        },
+
+        /**
+         * Set the sort options.
+         *
+         * @param {jQueryElement} $elt - plugin's element
+         * @param {String} sortBy - the model id of the col to sort
+         * @param {Boolean} [asc] - sort direction true for asc of deduced
+         * @returns {Object} - returns the options
+         * @private
+         */
+        _sortOptions: function($elt, sortBy, asc) {
             var options = $elt.data(dataNs);
-        
-            if(typeof asc !== 'undefined'){
+
+            if (typeof asc !== 'undefined') {
                 options.sortorder = (!!asc) ? 'asc' : 'desc';
             } else if (options.sortorder === 'asc' && options.sortby === sortBy) {
-                    // If I already sort asc this element
-                    options.sortorder = 'desc';
-                }else{
-                    // If I never sort by this element or
-                    // I sort by this element & the order was desc
-                    options.sortorder = 'asc';
-                }
+                // If I already sort asc this element
+                options.sortorder = 'desc';
+            } else {
+                // If I never sort by this element or
+                // I sort by this element & the order was desc
+                options.sortorder = 'asc';
+            }
 
             // Change the sorting element anyway.
             options.sortby = sortBy;
 
             //rebind options to the elt
             $elt.data(dataNs, options);
-
-            // Call the query
-            this._query($elt);
+            return options;
         },
 
         /**
