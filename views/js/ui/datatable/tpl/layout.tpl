@@ -66,7 +66,17 @@
                         <td class="actions">
                             {{#each ../../actions}}
 
-                            <button class="btn-info small {{#if id}}{{id}}{{else}}{{@key}}{{/if}}"{{#if title}} title="{{title}}"{{/if}}><span class="icon-{{#if icon}}{{icon}}{{else}}{{#if id}}{{id}}{{else}}{{@key}}{{/if}}{{/if}}"></span> {{#if label}}{{label}}{{else}}{{#unless id}}{{@key}}{{/unless}}{{/if}}</button>
+                                {{#if id}}
+                                    {{#with ../../this}}
+                                        {{#unless ../hidden}}
+                                            {{#with ../../this}}
+                            <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}><span class="icon-{{#if icon}}{{icon}}{{else}}{{id}}{{/if}}"></span> {{label}}</button>
+                                            {{/with}}
+                                        {{/unless}}
+                                    {{/with}}
+                                {{else}}
+                            <button class="btn-info small {{@key}}"><span class="icon-{{@key}}"></span> {{@key}}</button>
+                                {{/if}}
 
                             {{/each}}
                         </td>
