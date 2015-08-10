@@ -48,6 +48,9 @@ define([
          * @param {Function} options.actions.xxx - the callback function for items xxx, with a single parameter representing the identifier of the items.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
          * @param {Object} options.data - inject predefined data to avoid the first query.
+         * @param {Object} options.tools - a list of tool buttons to display above the table
+         * @param {Object|Boolean} options.status - allow to display a status bar
+         * @param {Object|Boolean} options.filter - allow to display a filter bar
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
@@ -112,6 +115,11 @@ define([
                 type: options.querytype || 'GET'
             };
 
+            // add current filter if any
+            if (options.filter && options.filter.value) {
+                ajaxConfig.data.filter = options.filter.value;
+            }
+
             /**
              * @event dataTable#query.dataTable
              * @param {Object} ajaxConfig - The config object used to setup the AJAX request
@@ -140,10 +148,13 @@ define([
         _render: function($elt, dataset) {
             var self = this;
             var options = $elt.data(dataNs);
+            var $rendering;
             var $statusEmpty;
             var $statusAvailable;
             var $statusCount;
-            var $rendering;
+            var $searchFilter;
+            var $searchInput;
+            var $searchBtn;
             var $forwardBtn;
             var $backwardBtn;
             var $sortBy;
@@ -156,7 +167,7 @@ define([
             dataset = dataset || {};
 
             // Add the list of custom actions to the data set for the tpl
-            _(['actions', 'tools', 'status']).forEach(function(prop) {
+            _(['actions', 'tools', 'status', 'filter']).forEach(function(prop) {
                 if (options[prop]) {
                     dataset[prop] = options[prop];
                 }
@@ -263,34 +274,38 @@ define([
             $checkboxes = $rendering.find('td.checkboxes input');
 
             $forwardBtn.click(function() {
-                /**
-                 * @event dataTable#forward.dataTable
-                 */
-                $elt.trigger('forward.datatable');
-
                 self._next($elt);
             });
 
             $backwardBtn.click(function() {
-                /**
-                 * @event dataTable#backward.dataTable
-                 */
-                $elt.trigger('backward.datatable');
-
                 self._previous($elt);
             });
 
             $sortBy.click(function() {
                 var column = $(this).data('sort-by');
-
-                /**
-                 * @event dataTable#sort.dataTable
-                 * @param {String} column - The name of the column to sort
-                 */
-                $elt.trigger('sort.datatable', [column]);
-
                 self._sort($elt, column);
             });
+
+            // Add the filter behavior
+            if (options.filter) {
+                $searchFilter = $rendering.find('.filter');
+                $searchInput = $('input' , $searchFilter);
+                $searchBtn = $('button' , $searchFilter);
+
+                // clicking the button trigger the request
+                $searchBtn.off('click').on('click', function(e) {
+                    e.preventDefault();
+                    self._filter($elt, $searchInput.val());
+                });
+
+                // or press ENTER
+                $searchInput.off('keypress').on('keypress', function(e) {
+                    if (e.which === 13) {
+                        e.preventDefault();
+                        self._filter($elt, $searchInput.val());
+                    }
+                });
+            }
 
             // check/uncheck all checkboxes
             $checkAll.click(function() {
@@ -370,6 +385,11 @@ define([
 
             $elt.html($rendering);
 
+            // if the filter is enabled and a value is present, set the focus on the input field
+            if (options.filter && options.filter.value) {
+                $searchInput.focus();
+            }
+
             /**
              * @event dataTable#load.dataTable
              * @param {Object} dataset - The data set used to render the table
@@ -384,6 +404,7 @@ define([
          * @example $('selector').datatable('next');
          *
          * @param {jQueryElement} $elt - plugin's element
+         * @fires dataTable#forward.datatable
          */
         _next: function($elt) {
             var options = $elt.data(dataNs);
@@ -393,6 +414,11 @@ define([
             
             //rebind options to the elt
             $elt.data(dataNs, options);
+
+            /**
+             * @event dataTable#forward.dataTable
+             */
+            $elt.trigger('forward.datatable');
 
             // Call the query
             this._query($elt);
@@ -405,6 +431,7 @@ define([
          * @example $('selector').datatable('previous');
          *
          * @param {jQueryElement} $elt - plugin's element
+         * @fires dataTable#backward.datatable
          */
         _previous: function($elt) {
             var options = $elt.data(dataNs);
@@ -416,9 +443,44 @@ define([
                 //rebind options to the elt
                 $elt.data(dataNs, options);
 
+                /**
+                 * @event dataTable#backward.dataTable
+                 */
+                $elt.trigger('backward.datatable');
+
                 // Call the query
                 this._query($elt);
             }
+        },
+
+        /**
+         * Query the current page with filter value
+         *
+         * @param {jQueryElement} $elt - plugin's element
+         * @param {String} query - the filter value
+         * @fires dataTable#filter.datatable
+         * @private
+         */
+        _filter: function($elt, query) {
+            var options = $elt.data(dataNs);
+
+            //set the filter
+            if (!_.isObject(options.filter)) {
+                options.filter = {};
+            }
+            options.filter.value = query;
+
+            //rebind options to the elt
+            $elt.data(dataNs, options);
+
+            /**
+             * @event dataTable#sort.dataTable
+             * @param {String} query - The filter value
+             */
+            $elt.trigger('sort.datatable', [query]);
+
+            // Call the query
+            this._query($elt);
         },
 
         /**
@@ -430,8 +492,16 @@ define([
          * @param {jQueryElement} $elt - plugin's element
          * @param {String} sortBy - the model id of the col to sort
          * @param {Boolean} [asc] - sort direction true for asc of deduced
+         * @fires dataTable#sort.datatable
          */
         _sort: function($elt, sortBy, asc) {
+            /**
+             * @event dataTable#sort.dataTable
+             * @param {String} column - The name of the column to sort
+             * @param {String} direction - The sort direction
+             */
+            $elt.trigger('sort.datatable', [sortBy, asc]);
+
             this._sortOptions($elt, sortBy, asc);
             this._query($elt);
         },
@@ -491,6 +561,6 @@ define([
     };
 
     Pluginifier.register(ns, dataTable, {
-         expose : ['refresh', 'next', 'previous', 'sort', 'selection', 'render']
+         expose : ['refresh', 'next', 'previous', 'sort', 'filter', 'selection', 'render']
     });
 });
