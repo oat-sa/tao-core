@@ -393,6 +393,7 @@ body {
     // added to make _u_ in ck QTI compatible
     .txt-underline {
         text-decoration: underline;
+        font-size : inherit;
     }
 
     ::-moz-selection {
