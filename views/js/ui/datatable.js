@@ -230,10 +230,10 @@ define([
                 $rendering
                     .off('click', css)
                     .on('click', css, function(e) {
-                        var $elt = $(this);
+                        var $btn = $(this);
                         e.preventDefault();
-                        if (!$elt.hasClass('disabled')) {
-                            action.apply($elt, [$elt.closest('[data-item-identifier]').data('item-identifier')]);
+                        if (!$btn.hasClass('disabled')) {
+                            action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
                         }
                     });
             });
@@ -257,10 +257,10 @@ define([
                 $rendering
                     .off('click', css)
                     .on('click', css, function(e) {
-                        var $elt = $(this);
+                        var $btn = $(this);
                         e.preventDefault();
-                        if (!$elt.hasClass('disabled')) {
-                            action.apply($elt, [self._selection($elt)]);
+                        if (!$btn.hasClass('disabled')) {
+                            action.apply($btn, [self._selection($elt)]);
                         }
                     });
             });
