@@ -1,5 +1,12 @@
+{{#with status}}
+<h2>
+    <span class="empty-list hidden">{{empty}}</span>
+    <span class="available-list hidden"><span class="text">{{available}}</span>: <span class="count">{{count}}</span></span>
+    <span class="loading">{{loading}}...</span>
+</h2>
+{{/with}}
 {{#if tools}}
-<aside class="action-bar">
+<aside class="action-bar clearfix">
     {{#each ../tools}}
 
     <button class="btn-info small tool-{{#if id}}{{id}}{{else}}{{@key}}{{/if}}{{#if massAction}} invisible{{/if}}"{{#if title}} title="{{title}}"{{/if}}><span class="icon-{{#if icon}}{{icon}}{{else}}{{#if id}}{{id}}{{else}}{{@key}}{{/if}}{{/if}}"></span> {{#if label}}{{label}}{{else}}{{#unless id}}{{@key}}{{/unless}}{{/if}}</button>
@@ -7,7 +14,7 @@
     {{/each}}
 </aside>
 {{/if}}
-<div class="grid-row">
+<div class="grid-row clearfix">
     <div class="col-6">{{__ 'Page'}} <strong>{{page}}</strong> {{__ 'of'}} {{total}}</div>
     <div class="col-6 txt-rgt">
         <button class="btn-info small datatable-backward"><span class="icon-backward"></span>{{__ 'Previous'}}</button>

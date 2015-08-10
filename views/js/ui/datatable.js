@@ -23,6 +23,12 @@ define([
     };
 
     /**
+     * The CSS class used to hide an element
+     * @type {String}
+     */
+    var hiddenCls = 'hidden';
+
+    /**
      * The dataTable component makes you able to browse itemss and bind specific
      * actions to undertake for edition and removal of them.
      *
@@ -112,6 +118,11 @@ define([
              */
             $elt.trigger('query.datatable', [ajaxConfig]);
 
+            // display the loading state
+            if (options.status) {
+                $elt.find('.loading').removeClass(hiddenCls);
+            }
+
             $.ajax(ajaxConfig).done(function(response) {
                 self._render($elt, response);
             });
@@ -129,6 +140,9 @@ define([
         _render: function($elt, dataset) {
             var self = this;
             var options = $elt.data(dataNs);
+            var $statusEmpty;
+            var $statusAvailable;
+            var $statusCount;
             var $rendering;
             var $forwardBtn;
             var $backwardBtn;
@@ -137,14 +151,16 @@ define([
             var $checkAll;
             var $checkboxes;
             var $massActionBtns = $();
+            var amount;
+
+            dataset = dataset || {};
 
             // Add the list of custom actions to the data set for the tpl
-            if (options.actions) {
-                dataset.actions = options.actions;
-            }
-            if (options.tools) {
-                dataset.tools = options.tools;
-            }
+            _(['actions', 'tools', 'status']).forEach(function(prop) {
+                if (options[prop]) {
+                    dataset[prop] = options[prop];
+                }
+            });
 
             // Add the model to the data set for the tpl
             dataset.model = options.model;
@@ -330,6 +346,26 @@ define([
                 $forwardBtn.attr('disabled', '');
             } else {
                 $forwardBtn.removeAttr('disabled');
+            }
+
+            // Update the status
+            if (options.status) {
+                $statusEmpty = $rendering.find('.empty-list');
+                $statusAvailable = $rendering.find('.available-list');
+                $statusCount = $statusAvailable.find('.count');
+
+                $rendering.find('.loading').addClass(hiddenCls);
+
+                // when the status is enabled, the response must contain the total amount of records
+                amount = dataset.amount || dataset.length;
+                if (amount) {
+                    $statusCount.text(amount);
+                    $statusAvailable.removeClass(hiddenCls);
+                    $statusEmpty.addClass(hiddenCls);
+                } else {
+                    $statusEmpty.removeClass(hiddenCls);
+                    $statusAvailable.addClass(hiddenCls);
+                }
             }
 
             $elt.html($rendering);
