@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T14:03:42\n"
+"Project-Id-Version: TAO 3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-08-11T14:45:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -212,17 +212,14 @@ msgstr "浏览文件夹："
 msgid "Browse..."
 msgstr "浏览..."
 
-msgid "buffer"
-msgstr ""
-
 msgid "Calendar"
 msgstr "日历"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "取消"
+
+msgid "cancel"
+msgstr ""
 
 msgid "Cannot be edited"
 msgstr "无法编辑"
@@ -385,10 +382,10 @@ msgstr "编辑实例"
 msgid "Edit this list"
 msgstr "编辑这个清单"
 
-msgid "element"
+msgid "Element"
 msgstr "元素"
 
-msgid "Element"
+msgid "element"
 msgstr "元素"
 
 msgid "Element deleted"
@@ -558,10 +555,10 @@ msgstr "正在安装扩展程序%s..."
 msgid "Instance saved"
 msgstr "实体已储存"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面语言"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面语言"
 
 msgid "Invalid date range"
@@ -599,9 +596,6 @@ msgstr "不支持语言"
 
 msgid "Last Name"
 msgstr "姓氏"
-
-msgid "length"
-msgstr ""
 
 msgid "less than a minute"
 msgstr "少于一分钟"
@@ -768,10 +762,10 @@ msgstr "没有文件"
 msgid "no label"
 msgstr "无标签"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "没有可用的预览"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "没有可用的预览"
 
 msgid "No result found"
@@ -791,9 +785,6 @@ msgstr "元素的数量"
 
 msgid "of"
 msgstr "的"
-
-msgid "offset"
-msgstr ""
 
 msgid "Old Password"
 msgstr "旧密码"
@@ -828,17 +819,11 @@ msgstr "密码更改成功"
 msgid "Passwords are not matching"
 msgstr "密码不相符"
 
-msgid "platform"
-msgstr ""
-
 msgid "Please confirm deletion"
 msgstr "请确认删除"
 
 msgid "Please confirm property deletion!"
 msgstr "请确认属性删除!"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr "请确认这个行动。"
@@ -883,16 +868,10 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
-msgid "readable"
-msgstr ""
-
 msgid "Release"
 msgstr "释放"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
-
-msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -1192,10 +1171,10 @@ msgstr "无法上传文件"
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾选"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾选"
 
 msgid "Undo"
@@ -1256,9 +1235,6 @@ msgstr "用户已储存"
 msgid "User Settings"
 msgstr "用户设定"
 
-msgid "userAgent"
-msgstr ""
-
 #, tao-public
 msgid "Users"
 msgstr "用户"
@@ -1271,9 +1247,6 @@ msgstr "版本"
 
 msgid "Width"
 msgstr "宽度"
-
-msgid "width"
-msgstr ""
 
 msgid "Yes"
 msgstr "是"

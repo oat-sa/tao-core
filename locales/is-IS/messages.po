@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T14:01:08\n"
+"Project-Id-Version: TAO 3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-08-11T14:45:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -211,17 +211,14 @@ msgstr "Vafra í möppum:"
 msgid "Browse..."
 msgstr "Vafra..."
 
-msgid "buffer"
-msgstr ""
-
 msgid "Calendar"
 msgstr "Dagatal"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Hætta við"
+
+msgid "cancel"
+msgstr ""
 
 msgid "Cannot be edited"
 msgstr "Ekki hægt að breyta"
@@ -384,10 +381,10 @@ msgstr "Breyta tilviki"
 msgid "Edit this list"
 msgstr "Breyta lista"
 
-msgid "element"
+msgid "Element"
 msgstr ""
 
-msgid "Element"
+msgid "element"
 msgstr ""
 
 msgid "Element deleted"
@@ -557,10 +554,10 @@ msgstr "Set upp viðbætur %s..."
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid date range"
@@ -598,9 +595,6 @@ msgstr "Tungumál ekki í boði"
 
 msgid "Last Name"
 msgstr "Eftirnafn"
-
-msgid "length"
-msgstr ""
 
 msgid "less than a minute"
 msgstr "minna en mínúta"
@@ -767,10 +761,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No result found"
@@ -789,9 +783,6 @@ msgid "Number of elements"
 msgstr ""
 
 msgid "of"
-msgstr ""
-
-msgid "offset"
 msgstr ""
 
 msgid "Old Password"
@@ -827,16 +818,10 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr "Lykilorðin stemma ekki"
 
-msgid "platform"
-msgstr ""
-
 msgid "Please confirm deletion"
 msgstr "Staðfesta eyðingu"
 
 msgid "Please confirm property deletion!"
-msgstr ""
-
-msgid "Please confirm the deletion of the activity"
 msgstr ""
 
 msgid "Please confirm this operation."
@@ -882,16 +867,10 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
-msgid "readable"
-msgstr ""
-
 msgid "Release"
 msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
-
-msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -1191,10 +1170,10 @@ msgstr "Get ekki hlaðið upp skrá"
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undo"
@@ -1255,9 +1234,6 @@ msgstr "Notandi vistaður"
 msgid "User Settings"
 msgstr "Notandastillingar"
 
-msgid "userAgent"
-msgstr ""
-
 #, tao-public
 msgid "Users"
 msgstr "Notendur"
@@ -1270,9 +1246,6 @@ msgstr "Útgáfustjórn"
 
 msgid "Width"
 msgstr "Breidd"
-
-msgid "width"
-msgstr ""
 
 msgid "Yes"
 msgstr "Já"
