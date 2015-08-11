@@ -11,7 +11,7 @@ define([
     var ns = 'datatable';
 
     var dataNs = 'ui.' + ns;
-    
+
     var defaults = {
         'start'   : 0,
         'rows': 25,
@@ -61,16 +61,16 @@ define([
 
             return this.each(function() {
                 var $elt = $(this);
-                
+
                 if(!$elt.data(dataNs)){
-               
+
                     //add data to the element
                     $elt.data(dataNs, options);
 
                     $elt.one('load.' + ns , function(){
                         /**
                          * @event dataTable#create.datatable
-                         */ 
+                         */
                         $elt.trigger('create.' + ns);
                     });
 
@@ -94,14 +94,14 @@ define([
          * @param {jQueryElement} $elt - plugin's element
          */
         _refresh : function($elt){
-            this._query($elt); 
+            this._query($elt);
         },
 
         /**
          * Query the server for data and load the table.
          *
          * @private
-         * @param {jQueryElement} $elt - plugin's element 
+         * @param {jQueryElement} $elt - plugin's element
          * @fires dataTable#query.datatable
          */
         _query: function($elt){
@@ -411,7 +411,7 @@ define([
 
             //increase page number
             options.page += 1;
-            
+
             //rebind options to the elt
             $elt.data(dataNs, options);
 
@@ -436,10 +436,10 @@ define([
         _previous: function($elt) {
             var options = $elt.data(dataNs);
             if(options.page > 1){
- 
+
                 //decrease page number
                 options.page -= 1;
-                
+
                 //rebind options to the elt
                 $elt.data(dataNs, options);
 
@@ -519,10 +519,8 @@ define([
             var options = $elt.data(dataNs);
 
             if (typeof asc !== 'undefined') {
-                switch (asc) {
-                    case 'asc': break;
-                    case 'desc': break;
-                    default: asc = (!!asc) ? 'asc' : 'desc';
+                if ('asc' !== asc && 'desc' !== asc) {
+                    asc = (!!asc) ? 'asc' : 'desc';
                 }
                 options.sortorder = asc;
             } else if (options.sortorder === 'asc' && options.sortby === sortBy) {
