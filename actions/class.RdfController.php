@@ -178,7 +178,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * 
 	 * The possible request parameters are the following:
 	 * 
-	 * * labelFilter: A filter string to be used. The returned hierarchy will be a single root class, with children without class hierarchy.
 	 * * uniqueNode: A URI indicating the returned hiearchy will be a single class, with a single children corresponding to the URI.
 	 * * browse:
 	 * * hideInstances:
@@ -199,16 +198,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		$options = array(
 			'subclasses' => true, 
 			'instances' => true, 
-			'highlightUri' => '', 
-			'labelFilter' => '', 
+			'highlightUri' => '',
 			'chunk' => false,
 			'offset' => 0,
 			'limit' => 0
 		);
-		
-		if ($this->hasRequestParameter('filter')) {
-			$options['labelFilter'] = $this->getRequestParameter('filter');
-		}
 		
 		if ($this->hasRequestParameter('loadNode')) {
 		    $options['uniqueNode'] = $this->getRequestParameter('loadNode');
