@@ -270,6 +270,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $this->returnJson($tree);
 	}
 
+	/**
+	 * Add permission information to the tree structure
+	 * 
+	 * @param array $tree
+	 * @return array
+	 */
 	protected function addPermissions($tree)
 	{
 	    $user = \common_Session_SessionManager::getSession()->getUser();
