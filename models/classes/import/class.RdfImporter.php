@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -25,7 +25,6 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
 class tao_models_classes_import_RdfImporter implements tao_models_classes_import_ImportHandler
 {
@@ -112,7 +111,6 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
      * @return common_report_Report
      */
     private function importProperties(core_kernel_classes_Resource $resource, $propertiesValues, $map, $class) {
-        $isClass = false;
         if (isset($propertiesValues[RDF_TYPE])) {
             // assuming single Type
             if (count($propertiesValues[RDF_TYPE]) > 1) {
@@ -130,7 +128,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
         }
         
         if (isset($propertiesValues[RDFS_SUBCLASSOF])) {
-            $isClass = true;
+            $resource = new core_kernel_classes_Class($resource);
             // assuming single subclass
             if (isset($propertiesValues[RDF_TYPE]) && count($propertiesValues[RDF_TYPE]) > 1) {
                 return new common_report_Report(common_report_Report::TYPE_ERROR, __('Resource not imported due to multiple super classes'));
@@ -139,7 +137,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
                 $classSup = isset($map[$v['value']])
                 ? new core_kernel_classes_Class($map[$v['value']])
                 : $class;
-                $classSup->createSubClass(null, null, $resource->getUri());
+                $resource->setSubClassOf($classSup);
             }
         
             unset($propertiesValues[RDFS_SUBCLASSOF]);
@@ -155,7 +153,9 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
                 }
             }
         }
-        $msg = $isClass ? __('Successfully imported class "%s"', $resource->getLabel()) : __('Successfully imported "%s"', $resource->getLabel());
+        $msg = $resource instanceof core_kernel_classes_Class
+            ? __('Successfully imported class "%s"', $resource->getLabel())
+            : __('Successfully imported "%s"', $resource->getLabel());
         return new common_report_Report(common_report_Report::TYPE_SUCCESS, $msg);
     }
 
