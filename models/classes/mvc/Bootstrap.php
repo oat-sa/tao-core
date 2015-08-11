@@ -181,10 +181,14 @@ class Bootstrap {
             catch(Exception $e){
                 $this->catchError($e);
             }
-			self::$isDispatched = true;
-		}
-		common_Profiler::stop('dispatch');
-	}
+
+            // explicitly close session
+            session_write_close();
+
+            self::$isDispatched = true;
+        }
+        common_Profiler::stop('dispatch');
+    }
 
     /**
      * Catch any errors

@@ -195,6 +195,11 @@ class tao_helpers_Http
                     header("HTTP/1.0 404 Not Found");
                 } else {
 
+                    $pathinfo = pathinfo($filename);
+                    if ($pathinfo['extension'] === 'svgz') {
+                        header('Content-Encoding: gzip');
+                    }
+                    
                     // session must be closed because, for example, video files might take a while to be sent to the client
                     //  and we need the client to be able to make other calls to the server during that time
                     session_write_close();
