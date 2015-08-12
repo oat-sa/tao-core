@@ -155,7 +155,13 @@ define([
          * Flag used to checks if too many suggestions are available on server side for the current query
          * @type {Boolean}
          */
-        tooManySuggestions : false
+        tooManySuggestions : false,
+
+        /**
+         * Flag used to auto add a wildcard char at the end of the query.
+         * @type {Boolean}
+         */
+        addWilcard : false
     };
 
     var autocompleter = {
@@ -849,7 +855,7 @@ define([
             var query;
 
             if (false !== this.trigger('searchStart', [params, this])) {
-                if (params && params[queryParam]) {
+                if (this.addWilcard && params && params[queryParam]) {
                     query = params[queryParam] || '';
                     if (query.substr(-1) !== '*') {
                         query += '*';
