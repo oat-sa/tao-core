@@ -89,6 +89,12 @@ define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
         }
     });
 
+    // register a "get property" helper
+    // it gets the named property from the provided context
+    hb.registerHelper('property', function(name, context){
+        return context[name] || '';
+    });
+
     return {
         load : function(name, req, onload, config){
             extension = extension || config.extension;
