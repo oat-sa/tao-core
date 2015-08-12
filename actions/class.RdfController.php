@@ -332,8 +332,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                         } else {
                             $params = array();
                             foreach ($node['attributes'] as $key => $value) {
-                                if (substr($key, 0, strlen('data-')) == 'data_') {
-                                    common_Logger::w('xxxx '.substr($key, strlen('data-')));
+                                if (substr($key, 0, strlen('data-')) == 'data-') {
                                     $params[substr($key, strlen('data-'))] = $value;
                                 }
                             }
