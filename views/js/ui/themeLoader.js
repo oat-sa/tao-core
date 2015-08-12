@@ -226,7 +226,7 @@ define(['jquery', 'lodash'], function($, _){
     };
 
     /**
-     * @exports taoQtiItem/qtiRunner/themes/loader
+     * @exports ui/themeLoader
      */
     return themeLoader;
 });
