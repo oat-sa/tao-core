@@ -293,7 +293,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         // tao object split
         if ($currentVersion === '2.9.1') {
             OntologyUpdater::syncModels();
-            $currentVersion = '2.10';
+            $currentVersion = '2.10.0';
         }
         
         return $currentVersion;
