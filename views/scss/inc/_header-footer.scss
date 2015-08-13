@@ -243,113 +243,121 @@ body > footer {
     display: block;
 }
 
-@media (max-width: 1024px) {
+// everything required for mobile navi
+@mixin mobile-navi () {
+    .dark-bar {
+        nav {
 
-    body:not(.delivery-scope){
-
-        .dark-bar {
-            nav {
-                .main-menu {
-                    li {
-                        min-width: 0;
-                        & > a {
-                            padding: 13px 10px 11px;
-                        }
+            .main-menu {
+                li {
+                    min-width: 0;
+                    & > a {
+                        padding: 13px 10px 11px;
                     }
                 }
+            }
 
-                .settings-menu {
-                    position: absolute;
-                    right: 0px;
-                    top: 0px;
-                    &:hover {
-                        & > ul {
-                            right: 20px;
-                            left: auto;
-                            @include menu-states(hover);
-                        }
-                    }
-                    .reduced-menu-trigger {
-                        text-align: center;
-                        display: block;
-                        height: 64px;
-                        outline: 0 !important;
-                        cursor:pointer;
-                        min-width: 70px;
-                        padding: 13px 10px 11px;
-
-                        &.active {
-                            background-color: whiten($info, .05);
-                            opacity: 1;
-                            color: white(.9) !important;
-                            &.hover {
-                                color: white !important;
-                            }
-                        }
-                        &:hover {
-                            background: rgba($info, .5);
-                            text-decoration: none;
-                            span {
-                                color: white;
-                            }
-                        }
-                        [class^="icon-"], [class*=" icon-"] {
-                            text-shadow: 0 0 0 transparent !important;
-                            line-height: 1;
-                            color: $darkBarIcon;
-                            position: relative;
-                            top: 2px;
-                            @include font-size(20);
-                            padding-bottom: 3px;
-                            display: block;
-                            margin: auto;
-                        }
-                    }
+            .settings-menu {
+                position: absolute;
+                right: 0px;
+                top: 0px;
+                &:hover {
                     & > ul {
-                        border-top: 1px #666 solid;
-                        position: absolute;
-                        @include menu-states(normal);
-                        left: -20000px;
-                        right: auto;
-                        white-space: nowrap;
-                        background: $darkBar;
-                        padding: 5px 0;
-                        .username {
+                        right: 20px;
+                        left: auto;
+                        @include menu-states(hover);
+                    }
+                }
+                .reduced-menu-trigger {
+                    text-align: center;
+                    display: block;
+                    height: 64px;
+                    outline: 0 !important;
+                    cursor:pointer;
+                    min-width: 70px;
+                    padding: 13px 10px 11px;
+
+                    &.active {
+                        background-color: whiten($info, .05);
+                        opacity: 1;
+                        color: white(.9) !important;
+                        &.hover {
+                            color: white !important;
+                        }
+                    }
+                    &:hover {
+                        background: rgba($info, .5);
+                        text-decoration: none;
+                        span {
+                            color: white;
+                        }
+                    }
+                    [class^="icon-"], [class*=" icon-"] {
+                        text-shadow: 0 0 0 transparent !important;
+                        line-height: 1;
+                        color: $darkBarIcon;
+                        position: relative;
+                        top: 2px;
+                        @include font-size(20);
+                        padding-bottom: 3px;
+                        display: block;
+                        margin: auto;
+                    }
+                }
+                & > ul {
+                    border-top: 1px #666 solid;
+                    position: absolute;
+                    @include menu-states(normal);
+                    left: -20000px;
+                    right: auto;
+                    white-space: nowrap;
+                    background: $darkBar;
+                    padding: 5px 0;
+                    .username {
+                        display:none;
+                    }
+                    & > li {
+                        float:none;
+                        display: list-item;
+                        overflow:hidden;
+                        padding: 0 !important;
+                        &:before {
+                            display:none !important;
+                        }
+                        a {
+                            height: auto;
+                            line-height: 2.2;
+                            padding: 0 20px;
+                            text-align: left;
+                            &:after {
+                                content: attr(title)
+                            }
+                            span {
+                                padding: 0px 3px 0 0 !important;
+                                display:inline-block;
+                                width: 20px;
+                                top: 0px;
+                                @include font-size(13, true);
+                            }
+                        }
+                        ul {
                             display:none;
                         }
-                        & > li {
-                            float:none;
-                            display: list-item;
-                            overflow:hidden;
-                            padding: 0 !important;
-                            &:before {
-                                display:none !important;
-                            }
-                            a {
-                                height: auto;
-                                line-height: 2.2;
-                                padding: 0 20px;
-                                text-align: left;
-                                &:after {
-                                    content: attr(title)
-                                }
-                                span {
-                                    padding: 0px 3px 0 0 !important;
-                                    display:inline-block;
-                                    width: 20px;
-                                    top: 0px;
-                                    @include font-size(13, true);
-                                }
-                            }
-                            ul {
-                                display:none;
-                            }
-                        }
                     }
-
                 }
+
             }
         }
     }
 }
 
+@media (max-width: 1024px) {
+    body:not(.delivery-scope){
+        @include mobile-navi();
+    }
+}
+
+// works in conjunction with layout/nav.js
+body.oversized-nav:not(.delivery-scope){
+    @include mobile-navi();
+}
