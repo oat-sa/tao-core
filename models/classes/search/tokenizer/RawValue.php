@@ -20,16 +20,9 @@
  */
 namespace oat\tao\model\search\tokenizer;
 
-use oat\tao\model\search\Search;
-use tao_models_classes_FileSourceService;
-use common_Logger;
-use ZendSearch\Lucene\Lucene;
-use ZendSearch\Lucene\Document;
-use ZendSearch\Lucene\Search\QueryHit;
-use oat\oatbox\Configurable;
-
 /**
- * Zend Lucene Search implementation 
+ * Tokenizer that returns the raw values
+ * as search tokens 
  * 
  * @author Joel Bout <joel@taotesting.com>
  */

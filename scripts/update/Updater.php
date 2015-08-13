@@ -277,6 +277,25 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion === '2.8.1') {
             $currentVersion = '2.9';
         }
+        
+        // remove id properties
+        if ($currentVersion === '2.9') {
+            $rdf = ModelManager::getModel()->getRdfInterface();
+            foreach ($rdf as $triple) {
+                if ($triple->predicate == 'id') {
+                    $rdf->remove($triple);
+                }
+            }
+            
+            $currentVersion = '2.9.1';
+        }
+        
+        // tao object split
+        if ($currentVersion === '2.9.1') {
+            OntologyUpdater::syncModels();
+            $currentVersion = '2.10.0';
+        }
+        
         return $currentVersion;
     }
     
