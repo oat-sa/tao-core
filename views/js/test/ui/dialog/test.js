@@ -37,6 +37,7 @@ define([
 
     var dialogApi = [
         { name : 'init', title : 'init' },
+        { name : 'destroy', title : 'destroy' },
         { name : 'setButtons', title : 'setButtons' },
         { name : 'render', title : 'render' },
         { name : 'show', title : 'show' },
@@ -65,19 +66,35 @@ define([
             renderTo: renderTo
         });
 
-        QUnit.stop(3);
+        var promises = _.times(4, function() {
+            return $.Deferred();
+        });
+        var resolve = function() {
+            promises.pop().resolve();
+            QUnit.start();
+        };
+
+        $.when.apply($, promises).done(function() {
+            modal.destroy();
+            assert.ok(null === modal.getDom(), "The dialog instance does not have a DOM element anymore");
+            assert.equal($(renderTo).find('.modal').length, 0, "The container does not contains the dialog box anymore");
+
+            QUnit.start();
+        });
+
+        QUnit.stop(4);
 
         modal.on('opened.modal', function() {
             assert.ok(true, "The dialog box is now visible");
-            QUnit.start();
+            resolve();
         });
         modal.on('closed.modal', function() {
             assert.ok(true, "The dialog box is now hidden");
-            QUnit.start();
+            resolve();
         });
         modal.on('create.modal', function() {
             assert.ok(modal.getDom().parent().is(renderTo), "When rendered, the dialog box is rendered into target element");
-            QUnit.start();
+            resolve();
         });
 
         assert.equal(typeof modal, 'object', "The dialog instance is an object");

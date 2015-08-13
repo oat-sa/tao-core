@@ -81,8 +81,8 @@ define([
     };
 
     /**
-     * Define a modal dialog
-     * @type {{init: Function, render: Function, show: Function, hide: Function, on: Function, off: Function, trigger: Function}}
+     * Define a dialog box
+     * @type {{init: Function, destroy: Function, render: Function, show: Function, hide: Function, on: Function, off: Function, trigger: Function, setButtons: Function}}
      */
     var dialog = {
         /**
@@ -121,13 +121,13 @@ define([
             // assign default values and options
             _.defaults(this, initOptions, _defaults);
 
-            // pre-render the modal
+            // pre-render the dialog box
             this.$html = $(bodyTpl(this));
             this.$buttons = this.$html.find('.buttons');
             this.rendered = false;
 
             // install the buttons and bind the actions
-            this.$buttons.on('click', 'button', this._onButtonClick.bind(this));
+            this.$buttons.on('click' + _scope, 'button', this._onButtonClick.bind(this));
             this.setButtons(this.buttons);
 
             // install the events extracted from the options
@@ -146,11 +146,28 @@ define([
         },
 
         /**
+         * Destroys the dialog box
+         * @returns {dialog}
+         */
+        destroy: function destroy() {
+            // disable events and remove DOM
+            this.$buttons.off(_scope);
+            this.$html.off(_scope).remove();
+
+            // reset the context
+            this.$html = null;
+            this.$buttons = null;
+            this.rendered = false;
+
+            return this;
+        },
+
+        /**
          * Set the action buttons
          * @param {Object|Array|String} buttons
          * @returns {dialog}
          */
-        setButtons : function(buttons) {
+        setButtons : function setButtons(buttons) {
             var self = this;
 
             if (!buttons) {
@@ -189,7 +206,7 @@ define([
         },
 
         /**
-         * Renders and shows the modal dialog
+         * Renders and shows the dialog box
          * @param {String|HTMLElement|jQuery} [to]
          * @returns {dialog}
          * @fires modal#create.modal
@@ -203,7 +220,7 @@ define([
         },
 
         /**
-         * Shows the modal dialog. Also renders if needed.
+         * Shows the dialog box. Also renders if needed.
          * @returns {dialog}
          * @fires modal#opened.modal
          */
@@ -217,7 +234,7 @@ define([
         },
 
         /**
-         * Hides the modal dialog. Does nothing if the modal has not been rendered.
+         * Hides the dialog box. Does nothing if the dialog box has not been rendered.
          * @returns {dialog}
          * @fires modal#closed.modal
          */
@@ -325,14 +342,14 @@ define([
                 btn.action.apply(btn, [btn, this]);
             }
 
-            // auto close the modal if the button allows it
+            // auto close the dialog box if the button allows it
             if (btn.close) {
                 this.hide();
             }
         },
 
         /**
-         * Installs the modal dialog
+         * Installs the dialog box
          * @private
          */
         _install : function() {
@@ -340,7 +357,7 @@ define([
         },
 
         /**
-         * Opens the modal dialog
+         * Opens the dialog box
          * @private
          */
         _open : function() {
@@ -348,7 +365,7 @@ define([
         },
 
         /**
-         * Close the modal dialog
+         * Close the dialog box
          * @private
          */
         _close : function() {
@@ -357,7 +374,7 @@ define([
     };
 
     /**
-     * Builds a modal dialog instance
+     * Builds a dialog box instance
      * @param {Object} options
      * @returns {Object}
      */
