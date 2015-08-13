@@ -12,9 +12,12 @@ define(['lodash', 'json!i18ntr/messages.json', 'context', 'core/format'], functi
      */
     var __ = function __(message){
         var localized =  !translations[message] ? message :  translations[message];
+
         if(arguments.length > 1){
+            arguments[0] = localized;
             localized = format.apply(null, arguments); 
         }
+
         return localized;
     };
 
