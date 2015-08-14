@@ -46,7 +46,7 @@ class HttpSource implements MediaBrowser
     public function download($link)
     {
         $url = str_replace('\/', '/', $link);
-        $fileName = tempnam(sys_get_temp_dir(), basename($link));
+        $fileName = \tao_helpers_File::createTempDir().basename($link);
         
         common_Logger::d('Downloading '.$url);
         helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::NO_TIMEOUT);

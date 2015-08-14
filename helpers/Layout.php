@@ -43,7 +43,8 @@ class Layout{
             'is-sandbox'   => false,
             'logo'         => self::getLogoUrl(),
             'link'         => self::getLinkUrl(),
-            'msg'          => self::getMessage()
+            'msg'          => self::getMessage(),
+            'branding'     => self::getBranding(),
         );
 
         switch(TAO_RELEASE_STATUS){
@@ -225,6 +226,23 @@ class Layout{
         }
         
         return $logoFile;
+    }
+
+    public static function getBranding() {
+
+        $branding = 'TAO';
+
+        if (self::isThemingEnabled() === true) {
+            // Get Theming info from taoThemingPlatform...
+            $themingService = PlatformThemingService::singleton();
+            $themingConfig = $themingService->retrieveThemingConfig();
+            if ($themingConfig['branding'] !== null) {
+                $branding = $themingConfig['branding'];
+            }
+
+        }
+
+        return $branding;
     }
     
     public static function getThemeUrl() {

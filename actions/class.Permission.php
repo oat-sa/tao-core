@@ -34,10 +34,9 @@ class tao_actions_Permission extends tao_actions_CommonModule {
         $accepts = explode(',', $this->getRequest()->getHeader('Accept'));
         if(array_search('application/json', $accepts) !== false ||  array_search('text/javascript', $accepts) !== false){
 
-            $this->returnJson(array( 'error' =>  __("You've not the required rights to edit this resource.")));
+            $this->returnJson(array( 'error' =>  __("You do not have the required rights to edit this resource.")));
             return;
         }
         return $this->setView('permission/denied.tpl');
     }
 }
-?>

@@ -31,12 +31,12 @@
     },
     "xml" : {
         "category" : "sources", 
-        "mimes" : ["application/xml", "application/xml-dtd"],
+        "mimes" : ["application/xml", "application/xml-dtd", "text/xml"],
         "extensions" : ["xml", "dtd", "qti"] 
      },
      "html" : {
         "category" : "sources", 
-        "mimes" : ["text/html", "text/xhtml", "application/xhtml+xml"], 
+        "mimes" : ["text/html", "text/xhtml", "application/xhtml+xml", "application/qti+xml"],
         "extensions" : ["html", "htm", "html5", "xhtml"] 
     },
     "font" : {

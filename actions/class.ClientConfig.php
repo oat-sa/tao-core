@@ -1,5 +1,5 @@
 <?php
-/**  
+/**
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
 * as published by the Free Software Foundation; under version 2
@@ -17,14 +17,15 @@
 * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
 */
 use oat\tao\model\ClientLibRegistry;
-use oat\tao\model\media\MediaService;
+use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\ThemeRegistry;
 
 /**
  * Generates client side configuration.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
- 
+
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_actions_ClientConfig extends tao_actions_CommonModule {
@@ -34,12 +35,17 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
      */
     public function config() {
         $this->setContentHeader('application/javascript');
-        
+
         //get extension paths to set up aliases dynamically
         $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();
-                
         $this->setData('extensionsAliases', $extensionsAliases);
-        
+
+        $libConfigs = ClientLibConfigRegistry::getRegistry()->getMap();
+        $this->setData('libConfigs', $libConfigs);
+
+        $themesAvailable = ThemeRegistry::getRegistry()->getAvailableThemes();
+        $this->setData('themesAvailable', $themesAvailable);
+
         $extensionManager = common_ext_ExtensionsManager::singleton();
         $langCode = tao_helpers_I18n::getLangCode();
 
@@ -57,7 +63,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
 
         //set contextual data
         $this->setData('locale', $langCode);
-        
+
         if(strpos($langCode, '-') > 0){
             $lang = strtolower(substr($langCode, 0, strpos($langCode, '-')));
         } else {

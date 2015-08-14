@@ -17,7 +17,7 @@
  * Copyright (c) 2013- (original work) Open Assessment Technologies SA;
  *
  */
-
+use oat\oatbox\service\ServiceManager;
 /**
  * This service represents the actions applicable from a root class
  *
@@ -109,5 +109,10 @@ abstract class tao_models_classes_ClassService
      */
     public function deletePropertyIndex(core_kernel_classes_Resource $index){
         return $index->delete(true);
+    }
+    
+    public function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }

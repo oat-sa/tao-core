@@ -1,16 +1,5 @@
 @import 'inc/bootstrap';
 
-.list-symbol {
-    font: bold 13px "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
-    padding: 2px;
-    display: inline-block;
-    @include simple-border(#eee);
-    width: 18px;
-    margin-right: 2px;
-    text-align: center;
-    color: $textColor;
-    background: $uiClickableDefaultBg;
-}
 
 .select2-container * {
     text-decoration: none !important
@@ -18,9 +7,19 @@
 
 .select2-drop {
 
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: $regularFont;
     font-weight: 400;
     //@include font-size(12);
+
+    [data-symbol]:before {
+        content: attr(data-symbol);
+        display: inline-block;
+        width: 20px;
+        line-height: 20px;
+        margin-right: 4px;
+        text-align: center;
+        color: $textColor;
+    }
 }
 
 .select2-container {

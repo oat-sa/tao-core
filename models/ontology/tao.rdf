@@ -12,9 +12,15 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[TAO Object]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Any resource related to etesting]]></rdfs:comment>
+    <rdfs:label xml:lang="en-US"><![CDATA[TAO User Object]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Any user-level resource related to etesting]]></rdfs:comment>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject">
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[System Object]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Any system resource related to etesting]]></rdfs:comment>
+  </rdf:Description>
+  
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#List">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
     <rdfs:label xml:lang="en-US"><![CDATA[List]]></rdfs:label>
@@ -39,7 +45,7 @@
     <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages">
-  	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+  	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
   	<rdfs:label xml:lang="en-US"><![CDATA[Language Usage]]></rdfs:label>
   	<rdfs:comment xml:lang="en-US"><![CDATA[Language usage class]]></rdfs:comment>
   </rdf:Description>
@@ -55,7 +61,7 @@
   </rdf:Description>
   
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations">
-  	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+  	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
   	<rdfs:label xml:lang="en-US"><![CDATA[Language orientation]]></rdfs:label>
   	<rdfs:comment xml:lang="en-US"><![CDATA[Language orientation class]]></rdfs:comment>
   </rdf:Description>

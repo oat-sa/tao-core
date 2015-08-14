@@ -21,6 +21,7 @@ namespace oat\tao\test;
 
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\tao\helpers\Template;
 
 /**
  * 
@@ -39,19 +40,44 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
     }
 
 
+    /**
+     * Test:
+     *  - {@link ClientLibRegistry::getMap}
+     *  - {@link ClientLibRegistry::register}
+     */
     public function testRegister()
     {
+        $libId = 'OAT/test';
+        
+        // verify test lib does not exist
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
+        $this->assertFalse(isset($map[$libId]));
         
-        ClientLibRegistry::getRegistry()->register('OAT/test', dirname(__FILE__) . '/samples/fakeSourceCode/views/js/');
+        ClientLibRegistry::getRegistry()->register($libId, Template::js('fakePath/views/js/', 'tao'));
+        
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertInternalType('array', $map);
-        $this->assertTrue(isset($map['OAT/test']));
-        $this->assertEquals(dirname(__FILE__) . '/samples/fakeSourceCode/views/js/', $map['OAT/test']);
+        $this->assertTrue(isset($map[$libId]));
         
-        ClientLibRegistry::getRegistry()->remove('OAT/test');
+        $this->assertEquals('js/fakePath/views/js/', $map[$libId]['path']);
+        
+        return $libId;
+        
+    }
+    
+    /**
+     * Test:
+     *  - {@link ClientLibRegistry::remove}
+     *  
+     * @depends testRegister
+     */
+    public function testRemove($libId)
+    {
+        ClientLibRegistry::getRegistry()->remove($libId);
+        
+        $map = ClientLibRegistry::getRegistry()->getMap();
+        $this->assertInternalType('array', $map);
+        $this->assertFalse(isset($map[$libId]));
     }
 }
-
-?>

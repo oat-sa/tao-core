@@ -104,6 +104,13 @@ class tao_helpers_Http
     public static function getUploadedFile($name)
     {
 
+        // for large file, the $_FILES may be empty so see this before checking for other updates
+        $limit = tao_helpers_Environment::getFileUploadLimit();
+        $contentLength = intval($_SERVER['CONTENT_LENGTH']);
+        if( $limit > 0 && $contentLength > $limit && count(self::getFiles())===0){
+            throw new FileUploadException('Exceeded filesize limit of ' . tao_helpers_Environment::getFileUploadLimit());
+        }
+
         $files = self::getFiles();
         $fileData = $files[$name];
         if (isset($files[$name])) {
@@ -171,20 +178,28 @@ class tao_helpers_Http
      * If the client asks for partial contents, then partial contents are served, if not, the whole file is send.<br />
      * Works well with big files, without eating up memory.
      * @author "Martin for OAT <code@taotesting.com>"
-     * @param string the file name
-     * @return mixed the file data
+     * @param string $filename the file name
+     * @param boolean $contenttype whether to add content type header or not
+     * @throws common_exception_Error
      */
-    public static function returnFile($filename)
+    public static function returnFile($filename, $contenttype = true)
     {
         if (tao_helpers_File::securityCheck($filename, true)) {
             if (file_exists($filename)) {
                 $mimeType = tao_helpers_File::getMimeType($filename, true);
-                header('Content-Type: ' . $mimeType);
+                if ($contenttype) {
+                    header('Content-Type: ' . $mimeType);
+                }
                 $fp = fopen($filename, 'rb');
                 if ($fp === false) {
                     header("HTTP/1.0 404 Not Found");
                 } else {
 
+                    $pathinfo = pathinfo($filename);
+                    if ($pathinfo['extension'] === 'svgz') {
+                        header('Content-Encoding: gzip');
+                    }
+                    
                     // session must be closed because, for example, video files might take a while to be sent to the client
                     //  and we need the client to be able to make other calls to the server during that time
                     session_write_close();

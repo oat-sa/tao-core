@@ -13,16 +13,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define(['lib/history/history'], function(historyLib){
+    'use strict';
 
     var location = window.history.location || window.location;
-    var domain = location.protocol + '//' + location.hostname;
+    var port = location.port;
+    var protocol = location.protocol;
+    var domain = protocol + '//' + location.hostname;
     var testerUrl = location.href;
+
+    if (port && (('http:' === protocol && '80' !== port) || ('https:' === protocol && '443' !== port))) {
+        domain += ':' + port;
+    }
 
     QUnit.module('API');
 
@@ -60,10 +67,15 @@ define(['lib/history/history'], function(historyLib){
 
     QUnit
         .cases(pushStatesDataProvider)
-        .test('pushState', function(data, assert) {
+        .asyncTest('pushState', function(data, assert) {
             historyLib.pushState(data.state, data.title, data.url);
-            assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the last pushed state');
-            assert.equal(location.href, data.expected.url, 'The current page URL must comply to the target state');
+            QUnit.expect(2);
+
+            setTimeout(function(){
+                assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the last pushed state');
+                assert.equal(location.href, data.expected.url, 'The current page URL must comply to the target state');
+                QUnit.start();
+            }, 500);
         });
 
     /** replaceState **/
@@ -87,21 +99,29 @@ define(['lib/history/history'], function(historyLib){
 
     QUnit
         .cases(replaceStatesDataProvider)
-        .test('replaceState', function(data, assert) {
+        .asyncTest('replaceState', function(data, assert) {
+            QUnit.expect(2);
+
             historyLib.replaceState(data.state, data.title, data.url);
-            assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the last replaced state');
-            assert.equal(location.href, data.expected.url, 'The current page URL must comply to the target state');
+
+            setTimeout(function(){
+                assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the last replaced state');
+                assert.equal(location.href, data.expected.url, 'The current page URL must comply to the target state');
+                QUnit.start();
+            }, 500);
         });
 
     QUnit.module('Navigation');
 
     /** back **/
     var backNavigationDataProvider = [{
+        title : 'Step back to Manage Items',
         expected : {
             state : { sectionId : 'manage_items', restoreWith : 'activate' },
             url   : domain + '/Main/index?structure=items&ext=taoItems&section=manage_items'
         }
     }, {
+        title : 'Step back to Root',
         expected : {
             state : null,
             url   : testerUrl
@@ -110,20 +130,27 @@ define(['lib/history/history'], function(historyLib){
 
     QUnit
         .cases(backNavigationDataProvider)
-        .test('navigation', function(data, assert) {
+        .asyncTest('navigation', function(data, assert) {
+            QUnit.expect(2);
 
             historyLib.back();
-            assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the last replaced state');
-            assert.equal(location.href, data.expected.url, 'The current page URL must comply to the target state');
+
+            setTimeout(function(){
+                assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the right state after stepping back');
+                assert.equal(location.href, data.expected.url, 'The current page URL must comply to the target state');
+                QUnit.start();
+            }, 500);
         });
 
     /** forward **/
     var forwardNavigationDataProvider = [{
+        title : 'Step forward to Manage Items',
         expected : {
             state : { sectionId : 'manage_items', restoreWith : 'activate' },
             url   : domain + '/Main/index?structure=items&ext=taoItems&section=manage_items'
         }
     }, {
+        title : 'Step forward to Authoring',
         expected : {
             state : { sectionId : 'authoring', restoreWith : 'activate' },
             url   : domain + '/Main/index?structure=items&ext=taoItems&section=authoring'
@@ -132,18 +159,29 @@ define(['lib/history/history'], function(historyLib){
 
     QUnit
         .cases(forwardNavigationDataProvider)
-        .test('navigation', function(data, assert) {
+        .asyncTest('navigation', function(data, assert) {
+            QUnit.expect(2);
 
             historyLib.forward();
-            assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the last replaced state');
-            assert.equal(location.href, data.expected.url, 'The current page URL must comply to the target state');
+
+            setTimeout(function(){
+                assert.deepEqual(historyLib.state, data.expected.state, 'The current history state must comply to the right state after stepping forward');
+                assert.equal(location.href, data.expected.url, 'The current page URL must comply to the target state');
+                QUnit.start();
+            }, 500);
         });
 
     /** restoreContext **/
     QUnit
-        .test('restoreContext', function(assert) {
+        .asyncTest('restoreContext', function(assert) {
+            QUnit.expect(2);
+
             historyLib.pushState(null, window.title, testerUrl);
-            assert.deepEqual(historyLib.state, null, 'The current history state must comply to the last pushed state');
-            assert.equal(location.href, testerUrl, 'The current page URL must comply to the target state');
+
+            setTimeout(function(){
+                assert.deepEqual(historyLib.state, null, 'The current history state must comply to the last pushed state');
+                assert.equal(location.href, testerUrl, 'The current page URL must comply to the target state');
+                QUnit.start();
+            }, 500);
         });
 });

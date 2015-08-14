@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-13T09:45:04\n"
+"Project-Id-Version: TAO 3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-08-11T14:45:20\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -12,11 +12,6 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#, tao-public
-msgid "\n"
-"            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr ""
 
 msgid " and "
 msgstr ""
@@ -32,9 +27,6 @@ msgstr "التالي"
 
 msgid " requires a subgrid adapter"
 msgstr "يحتاج إلى محول subgrid"
-
-msgid "\"list saved\""
-msgstr ""
 
 msgid "%d day"
 msgstr ""
@@ -63,10 +55,28 @@ msgstr ""
 msgid "%s (%s kb)"
 msgstr ""
 
+msgid "%s Class saved"
+msgstr ""
+
+msgid "%s could not be released"
+msgstr ""
+
 msgid "%s extension(s) to install."
 msgstr ""
 
-msgid "%s Locked', get_data('topclass-label"
+msgid "%s has been deleted"
+msgstr ""
+
+msgid "%s has been released"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr ""
+
+msgid "%s Locked"
+msgstr ""
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
 msgstr ""
 
 msgid "%y year"
@@ -94,6 +104,9 @@ msgid "> Installation done."
 msgstr ""
 
 msgid "A fatal error occured during the installation process."
+msgstr ""
+
+msgid "A message with further instructions has been sent to your email address: %s"
 msgstr ""
 
 msgid "A similar resource has already been versioned"
@@ -130,20 +143,14 @@ msgstr ""
 msgid "Add property"
 msgstr ""
 
-msgid "Add the source file."
-msgstr ""
-
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
 
 msgid "all"
 msgstr "كل"
 
-msgid "All"
-msgstr "كل"
-
-msgid "All (the complete TAO Module)"
-msgstr "الكل"
+msgid "All data will be removed in %s"
+msgstr ""
 
 msgid "All fields are required"
 msgstr ""
@@ -155,6 +162,9 @@ msgid "Allows the management of the repositories"
 msgstr ""
 
 msgid "Alpha version"
+msgstr ""
+
+msgid "An email has been sent"
 msgstr ""
 
 msgid "An error occured during user deletion"
@@ -207,6 +217,9 @@ msgstr ""
 msgid "Cancel"
 msgstr "الغاء"
 
+msgid "cancel"
+msgstr ""
+
 msgid "Cannot be edited"
 msgstr ""
 
@@ -217,10 +230,13 @@ msgstr ""
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
+msgid "Check all"
+msgstr ""
+
 msgid "Check All"
 msgstr ""
 
-msgid "Check all"
+msgid "Check-in"
 msgstr ""
 
 msgid "Choose export format"
@@ -240,6 +256,9 @@ msgstr ""
 
 msgid "Column"
 msgstr "عمود"
+
+msgid "Commit"
+msgstr ""
 
 msgid "Commit message : "
 msgstr ""
@@ -262,6 +281,9 @@ msgstr "إنشاء قائمة"
 msgid "Create instance of "
 msgstr ""
 
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
+
 msgid "CSV"
 msgstr ""
 
@@ -280,13 +302,16 @@ msgstr "البيانات التي تم استيرادها بنجاح"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
-msgstr "لغة البيانات"
-
 msgid "Data language"
 msgstr "لغة البيانات"
 
+msgid "Data Language"
+msgstr "لغة البيانات"
+
 msgid "Date"
+msgstr ""
+
+msgid "Default search"
 msgstr ""
 
 msgid "Default user cannot be deleted"
@@ -305,7 +330,7 @@ msgstr ""
 msgid "Demo Sandbox"
 msgstr ""
 
-msgid "Disabled %s', $this->getRequestParameter('id"
+msgid "Disabled %s"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -346,17 +371,20 @@ msgstr "تحرير"
 msgid "Edit a user"
 msgstr "تحرير مستخدم"
 
+msgid "Edit class %s"
+msgstr ""
+
 msgid "Edit Instance"
 msgstr ""
 
 msgid "Edit this list"
 msgstr ""
 
-msgid "element"
-msgstr "عنصر"
-
 msgid "Element"
 msgstr "العنصر"
+
+msgid "element"
+msgstr "عنصر"
 
 msgid "Element deleted"
 msgstr ""
@@ -400,6 +428,9 @@ msgstr ""
 
 #, tao-public
 msgid "Extensions manager"
+msgstr ""
+
+msgid "False"
 msgstr ""
 
 msgid "Field delimiter"
@@ -458,16 +489,31 @@ msgstr ""
 msgid "Force Release"
 msgstr ""
 
+msgid "Forgot your password?"
+msgstr ""
+
+msgid "Fuzzy Matching"
+msgstr ""
+
 msgid "Go Back"
 msgstr ""
 
 msgid "Height"
 msgstr ""
 
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
+msgstr ""
+
 msgid "Hide detailed report"
 msgstr ""
 
 msgid "hours"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr ""
 
 msgid "Import"
@@ -507,10 +553,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "لغة الواجهة"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "لغة الواجهة"
 
 msgid "Invalid date range"
@@ -573,6 +619,9 @@ msgstr ""
 msgid "List not saved"
 msgstr ""
 
+msgid "list saved"
+msgstr ""
+
 msgid "List values"
 msgstr "قيم القائمة"
 
@@ -584,12 +633,6 @@ msgstr ""
 
 msgid "Loaded at Startup"
 msgstr ""
-
-msgid "Local"
-msgstr ""
-
-msgid "Local Data (the local namespace containing only the data inserted by the users)"
-msgstr "(البيانات المحلية (مساحة الاسم المحلي الذي يحتوي فقط على البيانات المدرجة من قبل المستخدمين"
 
 msgid "Log in"
 msgstr ""
@@ -627,6 +670,9 @@ msgid "Map the properties to the CSV columns"
 msgstr "CSV اختر الخصائص المتعلقة بالاعمدة"
 
 msgid "maximum value: "
+msgstr ""
+
+msgid "Message"
 msgstr ""
 
 msgid "minimum value: "
@@ -679,9 +725,6 @@ msgstr ""
 msgid "Name"
 msgstr "الاسم"
 
-msgid "Namespaces"
-msgstr "مساحة الاسم"
-
 msgid "New password"
 msgstr "كلمة مرور جديدة"
 
@@ -729,9 +772,6 @@ msgstr "لم يتم العثور على نتائج"
 msgid "No results found"
 msgstr ""
 
-msgid "None"
-msgstr ""
-
 msgid "Nothing imported"
 msgstr "لا شيء مستورد"
 
@@ -746,10 +786,6 @@ msgstr ""
 
 msgid "Old Password"
 msgstr "كلمة السر القديمة"
-
-#, tao-public
-msgid "Ontology"
-msgstr ""
 
 msgid "Option instanceUri is not an option !!"
 msgstr ""
@@ -775,6 +811,9 @@ msgstr "*كلمة السر"
 msgid "Password changed"
 msgstr ""
 
+msgid "Password successfully changed"
+msgstr ""
+
 msgid "Passwords are not matching"
 msgstr ""
 
@@ -796,17 +835,14 @@ msgstr ".الرجاء تأكيد أنك تريد حذف هذا العنصر من
 msgid "Please confirm you want to delete this list. This operation cannot be undone."
 msgstr ".الرجاء تأكيد أنك تريد حذف هذه القائمة. هذه العملية لا يمكن عكسها"
 
-msgid "Please contact %s or an administrator to release it', get_data('ownerHtml"
+msgid "Please contact %s or an administrator to release it"
+msgstr ""
+
+msgid "Please give a message to your commit"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr ""
-
-msgid "Please select alteast one namespace"
-msgstr ""
-
-msgid "Please upload an RDF file."
-msgstr ".RDF الرجاء تحميل ملف"
 
 msgid "Post install processing"
 msgstr ""
@@ -824,13 +860,16 @@ msgstr ""
 msgid "Properties"
 msgstr ""
 
+msgid "Property\'s label field is required"
+msgstr ""
+
 msgid "RDF"
 msgstr ""
 
 msgid "Release"
 msgstr ""
 
-msgid "Releasing the lock might cause the work in progress by %s to be lost.', get_data('ownerHtml"
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr ""
 
 msgid "Remove"
@@ -893,6 +932,9 @@ msgstr "تم حفظ المورد"
 msgid "Responsive mode"
 msgstr ""
 
+msgid "Return to sign in page"
+msgstr ""
+
 msgid "Revision control"
 msgstr ""
 
@@ -919,17 +961,20 @@ msgstr ""
 msgid "Search"
 msgstr "بحث"
 
+msgid "Search %s"
+msgstr ""
+
 msgid "Search sub-classes"
 msgstr ""
 
 msgid "seconds"
 msgstr ""
 
-msgid "select"
-msgstr "اختر"
-
 msgid "Select"
 msgstr "حدد"
+
+msgid "select"
+msgstr "اختر"
 
 msgid "Select a language"
 msgstr "حدد اللغة"
@@ -968,13 +1013,15 @@ msgstr ""
 msgid "Success"
 msgstr ""
 
+msgid "Successfully imported \"%s"
+msgstr ""
+
+msgid "Successfully imported class \"%s"
+msgstr ""
+
 msgid "Supported export formats"
 msgstr "صيغ الاستيراد المعتمدة"
 
-msgid "Supported import formats"
-msgstr ""
-
-#, tao-public
 msgid "TAO Back Office"
 msgstr "TAO: Outils d'administration"
 
@@ -985,6 +1032,9 @@ msgid "Tao Home"
 msgstr ""
 
 msgid "TAO Login"
+msgstr ""
+
+msgid "Test Developers and Administrators"
 msgstr ""
 
 msgid "Text - Long - Box"
@@ -999,10 +1049,10 @@ msgstr ""
 msgid "The column "
 msgstr ""
 
-msgid "The format of this field is not valid."
-msgstr "تنسيق هذا الحقل غير صالح"
-
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
+msgstr ""
+
+msgid "The index identifier should not be empty"
 msgstr ""
 
 msgid "The lock has been released"
@@ -1020,7 +1070,7 @@ msgstr "يجب أن تكون قيمة هذا الحقل عدد صحيح"
 msgid "The value of this field must be numeric"
 msgstr ""
 
-msgid "This %s is currently checked out', get_data('topclass-label"
+msgid "This %s is currently checked out"
 msgstr ""
 
 msgid "This field is required"
@@ -1032,10 +1082,16 @@ msgstr "هذا الحقل طويل جدا"
 msgid "This field is too short"
 msgstr "هذا الحقل قصير جدا"
 
+msgid "This is not a valid email address."
+msgstr ""
+
 msgid "this is required"
 msgstr ""
 
 msgid "This Login is already in use"
+msgstr ""
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr ""
 
 msgid "This resource is locked"
@@ -1053,7 +1109,16 @@ msgstr ""
 msgid "Time zone"
 msgstr ""
 
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr ""
+
 msgid "to translate"
+msgstr ""
+
+msgid "Tokenizer"
+msgstr ""
+
+msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
 msgid "Translate"
@@ -1068,13 +1133,22 @@ msgstr "اعدادات الترجمة"
 msgid "Translation saved"
 msgstr "حفظ الترجمة"
 
+msgid "True"
+msgstr ""
+
 msgid "Type"
 msgstr "نوع"
 
 msgid "UI Lang."
 msgstr ""
 
+msgid "Unable to access your account?"
+msgstr ""
+
 msgid "Unable to change passwords in demo mode"
+msgstr ""
+
+msgid "Unable to delete %s"
 msgstr ""
 
 msgid "Unable to delete the selected resource"
@@ -1086,22 +1160,28 @@ msgstr ""
 msgid "Unable to remove the property."
 msgstr ""
 
+msgid "Unable to send the password reset request"
+msgstr ""
+
 msgid "Unable to upload file"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Unable to upload file %s : %s"
 msgstr ""
 
 msgid "Uncheck All"
 msgstr ""
 
+msgid "Uncheck all"
+msgstr ""
+
 msgid "Undo"
 msgstr ""
 
-msgid "Uninstall of %s failed', $this->getRequestParameter('id"
+msgid "Uninstall of %s failed"
 msgstr ""
 
-msgid "Uninstalled %s', $this->getRequestParameter('id"
+msgid "Uninstalled %s"
 msgstr ""
 
 msgid "unknown"
@@ -1110,7 +1190,7 @@ msgstr ""
 msgid "Unknown Error"
 msgstr ""
 
-msgid "Unselect all"
+msgid "Update"
 msgstr ""
 
 msgid "Upload"
@@ -1128,9 +1208,6 @@ msgstr ""
 msgid "Upload the file to version"
 msgstr ""
 
-msgid "URL"
-msgstr ""
-
 msgid "Use default value"
 msgstr ""
 
@@ -1144,6 +1221,9 @@ msgid "User deleted successfully"
 msgstr "تم حذف المستخدم بنجاح"
 
 msgid "User deletion not permited on a demo instance"
+msgstr ""
+
+msgid "User not found"
 msgstr ""
 
 msgid "User saved"
@@ -1172,13 +1252,13 @@ msgstr ""
 msgid "You are not authorised to remove this lock"
 msgstr ""
 
-msgid "You can use * as a wildcard"
-msgstr ""
-
 msgid "You cannot delete the root node"
 msgstr ""
 
 msgid "You currently have no access to the platform"
+msgstr ""
+
+msgid "You do not have the required rights to edit this resource."
 msgstr ""
 
 msgid "You don't have sufficient permissions to access"
@@ -1187,6 +1267,9 @@ msgstr ""
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr ""
 
-msgid "You've not the required rights to edit this resource."
+msgid "Your mail"
+msgstr ""
+
+msgid "Your TAO Password"
 msgstr ""
 

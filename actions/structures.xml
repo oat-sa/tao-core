@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE structures SYSTEM "../doc/structures.dtd">
 <structures>
+    <structure id="hiden_user" name="Users" level="11" group="hidden">
+        <sections>
+            <section id="hidden_list_users" name="Users" url="/tao/none/none">
+                <trees>
+                    <tree name="Users"
+                          dataUrl="/tao/none/none"
+                          rootNode="http://www.tao.lu/Ontologies/TAO.rdf#User"
+                     />
+                </trees>
+            </section>
+        </sections>
+    </structure>
+
     <structure id="users" name="Users" level="11" group="settings">
         <description/>
         <icon id="icon-users" src=""/>
@@ -17,6 +30,7 @@
                           selectInstance="role-properties"
                           moveInstance="role-move"
                           delete="role-delete"
+                          rootNode="http://www.tao.lu/Ontologies/generis.rdf#ClassRole"
                      />
                 </trees>
                 <actions>
@@ -93,9 +107,4 @@
             <section id="settings_my_password" name="Change password" url="/tao/UserSettings/password"/>
         </sections>
     </structure>
-
-    <entrypoint id="backoffice" title="Test Developers and Administrators" label="TAO Back Office" url="tao/Main/index">
-        <description>
-            <![CDATA[Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows.]]></description>
-    </entrypoint>
 </structures>

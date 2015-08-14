@@ -87,7 +87,7 @@ class EventsServiceTestCase extends TaoPhpUnitTestRunner {
 			'{"name":"h1","type":"click","time":"1288780765999","id":"qunit-header"}'
 		);
 		
-		$folder = dirname(__FILE__).'/samples';
+		$folder = tao_helpers_File::createTempDir();
 		
 		$processId = '123456789';
 		
@@ -104,5 +104,6 @@ class EventsServiceTestCase extends TaoPhpUnitTestRunner {
 				unlink($trace_file);
 			}
 		}
+		tao_helpers_File::delTree($folder);
 	}
 }

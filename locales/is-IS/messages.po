@@ -1,0 +1,1276 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-08-11T14:45:31\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: is-IS\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: is-IS\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid " and "
+msgstr ""
+
+msgid " has been deleted successfully"
+msgstr ""
+
+msgid " has been installed"
+msgstr ""
+
+msgid " next"
+msgstr ""
+
+msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "%d day"
+msgstr "%d dagur"
+
+msgid "%d days"
+msgstr "%d dagar"
+
+msgid "%h hour"
+msgstr "%h klukkutími"
+
+msgid "%h hours"
+msgstr "%h klukkustundir"
+
+msgid "%i minute"
+msgstr "%i mínúta"
+
+msgid "%i minutes"
+msgstr "%i mínútur"
+
+msgid "%m month"
+msgstr "%m mánuður"
+
+msgid "%m months"
+msgstr "%m mánuðir"
+
+msgid "%s (%s kb)"
+msgstr "%s (%s kb)"
+
+msgid "%s Class saved"
+msgstr ""
+
+msgid "%s could not be released"
+msgstr ""
+
+msgid "%s extension(s) to install."
+msgstr ""
+
+msgid "%s has been deleted"
+msgstr ""
+
+msgid "%s has been released"
+msgstr ""
+
+msgid "%s is of a type that cannot be published"
+msgstr ""
+
+msgid "%s Locked"
+msgstr ""
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
+msgstr ""
+
+msgid "%y year"
+msgstr "%y ár"
+
+msgid "%y years"
+msgstr "%y ár"
+
+msgid "(empty)"
+msgstr "(tómt)"
+
+msgid "... reloading page."
+msgstr "... endurhleð síðu."
+
+msgid "<del>Filters</del>"
+msgstr ""
+
+msgid "<del>Options</del>"
+msgstr ""
+
+msgid "> Extension %s succesfully installed."
+msgstr ""
+
+msgid "> Installation done."
+msgstr "> Uppsetningu lokið."
+
+msgid "A fatal error occured during the installation process."
+msgstr "Kerfisvilla kom upp í uppsetningarferlinu."
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
+
+msgid "A similar resource has already been versioned"
+msgstr ""
+
+msgid "Access Denied"
+msgstr "Aðgangur óheimill."
+
+msgid "Access denied. Please renew your authentication!"
+msgstr "Aðgangur óheimill. Endurnýjaðu aðgangsheimildir þínar!"
+
+msgid "Actions"
+msgstr "Aðgerðir"
+
+msgid "Add"
+msgstr "Bæta við"
+
+msgid "Add / Edit lists"
+msgstr "Bæta við / breyta listum"
+
+msgid "Add a CSV file"
+msgstr "Bæta við CSV skrá"
+
+#, tao-public
+msgid "Add a user"
+msgstr "Bæta við notanda"
+
+msgid "Add an RDF/XML file"
+msgstr "Bæta við RDF/XML skrá"
+
+msgid "Add file(s)"
+msgstr "Bæta við skrá(m)"
+
+msgid "Add property"
+msgstr "Bæta við stillingu"
+
+msgid "Advanced Mode"
+msgstr "Ítarlegri hamur"
+
+msgid "all"
+msgstr "allt"
+
+msgid "All data will be removed in %s"
+msgstr ""
+
+msgid "All fields are required"
+msgstr ""
+
+msgid "All rights reserved."
+msgstr ""
+
+msgid "Allows the management of the repositories"
+msgstr ""
+
+msgid "Alpha version"
+msgstr "Alpha útgáfa"
+
+msgid "An email has been sent"
+msgstr ""
+
+msgid "An error occured during user deletion"
+msgstr ""
+
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr ""
+
+msgid "Are you sure you want to delete it?"
+msgstr "Ertu viss um að þú viljir eyða þessu?"
+
+msgid "Assign User to role"
+msgstr "Úthluta notanda hlutverki"
+
+#, tao-public
+msgid "Assign Users"
+msgstr ""
+
+msgid "Author"
+msgstr "Höfundur"
+
+msgid "Author Item"
+msgstr "Hanna atriði"
+
+msgid "Authoring"
+msgstr "Hönnun"
+
+msgid "Available Extensions"
+msgstr "Viðbætur í boði"
+
+msgid "Back to listing"
+msgstr "Til baka í lista"
+
+msgid "Beta version"
+msgstr "Beta útgáfa"
+
+msgid "Browse"
+msgstr "Vafra"
+
+msgid "Browse folders:"
+msgstr "Vafra í möppum:"
+
+msgid "Browse..."
+msgstr "Vafra..."
+
+msgid "Calendar"
+msgstr "Dagatal"
+
+msgid "Cancel"
+msgstr "Hætta við"
+
+msgid "cancel"
+msgstr ""
+
+msgid "Cannot be edited"
+msgstr "Ekki hægt að breyta"
+
+#, tao-public
+msgid "Change password"
+msgstr "Breyta lykilorði"
+
+msgid "Change the password"
+msgstr "Breyta lykilorðinu"
+
+msgid "Check all"
+msgstr "Merkja við allt"
+
+msgid "Check All"
+msgstr "Merkja við allt"
+
+msgid "Check-in"
+msgstr ""
+
+msgid "Choose export format"
+msgstr "Veldu útflutningssnið"
+
+msgid "Choose import format"
+msgstr "Veldu innflutningssnið"
+
+msgid "class selected"
+msgstr "flokkur valinn"
+
+msgid "Close tab"
+msgstr "Loka flipa"
+
+msgid "Collapse Message"
+msgstr ""
+
+msgid "Column"
+msgstr "Dálkur"
+
+msgid "Commit"
+msgstr ""
+
+msgid "Commit message : "
+msgstr ""
+
+msgid "Confirm"
+msgstr "Staðfesta"
+
+msgid "Connect to the TAO platform"
+msgstr "Tengjast TAO svæðum."
+
+msgid "Continue"
+msgstr "Áfram"
+
+msgid "Create"
+msgstr "Búa til"
+
+msgid "Create a list"
+msgstr "Búa til lista"
+
+msgid "Create instance of "
+msgstr ""
+
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
+
+msgid "CSV"
+msgstr "CSV"
+
+msgid "CSV Options"
+msgstr "CSV valmöguleikar"
+
+msgid "Current language"
+msgstr "Núverandi tungumál"
+
+msgid "Data imported"
+msgstr "Innflutningur gagna"
+
+msgid "Data imported successfully"
+msgstr "Innflutningur gagna tókst"
+
+msgid "Data Lang."
+msgstr ""
+
+msgid "Data language"
+msgstr ""
+
+msgid "Data Language"
+msgstr ""
+
+msgid "Date"
+msgstr "Dagsetning"
+
+msgid "Default search"
+msgstr ""
+
+msgid "Default user cannot be deleted"
+msgstr "Ekki hægt að eyða sjálfgefnum notanda"
+
+msgid "Define the default values"
+msgstr "Skilgreindu sjálfgefin gildi"
+
+#, tao-public
+msgid "Delete"
+msgstr "Eyða"
+
+msgid "Delete this list"
+msgstr "Eyða þessum lista"
+
+msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Disabled %s"
+msgstr ""
+
+msgid "Do you wish to install the following extension(s):\n"
+"%s?"
+msgstr "Vilt þú setja inn eftirfarandi viðbætur:\n"
+" %s?"
+
+msgid "does not match"
+msgstr ""
+
+msgid "Don't set"
+msgstr ""
+
+msgid "Download"
+msgstr "Sækja"
+
+msgid "Download content"
+msgstr "Sækja efni"
+
+msgid "Download this file"
+msgstr "Sækja þessa skrá"
+
+msgid "Drag file here"
+msgstr "Draga skrá hingað"
+
+msgid "Drag files here"
+msgstr "Draga skrá hingað"
+
+msgid "Drop the files to upload"
+msgstr ""
+
+msgid "e-mail"
+msgstr "netfang"
+
+msgid "Edit"
+msgstr "Breyta"
+
+#, tao-public
+msgid "Edit a user"
+msgstr "Breyta notanda"
+
+msgid "Edit class %s"
+msgstr ""
+
+msgid "Edit Instance"
+msgstr "Breyta tilviki"
+
+msgid "Edit this list"
+msgstr "Breyta lista"
+
+msgid "Element"
+msgstr ""
+
+msgid "element"
+msgstr ""
+
+msgid "Element deleted"
+msgstr ""
+
+msgid "Element deleted."
+msgstr ""
+
+msgid "Element not deleted"
+msgstr ""
+
+msgid "Email"
+msgstr "Netfang"
+
+msgid "Enter"
+msgstr "Enter"
+
+msgid "Entity with such field already present"
+msgstr ""
+
+msgid "Error"
+msgstr "Villa"
+
+msgid "Error during file import"
+msgstr ""
+
+msgid "Exclusive (OR)"
+msgstr ""
+
+#, tao-public
+msgid "Export"
+msgstr "Flytja út"
+
+msgid "Export "
+msgstr "Flytja út "
+
+msgid "Export Metadata as RDF/XML file"
+msgstr ""
+
+msgid "Extension "
+msgstr "Viðbót "
+
+#, tao-public
+msgid "Extensions manager"
+msgstr "Viðbótastjóri"
+
+msgid "False"
+msgstr ""
+
+msgid "Field delimiter"
+msgstr ""
+
+msgid "Field encloser"
+msgstr ""
+
+msgid "File"
+msgstr "Skrá"
+
+msgid "File name"
+msgstr "Skráarheiti"
+
+msgid "File path"
+msgstr "Skráarslóð"
+
+msgid "File Properties"
+msgstr "Skráarstillingar"
+
+msgid "File repository"
+msgstr ""
+
+msgid "File revision"
+msgstr ""
+
+msgid "file selected"
+msgstr ""
+
+#, tao-public
+msgid "File sources"
+msgstr ""
+
+msgid "File Uploader"
+msgstr ""
+
+msgid "files selected"
+msgstr ""
+
+#, tao-public
+msgid "Filter"
+msgstr ""
+
+msgid "Filter results"
+msgstr ""
+
+msgid "Filtering mode"
+msgstr ""
+
+msgid "First Name"
+msgstr "Nafn"
+
+msgid "First row column names"
+msgstr ""
+
+msgid "Force Release"
+msgstr ""
+
+msgid "Forgot your password?"
+msgstr ""
+
+msgid "Fuzzy Matching"
+msgstr ""
+
+msgid "Go Back"
+msgstr "Til baka"
+
+msgid "Height"
+msgstr "Hæð"
+
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
+msgstr ""
+
+msgid "Hide detailed report"
+msgstr ""
+
+msgid "hours"
+msgstr "klukkustundir"
+
+msgid "Identifier"
+msgstr ""
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import "
+msgstr ""
+
+msgid "Import Metadata from CSV file"
+msgstr ""
+
+msgid "Import Metadata from RDF file"
+msgstr ""
+
+msgid "Inclusive (AND)"
+msgstr ""
+
+#, tao-public
+msgid "Index"
+msgstr "Yfirlit"
+
+msgid "Install"
+msgstr "Innsetning"
+
+msgid "Installation done."
+msgstr ""
+
+msgid "Installation..."
+msgstr ""
+
+msgid "Installed Extensions"
+msgstr ""
+
+msgid "Installing extension %s..."
+msgstr "Set upp viðbætur %s..."
+
+msgid "Instance saved"
+msgstr ""
+
+msgid "Interface language"
+msgstr ""
+
+msgid "Interface Language"
+msgstr ""
+
+msgid "Invalid date range"
+msgstr "Ógilt tímabil."
+
+msgid "Invalid field length"
+msgstr ""
+
+msgid "Invalid field range"
+msgstr ""
+
+msgid "Invalid file size"
+msgstr "Ógild skráarstærð"
+
+msgid "Invalid file type!"
+msgstr "Ógild skráarstærð!"
+
+msgid "Invalid login or password. Please try again."
+msgstr ""
+
+msgid "invalid regular expression"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Label *"
+msgstr ""
+
+msgid "Language"
+msgstr "Tungumál"
+
+msgid "Language not supported"
+msgstr "Tungumál ekki í boði"
+
+msgid "Last Name"
+msgstr "Eftirnafn"
+
+msgid "less than a minute"
+msgstr "minna en mínúta"
+
+msgid "List"
+msgstr "Listi"
+
+msgid "List - Multiple choice - Check box"
+msgstr "Listi - Fjölval - Gátreitur"
+
+msgid "List - Single choice - Drop down"
+msgstr "Listi - Einfalt val - Felligluggi"
+
+msgid "List - Single choice - Radio button"
+msgstr "Listi - Einfalt val - "
+
+msgid "List deleted"
+msgstr "Lista eytt"
+
+msgid "List not deleted"
+msgstr ""
+
+msgid "List not saved"
+msgstr ""
+
+msgid "list saved"
+msgstr ""
+
+msgid "List values"
+msgstr ""
+
+msgid "Lists"
+msgstr ""
+
+msgid "Loaded"
+msgstr "Hlaðið"
+
+msgid "Loaded at Startup"
+msgstr ""
+
+msgid "Log in"
+msgstr "Innskráning"
+
+msgid "Log Out"
+msgstr "Útskráning"
+
+msgid "Login"
+msgstr "Innskráning"
+
+msgid "Login available"
+msgstr "Innskráning möguleg"
+
+msgid "Login failed"
+msgstr "Innskráning mistókst"
+
+msgid "Manage data list"
+msgstr ""
+
+#, tao-public
+msgid "Manage roles"
+msgstr ""
+
+msgid "Manage Roles and apply them to users."
+msgstr ""
+
+#, tao-public
+msgid "Manage users"
+msgstr ""
+
+msgid "Manage Versioned File"
+msgstr ""
+
+msgid "Map the properties to the CSV columns"
+msgstr ""
+
+msgid "maximum value: "
+msgstr "hæsta gildi: "
+
+msgid "Message"
+msgstr ""
+
+msgid "minimum value: "
+msgstr "lægsta gildi: "
+
+msgid "minutes"
+msgstr "mínútur"
+
+msgid "More"
+msgstr "Meira"
+
+#, tao-public
+msgid "Move role"
+msgstr ""
+
+msgid "Move to"
+msgstr "Færa í"
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr ""
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
+msgstr ""
+
+msgid "Multiple values delimiter"
+msgstr ""
+
+msgid "must be after or the same as: "
+msgstr ""
+
+msgid "must be after: "
+msgstr ""
+
+msgid "must be before or the same as: "
+msgstr ""
+
+msgid "must be before: "
+msgstr ""
+
+msgid "must be numeric"
+msgstr ""
+
+#, tao-public
+msgid "My settings"
+msgstr ""
+
+msgid "My settings (%s)"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "New password"
+msgstr "Nýtt lykilorð"
+
+#, tao-public
+msgid "New repository"
+msgstr "Nýtt skráasafn"
+
+#, tao-public
+msgid "New role"
+msgstr "Nýtt hlutverk"
+
+msgid "Next"
+msgstr "Áfram"
+
+msgid "No"
+msgstr "Nei"
+
+msgid "No extensions available."
+msgstr "Engar viðbætur tiltækar."
+
+msgid "no file"
+msgstr "engin skrá"
+
+msgid "no file not found in this location"
+msgstr ""
+
+msgid "No file selected"
+msgstr ""
+
+msgid "No files"
+msgstr ""
+
+msgid "no label"
+msgstr ""
+
+msgid "No preview available"
+msgstr ""
+
+msgid "No Preview available"
+msgstr ""
+
+msgid "No result found"
+msgstr "Engin niðurstaða fannst"
+
+msgid "No results found"
+msgstr "Engar niðurstöður fundust"
+
+msgid "Nothing imported"
+msgstr "Ekkert flutt inn"
+
+msgid "Nothing to install !"
+msgstr "Ekkert til að setja inn !"
+
+msgid "Number of elements"
+msgstr ""
+
+msgid "of"
+msgstr ""
+
+msgid "Old Password"
+msgstr "Gamalt lykilorð"
+
+msgid "Option instanceUri is not an option !!"
+msgstr ""
+
+msgid "Option ownerUri is not an option !!"
+msgstr ""
+
+msgid "Option propertyUri is not an option !!"
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Password *"
+msgstr ""
+
+msgid "Password changed"
+msgstr ""
+
+msgid "Password successfully changed"
+msgstr ""
+
+msgid "Passwords are not matching"
+msgstr "Lykilorðin stemma ekki"
+
+msgid "Please confirm deletion"
+msgstr "Staðfesta eyðingu"
+
+msgid "Please confirm property deletion!"
+msgstr ""
+
+msgid "Please confirm this operation."
+msgstr "Staðfesta þessa aðgerð."
+
+msgid "Please confirm user deletion"
+msgstr "Staðfesta eyðingu notanda"
+
+msgid "Please confirm you want to delete this list element."
+msgstr ""
+
+msgid "Please confirm you want to delete this list. This operation cannot be undone."
+msgstr ""
+
+msgid "Please contact %s or an administrator to release it"
+msgstr ""
+
+msgid "Please give a message to your commit"
+msgstr ""
+
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
+msgstr ""
+
+msgid "Post install processing"
+msgstr ""
+
+msgid "Preparing installation..."
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+#, tao-public
+msgid "Properties"
+msgstr "Stillingar"
+
+msgid "Property\'s label field is required"
+msgstr ""
+
+msgid "RDF"
+msgstr "RDF"
+
+msgid "Release"
+msgstr ""
+
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "Remove"
+msgstr "Fjarlægja"
+
+msgid "Remove content"
+msgstr "Fjarlægja efni"
+
+msgid "Remove Message"
+msgstr "Fjarlægja skilaboð"
+
+msgid "Remove this file"
+msgstr "Fjarlægja þessa skrá"
+
+msgid "Rename"
+msgstr "Endurnefna"
+
+msgid "Repeat new password"
+msgstr ""
+
+msgid "Repeat password *"
+msgstr ""
+
+msgid "Repository saved"
+msgstr ""
+
+msgid "Repository saved and disabled"
+msgstr ""
+
+msgid "Repository saved and enabled"
+msgstr "Skráasafn vistað og virkjað"
+
+msgid "Repository saved, but unable to disable"
+msgstr "Skráasafn vistað, en ekki hægt að óvirkja það"
+
+msgid "Repository saved, but unable to enable"
+msgstr "Skráasafn vistað, en ekki hægt að virkja það"
+
+msgid "required length"
+msgstr ""
+
+msgid "Requires"
+msgstr ""
+
+msgid "Reset"
+msgstr "Endurstilla"
+
+msgid "Resource"
+msgstr ""
+
+msgid "Resource not imported due to multiple super classes"
+msgstr ""
+
+msgid "Resource not imported due to multiple types"
+msgstr ""
+
+msgid "Resource saved"
+msgstr ""
+
+msgid "Responsive mode"
+msgstr ""
+
+msgid "Return to sign in page"
+msgstr ""
+
+msgid "Revision control"
+msgstr ""
+
+msgid "Right click the tree to manage your lists"
+msgstr ""
+
+msgid "Role saved"
+msgstr ""
+
+msgid "Roles"
+msgstr ""
+
+#, tao-public
+msgid "Roles library"
+msgstr ""
+
+msgid "Save"
+msgstr "Vista"
+
+msgid "Scope"
+msgstr ""
+
+#, tao-public
+msgid "Search"
+msgstr "Leita"
+
+msgid "Search %s"
+msgstr ""
+
+msgid "Search sub-classes"
+msgstr "Leita í undirflokkum"
+
+msgid "seconds"
+msgstr "sekúndur"
+
+msgid "Select"
+msgstr "Velja"
+
+msgid "select"
+msgstr "velja"
+
+msgid "Select a language"
+msgstr "Veldu tungumál"
+
+msgid "Select the element destination"
+msgstr ""
+
+msgid "Select this file"
+msgstr ""
+
+msgid "selected"
+msgstr ""
+
+msgid "Selected file:"
+msgstr ""
+
+msgid "Selection saved successfully"
+msgstr ""
+
+#, tao-public
+msgid "Settings"
+msgstr "Stillingar"
+
+msgid "Settings updated"
+msgstr "Stillingar uppfærðar"
+
+msgid "Show detailed report"
+msgstr ""
+
+msgid "Simple Mode"
+msgstr "Einfaldur hamur"
+
+msgid "Size"
+msgstr "Stærð"
+
+msgid "Success"
+msgstr "Í lagi"
+
+msgid "Successfully imported \"%s"
+msgstr ""
+
+msgid "Successfully imported class \"%s"
+msgstr ""
+
+msgid "Supported export formats"
+msgstr ""
+
+msgid "TAO Back Office"
+msgstr ""
+
+msgid "TAO Home"
+msgstr ""
+
+msgid "Tao Home"
+msgstr ""
+
+msgid "TAO Login"
+msgstr ""
+
+msgid "Test Developers and Administrators"
+msgstr ""
+
+msgid "Text - Long - Box"
+msgstr ""
+
+msgid "Text - Long - HTML editor"
+msgstr ""
+
+msgid "Text - Short - Field"
+msgstr ""
+
+msgid "The column "
+msgstr ""
+
+msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
+msgstr ""
+
+msgid "The index identifier should not be empty"
+msgstr ""
+
+msgid "The lock has been released"
+msgstr ""
+
+msgid "The uploaded file is too large"
+msgstr ""
+
+msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgstr ""
+
+msgid "The value of this field must be an integer"
+msgstr ""
+
+msgid "The value of this field must be numeric"
+msgstr ""
+
+msgid "This %s is currently checked out"
+msgstr ""
+
+msgid "This field is required"
+msgstr ""
+
+msgid "This field is too long"
+msgstr ""
+
+msgid "This field is too short"
+msgstr ""
+
+msgid "This is not a valid email address."
+msgstr ""
+
+msgid "this is required"
+msgstr ""
+
+msgid "This Login is already in use"
+msgstr "Notandanafn er nú þegar í notkun"
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
+msgstr ""
+
+msgid "This resource is locked"
+msgstr ""
+
+msgid "This role is still given to one or more users. Please remove the role to these users first."
+msgstr ""
+
+msgid "This should equal "
+msgstr ""
+
+msgid "This should not equal "
+msgstr ""
+
+msgid "Time zone"
+msgstr "Tímabelti"
+
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr ""
+
+msgid "to translate"
+msgstr ""
+
+msgid "Tokenizer"
+msgstr ""
+
+msgid "Too many suggestions match your query. Only a few are listed"
+msgstr ""
+
+msgid "Translate"
+msgstr "Þýða"
+
+msgid "Translate to"
+msgstr ""
+
+msgid "Translation parameters"
+msgstr ""
+
+msgid "Translation saved"
+msgstr "Þýðing vistuð"
+
+msgid "True"
+msgstr ""
+
+msgid "Type"
+msgstr "Gerð"
+
+msgid "UI Lang."
+msgstr ""
+
+msgid "Unable to access your account?"
+msgstr ""
+
+msgid "Unable to change passwords in demo mode"
+msgstr ""
+
+msgid "Unable to delete %s"
+msgstr ""
+
+msgid "Unable to delete the selected resource"
+msgstr ""
+
+msgid "Unable to release the lock"
+msgstr ""
+
+msgid "Unable to remove the property."
+msgstr ""
+
+msgid "Unable to send the password reset request"
+msgstr ""
+
+msgid "Unable to upload file"
+msgstr "Get ekki hlaðið upp skrá"
+
+msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "Uncheck All"
+msgstr ""
+
+msgid "Uncheck all"
+msgstr ""
+
+msgid "Undo"
+msgstr ""
+
+msgid "Uninstall of %s failed"
+msgstr ""
+
+msgid "Uninstalled %s"
+msgstr ""
+
+msgid "unknown"
+msgstr "óþekkt"
+
+msgid "Unknown Error"
+msgstr "Óþekkt villa"
+
+msgid "Update"
+msgstr ""
+
+msgid "Upload"
+msgstr "Hlaða upp"
+
+msgid "Upload a new content"
+msgstr "Hlaða upp nýju efni"
+
+msgid "Upload File"
+msgstr "Hlaða upp skrá"
+
+msgid "Upload into:"
+msgstr ""
+
+msgid "Upload the file to version"
+msgstr ""
+
+msgid "Use default value"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "User added"
+msgstr ""
+
+msgid "User deleted successfully"
+msgstr ""
+
+msgid "User deletion not permited on a demo instance"
+msgstr ""
+
+msgid "User not found"
+msgstr ""
+
+msgid "User saved"
+msgstr "Notandi vistaður"
+
+#, tao-public
+msgid "User Settings"
+msgstr "Notandastillingar"
+
+#, tao-public
+msgid "Users"
+msgstr "Notendur"
+
+msgid "Version"
+msgstr "Útgáfunúmer"
+
+msgid "Versioning"
+msgstr "Útgáfustjórn"
+
+msgid "Width"
+msgstr "Breidd"
+
+msgid "Yes"
+msgstr "Já"
+
+msgid "You are not authorised to remove this lock"
+msgstr ""
+
+msgid "You cannot delete the root node"
+msgstr ""
+
+msgid "You currently have no access to the platform"
+msgstr ""
+
+msgid "You do not have the required rights to edit this resource."
+msgstr ""
+
+msgid "You don't have sufficient permissions to access"
+msgstr ""
+
+msgid "You must activate JavaScript in your browser to run this application."
+msgstr "Þú þarft að virkja JavaScript í vafranum þínum til að keyra þetta forrit."
+
+msgid "Your mail"
+msgstr ""
+
+msgid "Your TAO Password"
+msgstr ""
+

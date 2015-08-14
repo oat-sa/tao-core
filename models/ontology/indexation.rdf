@@ -8,7 +8,7 @@
 	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
 >
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Index">
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Index]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Index class]]></rdfs:comment>
   </rdf:Description>
@@ -43,7 +43,7 @@
   </rdf:Description>
   
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer">
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Tokenizer]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Tokenizer class]]></rdfs:comment>
   </rdf:Description>
@@ -104,5 +104,18 @@
   
   <rdf:Description rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#type">
   	<tao:PropertyIndex rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TypeIndex"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex">
+  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Index"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Login Index]]></rdfs:label>
+  	<tao:IndexIdentifier><![CDATA[login]]></tao:IndexIdentifier>
+  	<tao:IndexFuzzyMatching rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False" />
+  	<tao:IndexDefaultSearch rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
+  	<tao:IndexTokenizer rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#login">
+  	<tao:PropertyIndex rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex"/>
   </rdf:Description>
 </rdf:RDF>

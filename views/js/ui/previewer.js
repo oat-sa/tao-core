@@ -15,22 +15,24 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
     var previewGenerator = {
         placeHolder: _.template("<p class='nopreview' data-type='${type}'>${desc}</p>"),
         youtubeTemplate: _.template("<video preload='none'><source type='video/youtube' src=${jsonurl}/></video>"),
-        videoTemplate: _.template("<video src=${jsonurl} type='${mime}' preload='none' width='290px' height='300px'></video>"),
+        videoTemplate: _.template("<video src=${jsonurl} type='${mime}' preload='none'></video>"),
         audioTemplate: _.template("<audio src=${jsonurl} type='${mime}'></audio>"),
         imageTemplate: _.template("<img src=${jsonurl} alt='${name}' />"),
-        pdfTemplate: _.template("<object data='${jsonurl}#toolbar=0' type='application/pdf'><a href='${jsonurl} target='_blank'>${name}</a></object>"),
+        pdfTemplate: _.template("<object data=${jsonurl} type='application/pdf'><a href=${jsonurl} target='_blank'>${name}</a></object>"),
         flashTemplate: _.template("<object data=${jsonurl} type='application/x-shockwave-flash'><param name='movie' value=${jsonurl}></param></object>"),
         mathmlTemplate: _.template("<iframe src=${jsonurl}></iframe>"),
+        xmlTemplate: _.template("<pre>${xml}</pre>"),
+        htmlTemplate: _.template("<iframe src=${jsonurl}></iframe>"),
         /**
-         * Generates the preview tags for a type 
-         * @memberOf previewGenerator 
+         * Generates the preview tags for a type
+         * @memberOf previewGenerator
          * @param {String} type - the file type
          * @param {Object} data - the preview data (url, desc, name)
          * @returns {String} the tags
          */
         generate: function generate(type, data) {
             var tmpl = this[type + 'Template'];
-            data.jsonurl = JSON.stringify(data.url)
+            data.jsonurl = JSON.stringify(data.url);
             if (_.isFunction(tmpl)) {
                 return tmpl(data);
             }
@@ -126,7 +128,7 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
                 }
                 $content = $(content);
 
-                $elt.empty().html($content);
+
 
                 if (options.width) {
                     $content.attr('width', options.width);
@@ -134,18 +136,21 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
                 if (options.height) {
                     $content.attr('height', options.height);
                 }
+
+                $elt.empty().html($content);
                 if (type === 'audio' || type === 'video') {
                     if (options.url) {
-                        $content.attr('width', 290);
-                        $content.attr('height', 300);
                         $content.mediaelementplayer({
                             pauseOtherPlayers: false,
-                            width: 290,
-                            height: 300,
-                            videoWidth: 290,
-                            videoHeight: 300,
+                            audioWidth: options.width || 290,
+                            audioHeight: options.height || 50,
+                            videoWidth: options.width || 290,
+                            videoHeight: options.height || 300,
                             success: function(me, medom) {
                                 me.load();
+
+                                //TODO all this code works only in the resource manager and may have impact on players elsewhere...
+
                                 // stop video and free the socket on escape keypress(modal window hides)
                                 $('body').off('keydown.mediaelement');
                                 $('body').on('keydown.mediaelement', function(event) {
@@ -172,13 +177,13 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
                                         }
                                     }
                                 });
-                                
+
                                 // stop video and free the socket on all other cases when video is selected or temporary hidden or modal window is closed
                                 var meSelector = '#mediaManager .icon-close, #mediaManager .upload-switcher, #mediaManager .select-action, #mediaManager .files li>span';
                                 $(meSelector).off('mousedown.mediaelement');
                                 $(meSelector).on('mousedown.mediaelement', function(event) {
                                     event.stopPropagation();
-                                    
+
                                     // when we switch between list and upload views, we want to keep the player interface, so we use dontDestroy to indicate that
                                     var dontDestroy = false;
                                     if ($(event.target).children().first().hasClass('icon-undo')) {
@@ -188,7 +193,7 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
                                         self.oldMediaElement.pause();
                                         dontDestroy = true;
                                     }
-                                    
+
                                     if (self.oldMediaElement !== undefined && dontDestroy === false) {
                                         self.oldMediaElement.setSrc('');
                                     }

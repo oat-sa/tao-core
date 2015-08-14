@@ -127,14 +127,28 @@
 
         .data-container-wrapper {
             padding: 0px 20px 0 0;
-            overflow:hidden;
+            &:before, &:after {
+                content: " ";
+                display: table;
+            }
+            &:after {
+                clear: both;
+            }
             & > section, .data-container {
                 width: 260px;
                 margin: 0 20px 20px 0;
                 float: left;
                 @include simple-border();
+                &.double {
+                    width: 540px;
+                }
                 .emptyContentFooter {
                     display: none;
+                }
+                .tree {
+                    border: none;
+                    max-width: none;
+                    max-height: none;
                 }
                 form {
                     background: none;
@@ -181,46 +195,6 @@
                 }
             }
          }
-        //TODO data-container like but with html rewritten, same as above, but we will need to keep only one.
-        /*.new-container {*/
-            /*width: 260px;*/
-            /*margin: 0 20px 20px 0;*/
-            /*float: left;*/
-            /*@include simple-border();*/
-            /*& > header{*/
-
-                /*background: $canvas;*/
-                /*border-width: 0px !important;*/
-                /*border-bottom: 1px #ddd solid !important;*/
-                /*h1 {*/
-                    /*padding: 4px;*/
-                    /*margin: 0;*/
-                    /*@include font-size(14);*/
-                /*}   */
-            /*}*/
-            /*& > div {*/
-                /*overflow-y: auto;*/
-                /*min-height: 400px;*/
-                /*max-height: 400px;         */
-                /*border-width: 0px !important;*/
-            /*}*/
-            /*& > footer{*/
-                /*background: $canvas;*/
-                /*text-align: right !important;*/
-                /*padding:4px;*/
-                /*border-width:0px !important;*/
-                /*border-top: 1px #ddd solid !important;*/
-                /*.square {*/
-                    /*width: 28px;*/
-                    /*span {*/
-                        /*padding: 0;*/
-                        /*left: 0*/
-                    /*}*/
-                /*}*/
-            /*}*/
-        /*}*/
-        
-        
 
         #form-container.ui-widget-content {
             border:none !important

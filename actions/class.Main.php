@@ -24,12 +24,10 @@ use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
-use oat\tao\model\menu\Action;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\messaging\MessagingService;
-use \common_session_SessionManager;
-use \common_Logger;
+use oat\tao\model\entryPoint\EntryPointService;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -65,12 +63,13 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
     public function entry()
     {
-	    $entries = array();
-	    foreach (MenuService::getEntryPoints() as $entry) {
-	        if ($entry->hasAccess()) {
-	            $entries[] = $entry;
-	        }
-	    }
+        $entries = array();
+        foreach (EntryPointService::getRegistry()->getEntryPoints() as $entry) {
+            if (tao_models_classes_accessControl_AclProxy::hasAccessUrl($entry->getUrl())) {
+                $entries[] = $entry;
+            }
+        }
+        
 	    if (empty($entries)) {
 	        // no access -> error
 	        if (common_session_SessionManager::isAnonymous()) {
@@ -275,13 +274,11 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     private function getMenuElementChildren(Perspective $menuElement)
     {
+        $user = common_Session_SessionManager::getSession()->getUser();
         $children = array();
         foreach ($menuElement->getChildren() as $section) {
-            if (
-                tao_models_classes_accessControl_AclProxy::hasAccess(
-                    $section->getAction(), $section->getController(), $section->getExtensionId()
-                )
-            ) {
+            $resolver = new ActionResolver($section->getUrl());
+            if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                 $children[] = $section;
             }
         }
@@ -304,14 +301,9 @@ class tao_actions_Main extends tao_actions_CommonModule
         if (!is_null($structure)) {
             foreach ($structure->getChildren() as $section) {
                 
-                if (
-                    tao_models_classes_accessControl_AclProxy::hasAccess(
-                        $section->getAction(),
-                        $section->getController(),
-                        $section->getExtensionId()
-                    )
-                ) {
-    
+                $resolver = new ActionResolver($section->getUrl());
+                if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
+
                     foreach($section->getActions() as $action){
                         $resolver = ActionResolver::getByControllerName($action->getController(), $action->getExtensionId());  
                         if(!FuncProxy::accessPossible($user, $resolver->getController(), $action->getAction())){

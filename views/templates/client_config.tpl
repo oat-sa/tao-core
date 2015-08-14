@@ -18,7 +18,13 @@ require.config({
             shownExtension          : '<?=get_data('shownExtension')?>',
             shownStructure          : '<?=get_data('shownStructure')?>',
             extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
-        }
+            timeout                 : <?=get_data('client_timeout')?>,
+        },
+        'ui/themes' : <?= get_data('themesAvailable') ?>,
+//dynamic lib config
+    <?php foreach (get_data('libConfigs') as $name => $config) :?>
+        '<?=$name?>'        : <?=json_encode($config)?>,
+    <?php endforeach?>
     },
 
     paths : {
@@ -33,6 +39,7 @@ require.config({
         'jquery'            : 'lib/jquery-1.8.0.min',
         'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
         'select2'           : 'lib/select2/select2.min',
+        'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
         'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
         'jquery.timePicker' : 'lib/jquery.timePicker',

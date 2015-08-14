@@ -121,14 +121,6 @@ class tao_install_Installator{
 			 *  2 - Test DB connection (done by the constructor)
 			 */
 			common_Logger::i("Spawning DbCreator", 'INSTALL');
-// 			$dbCreatorClassName = tao_install_utils_DbCreator::getClassNameForDriver($installData['db_driver']);
-// 			$dbCreator = new $dbCreatorClassName(
-// 				$installData['db_host'],
-// 				$installData['db_user'],
-// 				$installData['db_pass'],
-// 				$installData['db_driver'],
-// 				$installData['db_name']
-// 			);
 			$dbName = $installData['db_name'];
 			if($installData['db_driver'] == 'pdo_oci'){
 				$installData['db_name'] = $installData['db_host'];
@@ -142,6 +134,12 @@ class tao_install_Installator{
 						'password' => $installData['db_pass'],
 	
 			);
+			$hostParts = explode(':', $installData['db_host']);
+			if (count($hostParts) == 2) {
+                $dbConfiguration['host'] = $hostParts[0];
+			    $dbConfiguration['port'] = $hostParts[1];
+			}
+				
 			if($installData['db_driver'] == 'pdo_mysql'){
 			    $dbConfiguration['dbname'] = '';
 			}
@@ -151,6 +149,7 @@ class tao_install_Installator{
 				$dbConfiguration['fetch_case'] = PDO::CASE_LOWER;
 			
 			}
+				
 			$dbCreator = new tao_install_utils_DbalDbCreator($dbConfiguration);
 			
 			common_Logger::d("DbCreator spawned", 'INSTALL');
@@ -194,6 +193,11 @@ class tao_install_Installator{
 				    $dbCreator->setDatabase($installData['db_name']);
 				}
 
+			}
+			
+			// reset db name for mysql
+			if ($installData['db_driver'] == 'pdo_mysql'){
+			    $dbConfiguration['dbname'] = $installData['db_name'];
 			}
 	
 			// Create tao tables
@@ -281,14 +285,8 @@ class tao_install_Installator{
 			/*
 			 * 6c - Create generis persistence 
 			 */
-			common_persistence_Manager::addPersistence('default', array(
-    			'driver'     => $installData['db_driver'],
-    			'host'       => $installData['db_host'],
-    			'dbname'     => $installData['db_name'],
-    			'user'       => $installData['db_user'],
-    			'password'   => $installData['db_pass']
-			));
-				
+			common_persistence_Manager::addPersistence('default', $dbConfiguration);
+
 			/*
 			 * 6d - Create generis user
 			*/

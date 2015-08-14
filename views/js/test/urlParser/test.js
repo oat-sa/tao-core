@@ -24,21 +24,21 @@ define(['urlParser'], function(UrlParser){
    var url3 = "https://example.com/extension/module/action?a=1";
    var url4 = "https://example.com?p=a&c=b";
    
-    test('parser structure', function(){
-        expect(4);
+    QUnit.test('parser structure', function(assert){
+        QUnit.expect(4);
         
-        ok(typeof UrlParser === 'function');
-        ok(typeof UrlParser.prototype.get === 'function');
-        ok(typeof UrlParser.prototype.getPaths === 'function');
-        ok(typeof UrlParser.prototype.getParams === 'function');
+        assert.ok(typeof UrlParser === 'function');
+        assert.ok(typeof UrlParser.prototype.get === 'function');
+        assert.ok(typeof UrlParser.prototype.getPaths === 'function');
+        assert.ok(typeof UrlParser.prototype.getParams === 'function');
     });
     
-    test('parsing', function(){
-        expect(2);
+    QUnit.test('parsing', function(assert){
+        QUnit.expect(2);
         
         
         var parser = new UrlParser(url);
-        equal(parser.url, url);
+        assert.equal(parser.url, url);
         deepEqual(parser.data, {
             hash: "#hash",
             host: "example.com:3000",
@@ -50,21 +50,21 @@ define(['urlParser'], function(UrlParser){
         });
     });
     
-    test('get parts', function(){
-        expect(7);
+    QUnit.test('get parts', function(assert){
+        QUnit.expect(7);
         
         var parser = new UrlParser(url);
-        equal(parser.get('hash'), "#hash");
-        equal(parser.get('host'), "example.com:3000");
-        equal(parser.get('hostname'), "example.com");
-        equal(parser.get('pathname'), "/extension/module/action");
-        equal(parser.get('port'), "3000");
-        equal(parser.get('protocol'), "http:");
-        equal(parser.get('search'), "?p1=v1&p2=v2");
+        assert.equal(parser.get('hash'), "#hash");
+        assert.equal(parser.get('host'), "example.com:3000");
+        assert.equal(parser.get('hostname'), "example.com");
+        assert.equal(parser.get('pathname'), "/extension/module/action");
+        assert.equal(parser.get('port'), "3000");
+        assert.equal(parser.get('protocol'), "http:");
+        assert.equal(parser.get('search'), "?p1=v1&p2=v2");
     });
     
-    test('get params', function(){
-        expect(1);
+    QUnit.test('get params', function(assert){
+        QUnit.expect(1);
         
         var parser = new UrlParser(url);
         deepEqual(parser.getParams(), {
@@ -73,8 +73,8 @@ define(['urlParser'], function(UrlParser){
         });
     });
     
-    test('get paths', function(){
-        expect(1);
+    QUnit.test('get paths', function(assert){
+        QUnit.expect(1);
         
         var parser = new UrlParser(url);
         deepEqual(parser.getPaths(), [
@@ -84,40 +84,40 @@ define(['urlParser'], function(UrlParser){
         ]);
     });
     
-    test('getUrl', function(){
-        expect(4);
+    QUnit.test('getUrl', function(assert){
+        QUnit.expect(4);
         
-        equal(new UrlParser(url).getUrl(), url);
-        equal(new UrlParser(url2).getUrl(), url2);
-        equal(new UrlParser(url3).getUrl(), url3);
-        equal(new UrlParser(url4).getUrl(), "https://example.com/?p=a&c=b"); //slash is added
+        assert.equal(new UrlParser(url).getUrl(), url);
+        assert.equal(new UrlParser(url2).getUrl(), url2);
+        assert.equal(new UrlParser(url3).getUrl(), url3);
+        assert.equal(new UrlParser(url4).getUrl(), "https://example.com/?p=a&c=b"); //slash is added
     });
     
-    test('getShortUrl', function(){
-        expect(2);
+    QUnit.test('getShortUrl', function(assert){
+        QUnit.expect(2);
 
         var parser = new UrlParser(url);
-        equal(parser.getUrl(['host', 'params', 'hash']), '/extension/module/action');
-        equal(parser.getUrl(['params', 'hash']), 'http://example.com:3000/extension/module/action');
+        assert.equal(parser.getUrl(['host', 'params', 'hash']), '/extension/module/action');
+        assert.equal(parser.getUrl(['params', 'hash']), 'http://example.com:3000/extension/module/action');
     });
     
-     test('getBaseUrl', function(){
-        expect(1);
+     QUnit.test('getBaseUrl', function(assert){
+        QUnit.expect(1);
 
         var parser = new UrlParser(url2);
-        equal(parser.getBaseUrl(), 'https://example.com/extension/module/');
+        assert.equal(parser.getBaseUrl(), 'https://example.com/extension/module/');
     });
     
-     test('changeParam', function(){
-        expect(2);
+     QUnit.test('changeParam', function(assert){
+        QUnit.expect(2);
         
          var parsed3 = new UrlParser(url3);
         parsed3.setParams({'b' : '2'});
-        equal(parsed3.getUrl(), "https://example.com/extension/module/action?b=2");
+        assert.equal(parsed3.getUrl(), "https://example.com/extension/module/action?b=2");
         
          var parsed4 = new UrlParser(url4);
         parsed4.addParam('b', '4');
-        equal(parsed4.getUrl(), "https://example.com/?p=a&c=b&b=4");
+        assert.equal(parsed4.getUrl(), "https://example.com/?p=a&c=b&b=4");
     });
 });
 

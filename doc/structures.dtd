@@ -55,11 +55,14 @@
 						selectInstance CDATA #IMPLIED
 						moveInstance CDATA #IMPLIED
 						delete CDATA #IMPLIED
-                                                init CDATA #IMPLIED
+						rootNode CDATA #IMPLIED
 					>
 	
 				<!-- The list of contextual actions to load in the section panel -->
 				<!ELEMENT actions  ( action )*>
+					<!ATTLIST actions
+						allowClassActions (true | false) #IMPLIED
+					>
 					<!ELEMENT action (icon)?>
 					<!-- Id of the action -->
 					<!ATTLIST action id CDATA #REQUIRED>

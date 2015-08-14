@@ -104,7 +104,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
         // Some predicates must be excluded.
         // e.g. 'tao.forms.instance' which is only a tag to identify
         // forms dedicated to RDF Resources edition.
-        $excludedPredicates = array('tao.forms.instance');
+        $excludedPredicates = array('tao.forms.instance', 'id');
         
         try {
 	        $instance = $this->getTargetInstance();
