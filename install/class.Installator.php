@@ -567,7 +567,7 @@ class tao_install_Installator{
     public function log($logLevel, $message, $tags = array())
     {
         if (method_exists('common_Logger', $logLevel)) {
-            call_user_func('common_Logger::' . $logLevel, array($message, $tags));
+            call_user_func('common_Logger::' . $logLevel, $message, $tags);
         }
         $this->log[$logLevel][] = $message;
     }
