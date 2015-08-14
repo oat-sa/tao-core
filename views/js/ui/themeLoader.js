@@ -26,7 +26,7 @@ define(['jquery', 'lodash'], function($, _){
     'use strict';
 
     //used to differentiate the stylesheets
-    var prefix = 'qti-item-style-';
+    var prefix = 'custom-theme-';
 
     //where to attach the stylesheets
     var $container = $('head').length ? $('head') : $('body');
