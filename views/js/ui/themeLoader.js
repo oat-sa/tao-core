@@ -26,10 +26,12 @@ define(['jquery', 'lodash'], function($, _){
     'use strict';
 
     //used to differentiate the stylesheets
-    var prefix = 'qti-item-style-';
+    var prefix = 'custom-theme-';
 
     //where to attach the stylesheets
     var $container = $('head').length ? $('head') : $('body');
+
+    var ns = 'themeloader';
 
     /**
      * @typedef Theme
@@ -176,6 +178,9 @@ define(['jquery', 'lodash'], function($, _){
                         disable($link);
                     } else {
                         enable($link);
+
+                        activeTheme = id;
+                        $(document).trigger('themechange.' + ns, { id: activeTheme });
                     }
                 });
                 return this;
@@ -211,6 +216,8 @@ define(['jquery', 'lodash'], function($, _){
                     enable(getLink(id));
 
                     activeTheme = id;
+                    $(document).trigger('themechange.' + ns, { id: activeTheme });
+
                 }
                 return this;
             },

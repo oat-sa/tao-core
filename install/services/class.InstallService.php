@@ -63,18 +63,31 @@ class tao_install_services_InstallService extends tao_install_services_Service{
                 $content['value']['file_path'] =  TAO_INSTALL_PATH.'data'.DIRECTORY_SEPARATOR;
 			}
 			$installer->install($content['value']);
-			
-			$report = array('type' => 'InstallReport',
-							'value' => array('status' => 'valid',
-											 'message' => "Installation successful."));
+            
+            $installationLog = $installer->getLog();
+            $message = (isset($installationLog['e']) || isset($installationLog['f']) || isset($installationLog['w'])) ?
+                'Installation complete (warnings occurred)' : 'Installation successful.';
+            
+            $report = array(
+                'type' => 'InstallReport',
+                'value' => array(
+                    'status' => 'valid',
+                    'message' => $message,
+                    'log' => $installationLog
+                )
+            );
 			$this->setResult(new tao_install_services_Data(json_encode($report)));
 			
 			restore_error_handler();
-		}
-		catch(Exception $e){
-			$report = array('type' => 'InstallReport',
-							'value' => array('status' => 'invalid',
-											 'message' => $e->getMessage() . ' in ' . $e->getFile() . ' at line ' . $e->getLine()));
+		} catch(Exception $e) {
+			$report = array(
+                'type' => 'InstallReport',
+				'value' => array(
+                    'status' => 'invalid',
+				    'message' => $e->getMessage() . ' in ' . $e->getFile() . ' at line ' . $e->getLine(),
+                    'log' => $installer->getLog()
+                )
+            );
 			$this->setResult(new tao_install_services_Data(json_encode($report)));
 			
 			restore_error_handler();
@@ -82,7 +95,14 @@ class tao_install_services_InstallService extends tao_install_services_Service{
     }
     
     public static function onError($errno, $errstr, $errfile, $errline){
-    	return true;
+    	common_Logger::w($errfile . ':' . $errline . ' - ' . $errstr, 'INSTALL');
+        switch ($errno) {
+            case E_ERROR:
+                throw new tao_install_utils_Exception($errfile . ':' .$errline . ' - ' . $errstr);
+                break;
+            default:
+                return true;
+        }
     }
     
     protected function checkData(){

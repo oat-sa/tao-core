@@ -82,6 +82,7 @@ class tao_install_services_CheckFileSystemComponentService
     	$content = json_decode($data->getContent(), true);
         $location = $content['value']['location'];
         $rights = $content['value']['rights'];
+        $recursive = isset($content['value']['recursive']) && (bool) $content['value']['recursive'];
     	if (isset($content['value']['optional'])){
         	$optional = $content['value']['optional'];
         }
@@ -89,7 +90,7 @@ class tao_install_services_CheckFileSystemComponentService
         	$optional = false;
         }
         
-        return common_configuration_ComponentFactory::buildFileSystemComponent($location, $rights, $optional);
+        return common_configuration_ComponentFactory::buildFileSystemComponent($location, $rights, $optional, $recursive);
     }
     
     public static function buildResult(tao_install_services_Data $data,
@@ -109,6 +110,7 @@ class tao_install_services_CheckFileSystemComponentService
                                        'isReadable' => $component->isReadable(),
                                        'isWritable' => $component->isWritable(),
                                        'isExecutable' => $component->isExecutable(),
+                                       'recursive' => $component->getRecursive(),
         							   'expectedRights' => $rights,
         							   'isFile' => is_file($root . $component->getLocation()),
         							   'location' => $component->getLocation()));	
