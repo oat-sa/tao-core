@@ -82,7 +82,7 @@ define([
 
     /**
      * Define a dialog box
-     * @type {{init: Function, destroy: Function, render: Function, show: Function, hide: Function, on: Function, off: Function, trigger: Function, setButtons: Function}}
+     * @type {Object}
      */
     var dialog = {
         /**
