@@ -41,7 +41,8 @@ define(['jquery', 'lodash'], function($, _) {
                 _width += $(this).outerWidth();
                 this.style.display = oldDisplay;
             });
-            return _width;
+            // 20 makes sure there is always a bit of distance between the menus
+            return _width + 20;
         }());
 
 
