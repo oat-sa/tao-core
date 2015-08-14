@@ -21,8 +21,9 @@
 define([
     'jquery',
     'lodash',
+    'core/promise',
     'ui/dialog'
-], function($, _, dialog) {
+], function($, _, Promise, dialog) {
     'use strict';
 
     QUnit.module('dialog');
@@ -65,16 +66,23 @@ define([
             content: content,
             renderTo: renderTo
         });
-
-        var promises = _.times(4, function() {
-            return $.Deferred();
+        var expectedEvents = 4;
+        var resolvers = [];
+        var promises = _.times(expectedEvents, function() {
+            return new Promise(function(resolve) {
+                // Extract the resolve function to an array of resolvers
+                // because some promised events will occur more than one time.
+                // So we need to use anonymous promises, only the quantity matters.
+                resolvers.push(resolve);
+            });
         });
         var resolve = function() {
-            promises.pop().resolve();
+            // just resolve one promise
+            (resolvers.pop())();
             QUnit.start();
         };
 
-        $.when.apply($, promises).done(function() {
+        Promise.all(promises).then(function() {
             modal.destroy();
             assert.ok(null === modal.getDom(), "The dialog instance does not have a DOM element anymore");
             assert.equal($(renderTo).find('.modal').length, 0, "The container does not contains the dialog box anymore");
@@ -82,17 +90,20 @@ define([
             QUnit.start();
         });
 
-        QUnit.stop(4);
+        QUnit.stop(expectedEvents);
 
         modal.on('opened.modal', function() {
+            // this should occur twice
             assert.ok(true, "The dialog box is now visible");
             resolve();
         });
         modal.on('closed.modal', function() {
+            // this should occur only once
             assert.ok(true, "The dialog box is now hidden");
             resolve();
         });
         modal.on('create.modal', function() {
+            // this should occur only once
             assert.ok(modal.getDom().parent().is(renderTo), "When rendered, the dialog box is rendered into target element");
             resolve();
         });
