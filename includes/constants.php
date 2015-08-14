@@ -76,6 +76,7 @@ $todefine = array(
 	'TAO_INSTALLATOR'  					=> 'http://www.tao.lu/Ontologies/TAO.rdf#installator',
 	'PROPERTY_WIDGET_CALENDAR'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar',
 	'PROPERTY_WIDGET_TEXTBOX'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+	'PROPERTY_WIDGET_TREEBOX'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox',
 	'PROPERTY_WIDGET_TEXTAREA'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
 	'PROPERTY_WIDGET_HTMLAREA'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea',
 	'PROPERTY_WIDGET_PASSWORD'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Password',
