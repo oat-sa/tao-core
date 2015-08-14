@@ -152,6 +152,7 @@ define([
             });
 
             $('.form-submitter').off('click').on('click', function (e) {
+                e.preventDefault();
                 $(e.target).closest('.xhtml_form form').trigger('submit');
             });
 
