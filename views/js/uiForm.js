@@ -151,6 +151,10 @@ define([
                 return self.submitForm($form, formData);
             });
 
+            $('.form-submitter').off('click').on('click', function (e) {
+                $(e.target).closest('.xhtml_form form').trigger('submit');
+            });
+
             // modify properties
             postRenderProps.init();
         },
