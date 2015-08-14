@@ -305,8 +305,8 @@ class tao_actions_Main extends tao_actions_CommonModule
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
 
                     foreach($section->getActions() as $action){
-                        $resolver = ActionResolver::getByControllerName($action->getController(), $action->getExtensionId());  
-                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $action->getAction())){
+                        $resolver = new ActionResolver($action->getUrl());
+                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())){
                             $section->removeAction($action); 
                         }
                         
