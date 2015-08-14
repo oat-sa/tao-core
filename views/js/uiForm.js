@@ -44,7 +44,6 @@ define([
         ) {
 
     'use strict';
-        /*jshint camelcase: false */
 
         /**
          * Create a URL based on action and module
@@ -145,7 +144,7 @@ define([
                                                                     .addClass('btn-default small');
             }
 
-            $('body').off('submit').on('submit', '.xhtml_form form', function (e) {
+            $('body').off('submit','.xhtml_form form').on('submit', '.xhtml_form form', function (e) {
                 e.preventDefault();
                 var $form = $(this),
                     formData = self.getFormData($form);
@@ -165,7 +164,7 @@ define([
 
             //for backward compatibility
             if (!$('[id="tao.forms.class"]').length) {
-                return undefined;
+                return;
             }
 
             var formData = {},
