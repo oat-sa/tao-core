@@ -31,6 +31,8 @@ define(['jquery', 'lodash'], function($, _){
     //where to attach the stylesheets
     var $container = $('head').length ? $('head') : $('body');
 
+    var ns = 'themeloader';
+
     /**
      * @typedef Theme
      * @property {String} id - theme identifier (unique)
@@ -176,6 +178,9 @@ define(['jquery', 'lodash'], function($, _){
                         disable($link);
                     } else {
                         enable($link);
+
+                        activeTheme = id;
+                        $(document).trigger('themechange.' + ns, { id: activeTheme });
                     }
                 });
                 return this;
@@ -211,6 +216,8 @@ define(['jquery', 'lodash'], function($, _){
                     enable(getLink(id));
 
                     activeTheme = id;
+                    $(document).trigger('themechange.' + ns, { id: activeTheme });
+
                 }
                 return this;
             },
