@@ -1,12 +1,15 @@
 @import "inc/bootstrap";
 
+
+$navHeight: 64px;
+
 @mixin menu-states($state: normal) {
     @if($state == 'hover') {
         -webkit-transition: opacity .7s, top 0s;
         transition: opacity .5s, top 0s;
         transition-delay: .5s;
         opacity: 1;
-        top: 64px;
+        top: $navHeight;
     }
     @else {
         top: -5000px;
@@ -52,6 +55,8 @@
 
 //Navigation
 .dark-bar {
+    max-height: $navHeight;
+    overflow-y: hidden;
     background: $darkBar;
     color: $darkBarTxt;
     a {
@@ -71,7 +76,7 @@
             & > a, & > .a {
                 text-align: center;
                 display: block;
-                height: 64px;
+                height: $navHeight;
                 outline: 0 !important;
                 [class^="icon-"], [class*=" icon-"] {
                     text-shadow: 0 0 0 transparent !important;
@@ -271,7 +276,7 @@ body > footer {
                 .reduced-menu-trigger {
                     text-align: center;
                     display: block;
-                    height: 64px;
+                    height: $navHeight;
                     outline: 0 !important;
                     cursor:pointer;
                     min-width: 70px;

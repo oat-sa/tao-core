@@ -187,8 +187,7 @@
     }
 }
 
-
-@media (max-width: 1100px) {
+@mixin mobile-search() {
     .action-bar {
         &.horizontal-action-bar {
             .search-area {
@@ -208,3 +207,11 @@
     }
 }
 
+@media (max-width: 1150px) {
+    @include mobile-search();
+}
+
+// works in conjunction with layout/nav.js
+body.oversized-nav:not(.delivery-scope){
+    @include mobile-search();
+}

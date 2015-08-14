@@ -30,27 +30,43 @@ define(['jquery', 'lodash'], function($, _) {
     var $body = $('body'),
         $navContainer = $('header.dark-bar'),
         $nav = $navContainer.find($('nav')),
-        navHeight = $nav.find('.main-menu').height() || 0,
-        navIsOversized = $body.hasClass('oversized-nav');
+        $mainMenu = $nav.find('.main-menu'),
+        $settingsMenu = $nav.find('.settings-menu'),
+        navIsOversized = false,
+        expandedMinWidth = (function() {
+            var _width = $navContainer.find('img').parent().outerWidth();
+            $mainMenu.add($settingsMenu).each(function() {
+                var oldDisplay = window.getComputedStyle(this,null).getPropertyValue('display');
+                this.style.display = 'block';
+                _width += $(this).outerWidth();
+                this.style.display = oldDisplay;
+            });
+            return _width;
+        }());
+
 
     /**
-     * The regular height of the header is ~64px. If it's higher than that
-     * this means that the right menu has slipped under the left one due
-     * to a lack of space. This can happen when the logo is very long and/or
-     * many extensions are installed.
-     *
-     * @returns {{init: init}}
+     * If logo and main menu leave not enough space for the settings menu
+     * the mobile menu will be shown instead.
      */
     var checkHeight = function checkHeight() {
-        if($navContainer.height() > navHeight) {
+        if(!$mainMenu.length || !$settingsMenu.length) {
+            return;
+        }
+        // - nav is too wide
+        if($mainMenu.offset().top !== $settingsMenu.offset().top) {
             $body.addClass('oversized-nav');
             navIsOversized = true;
         }
-        else if (navIsOversized) {
+        // - body.oversized-nav has been set in a previous call
+        //      find out if there is enough space now
+        else if(navIsOversized && expandedMinWidth <= $navContainer.width()) {
             $body.removeClass('oversized-nav');
             navIsOversized = false;
         }
+        // in all other cases leave things as they are
     };
+
 
     /**
      * @exports layout/nav
@@ -80,7 +96,7 @@ define(['jquery', 'lodash'], function($, _) {
             checkHeight();
             $(window).off('resize.navheight').on('resize.navheight', _.debounce(function () {
                 checkHeight();
-            }, 150));
+            }, 100));
         }
     };
 });
