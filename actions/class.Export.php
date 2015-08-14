@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -17,36 +17,24 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013-     (update and modification) Open Assessment Technologies SA;
  * 
  */
-?>
-<?php
+
 /**
  * This controller provide the actions to export and manage exported data
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- 
  *
  */
 class tao_actions_Export extends tao_actions_CommonModule {
 
 	/**
-	 * get the path to save and retrieve the exported files regarding the current extension
-	 * @return string the path
-	 */
-	protected function getExportPath(){
-		$path = sys_get_temp_dir().DIRECTORY_SEPARATOR.'export';
-		if (!file_exists($path)) {
-			mkdir($path);
-		}
-		return $path;
-	}
-
-	/**
 	 * Does EVERYTHING
 	 * @todo cleanup interface
+     * @requiresRight id READ
 	 */
 	public function index()
 	{
@@ -105,7 +93,8 @@ class tao_actions_Export extends tao_actions_CommonModule {
 		
 	}
 	
-	protected function getResourcesToExport(){
+	protected function getResourcesToExport()
+	{
 		$returnValue = array();
 		if($this->hasRequestParameter('uri') && trim($this->getRequestParameter('uri')) != ''){
 			$returnValue[] = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
@@ -124,7 +113,8 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 * @return tao_models_classes_export_ExportHandler
 	 * @throws common_Exception
 	 */
-	private function getCurrentExporter() {
+	private function getCurrentExporter()
+    {
 		if ($this->hasRequestParameter('exportHandler')) {
 			$exportHandler = $_REQUEST['exportHandler'];//allow method "GET"
 			if (class_exists($exportHandler) && in_array('tao_models_classes_export_ExportHandler', class_implements($exportHandler))) {
@@ -143,7 +133,8 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 * 
 	 * @return array an array of ExportHandlers
 	 */
-	protected function getAvailableExportHandlers() {
+	protected function getAvailableExportHandlers()
+    {
 		return array(
 			new tao_models_classes_export_RdfExporter()
 		);
