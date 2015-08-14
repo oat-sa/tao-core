@@ -150,7 +150,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('messageServiceIsAvailable', MessagingService::singleton()->isAvailable());
         
         if ($this->hasRequestParameter('msg')) {
-            $this->setData('msg', htmlentities($this->getRequestParameter('msg')));
+            $this->setData('msg', $this->getRequestParameter('msg'));
         }
         $this->setData('content-template', array('blocks/login.tpl', 'tao'));
 
@@ -305,8 +305,8 @@ class tao_actions_Main extends tao_actions_CommonModule
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
 
                     foreach($section->getActions() as $action){
-                        $resolver = ActionResolver::getByControllerName($action->getController(), $action->getExtensionId());  
-                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $action->getAction())){
+                        $resolver = new ActionResolver($action->getUrl());
+                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())){
                             $section->removeAction($action); 
                         }
                         

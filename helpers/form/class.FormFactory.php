@@ -52,8 +52,7 @@ class tao_helpers_form_FormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string renderMode
-     * @return mixed
+     * @param  string $renderMode
      */
     public static function setRenderMode($renderMode)
     {
@@ -67,12 +66,12 @@ class tao_helpers_form_FormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string name
-     * @param  array options
+     * @param  string $name
+     * @param  array $options
      * @return tao_helpers_form_Form
      * @throws common_Exception
      */
-    public static function getForm($name = '', $options = array())
+    public static function getForm($name = '', array $options = array())
     {
         $returnValue = null;
 
@@ -113,8 +112,8 @@ class tao_helpers_form_FormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string name
-     * @param  string widgetId
+     * @param  string $name
+     * @param  string $widgetId
      * @return tao_helpers_form_FormElement
      * @throws common_Exception
      * @throws Exception
@@ -168,8 +167,8 @@ class tao_helpers_form_FormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string name
-     * @param  array options
+     * @param  string $name
+     * @param  array $options
      * @return tao_helpers_form_Validator
      */
     public static function getValidator($name, $options = array())
@@ -195,15 +194,14 @@ class tao_helpers_form_FormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string context
-     * @param  boolean save
+     * @param  string $context
+     * @param  boolean $save
      * @return array
      */
     public static function getCommonActions($context = 'bottom', $save = true)
     {
         $returnValue = array();
 
-		
 		switch($context){
 			
 			case 'top':
@@ -212,7 +210,12 @@ class tao_helpers_form_FormFactory
 				$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
 				$value = '';
 				if($save){
-					$value .=  '<a href="#" class="form-submitter btn-success small"><span class="icon-save"></span> ' . __('Save') . '</a>';
+                    $button =  tao_helpers_form_FormFactory::getElement('Save','Button');
+                    $button->setIcon('icon-save');
+                    $button->setValue(__('Save'));
+                    $button->setType('submit');
+                    $button->addClass('form-submitter btn-success small');
+                    $value .= $button->render();
 				}
 					
 				$actions->setValue($value);
@@ -222,7 +225,7 @@ class tao_helpers_form_FormFactory
 		
         
 
-        return (array) $returnValue;
+        return $returnValue;
     }
 
 }
