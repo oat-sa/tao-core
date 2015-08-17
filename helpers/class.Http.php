@@ -97,7 +97,7 @@ class tao_helpers_Http
     /**
      * Get the files data from an HTTP file upload (ie. from the $_FILES)
      * @author "Bertrand Chevrier <bertrand@taotesting.com>
-     * @param string the file field name 
+     * @param string $name the file field name
      * @return array the file data
      * @throws common_exception_Error in case of wrong upload
      */
@@ -113,6 +113,8 @@ class tao_helpers_Http
 
         $files = self::getFiles();
         $fileData = $files[$name];
+        //to prevent ambiguity transcoding filenames
+        $fileData['name'] = str_replace( '+', ' ', $fileData['name'] );
         if (isset($files[$name])) {
 
             //check for upload errors
@@ -287,5 +289,3 @@ class tao_helpers_Http
     }
 
 }
-
-?>
