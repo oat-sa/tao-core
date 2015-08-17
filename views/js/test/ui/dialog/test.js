@@ -85,7 +85,7 @@ define([
         Promise.all(promises).then(function() {
             modal.destroy();
             assert.ok(null === modal.getDom(), "The dialog instance does not have a DOM element anymore");
-            assert.equal($(renderTo).find('.modal').length, 0, "The container does not contains the dialog box anymore");
+            assert.equal($(renderTo).children().length, 0, "The container does not contains the dialog box anymore");
 
             QUnit.start();
         });
