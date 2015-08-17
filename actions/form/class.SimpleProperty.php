@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\taoBackOffice\model\tree\TreeService;
 
 /**
  * Enable you to edit a property
@@ -27,33 +28,23 @@
  * @package tao
  
  */
-class tao_actions_form_SimpleProperty
-    extends tao_actions_form_AbstractProperty
+class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
 
     /**
      * Initialize the form elements
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
      */
     protected function initElements()
     {
         
-        
     	$property = new core_kernel_classes_Property($this->instance->getUri());
-    	
-    	(isset($this->options['index'])) ? $index = $this->options['index'] : $index = 1;
-    	
-		$propertyProperties = array_merge(
+
+	    $index = $this->getIndex();
+
+	    $propertyProperties = array_merge(
 			tao_helpers_form_GenerisFormFactory::getDefaultProperties(), 
 			array(new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT),
 				  new core_kernel_classes_Property(TAO_GUIORDER_PROP))
@@ -112,34 +103,32 @@ class tao_actions_form_SimpleProperty
 		$typeElt->setOptions($options);
 		$this->form->addElement($typeElt);
 		$elementNames[] = $typeElt->getName();
-		
-		//list drop down
-		$listService = tao_models_classes_ListService::singleton();
-			
-		$listElt = tao_helpers_form_FormFactory::getElement("{$index}_range", 'Combobox');
-		$listElt->setDescription(__('List values'));
-		$listElt->addAttribute('class', 'property-listvalues property');
-		$listElt->setEmptyOption(' --- '.__('select').' --- ');
-		$listOptions = array();
-		foreach($listService->getLists() as $list){
-			$listOptions[tao_helpers_Uri::encode($list->getUri())] = $list->getLabel();
-			$range = $property->getRange();
-			if(!is_null($range)){
-				if($range->getUri() == $list->getUri()){
-					$listElt->setValue($list->getUri());
-				}
-			}
-		}
-		
-		$listOptions['new'] = ' + '.__('Add / Edit lists');
-		$listElt->setOptions($listOptions);
-		if($checkRange){
-			$listElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		}
+
+	    $range = $property->getRange();
+
+	    $rangeSelect = tao_helpers_form_FormFactory::getElement( "{$this->getIndex()}_range", 'Combobox' );
+	    $rangeSelect->setDescription( __( 'List values' ) );
+	    $rangeSelect->addAttribute( 'class', 'property-listvalues property' );
+	    $rangeSelect->setEmptyOption( ' --- ' . __( 'select' ) . ' --- ' );
+
+	    if ($checkRange) {
+		    $rangeSelect->addValidator( tao_helpers_form_FormFactory::getValidator( 'NotEmpty' ) );
+	    }
+
+	    $this->form->addElement($rangeSelect);
+	    $elementNames[] = $rangeSelect->getName();
+
+	    //list drop down
+	    $listElt = $this->getListElement( $range );
 		$this->form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
 
-        //index part
+	    //trees dropdown
+	    $treeElt = $this->getTreeElement( $range );
+	    $this->form->addElement($treeElt);
+	    $elementNames[] = $treeElt->getName();
+
+	    //index part
         $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
         foreach($indexes as $i => $indexUri){
             $indexProperty = new \oat\tao\model\search\Index($indexUri);
@@ -192,5 +181,70 @@ class tao_actions_form_SimpleProperty
 		}
 
     }
+
+	/**
+	 * @param $range
+	 *
+	 * @return tao_helpers_form_elements_xhtml_Combobox
+	 * @throws common_Exception
+	 */
+	protected function getTreeElement( $range )
+	{
+
+		$dataService = TreeService::singleton();
+		/**
+		 * @var tao_helpers_form_elements_xhtml_Combobox $element
+		 */
+		$element     = tao_helpers_form_FormFactory::getElement( "{$this->getIndex()}_range_tree", 'Combobox' );
+		$element->setDescription( __( 'Tree values' ) );
+		$element->addAttribute( 'class', 'property-template tree-template' );
+		$element->addAttribute( 'disabled', 'disabled' );
+		$element->setEmptyOption( ' --- ' . __( 'select' ) . ' --- ' );
+		$treeOptions = array();
+		foreach ($dataService->getTrees() as $tree) {
+			$treeOptions[tao_helpers_Uri::encode( $tree->getUri() )] = $tree->getLabel();
+			if (null !== $range && $range->getUri() === $tree->getUri()) {
+				$element->setValue( $tree->getUri() );
+			}
+		}
+		$element->setOptions( $treeOptions );
+
+		return $element;
+	}
+
+	/**
+	 * @param $range
+	 *
+	 * @return tao_helpers_form_elements_xhtml_Combobox
+	 * @throws common_Exception
+	 */
+	protected function getListElement( $range )
+	{
+
+		$service = tao_models_classes_ListService::singleton();
+
+		/**
+		 * @var tao_helpers_form_elements_xhtml_Combobox $element
+		 */
+		$element = tao_helpers_form_FormFactory::getElement( "{$this->getIndex()}_range_list", 'Combobox' );
+		$element->setDescription( __( 'List values' ) );
+		$element->addAttribute( 'class', 'property-template list-template' );
+		$element->addAttribute( 'disabled', 'disabled' );
+		$element->setEmptyOption( ' --- ' . __( 'select' ) . ' --- ' );
+		$listOptions = array();
+
+		foreach ($service->getLists() as $list) {
+			$listOptions[tao_helpers_Uri::encode( $list->getUri() )] = $list->getLabel();
+			if (null !== $range && $range->getUri() === $list->getUri()) {
+				$element->setValue( $list->getUri() );
+			}
+		}
+
+		$listOptions['new'] = ' + ' . __( 'Add / Edit lists' );
+		$element->setOptions( $listOptions );
+
+		return $element;
+	}
+
 
 }

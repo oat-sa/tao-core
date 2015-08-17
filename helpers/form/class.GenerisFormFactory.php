@@ -108,6 +108,10 @@ class tao_helpers_form_GenerisFormFactory
 							$element->setEmptyOption(' ');
 						}
 					}
+
+					if (method_exists($element, 'setRange')){
+						$element->setRange($range);
+					}
 					
 					//complete the options listing
 					$element->setOptions($options);
@@ -259,8 +263,8 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
-     * Returnn the map between the Property properties: range, widget, etc. to
-     * shorcuts for the simplePropertyEditor
+     * Return the map between the Property properties: range, widget, etc. to
+     * shortcuts for the simplePropertyEditor
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -268,10 +272,7 @@ class tao_helpers_form_GenerisFormFactory
      */
     public static function getPropertyMap()
     {
-        $returnValue = array();
 
-        
-		
 		$returnValue = array(
 			'text' => array(
 				'title' 	=> __('Text - Short - Field'),
@@ -297,6 +298,14 @@ class tao_helpers_form_GenerisFormFactory
 				'range'		=> RDFS_RESOURCE,
 			    'multiple'  => GENERIS_FALSE
 			),
+
+			'multiplenodetree' => array(
+				'title' 	=> __('Tree - Multiple node choice '),
+				'widget'	=> PROPERTY_WIDGET_TREEBOX,
+				'range'		=> RDFS_RESOURCE,
+				'multiple'  => GENERIS_TRUE
+			),
+
 			'longlist' => array(
 				'title' 	=> __('List - Single choice - Drop down'),
 				'widget'	=> PROPERTY_WIDGET_COMBOBOX,
@@ -329,9 +338,7 @@ class tao_helpers_form_GenerisFormFactory
 			)
 		);
 		
-        
-
-        return (array) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -339,17 +346,12 @@ class tao_helpers_form_GenerisFormFactory
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class range
-     * @param  boolean recursive
+     * @param  core_kernel_classes_Class $range
+     * @param  boolean $recursive
      * @return array
      */
     protected static function rangeToTree( core_kernel_classes_Class $range, $recursive = false)
     {
-        $returnValue = array();
-
-        
-        
-        
         $data = array();
     	foreach($range->getSubClasses(false) as $rangeClass){
 			$classData = array(
