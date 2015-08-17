@@ -33,4 +33,19 @@ define([
         assert.equal(i18n(fake), i18n(fake), "The i18n function always returns the same value for a particular context.");
         assert.equal(i18n(fake), fake, "The i18n function always returns the provided key when the translation is unknown.");
     });
+
+    var i18nApi = [
+        { expected : 'translation mock 1', title : 'mock-1', params: [] },
+        { expected : 'translation mock 2', title : 'mock-2', params: [] },
+        { expected : 'parameterized text translation TAO', title : 'params text %s', params: ['TAO'] },
+        { expected : 'parameterized number translation 10', title : 'params number %d', params: [10] },
+        { expected : 'parameterized json translation {id:1}', title : 'params json %j', params: [{id: 1}] }
+    ];
+
+    QUnit
+        .cases(i18nApi)
+        .test('i18n translation ', function(data, assert) {
+            var params = [data.title].concat(data.params);
+            assert.equal(i18n.apply(i18n, params), data.expected, 'The i18n translation of "' + data.title + '" must provide the text "' + data.expected +'"');
+        });
 });

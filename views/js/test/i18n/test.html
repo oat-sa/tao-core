@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
     <script type="text/javascript" src="js/lib/require.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
     <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-only="i18n.js"></script>
     <script  type="text/javascript">
 
@@ -15,6 +16,13 @@
 
         //load the config
         require(['/tao/ClientConfig/config'], function(){
+
+            //force path for translations
+            requirejs.config({
+                "paths": {
+                    "i18ntr" : "test/i18n"
+                }
+            });
 
             //load the test
             require(['test/i18n/test'], function(){
