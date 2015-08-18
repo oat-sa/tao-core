@@ -8,6 +8,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
 // never removed by user
 // and version considered unstable resp. sandbox
 $hasVersionWarning = empty($_COOKIE['versionWarning'])
+    && !!$releaseMsgData['msg']
     && ($releaseMsgData['is-unstable']
     || $releaseMsgData['is-sandbox']);
 ?>
