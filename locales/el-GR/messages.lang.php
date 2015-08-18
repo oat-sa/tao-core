@@ -4,7 +4,6 @@ $GLOBALS['__l10n'][" has been deleted successfully"]="διαγράφηκαν μ�
 $GLOBALS['__l10n'][" has been installed"]="έχει εγκατασταθεί";
 $GLOBALS['__l10n'][" next"]="επόμενη";
 $GLOBALS['__l10n'][" requires a subgrid adapter"]=" απαιτεί έναν προσαρμοστή υπο-πλέγματος";
-$GLOBALS['__l10n']["\"list saved\""]="\"κατάλογος έχει αποθηκευτεί\"";
 $GLOBALS['__l10n']["%d day"]="%d μέρα";
 $GLOBALS['__l10n']["%d days"]="%d ημέρες";
 $GLOBALS['__l10n']["%h hour"]="%d ώρα";

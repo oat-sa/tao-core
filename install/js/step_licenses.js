@@ -77,6 +77,13 @@ require(['config'], function() {
                         id: "license1-button-accept",
                         click: function() {
                             $(this).dialog("close");
+                            $('#approval-status-1')
+                                .text("You have reviewed and accepted the terms of this license.")
+                                .append('&nbsp;<img src="images/valide.png" />');
+                            $('#readLicense2').focus();
+
+                            $('#gplRead').val('1');
+                            install.stateChange();
                         }
                     },
                     "button-refuse": {
@@ -84,6 +91,12 @@ require(['config'], function() {
                         id: "license1-button-refuse",
                         click: function() {
                             $(this).dialog("close");
+                            $('#approval-status-1')
+                                .text("You have not accepted the terms of the license.")
+                                .append('&nbsp;<img src="images/failed.png" />');
+
+                            $('#gplRead').val('');
+                            install.stateChange();
                         }
                     }
                 }
@@ -104,6 +117,14 @@ require(['config'], function() {
                         id: "license2-button-accept",
                         click: function() {
                             $(this).dialog("close");
+                            $('#approval-status-2')
+                                .text("You have reviewed and accepted the terms of this license.")
+                                .append('&nbsp;<img src="images/valide.png" />');
+
+                            $('#trademarkRead').val('1');
+                            install.stateChange();
+
+                            $('input#submitForm').focus();
                         }
                     },
                     "button-refuse": {
@@ -111,6 +132,12 @@ require(['config'], function() {
                         id: "license2-button-refuse",
                         click: function() {
                             $(this).dialog("close");
+                            $('#approval-status-2')
+                                .text("You have not accepted the terms of the license.")
+                                .append('&nbsp;<img src="images/failed.png" />');
+
+                            $('#trademarkRead').val('');
+                            install.stateChange();
                         }
                     }
                 }
@@ -126,52 +153,6 @@ require(['config'], function() {
         $('#readLicense2').click(
             function() {
                 $('#dialog-license2-confirm').dialog('open');
-            }
-        );
-
-        $('#license1-button-accept').click(
-            function() {
-                $('#approval-status-1')
-                    .text("You have reviewed and accepted the terms of this license.")
-                    .append('&nbsp;<img src="images/valide.png" />');
-                $('#readLicense2').focus();
-
-                $('#gplRead').val('1');
-                install.stateChange();
-            }
-        );
-        $('#license1-button-refuse').click(
-            function() {
-                $('#approval-status-1')
-                    .text("You have not accepted the terms of the license.")
-                    .append('&nbsp;<img src="images/failed.png" />');
-
-                $('#gplRead').val('');
-                install.stateChange();
-            }
-        );
-
-        $('#license2-button-accept').click(
-            function() {
-                $('#approval-status-2')
-                    .text("You have reviewed and accepted the terms of this license.")
-                    .append('&nbsp;<img src="images/valide.png" />');
-
-                $('#trademarkRead').val('1');
-                install.stateChange();
-
-                $('input#submitForm').focus();
-            }
-        );
-
-        $('#license2-button-refuse').click(
-            function() {
-                $('#approval-status-2')
-                    .text("You have not accepted the terms of the license.")
-                    .append('&nbsp;<img src="images/failed.png" />');
-
-                $('#trademarkRead').val('');
-                install.stateChange();
             }
         );
 

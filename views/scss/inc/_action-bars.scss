@@ -35,22 +35,23 @@
         }
     }
 
-
     &.horizontal-action-bar {
         padding: 5px;
         height: 35px;
         .search-area {
+            margin: 2px 0 0 0;
+            border: none;
             float:right;
             display:inline-block;
             position: relative;
-            padding-right: 30px;
+            padding: 0 30px 0 0;
             input {
-                padding-right: 30px;
+                padding-right: 34px;
                 min-width: 250px !important;
             }
             button {
                 position: absolute;
-                right: 29px;
+                right: 32px;
                 top: -2px;
                 cursor: default;
                 opacity: .5;
@@ -61,9 +62,9 @@
                     color: #666;
                 }
             }
-            span {
+            .icon-help {
                 position: absolute;
-                right: 0px;
+                right: 5px;
                 top: -1px;
                 text-shadow: 0px 0px transparent;
                 color: white;
@@ -185,3 +186,25 @@
         }
     }
 }
+
+
+@media (max-width: 1100px) {
+    .action-bar {
+        &.horizontal-action-bar {
+            .search-area {
+                float: none;
+                position: absolute;
+                right: 0px;
+                input {
+                    padding-right: 30px;
+                    min-width: auto !important;
+                    width: 180px;
+                    &:focus {
+                        width: 220px;
+                    }
+                }
+            }
+        }
+    }
+}
+

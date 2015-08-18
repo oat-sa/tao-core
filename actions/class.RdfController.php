@@ -191,6 +191,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * * classUri:
 	 * 
 	 * @return void
+	 * @requiresRight classUri READ
 	 */
 	public function getOntologyData()
 	{
@@ -246,40 +247,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		
         //generate the tree from the given parameters	
         $tree = $this->getClassService()->toTree($clazz, $options);
-
-        //load the user URI from the session
-        $user = common_Session_SessionManager::getSession()->getUser();
- 
-        //Get the requested section
-        $section = MenuService::getSection(
-            $this->getRequestParameter('extension'), 
-            $this->getRequestParameter('perspective'), 
-            $this->getRequestParameter('section')
-        );
-
-        //Get the actions from the section and bind them an ActionResolver that helps getting controller/action from action URL.
-        $actions = array();
-        foreach ($section->getActions() as $index => $action) {
-            try{
-                $actions[$index] = array(
-                    'resolver'  => new ActionResolver($action->getUrl()),
-                    'id'      => $action->getId(),
-                    'context'   => $action->getContext()
-                );
-            } catch(\ResolverException $re) {
-                common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
-            }
-        }
-
-        //then compute ACL for each node of the tree
-        $treeKeys = array_keys($tree);
-        if (is_int($treeKeys[0])) {
-            foreach ($tree as $index => $treeNode) {
-                $tree[$index] = $this->computePermissions($actions, $user, $treeNode);
-            }
-        } else { 
-            $tree = $this->computePermissions($actions, $user, $tree);
-        }
+        
+        $tree = $this->addPermissions($tree);
         
         //sort items by name
         function sortTreeNodes($a, $b) {
@@ -302,6 +271,49 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $this->returnJson($tree);
 	}
 
+	/**
+	 * Add permission information to the tree structure
+	 * 
+	 * @param array $tree
+	 * @return array
+	 */
+	protected function addPermissions($tree)
+	{
+	    $user = \common_Session_SessionManager::getSession()->getUser();
+	     
+	    $section = MenuService::getSection(
+	        $this->getRequestParameter('extension'),
+	        $this->getRequestParameter('perspective'),
+	        $this->getRequestParameter('section')
+	    );
+	     
+	    $actions = array();
+	    foreach ($section->getActions() as $index => $action) {
+	        try{
+	            $actions[$index] = array(
+	                'resolver'  => new ActionResolver($action->getUrl()),
+	                'id'      => $action->getId(),
+	                'context'   => $action->getContext()
+	            );
+	        } catch(\ResolverException $re) {
+	            common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
+	        }
+	    }
+	     
+	    //then compute ACL for each node of the tree
+	    $treeKeys = array_keys($tree);
+	    if (is_int($treeKeys[0])) {
+	        foreach ($tree as $index => $treeNode) {
+	            $tree[$index] = $this->computePermissions($actions, $user, $treeNode);
+	        }
+	    } else {
+	        $tree = $this->computePermissions($actions, $user, $tree);
+	    }
+
+	    return $tree;
+	     
+	}
+	
     /**
      * compulte permissions for a node against actions
      * @param array[] $actions the actions data with context, name and the resolver
@@ -309,21 +321,27 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * @param array $node a tree node
      * @return array the node augmented with permissions
      */
-    private function computePermissions($actions, $user, $node){
-        if(isset($node['_data'])){
+    private function computePermissions($actions, $user, $node)
+    {
+        if (isset($node['attributes']['data-uri'])) {
             foreach($actions as $action){
                 if($node['type'] == $action['context'] || $action['context'] == 'resource') {
                     $resolver = $action['resolver'];
                     try{
                         if($node['type'] == 'class'){
-                            $data = array('classUri' => $node['_data']['uri']);
+                            $params = array('classUri' => $node['attributes']['data-uri']);
                         } else {
-                            $data = $node['_data'];
+                            $params = array();
+                            foreach ($node['attributes'] as $key => $value) {
+                                if (substr($key, 0, strlen('data-')) == 'data-') {
+                                    $params[substr($key, strlen('data-'))] = $value;
+                                }
+                            }
                         }
-                        $data['id'] = $node['attributes']['data-uri'];
+                        $params['id'] = $node['attributes']['data-uri'];
                         $required = array_keys(ControllerHelper::getRequiredRights($resolver->getController(), $resolver->getAction()));
-                        if (count(array_diff($required, array_keys($data))) == 0) {
-                            $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $data);
+                        if (count(array_diff($required, array_keys($params))) == 0) {
+                            $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $params);
                         } else {
                             common_Logger::d('Unable to determine access to '.$action['id'], 'ACL');
                         }
@@ -335,7 +353,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 }
             }
         }
-        if(isset($node['children'])){
+        if (isset($node['children'])) {
             foreach($node['children'] as $index => $child){
                 $node['children'][$index] = $this->computePermissions($actions, $user, $child);    
             }
@@ -345,6 +363,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	
 	/**
 	 * Add an instance of the selected class
+	 * @requiresRight id WRITE
 	 * @return void
 	 */
 	public function addInstance()
@@ -371,6 +390,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	
 	/**
 	 * Add a subclass to the currently selected class
+     * @requiresRight id WRITE
 	 * @throws Exception
 	 */
 	public function addSubClass()
@@ -466,6 +486,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * Duplicate the current instance
 	 * render a JSON response
 	 * @return void
+     * @requiresRight uri READ
+     * @requiresRight classUri WRITE
 	 */
 	public function cloneInstance()
 	{
@@ -485,7 +507,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	/**
 	 * Move an instance from a class to another
 	 * @return void
-	 */
+	 * @requiresRight uri WRITE
+     * @requiresRight destinationClassUri WRITE
+     */
 	public function moveInstance()
 	{
 	    $response = array();	
@@ -519,6 +543,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	/**
 	 * Render the  form to translate a Resource instance
 	 * @return void
+	 * @requiresRight id WRITE
 	 */
 	public function translateInstance()
 	{
@@ -528,7 +553,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		$formContainer = new tao_actions_form_Translate($this->getCurrentClass(), $instance);
 		$myForm = $formContainer->getForm();
 		
-		if($this->hasRequestParameter('target_lang')){
+		if ($this->hasRequestParameter('target_lang')) {
 			
 			$targetLang = $this->getRequestParameter('target_lang');
 		
@@ -989,9 +1014,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	}
 	
     /**
-     * Generic class deletion action
+     * Generic resource deletion action
      * 
      * @throws Exception
+     * @requiresRight id WRITE
      */
     public function deleteResource()
     {
@@ -1009,6 +1035,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * Generic class deletion action
 	 * 
 	 * @throws Exception
+     * @requiresRight id WRITE
 	 */
 	public function deleteClass()
 	{

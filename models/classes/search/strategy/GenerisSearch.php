@@ -27,7 +27,8 @@ use oat\oatbox\Configurable;
 use oat\tao\model\search\SyntaxException;
 
 /**
- * Zend Lucene Search implementation 
+ * Simple Search implementation that ignores the indexes
+ * and searches over the labels 
  * 
  * @author Joel Bout <joel@taotesting.com>
  */

@@ -132,14 +132,11 @@ class tao_models_classes_GenerisTreeFactory
 		return array(
 			'data' 	=> _dh($label),
 			'type'	=> 'class',
-            '_data' => array(
-                'uri' => $class->getUri(),
-                'classUri' => is_null($parent) ? null : $parent->getUri()
-            ),
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($class->getUri()),
 				'class' => 'node-class',
-			    'data-uri' => $class->getUri()
+			    'data-uri' => $class->getUri(),
+			    'data-classUri' => is_null($parent) ? null : $parent->getUri(),
 			)
 		);
     }
@@ -157,14 +154,11 @@ class tao_models_classes_GenerisTreeFactory
 		return array(
 			'data' 	=> _dh($label),
 			'type'	=> 'instance',
-            '_data' => array(
-                'uri' => $resource->getUri(),
-                'classUri' => $class->getUri()
-            ),
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($resource->getUri()),
 				'class' => 'node-instance',
-			    'data-uri' => $resource->getUri()
+			    'data-uri' => $resource->getUri(),
+			    'data-classUri' => $class->getUri()
 			)
 		);
     }

@@ -1,3 +1,35 @@
+.datatable-wrapper {
+    h2 {
+        font-family: $headingFont;
+        @include font-size(18);
+        margin: 30px 0 10px;
+    }
+    .action-bar {
+        margin: 10px 0;
+    }
+    .filter {
+        float: right;
+        display: inline-block;
+        position: relative;
+        input {
+            padding-right: 30px;
+            min-width: 250px !important;
+        }
+        button {
+            position: absolute;
+            right: 1px;
+            top: -1px;
+            cursor: default;
+            opacity: .5;
+            background: transparent;
+            width: 25px;
+            height : 25px;
+            &:before {
+                color: #666;
+            }
+        }
+    }
+}
 .datatable-container {
     overflow-y: auto;
 }
@@ -26,7 +58,11 @@ table.datatable{
         &.id{
             display:none;
         }
-        &[data-item-identifier] {
+        &.checkboxes{
+            width: 20px;
+            text-align: center;
+        }
+        &.actions {
             text-align: center;
         }
         button{
