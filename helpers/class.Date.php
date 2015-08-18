@@ -38,12 +38,14 @@ class tao_helpers_Date
 
     const FORMAT_DATEPICKER = 2;
 
+    const FORMAT_ISO8601 = 3;
+
     const FORMAT_INTERVAL_LONG = 100;
 
     const FORMAT_INTERVAL_SHORT = 101;
     
     private static $service;
-    
+
     static protected function getDateFormatter()
     {
         if (is_null(self::$service)) {
@@ -53,6 +55,7 @@ class tao_helpers_Date
                 ? $service
                 : new EuropeanFormatter();
         }
+
         return self::$service;
     }
 
@@ -69,13 +72,13 @@ class tao_helpers_Date
         if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
             $ts = $timestamp->__toString();
         } elseif (is_object($timestamp) && $timestamp instanceof DateTime) {
-            $ts = $timestamp->getTimestamp();
+            $ts = self::getTimeStampWithMicroseconds($timestamp);
         } elseif (is_numeric($timestamp)) {
             $ts = $timestamp;
         } else {
             throw new common_Exception('Unexpected timestamp');
         }
-        
+
         return self::getDateFormatter()->format($ts, $format);
     }
 
@@ -169,9 +172,19 @@ class tao_helpers_Date
      * @param unknown $microtime            
      * @return number
      */
-    static function getTimeStamp($microtime)
+    static function getTimeStamp($microtime, $microseconds = false)
     {
-        list ($usec, $sec) = explode(" ", $microtime);
-        return ((float) $sec);
+        $parts = array_reverse(explode(" ", $microtime));
+
+        $timestamp = $microseconds && isset($parts[1])
+            ? $parts[0] . '.' . round($parts[1] * 1000000, 0)
+            : $parts[0];
+
+        return $timestamp;
+    }
+
+    static function getTimeStampWithMicroseconds(DateTime $dt)
+    {
+        return join('.', array($dt->getTimestamp(), $dt->format('u')));
     }
 }
