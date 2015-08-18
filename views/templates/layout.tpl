@@ -67,7 +67,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <?= $val ?>
     <?php endif; ?>
     <?php $releaseMsgData = Layout::getReleaseMsgData();
-    if ($releaseMsgData['is-unstable'] || $releaseMsgData['is-sandbox']): ?>
+    if ($releaseMsgData['msg'] && ($releaseMsgData['is-unstable'] || $releaseMsgData['is-sandbox'])): ?>
         <span class="rgt">
             <?php if ($releaseMsgData['is-unstable']): ?>
                 <span class="icon-warning"></span>
