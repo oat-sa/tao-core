@@ -60,7 +60,7 @@ define([
         init: function () {
             var self = this;
             this.counter = 0;
-            this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode'].join('|'), 'i');
+            this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode', 'PropertiesAuthoring'].join('|'), 'i');
             this.initTranslationFormPattern = /translate/;
 
             $("body").ajaxComplete(function (event, request, settings) {
