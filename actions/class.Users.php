@@ -130,7 +130,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$response->data[$index]['id']= $id;
   			$response->data[$index]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
 			$response->data[$index]['name'] = $firstName.' '.$lastName;
-			$response->data[$index]['mail'] = (string)current($propValues[PROPERTY_USER_MAIL]);
+			$response->data[$index]['email'] = (string)current($propValues[PROPERTY_USER_MAIL]);
 			$response->data[$index]['roles'] = implode(', ', $labels);
 			$response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
 			$response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
