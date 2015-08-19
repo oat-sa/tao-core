@@ -118,6 +118,11 @@ define([
                     $versionWarning = $('.version-warning:visible');
                     setHeights($scope);
                 });
+
+            // Resizing the section can cause scroll bars to appear
+            // and hence the viewport might change. This in return could
+            // cause the <nav>s to nudge
+            $(window).trigger('resize.navheight');
         },
 
         /**
