@@ -27,7 +27,7 @@ define([
         assert.equal($container[0].getBoundingClientRect().height, 200, 'y-scaling works correctly');
 
         scaler.scale($container, -5);
-        assert.equal($container[0].getBoundingClientRect().width, 0, 'Factors below 0 default to factor 1');
+        assert.equal($container[0].getBoundingClientRect().width, 0, 'Factors below 0 default to factor 0');
 
         scaler.reset($container);
         assert.equal($container[0].getBoundingClientRect().width, 100, 'Container resets to its original size');
