@@ -45,7 +45,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
     // the duration difference between modal and overlay animates (overlay is animated faster than modal)
     var animateDiff = 100;
 
-    var Modal = {
+    var modal = {
         /**
          * Initialize the modal dialog
          * @param {Object} [options] - plugin options
@@ -59,7 +59,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
          * @param {jQueryElement}  [options.$context = null] - give the context the modal overlay should be append to, if none give, it would be on the window
          * @param {Number|Boolean}  [options.animate = 400] - display the modal using animation
          * @returns {jQueryElement} for chaining
-         * @fires Modal#create.modal
+         * @fires modal#create.modal
          */
         init: function (options) {
 
@@ -102,12 +102,12 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                 }
 
                 if (!options.startClosed) {
-                    Modal._open($modal);
+                    modal._open($modal);
                 }
 
                 /**
                  * The plugin have been created.
-                 * @event Modal#create.modal
+                 * @event modal#create.modal
                  */
                 $modal.trigger('create.' + pluginName);
             });
@@ -116,7 +116,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
         /**
          * Destroys the modal
          * @param {jQuery object} $element
-         * @fires Modal#destroyed.modal
+         * @fires modal#destroyed.modal
          */
         _destroy: function ($element) {
             return $element.each(function () {
@@ -129,7 +129,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
 
                 /**
                  * The target has been opened.
-                 * @event Modal#opened.modal
+                 * @event modal#opened.modal
                  */
                 $element.trigger('destroyed.' + pluginName);
             });
@@ -147,25 +147,25 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                 if (options.width === 'responsive') {
                     $(window).on('resize.' + pluginName, function (e) {
                         e.preventDefault();
-                        Modal._resize($element);
+                        modal._resize($element);
                     });
                 }
 
                 if (!options.disableClosing) {
                     $('.' + options.modalCloseClass, $element).on('click.' + pluginName, function (e) {
                         e.preventDefault();
-                        Modal._close($element);
+                        modal._close($element);
                     });
 
                     $('#' + options.modalOverlay).on('click.' + pluginName, function (e) {
                         e.preventDefault();
-                        Modal._close($element);
+                        modal._close($element);
                     });
 
                     $(document).on('keydown.' + pluginName, function (e) {
                         if (e.keyCode === 27) {
                             e.preventDefault();
-                            Modal._close($element);
+                            modal._close($element);
                         }
                     });
                 }
@@ -197,7 +197,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
          * Open the modal dialog
          * @param {jQuery object} $element
          * @returns {jQuery object}
-         * @fires Modal#opened.modal
+         * @fires modal#opened.modal
          */
         _open: function ($element) {
             var modalHeight = $element.outerHeight(),
@@ -209,11 +209,11 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                 // Called when the modal is fully opened
                 onOpen = function () {
                     $element.addClass('opened');
-                    Modal._bindEvents($element);
+                    modal._bindEvents($element);
 
                     /**
                      * The target has been opened.
-                     * @event Modal#opened.modal
+                     * @event modal#opened.modal
                      */
                     $element.trigger('opened.' + pluginName);
                 };
@@ -225,7 +225,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                     'top': topOffset + 'px'
                 };
 
-                Modal._resize($element);
+                modal._resize($element);
 
                 $overlay = $('#' + options.modalOverlay);
 
@@ -248,7 +248,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
         /**
          * Close the modal dialog
          * @param {jQuery object} $element
-         * @fires Modal#closed.modal
+         * @fires modal#closed.modal
          */
         _close: function ($element) {
             var options = $element.data(dataNs);
@@ -259,12 +259,12 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
 
                 /**
                  * The target has been closed/removed.
-                 * @event Modal#closed.modal
+                 * @event modal#closed.modal
                  */
                 $element.trigger('closed.' + pluginName);
             };
 
-            Modal._unBindEvents($element);
+            modal._unBindEvents($element);
 
             if (options.animate){
                 $overlay.fadeOut(options.animate - animateDiff);
@@ -301,7 +301,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
 
 
     //Register the modal to behave as a jQuery plugin.
-    Pluginifier.register(pluginName, Modal, {
+    Pluginifier.register(pluginName, modal, {
         expose: ['open', 'close', 'destroy']
     });
 
