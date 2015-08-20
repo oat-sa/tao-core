@@ -210,6 +210,7 @@ class tao_helpers_File
             // audio/video
             'mp3' => 'audio/mpeg',
             'oga' => 'audio/ogg',
+            'aac' => 'audio/aac',
             'qt' => 'video/quicktime',
             'mov' => 'video/quicktime',
             'mp4' => 'video/mp4',//(H.264 + AAC) for ie8, etc.
