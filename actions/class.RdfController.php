@@ -188,6 +188,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * * classUri:
 	 * 
 	 * @return void
+	 * @requiresRight classUri READ
 	 */
 	public function getOntologyData()
 	{
@@ -262,6 +263,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $this->returnJson($tree);
 	}
 
+	/**
+	 * Add permission information to the tree structure
+	 * 
+	 * @param array $tree
+	 * @return array
+	 */
 	protected function addPermissions($tree)
 	{
 	    $user = \common_Session_SessionManager::getSession()->getUser();
@@ -318,8 +325,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                         } else {
                             $params = array();
                             foreach ($node['attributes'] as $key => $value) {
-                                if (substr($key, 0, strlen('data-')) == 'data_') {
-                                    common_Logger::w('xxxx '.substr($key, strlen('data-')));
+                                if (substr($key, 0, strlen('data-')) == 'data-') {
                                     $params[substr($key, strlen('data-'))] = $value;
                                 }
                             }
@@ -349,6 +355,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	
 	/**
 	 * Add an instance of the selected class
+	 * @requiresRight id WRITE
 	 * @return void
 	 */
 	public function addInstance()
@@ -375,6 +382,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	
 	/**
 	 * Add a subclass to the currently selected class
+     * @requiresRight id WRITE
 	 * @throws Exception
 	 */
 	public function addSubClass()
@@ -470,6 +478,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * Duplicate the current instance
 	 * render a JSON response
 	 * @return void
+     * @requiresRight uri READ
+     * @requiresRight classUri WRITE
 	 */
 	public function cloneInstance()
 	{
@@ -489,7 +499,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	/**
 	 * Move an instance from a class to another
 	 * @return void
-	 */
+	 * @requiresRight uri WRITE
+     * @requiresRight destinationClassUri WRITE
+     */
 	public function moveInstance()
 	{
 	    $response = array();	
@@ -523,6 +535,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	/**
 	 * Render the  form to translate a Resource instance
 	 * @return void
+	 * @requiresRight id WRITE
 	 */
 	public function translateInstance()
 	{
@@ -532,7 +545,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		$formContainer = new tao_actions_form_Translate($this->getCurrentClass(), $instance);
 		$myForm = $formContainer->getForm();
 		
-		if($this->hasRequestParameter('target_lang')){
+		if ($this->hasRequestParameter('target_lang')) {
 			
 			$targetLang = $this->getRequestParameter('target_lang');
 		
@@ -627,9 +640,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	}
 	
     /**
-     * Generic class deletion action
+     * Generic resource deletion action
      * 
      * @throws Exception
+     * @requiresRight id WRITE
      */
     public function deleteResource()
     {
@@ -647,6 +661,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * Generic class deletion action
 	 * 
 	 * @throws Exception
+     * @requiresRight id WRITE
 	 */
 	public function deleteClass()
 	{

@@ -24,7 +24,7 @@
 class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
 
     /**
-     * 
+     * @requiresRight id READ
      */
     public function index()
     {
@@ -54,6 +54,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
      * Render the add property sub form.
      * @throws Exception
      * @return void
+     * @requiresRight id WRITE
      */
     public function addClassProperty()
     {
@@ -93,6 +94,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
      * Render the add property sub form.
      * @throws Exception
      * @return void
+     * @requiresRight classUri WRITE
      */
     public function removeClassProperty()
     {
