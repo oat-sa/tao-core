@@ -1,0 +1,63 @@
+<html>
+<head>
+  <title>transform component</title>
+  <style>
+    #box {
+      width: 100px;
+      height: 100px;
+      background: blue;
+      -webkit-transform: scale(2) translate(200px, 100px) rotate(60deg) skew(20deg);
+      position: absolute;
+    }
+
+    #box2 {
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: absolute;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <h1>unmatrix component</h1>
+  <div id="box"></div>
+  <div id="box2"></div>
+  <script src="build/build.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var unmatrix = require('unmatrix');
+    var t = unmatrix(box);
+    console.log(JSON.stringify(t, true, 2));
+    box2.style.webkitTransform = toString(t);
+
+    t = unmatrix('scale(2) translate(200px, 100px) rotate(60deg) skew(20deg)');
+    console.log(JSON.stringify(t, true, 2));
+
+    function toString(props) {
+      var out = [];
+
+      function wrap(k, v) {
+        return k + '(' + v + ')';
+      }
+
+      for(var k in props) {
+        switch(k) {
+        case 'translateX':
+        case 'translateY':
+          out.push(wrap(k, props[k] + 'px'));
+          break;
+        case 'rotate':
+        case 'skew':
+          out.push(wrap(k, props[k] + 'deg'));
+          break;
+        default:
+          out.push(wrap(k, props[k]));
+        }
+      }
+
+      return out.join(' ');
+    };
+  </script>
+</body>
+</html>
+

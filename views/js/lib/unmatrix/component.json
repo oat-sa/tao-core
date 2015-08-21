@@ -1,0 +1,16 @@
+{
+  "name": "unmatrix",
+  "repo": "matthewmueller/unmatrix",
+  "description": "parse the values of a css transform",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "jkroso/computed-style": "0.1.0"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}
