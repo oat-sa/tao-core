@@ -518,6 +518,7 @@ define([
              */
             function showPropertyListValues() {
                 var $this = $(this);
+                var elt = $this.parent("div");
                 if ($this.val() === 'new') {
                     //Open the list editor: a tree in a dialog popup
                     var rangeId = $this.prop('id');
@@ -526,7 +527,6 @@ define([
                     var closerId = rangeId.replace('_range', '_closer');
 
                     //dialog content to embed the list tree
-                    var elt = $this.parent("div");
                     elt.append("<div id='" + dialogId + "' style='display:none;' > " +
                         "<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br /><br />" +
                         "<div id='" + treeId + "' ></div> " +
@@ -556,7 +556,7 @@ define([
                     });
 
                     $dialogElm.bind('dialogopen', function (event, ui) {
-                        var url = context.root_url + 'tao/Lists/';
+                        var url = context.root_url + 'taoBackOffice/Lists/';
                         var dataUrl = url + 'getListsData';
                         var renameUrl = url + 'rename';
                         var createUrl = url + 'create';
@@ -742,13 +742,13 @@ define([
                 }
                 else {
                     //load the instances and display them (the list items)
-                    $this.parent("div").children("ul.form-elt-list").remove();
+                    $(elt).parent("div").children("ul.form-elt-list").remove();
                     var classUri = $this.val();
-                    if (classUri !== '') {
+                    if (classUri !== '' && classUri !== ' ') {
                         $this.parent("div").children("div.form-error").remove();
                         //var elt = this;
                         $.ajax({
-                            url: context.root_url + 'tao/Lists/getListElements',
+                            url: context.root_url + 'taoBackOffice/Lists/getListElements',
                             type: "POST",
                             data: {listUri: classUri},
                             dataType: 'json',
