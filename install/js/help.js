@@ -34,11 +34,6 @@ define(['jquery', 'jquery.labelify'], function($){
 		$("#mainSupportPopup").find("#supportFrameId").attr("src","supportFrameIndex.html");
 	});
 
-	$("#genericPopupClose").bind("click",function(){
-		$("#mainGenericPopup").hide();
-		$("#screenShield").hide();
-	});
-
 	function openSupportTab(){
 		$("#mainSupportPopup").show();
 		$("#screenShield").show();
@@ -47,39 +42,57 @@ define(['jquery', 'jquery.labelify'], function($){
 
     function displayTaoHelp(event){
 
-        var inputId = $(event.currentTarget).attr('id');
-        var msg = 'No help for input <strong>' + inputId + '</strong>.';
+        var inputId = $(event.currentTarget).attr('id'),
+            msg = 'No help for input <strong>' + inputId + '</strong>.',
+            storeMsg;
 
         if ((storeMsg = install.getHelp(inputId)) != null){
             msg = storeMsg;
         }
-
-        var popupDocContext = parent.document;
-
-        $(popupDocContext).find("#mainGenericPopup").show();
-        $(popupDocContext).find("#screenShield").show();
-        $(popupDocContext).find("#genericPopup h4").removeClass('error')
-                                                   .addClass('help')
-                                                   .html("Help");
-        $(popupDocContext).find("#genericPopupContent").html(msg);
+        displayPopup({
+            msg : msg,
+            title : 'Help',
+            type : 'help'
+        });
     }
-
+    
     function displayTaoError(msg, title){
-
-        if (typeof(title) == 'undefined'){
-            var title = 'Error';
-        }
-
-        var popupDocContext = parent.document;
+        displayPopup({
+            msg : msg.replace(/\n/g, "<br/>"), 
+            title : title, 
+            type : 'error'
+        });
+    }
+    
+    function displayPopup(options)
+    {
+        var defaultOptions = {
+            title : 'Info',
+            type : 'help'
+        },
+        popupDocContext = parent.document;
+        
+        options = $.extend(true, defaultOptions, options);
 
         $(popupDocContext).find("#mainGenericPopup").show();
         $(popupDocContext).find("#screenShield").show();
-        $(popupDocContext).find("#genericPopup h4").removeClass('help')
-                                                   .addClass('error')
-                                                   .html(title);
-        $(popupDocContext).find("#genericPopupContent").html(msg.replace(/\n/g, "<br/>"));
-    }
+        $(popupDocContext)
+            .find("#genericPopup h4")
+            .removeClass('help error')
+            .addClass(options.type)
+            .html(options.title);
 
+        $(popupDocContext).find("#genericPopupContent").html(options.msg);
+        $(popupDocContext).find(".js-genericPopupClose").one('click', function(){
+            $(popupDocContext).find("#mainGenericPopup").hide();
+            $(popupDocContext).find("#screenShield").hide();
+            if (typeof options.onClose === 'function') {
+                options.onClose();
+            }
+        });
+    }
+    
+    window.displayPopup = displayPopup;
     window.displayTaoHelp = displayTaoHelp;
     window.displayTaoError = displayTaoError;
 });

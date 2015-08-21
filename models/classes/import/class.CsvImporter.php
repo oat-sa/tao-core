@@ -141,6 +141,11 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
 		$options['staticMap'] = array_merge($staticMap, $this->getStaticData());
 		$options = array_merge($options, $this->getAdditionAdapterOptions());
 
+		// Check if we have a proper UTF-8 file.
+		if (@preg_match('//u', file_get_contents($form->getValue('importFile'))) === false) {
+		    return new common_report_Report(common_report_Report::TYPE_ERROR, __("The imported file is not properly UTF-8 encoded."));
+		}
+		
 		$adapter = new tao_helpers_data_GenerisAdapterCsv($options);
 		$adapter->setValidators($this->getValidators());
 
