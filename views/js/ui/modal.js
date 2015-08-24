@@ -71,7 +71,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                 if ('number' !== typeof options.animate) {
                     options.animate = defaults.animate;
                 } else {
-                    options.animate = Math.min(animateDiff, options.animate);
+                    options.animate = Math.max(animateDiff, options.animate);
                 }
             }
 
