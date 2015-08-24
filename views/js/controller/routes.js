@@ -45,11 +45,6 @@ define(function(){
                 'index' : 'controller/settings/extensionManager'
             }
         },
-        'Lists' : {
-            'actions' : {
-                'index' : 'controller/list/index'
-            }
-        },
         'Users' : {
             'deps' : 'controller/users/disable-edit',
             'actions' : {

@@ -76,7 +76,7 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                         label : __('Email'),
                         sortable : true
                     },{
-                        id : 'role',
+                        id : 'roles',
                         label : __('Roles'),
                         sortable : false
                     },{

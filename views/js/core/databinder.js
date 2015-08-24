@@ -517,14 +517,16 @@ function($, _, Handlebars, Encoders, Filters){
 
                 resyncIndexes(self.model, parentPath);
 
-                //we need to rebind after sync because the path are not valid anymore
-                $parentNode.children('[data-bind-index]').filter(':gt(' + removedIndex + ')').each(function() {
-                    var $item = $(this);
-                    var newIndex = parseInt($item.data('bind-index'), 10) - 1;
-                    //we also update the indexes
-                    $item.attr('data-bind-index', newIndex)
-                            .data('bind-index', newIndex + '');
-                });
+                if(removedIndex > 0){
+                    //we need to rebind after sync because the path are not valid anymore
+                    $parentNode.children('[data-bind-index]').filter(':gt(' + removedIndex + ')').each(function() {
+                        var $item = $(this);
+                        var newIndex = parseInt($item.data('bind-index'), 10) - 1;
+                        //we also update the indexes
+                        $item.attr('data-bind-index', newIndex)
+                                .data('bind-index', newIndex + '');
+                    });
+                }
 
                 //we need to rebind the model to the new paths
                 self._rebind($parentNode, parentPath.replace($parentNode.data('bind-each'), ''));
