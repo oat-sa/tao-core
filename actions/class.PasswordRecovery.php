@@ -64,7 +64,7 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             $user = $this->passwordRecoveryService->getUser(PROPERTY_USER_MAIL, $mail);
             
             if ($user !== null) {
-                \common_Logger::i("User requests a password (user URI: {$user->uriResource})");
+                \common_Logger::i("User requests a password (user URI: {$user->getUri()})");
                 $this->sendMessage($user);
             } else {
                 \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$mail}.");
@@ -104,7 +104,7 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
         } else {
             if ($form->isSubmited() && $form->isValid()) {
                 $this->passwordRecoveryService->setPassword($user, $form->getValue('newpassword'));
-                \common_Logger::i("User {$user->uriResource} has changed the password.");
+                \common_Logger::i("User {$user->getUri()} has changed the password.");
                 $this->setData('info', __("Password successfully changed"));
                 $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
             } else {

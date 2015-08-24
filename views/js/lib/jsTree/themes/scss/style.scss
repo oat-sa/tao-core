@@ -227,10 +227,6 @@
     @include icon-item;
 }
 
-.taotree-repository .node-instance ins:before{
-    @include icon-repository;
-}
-
 .taotree-result_server .node-instance ins:before{
     @include icon-result-server;
 }
