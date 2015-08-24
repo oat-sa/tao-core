@@ -229,6 +229,8 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
 
                 $overlay = $('#' + options.modalOverlay);
 
+                $element.show();
+
                 if (options.animate && $element.is(':visible')) {
                     $element.css({
                         'top': '-' + modalHeight + 'px',
@@ -239,7 +241,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                     $element.animate(to, options.animate, onOpen);
                 } else {
                     $overlay.show();
-                    $element.css(to).show();
+                    $element.css(to);
                     onOpen();
                 }
             }
