@@ -1,5 +1,5 @@
 /**
- * RequireJS implementation of unmatrix
+ * RequireJS implementation of https://github.com/matthewmueller/unmatrix
  */
 define([], function () {
     'use strict';
