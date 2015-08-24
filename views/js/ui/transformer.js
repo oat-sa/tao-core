@@ -52,64 +52,81 @@ define([
 
 
     /**
+     * Get the transformation of an element
+     *
+     * @param elem
+     * @returns {{matrix: string, obj: obj }}
+     */
+    var _getTransformation = function (elem) {
+        var _style = window.getComputedStyle(elem, null),
+            matrix = _style.getPropertyValue('transform') ||
+                _style.getPropertyValue('-webkit-transform') ||
+                _style.getPropertyValue('-ms-transform'),
+            obj = _unmatrix(matrix);
+
+        return { matrix: matrix, obj: obj };
+    };
+
+
+    /**
      * Normalize property keys to the same format unmatrix uses
      *
-     * @param config
+     * @param transforms
      * @returns {*}
      * @private
      */
-    function _normalizeConfig(config) {
-        var xy = ['translate', 'scale', 'skew'],
+    function _normalizeTransforms(transforms) {
+        var xy = ['translate', 'scale'],
             i = xy.length;
 
         while (i--) {
-            if (config[xy[i]]) {
-                if (_.isArray(config[xy[i]]) && config[xy[i]].length === 2) {
-                    config[xy[i] + 'X'] = config[xy[i]][0];
-                    config[xy[i] + 'Y'] = config[xy[i]][1];
+            if (transforms[xy[i]]) {
+                if (_.isArray(transforms[xy[i]]) && transforms[xy[i]].length === 2) {
+                    transforms[xy[i] + 'X'] = transforms[xy[i]][0];
+                    transforms[xy[i] + 'Y'] = transforms[xy[i]][1];
                 }
                 else {
-                    config[xy[i] + 'X'] = config[xy[i]];
-                    config[xy[i] + 'Y'] = config[xy[i]];
+                    transforms[xy[i] + 'X'] = transforms[xy[i]];
+                    transforms[xy[i] + 'Y'] = transforms[xy[i]];
                 }
-                delete config[xy[i]];
+                delete transforms[xy[i]];
             }
         }
 
-        return config;
+        return transforms;
     }
 
 
     /**
      * Transform the container with the given configuration
      *
-     * @param $container
-     * @param {Object} config
-     * @param {Number} [config.translate] 20 || [20,30], assumes px
-     * @param {Number} [config.translateX] dto.
-     * @param {Number} [config.translateY] dto.
-     * @param {Number} [config.rotate] 20, assumes deg
-     * @param {Number} [config.skew] dto.
-     * @param {Number} [config.scale] 2 || [2,3], assumes 'times original size'
-     * @param {Number} [config.scaleX] dto.
-     * @param {Number} [config.scaleY] dto.
+     * @param $elem
+     * @param {Object} transforms
+     * @param {Number|Array} [transforms.translate] 20|[20,30], assumes px
+     * @param {Number} [transforms.translateX] dto.
+     * @param {Number} [transforms.translateY] dto.
+     * @param {Number} [transforms.rotate] 20, assumes deg
+     * @param {Number} [transforms.skew] 20 dto.
+     * @param {Number|Array} [transforms.scale] 2|[2,3], assumes 'times original size'
+     * @param {Number} [transforms.scaleX] dto.
+     * @param {Number} [transforms.scaleY] dto.
      */
-    function _transform($container, config) {
+    function _transform($elem, transforms) {
         var cssObj = {},
             defaults = _unmatrix('none'),
             classNames = [];
 
-        config = _normalizeConfig(config);
+        transforms = _normalizeTransforms(transforms);
 
         // memorize old transformation
-        if (!$container.data('oriTrans')) {
-            $container.data('oriTrans', _unmatrix($container[0]));
+        if (!$elem.data('oriTrans')) {
+            $elem.data('oriTrans', _getTransformation($elem[0]));
         }
 
         cssObj[prefix + 'transform'] = '';
 
         // generate the style
-        _.forIn(config, function (value, key) {
+        _.forIn(transforms, function (value, key) {
 
             // ignore values that aren't numeric
             if (_.isNaN(value)) {
@@ -117,13 +134,13 @@ define([
             }
             value = parseFloat(value);
 
-            // add original transformation if applicable
-            if ($container.data('oriTrans')[key] !== defaults[key]) {
+            // apply original transformation if applicable
+            if ($elem.data('oriTrans').obj[key] !== defaults[key]) {
                 if (key.indexOf('scale') > -1) {
-                    value *= $container.data('oriTrans')[key];
+                    value *= $elem.data('oriTrans').obj[key];
                 }
                 else {
-                    value += $container.data('oriTrans')[key];
+                    value += $elem.data('oriTrans').obj[key];
                 }
             }
 
@@ -141,11 +158,11 @@ define([
 
         cssObj[prefix + 'transform'] = $.trim(cssObj[prefix + 'transform']);
 
-        $container.css(cssObj);
-        $container.removeClass('transform-translate transform-rotate transform-skew transform-scale');
-        $container.addClass(_.unique(classNames).join(' '));
+        $elem.css(cssObj);
+        $elem.removeClass('transform-translate transform-rotate transform-skew transform-scale');
+        $elem.addClass(_.unique(classNames).join(' '));
 
-        $container.trigger('transform.' + ns, { config: config });
+        $elem.trigger('transform.' + ns, transforms);
     }
 
 
@@ -153,122 +170,114 @@ define([
      * @exports
      */
     return {
+
         /**
-         * Call the transform function directly
+         * Direct access to the the main transform method
          */
         transform: _transform,
 
         /**
+         * Translate
          *
-         * @param $container
-         * @param value
+         * @param $elem
+         * @param {Number} valueX
+         * @param {Number} [valueY], defaults to valueX
          */
-        translate: function ($container, value) {
-            this.transform($container, { translate: value });
+        translate: function ($elem, valueX, valueY) {
+            valueY = valueY || valueX;
+            this.transform($elem, { translateX: valueX, translateY: valueY });
         },
 
         /**
+         * TranslateX
          *
-         * @param $container
+         * @param $elem
          * @param value
          */
-        translateX: function ($container, value) {
-            this.transform($container, { translateX: value });
+        translateX: function ($elem, value) {
+            this.transform($elem, { translateX: value });
         },
 
         /**
+         * TranslateY
          *
-         * @param $container
+         * @param $elem
          * @param value
          */
-        translateY: function ($container, value) {
-            this.transform($container, { translateY: value });
+        translateY: function ($elem, value) {
+            this.transform($elem, { translateY: value });
         },
 
         /**
+         * Rotate
          *
-         * @param $container
+         * @param $elem
          * @param value
          */
-        rotate: function ($container, value) {
-            this.transform($container, { rotate: value });
+        rotate: function ($elem, value) {
+            this.transform($elem, { rotate: value });
         },
 
         /**
+         * Skew
          *
-         * @param $container
+         * @param $elem
          * @param value
          */
-        skew: function ($container, value) {
-            this.transform($container, { skew: value });
+        skew: function ($elem, value) {
+            this.transform($elem, { skew: value });
         },
 
         /**
+         * Scale
          *
-         * @param $container
-         * @param value
+         * @param $elem
+         * @param {Number} valueX
+         * @param {Number} [valueY], defaults to valueX
          */
-        skewX: function ($container, value) {
-            this.transform($container, { skewX: value });
+        scale: function ($elem, valueX, valueY) {
+            valueY = valueY || valueX;
+            this.transform($elem, { scaleX: valueX, scaleY: valueY });
         },
 
         /**
+         * ScaleX
          *
-         * @param $container
+         * @param $elem
          * @param value
          */
-        skewY: function ($container, value) {
-            this.transform($container, { skewY: value });
+        scaleX: function ($elem, value) {
+            this.transform($elem, { scaleX: value });
         },
 
         /**
+         * ScaleY
          *
-         * @param $container
+         * @param $elem
          * @param value
          */
-        scale: function ($container, value) {
-            this.transform($container, { scale: value });
-        },
-
-        /**
-         *
-         * @param $container
-         * @param value
-         */
-        scaleX: function ($container, value) {
-            this.transform($container, { scaleX: value });
-        },
-
-        /**
-         *
-         * @param $container
-         * @param value
-         */
-        scaleY: function ($container, value) {
-            this.transform($container, { scaleY: value });
+        scaleY: function ($elem, value) {
+            this.transform($elem, { scaleY: value });
         },
 
         /**
          * Remove all transformations added by this code
          *
-         * @param $container
+         * @param $elem
          * @param value
          */
-        reset: function ($container) {
+        reset: function ($elem) {
             var cssObj = {};
 
             // when called on a container that has never been transformed
-            if (!$container.data('oriTrans')) {
+            if (!$elem.data('oriTrans')) {
                 return;
             }
 
-            // generate the style
-            _.forIn($container.data('oriTrans'), function (value, key) {
-                cssObj[prefix + 'transform'] += key + '(' + value + ') ';
-            });
-            $container.css(cssObj);
-            $container.removeClass('transform-translate transform-rotate transform-skew transform-scale');
-            $container.trigger('reset.' + ns, $container.data('oriTrans'));
+            cssObj[prefix + 'transform'] = $elem.data('oriTrans').matrix;
+            $elem.css(cssObj);
+            $elem.removeClass('transform-translate transform-rotate transform-skew transform-scale');
+            $elem.trigger('reset.' + ns, $elem.data('oriTrans'));
         }
     };
 });

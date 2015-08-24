@@ -8,13 +8,13 @@ define([], function () {
     /**
      * Unmatrix
      *
-     * @param {Element} domElem || matrix thereof
+     * @param {Element|String} input || matrix thereof
      * @return {Object}
      */
-    function unmatrix(domElem) {
-        return 'string' !== typeof domElem ?
-            parse(style(domElem)) :
-            parse(domElem);
+    function unmatrix(input) {
+        return 'string' !== typeof input ?
+            parse(style(input)) :
+            parse(input);
     }
 
     /**

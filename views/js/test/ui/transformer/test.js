@@ -1,19 +1,19 @@
 define([
     'jquery',
-    'ui/transformer'
-], function($, transformer){
+    'ui/transformer',
+    'lib/unmatrix/unmatrix'
+], function ($, transformer, _unmatrix) {
 
     'use strict';
 
-    var $container = $('#container');
-
-    function resetContainer(transformed){
-        var $fixture   = $('#qunit-fixture').empty();
-        $container = $('<div id="container"/>');
-        if(!!transformed){
-            $container.addClass('transformed');
+    function resetContainer(transformation) {
+        var $fixture = $('#qunit-fixture').empty();
+        var $container = $('<div id="container"/>');
+        if (!!transformation) {
+            $container.addClass('pre-' + transformation);
         }
         $fixture.append($container);
+        return $container;
     }
 
     function getRect($container) {
@@ -21,41 +21,44 @@ define([
             key,
             retVal = {};
 
-        // ceiling because especially on rotation and skewing values can differ slightly
-        for(key in rect) {
-            retVal[key] = Math.ceil(rect[key]);
+        // rounding because especially on rotation and skewing values can differ slightly
+        for (key in rect) {
+            retVal[key] = Math.round(rect[key]);
         }
         return retVal;
     }
 
     QUnit.module('Transformer');
 
-    QUnit.test('Module', function(assert){
-        assert.ok(typeof transformer !== 'undefined', 'The module exports something');
+    QUnit.test('Module', function (assert) {
+        QUnit.expect(1);
+        assert.ok(undefined !== transformer, 'The module exports something');
     });
 
-    QUnit.test('API', function(assert){
+    QUnit.test('API', function (assert) {
+        QUnit.expect(9);
+
         assert.ok(typeof transformer === 'object', 'Transformer returns an object');
-        assert.ok(typeof transformer.transform === 'function', 'Exposes method transform()');
         assert.ok(typeof transformer.translate === 'function', 'Exposes method translate()');
         assert.ok(typeof transformer.translateX === 'function', 'Exposes method translateX()');
         assert.ok(typeof transformer.translateY === 'function', 'Exposes method translateY()');
         assert.ok(typeof transformer.rotate === 'function', 'Exposes method rotate()');
         assert.ok(typeof transformer.skew === 'function', 'Exposes method skew()');
-        assert.ok(typeof transformer.skewX === 'function', 'Exposes method skewX()');
-        assert.ok(typeof transformer.skewY === 'function', 'Exposes method skewY()');
         assert.ok(typeof transformer.scale === 'function', 'Exposes method scale()');
         assert.ok(typeof transformer.scaleX === 'function', 'Exposes method scaleX()');
         assert.ok(typeof transformer.scaleY === 'function', 'Exposes method scaleY()');
     });
 
-    QUnit.test('Basics', function(assert){
+    QUnit.test('Basics', function (assert) {
+        QUnit.expect(2);
+
+        var $container = $('#container');
 
         assert.equal($container.length, 1, 'Container exists');
 
         transformer.scale($container, 2);
         assert.deepEqual(
-            $container.data('oriTrans'),
+            $container.data('oriTrans').obj,
             {
                 translateX: 0,
                 translateY: 0,
@@ -69,115 +72,170 @@ define([
     });
 
 
-    QUnit.test('Transformations', function(assert){
+    QUnit.test('Translating / neutral container', function (assert) {
+        QUnit.expect(3);
 
-        var rect,
-            origRectNeutral = getRect($container),
-            origRectTrans = (function() {
-                resetContainer(true);
-                var rect = getRect($container);
-                resetContainer();
-                return rect;
-            }());
+        var $container = $('#container'),
+            rect,
+            origRect = getRect($container);
 
-        var $bar = $('#bar');
-
-//        // Translation neutral container
-//        transformer.translateX($container, 100);
-//        rect = getRect($container);
-//        assert.ok(rect.left === origRectNeutral.left + 100, 'translateX() on a neutral container');
-//        resetContainer();
-//
-//        transformer.translateY($container, 100);
-//        rect = getRect($container);
-//        assert.ok(rect.top === origRectNeutral.top + 100, 'translateY() on a neutral container');
-//        resetContainer();
-//
-//        transformer.translate($container, 100);
-//        rect = getRect($container);
-//        assert.ok(rect.left === origRectNeutral.left + 100 && rect.top === origRectNeutral.top + 100, 'translate() on a neutral container');
-//        resetContainer(true);
-
-        // Translation pre-transformed container
-        console.log(origRectTrans)
+        // Translation neutral container
         transformer.translateX($container, 100);
         rect = getRect($container);
-        console.log(rect)
-        assert.ok(rect.left === origRectTrans.left + 100, 'translateX() on a pre-transformed container');
-        resetContainer(true);
+        assert.ok(rect.left === origRect.left + 100, 'translateX(100)');
 
-//        transformer.translateY($container, 100);
-//        rect = getRect($container);
-//        assert.ok(rect.top === origRectTrans.top + 100, 'translateY() on a pre-transformed container');
-//        resetContainer(true);
-//
-//        transformer.translate($container, 100);
-//        rect = getRect($container);
-//        assert.ok(rect.left === origRectTrans.left + 100 && rect.top === origRectTrans.top + 100, 'translate() on a pre-transformed container');
-//        resetContainer(true);
+        $container = resetContainer();
+        transformer.translateY($container, 100);
+        rect = getRect($container);
+        assert.ok(rect.top === origRect.top + 100, 'translateY(100)');
 
-//        // Scaling
-//        transformer.scaleX($container, 3);
-//        rect = getRect($container);
-//        assert.ok(rect.height === 100 && rect.width === 300, 'scaleX() on a neutral container');
-//        resetContainer();
-//
-//        transformer.scaleY($container, 3);
-//        rect = getRect($container);
-//        assert.ok(rect.width === 100 && rect.height === 300, 'scaleY() on a neutral container');
-//        resetContainer();
-//
-//        transformer.scale($container, 3);
-//        rect = getRect($container);
-//        assert.ok(rect.width === rect.height && rect.width === 300, 'scale() on a neutral container');
-//
-//        // 'true' adds a set of transformations to the container
-//        resetContainer(true);
-//
-//        transformer.scaleX($container, 3);
-//        rect = getRect($container);
-//        assert.ok(rect.height === 100 && rect.width === 450, 'scaleX() on a pre-transformed container');
-//        resetContainer(true);
-//
-//        transformer.scaleY($container, 3);
-//        rect = getRect($container);
-//        assert.ok(rect.width === 100 && rect.height === 450, 'scaleY() on a pre-transformed container');
-//        resetContainer(true);
-//
-//        transformer.scale($container, 3);
-//        rect = getRect($container);
-//        assert.ok(rect.width === rect.height && rect.width === 450, 'scale() on a pre-transformed container');
-//        resetContainer();
-//
-//
-//        // Rotation
-//        transformer.rotate($container, 45);
-//        rect = getRect($container);
-//        assert.ok(rect.height === rect.width && rect.height === 142, 'rotate() on a neutral container');
-//        resetContainer(true);
-//
-//        transformer.rotate($container, 25);
-//        rect = getRect($container);
-//        assert.ok(rect.height === rect.width && rect.height === 142, 'rotate() on a pre-transformed container');
-//        resetContainer();
-
-//
-//        // Skew
-//        transformer.skew($container, 10);
-//        transformer.skew($('#bar'), 10);
-//        var bRect =getRect($('#bar'));
-//        console.log(bRect)
-//
-//        rect = getRect($container);
-//        console.log(rect)
-//        assert.ok(rect.height === rect.width && rect.height === 142, 'skew() on a neutral container');
-//        resetContainer(true);
-
-//        transformer.skew($container, 25);
-//        rect = getSize($container);
-//        assert.ok(rect.height === rect.width && rect.height === 142, 'skew() on a pre-transformed container');
-
+        $container = resetContainer();
+        transformer.translate($container, 100);
+        rect = getRect($container);
+        assert.ok(rect.left === origRect.left + 100 && rect.top === origRect.top + 100, 'translate(100)');
     });
 
+
+    QUnit.test('Translating / pre-transformed container', function (assert) {
+        QUnit.expect(3);
+
+        var $container = resetContainer('translate'),
+            rect,
+            origTop = getRect($container).top;
+
+        transformer.translateX($container, 100);
+        rect = getRect($container);
+        assert.ok(rect.left === 200, 'translateX(100) on top of existing 100px');
+
+        $container = resetContainer('translate');
+        transformer.translateY($container, 100);
+        rect = getRect($container);
+        assert.ok(rect.top === origTop + 100, 'translateY(100) on top of existing 100px');
+
+        $container = resetContainer('translate');
+        transformer.translate($container, 100);
+        rect = getRect($container);
+        assert.ok(rect.left === 200 && rect.top === origTop + 100, 'translate(100) on top of existing 100px');
+    });
+
+
+    QUnit.test('Rotating / neutral container', function (assert) {
+        QUnit.expect(1);
+
+        var $container = $('#container'),
+            rect;
+
+        transformer.rotate($container, 45);
+        rect = getRect($container);
+        assert.ok(rect.height === rect.width && rect.height === 141, 'rotate(45)');
+    });
+
+
+    QUnit.test('Rotating / pre-transformed container', function (assert) {
+        QUnit.expect(1);
+
+        var $container = resetContainer('rotate'),
+            rect;
+
+        transformer.rotate($container, 25);
+        rect = getRect($container);
+        assert.ok(rect.height === rect.width && rect.height === 141, 'rotate(25) on top of existing 20deg');
+    });
+
+
+    QUnit.test('Skewing / neutral container', function (assert) {
+        QUnit.expect(1);
+
+        var $container = $('#container'),
+            rect;
+
+        transformer.skew($container, 45);
+        rect = getRect($container);
+        assert.ok(rect.width === 200 && rect.height === 100, 'skew(45)');
+    });
+
+
+     QUnit.test('Skewing / pre-transformed container', function (assert) {
+         QUnit.expect(1);
+
+         var $container = resetContainer('skew'),
+             rect;
+
+         transformer.skew($container, 25);
+         rect = getRect($container);
+         assert.ok(rect.width === 200 && rect.height === 100, 'skew(45) on top of existing 20deg');
+     });
+
+
+    QUnit.test('Scaling / neutral container', function (assert) {
+        QUnit.expect(3);
+
+        var $container = $('#container'),
+            rect;
+
+        // Scaling
+        transformer.scaleX($container, 3);
+        rect = getRect($container);
+        assert.ok(rect.height === 100 && rect.width === 300, 'scaleX(3)');
+
+        $container = resetContainer();
+        transformer.scaleY($container, 3);
+        rect = getRect($container);
+        assert.ok(rect.width === 100 && rect.height === 300, 'scaleY(3)');
+
+        $container = resetContainer();
+        transformer.scale($container, 3);
+        rect = getRect($container);
+        assert.ok(rect.width === rect.height && rect.width === 300, 'scale(3)');
+    });
+
+
+    QUnit.test('Scaling / pre-transformed container', function (assert) {
+        QUnit.expect(3);
+
+        var $container = resetContainer('scale'),
+            rect;
+
+        transformer.scaleX($container, 3);
+        rect = getRect($container);
+        assert.ok(rect.height === 100 && rect.width === 450, 'scaleX(3) on top of existing 1.5');
+
+        $container = resetContainer('scale');
+        transformer.scaleY($container, 3);
+        rect = getRect($container);
+        assert.ok(rect.width === 100 && rect.height === 450, 'scaleY(3) on top of existing 1.5');
+
+        $container = resetContainer('scale');
+        transformer.scale($container, 3);
+        rect = getRect($container);
+        assert.ok(rect.width === rect.height && rect.width === 450, 'scale(3) on top of existing 1.5');
+    });
+
+
+    QUnit.test('Transform and Reset', function (assert) {
+        QUnit.expect(12);
+
+        var $container = resetContainer('transform'),
+            origTransObj,
+            newTransObj = { translateX: 100, translateY: 100, rotate: 20, skew: 20, scaleX: 1.5, scaleY: 1.5 };
+
+        transformer.transform($container, newTransObj);
+        origTransObj = $container.data('oriTrans').obj;
+        assert.notEqual(newTransObj.translateX, origTransObj.translateX, 'transform() changes the value of translateX');
+        assert.notEqual(newTransObj.translateY, origTransObj.translateY, 'transform() changes the value of translateY');
+        assert.notEqual(newTransObj.rotate, origTransObj.rotate, 'transform() changes the value of rotate');
+        assert.notEqual(newTransObj.skew, origTransObj.skew, 'transform() changes the value of skew');
+        assert.notEqual(newTransObj.scaleX, origTransObj.scaleX, 'transform() changes the value of scaleX');
+        assert.notEqual(newTransObj.scaleY, origTransObj.scaleY, 'transform() changes the value of scaleY');
+
+        transformer.reset($container);
+        newTransObj = _unmatrix($container[0]);
+        assert.equal(newTransObj.translateX, origTransObj.translateX, 'reset() resets the value of translateX');
+        assert.equal(newTransObj.translateY, origTransObj.translateY, 'reset() resets the value of translateY');
+        assert.equal(newTransObj.rotate, origTransObj.rotate, 'reset() resets the value of rotate');
+        assert.equal(newTransObj.skew, origTransObj.skew, 'reset() resets the value of skew');
+        assert.equal(newTransObj.scaleX, origTransObj.scaleX, 'reset() resets the value of scaleX');
+        assert.equal(newTransObj.scaleY, origTransObj.scaleY, 'reset() resets the value of scaleY');
+    });
 
 });
