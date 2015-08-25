@@ -264,6 +264,26 @@ class tao_helpers_File
         return (string) $returnValue;
     }
 
+
+    /**
+     * Retrieve file extensions of a file
+     *
+     * @param  string $path the path of the file we want to get the extension
+     * @return string The extension of the parameter file
+     */
+    public static function getFileExtention($path)
+    {
+
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+
+        if($ext === ''){
+            $splitedPath = explode('.', $path);
+            $ext = end($splitedPath);
+        }
+
+        return $ext;
+    }
+
     /**
      * Get the mime-type of the file in parameter.
      * different methods are used regarding the configuration of the server.
