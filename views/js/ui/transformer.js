@@ -278,6 +278,21 @@ define([
             $elem.css(cssObj);
             $elem.removeClass('transform-translate transform-rotate transform-skew transform-scale');
             $elem.trigger('reset.' + ns, $elem.data('oriTrans'));
+        },
+
+        /**
+         * Get current transformation. Though _getTransformation() expects a DOM element
+         * jQuery elements are also accepted to keep the same format the other functions have.
+         *
+         * @param {DomElement|jQueryElement} elem
+         * @returns {{matrix: string, obj: obj}}
+         */
+        getTransformation: function (elem) {
+            if (elem instanceof $) {
+                elem = elem[0];
+            }
+            return _getTransformation(elem);
         }
+
     };
 });
