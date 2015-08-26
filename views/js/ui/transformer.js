@@ -292,6 +292,15 @@ define([
                 elem = elem[0];
             }
             return _getTransformation(elem);
+        },
+
+        /**
+         * Convenience function to retrieve the vendor prefix specific to transformations.
+         *
+         * @returns {String} '-webkit-'|'-ms-'|''
+         */
+        getVendorPrefix: function() {
+            return prefix;
         }
 
     };
