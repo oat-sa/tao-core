@@ -183,7 +183,7 @@ textarea,
 select {
     @include simple-border();
     @include border-radius(2);
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: $regularFont;
     padding: 4px;
     min-width: 150px;
     background-color: white;
