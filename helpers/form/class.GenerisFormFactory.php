@@ -47,7 +47,7 @@ class tao_helpers_form_GenerisFormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Property property
+     * @param  core_kernel_classes_Property $property
      * @return tao_helpers_form_FormElement
      */
     public static function elementMap( core_kernel_classes_Property $property)
@@ -63,20 +63,20 @@ class tao_helpers_form_GenerisFormFactory
 		}
 		
 		//authoring widget is not used in standalone mode
-		if ($widgetResource->getUri() == 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring'
+		if ($widgetResource->getUri() === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring'
 		    && tao_helpers_Context::check('STANDALONE_MODE')) {
 			return null;
 		}
 		
 		// horrible hack to fix file widget
-		if ($widgetResource->getUri() == 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile') {
+		if ($widgetResource->getUri() === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile') {
 		    $widgetResource = new core_kernel_classes_Resource('http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile');
 		}
 		
 		$element = tao_helpers_form_FormFactory::getElementByWidget(tao_helpers_Uri::encode($property->getUri()), $widgetResource);
 		
 		if(!is_null($element)){
-		    if($element->getWidget() != $widgetResource->getUri()){
+		    if($element->getWidget() !== $widgetResource->getUri()){
                 common_Logger::w('Widget definition differs from implementation: '.$element->getWidget().' != '.$widgetResource->getUri());
 		        return null;
 			}
@@ -107,10 +107,6 @@ class tao_helpers_form_GenerisFormFactory
 						}
 					}
 
-					if (method_exists($element, 'setRange')){
-						$element->setRange($range);
-					}
-					
 					//complete the options listing
 					$element->setOptions($options);
 				}
@@ -130,8 +126,8 @@ class tao_helpers_form_GenerisFormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class clazz
-     * @param  Class topLevelClazz
+     * @param  core_kernel_classes_Class $clazz
+     * @param  core_kernel_classes_Class $topLevelClazz
      * @return array
      */
     public static function getClassProperties( core_kernel_classes_Class $clazz,  core_kernel_classes_Class $topLevelClazz = null)

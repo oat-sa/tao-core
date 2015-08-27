@@ -43,7 +43,7 @@ abstract class tao_helpers_form_elements_Treebox extends tao_helpers_form_elemen
 
     public function rangeToTree( \core_kernel_classes_Class $range, $recursive = false )
     {
-        return TreeService::singleton()->getNestedStructure( $range, $recursive );
+        return TreeService::singleton()->getNestedStructure( $range->getInstances(false) );
     }
 
 

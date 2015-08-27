@@ -1,6 +1,4 @@
 <?php
-use oat\taoBackOffice\model\tree\TreeService;
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -57,37 +55,25 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
     }
 
     /**
-     * @access public
+     * @param  string $format
      *
      * @return array
      */
-    /**
-     * Short description of method getOptions
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string format
-     * @return array
-     */
-    public function getOptions($format = 'flat')
+    public function getOptions( $format = 'flat' )
     {
-        $returnValue = array();
 
-
-
-        switch($format){
+        switch ($format) {
             case 'structured':
                 $returnValue = parent::getOptions();
                 break;
             case 'flat':
             default:
-                $returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData(parent::getOptions());
+                $returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData( parent::getOptions() );
                 break;
         }
 
 
-
-        return (array) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -105,37 +91,33 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
      */
     public function render()
     {
-        $widgetTreeName  = $this->name.'-TreeBox';
-        $widgetValueName = $this->name.'-TreeValues';
+        $widgetTreeName  = $this->name . '-TreeBox';
+        $widgetValueName = $this->name . '-TreeValues';
 
         $returnValue = "<label class='form_desc' for='{$this->name}'>" . _dh( $this->getDescription() ) . "</label>";
-        if ($this->getRange()->isSubClassOf( TreeService::singleton()->getRootClass() )) {
+
+        $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
+
+        $returnValue .= "<div id='{$widgetValueName}'></div>";
 
 
-            $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
+        $returnValue .= "<div id='{$widgetTreeName}' class='tree-widget'></div>";
 
-            $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
-            $returnValue .= "<div id='{$widgetValueName}'></div>";
-
-
-            $returnValue .= "<div id='{$widgetTreeName}'></div>";
-
-            //initialize the AsyncFileUpload Js component
-            $returnValue .= "<script type=\"text/javascript\">
+        $returnValue .= "<script type=\"text/javascript\">
 			$(function(){
-			 require(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTreeSelectClass) {
-				$(\"div[id='".$widgetTreeName.'\']").tree({
+			 require(['require', 'jquery', 'generis.tree.select'], function(req, $) {
+				$(\"div[id='" . $widgetTreeName . '\']").tree({
 					data: {
 						type : "json",
 						async: false,
 						opts : {static : ';
-            $returnValue .= json_encode($this->getOptions('structured'));
-            $returnValue .= '}
+        $returnValue .= json_encode( $this->getOptions( 'structured' ) );
+        $returnValue .= '}
     				},
     				callback:{
 	    				onload: function(TREE_OBJ) {
-	    					checkedElements = '.json_encode($this->values).';
-                            var tree = $("#'. $widgetTreeName.'");
+	    					checkedElements = ' . json_encode( $this->values ) . ';
+                            var tree = $("#' . $widgetTreeName . '");
 	    					$.each(checkedElements, function(i, elt){
 								NODE = $("li[id=\'"+elt+"\']", tree);
 								if(NODE.length > 0){
@@ -150,10 +132,10 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
 							});
 	    				},
 	    				onchange: function(NODE, TREE_OBJ){
-	    					var valueContainer = $("div[id=\''.$widgetValueName.'\']");
+	    					var valueContainer = $("div[id=\'' . $widgetValueName . '\']");
 	    					valueContainer.empty();
 	    					$.each($.tree.plugins.checkbox.get_checked(TREE_OBJ), function(i, myNODE){
-	    						valueContainer.append("<input type=\'hidden\' name=\''.$this->name.'_"+i+"\' value=\'"+$(myNODE).attr("id")+"\' />");
+	    						valueContainer.append("<input type=\'hidden\' name=\'' . $this->name . '_"+i+"\' value=\'"+$(myNODE).attr("id")+"\' />");
 							});
 	    				}
     				},
@@ -171,15 +153,10 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
 			 });
 			});
 			</script>';
-            $returnValue .= "</div><br />";
+        $returnValue .= "</div><br />";
 
 
-
-            return (string) $returnValue;
-
-        } else {
-            $returnValue .= __( 'Impossible to load tree resource' );
-        }
+        return (string) $returnValue;
 
         return $returnValue;
     }
@@ -200,38 +177,4 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
 
     }
 
-    /**
-     * @param core_kernel_classes_Class $range
-     */
-    public function setRange( core_kernel_classes_Class $range )
-    {
-        $this->range = $range;
-    }
-
-    /**
-     * @return core_kernel_classes_Class
-     */
-    public function getRange()
-    {
-        return $this->range;
-    }
-
-    /**
-     * Prepares well encoded list of selected nodes for embedding to JS
-     * @return string
-     */
-    protected function getSelectedNodes()
-    {
-        return json_encode(
-            array_map(
-                function ( $uri ) {
-                    return tao_helpers_Uri::decode( $uri );
-                },
-                $this->getValues()
-            )
-        );
-
-    }
-
 }
-
