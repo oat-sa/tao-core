@@ -69,6 +69,21 @@ define([
 
 
     /**
+     * Get the transformation origin of an element
+     *
+     * @param elem
+     * @returns {string}
+     * @private
+     */
+    var _getTransformOrigin = function(elem) {
+        var _style = window.getComputedStyle(elem, null);
+        return _style.getPropertyValue('transform-origin') ||
+            _style.getPropertyValue('-webkit-transform-origin') ||
+            _style.getPropertyValue('-ms-transform-origin');
+    };
+
+
+    /**
      * Normalize property keys to the same format unmatrix uses
      *
      * @param transforms
@@ -114,13 +129,16 @@ define([
     function _transform($elem, transforms) {
         var cssObj = {},
             defaults = _unmatrix('none'),
-            classNames = [];
+            classNames = [],
+            oriTrans;
 
         transforms = _normalizeTransforms(transforms);
 
         // memorize old transformation
         if (!$elem.data('oriTrans')) {
-            $elem.data('oriTrans', _getTransformation($elem[0]));
+            oriTrans =  _getTransformation($elem[0]);
+            oriTrans.origin = _getTransformOrigin($elem[0]);
+            $elem.data('oriTrans', oriTrans);
         }
 
         cssObj[prefix + 'transform'] = '';
@@ -275,6 +293,7 @@ define([
             }
 
             cssObj[prefix + 'transform'] = $elem.data('oriTrans').matrix;
+            cssObj[prefix + 'transform-origin'] = $elem.data('oriTrans').origin;
             $elem.css(cssObj);
             $elem.removeClass('transform-translate transform-rotate transform-skew transform-scale');
             $elem.trigger('reset.' + ns, $elem.data('oriTrans'));
@@ -295,13 +314,16 @@ define([
         },
 
         /**
-         * Convenience function to retrieve the vendor prefix specific to transformations.
+         * Set the transformation origin to another value
          *
-         * @returns {String} '-webkit-'|'-ms-'|''
+         * @param $elem
+         * @param value
+         * @private
          */
-        getVendorPrefix: function() {
-            return prefix;
+        setTransformOrigin: function($elem, value) {
+            var cssObj = {};
+            cssObj[prefix + 'transform-origin'] = value;
+            $elem.css(cssObj);
         }
-
     };
 });
