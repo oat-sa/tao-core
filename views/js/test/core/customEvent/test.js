@@ -20,7 +20,7 @@
  */
 define([
     'jquery',
-    'lib/customEvent'
+    'core/customEvent'
 ], function($, customEvent){
     'use strict';
 
