@@ -61,9 +61,33 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
      *
      * @return array
      */
-    public function getOptions()
+    /**
+     * Short description of method getOptions
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  string format
+     * @return array
+     */
+    public function getOptions($format = 'flat')
     {
-        return parent::getOptions();
+        $returnValue = array();
+
+
+
+        switch($format){
+            case 'structured':
+                $returnValue = parent::getOptions();
+                break;
+            case 'flat':
+            default:
+                $returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData(parent::getOptions());
+                break;
+        }
+
+
+
+        return (array) $returnValue;
     }
 
     /**
@@ -81,112 +105,77 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
      */
     public function render()
     {
-        $widgetTreeBoxName     = $this->name . '-TreeBox';
-        $widgetTreeStorageName = $this->name . '-TreeStorage';
+        $widgetTreeName  = $this->name.'-TreeBox';
+        $widgetValueName = $this->name.'-TreeValues';
 
         $returnValue = "<label class='form_desc' for='{$this->name}'>" . _dh( $this->getDescription() ) . "</label>";
         if ($this->getRange()->isSubClassOf( TreeService::singleton()->getRootClass() )) {
 
+
+            $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
+
             $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
-
-            $returnValue .= "<div id='{$widgetTreeStorageName}' >";
-            $storeElement = \tao_helpers_form_FormFactory::getElement( $widgetTreeStorageName, 'Checkbox' );
-            $storeElement->setOptions( $this->getOptions() );
-            $storeElement->setValues( $this->getValues() );
-            $returnValue .= $storeElement->render();
-            $returnValue .= "</div>";
-
-            $returnValue .= "<div id='{$widgetTreeBoxName}' class='tree-box'></div>";
-            $returnValue .= "<style type='text/css'>
-                #$widgetTreeStorageName{
-                    display:none;
-                }
-                 </style>";
-
-            $returnValue .= "<script type=\"text/javascript\" class='asd'>
-    $(function () {
-
-        require(['jquery', 'helpers', 'taoBackOffice/treeRender', 'uri'], function ($, helpers, treeRender, uriHelper) {
-            'use strict';
-            var container = $('#$widgetTreeBoxName');
-            var dataContainer = $('#$widgetTreeStorageName');
-
-            var uri = '{$this->getRange()->getUri()}';
-
-            $.post(helpers._url('getTree', 'Trees', 'taoBackOffice'), {uri: uri}, function (treeData) {
-                        var parent = container.closest('.tree-box');
-                        var originalWidth, originalHeight;
-
-                        var resizeContainer = function () {
-                            container.height(parent.height() - parent.find('.panel').eq(0).outerHeight());
-                            container.width(parent.width());
-                        };
-
-                        $(window).on('resize', resizeContainer);
-
-                        resizeContainer();
-                        var options = {
-                            interaction: {
-                                multiselect: true
-                            }
-                        };
-                        var network = treeRender.run(container[0], treeData, options);
-
-                        try {
-                            network.selectNodes({$this->getSelectedNodes()});
-                            network.fit({nodes: {$this->getSelectedNodes()}});
-                        }
-                        catch (e) {
-                            if (e instanceof RangeError) {
-                                // handle RangeError that thrown if node was not found ( f.e.base tree changed/replaced )
-                            }
-                        }
-                        network.on('click', function (params) {
-                            dataContainer.find(':checkbox').prop('checked', false);
-                            $.each(params.nodes, function () {
-                                dataContainer.find(':checkbox[value=' + uriHelper.encode(this) + ']').prop('checked', true);
-                            });
-                        });
-
-                        container.hover(function () {
-                            originalWidth = container.closest('.form-content').width();
-                            originalHeight = container.height();
-
-                            container.stop().animate({height: '50vh'}, '10', function () {
-                                        network.redraw();
-                                        network.fit({nodes: network.getSelectedNodes()})
-                                    }
-                            );
-
-                            container.closest('.form-content').animate({width: '60vw'}, '10');
-                            container.animate({width: '60vw'}, '10', function () {
-                                network.redraw();
-                                network.fit();
-                            });
-
-                        }, function () {
-                            container.stop().animate({height: originalHeight}, '10', function () {
-                                        network.redraw();
-                                        network.fit();
-                                    }
-                            );
-                            container.closest('.form-content').animate({width: originalWidth}, '10');
-                            container.animate({width: originalWidth}, '10', function () {
-                                network.redraw();
-                                network.fit();
-                            });
-
-                        });
-                    }
-            )
-            ;
-        });
-    })
-    ;
-</script>";
+            $returnValue .= "<div id='{$widgetValueName}'></div>";
 
 
+            $returnValue .= "<div id='{$widgetTreeName}'></div>";
+
+            //initialize the AsyncFileUpload Js component
+            $returnValue .= "<script type=\"text/javascript\">
+			$(function(){
+			 require(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTreeSelectClass) {
+				$(\"div[id='".$widgetTreeName.'\']").tree({
+					data: {
+						type : "json",
+						async: false,
+						opts : {static : ';
+            $returnValue .= json_encode($this->getOptions('structured'));
+            $returnValue .= '}
+    				},
+    				callback:{
+	    				onload: function(TREE_OBJ) {
+	    					checkedElements = '.json_encode($this->values).';
+                            var tree = $("#'. $widgetTreeName.'");
+	    					$.each(checkedElements, function(i, elt){
+								NODE = $("li[id=\'"+elt+"\']", tree);
+								if(NODE.length > 0){
+									parent = TREE_OBJ.parent(NODE);
+									TREE_OBJ.open_branch(parent);
+									while(parent != -1){
+										parent = TREE_OBJ.parent(parent);
+										TREE_OBJ.open_branch(parent);
+									}
+									$.tree.plugins.checkbox.check(NODE);
+								}
+							});
+	    				},
+	    				onchange: function(NODE, TREE_OBJ){
+	    					var valueContainer = $("div[id=\''.$widgetValueName.'\']");
+	    					valueContainer.empty();
+	    					$.each($.tree.plugins.checkbox.get_checked(TREE_OBJ), function(i, myNODE){
+	    						valueContainer.append("<input type=\'hidden\' name=\''.$this->name.'_"+i+"\' value=\'"+$(myNODE).attr("id")+"\' />");
+							});
+	    				}
+    				},
+					types: {
+					 "default" : {
+							renameable	: false,
+							deletable	: false,
+							creatable	: false,
+							draggable	: false
+						}
+					},
+					ui: { theme_name : "checkbox" },
+					plugins : { checkbox : { three_state : false} }
+				});
+			 });
+			});
+			</script>';
             $returnValue .= "</div><br />";
+
+
+
+            return (string) $returnValue;
 
         } else {
             $returnValue .= __( 'Impossible to load tree resource' );

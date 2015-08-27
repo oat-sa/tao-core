@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\TreeAware;
 
 /**
  * The GenerisFormFactory enables you to create Forms using rdf data and the
@@ -88,16 +89,13 @@ class tao_helpers_form_GenerisFormFactory
 			if(method_exists($element, 'setOptions')){
 				$range = $property->getRange();
 				
-				if($range != null){
+				if($range !== null){
 					$options = array();
 					
-					if($element instanceof tao_helpers_form_elements_Treeview){
-						if($property->getUri() == RDFS_RANGE){
-							$options = self::rangeToTree(new core_kernel_classes_Class(RDFS_RESOURCE));
-						}
-						else{
-							$options = self::rangeToTree($range);
-						}
+					if($element instanceof TreeAware){
+						$options = $element->rangeToTree(
+							$property->getUri() === RDFS_RANGE ? new core_kernel_classes_Class( RDFS_RESOURCE ) : $range
+						);
 					}
 					else{
 						foreach($range->getInstances(true) as $rangeInstance){
@@ -341,69 +339,23 @@ class tao_helpers_form_GenerisFormFactory
         return $returnValue;
     }
 
-    /**
-     * Short description of method rangeToTree
-     *
-     * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  core_kernel_classes_Class $range
-     * @param  boolean $recursive
-     * @return array
-     */
-    protected static function rangeToTree( core_kernel_classes_Class $range, $recursive = false)
-    {
-        $data = array();
-    	foreach($range->getSubClasses(false) as $rangeClass){
-			$classData = array(
-				'data' => $rangeClass->getLabel(),
-				'attributes' => array(
-					'id' => tao_helpers_Uri::encode($rangeClass->getUri()), 
-					'class' => 'node-instance'
-				)
-			);
-			$children = self::rangeToTree($rangeClass, true);
-			if(count($children) > 0){
-				$classData['state'] = 'closed';
-				$classData['children'] = $children;
-			}
-			
-			$data[] = $classData;
-		}
-		if(!$recursive){
-        	$returnValue = array(
-				'data' => $range->getLabel(),
-				'attributes' => array(
-					'id' => tao_helpers_Uri::encode($range->getUri()), 
-					'class' => 'node-root'
-				),
-				'children' => $data
-			);
-        }
-        else{
-        	$returnValue = $data;
-        }
-        
-        
-
-        return (array) $returnValue;
-    }
 
     /**
      * Short description of method extractTreeData
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  array data
-     * @param  boolean recursive
+     * @param  array $data
+     * @param  boolean $recursive
      * @return array
      */
     public static function extractTreeData($data, $recursive = false)
     {
         $returnValue = array();
 
-        
-        
-        
+
+
+
         if(isset($data['data'])){
         	$data = array($data);
         }
@@ -413,12 +365,10 @@ class tao_helpers_form_GenerisFormFactory
         		$returnValue = array_merge($returnValue, self::extractTreeData($node['children'], true));
         	}
         }
-        
-        
+
+
 
         return (array) $returnValue;
     }
 
 }
-
-?>

@@ -1,5 +1,8 @@
 <?php
-/**  
+use oat\tao\helpers\form\elements\TreeAware;
+use oat\taoBackOffice\model\tree\TreeService;
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -27,7 +30,7 @@
  * @package tao
  
  */
-abstract class tao_helpers_form_elements_Treebox extends tao_helpers_form_elements_MultipleElement
+abstract class tao_helpers_form_elements_Treebox extends tao_helpers_form_elements_MultipleElement implements TreeAware
 {
 
     /**
@@ -37,6 +40,12 @@ abstract class tao_helpers_form_elements_Treebox extends tao_helpers_form_elemen
      * @var string
      */
     protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox';
+
+    public function rangeToTree( \core_kernel_classes_Class $range, $recursive = false )
+    {
+        return TreeService::singleton()->getNestedStructure( $range, $recursive );
+    }
+
 
 }
 
