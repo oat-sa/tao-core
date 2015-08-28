@@ -280,7 +280,7 @@ class Layout{
     }
 
     public static function getMessage() {
-        $message = __('Tao Home');
+        $message = '';
 
         if (self::isThemingEnabled() === true) {
             // Get Theming info from taoThemingPlatform...

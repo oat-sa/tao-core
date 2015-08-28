@@ -8,6 +8,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
 // never removed by user
 // and version considered unstable resp. sandbox
 $hasVersionWarning = empty($_COOKIE['versionWarning'])
+    && !!$releaseMsgData['msg']
     && ($releaseMsgData['is-unstable']
     || $releaseMsgData['is-sandbox']);
 ?>
@@ -67,7 +68,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <?= $val ?>
     <?php endif; ?>
     <?php $releaseMsgData = Layout::getReleaseMsgData();
-    if ($releaseMsgData['is-unstable'] || $releaseMsgData['is-sandbox']): ?>
+    if ($releaseMsgData['msg'] && ($releaseMsgData['is-unstable'] || $releaseMsgData['is-sandbox'])): ?>
         <span class="rgt">
             <?php if ($releaseMsgData['is-unstable']): ?>
                 <span class="icon-warning"></span>

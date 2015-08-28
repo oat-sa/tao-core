@@ -178,7 +178,15 @@ define([
 
                     //check the mime-type
                     if(options.params.filters){
-                        var filters = options.params.filters.split(',');
+                        var filters = [];
+
+                        if (!_.isString(options.params.filters)) {
+                            for(var i in options.params.filters){
+                                filters.push(options.params.filters[i]['mime']);
+                            }
+                        } else {
+                            filters = options.params.filters.split(',');
+                        }
                         //TODO check stars
                         files = _.filter(files, function(file){
                             return _.contains(filters, file.type);

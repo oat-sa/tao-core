@@ -71,7 +71,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                 if ('number' !== typeof options.animate) {
                     options.animate = defaults.animate;
                 } else {
-                    options.animate = Math.min(animateDiff, options.animate);
+                    options.animate = Math.max(animateDiff, options.animate);
                 }
             }
 
@@ -229,7 +229,9 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
 
                 $overlay = $('#' + options.modalOverlay);
 
-                if (options.animate) {
+                $element.show();
+
+                if (options.animate && $element.is(':visible')) {
                     $element.css({
                         'top': '-' + modalHeight + 'px',
                         'display': 'block'
@@ -239,7 +241,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                     $element.animate(to, options.animate, onOpen);
                 } else {
                     $overlay.show();
-                    $element.css(to).show();
+                    $element.css(to);
                     onOpen();
                 }
             }
@@ -266,7 +268,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
 
             modal._unBindEvents($element);
 
-            if (options.animate){
+            if (options.animate && $element.is(':visible')){
                 $overlay.fadeOut(options.animate - animateDiff);
                 $element.animate({'opacity': '0', 'top': '-1000px'}, options.animate, onClose);
             } else {
