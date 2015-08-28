@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\TreeAware;
 
 /**
  * Short description of class tao_helpers_form_elements_Treeview
@@ -28,8 +29,7 @@
  * @package tao
  
  */
-abstract class tao_helpers_form_elements_Treeview
-    extends tao_helpers_form_elements_MultipleElement
+abstract class tao_helpers_form_elements_Treeview extends tao_helpers_form_elements_MultipleElement implements TreeAware
 {
     // --- ASSOCIATIONS ---
 
@@ -44,8 +44,46 @@ abstract class tao_helpers_form_elements_Treeview
      */
     protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView';
 
-    // --- OPERATIONS ---
+    /**
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  core_kernel_classes_Class $range
+     * @param  boolean $recursive
+     * @return array
+     */
+    public function rangeToTree( core_kernel_classes_Class $range, $recursive = false)
+    {
+        $data = array();
+        foreach($range->getSubClasses(false) as $rangeClass){
+            $classData = array(
+                'data' => $rangeClass->getLabel(),
+                'attributes' => array(
+                    'id' => tao_helpers_Uri::encode($rangeClass->getUri()),
+                    'class' => 'node-instance'
+                )
+            );
+            $children = $this->rangeToTree($rangeClass, true);
+            if(count($children) > 0){
+                $classData['state'] = 'closed';
+                $classData['children'] = $children;
+            }
 
-} /* end of abstract class tao_helpers_form_elements_Treeview */
+            $data[] = $classData;
+        }
+        if(!$recursive){
+            $returnValue = array(
+                'data' => $range->getLabel(),
+                'attributes' => array(
+                    'id' => tao_helpers_Uri::encode($range->getUri()),
+                    'class' => 'node-root'
+                ),
+                'children' => $data
+            );
+        }
+        else{
+            $returnValue = $data;
+        }
 
-?>
+        return $returnValue;
+    }
+
+}
