@@ -212,30 +212,4 @@ define([
     });
 
 
-    QUnit.test('Transform and Reset', function (assert) {
-        QUnit.expect(12);
-
-        var $container = resetContainer('transform'),
-            origTransObj,
-            newTransObj = { translateX: 100, translateY: 100, rotate: 20, skew: 20, scaleX: 1.5, scaleY: 1.5 };
-
-        transformer.transform($container, newTransObj);
-        origTransObj = $container.data('oriTrans').obj;
-        assert.notEqual(newTransObj.translateX, origTransObj.translateX, 'transform() changes the value of translateX');
-        assert.notEqual(newTransObj.translateY, origTransObj.translateY, 'transform() changes the value of translateY');
-        assert.notEqual(newTransObj.rotate, origTransObj.rotate, 'transform() changes the value of rotate');
-        assert.notEqual(newTransObj.skew, origTransObj.skew, 'transform() changes the value of skew');
-        assert.notEqual(newTransObj.scaleX, origTransObj.scaleX, 'transform() changes the value of scaleX');
-        assert.notEqual(newTransObj.scaleY, origTransObj.scaleY, 'transform() changes the value of scaleY');
-
-        transformer.reset($container);
-        newTransObj = _unmatrix($container[0]);
-        assert.equal(newTransObj.translateX, origTransObj.translateX, 'reset() resets the value of translateX');
-        assert.equal(newTransObj.translateY, origTransObj.translateY, 'reset() resets the value of translateY');
-        assert.equal(newTransObj.rotate, origTransObj.rotate, 'reset() resets the value of rotate');
-        assert.equal(newTransObj.skew, origTransObj.skew, 'reset() resets the value of skew');
-        assert.equal(newTransObj.scaleX, origTransObj.scaleX, 'reset() resets the value of scaleX');
-        assert.equal(newTransObj.scaleY, origTransObj.scaleY, 'reset() resets the value of scaleY');
-    });
-
 });
