@@ -304,24 +304,14 @@ class Layout{
     }
     
     public static function isUnstable() {
+
         $isUnstable = true;
-        
-        if (self::isThemingEnabled() === true) {
-            $themingService = PlatformThemingService::singleton();
-            $themingConfig = $themingService->retrieveThemingConfig();
-            
-            if (empty($themingConfig['stable']) === false) {
-                $isUnstable = !$themingConfig['stable'];
-            }
-        } else {
-            switch (TAO_RELEASE_STATUS) {
-                case 'demoS':
-                case 'stable':
-                    $isUnstable = false;
-                    break;
-            }
+        switch (TAO_RELEASE_STATUS) {
+            case 'demoS':
+            case 'stable':
+                $isUnstable = false;
+                break;
         }
-        
         return $isUnstable;
     }
     
