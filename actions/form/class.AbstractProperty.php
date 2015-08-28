@@ -19,9 +19,12 @@
  *
  */
 
-abstract class tao_actions_form_AbstractProperty
-    extends tao_actions_form_Generis
+abstract class tao_actions_form_AbstractProperty extends tao_actions_form_Generis
 {
+	/**
+	 * @var integer
+	 */
+	protected $index;
 
 	/**
 	 * Initialize the form
@@ -39,6 +42,8 @@ abstract class tao_actions_form_AbstractProperty
 			$name = 'form_'.(count(self::$forms)+1);
 		}
 		unset($this->options['name']);
+
+		$this->index = array_key_exists( 'index', $this->options ) ? $this->options['index'] : 1;
 
 		$this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
 
@@ -83,5 +88,13 @@ abstract class tao_actions_form_AbstractProperty
 				. '</span>';
 		}
 		return $groupTitle;
+	}
+
+	/**
+	 * @return int
+	 */
+	protected function getIndex()
+	{
+		return $this->index;
 	}
 }
