@@ -190,11 +190,6 @@ define([
     return {
 
         /**
-         * Direct access to the the main transform method
-         */
-        transform: _transform,
-
-        /**
          * Translate
          *
          * @param $elem
@@ -203,7 +198,7 @@ define([
          */
         translate: function ($elem, valueX, valueY) {
             valueY = valueY || valueX;
-            this.transform($elem, { translateX: valueX, translateY: valueY });
+            _transform($elem, { translateX: valueX, translateY: valueY });
         },
 
         /**
@@ -213,7 +208,7 @@ define([
          * @param value
          */
         translateX: function ($elem, value) {
-            this.transform($elem, { translateX: value });
+            _transform($elem, { translateX: value });
         },
 
         /**
@@ -223,7 +218,7 @@ define([
          * @param value
          */
         translateY: function ($elem, value) {
-            this.transform($elem, { translateY: value });
+            _transform($elem, { translateY: value });
         },
 
         /**
@@ -233,7 +228,7 @@ define([
          * @param value
          */
         rotate: function ($elem, value) {
-            this.transform($elem, { rotate: value });
+            _transform($elem, { rotate: value });
         },
 
         /**
@@ -243,7 +238,7 @@ define([
          * @param value
          */
         skew: function ($elem, value) {
-            this.transform($elem, { skew: value });
+            _transform($elem, { skew: value });
         },
 
         /**
@@ -255,7 +250,7 @@ define([
          */
         scale: function ($elem, valueX, valueY) {
             valueY = valueY || valueX;
-            this.transform($elem, { scaleX: valueX, scaleY: valueY });
+            _transform($elem, { scaleX: valueX, scaleY: valueY });
         },
 
         /**
@@ -265,7 +260,7 @@ define([
          * @param value
          */
         scaleX: function ($elem, value) {
-            this.transform($elem, { scaleX: value });
+            _transform($elem, { scaleX: value });
         },
 
         /**
@@ -275,7 +270,7 @@ define([
          * @param value
          */
         scaleY: function ($elem, value) {
-            this.transform($elem, { scaleY: value });
+            _transform($elem, { scaleY: value });
         },
 
         /**
