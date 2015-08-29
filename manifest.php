@@ -27,7 +27,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '2.10.1',
+    'version' => '2.10.2',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=2.7.1'
@@ -77,7 +77,8 @@ return array(
             dirname(__FILE__).'/scripts/install/setServiceState.php',
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/setDefaultTheme.php',
-            dirname(__FILE__).'/scripts/install/registerEntryPoint.php'
+            dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
+            dirname(__FILE__).'/scripts/install/addLoginFormConfig.php',
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
