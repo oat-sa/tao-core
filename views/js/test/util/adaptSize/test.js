@@ -34,24 +34,30 @@ define([
     QUnit.test('Height adaptation', function (assert) {
         QUnit.expect(1);
 
-        var $targets = $('.target');
+        var $targets = $('.target'),
+            $e1 = $('#e-1'),
+            $e2 = $('#e-2'),
+            $e3 = $('#e-3');
 
         // expect the adapter to set all other to the same height
         adaptSize.height($targets);
 
-        assert.ok($('#e-1').height() === $('#e-2').height() && $('#e-1').height() === $('#e-3').height(), 'Height adaptation');
+        assert.ok($e1.height() === $e2.height() && $e1.height() === $e3.height() && $e1.height() > 0, 'Adapts height of several elements');
     });
 
 
     QUnit.test('Width adaptation', function (assert) {
         QUnit.expect(1);
 
-        var $targets = $('.target');
+        var $targets = $('.target'),
+            $e1 = $('#e-1'),
+            $e2 = $('#e-2'),
+            $e3 = $('#e-3');
 
         // expect the adapter to set all other to the same height
         adaptSize.width($targets);
 
-        assert.ok($('#e-1').width() === $('#e-2').width() && $('#e-1').width() === $('#e-3').width(), 'Width adaptation');
+        assert.ok($e1.width() === $e2.width() && $e1.width() === $e3.width() && $e1.width() > 0, 'Adapts width of several elements');
     });
 
 
@@ -60,15 +66,18 @@ define([
     QUnit.test('Size adaptation, both sides', function (assert) {
         QUnit.expect(1);
 
-        var $targets = $('.target');
+        var $targets = $('.target'),
+            $e1 = $('#e-1'),
+            $e2 = $('#e-2'),
+            $e3 = $('#e-3');
 
         // expect the adapter to set all other to the same height
         adaptSize.both($targets);
 
-        var w = $('#e-1').width() === $('#e-2').width() && $('#e-1').width() === $('#e-3').width();
-        var h = $('#e-1').height() === $('#e-2').height() && $('#e-1').height() === $('#e-3').height();
+        var w = $e1.width() === $e2.width() && $e1.width() === $e3.width() && $e1.width() > 0;
+        var h = $e1.height() === $e2.height() && $e1.height() === $e3.height() && $e1.height() > 0;
 
-        assert.ok(w && h, 'Size adaptation, both sides');
+        assert.ok(w && h, 'Adapts height and of several elements in one go');
     });
 
 });
