@@ -77,7 +77,7 @@ define([
         var w = $e1.width() === $e2.width() && $e1.width() === $e3.width() && $e1.width() > 0;
         var h = $e1.height() === $e2.height() && $e1.height() === $e3.height() && $e1.height() > 0;
 
-        assert.ok(w && h, 'Adapts height and of several elements in one go');
+        assert.ok(w && h, 'Adapts height and width of several elements in one go');
     });
 
 });
