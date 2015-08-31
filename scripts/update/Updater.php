@@ -295,6 +295,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $currentVersion = '2.10.0';
         }
+
+        // widget definitions
+        if ($currentVersion === '2.10.0') {
+            OntologyUpdater::syncModels();
+            $currentVersion = '2.10.1';
+        }
         
         return $currentVersion;
     }

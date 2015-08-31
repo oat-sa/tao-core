@@ -1,7 +1,7 @@
 @import "inc/bootstrap";
 
 
-$navHeight: 64px;
+$navHeight: 64;
 
 @mixin menu-states($state: normal) {
     @if($state == 'hover') {
@@ -9,7 +9,7 @@ $navHeight: 64px;
         transition: opacity .5s, top 0s;
         transition-delay: .5s;
         opacity: 1;
-        top: $navHeight;
+        top: $navHeight * 1px;
     }
     @else {
         top: -5000px;
@@ -55,10 +55,21 @@ $navHeight: 64px;
 
 //Navigation
 .dark-bar {
-    max-height: $navHeight;
-    overflow-y: hidden;
+    // requires extra space for bottom border
+    max-height: ($navHeight + 1) * 1px;
     background: $darkBar;
     color: $darkBarTxt;
+
+    // when resizing the window .settings-menu can slip under .main-menu
+    // until the JS class toggle kicks in
+    overflow-y: hidden;
+
+    // this makes sure that after the previous fix
+    // sub menus are still available
+    &:hover {
+        overflow-y: visible;
+    }
+
     a {
         color: $darkBarTxt;
         &:hover {
@@ -76,7 +87,7 @@ $navHeight: 64px;
             & > a, & > .a {
                 text-align: center;
                 display: block;
-                height: $navHeight;
+                height: $navHeight * 1px;
                 outline: 0 !important;
                 [class^="icon-"], [class*=" icon-"] {
                     text-shadow: 0 0 0 transparent !important;
@@ -276,7 +287,7 @@ body > footer {
                 .reduced-menu-trigger {
                     text-align: center;
                     display: block;
-                    height: $navHeight;
+                    height: $navHeight * 1px;
                     outline: 0 !important;
                     cursor:pointer;
                     min-width: 70px;

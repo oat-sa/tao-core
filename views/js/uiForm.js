@@ -499,18 +499,30 @@ define([
              */
             function showPropertyList() {
                 var $this = $(this);
-                var elt = $this.parent("div").next("div");
-                if (/list$/.test($this.val())) {
-                    if (elt.css('display') === 'none') {
-                        elt.show();
-                        elt.find('select').removeAttr('disabled');
+                var $elt = $this.parent("div").next("div");
+                var propertiesTypes = ['list','tree'];
+
+                var re = new RegExp(propertiesTypes.join('$|').concat('$'));
+                if (re.test($this.val())) {
+                    if ($elt.css('display') === 'none') {
+                        $elt.show();
+                        $elt.find('select').removeAttr('disabled');
+
                     }
                 }
-                else if (elt.css('display') !== 'none') {
-                    elt.css('display', 'none');
-                    elt.find('select').prop('disabled', "disabled");
-                    elt.find('select option[value=" "]').attr('selected',true);
+                else if ($elt.css('display') !== 'none') {
+                    $elt.css('display', 'none');
+                    $elt.find('select').prop('disabled', "disabled");
+                    $elt.find('select option[value=" "]').attr('selected',true);
                 }
+
+                $.each(propertiesTypes, function (i, rangedPropertyName) {
+                    var re = new RegExp(rangedPropertyName + '$');
+                    if (re.test($this.val())) {
+                        $elt.find('select').html($elt.closest('.property-edit-container').find('.' + rangedPropertyName + '-template').html());
+                        return true;
+                    }
+                })
             }
 
             /**
@@ -771,22 +783,24 @@ define([
 
             //bind functions to the drop down:
 
+            $('.property-template').each(function(){
+                $(this).closest('div').hide();
+            });
+
             //display the values drop down regarding the selected type
             var $propertyType = $(".property-type"),
                 $propertyListValues = $(".property-listvalues");
 
-            $propertyType.change(showPropertyList);
-            $propertyType.each(showPropertyList);
+            $propertyType.on('change', showPropertyList).trigger('change');
 
             //display the values of the selected list
-            $propertyListValues.change(showPropertyListValues);
-            $propertyListValues.each(showPropertyListValues);
+            $propertyListValues.on('change', showPropertyListValues).trigger('change');
 
             //show the "green plus" button to manage the lists
             $propertyListValues.each(function () {
                 var listField = $(this);
                 if (listField.parent().find('img').length === 0) {
-                    var listControl = $("<img title='manage lists' style='cursor:pointer;' />");
+                    var listControl = $("<img title='manage lists' class='manage-lists' style='cursor:pointer;' />");
                     listControl.prop('src', context.taobase_www + "img/add.png");
                     listControl.click(function () {
                         listField.val('new');
