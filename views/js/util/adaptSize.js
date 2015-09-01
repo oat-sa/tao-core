@@ -32,7 +32,7 @@ define([
          * The actual resize function
          *
          * @param {jQueryElements} elements
-         * @param dimensions
+         * @param {object} dimensions
          * @private
          */
         var _resize = function ($elements, dimensions) {
