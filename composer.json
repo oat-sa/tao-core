@@ -41,7 +41,7 @@
 	"type" : "tao-extension",
 	"extra" : {
 		"tao-extension-name" : "tao",
-		"tao-extension-class" : "oat\tao\model\extension\TaoExtension"
+		"tao-extension-class" : "oat\\tao\\model\\extension\\TaoExtension"
 	},
 	"require" : {
 		"php" : ">=5.3.10",
