@@ -110,7 +110,7 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         $this->assertArrayHasKey('name', $available);
 
         $this->assertEquals('Light Blue on Dark Blue', $available['name']);
-
+        
         foreach ($map['itemsTest']['available'] as $theme) {
             $this->assertInternalType('array', $theme);
             $this->assertArrayHasKey('id', $theme);
@@ -119,6 +119,17 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
                 'lightBlueOnDarkBlue'
             )));
         }
+        
+        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', array('itemsTest'), array('tplA' => 'taoAccess/theme/A.tpl'));
+        $map = ThemeRegistry::getRegistry()->getMap();
+        $this->assertEquals(3, count($map['itemsTest']['available']));
+        $superAccessTheme = $map['itemsTest']['available'][2];
+        
+        $this->assertEquals('superAccess', $superAccessTheme['id']);
+        $this->assertEquals(1, count($superAccessTheme['templates']));
+        $this->assertEquals('tplA', array_keys($superAccessTheme['templates'])[0]);
+        $this->assertEquals('taoAccess/theme/A.tpl', $superAccessTheme['templates']['tplA']);
+        
     }
 
     public function testGetAvailableTheme(){

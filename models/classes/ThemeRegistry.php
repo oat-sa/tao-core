@@ -108,7 +108,7 @@ class ThemeRegistry extends AbstractRegistry
      * @param array $targets
      * @throws \common_Exception
      */
-    public function registerTheme($id, $name, $path, $targets = array() )
+    public function registerTheme($id, $name, $path = '', $targets = array(), $templates = array() )
     {
         if (preg_match('/^[a-zA-Z0-9]*$/', $id) === 0) {
             throw new \common_Exception('Invalid id "'.$id.'"');
@@ -121,17 +121,34 @@ class ThemeRegistry extends AbstractRegistry
             if(!$this->isRegistered($target)){
                 throw new \common_Exception('Target '.$target.' does not exist');
             } else {
+                
                 $array = $this->get($target);
+                
                 foreach ($array['available'] as $theme) {
                     if ($theme['id'] == $id) {
                         throw new \common_Exception('Theme '.$id.' already exists for target '.$target);
                     }
                 }
-                $array['available'][] = array(
+                
+                $theme = array(
                     'id' => $id,
-                    'path' => $path,
-                    'name' => $name,
+                    'name' => $name
                 );
+                
+                //the path is optional
+                if($path){
+                    $theme['path'] = $path;
+                }
+                
+                //register templates
+                if(is_array($templates) && count($templates) > 0){
+                    $theme['templates'] = array();
+                    foreach($templates as $id => $tpl){
+                        $theme['templates'][$id] = $tpl;
+                    }
+                }
+                
+                $array['available'][] = $theme;
             }
             $this->set($target, $array);
         }
@@ -175,17 +192,40 @@ class ThemeRegistry extends AbstractRegistry
      */
     private function updatePath($theme){
         $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
-        if(strpos($theme['path'] , ThemeRegistry::WEBSOURCE) === 0) {
-            $webUrl = $websource->getAccessUrl(substr($theme['path'],strlen(ThemeRegistry::WEBSOURCE)));
-            $theme['path'] = $webUrl;
-        }
-        else {
-            $theme['path'] = ROOT_URL . $theme['path'] ;
+        
+        if(isset($theme['path'])){
+            if(strpos($theme['path'] , ThemeRegistry::WEBSOURCE) === 0) {
+                $webUrl = $websource->getAccessUrl(substr($theme['path'],strlen(ThemeRegistry::WEBSOURCE)));
+                $theme['path'] = $webUrl;
+            }
+            else {
+                $theme['path'] = ROOT_URL . $theme['path'] ;
 
+            }
         }
+        
         return $theme;
     }
+    
+    private function resolveStylesheetUrl($path){
+        $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
+        if(strpos($path , ThemeRegistry::WEBSOURCE) === 0) {
+                return $websource->getAccessUrl(substr($path, strlen(ThemeRegistry::WEBSOURCE)));
+        }
+        else {
+            return ROOT_URL . $theme['path'] ;
 
+        }
+    }
+    
+    private function resolveTemplatePath($theme){
+        if(is_array($theme['templates'])){
+            array_walk($theme['templates'], function(&$tpl){
+                $tpl = ROOT_PATH + $tpl;
+            });
+        }
+    }
+    
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -211,5 +251,13 @@ class ThemeRegistry extends AbstractRegistry
             $returnValue[$target]['base'] = ROOT_URL . $value['base'];
         }
         return json_encode($returnValue);
+    }
+    
+    public function getTemplate($target, $theme, $templateId){
+        
+    }
+    
+    public function getStylesheet($target, $theme){
+        
     }
 }
