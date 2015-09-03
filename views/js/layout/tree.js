@@ -285,6 +285,7 @@ define([
 
                     var action;
                     var $node           = $(node);
+                    var classActions = [];
                     var nodeId          = $node.attr('id');
                     var $parentNode     = tree.parent($node);
                     var treeStore       = store.get('taotree.' + context.section) || {};
@@ -313,8 +314,12 @@ define([
                         nodeContext.permissions = permissions[nodeId];
                         nodeContext.id = $node.data('uri');
                         nodeContext.context = ['class', 'resource'];
-
-                        executePossibleAction(options.actions, nodeContext, ['delete']);
+                        
+                        //Check if any class-level action is defined in the structures.xml file
+                        classActions = _.intersection(_.pluck(options.actions, 'context'), ['class', 'resource', '*']);
+                        if (classActions.length > 0) {
+                            executePossibleAction(options.actions, nodeContext, ['delete']);
+                        }
                     }
 
                     //exec the  selectInstance action
