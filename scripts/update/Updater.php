@@ -295,11 +295,23 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $currentVersion = '2.10.0';
         }
-
+        
         // widget definitions
         if ($currentVersion === '2.10.0') {
             OntologyUpdater::syncModels();
             $currentVersion = '2.10.1';
+        }
+
+        // add login form config
+        if ($currentVersion === '2.10.1' ){
+            $loginFormSettings = array(
+                'elements' => array()
+            );
+
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $ext->setConfig('loginForm', $loginFormSettings);
+
+            $currentVersion = '2.10.2';
         }
         
         return $currentVersion;
