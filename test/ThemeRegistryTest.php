@@ -54,8 +54,7 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
         ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Bluea', 'path', array('itemsTest'));
         ThemeRegistry::getRegistry()->setDefaultTheme('itemsTest', 'lightBlueOnDarkBlue');
-
-
+        
         $map = ThemeRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
         $this->assertInternalType('array', $map);
@@ -69,9 +68,13 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         $this->assertInternalType('array', $available);
         $this->assertArrayHasKey('name', $available);
         $this->assertEquals('Light Blue on Dark Bluea', $available['name']);
-
+        
+        $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme('itemsTest');
+        $this->assertEquals('lightBlueOnDarkBlue', $defaultTheme['id']);
+        
         // target exist
         ThemeRegistry::getRegistry()->remove('itemsTest');
+        
     }
 
     public function testRegister()

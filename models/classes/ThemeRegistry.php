@@ -62,6 +62,25 @@ class ThemeRegistry extends AbstractRegistry
      */
     public function setDefaultTheme($target, $themeId)
     {
+        $theme = $this->getTheme($target, $themeId);
+        if(!is_null($theme)){
+            $array = $this->get($target);
+            $array['default'] = $themeId;
+            $this->set($target, $array);
+        }
+    }
+    
+    /**
+     * Get the theme array identified by its target and id
+     * 
+     * @param string $target
+     * @param string $themeId
+     * @return array
+     * @throws \common_Exception
+     */
+    private function getTheme($target, $themeId){
+        
+        $returnValue = null;
         if(!$this->isRegistered($target)){
             throw new \common_Exception('Target '.$target.' does not exist');
         } else {
@@ -70,16 +89,34 @@ class ThemeRegistry extends AbstractRegistry
             foreach ($array['available'] as $theme) {
                 if ($theme['id'] == $themeId) {
                     $found = true;
+                    $returnValue = $theme;
+                    break;
                 }
             }
             if (!$found) {
                 throw new \common_Exception('Theme '.$themeId.' not found for target '.$target);
             }
-            $array['default'] = $themeId;
-            $this->set($target, $array);
+        }
+        return $returnValue;
+    }
+    
+    /**
+     * Get the default theme array
+     */
+    public function getDefaultTheme($target){
+        if(!$this->isRegistered($target)){
+            throw new \common_Exception('Target '.$target.' does not exist');
+        } else {
+            $array = $this->get($target);
+            if(isset($array['default'])){
+                $themeId = $array['default'];
+                return $this->getTheme($target, $themeId);
+            }else{
+                return reset($array['available']);
+            }
         }
     }
-
+    
     /**
      * Adds a new target to the System
      *
@@ -256,26 +293,18 @@ class ThemeRegistry extends AbstractRegistry
         return $returnValue;
     }
     
-    public function getTemplate($target, $theme, $templateId){
-        $map = $this->getMap();
-        if(isset($map[$target])){
-            foreach($map[$target]['available'] as $value){
-                if($value['id'] === $theme && isset($value['templates']) && isset($value['templates'][$templateId])){
-                    return $this->resolveTemplatePath($value['templates'][$templateId]);
-                }
-            }
+    public function getTemplate($target, $themeId, $templateId){
+        $theme = $this->getTheme($target, $themeId);
+        if(isset($theme['templates']) && isset($theme['templates'][$templateId])){
+            return $this->resolveTemplatePath($theme['templates'][$templateId]);
         }
         return '';
     }
     
-    public function getStylesheet($target, $theme){
-        $map = $this->getMap();
-        if(isset($map[$target])){
-            foreach($map[$target]['available'] as $value){
-                if($value['id'] === $theme && isset($value['path'])){
-                    return $this->resolveStylesheetUrl($value['path']);
-                }
-            }
+    public function getStylesheet($target, $themeId){
+        $theme = $this->getTheme($target, $themeId);
+        if(isset($theme['path'])){
+            return $this->resolveStylesheetUrl($theme['path']);
         }
         return '';
     }
