@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2015-08-11 17:44:58
+ * @date   2015-08-31 15:19:00
  * @package tao
  * @subpackage helpers
  */
@@ -260,6 +260,8 @@ class tao_helpers_Icon {
     const CLASS_LOOP = 'icon-loop';
     const CLASS_CALENDAR = 'icon-calendar';
     const CLASS_RELOAD = 'icon-reload';
+    const CLASS_SPEED = 'icon-speed';
+    const CLASS_VOLUME = 'icon-volume';
 
 	
     /**
@@ -1004,6 +1006,14 @@ class tao_helpers_Icon {
 
     public static function iconReload($options=array()){
         return self::buildIcon(self::CLASS_RELOAD, $options);
+    }
+
+    public static function iconSpeed($options=array()){
+        return self::buildIcon(self::CLASS_SPEED, $options);
+    }
+
+    public static function iconVolume($options=array()){
+        return self::buildIcon(self::CLASS_VOLUME, $options);
     }
 
 
