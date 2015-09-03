@@ -142,10 +142,7 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
 
         ThemeRegistry::getRegistry()->unregisterTheme('blackRedWhite');
 
-        $themes_json = ThemeRegistry::getRegistry()->getAvailableThemes();
-        $this->assertJson($themes_json);
-
-        $themes = json_decode($themes_json, true);
+        $themes = ThemeRegistry::getRegistry()->getAvailableThemes();
 
         $this->assertInternalType('array', $themes);
         $this->assertArrayNotHasKey(ThemeRegistry::WEBSOURCE, $themes);
