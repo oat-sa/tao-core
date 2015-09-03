@@ -186,7 +186,26 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         }
 
     }
-
+    
+    public function testGetTemplate(){
+        
+        ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
+        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', array('itemsTest'), array('tplA' => 'taoAccess/theme/A.tpl'));
+        ThemeRegistry::getRegistry()->registerTheme('superAccessNoTpl', 'super accessibility theme without tpl', '', array('itemsTest'));
+        $this->assertNotEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccess', 'tplA'));
+        $this->assertEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccess', 'tplB'));
+        $this->assertEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccessNoTpl', 'tplA'));
+    }
+    
+    public function testGetStylesheet(){
+        
+        ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
+        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', 'my/path/to/style.css', array('itemsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('superAccessNoCss', 'super accessibility theme without tpl', '', array('itemsTest'));
+        $this->assertEquals(ROOT_URL. 'my/path/to/style.css', ThemeRegistry::getRegistry()->getStylesheet('itemsTest', 'superAccess'));
+        $this->assertEmpty(ThemeRegistry::getRegistry()->getStylesheet('itemsTest', 'superAccessNoCss'));
+    }
+        
     public function testUnregisterTheme()
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
@@ -209,7 +228,7 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         $this->assertEquals(0, count($map['itemsTest']['available'])); //no themes left in itemsTest
         $this->assertEquals(0, count($map['testsTest']['available'])); //no themes left in testsTest
     }
-
+    
     //
     //Negative tests follow
     //

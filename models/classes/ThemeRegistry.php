@@ -213,17 +213,20 @@ class ThemeRegistry extends AbstractRegistry
                 return $websource->getAccessUrl(substr($path, strlen(ThemeRegistry::WEBSOURCE)));
         }
         else {
-            return ROOT_URL . $theme['path'] ;
+            return ROOT_URL . $path;
 
         }
     }
     
-    private function resolveTemplatePath($theme){
-        if(is_array($theme['templates'])){
-            array_walk($theme['templates'], function(&$tpl){
-                $tpl = ROOT_PATH + $tpl;
-            });
-        }
+    /**
+     * Resolve the template absolute path
+     * 
+     * @todo make it support templates as data
+     * @param string $tpl
+     * @return string
+     */
+    private function resolveTemplatePath($tpl){
+        return ROOT_PATH.$tpl;
     }
     
     /**
@@ -254,10 +257,26 @@ class ThemeRegistry extends AbstractRegistry
     }
     
     public function getTemplate($target, $theme, $templateId){
-        
+        $map = $this->getMap();
+        if(isset($map[$target])){
+            foreach($map[$target]['available'] as $value){
+                if($value['id'] === $theme && isset($value['templates']) && isset($value['templates'][$templateId])){
+                    return $this->resolveTemplatePath($value['templates'][$templateId]);
+                }
+            }
+        }
+        return '';
     }
     
     public function getStylesheet($target, $theme){
-        
+        $map = $this->getMap();
+        if(isset($map[$target])){
+            foreach($map[$target]['available'] as $value){
+                if($value['id'] === $theme && isset($value['path'])){
+                    return $this->resolveStylesheetUrl($value['path']);
+                }
+            }
+        }
+        return '';
     }
 }
