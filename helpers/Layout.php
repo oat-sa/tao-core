@@ -375,4 +375,32 @@ class Layout{
         
         return $copyrightNotice;
     }
+    
+    /**
+     * Render a themable template identified by its id
+     * 
+     * @param string $templateId
+     * @param array $data
+     * @return string
+     */
+    public static function renderThemingTemplate($templateId, $data = array()){
+        
+        //search in the registry to get the custom template to render
+        $tpl = getSelectedThemingTemplate($templateId);
+        
+        //render the template
+        
+        $renderer = new Renderer($tpl, $data); 
+        return $renderer->render();
+    }
+    
+    /**
+     * Returns the absolute path of the template to be rendered considering the given context
+     * 
+     * @param string $templateId
+     * @param mixed $content
+     */
+    public static function getSelectedThemingTemplate($templateId, $context = null){
+        return '';
+    }
 }
