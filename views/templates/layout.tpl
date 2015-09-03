@@ -39,24 +39,27 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 </div>
 <script src="<?= Template::js('layout/requirement-check.js', 'tao')?>"></script>
 
-    <div class="content-wrap">
+<div class="content-wrap">
 
-        <?php /* alpha|beta|sandbox message */
-        if($hasVersionWarning) {
-            Template::inc('blocks/version-warning.tpl', 'tao');
-        }?>
+    <?php /* alpha|beta|sandbox message */
+    if($hasVersionWarning) {
+        Template::inc('blocks/version-warning.tpl', 'tao');
+    }?>
 
-        <?php /* <header> + <nav> */
-        Template::inc('blocks/header.tpl', 'tao'); ?>
+    <?php /* <header> + <nav> */
+    Template::inc('blocks/header.tpl', 'tao'); ?>
 
 
-        <div id="feedback-box"></div>
+    <div id="feedback-box"></div>
 
-        <?php /* actual content */
-        $contentTemplate = Layout::getContentTemplate();
-        Template::inc($contentTemplate['path'], $contentTemplate['ext']); ?>
-    </div>
+    <?php /* actual content */
+    $contentTemplate = Layout::getContentTemplate();
+    Template::inc($contentTemplate['path'], $contentTemplate['ext']); ?>
+</div>
 
+<?=Layout::renderThemingTemplate('footer')?>
+
+<!--remove the old footer-->
 <footer class="dark-bar">
     <?php
     if (!$val = Layout::getCopyrightNotice()):
