@@ -115,6 +115,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function login()
 	{
+        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $config = $tao->getConfig('loginForm');
 
 		$params = array();
 		if ($this->hasRequestParameter('redirect')) {
@@ -124,7 +126,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 				$params['redirect'] = $redirectUrl;
 			}
 		}
-		$myLoginFormContainer = new tao_actions_form_Login($params);
+		$myLoginFormContainer = new tao_actions_form_Login($params, $config);
 		$myForm = $myLoginFormContainer->getForm();
 
 		if($myForm->isSubmited()){
