@@ -137,6 +137,10 @@ class Bootstrap {
 			$this->registerErrorhandler();
 			$this->globalHelpers();
 			self::$isStarted = true;
+			
+			if (extension_loaded ('newrelic')) {
+			    newrelic_name_transaction(current(explode('?', $_SERVER['REQUEST_URI'])));
+			}
 		}
 		common_Profiler::stop('start');
 	}
