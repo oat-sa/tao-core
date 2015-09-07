@@ -8,7 +8,7 @@ use oat\tao\helpers\Layout;
     
     <?php /* main navigation bar */
     !common_session_SessionManager::isAnonymous()
-        ? Template::inc('blocks/header/main-navi.tpl', 'tao')
+        ? Template::inc('blocks/header-main-navi.tpl', 'tao')
         : '';
     ?>
 

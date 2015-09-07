@@ -317,15 +317,20 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion === '2.10.2') {
 
             $s = DIRECTORY_SEPARATOR;
-            $plateformDefault = array(
+            ThemeRegistry::getRegistry()->createTarget('frontOffice', array(
                 'css' => 'tao'.$s.'views'.$s.'css'.$s.'tao-3.css',
                 'templates' => array(
-                    'header-logo' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'header'.$s.'logo.tpl',
-                    'footer' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'footer'.$s.'footer.tpl'
+                    'header-logo' => 'taoDelivery'.$s.'views'.$s.'templates'.$s.'DeliveryServer'.$s.'blocks'.$s.'header-logo.tpl',
+                    'footer' => 'taoDelivery'.$s.'views'.$s.'templates'.$s.'DeliveryServer'.$s.'blocks'.$s.'footer.tpl'
                 )
-            );
-            ThemeRegistry::getRegistry()->createTarget('frontOffice', $plateformDefault);
-            ThemeRegistry::getRegistry()->createTarget('backOffice', $plateformDefault);
+            ));
+            ThemeRegistry::getRegistry()->createTarget('backOffice', array(
+                'css' => 'tao'.$s.'views'.$s.'css'.$s.'tao-3.css',
+                'templates' => array(
+                    'header-logo' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'header-logo.tpl',
+                    'footer' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'footer.tpl'
+                )
+            ));
 
             $currentVersion = '2.11.0';
         }

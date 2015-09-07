@@ -50,7 +50,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     }?>
 
     <?php /* <header> + <nav> */
-    Template::inc('blocks/header/header.tpl', 'tao'); ?>
+    Template::inc('blocks/header.tpl', 'tao'); ?>
 
     <div id="feedback-box"></div>
 
