@@ -39,9 +39,9 @@ use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\DirectWebSource;
 use oat\tao\model\search\strategy\GenerisSearch;
-use oat\tao\model\menu\MenuService;
 use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\EntryPointService;
+use oat\tao\model\ThemeRegistry;
 
 /**
  * 
@@ -313,7 +313,24 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $currentVersion = '2.10.2';
         }
-        
+
+        if ($currentVersion === '2.10.2') {
+
+            ThemeRegistry::getRegistry()->createTarget('frontOffice', 'tao/views/css/tao-3.css');
+            ThemeRegistry::getRegistry()->createTarget('backOffice', 'tao/views/css/tao-3.css');
+            ThemeRegistry::getRegistry()->registerTheme(
+                'taoDefault',
+                'tao default',
+                '',
+                array('frontOffice', 'backOffice'),
+                array(
+                    'header-logo' => 'tao/views/templates/blocks/header/logo.tpl',
+                    'footer' => 'tao/views/templates/blocks/footer/footer.tpl'
+                )
+            );
+
+            $currentVersion = '2.11.0';
+        }
         return $currentVersion;
     }
     
