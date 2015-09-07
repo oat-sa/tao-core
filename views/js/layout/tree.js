@@ -636,6 +636,9 @@ define([
                 if(node.children){
                     _.forEach(node.children, needMore);
                 }
+                if(_.isArray(node)){
+                   _.forEach(node, needMore);
+                }
            }
         };
 
