@@ -282,7 +282,7 @@ class ThemeRegistry extends AbstractRegistry
         }else if(is_array($array['base'])){
 
             $base = array(
-                'css' => $this->resolveStylesheetUrl($array['base']['style']),
+                'css' => $this->resolveStylesheetUrl($array['base']['css']),
                 'templates' => array()
             );
 
