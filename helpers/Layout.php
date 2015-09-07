@@ -388,7 +388,7 @@ class Layout{
      * @param array $data
      * @return string
      */
-    public static function renderThemingTemplate($target, $templateId, $data = array()){
+    public static function renderThemeTemplate($target, $templateId, $data = array()){
         
         //search in the registry to get the custom template to render
         $tpl = self::getSelectedThemingTemplate($target, $templateId);
@@ -406,20 +406,18 @@ class Layout{
      *
      * @param string target
      * @param string $templateId
-     * @param mixed $context
      */
-    public static function getSelectedThemingTemplate($target, $templateId, $context = null){
+    public static function getThemeTemplate($target, $templateId){
         $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
         return ThemeRegistry::getRegistry()->getTemplate($target, $defaultTheme['id'], $templateId);
     }
 
     /**
-     * Returns the absolute path of the theming css that overwrites the base css
+     * Returns the absolute path of the theme css that overwrites the base css
      * 
      * @param string target
-     * @param mixed $context
      */
-    public static function getSelectedThemingCss($target, $context = null){
+    public static function getThemeStylesheet($target){
         $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
         return ThemeRegistry::getRegistry()->getStylesheet($target, $defaultTheme['id']);
     }

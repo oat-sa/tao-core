@@ -30,7 +30,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <?php if (($themeUrl = Layout::getThemeUrl()) !== null): ?>
     <link rel="stylesheet" href="<?= $themeUrl ?>" />
     <?php endif; ?>
-    <?php if (($themeUrl = Layout::getSelectedThemingCss('backOffice')) !== null): ?>
+    <?php if (($themeUrl = Layout::getThemeStylesheet('backOffice')) !== null): ?>
     <link rel="stylesheet" href="<?= $themeUrl ?>" />
     <?php endif; ?>
 </head>
@@ -59,7 +59,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     Template::inc($contentTemplate['path'], $contentTemplate['ext']); ?>
 </div>
 
-<?=Layout::renderThemingTemplate('backOffice', 'footer')?>
+<?=Layout::renderThemeTemplate('backOffice', 'footer')?>
 
 <div class="loading-bar"></div>
 </body>

@@ -247,7 +247,13 @@ class ThemeRegistry extends AbstractRegistry
         
         return $theme;
     }
-    
+
+    /**
+     * Get the resolved absolute URL for a stylesheet
+     * 
+     * @param string $path
+     * @return string
+     */
     private function resolveStylesheetUrl($path){
         $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
         if(strpos($path , ThemeRegistry::WEBSOURCE) === 0) {
@@ -255,7 +261,6 @@ class ThemeRegistry extends AbstractRegistry
         }
         else {
             return ROOT_URL . $path;
-
         }
     }
     
@@ -270,6 +275,13 @@ class ThemeRegistry extends AbstractRegistry
         return ROOT_PATH.$tpl;
     }
 
+    /**
+     * Resolve the path and url defined in target "base"
+     * 
+     * @param string $target
+     * @return mixed
+     * @throws common_Exception
+     */
     private function getResolvedBase($target){
 
         $base = null;
@@ -298,7 +310,9 @@ class ThemeRegistry extends AbstractRegistry
     }
     
     /**
-     *
+     * Get list of available theme
+     * The available themes have their URL and paths resolved
+     * 
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function getAvailableThemes()
@@ -323,7 +337,15 @@ class ThemeRegistry extends AbstractRegistry
         }
         return $returnValue;
     }
-    
+
+    /**
+     * Get the absolute path to a theme template
+     * 
+     * @param string $target
+     * @param string $themeId
+     * @param string $templateId
+     * @return string
+     */
     public function getTemplate($target, $themeId, $templateId){
         $theme = $this->getTheme($target, $themeId);
         if(isset($theme['templates']) && isset($theme['templates'][$templateId])){
@@ -332,7 +354,14 @@ class ThemeRegistry extends AbstractRegistry
             return $this->getBaseTemplate($target, $templateId);
         }
     }
-    
+
+    /**
+     * Get the abosolute url to a stylesheet
+     * 
+     * @param string $target
+     * @param string $themeId
+     * @return string
+     */
     public function getStylesheet($target, $themeId){
         $theme = $this->getTheme($target, $themeId);
         if(isset($theme['path'])){
@@ -341,6 +370,13 @@ class ThemeRegistry extends AbstractRegistry
         return null;//not found
     }
 
+    /**
+     * Get the asbolute path to the base template
+     *
+     * @param string $target
+     * @param string $templateId
+     * @return string
+     */
     public function getBaseTemplate($target, $templateId){
         $base = $this->getResolvedBase($target);
         if(is_array($base) && isset($base['templates']) && isset($base['templates'][$templateId])){
@@ -349,6 +385,12 @@ class ThemeRegistry extends AbstractRegistry
         return null;
     }
 
+    /**
+     * Get the absolute url to the base css
+     * 
+     * @param string $target
+     * @return string
+     */
     public function getBaseStylesheet($target){
         $base = $this->getResolvedBase($target);
         if(is_string($base)){
