@@ -20,6 +20,7 @@
  */
 namespace oat\tao\model\search;
 
+use core_kernel_classes_Class;
 use oat\oatbox\PhpSerializable;
 
 /**
@@ -28,16 +29,29 @@ use oat\oatbox\PhpSerializable;
  * @author Joel Bout <joel@taotesting.com>
  */
 interface Search extends PhpSerializable 
-{	
+{
     /**
      * Search for instances using a Lucene query
-     * 
+     *
      * @param string $queryString
-     * @param core_kernel_classes_Class $rootClass 
-     * @throws SyntaxException
-     * @return array list of ids
+     * @param core_kernel_classes_Class $rootClass
+     * @param int $start
+     * @param int $count
+     *
+     * @return array
      */
-    public function query($queryString, $rootClass = null);
+    public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
+
+    /**
+     * Return total count of corresponded instances
+     *
+     * @param string $queryString
+     * @param core_kernel_classes_Class $rootClass
+     *
+     * @return array
+     */
+    public function getTotalCount( $queryString, $rootClass = null);
+
     
     /**
      * Index the resources given as a traversable

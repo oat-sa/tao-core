@@ -36,7 +36,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
 	 */
 	public function searchParams()
 	{
-	    $rawQuery = $_POST['query'];
+	    $rawQuery = isset($_POST['query'])?$_POST['query']:'';
         $this->returnJson(array(
 	    	'url' => _url('search'),
 	        'params' => array(
@@ -57,17 +57,22 @@ class tao_actions_Search extends tao_actions_CommonModule {
 	
 	/**
 	 * Search results
-     * The search is pagintaed and initiated by the datatable component.
+     * The search is paginated and initiated by the datatable component.
 	 */
     public function search()
     {
         $params = $this->getRequestParameter('params');
         $query = $params['query'];
         $class = new core_kernel_classes_Class($params['rootNode']);
-        
+
+        $rows       = $this->getRequestParameter('rows');
+        $startRow   = $rows * ( $this->getRequestParameter( 'page' ) - 1 );
+
         try {
-            $results = SearchService::getSearchImplementation()->query($query, $class);
-            
+            $results = SearchService::getSearchImplementation()->query($query, $class, $startRow, $rows);
+
+            $totalPages = ceil( SearchService::getSearchImplementation()->getTotalCount( $query, $class ) / $rows );
+
             $response = new StdClass();
             if(count($results) > 0 ){
     
@@ -82,8 +87,8 @@ class tao_actions_Search extends tao_actions_CommonModule {
                 }
             }
     		$response->success = true;
-            $response->page = 1;
-    		$response->total = 1;
+            $response->page = (int) ( $startRow / $rows ) + 1;
+    		$response->total = $totalPages;
     		$response->records = count($results);
     		
     		$this->returnJson($response, 200);
