@@ -25,8 +25,7 @@ use oat\taoThemingPlatform\model\PlatformThemingService;
 
 use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
-use \common_ext_ExtensionsManager;
-use \tao_helpers_Scriptloader;
+use oat\tao\model\ThemeRegistry;
 
 class Layout{
 
@@ -383,14 +382,13 @@ class Layout{
      * @param array $data
      * @return string
      */
-    public static function renderThemingTemplate($templateId, $data = array()){
+    public static function renderThemingTemplate($target, $templateId, $data = array()){
         
         //search in the registry to get the custom template to render
-        $tpl = getSelectedThemingTemplate($templateId);
+        $tpl = self::getSelectedThemingTemplate($target, $templateId);
         
         //render the template
-        
-        $renderer = new Renderer($tpl, $data); 
+        $renderer = new \Renderer($tpl, $data);
         return $renderer->render();
     }
     
@@ -400,7 +398,8 @@ class Layout{
      * @param string $templateId
      * @param mixed $content
      */
-    public static function getSelectedThemingTemplate($templateId, $context = null){
-        return '';
+    public static function getSelectedThemingTemplate($target, $templateId, $context = null){
+        $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
+        return ThemeRegistry::getRegistry()->getTemplate($target, $defaultTheme['id'], $templateId);
     }
 }

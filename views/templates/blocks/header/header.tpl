@@ -4,7 +4,7 @@ use oat\tao\helpers\Layout;
 ?>
 <header class="dark-bar clearfix">
     
-    <?=Layout::renderThemingTemplate('header-logo')?>
+    <?=Layout::renderThemingTemplate('backOffice', 'header-logo')?>
     
     <?php /* main navigation bar */
     !common_session_SessionManager::isAnonymous()

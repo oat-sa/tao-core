@@ -5,7 +5,7 @@ use oat\tao\helpers\Layout;
     <?php
     if (!$val = Layout::getCopyrightNotice()):
     ?>
-    © 2013 - <?= date('Y') ?> · <span class="tao-version"><?= TAO_VERSION_NAME ?></span> ·
+    © 201X - <?= date('Y') ?> · <span class="tao-version"><?= TAO_VERSION_NAME ?></span> ·
     <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
     · <?= __('All rights reserved.') ?>
     <?php else: ?>

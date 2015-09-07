@@ -130,7 +130,6 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         
         $this->assertEquals('superAccess', $superAccessTheme['id']);
         $this->assertEquals(1, count($superAccessTheme['templates']));
-        $this->assertEquals('tplA', array_keys($superAccessTheme['templates'])[0]);
         $this->assertEquals('taoAccess/theme/A.tpl', $superAccessTheme['templates']['tplA']);
         
     }
@@ -142,7 +141,6 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', array('itemsTest', 'testsTest'));
         ThemeRegistry::getRegistry()->registerTheme('blackAndWhite', 'Black and White', ThemeRegistry::WEBSOURCE.'test', array('itemsTest'));
         ThemeRegistry::getRegistry()->registerTheme('blackRedWhite', 'Black, Red and White', 'blackRedWhite', array('itemsTest'));
-
         ThemeRegistry::getRegistry()->unregisterTheme('blackRedWhite');
 
         $themes = ThemeRegistry::getRegistry()->getAvailableThemes();

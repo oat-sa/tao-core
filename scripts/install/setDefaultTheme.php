@@ -22,12 +22,24 @@
  * @subpackage
  *
  */
-
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 
-$itemThemesDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
+$itemThemesDataPath   = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
 $itemThemesDataPathFs = \tao_models_classes_FileSourceService::singleton()->addLocalSource('Theme FileSource', $itemThemesDataPath);
 
 $websource = TokenWebSource::spawnWebsource($itemThemesDataPathFs);
 ThemeRegistry::getRegistry()->setWebSource($websource->getId());
+
+ThemeRegistry::getRegistry()->createTarget('frontOffice', 'tao/views/css/tao-3.css');
+ThemeRegistry::getRegistry()->createTarget('backOffice', 'tao/views/css/tao-3.css');
+ThemeRegistry::getRegistry()->registerTheme(
+    'taoDefault',
+    'tao default',
+    '',
+    array('frontOffice', 'backOffice'),
+    array(
+        'header-logo' => 'tao/views/templates/blocks/header/logo.tpl',
+        'footer' => 'tao/views/templates/blocks/footer/footer.tpl'
+    )
+);
