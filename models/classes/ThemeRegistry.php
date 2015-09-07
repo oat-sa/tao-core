@@ -121,14 +121,18 @@ class ThemeRegistry extends AbstractRegistry
      * Adds a new target to the System
      *
      * @param string $targetId
-     * @param string $baseCssPath
+     * @param string|array $base
      * @throws \common_Exception
      */
-    public function createTarget($targetId, $baseCssPath)
+    public function createTarget($targetId, $base)
     {
 
+        if(!is_string($base) && !is_array($base)){
+            throw new \common_Exception('Invalid base format');
+        }
+
         $array = array(
-            'base'  => $baseCssPath,
+            'base'  => $base,
             'available' => array()
         );
         $this->set($targetId, $array);
@@ -265,6 +269,33 @@ class ThemeRegistry extends AbstractRegistry
     private function resolveTemplatePath($tpl){
         return ROOT_PATH.$tpl;
     }
+
+    private function getResolvedBase($target){
+
+        $base = null;
+        $array = $this->get($target);
+        
+        if(is_string($array['base'])){
+
+            $base = ROOT_URL . $array['base'];
+
+        }else if(is_array($array['base'])){
+
+            $base = array(
+                'css' => $this->resolveStylesheetUrl($array['base']['style']),
+                'templates' => array()
+            );
+
+            foreach($array['base']['templates'] as $id => $path){
+                $base['templates'][$id] = $this->resolveTemplatePath($path);
+            }
+
+        }else{
+            throw new common_Exception('invalid type for theme base');
+        }
+
+        return $base;
+    }
     
     /**
      *
@@ -288,7 +319,7 @@ class ThemeRegistry extends AbstractRegistry
                 $returnValue[$target]['available'][] = $this->updatePath($theme);
             }
 
-            $returnValue[$target]['base'] = ROOT_URL . $value['base'];
+            $returnValue[$target]['base'] = $this->getResolvedBase($target);
         }
         return $returnValue;
     }
@@ -297,8 +328,9 @@ class ThemeRegistry extends AbstractRegistry
         $theme = $this->getTheme($target, $themeId);
         if(isset($theme['templates']) && isset($theme['templates'][$templateId])){
             return $this->resolveTemplatePath($theme['templates'][$templateId]);
+        }else{
+            return $this->getBaseTemplate($target, $templateId);
         }
-        return null;//not found
     }
     
     public function getStylesheet($target, $themeId){
@@ -307,5 +339,23 @@ class ThemeRegistry extends AbstractRegistry
             return $this->resolveStylesheetUrl($theme['path']);
         }
         return null;//not found
+    }
+
+    public function getBaseTemplate($target, $templateId){
+        $base = $this->getResolvedBase($target);
+        if(is_array($base) && isset($base['templates']) && isset($base['templates'][$templateId])){
+            return $base['templates'][$templateId];
+        }
+        return null;
+    }
+
+    public function getBaseStylesheet($target){
+        $base = $this->getResolvedBase($target);
+        if(is_string($base)){
+            return $base;
+        }else if(is_array($base) && isset($base['css'])){
+            return $base['css'];
+        }
+        return null;
     }
 }

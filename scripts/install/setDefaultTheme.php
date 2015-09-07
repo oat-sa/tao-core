@@ -31,15 +31,12 @@ $itemThemesDataPathFs = \tao_models_classes_FileSourceService::singleton()->addL
 $websource = TokenWebSource::spawnWebsource($itemThemesDataPathFs);
 ThemeRegistry::getRegistry()->setWebSource($websource->getId());
 
-ThemeRegistry::getRegistry()->createTarget('frontOffice', 'tao/views/css/tao-3.css');
-ThemeRegistry::getRegistry()->createTarget('backOffice', 'tao/views/css/tao-3.css');
-ThemeRegistry::getRegistry()->registerTheme(
-    'taoDefault',
-    'tao default',
-    '',
-    array('frontOffice', 'backOffice'),
-    array(
+$plateformDefault = array(
+    'css' => 'tao/views/css/tao-3.css',
+    'templates' => array(
         'header-logo' => 'tao/views/templates/blocks/header/logo.tpl',
         'footer' => 'tao/views/templates/blocks/footer/footer.tpl'
     )
 );
+ThemeRegistry::getRegistry()->createTarget('frontOffice', $plateformDefault);
+ThemeRegistry::getRegistry()->createTarget('backOffice', $plateformDefault);
