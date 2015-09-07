@@ -30,6 +30,9 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <?php if (($themeUrl = Layout::getThemeUrl()) !== null): ?>
     <link rel="stylesheet" href="<?= $themeUrl ?>" />
     <?php endif; ?>
+    <?php if (($themeUrl = Layout::getSelectedThemingCss('backOffice')) !== null): ?>
+    <link rel="stylesheet" href="<?= $themeUrl ?>" />
+    <?php endif; ?>
 </head>
 
 <body>

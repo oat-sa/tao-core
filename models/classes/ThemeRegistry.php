@@ -180,8 +180,8 @@ class ThemeRegistry extends AbstractRegistry
                 //register templates
                 if(is_array($templates) && count($templates) > 0){
                     $theme['templates'] = array();
-                    foreach($templates as $id => $tpl){
-                        $theme['templates'][$id] = $tpl;
+                    foreach($templates as $templateId => $tpl){
+                        $theme['templates'][$templateId] = $tpl;
                     }
                 }
                 
@@ -298,7 +298,7 @@ class ThemeRegistry extends AbstractRegistry
         if(isset($theme['templates']) && isset($theme['templates'][$templateId])){
             return $this->resolveTemplatePath($theme['templates'][$templateId]);
         }
-        return '';
+        return null;//not found
     }
     
     public function getStylesheet($target, $themeId){
@@ -306,6 +306,6 @@ class ThemeRegistry extends AbstractRegistry
         if(isset($theme['path'])){
             return $this->resolveStylesheetUrl($theme['path']);
         }
-        return '';
+        return null;//not found
     }
 }

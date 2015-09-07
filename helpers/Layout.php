@@ -243,7 +243,13 @@ class Layout{
 
         return $branding;
     }
-    
+
+    /**
+     * Deprecated way to insert a theming css
+     * 
+     * @deprecated
+     * @return string
+     */
     public static function getThemeUrl() {
         if (self::isThemingEnabled() === true) {
             $themingService = PlatformThemingService::singleton();
@@ -386,20 +392,35 @@ class Layout{
         
         //search in the registry to get the custom template to render
         $tpl = self::getSelectedThemingTemplate($target, $templateId);
-        
-        //render the template
-        $renderer = new \Renderer($tpl, $data);
-        return $renderer->render();
+
+        if(!is_null($tpl)){
+            //render the template
+            $renderer = new \Renderer($tpl, $data);
+            return $renderer->render();
+        }
+        return '';
     }
     
     /**
      * Returns the absolute path of the template to be rendered considering the given context
-     * 
+     *
+     * @param string target
      * @param string $templateId
-     * @param mixed $content
+     * @param mixed $context
      */
     public static function getSelectedThemingTemplate($target, $templateId, $context = null){
         $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
         return ThemeRegistry::getRegistry()->getTemplate($target, $defaultTheme['id'], $templateId);
+    }
+
+    /**
+     * Returns the absolute path of the theming css that overwrites the base css
+     * 
+     * @param string target
+     * @param mixed $context
+     */
+    public static function getSelectedThemingCss($target, $context = null){
+        $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
+        return ThemeRegistry::getRegistry()->getStylesheet($target, $defaultTheme['id']);
     }
 }
