@@ -43,7 +43,7 @@
 		"tao-extension-name" : "tao"
 	},
 	"require" : {
-		"php" : ">=5.3.10",
+		"php" : ">=5.4",
 		"phpdocumentor/reflection-docblock" : "2.*",
 		"oat-sa/oatbox-extension-installer" : "dev-master",
 		"phpmailer/phpmailer" : "dev-master",
