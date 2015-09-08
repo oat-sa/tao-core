@@ -51,7 +51,8 @@ define([
             $elements.each(function () {
                 for (var dimension in dimensions) {
                     if (dimensions.hasOwnProperty(dimension)) {
-                        dimensions[dimension] = Math.max(~~(dimensions[dimension]), $(this)['outer' + capitalize(dimension)]());
+                        console.log(dimensions[dimension])
+                        dimensions[dimension] = Math.max(Math.floor(dimensions[dimension] || 0), $(this)['outer' + capitalize(dimension)]());
                     }
                 }
             });
