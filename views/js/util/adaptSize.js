@@ -51,7 +51,6 @@ define([
             $elements.each(function () {
                 for (var dimension in dimensions) {
                     if (dimensions.hasOwnProperty(dimension)) {
-                        console.log(dimensions[dimension])
                         dimensions[dimension] = Math.max(Math.floor(dimensions[dimension] || 0), $(this)['outer' + capitalize(dimension)]());
                     }
                 }
