@@ -31,7 +31,7 @@ define([
         assert.ok(typeof adaptSize.both === 'function', 'Exposes method both()');
     });
 
-    QUnit.test('Height adaptation', function (assert) {
+    QUnit.test('Height adaptation, optional argument minHeight omitted', function (assert) {
         QUnit.expect(1);
 
         var $targets = $('.target'),
@@ -39,14 +39,17 @@ define([
             $e2 = $('#e-2'),
             $e3 = $('#e-3');
 
-        // expect the adapter to set all other to the same height
         adaptSize.height($targets);
 
-        assert.ok($e1.height() === $e2.height() && $e1.height() === $e3.height() && $e1.height() > 0, 'Adapts height of several elements');
+        var assertion = $e1.height() === $e2.height() &&
+            $e1.height() === $e3.height() &&
+            $e1.height() > 0;
+
+        assert.ok(assertion, 'Adapts height of several elements');
     });
 
 
-    QUnit.test('Width adaptation', function (assert) {
+    QUnit.test('Height adaptation, minHeight set to 2000', function (assert) {
         QUnit.expect(1);
 
         var $targets = $('.target'),
@@ -54,16 +57,114 @@ define([
             $e2 = $('#e-2'),
             $e3 = $('#e-3');
 
-        // expect the adapter to set all other to the same height
+        adaptSize.height($targets, 2000);
+
+        var assertion = $e1.height() === $e2.height() &&
+            $e1.height() === $e3.height() &&
+            $e1.height() >= 2000;
+
+        assert.ok(assertion, 'Adapts height of several elements when a minimal height is given');
+    });
+
+
+    QUnit.test('Width adaptation, optional argument minWidth omitted', function (assert) {
+        QUnit.expect(1);
+
+        var $targets = $('.target'),
+            $e1 = $('#e-1'),
+            $e2 = $('#e-2'),
+            $e3 = $('#e-3');
+
         adaptSize.width($targets);
 
-        assert.ok($e1.width() === $e2.width() && $e1.width() === $e3.width() && $e1.width() > 0, 'Adapts width of several elements');
+        var assertion = $e1.width() === $e2.width() &&
+            $e1.width() === $e3.width() &&
+            $e1.width() > 0;
+
+        assert.ok(assertion, 'Adapts width of several elements');
     });
 
 
+    QUnit.test('Width adaptation, minWidth set to 2000', function (assert) {
+        QUnit.expect(1);
+
+        var $targets = $('.target'),
+            $e1 = $('#e-1'),
+            $e2 = $('#e-2'),
+            $e3 = $('#e-3');
+
+        adaptSize.width($targets, 2000);
+
+        var assertion = $e1.width() === $e2.width() &&
+            $e1.width() === $e3.width() &&
+            $e1.width() >= 2000;
+
+        assert.ok(assertion, 'Adapts width of several elements when a minimal width is given');
+    });
 
 
-    QUnit.test('Size adaptation, both sides', function (assert) {
+    QUnit.test('Size adaptation of both sides, optional arguments minWidth and minHeight omitted', function (assert) {
+        QUnit.expect(1);
+
+        var $targets = $('.target'),
+            $e1 = $('#e-1'),
+            $e2 = $('#e-2'),
+            $e3 = $('#e-3');
+
+        adaptSize.both($targets);
+
+        var assertion = $e1.width() === $e2.width() &&
+            $e1.width() === $e3.width() &&
+            $e1.width() > 0 &&
+            $e1.height() === $e2.height() &&
+            $e1.height() === $e3.height() &&
+            $e1.height() > 0;
+
+        assert.ok(assertion, 'Adapts height and width of several elements in one go');
+    });
+
+
+    QUnit.test('Size adaptation of both sides, minWidth set to 2000, minHeight omitted', function (assert) {
+        QUnit.expect(1);
+
+        var $targets = $('.target'),
+            $e1 = $('#e-1'),
+            $e2 = $('#e-2'),
+            $e3 = $('#e-3');
+
+        adaptSize.both($targets, 2000);
+
+        var assertion = $e1.width() === $e2.width() &&
+            $e1.width() === $e3.width() &&
+            $e1.width() >= 2000 &&
+            $e1.height() === $e2.height() &&
+            $e1.height() === $e3.height() &&
+            $e1.height() > 0;
+
+        assert.ok(assertion, 'Adapts height and width of several elements in one go when a minimal width is given');
+    });
+
+    QUnit.test('Size adaptation of both sides, minWidth omitted, minHeight set to 2000', function (assert) {
+        QUnit.expect(1);
+
+        var $targets = $('.target'),
+            $e1 = $('#e-1'),
+            $e2 = $('#e-2'),
+            $e3 = $('#e-3');
+
+        adaptSize.both($targets, null, 2000);
+
+        var assertion = $e1.width() === $e2.width() &&
+            $e1.width() === $e3.width() &&
+            $e1.width() > 0 &&
+            $e1.height() === $e2.height() &&
+            $e1.height() === $e3.height() &&
+            $e1.height() >= 2000 ;
+
+        assert.ok(assertion, 'Adapts height and width of several elements in one go when a minimal height is given');
+    });
+
+    QUnit.test('Size adaptation of both sides, minWidth and minHeight set to 2000', function (assert) {
         QUnit.expect(1);
 
         var $targets = $('.target'),
@@ -72,14 +173,17 @@ define([
             $e3 = $('#e-3');
 
         // expect the adapter to set all other to the same height
-        adaptSize.both($targets);
+        adaptSize.both($targets, 2000, 2000);
 
-        var w = $e1.width() === $e2.width() && $e1.width() === $e3.width() && $e1.width() > 0;
-        var h = $e1.height() === $e2.height() && $e1.height() === $e3.height() && $e1.height() > 0;
+        var assertion = $e1.width() === $e2.width() &&
+            $e1.width() === $e3.width() &&
+            $e1.width() >= 2000 &&
+            $e1.height() === $e2.height() &&
+            $e1.height() === $e3.height() &&
+            $e1.height() >= 2000;
 
-        assert.ok(w && h, 'Adapts height and width of several elements in one go');
+        assert.ok(assertion, 'Adapts height and width of several elements in one go when a minimal width and a minimal height are given');
     });
-
 });
 
 
