@@ -355,9 +355,8 @@ class ThemeRegistry extends AbstractRegistry
         $theme = $this->getTheme($target, $themeId);
         if(isset($theme['templates']) && isset($theme['templates'][$templateId])){
             return $this->resolveTemplatePath($theme['templates'][$templateId]);
-        }else{
-            return $this->getBaseTemplate($target, $templateId);
         }
+        return null;
     }
 
     /**
