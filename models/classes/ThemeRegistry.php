@@ -104,17 +104,22 @@ class ThemeRegistry extends AbstractRegistry
      * Get the default theme array
      */
     public function getDefaultTheme($target){
+        $defaultTheme = null;
         if(!$this->isRegistered($target)){
             throw new \common_Exception('Target '.$target.' does not exist');
         } else {
             $array = $this->get($target);
             if(isset($array['default'])){
                 $themeId = $array['default'];
-                return $this->getTheme($target, $themeId);
-            }else{
-                return reset($array['available']);
+                try{
+                    $defaultTheme = $this->getTheme($target, $themeId);
+                }catch(Exception $e){
+                    //not found
+                    $defaultTheme = null;
+                }
             }
         }
+        return $defaultTheme;
     }
     
     /**

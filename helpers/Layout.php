@@ -391,7 +391,7 @@ class Layout{
     public static function renderThemeTemplate($target, $templateId, $data = array()){
         
         //search in the registry to get the custom template to render
-        $tpl = self::getSelectedThemingTemplate($target, $templateId);
+        $tpl = self::getThemeTemplate($target, $templateId);
 
         if(!is_null($tpl)){
             //render the template
@@ -409,7 +409,10 @@ class Layout{
      */
     public static function getThemeTemplate($target, $templateId){
         $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
-        return ThemeRegistry::getRegistry()->getTemplate($target, $defaultTheme['id'], $templateId);
+        if(!is_null($defaultTheme)){
+            return ThemeRegistry::getRegistry()->getTemplate($target, $defaultTheme['id'], $templateId);
+        }
+        return null;
     }
 
     /**
@@ -419,6 +422,9 @@ class Layout{
      */
     public static function getThemeStylesheet($target){
         $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
-        return ThemeRegistry::getRegistry()->getStylesheet($target, $defaultTheme['id']);
+        if(!is_null($defaultTheme)){
+            return ThemeRegistry::getRegistry()->getStylesheet($target, $defaultTheme['id']);
+        }
+        return null;
     }
 }
