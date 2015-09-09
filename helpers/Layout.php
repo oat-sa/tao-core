@@ -415,10 +415,6 @@ class Layout{
         }else{
             //template with specified id not found in the default theme, try to fall back to the base theme
             $template = ThemeRegistry::getRegistry()->getBaseTemplate($target, $templateId);
-            if(is_null($template)){
-                //still not found
-                $template = null;
-            }
         }
         return $template;
     }
