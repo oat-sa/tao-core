@@ -408,11 +408,19 @@ class Layout{
      * @param string $templateId
      */
     public static function getThemeTemplate($target, $templateId){
+        $template = null;
         $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
         if(!is_null($defaultTheme)){
-            return ThemeRegistry::getRegistry()->getTemplate($target, $defaultTheme['id'], $templateId);
+            $template =  ThemeRegistry::getRegistry()->getTemplate($target, $defaultTheme['id'], $templateId);
+        }else{
+            //template with specified id not found in the default theme, try to fall back to the base theme
+            $template = ThemeRegistry::getRegistry()->getBaseTemplate($target, $templateId);
+            if(is_null($template)){
+                //still not found
+                $template = null;
+            }
         }
-        return null;
+        return $template;
     }
 
     /**
