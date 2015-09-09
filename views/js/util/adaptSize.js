@@ -32,14 +32,14 @@ define([
          * The actual resize function
          *
          * @param {jQueryElements} elements
-         * @param {object} dimensions
+         * @param {Object} dimensions
          * @private
          */
         var _resize = function ($elements, dimensions) {
 
             // This whole function is based on calculating the largest height/width.
-            // Therefor the elements need to have style: height/width to be removed
-            // since otherwise we could never track when something is actually getting smaller than before.
+            // Therefor the elements need to have style.height/width to be removed
+            // otherwise we could never track when something is actually getting smaller than before.
             $elements.each(function () {
                 for (var dimension in dimensions) {
                     if (dimensions.hasOwnProperty(dimension)) {
@@ -51,7 +51,7 @@ define([
             $elements.each(function () {
                 for (var dimension in dimensions) {
                     if (dimensions.hasOwnProperty(dimension)) {
-                        dimensions[dimension] = Math.max(dimensions[dimension], $(this)['outer' + capitalize(dimension)]());
+                        dimensions[dimension] = Math.max(Math.floor(dimensions[dimension] || 0), $(this)['outer' + capitalize(dimension)]());
                     }
                 }
             });
@@ -60,14 +60,35 @@ define([
         };
 
         return {
-            width: function ($elements) {
-                _resize($elements, {width: 0});
+            /**
+             * Adapt the width of multiple elements to the widest one
+             *
+             * @param {jQueryElements} $elements
+             * @param {Integer|undefined} [minWidth] default: 0
+             */
+            width: function ($elements, minWidth) {
+                _resize($elements, { width: minWidth });
             },
-            height: function ($elements) {
-                _resize($elements, {height: 0});
+
+            /**
+             * Adapt the height of multiple elements to the highest one
+             *
+             * @param {jQueryElements} $elements
+             * @param {Integer|undefined}[minHeight] default: 0
+             */
+            height: function ($elements, minHeight) {
+                _resize($elements, { height: minHeight });
             },
-            both: function ($elements) {
-                _resize($elements, {height: 0, width: 0});
+
+            /**
+             * Adapt the width/height of multiple elements to the widest/highest one
+             *
+             * @param {jQueryElements} $elements
+             * @param {Integer|undefined} [minWidth] default: 0
+             * @param {Integer|undefined} [minHeight] default: 0
+             */
+            both: function ($elements, minWidth, minHeight) {
+                _resize($elements, { height: minHeight,  width: minWidth });
             }
         };
 

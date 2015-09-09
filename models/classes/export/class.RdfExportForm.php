@@ -104,7 +104,7 @@ class tao_models_classes_export_RdfExportForm
     	 
     	$instances = tao_helpers_Uri::encodeArray($instances, tao_helpers_Uri::ENCODE_ARRAY_KEYS);
     	 
-		$this->form->createGroup('options', __('Export Metadata as RDF/XML file'), array('rdf_desc', 'filename', 'rdftpl'));
+		$this->form->createGroup('options', __('Export Metadata as RDF/XML file'), array('filename'));
     }
 
 }
