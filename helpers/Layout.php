@@ -412,7 +412,8 @@ class Layout{
         $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
         if(!is_null($defaultTheme)){
             $template =  ThemeRegistry::getRegistry()->getTemplate($target, $defaultTheme['id'], $templateId);
-        }else{
+        }
+        if(is_null($template)){
             //template with specified id not found in the default theme, try to fall back to the base theme
             $template = ThemeRegistry::getRegistry()->getBaseTemplate($target, $templateId);
         }
