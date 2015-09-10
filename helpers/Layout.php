@@ -379,7 +379,12 @@ class Layout{
     
         return $passwordLabel;
     }
-    
+
+    /**
+     *
+     * @deprecated use custom footer.tpl template instead
+     * @return type
+     */
     public static function getCopyrightNotice() {
         $copyrightNotice = '';
         
