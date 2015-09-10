@@ -43,6 +43,7 @@ ThemeRegistry::getRegistry()->createTarget('backOffice', array(
     'css' => 'tao'.$s.'views'.$s.'css'.$s.'tao-3.css',
     'templates' => array(
         'header-logo' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'header-logo.tpl',
-        'footer' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'footer.tpl'
+        'footer' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'footer.tpl',
+        'login-message' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'login-message.tpl',
     )
 ));

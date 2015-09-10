@@ -230,7 +230,7 @@ class Layout{
     public static function getBranding() {
 
         $branding = 'TAO';
-
+        //add this in the theme template (header-logo)
         if (self::isThemingEnabled() === true) {
             // Get Theming info from taoThemingPlatform...
             $themingService = PlatformThemingService::singleton();
@@ -263,6 +263,7 @@ class Layout{
         $link = 'http://taotesting.com';
 
         if (self::isThemingEnabled() === true) {
+            //add this in the theme template (header-logo)
             // Get Theming info from taoThemingPlatform...
             $themingService = PlatformThemingService::singleton();
             $themingConfig = $themingService->retrieveThemingConfig();
@@ -271,6 +272,7 @@ class Layout{
             }
 
         } else {
+            //move this into the standard template setData()
             switch (TAO_RELEASE_STATUS) {
                 case 'alpha':
                 case 'demoA':
@@ -288,6 +290,7 @@ class Layout{
         $message = '';
 
         if (self::isThemingEnabled() === true) {
+            //add this in the theme template (header-logo)
             // Get Theming info from taoThemingPlatform...
             $themingService = PlatformThemingService::singleton();
             $themingConfig = $themingService->retrieveThemingConfig();
@@ -295,6 +298,7 @@ class Layout{
                 $message = $themingConfig['message'];
             }
         } else {
+            //move this into the standard template setData()
             switch (TAO_RELEASE_STATUS) {
                 case 'alpha':
                 case 'demoA':
@@ -323,7 +327,7 @@ class Layout{
     public static function getLoginMessage() {
         
         $message = __("Connect to the TAO platform");
-        
+        //add custom tpl
         if (self::isThemingEnabled() === true) {
             $themingService = PlatformThemingService::singleton();
             $themingConfig = $themingService->retrieveThemingConfig();
@@ -335,7 +339,12 @@ class Layout{
         
         return $message;
     }
-    
+
+    /**
+     *
+     * @todo deprecated if we find a way to set a default UI language for the plateform
+     * @return type
+     */
     public static function getLoginLabel() {
         $loginLabel = __("Login");
         
@@ -350,7 +359,12 @@ class Layout{
         
         return $loginLabel;
     }
-    
+
+    /**
+     *
+     * @todo deprecated if we find a way to set a default UI language for the plateform
+     * @return type
+     */
     public static function getPasswordLabel() {
         $passwordLabel = __("Password");
     
@@ -372,7 +386,7 @@ class Layout{
         if (self::isThemingEnabled() === true) {
             $themingService = PlatformThemingService::singleton();
             $themingConfig = $themingService->retrieveThemingConfig();
-    
+            //to template
             if (empty($themingConfig['copyright_notice']) === false) {
                 $copyrightNotice = $themingConfig['copyright_notice'];
             }
