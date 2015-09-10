@@ -1,4 +1,5 @@
 define(['util/url'], function(urlUtil){
+    'use strict';
 
     QUnit.module('API');
 
@@ -127,6 +128,53 @@ define(['util/url'], function(urlUtil){
         .test('isBase64 ', function(data, assert){
             assert.equal(urlUtil.isBase64(data.url), data.b64, 'The URL ' + (data.b64 ? 'is' : 'is not') + ' encoded in base 64');
             assert.equal(urlUtil.isBase64(urlUtil.parse(data.url)), data.b64, 'The URL ' + (data.b64 ? 'is' : 'is not') + ' encoded in base 64');
+        });
+
+
+    QUnit.module('Build URL');
+
+    var buildDataProvider = [{
+        title    : 'no params',
+        paths      : undefined,
+        params      : undefined,
+        expected : undefined,
+    }, {
+        title    : 'string path',
+        path      : 'http://tao.localdomain:8080/test/test.html',
+        params      : undefined,
+        expected : 'http://tao.localdomain:8080/test/test.html'
+    }, {
+        title    : 'array path',
+        path      : ['http://tao.localdomain:8080', 'test', 'test.html'],
+        params      : undefined,
+        expected : 'http://tao.localdomain:8080/test/test.html'
+    }, {
+        title    : 'array path with dupe slashes',
+        path      : ['http://tao.localdomain:8080/', '/test', 'foo/' , '/test.html'],
+        params      : undefined,
+        expected : 'http://tao.localdomain:8080/test/foo/test.html'
+    }, {
+        title    : 'path and params',
+        path      : 'http://tao.localdomain:8080/test/test.html',
+        params      : { foo : true, bar : 'baz'},
+        expected : 'http://tao.localdomain:8080/test/test.html?&foo=true&bar=baz'
+    }, {
+        title    : 'path with params and params',
+        path      : 'http://tao.localdomain:8080/test/test.html?moo=noob',
+        params      : { foo : true, bar : 'baz'},
+        expected : 'http://tao.localdomain:8080/test/test.html?moo=noob&foo=true&bar=baz'
+    }, {
+        title    : 'path and params to encode',
+        path      : 'http://tao.localdomain:8080/test/test.html',
+        params      : { foo : 'f o oBAR! +/ 1'},
+        expected : 'http://tao.localdomain:8080/test/test.html?&foo=f%20o%20oBAR!%20%2B%2F%201'
+    }];
+
+    QUnit
+        .cases(buildDataProvider)
+        .test('from ', function(data, assert){
+            var result = urlUtil.build(data.path, data.params);
+            assert.equal(result, data.expected, 'The URL is built');
         });
 });
 
