@@ -1,26 +1,43 @@
-define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeResizer){
-    
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ */
+define(['jquery', 'urlParser'], function($, UrlParser){
+    'use strict';
+
+    /**
+     * @constructor
+     */
     function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage, userService){
         this.baseUrl = baseUrl;
         this.parameters = parameters;
         this.connected = false;
 
-        this.serviceCallId = serviceCallId; 
+        this.serviceCallId = serviceCallId;
         this.state = stateStorage;
         this.userService = userService;
-
-        this.onFinishCallback;
-        this.onKillCallback;
-        this.onDisplayChangeCallback;
     }
 
-    ServiceApi.SIG_SUCCESS = 0; 
+    ServiceApi.SIG_SUCCESS = 0;
     ServiceApi.SIG_ERROR = 1;
-        
+
     ServiceApi.prototype.loadInto = function(frame, connected){
         var self = this;
         var $frame = $(frame);
-        var callUrl = this.getCallUrl();        
+        var callUrl = this.getCallUrl();
         var isCORSAllowed = new UrlParser(callUrl).checkCORS();
 
         $frame.on('load', function(e){
@@ -55,7 +72,7 @@ define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeRe
             }
         }
     };
-    
+
     /**
      * Get the service call URL
      * @returns {String} the URI
@@ -69,7 +86,7 @@ define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeRe
     ServiceApi.prototype.getUserPropertyValues = function(property, callback){
     	this.userService.get(property, callback);
     };
-    
+
     //Context
     ServiceApi.prototype.getServiceCallId = function(){
         return this.serviceCallId;
@@ -84,7 +101,7 @@ define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeRe
         return this.state.set(state, callback);
     };
 
-    // Variables 
+    // Variables
     ServiceApi.prototype.getParameter = function(identifier){
         if (typeof(this.parameters[identifier]) !== "undefined") {
             return this.parameters[identifier];
@@ -94,28 +111,28 @@ define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeRe
     };
 
     ServiceApi.prototype.onFinish = function(callback) {
-        this.onFinishCallback = callback;	
+        this.onFinishCallback = callback;
     };
 
     ServiceApi.prototype.onKill = function(callback) {
-        this.onKillCallback = callback;	
+        this.onKillCallback = callback;
     };
-    
+
     ServiceApi.prototype.kill = function(callback) {
-    	if (typeof this.onKillCallback == 'function') {
+    	if (typeof this.onKillCallback === 'function') {
     		this.onKillCallback(callback);
     	} else {
     		callback(0);
     	}
     };
-    
+
     // Flow
     // valueArray are return parameters of the service.
     ServiceApi.prototype.finish = function(valueArray) {
-            //return execution to service caller
-            if (typeof this.onFinishCallback === 'function') {
-                    this.onFinishCallback(valueArray);
-            }
+        //return execution to service caller
+        if (typeof this.onFinishCallback === 'function') {
+                this.onFinishCallback(valueArray);
+        }
     };
 
     return ServiceApi;
