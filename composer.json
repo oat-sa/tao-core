@@ -56,6 +56,10 @@
 			"oat\\tao\\helpers\\" : "helpers",
 			"oat\\tao\\test\\" : "test",
 			"oat\\tao\\scripts\\" : "scripts"
-		}
+		},
+		"files" : [
+			"tao/helpers/class.Uri.php",
+			"tao/helpers/class.Display.php"
+		]
 	}
 }
