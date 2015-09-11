@@ -21,8 +21,6 @@
 
 namespace oat\tao\helpers;
 
-use oat\taoThemingPlatform\model\PlatformThemingService;
-
 use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\ThemeRegistry;
@@ -42,8 +40,7 @@ class Layout{
             'is-sandbox'   => false,
             'logo'         => self::getLogoUrl(),
             'link'         => self::getLinkUrl(),
-            'msg'          => self::getMessage(),
-            'branding'     => self::getBranding(),
+            'msg'          => self::getMessage()
         );
 
         switch(TAO_RELEASE_STATUS){
@@ -202,113 +199,67 @@ class Layout{
     public static function getLogoUrl() {
         $logoFile = Template::img('tao-logo.png', 'tao');
 
-        if (self::isThemingEnabled() === true) {
-            // Get Theming info from taoThemingPlatform...
-            $themingService = PlatformThemingService::singleton();
-            $themingConfig = $themingService->retrieveThemingConfig();
-            if ($themingConfig['logo'] !== null) {
-                $logoFile = $themingService->getFileUrl($themingConfig['logo']);
-            }
-            
-        } else {
-            switch (TAO_RELEASE_STATUS) {
-                case 'alpha':
-                case 'demoA':
-                    $logoFile = Template::img('tao-logo-alpha.png', 'tao');
-                    break;
-                    
-                case 'beta':
-                case 'demoB':
-                    $logoFile = Template::img('tao-logo-beta.png', 'tao');
-                    break;
-            }
+        switch (TAO_RELEASE_STATUS) {
+            case 'alpha':
+            case 'demoA':
+                $logoFile = Template::img('tao-logo-alpha.png', 'tao');
+                break;
+            case 'beta':
+            case 'demoB':
+                $logoFile = Template::img('tao-logo-beta.png', 'tao');
+                break;
         }
         
         return $logoFile;
     }
 
+    /**
+     * Deprecated way to insert a theming css, use custom template instead
+     *
+     * @deprecated
+     * @return string
+     */
     public static function getBranding() {
-
-        $branding = 'TAO';
-        //add this in the theme template (header-logo)
-        if (self::isThemingEnabled() === true) {
-            // Get Theming info from taoThemingPlatform...
-            $themingService = PlatformThemingService::singleton();
-            $themingConfig = $themingService->retrieveThemingConfig();
-            if ($themingConfig['branding'] !== null) {
-                $branding = $themingConfig['branding'];
-            }
-
-        }
-
-        return $branding;
+        return 'TAO';
     }
 
     /**
-     * Deprecated way to insert a theming css
+     * Deprecated way to insert a theming css, use custom template instead
      * 
      * @deprecated
      * @return string
      */
     public static function getThemeUrl() {
-        if (self::isThemingEnabled() === true) {
-            $themingService = PlatformThemingService::singleton();
-            if ($themingService->hasFile('platformtheme.css')) {
-                return $themingService->getFileUrl('platformtheme.css');
-            }
-        }
+        return '';
     }
 
     public static function getLinkUrl() {
+        
         $link = 'http://taotesting.com';
-
-        if (self::isThemingEnabled() === true) {
-            //add this in the theme template (header-logo)
-            // Get Theming info from taoThemingPlatform...
-            $themingService = PlatformThemingService::singleton();
-            $themingConfig = $themingService->retrieveThemingConfig();
-            if ($themingConfig['link'] !== null) {
-                $link = $themingConfig['link'];
-            }
-
-        } else {
-            //move this into the standard template setData()
-            switch (TAO_RELEASE_STATUS) {
-                case 'alpha':
-                case 'demoA':
-                case 'beta':
-                case 'demoB':
-                    $link = 'http://forge.taotesting.com/projects/tao';
-                    break;
-            }
+        //move this into the standard template setData()
+        switch (TAO_RELEASE_STATUS) {
+            case 'alpha':
+            case 'demoA':
+            case 'beta':
+            case 'demoB':
+                $link = 'http://forge.taotesting.com/projects/tao';
+                break;
         }
 
         return $link;
     }
 
     public static function getMessage() {
+        
         $message = '';
-
-        if (self::isThemingEnabled() === true) {
-            //add this in the theme template (header-logo)
-            // Get Theming info from taoThemingPlatform...
-            $themingService = PlatformThemingService::singleton();
-            $themingConfig = $themingService->retrieveThemingConfig();
-            if (empty($themingConfig['message']) === false) {
-                $message = $themingConfig['message'];
-            }
-        } else {
-            //move this into the standard template setData()
-            switch (TAO_RELEASE_STATUS) {
-                case 'alpha':
-                case 'demoA':
-                case 'beta':
-                case 'demoB':
-                    $message = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
-                    break;
-            }
+        switch (TAO_RELEASE_STATUS) {
+            case 'alpha':
+            case 'demoA':
+            case 'beta':
+            case 'demoB':
+                $message = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
+                break;
         }
-
         return $message;
     }
     
@@ -323,61 +274,32 @@ class Layout{
         }
         return $isUnstable;
     }
-    
+
+    /**
+     *
+     * @deprecated use custom template instead
+     * @return type
+     */
     public static function getLoginMessage() {
-        
-        $message = __("Connect to the TAO platform");
-        //add custom tpl
-        if (self::isThemingEnabled() === true) {
-            $themingService = PlatformThemingService::singleton();
-            $themingConfig = $themingService->retrieveThemingConfig();
-        
-            if (empty($themingConfig['login_message']) === false) {
-                $message = $themingConfig['login_message'];
-            }
-        }
-        
-        return $message;
+        return __("Connect to the TAO platform");
     }
 
     /**
      *
-     * @todo deprecated if we find a way to set a default UI language for the plateform
+     * @deprecated change default language if you want to change the "Login" translation
      * @return type
      */
     public static function getLoginLabel() {
-        $loginLabel = __("Login");
-        
-        if (self::isThemingEnabled() === true) {
-            $themingService = PlatformThemingService::singleton();
-            $themingConfig = $themingService->retrieveThemingConfig();
-        
-            if (empty($themingConfig['login_field']) === false) {
-                $loginLabel = $themingConfig['login_field'];
-            }
-        }
-        
-        return $loginLabel;
+        return __("Login");
     }
 
     /**
      *
-     * @todo deprecated if we find a way to set a default UI language for the plateform
+     * @deprecated change default language if you want to change the "Password" translation
      * @return type
      */
     public static function getPasswordLabel() {
-        $passwordLabel = __("Password");
-    
-        if (self::isThemingEnabled() === true) {
-            $themingService = PlatformThemingService::singleton();
-            $themingConfig = $themingService->retrieveThemingConfig();
-    
-            if (empty($themingConfig['password_field']) === false) {
-                $passwordLabel = $themingConfig['password_field'];
-            }
-        }
-    
-        return $passwordLabel;
+        return __("Password");
     }
 
     /**
@@ -386,18 +308,7 @@ class Layout{
      * @return type
      */
     public static function getCopyrightNotice() {
-        $copyrightNotice = '';
-        
-        if (self::isThemingEnabled() === true) {
-            $themingService = PlatformThemingService::singleton();
-            $themingConfig = $themingService->retrieveThemingConfig();
-            //to template
-            if (empty($themingConfig['copyright_notice']) === false) {
-                $copyrightNotice = $themingConfig['copyright_notice'];
-            }
-        }
-        
-        return $copyrightNotice;
+        return '';
     }
     
     /**

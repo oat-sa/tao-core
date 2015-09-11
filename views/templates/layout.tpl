@@ -27,9 +27,6 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
     <?= tao_helpers_Scriptloader::render() ?>
     <?= Layout::getAmdLoader() ?>
-    <?php if (($themeUrl = Layout::getThemeUrl()) !== null): ?>
-    <link rel="stylesheet" href="<?= $themeUrl ?>" />
-    <?php endif; ?>
     <?php if (($themeUrl = Layout::getThemeStylesheet('backOffice')) !== null): ?>
     <link rel="stylesheet" href="<?= $themeUrl ?>" />
     <?php endif; ?>
