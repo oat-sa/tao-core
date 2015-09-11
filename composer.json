@@ -58,8 +58,8 @@
 			"oat\\tao\\scripts\\" : "scripts"
 		},
 		"files" : [
-			"tao/helpers/class.Uri.php",
-			"tao/helpers/class.Display.php"
+			"helpers/class.Uri.php",
+			"helpers/class.Display.php"
 		]
 	}
 }
