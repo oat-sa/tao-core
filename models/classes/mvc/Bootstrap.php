@@ -135,7 +135,6 @@ class Bootstrap {
 			$this->session();
 			$this->includePath();
 			$this->registerErrorhandler();
-			$this->globalHelpers();
 			self::$isStarted = true;
 		}
 		common_Profiler::stop('start');
@@ -354,18 +353,6 @@ class Bootstrap {
 	protected function includePath()
 	{
 		set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);
-	}
-
-	/**
-	 * Include the global helpers
-	 * because of the shortcuts function like
-	 * _url() or _dh()
-	 * that are not loaded with the autoloader
-	 */
-	protected function globalHelpers()
-	{
-		require_once 'tao/helpers/class.Uri.php';
-		require_once 'tao/helpers/class.Display.php';
 	}
 
 	/**
