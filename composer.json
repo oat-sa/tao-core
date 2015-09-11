@@ -58,8 +58,7 @@
 			"oat\\tao\\scripts\\" : "scripts"
 		},
 		"files" : [
-			"helpers/class.Uri.php",
-			"helpers/class.Display.php"
+			"includes/globalHelpers.php"
 		]
 	}
 }
