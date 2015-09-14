@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -25,7 +25,6 @@
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoItems
- 
  */
 class tao_models_classes_import_RdfImportForm
     extends tao_helpers_form_FormContainer
@@ -77,7 +76,7 @@ class tao_models_classes_import_RdfImportForm
 		));
 		
 		$this->form->addElement($fileElt);
-		$this->form->createGroup('file', __('Import Metadata from RDF file'), array('rdf_desc', 'source'));
+		$this->form->createGroup('file', __('Import Metadata from RDF file'), array('source'));
 		
 		$rdfSentElt = tao_helpers_form_FormFactory::getElement('import_sent_rdf', 'Hidden');
 		$rdfSentElt->setValue(1);
@@ -85,5 +84,3 @@ class tao_models_classes_import_RdfImportForm
     }
 
 }
-
-?>
