@@ -529,7 +529,7 @@ function($, _, Handlebars, Encoders, Filters){
      * @param {string} path - the path to the model value to bind
      */
     DataBinder.prototype._resyncIndexOnceRm = function _resyncIndexOnceRm($node, path){
-        var self = this;
+         var self = this;
          if ($node.is('[data-bind-index]')) {
                 var removedIndex = parseInt($node.data('bind-index'), 10);
                 var $parentNode = $node.parents('[data-bind-each]');
@@ -537,7 +537,7 @@ function($, _, Handlebars, Encoders, Filters){
 
                 resyncIndexes(self.model, parentPath);
 
-                if(removedIndex > 0){
+                if(($parentNode.children('[data-bind-index]').length - 1) !== removedIndex){ //if removed not the last element
                     //we need to rebind after sync because the path are not valid anymore
                     $parentNode.children('[data-bind-index]').filter(':gt(' + removedIndex + ')').each(function() {
                         var $item = $(this);
