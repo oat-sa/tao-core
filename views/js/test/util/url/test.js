@@ -130,6 +130,8 @@ define(['util/url'], function(urlUtil){
             assert.equal(urlUtil.isBase64(urlUtil.parse(data.url)), data.b64, 'The URL ' + (data.b64 ? 'is' : 'is not') + ' encoded in base 64');
         });
 
+    QUnit.module('encodeAsXmlAttr');
+
     var attributesDataProvider = [
         {
             title: 'string allowed characters only',
