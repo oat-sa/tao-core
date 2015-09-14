@@ -334,6 +334,17 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $currentVersion = '2.11.0';
         }
+
+        if ($currentVersion === '2.11.0') {
+
+            //add the new customizable template "login-message" to backOffice target
+            $s = DIRECTORY_SEPARATOR;
+            $backOfficeTarget = ThemeRegistry::getRegistry()->get('backOffice');
+            $backOfficeTarget['base']['templates']['login-message'] = 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'login-message.tpl';
+            $this->set('backOffice', $backOfficeTarget);
+
+            $currentVersion = '2.12.0';
+        }
         return $currentVersion;
     }
     
