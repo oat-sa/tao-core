@@ -130,7 +130,7 @@ define([], function(){
 
         /**
          * Determine whether encoding is required to match XML standards for attributes
-         * @param {String }url
+         * @param {String} url
          * @returns {String}
          */
         encodeAsXmlAttr : function encodeAsXmlAttr(uri) {
