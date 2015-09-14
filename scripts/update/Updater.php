@@ -341,7 +341,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $s = DIRECTORY_SEPARATOR;
             $backOfficeTarget = ThemeRegistry::getRegistry()->get('backOffice');
             $backOfficeTarget['base']['templates']['login-message'] = 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'login-message.tpl';
-            $this->set('backOffice', $backOfficeTarget);
+            ThemeRegistry::getRegistry()->set('backOffice', $backOfficeTarget);
 
             $currentVersion = '2.12.0';
         }
