@@ -334,6 +334,13 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $currentVersion = '2.11.0';
         }
+        
+        if ($currentVersion === '2.11.0') {
+            $service = new \tao_models_classes_service_StateStorage(array('persistence' => 'serviceState'));
+            $this->getServiceManager()->register('tao/stateStorage', $service);
+            $currentVersion = '2.12.0';
+        }
+        
         return $currentVersion;
     }
     
