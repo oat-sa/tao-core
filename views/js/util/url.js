@@ -179,6 +179,7 @@ define([
             }
 
             return url;
+        }
     };
 
     return urlUtil;

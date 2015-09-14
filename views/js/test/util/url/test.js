@@ -3,12 +3,13 @@ define(['util/url'], function(urlUtil){
 
     QUnit.module('API');
 
-    QUnit.test('util api', 6, function(assert){
+    QUnit.test('util api', 7, function(assert){
         assert.ok(typeof urlUtil === 'object', "The urlUtil module exposes an object");
         assert.ok(typeof urlUtil.parse === 'function', "urlUtil exposes a parse method");
         assert.ok(typeof urlUtil.isAbsolute === 'function', "urlUtil exposes a isAbsolute method");
         assert.ok(typeof urlUtil.isRelative === 'function', "urlUtil exposes a isRelative method");
         assert.ok(typeof urlUtil.isBase64 === 'function', "urlUtil exposes a isBase64 method");
+        assert.ok(typeof urlUtil.build === 'function', "urlUtil exposes a build method");
         assert.ok(typeof urlUtil.encodeAsXmlAttr === 'function', "urlUtil exposes a encodeAsXmlAttr method");
     });
 
