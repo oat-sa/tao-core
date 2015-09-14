@@ -51,6 +51,20 @@ define([
     var _slice = [].slice;
 
     /**
+     * Minimum value of the volume
+     * @type {Number}
+     * @private
+     */
+    var _volumeMin = 0;
+
+    /**
+     * Maximum value of the volume
+     * @type {Number}
+     * @private
+     */
+    var _volumeMax = 100;
+
+    /**
      * Some default values
      * @type {Object}
      * @private
@@ -123,126 +137,75 @@ define([
     };
 
     /**
-     * Defines a player object dedicated to audio media
-     * @param {Object} mediaplayer
+     * Defines a player object dedicated to native player
+     * @param {mediaplayer} mediaplayer
      * @private
      */
-    var _audioPlayer = function(mediaplayer) {
+    var _nativePlayer = function(mediaplayer) {
         var media = mediaplayer && mediaplayer.media;
         var $media = mediaplayer && mediaplayer.$media;
 
-        if (!media || !media.play) {
-            return null;
-        }
-
         return {
-            init : function audioInit() {
+            init : function _nativePlayerInit() {
                 if ($media) {
-                    $media.removeAttr('controls');
+                    $media
+                        .removeAttr('controls')
+                        .on('play' + _ns, function() {
+                            mediaplayer && mediaplayer._onPlay();
+                        })
+                        .on('pause' + _ns + ' ended' + _ns, function() {
+                            mediaplayer && mediaplayer._onPause();
+                        })
+                        .on('timeupdate' + _ns, function() {
+                            mediaplayer && mediaplayer._onTimeUpdate(media.currentTime);
+                        })
+                        .on('loadedmetadata' + _ns, function() {
+                            mediaplayer && mediaplayer._onReady(media.duration);
+                        });
                 }
             },
 
-            destroy : function audioDestroy() {
+            destroy : function _nativePlayerDestroy() {
                 if ($media) {
-                    $media.attr('controls');
+                    $media.off(_ns).attr('controls');
                 }
             },
 
-            setSize : function audioSetSize(width, height) {
+            setSize : function _nativePlayerSetSize(width, height) {
                 if ($media) {
                     $media.width(width).height(height);
                 }
             },
 
-            seek : function audioSeek(value) {
+            seek : function _nativePlayerSeek(value) {
                 if (media) {
                     media.currentTime = value;
                 }
             },
 
-            play : function audioPlay() {
+            play : function _nativePlayerPlay() {
                 if (media) {
                     media.play();
                 }
             },
 
-            pause : function audioPause() {
+            pause : function _nativePlayerPause() {
                 if (media) {
                     media.pause();
                 }
             },
 
-            setVolume : function audioSetVolume(value) {
+            setVolume : function _nativePlayerSetVolume(value) {
                 if (media) {
-                    media.volume = value;
+                    media.volume = parseFloat((value - _volumeMin) / _volumeMax);
                 }
             },
 
-            mute : function audioMute(state) {
-                if (media) {
-                    media.muted = !!state;
-                }
-            }
-        };
-    };
-
-    /**
-     * Defines a player object dedicated to video media
-     * @param {Object} mediaplayer
-     * @private
-     */
-    var _videoPlayer = function(mediaplayer) {
-        var media = mediaplayer && mediaplayer.media;
-        var $media = mediaplayer && mediaplayer.$media;
-
-        if (!media || !media.play) {
-            return null;
-        }
-
-        return {
-            init : function videoInit() {
-                if ($media) {
-                    $media.removeAttr('controls');
-                }
+            getVolume : function _nativePlayerGetVolume() {
+                return parseInt((media && media.volume) * _volumeMax) + _volumeMin;
             },
 
-            destroy : function videoDestroy() {
-                if ($media) {
-                    $media.attr('controls');
-                }
-            },
-
-            setSize : function videoSetSize(width, height) {
-                if ($media) {
-                    $media.width(width).height(height);
-                }
-            },
-
-            seek : function videoSeek(value) {
-                if (media) {
-                    media.currentTime = value;
-                }
-            },
-
-            play : function videoPlay() {
-                if (media) {
-                    media.play();
-                }
-            },
-
-            pause : function videoPause() {
-                if (media) {
-                    media.pause();
-                }
-            },
-
-            setVolume : function videoSetVolume(value) {
-                if (media) {
-                    media.volume = value;
-                }
-            },
-
-            mute : function videoMute(state) {
+            mute : function _nativePlayerMute(state) {
                 if (media) {
                     media.muted = !!state;
                 }
@@ -252,44 +215,48 @@ define([
 
     /**
      * Defines a player object dedicated to youtube media
-     * @param {Object} mediaplayer
+     * @param {mediaplayer} mediaplayer
      * @private
      */
     var _youtubePlayer = function(mediaplayer) {
         var $media = mediaplayer && mediaplayer.$media;
 
         return {
-            init : function youtubeInit() {
+            init : function _youtubePlayerInit() {
 
             },
 
-            destroy : function youtubeDestroy() {
+            destroy : function _youtubePlayerDestroy() {
 
             },
 
-            setSize : function youtubeSetSize(width, height) {
+            setSize : function _youtubePlayerSetSize(width, height) {
                 if ($media) {
                     $media.width(width).height(height);
                 }
             },
 
-            seek : function youtubeSeek(value) {
+            seek : function _youtubePlayerSeek(value) {
 
             },
 
-            play : function youtubePlay() {
+            play : function _youtubePlayerPlay() {
 
             },
 
-            pause : function youtubePause() {
+            pause : function _youtubePlayerPause() {
 
             },
 
-            setVolume : function youtubeSetVolume(value) {
+            setVolume : function _youtubePlayerSetVolume(value) {
 
             },
 
-            mute : function youtubeMute(state) {
+            getVolume : function _youtubePlayerGetVolume() {
+
+            },
+
+            mute : function _youtubePlayerMute(state) {
 
             }
         };
@@ -301,8 +268,8 @@ define([
      * @private
      */
     var _players = {
-        'audio' : _audioPlayer,
-        'video' : _videoPlayer,
+        'audio' : _nativePlayer,
+        'video' : _nativePlayer,
         'video/youtube' : _youtubePlayer
     };
 
@@ -355,12 +322,13 @@ define([
         destroy : function destroy() {
             this.pause();
 
+            if (this.player) {
+                this.player.destroy();
+            }
+
             this._destroySlider(this.$seek);
             this._destroySlider(this.$volume);
 
-            if (this.$media) {
-                this.$media.off(_ns);
-            }
             if (this.$controls) {
                 this.$controls.off(_ns);
             }
@@ -370,9 +338,6 @@ define([
                 if (this.config.renderTo) {
                     this.$component.remove();
                 }
-            }
-            if (this.player) {
-                this.player.destroy();
             }
 
             this._reset();
@@ -561,7 +526,7 @@ define([
             if (isNaN(value)) {
                 value = 0;
             }
-            this.volume = Math.max(0, Math.min(100, value));
+            this.volume = Math.max(_volumeMin, Math.min(_volumeMax, value));
 
             this.execute('setVolume', this.volume);
 
@@ -971,10 +936,11 @@ define([
 
         /**
          * Event called when the media is ready
-         * @param event
+         * @param duration
          * @private
          */
-        _onReady : function _onReady(event) {
+        _onReady : function _onReady(duration) {
+            this.duration = duration;
             this._renderSlider(this.$seek, 0, this.duration);
             this._updateDurationLabel(this.duration);
 
@@ -989,6 +955,51 @@ define([
             if (this.config.autoStart) {
                 this.play();
             }
+        },
+
+        /**
+         * Event called when the media is played
+         * @private
+         */
+        _onPlay : function _onPlay() {
+            this._setState('playing', true);
+            this._setState('paused', false);
+        },
+
+        /**
+         * Event called when the media is paused
+         * @private
+         */
+        _onPause : function _onPause() {
+            this._setState('playing', false);
+            this._setState('paused', true);
+        },
+
+        /**
+         * Event called when the time position has changed
+         * @param {Number} value
+         * @private
+         */
+        _onTimeUpdate : function _onTimeUpdate(value) {
+            this._updatePosition(value);
+        },
+
+        /**
+         * Event called when the duration has changed
+         * @param {Number} value
+         * @private
+         */
+        _onDurationUpdate : function _onDurationUpdate(value) {
+            this._updateDurationLabel(value);
+        },
+
+        /**
+         * Event called when the volume has changed
+         * @param {Number} value
+         * @private
+         */
+        _onVolumeUpdate : function _onVolumeUpdate(value) {
+            this._updateVolume(value);
         },
 
         /**
