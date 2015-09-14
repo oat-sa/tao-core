@@ -1,0 +1,212 @@
+@import "inc/bootstrap";
+
+$playerActionSize: 2.2rem;
+$playerActionSpace: 1rem;
+
+.mediaplayer {
+    position: relative;
+    float: left;
+    @include simple-border(#61625d);
+    @include border-radius(2);
+    background: #000;
+
+    .icon-sound:before {
+        @include icon-audio();
+    }
+    .icon-mute:before {
+        @include icon-result-nok();
+    }
+
+    .error {
+        display: none;
+    }
+
+    .media {
+        float: left;
+    }
+
+    .controls {
+        position: relative;
+        padding: 5px;
+        float: left;
+        clear: both;
+        width: 100%;
+        border-top: 1px solid $darkBar;
+
+        .actions {
+            position: relative;
+            cursor: pointer;
+            float: left;
+            @include transition(all, 0.1,ease-in-out);
+
+            .action {
+                text-align: center;
+                line-height: $playerActionSize;
+                width: $playerActionSize;
+                height: $playerActionSize;
+                text-decoration: none;
+                @include transition(all, 0.2, ease-in-out);
+
+                .icon {
+                    line-height: $playerActionSize;
+                }
+            }
+
+            .action:hover {
+                opacity: 1;
+                text-decoration: none;
+            }
+
+            .play {
+                opacity: 0.7;
+                border-right: 1px solid $darkBar;
+            }
+
+            .mute {
+                opacity: 0.8;
+                border-left: 1px solid $darkBar;
+            }
+        }
+
+        .slider {
+            cursor: pointer;
+            @include simple-border($uiGeneralContentBorder);
+            @include border-radius(15);
+            @include transition(all, 0.1, ease-in-out);
+            background: $uiGeneralContentBg;
+            height: 9px;
+
+            .noUi-background {
+                @include border-radius(15);
+                background: $uiGeneralContentBg;
+            }
+            &.noUi-connect, .noUi-connect {
+                @include border-radius(15);
+                background: $info;
+            }
+
+            .noUi-handle {
+                width: 15px;
+                height: 15px;
+                @include simple-border($uiGeneralContentBorder);
+                @include border-radius(10);
+                background: whiten($info, .4);
+            }
+            .noUi-handle:hover {
+                background: whiten($info, .2);
+            }
+            .noUi-handle:after {
+                display: none;
+            }
+        }
+
+        .infos {
+            cursor: default;
+            float: left;
+
+            margin: 0 $playerActionSpace;
+            line-height: $playerActionSize;
+
+            color: #999;
+            font-size: 0.7em;
+            font-weight: bold;
+
+            [data-control="time-end"]:before {
+                content: ' / ';
+            }
+        }
+
+        .seek {
+            position: relative;
+            float: left;
+            width: 340px;
+            height: 1rem;
+            margin-top: 5px;
+        }
+
+        .playback {
+            margin-right: $playerActionSpace;
+        }
+
+        .sound {
+            width: $playerActionSize;
+            height: $playerActionSize;
+            color: $textHighlight;
+
+            &:hover {
+                .volume {
+                    display: block;
+                    opacity: 1;
+                }
+            }
+
+            .volume {
+                cursor: default;
+                position: absolute;
+                display: none;
+                padding: 7px;
+                width: $playerActionSize;
+                bottom: $playerActionSize;
+                right: 0;
+                opacity: 0;
+            }
+
+            .slider {
+                width: 7px;
+                height: 100px;
+                .noUi-handle {
+                    width: 12px;
+                    height: 12px;
+                }
+            }
+        }
+    }
+
+    [data-control="play"] {
+        display: none;
+    }
+    [data-control="pause"] {
+        display: inline-block;
+    }
+
+    [data-control="mute"] {
+        display: inline-block;
+    }
+    [data-control="unmute"] {
+        display: none;
+    }
+
+    &.paused {
+        [data-control="play"] {
+            display: inline-block;
+        }
+        [data-control="pause"] {
+            display: none;
+        }
+    }
+
+    &.muted {
+        [data-control="mute"] {
+            display: none;
+        }
+        [data-control="unmute"] {
+            display: inline-block;
+        }
+    }
+
+    &.error {
+        .media, .controls {
+            display: none;
+        }
+
+        .error {
+            display: block;
+
+            .message {
+                color: $error;
+                text-align: center;
+                padding-top: 20%;
+            }
+        }
+    }
+}
