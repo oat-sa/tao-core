@@ -117,7 +117,7 @@ class tao_helpers_I18n
     
     /**
      * @param unknown $code
-     * @return string
+     * @return boolean
      */
     public static function isLanguageRightToLeft($code)
     {
@@ -203,8 +203,4 @@ class tao_helpers_I18n
         return $returnValue;
     }
 
-}
-
-function _isRtl() {
-    return tao_helpers_I18n::isLanguageRightToLeft(common_session_SessionManager::getSession()->getInterfaceLanguage());
 }

@@ -22,12 +22,27 @@
  * @subpackage
  *
  */
-
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\websource\TokenWebSource;
 
-$itemThemesDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
+$itemThemesDataPath   = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
 $itemThemesDataPathFs = \tao_models_classes_FileSourceService::singleton()->addLocalSource('Theme FileSource', $itemThemesDataPath);
 
 $websource = TokenWebSource::spawnWebsource($itemThemesDataPathFs);
 ThemeRegistry::getRegistry()->setWebSource($websource->getId());
+
+$s = DIRECTORY_SEPARATOR;
+ThemeRegistry::getRegistry()->createTarget('frontOffice', array(
+    'css' => 'tao'.$s.'views'.$s.'css'.$s.'tao-3.css',
+    'templates' => array(
+        'header-logo' => 'taoDelivery'.$s.'views'.$s.'templates'.$s.'DeliveryServer'.$s.'blocks'.$s.'header-logo.tpl',
+        'footer' => 'taoDelivery'.$s.'views'.$s.'templates'.$s.'DeliveryServer'.$s.'blocks'.$s.'footer.tpl'
+    )
+));
+ThemeRegistry::getRegistry()->createTarget('backOffice', array(
+    'css' => 'tao'.$s.'views'.$s.'css'.$s.'tao-3.css',
+    'templates' => array(
+        'header-logo' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'header-logo.tpl',
+        'footer' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'footer.tpl'
+    )
+));

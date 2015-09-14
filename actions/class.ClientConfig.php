@@ -44,7 +44,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $this->setData('libConfigs', $libConfigs);
 
         $themesAvailable = ThemeRegistry::getRegistry()->getAvailableThemes();
-        $this->setData('themesAvailable', $themesAvailable);
+        $this->setData('themesAvailable', json_encode($themesAvailable));
 
         $extensionManager = common_ext_ExtensionsManager::singleton();
         $langCode = tao_helpers_I18n::getLangCode();
