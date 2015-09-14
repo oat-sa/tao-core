@@ -124,29 +124,175 @@ define([
 
     /**
      * Defines a player object dedicated to audio media
-     * @param {Object} config
+     * @param {Object} mediaplayer
      * @private
      */
-    var _audioPlayer = function(config) {
+    var _audioPlayer = function(mediaplayer) {
+        var media = mediaplayer && mediaplayer.media;
+        var $media = mediaplayer && mediaplayer.$media;
 
+        if (!media || !media.play) {
+            return null;
+        }
+
+        return {
+            init : function audioInit() {
+                if ($media) {
+                    $media.removeAttr('controls');
+                }
+            },
+
+            destroy : function audioDestroy() {
+                if ($media) {
+                    $media.attr('controls');
+                }
+            },
+
+            setSize : function audioSetSize(width, height) {
+                if ($media) {
+                    $media.width(width).height(height);
+                }
+            },
+
+            seek : function audioSeek(value) {
+                if (media) {
+                    media.currentTime = value;
+                }
+            },
+
+            play : function audioPlay() {
+                if (media) {
+                    media.play();
+                }
+            },
+
+            pause : function audioPause() {
+                if (media) {
+                    media.pause();
+                }
+            },
+
+            setVolume : function audioSetVolume(value) {
+                if (media) {
+                    media.volume = value;
+                }
+            },
+
+            mute : function audioMute(state) {
+                if (media) {
+                    media.muted = !!state;
+                }
+            }
+        };
     };
 
     /**
      * Defines a player object dedicated to video media
-     * @param {Object} config
+     * @param {Object} mediaplayer
      * @private
      */
-    var _videoPlayer = function(config) {
+    var _videoPlayer = function(mediaplayer) {
+        var media = mediaplayer && mediaplayer.media;
+        var $media = mediaplayer && mediaplayer.$media;
 
+        if (!media || !media.play) {
+            return null;
+        }
+
+        return {
+            init : function videoInit() {
+                if ($media) {
+                    $media.removeAttr('controls');
+                }
+            },
+
+            destroy : function videoDestroy() {
+                if ($media) {
+                    $media.attr('controls');
+                }
+            },
+
+            setSize : function videoSetSize(width, height) {
+                if ($media) {
+                    $media.width(width).height(height);
+                }
+            },
+
+            seek : function videoSeek(value) {
+                if (media) {
+                    media.currentTime = value;
+                }
+            },
+
+            play : function videoPlay() {
+                if (media) {
+                    media.play();
+                }
+            },
+
+            pause : function videoPause() {
+                if (media) {
+                    media.pause();
+                }
+            },
+
+            setVolume : function videoSetVolume(value) {
+                if (media) {
+                    media.volume = value;
+                }
+            },
+
+            mute : function videoMute(state) {
+                if (media) {
+                    media.muted = !!state;
+                }
+            }
+        };
     };
 
     /**
      * Defines a player object dedicated to youtube media
-     * @param {Object} config
+     * @param {Object} mediaplayer
      * @private
      */
-    var _youtubePlayer = function(config) {
+    var _youtubePlayer = function(mediaplayer) {
+        var $media = mediaplayer && mediaplayer.$media;
 
+        return {
+            init : function youtubeInit() {
+
+            },
+
+            destroy : function youtubeDestroy() {
+
+            },
+
+            setSize : function youtubeSetSize(width, height) {
+                if ($media) {
+                    $media.width(width).height(height);
+                }
+            },
+
+            seek : function youtubeSeek(value) {
+
+            },
+
+            play : function youtubePlay() {
+
+            },
+
+            pause : function youtubePause() {
+
+            },
+
+            setVolume : function youtubeSetVolume(value) {
+
+            },
+
+            mute : function youtubeMute(state) {
+
+            }
+        };
     };
 
     /**
@@ -225,6 +371,9 @@ define([
                     this.$component.remove();
                 }
             }
+            if (this.player) {
+                this.player.destroy();
+            }
 
             this._reset();
         },
@@ -263,15 +412,19 @@ define([
 
             this._renderSlider(this.$seek, 0, this.duration);
             this._renderSlider(this.$volume, this.volume, 100, true);
+            this._updatePositionLabel(0);
+            this._updateDurationLabel(0);
             this._bindEvents();
             this._setState('paused', true);
 
-            player = _players[this.type];
+            player = _players[this.config.type];
             if (_.isFunction(player)) {
                 this.player = player(this);
             }
 
-            if (!this.player) {
+            if (this.player) {
+                this.player.init();
+            } else {
                 this._setState('error', true);
                 this.$media = this.$component.find('.error');
             }
@@ -292,6 +445,10 @@ define([
          * @returns {mediaplayer}
          */
         seek : function seek(time, internal) {
+            if (isNaN(time)) {
+                time = 0;
+            }
+
             this.execute('seek', time);
 
             this._updatePosition(time, internal);
@@ -374,7 +531,7 @@ define([
             if (undefined === state) {
                 state = true;
             }
-            this.execute('setVolume', state ? 0 : this.volume);
+            this.execute('mute', state);
             this._setState('muted', state);
 
             return this;
@@ -401,6 +558,9 @@ define([
          * @returns {mediaplayer}
          */
         setVolume : function setVolume(value, internal) {
+            if (isNaN(value)) {
+                value = 0;
+            }
             this.volume = Math.max(0, Math.min(100, value));
 
             this.execute('setVolume', this.volume);
@@ -425,7 +585,7 @@ define([
          * @returns {mediaplayer}
          */
         resize : function resize(width, height) {
-            this.$media.width(width).height(height);
+            this.execute('setSize', width, height);
 
             return this;
         },
@@ -692,7 +852,7 @@ define([
                 animate: true,
                 range: {
                     min: 0,
-                    max : max || 100
+                    max : max || 0
                 }
             })
         },
@@ -731,6 +891,7 @@ define([
             });
 
             this.$volume.on('change' + _ns, function(event, value) {
+                self.unmute();
                 self.setVolume(value, true);
             });
         },
@@ -781,6 +942,21 @@ define([
         },
 
         /**
+         * Updates the duration label
+         * @param {Number} value
+         * @private
+         */
+        _updateDurationLabel : function _updatePositionLabel(value) {
+            if (this.$duration) {
+                if (value) {
+                    this.$duration.text(_timerFormat(value)).show();
+                } else {
+                    this.$duration.hide();
+                }
+            }
+        },
+
+        /**
          * Updates the displayed time position
          * @param {Number} value
          * @param {*} [internal]
@@ -800,7 +976,7 @@ define([
          */
         _onReady : function _onReady(event) {
             this._renderSlider(this.$seek, 0, this.duration);
-            this.$duration.text(_timerFormat(this.duration));
+            this._updateDurationLabel(this.duration);
 
             this.setVolume(this.volume);
 
