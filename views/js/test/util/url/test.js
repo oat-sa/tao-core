@@ -3,12 +3,14 @@ define(['util/url'], function(urlUtil){
 
     QUnit.module('API');
 
-    QUnit.test('util api', 5, function(assert){
+    QUnit.test('util api', 7, function(assert){
         assert.ok(typeof urlUtil === 'object', "The urlUtil module exposes an object");
         assert.ok(typeof urlUtil.parse === 'function', "urlUtil exposes a parse method");
         assert.ok(typeof urlUtil.isAbsolute === 'function', "urlUtil exposes a isAbsolute method");
         assert.ok(typeof urlUtil.isRelative === 'function', "urlUtil exposes a isRelative method");
         assert.ok(typeof urlUtil.isBase64 === 'function', "urlUtil exposes a isBase64 method");
+        assert.ok(typeof urlUtil.build === 'function', "urlUtil exposes a build method");
+        assert.ok(typeof urlUtil.encodeAsXmlAttr === 'function', "urlUtil exposes a encodeAsXmlAttr method");
     });
 
     QUnit.module('Parse');
@@ -130,6 +132,39 @@ define(['util/url'], function(urlUtil){
             assert.equal(urlUtil.isBase64(urlUtil.parse(data.url)), data.b64, 'The URL ' + (data.b64 ? 'is' : 'is not') + ' encoded in base 64');
         });
 
+    QUnit.module('encodeAsXmlAttr');
+
+    var attributesDataProvider = [
+        {
+            title: 'string allowed characters only',
+            url: 'téstïg',
+            encoded: 'téstïg'
+        }, {
+            title: 'string with one encodable >',
+            url: 'te<st',
+            encoded: 'te%3Cst'
+        }
+        , {
+            title: 'string with one encodable <',
+            url: 'te>st',
+            encoded: 'te%3Est'
+        }, {
+            title: 'string with one encodable &',
+            url: 'te&st',
+            encoded: 'te%26st'
+        }, {
+            title: 'string with multiply encodable',
+            url: 'te&s<t',
+            encoded: 'te%26s%3Ct'
+        }
+    ];
+
+    QUnit
+        .cases(attributesDataProvider)
+        .test('encodeAsXmlAttr ', function (data, assert) {
+            assert.equal(urlUtil.encodeAsXmlAttr(data.url), data.encoded);
+            assert.equal(decodeURIComponent(data.encoded), data.url);
+        });
 
     QUnit.module('Build URL');
 
