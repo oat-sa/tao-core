@@ -166,11 +166,13 @@ function($, _, Handlebars, Encoders, Filters){
     /**
      * Bind wrapper to ensure the event is bound only once using a namespace
      * @param {jQueryElement} $node - the node to bind
+     * @param {jQueryElement} $container - the node container
      * @param {String} eventName - the name of the event to bind
      * @param {Function} cb - a jQuery event handler
      */
-    var _bindOnce = function _bind($node, $container, eventName, cb){
+    var _bindOnce = function _bindOnce($node, $container, eventName, cb){
         var bounds;
+        _unbind($node, $container, eventName);
         if($node.length > 0){
             bounds = $._data($node[0], 'events');
             if(!bounds || _(bounds[eventName]).where({namespace : 'internalbinder'}).size() < 1 ){
@@ -182,6 +184,24 @@ function($, _, Handlebars, Encoders, Filters){
             }
         }
     };
+
+
+    /**
+     * Unbind event registered using <i>this._bind</i> function.
+     * @param {jQueryElement} $node - the node to bind
+     * @param {jQueryElement} $container - the node container
+     * @param {String} eventName - the name of the event to bind
+     * @private
+     */
+    var _unbind = function _unbind($node, $container, eventName) {
+        var bounds;
+        if ($node.length > 0) {
+            bounds = $._data($node[0], 'events');
+            if (bounds && _(bounds[eventName]).where({namespace : 'internalbinder'}).size() > 0 ) {
+                toBind($node, $container).off(eventName + '.internalbinder');
+            }
+        }
+    }
 
     /**
      * The default configuration
@@ -509,7 +529,7 @@ function($, _, Handlebars, Encoders, Filters){
      * @param {string} path - the path to the model value to bind
      */
     DataBinder.prototype._resyncIndexOnceRm = function _resyncIndexOnceRm($node, path){
-        var self = this;
+         var self = this;
          if ($node.is('[data-bind-index]')) {
                 var removedIndex = parseInt($node.data('bind-index'), 10);
                 var $parentNode = $node.parents('[data-bind-each]');
@@ -517,7 +537,7 @@ function($, _, Handlebars, Encoders, Filters){
 
                 resyncIndexes(self.model, parentPath);
 
-                if(removedIndex > 0){
+                if(($parentNode.children('[data-bind-index]').length - 1) !== removedIndex){ //if removed not the last element
                     //we need to rebind after sync because the path are not valid anymore
                     $parentNode.children('[data-bind-index]').filter(':gt(' + removedIndex + ')').each(function() {
                         var $item = $(this);
@@ -679,8 +699,10 @@ function($, _, Handlebars, Encoders, Filters){
              });
 
              //listen for reordering and item addition on the list node
-             self._listenUpdates($elt, path, self.model);
-             self._listenAdds($elt, path, self.model);
+             if (values !== undefined) {
+                 self._listenUpdates($elt, path, self.model);
+                 self._listenAdds($elt, path, self.model);
+             }
 
          } else {
              $elt.find('[data-bind]').each(function(){
