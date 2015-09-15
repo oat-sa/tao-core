@@ -1,31 +1,35 @@
 <div class="mediaplayer">
-{{#if is.video}}
-    {{#if is.youtube}}
-        {{#each sources}}
-    <div class="media video youtube" data-video-src="{{src}}" data-video-id="{{id}}" data-type="youtube"></div>
-        {{/each}}
+    <div class="player">
+    {{#if is.video}}
+        {{#if is.youtube}}
+            {{#each sources}}
+        <div class="media video youtube" data-video-src="{{src}}" data-video-id="{{id}}" data-type="youtube"></div>
+            {{/each}}
+        {{else}}
+        <video class="media video" poster="{{poster}}" controls {{#if is.cors}}crossorigin{{/if}}>
+            {{#each sources}}
+            <source src="{{src}}" type="{{type}}">
+            {{/each}}
+
+            {{#if link}}
+            <a href="{{link}}">{{__ 'Download'}}</a>
+            {{/if}}
+        </video>
+        <a class="action play" data-control="play" title="{{__ 'Play'}}"><span class="icon icon-play"></span></a>
+        <a class="action play" data-control="pause" title="{{__ 'Pause'}}"><span class="icon icon-pause"></span></a>
+        {{/if}}
     {{else}}
-    <video class="media video" poster="{{poster}}" controls {{#if is.cors}}crossorigin{{/if}}>
-        {{#each sources}}
-        <source src="{{src}}" type="{{type}}">
-        {{/each}}
+        <audio class="media audio" controls {{#if is.cors}}crossorigin{{/if}}>
+            {{#each sources}}
+            <source src="{{src}}" type="{{type}}">
+            {{/each}}
 
-        {{#if link}}
-        <a href="{{link}}">{{__ 'Download'}}</a>
-        {{/if}}
-    </video>
+            {{#if link}}
+            <a href="{{link}}">{{__ 'Download'}}</a>
+            {{/if}}
+        </audio>
     {{/if}}
-{{else}}
-    <audio class="media audio" controls {{#if is.cors}}crossorigin{{/if}}>
-        {{#each sources}}
-        <source src="{{src}}" type="{{type}}">
-        {{/each}}
-
-        {{#if link}}
-        <a href="{{link}}">{{__ 'Download'}}</a>
-        {{/if}}
-    </audio>
-{{/if}}
+    </div>
     <div class="controls">
         <div class="actions playback">
             <a class="action play" data-control="play" title="{{__ 'Play'}}"><span class="icon icon-play"></span></a>

@@ -45,6 +45,7 @@ define([
         { name : 'stop', title : 'stop' },
         { name : 'pause', title : 'pause' },
         { name : 'resume', title : 'resume' },
+        { name : 'loop', title : 'loop' },
         { name : 'mute', title : 'mute' },
         { name : 'unmute', title : 'unmute' },
         { name : 'setVolume', title : 'setVolume' },
@@ -58,7 +59,8 @@ define([
         { name : 'trigger', title : 'trigger' },
         { name : 'on', title : 'on' },
         { name : 'off', title : 'off' },
-        { name : 'getDom', title : 'getDom' }
+        { name : 'getDom', title : 'getDom' },
+        { name : 'addSource', title : 'addSource' }
     ];
 
     QUnit

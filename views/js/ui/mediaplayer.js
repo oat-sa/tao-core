@@ -161,6 +161,7 @@ define([
      * @private
      */
     var _nativePlayer = function(mediaplayer) {
+        var $player;
         var $media;
         var media;
         var player;
@@ -169,6 +170,7 @@ define([
         if (mediaplayer) {
             media = mediaplayer.media;
             $media = mediaplayer.$media;
+            $player = mediaplayer.$player;
 
             player = {
                 init : function _nativePlayerInit() {
@@ -176,13 +178,6 @@ define([
                     if ($media) {
                         $media
                             .removeAttr('controls')
-                            .on(_nsEvents(['click']), function() {
-                                if (playing) {
-                                    self.pause();
-                                } else {
-                                    self.play();
-                                }
-                            })
                             .on(_nsEvents(['play']), function() {
                                 mediaplayer._onPlay();
                             })
@@ -196,11 +191,24 @@ define([
                                 mediaplayer._onReady();
                             });
                     }
+
+                    if ($player) {
+                        $player.on(_nsEvents(['click']), function() {
+                            if (playing) {
+                                self.pause();
+                            } else {
+                                self.play();
+                            }
+                        })
+                    }
                 },
 
                 destroy : function _nativePlayerDestroy() {
                     if ($media) {
                         $media.off(_ns).attr('controls', '');
+                    }
+                    if ($player) {
+                        $player.off(_ns);
                     }
                 },
 
@@ -423,6 +431,7 @@ define([
             }
 
             this.$component = $(playerTpl(this.config));
+            this.$player = this.$component.find('.player');
             this.$media = this.$component.find('.media');
             this.$controls = this.$component.find('.controls');
             this.media = this.$media.get(0);
@@ -742,6 +751,7 @@ define([
          */
         _reset : function _reset() {
             this.$component = null;
+            this.$player = null;
             this.$media = null;
             this.$controls = null;
             this.$seek = null;

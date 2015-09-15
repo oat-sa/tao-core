@@ -26,6 +26,27 @@ $playerActionSpace: 1rem;
         cursor: pointer;
     }
 
+    .player {
+        position: relative;
+
+        .action {
+            position: absolute;
+            margin-top: 20%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            display: none;
+            font-size: 64px;
+            color: white();
+            opacity: 0.2;
+
+            &:hover {
+                opacity: 0.6;
+            }
+        }
+    }
+
     .controls {
         position: relative;
         padding: 5px;
@@ -48,14 +69,13 @@ $playerActionSpace: 1rem;
                 text-decoration: none;
                 @include transition(all, 0.2, ease-in-out);
 
+                &:hover {
+                    opacity: 1;
+                }
+
                 .icon {
                     line-height: $playerActionSize;
                 }
-            }
-
-            .action:hover {
-                opacity: 1;
-                text-decoration: none;
             }
 
             .play {
@@ -161,37 +181,55 @@ $playerActionSpace: 1rem;
                 }
             }
         }
-    }
 
-    [data-control="play"] {
-        display: none;
-    }
-    [data-control="pause"] {
-        display: inline-block;
-    }
+        [data-control="play"] {
+            display: none;
+        }
+        [data-control="pause"] {
+            display: inline-block;
+        }
 
-    [data-control="mute"] {
-        display: inline-block;
-    }
-    [data-control="unmute"] {
-        display: none;
+        [data-control="mute"] {
+            display: inline-block;
+        }
+        [data-control="unmute"] {
+            display: none;
+        }
     }
 
     &.paused {
-        [data-control="play"] {
-            display: inline-block;
+        .controls {
+            [data-control="play"] {
+                display: inline-block;
+            }
+            [data-control="pause"] {
+                display: none;
+            }
         }
-        [data-control="pause"] {
-            display: none;
+
+        .player:hover {
+            [data-control="play"] {
+                display: block;
+            }
+        }
+    }
+
+    &.playing {
+        .player:hover {
+            [data-control="pause"] {
+                display: block;
+            }
         }
     }
 
     &.muted {
-        [data-control="mute"] {
-            display: none;
-        }
-        [data-control="unmute"] {
-            display: inline-block;
+        .controls {
+            [data-control="mute"] {
+                display: none;
+            }
+            [data-control="unmute"] {
+                display: inline-block;
+            }
         }
     }
 
