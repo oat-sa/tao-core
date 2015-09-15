@@ -13,15 +13,22 @@
 
 @mixin linear-gradient($colorList, $direction: 'to right') {
     $percentage: 0;
+    $units: '%';
     $count: length($colorList);
     $increment: 100 / ($count - 1);
     $css: #{$direction + ', '};
     $sep: ', ';
-    @each $color in $colorList {
-        @if ($percentage >= 100) {
+    @each $colorItem in $colorList {
+        $color: $colorItem;
+        @if (length($colorItem) > 1) {
+            $color: nth($colorItem, 1);
+            $percentage: nth($colorItem, 2);
+            $units: '';
+        }
+        @if ($percentage >= 100 or index($colorList, $colorItem) == $count) {
             $sep: '';
         }
-        $css: #{$css + $color + ' ' + $percentage + '%' + $sep};
+        $css: #{$css + $color + ' ' + $percentage + $units + $sep};
         $percentage: $percentage + $increment;
     }
     background: linear-gradient( #{$css} );
