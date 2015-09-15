@@ -45,7 +45,17 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
         );
         
         $testUserData[PROPERTY_USER_PASSWORD] = 'test' . rand();
-        
+
+        $passwordConstraintMock = $this->getMock('oat\generis\model\user\PasswordConstraintsService', array('validate'), array(), "", false);
+        $passwordConstraintMock->expects($this->once())
+            ->method('validate')
+            ->with($testUserData[PROPERTY_USER_PASSWORD])
+            ->willReturn(true);
+
+        $ref = new \ReflectionProperty('tao_models_classes_Service', 'instances');
+        $ref->setAccessible(true);
+        $ref->setValue(null, array('oat\generis\model\user\PasswordConstraintsService' => $passwordConstraintMock));
+
         $data = $testUserData;
         $data[PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($data[PROPERTY_USER_PASSWORD]);
         $tmclass = new \core_kernel_classes_Class(CLASS_TAO_USER);
@@ -72,6 +82,8 @@ abstract class RestTestCase extends TaoPhpUnitTestRunner
         $this->login = $data['userData'][PROPERTY_USER_LOGIN];
         $this->password = $data['userData'][PROPERTY_USER_PASSWORD];
         $this->userUri = $data['userUri'];
+
+        $ref->setValue(null, array());
     }
 
     public function tearDown()
