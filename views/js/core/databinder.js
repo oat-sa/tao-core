@@ -448,7 +448,7 @@ function($, _, Handlebars, Encoders, Filters){
                     $node
                       .off('undo.deleter')
                       .one('undo.deleter', function(){
-                        var $parentNode = $node.parents('[data-bind-each]');
+                        var $parentNode = $node.parent().closest('[data-bind-each]');
                         var parentPath = path.replace(/\.[0-9]+$/, '');
                         resyncIndexes(self.model, parentPath, $parentNode);
                     });
@@ -532,7 +532,7 @@ function($, _, Handlebars, Encoders, Filters){
          var self = this;
          if ($node.is('[data-bind-index]')) {
                 var removedIndex = parseInt($node.data('bind-index'), 10);
-                var $parentNode = $node.parents('[data-bind-each]');
+                var $parentNode = $node.parent().closest('[data-bind-each]');
                 var parentPath = path.replace(/\.[0-9]+$/, '');
 
                 resyncIndexes(self.model, parentPath);
