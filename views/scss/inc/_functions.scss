@@ -11,6 +11,13 @@
     }
 }
 
+/*
+Usage:
+- linear-gradient((color1, color2, color3)) - returns linear-gradient with evenly distributed colors,
+   if 3 colors used then the position of each will be 33,33%
+- linear-gradient((color1 0%, color2 30%, color3 80%)) - returns linear-gradient with manually distributed colors,
+   first param - color, second - position. Also you can use px or other valid units for set position.
+*/
 @mixin linear-gradient($colorList, $direction: 'to right') {
     $percentage: 0;
     $units: '%';
