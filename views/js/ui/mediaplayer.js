@@ -65,6 +65,13 @@ define([
     var _volumeMax = 100;
 
     /**
+     * Range value of the volume
+     * @type {Number}
+     * @private
+     */
+    var _volumeRange = _volumeMax - _volumeMin;
+
+    /**
      * Some default values
      * @type {Object}
      * @private
@@ -80,7 +87,7 @@ define([
             height : 30
         },
         options : {
-            volume : 80,
+            volume : Math.floor(_volumeRange * .8),
             maxPlays : 0,
             canFullscreen : false,
             canPause : true,
@@ -137,80 +144,121 @@ define([
     };
 
     /**
+     * Builds a namespaced list of events
+     * @param {Array} events
+     * @returns {String}
+     * @private
+     */
+    var _nsEvents = function(events) {
+        return _.reduce(events, function(result, event) {
+            return result + ' ' + event + _ns;
+        }, '').trim();
+    };
+
+    /**
      * Defines a player object dedicated to native player
      * @param {mediaplayer} mediaplayer
      * @private
      */
     var _nativePlayer = function(mediaplayer) {
-        var media = mediaplayer && mediaplayer.media;
-        var $media = mediaplayer && mediaplayer.$media;
+        var $media;
+        var media;
+        var player;
+        var playing = false;
 
-        return {
-            init : function _nativePlayerInit() {
-                if ($media) {
-                    $media
-                        .removeAttr('controls')
-                        .on('play' + _ns, function() {
-                            mediaplayer && mediaplayer._onPlay();
-                        })
-                        .on('pause' + _ns + ' ended' + _ns, function() {
-                            mediaplayer && mediaplayer._onPause();
-                        })
-                        .on('timeupdate' + _ns, function() {
-                            mediaplayer && mediaplayer._onTimeUpdate(media.currentTime);
-                        })
-                        .on('loadedmetadata' + _ns, function() {
-                            mediaplayer && mediaplayer._onReady(media.duration);
-                        });
+        if (mediaplayer) {
+            media = mediaplayer.media;
+            $media = mediaplayer.$media;
+
+            player = {
+                init : function _nativePlayerInit() {
+                    var self = this;
+                    if ($media) {
+                        $media
+                            .removeAttr('controls')
+                            .on(_nsEvents(['click']), function() {
+                                if (playing) {
+                                    self.pause();
+                                } else {
+                                    self.play();
+                                }
+                            })
+                            .on(_nsEvents(['play']), function() {
+                                mediaplayer._onPlay();
+                            })
+                            .on(_nsEvents(['pause', 'ended']), function() {
+                                mediaplayer._onPause();
+                            })
+                            .on(_nsEvents(['timeupdate']), function() {
+                                mediaplayer._onTimeUpdate();
+                            })
+                            .on(_nsEvents(['loadedmetadata']), function() {
+                                mediaplayer._onReady();
+                            });
+                    }
+                },
+
+                destroy : function _nativePlayerDestroy() {
+                    if ($media) {
+                        $media.off(_ns).attr('controls', '');
+                    }
+                },
+
+                getPosition : function _nativePlayerGetPosition() {
+                    if (media) {
+                        return media.currentTime;
+                    }
+                    return 0;
+                },
+
+                getDuration : function _nativePlayerGetDuration() {
+                    if (media) {
+                        return media.duration;
+                    }
+                    return 0;
+                },
+
+                setVolume : function _nativePlayerSetVolume(value) {
+                    if (media) {
+                        media.volume = (parseFloat(value) - _volumeMin) / _volumeRange;
+                    }
+                },
+
+                setSize : function _nativePlayerSetSize(width, height) {
+                    if ($media) {
+                        $media.width(width).height(height);
+                    }
+                },
+
+                seek : function _nativePlayerSeek(value) {
+                    if (media) {
+                        media.currentTime = parseFloat(value);
+                    }
+                },
+
+                play : function _nativePlayerPlay() {
+                    if (media) {
+                        playing = true;
+                        media.play();
+                    }
+                },
+
+                pause : function _nativePlayerPause() {
+                    if (media) {
+                        playing = false;
+                        media.pause();
+                    }
+                },
+
+                mute : function _nativePlayerMute(state) {
+                    if (media) {
+                        media.muted = !!state;
+                    }
                 }
-            },
+            };
+        }
 
-            destroy : function _nativePlayerDestroy() {
-                if ($media) {
-                    $media.off(_ns).attr('controls');
-                }
-            },
-
-            setSize : function _nativePlayerSetSize(width, height) {
-                if ($media) {
-                    $media.width(width).height(height);
-                }
-            },
-
-            seek : function _nativePlayerSeek(value) {
-                if (media) {
-                    media.currentTime = value;
-                }
-            },
-
-            play : function _nativePlayerPlay() {
-                if (media) {
-                    media.play();
-                }
-            },
-
-            pause : function _nativePlayerPause() {
-                if (media) {
-                    media.pause();
-                }
-            },
-
-            setVolume : function _nativePlayerSetVolume(value) {
-                if (media) {
-                    media.volume = parseFloat((value - _volumeMin) / _volumeMax);
-                }
-            },
-
-            getVolume : function _nativePlayerGetVolume() {
-                return parseInt((media && media.volume) * _volumeMax) + _volumeMin;
-            },
-
-            mute : function _nativePlayerMute(state) {
-                if (media) {
-                    media.muted = !!state;
-                }
-            }
-        };
+        return player;
     };
 
     /**
@@ -219,47 +267,59 @@ define([
      * @private
      */
     var _youtubePlayer = function(mediaplayer) {
-        var $media = mediaplayer && mediaplayer.$media;
+        var $media;
+        var player;
+        var playing = false;
 
-        return {
-            init : function _youtubePlayerInit() {
+        if (mediaplayer) {
+            $media = mediaplayer.$media;
 
-            },
+            player = {
+                init : function _youtubePlayerInit() {
 
-            destroy : function _youtubePlayerDestroy() {
+                },
 
-            },
+                destroy : function _youtubePlayerDestroy() {
 
-            setSize : function _youtubePlayerSetSize(width, height) {
-                if ($media) {
-                    $media.width(width).height(height);
+                },
+
+                getPosition : function _youtubePlayerGetPosition() {
+                    return 0;
+                },
+
+                getDuration : function _youtubePlayerGetDuration() {
+                    return 0;
+                },
+
+                setVolume : function _youtubePlayerSetVolume(value) {
+
+                },
+
+                setSize : function _youtubePlayerSetSize(width, height) {
+                    if ($media) {
+                        $media.width(width).height(height);
+                    }
+                },
+
+                seek : function _youtubePlayerSeek(value) {
+
+                },
+
+                play : function _youtubePlayerPlay() {
+
+                },
+
+                pause : function _youtubePlayerPause() {
+
+                },
+
+                mute : function _youtubePlayerMute(state) {
+
                 }
-            },
+            };
+        }
 
-            seek : function _youtubePlayerSeek(value) {
-
-            },
-
-            play : function _youtubePlayerPlay() {
-
-            },
-
-            pause : function _youtubePlayerPause() {
-
-            },
-
-            setVolume : function _youtubePlayerSetVolume(value) {
-
-            },
-
-            getVolume : function _youtubePlayerGetVolume() {
-
-            },
-
-            mute : function _youtubePlayerMute(state) {
-
-            }
-        };
+        return player;
     };
 
     /**
@@ -310,6 +370,7 @@ define([
 
             this.volume = this.config.volume;
             this.duration = 0;
+            this.position = 0;
 
             if (initConfig.renderTo) {
                 this.render(initConfig.renderTo);
@@ -326,14 +387,10 @@ define([
                 this.player.destroy();
             }
 
-            this._destroySlider(this.$seek);
-            this._destroySlider(this.$volume);
-
-            if (this.$controls) {
-                this.$controls.off(_ns);
-            }
             if (this.$component) {
-                this.$component.off(_ns);
+                this._unbindEvents();
+                this._destroySlider(this.$seekSlider);
+                this._destroySlider(this.$volumeSlider);
 
                 if (this.config.renderTo) {
                     this.$component.remove();
@@ -375,10 +432,10 @@ define([
             this.$position = this.$controls.find('[data-control="time-cur"]');
             this.$duration = this.$controls.find('[data-control="time-end"]');
 
-            this._renderSlider(this.$seek, 0, this.duration);
-            this._renderSlider(this.$volume, this.volume, 100, true);
-            this._updatePositionLabel(0);
-            this._updateDurationLabel(0);
+            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, true);
+
+            this._updateDuration(0);
+            this._updatePosition(0);
             this._bindEvents();
             this._setState('paused', true);
 
@@ -432,8 +489,6 @@ define([
             }
 
             this.execute('play');
-            this._setState('playing', true);
-            this._setState('paused', false);
 
             return this;
         },
@@ -444,13 +499,11 @@ define([
          * @returns {mediaplayer}
          */
         pause : function pause(time) {
-            this.execute('pause');
-            this._setState('playing', false);
-            this._setState('paused', true);
-
             if (undefined !== time) {
                 this.seek(time);
             }
+
+            this.execute('pause');
 
             return this;
         },
@@ -504,14 +557,10 @@ define([
 
         /**
          * Restore the sound of the media after a mute
-         * @param {Boolean} [state] - A flag to set the mute state (default: false)
          * @returns {mediaplayer}
          */
-        unmute : function unmute(state) {
-            if (undefined === state) {
-                state = false;
-            }
-            this.mute(state);
+        unmute : function unmute() {
+            this.mute(false);
 
             return this;
         },
@@ -523,14 +572,9 @@ define([
          * @returns {mediaplayer}
          */
         setVolume : function setVolume(value, internal) {
-            if (isNaN(value)) {
-                value = 0;
-            }
-            this.volume = Math.max(_volumeMin, Math.min(_volumeMax, value));
+            this._updateVolume(value, internal);
 
             this.execute('setVolume', this.volume);
-
-            this._updateVolume(this.volume, internal);
 
             return this;
         },
@@ -701,7 +745,9 @@ define([
             this.$media = null;
             this.$controls = null;
             this.$seek = null;
+            this.$seekSlider = null;
             this.$volume = null;
+            this.$volumeSlider = null;
             this.$position = null;
             this.$duration = null;
 
@@ -791,13 +837,14 @@ define([
         /**
          * Renders a slider onto an element
          * @param {jQuery} $elt - The element on which renders the slider
-         * @param {Number} [start] - The current value of the slider
+         * @param {Number} [value] - The current value of the slider
+         * @param {Number} [min] - The min value of the slider
          * @param {Number} [max] - The max value of the slider
          * @param {Boolean} [vertical] - Tells if the slider must be vertical
          * @returns {jQuery} - Returns the element
          * @private
          */
-        _renderSlider : function _renderSlider($elt, start, max, vertical) {
+        _renderSlider : function _renderSlider($elt, value, min, max, vertical) {
             var orientation, direction;
 
             if (vertical) {
@@ -809,14 +856,14 @@ define([
             }
 
             return $elt.noUiSlider({
-                start: start || 0,
+                start: value || 0,
                 step: 1,
                 connect: 'lower',
                 orientation: orientation,
                 direction: direction,
                 animate: true,
                 range: {
-                    min: 0,
+                    min: min || 0,
                     max : max || 0
                 }
             })
@@ -830,7 +877,6 @@ define([
         _destroySlider : function _destroySlider($elt) {
             if ($elt) {
                 $elt.noUiSlider('destroy');
-                $elt.off(_ns);
             }
         },
 
@@ -862,13 +908,23 @@ define([
         },
 
         /**
+         * Unbinds events from the rendered player
+         * @private
+         */
+        _unbindEvents : function _unbindEvents() {
+            this.$controls.off(_ns);
+            this.$seek.off(_ns);
+            this.$volume.off(_ns);
+        },
+
+        /**
          * Updates the volume slider
          * @param {Number} value
          * @private
          */
         _updateVolumeSlider : function _updateVolumeSlider(value) {
-            if (this.$volume) {
-                this.$volume.val(value);
+            if (this.$volumeSlider) {
+                this.$volumeSlider.val(value);
             }
         },
 
@@ -879,6 +935,8 @@ define([
          * @private
          */
         _updateVolume : function _updateVolume(value, internal) {
+            this.volume = Math.max(_volumeMin, Math.min(_volumeMax, parseFloat(value)));
+
             if (!internal) {
                 this._updateVolumeSlider(value);
             }
@@ -890,8 +948,8 @@ define([
          * @private
          */
         _updatePositionSlider : function _updatePositionSlider(value) {
-            if (this.$position) {
-                this.$position.text(_timerFormat(value));
+            if (this.$seekSlider) {
+                this.$seekSlider.val(value);
             }
         },
 
@@ -907,11 +965,42 @@ define([
         },
 
         /**
+         * Updates the displayed time position
+         * @param {Number} value
+         * @param {*} [internal]
+         * @private
+         */
+        _updatePosition : function _updatePosition(value, internal) {
+            this.position = Math.max(0, Math.min(this.duration, parseFloat(value)));
+
+            if (!internal) {
+                this._updatePositionSlider(this.position);
+            }
+            this._updatePositionLabel(this.position);
+        },
+
+        /**
+         * Updates the duration slider
+         * @param {Number} value
+         * @private
+         */
+        _updateDurationSlider : function _updateDurationSlider(value) {
+            if (this.$seekSlider) {
+                this._destroySlider(this.$seekSlider);
+                this.$seekSlider = null;
+            }
+
+            if (value) {
+                this.$seekSlider = this._renderSlider(this.$seek, 0, 0, value);
+            }
+        },
+
+        /**
          * Updates the duration label
          * @param {Number} value
          * @private
          */
-        _updateDurationLabel : function _updatePositionLabel(value) {
+        _updateDurationLabel : function _updateDurationLabel(value) {
             if (this.$duration) {
                 if (value) {
                     this.$duration.text(_timerFormat(value)).show();
@@ -922,27 +1011,26 @@ define([
         },
 
         /**
-         * Updates the displayed time position
+         * Updates the displayed duration
          * @param {Number} value
          * @param {*} [internal]
          * @private
          */
-        _updatePosition : function _updatePosition(value, internal) {
+        _updateDuration : function _updateDuration(value, internal) {
+            this.duration = Math.abs(parseFloat(value));
+
             if (!internal) {
-                this._updatePositionSlider(value);
+                this._updateDurationSlider(this.duration);
             }
-            this._updatePositionLabel(value);
+            this._updateDurationLabel(this.duration);
         },
 
         /**
          * Event called when the media is ready
-         * @param duration
          * @private
          */
-        _onReady : function _onReady(duration) {
-            this.duration = duration;
-            this._renderSlider(this.$seek, 0, this.duration);
-            this._updateDurationLabel(this.duration);
+        _onReady : function _onReady() {
+            this._updateDuration(this.player.getDuration());
 
             this.setVolume(this.volume);
 
@@ -964,6 +1052,12 @@ define([
         _onPlay : function _onPlay() {
             this._setState('playing', true);
             this._setState('paused', false);
+
+            /**
+             * Triggers a media playback event
+             * @event mediaplayer#playing
+             */
+            this.trigger('playing' + _ns);
         },
 
         /**
@@ -973,33 +1067,26 @@ define([
         _onPause : function _onPause() {
             this._setState('playing', false);
             this._setState('paused', true);
+
+            /**
+             * Triggers a media paused event
+             * @event mediaplayer#paused
+             */
+            this.trigger('paused' + _ns);
         },
 
         /**
          * Event called when the time position has changed
-         * @param {Number} value
          * @private
          */
-        _onTimeUpdate : function _onTimeUpdate(value) {
-            this._updatePosition(value);
-        },
+        _onTimeUpdate : function _onTimeUpdate() {
+            this._updatePosition(this.player.getPosition());
 
-        /**
-         * Event called when the duration has changed
-         * @param {Number} value
-         * @private
-         */
-        _onDurationUpdate : function _onDurationUpdate(value) {
-            this._updateDurationLabel(value);
-        },
-
-        /**
-         * Event called when the volume has changed
-         * @param {Number} value
-         * @private
-         */
-        _onVolumeUpdate : function _onVolumeUpdate(value) {
-            this._updateVolume(value);
+            /**
+             * Triggers a media time update event
+             * @event mediaplayer#update
+             */
+            this.trigger('update' + _ns);
         },
 
         /**
