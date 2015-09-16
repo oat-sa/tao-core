@@ -50,7 +50,7 @@ class tao_models_classes_GenerisTreeFactory
 	
     /**
      * Builds a class node including it's content
-     * 
+     *
      * @param core_kernel_classes_Class $class
      * @param boolean $showResources
      * @param int $limit
@@ -71,6 +71,19 @@ class tao_models_classes_GenerisTreeFactory
             if (in_array($class->getUri(), $openNodes)) {
                     $returnValue['state']	= 'open';
                     $returnValue['children'] = $this->buildChildNodes($class, $showResources, $limit, $offset, $openNodes, $propertyFilter);
+
+	            //load all instances until of current class required will not appear in results
+	            $instanceToBeShown = new core_kernel_classes_Resource($openNodes[count($openNodes) - 1]);
+	            if ( ! $instanceToBeShown->isClass() && $instanceToBeShown->hasType($class)) {
+		            $nodeToBeShown  = $this->buildResourceNode($instanceToBeShown, $class);
+		            $internalOffset = $offset;
+		            while ( ! ( in_array($nodeToBeShown, $returnValue['children']) || $internalOffset >= $instancesCount )) {
+			            $internalOffset += $limit;
+			            $returnValue['children'] = array_merge($returnValue['children'],
+					            $this->buildChildNodes($class, $showResources, $limit, $internalOffset, $openNodes,
+							            $propertyFilter));
+		            }
+	            }
             } else {
                     $returnValue['state']	= 'closed';
             }
@@ -140,10 +153,10 @@ class tao_models_classes_GenerisTreeFactory
 			)
 		);
     }
-    
+
     /**
      * generis tree representation of a resource node
-     * 
+     *
      * @param core_kernel_classes_Resource $resource
      * @return array
      */
@@ -209,5 +222,3 @@ class tao_models_classes_GenerisTreeFactory
     }
     
 }
-
-?>

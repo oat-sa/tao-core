@@ -23,8 +23,8 @@
 
 
 /**
- * The Service class is an abstraction of each service instance. 
- * Used to centralize the behavior related to every servcie instances.
+ * The Service class is an abstraction of each service instance.
+ * Used to centralize the behavior related to every service instances.
  *
  * @abstract
  * @access public
@@ -32,8 +32,7 @@
  * @package tao
  
  */
-abstract class tao_models_classes_GenerisService
-    extends tao_models_classes_Service
+abstract class tao_models_classes_GenerisService extends tao_models_classes_Service
 {
 
     /**
@@ -508,15 +507,13 @@ abstract class tao_models_classes_GenerisService
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Class clazz
-     * @param  array options
+     * @param  core_kernel_classes_Class $clazz
+     * @param  array $options
      * @return array
      */
     public function toTree( core_kernel_classes_Class $clazz, $options)
     {
-        $returnValue = array();
 
-        
         // show subclasses yes/no, not implemented
         $subclasses = (isset($options['subclasses'])) ? $options['subclasses'] : true;
         // show instances yes/no
@@ -527,7 +524,7 @@ abstract class tao_models_classes_GenerisService
         $recursive = (isset($options['recursive'])) ? $options['recursive'] : false;
         // cut of the class and only display the children?
         $chunk = (isset($options['chunk'])) ? $options['chunk'] : false;
-        // probably which subtrees should be opened
+        // probably which subtrees should be opened, also can be an instance to be shown
         $browse = (isset($options['browse'])) ? $options['browse'] : array();
         // limit of instances shown by subclass if no search label is given
         // if a search string is given, this is the total limit of results, independant of classes
@@ -552,7 +549,11 @@ abstract class tao_models_classes_GenerisService
             });
             $openNodes = tao_models_classes_GenerisTreeFactory::getNodesToOpen($browse, $clazz);
 
-            if (!in_array($clazz->getUri(), $openNodes)) {
+	        if ($browse) {
+		        $openNodes[] = array_shift($browse);
+	        }
+
+	        if (!in_array($clazz->getUri(), $openNodes)) {
                 $openNodes[] = $clazz->getUri();
             }
 
@@ -562,6 +563,4 @@ abstract class tao_models_classes_GenerisService
         return $returnValue;
     }
 
-} /* end of abstract class tao_models_classes_GenerisService */
-
-?>
+}
