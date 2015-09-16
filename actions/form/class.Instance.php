@@ -59,18 +59,6 @@ class tao_actions_form_Instance
     	
 		//add translate action in toolbar
 		$actions = tao_helpers_form_FormFactory::getCommonActions();
-		
-//		if(!tao_helpers_Context::check('STANDALONE_MODE')){
-//			$translateELt = tao_helpers_form_FormFactory::getElement('translate', 'Free');
-//			$translateELt->setValue("<a href='#' class='form-translator' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
-//			$actions[] = $translateELt;
-//		}
-		
-		//add a hidden form element that states that it is an Instance Form.
-		$instanceElt = tao_helpers_form_FormFactory::getElement('tao.forms.instance', 'Hidden');
-		$instanceElt->setValue('1');
-		$this->form->addElement($instanceElt);
-		
 		$this->form->setActions($actions, 'top');
 		$this->form->setActions($actions, 'bottom');
 		
@@ -87,42 +75,46 @@ class tao_actions_form_Instance
     protected function initElements()
     {
         
-        
-    	
-    	$clazz = $this->getClazz();
     	$instance = $this->getInstance();
     	$guiOrderProperty = new core_kernel_classes_Property(TAO_GUIORDER_PROP);
     	
     	//get the list of properties to set in the form
-		$propertyCandidates = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
-		
-		$classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
-		$propertyCandidates = array_merge($propertyCandidates, $classProperties);
-		
-		$additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties']))?$this->options['additionalProperties']:array();
-		if(!empty($additionalProperties)){
-			$propertyCandidates = array_merge($propertyCandidates, $additionalProperties);
+		$properties = array();
+		foreach (tao_helpers_form_GenerisFormFactory::getDefaultProperties() as $property) {
+		    $properties[$property->getUri()] = $property;
 		}
 		
-		$excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties']))?$this->options['excludedProperties']:array();
-		$editedProperties = array();
-		foreach($propertyCandidates as $property){
-			if(!isset($editedProperties[$property->getUri()]) && !in_array($property->getUri(), $excludedProperties)){
-				$editedProperties[$property->getUri()] = $property;
-			}
+		foreach ($instance->getTypes() as $type) {
+		    $addProp = tao_helpers_form_GenerisFormFactory::getClassProperties($type, $this->getTopClazz());
+		    foreach ($addProp as $property) {
+		        $properties[$property->getUri()] = $property;
+		    }
+		}
+
+		$additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties']))
+            ? $this->options['additionalProperties']
+            : array();
+		foreach ($additionalProperties as $property) {
+		    $properties[$property->getUri()] = $property;
+		}
+		
+		
+		$excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties']))
+		    ? $this->options['excludedProperties']
+            : array();
+		foreach ($excludedProperties as $property) {
+		    if (isset($properties[$property->getUri()])) {
+		        unset($properties[$property->getUri()]);
+		    }
 		}
 			
 		$finalElements = array();
-    	foreach($editedProperties as $property){
+		
+		$instanceValues = is_null($instance) ? array() : $instance->getPropertiesValues($properties);
+		
+    	foreach($properties as $property){
 
 			$property->feed();
-			$widget = $property->getWidget();
-			if($widget == null || $widget instanceof core_kernel_classes_Literal) {
-				continue;
-			}
-			else if ($widget instanceof core_kernel_classes_Resource &&	$widget->getUri() == WIDGET_TREEVIEW){
-			    continue;
-			}
 			
 			//map properties widgets to form elments 
 			$element = tao_helpers_form_GenerisFormFactory::elementMap($property);
@@ -130,10 +122,9 @@ class tao_actions_form_Instance
 			if(!is_null($element)){
 				
 				//take instance values to populate the form
-				if(!is_null($instance)){
+				if(isset($instanceValues[$property->getUri()])) {
 					
-					$values = $instance->getPropertyValuesCollection($property);
-					foreach($values->getIterator() as $value){
+					foreach($instanceValues[$property->getUri()] as $value) {
 						if(!is_null($value)){
 							if($value instanceof core_kernel_classes_Resource){
 								if($element instanceof tao_helpers_form_elements_Readonly){
@@ -194,11 +185,6 @@ class tao_actions_form_Instance
 		foreach ($finalElements as $element){
 			$this->form->addElement($element[0]);
 		}
-		
-		//add an hidden elt for the class uri
-		$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
-		$classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
-		$this->form->addElement($classUriElt);
 			
 		if(!is_null($instance)){
 			//add an hidden elt for the instance Uri

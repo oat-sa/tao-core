@@ -59,7 +59,11 @@ class tao_helpers_form_GenerisFormFactory
         
         $widgetResource = $property->getWidget();
 		if (is_null($widgetResource)) {
-			return null;
+		    return null;
+		}
+		
+		if($widgetResource instanceof core_kernel_classes_Literal) {
+		    return null;
 		}
 		
 		//authoring widget is not used in standalone mode
