@@ -54,8 +54,7 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
         ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Bluea', 'path', array('itemsTest'));
         ThemeRegistry::getRegistry()->setDefaultTheme('itemsTest', 'lightBlueOnDarkBlue');
-
-
+        
         $map = ThemeRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
         $this->assertInternalType('array', $map);
@@ -69,9 +68,13 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         $this->assertInternalType('array', $available);
         $this->assertArrayHasKey('name', $available);
         $this->assertEquals('Light Blue on Dark Bluea', $available['name']);
-
+        
+        $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme('itemsTest');
+        $this->assertEquals('lightBlueOnDarkBlue', $defaultTheme['id']);
+        
         // target exist
         ThemeRegistry::getRegistry()->remove('itemsTest');
+        
     }
 
     public function testRegister()
@@ -110,7 +113,7 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         $this->assertArrayHasKey('name', $available);
 
         $this->assertEquals('Light Blue on Dark Blue', $available['name']);
-
+        
         foreach ($map['itemsTest']['available'] as $theme) {
             $this->assertInternalType('array', $theme);
             $this->assertArrayHasKey('id', $theme);
@@ -119,6 +122,16 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
                 'lightBlueOnDarkBlue'
             )));
         }
+        
+        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', array('itemsTest'), array('tplA' => 'taoAccess/theme/A.tpl'));
+        $map = ThemeRegistry::getRegistry()->getMap();
+        $this->assertEquals(3, count($map['itemsTest']['available']));
+        $superAccessTheme = $map['itemsTest']['available'][2];
+        
+        $this->assertEquals('superAccess', $superAccessTheme['id']);
+        $this->assertEquals(1, count($superAccessTheme['templates']));
+        $this->assertEquals('taoAccess/theme/A.tpl', $superAccessTheme['templates']['tplA']);
+        
     }
 
     public function testGetAvailableTheme(){
@@ -128,13 +141,9 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', array('itemsTest', 'testsTest'));
         ThemeRegistry::getRegistry()->registerTheme('blackAndWhite', 'Black and White', ThemeRegistry::WEBSOURCE.'test', array('itemsTest'));
         ThemeRegistry::getRegistry()->registerTheme('blackRedWhite', 'Black, Red and White', 'blackRedWhite', array('itemsTest'));
-
         ThemeRegistry::getRegistry()->unregisterTheme('blackRedWhite');
 
-        $themes_json = ThemeRegistry::getRegistry()->getAvailableThemes();
-        $this->assertJson($themes_json);
-
-        $themes = json_decode($themes_json, true);
+        $themes = ThemeRegistry::getRegistry()->getAvailableThemes();
 
         $this->assertInternalType('array', $themes);
         $this->assertArrayNotHasKey(ThemeRegistry::WEBSOURCE, $themes);
@@ -178,7 +187,26 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         }
 
     }
-
+    
+    public function testGetTemplate(){
+        
+        ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
+        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', array('itemsTest'), array('tplA' => 'taoAccess/theme/A.tpl'));
+        ThemeRegistry::getRegistry()->registerTheme('superAccessNoTpl', 'super accessibility theme without tpl', '', array('itemsTest'));
+        $this->assertNotEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccess', 'tplA'));
+        $this->assertEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccess', 'tplB'));
+        $this->assertEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccessNoTpl', 'tplA'));
+    }
+    
+    public function testGetStylesheet(){
+        
+        ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
+        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', 'my/path/to/style.css', array('itemsTest'));
+        ThemeRegistry::getRegistry()->registerTheme('superAccessNoCss', 'super accessibility theme without tpl', '', array('itemsTest'));
+        $this->assertEquals(ROOT_URL. 'my/path/to/style.css', ThemeRegistry::getRegistry()->getStylesheet('itemsTest', 'superAccess'));
+        $this->assertEmpty(ThemeRegistry::getRegistry()->getStylesheet('itemsTest', 'superAccessNoCss'));
+    }
+        
     public function testUnregisterTheme()
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
@@ -201,7 +229,7 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         $this->assertEquals(0, count($map['itemsTest']['available'])); //no themes left in itemsTest
         $this->assertEquals(0, count($map['testsTest']['available'])); //no themes left in testsTest
     }
-
+    
     //
     //Negative tests follow
     //

@@ -22,7 +22,9 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([], function(){
+define([
+    'lodash'
+], function(_){
     'use strict';
 
 
@@ -126,6 +128,48 @@ define([], function(){
             if(typeof url === 'string'){
                 return parsers.base64.test(url);
             }
+        },
+
+        /**
+         * Build a URL.
+         * It does not take case about baseURL.
+         *
+         * @param {String|Array} path - the URL path. Clean concat if an array (no dupe slashes)
+         * @param {Object} [params] - params to add to the URL
+         * @returns {String} the URL
+         */
+        build : function build(path, params){
+
+            var url;
+
+            if(path){
+                if(_.isString(path)){
+                    url = path;
+                }
+                if(_.isArray(path)){
+                    url = '';
+                    _.forEach(path, function(chunk){
+                        if(/\/$/.test(url) && /^\//.test(chunk)){
+                            url += chunk.substr(1);
+                        } else if (url !== '' && !/\/$/.test(url) && !/^\//.test(chunk)){
+                            url += '/' +  chunk;
+                        } else {
+                            url += chunk;
+                        }
+                    });
+                }
+                if(_.isPlainObject(params)){
+                    if(url.indexOf('?') === -1){
+                        url += '?';
+                    }
+                    url = _.reduce(params, function(acc, value, key){
+                        acc += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(value);
+                        return acc;
+                    }, url);
+                }
+            }
+
+            return url;
         }
     };
 

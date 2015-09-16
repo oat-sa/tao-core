@@ -56,6 +56,9 @@
 			"oat\\tao\\helpers\\" : "helpers",
 			"oat\\tao\\test\\" : "test",
 			"oat\\tao\\scripts\\" : "scripts"
-		}
+		},
+		"files" : [
+			"includes/globalHelpers.php"
+		]
 	}
 }

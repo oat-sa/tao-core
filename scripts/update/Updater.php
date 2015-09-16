@@ -39,9 +39,9 @@ use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\DirectWebSource;
 use oat\tao\model\search\strategy\GenerisSearch;
-use oat\tao\model\menu\MenuService;
 use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\EntryPointService;
+use oat\tao\model\ThemeRegistry;
 
 /**
  * 
@@ -312,6 +312,33 @@ class Updater extends \common_ext_ExtensionUpdater {
             $ext->setConfig('loginForm', $loginFormSettings);
 
             $currentVersion = '2.10.2';
+        }
+
+        if ($currentVersion === '2.10.2') {
+
+            $s = DIRECTORY_SEPARATOR;
+            ThemeRegistry::getRegistry()->createTarget('frontOffice', array(
+                'css' => 'tao'.$s.'views'.$s.'css'.$s.'tao-3.css',
+                'templates' => array(
+                    'header-logo' => 'taoDelivery'.$s.'views'.$s.'templates'.$s.'DeliveryServer'.$s.'blocks'.$s.'header-logo.tpl',
+                    'footer' => 'taoDelivery'.$s.'views'.$s.'templates'.$s.'DeliveryServer'.$s.'blocks'.$s.'footer.tpl'
+                )
+            ));
+            ThemeRegistry::getRegistry()->createTarget('backOffice', array(
+                'css' => 'tao'.$s.'views'.$s.'css'.$s.'tao-3.css',
+                'templates' => array(
+                    'header-logo' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'header-logo.tpl',
+                    'footer' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'footer.tpl'
+                )
+            ));
+
+            $currentVersion = '2.11.0';
+        }
+        
+        if ($currentVersion === '2.11.0') {
+            $service = new \tao_models_classes_service_StateStorage(array('persistence' => 'serviceState'));
+            $this->getServiceManager()->register('tao/stateStorage', $service);
+            $currentVersion = '2.12.0';
         }
         
         return $currentVersion;
