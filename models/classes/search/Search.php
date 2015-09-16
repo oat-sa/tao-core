@@ -38,21 +38,10 @@ interface Search extends PhpSerializable
      * @param int $start
      * @param int $count
      *
-     * @return array
+     * @return ResultSet
      */
     public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
 
-    /**
-     * Return total count of corresponded instances
-     *
-     * @param string $queryString
-     * @param core_kernel_classes_Class $rootClass
-     *
-     * @return array
-     */
-    public function getTotalCount( $queryString, $rootClass = null);
-
-    
     /**
      * Index the resources given as a traversable
      * 

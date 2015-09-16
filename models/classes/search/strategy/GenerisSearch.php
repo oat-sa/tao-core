@@ -23,6 +23,7 @@ namespace oat\tao\model\search\strategy;
 use core_kernel_classes_Class;
 use oat\tao\model\search\Search;
 use oat\oatbox\Configurable;
+use oat\tao\model\search\ResultSet;
 
 /**
  * Simple Search implementation that ignores the indexes
@@ -50,7 +51,9 @@ class GenerisSearch extends Configurable implements Search
         foreach ($results as $resource) {
             $ids[] = $resource->getUri();
         }
-        return $ids;
+
+        return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
+
     }
     
     /**
@@ -70,7 +73,7 @@ class GenerisSearch extends Configurable implements Search
      *
      * @return array
      */
-    public function getTotalCount( $queryString, $rootClass = null )
+    private function getTotalCount( $queryString, $rootClass = null )
     {
         return $rootClass->countInstances(
             array(

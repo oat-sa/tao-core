@@ -71,7 +71,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
         try {
             $results = SearchService::getSearchImplementation()->query($query, $class, $startRow, $rows);
 
-            $totalPages = ceil( SearchService::getSearchImplementation()->getTotalCount( $query, $class ) / $rows );
+            $totalPages = ceil( $results->getTotalCount( $query, $class ) / $rows );
 
             $response = new StdClass();
             if(count($results) > 0 ){
