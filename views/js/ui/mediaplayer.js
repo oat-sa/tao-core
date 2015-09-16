@@ -165,17 +165,21 @@ define([
         var $media;
         var media;
         var player;
-        var playing = false;
+        var playing;
 
         if (mediaplayer) {
-            media = mediaplayer.media;
-            $media = mediaplayer.$media;
-            $player = mediaplayer.$player;
-
             player = {
                 init : function _nativePlayerInit() {
                     var self = this;
+
+                    $media = mediaplayer.$media;
+                    $player = mediaplayer.$player;
+                    media = null;
+                    playing = false;
+
                     if ($media) {
+                        media = $media.get(0);
+
                         $media
                             .removeAttr('controls')
                             .on(_nsEvents(['play']), function() {
@@ -275,16 +279,19 @@ define([
      * @private
      */
     var _youtubePlayer = function(mediaplayer) {
+        var $player;
         var $media;
         var player;
-        var playing = false;
+        var playing;
 
         if (mediaplayer) {
-            $media = mediaplayer.$media;
-
             player = {
                 init : function _youtubePlayerInit() {
+                    var self = this;
 
+                    $media = mediaplayer.$media;
+                    $player = mediaplayer.$player;
+                    playing = false;
                 },
 
                 destroy : function _youtubePlayerDestroy() {
@@ -395,6 +402,8 @@ define([
                 this.player.destroy();
             }
 
+            this._setState('ready', false);
+
             if (this.$component) {
                 this._unbindEvents();
                 this._destroySlider(this.$seekSlider);
@@ -415,50 +424,32 @@ define([
          */
         render : function render(to) {
             var self = this;
-            var page = new UrlParser(window.location);
-            var player;
+            var page;
+
+            if (this.$component) {
+                this.destroy();
+            }
 
             this._setState('cors', false);
             this._setState('ready', false);
 
             if (!this.is('youtube')) {
+                page = new UrlParser(window.location);
                 _.forEach(this.config.sources, function(source) {
                     var url = new UrlParser(source.src);
                     if (!url.checkCORS(page)) {
-                        self.config.is.cors = true;
+                        self._setState('cors', true);
+                        return false;
                     }
                 });
             }
 
-            this.$component = $(playerTpl(this.config));
-            this.$player = this.$component.find('.player');
-            this.$media = this.$component.find('.media');
-            this.$controls = this.$component.find('.controls');
-            this.media = this.$media.get(0);
-
-            this.$seek = this.$controls.find('.seek .slider');
-            this.$volume = this.$controls.find('.volume .slider');
-            this.$position = this.$controls.find('[data-control="time-cur"]');
-            this.$duration = this.$controls.find('[data-control="time-end"]');
-
-            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, true);
-
+            this._buildDom();
             this._updateDuration(0);
             this._updatePosition(0);
             this._bindEvents();
             this._setState('paused', true);
-
-            player = _players[this.config.type];
-            if (_.isFunction(player)) {
-                this.player = player(this);
-            }
-
-            if (this.player) {
-                this.player.init();
-            } else {
-                this._setState('error', true);
-                this.$media = this.$component.find('.error');
-            }
+            this._initPlayer();
 
             this.resize(this.config.width, this.config.height);
 
@@ -476,13 +467,9 @@ define([
          * @returns {mediaplayer}
          */
         seek : function seek(time, internal) {
-            if (isNaN(time)) {
-                time = 0;
-            }
-
-            this.execute('seek', time);
-
             this._updatePosition(time, internal);
+
+            this.execute('seek', this.position);
 
             return this;
         },
@@ -746,6 +733,24 @@ define([
         },
 
         /**
+         * Builds the DOM content
+         * @private
+         */
+        _buildDom : function _buildDom() {
+            this.$component = $(playerTpl(this.config));
+            this.$player = this.$component.find('.player');
+            this.$media = this.$component.find('.media');
+            this.$controls = this.$component.find('.controls');
+
+            this.$seek = this.$controls.find('.seek .slider');
+            this.$volume = this.$controls.find('.volume .slider');
+            this.$position = this.$controls.find('[data-control="time-cur"]');
+            this.$duration = this.$controls.find('[data-control="time-end"]');
+
+            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, true);
+        },
+
+        /**
          * Resets the internals attributes
          * @private
          */
@@ -760,10 +765,7 @@ define([
             this.$volumeSlider = null;
             this.$position = null;
             this.$duration = null;
-
-            this.media = null;
             this.player = null;
-
         },
 
         /**
@@ -834,14 +836,30 @@ define([
             }
         },
 
-
-
         /**
          * Ensures some options are sets
          * @private
          */
         _initOptions : function _initOptions() {
             _.defaults(this.config, _defaults.options);
+        },
+
+        /**
+         * Initializes the right player instance
+         * @private
+         */
+        _initPlayer : function _initPlayer() {
+            var player = _players[this.config.type];
+
+            if (_.isFunction(player)) {
+                this.player = player(this);
+            }
+
+            if (this.player) {
+                this.player.init();
+            } else {
+                this._setState('error', true);
+            }
         },
 
         /**
@@ -1023,15 +1041,11 @@ define([
         /**
          * Updates the displayed duration
          * @param {Number} value
-         * @param {*} [internal]
          * @private
          */
-        _updateDuration : function _updateDuration(value, internal) {
+        _updateDuration : function _updateDuration(value) {
             this.duration = Math.abs(parseFloat(value));
-
-            if (!internal) {
-                this._updateDurationSlider(this.duration);
-            }
+            this._updateDurationSlider(this.duration);
             this._updateDurationLabel(this.duration);
         },
 
@@ -1040,6 +1054,8 @@ define([
          * @private
          */
         _onReady : function _onReady() {
+            this._setState('ready', true);
+
             this._updateDuration(this.player.getDuration());
 
             this.setVolume(this.volume);

@@ -51,6 +51,7 @@ $playerActionSpace: 1rem;
     }
 
     .controls {
+        visibility: hidden;
         position: relative;
         padding: 5px;
         float: left;
@@ -200,6 +201,28 @@ $playerActionSpace: 1rem;
         }
     }
 
+    &.ready {
+        .controls {
+            visibility: visible;
+        }
+
+        &.paused {
+            .player:hover {
+                [data-control="play"] {
+                    display: block;
+                }
+            }
+        }
+
+        &.playing {
+            .player:hover {
+                [data-control="pause"] {
+                    display: block;
+                }
+            }
+        }
+    }
+
     &.paused {
         .controls {
             [data-control="play"] {
@@ -207,20 +230,6 @@ $playerActionSpace: 1rem;
             }
             [data-control="pause"] {
                 display: none;
-            }
-        }
-
-        .player:hover {
-            [data-control="play"] {
-                display: block;
-            }
-        }
-    }
-
-    &.playing {
-        .player:hover {
-            [data-control="pause"] {
-                display: block;
             }
         }
     }
