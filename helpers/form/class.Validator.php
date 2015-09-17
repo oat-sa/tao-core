@@ -115,7 +115,7 @@ abstract class tao_helpers_form_Validator
     {
         $this->options = $options;
 
-        (isset($options['message'])) ? $this->message = $options['message'] : $this->message = $this->getDefaultMessage();
+        $this->message = isset($options['message']) ?  $options['message'] : $this->getDefaultMessage();
     }
 
     /**
