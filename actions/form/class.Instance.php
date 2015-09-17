@@ -64,6 +64,14 @@ class tao_actions_form_Instance
 		
         
     }
+    
+    protected function getExcludedProperties()
+    {
+        return (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties']))
+            ? $this->options['excludedProperties']
+            : array();
+        
+    }
 
     /**
      * Initialize the form elements
@@ -99,10 +107,7 @@ class tao_actions_form_Instance
 		}
 		
 		
-		$excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties']))
-		    ? $this->options['excludedProperties']
-            : array();
-		foreach ($excludedProperties as $property) {
+		foreach ($this->getExcludedProperties() as $property) {
 		    if (isset($properties[$property->getUri()])) {
 		        unset($properties[$property->getUri()]);
 		    }
