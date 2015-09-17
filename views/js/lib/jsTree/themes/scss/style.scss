@@ -227,10 +227,6 @@
     @include icon-item;
 }
 
-.taotree-repository .node-instance ins:before{
-    @include icon-repository;
-}
-
 .taotree-result_server .node-instance ins:before{
     @include icon-result-server;
 }
@@ -256,8 +252,8 @@
 }
 
 .taotree-role .node-instance ins:before{
-    @include icon-user;
-}
+      @include icon-user;
+  }
 
 .taotree-test_taker .node-instance ins:before{
     @include icon-test-taker;
@@ -269,6 +265,10 @@
 
 .taotree-media .node-instance ins:before{
   @include icon-media;
+}
+
+.taotree-trees .node-instance ins:before {
+    @include icon-tree;
 }
 
 .taotree-default{

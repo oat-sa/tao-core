@@ -60,6 +60,9 @@
 	
 				<!-- The list of contextual actions to load in the section panel -->
 				<!ELEMENT actions  ( action )*>
+					<!ATTLIST actions
+						allowClassActions (true | false) #IMPLIED
+					>
 					<!ELEMENT action (icon)?>
 					<!-- Id of the action -->
 					<!ATTLIST action id CDATA #REQUIRED>

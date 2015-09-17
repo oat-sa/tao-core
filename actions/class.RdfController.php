@@ -25,8 +25,6 @@ use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
-use oat\tao\model\search\SearchService;
-use oat\tao\model\search\IndexService;
 use oat\tao\model\lock\LockManager;
 use oat\tao\helpers\ControllerHelper;
 
@@ -180,7 +178,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * 
 	 * The possible request parameters are the following:
 	 * 
-	 * * labelFilter: A filter string to be used. The returned hierarchy will be a single root class, with children without class hierarchy.
 	 * * uniqueNode: A URI indicating the returned hiearchy will be a single class, with a single children corresponding to the URI.
 	 * * browse:
 	 * * hideInstances:
@@ -191,6 +188,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * * classUri:
 	 * 
 	 * @return void
+	 * @requiresRight classUri READ
 	 */
 	public function getOntologyData()
 	{
@@ -201,16 +199,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		$options = array(
 			'subclasses' => true, 
 			'instances' => true, 
-			'highlightUri' => '', 
-			'labelFilter' => '', 
+			'highlightUri' => '',
 			'chunk' => false,
 			'offset' => 0,
 			'limit' => 0
 		);
-		
-		if ($this->hasRequestParameter('filter')) {
-			$options['labelFilter'] = $this->getRequestParameter('filter');
-		}
 		
 		if ($this->hasRequestParameter('loadNode')) {
 		    $options['uniqueNode'] = $this->getRequestParameter('loadNode');
@@ -246,40 +239,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		
         //generate the tree from the given parameters	
         $tree = $this->getClassService()->toTree($clazz, $options);
-
-        //load the user URI from the session
-        $user = common_Session_SessionManager::getSession()->getUser();
- 
-        //Get the requested section
-        $section = MenuService::getSection(
-            $this->getRequestParameter('extension'), 
-            $this->getRequestParameter('perspective'), 
-            $this->getRequestParameter('section')
-        );
-
-        //Get the actions from the section and bind them an ActionResolver that helps getting controller/action from action URL.
-        $actions = array();
-        foreach ($section->getActions() as $index => $action) {
-            try{
-                $actions[$index] = array(
-                    'resolver'  => new ActionResolver($action->getUrl()),
-                    'id'      => $action->getId(),
-                    'context'   => $action->getContext()
-                );
-            } catch(\ResolverException $re) {
-                common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
-            }
-        }
-
-        //then compute ACL for each node of the tree
-        $treeKeys = array_keys($tree);
-        if (is_int($treeKeys[0])) {
-            foreach ($tree as $index => $treeNode) {
-                $tree[$index] = $this->computePermissions($actions, $user, $treeNode);
-            }
-        } else { 
-            $tree = $this->computePermissions($actions, $user, $tree);
-        }
+        
+        $tree = $this->addPermissions($tree);
         
         //sort items by name
         function sortTreeNodes($a, $b) {
@@ -302,6 +263,49 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $this->returnJson($tree);
 	}
 
+	/**
+	 * Add permission information to the tree structure
+	 * 
+	 * @param array $tree
+	 * @return array
+	 */
+	protected function addPermissions($tree)
+	{
+	    $user = \common_Session_SessionManager::getSession()->getUser();
+	     
+	    $section = MenuService::getSection(
+	        $this->getRequestParameter('extension'),
+	        $this->getRequestParameter('perspective'),
+	        $this->getRequestParameter('section')
+	    );
+	     
+	    $actions = array();
+	    foreach ($section->getActions() as $index => $action) {
+	        try{
+	            $actions[$index] = array(
+	                'resolver'  => new ActionResolver($action->getUrl()),
+	                'id'      => $action->getId(),
+	                'context'   => $action->getContext()
+	            );
+	        } catch(\ResolverException $re) {
+	            common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
+	        }
+	    }
+	     
+	    //then compute ACL for each node of the tree
+	    $treeKeys = array_keys($tree);
+	    if (is_int($treeKeys[0])) {
+	        foreach ($tree as $index => $treeNode) {
+	            $tree[$index] = $this->computePermissions($actions, $user, $treeNode);
+	        }
+	    } else {
+	        $tree = $this->computePermissions($actions, $user, $tree);
+	    }
+
+	    return $tree;
+	     
+	}
+	
     /**
      * compulte permissions for a node against actions
      * @param array[] $actions the actions data with context, name and the resolver
@@ -309,21 +313,27 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * @param array $node a tree node
      * @return array the node augmented with permissions
      */
-    private function computePermissions($actions, $user, $node){
-        if(isset($node['_data'])){
+    private function computePermissions($actions, $user, $node)
+    {
+        if (isset($node['attributes']['data-uri'])) {
             foreach($actions as $action){
                 if($node['type'] == $action['context'] || $action['context'] == 'resource') {
                     $resolver = $action['resolver'];
                     try{
                         if($node['type'] == 'class'){
-                            $data = array('classUri' => $node['_data']['uri']);
+                            $params = array('classUri' => $node['attributes']['data-uri']);
                         } else {
-                            $data = $node['_data'];
+                            $params = array();
+                            foreach ($node['attributes'] as $key => $value) {
+                                if (substr($key, 0, strlen('data-')) == 'data-') {
+                                    $params[substr($key, strlen('data-'))] = $value;
+                                }
+                            }
                         }
-                        $data['id'] = $node['attributes']['data-uri'];
+                        $params['id'] = $node['attributes']['data-uri'];
                         $required = array_keys(ControllerHelper::getRequiredRights($resolver->getController(), $resolver->getAction()));
-                        if (count(array_diff($required, array_keys($data))) == 0) {
-                            $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $data);
+                        if (count(array_diff($required, array_keys($params))) == 0) {
+                            $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $params);
                         } else {
                             common_Logger::d('Unable to determine access to '.$action['id'], 'ACL');
                         }
@@ -335,7 +345,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 }
             }
         }
-        if(isset($node['children'])){
+        if (isset($node['children'])) {
             foreach($node['children'] as $index => $child){
                 $node['children'][$index] = $this->computePermissions($actions, $user, $child);    
             }
@@ -345,6 +355,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	
 	/**
 	 * Add an instance of the selected class
+	 * @requiresRight id WRITE
 	 * @return void
 	 */
 	public function addInstance()
@@ -371,6 +382,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	
 	/**
 	 * Add a subclass to the currently selected class
+     * @requiresRight id WRITE
 	 * @throws Exception
 	 */
 	public function addSubClass()
@@ -466,6 +478,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * Duplicate the current instance
 	 * render a JSON response
 	 * @return void
+     * @requiresRight uri READ
+     * @requiresRight classUri WRITE
 	 */
 	public function cloneInstance()
 	{
@@ -485,7 +499,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	/**
 	 * Move an instance from a class to another
 	 * @return void
-	 */
+	 * @requiresRight uri WRITE
+     * @requiresRight destinationClassUri WRITE
+     */
 	public function moveInstance()
 	{
 	    $response = array();	
@@ -519,6 +535,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	/**
 	 * Render the  form to translate a Resource instance
 	 * @return void
+	 * @requiresRight id WRITE
 	 */
 	public function translateInstance()
 	{
@@ -528,7 +545,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		$formContainer = new tao_actions_form_Translate($this->getCurrentClass(), $instance);
 		$myForm = $formContainer->getForm();
 		
-		if($this->hasRequestParameter('target_lang')){
+		if ($this->hasRequestParameter('target_lang')) {
 			
 			$targetLang = $this->getRequestParameter('target_lang');
 		
@@ -602,372 +619,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 			}
 		echo json_encode($data);
 	}
-	
-	/**
-     * Search parameters endpoints.
-     * The response provides parameters to create a datatable.
-	 */
-	public function searchParams()
-	{
-	    $url = _url('search', null, null, array(
-	    	'query' => $this->getRequestParameter('query')
-	    ));
-	    
-	    $this->returnJson(array(
-	    	'url' => $url,
-	        'params' => array(
-    	    	'chaining' => 'or'
-    	    ),
-	        'filter' => array(),
-	        'model' => array(
-                RDFS_LABEL => array(
-                    'id' => RDFS_LABEL,
-                    'label' => __('Label'),
-                    'sortable' => false	        	
-	            )
-            ),
-	        'result' => true
-	    ));
-	}
-
-    /**
-     * search the instances of an ontology
-     * @return
-     */
-    public function search()
-    {
-        $found = false;
-
-        try{
-            $clazz = $this->getCurrentClass();
-        }
-        catch(Exception $e){
-            common_Logger::i('Search : could not find current class switch to root class');
-            $clazz = $this->getRootClass();
-        }
-
-        $formContainer = $this->getSearchForm($clazz);
-        $myForm = $formContainer->getForm();
-        if (tao_helpers_Context::check('STANDALONE_MODE')) {
-            $standAloneElt = tao_helpers_form_FormFactory::getElement('standalone', 'Hidden');
-            $standAloneElt->setValue(true);
-            $myForm->addElement($standAloneElt);
-        }
-
-
-        if($myForm->isSubmited()){
-            if($myForm->isValid()){
-                $filters = $myForm->getValues('filters');
-                $model = array();
-                foreach($filters as $propUri => $filter){
-                    if(preg_match("/^http/", $propUri) && !empty($filter)){
-                        $property = new core_kernel_classes_Property($propUri);
-                        $model[$property->getUri()] = array(
-                            'id' => $property->getUri(),
-                            'label' => $property->getLabel(),
-                            'sortable' => true
-                        );
-                    }
-                    else{
-                        unset($filters[$propUri]);
-                    }
-                }
-                $clazz = new core_kernel_classes_Class($myForm->getValue('clazzUri'));
-                if(!array_key_exists(RDFS_LABEL, $model)){
-                    $labelProp = new core_kernel_classes_Property(RDFS_LABEL);
-                    $model = array_merge(array(
-                            $labelProp->getUri() => array(
-                                'id' => $labelProp->getUri(),
-                                'label' => $labelProp->getLabel(),
-                                'sortable' => true
-                            )), $model);
-                }
-                $params = $myForm->getValues('params');
-                if(!isset($params['recursive'])){
-                    // 0 => Current class + sub-classes, 10 => Current class only
-                    $params['recursive'] = true;
-                } else {
-                    $params['recursive'] = false;
-                }
-                $params['like'] = false;
-
-                return $this->returnJson(array(
-                        'url'  => _url('searchResults', null, null, array('classUri'  => $clazz->getUri())),
-                        'params'    => $params,
-                        'model'     => $model,
-                        'filters'   => $filters,
-                        'result'    => true
-                    ));
-            }
-        }
-
-
-        $this->setData('myForm', $myForm->render());
-        $this->setData('formTitle', __('Search'));
-        $this->setView('form/search.tpl', 'tao');
-    }
-    public function searchResults(){
-
-        $page =  (int)$this->getRequestParameter('page');
-        $limit = (int)$this->getRequestParameter('rows');
-        $order = $this->getRequestParameter('sortby');
-        $sord = $this->getRequestParameter('sortorder');
-        $start = $limit * $page - $limit;
-        $params = $this->hasRequestParameter('params') ? $this->getRequestParameter('params') : array();
-        $filters = $this->hasRequestParameter('filters') ? $this->getRequestParameter('filters') : array();
-
-        if($order == 'id'){
-            $order = RDFS_LABEL;
-        }
-        $options = array_merge(array(
-                'order' 	=> $order,
-                'orderdir'	=> strtoupper($sord),
-                'offset'    => $start,
-                'limit'		=> $limit
-            ), $params);
-
-        $clazz = $this->getCurrentClass();
-        $instances = $clazz->searchInstances($filters, $options);
-        $counti = count($clazz->searchInstances($filters, $params));
-        $response = new StdClass();
-        if(count($instances) > 0 ){
-            $properties = array();
-            foreach(array_keys($filters) as $propUri){
-                $properties[$propUri] = new core_kernel_classes_Property($propUri);
-            }
-            if(array_key_exists(RDFS_LABEL, $properties)){
-                unset($instanceProperties[RDFS_LABEL]);
-            }
-            foreach($instances as $instance){
-
-                $instanceProperties = array(
-                    'id' => $instance->getUri(),
-                    RDFS_LABEL => $instance->getLabel()
-                );
-                foreach($properties as $i => $property){
-                    $value = '';
-                    $propertyValues = $instance->getPropertyValuesCollection($property);
-                    foreach($propertyValues->getIterator() as $propertyValue){
-                        if($propertyValue instanceof core_kernel_classes_Literal){
-                            $value .= (string) $propertyValue;
-                        }
-                        if($propertyValue instanceof core_kernel_classes_Resource){
-                            $value .= $propertyValue->getLabel();
-                        }
-                    }
-                    $instanceProperties[$i] = $value;
-                }
-                $response->data[] = $instanceProperties;
-            }
-        }
-        $response->page = floor($start / $limit) + 1;
-        $response->total = ceil($counti / $limit);
-        $response->records = count($instances);
-        $this->returnJson($response, 200);
-    }
-
-	/**
-	 * filter class' instances
-	 */
-	public function filter()
-	{
-		//get class to filter
-		try{
-			$clazz = $this->getCurrentClass();
-		}
-		catch(Exception $e){
-			$clazz = $this->getRootClass();
-		}
-		$this->setData('clazz', $clazz);
-		
-		//get properties to filter on
-		if($this->hasRequestParameter('properties')){
-			$properties = $this->getRequestParameter('properties');
-		}
-		else{
-			$properties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
-		}
-		// Remove item content property
-		// Specific case
-		if (array_key_exists(TAO_ITEM_CONTENT_PROPERTY, $properties)){
-			unset ($properties[TAO_ITEM_CONTENT_PROPERTY]);
-		}
-		$this->setData('properties', $properties);
-		$this->setData('formTitle', __('Filter'));
-		$this->setView('form/filter.tpl', 'tao');
-	}
-	
-	/**
-	 * Generis API searchInstances function as an action
-	 * Developed for the facet based filter ...
-	 * @todo Is it a dangerous action ?
-	 */
-	public function searchInstances()
-	{
-		$returnValue = array ();
-		$filter = array ();
-		$properties = array ();
-		
-		if(!tao_helpers_Request::isAjax()){
-			//throw new Exception("wrong request mode");
-		}
-		
-		// Get the class paramater
-		if($this->hasRequestParameter('classUri')){
-			$clazz = $this->getCurrentClass();
-		} else {
-			$clazz = $this->getRootClass();
-		}
-		
-		// Get filter parameter
-		if ($this->hasRequestParameter('filter')) {
-			$filter = $this->getFilterState('filter');
-		}
-		
-		$properties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
-		// ADD Label property
-		if (!array_key_exists(RDFS_LABEL, $properties)){
-			$new_properties = array();
-			$new_properties[RDFS_LABEL] = new core_kernel_classes_Property(RDFS_LABEL);
-			$properties = array_merge($new_properties, $properties);
-		}
-		// Remove item content property
-		if (array_key_exists(TAO_ITEM_CONTENT_PROPERTY, $properties)){
-			unset ($properties[TAO_ITEM_CONTENT_PROPERTY]);
-		}
-		
-		$instances = $this->getClassService()->searchInstances($filter, $clazz, array ('recursive'=>true));
-		$index = 0;
-		foreach ($instances as $instance){
-			$returnValue [$index]['uri'] = $instance->getUri();
-			$formatedProperties = array ();
-			foreach ($properties as $property){
-				//$formatedProperties[] = (string)$instance->getOnePropertyValue (new core_kernel_classes_Property($property));
-				$value = $instance->getOnePropertyValue($property);
-				if ($value instanceof core_kernel_classes_Resource) {
-					$value = $value->getLabel();
-				}else{
-					$value = (string) $value;
-				}
-				$formatedProperties[] = $value;
-			}
-			$returnValue [$index]['properties'] = (Object) $formatedProperties;
-			$index++;
-		}
-		
-		echo json_encode ($returnValue);
-	}
-
-	/**
-	 * Get property values for a sub set of filtered instances
-	 * @param {RequestParameter|string} propertyUri Uri of the target property
-	 * @param {RequestParameter|string} classUri Uri of the target class
-	 * @param {RequestParameter|array} filter Array of propertyUri/propertyValue used to filter instances of the target class
-	 * @param {RequestParameter|array} filterNodesOptions Array of options used by other filter nodes
-	 * @return {array} formated for tree
-	 */
-	public function getFilteredInstancesPropertiesValues()
-	{
-		$data = array();
-		// The filter nodes options
-		$filterNodesOptions = array();
-		// The filter
-		$filter = array();
-        // Filter itself ?
-        $filterItself = $this->hasRequestParameter('filterItself') ? ($this->getRequestParameter('filterItself')=='false'?false:true) : false;
-        
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		
-		
-		// Get the target property
-		if($this->hasRequestParameter('propertyUri')){
-            $propertyUri = $this->getRequestParameter('propertyUri');
-		} else {
-            $propertyUri = RDFS_LABEL;
-		}
-		$property = new core_kernel_classes_Property($propertyUri);
-		
-		// Get the class paramater
-		if($this->hasRequestParameter('classUri')){
-			$clazz = $this->getCurrentClass();
-		}
-		else{
-			$clazz = $this->getRootClass();
-		}
-		
-		// Get filter nodes parameters
-		if($this->hasRequestParameter('filterNodesOptions')){
-			$filterNodesOptions = $this->getRequestParameter('filterNodesOptions');
-		}
-		// Get filter parameter
-		if($this->hasRequestParameter('filter')){
-			$filter = $this->getFilterState('filter');
-		}
-		
-		// Get used property values for a class functions of the given filter
-		$propertyValues = $clazz->getInstancesPropertyValues($property, $filter, array("distinct"=>true, "recursive"=>true));
-		
-		$propertyValuesFormated = array ();
-		foreach($propertyValues as $propertyValue){
-			$value = "";
-			$id = "";
-			if ($propertyValue instanceof core_kernel_classes_Resource){
-				$value = $propertyValue->getLabel();
-				$id = tao_helpers_Uri::encode($propertyValue->getUri());
-			} else {
-				$value = (string) $propertyValue;
-				$id = $value;
-			}
-			$propertyValueFormated = array(
-				'data' 	=> $value,
-				'type'	=> 'instance',
-				'attributes' => array(
-					'id' => $id,
-					'class' => 'node-instance'
-				)
-			);
-			$propertyValuesFormated[] = $propertyValueFormated;
-		}
-		
-		$data = array(
-			'data' 	=> $this->hasRequestParameter('rootNodeName') ? $this->getRequestParameter('rootNodeName') : tao_helpers_Display::textCutter($property->getLabel(), 16),
-			'type'	=> 'class',
-			'count' => count($propertyValuesFormated),
-			'attributes' => array(
-				'id' => tao_helpers_Uri::encode($property->getUri()),
-				'class' => 'node-class'
-			),
-			'children' => $propertyValuesFormated
- 		);
-		
-		echo json_encode($data);
-	}
-
-	/**
-	 * returns a FilterState object from the parameters
-	 *
-	 * @param string $identifier
-	 * @throws common_Exception
-	 * @return \FilterState
-	 */
-	protected function getFilterState($identifier) {
-		if (!$this->hasRequestParameter($identifier)) {
-			throw new common_Exception('Missing parameter "'.$identifier.'" for getFilterState()');
-		}
-		$coded = $this->getRequestParameter($identifier);
-		$state = array();
-		if (is_array($coded)) {
-	    	foreach ($coded as $key => $values) {
-	    		foreach ($values as $k => $v) {
-	    			$state[tao_helpers_Uri::decode($key)][$k] = tao_helpers_Uri::decode($v);
-	    		}
-	    	}
-		}
-		return $state;
-	}
-
 
 	/**
 	 * delete an instance or a class
@@ -989,9 +640,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	}
 	
     /**
-     * Generic class deletion action
+     * Generic resource deletion action
      * 
      * @throws Exception
+     * @requiresRight id WRITE
      */
     public function deleteResource()
     {
@@ -1009,6 +661,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * Generic class deletion action
 	 * 
 	 * @throws Exception
+     * @requiresRight id WRITE
 	 */
 	public function deleteClass()
 	{

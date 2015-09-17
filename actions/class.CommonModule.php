@@ -22,6 +22,7 @@
 
 use oat\tao\helpers\Template;
 use oat\tao\model\routing\FlowController;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Top level controller
@@ -233,5 +234,14 @@ abstract class tao_actions_CommonModule extends Module
     {
         $flow = new FlowController();
         $flow->redirect($url, $statusCode);
+    }
+    
+    /**
+     * 
+     * @return \oat\oatbox\service\ServiceManager
+     */
+    public function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }

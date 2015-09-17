@@ -219,7 +219,11 @@ define([
             });
             //show or hide the list values select
             var elt = $('[class*="property-type"]',$container).parent("div").next("div");
-            if (/list$/.test($('[class*="property-type"]',$container).val())) {
+
+            var propertiesTypes = ['list','tree'];
+            var re = new RegExp(propertiesTypes.join('$|').concat('$'));
+
+            if (re.test($('[class*="property-type"]',$container).val())) {
                 if (elt.css('display') === 'none') {
                     elt.show();
                     elt.find('select').removeAttr('disabled');

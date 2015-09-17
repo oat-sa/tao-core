@@ -143,12 +143,14 @@ require(['config'], function(){
                                             var isWritable = r.value.isWritable;
                                             var isExecutable = r.value.isExecutable;
                                             var location = r.value.location;
+                                            var recursive = r.value.recursive;
                                             
                                             var expectedRightsMessage = getExpectedRightsAsString(r.value.expectedRights);
                                             var currentRightsMessage = getCurrentRightsAsString(r);
                                             var nature = (r.value.isFile == true) ? 'file' : 'directory';
+                                            var recursiveMessage = (!r.value.isFile && recursive) ? ' (and all nested files) ' : '';
                                             
-                                            message = "The " + nature + " located at '" + location + "' on your web server should be " + expectedRightsMessage + " but is currently " + currentRightsMessage + ' only.';
+                                            message = "The " + nature + recursiveMessage + " located at '" + location + "' on your web server should be " + expectedRightsMessage + " but is currently " + currentRightsMessage + ' only.';
                                         break;
                                         
                                         default:

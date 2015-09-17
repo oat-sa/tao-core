@@ -183,7 +183,7 @@ textarea,
 select {
     @include simple-border();
     @include border-radius(2);
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: $regularFont;
     padding: 4px;
     min-width: 150px;
     background-color: white;
@@ -329,16 +329,10 @@ label {
     }
 }
 
-
 .search-form, .filter-form {
     display:none;
 
     @include font-size(13);
-    .search-area {
-        margin: 8px 8px 0 8px;
-        border-bottom: 1px solid $uiGeneralContentBorder;
-        padding-bottom: 8px;
-    }
     .xhtml_form {
 
         .form_desc {

@@ -1,3 +1,22 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ *
+ */
+
 /**
  * UiForm class enable you to manage form elements, initialize form component and bind common events
  *
@@ -24,19 +43,25 @@ define([
         encode
         ) {
 
-    function getUrl(action) {
-        var conf = module.config();
-        return context.root_url + conf.extension + '/' + conf.module + '/' + action;
-    }
+    'use strict';
+
+        /**
+         * Create a URL based on action and module
+         *
+         * @param action
+         * @returns {string}
+         */
+        function getUrl(action) {
+            var conf = module.config();
+            return context.root_url + conf.extension + '/' + conf.module + '/' + action;
+        }
 
     var UiForm = {
         init: function () {
             var self = this;
             this.counter = 0;
-            this.initFormPattern = new RegExp(['search', 'authoring', 'Import', 'Export', 'IO', 'preview'].join('|'));
             this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode', 'PropertiesAuthoring'].join('|'), 'i');
             this.initTranslationFormPattern = /translate/;
-            this.initNav();
 
             $("body").ajaxComplete(function (event, request, settings) {
                 var testedUrl;
@@ -64,23 +89,13 @@ define([
         },
 
         /**
-         * init form navigation (submit by ajax)
-         */
-        initNav: function () {
-            var self = this;
-            $("form").live('submit', function () {
-                return self.submitForm($(this));
-            });
-        },
-
-        /**
          * make some adjustment on the forms
          */
         initRendering: function () {
 
+            var self = this;
 
             var $container          = $('.content-block .xhtml_form:first'),
-                $firstInp           = $container.find('input[type="text"]:first'),
                 $toolBar            = $container.find('.form-toolbar'),
                 $authoringBtn       = $('.authoringOpener'),
                 $authoringBtnParent,
@@ -128,144 +143,150 @@ define([
                                                                     .find('[id*="ns_filter"]')
                                                                     .addClass('btn-default small');
             }
+
+            $('body').off('submit','.xhtml_form form').on('submit', '.xhtml_form form', function (e) {
+                e.preventDefault();
+                var $form = $(this),
+                    formData = self.getFormData($form);
+                return self.submitForm($form, formData);
+            });
+
+            $('.form-submitter').off('click').on('click', function (e) {
+                e.preventDefault();
+                $(e.target).closest('.xhtml_form form').trigger('submit');
+            });
+
             // modify properties
             postRenderProps.init();
         },
 
-        initElements: function () {
-            //save form button
-            var that = this;
-            $(".form-submitter").off('click').on('click', function (e) {
-                e.preventDefault();
-                var myForm,
-                    formData,
-                    clazz;
-                myForm = $(this).parents("form");
+        /**
+         * Retrieve form fields and pack to internal format for transfering
+         * @param {jQueryElement} $form
+         * @returns {object|undefined}
+         */
+        getFormData: function ($form) {
 
-                if($('[id="tao.forms.class"]').length !== 0){
-                    formData = {};
-                    clazz = {};
+            //for backward compatibility
+            if (!$('[id="tao.forms.class"]').length) {
+                return;
+            }
 
-                    //get all global data
-                    $('input.global',myForm[0]).each(function(){
-                        var $global = $(this);
-                        var name = $global.attr('name');
-                        if(name.indexOf('class_') > -1){
-                            name = name.replace('class_','');
-                            clazz[name] = $global.val();
+            var formData = {},
+                clazz = {};
 
-                        }
-                        else{
-                            formData[name] = $global.val();
-                        }
-                    });
-                    if(clazz.length !==0){
-                        formData.class = clazz;
-                    }
+            //get all global data
+            $('input.global', $form[0]).each(function () {
+                var $global = $(this);
+                var name = $global.attr('name');
+                if (name.indexOf('class_') > -1) {
+                    name = name.replace('class_', '');
+                    clazz[name] = $global.val();
 
-                    var properties = [];
-                    //get data for each property
-                    $('.regular-property',myForm[0]).each(function(){
-                        var property = {};
-                        var name = '';
-
-                        //get range on advanced mode
-                        var range = [];
-                        $('[id*="http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range-TreeBox"]', this).find('.checked').each(function(){
-                             range.push($(this).parent().attr('id'));
-                        });
-                        if(range.length !== 0){
-                            property['http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range'] = range;
-                        }
-
-                        $(':input.property',this).each(function(){
-                            var $property = $(this);
-                            name = $property.attr('name').replace(/(property_)?[^_]+_/,'');
-                            if($property.attr('type') === 'radio'){
-                                if($property.is(':checked')){
-                                    property[name] = $property.val();
-                                }
-                            }
-                            else{
-                                property[name] = $property.val();
-                            }
-
-                        });
-                        //get data for each index
-                        var indexes = [];
-                        $(':input.index', this).each(function(){
-
-                            var i;
-                            var found = false;
-                            var name = '';
-                            var $index = $(this);
-                            for(i in indexes){
-                                if(indexes[i] && $index.attr('data-related-index') === indexes[i].uri){
-                                    name = $index.attr('name').replace(/(index_)?[^_]+_/,'');
-                                    if($index.attr('type') === 'radio' || $index.attr('type') === 'checkbox'){
-                                        if($index.is(':checked')){
-                                            indexes[i][name] = $index.val();
-                                        }
-                                    }
-                                    else{
-                                        indexes[i][name] = $index.val();
-                                    }
-
-                                    found = true;
-                                }
-                            }
-                            if(!found){
-                                var index = {};
-                                index.uri = $index.attr('data-related-index');
-                                name = $index.attr('name').replace(/(index_)?[^_]+_/,'');
-                                if($index.attr('type') === 'radio'){
-                                    if($index.is(':checked')){
-                                        index[name] = $index.val();
-                                    }
-                                }
-                                else{
-                                    index[name] = $index.val();
-                                }
-                                indexes.push(index);
-                            }
-
-
-                        });
-                        //add indexes to related property
-                        property.indexes = indexes;
-                        properties.push(property);
-                    });
-
-                    formData.properties = properties;
-
-                    if (that.submitForm(myForm, formData)) {
-                        myForm.submit();
-                    }
                 }
-                else{
-                    if (that.submitForm(myForm)) {
-                        myForm.submit();
-                    }
+                else {
+                    formData[name] = $global.val();
                 }
-                return false;
             });
+            if (clazz.length !== 0) {
+                formData.class = clazz;
+            }
+
+            var properties = [];
+            //get data for each property
+            $('.regular-property', $form[0]).each(function () {
+                var property = {};
+                var name = '';
+
+                //get range on advanced mode
+                var range = [];
+                $('[id*="http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range-TreeBox"]', this).find('.checked').each(function () {
+                    range.push($(this).parent().attr('id'));
+                });
+                if (range.length !== 0) {
+                    property['http_2_www_0_w3_0_org_1_2000_1_01_1_rdf-schema_3_range'] = range;
+                }
+
+                $(':input.property', this).each(function () {
+                    var $property = $(this);
+                    name = $property.attr('name').replace(/(property_)?[^_]+_/, '');
+                    if ($property.attr('type') === 'radio') {
+                        if ($property.is(':checked')) {
+                            property[name] = $property.val();
+                        }
+                    }
+                    else {
+                        property[name] = $property.val();
+                    }
+
+                });
+                //get data for each index
+                var indexes = [];
+                $(':input.index', this).each(function () {
+
+                    var i;
+                    var found = false;
+                    var name = '';
+                    var $index = $(this);
+                    for (i in indexes) {
+                        if (indexes[i] && $index.attr('data-related-index') === indexes[i].uri) {
+                            name = $index.attr('name').replace(/(index_)?[^_]+_/, '');
+                            if ($index.attr('type') === 'radio' || $index.attr('type') === 'checkbox') {
+                                if ($index.is(':checked')) {
+                                    indexes[i][name] = $index.val();
+                                }
+                            }
+                            else {
+                                indexes[i][name] = $index.val();
+                            }
+
+                            found = true;
+                        }
+                    }
+                    if (!found) {
+                        var index = {};
+                        index.uri = $index.attr('data-related-index');
+                        name = $index.attr('name').replace(/(index_)?[^_]+_/, '');
+                        if ($index.attr('type') === 'radio') {
+                            if ($index.is(':checked')) {
+                                index[name] = $index.val();
+                            }
+                        }
+                        else {
+                            index[name] = $index.val();
+                        }
+                        indexes.push(index);
+                    }
+
+
+                });
+                //add indexes to related property
+                property.indexes = indexes;
+                properties.push(property);
+            });
+
+            formData.properties = properties;
+
+            return formData;
+        },
+
+        initElements: function () {
 
             //revert form button
             $(".form-refresher").off('click').on('click', function () {
-                var myForm = $(this).parents('form');
-                $(":input[name='" + myForm.attr('name') + "_sent']").remove();
+                var $form = $(this).parents('form');
+                $(":input[name='" + $form.attr('name') + "_sent']").remove();
 
-                if (that.submitForm(myForm)) {
-                    myForm.submit();
-                }
-                return false;
+                return $form.submit();
             });
 
             //translate button
+            var $uriElm      = $("#uri"),
+                $classUriElm = $("#classUri");
+
             $(".form-translator").off('click').on('click', function () {
-                var url;
-                if ($("#uri") && $("#classUri")) {
-                    helpers.getMainContainer().load(getUrl('translateInstance'), {'uri': $("#uri").val(), 'classUri': $("#classUri").val()});
+                if ( $uriElm.length && $classUriElm.length) {
+                    helpers.getMainContainer().load(getUrl('translateInstance'), {'uri': $uriElm.val(), 'classUri': $classUriElm.val()});
                 }
                 return false;
             });
@@ -278,17 +299,18 @@ define([
             });
 
             $('.box-checker').off('click').on('click', function () {
-                var checker = $(this);
-                var regexpId = new RegExp('^' + checker.prop('id').replace('_checker', ''), 'i');
+                var $checker = $(this);
+                var regexpId = new RegExp('^' + $checker.prop('id').replace('_checker', ''), 'i');
 
-                if (checker.hasClass('box-checker-uncheck')) {
+                if ($checker.hasClass('box-checker-uncheck')) {
                     $(":checkbox").each(function () {
                         if (regexpId.test(this.id)) {
+                            //noinspection JSPotentiallyInvalidUsageOfThis,JSPotentiallyInvalidUsageOfThis
                             this.checked = false;
                         }
                     });
-                    checker.removeClass('box-checker-uncheck');
-                    checker.text(__('Check all'));
+                    $checker.removeClass('box-checker-uncheck');
+                    $checker.text(__('Check all'));
                 }
                 else {
                     $(":checkbox").each(function () {
@@ -296,8 +318,8 @@ define([
                             this.checked = true;
                         }
                     });
-                    checker.addClass('box-checker-uncheck');
-                    checker.text(__('Uncheck all'));
+                    $checker.addClass('box-checker-uncheck');
+                    $checker.text(__('Uncheck all'));
                 }
 
                 return false;
@@ -476,33 +498,47 @@ define([
              * display or not the list regarding the property type
              */
             function showPropertyList() {
-                var elt = $(this).parent("div").next("div");
-                if (/list$/.test($(this).val())) {
-                    if (elt.css('display') === 'none') {
-                        elt.show();
-                        elt.find('select').removeAttr('disabled');
+                var $this = $(this);
+                var $elt = $this.parent("div").next("div");
+                var propertiesTypes = ['list','tree'];
+
+                var re = new RegExp(propertiesTypes.join('$|').concat('$'));
+                if (re.test($this.val())) {
+                    if ($elt.css('display') === 'none') {
+                        $elt.show();
+                        $elt.find('select').removeAttr('disabled');
+
                     }
                 }
-                else if (elt.css('display') !== 'none') {
-                    elt.css('display', 'none');
-                    elt.find('select').prop('disabled', "disabled");
-                    elt.find('select option[value=" "]').attr('selected',true);
+                else if ($elt.css('display') !== 'none') {
+                    $elt.css('display', 'none');
+                    $elt.find('select').prop('disabled', "disabled");
+                    $elt.find('select option[value=" "]').attr('selected',true);
                 }
+
+                $.each(propertiesTypes, function (i, rangedPropertyName) {
+                    var re = new RegExp(rangedPropertyName + '$');
+                    if (re.test($this.val())) {
+                        $elt.find('select').html($elt.closest('.property-edit-container').find('.' + rangedPropertyName + '-template').html());
+                        return true;
+                    }
+                })
             }
 
             /**
              * by selecting a list, the values are displayed or the list editor opens
              */
             function showPropertyListValues() {
-                if ($(this).val() === 'new') {
+                var $this = $(this);
+                var elt = $this.parent("div");
+                if ($this.val() === 'new') {
                     //Open the list editor: a tree in a dialog popup
-                    var rangeId = $(this).prop('id');
+                    var rangeId = $this.prop('id');
                     var dialogId = rangeId.replace('_range', '_dialog');
                     var treeId = rangeId.replace('_range', '_tree');
                     var closerId = rangeId.replace('_range', '_closer');
 
                     //dialog content to embed the list tree
-                    elt = $(this).parent("div");
                     elt.append("<div id='" + dialogId + "' style='display:none;' > " +
                         "<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br /><br />" +
                         "<div id='" + treeId + "' ></div> " +
@@ -512,7 +548,8 @@ define([
                         "</div>");
 
                     //init dialog events
-                    $("#" + dialogId).dialog({
+                    var $dialogElm = $("#" + dialogId);
+                    $dialogElm.dialog({
                         width: 350,
                         height: 400,
                         autoOpen: false,
@@ -520,18 +557,18 @@ define([
                     });
 
                     //destroy dialog on close
-                    $("#" + dialogId).bind('dialogclose', function (event, ui) {
+                    $dialogElm.bind('dialogclose', function (event, ui) {
                         $.tree.reference("#" + treeId).destroy();
-                        $("#" + dialogId).dialog('destroy');
-                        $("#" + dialogId).remove();
+                        $dialogElm.dialog('destroy');
+                        $dialogElm.remove();
                     });
 
                     $("#" + closerId).click(function () {
                         $("#" + dialogId).dialog('close');
                     });
 
-                    $("#" + dialogId).bind('dialogopen', function (event, ui) {
-                        var url = context.root_url + 'tao/Lists/';
+                    $dialogElm.bind('dialogopen', function (event, ui) {
+                        var url = context.root_url + 'taoBackOffice/Lists/';
                         var dataUrl = url + 'getListsData';
                         var renameUrl = url + 'rename';
                         var createUrl = url + 'create';
@@ -539,7 +576,7 @@ define([
                         var removeListEltUrl = url + 'removeListElement';
 
                         //create tree to manage lists
-                        var generisTreeInstance = $("#" + treeId).tree({
+                        $("#" + treeId).tree({
                             data: {
                                 type: "json",
                                 async: true,
@@ -581,17 +618,20 @@ define([
                                     });
                                 },
                                 ondestroy: function (TREE_OBJ) {
+                                    var $rangeElm = $("#" + rangeId);
+
                                     //empty and build again the list drop down on tree destroying
-                                    $("#" + rangeId + " option").each(function () {
-                                        if ($(this).val() !== "" && $(this).val() !== "new") {
-                                            $(this).remove();
+                                    $rangeElm.find('option').each(function () {
+                                        var $option = $(this);
+                                        if ($option.val() !== "" && $option.val() !== "new") {
+                                            $option.remove();
                                         }
                                     });
                                     $("#" + treeId + " .node-root .node-class").each(function () {
-                                        $("#" + rangeId + " option[value='new']").before("<option value='" + $(this).prop('id') + "'>" + $(this).children("a:first").text() + "</option>");
+                                        $rangeElm.find("option[value='new']").before("<option value='" + $(this).prop('id') + "'>" + $(this).children("a:first").text() + "</option>");
                                     });
-                                    $("#" + rangeId).parent("div").children("ul.form-elt-list").remove();
-                                    $("#" + rangeId).val('');
+                                    $rangeElm.parent("div").children("ul.form-elt-list").remove();
+                                    $rangeElm.val('');
                                 }
                             },
                             plugins: {
@@ -710,24 +750,28 @@ define([
                     });
 
                     //open the dialog window
-                    $("#" + dialogId).dialog('open');
+                    $dialogElm.dialog('open');
                 }
                 else {
                     //load the instances and display them (the list items)
-                    $(this).parent("div").children("ul.form-elt-list").remove();
-                    var classUri = $(this).val();
-                    if (classUri !== '') {
-                        $(this).parent("div").children("div.form-error").remove();
-                        var elt = this;
+                    $(elt).parent("div").children("ul.form-elt-list").remove();
+                    var classUri = $this.val();
+                    if (classUri !== '' && classUri !== ' ') {
+                        $this.parent("div").children("div.form-error").remove();
+                        //var elt = this;
                         $.ajax({
-                            url: context.root_url + 'tao/Lists/getListElements',
+                            url: context.root_url + 'taoBackOffice/Lists/getListElements',
                             type: "POST",
                             data: {listUri: classUri},
                             dataType: 'json',
                             success: function (response) {
-                                var html = "<ul class='form-elt-list'>";
-                                for (i in response) {
-                                    html += '<li>' + encode.html(response[i]) + '</li>';
+                                var html = "<ul class='form-elt-list'>",
+                                    property;
+                                for (property in response) {
+                                    if(!response.hasOwnProperty(property)) {
+                                        continue;
+                                    }
+                                    html += '<li>' + encode.html(response[property]) + '</li>';
                                 }
                                 html += '</ul>';
                                 $(elt).parent("div").append(html);
@@ -739,19 +783,24 @@ define([
 
             //bind functions to the drop down:
 
+            $('.property-template').each(function(){
+                $(this).closest('div').hide();
+            });
+
             //display the values drop down regarding the selected type
-            $(".property-type").change(showPropertyList);
-            $(".property-type").each(showPropertyList);
+            var $propertyType = $(".property-type"),
+                $propertyListValues = $(".property-listvalues");
+
+            $propertyType.on('change', showPropertyList).trigger('change');
 
             //display the values of the selected list
-            $(".property-listvalues").change(showPropertyListValues);
-            $(".property-listvalues").each(showPropertyListValues);
+            $propertyListValues.on('change', showPropertyListValues).trigger('change');
 
             //show the "green plus" button to manage the lists
-            $(".property-listvalues").each(function () {
+            $propertyListValues.each(function () {
                 var listField = $(this);
                 if (listField.parent().find('img').length === 0) {
-                    var listControl = $("<img title='manage lists' style='cursor:pointer;' />");
+                    var listControl = $("<img title='manage lists' class='manage-lists' style='cursor:pointer;' />");
                     listControl.prop('src', context.taobase_www + "img/add.png");
                     listControl.click(function () {
                         listField.val('new');
@@ -761,7 +810,7 @@ define([
                 }
             });
 
-            $(".property-listvalues").each(function () {
+            $propertyListValues.each(function () {
                 var elt = $(this).parent("div");
                 if (!elt.hasClass('form-elt-highlight') && elt.css('display') !== 'none') {
                     elt.addClass('form-elt-highlight');
@@ -776,7 +825,7 @@ define([
             $('#translate_lang').change(function () {
                 var trLang = $(this).val();
                 if (trLang !== '') {
-                    $("#translation_form :input").each(function () {
+                    $("#translation_form").find(":input").each(function () {
                         if (/^http/.test($(this).prop('name'))) {
                             $(this).val('');
                         }

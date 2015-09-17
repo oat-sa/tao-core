@@ -8,14 +8,14 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
     /**
      * Defines the validation callback 
      * @callback IsValidCallback
-     * @param {Boolean} isValid - wheter the value is valid or not
+     * @param {Boolean} isValid - whether the value is valid or not
      */
 
     /**
      * The function called by a validator to validate a value
      * @callback Validate
      * @param {String|Boolean|Number} value - the value to validate
-     * @param {IsValidCallbacl} callback - called with the validation result
+     * @param {IsValidCallback} callback - called with the validation result
      * @param {Object} [options] - additional options
      */
 
@@ -23,7 +23,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
      * Validate with a regex pattern
      * @private
      * @param {String|Boolean|Number} value - the value to validate
-     * @param {IsValidCallbacl} callback - called with the validation result
+     * @param {IsValidCallback} callback - called with the validation result
      * @param {Object} [options] - additional options
      * @param {String} [options.modifier] - pattern modifier
      * @param {String} [options.pattern] - the pattern itself
@@ -119,7 +119,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
                 	//request HEAD only for bandwidth saving
                     $.ajax({
                         type : 'HEAD',
-                        url : options.baseUrl + value,
+                        url : options.baseUrl + encodeURIComponent(value),
                         success : function(){
                             callback(true);
                         },
