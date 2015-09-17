@@ -41,13 +41,12 @@ class tao_models_classes_GenerisTreeFactory
 	 * @param array $openNodes
 	 * @param int $limit
 	 * @param int $offset
-	 * @param array $propertyFilter filter resources based on properties uri => value
 	 * @param boolean $haveResourceToBeShown indicate if tree have to be build to demonstrate resource ( in that case pagination in appropriate class must be ignored )
 	 *
 	 * @return array
 	 */
-    public function buildTree(core_kernel_classes_Class $class, $showResources, $openNodes = array(), $limit = 10, $offset = 0, $propertyFilter = array(), $haveResourceToBeShown = false) {
-    	return $this->classToNode($class, null, $showResources, $limit, $offset, $openNodes, $propertyFilter, $haveResourceToBeShown);
+    public function buildTree(core_kernel_classes_Class $class, $showResources, $openNodes = array(), $limit = 10, $offset = 0, $haveResourceToBeShown = false) {
+    	return $this->classToNode($class, null, $showResources, $limit, $offset, $openNodes, $haveResourceToBeShown);
     }
 
 	/**
@@ -59,12 +58,11 @@ class tao_models_classes_GenerisTreeFactory
 	 * @param int $limit
 	 * @param int $offset
 	 * @param array $openNodes
-	 * @param array $propertyFilter filter resources based on properties uri => value
 	 * @param boolean $haveResourceToBeShown
 	 *
 	 * @return array
 	 */
-    private function classToNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null, $showResources, $limit, $offset, $openNodes, $propertyFilter, $haveResourceToBeShown) {
+    private function classToNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null, $showResources, $limit, $offset, $openNodes, $haveResourceToBeShown) {
     	$label = $class->getLabel();
         $label = empty($label) ? __('no label') : $label;
         $returnValue = $this->buildClassNode($class, $parent);
@@ -81,7 +79,7 @@ class tao_models_classes_GenerisTreeFactory
 		            if ($haveResourceToBeShown && $lastClassUri === $class->getUri()) {
 			            $limit = 0;
 		            }
-		            $returnValue['children'] = $this->buildChildNodes($class, $showResources, $limit, $offset, $openNodes, $propertyFilter, $haveResourceToBeShown);
+		            $returnValue['children'] = $this->buildChildNodes($class, $showResources, $limit, $offset, $openNodes, $haveResourceToBeShown);
 
             } else {
                     $returnValue['state']	= 'closed';
@@ -89,11 +87,7 @@ class tao_models_classes_GenerisTreeFactory
 
             // only show the resources count if we allow resources to be viewed
             if ($showResources){
-                if(!empty($propertyFilter)){
-                     $returnValue['count'] = count($class->searchInstances($propertyFilter, array('recursive' => false)));
-                } else  {
-                    $returnValue['count'] = $instancesCount;
-                }
+                $returnValue['count'] = $instancesCount;
             }
         }
         return $returnValue;
@@ -107,20 +101,19 @@ class tao_models_classes_GenerisTreeFactory
 	 * @param int $limit
 	 * @param int $offset
 	 * @param array $openNodes
-	 * @param array $propertyFilter filter resources based on properties uri => value
 	 * @param boolean $haveResourceToBeShown
 	 *
 	 * @return array
 	 */
-    private function buildChildNodes(core_kernel_classes_Class $class, $showResources, $limit, $offset, $openNodes, $propertyFilter, $haveResourceToBeShown) {
+    private function buildChildNodes(core_kernel_classes_Class $class, $showResources, $limit, $offset, $openNodes, $haveResourceToBeShown) {
     	$childs = array();
     	// subclasses
 		foreach ($class->getSubClasses(false) as $subclass) {
-			$childs[] = $this->classToNode($subclass, $class, $showResources, $limit, $offset, $openNodes, $propertyFilter, $haveResourceToBeShown);
+			$childs[] = $this->classToNode($subclass, $class, $showResources, $limit, $offset, $openNodes, $haveResourceToBeShown);
 		}
 		// resources
     	if ($showResources) {
-			$searchResult = $class->searchInstances($propertyFilter,array(
+			$searchResult = $class->searchInstances(array(),array(
 				'limit'		=> $limit,
 				'offset'	=> $offset,
 				'recursive'	=> false
@@ -181,7 +174,7 @@ class tao_models_classes_GenerisTreeFactory
 	 * returns the nodes to open in order to display
 	 * all the listed resources to be visible
 	 * 
-	 * @param array $resources list of resources to show
+	 * @param array $uris list of resources to show
 	 * @param core_kernel_classes_Class $rootNode root node of the tree
 	 * @return array array of the uris of the nodes to open
 	 */
