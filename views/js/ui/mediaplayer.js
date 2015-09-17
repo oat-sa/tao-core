@@ -359,6 +359,7 @@ define([
          * @param {String} config.type - The type of media to play
          * @param {String} config.url - The URL to the media
          * @param {Boolean} [config.autoStart] - The player start as soon as it is displayed
+         * @param {Number} [config.autoStartAt] - The time position at which the player should start
          * @param {Boolean} [config.loop] - The media will be played continuously
          * @param {Boolean} [config.canPause] - The play can be paused
          * @param {Boolean} [config.canFullscreen] - The media can be displayed in fullscreen (video only)
@@ -366,6 +367,7 @@ define([
          * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
          * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
          * @param {Number} [config.volume] - Sets the sound volume (default: 1)
+         * @param {Boolean} [config.startMuted] - The player should be initially muted
          * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
          */
         init : function init(config) {
@@ -384,6 +386,9 @@ define([
             this._initOptions(initConfig);
 
             this.volume = this.config.volume;
+            this.autoStart = this.config.autoStart;
+            this.autoStartAt = this.config.autoStartAt;
+            this.startMuted = this.config.startMuted;
             this.duration = 0;
             this.position = 0;
 
@@ -471,6 +476,10 @@ define([
 
             this.execute('seek', this.position);
 
+            if (!this.is('ready')) {
+                this.autoStartAt = this.position;
+            }
+
             return this;
         },
 
@@ -486,6 +495,10 @@ define([
 
             this.execute('play');
 
+            if (!this.is('ready')) {
+                this.autoStart = true;
+            }
+
             return this;
         },
 
@@ -500,6 +513,10 @@ define([
             }
 
             this.execute('pause');
+
+            if (!this.is('ready')) {
+                this.autoStart = false;
+            }
 
             return this;
         },
@@ -547,6 +564,10 @@ define([
             }
             this.execute('mute', state);
             this._setState('muted', state);
+
+            if (!this.is('ready')) {
+                this.startMuted = state;
+            }
 
             return this;
         },
@@ -827,7 +848,7 @@ define([
 
             if (sources) {
                 _.forEach(sources, function(source) {
-                    self.addSource(source);
+                    self.addSource(source, config.type);
                 });
             }
 
@@ -1054,11 +1075,8 @@ define([
          * @private
          */
         _onReady : function _onReady() {
-            this._setState('ready', true);
-
             this._updateDuration(this.player.getDuration());
-
-            this.setVolume(this.volume);
+            this._setState('ready', true);
 
             /**
              * Triggers a media ready event
@@ -1066,7 +1084,13 @@ define([
              */
             this.trigger('ready' + _ns);
 
-            if (this.config.autoStart) {
+            // set the initial state
+            this.setVolume(this.volume);
+            this.mute(!!this.startMuted);
+            if (this.autoStartAt) {
+                this.seek(this.autoStartAt);
+            }
+            if (this.autoStart) {
                 this.play();
             }
         },
@@ -1190,12 +1214,16 @@ define([
      * @param {String} config.type - The type of media to play
      * @param {String} config.url - The URL to the media
      * @param {Boolean} [config.autoStart] - The player start as soon as it is displayed
+     * @param {Number} [config.autoStartAt] - The time position at which the player should start
      * @param {Boolean} [config.loop] - The media will be played continuously
      * @param {Boolean} [config.canPause] - The play can be paused
      * @param {Boolean} [config.canFullscreen] - The media can be displayed in fullscreen (video only)
      * @param {Number} [config.maxPlays] - Sets a few number of plays (default: infinite)
      * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
      * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
+     * @param {Number} [config.volume] - Sets the sound volume (default: 1)
+     * @param {Boolean} [config.startMuted] - The player should be initially muted
+     * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
      * @returns {mediaplayer}
      */
     var mediaplayerFactory = function mediaplayerFactory(config) {
