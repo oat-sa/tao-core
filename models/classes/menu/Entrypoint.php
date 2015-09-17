@@ -23,8 +23,9 @@ namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
 use tao_models_classes_accessControl_AclProxy;
+use oat\tao\model\entryPoint\Entrypoint as InterfaceEntrypoint;
 
-class Entrypoint  implements PhpSerializable
+class Entrypoint  implements InterfaceEntrypoint, PhpSerializable
 {
     const SERIAL_VERSION = 1392821334;
     

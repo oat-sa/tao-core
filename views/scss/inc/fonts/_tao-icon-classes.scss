@@ -18,6 +18,7 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-tree:before { @include icon-tree; }
 .icon-home:before { @include icon-home; }
 .icon-shared-file:before { @include icon-shared-file; }
 .icon-end-attempt:before { @include icon-end-attempt; }
@@ -202,3 +203,5 @@
 .icon-loop:before { @include icon-loop; }
 .icon-calendar:before { @include icon-calendar; }
 .icon-reload:before { @include icon-reload; }
+.icon-speed:before { @include icon-speed; }
+.icon-volume:before { @include icon-volume; }

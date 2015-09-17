@@ -523,8 +523,6 @@ abstract class tao_models_classes_GenerisService
         $instances = (isset($options['instances'])) ? $options['instances'] : true;
         // @todo describe how this option influences the behaviour
         $highlightUri = (isset($options['highlightUri'])) ? $options['highlightUri'] : '';
-        // filter results by label, and don't show them as a tree at all, but a flat list
-        $labelFilter = (isset($options['labelFilter'])) ? $options['labelFilter'] : '';
         // @todo describe how this option influences the behaviour
         $recursive = (isset($options['recursive'])) ? $options['recursive'] : false;
         // cut of the class and only display the children?
@@ -543,28 +541,7 @@ abstract class tao_models_classes_GenerisService
         
         $factory = new tao_models_classes_GenerisTreeFactory();
         
-        if (!empty($labelFilter) && $labelFilter!='*') {
-            // The result must be a set of filtered nodes.
-            $props	= array(RDFS_LABEL => $labelFilter);
-            $opts	= array(
-                    'like'		=> true,
-                    'limit'		=> $limit,
-                    'offset'	=> $offset,
-                    'recursive'	=> true
-            ); 
-            $searchResult = $clazz->searchInstances($props, $opts);
-            $results = array();
-            foreach ($searchResult as $instance){
-                    $results[] = $factory->buildResourceNode($instance, $clazz);
-            }
-            if ($offset > 0) {
-                    $returnValue = $results;
-            } else if(count($results) > 0){
-                    $returnValue = $factory->buildClassNode($clazz);
-                    $returnValue['count']		= $clazz->countInstances($props, $opts);;
-                    $returnValue['children']	= $results;
-            }
-        } elseif ($uniqueNode !== null) {
+        if ($uniqueNode !== null) {
             $instance = new \core_kernel_classes_Resource($uniqueNode);
             $results[] = $factory->buildResourceNode($instance, $clazz);
             $returnValue = $results;

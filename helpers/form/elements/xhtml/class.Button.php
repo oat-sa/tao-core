@@ -26,13 +26,24 @@
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  */
-class tao_helpers_form_elements_xhtml_Button
-    extends tao_helpers_form_elements_Button
+class tao_helpers_form_elements_xhtml_Button extends tao_helpers_form_elements_Button
 {
 
     // --- ASSOCIATIONS ---
 
+    /**
+     * @var string
+     */
     protected $icon = '';
+
+    /**
+     * @var string
+     */
+    protected $type = 'button';
+
+    /**
+     * @var string
+     */
     protected $iconPosition = '';
 
     public function setIcon($icon, $position = 'before')
@@ -54,7 +65,7 @@ class tao_helpers_form_elements_xhtml_Button
      */
     public function render()
     {
-        $returnValue = (string)'';
+        $returnValue = '';
 
 
 //        foreach($this->attributes as $key => $value){
@@ -80,12 +91,23 @@ class tao_helpers_form_elements_xhtml_Button
                 : $content . ' ' . $this->icon;
         }
 
-        $returnValue .= "<button type='button' name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= "<button type='{$this->type}' name='{$this->name}' id='{$this->name}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . _dh($this->value) . '">' . $content . '</button>';
 
 
-        return (string)$returnValue;
+        return $returnValue;
+    }
+
+    /**
+     * Sets allowed by html5 buttons type
+     * @param string $type
+     */
+    public function setType( $type )
+    {
+        if (in_array( strtolower( $type ), array( 'button', 'submit', 'reset' ) )) {
+            $this->type = $type;
+        }
     }
 
 }

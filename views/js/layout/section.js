@@ -29,6 +29,7 @@ define([
     context,
     history
 ){
+    'use strict';
 
     var sectionParamExp = /&section=([^&]*)/;
     var location = window.history.location || window.location;
@@ -645,6 +646,17 @@ define([
             this.scope.on(eventName + '.section', function(e){
                 cb.apply(self, Array.prototype.slice.call(arguments, 1));
             });
+            return this;
+        },
+
+        /**
+         * Sugar to help you remove listeners from sections
+         *
+         * @param {String} eventName - the name of the event (without the namespace)
+         * @returns {SectionApi} instance for chaining
+         */
+        off : function(eventName){
+            this.scope.off(eventName + '.section');
             return this;
         }
     };

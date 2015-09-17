@@ -190,6 +190,7 @@ class tao_models_classes_Parser
         $returnValue = '';
 
         foreach ($xsds as $xsd) {
+            $this->errors = array();
             if ($this->validate($xsd)) {
                 $returnValue = $xsd;
                 break;

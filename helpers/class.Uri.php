@@ -18,29 +18,12 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-
-/**
- * Convenent function, helps you to the URI to access a framework action
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @param  string action the targeted action name
- * @param  string module the targeted module name
- * @param  string extension the targeted extension name
- * @param  array params an array of additionnal key/value query parameters
- * @return the URI
- */
-function _url($action = null, $module = null, $extension = null, $params = array()){
-	return tao_helpers_Uri::url($action, $module, $extension, $params);
-}
-
-
-
 /**
  * Utilities on URL/URI
  *
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- 
  */
 class tao_helpers_Uri
 {
@@ -300,7 +283,7 @@ class tao_helpers_Uri
      * @param  boolean uniqueMode
      * @return array
      */
-    public static function encodeArray($uris, $encodeMode = 3, $dotMode = true, $uniqueMode = false)
+    public static function encodeArray($uris, $encodeMode = self::ENCODE_ARRAY_ALL, $dotMode = true, $uniqueMode = false)
     {
         $returnValue = array();
 
@@ -438,5 +421,3 @@ class tao_helpers_Uri
     }
 
 }
-
-?>

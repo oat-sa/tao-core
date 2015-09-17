@@ -27,6 +27,7 @@ use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\messaging\MessagingService;
+use oat\tao\model\entryPoint\EntryPointService;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -62,12 +63,13 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
     public function entry()
     {
-	    $entries = array();
-	    foreach (MenuService::getEntryPoints() as $entry) {
-	        if ($entry->hasAccess()) {
-	            $entries[] = $entry;
-	        }
-	    }
+        $entries = array();
+        foreach (EntryPointService::getRegistry()->getEntryPoints() as $entry) {
+            if (tao_models_classes_accessControl_AclProxy::hasAccessUrl($entry->getUrl())) {
+                $entries[] = $entry;
+            }
+        }
+        
 	    if (empty($entries)) {
 	        // no access -> error
 	        if (common_session_SessionManager::isAnonymous()) {
@@ -113,6 +115,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function login()
 	{
+        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $config = $tao->getConfig('loginForm');
 
 		$params = array();
 		if ($this->hasRequestParameter('redirect')) {
@@ -122,7 +126,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 				$params['redirect'] = $redirectUrl;
 			}
 		}
-		$myLoginFormContainer = new tao_actions_form_Login($params);
+		$myLoginFormContainer = new tao_actions_form_Login($params, $config);
 		$myForm = $myLoginFormContainer->getForm();
 
 		if($myForm->isSubmited()){
@@ -148,7 +152,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('messageServiceIsAvailable', MessagingService::singleton()->isAvailable());
         
         if ($this->hasRequestParameter('msg')) {
-            $this->setData('msg', htmlentities($this->getRequestParameter('msg')));
+            $this->setData('msg', $this->getRequestParameter('msg'));
         }
         $this->setData('content-template', array('blocks/login.tpl', 'tao'));
 
@@ -272,13 +276,11 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     private function getMenuElementChildren(Perspective $menuElement)
     {
+        $user = common_Session_SessionManager::getSession()->getUser();
         $children = array();
         foreach ($menuElement->getChildren() as $section) {
-            if (
-                tao_models_classes_accessControl_AclProxy::hasAccess(
-                    $section->getAction(), $section->getController(), $section->getExtensionId()
-                )
-            ) {
+            $resolver = new ActionResolver($section->getUrl());
+            if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                 $children[] = $section;
             }
         }
@@ -301,17 +303,12 @@ class tao_actions_Main extends tao_actions_CommonModule
         if (!is_null($structure)) {
             foreach ($structure->getChildren() as $section) {
                 
-                if (
-                    tao_models_classes_accessControl_AclProxy::hasAccess(
-                        $section->getAction(),
-                        $section->getController(),
-                        $section->getExtensionId()
-                    )
-                ) {
-    
+                $resolver = new ActionResolver($section->getUrl());
+                if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
+
                     foreach($section->getActions() as $action){
-                        $resolver = ActionResolver::getByControllerName($action->getController(), $action->getExtensionId());  
-                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $action->getAction())){
+                        $resolver = new ActionResolver($action->getUrl());
+                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())){
                             $section->removeAction($action); 
                         }
                         

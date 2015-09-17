@@ -25,8 +25,7 @@ use oat\taoThemingPlatform\model\PlatformThemingService;
 
 use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
-use \common_ext_ExtensionsManager;
-use \tao_helpers_Scriptloader;
+use oat\tao\model\ThemeRegistry;
 
 class Layout{
 
@@ -244,7 +243,13 @@ class Layout{
 
         return $branding;
     }
-    
+
+    /**
+     * Deprecated way to insert a theming css
+     * 
+     * @deprecated
+     * @return string
+     */
     public static function getThemeUrl() {
         if (self::isThemingEnabled() === true) {
             $themingService = PlatformThemingService::singleton();
@@ -280,7 +285,7 @@ class Layout{
     }
 
     public static function getMessage() {
-        $message = __('Tao Home');
+        $message = '';
 
         if (self::isThemingEnabled() === true) {
             // Get Theming info from taoThemingPlatform...
@@ -304,24 +309,14 @@ class Layout{
     }
     
     public static function isUnstable() {
+
         $isUnstable = true;
-        
-        if (self::isThemingEnabled() === true) {
-            $themingService = PlatformThemingService::singleton();
-            $themingConfig = $themingService->retrieveThemingConfig();
-            
-            if (empty($themingConfig['stable']) === false) {
-                $isUnstable = !$themingConfig['stable'];
-            }
-        } else {
-            switch (TAO_RELEASE_STATUS) {
-                case 'demoS':
-                case 'stable':
-                    $isUnstable = false;
-                    break;
-            }
+        switch (TAO_RELEASE_STATUS) {
+            case 'demoS':
+            case 'stable':
+                $isUnstable = false;
+                break;
         }
-        
         return $isUnstable;
     }
     
@@ -384,5 +379,57 @@ class Layout{
         }
         
         return $copyrightNotice;
+    }
+    
+    /**
+     * Render a themable template identified by its id
+     * 
+     * @param string $templateId
+     * @param array $data
+     * @return string
+     */
+    public static function renderThemeTemplate($target, $templateId, $data = array()){
+        
+        //search in the registry to get the custom template to render
+        $tpl = self::getThemeTemplate($target, $templateId);
+
+        if(!is_null($tpl)){
+            //render the template
+            $renderer = new \Renderer($tpl, $data);
+            return $renderer->render();
+        }
+        return '';
+    }
+    
+    /**
+     * Returns the absolute path of the template to be rendered considering the given context
+     *
+     * @param string target
+     * @param string $templateId
+     */
+    public static function getThemeTemplate($target, $templateId){
+        $template = null;
+        $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
+        if(!is_null($defaultTheme)){
+            $template =  ThemeRegistry::getRegistry()->getTemplate($target, $defaultTheme['id'], $templateId);
+        }
+        if(is_null($template)){
+            //template with specified id not found in the default theme, try to fall back to the base theme
+            $template = ThemeRegistry::getRegistry()->getBaseTemplate($target, $templateId);
+        }
+        return $template;
+    }
+
+    /**
+     * Returns the absolute path of the theme css that overwrites the base css
+     * 
+     * @param string target
+     */
+    public static function getThemeStylesheet($target){
+        $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
+        if(!is_null($defaultTheme)){
+            return ThemeRegistry::getRegistry()->getStylesheet($target, $defaultTheme['id']);
+        }
+        return null;
     }
 }

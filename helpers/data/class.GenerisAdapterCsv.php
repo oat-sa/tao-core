@@ -272,6 +272,42 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         return (string) $returnValue;
     }
 
+    /**
+     * Short description of method attachResource
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  core_kernel_classes_Property $targetProperty
+     * @param  core_kernel_classes_Resource $targetResource
+     * @param  string $value
+     * @return mixed
+     */
+    public function attachResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $value)
+    {
+        // We have to check if the resource identified by value exists in the Ontology.
+        $resource = new core_kernel_classes_Resource($value);
+        if ($resource->exists()) {
+        	// Is the range correct ?
+        	$targetPropertyRanges = $targetProperty->getPropertyValuesCollection(new core_kernel_classes_Property(RDFS_RANGE));
+        	$rangeCompliance = false;
+        	
+        	// If $targetPropertyRange->count = 0, we consider that the resouce
+        	// may be attached because $rangeCompliance = true.
+        	foreach ($targetPropertyRanges->getIterator() as $range) {
+        		// Check all classes in target property's range.
+        	    if ($resource->hasType(new core_kernel_classes_Class($range))) {
+        			$rangeCompliance = true;
+        			break;
+        	    }
+        		
+        	}
+        	
+        	if (true == $rangeCompliance) {
+        		$targetResource->setPropertyValue($targetProperty, $resource->getUri());
+        	}
+        }
+    }
+
     public function onResourceImported(Closure $closure) {
 		$this->resourceImported[] = $closure;
 	}

@@ -39,6 +39,9 @@ use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\DirectWebSource;
 use oat\tao\model\search\strategy\GenerisSearch;
+use oat\tao\model\entryPoint\BackOfficeEntrypoint;
+use oat\tao\model\entryPoint\EntryPointService;
+use oat\tao\model\ThemeRegistry;
 
 /**
  * 
@@ -55,6 +58,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         
         $currentVersion = $initialVersion;
         $extensionManager = common_ext_ExtensionsManager::singleton();
+        
         //migrate from 2.6 to 2.7.0
         if ($currentVersion == '2.6') {
 
@@ -263,7 +267,80 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion === '2.7.17') {
             $currentVersion = '2.8.0';
         }
+        
+        if ($currentVersion === '2.8.0') {
+            EntryPointService::getRegistry()->registerEntryPoint(new BackOfficeEntrypoint());
+            $currentVersion = '2.8.1';
+        }
 
+        // semantic versioning
+        if ($currentVersion === '2.8.1') {
+            $currentVersion = '2.9';
+        }
+        
+        // remove id properties
+        if ($currentVersion === '2.9') {
+            $rdf = ModelManager::getModel()->getRdfInterface();
+            foreach ($rdf as $triple) {
+                if ($triple->predicate == 'id') {
+                    $rdf->remove($triple);
+                }
+            }
+            
+            $currentVersion = '2.9.1';
+        }
+        
+        // tao object split
+        if ($currentVersion === '2.9.1') {
+            OntologyUpdater::syncModels();
+            $currentVersion = '2.10.0';
+        }
+        
+        // widget definitions
+        if ($currentVersion === '2.10.0') {
+            OntologyUpdater::syncModels();
+            $currentVersion = '2.10.1';
+        }
+
+        // add login form config
+        if ($currentVersion === '2.10.1' ){
+            $loginFormSettings = array(
+                'elements' => array()
+            );
+
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $ext->setConfig('loginForm', $loginFormSettings);
+
+            $currentVersion = '2.10.2';
+        }
+
+        if ($currentVersion === '2.10.2') {
+
+            $s = DIRECTORY_SEPARATOR;
+            ThemeRegistry::getRegistry()->createTarget('frontOffice', array(
+                'css' => 'tao'.$s.'views'.$s.'css'.$s.'tao-3.css',
+                'templates' => array(
+                    'header-logo' => 'taoDelivery'.$s.'views'.$s.'templates'.$s.'DeliveryServer'.$s.'blocks'.$s.'header-logo.tpl',
+                    'footer' => 'taoDelivery'.$s.'views'.$s.'templates'.$s.'DeliveryServer'.$s.'blocks'.$s.'footer.tpl'
+                )
+            ));
+            ThemeRegistry::getRegistry()->createTarget('backOffice', array(
+                'css' => 'tao'.$s.'views'.$s.'css'.$s.'tao-3.css',
+                'templates' => array(
+                    'header-logo' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'header-logo.tpl',
+                    'footer' => 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'footer.tpl'
+                )
+            ));
+
+            $currentVersion = '2.11.0';
+        }
+        
+        if ($currentVersion === '2.11.0') {
+            $service = new \tao_models_classes_service_StateStorage(array('persistence' => 'serviceState'));
+            $this->getServiceManager()->register('tao/stateStorage', $service);
+            $currentVersion = '2.12.0';
+        }
+        
         return $currentVersion;
     }
     

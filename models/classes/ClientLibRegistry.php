@@ -103,7 +103,7 @@ class ClientLibRegistry extends AbstractRegistry
             
         }
         if ($found == false) {
-            throw new \common_exception_Error('Path '.$fullPath.' not found in Tao');
+            throw new \common_exception_Error('Path "'.$fullPath.'" is not a valid asset path in Tao');
         }
     }
 }

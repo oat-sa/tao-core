@@ -1,13 +1,16 @@
 define(['util/url'], function(urlUtil){
+    'use strict';
 
     QUnit.module('API');
 
-    QUnit.test('util api', 5, function(assert){
+    QUnit.test('util api', 7, function(assert){
         assert.ok(typeof urlUtil === 'object', "The urlUtil module exposes an object");
         assert.ok(typeof urlUtil.parse === 'function', "urlUtil exposes a parse method");
         assert.ok(typeof urlUtil.isAbsolute === 'function', "urlUtil exposes a isAbsolute method");
         assert.ok(typeof urlUtil.isRelative === 'function', "urlUtil exposes a isRelative method");
         assert.ok(typeof urlUtil.isBase64 === 'function', "urlUtil exposes a isBase64 method");
+        assert.ok(typeof urlUtil.build === 'function', "urlUtil exposes a build method");
+        assert.ok(typeof urlUtil.encodeAsXmlAttr === 'function', "urlUtil exposes a encodeAsXmlAttr method");
     });
 
     QUnit.module('Parse');
@@ -127,6 +130,86 @@ define(['util/url'], function(urlUtil){
         .test('isBase64 ', function(data, assert){
             assert.equal(urlUtil.isBase64(data.url), data.b64, 'The URL ' + (data.b64 ? 'is' : 'is not') + ' encoded in base 64');
             assert.equal(urlUtil.isBase64(urlUtil.parse(data.url)), data.b64, 'The URL ' + (data.b64 ? 'is' : 'is not') + ' encoded in base 64');
+        });
+
+    QUnit.module('encodeAsXmlAttr');
+
+    var attributesDataProvider = [
+        {
+            title: 'string allowed characters only',
+            url: 'téstïg',
+            encoded: 'téstïg'
+        }, {
+            title: 'string with one encodable >',
+            url: 'te<st',
+            encoded: 'te%3Cst'
+        }
+        , {
+            title: 'string with one encodable <',
+            url: 'te>st',
+            encoded: 'te%3Est'
+        }, {
+            title: 'string with one encodable &',
+            url: 'te&st',
+            encoded: 'te%26st'
+        }, {
+            title: 'string with multiply encodable',
+            url: 'te&s<t',
+            encoded: 'te%26s%3Ct'
+        }
+    ];
+
+    QUnit
+        .cases(attributesDataProvider)
+        .test('encodeAsXmlAttr ', function (data, assert) {
+            assert.equal(urlUtil.encodeAsXmlAttr(data.url), data.encoded);
+            assert.equal(decodeURIComponent(data.encoded), data.url);
+        });
+
+    QUnit.module('Build URL');
+
+    var buildDataProvider = [{
+        title    : 'no params',
+        paths      : undefined,
+        params      : undefined,
+        expected : undefined,
+    }, {
+        title    : 'string path',
+        path      : 'http://tao.localdomain:8080/test/test.html',
+        params      : undefined,
+        expected : 'http://tao.localdomain:8080/test/test.html'
+    }, {
+        title    : 'array path',
+        path      : ['http://tao.localdomain:8080', 'test', 'test.html'],
+        params      : undefined,
+        expected : 'http://tao.localdomain:8080/test/test.html'
+    }, {
+        title    : 'array path with dupe slashes',
+        path      : ['http://tao.localdomain:8080/', '/test', 'foo/' , '/test.html'],
+        params      : undefined,
+        expected : 'http://tao.localdomain:8080/test/foo/test.html'
+    }, {
+        title    : 'path and params',
+        path      : 'http://tao.localdomain:8080/test/test.html',
+        params      : { foo : true, bar : 'baz'},
+        expected : 'http://tao.localdomain:8080/test/test.html?&foo=true&bar=baz'
+    }, {
+        title    : 'path with params and params',
+        path      : 'http://tao.localdomain:8080/test/test.html?moo=noob',
+        params      : { foo : true, bar : 'baz'},
+        expected : 'http://tao.localdomain:8080/test/test.html?moo=noob&foo=true&bar=baz'
+    }, {
+        title    : 'path and params to encode',
+        path      : 'http://tao.localdomain:8080/test/test.html',
+        params      : { foo : 'f o oBAR! +/ 1'},
+        expected : 'http://tao.localdomain:8080/test/test.html?&foo=f%20o%20oBAR!%20%2B%2F%201'
+    }];
+
+    QUnit
+        .cases(buildDataProvider)
+        .test('from ', function(data, assert){
+            var result = urlUtil.build(data.path, data.params);
+            assert.equal(result, data.expected, 'The URL is built');
         });
 });
 

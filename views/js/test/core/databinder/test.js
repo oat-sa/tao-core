@@ -132,8 +132,9 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[2].href, "http:\/\/tao26.localdomain\/bertao.rdf#i138356893796686", 'the model value order has been updated');
 
         $sectionParts.find('li:nth-child(2)').find('[data-bind="href"]').text('toto').trigger('change');
-        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[2].href, "toto", 'the model value order has been updated');
-        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[2].index, "2", 'the model value index has been updated');
+        var index = $sectionParts.find('li:nth-child(2)').attr('data-bind-index');
+        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].href, "toto", 'the model value order has been updated');
+        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].index, 1, 'the model value index has been updated');
     });
 
      QUnit.test('Array value remove', function(assert){
@@ -160,7 +161,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
          $sectionParts.find('li:nth-child(1)  [data-bind="href"]').text('http://new.url').trigger('change');
 
          assert.equal($sectionParts.find('li:nth-child(1) [data-bind="href"]').text(), 'http://new.url', 'the model value has changed');
-         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].href, 'http://new.url', 'the model value has changed');
+         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[0].href, 'http://new.url', 'the model value has changed');
      });
 
     QUnit.test('Array value add', function(assert){
