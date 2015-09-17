@@ -285,7 +285,6 @@ define([
      * @private
      */
     var _youtubePlayer = function(mediaplayer) {
-        var $player;
         var $media;
         var media;
         var player;
@@ -295,7 +294,6 @@ define([
             player = {
                 init : function _youtubePlayerInit() {
                     $media = mediaplayer.$media;
-                    $player = mediaplayer.$player;
 
                     if ($media) {
                         _youtubeManager.add($media, this);
@@ -304,6 +302,7 @@ define([
 
                 onReady : function _youtubePlayerOnReady(event) {
                     media = event.target;
+                    $media = $(media.getIframe());
                     mediaplayer._onReady();
                 },
 
@@ -350,7 +349,6 @@ define([
                     this.stopPolling();
 
                     $media = null;
-                    $player = null;
                     media = null;
                 },
 
@@ -377,6 +375,9 @@ define([
                 setSize : function _youtubePlayerSetSize(width, height) {
                     if ($media) {
                         $media.width(width).height(height);
+                    }
+                    if (media) {
+                        media.setSize(width, height);
                     }
                 },
 
@@ -1133,7 +1134,7 @@ define([
          */
         _destroySlider : function _destroySlider($elt) {
             if ($elt) {
-                $elt.noUiSlider('destroy');
+                $elt.get(0).destroy();
             }
         },
 
