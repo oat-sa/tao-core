@@ -248,24 +248,35 @@ define([
         },
 
         /**
+         * Checks if the Youtube API is ready to use
+         * @returns {Boolean}
+         */
+        isApiReady : function isApiReady() {
+            var apiReady = (undefined !== window.YT && undefined !== window.YT.Player);
+            if (apiReady && !this.ready) {
+                _youtubeManager.apiReady();
+            }
+            return apiReady;
+        },
+
+        /**
          * Injects the Youtube API into the page
          */
         injectApi : function injectApi() {
-            var head = document.getElementsByTagName('head')[0];
-            var script = document.createElement('script');
-
-            script.src = "//www.youtube.com/iframe_api";
-            head.appendChild(script);
+            var self = this;
+            if (!self.isApiReady()) {
+                require(['//www.youtube.com/iframe_api'], function() {
+                    var check = function() {
+                        if (!self.isApiReady()) {
+                            setTimeout(check, 100);
+                        }
+                    };
+                    check();
+                });
+            }
 
             this.injected = true;
         }
-    };
-
-    /**
-     * The YouTube player API relies on a global function to announce its readyness
-     */
-    window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() {
-        _youtubeManager.apiReady();
     };
 
     /**
@@ -278,7 +289,6 @@ define([
         var $media;
         var media;
         var player;
-        var playing;
         var interval;
 
         if (mediaplayer) {
@@ -286,7 +296,6 @@ define([
                 init : function _youtubePlayerInit() {
                     $media = mediaplayer.$media;
                     $player = mediaplayer.$player;
-                    playing = false;
 
                     if ($media) {
                         _youtubeManager.add($media, this);
@@ -299,33 +308,38 @@ define([
                 },
 
                 onStateChange : function _youtubePlayerOnStateChange(event) {
-                    if (interval) {
-                        clearInterval(interval);
-                    }
+                    this.stopPolling();
 
                     switch (event.data) {
                         // ended
                         case 0:
-                            playing = false;
                             mediaplayer._onEnd();
                             break;
 
                         // playing
                         case 1:
-                            playing = true;
                             mediaplayer._onPlay();
-
-                            interval = setInterval(function() {
-                                mediaplayer._onTimeUpdate();
-                            }, 100);
+                            this.startPolling();
                             break;
 
                         // paused
                         case 2:
-                            playing = false;
                             mediaplayer._onPause();
                             break;
                     }
+                },
+
+                stopPolling : function _youtubePlayerStopPolling() {
+                    if (interval) {
+                        clearInterval(interval);
+                        interval = null;
+                    }
+                },
+
+                startPolling : function _youtubePlayerStartPolling() {
+                    interval = setInterval(function() {
+                        mediaplayer._onTimeUpdate();
+                    }, 100);
                 },
 
                 destroy : function _youtubePlayerDestroy() {
@@ -333,15 +347,11 @@ define([
                         media.destroy();
                     }
 
-                    if (interval) {
-                        clearInterval(interval);
-                    }
+                    this.stopPolling();
 
                     $media = null;
                     $player = null;
                     media = null;
-                    playing = false;
-                    interval = null;
                 },
 
                 getPosition : function _youtubePlayerGetPosition() {
@@ -378,14 +388,12 @@ define([
 
                 play : function _youtubePlayerPlay() {
                     if (media) {
-                        playing = true;
                         media.playVideo();
                     }
                 },
 
                 pause : function _youtubePlayerPause() {
                     if (media) {
-                        playing = false;
                         media.pauseVideo();
                     }
                 },
@@ -412,6 +420,7 @@ define([
         var media;
         var player;
         var playing;
+        var played;
 
         if (mediaplayer) {
             player = {
@@ -422,6 +431,7 @@ define([
                     $player = mediaplayer.$player;
                     media = null;
                     playing = false;
+                    played = false;
 
                     if ($media) {
                         media = $media.get(0);
@@ -430,6 +440,7 @@ define([
                             .removeAttr('controls')
                             .on(_nsEvents(['play']), function() {
                                 playing = true;
+                                played = true;
                                 mediaplayer._onPlay();
                             })
                             .on(_nsEvents(['pause']), function() {
@@ -471,6 +482,7 @@ define([
                     $player = null;
                     media = null;
                     playing = false;
+                    played = false;
                 },
 
                 getPosition : function _nativePlayerGetPosition() {
@@ -501,9 +513,10 @@ define([
 
                 seek : function _nativePlayerSeek(value) {
                     if (media) {
-                        playing = true;
                         media.currentTime = parseFloat(value);
-                        media.play();
+                        if (!played) {
+                            this.play();
+                        }
                     }
                 },
 
@@ -686,9 +699,9 @@ define([
         play : function play(time) {
             if (undefined !== time) {
                 this.seek(time);
-            } else {
-                this.execute('play');
             }
+
+            this.execute('play');
 
             if (!this.is('ready')) {
                 this.autoStart = true;
