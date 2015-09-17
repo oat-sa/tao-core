@@ -820,6 +820,12 @@ define([
          * @returns {mediaplayer}
          */
         resize : function resize(width, height) {
+            if (this.$component) {
+                this.$component.width(width);
+                height -= this.$controls.outerHeight();
+                width -= this.$component.outerWidth() - this.$component.width();
+            }
+
             this.execute('setSize', width, height);
 
             return this;

@@ -31,19 +31,21 @@
     {{/if}}
     </div>
     <div class="controls">
-        <div class="actions playback">
-            <a class="action play" data-control="play" title="{{__ 'Play'}}"><span class="icon icon-play"></span></a>
-            <a class="action play" data-control="pause" title="{{__ 'Pause'}}"><span class="icon icon-pause"></span></a>
-        </div>
-        <div class="seek"><div class="slider"></div></div>
-        <div class="infos timer">
-            <span class="info time" data-control="time-cur" title="{{__ 'Current playback position'}}">00:00</span>
-            <span class="info time" data-control="time-end" title="{{__ 'Total duration'}}">00:00</span>
-        </div>
-        <div class="actions sound">
-            <div class="volume"><div class="slider"></div></div>
-            <a class="action mute" data-control="mute" title="{{__ 'Mute'}}"><span class="icon icon-sound"></span></a>
-            <a class="action mute" data-control="unmute" title="{{__ 'Restore sound'}}"><span class="icon icon-mute"></span></a>
+        <div class="bar">
+            <div class="control actions playback">
+                <a class="action play" data-control="play" title="{{__ 'Play'}}"><span class="icon icon-play"></span></a>
+                <a class="action play" data-control="pause" title="{{__ 'Pause'}}"><span class="icon icon-pause"></span></a>
+            </div>
+            <div class="control seek"><div class="slider"></div></div>
+            <div class="control infos timer">
+                <span class="info time" data-control="time-cur" title="{{__ 'Current playback position'}}">00:00</span>
+                <span class="info time" data-control="time-end" title="{{__ 'Total duration'}}">00:00</span>
+            </div>
+            <div class="control actions sound">
+                <div class="volume"><div class="slider"></div></div>
+                <a class="action mute" data-control="mute" title="{{__ 'Mute'}}"><span class="icon icon-sound"></span></a>
+                <a class="action mute" data-control="unmute" title="{{__ 'Restore sound'}}"><span class="icon icon-mute"></span></a>
+            </div>
         </div>
     </div>
     <div class="error">

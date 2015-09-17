@@ -5,7 +5,6 @@ $playerActionSpace: 1rem;
 
 .mediaplayer {
     position: relative;
-    float: left;
     @include simple-border(#61625d);
     @include border-radius(2);
     background: #000;
@@ -22,7 +21,6 @@ $playerActionSpace: 1rem;
     }
 
     .media {
-        float: left;
         cursor: pointer;
     }
 
@@ -54,15 +52,21 @@ $playerActionSpace: 1rem;
         visibility: hidden;
         position: relative;
         padding: 5px;
-        float: left;
-        clear: both;
+        display: table;
+        table-layout: fixed;
         width: 100%;
         border-top: 1px solid $darkBar;
+
+        .bar {
+            display: table-row;
+        }
+        .control {
+            display: table-cell;
+        }
 
         .actions {
             position: relative;
             cursor: pointer;
-            float: left;
             @include transition(all, 0.1,ease-in-out);
 
             .action {
@@ -127,7 +131,6 @@ $playerActionSpace: 1rem;
 
         .infos {
             cursor: default;
-            float: left;
 
             margin: 0 $playerActionSpace;
             line-height: $playerActionSize;
@@ -141,16 +144,21 @@ $playerActionSpace: 1rem;
             }
         }
 
+        .timer {
+            width: 8rem;
+            text-align: center;
+        }
+
         .seek {
             position: relative;
-            float: left;
-            width: 340px;
             height: 1rem;
             margin-top: 5px;
+            padding-left: $playerActionSpace;
         }
 
         .playback {
             margin-right: $playerActionSpace;
+            width: $playerActionSize;
         }
 
         .sound {
