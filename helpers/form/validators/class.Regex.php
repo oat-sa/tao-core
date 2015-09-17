@@ -29,36 +29,6 @@
  */
 class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     *
-     * @param  array $options
-     *
-     * @param string $name
-     *
-     * @throws Exception
-     */
-    public function __construct(array $options = array(), $name = '')
-    {
-		parent::__construct($options);
-
-        if (is_string( $name ) && !empty($name)) {
-            $this->name = $name;
-        } else {
-            $this->name = str_replace( 'tao_helpers_form_validators_', '', get_class( $this ) );
-        }
-
-    }
 
     public function setOptions(array $options)
     {
@@ -67,14 +37,6 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
         if(!isset($this->options['format'])){
             throw new common_Exception("Please set the format options (define your regular expression)!");
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
