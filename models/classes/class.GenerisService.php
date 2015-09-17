@@ -549,15 +549,11 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
             });
             $openNodes = tao_models_classes_GenerisTreeFactory::getNodesToOpen($browse, $clazz);
 
-	        if ($browse) {
-		        $openNodes[] = array_shift($browse);
-	        }
-
 	        if (!in_array($clazz->getUri(), $openNodes)) {
                 $openNodes[] = $clazz->getUri();
             }
 
-            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter);
+            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter, (boolean)count($browse));
             $returnValue = $chunk ? ($tree['children']) : $tree;
         }
         return $returnValue;
