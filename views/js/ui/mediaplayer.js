@@ -156,6 +156,252 @@ define([
     };
 
     /**
+     * A local manager for Youtube players.
+     * Relies on https://developers.google.com/youtube/iframe_api_reference
+     * @type {Object}
+     * @private
+     */
+    var _youtubeManager = {
+        /**
+         * The Youtube API injection state
+         * @type {Boolean}
+         */
+        injected : false,
+
+        /**
+         * The Youtube API ready state
+         * @type {Boolean}
+         */
+        ready : false,
+
+        /**
+         * A list of pending players
+         * @type {Array}
+         */
+        pending : [],
+
+        /**
+         * Add a Youtube player
+         * @param {String|jQuery|HTMLElement} elem
+         * @param {Object} player
+         */
+        add : function add(elem, player) {
+            if (this.ready) {
+                this.create(elem, player);
+            } else {
+                this.pending.push([elem, player]);
+
+                if (!this.injected) {
+                    this.injectApi();
+                }
+            }
+        },
+
+        /**
+         * Install a Youtube player. The Youtube API must be ready
+         * @param {String|jQuery|HTMLElement} elem
+         * @param {Object} player
+         */
+        create : function create(elem, player) {
+            var $elem;
+
+            if (!this.ready) {
+                return this.add(elem, player);
+            }
+
+            $elem = $(elem);
+
+            new YT.Player($elem.get(0), {
+                height: $elem.width(),
+                width: $elem.height(),
+                videoId: $elem.data('videoId'),
+                playerVars: {
+                    //hd: true,
+                    autoplay: 0,
+                    controls: 0,
+                    rel: 0,
+                    showinfo: 0,
+                    wmode: 'transparent',
+                    modestbranding: 1,
+                    disablekb: 1
+                },
+                events: {
+                    onReady: player.onReady.bind(player),
+                    onStateChange: player.onStateChange.bind(player)
+                }
+            });
+        },
+
+        /**
+         * Called when the Youtube API is ready. Should install all pending players.
+         */
+        apiReady : function apiReady() {
+            var self = this;
+            var pending = this.pending;
+
+            this.pending = [];
+            this.ready = true;
+
+            _.forEach(pending, function(args) {
+                self.create.apply(self, args);
+            });
+        },
+
+        /**
+         * Injects the Youtube API into the page
+         */
+        injectApi : function injectApi() {
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+
+            script.src = "//www.youtube.com/iframe_api";
+            head.appendChild(script);
+
+            this.injected = true;
+        }
+    };
+
+    /**
+     * The YouTube player API relies on a global function to announce its readyness
+     */
+    window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() {
+        _youtubeManager.apiReady();
+    };
+
+    /**
+     * Defines a player object dedicated to youtube media
+     * @param {mediaplayer} mediaplayer
+     * @private
+     */
+    var _youtubePlayer = function(mediaplayer) {
+        var $player;
+        var $media;
+        var media;
+        var player;
+        var playing;
+        var interval;
+
+        if (mediaplayer) {
+            player = {
+                init : function _youtubePlayerInit() {
+                    $media = mediaplayer.$media;
+                    $player = mediaplayer.$player;
+                    playing = false;
+
+                    if ($media) {
+                        _youtubeManager.add($media, this);
+                    }
+                },
+
+                onReady : function _youtubePlayerOnReady(event) {
+                    media = event.target;
+                    mediaplayer._onReady();
+                },
+
+                onStateChange : function _youtubePlayerOnStateChange(event) {
+                    if (interval) {
+                        clearInterval(interval);
+                    }
+
+                    switch (event.data) {
+                        // ended
+                        case 0:
+                            playing = false;
+                            mediaplayer._onEnd();
+                            break;
+
+                        // playing
+                        case 1:
+                            playing = true;
+                            mediaplayer._onPlay();
+
+                            interval = setInterval(function() {
+                                mediaplayer._onTimeUpdate();
+                            }, 100);
+                            break;
+
+                        // paused
+                        case 2:
+                            playing = false;
+                            mediaplayer._onPause();
+                            break;
+                    }
+                },
+
+                destroy : function _youtubePlayerDestroy() {
+                    if (media) {
+                        media.destroy();
+                    }
+
+                    if (interval) {
+                        clearInterval(interval);
+                    }
+
+                    $media = null;
+                    $player = null;
+                    media = null;
+                    playing = false;
+                    interval = null;
+                },
+
+                getPosition : function _youtubePlayerGetPosition() {
+                    if (media) {
+                        return media.getCurrentTime();
+                    }
+                    return 0;
+                },
+
+                getDuration : function _youtubePlayerGetDuration() {
+                    if (media) {
+                        return media.getDuration();
+                    }
+                    return 0;
+                },
+
+                setVolume : function _youtubePlayerSetVolume(value) {
+                    if (media) {
+                        media.setVolume((parseFloat(value) - _volumeMin) / _volumeRange * 100);
+                    }
+                },
+
+                setSize : function _youtubePlayerSetSize(width, height) {
+                    if ($media) {
+                        $media.width(width).height(height);
+                    }
+                },
+
+                seek : function _youtubePlayerSeek(value) {
+                    if (media) {
+                        media.seekTo(parseFloat(value), true);
+                    }
+                },
+
+                play : function _youtubePlayerPlay() {
+                    if (media) {
+                        playing = true;
+                        media.playVideo();
+                    }
+                },
+
+                pause : function _youtubePlayerPause() {
+                    if (media) {
+                        playing = false;
+                        media.pauseVideo();
+                    }
+                },
+
+                mute : function _youtubePlayerMute(state) {
+                    if (media) {
+                        media[state ? 'mute' : 'unMute']();
+                    }
+                }
+            };
+        }
+
+        return player;
+    };
+
+    /**
      * Defines a player object dedicated to native player
      * @param {mediaplayer} mediaplayer
      * @private
@@ -183,10 +429,16 @@ define([
                         $media
                             .removeAttr('controls')
                             .on(_nsEvents(['play']), function() {
+                                playing = true;
                                 mediaplayer._onPlay();
                             })
-                            .on(_nsEvents(['pause', 'ended']), function() {
+                            .on(_nsEvents(['pause']), function() {
+                                playing = false;
                                 mediaplayer._onPause();
+                            })
+                            .on(_nsEvents(['ended']), function() {
+                                playing = false;
+                                mediaplayer._onEnd();
                             })
                             .on(_nsEvents(['timeupdate']), function() {
                                 mediaplayer._onTimeUpdate();
@@ -214,6 +466,11 @@ define([
                     if ($player) {
                         $player.off(_ns);
                     }
+
+                    $media = null;
+                    $player = null;
+                    media = null;
+                    playing = false;
                 },
 
                 getPosition : function _nativePlayerGetPosition() {
@@ -244,7 +501,9 @@ define([
 
                 seek : function _nativePlayerSeek(value) {
                     if (media) {
+                        playing = true;
                         media.currentTime = parseFloat(value);
+                        media.play();
                     }
                 },
 
@@ -274,70 +533,6 @@ define([
     };
 
     /**
-     * Defines a player object dedicated to youtube media
-     * @param {mediaplayer} mediaplayer
-     * @private
-     */
-    var _youtubePlayer = function(mediaplayer) {
-        var $player;
-        var $media;
-        var player;
-        var playing;
-
-        if (mediaplayer) {
-            player = {
-                init : function _youtubePlayerInit() {
-                    var self = this;
-
-                    $media = mediaplayer.$media;
-                    $player = mediaplayer.$player;
-                    playing = false;
-                },
-
-                destroy : function _youtubePlayerDestroy() {
-
-                },
-
-                getPosition : function _youtubePlayerGetPosition() {
-                    return 0;
-                },
-
-                getDuration : function _youtubePlayerGetDuration() {
-                    return 0;
-                },
-
-                setVolume : function _youtubePlayerSetVolume(value) {
-
-                },
-
-                setSize : function _youtubePlayerSetSize(width, height) {
-                    if ($media) {
-                        $media.width(width).height(height);
-                    }
-                },
-
-                seek : function _youtubePlayerSeek(value) {
-
-                },
-
-                play : function _youtubePlayerPlay() {
-
-                },
-
-                pause : function _youtubePlayerPause() {
-
-                },
-
-                mute : function _youtubePlayerMute(state) {
-
-                }
-            };
-        }
-
-        return player;
-    };
-
-    /**
      * Defines the list of available players
      * @type {Object}
      * @private
@@ -358,7 +553,7 @@ define([
          * @param {Object} config
          * @param {String} config.type - The type of media to play
          * @param {String} config.url - The URL to the media
-         * @param {Boolean} [config.autoStart] - The player start as soon as it is displayed
+         * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
          * @param {Number} [config.autoStartAt] - The time position at which the player should start
          * @param {Boolean} [config.loop] - The media will be played continuously
          * @param {Boolean} [config.canPause] - The play can be paused
@@ -453,7 +648,7 @@ define([
             this._updateDuration(0);
             this._updatePosition(0);
             this._bindEvents();
-            this._setState('paused', true);
+            this._playingState(false);
             this._initPlayer();
 
             this.resize(this.config.width, this.config.height);
@@ -491,9 +686,9 @@ define([
         play : function play(time) {
             if (undefined !== time) {
                 this.seek(time);
+            } else {
+                this.execute('play');
             }
-
-            this.execute('play');
 
             if (!this.is('ready')) {
                 this.autoStart = true;
@@ -1089,8 +1284,7 @@ define([
             this.mute(!!this.startMuted);
             if (this.autoStartAt) {
                 this.seek(this.autoStartAt);
-            }
-            if (this.autoStart) {
+            } else if (this.autoStart) {
                 this.play();
             }
         },
@@ -1100,8 +1294,7 @@ define([
          * @private
          */
         _onPlay : function _onPlay() {
-            this._setState('playing', true);
-            this._setState('paused', false);
+            this._playingState(true);
 
             /**
              * Triggers a media playback event
@@ -1115,14 +1308,28 @@ define([
          * @private
          */
         _onPause : function _onPause() {
-            this._setState('playing', false);
-            this._setState('paused', true);
+            this._playingState(false);
 
             /**
              * Triggers a media paused event
              * @event mediaplayer#paused
              */
             this.trigger('paused' + _ns);
+        },
+
+        /**
+         * Event called when the media is ended
+         * @private
+         */
+        _onEnd : function _onPause() {
+            this._playingState(false);
+            this._updatePosition(0);
+
+            /**
+             * Triggers a media ended event
+             * @event mediaplayer#ended
+             */
+            this.trigger('ended' + _ns);
         },
 
         /**
@@ -1193,6 +1400,19 @@ define([
         },
 
         /**
+         * Sets the playing state
+         * @param {Boolean} state
+         * @returns {mediaplayer}
+         * @private
+         */
+        _playingState : function _playingState(state) {
+            this._setState('playing', !!state);
+            this._setState('paused', !state);
+
+            return this;
+        },
+
+        /**
          * Executes a command onto the media
          * @param {String} command - The name of the command to execute
          * @returns {*}
@@ -1213,7 +1433,7 @@ define([
      * @param {Object} config
      * @param {String} config.type - The type of media to play
      * @param {String} config.url - The URL to the media
-     * @param {Boolean} [config.autoStart] - The player start as soon as it is displayed
+     * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
      * @param {Number} [config.autoStartAt] - The time position at which the player should start
      * @param {Boolean} [config.loop] - The media will be played continuously
      * @param {Boolean} [config.canPause] - The play can be paused
