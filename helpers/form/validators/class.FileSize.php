@@ -40,14 +40,12 @@ class tao_helpers_form_validators_FileSize
     {
         parent::setOptions($options);
 
-        if( isset($this->options['min']) && isset($this->options['max']) ){
-            $this->message = __('Invalid file size')." (minimum ".$this->options['min']." octets, maximum ".$this->options['max']." octets)";
-        }
-        else if( !isset($this->options['min']) && isset($this->options['max']) ){
+        if (isset($this->options['min']) && isset($this->options['max']) ) {
+            $this->message = __('Invalid file size (minimum %1$s bytes, maximum %2$s bytes)', $this->options['min'], $this->options['max']);
+        } elseif (isset($this->options['max'])) {
+            $this->message = __('The uploaded file is too large (maximum $s bytes)', $this->options['max']);
             $this->options['min'] = 0;
-            $this->message = __('The uploaded file is too large')." (maximum ".$this->options['max']." octets)";
-        }
-        else{
+        } else {
             throw new common_Exception("Please set 'min' and/or 'max' options!");
         }
     }
