@@ -46,6 +46,9 @@ $playerActionSpace: 1rem;
             color: white();
 
             .icon {
+                @include border-radius(10);
+                padding: 6px 12px;
+                background-color: black();
                 opacity: 0.2;
 
                 &:hover {
