@@ -80,11 +80,15 @@ define([
         type : 'video/mp4',
         video : {
             width : 480,
-            height : 270
+            height : 270,
+            minWidth: 320,
+            minHeight: 200
         },
         audio : {
             width : 400,
-            height : 30
+            height : 30,
+            minWidth: 320,
+            minHeight: 30
         },
         options : {
             volume : Math.floor(_volumeRange * .8),
@@ -387,6 +391,13 @@ define([
                     }
                 },
 
+                stop : function _youtubePlayerStop() {
+                    if (media) {
+                        media.stopVideo();
+                        mediaplayer._onEnd();
+                    }
+                },
+
                 mute : function _youtubePlayerMute(state) {
                     if (media) {
                         media[state ? 'mute' : 'unMute']();
@@ -495,6 +506,12 @@ define([
                 pause : function _nativePlayerPause() {
                     if (media) {
                         media.pause();
+                    }
+                },
+
+                stop : function _nativePlayerPause() {
+                    if (media) {
+                        media.currentTime = media.duration;
                     }
                 },
 
@@ -703,11 +720,15 @@ define([
         },
 
         /**
-         * Stops the play
+         * Stops the playback
          * @returns {mediaplayer}
          */
         stop : function stop() {
-            this.pause(0);
+            this.execute('stop');
+
+            if (!this.is('ready')) {
+                this.autoStart = false;
+            }
 
             return this;
         },
@@ -780,6 +801,12 @@ define([
          * @returns {mediaplayer}
          */
         resize : function resize(width, height) {
+            var type = this.is('video') ? 'video' : 'audio';
+            var defaults = _defaults[type] || _defaults.video;
+
+            width = Math.max(defaults.minWidth, width);
+            height = Math.max(defaults.minHeight, height);
+
             if (this.$component) {
                 this.$component.width(width);
                 height -= this.$controls.outerHeight();
