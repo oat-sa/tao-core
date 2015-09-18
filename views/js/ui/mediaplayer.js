@@ -566,7 +566,7 @@ define([
          * Initializes the media player
          * @param {Object} config
          * @param {String} config.type - The type of media to play
-         * @param {String} config.url - The URL to the media
+         * @param {String|Array} config.url - The URL to the media
          * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
          * @param {Number} [config.autoStartAt] - The time position at which the player should start
          * @param {Boolean} [config.loop] - The media will be played continuously
@@ -1053,23 +1053,25 @@ define([
          */
         _initSources : function _initSources(config) {
             var self = this;
-            var sources = config.sources;
+            var sources = config.sources || [];
 
-            if (sources && !_.isArray(sources)) {
+            if (!_.isArray(sources)) {
                 sources = [sources];
             }
 
             this.config.sources = [];
 
-            if (sources) {
-                _.forEach(sources, function(source) {
-                    self.addSource(source, config.type);
-                });
+            if (config.url) {
+                if (_.isArray(config.url)) {
+                    sources = sources.concat(config.url);
+                } else {
+                    sources.push(config.url);
+                }
             }
 
-            if (config.url) {
-                this.addSource(config.url, config.type);
-            }
+            _.forEach(sources, function(source) {
+                self.addSource(source, config.type);
+            });
         },
 
         /**
@@ -1452,7 +1454,7 @@ define([
      * Builds a media player instance
      * @param {Object} config
      * @param {String} config.type - The type of media to play
-     * @param {String} config.url - The URL to the media
+     * @param {String|Array} config.url - The URL to the media
      * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
      * @param {Number} [config.autoStartAt] - The time position at which the player should start
      * @param {Boolean} [config.loop] - The media will be played continuously
