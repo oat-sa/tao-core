@@ -234,6 +234,14 @@ $playerActionSpace: 1rem;
                     display: block;
                 }
             }
+
+            &.youtube.ended {
+                .player:hover {
+                    [data-control="play"] {
+                        display: none;
+                    }
+                }
+            }
         }
 
         &.playing.canpause {

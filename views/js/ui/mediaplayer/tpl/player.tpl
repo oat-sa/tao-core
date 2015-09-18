@@ -1,4 +1,4 @@
-<div class="mediaplayer">
+<div class="mediaplayer {{type}}">
     <div class="player">
     {{#if is.video}}
         {{#if is.youtube}}

@@ -517,7 +517,7 @@ define([
     var _players = {
         'audio' : _nativePlayer,
         'video' : _nativePlayer,
-        'video/youtube' : _youtubePlayer
+        'youtube' : _youtubePlayer
     };
 
     /**
@@ -616,7 +616,7 @@ define([
             this._updateDuration(0);
             this._updatePosition(0);
             this._bindEvents();
-            this._playingState(false);
+            this._playingState(false, true);
             this._initPlayer();
 
             this.resize(this.config.width, this.config.height);
@@ -981,7 +981,7 @@ define([
             var isAudio = false;
 
             if (type.indexOf('youtube') !== -1) {
-                type = 'video/youtube';
+                type = 'youtube';
                 isYoutube = true;
                 isVideo = true;
             } else if (type.indexOf('video') === 0 || type.indexOf('application/ogg') !== -1) {
@@ -1328,7 +1328,7 @@ define([
          */
         _onEnd : function _onPause() {
             this.timesPlayed ++;
-            this._playingState(false);
+            this._playingState(false, true);
             this._updatePosition(0);
 
             /**
@@ -1437,12 +1437,14 @@ define([
         /**
          * Sets the playing state
          * @param {Boolean} state
+         * @param {Boolean} [ended]
          * @returns {mediaplayer}
          * @private
          */
-        _playingState : function _playingState(state) {
+        _playingState : function _playingState(state, ended) {
             this._setState('playing', !!state);
             this._setState('paused', !state);
+            this._setState('ended', !!ended);
 
             return this;
         },
