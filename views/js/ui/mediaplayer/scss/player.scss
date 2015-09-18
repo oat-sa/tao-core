@@ -249,7 +249,7 @@ $playerSliderHightlight: whiten($info, .2);
         }
     }
 
-    &.video, &youtube {
+    &.video, &.youtube {
         .sound {
             .volume {
                 width: $playerActionSize;
