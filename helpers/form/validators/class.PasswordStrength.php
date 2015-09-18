@@ -38,7 +38,7 @@ class tao_helpers_form_validators_PasswordStrength extends tao_helpers_form_Vali
         $returnValue = PasswordConstraintsService::singleton()->validate($values);
 
         if( !$returnValue && !isset($this->options['message']) ){
-            $this->message = implode( ', ', PasswordConstraintsService::singleton()->getErrors());
+            $this->setMessage(implode( ', ', PasswordConstraintsService::singleton()->getErrors()));
         }
 
         return (bool) $returnValue;

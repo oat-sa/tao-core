@@ -73,9 +73,7 @@ class tao_helpers_form_validators_Password
 
     protected function getDefaultMessage()
     {
-        return $this->message = __('Passwords are not matching');
+        return __('Passwords are not matching');
     }
 
 }
-
-?>

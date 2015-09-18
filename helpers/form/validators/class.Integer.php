@@ -48,19 +48,16 @@ class tao_helpers_form_validators_Integer
     public function evaluate($values)
     {
         $returnValue = (bool) false;
-
         
-				if ($values == intval($values)) {
-					$returnValue = parent::evaluate($values);
-				} else {
-					$returnValue = false;
-					$this->message .= __('The value of this field must be an integer');
-				}
+		if ($values == intval($values)) {
+			$returnValue = parent::evaluate($values);
+		} else {
+			$returnValue = false;
+			$this->setMessage(__('The value of this field must be an integer'));
+		}
         
 
         return (bool) $returnValue;
     }
 
 }
-
-?>

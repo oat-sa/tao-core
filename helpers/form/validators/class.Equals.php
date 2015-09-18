@@ -49,9 +49,9 @@ class tao_helpers_form_validators_Equals
         }
         $reference = $this->options['reference'];
         if (isset($this->options['invert']) && $this->options['invert']) {
-            $this->message = __('This should not equal ').$reference->getDescription();
+            $this->setMessage(__('This should not equal %s',$reference->getDescription()));
         } else {
-            $this->message = __('This should equal ').$reference->getDescription();
+            $this->setMessage(__('This should equal %s',$reference->getDescription()));
         }
     }
 
@@ -79,5 +79,3 @@ class tao_helpers_form_validators_Equals
     }
 
 }
-
-?>

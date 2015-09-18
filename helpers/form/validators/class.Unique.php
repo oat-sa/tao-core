@@ -36,7 +36,7 @@ class tao_helpers_form_validators_Unique
      */
     protected function getDefaultMessage()
     {
-        return __('Entity with such field already present');
+        return __('The value for the property "%s" must be unique.', $this->getProperty()->getLabel());
     }
 
     public function setOptions(array $options)

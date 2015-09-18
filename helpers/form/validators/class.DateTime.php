@@ -30,20 +30,9 @@
 class tao_helpers_form_validators_DateTime
     extends tao_helpers_form_Validator
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
-     * Short description of method evaluate
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  values
-     * @return boolean
+     * (non-PHPdoc)
+     * @see tao_helpers_form_Validator::evaluate()
      */
     public function evaluate($values)
     {
@@ -64,26 +53,24 @@ class tao_helpers_form_validators_DateTime
 				}catch(Exception $e){}
 				
 				if($dateTime2 instanceof DateTime){
-					$this->message = __('Invalid date range');
 					
 					switch ($this->options['comparator']){
 						case 'after':
 						case 'later':
 						case 'sup':
 						case '>':{
-							if($dateTime > $dateTime2){
-								$returnValue = true;
-							}else{
-								$this->message .= ' (' . __('must be after: ').$dateTime2->format('Y-m-d').')';
-								//TODO should add supprot of time: H:i:s
+							if ($dateTime > $dateTime2) {
+                                    $returnValue = true;
+							} else {
+							    $this->setMessage(__('Invalid date range (must be after: %s)',$dateTime2->format('Y-m-d')));
 							}
 							break;
 						}
                         case '>=':{
-                            if ($dateTime >= $dateTime2){
+                            if ($dateTime >= $dateTime2) {
                                 $returnValue = true;
-                            }else{
-                                $this->message .= ' (' . __('must be after or the same as: ').$dateTime2->format('Y-m-d').')';
+                            } else {
+                                $this->setMessage(__('Invalid date range (must be after or the same as: %s)',$dateTime2->format('Y-m-d')));
                             }
                             break;
                         }
@@ -91,19 +78,18 @@ class tao_helpers_form_validators_DateTime
 						case 'earlier':
 						case 'inf':
 						case '<':{
-							if($dateTime < $dateTime2){
+							if ($dateTime < $dateTime2) {
 								$returnValue = true;
-							}else{
-								$this->message .= ' (' . __('must be before: ').$dateTime2->format('Y-m-d').')';
-								//TODO should add supprot of time: H:i:s
+							} else {
+							    $this->setMessage(__('Invalid date range (must be before: %s)',$dateTime2->format('Y-m-d')));
 							}
 							break;
 						}
                         case '<=':{
-                            if($dateTime <= $dateTime2){
+                            if ($dateTime <= $dateTime2) {
                                 $returnValue = true;
-                            }else{
-                                $this->message .= ' (' . __('must be before or the same as: ').$dateTime2->format('Y-m-d').')';
+                            } else {
+                                $this->setMessage(__('Invalid date range (must be before or the same as: %s)',$dateTime2->format('Y-m-d')));
                             }
                             break;
                         }
@@ -116,7 +102,7 @@ class tao_helpers_form_validators_DateTime
 				$returnValue = true; 
 			}
 		}catch(Exception $e){
-			$this->message = __('The value of this field must be a valide date format, e.g. YYYY-MM-DD');
+			$this->setMessage(__('The value of this field must be a valide date format, e.g. YYYY-MM-DD'));
 			$returnValue = false;
 		}
 		
@@ -126,5 +112,3 @@ class tao_helpers_form_validators_DateTime
     }
 
 }
-
-?>
