@@ -5,12 +5,13 @@ $playerActionSpace: 1rem;
 $playerBackground: black();
 $playerBorder: $darkBar;
 $playerText: #999;
+$playerIcon: $darkBarIcon;
 $playerTextOverlay: white();
 $playerSliderBorder: $uiGeneralContentBorder;
 $playerSliderBackground: $uiGeneralContentBg;
-$playerSliderColor: $info;
-$playerSliderHandle: whiten($info, .4);
-$playerSliderHightlight: whiten($info, .2);
+$playerSliderColor: $darkBar;
+$playerSliderHandle: whiten($playerSliderColor, .4);
+$playerSliderHightlight: whiten($playerSliderColor, .2);
 
 .mediaplayer {
     position: relative;
@@ -97,6 +98,7 @@ $playerSliderHightlight: whiten($info, .2);
                 width: $playerActionSize;
                 height: $playerActionSize;
                 text-decoration: none;
+                color: $playerIcon;
                 @include transition(all, 0.2, ease-in-out);
 
                 &:hover {
