@@ -1297,7 +1297,7 @@ define([
 
             /**
              * Triggers a media ready event
-             * @event mediaplayer#ready
+             * @event mediaplayer#ready.mediaplayer
              */
             this.trigger('ready' + _ns);
 
@@ -1320,9 +1320,9 @@ define([
 
             /**
              * Triggers a media playback event
-             * @event mediaplayer#playing
+             * @event mediaplayer#play.mediaplayer
              */
-            this.trigger('playing' + _ns);
+            this.trigger('play' + _ns);
         },
 
         /**
@@ -1334,9 +1334,9 @@ define([
 
             /**
              * Triggers a media paused event
-             * @event mediaplayer#paused
+             * @event mediaplayer#pause.mediaplayer
              */
-            this.trigger('paused' + _ns);
+            this.trigger('pause' + _ns);
         },
 
         /**
@@ -1349,7 +1349,7 @@ define([
 
             /**
              * Triggers a media ended event
-             * @event mediaplayer#ended
+             * @event mediaplayer#ended.mediaplayer
              */
             this.trigger('ended' + _ns);
         },
@@ -1363,7 +1363,7 @@ define([
 
             /**
              * Triggers a media time update event
-             * @event mediaplayer#update
+             * @event mediaplayer#update.mediaplayer
              */
             this.trigger('update' + _ns);
         },
