@@ -2,12 +2,21 @@
 
 $playerActionSize: 2.2rem;
 $playerActionSpace: 1rem;
+$playerBackground: black();
+$playerBorder: $darkBar;
+$playerText: #999;
+$playerTextOverlay: white();
+$playerSliderBorder: $uiGeneralContentBorder;
+$playerSliderBackground: $uiGeneralContentBg;
+$playerSliderColor: $info;
+$playerSliderHandle: whiten($info, .4);
+$playerSliderHightlight: whiten($info, .2);
 
 .mediaplayer {
     position: relative;
-    @include simple-border(#61625d);
+    @include simple-border($playerBorder);
     @include border-radius(2);
-    background: #000;
+    background: $playerBackground;
 
     .icon-sound:before {
         @include icon-audio();
@@ -47,12 +56,12 @@ $playerActionSpace: 1rem;
             text-decoration: none;
             display: none;
             @include font-size(64);
-            color: white();
+            color: $playerTextOverlay;
 
             .icon {
                 @include border-radius(10);
                 padding: 6px 12px;
-                background-color: black();
+                background-color: $playerBackground;
                 opacity: 0.2;
 
                 &:hover {
@@ -69,7 +78,7 @@ $playerActionSpace: 1rem;
         display: table;
         table-layout: fixed;
         width: 100%;
-        border-top: 1px solid $darkBar;
+        border-top: 1px solid $playerBorder;
 
         .bar {
             display: table-row;
@@ -101,44 +110,59 @@ $playerActionSpace: 1rem;
 
             .play {
                 opacity: 0.7;
-                border-right: 1px solid $darkBar;
+                border-right: 1px solid $playerBorder;
             }
 
             .mute {
                 opacity: 0.8;
-                border-left: 1px solid $darkBar;
+                border-left: 1px solid $playerBorder;
             }
         }
 
         .slider {
             cursor: pointer;
-            @include simple-border($uiGeneralContentBorder);
-            @include border-radius(15);
+            @include simple-border($playerSliderBorder);
+            @include border-radius(10);
             @include transition(all, 0.1, ease-in-out);
-            background: $uiGeneralContentBg;
-            height: 9px;
+            background: $playerSliderBackground;
 
             .noUi-background {
-                @include border-radius(15);
-                background: $uiGeneralContentBg;
+                @include border-radius(10);
+                background: $playerSliderBackground;
             }
             &.noUi-connect, .noUi-connect {
-                @include border-radius(15);
-                background: $info;
+                @include border-radius(10);
+                background: $playerSliderColor;
             }
 
             .noUi-handle {
-                width: 15px;
-                height: 15px;
-                @include simple-border($uiGeneralContentBorder);
+                width: 11px;
+                height: 11px;
+                @include simple-border($playerSliderBorder);
                 @include border-radius(10);
-                background: whiten($info, .4);
+                background: $playerSliderHandle;
             }
             .noUi-handle:hover {
-                background: whiten($info, .2);
+                background: $playerSliderHightlight;
             }
             .noUi-handle:after {
                 display: none;
+            }
+
+            &.noUi-horizontal {
+                height: 9px;
+
+                .noUi-handle {
+                    top: -2px;
+                }
+            }
+
+            &.noUi-vertical {
+                width: 9px;
+
+                .noUi-handle {
+                    left: -2px;
+                }
             }
         }
 
@@ -148,7 +172,7 @@ $playerActionSpace: 1rem;
             margin: 0 $playerActionSpace;
             line-height: $playerActionSize;
 
-            color: #999;
+            color: $playerText;
             @include font-size(10);
             font-weight: bold;
 
@@ -177,12 +201,10 @@ $playerActionSpace: 1rem;
         .sound {
             width: $playerActionSize;
             height: $playerActionSize;
-            color: $textHighlight;
 
             &:hover {
                 .volume {
                     display: block;
-                    opacity: 1;
                 }
             }
 
@@ -192,18 +214,22 @@ $playerActionSpace: 1rem;
                 z-index: 3;
                 display: none;
                 padding: 7px;
-                width: $playerActionSize;
-                bottom: $playerActionSize;
-                right: 0;
-                opacity: 0;
             }
 
             .slider {
-                width: 7px;
-                height: 100px;
                 .noUi-handle {
-                    width: 12px;
-                    height: 12px;
+                    width: 9px;
+                    height: 9px;
+                }
+
+                &.noUi-horizontal {
+                    width: 50px;
+                    height: 7px;
+                }
+
+                &.noUi-vertical {
+                    width: 7px;
+                    height: 100px;
                 }
             }
         }
@@ -220,6 +246,26 @@ $playerActionSpace: 1rem;
         }
         [data-control="unmute"] {
             display: none;
+        }
+    }
+
+    &.video, &youtube {
+        .sound {
+            .volume {
+                width: $playerActionSize;
+                bottom: $playerActionSize;
+                right: 0;
+            }
+        }
+    }
+
+    &.audio {
+        .sound {
+            .volume {
+                height: $playerActionSize;
+                right: $playerActionSize;
+                bottom: 0;
+            }
         }
     }
 

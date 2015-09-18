@@ -970,7 +970,7 @@ define([
             this.$position = this.$controls.find('[data-control="time-cur"]');
             this.$duration = this.$controls.find('[data-control="time-end"]');
 
-            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, true);
+            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, this.is('video'));
         },
 
         /**
