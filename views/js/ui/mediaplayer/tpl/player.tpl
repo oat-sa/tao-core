@@ -15,8 +15,6 @@
             <a href="{{link}}">{{__ 'Download'}}</a>
             {{/if}}
         </video>
-        <a class="action play" data-control="play" title="{{__ 'Play'}}"><span class="icon icon-play"></span></a>
-        <a class="action play" data-control="pause" title="{{__ 'Pause'}}"><span class="icon icon-pause"></span></a>
         {{/if}}
     {{else}}
         <audio class="media audio" controls {{#if is.cors}}crossorigin{{/if}}>
@@ -29,6 +27,9 @@
             {{/if}}
         </audio>
     {{/if}}
+        <div class="overlay"></div>
+        <a class="action play" data-control="play"><span class="icon icon-play" title="{{__ 'Play'}}"></span></a>
+        <a class="action play" data-control="pause"><span class="icon icon-pause" title="{{__ 'Pause'}}"></span></a>
     </div>
     <div class="controls">
         <div class="bar">

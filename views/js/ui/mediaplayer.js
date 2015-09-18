@@ -144,18 +144,6 @@ define([
     };
 
     /**
-     * Builds a namespaced list of events
-     * @param {Array} events
-     * @returns {String}
-     * @private
-     */
-    var _nsEvents = function(events) {
-        return _.reduce(events, function(result, event) {
-            return result + ' ' + event + _ns;
-        }, '').trim();
-    };
-
-    /**
      * A local manager for Youtube players.
      * Relies on https://developers.google.com/youtube/iframe_api_reference
      * @type {Object}
@@ -416,22 +404,16 @@ define([
      * @private
      */
     var _nativePlayer = function(mediaplayer) {
-        var $player;
         var $media;
         var media;
         var player;
-        var playing;
         var played;
 
         if (mediaplayer) {
             player = {
                 init : function _nativePlayerInit() {
-                    var self = this;
-
                     $media = mediaplayer.$media;
-                    $player = mediaplayer.$player;
                     media = null;
-                    playing = false;
                     played = false;
 
                     if ($media) {
@@ -439,35 +421,23 @@ define([
 
                         $media
                             .removeAttr('controls')
-                            .on(_nsEvents(['play']), function() {
-                                playing = true;
+                            .on('play' + _ns, function() {
                                 played = true;
                                 mediaplayer._onPlay();
                             })
-                            .on(_nsEvents(['pause']), function() {
-                                playing = false;
+                            .on('pause' + _ns, function() {
                                 mediaplayer._onPause();
                             })
-                            .on(_nsEvents(['ended']), function() {
-                                playing = false;
+                            .on('ended' + _ns, function() {
+                                played = false;
                                 mediaplayer._onEnd();
                             })
-                            .on(_nsEvents(['timeupdate']), function() {
+                            .on('timeupdate' + _ns, function() {
                                 mediaplayer._onTimeUpdate();
                             })
-                            .on(_nsEvents(['loadedmetadata']), function() {
+                            .on('loadedmetadata' + _ns, function() {
                                 mediaplayer._onReady();
                             });
-                    }
-
-                    if ($player) {
-                        $player.on(_nsEvents(['click']), function() {
-                            if (playing) {
-                                self.pause();
-                            } else {
-                                self.play();
-                            }
-                        })
                     }
                 },
 
@@ -475,14 +445,9 @@ define([
                     if ($media) {
                         $media.off(_ns).attr('controls', '');
                     }
-                    if ($player) {
-                        $player.off(_ns);
-                    }
 
                     $media = null;
-                    $player = null;
                     media = null;
-                    playing = false;
                     played = false;
                 },
 
@@ -523,14 +488,12 @@ define([
 
                 play : function _nativePlayerPlay() {
                     if (media) {
-                        playing = true;
                         media.play();
                     }
                 },
 
                 pause : function _nativePlayerPause() {
                     if (media) {
-                        playing = false;
                         media.pause();
                     }
                 },
@@ -586,20 +549,11 @@ define([
                 return value === undefined || value === null;
             });
 
-            this.config.is = {};
-
             this._reset();
             this._initType(initConfig);
             this._initSize(initConfig);
             this._initSources(initConfig);
             this._initOptions(initConfig);
-
-            this.volume = this.config.volume;
-            this.autoStart = this.config.autoStart;
-            this.autoStartAt = this.config.autoStartAt;
-            this.startMuted = this.config.startMuted;
-            this.duration = 0;
-            this.position = 0;
 
             if (initConfig.renderTo) {
                 this.render(initConfig.renderTo);
@@ -681,12 +635,14 @@ define([
          * @returns {mediaplayer}
          */
         seek : function seek(time, internal) {
-            this._updatePosition(time, internal);
+            if (this._canPlay()) {
+                this._updatePosition(time, internal);
 
-            this.execute('seek', this.position);
+                this.execute('seek', this.position);
 
-            if (!this.is('ready')) {
-                this.autoStartAt = this.position;
+                if (!this.is('ready')) {
+                    this.autoStartAt = this.position;
+                }
             }
 
             return this;
@@ -698,14 +654,16 @@ define([
          * @returns {mediaplayer}
          */
         play : function play(time) {
-            if (undefined !== time) {
-                this.seek(time);
-            }
+            if (this._canPlay()) {
+                if (undefined !== time) {
+                    this.seek(time);
+                }
 
-            this.execute('play');
+                this.execute('play');
 
-            if (!this.is('ready')) {
-                this.autoStart = true;
+                if (!this.is('ready')) {
+                    this.autoStart = true;
+                }
             }
 
             return this;
@@ -717,14 +675,16 @@ define([
          * @returns {mediaplayer}
          */
         pause : function pause(time) {
-            if (undefined !== time) {
-                this.seek(time);
-            }
+            if (this._canPause()) {
+                if (undefined !== time) {
+                    this.seek(time);
+                }
 
-            this.execute('pause');
+                this.execute('pause');
 
-            if (!this.is('ready')) {
-                this.autoStart = false;
+                if (!this.is('ready')) {
+                    this.autoStart = false;
+                }
             }
 
             return this;
@@ -991,6 +951,8 @@ define([
          * @private
          */
         _reset : function _reset() {
+            this.config.is = {};
+
             this.$component = null;
             this.$player = null;
             this.$media = null;
@@ -1002,6 +964,10 @@ define([
             this.$position = null;
             this.$duration = null;
             this.player = null;
+
+            this.duration = 0;
+            this.position = 0;
+            this.timesPlayed = 0;
         },
 
         /**
@@ -1080,6 +1046,12 @@ define([
          */
         _initOptions : function _initOptions() {
             _.defaults(this.config, _defaults.options);
+
+            // these options can be overridden by the GUI
+            this.volume = this.config.volume;
+            this.autoStart = this.config.autoStart;
+            this.autoStartAt = this.config.autoStartAt;
+            this.startMuted = this.config.startMuted;
         },
 
         /**
@@ -1163,6 +1135,14 @@ define([
                 }
             });
 
+            this.$player.on('click' + _ns, function() {
+                if (self.is('playing')) {
+                    self.pause();
+                } else {
+                    self.play();
+                }
+            });
+
             this.$seek.on('change' + _ns, function(event, value) {
                 self.seek(value, true);
             });
@@ -1178,6 +1158,7 @@ define([
          * @private
          */
         _unbindEvents : function _unbindEvents() {
+            this.$player.off(_ns);
             this.$controls.off(_ns);
             this.$seek.off(_ns);
             this.$volume.off(_ns);
@@ -1294,6 +1275,8 @@ define([
         _onReady : function _onReady() {
             this._updateDuration(this.player.getDuration());
             this._setState('ready', true);
+            this._setState('canplay', true);
+            this._setState('canpause', this.config.canPause);
 
             /**
              * Triggers a media ready event
@@ -1344,6 +1327,7 @@ define([
          * @private
          */
         _onEnd : function _onPause() {
+            this.timesPlayed ++;
             this._playingState(false);
             this._updatePosition(0);
 
@@ -1352,6 +1336,16 @@ define([
              * @event mediaplayer#ended.mediaplayer
              */
             this.trigger('ended' + _ns);
+
+            // disable GUI when the play limit is reached
+            if (!this._canPlay()) {
+                this._setState('ready', false);
+                this._setState('canplay', false);
+            }
+
+            if (this.config.loop) {
+                this.play();
+            }
         },
 
         /**
@@ -1369,12 +1363,31 @@ define([
         },
 
         /**
+         * Checks if the media can be played
+         * @returns {Boolean}
+         * @private
+         */
+        _canPlay : function _canPlay() {
+            var maxPlaysReached = this.config.maxPlays && this.timesPlayed >= this.config.maxPlays;
+            return  this.is('ready') && !this.is('disabled') && !this.is('hidden') && !maxPlaysReached;
+        },
+
+        /**
+         * Checks if the media can be paused
+         * @returns {Boolean}
+         * @private
+         */
+        _canPause : function _canPause() {
+            return !!this.config.canPause;
+        },
+
+        /**
          * Checks if the playback can be resumed
          * @returns {Boolean}
          * @private
          */
         _canResume : function _canResume() {
-            return  this.is('paused') && !this.is('disabled') && !this.is('hidden');
+            return  this.is('paused') && this._canPlay();
         },
 
         /**
