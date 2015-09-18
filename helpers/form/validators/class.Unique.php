@@ -29,6 +29,7 @@
 class tao_helpers_form_validators_Unique
     extends tao_helpers_form_Validator
 {
+    private $property;
     /**
      * (non-PHPdoc)
      * @see tao_helpers_form_Validator::getDefaultMessage()
@@ -38,20 +39,42 @@ class tao_helpers_form_validators_Unique
         return __('Entity with such field already present');
     }
 
+    public function setOptions(array $options)
+    {
+        unset($this->property);
+
+        parent::setOptions($options);
+    }
+
+
+    /**
+     * @return core_kernel_classes_Property
+     * @throws common_exception_Error
+     */
+    protected function getProperty()
+    {
+        if( !isset($this->property) || empty($this->property) ){
+            if (!array_key_exists('property', $this->options)) {
+                throw new common_exception_Error('Property not set');
+            }
+
+            $this->property = ($this->options['property'] instanceof core_kernel_classes_Property)
+                ? $this->options['property']
+                : new core_kernel_classes_Property($this->options['property']);
+        }
+
+        return $this->property;
+    }
+
     /**
      * (non-PHPdoc)
      * @see tao_helpers_form_Validator::evaluate()
      */
     public function evaluate($values)
     {
-        if (!array_key_exists('property', $this->options)) {
-            throw new common_exception_Error('Property not set');
-        }
-        
-        $property = new core_kernel_classes_Property($this->options['property']);
-        $domain = $property->getDomain();
+        $domain = $this->getProperty()->getDomain();
         foreach ($domain as $class) {
-            $resources = $class->searchInstances(array($property->getUri() => $values), array('recursive' => true, 'like' => false));
+            $resources = $class->searchInstances(array($this->getProperty()->getUri() => $values), array('recursive' => true, 'like' => false));
             if (count($resources) > 0) {
                 return false;
             }

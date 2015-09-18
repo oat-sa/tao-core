@@ -577,38 +577,16 @@ class ValidatorTest extends TaoPhpUnitTestRunner {
         $resourceMock->method('getParentClasses')->willReturn(array(new kernel_class_Stub()));
 
         $validator = tao_helpers_form_FormFactory::getValidator('Unique');
-
         $this->assertInstanceOf('tao_helpers_form_Validator', $validator);
 
         $options = array(
-            'resourceClass' => $resourceMock,
-            'property'      => kernel_class_Stub::TEST_PROPERTY_NAME
+            'property'      => new kernel_property_Stub(kernel_class_Stub::TEST_PROPERTY_NAME),
         );
         $validator->setOptions($options);
 
         $this->assertTrue($validator->evaluate(kernel_class_Stub::PROPERTY_NOT_EXISTS));
         $this->assertFalse($validator->evaluate(kernel_class_Stub::PROPERTY_EXISTS_FIRST_LEVEL));
         $this->assertFalse($validator->evaluate(kernel_class_Stub::PROPERTY_EXISTS_RECURSIVE));
-
-        $options['recursiveParent'] = false;
-        $validator->setOptions($options);
-
-        $this->assertTrue($validator->evaluate(kernel_class_Stub::PROPERTY_NOT_EXISTS));
-        $this->assertFalse($validator->evaluate(kernel_class_Stub::PROPERTY_EXISTS_FIRST_LEVEL));
-        $this->assertTrue($validator->evaluate(kernel_class_Stub::PROPERTY_EXISTS_RECURSIVE));
-    }
-
-    /**
-     * @expectedException common_exception_Error
-     * @expectedExceptionMessage Resource class not set
-     */
-    public function testUniqueNegativeResourceNotSet(){
-        $options = array(
-            'property' => 'some_property'
-        );
-
-        $validator = tao_helpers_form_FormFactory::getValidator('Unique', $options);
-        $validator->evaluate('some value');
     }
 
     /**
@@ -623,19 +601,6 @@ class ValidatorTest extends TaoPhpUnitTestRunner {
             'resourceClass' => $resourceMock,
         );
 
-        $validator = tao_helpers_form_FormFactory::getValidator('Unique', $options);
-        $validator->evaluate('some value');
-    }
-
-    /**
-     * @expectedException common_exception_Error
-     * @expectedExceptionMessage Resource class is invalid
-     */
-    public function testUniqueNegativeResourceInvalid(){
-        $options = array(
-            'resourceClass' => new stdClass(),
-            'property' => 'some_property'
-        );
         $validator = tao_helpers_form_FormFactory::getValidator('Unique', $options);
         $validator->evaluate('some value');
     }
@@ -673,6 +638,14 @@ class kernel_class_Stub {
 
         return $returnValue;
     }
+}
+
+class kernel_property_Stub extends core_kernel_classes_Property {
+	public function getDomain()
+	{
+		return array( new kernel_class_Stub() );
+	}
+
 }
 
 //Global function
