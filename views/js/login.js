@@ -26,12 +26,6 @@
     //the url of the app config is set into the data-config attr of the loader.
     var appConfig = document.getElementById('amd-loader').getAttribute('data-config');
     require([appConfig], function(){
-
-        //loads components and the login controller manually
-        require(['jquery', 'ui','router', 'controller/login'], function($, ui, router){
-            ui.startEventComponents($('.content-wrap'));
-            router.dispatch(window.location.href);
-        });
-
+        require(['controller/login']);
     });
 }(window));

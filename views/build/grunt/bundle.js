@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+    'use strict';
 
     var requirejs   = grunt.config('requirejs') || {};
     var clean       = grunt.config('clean') || {};
@@ -22,10 +23,9 @@ module.exports = function(grunt) {
         },
         //optimize : 'none',
         preserveLicenseComments: false,
-        optimizeAllPluginResources: true,
+        //optimizeAllPluginResources: true,
         findNestedDependencies : true,
         skipDirOptimize: true,
-        optimizeCss : 'none',
         buildCss : false,
         inlineText: true,
         skipPragmas : true,
@@ -68,7 +68,13 @@ module.exports = function(grunt) {
                 name: 'main',
                 include: ['lib/require'],
                 deps : libs,
-                exclude : ['json!i18ntr/messages.json',  'mathJax', 'mediaElement'],
+                exclude : ['json!i18ntr/messages.json'],
+                excludeShallow : ['mathJax', 'mediaElement']
+            }, {
+                name: 'controller/login',
+                include: ['lib/require', 'json', 'text', 'login'],
+                exclude : ['json!i18ntr/messages.json'],
+                excludeShallow : ['mathJax', 'mediaElement']
             }, {
                 name: 'controller/routes',
                 include : ext.getExtensionsControllers(['tao']),
@@ -84,6 +90,8 @@ module.exports = function(grunt) {
         files: [
             { src: [out + '/main.js'],                  dest: '../js/main.min.js' },
             { src: [out + '/main.js.map'],              dest: '../js/main.min.js.map' },
+            { src: [out + '/controller/login.js'],      dest: '../js/login.min.js' },
+            { src: [out + '/controller/login.js.map'],  dest: '../js/login.min.js.map' },
             { src: [out + '/controller/routes.js'],     dest: '../js/controllers.min.js' },
             { src: [out + '/controller/routes.js.map'], dest: '../js/controllers.min.js.map' }
         ],
@@ -92,6 +100,9 @@ module.exports = function(grunt) {
                 //because we change the bundle names during copy
                 if(/main\.js$/.test(srcpath)){
                     return content.replace('main.js.map', 'main.min.js.map');
+                }
+                if(/login\.js$/.test(srcpath)){
+                    return content.replace('login.js.map', 'login.min.js.map');
                 }
                 if(/routes\.js$/.test(srcpath)){
                     return content.replace('routes.js.map', 'controllers.min.js.map');

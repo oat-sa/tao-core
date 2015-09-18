@@ -140,26 +140,26 @@ class Layout{
      * @return string
      */
     public static function getAmdLoader(){
+        $amdLoader = array(
+            'data-config' => get_data('client_config_url')
+        );
+        if( ! \tao_helpers_Mode::is('production')) {
+            $amdLoader['src'] = Template::js('lib/require.js', 'tao');
+        }
+
         if(\common_session_SessionManager::isAnonymous()) {
-            $amdLoader = array(
-                'src' => Template::js('lib/require.js', 'tao'),
-                //'data-main' => TAOBASE_WWW . 'js/main'
-                'data-main' => TAOBASE_WWW . 'js/login',
-                'data-config' => get_data('client_config_url')
-            );
-        }
-        else if(\tao_helpers_Mode::is('production')) {
-            $amdLoader = array(
-                'src' => Template::js('main.min.js', 'tao'),
-                'data-config' => get_data('client_config_url')
-            );
-        }
-        else {
-            $amdLoader = array(
-                'src' => Template::js('lib/require.js', 'tao'),
-                'data-config' => get_data('client_config_url'),
-                'data-main' => TAOBASE_WWW . 'js/main'
-            );
+            if(\tao_helpers_Mode::is('production')) {
+                $amdLoader['src'] = Template::js('login.min.js', 'tao');
+            } else {
+                $amdLoader['data-main'] = TAOBASE_WWW . 'js/login';
+            }
+        } else {
+            if(\tao_helpers_Mode::is('production')) {
+                $amdLoader['src'] = Template::js('main.min.js', 'tao');
+            }
+            else {
+                $amdLoader['data-main'] = TAOBASE_WWW . 'js/main';
+            }
         }
 
         $amdScript = '<script id="amd-loader" ';
