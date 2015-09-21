@@ -584,6 +584,7 @@ define([
          * @param {Number} [config.volume] - Sets the sound volume (default: 1)
          * @param {Boolean} [config.startMuted] - The player should be initially muted
          * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
+         * @param {Function} [config.ready] - An optional callback function called whent the player is fully ready
          */
         init : function init(config) {
             var initConfig = config || {};
@@ -1352,6 +1353,9 @@ define([
              * @event mediaplayer#ready.mediaplayer
              */
             this.trigger('ready' + _ns);
+            if (_.isFunction(this.config.ready)) {
+                this.config.ready.call(this, this);
+            }
 
             // set the initial state
             this.setVolume(this.volume);
@@ -1549,6 +1553,7 @@ define([
      * @param {Number} [config.volume] - Sets the sound volume (default: 1)
      * @param {Boolean} [config.startMuted] - The player should be initially muted
      * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
+     * @param {Function} [config.ready] - An optional callback function called whent the player is fully ready
      * @returns {mediaplayer}
      */
     var mediaplayerFactory = function mediaplayerFactory(config) {
