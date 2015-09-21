@@ -141,7 +141,9 @@ define([
                     if($node && $node.length){
                         params.classUri = $node.data('uri');
                     }
-                    params.selected = treeStore.lastSelected;
+                    if(treeStore.lastSelected){
+                    	params.selected = treeStore.lastSelected;
+                    }
 
                     //check for additionnal parameters in tree state
                     if(treeData){
@@ -221,7 +223,7 @@ define([
                         }
 
                         //try to select the last one
-                        if(treeStore && treeStore.lastSelected){
+                        if(treeStore.lastSelected){
                             $lastSelected = $('#' +  treeStore.lastSelected, $elt);
                             if($lastSelected.length && !$lastSelected.hasClass('private')){
                                 return tree.select_branch($lastSelected);
