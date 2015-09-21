@@ -74,7 +74,7 @@ define([
 
 
     QUnit.test('DOM/audio player', function(assert) {
-        var url = '/audio.mp3';
+        var url = 'js/test/ui/mediaplayer/samples/audio.mp3';
         var instance = mediaplayer({
             url: url,
             type: 'audio/mp3'
@@ -119,7 +119,7 @@ define([
 
 
     QUnit.test('DOM/video player', function(assert) {
-        var url = '/video.mp4';
+        var url = 'js/test/ui/mediaplayer/samples/video.mp4';
         var instance = mediaplayer({
             url: url,
             type: 'video/mp4'
@@ -220,5 +220,6 @@ define([
      * @param {Number} [config.volume] - Sets the sound volume (default: 1)
      * @param {Boolean} [config.startMuted] - The player should be initially muted
      * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
+     * @param {Function} [config.ready] - An optional callback function called whent the player is fully ready
      */
 });
