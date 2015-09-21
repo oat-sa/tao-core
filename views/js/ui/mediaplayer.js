@@ -795,6 +795,22 @@ define([
         },
 
         /**
+         * Gets the current position of the playback inside the media
+         * @returns {Number}
+         */
+        getPosition : function getPosition() {
+            return this.position;
+        },
+
+        /**
+         * Gets the duration of the media
+         * @returns {Number}
+         */
+        getDuration : function getDuration() {
+            return this.duration;
+        },
+
+        /**
          * Changes the size of the player
          * @param {Number} width
          * @param {Number} height
