@@ -92,8 +92,8 @@ define([
         },
         options : {
             volume : Math.floor(_volumeRange * .8),
+            startMuted : false,
             maxPlays : 0,
-            canFullscreen : false,
             canPause : true,
             loop : false,
             autoStart : false
@@ -578,7 +578,6 @@ define([
          * @param {Number} [config.autoStartAt] - The time position at which the player should start
          * @param {Boolean} [config.loop] - The media will be played continuously
          * @param {Boolean} [config.canPause] - The play can be paused
-         * @param {Boolean} [config.canFullscreen] - The media can be displayed in fullscreen (video only)
          * @param {Number} [config.maxPlays] - Sets a few number of plays (default: infinite)
          * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
          * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
@@ -1544,7 +1543,6 @@ define([
      * @param {Number} [config.autoStartAt] - The time position at which the player should start
      * @param {Boolean} [config.loop] - The media will be played continuously
      * @param {Boolean} [config.canPause] - The play can be paused
-     * @param {Boolean} [config.canFullscreen] - The media can be displayed in fullscreen (video only)
      * @param {Number} [config.maxPlays] - Sets a few number of plays (default: infinite)
      * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
      * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)

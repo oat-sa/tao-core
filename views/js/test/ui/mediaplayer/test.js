@@ -67,13 +67,13 @@ define([
 
     QUnit
         .cases(dialogApi)
-        .test('instance API ', function(data, assert) {
+        .test('API ', function(data, assert) {
             var instance = mediaplayer();
             assert.equal(typeof instance[data.name], 'function', 'The mediaplayer instance exposes a "' + data.title + '" function');
         });
 
 
-    QUnit.test('audio player DOM', function(assert) {
+    QUnit.test('DOM/audio player', function(assert) {
         var url = '/audio.mp3';
         var instance = mediaplayer({
             url: url,
@@ -113,10 +113,12 @@ define([
         assert.equal($controls.find('[data-control="unmute"]').length, 1, 'The controls element contains an unmute control');
         assert.equal($controls.find('.seek .slider').length, 1, 'The controls element contains seek slider control');
         assert.equal($controls.find('.volume .slider').length, 1, 'The controls element contains volume slider control');
+
+        instance.destroy();
     });
 
 
-    QUnit.test('video player DOM', function(assert) {
+    QUnit.test('DOM/video player', function(assert) {
         var url = '/video.mp4';
         var instance = mediaplayer({
             url: url,
@@ -156,10 +158,12 @@ define([
         assert.equal($controls.find('[data-control="unmute"]').length, 1, 'The controls element contains an unmute control');
         assert.equal($controls.find('.seek .slider').length, 1, 'The controls element contains seek slider control');
         assert.equal($controls.find('.volume .slider').length, 1, 'The controls element contains volume slider control');
+
+        instance.destroy();
     });
 
 
-    QUnit.test('youtube player DOM', function(assert) {
+    QUnit.test('DOM/youtube player', function(assert) {
         var videoId = 'YJWSVUPSQqw';
         var url = 'https://www.youtube.com/watch?v=' + videoId;
         var instance = mediaplayer({
@@ -199,5 +203,22 @@ define([
         assert.equal($controls.find('[data-control="unmute"]').length, 1, 'The controls element contains an unmute control');
         assert.equal($controls.find('.seek .slider').length, 1, 'The controls element contains seek slider control');
         assert.equal($controls.find('.volume .slider').length, 1, 'The controls element contains volume slider control');
+
+        instance.destroy();
     });
+
+    /**
+     * @param {String} config.type - The type of media to play
+     * @param {String|Array} config.url - The URL to the media
+     * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
+     * @param {Number} [config.autoStartAt] - The time position at which the player should start
+     * @param {Boolean} [config.loop] - The media will be played continuously
+     * @param {Boolean} [config.canPause] - The play can be paused
+     * @param {Number} [config.maxPlays] - Sets a few number of plays (default: infinite)
+     * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
+     * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
+     * @param {Number} [config.volume] - Sets the sound volume (default: 1)
+     * @param {Boolean} [config.startMuted] - The player should be initially muted
+     * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
+     */
 });
