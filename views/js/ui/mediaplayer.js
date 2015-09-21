@@ -190,6 +190,20 @@ define([
         },
 
         /**
+         * Removes a pending Youtube player
+         * @param {String|jQuery|HTMLElement} elem
+         * @param {Object} player
+         */
+        remove : function remove(elem, player) {
+            var pending = this.pending;
+            _.forEach(pending, function(args, idx) {
+                if (elem === args[0] && player === args[1]) {
+                    pending[idx] = null;
+                }
+            });
+        },
+
+        /**
          * Install a Youtube player. The Youtube API must be ready
          * @param {String|jQuery|HTMLElement} elem
          * @param {Object} player
@@ -235,7 +249,9 @@ define([
             this.ready = true;
 
             _.forEach(pending, function(args) {
-                self.create.apply(self, args);
+                if (args) {
+                    self.create.apply(self, args);
+                }
             });
         },
 
@@ -281,10 +297,12 @@ define([
         var media;
         var player;
         var interval;
+        var destroyed;
 
         if (mediaplayer) {
             player = {
                 init : function _youtubePlayerInit() {
+                    destroyed = false;
                     $media = mediaplayer.$media;
 
                     if ($media) {
@@ -295,6 +313,11 @@ define([
                 onReady : function _youtubePlayerOnReady(event) {
                     media = event.target;
                     $media = $(media.getIframe());
+
+                    if (destroyed) {
+                        return this.destroy();
+                    }
+
                     mediaplayer._onReady();
                 },
 
@@ -334,8 +357,12 @@ define([
                 },
 
                 destroy : function _youtubePlayerDestroy() {
+                    destroyed = true;
+
                     if (media) {
                         media.destroy();
+                    } else {
+                        _youtubeManager.remove($media, this);
                     }
 
                     this.stopPolling();
