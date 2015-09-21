@@ -11,8 +11,9 @@
             <source src="{{src}}" type="{{type}}">
             {{/each}}
 
+            {{__ 'Your browser doesn’t support the video player.'}}
             {{#if link}}
-            <a href="{{link}}">{{__ 'Download'}}</a>
+            <a href="{{link}}">{{__ 'Please download the video and view offline.'}}</a>
             {{/if}}
         </video>
         {{/if}}
@@ -22,8 +23,9 @@
             <source src="{{src}}" type="{{type}}">
             {{/each}}
 
+            {{__ 'Your browser doesn’t support the audio player.'}}
             {{#if link}}
-            <a href="{{link}}">{{__ 'Download'}}</a>
+            <a href="{{link}}">{{__ 'Please download the track and listen offline.'}}</a>
             {{/if}}
         </audio>
     {{/if}}
