@@ -1,7 +1,30 @@
-define(['jquery', 'lodash', 'core/validator/Report', 'core/validator/Validator'], function($, _, Report, Validator){
+define([
+    'jquery',
+    'lodash',
+    'core/validator/Report',
+    'core/validator/Validator',
+    'core/functionOverload'
+], function($, _, Report, Validator, functionOverload) {
+    'use strict';
 
+    /**
+     * Validate the set of matched elements (inputs).
+     *
+     * @example $('input').validator() - validate with default options;
+     * @example $('input').validator(options) - validate with custom validation options;
+     * @example $('input').validator('validate', {allowEmpty:true}, callback) - validate with custom validation options and callback function;
+     * @exports validator/jquery.validator
+     * @param {Object|String} options - the validator options or method name to call
+     * @param {boolean} [options.allowEmpty = false] - whether the input can be empty
+     * @param {object} [options.validator]
+     * @param {boolean} [options.validator.lazy]
+     * @param {string|Array} [options.events] - event that triggers the validation
+     * @param {object} arg1 - the validator options
+     * @fires validated.group
+     * @returns {jQueryElement} for chaining
+     */
 
-    $.fn.validator = function(options){
+    $.fn.validator = function(options, arg1, arg2){
 
         var opts = {},
             method = '',
@@ -34,11 +57,7 @@ define(['jquery', 'lodash', 'core/validator/Report', 'core/validator/Validator']
             }
         });
 
-        if(ret === undefined){
-            return this;
-        }else{
-            return ret;
-        }
+        return ret === undefined ? this : ret;
     };
 
     $.fn.validator.defaults = {
@@ -100,20 +119,20 @@ define(['jquery', 'lodash', 'core/validator/Report', 'core/validator/Validator']
 
         var ret = []; //return object
 
-        var tokens = inputStr.split(/;\s+/);
+        var tokens = inputStr.split(/;/);
 
         //get name (and options) for every rules strings:
         _.each(tokens, function(token){
+            token = $.trim(token);
 
             var key,
                 options = {},
-                rightStr = token.replace(/\s*\$(\w*)/, function($0, k){
+                rightStr = token.replace(/\$(\w*)/, function($0, k){
                 key = k;
                 return '';
             });
-
             if(key){
-                rightStr.replace(/\s*\(([^\)]*)\)/, function($0, optionsStr){
+                rightStr.replace(/\(([^\)]*)\)/, function($0, optionsStr){
                     optionsStr.replace(/(\w*)=([^\s]*)(,)?/g, function($0, optionName, optionValue){
                         if(optionValue.charAt(optionValue.length - 1) === ','){
                             optionValue = optionValue.substring(0, optionValue.length - 1);
@@ -153,7 +172,9 @@ define(['jquery', 'lodash', 'core/validator/Report', 'core/validator/Validator']
     };
 
     var create = function($elt, options){
-
+        if (isCreated($elt)) {
+            return;
+        }
         var rules = buildRules($elt);
         if(options.rules){
             rules = _.merge(rules, options.rules);
