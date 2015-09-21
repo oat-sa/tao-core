@@ -148,6 +148,17 @@ define([
     };
 
     /**
+     * Checks if the browser can play audio and video
+     * @type {Boolean}
+     * @private
+     */
+    var _canPlay = (function() {
+        var audio = document.createElement('audio');
+        var video = document.createElement('video');
+        return !!(video.canPlayType && audio.canPlayType);
+    })();
+
+    /**
      * A local manager for Youtube players.
      * Relies on https://developers.google.com/youtube/iframe_api_reference
      * @type {Object}
@@ -302,12 +313,15 @@ define([
         if (mediaplayer) {
             player = {
                 init : function _youtubePlayerInit() {
-                    destroyed = false;
                     $media = mediaplayer.$media;
+                    media = null;
+                    destroyed = false;
 
                     if ($media) {
                         _youtubeManager.add($media, this);
                     }
+
+                    return !!$media;
                 },
 
                 onReady : function _youtubePlayerOnReady(event) {
@@ -450,12 +464,19 @@ define([
         if (mediaplayer) {
             player = {
                 init : function _nativePlayerInit() {
+                    var result = false;
+                    var mediaElem;
+
                     $media = mediaplayer.$media;
                     media = null;
                     played = false;
 
                     if ($media) {
-                        media = $media.get(0);
+                        mediaElem = $media.get(0);
+                        if (mediaElem && mediaElem.canPlayType) {
+                            media = mediaElem;
+                            result = true;
+                        }
 
                         $media
                             .removeAttr('controls')
@@ -477,6 +498,8 @@ define([
                                 mediaplayer._onReady();
                             });
                     }
+
+                    return result;
                 },
 
                 destroy : function _nativePlayerDestroy() {
@@ -1130,16 +1153,23 @@ define([
          */
         _initPlayer : function _initPlayer() {
             var player = _players[this.config.type];
+            var error;
 
-            if (_.isFunction(player)) {
-                this.player = player(this);
-            }
+            if (_canPlay) {
+                if (_.isFunction(player)) {
+                    this.player = player(this);
+                }
 
-            if (this.player) {
-                this.player.init();
+                if (this.player) {
+                    error = !this.player.init();
+                } else {
+                    error = true;
+                }
             } else {
-                this._setState('error', true);
+                error = true;
             }
+
+            this._setState('error', error);
         },
 
         /**
