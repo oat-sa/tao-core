@@ -563,8 +563,8 @@ define([
                     }
                 },
 
-                stop : function _nativePlayerPause() {
-                    if (media) {
+                stop : function _nativePlayerStop() {
+                    if (media && played) {
                         media.currentTime = media.duration;
                     }
                 },
@@ -1427,7 +1427,7 @@ define([
          * Event called when the media is ended
          * @private
          */
-        _onEnd : function _onPause() {
+        _onEnd : function _onEnd() {
             this.timesPlayed ++;
             this._playingState(false, true);
             this._updatePosition(0);
