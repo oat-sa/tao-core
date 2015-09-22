@@ -24,7 +24,6 @@ define(['lodash', 'jquery', 'ui/validator'], function(_, $) {
     QUnit.test('validate element', function(assert){
 
         //set test value;
-
         $('#text1').validator();
         assert.ok($('#text1').validator('getValidator'), 'validator bound');
 

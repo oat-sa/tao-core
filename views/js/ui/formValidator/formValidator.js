@@ -31,6 +31,10 @@
  * Each rule consist of the name of the rule prefixed with <i>$</i> and optionally it's options in brackets.
  * example:
  * $notEmpty; $length(max=10, min=5, message='From 5 to 10');
+ *          ^^              ^^
+ * Note:
+ * Rules should ends with <i>;</i>. Rules should be space separated.
+ *
  *
  * A set of standard validation methods is provided:
  * <ul>

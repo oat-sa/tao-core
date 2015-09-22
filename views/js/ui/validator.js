@@ -123,7 +123,6 @@ define([
         //get name (and options) for every rules strings:
         _.each(tokens, function(token){
             token = $.trim(token);
-
             var key,
                 options = {},
                 rightStr = token.replace(/\$(\w*)/, function($0, k){
@@ -131,15 +130,21 @@ define([
                 return '';
             });
             if(key){
-                rightStr.replace(/\(([^\)]*)\)/, function($0, optionsStr){
-                    //optionsStr.replace(/(\w*)=([^\s]*)(,)?/g, function($0, optionName, optionValue){
-                    optionsStr.replace(/(\w*)=([^,]*)?(,\s*)?(\s*$)?/g, function($0, optionName, optionValue){
-                        optionValue = optionValue.replace(/^["'](.*)["']$/g, '$1');
-                        if(optionValue.charAt(optionValue.length - 1) === ','){
-                            optionValue = optionValue.substring(0, optionValue.length - 1);
-                        }
-                        options[optionName] = optionValue;
-                    });
+                //remove brackets
+                var optionsStr = rightStr.replace(/^\((.*)\)$/, '$1');
+                //get string options
+                optionsStr = optionsStr.replace(/(\w+)=((\"(\\.|[^\"])*\")|(\'(\\.|[^\'])*\')),?/g, function ($0, optionName, optionValue) {
+                    //replace quotes
+                    optionValue = optionValue.replace(/^["'](.*)["']$/g, '$1');
+                    options[optionName] = optionValue;
+                    return '';
+                });
+
+                optionsStr.replace(/(\w*)=([^\s]*)(,)?/g, function($0, optionName, optionValue){
+                    if(optionValue.charAt(optionValue.length - 1) === ','){
+                        optionValue = optionValue.substring(0, optionValue.length - 1);
+                    }
+                    options[optionName] = optionValue;
                 });
 
                 ret.push({
