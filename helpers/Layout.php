@@ -136,30 +136,35 @@ class Layout{
 
     /**
      * Build script element for AMD loader
-     *
-     * @return string
+     * @param string $mainModule the path to the main AMD module or js file
+     * @return string the script tag
      */
-    public static function getAmdLoader(){
+    public static function getAmdLoader($mainModule = null, $bundle = null){
+
+        //default values
+        if(is_null($mainModule)){
+            if(\common_session_SessionManager::isAnonymous()) {
+                $mainModule  = Template::js('login.js', 'tao');
+                $bundle      = Template::js('login.min.js', 'tao');
+            } else {
+                $mainModule  = Template::js('main.js', 'tao');
+                $bundle      = Template::js('main.min.js', 'tao');
+            }
+        }
+
+        //strip js for the module name
+        $mainModule = str_replace('/\.js$/', '', $mainModule);
+
+        //the loader has a config url attr
         $amdLoader = array(
             'data-config' => get_data('client_config_url')
         );
-        if( ! \tao_helpers_Mode::is('production')) {
-            $amdLoader['src'] = Template::js('lib/require.js', 'tao');
-        }
 
-        if(\common_session_SessionManager::isAnonymous()) {
-            if(\tao_helpers_Mode::is('production')) {
-                $amdLoader['src'] = Template::js('login.min.js', 'tao');
-            } else {
-                $amdLoader['data-main'] = TAOBASE_WWW . 'js/login';
-            }
+        if( !empty($bundle) && \tao_helpers_Mode::is('production')) {
+            $amdLoader['src'] = $bundle;
         } else {
-            if(\tao_helpers_Mode::is('production')) {
-                $amdLoader['src'] = Template::js('main.min.js', 'tao');
-            }
-            else {
-                $amdLoader['data-main'] = TAOBASE_WWW . 'js/main';
-            }
+            $amdLoader['src'] = Template::js('lib/require.js', 'tao');
+            $amdLoader['data-main'] = $mainModule;
         }
 
         $amdScript = '<script id="amd-loader" ';

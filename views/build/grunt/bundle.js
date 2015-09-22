@@ -72,9 +72,8 @@ module.exports = function(grunt) {
                 excludeShallow : ['mathJax', 'mediaElement']
             }, {
                 name: 'controller/login',
-                include: ['lib/require', 'json', 'text', 'login'],
-                exclude : ['json!i18ntr/messages.json'],
-                excludeShallow : ['mathJax', 'mediaElement']
+                include: ['lib/require', 'login'],
+                exclude : ['json!i18ntr/messages.json']
             }, {
                 name: 'controller/routes',
                 include : ext.getExtensionsControllers(['tao']),
