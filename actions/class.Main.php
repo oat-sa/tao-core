@@ -150,7 +150,8 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('form', $myForm->render());
         $this->setData('title', __("TAO Login"));
         $this->setData('messageServiceIsAvailable', MessagingService::singleton()->isAvailable());
-        $this->setData('loginWidgets', $config['widgets']);
+        $widget = (isset($config['widgets'])) ? $config['widgets'] : array();
+        $this->setData('loginWidgets', $widget);
 
         if ($this->hasRequestParameter('msg')) {
             $this->setData('msg', $this->getRequestParameter('msg'));
