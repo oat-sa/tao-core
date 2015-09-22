@@ -22,15 +22,18 @@
  */
 define([
     'jquery',
+    'ui',
     'i18n',
     'module',
     'ui/feedback',
     'layout/version-warning'
-], function ($, __, module, feedback,  versionWarning) {
+], function ($, ui,  __, module, feedback,  versionWarning) {
     'use strict';
 
     var conf, type, context = $('.entry-pages-container'), $fields = $();
 
+
+    ui.startEventComponents($('.content-wrap'));
     versionWarning.init();
 
     // empty $fields sent

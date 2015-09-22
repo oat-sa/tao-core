@@ -15,21 +15,21 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 <!doctype html>
 <html class="no-js<?php if (!$hasVersionWarning): ?> no-version-warning<?php endif;?>">
 <head>
-    <script src="<?= Template::js('lib/modernizr-2.8/modernizr.js', 'tao')?>"></script>
+    <script src="<?= Template::js('lib/modernizr-2.8/modernizr.min.js', 'tao')?>"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= Layout::getTitle() ?></title>
-    <link rel="shortcut icon" href="<?= Template::img('img/favicon.ico') ?>"/>
 
+    <link rel="shortcut icon" href="<?= Template::img('favicon.ico', 'tao') ?>"/>
 
-
-    <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
     <?= tao_helpers_Scriptloader::render() ?>
-    <?= Layout::getAmdLoader() ?>
+
     <?php if (($themeUrl = Layout::getThemeUrl()) !== null): ?>
     <link rel="stylesheet" href="<?= $themeUrl ?>" />
     <?php endif; ?>
+
+    <?= Layout::getAmdLoader() ?>
 </head>
 
 <body>

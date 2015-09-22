@@ -404,12 +404,5 @@ class Bootstrap {
                 TAOBASE_WWW . 'css/portal.css'
             );
         }
-
-        //ajax file upload works only without HTTP_AUTH
-        if(!USE_HTTP_AUTH){
-            \tao_helpers_Scriptloader::addCssFile(
-                TAOBASE_WWW . 'js/lib/jquery.uploadify/uploadify.css'
-            );
-        }
     }
 }
