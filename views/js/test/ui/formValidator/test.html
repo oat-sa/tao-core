@@ -22,12 +22,14 @@
             <form id="form_1">
                 <input name="field_1" id="field_1" type="text" data-validate="$numeric"/>
                 <input name="field_2" id="field_2" type="text" data-validate="$notEmpty"/>
-                <input name="field_3" id="field_3" type="text" data-validate="$pattern(pattern=\w{3}\s\w{3}\sbaz, modifier=i)" />
-                <input name="field_4" id="field_4" type="text" data-validate="$fileExists" />
-                <input name="field_5" id="field_5" type="text" data-validate="$length(min=4; max=10)" />
+                <input name="field_3" id="field_3" type="text" data-validate="$pattern(pattern=\w{3}\s\w{3}\sbaz, modifier=i)"/>
+                <input name="field_5" id="field_5" type="text" data-validate="$length(min=4, max=10)"/>
 
                 <!-- this field should be ignored -->
-                <input name="field_6" id="field_6" class="ignore" type="text" data-validate="$length(min=4; max=10)" />
+                <input name="field_6" id="field_6" class="ignore" type="text" data-validate="$length(min=4, max=10)"/>
+
+                <!-- two rules -->
+                <input name="field_7" id="field_7" type="text" data-validate="$length(min=4, max=10, message='length should be from 4 to 10'); $numeric(message='must be numeric')"/>
             </form>
         </div>
     </body>

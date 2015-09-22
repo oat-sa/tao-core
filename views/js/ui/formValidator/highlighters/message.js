@@ -23,16 +23,45 @@
 define([
     'jquery',
     'lodash',
-    'i18n',
-    'ui/formValidator/highlighters/common'
-], function ($, _, __, common) {
+    'i18n'
+], function ($, _, __) {
     'use strict';
 
-    return function () {
-        common.apply(this, Array.prototype.slice.call(arguments));
+    /**
+     * Error field highlighter
+     * @param {Object} options
+     * @param {string} [options.errorClass] - field error class
+     * @param {string} [options.errorMessageClass] - error message class
+     * @constructor
+     */
+    function Highlighter(options) {
+        var self = this;
 
-        console.log(this);
+        self.options = $.extend(true, {
+            errorClass : 'error',
+            errorMessageClass : 'validate-error'
+        }, self.options);
 
-    };
+        /**
+         * Highlight field by class defined in <i>self.options.errorClass</i> and add error message after it.
+         * @param {jQuery} $field - field element to be highlighted
+         * @param {string} message - message text.
+         */
+        this.highlight = function highlight($field, message) {
+            self.unhighlight($field);
+            $field.addClass(self.options.errorClass);
+            $field.after("<span class='" + self.options.errorMessageClass + "'>" + message + "</span>");
+        };
 
+        /**
+         * Unhighlight field (remove error class and error message).
+         * @param {jQuery} $field
+         */
+        this.unhighlight = function unhighlight($field) {
+            $field.removeClass(self.options.errorClass);
+            $field.next('.' + self.options.errorMessageClass).remove();
+        };
+    }
+
+    return Highlighter;
 });

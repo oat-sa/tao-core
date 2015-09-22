@@ -23,16 +23,52 @@
 define([
     'jquery',
     'lodash',
-    'i18n'
-], function ($, _, __) {
+    'i18n',
+    'ui/formValidator/highlighters/message',
+    'ui/formValidator/highlighters/tooltip'
+], function ($, _, __, messageHighlighter, tooltipHighlighter) {
     'use strict';
 
-    var defaultOptions = {
-        errorClass : 'error',
-        successClass : 'success'
+    /**
+     * Error field highlighter
+     * @param {Object} options
+     * @param {string} [options.type] -
+     * @param {string} [options.errorClass] -
+     * @param {string} [options.errorMessageClass] -
+     * @constructor
+     */
+    function Highlighter(options) {
+        var self = this;
+
+        this.options = {
+            type : 'message'
+        };
+
+        this.init = function init() {
+            self.options = $.extend(true, self.options, options);
+
+            switch(options.type) {
+                case 'message':
+                    messageHighlighter.apply(this, Array.prototype.slice.call(arguments));
+                    break;
+                case 'tooltip':
+                    tooltipHighlighter.apply(this, Array.prototype.slice.call(arguments));
+                    break;
+                default:
+                    throw new TypeError('Highlighter not found');
+            }
+        };
+
+        this.highlight = function () {
+            console.log('should be overwrited');
+        };
+
+        this.unhighlight = function () {
+            console.log('should be overwrited');
+        };
+
+        this.init();
     };
 
-    return function () {
-
-    };
+    return Highlighter;
 });

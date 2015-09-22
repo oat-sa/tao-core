@@ -111,7 +111,6 @@ define([
 
         var rulesStr = $elt.data('validate'),
             rules = rulesStr ? tokenize(rulesStr) : {};
-
         return rules;
     };
 
@@ -133,7 +132,9 @@ define([
             });
             if(key){
                 rightStr.replace(/\(([^\)]*)\)/, function($0, optionsStr){
-                    optionsStr.replace(/(\w*)=([^\s]*)(,)?/g, function($0, optionName, optionValue){
+                    //optionsStr.replace(/(\w*)=([^\s]*)(,)?/g, function($0, optionName, optionValue){
+                    optionsStr.replace(/(\w*)=([^,]*)?(,\s*)?(\s*$)?/g, function($0, optionName, optionValue){
+                        optionValue = optionValue.replace(/^["'](.*)["']$/g, '$1');
                         if(optionValue.charAt(optionValue.length - 1) === ','){
                             optionValue = optionValue.substring(0, optionValue.length - 1);
                         }
