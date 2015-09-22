@@ -88,7 +88,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
                 }
             }
     		$response->success = true;
-            $response->page = $page;
+            $response->page = empty($response->data) ? 0 : $page;
     		$response->total = $totalPages;
     		$response->records = count($results);
     		
