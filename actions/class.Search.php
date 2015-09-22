@@ -65,13 +65,14 @@ class tao_actions_Search extends tao_actions_CommonModule {
         $query = $params['query'];
         $class = new core_kernel_classes_Class($params['rootNode']);
 
-        $rows       = $this->getRequestParameter('rows');
-        $startRow   = $rows * ( $this->getRequestParameter( 'page' ) - 1 );
-
+        $rows = $this->hasRequestParameter('rows') ? (int)$this->getRequestParameter('rows') : null;
+        $page = $this->hasRequestParameter('page') ? (int)$this->getRequestParameter('page') : 1;
+        $startRow = is_null($rows) ? 0 : $rows * ($page - 1);
+        
         try {
             $results = SearchService::getSearchImplementation()->query($query, $class, $startRow, $rows);
 
-            $totalPages = ceil( $results->getTotalCount( $query, $class ) / $rows );
+            $totalPages = is_null($rows) ? 1 : ceil( $results->getTotalCount() / $rows );
 
             $response = new StdClass();
             if(count($results) > 0 ){
@@ -87,7 +88,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
                 }
             }
     		$response->success = true;
-            $response->page = (int) ( $startRow / $rows ) + 1;
+            $response->page = $page;
     		$response->total = $totalPages;
     		$response->records = count($results);
     		
