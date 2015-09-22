@@ -328,32 +328,34 @@ define([
                     media = event.target;
                     $media = $(media.getIframe());
 
-                    if (destroyed) {
-                        return this.destroy();
+                    if (!destroyed) {
+                        mediaplayer._onReady();
+                    } else {
+                        this.destroy();
                     }
-
-                    mediaplayer._onReady();
                 },
 
                 onStateChange : function _youtubePlayerOnStateChange(event) {
                     this.stopPolling();
 
-                    switch (event.data) {
-                        // ended
-                        case 0:
-                            mediaplayer._onEnd();
-                            break;
+                    if (!destroyed) {
+                        switch (event.data) {
+                            // ended
+                            case 0:
+                                mediaplayer._onEnd();
+                                break;
 
-                        // playing
-                        case 1:
-                            mediaplayer._onPlay();
-                            this.startPolling();
-                            break;
+                            // playing
+                            case 1:
+                                mediaplayer._onPlay();
+                                this.startPolling();
+                                break;
 
-                        // paused
-                        case 2:
-                            mediaplayer._onPause();
-                            break;
+                            // paused
+                            case 2:
+                                mediaplayer._onPause();
+                                break;
+                        }
                     }
                 },
 
@@ -507,6 +509,8 @@ define([
                         $media.off(_ns).attr('controls', '');
                     }
 
+                    this.stop();
+
                     $media = null;
                     media = null;
                     played = false;
@@ -631,13 +635,9 @@ define([
          * Uninstall the media player
          */
         destroy : function destroy() {
-            this.pause();
-
             if (this.player) {
                 this.player.destroy();
             }
-
-            this._setState('ready', false);
 
             if (this.$component) {
                 this._unbindEvents();
