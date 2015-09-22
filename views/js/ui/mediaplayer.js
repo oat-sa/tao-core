@@ -644,9 +644,7 @@ define([
                 this._destroySlider(this.$seekSlider);
                 this._destroySlider(this.$volumeSlider);
 
-                if (this.config.renderTo) {
-                    this.$component.remove();
-                }
+                this.$component.remove();
             }
 
             this._reset();
