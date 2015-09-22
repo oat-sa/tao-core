@@ -345,6 +345,20 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.13.0';
         }
         
+        if ($currentVersion === '2.13.0') {
+            $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $entryPoints = $tao->getConfig('entrypoint');
+            
+            $service = new EntryPointService();
+            foreach ($entryPoints as $entryPoint) {
+                $service->addEntryPoint($entryPoint);
+            }
+            $this->getServiceManager()->register('tao/entrypoint', $service);
+            
+            $currentVersion = '2.13.1';
+        }
+        
+        
         return $currentVersion;
     }
     

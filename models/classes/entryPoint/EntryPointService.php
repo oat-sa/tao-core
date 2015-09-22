@@ -27,6 +27,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\Entrypoint;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * 
@@ -34,43 +35,63 @@ use oat\tao\model\entryPoint\Entrypoint;
  *
  * @author Lionel Lecaque, lionel@taotesting.com
  */
-class EntryPointService extends AbstractRegistry
+class EntryPointService extends ConfigurableService
 {
-    public function registerEntryPoint(Entrypoint $e)
+    const OPTION_ENTRYPOINTS = 'existing';
+    
+    const OPTION_PRELOGIN = 'prelogin';
+    
+    const OPTION_POSTLOGIN = 'postlogin';
+    
+    public function addEntryPoint(Entrypoint $e, $target = self::OPTION_POSTLOGIN)
     {
-        $this->set($e->getId(), $e);
+        $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
+        $entryPoints[$e->getId()] = $e;
+        $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
+        
+        $available = $this->hasOption($target) ? $this->getOption($target) : array();
+        if (!in_array($e->getId(), $available)) {
+            $available[] = $e->getId();
+            $this->setOption($target, $available);
+        } 
     }
     
-    /**
-     * Specify in which extensions the config will be stored
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @return common_ext_Extension
-     */
-    protected function getExtension() {
-        return \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    }
     
-    /**
-     *
-     * config file in which the data will be stored
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @return string
-    */
-    protected function getConfigId() {
-        return 'entrypoint';
-    }
-    
-    public function getEntryPoints()
+    public function getEntryPoints($target = self::OPTION_POSTLOGIN)
     {
         $entryPoints = array();
-        foreach (MenuService::getEntryPoints() as $entry) {
-            $entryPoints[$entry->getId()] = $entry;
+        if ($target == self::OPTION_POSTLOGIN) {
+            foreach (MenuService::getEntryPoints() as $entry) {
+                $entryPoints[$entry->getId()] = $entry;
+            }
         }
-        foreach ($this->getMap() as $entry) {
-            $entryPoints[$entry->getId()] = $entry;
+        
+        $ids = $this->hasOption($target) ? $this->getOption($target) : array();
+        $existing = $this->getOption(self::OPTION_ENTRYPOINTS);
+        foreach ($ids as $id) {
+            $entryPoints[$id] = $existing[$id];
         }
         return $entryPoints;
+    }
+
+    /**
+     * @return EntryPointService
+     * @deprecated
+     */
+    public static function getRegistry()
+    {
+        return ServiceManager::getServiceManager()->get('tao/entrypoint');
+    }
+    
+    /**
+     *
+     * @param Entrypoint $e
+     * @param string $target
+     * @deprecated
+     */
+    public function registerEntryPoint(Entrypoint $e, $target = self::OPTION_POSTLOGIN)
+    {
+        $this->addEntryPoint($e, $target);
+        $this->getServiceManager()->register('tao/entrypoint', $this);
     }
 }

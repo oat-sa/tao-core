@@ -7,10 +7,11 @@ use oat\tao\helpers\Layout;
     <?php if (get_data('messageServiceIsAvailable')): ?>
     <a href="<?= _url('index', 'PasswordRecovery', 'tao') ?>"> <?= __("Unable to access your account?") ?></a>
     <?php endif; ?>
-    <?php if (get_data('loginWidgets')): ?>
-    <?php foreach(get_data('loginWidgets') as $widget):
-            echo $widget->render();
-    endforeach;?>
+    <?php if (get_data('entryPoints')): ?>
+    <?php foreach(get_data('entryPoints') as $entrypoint): ?>
+        <a href="<?= $entrypoint->getUrl() ?>"><?= $entrypoint->getTitle() ?></a>
+    <?php endforeach;?>
+    
     <?php endif; ?>
 </div>
 <script>

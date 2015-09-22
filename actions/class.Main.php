@@ -115,9 +115,6 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function login()
 	{
-        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $config = $tao->getConfig('loginForm');
-
 		$params = array();
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
@@ -150,9 +147,10 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('form', $myForm->render());
         $this->setData('title', __("TAO Login"));
         $this->setData('messageServiceIsAvailable', MessagingService::singleton()->isAvailable());
-        $widget = (isset($config['widgets'])) ? $config['widgets'] : array();
-        $this->setData('loginWidgets', $widget);
 
+        $entryPointService = $this->getServiceManager()->getServiceManager()->get('tao/entrypoint');
+        $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));
+        
         if ($this->hasRequestParameter('msg')) {
             $this->setData('msg', $this->getRequestParameter('msg'));
         }
