@@ -66,6 +66,7 @@ define([
          * @param {jQuery} $field
          */
         this.unhighlight = function unhighlight($field) {
+            self.initTooltip($field);
             $field.tooltipster('hide');
 
             $field.removeClass(self.options.errorClass);
