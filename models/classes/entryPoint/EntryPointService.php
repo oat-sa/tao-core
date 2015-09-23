@@ -37,26 +37,67 @@ use oat\oatbox\service\ServiceManager;
  */
 class EntryPointService extends ConfigurableService
 {
+    const SERVICE_ID = 'tao/entrypoint';
+    
     const OPTION_ENTRYPOINTS = 'existing';
     
     const OPTION_PRELOGIN = 'prelogin';
     
     const OPTION_POSTLOGIN = 'postlogin';
     
-    public function addEntryPoint(Entrypoint $e, $target = self::OPTION_POSTLOGIN)
+    /**
+     * Replace the entrypoint with the id provided
+     * 
+     * @param string $id
+     * @param Entrypoint $e
+     */
+    public function overrideEntryPoint($id, Entrypoint $e)
+    {
+        $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
+        $entryPoints[$id] = $e;
+        $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
+    }
+    
+    /**
+     * Activate an existing entry point for a specific target
+     * 
+     * @param string $entryId
+     * @param string $target
+     */
+    public function activateEntryPoint($entryId, $target)
+    {
+        $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
+        if (!isset($entryPoints[$entryId])) {
+            throw new \common_exception_InconsistentData('Unknown entrypoint '.$entryId);
+        }
+        $actives = $this->hasOption($target) ? $this->getOption($target) : array();
+        if (!in_array($entryId, $actives)) {
+            $actives[] = $entryId;
+            $this->setOption($target, $actives);
+        }
+    }
+    
+    /**
+     * Add and activate an Entrypoint
+     * 
+     * @param Entrypoint $e
+     * @param string $target
+     */
+    public function addEntryPoint(Entrypoint $e, $target)
     {
         $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
         $entryPoints[$e->getId()] = $e;
         $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
-        
-        $available = $this->hasOption($target) ? $this->getOption($target) : array();
-        if (!in_array($e->getId(), $available)) {
-            $available[] = $e->getId();
-            $this->setOption($target, $available);
-        } 
+
+        $this->activateEntryPoint($e->getId(), $target);
     }
     
-    
+    /**
+     * Get all entrypoints for a designated target
+     * 
+     * @param string $target
+     * @return Entrypoint[]
+     */
     public function getEntryPoints($target = self::OPTION_POSTLOGIN)
     {
         $entryPoints = array();
@@ -75,23 +116,26 @@ class EntryPointService extends ConfigurableService
     }
 
     /**
+     * Legacy function for backward compatibilitiy
+     * 
      * @return EntryPointService
      * @deprecated
      */
     public static function getRegistry()
     {
-        return ServiceManager::getServiceManager()->get('tao/entrypoint');
+        return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
     
     /**
-     *
+     * Legacy function for backward compatibilitiy
+     * 
      * @param Entrypoint $e
      * @param string $target
      * @deprecated
      */
-    public function registerEntryPoint(Entrypoint $e, $target = self::OPTION_POSTLOGIN)
+    public function registerEntryPoint(Entrypoint $e)
     {
-        $this->addEntryPoint($e, $target);
-        $this->getServiceManager()->register('tao/entrypoint', $this);
+        $this->addEntryPoint($e, self::OPTION_POSTLOGIN);
+        $this->getServiceManager()->register(self::SERVICE_ID, $this);
     }
 }

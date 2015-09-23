@@ -350,10 +350,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             $entryPoints = $tao->getConfig('entrypoint');
             
             $service = new EntryPointService();
-            foreach ($entryPoints as $entryPoint) {
-                $service->addEntryPoint($entryPoint);
+            foreach ($entryPoints as $id => $entryPoint) {
+                $service->overrideEntryPoint($id, $entryPoint);
+                $service->activateEntryPoint($id, EntryPointService::OPTION_POSTLOGIN);
             }
-            $this->getServiceManager()->register('tao/entrypoint', $service);
+            $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $service);
             
             $currentVersion = '2.13.1';
         }
