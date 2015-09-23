@@ -29,7 +29,8 @@ define([
     var _defaults = {
         controls : false,
         style : {},
-        position : 'bottom'
+        position : 'bottom',
+        callbacks : {}
     };
 
 
@@ -41,6 +42,8 @@ define([
      * @param {Object} options
      * @param {JQuery|String} [options.content] - the inital content of the popup
      * @param {Boolean} [options.controls] - add cancel/done button
+     * @param {Function} [options.callbacks.done] - Triggered when a dialog is about to close. If returned <i>false</i>, the dialog will not close.
+     * @param {Function} [options.callbacks.cancel] - Triggered when a dialog is about to close. If returned <i>false</i>, the dialog will not close.
      * @returns {Object} the new selector instance
      */
     function create($anchor, $container, options){
@@ -64,9 +67,13 @@ define([
         $element.css('width', options.style.popupWidth);
         $anchor.append($element);
         $element.off(_ns).on('click' + _ns, '.done', function(){
-            _done($element);
+            if (runCallback('done')) {
+                _done($element);
+            }
         }).on('click' + _ns, '.cancel', function(){
-            _cancel($element);
+            if (runCallback('cancel')) {
+                _cancel($element);
+            }
         });
 
         if(options.content){
@@ -82,6 +89,19 @@ define([
             if(content instanceof $ || _.isString(content)){
                 $element.find('.popup-content').empty().append(content);
             }
+        }
+
+        /**
+         * Run callback function before action. If returned <i>false</i>, action will not be executed.
+         * @param {string} name - callback name
+         * @returns {boolean}
+         */
+        function runCallback(name) {
+            var result = true;
+            if (options.callbacks[name] && _.isFunction(options.callbacks[name])) {
+                result = options.callbacks[name]();
+            }
+            return result;
         }
 
         var popup = {
