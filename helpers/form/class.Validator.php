@@ -64,7 +64,7 @@ abstract class tao_helpers_form_Validator
      */
     public function __construct(array $options = array())
     {
-		$this->options = $options;
+        $this->setOptions($options);
     }
 
     /**
@@ -100,7 +100,32 @@ abstract class tao_helpers_form_Validator
      */
     public function getMessage()
     {
-        return $this->message;
+        return isset($this->options['message']) ? $this->options['message'] : $this->getDefaultMessage();;
+    }
+
+    /**
+     * Short description of method getMessage
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return string
+     */
+    public function setMessage($message)
+    {
+        $this->options['message'] = $message;
+    }
+    
+    /**
+     * @return string
+     */
+    protected function getDefaultMessage()
+    {
+        return __('');
+    }
+
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
     }
 
     /**

@@ -42,8 +42,8 @@ define([
      * @param {Object} options
      * @param {JQuery|String} [options.content] - the inital content of the popup
      * @param {Boolean} [options.controls] - add cancel/done button
-     * @param {Function} [options.callbacks.done] - Triggered when a dialog is about to close. If returned <i>false</i>, the dialog will not close.
-     * @param {Function} [options.callbacks.cancel] - Triggered when a dialog is about to close. If returned <i>false</i>, the dialog will not close.
+     * @param {Function} [options.callbacks.beforeDone] - Triggered when a dialog is about to close. If returned <i>false</i>, the dialog will not close.
+     * @param {Function} [options.callbacks.beforeCancel] - Triggered when a dialog is about to close. If returned <i>false</i>, the dialog will not close.
      * @returns {Object} the new selector instance
      */
     function create($anchor, $container, options){
@@ -67,11 +67,11 @@ define([
         $element.css('width', options.style.popupWidth);
         $anchor.append($element);
         $element.off(_ns).on('click' + _ns, '.done', function(){
-            if (runCallback('done')) {
+            if (runCallback('beforeDone')) {
                 _done($element);
             }
         }).on('click' + _ns, '.cancel', function(){
-            if (runCallback('cancel')) {
+            if (runCallback('beforeCancel')) {
                 _cancel($element);
             }
         });

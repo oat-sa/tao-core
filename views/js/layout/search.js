@@ -26,16 +26,16 @@ define([
     'i18n',
     'layout/section',
     'ui/feedback',
-    'ui/datatable',
-    'uri'
+    'ui/datatable'
 ],
-function($, _, __, section, feedback, datatable, uri){
+function($, _, __, section, feedback, datatable){
     'use strict';
 
     /**
      * Create the table that contains the search results
      * @param {Object} data - the datatable parameters
      * @param {Object} data.model - the datatable model
+     * @param {Object} data.url
      * @param {Object} data.params - extra parameters to give to the datatable endpoint
      * @param {Object} data.filters - extra parameters to give to the datatable endpoint
      */
@@ -56,14 +56,15 @@ function($, _, __, section, feedback, datatable, uri){
                 },
                 'params' : {
                     'params' : data.params,
-                    'filters': data.filters
-                 } 
-            });
+                    'filters': data.filters,
+                    'rows': 20
+                 }
+        });
     };
 
     /**
      * Behavior of the tao backend global search.
-     * It runs by himslef using the init method.
+     * It runs by himself using the init method.
      * 
      * @example  search.init();
      *
@@ -75,8 +76,7 @@ function($, _, __, section, feedback, datatable, uri){
          * Initialize, only entry point
          */
         init : function init(){
-            var self = this;
-           
+
             var $container = $('.action-bar .search-area');
             var $searchInput = $('input' , $container);
             var $searchBtn = $('button' , $container);

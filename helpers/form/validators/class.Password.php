@@ -38,24 +38,6 @@ class tao_helpers_form_validators_Password
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
-    {
-        
-		
-		parent::__construct($options);
-		
-		$this->message = __('Passwords are not matching');
-        
-    }
-
-    /**
      * Short description of method evaluate
      *
      * @access public
@@ -67,11 +49,11 @@ class tao_helpers_form_validators_Password
     {
         $returnValue = (bool) false;
 
-        
+
         if (is_array($values) && count($values) == 2) {
         	list($first, $second) = $values;
         	$returnValue = $first == $second;
-        	
+
         } elseif (isset($this->options['password2_ref'])) {
 			$secondElement = $this->options['password2_ref'];
 			if (is_null($secondElement) || ! $secondElement instanceof tao_helpers_form_FormElement) {
@@ -80,13 +62,18 @@ class tao_helpers_form_validators_Password
 			if($values == $secondElement->getRawValue() && trim($values) != ''){
 				$returnValue = true;
 			}
+        } else {
+            throw new common_Exception("Please set the reference of the second password element or provide array of 2 elements");
         }
-		
-        
+
+
 
         return (bool) $returnValue;
     }
 
-}
+    protected function getDefaultMessage()
+    {
+        return __('Passwords are not matching');
+    }
 
-?>
+}

@@ -135,12 +135,15 @@ define([
                  * @returns {Object} params
                  */
                 beforedata: function($node) {
+                    var treeStore       = store.get('taotree.' + context.section) || {};
                     var treeData = $elt.data('tree-state');
                     var params = _.clone(serverParams);
                     if($node && $node.length){
                         params.classUri = $node.data('uri');
                     }
-                    params.selected = options.selectNode;
+                    if(treeStore.lastSelected){
+                    	params.selected = treeStore.lastSelected;
+                    }
 
                     //check for additionnal parameters in tree state
                     if(treeData){
@@ -220,7 +223,7 @@ define([
                         }
 
                         //try to select the last one
-                        if(treeStore && treeStore.lastSelected){
+                        if(treeStore.lastSelected){
                             $lastSelected = $('#' +  treeStore.lastSelected, $elt);
                             if($lastSelected.length && !$lastSelected.hasClass('private')){
                                 return tree.select_branch($lastSelected);
@@ -406,6 +409,7 @@ define([
 
                     //update the state with data to be used later (ie. filter value, etc.)
                     treeState = _.merge($elt.data('tree-state') || {}, data);
+                    treeState.selectNode = data.loadNode;
                     $elt.data('tree-state', treeState);
                     tree.refresh();
                 }
