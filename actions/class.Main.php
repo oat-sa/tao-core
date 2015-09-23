@@ -146,7 +146,6 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('form', $myForm->render());
         $this->setData('title', __("TAO Login"));
-        $this->setData('messageServiceIsAvailable', MessagingService::singleton()->isAvailable());
 
         $entryPointService = $this->getServiceManager()->getServiceManager()->get(EntryPointService::SERVICE_ID);
         $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));
