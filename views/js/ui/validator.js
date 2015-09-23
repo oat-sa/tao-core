@@ -2,9 +2,8 @@ define([
     'jquery',
     'lodash',
     'core/validator/Report',
-    'core/validator/Validator',
-    'core/functionOverload'
-], function($, _, Report, Validator, functionOverload) {
+    'core/validator/Validator'
+], function($, _, Report, Validator) {
     'use strict';
 
     /**
