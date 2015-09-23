@@ -239,7 +239,7 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 				));
 				$this->form->addElement($pass3Element);
 				
-				$this->form->createGroup("pass_group", __("Change the password"), array('password1', 'password2', 'password3'));
+				$this->form->createGroup("pass_group", __("Change the password"), array('password2', 'password3'));
 				if (empty($_POST[$pass2Element->getName()]) && empty($_POST[$pass3Element->getName()])) {
 
 					$pass2Element->setForcedValid();

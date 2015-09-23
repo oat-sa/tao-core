@@ -36,34 +36,20 @@ class tao_helpers_form_validators_FileSize
     // --- ATTRIBUTES ---
 
     // --- OPERATIONS ---
-
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options)
+    public function setOptions(array $options)
     {
-        
+        parent::setOptions($options);
 
-		parent::__construct($options);
-		
-		if( isset($this->options['min']) && isset($this->options['max']) ){
-			$this->message = __('Invalid file size')." (minimum ".$this->options['min']." octets, maximum ".$this->options['max']." octets)";
-		}
-		else if( !isset($this->options['min']) && isset($this->options['max']) ){
-			$this->options['min'] = 0;
-			$this->message = __('The uploaded file is too large')." (maximum ".$this->options['max']." octets)";
-		}
-		else{
-			throw new common_Exception("Please set 'min' and/or 'max' options!");
-		}
-		
-        
+        if (isset($this->options['min']) && isset($this->options['max']) ) {
+            $this->setMessage(__('Invalid file size (minimum %1$s bytes, maximum %2$s bytes)', $this->options['min'], $this->options['max']));
+        } elseif (isset($this->options['max'])) {
+            $this->setMessage(__('The uploaded file is too large (maximum %s bytes)', $this->options['max']));
+            $this->options['min'] = 0;
+        } else {
+            throw new common_Exception("Please set 'min' and/or 'max' options!");
+        }
     }
+
 
     /**
      * Short description of method evaluate

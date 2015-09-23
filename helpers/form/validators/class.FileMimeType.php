@@ -31,29 +31,20 @@
 class tao_helpers_form_validators_FileMimeType
     extends tao_helpers_form_Validator
 {
-
-
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
+    protected function getDefaultMessage()
     {
-        
-
-		parent::__construct($options);
-
-		$this->message = __('Invalid file type!');
-		if(!isset($this->options['mimetype'])){
-			throw new common_Exception("Please define the mimetype option for the FileMimeType Validator");
-		}
-
-       
+        return __('Invalid file type!');
     }
+
+    public function setOptions(array $options)
+    {
+        parent::setOptions($options);
+
+        if(!isset($this->options['mimetype'])){
+            throw new common_Exception("Please define the mimetype option for the FileMimeType Validator");
+        }
+    }
+
 
     /**
      * Short description of method evaluate
@@ -72,14 +63,14 @@ class tao_helpers_form_validators_FileMimeType
 		if (is_array($values)) {
 			if (file_exists($values['uploaded_file'])) {
 				$mimetype = tao_helpers_File::getMimeType($values['uploaded_file']);
-				common_Logger::i($mimetype);
+				common_Logger::d($mimetype);
 			}
 
 			if (!empty($mimetype) ) {
 				if (in_array($mimetype, $this->options['mimetype'])) {
 					$returnValue = true;
-				} else{
-					$this->message .= " ".implode(', ', $this->options['mimetype'])." are expected but $mimetype detected";
+				} else {
+					$this->setMessage(__('%1$s expected but %2$s detected', implode(', ', $this->options['mimetype']), $mimetype));
 				}
 			} else {
 			    common_Logger::i('mimetype empty');
@@ -90,6 +81,4 @@ class tao_helpers_form_validators_FileMimeType
         return (bool) $returnValue;
     }
 
-} 
-
-?>
+}
