@@ -36,7 +36,7 @@ define([
     });
 
 
-    var dialogApi = [
+    var mediaplayerApi = [
         { name : 'init', title : 'init' },
         { name : 'destroy', title : 'destroy' },
         { name : 'render', title : 'render' },
@@ -67,14 +67,14 @@ define([
     ];
 
     QUnit
-        .cases(dialogApi)
+        .cases(mediaplayerApi)
         .test('API ', function(data, assert) {
             var instance = mediaplayer();
             assert.equal(typeof instance[data.name], 'function', 'The mediaplayer instance exposes a "' + data.title + '" function');
         });
 
 
-    QUnit.asyncTest('DOM/audio player', function(assert) {
+    QUnit.asyncTest('DOM [audio player]', function(assert) {
         var url = 'js/test/ui/mediaplayer/samples/audio.mp3';
         var $container = $('#fixture-1');
         var instance = mediaplayer({
@@ -132,7 +132,7 @@ define([
     });
 
 
-    QUnit.asyncTest('DOM/video player', function(assert) {
+    QUnit.asyncTest('DOM [video player]', function(assert) {
         var url = 'js/test/ui/mediaplayer/samples/video.mp4';
         var $container = $('#fixture-2');
         var instance = mediaplayer({
@@ -190,7 +190,7 @@ define([
     });
 
 
-    QUnit.asyncTest('DOM/youtube player', function(assert) {
+    QUnit.asyncTest('DOM [youtube player]', function(assert) {
         var videoId = 'YJWSVUPSQqw';
         var url = '//www.youtube.com/watch?v=' + videoId;
         var $container = $('#fixture-3');
@@ -248,273 +248,125 @@ define([
     });
 
 
-    QUnit.asyncTest('Events/audio player', function(assert) {
-        var $container = $('#fixture-4');
-        var instance = mediaplayer({
-            url: [{
-                src: 'js/test/ui/mediaplayer/samples/audio.mp3',
-                type: 'audio/mp3'
-            }, {
-                src: 'js/test/ui/mediaplayer/samples/audio.m4a',
-                type: 'audio/m4a'
-            }, {
-                src: 'js/test/ui/mediaplayer/samples/audio.ogg',
-                type: 'audio/ogg'
-            }],
-            type: 'audio',
-            startMuted: true
-        });
+    var mediaplayerEvents = [{
+        title: 'audio player',
+        fixture: '4',
+        type: 'audio',
+        url: [{
+            src: 'js/test/ui/mediaplayer/samples/audio.mp3',
+            type: 'audio/mp3'
+        }, {
+            src: 'js/test/ui/mediaplayer/samples/audio.m4a',
+            type: 'audio/m4a'
+        }, {
+            src: 'js/test/ui/mediaplayer/samples/audio.ogg',
+            type: 'audio/ogg'
+        }]
+    }, {
+        title: 'video player',
+        fixture: '5',
+        type: 'video',
+        url: [{
+            src: 'js/test/ui/mediaplayer/samples/video.mp4',
+            type: 'video/mp4'
+        }, {
+            src: 'js/test/ui/mediaplayer/samples/video.ogm',
+            type: 'video/ogm'
+        }, {
+            src: 'js/test/ui/mediaplayer/samples/video.webm',
+            type: 'video/webm'
+        }]
+    }, {
+        title: 'youtube player',
+        fixture : '6',
+        type: 'youtube',
+        url: '//www.youtube.com/watch?v=YJWSVUPSQqw'
+    }];
 
-        var events = ['render', 'ready', 'play', 'pause', 'update', 'ended', 'destroy'];
-        var checks = (events.length - 1) * 2;
+    QUnit
+        .cases(mediaplayerEvents)
+        .asyncTest('Events ', function(data, assert) {
+            var $container = $('#fixture-' + data.fixture);
+            var instance = mediaplayer({
+                url: data.url,
+                type: data.type,
+                startMuted: true
+            });
 
-        _(events).forEach(function(event) {
-            $container.one(event + '.mediaplayer', function() {
-                assert.ok(true, 'The media player has triggered the ' + event + ' event through the DOM');
+            var events = ['render', 'ready', 'play', 'pause', 'update', 'ended', 'destroy'];
+            var checks = (events.length - 1) * 2;
+
+            _(events).forEach(function(event) {
+                $container.one(event + '.mediaplayer', function() {
+                    assert.ok(true, 'The media player has triggered the ' + event + ' event through the DOM');
+
+                    QUnit.start();
+                });
+            });
+
+            instance.on('render', function($dom, player) {
+                assert.ok(true, 'The media player has triggered the render event');
+                assert.equal(typeof $dom, 'object', 'The render event provides the DOM');
+                assert.ok($dom.is('.mediaplayer'), 'The provided DOM has the right class');
+                assert.equal($dom, instance.getDom(), 'The render event provides the right DOM');
+                assert.equal(player, instance, 'The render event provides the instance');
 
                 QUnit.start();
             });
-        });
 
-        instance.on('render', function($dom, player) {
-            assert.ok(true, 'The media player has triggered the render event');
-            assert.equal(typeof $dom, 'object', 'The render event provides the DOM');
-            assert.ok($dom.is('.mediaplayer'), 'The provided DOM has the right class');
-            assert.equal($dom, instance.getDom(), 'The render event provides the right DOM');
-            assert.equal(player, instance, 'The render event provides the instance');
+            instance.on('ready', function(player) {
+                assert.ok(true, 'The media player has triggered the ready event');
+                assert.equal(player, instance, 'The ready event provides the instance');
 
-            QUnit.start();
-        });
-
-        instance.on('ready', function(player) {
-            assert.ok(true, 'The media player has triggered the ready event');
-            assert.equal(player, instance, 'The ready event provides the instance');
-
-            player.play();
-
-            QUnit.start();
-        });
-
-        instance.on('play', function(player) {
-            assert.ok(true, 'The media player has triggered the play event');
-            assert.equal(player, instance, 'The play event provides the instance');
-
-            setTimeout(function(){
-                player.pause();
-            }, 500);
-
-            QUnit.start();
-        });
-
-        instance.on('pause', function(player) {
-            assert.ok(true, 'The media player has triggered the pause event');
-            assert.equal(player, instance, 'The pause event provides the instance');
-
-            player.stop();
-
-            QUnit.start();
-        });
-
-        instance.on('ended', function(player) {
-            assert.ok(true, 'The media player has triggered the ended event');
-            assert.equal(player, instance, 'The ended event provides the instance');
-
-            player.destroy();
-
-            QUnit.start();
-        });
-
-        instance.on('destroy', function(player) {
-            assert.ok(true, 'The media player has triggered the destroy event');
-            assert.equal(player, instance, 'The destroy event provides the instance');
-
-            QUnit.start();
-        });
-
-        if (mediaplayer.canPlay) {
-            QUnit.stop(checks);
-            instance.render($container);
-        } else {
-            throw new Error('The browser does not support the audio tag!');
-        }
-    });
-
-
-    QUnit.asyncTest('Events/video player', function(assert) {
-        var $container = $('#fixture-5');
-        var instance = mediaplayer({
-            url: [{
-                src: 'js/test/ui/mediaplayer/samples/video.mp4',
-                type: 'video/mp4'
-            }, {
-                src: 'js/test/ui/mediaplayer/samples/video.ogm',
-                type: 'video/ogm'
-            }, {
-                src: 'js/test/ui/mediaplayer/samples/video.webm',
-                type: 'video/webm'
-            }],
-            type: 'video',
-            startMuted: true
-        });
-
-        var events = ['render', 'ready', 'play', 'pause', 'update', 'ended', 'destroy'];
-        var checks = (events.length - 1) * 2;
-
-        _(events).forEach(function(event) {
-            $container.one(event + '.mediaplayer', function() {
-                assert.ok(true, 'The media player has triggered the ' + event + ' event through the DOM');
+                player.play();
 
                 QUnit.start();
             });
-        });
 
-        instance.on('render', function($dom, player) {
-            assert.ok(true, 'The media player has triggered the render event');
-            assert.equal(typeof $dom, 'object', 'The render event provides the DOM');
-            assert.ok($dom.is('.mediaplayer'), 'The provided DOM has the right class');
-            assert.equal($dom, instance.getDom(), 'The render event provides the right DOM');
-            assert.equal(player, instance, 'The render event provides the instance');
+            instance.on('play', function(player) {
+                assert.ok(true, 'The media player has triggered the play event');
+                assert.equal(player, instance, 'The play event provides the instance');
 
-            QUnit.start();
-        });
-
-        instance.on('ready', function(player) {
-            assert.ok(true, 'The media player has triggered the ready event');
-            assert.equal(player, instance, 'The ready event provides the instance');
-
-            player.play();
-
-            QUnit.start();
-        });
-
-        instance.on('play', function(player) {
-            assert.ok(true, 'The media player has triggered the play event');
-            assert.equal(player, instance, 'The play event provides the instance');
-
-            setTimeout(function(){
-                player.pause();
-            }, 500);
-
-            QUnit.start();
-        });
-
-        instance.on('pause', function(player) {
-            assert.ok(true, 'The media player has triggered the pause event');
-            assert.equal(player, instance, 'The pause event provides the instance');
-
-            player.stop();
-
-            QUnit.start();
-        });
-
-        instance.on('ended', function(player) {
-            assert.ok(true, 'The media player has triggered the ended event');
-            assert.equal(player, instance, 'The ended event provides the instance');
-
-            player.destroy();
-
-            QUnit.start();
-        });
-
-        instance.on('destroy', function(player) {
-            assert.ok(true, 'The media player has triggered the destroy event');
-            assert.equal(player, instance, 'The destroy event provides the instance');
-
-            QUnit.start();
-        });
-
-        if (mediaplayer.canPlay) {
-            QUnit.stop(checks);
-            instance.render($container);
-        } else {
-            throw new Error('The browser does not support the video tag!');
-        }
-    });
-
-
-    QUnit.asyncTest('Events/youtube player', function(assert) {
-        var $container = $('#fixture-6');
-        var videoId = 'YJWSVUPSQqw';
-        var url = '//www.youtube.com/watch?v=' + videoId;
-        var instance = mediaplayer({
-            url: url,
-            type: 'youtube',
-            startMuted: true
-        });
-
-        var events = ['render', 'ready', 'play', 'pause', 'update', 'ended', 'destroy'];
-        var checks = (events.length - 1) * 2;
-
-        _(events).forEach(function(event) {
-            $container.one(event + '.mediaplayer', function() {
-                assert.ok(true, 'The media player has triggered the ' + event + ' event through the DOM');
+                setTimeout(function(){
+                    player.pause();
+                }, 500);
 
                 QUnit.start();
             });
+
+            instance.on('pause', function(player) {
+                assert.ok(true, 'The media player has triggered the pause event');
+                assert.equal(player, instance, 'The pause event provides the instance');
+
+                player.stop();
+
+                QUnit.start();
+            });
+
+            instance.on('ended', function(player) {
+                assert.ok(true, 'The media player has triggered the ended event');
+                assert.equal(player, instance, 'The ended event provides the instance');
+
+                player.destroy();
+
+                QUnit.start();
+            });
+
+            instance.on('destroy', function(player) {
+                assert.ok(true, 'The media player has triggered the destroy event');
+                assert.equal(player, instance, 'The destroy event provides the instance');
+
+                QUnit.start();
+            });
+
+            if (mediaplayer.canPlay) {
+                QUnit.stop(checks);
+                instance.render($container);
+            } else {
+                throw new Error('The browser does not support the ' + data.title + '!');
+            }
         });
 
-        instance.on('render', function($dom, player) {
-            assert.ok(true, 'The media player has triggered the render event');
-            assert.equal(typeof $dom, 'object', 'The render event provides the DOM');
-            assert.ok($dom.is('.mediaplayer'), 'The provided DOM has the right class');
-            assert.equal($dom, instance.getDom(), 'The render event provides the right DOM');
-            assert.equal(player, instance, 'The render event provides the instance');
-
-            QUnit.start();
-        });
-
-        instance.on('ready', function(player) {
-            assert.ok(true, 'The media player has triggered the ready event');
-            assert.equal(player, instance, 'The ready event provides the instance');
-
-            player.play();
-
-            QUnit.start();
-        });
-
-        instance.on('play', function(player) {
-            assert.ok(true, 'The media player has triggered the play event');
-            assert.equal(player, instance, 'The play event provides the instance');
-
-            setTimeout(function(){
-                player.pause();
-            }, 500);
-
-            QUnit.start();
-        });
-
-        instance.on('pause', function(player) {
-            assert.ok(true, 'The media player has triggered the pause event');
-            assert.equal(player, instance, 'The pause event provides the instance');
-
-            player.stop();
-
-            QUnit.start();
-        });
-
-        instance.on('ended', function(player) {
-            assert.ok(true, 'The media player has triggered the ended event');
-            assert.equal(player, instance, 'The ended event provides the instance');
-
-            player.destroy();
-
-            QUnit.start();
-        });
-
-        instance.on('destroy', function(player) {
-            assert.ok(true, 'The media player has triggered the destroy event');
-            assert.equal(player, instance, 'The destroy event provides the instance');
-
-            QUnit.start();
-        });
-
-        if (mediaplayer.canPlay) {
-            QUnit.stop(checks);
-            instance.render($container);
-        } else {
-            throw new Error('The browser does not support the youtube player!');
-        }
-    });
 
     /**
      * @param {String} config.type - The type of media to play
