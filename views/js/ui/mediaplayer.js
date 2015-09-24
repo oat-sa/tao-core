@@ -613,11 +613,12 @@ define([
          * @param {Boolean} [config.startMuted] - The player should be initially muted
          * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
          * @param {Function} [config.onready] - Event listener called when the player is fully ready
-         * @param {Function} [config.onplay] -  Event listener called when the playback is starting
-         * @param {Function} [config.onpause] -  Event listener called when the playback is paused
-         * @param {Function} [config.onended] -  Event listener called when the playback is ended
-         * @param {Function} [config.onupdate] -  Event listener called while the player is playing
-         * @param {Function} [config.onrender] -  Event listener called when the player is rendering
+         * @param {Function} [config.onplay] - Event listener called when the playback is starting
+         * @param {Function} [config.onpause] - Event listener called when the playback is paused
+         * @param {Function} [config.onended] - Event listener called when the playback is ended
+         * @param {Function} [config.onupdate] - Event listener called while the player is playing
+         * @param {Function} [config.onrender] - Event listener called when the player is rendering
+         * @param {Function} [config.ondestroy] - Event listener called when the player is destroying
          * @returns {mediaplayer}
          */
         init : function init(config) {
@@ -1609,17 +1610,24 @@ define([
      * @param {Boolean} [config.startMuted] - The player should be initially muted
      * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
      * @param {Function} [config.onready] - Event listener called when the player is fully ready
-     * @param {Function} [config.onplay] -  Event listener called when the playback is starting
-     * @param {Function} [config.onpause] -  Event listener called when the playback is paused
-     * @param {Function} [config.onended] -  Event listener called when the playback is ended
-     * @param {Function} [config.onupdate] -  Event listener called while the player is playing
-     * @param {Function} [config.onrender] -  Event listener called when the player is rendering
+     * @param {Function} [config.onplay] - Event listener called when the playback is starting
+     * @param {Function} [config.onpause] - Event listener called when the playback is paused
+     * @param {Function} [config.onended] - Event listener called when the playback is ended
+     * @param {Function} [config.onupdate] - Event listener called while the player is playing
+     * @param {Function} [config.onrender] - Event listener called when the player is rendering
+     * @param {Function} [config.ondestroy] - Event listener called when the player is destroying
      * @returns {mediaplayer}
      */
     var mediaplayerFactory = function mediaplayerFactory(config) {
         var player = _.clone(mediaplayer);
         return player.init(config);
     };
+
+    /**
+     * Tells if the browser can play audio and video
+     * @type {Boolean}
+     */
+    mediaplayerFactory.canPlay = _canPlay;
 
     return mediaplayerFactory;
 });
