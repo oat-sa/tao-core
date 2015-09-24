@@ -42,7 +42,7 @@ define([
      * @type {RegExp}
      * @private
      */
-    var _reYoutube = /([?&\/]v[=\/])([\w-]+)([&\/]?)/g;
+    var _reYoutube = /([?&\/]v[=\/])([\w-]+)([&\/]?)/;
 
     /**
      * Array slice method needed to slice arguments
@@ -109,7 +109,6 @@ define([
      */
     var _extractYoutubeId = function(url) {
         var res = _reYoutube.exec(url);
-        _reYoutube.lastIndex = 0;
         return res && res[2];
     };
 
