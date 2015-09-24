@@ -109,6 +109,7 @@ define([
      */
     var _extractYoutubeId = function(url) {
         var res = _reYoutube.exec(url);
+        _reYoutube.lastIndex = 0;
         return res && res[2];
     };
 
