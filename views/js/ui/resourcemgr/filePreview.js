@@ -48,7 +48,7 @@ define([
             $previewer.previewer(file);
             $propType.text(file.type + ' (' + file.mime + ')'); 
             $propSize.text(bytes.hrSize(file.size));
-            $link.attr('href', file.url).attr('download', file.file);
+            $link.attr('href', file.download).attr('download', file.file);
             if($link.hasClass('hidden')){
                 $link.removeClass('hidden');
             }
