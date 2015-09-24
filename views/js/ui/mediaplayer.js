@@ -109,7 +109,7 @@ define([
      */
     var _extractYoutubeId = function(url) {
         var res = _reYoutube.exec(url);
-        return res && res[2];
+        return res && res[2] || url;
     };
 
     /**

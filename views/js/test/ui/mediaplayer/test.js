@@ -248,7 +248,7 @@ define([
     });
 
 
-    var mediaplayerEvents = [{
+    var mediaplayerTypes = [{
         title: 'audio player',
         fixture: '4',
         type: 'audio',
@@ -277,14 +277,19 @@ define([
             type: 'video/webm'
         }]
     }, {
-        title: 'youtube player',
+        title: 'youtube player / url',
         fixture : '6',
         type: 'youtube',
         url: '//www.youtube.com/watch?v=YJWSVUPSQqw'
+    }, {
+        title: 'youtube player / id',
+        fixture : '6',
+        type: 'youtube',
+        url: 'YJWSVUPSQqw'
     }];
 
     QUnit
-        .cases(mediaplayerEvents)
+        .cases(mediaplayerTypes)
         .asyncTest('Events ', function(data, assert) {
             var $container = $('#fixture-' + data.fixture);
             var instance = mediaplayer({
@@ -363,7 +368,7 @@ define([
                 QUnit.stop(checks);
                 instance.render($container);
             } else {
-                throw new Error('The browser does not support the ' + data.title + '!');
+                throw new Error('The browser does not support the ' + data.type + ' player!');
             }
         });
 
