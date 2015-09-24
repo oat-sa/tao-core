@@ -524,10 +524,10 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
         $recursive = (isset($options['recursive'])) ? $options['recursive'] : false;
         // cut of the class and only display the children?
         $chunk = (isset($options['chunk'])) ? $options['chunk'] : false;
-        // probably which subtrees should be opened, also can be an instance to be shown
+        // probably which subtrees should be opened
         $browse = (isset($options['browse'])) ? $options['browse'] : array();
         // limit of instances shown by subclass if no search label is given
-        // if a search string is given, this is the total limit of results, independant of classes
+        // if a search string is given, this is the total limit of results, independent of classes
         $limit = (isset($options['limit'])) ? $options['limit'] : 0;
         // offset for limit
         $offset = (isset($options['offset'])) ? $options['offset'] : 0;
@@ -553,7 +553,7 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
                 $openNodes[] = $clazz->getUri();
             }
 
-            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter, (boolean)count($browse));
+            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter, array_shift($browse));
             $returnValue = $chunk ? ($tree['children']) : $tree;
         }
         return $returnValue;
