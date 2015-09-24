@@ -23,10 +23,11 @@ define([
     'lodash',
     'i18n',
     'urlParser',
+    'core/eventifier',
     'tpl!ui/mediaplayer/tpl/player',
     'css!ui/mediaplayer/css/player',
     'nouislider'
-], function ($, _, __, UrlParser, playerTpl) {
+], function ($, _, __, UrlParser, eventifier, playerTpl) {
     'use strict';
 
     /**
@@ -611,16 +612,19 @@ define([
          * @param {Number} [config.volume] - Sets the sound volume (default: 1)
          * @param {Boolean} [config.startMuted] - The player should be initially muted
          * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
-         * @param {Function} [config.ready] - An optional callback function called whent the player is fully ready
+         * @param {Function} [config.onready] - Event listener called when the player is fully ready
+         * @param {Function} [config.onplay] -  Event listener called when the playback is starting
+         * @param {Function} [config.onpause] -  Event listener called when the playback is paused
+         * @param {Function} [config.onended] -  Event listener called when the playback is ended
+         * @param {Function} [config.onupdate] -  Event listener called while the player is playing
+         * @param {Function} [config.onrender] -  Event listener called when the player is rendering
+         * @returns {mediaplayer}
          */
         init : function init(config) {
             var initConfig = config || {};
 
-            this.config = _.omit(initConfig, function(value) {
-                return value === undefined || value === null;
-            });
-
-            this._reset();
+            this._initEvents(initConfig);
+            this._initConfig(initConfig);
             this._initType(initConfig);
             this._initSize(initConfig);
             this._initSources(initConfig);
@@ -629,12 +633,22 @@ define([
             if (initConfig.renderTo) {
                 this.render(initConfig.renderTo);
             }
+
+            return this;
         },
 
         /**
-         * Uninstall the media player
+         * Uninstalls the media player
+         * @returns {mediaplayer}
          */
         destroy : function destroy() {
+            /**
+             * Triggers a destroy event
+             * @event mediaplayer#destroy
+             * @param {mediaplayer} this
+             */
+            this.trigger('destroy', this);
+
             if (this.player) {
                 this.player.destroy();
             }
@@ -648,6 +662,8 @@ define([
             }
 
             this._reset();
+
+            return this;
         },
 
         /**
@@ -656,27 +672,11 @@ define([
          * @returns {jQuery}
          */
         render : function render(to) {
-            var self = this;
-            var page;
-
             if (this.$component) {
                 this.destroy();
             }
 
-            this._setState('cors', false);
-            this._setState('ready', false);
-
-            if (!this.is('youtube')) {
-                page = new UrlParser(window.location);
-                _.forEach(this.config.sources, function(source) {
-                    var url = new UrlParser(source.src);
-                    if (!url.checkCORS(page)) {
-                        self._setState('cors', true);
-                        return false;
-                    }
-                });
-            }
-
+            this._initState();
             this._buildDom();
             this._updateDuration(0);
             this._updatePosition(0);
@@ -685,10 +685,19 @@ define([
             this._initPlayer();
 
             this.resize(this.config.width, this.config.height);
+            this.config.is.rendered = true;
 
             if (to) {
                 $(to).append(this.$component);
             }
+
+            /**
+             * Triggers a render event
+             * @event mediaplayer#render
+             * @param {jQuery} $component
+             * @param {mediaplayer} this
+             */
+            this.trigger('render', this.$component, this);
 
             return this.$component;
         },
@@ -843,7 +852,7 @@ define([
         },
 
         /**
-         * Gets the current position of the playback inside the media
+         * Gets the current displayed position inside the media
          * @returns {Number}
          */
         getPosition : function getPosition() {
@@ -856,6 +865,14 @@ define([
          */
         getDuration : function getDuration() {
             return this.duration;
+        },
+
+        /**
+         * Gets the number of times the media has been played
+         * @returns {Number}
+         */
+        getTimesPlayed : function getTimesPlayed() {
+            return this.timesPlayed;
         },
 
         /**
@@ -959,59 +976,6 @@ define([
         },
 
         /**
-         * Install an event handler on the underlying DOM element
-         * @param {String} eventName
-         * @returns {mediaplayer}
-         */
-        on: function on(eventName) {
-            var dom = this.$component;
-            if (dom) {
-                dom.on.apply(dom, arguments);
-            }
-
-            return this;
-        },
-
-        /**
-         * Uninstall an event handler from the underlying DOM element
-         * @param {String} eventName
-         * @returns {mediaplayer}
-         */
-        off: function off(eventName) {
-            var dom = this.$component;
-            if (dom) {
-                dom.off.apply(dom, arguments);
-            }
-
-            return this;
-        },
-
-        /**
-         * Triggers an event on the underlying DOM element
-         * @param {String} eventName
-         * @param {Array|Object} extraParameters
-         * @returns {mediaplayer}
-         */
-        trigger : function trigger(eventName, extraParameters) {
-            var dom = this.$component;
-
-            if (dom) {
-                if (undefined === extraParameters) {
-                    extraParameters = [];
-                }
-                if (!_.isArray(extraParameters)) {
-                    extraParameters = [extraParameters];
-                }
-
-                extraParameters.push(this);
-
-                dom.trigger(eventName, extraParameters);
-            }
-
-            return this;
-        },
-
-        /**
          * Gets the underlying DOM element
          * @returns {jQuery}
          */
@@ -1020,45 +984,39 @@ define([
         },
 
         /**
-         * Builds the DOM content
+         * Installs the events manager onto the instance
          * @private
          */
-        _buildDom : function _buildDom() {
-            this.$component = $(playerTpl(this.config));
-            this.$player = this.$component.find('.player');
-            this.$media = this.$component.find('.media');
-            this.$controls = this.$component.find('.controls');
+        _initEvents : function _initEvents() {
+            var triggerEvent;
 
-            this.$seek = this.$controls.find('.seek .slider');
-            this.$volume = this.$controls.find('.volume .slider');
-            this.$position = this.$controls.find('[data-control="time-cur"]');
-            this.$duration = this.$controls.find('[data-control="time-end"]');
+            eventifier(this);
 
-            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, this.is('video'));
+            triggerEvent = this.trigger;
+            this.trigger = function trigger(eventName) {
+                if (this.$component) {
+                    this.$component.trigger(eventName + _ns, _slice.call(arguments, 1));
+                }
+                return triggerEvent.apply(this, arguments);
+            };
         },
 
         /**
-         * Resets the internals attributes
+         * Loads the config set
+         * @param {Object} config - The initial config set
          * @private
          */
-        _reset : function _reset() {
-            this.config.is = {};
+        _initConfig : function _initConfig(config) {
+            var self = this;
+            this.config = _.omit(config, function(value, name) {
+                var omit = value === undefined || value === null;
 
-            this.$component = null;
-            this.$player = null;
-            this.$media = null;
-            this.$controls = null;
-            this.$seek = null;
-            this.$seekSlider = null;
-            this.$volume = null;
-            this.$volumeSlider = null;
-            this.$position = null;
-            this.$duration = null;
-            this.player = null;
-
-            this.duration = 0;
-            this.position = 0;
-            this.timesPlayed = 0;
+                if (!omit && name.length > 3 && name.indexOf('on') === 0) {
+                    self.on(name.substr(2), value);
+                    omit = true;
+                }
+                return omit;
+            });
         },
 
         /**
@@ -1084,11 +1042,13 @@ define([
             }
 
             this.config.type = type;
-            _.merge(this.config.is, {
+            this.kind = {
                 audio : isAudio,
                 video : isVideo,
                 youtube : isYoutube
-            });
+            };
+
+            this._reset();
         },
 
         /**
@@ -1168,6 +1128,71 @@ define([
             }
 
             this._setState('error', error);
+        },
+
+        /**
+         * Initializes the player state
+         * @private
+         */
+        _initState : function _initState() {
+            var isCORS = false;
+            var page;
+
+            if (!this.is('youtube')) {
+                page = new UrlParser(window.location);
+                _.forEach(this.config.sources, function(source) {
+                    var url = new UrlParser(source.src);
+                    if (!url.checkCORS(page)) {
+                        isCORS = true;
+                        return false;
+                    }
+                });
+            }
+
+            this._setState('cors', isCORS);
+            this._setState('ready', false);
+        },
+
+        /**
+         * Resets the internals attributes
+         * @private
+         */
+        _reset : function _reset() {
+            this.config.is = _.clone(this.kind);
+
+            this.$component = null;
+            this.$player = null;
+            this.$media = null;
+            this.$controls = null;
+            this.$seek = null;
+            this.$seekSlider = null;
+            this.$volume = null;
+            this.$volumeSlider = null;
+            this.$position = null;
+            this.$duration = null;
+            this.player = null;
+
+            this.duration = 0;
+            this.position = 0;
+            this.timesPlayed = 0;
+        },
+
+        /**
+         * Builds the DOM content
+         * @private
+         */
+        _buildDom : function _buildDom() {
+            this.$component = $(playerTpl(this.config));
+            this.$player = this.$component.find('.player');
+            this.$media = this.$component.find('.media');
+            this.$controls = this.$component.find('.controls');
+
+            this.$seek = this.$controls.find('.seek .slider');
+            this.$volume = this.$controls.find('.volume .slider');
+            this.$position = this.$controls.find('[data-control="time-cur"]');
+            this.$duration = this.$controls.find('[data-control="time-end"]');
+
+            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, this.is('video'));
         },
 
         /**
@@ -1379,11 +1404,9 @@ define([
             /**
              * Triggers a media ready event
              * @event mediaplayer#ready.mediaplayer
+             * @param {mediaplayer} this
              */
-            this.trigger('ready' + _ns);
-            if (_.isFunction(this.config.ready)) {
-                this.config.ready.call(this, this);
-            }
+            this.trigger('ready', this);
 
             // set the initial state
             this.setVolume(this.volume);
@@ -1405,8 +1428,9 @@ define([
             /**
              * Triggers a media playback event
              * @event mediaplayer#play.mediaplayer
+             * @param {mediaplayer} this
              */
-            this.trigger('play' + _ns);
+            this.trigger('play', this);
         },
 
         /**
@@ -1419,8 +1443,9 @@ define([
             /**
              * Triggers a media paused event
              * @event mediaplayer#pause.mediaplayer
+             * @param {mediaplayer} this
              */
-            this.trigger('pause' + _ns);
+            this.trigger('pause', this);
         },
 
         /**
@@ -1435,8 +1460,9 @@ define([
             /**
              * Triggers a media ended event
              * @event mediaplayer#ended.mediaplayer
+             * @param {mediaplayer} this
              */
-            this.trigger('ended' + _ns);
+            this.trigger('ended', this);
 
             // disable GUI when the play limit is reached
             if (!this._canPlay()) {
@@ -1459,8 +1485,9 @@ define([
             /**
              * Triggers a media time update event
              * @event mediaplayer#update.mediaplayer
+             * @param {mediaplayer} this
              */
-            this.trigger('update' + _ns);
+            this.trigger('update', this);
         },
 
         /**
@@ -1581,13 +1608,17 @@ define([
      * @param {Number} [config.volume] - Sets the sound volume (default: 1)
      * @param {Boolean} [config.startMuted] - The player should be initially muted
      * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
-     * @param {Function} [config.ready] - An optional callback function called whent the player is fully ready
+     * @param {Function} [config.onready] - Event listener called when the player is fully ready
+     * @param {Function} [config.onplay] -  Event listener called when the playback is starting
+     * @param {Function} [config.onpause] -  Event listener called when the playback is paused
+     * @param {Function} [config.onended] -  Event listener called when the playback is ended
+     * @param {Function} [config.onupdate] -  Event listener called while the player is playing
+     * @param {Function} [config.onrender] -  Event listener called when the player is rendering
      * @returns {mediaplayer}
      */
     var mediaplayerFactory = function mediaplayerFactory(config) {
         var player = _.clone(mediaplayer);
-        player.init(config);
-        return player;
+        return player.init(config);
     };
 
     return mediaplayerFactory;
