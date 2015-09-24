@@ -402,6 +402,14 @@ define([
                     return 0;
                 },
 
+                getVolume : function _youtubePlayerGetVolume() {
+                    var value = 0;
+                    if (media) {
+                        value = media.getVolume() * _volumeRange / 100 + _volumeMin;
+                    }
+                    return value;
+                },
+
                 setVolume : function _youtubePlayerSetVolume(value) {
                     if (media) {
                         media.setVolume((parseFloat(value) - _volumeMin) / _volumeRange * 100);
@@ -446,6 +454,13 @@ define([
                     if (media) {
                         media[state ? 'mute' : 'unMute']();
                     }
+                },
+
+                isMuted : function _youtubePlayerIsMuted() {
+                    if (media) {
+                        return media.isMuted();
+                    }
+                    return false;
                 }
             };
         }
@@ -531,6 +546,14 @@ define([
                     return 0;
                 },
 
+                getVolume : function _nativePlayerGetVolume() {
+                    var value = 0;
+                    if (media) {
+                        value = parseFloat(media.volume) * _volumeRange + _volumeMin;
+                    }
+                    return value;
+                },
+
                 setVolume : function _nativePlayerSetVolume(value) {
                     if (media) {
                         media.volume = (parseFloat(value) - _volumeMin) / _volumeRange;
@@ -574,6 +597,13 @@ define([
                     if (media) {
                         media.muted = !!state;
                     }
+                },
+
+                isMuted : function _nativePlayerIsMuted() {
+                    if (media) {
+                        return !!media.muted;
+                    }
+                    return false;
                 }
             };
         }
@@ -609,7 +639,7 @@ define([
          * @param {Number} [config.maxPlays] - Sets a few number of plays (default: infinite)
          * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
          * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
-         * @param {Number} [config.volume] - Sets the sound volume (default: 1)
+         * @param {Number} [config.volume] - Sets the sound volume (default: 80)
          * @param {Boolean} [config.startMuted] - The player should be initially muted
          * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
          * @param {Function} [config.onready] - Event listener called when the player is fully ready
@@ -1606,7 +1636,7 @@ define([
      * @param {Number} [config.maxPlays] - Sets a few number of plays (default: infinite)
      * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
      * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
-     * @param {Number} [config.volume] - Sets the sound volume (default: 1)
+     * @param {Number} [config.volume] - Sets the sound volume (default: 80)
      * @param {Boolean} [config.startMuted] - The player should be initially muted
      * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
      * @param {Function} [config.onready] - Event listener called when the player is fully ready
