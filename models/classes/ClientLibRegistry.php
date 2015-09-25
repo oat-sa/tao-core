@@ -22,7 +22,9 @@ namespace oat\tao\model;
 use oat\oatbox\AbstractRegistry;
 use \common_ext_ExtensionsManager;
 use \common_Logger;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
+use oat\tao\model\asset\AssetService;
 
 /**
  * 
@@ -59,10 +61,10 @@ class ClientLibRegistry extends AbstractRegistry
     public function getLibAliasMap()
     {
         $extensionsAliases = array();
+        $assetservice = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
         foreach (ClientLibRegistry::getRegistry()->getMap() as $alias => $lib ){
             if (is_array($lib) && isset($lib['extId']) && isset($lib['path'])) {
-                $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($lib['extId']);
-                $extensionsAliases[$alias] = $ext->getConstant('BASE_WWW').$lib['path'];
+                $extensionsAliases[$alias] = $assetservice->getJsBaseWww($lib['extId']).$lib['path'];
             } elseif (is_string($lib)) {
                 $extensionsAliases[$alias] = str_replace(ROOT_URL, '../../../', $lib);
             } else {
