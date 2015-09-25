@@ -23,8 +23,6 @@ $root = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR;
 define('TAO_INSTALL_PATH', $root);
 
 require_once ($root . 'vendor/autoload.php');
-require_once ($root . 'tao/helpers/class.Display.php');
-require_once ($root . 'tao/helpers/class.Uri.php');
 
 common_log_Dispatcher::singleton()->init(array(
     array(

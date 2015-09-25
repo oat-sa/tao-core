@@ -336,6 +336,16 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($currentVersion === '2.11.0') {
+            $service = new \tao_models_classes_service_StateStorage(array('persistence' => 'serviceState'));
+            $this->getServiceManager()->register('tao/stateStorage', $service);
+            $currentVersion = '2.12.0';
+        }
+        
+        if ($currentVersion === '2.12.0') {
+            $currentVersion = '2.13.0';
+        }
+
+        if ($currentVersion === '2.13.0') {
 
             //add the new customizable template "login-message" to backOffice target
             $s = DIRECTORY_SEPARATOR;
@@ -343,8 +353,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $backOfficeTarget['base']['templates']['login-message'] = 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'login-message.tpl';
             ThemeRegistry::getRegistry()->set('backOffice', $backOfficeTarget);
 
-            $currentVersion = '2.12.0';
+            $currentVersion = '2.14.0';
         }
+        
         return $currentVersion;
     }
     
