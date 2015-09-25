@@ -64,7 +64,6 @@ class ClientLibRegistry extends AbstractRegistry
         $assetservice = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
         foreach (ClientLibRegistry::getRegistry()->getMap() as $alias => $lib ){
             if (is_array($lib) && isset($lib['extId']) && isset($lib['path'])) {
-                $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($lib['extId']);
                 $extensionsAliases[$alias] = $assetservice->getJsBaseWww($lib['extId']).$lib['path'];
             } elseif (is_string($lib)) {
                 $extensionsAliases[$alias] = str_replace(ROOT_URL, '../../../', $lib);
