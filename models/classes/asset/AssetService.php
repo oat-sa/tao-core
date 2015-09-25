@@ -31,7 +31,6 @@ use oat\oatbox\service\ConfigurableService;
 class AssetService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/asset';
-    const CONFIG_KEY = 'asset';
 
     public function getAsset($asset, $extensionId)
     {
