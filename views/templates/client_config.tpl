@@ -1,6 +1,6 @@
 require.config({
 
-    baseUrl : '<?=TAOBASE_WWW?>js',
+    baseUrl : '<?=get_data('tao_base_www')?>js',
     catchError: true,
     waitSeconds: <?=get_data('client_timeout')?>,
 
@@ -8,7 +8,7 @@ require.config({
         'context': {
             root_url                : '<?=ROOT_URL?>',
             base_url                : '<?=BASE_URL?>',
-            taobase_www             : '<?=TAOBASE_WWW?>',
+            taobase_www             : '<?=get_data('tao_base_www')?>',
             base_www                : '<?=get_data('base_www')?>',
             base_lang               : '<?=get_data('lang')?>',
             locale                  : '<?=get_data('locale')?>',

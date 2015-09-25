@@ -22,6 +22,7 @@
 namespace oat\tao\scripts\update;
 
 use common_ext_ExtensionsManager;
+use oat\tao\model\asset\AssetService;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -294,6 +295,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion === '2.9.1') {
             OntologyUpdater::syncModels();
             $currentVersion = '2.10.0';
+        }
+
+        if ($currentVersion === '2.10.0') {
+            $service = new AssetService();
+            $this->getServiceManager()->register(AssetService::SERVICE_ID, $service);
+            $currentVersion = '2.10.1';
         }
         
         return $currentVersion;
