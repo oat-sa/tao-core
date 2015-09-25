@@ -30,8 +30,7 @@ use oat\oatbox\Configurable;
  */
 class CompatibilityTheme extends DefaultTheme implements Theme
 {
-    const OPTION_OLD_ID = 'old';
-    
+
     public function getId()
     {
         return $this->getOption('id');
