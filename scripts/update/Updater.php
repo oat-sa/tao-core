@@ -44,6 +44,7 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\theme\ThemeService;
 use oat\tao\model\theme\DefaultTheme;
+use oat\tao\model\theme\CompatibilityTheme;
 
 /**
  * 
@@ -350,10 +351,31 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion === '2.13.0') {
 
             //add the new customizable template "login-message" to backOffice target
-            $themeService = $this->getServiceManager()->get(ThemeService::SERVICE_ID);
+            $themeService = new ThemeService();
+            // init with default
             $themeService->setTheme(ThemeService::CONTEXT_BACKOFFICE, new DefaultTheme());
+            $themeService->setTheme(ThemeService::CONTEXT_FRONTOFFICE, new DefaultTheme());
+            
+            
+            //test for overrides
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $oldConfig = $ext->getConfig('themes');
+            foreach ($oldConfig['frontOffice']['available'] as $arr) {
+                if ($arr['id'] == $oldConfig['frontOffice']['default']) {
+                    $themeService->setTheme(ThemeService::CONTEXT_FRONTOFFICE, new CompatibilityTheme($arr));
+                }
+            }
+            foreach ($oldConfig['backOffice']['available'] as $arr) {
+                if ($arr['id'] == $oldConfig['backOffice']['default']) {
+                    $themeService->setTheme(ThemeService::CONTEXT_BACKOFFICE, new CompatibilityTheme($arr));
+                }
+            }
+            unset($oldConfig['backOffice']);
+            unset($oldConfig['frontOffice']);
+            $ext->setConfig('themes', $oldConfig );
+            
             $this->getServiceManager()->register(ThemeService::SERVICE_ID, $themeService);
-
+            
             $currentVersion = '2.14.0';
         }
         

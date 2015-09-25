@@ -19,36 +19,41 @@
  */
 namespace oat\tao\model\theme;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\taoAct\model\theme\ActTheme;
+use oat\tao\helpers\Template;
+use oat\oatbox\Configurable;
+
 /**
+ * Backwards compatibilit Theme build
+ * based on original array
  * 
- * @author Joel Bout
+ * @author bout
  */
-class ThemeService extends ConfigurableService {
+class CompatibilityTheme extends DefaultTheme implements Theme
+{
+    const OPTION_OLD_ID = 'old';
     
-    const CONTEXT_BACKOFFICE = 'backoffice';
-    
-    const CONTEXT_FRONTOFFICE = 'frontOffice';
-    
-    const CONTEXT_QTI_ITEM = 'items';
-    
-    const SERVICE_ID = 'tao/theming';
-    
-    public function getTheme($context)
+    public function getId()
     {
-        if ($this->hasOption($context)) {
-            $theme = $this->getOption($context);
+        return $this->getOption('id');
+    }
+    
+    public function getLabel()
+    {
+        return $this->getOption('name');
+    }
+    
+    public function getTemplate($id)
+    {
+        $templates = $this->getOption('templates');
+        if (isset($templates[$id])) {
+            return ROOT_PATH.$templates[$id];
         } else {
-            \common_Logger::w('Context '.$context.' unknown, falling back to back office');
-            $theme = $this->getOption(self::CONTEXT_BACKOFFICE);
+            return parent::getTemplate($id);
         }
-        return $theme;
     }
     
-    public function setTheme($context, Theme $default)
+    public function getStylesheet()
     {
-        $this->setOption($context, $default);
+        return ROOT_URL.$this->getOption('path');
     }
-    
 }
