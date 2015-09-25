@@ -57,7 +57,8 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
         $base_url = BASE_URL;
         $tao_base_www = $assetService->getJsBaseWww('tao');
-        $base_www = '';
+        $extensionId = \Context::getInstance()->getExtensionName();
+        $base_www = $assetService->getJsBaseWww($extensionId);
         if($this->hasRequestParameter('extension')){
             $extensionId = $this->getRequestParameter('extension');
             $extension = $extensionManager->getExtensionById($extensionId);
