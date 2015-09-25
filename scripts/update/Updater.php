@@ -44,6 +44,7 @@ use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\entryPoint\PasswordReset;
+use oat\oatbox\service\ServiceNotFoundException;
 
 /**
  * 
@@ -366,8 +367,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($currentVersion === '2.13.1') {
-            $service = new AssetService();
-            $this->getServiceManager()->register(AssetService::SERVICE_ID, $service);
+            try {
+                $this->getServiceManager()->get(AssetService::SERVICE_ID);
+                // all good, already configured
+            } catch (ServiceNotFoundException $error) {
+                $this->getServiceManager()->register(AssetService::SERVICE_ID, new AssetService());
+            }
             $currentVersion = '2.13.2';
         }
         
