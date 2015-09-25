@@ -291,83 +291,190 @@ define([
                 throw new Error('The browser does not support the ' + data.type + ' player!');
             }
 
+            var current = 0;
+            var path = [{
+                render: function($dom, player) {
+                    assert.equal(typeof $dom, 'object', 'The render event provides the DOM');
+                    assert.ok($dom.is('.mediaplayer'), 'The provided DOM has the right class');
+                    assert.equal($dom, instance.getDom(), 'The render event provides the right DOM');
+                    assert.equal(player, instance, 'The render event provides the instance');
+                },
+                ready:  function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The ready event provides the instance');
+
+                    player.play();
+                }
+            }, {
+                play: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The play event provides the instance');
+
+                    setTimeout(function(){
+                        player.pause();
+                    }, 500);
+                },
+                update: true
+            }, {
+                pause: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The pause event provides the instance');
+
+                    player.resume();
+                },
+                update: true
+            }, {
+                play: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The play event provides the instance');
+
+                    player.seek(1);
+                },
+                update: true
+            }, {
+                update: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The update event provides the instance');
+
+                    assert.equal(Math.floor(player.player.getPosition()), 1, 'The media player has moved forward to the right position');
+
+                    player.rewind();
+                },
+                play: true
+            }, {
+                update: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The update event provides the instance');
+
+                    assert.equal(Math.floor(player.player.getPosition()), 0, 'The media player has restarted from the beginning');
+
+                    player.seek(1);
+                },
+                play: true
+            }, {
+                update: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The update event provides the instance');
+
+                    assert.equal(Math.floor(player.player.getPosition()), 1, 'The media player has moved forward to the right position');
+
+                    player.pause();
+                },
+                play: true
+            }, {
+                pause: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The pause event provides the instance');
+
+                    player.restart();
+                },
+                update: true
+            }, {
+                play: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The play event provides the instance');
+
+                    assert.equal(Math.floor(player.player.getPosition()), 0, 'The media player has restarted from the beginning');
+
+                    player.stop();
+                },
+                update: true
+            }, {
+                ended: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The ended event provides the instance');
+
+                    player.destroy();
+                },
+                pause: true,
+                update: true
+            }, {
+                destroy: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The destroy event provides the instance');
+
+                    QUnit.start();
+                }
+            }];
+
+            var forward = function() {
+                current ++;
+            };
+
+            var checkPath = function(event, args) {
+                var step = path[current];
+                var stepEvent = step && step[event];
+                if (_.isFunction(stepEvent)) {
+                    assert.ok(true, 'The event ' + event + ' has been triggered!');
+                    _.defer(function() {
+                        stepEvent.apply(instance, args);
+                    });
+                } else if (!stepEvent) {
+                    assert.ok(false, 'The event ' + event + ' was unexpected!');
+                }
+            };
+
             var $container = $('#fixture-' + data.fixture);
             var instance = mediaplayer({
                 url: data.url,
                 type: data.type,
-                startMuted: true
+                startMuted: true,
+                onrender: function() {
+                    checkPath('render', arguments);
+                },
+                onready: function() {
+                    checkPath('ready', arguments);
+                },
+                onplay: function() {
+                    checkPath('play', arguments);
+                },
+                onupdate: function() {
+                    checkPath('update', arguments);
+                },
+                onpause: function() {
+                    checkPath('pause', arguments);
+                },
+                onended: function() {
+                    checkPath('ended', arguments);
+                },
+                ondestroy: function() {
+                    checkPath('destroy', arguments);
+                }
             });
 
             var events = ['render', 'ready', 'play', 'pause', 'update', 'ended', 'destroy'];
-            var checks = (events.length - 1) * 2;
-
-            _(events).forEach(function(event) {
+            var triggered = {};
+            _.forEach(events, function(event) {
                 $container.one(event + '.mediaplayer', function() {
                     assert.ok(true, 'The media player has triggered the ' + event + ' event through the DOM');
 
                     QUnit.start();
                 });
-            });
 
-            instance.on('render', function($dom, player) {
-                assert.ok(true, 'The media player has triggered the render event');
-                assert.equal(typeof $dom, 'object', 'The render event provides the DOM');
-                assert.ok($dom.is('.mediaplayer'), 'The provided DOM has the right class');
-                assert.equal($dom, instance.getDom(), 'The render event provides the right DOM');
-                assert.equal(player, instance, 'The render event provides the instance');
+                instance.on(event, function() {
+                    // todo: update eventifier to allow off() for particular handler and add once()
+                    if (!triggered[event]) {
+                        triggered[event] = true;
+                        assert.ok(true, 'The media player has triggered the ' + event + ' event using internal handling');
 
-                QUnit.start();
-            });
-
-            instance.on('ready', function(player) {
-                assert.ok(true, 'The media player has triggered the ready event');
-                assert.equal(player, instance, 'The ready event provides the instance');
-
-                player.play();
-
-                QUnit.start();
-            });
-
-            instance.on('play', function(player) {
-                assert.ok(true, 'The media player has triggered the play event');
-                assert.equal(player, instance, 'The play event provides the instance');
-
-                setTimeout(function(){
-                    player.pause();
-                }, 500);
-
-                QUnit.start();
-            });
-
-            instance.on('pause', function(player) {
-                assert.ok(true, 'The media player has triggered the pause event');
-                assert.equal(player, instance, 'The pause event provides the instance');
-
-                player.stop();
-
-                QUnit.start();
-            });
-
-            instance.on('ended', function(player) {
-                assert.ok(true, 'The media player has triggered the ended event');
-                assert.equal(player, instance, 'The ended event provides the instance');
-
-                _.defer(function() {
-                    player.destroy();
+                        QUnit.start();
+                    }
                 });
-
-                QUnit.start();
             });
 
-            instance.on('destroy', function(player) {
-                assert.ok(true, 'The media player has triggered the destroy event');
-                assert.equal(player, instance, 'The destroy event provides the instance');
-
-                QUnit.start();
-            });
-
-            QUnit.stop(checks);
+            QUnit.stop(events.length * 2 + 2);
             instance.render($container);
+
+            $container.on('custom.mediaplayer', function() {
+                assert.ok(true, 'The media player can handle custom events through DOM');
+                QUnit.start();
+            });
+            instance.on('custom', function() {
+                assert.ok(true, 'The media player can handle custom events internally');
+                QUnit.start();
+            });
+
+            instance.trigger('custom');
         });
 
 
@@ -620,6 +727,7 @@ define([
 
             var count = 0;
             var expected = 1;
+            var to;
             mediaplayer({
                 url: data.url,
                 type: data.type,
@@ -634,6 +742,11 @@ define([
 
                     if (count > expected) {
                         assert.ok(false, 'The media player cannot play more than allowed!');
+
+                        if (to) {
+                            clearTimeout(to);
+                            to = null;
+                        }
 
                         _.defer(function() {
                             player.destroy();
@@ -659,7 +772,11 @@ define([
                     }
 
                     _.defer(function() {
-                        player.destroy();
+                        to = setTimeout(function() {
+                            player.destroy();
+                        }, 500);
+
+                        player.play();
                     });
                 },
                 ondestroy: function() {
