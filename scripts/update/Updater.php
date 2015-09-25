@@ -42,6 +42,8 @@ use oat\tao\model\search\strategy\GenerisSearch;
 use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\ThemeRegistry;
+use oat\tao\model\theme\ThemeService;
+use oat\tao\model\theme\DefaultTheme;
 
 /**
  * 
@@ -348,10 +350,9 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion === '2.13.0') {
 
             //add the new customizable template "login-message" to backOffice target
-            $s = DIRECTORY_SEPARATOR;
-            $backOfficeTarget = ThemeRegistry::getRegistry()->get('backOffice');
-            $backOfficeTarget['base']['templates']['login-message'] = 'tao'.$s.'views'.$s.'templates'.$s.'blocks'.$s.'login-message.tpl';
-            ThemeRegistry::getRegistry()->set('backOffice', $backOfficeTarget);
+            $themeService = $this->getServiceManager()->get(ThemeService::SERVICE_ID);
+            $themeService->setTheme(ThemeService::CONTEXT_BACKOFFICE, new DefaultTheme());
+            $this->getServiceManager()->register(ThemeService::SERVICE_ID, $themeService);
 
             $currentVersion = '2.14.0';
         }

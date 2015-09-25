@@ -24,6 +24,8 @@ namespace oat\tao\helpers;
 use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\ThemeRegistry;
+use oat\tao\model\theme\ThemeService;
+use oat\oatbox\service\ServiceManager;
 
 class Layout{
 
@@ -337,17 +339,11 @@ class Layout{
      * @param string target
      * @param string $templateId
      */
-    public static function getThemeTemplate($target, $templateId){
-        $template = null;
-        $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
-        if(!is_null($defaultTheme)){
-            $template =  ThemeRegistry::getRegistry()->getTemplate($target, $defaultTheme['id'], $templateId);
-        }
-        if(is_null($template)){
-            //template with specified id not found in the default theme, try to fall back to the base theme
-            $template = ThemeRegistry::getRegistry()->getBaseTemplate($target, $templateId);
-        }
-        return $template;
+    public static function getThemeTemplate($target, $templateId)
+    {
+        $service = ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
+        $theme = $service->getTheme(ThemeService::CONTEXT_BACKOFFICE);
+        return $theme->getTemplate($templateId);
     }
 
     /**
@@ -356,10 +352,8 @@ class Layout{
      * @param string target
      */
     public static function getThemeStylesheet($target){
-        $defaultTheme = ThemeRegistry::getRegistry()->getDefaultTheme($target);
-        if(!is_null($defaultTheme)){
-            return ThemeRegistry::getRegistry()->getStylesheet($target, $defaultTheme['id']);
-        }
-        return null;
+        $service = ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
+        return $service->getTheme(ThemeService::CONTEXT_BACKOFFICE)->getStylesheet();
+
     }
 }

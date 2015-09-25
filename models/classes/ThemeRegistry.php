@@ -237,10 +237,10 @@ class ThemeRegistry extends AbstractRegistry
      * @return mixed
      */
     private function updatePath($theme){
-        $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
         
         if(isset($theme['path'])){
             if(strpos($theme['path'] , ThemeRegistry::WEBSOURCE) === 0) {
+                $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
                 $webUrl = $websource->getAccessUrl(substr($theme['path'],strlen(ThemeRegistry::WEBSOURCE)));
                 $theme['path'] = $webUrl;
             }
