@@ -19,6 +19,8 @@
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ThemeRegistry;
+use oat\tao\model\asset\AssetService;
+use \oat\oatbox\service\ServiceManager;
 
 /**
  * Generates client side configuration.
@@ -51,12 +53,16 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
 
 
         //loads the URLs context
-        $base_www = BASE_WWW;
+        /** @var AssetService $assetService */
+        $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
         $base_url = BASE_URL;
+        $tao_base_www = $assetService->getTaoBaseWww();
+        $base_www = '';
         if($this->hasRequestParameter('extension')){
-            $extension = $extensionManager->getExtensionById($this->getRequestParameter('extension'));
+            $extensionId = $this->getRequestParameter('extension');
+            $extension = $extensionManager->getExtensionById($extensionId);
             if(!is_null($extension)){
-                $base_www = $extension->getConstant('BASE_WWW');
+                $base_www = $assetService->getJsBaseWww($extensionId);
                 $base_url = $extension->getConstant('BASE_URL');
             }
         }
@@ -74,6 +80,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $this->setData('module',            $this->getRequestParameter('module'));
         $this->setData('action',            $this->getRequestParameter('action'));
         $this->setData('base_www',          $base_www);
+        $this->setData('tao_base_www',      $tao_base_www);
         $this->setData('base_url',          $base_url);
         $this->setData('shownExtension',    $this->getRequestParameter('shownExtension'));
         $this->setData('shownStructure',    $this->getRequestParameter('shownStructure'));
