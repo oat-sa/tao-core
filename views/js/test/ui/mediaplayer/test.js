@@ -376,6 +376,50 @@ define([
 
                     assert.equal(Math.floor(player.player.getPosition()), 0, 'The media player has restarted from the beginning');
 
+                    player.hide();
+                },
+                update: true
+            }, {
+                pause: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The pause event provides the instance');
+
+                    player.play();
+
+                    setTimeout(function(){
+                        assert.ok(!player.is('playing'), 'The player cannot be played while hidden!');
+
+                        player.show();
+                    }, 500);
+                },
+                update: true
+            }, {
+                play: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The play event provides the instance');
+
+                    player.disable();
+                },
+                update: true
+            }, {
+                pause: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The pause event provides the instance');
+
+                    player.play();
+
+                    setTimeout(function(){
+                        assert.ok(!player.is('playing'), 'The player cannot be played while disabled!');
+
+                        player.enable();
+                    }, 500);
+                },
+                update: true
+            }, {
+                play: function(player) {
+                    forward();
+                    assert.equal(player, instance, 'The play event provides the instance');
+
                     player.stop();
                 },
                 update: true
@@ -866,6 +910,7 @@ define([
                 }
             });
         });
+
 
     QUnit
         .cases(mediaplayerTypes)
