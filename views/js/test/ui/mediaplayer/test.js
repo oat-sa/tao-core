@@ -45,7 +45,8 @@ define([
         { name : 'stop', title : 'stop' },
         { name : 'pause', title : 'pause' },
         { name : 'resume', title : 'resume' },
-        { name : 'loop', title : 'loop' },
+        { name : 'restart', title : 'restart' },
+        { name : 'rewind', title : 'rewind' },
         { name : 'mute', title : 'mute' },
         { name : 'unmute', title : 'unmute' },
         { name : 'setVolume', title : 'setVolume' },
@@ -277,12 +278,7 @@ define([
             type: 'video/webm'
         }]
     }, {
-        title: 'youtube player / url',
-        fixture : '6',
-        type: 'youtube',
-        url: '//www.youtube.com/watch?v=YJWSVUPSQqw'
-    }, {
-        title: 'youtube player / id',
+        title: 'youtube player',
         fixture : '6',
         type: 'youtube',
         url: 'YJWSVUPSQqw'
@@ -291,6 +287,10 @@ define([
     QUnit
         .cases(mediaplayerTypes)
         .asyncTest('Events ', function(data, assert) {
+            if (!mediaplayer.canPlay) {
+                throw new Error('The browser does not support the ' + data.type + ' player!');
+            }
+
             var $container = $('#fixture-' + data.fixture);
             var instance = mediaplayer({
                 url: data.url,
@@ -352,7 +352,9 @@ define([
                 assert.ok(true, 'The media player has triggered the ended event');
                 assert.equal(player, instance, 'The ended event provides the instance');
 
-                player.destroy();
+                _.defer(function() {
+                    player.destroy();
+                });
 
                 QUnit.start();
             });
@@ -364,34 +366,342 @@ define([
                 QUnit.start();
             });
 
-            if (mediaplayer.canPlay) {
-                QUnit.stop(checks);
-                instance.render($container);
-            } else {
-                throw new Error('The browser does not support the ' + data.type + ' player!');
-            }
+            QUnit.stop(checks);
+            instance.render($container);
         });
 
 
-    /**
-     * @param {String} config.type - The type of media to play
-     * @param {String|Array} config.url - The URL to the media
-     * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
-     * @param {Number} [config.autoStartAt] - The time position at which the player should start
-     * @param {Boolean} [config.loop] - The media will be played continuously
-     * @param {Boolean} [config.canPause] - The play can be paused
-     * @param {Number} [config.maxPlays] - Sets a few number of plays (default: infinite)
-     * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
-     * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
-     * @param {Number} [config.volume] - Sets the sound volume (default: 1)
-     * @param {Boolean} [config.startMuted] - The player should be initially muted
-     * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
-     * @param {Function} [config.onready] - Event listener called when the player is fully ready
-     * @param {Function} [config.onplay] - Event listener called when the playback is starting
-     * @param {Function} [config.onpause] - Event listener called when the playback is paused
-     * @param {Function} [config.onended] - Event listener called when the playback is ended
-     * @param {Function} [config.onupdate] - Event listener called while the player is playing
-     * @param {Function} [config.onrender] - Event listener called when the player is rendering
-     * @param {Function} [config.ondestroy] - Event listener called when the player is destroying
-     */
+    QUnit
+        .cases(mediaplayerTypes)
+        .asyncTest('Option autoStart ', function(data, assert) {
+            if (!mediaplayer.canPlay) {
+                throw new Error('The browser does not support the ' + data.type + ' player!');
+            }
+
+            mediaplayer({
+                url: data.url,
+                type: data.type,
+                startMuted: true,
+                autoStart: true,
+                renderTo: '#fixture-' + data.fixture,
+                onplay: function(player) {
+                    assert.ok(true, 'The media player has auto started the playback');
+
+                    _.defer(function() {
+                        player.destroy();
+                    });
+                },
+                ondestroy: function() {
+                    QUnit.start();
+                }
+            });
+        });
+
+
+    QUnit
+        .cases(mediaplayerTypes)
+        .asyncTest('Option autoStartAt ', function(data, assert) {
+            if (!mediaplayer.canPlay) {
+                throw new Error('The browser does not support the ' + data.type + ' player!');
+            }
+
+            var expected = 1;
+            mediaplayer({
+                url: data.url,
+                type: data.type,
+                startMuted: true,
+                autoStartAt: expected,
+                renderTo: '#fixture-' + data.fixture,
+                onplay: function(player) {
+                    player.pause();
+                    assert.ok(true, 'The media player has auto started the playback');
+                    assert.equal(Math.floor(player.player.getPosition()), expected, 'The media player has auto started the playback at the right position');
+
+                    _.defer(function() {
+                        player.destroy();
+                    });
+                },
+                ondestroy: function() {
+                    QUnit.start();
+                }
+            });
+        });
+
+
+    QUnit
+        .cases(mediaplayerTypes)
+        .asyncTest('Option canPause ', function(data, assert) {
+            if (!mediaplayer.canPlay) {
+                throw new Error('The browser does not support the ' + data.type + ' player!');
+            }
+
+            QUnit.stop();
+
+            mediaplayer({
+                url: data.url,
+                type: data.type,
+                startMuted: true,
+                autoStart: true,
+                canPause: false,
+                renderTo: '#fixture-' + data.fixture,
+                onplay: function(player) {
+                    assert.ok(true, 'The media player has auto started the playback');
+
+                    player.pause();
+
+                    setTimeout(function() {
+                        player.destroy();
+                    }, 500);
+                },
+                onpause: function() {
+                    assert.ok(false, 'The media player cannot be paused!');
+                },
+                ondestroy: function() {
+                    QUnit.start();
+                }
+            });
+
+            mediaplayer({
+                url: data.url,
+                type: data.type,
+                startMuted: true,
+                autoStart: true,
+                canPause: true,
+                renderTo: '#fixture-' + data.fixture,
+                onplay: function(player) {
+                    assert.ok(true, 'The media player has auto started the playback');
+
+                    player.pause();
+                },
+                onpause: function(player) {
+                    assert.ok(true, 'The media player can be paused');
+
+                    _.defer(function() {
+                        player.destroy();
+                    });
+                },
+                ondestroy: function() {
+                    QUnit.start();
+                }
+            });
+        });
+
+
+    QUnit
+        .cases(mediaplayerTypes)
+        .asyncTest('Option startMuted ', function(data, assert) {
+            if (!mediaplayer.canPlay) {
+                throw new Error('The browser does not support the ' + data.type + ' player!');
+            }
+
+            QUnit.stop();
+
+            mediaplayer({
+                url: data.url,
+                type: data.type,
+                startMuted: true,
+                autoStart: true,
+                renderTo: '#fixture-' + data.fixture,
+                onplay: function(player) {
+                    assert.ok(true, 'The media player has auto started the playback');
+                    assert.ok(player.player.isMuted(), 'The media player is muted');
+
+                    player.pause();
+
+                    _.defer(function() {
+                        player.destroy();
+                    });
+                },
+                ondestroy: function() {
+                    QUnit.start();
+                }
+            });
+
+            mediaplayer({
+                url: data.url,
+                type: data.type,
+                startMuted: false,
+                autoStart: true,
+                renderTo: '#fixture-' + data.fixture,
+                onplay: function(player) {
+                    assert.ok(true, 'The media player has auto started the playback');
+                    assert.ok(!player.player.isMuted(), 'The media player is note muted');
+
+                    player.pause();
+
+                    _.defer(function() {
+                        player.destroy();
+                    });
+                },
+                ondestroy: function() {
+                    QUnit.start();
+                }
+            });
+        });
+
+
+    QUnit
+        .cases(mediaplayerTypes)
+        .asyncTest('Option volume ', function(data, assert) {
+            if (!mediaplayer.canPlay) {
+                throw new Error('The browser does not support the ' + data.type + ' player!');
+            }
+
+            var expected = 30;
+            mediaplayer({
+                url: data.url,
+                type: data.type,
+                volume: expected,
+                autoStart: true,
+                renderTo: '#fixture-' + data.fixture,
+                onplay: function(player) {
+                    assert.ok(true, 'The media player has auto started the playback');
+                    assert.equal(player.player.getVolume(), expected, 'The media player has the right volume set');
+
+                    player.pause();
+
+                    _.defer(function() {
+                        player.destroy();
+                    });
+                },
+                ondestroy: function() {
+                    QUnit.start();
+                }
+            });
+        });
+
+
+    QUnit
+        .cases(mediaplayerTypes)
+        .asyncTest('Option loop ', function(data, assert) {
+            if (!mediaplayer.canPlay) {
+                throw new Error('The browser does not support the ' + data.type + ' player!');
+            }
+
+            var count = 0;
+            var expected = 2;
+            mediaplayer({
+                url: data.url,
+                type: data.type,
+                loop: true,
+                autoStart: true,
+                startMuted: true,
+                renderTo: '#fixture-' + data.fixture,
+                onplay: function(player) {
+                    assert.ok(true, 'The media player has started the playback');
+
+                    player.seek(player.getDuration());
+                },
+                onended: function(player) {
+                    assert.ok(true, 'The media player has finished the playback');
+
+                    if (++count >= expected) {
+                        assert.ok(true, 'The media player has looped the playback');
+                        player.loop = false;
+
+                        _.defer(function() {
+                            player.destroy();
+                        });
+                    }
+                },
+                ondestroy: function() {
+                    QUnit.start();
+                }
+            });
+        });
+
+
+    QUnit
+        .cases(mediaplayerTypes)
+        .asyncTest('Option maxPlays ', function(data, assert) {
+            if (!mediaplayer.canPlay) {
+                throw new Error('The browser does not support the ' + data.type + ' player!');
+            }
+
+            var count = 0;
+            var expected = 1;
+            mediaplayer({
+                url: data.url,
+                type: data.type,
+                maxPlays: expected,
+                autoStart: true,
+                startMuted: true,
+                renderTo: '#fixture-' + data.fixture,
+                onplay: function(player) {
+                    assert.ok(true, 'The media player has started the playback');
+
+                    count++;
+
+                    if (count > expected) {
+                        assert.ok(false, 'The media player cannot play more than allowed!');
+
+                        _.defer(function() {
+                            player.destroy();
+                        });
+                    } else {
+                        _.defer(function() {
+                            player.stop();
+                        });
+                    }
+                },
+                onended: function(player) {
+                    assert.ok(true, 'The media player has finished the playback');
+
+                    _.defer(function() {
+                        player.play();
+                    });
+                },
+                onlimitreached: function(player) {
+                    if (player.is('playing') || count > expected) {
+                        assert.ok(false, 'The media player must be stopped!');
+                    } else {
+                        assert.ok(true, 'The media player has stopped the playback after the play limit has been reached');
+                    }
+
+                    _.defer(function() {
+                        player.destroy();
+                    });
+                },
+                ondestroy: function() {
+                    QUnit.start();
+                }
+            });
+        });
+
+
+    QUnit
+        .cases(mediaplayerTypes)
+        .asyncTest('Option renderTo ', function(data, assert) {
+            var selector = '#fixture-' + data.fixture;
+            var places = [{
+                type: 'jQuery',
+                container: $(selector)
+            }, {
+                type: 'String',
+                container: selector
+            }, {
+                type: 'HTMLElement',
+                container: document.getElementById(selector.substr(1))
+            }];
+
+            QUnit.stop(places.length - 1);
+            _.forEach(places, function(place) {
+                mediaplayer({
+                    url: data.url,
+                    type: data.type,
+                    renderTo: place.container,
+                    onrender: function($dom, player) {
+                        assert.ok($dom.parent().is(selector), 'The media player has been rendered in the container provided using ' + place.type);
+
+                        _.defer(function() {
+                            player.destroy();
+                        });
+                    },
+                    ondestroy: function() {
+                        QUnit.start();
+                    }
+                });
+            });
+        });
+
 });

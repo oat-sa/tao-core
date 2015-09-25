@@ -632,22 +632,23 @@ define([
          * @param {Object} config
          * @param {String} config.type - The type of media to play
          * @param {String|Array} config.url - The URL to the media
-         * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
-         * @param {Number} [config.autoStartAt] - The time position at which the player should start
+         * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
          * @param {Boolean} [config.loop] - The media will be played continuously
          * @param {Boolean} [config.canPause] - The play can be paused
+         * @param {Boolean} [config.startMuted] - The player should be initially muted
+         * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
+         * @param {Number} [config.autoStartAt] - The time position at which the player should start
          * @param {Number} [config.maxPlays] - Sets a few number of plays (default: infinite)
+         * @param {Number} [config.volume] - Sets the sound volume (default: 80)
          * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
          * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
-         * @param {Number} [config.volume] - Sets the sound volume (default: 80)
-         * @param {Boolean} [config.startMuted] - The player should be initially muted
-         * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
+         * @param {Function} [config.onrender] - Event listener called when the player is rendering
          * @param {Function} [config.onready] - Event listener called when the player is fully ready
          * @param {Function} [config.onplay] - Event listener called when the playback is starting
+         * @param {Function} [config.onupdate] - Event listener called while the player is playing
          * @param {Function} [config.onpause] - Event listener called when the playback is paused
          * @param {Function} [config.onended] - Event listener called when the playback is ended
-         * @param {Function} [config.onupdate] - Event listener called while the player is playing
-         * @param {Function} [config.onrender] - Event listener called when the player is rendering
+         * @param {Function} [config.onlimitreached] - Event listener called when the play limit has been reached
          * @param {Function} [config.ondestroy] - Event listener called when the player is destroying
          * @returns {mediaplayer}
          */
@@ -748,6 +749,7 @@ define([
                 if (!this.is('ready')) {
                     this.autoStartAt = this.position;
                 }
+                this.loop = !!this.config.loop;
             }
 
             return this;
@@ -769,6 +771,8 @@ define([
                 if (!this.is('ready')) {
                     this.autoStart = true;
                 }
+
+                this.loop = !!this.config.loop;
             }
 
             return this;
@@ -812,6 +816,7 @@ define([
          * @returns {mediaplayer}
          */
         stop : function stop() {
+            this.loop = false;
             this.execute('stop');
 
             if (!this.is('ready')) {
@@ -822,11 +827,21 @@ define([
         },
 
         /**
-         * Restart the media from the begining
+         * Restarts the media from the begining
          * @returns {mediaplayer}
          */
-        loop : function loop() {
+        restart : function restart() {
             this.play(0);
+
+            return this;
+        },
+
+        /**
+         * Rewind the media to the begining
+         * @returns {mediaplayer}
+         */
+        rewind : function rewind() {
+            this.seek(0);
 
             return this;
         },
@@ -1434,7 +1449,7 @@ define([
 
             /**
              * Triggers a media ready event
-             * @event mediaplayer#ready.mediaplayer
+             * @event mediaplayer#ready
              * @param {mediaplayer} this
              */
             this.trigger('ready', this);
@@ -1458,7 +1473,7 @@ define([
 
             /**
              * Triggers a media playback event
-             * @event mediaplayer#play.mediaplayer
+             * @event mediaplayer#play
              * @param {mediaplayer} this
              */
             this.trigger('play', this);
@@ -1473,7 +1488,7 @@ define([
 
             /**
              * Triggers a media paused event
-             * @event mediaplayer#pause.mediaplayer
+             * @event mediaplayer#pause
              * @param {mediaplayer} this
              */
             this.trigger('pause', this);
@@ -1490,19 +1505,26 @@ define([
 
             /**
              * Triggers a media ended event
-             * @event mediaplayer#ended.mediaplayer
+             * @event mediaplayer#ended
              * @param {mediaplayer} this
              */
             this.trigger('ended', this);
 
             // disable GUI when the play limit is reached
-            if (!this._canPlay()) {
+            if (this._playLimitReached()) {
                 this._setState('ready', false);
                 this._setState('canplay', false);
-            }
 
-            if (this.config.loop) {
-                this.play();
+                /**
+                 * Triggers a play limit reached event
+                 * @event mediaplayer#limitreached
+                 * @param {mediaplayer} this
+                 */
+                this.trigger('limitreached', this);
+            } else {
+                if (this.loop) {
+                    this.play();
+                }
             }
         },
 
@@ -1515,10 +1537,19 @@ define([
 
             /**
              * Triggers a media time update event
-             * @event mediaplayer#update.mediaplayer
+             * @event mediaplayer#update
              * @param {mediaplayer} this
              */
             this.trigger('update', this);
+        },
+
+        /**
+         * Checks if the play limit has been reached
+         * @returns {Boolean}
+         * @private
+         */
+        _playLimitReached : function _playLimitReached() {
+            return this.config.maxPlays && this.timesPlayed >= this.config.maxPlays;
         },
 
         /**
@@ -1527,8 +1558,7 @@ define([
          * @private
          */
         _canPlay : function _canPlay() {
-            var maxPlaysReached = this.config.maxPlays && this.timesPlayed >= this.config.maxPlays;
-            return  this.is('ready') && !this.is('disabled') && !this.is('hidden') && !maxPlaysReached;
+            return  this.is('ready') && !this.is('disabled') && !this.is('hidden') && !this._playLimitReached();
         },
 
         /**
@@ -1629,22 +1659,23 @@ define([
      * @param {Object} config
      * @param {String} config.type - The type of media to play
      * @param {String|Array} config.url - The URL to the media
-     * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
-     * @param {Number} [config.autoStartAt] - The time position at which the player should start
+     * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
      * @param {Boolean} [config.loop] - The media will be played continuously
      * @param {Boolean} [config.canPause] - The play can be paused
+     * @param {Boolean} [config.startMuted] - The player should be initially muted
+     * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
+     * @param {Number} [config.autoStartAt] - The time position at which the player should start
      * @param {Number} [config.maxPlays] - Sets a few number of plays (default: infinite)
+     * @param {Number} [config.volume] - Sets the sound volume (default: 80)
      * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
      * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
-     * @param {Number} [config.volume] - Sets the sound volume (default: 80)
-     * @param {Boolean} [config.startMuted] - The player should be initially muted
-     * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
+     * @param {Function} [config.onrender] - Event listener called when the player is rendering
      * @param {Function} [config.onready] - Event listener called when the player is fully ready
      * @param {Function} [config.onplay] - Event listener called when the playback is starting
+     * @param {Function} [config.onupdate] - Event listener called while the player is playing
      * @param {Function} [config.onpause] - Event listener called when the playback is paused
      * @param {Function} [config.onended] - Event listener called when the playback is ended
-     * @param {Function} [config.onupdate] - Event listener called while the player is playing
-     * @param {Function} [config.onrender] - Event listener called when the player is rendering
+     * @param {Function} [config.onlimitreached] - Event listener called when the play limit has been reached
      * @param {Function} [config.ondestroy] - Event listener called when the player is destroying
      * @returns {mediaplayer}
      */
