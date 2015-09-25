@@ -612,6 +612,7 @@ define([
                 onplay: function(player) {
                     assert.ok(true, 'The media player has auto started the playback');
                     assert.ok(player.player.isMuted(), 'The media player is muted');
+                    assert.ok(player.is('muted'), 'The media player is muted');
 
                     player.pause();
 
@@ -632,7 +633,8 @@ define([
                 renderTo: '#fixture-' + data.fixture,
                 onplay: function(player) {
                     assert.ok(true, 'The media player has auto started the playback');
-                    assert.ok(!player.player.isMuted(), 'The media player is note muted');
+                    assert.ok(!player.player.isMuted(), 'The media player is not muted');
+                    assert.ok(!player.is('muted'), 'The media player is not muted');
 
                     player.pause();
 
@@ -664,6 +666,7 @@ define([
                 onplay: function(player) {
                     assert.ok(true, 'The media player has auto started the playback');
                     assert.equal(player.player.getVolume(), expected, 'The media player has the right volume set');
+                    assert.equal(player.getVolume(), expected, 'The media player must provide the right volume');
 
                     player.pause();
 
@@ -700,9 +703,11 @@ define([
                     player.seek(player.getDuration());
                 },
                 onended: function(player) {
+                    count ++;
                     assert.ok(true, 'The media player has finished the playback');
+                    assert.equal(player.getTimesPlayed(), count, 'The media player must provide the right number of plays');
 
-                    if (++count >= expected) {
+                    if (count >= expected) {
                         assert.ok(true, 'The media player has looped the playback');
                         player.loop = false;
 
@@ -759,6 +764,7 @@ define([
                 },
                 onended: function(player) {
                     assert.ok(true, 'The media player has finished the playback');
+                    assert.equal(player.getTimesPlayed(), count, 'The media player must provide the right number of plays');
 
                     _.defer(function() {
                         player.play();
