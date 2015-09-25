@@ -39,15 +39,10 @@ class AssetService extends ConfigurableService
 
     public function getJsBaseWww($extensionId)
     {
-        return $this->getRootUrl() . $extensionId . '/views/';
+        return $this->getAssetUrl() . $extensionId . '/views/';
     }
 
-    public function getTaoBaseWww()
-    {
-        return $this->getRootUrl() .'tao/views/';
-    }
-
-    protected function getRootUrl()
+    protected function getAssetUrl()
     {
         return $this->hasOption('base') ? $this->getOption('base') : ROOT_URL;
     }
