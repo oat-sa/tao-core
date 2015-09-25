@@ -55,17 +55,13 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         //loads the URLs context
         /** @var AssetService $assetService */
         $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
-        $base_url = BASE_URL;
-        $tao_base_www = $assetService->getTaoBaseWww();
-        $base_www = '';
-        if($this->hasRequestParameter('extension')){
-            $extensionId = $this->getRequestParameter('extension');
-            $extension = $extensionManager->getExtensionById($extensionId);
-            if(!is_null($extension)){
-                $base_www = $assetService->getJsBaseWww($extensionId);
-                $base_url = $extension->getConstant('BASE_URL');
-            }
-        }
+        $tao_base_www = $assetService->getJsBaseWww('tao');
+
+        $extensionId = ($this->hasRequestParameter('extension')) ? $this->getRequestParameter('extension') : \Context::getInstance()->getExtensionName();
+        $extension = $extensionManager->getExtensionById($extensionId);
+        $base_www = $assetService->getJsBaseWww($extensionId);
+        $base_url = $extension->getConstant('BASE_URL');
+
 
         //set contextual data
         $this->setData('locale', $langCode);
