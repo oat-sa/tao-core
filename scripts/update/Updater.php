@@ -42,6 +42,7 @@ use oat\tao\model\search\strategy\GenerisSearch;
 use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\ThemeRegistry;
+use oat\tao\model\entryPoint\PasswordReset;
 
 /**
  * 
@@ -344,6 +345,25 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion === '2.12.0') {
             $currentVersion = '2.13.0';
         }
+        
+        if ($currentVersion === '2.13.0') {
+            $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $entryPoints = $tao->getConfig('entrypoint');
+            
+            $service = new EntryPointService();
+            foreach ($entryPoints as $id => $entryPoint) {
+                $service->overrideEntryPoint($id, $entryPoint);
+                $service->activateEntryPoint($id, EntryPointService::OPTION_POSTLOGIN);
+            }
+            // register, don't activate
+            $passwordResetEntry = new PasswordReset();
+            $service->overrideEntryPoint($passwordResetEntry->getId(), $passwordResetEntry);
+            
+            $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $service);
+            
+            $currentVersion = '2.13.1';
+        }
+        
         
         return $currentVersion;
     }
