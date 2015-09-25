@@ -44,10 +44,12 @@ define([
      * @param {Boolean} [options.controls] - add cancel/done button
      * @param {Function} [options.callbacks.beforeDone] - Triggered when a dialog is about to close. If returned <i>false</i>, the dialog will not close.
      * @param {Function} [options.callbacks.beforeCancel] - Triggered when a dialog is about to close. If returned <i>false</i>, the dialog will not close.
+     * @param {Function} [options.callbacks.beforeDestroy] - Triggered when a dialog is about to destroy.
      * @returns {Object} the new selector instance
      */
     function create($anchor, $container, options){
 
+        var destroyed =  false;
         options = _.defaults(options, _defaults);
         $anchor.data('contextual-popup-options', options);
 
@@ -113,7 +115,6 @@ define([
             getPopup : function getPopup(){
                 return $element;
             },
-            destroyed : false,
             setContent : setContent,
             /**
              * Recalculates the position of the popup relative to the anchor
@@ -171,8 +172,9 @@ define([
              * @returns {undefined}
              */
             destroy : function destroy(){
-                if (!this.destroyed && runCallback('beforeDestroy')) {
-                    this.destroyed = true;
+                if (!destroyed) {
+                    runCallback('beforeDestroy');
+                    destroyed = true;
                     $element.remove();
                     $element.trigger('destroy' + _ns);
                 }
