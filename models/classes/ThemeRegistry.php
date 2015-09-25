@@ -346,6 +346,7 @@ class ThemeRegistry extends AbstractRegistry
     /**
      * Get the absolute path to a theme template
      * 
+     * @deprecated use theme\ThemeService instead
      * @param string $target
      * @param string $themeId
      * @param string $templateId
@@ -362,6 +363,7 @@ class ThemeRegistry extends AbstractRegistry
     /**
      * Get the abosolute url to a stylesheet
      * 
+     * @deprecated use theme\ThemeService instead
      * @param string $target
      * @param string $themeId
      * @return string
@@ -377,6 +379,7 @@ class ThemeRegistry extends AbstractRegistry
     /**
      * Get the asbolute path to the base template
      *
+     * @deprecated use theme\ThemeService instead
      * @param string $target
      * @param string $templateId
      * @return string
@@ -392,6 +395,7 @@ class ThemeRegistry extends AbstractRegistry
     /**
      * Get the absolute url to the base css
      * 
+     * @deprecated use theme\ThemeService instead
      * @param string $target
      * @return string
      */
