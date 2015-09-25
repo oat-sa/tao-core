@@ -113,6 +113,7 @@ define([
             getPopup : function getPopup(){
                 return $element;
             },
+            destroyed : false,
             setContent : setContent,
             /**
              * Recalculates the position of the popup relative to the anchor
@@ -170,8 +171,11 @@ define([
              * @returns {undefined}
              */
             destroy : function destroy(){
-                $element.remove();
-                $element.trigger('destroy' + _ns);
+                if (!this.destroyed && runCallback('beforeDestroy')) {
+                    this.destroyed = true;
+                    $element.remove();
+                    $element.trigger('destroy' + _ns);
+                }
             },
             /**
              * Tells if the popup is currently hidden or visible
