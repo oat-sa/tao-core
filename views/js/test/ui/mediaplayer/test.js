@@ -827,4 +827,44 @@ define([
             });
         });
 
+
+    QUnit
+        .cases(mediaplayerTypes)
+        .asyncTest('Show/Hide ', function(data, assert) {
+            var selector = '#fixture-' + data.fixture;
+            mediaplayer({
+                url: data.url,
+                type: data.type,
+                renderTo: selector,
+                onrender: function($dom, player) {
+                    assert.ok($dom.parent().is(selector), 'The media player has been rendered in the container');
+
+                    assert.equal($dom.length, 1, 'the media player exists');
+                    assert.ok(!$dom.hasClass('hidden'), 'the media player is displayed');
+                    assert.ok($dom.is(':visible'), 'the media player is displayed');
+
+                    _.defer(function() {
+                        player.hide();
+
+                        _.defer(function() {
+                            assert.ok($dom.hasClass('hidden'), 'the media player is hidden');
+                            assert.ok(!$dom.is(':visible'), 'the media player is hidden');
+
+                            player.show();
+
+                            _.defer(function() {
+                                assert.ok(!$dom.hasClass('hidden'), 'the media player is displayed');
+                                assert.ok($dom.is(':visible'), 'the media player is displayed');
+
+                                player.destroy();
+                            });
+                        });
+                    });
+                },
+                ondestroy: function() {
+                    QUnit.start();
+                }
+            });
+        });
+
 });
