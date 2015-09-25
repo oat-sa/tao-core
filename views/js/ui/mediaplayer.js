@@ -209,7 +209,7 @@ define([
         remove : function remove(elem, player) {
             var pending = this.pending;
             _.forEach(pending, function(args, idx) {
-                if (elem === args[0] && player === args[1]) {
+                if (args && elem === args[0] && player === args[1]) {
                     pending[idx] = null;
                 }
             });
