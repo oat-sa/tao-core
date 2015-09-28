@@ -26,15 +26,23 @@ class DefaultTheme extends Configurable implements Theme
 {
     public function getId()
     {
-        return 'default_backoffice';
+        return 'default';
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\theme\Theme::getLabel()
+     */
     public function getLabel()
     {
         return __('Tao Default Theme');
     }
     
-    public function getTemplate($id, $context = Theme::CONTEXT_DEFAULT)
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\theme\Theme::getTemplate()
+     */
+    public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
         switch ($id) {
     		case 'header-logo' :
@@ -53,7 +61,11 @@ class DefaultTheme extends Configurable implements Theme
     	return $template;
     }
     
-    public function getStylesheet($context = Theme::CONTEXT_DEFAULT)
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\theme\Theme::getStylesheet()
+     */
+    public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
         return Template::css('tao-3.css', 'tao');
     }

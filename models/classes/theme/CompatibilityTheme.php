@@ -38,7 +38,7 @@ class CompatibilityTheme extends DefaultTheme implements Theme
         return $first['name'];
     }
     
-    public function getTemplate($id, $context = Theme::CONTEXT_DEFAULT)
+    public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
         if ($this->hasOption($context)) {
             $arr = $this->getOption($context);
@@ -54,7 +54,7 @@ class CompatibilityTheme extends DefaultTheme implements Theme
         
     }
     
-    public function getStylesheet($context = Theme::CONTEXT_DEFAULT)
+    public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
         if ($this->hasOption($context)) {
             $arr = $this->getOption($context);
