@@ -21,11 +21,15 @@ namespace oat\tao\model\theme;
 
 interface Theme
 {
-    public function getId();
+    const CONTEXT_BACKOFFICE = 'backOffice';
+    
+    const CONTEXT_FRONTOFFICE = 'frontOffice';
+    
+    const CONTEXT_DEFAULT = 'default';
     
     public function getLabel();
     
-    public function getTemplate($id);
+    public function getTemplate($id, $context = self::CONTEXT_BACKOFFICE);
     
-    public function getStylesheet();
+    public function getStylesheet($context = self::CONTEXT_BACKOFFICE);
 }

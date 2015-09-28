@@ -34,7 +34,7 @@ class DefaultTheme extends Configurable implements Theme
         return __('Tao Default Theme');
     }
     
-    public function getTemplate($id)
+    public function getTemplate($id, $context = Theme::CONTEXT_DEFAULT)
     {
         switch ($id) {
     		case 'header-logo' :
@@ -53,7 +53,7 @@ class DefaultTheme extends Configurable implements Theme
     	return $template;
     }
     
-    public function getStylesheet()
+    public function getStylesheet($context = Theme::CONTEXT_DEFAULT)
     {
         return Template::css('tao-3.css', 'tao');
     }

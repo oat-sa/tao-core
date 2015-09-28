@@ -21,34 +21,51 @@ namespace oat\tao\model\theme;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoAct\model\theme\ActTheme;
+use Aws\CloudFront\Exception\Exception;
 /**
  * 
  * @author Joel Bout
  */
 class ThemeService extends ConfigurableService {
-    
-    const CONTEXT_BACKOFFICE = 'backoffice';
-    
-    const CONTEXT_FRONTOFFICE = 'frontOffice';
-    
-    const CONTEXT_QTI_ITEM = 'items';
-    
+
     const SERVICE_ID = 'tao/theming';
     
-    public function getTheme($context)
+    const OPTION_AVAILABLE = 'available';
+    
+    const OPTION_CURRENT = 'current';
+    
+    public function getTheme()
     {
-        if ($this->hasOption($context)) {
-            $theme = $this->getOption($context);
-        } else {
-            \common_Logger::w('Context '.$context.' unknown, falling back to back office');
-            $theme = $this->getOption(self::CONTEXT_BACKOFFICE);
+        return $this->getThemeById($this->getOption(self::OPTION_CURRENT));
+    }
+    
+    public function setTheme(Theme $theme)
+    {
+        $id = $this->addTheme($theme);
+        $this->setOption(self::OPTION_CURRENT, $id);
+    }
+    
+    
+    public function addTheme(Theme $theme)
+    {
+        $themes = $this->getOption(self::OPTION_AVAILABLE);
+        $baseId = method_exists($theme, 'getId') ? $theme->getId() : '';
+        $nr = 0;
+        while (isset($themes[$baseId.$nr])) {
+            $nr++;
         }
-        return $theme;
+        $themes[$baseId.$nr] = $theme;
+        $this->setOption(self::OPTION_AVAILABLE, $themes);
+        return $baseId.$nr;
     }
     
-    public function setTheme($context, Theme $default)
+    protected function getThemeById($id)
     {
-        $this->setOption($context, $default);
+        $themes = $this->getOption(self::OPTION_AVAILABLE);
+        if (isset($themes[$id])) {
+            return $themes[$id];
+        } else {
+            throw new \common_exception_InconsistentData('Theme not found');
+        }
     }
-    
 }

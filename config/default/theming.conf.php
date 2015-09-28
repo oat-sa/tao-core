@@ -25,6 +25,8 @@ use oat\tao\model\theme\DefaultTheme;
  * Default state storage config
  */
 return new ThemeService(array(
-	ThemeService::CONTEXT_BACKOFFICE => new DefaultTheme(),
-    ThemeService::CONTEXT_FRONTOFFICE => new DefaultTheme()
+	ThemeService::OPTION_AVAILABLE => array(
+	    'default' => new DefaultTheme()
+	),
+    ThemeService::OPTION_CURRENT => 'default'
 ));

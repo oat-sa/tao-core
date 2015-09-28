@@ -1,8 +1,9 @@
 <?php
 use oat\tao\helpers\Layout;
+use oat\tao\model\theme\Theme;
 ?>
 <div id="login-box" class="entry-point entry-point-container">
-    <?=Layout::renderThemeTemplate('backOffice', 'login-message')?>
+    <?=Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'login-message')?>
     <?= get_data('form') ?>
     
     <?php foreach(get_data('entryPoints') as $entrypoint): ?>

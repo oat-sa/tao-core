@@ -31,28 +31,37 @@ use oat\oatbox\Configurable;
 class CompatibilityTheme extends DefaultTheme implements Theme
 {
 
-    public function getId()
-    {
-        return $this->getOption('id');
-    }
-    
     public function getLabel()
     {
-        return $this->getOption('name');
+        $all = $this->getOptions();
+        $first = reset($all);
+        return $first['name'];
     }
     
-    public function getTemplate($id)
+    public function getTemplate($id, $context = Theme::CONTEXT_DEFAULT)
     {
-        $templates = $this->getOption('templates');
-        if (isset($templates[$id])) {
-            return ROOT_PATH.$templates[$id];
+        if ($this->hasOption($context)) {
+            $arr = $this->getOption($context);
+            $templates = $arr['templates'];
+            if (isset($templates[$id])) {
+                return ROOT_PATH.$templates[$id];
+            } else {
+                return parent::getTemplate($id, $context);
+            }
         } else {
-            return parent::getTemplate($id);
+            return parent::getTemplate($id, $context);
+        }
+        
+    }
+    
+    public function getStylesheet($context = Theme::CONTEXT_DEFAULT)
+    {
+        if ($this->hasOption($context)) {
+            $arr = $this->getOption($context);
+            return ROOT_URL.$arr['path'];
+        } else {
+            return parent::getStylesheet($context);
         }
     }
     
-    public function getStylesheet()
-    {
-        return ROOT_URL.$this->getOption('path');
-    }
 }

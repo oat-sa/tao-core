@@ -48,6 +48,7 @@ use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\theme\ThemeService;
 use oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\CompatibilityTheme;
+use oat\tao\model\theme\Theme;
 
 /**
  * 
@@ -383,24 +384,28 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             //add the new customizable template "login-message" to backOffice target
             $themeService = new ThemeService();
-            // init with default
-            $themeService->setTheme(ThemeService::CONTEXT_BACKOFFICE, new DefaultTheme());
-            $themeService->setTheme(ThemeService::CONTEXT_FRONTOFFICE, new DefaultTheme());
-            
             
             //test for overrides
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $oldConfig = $ext->getConfig('themes');
+            $compatibilityConfig = array();
             foreach ($oldConfig['frontOffice']['available'] as $arr) {
                 if ($arr['id'] == $oldConfig['frontOffice']['default']) {
-                    $themeService->setTheme(ThemeService::CONTEXT_FRONTOFFICE, new CompatibilityTheme($arr));
+                    $compatibilityConfig[Theme::CONTEXT_FRONTOFFICE] = $arr; 
                 }
             }
             foreach ($oldConfig['backOffice']['available'] as $arr) {
                 if ($arr['id'] == $oldConfig['backOffice']['default']) {
-                    $themeService->setTheme(ThemeService::CONTEXT_BACKOFFICE, new CompatibilityTheme($arr));
+                    $compatibilityConfig[Theme::CONTEXT_BACKOFFICE] = $arr;
                 }
             }
+            
+            if (empty($compatibilityConfig)) {
+                $themeService->setTheme(new DefaultTheme());
+            } else {
+                $themeService->setTheme(new CompatibilityTheme($compatibilityConfig));
+            }
+
             unset($oldConfig['backOffice']);
             unset($oldConfig['frontOffice']);
             $ext->setConfig('themes', $oldConfig );

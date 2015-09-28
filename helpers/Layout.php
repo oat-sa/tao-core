@@ -342,8 +342,7 @@ class Layout{
     public static function getThemeTemplate($target, $templateId)
     {
         $service = ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
-        $theme = $service->getTheme(ThemeService::CONTEXT_BACKOFFICE);
-        return $theme->getTemplate($templateId);
+        return $service->getTheme()->getTemplate($templateId, $target);
     }
 
     /**
@@ -353,7 +352,7 @@ class Layout{
      */
     public static function getThemeStylesheet($target){
         $service = ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
-        return $service->getTheme(ThemeService::CONTEXT_BACKOFFICE)->getStylesheet();
+        return $service->getTheme()->getStylesheet($target);
 
     }
 }

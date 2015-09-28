@@ -1,6 +1,7 @@
 <?php
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
+use oat\tao\model\theme\Theme;
 
 $releaseMsgData = Layout::getReleaseMsgData();
 
@@ -27,9 +28,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
     <?= tao_helpers_Scriptloader::render() ?>
     <?= Layout::getAmdLoader() ?>
-    <?php if (($themeUrl = Layout::getThemeStylesheet('backOffice')) !== null): ?>
-    <link rel="stylesheet" href="<?= $themeUrl ?>" />
-    <?php endif; ?>
+    <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_BACKOFFICE) ?>" />
 </head>
 
 <body>
@@ -56,7 +55,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     Template::inc($contentTemplate['path'], $contentTemplate['ext']); ?>
 </div>
 
-<?=Layout::renderThemeTemplate('backOffice', 'footer')?>
+<?=Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'footer')?>
 
 <div class="loading-bar"></div>
 </body>
