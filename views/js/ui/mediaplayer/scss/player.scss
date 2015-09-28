@@ -339,6 +339,15 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
         }
     }
 
+    &.nogui {
+        .overlay {
+            display: none !important;
+        }
+        .controls {
+            display: none !important;
+        }
+    }
+
     &.error {
         .media, .controls {
             display: none;

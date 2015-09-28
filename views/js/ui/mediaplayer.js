@@ -45,6 +45,13 @@ define([
     var _reYoutube = /([?&\/]v[=\/])([\w-]+)([&\/]?)/;
 
     /**
+     * A Regex to detect Mobile browsers
+     * @type {RegExp}
+     * @private
+     */
+    var _reMobile = /((?:iPhone|iPod|iPad|IEMobile|BlackBerry|BB10|Opera Mini|Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000))|((?=.*\bAndroid\b)(?=.*\b(?:Safari|Mobile|SD4930UR|KFOT|KFTT|KFJWI|KFJWA|KFSOWI|KFTHWI|KFTHWA|KFAPWI|KFAPWA|KFARWI|KFASWI|KFSAWI|KFSAWA)\b))|((?=.*\bWindows\b)(?=.*\bARM\b))|((?=.*\bFirefox|CriOS|Chrome\b)(?=.*\bMobile\b))/i;
+
+    /**
      * Array slice method needed to slice arguments
      * @type {Function}
      * @private
@@ -149,6 +156,23 @@ define([
     };
 
     /**
+     * Checks if a userAgent matches a mobile browser signature
+     * @param {String} [userAgent]
+     * @returns {Boolean}
+     */
+    var isMobileBrowser = function isMobileBrowser(userAgent) {
+        var ua = (userAgent || navigator.userAgent).split('[FBAN')[0];
+        return _reMobile.test(ua);
+    };
+
+    /**
+     * Checks if the browser is a mobile version
+     * @type {Boolean}
+     * @private
+     */
+    var _isMobile = isMobileBrowser();
+
+    /**
      * Checks if the browser can play audio and video
      * @type {Boolean}
      * @private
@@ -236,7 +260,7 @@ define([
                 playerVars: {
                     //hd: true,
                     autoplay: 0,
-                    controls: 0,
+                    controls: _isMobile ? 1 : 0,
                     rel: 0,
                     showinfo: 0,
                     wmode: 'transparent',
@@ -496,8 +520,11 @@ define([
                             result = true;
                         }
 
+                        if (!_isMobile) {
+                            $media.removeAttr('controls');
+                        }
+
                         $media
-                            .removeAttr('controls')
                             .on('play' + _ns, function() {
                                 played = true;
                                 mediaplayer._onPlay();
@@ -936,8 +963,12 @@ define([
 
             if (this.$component) {
                 this.$component.width(width);
-                height -= this.$controls.outerHeight();
+                height -= this.$component.outerHeight() - this.$component.height();
                 width -= this.$component.outerWidth() - this.$component.width();
+
+                if (!this.is('nogui')) {
+                    height -= this.$controls.outerHeight();
+                }
             }
 
             this.execute('setSize', width, height);
@@ -1174,6 +1205,7 @@ define([
             }
 
             this._setState('error', error);
+            this._setState('nogui', _isMobile);
         },
 
         /**
@@ -1689,6 +1721,20 @@ define([
      * @type {Boolean}
      */
     mediaplayerFactory.canPlay = _canPlay;
+
+    /**
+     * Checks if a userAgent matches a mobile browser signature
+     * @type {Function}
+     * @param {String} [userAgent]
+     * @returns {Boolean}
+     */
+    mediaplayerFactory.isMobileBrowser = isMobileBrowser;
+
+    /**
+     * Tells if the browser is a mobile version
+     * @type {Boolean}
+     */
+    mediaplayerFactory.isMobile = _isMobile;
 
     /**
      * The polling interval used to update the progress bar while playing a YouTube video.
