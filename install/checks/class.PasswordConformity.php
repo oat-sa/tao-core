@@ -40,7 +40,7 @@ class tao_install_checks_PasswordConformity extends common_configuration_Compone
         } else {
             $report = new common_configuration_Report(
                 common_configuration_Report::INVALID,
-                implode( "</br>", PasswordConstraintsService::singleton()->getErrors() ),
+                implode( "</br>", PasswordConstraintsService::singleton()->getErrors($content['value']['password']) ),
                 $this
             );
         }
