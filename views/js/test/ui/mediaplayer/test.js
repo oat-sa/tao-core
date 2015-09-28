@@ -310,6 +310,7 @@ define([
                         forward();
                         assert.equal(player, instance, 'The ready event provides the instance');
 
+                        assert.ok(true, 'command #1: play()');
                         player.play();
                     }
                 }, {
@@ -318,6 +319,7 @@ define([
                         assert.equal(player, instance, 'The play event provides the instance');
 
                         setTimeout(function () {
+                            assert.ok(true, 'command #2: pause()');
                             player.pause();
                         }, 500);
                     },
@@ -327,6 +329,7 @@ define([
                         forward();
                         assert.equal(player, instance, 'The pause event provides the instance');
 
+                        assert.ok(true, 'command #3: resume()');
                         player.resume();
                     },
                     update: true
@@ -335,6 +338,7 @@ define([
                         forward();
                         assert.equal(player, instance, 'The play event provides the instance');
 
+                        assert.ok(true, 'command #4: seek(1)');
                         player.seek(1);
                     },
                     update: true
@@ -345,6 +349,7 @@ define([
 
                         assert.equal(Math.floor(player.player.getPosition()), 1, 'The media player has moved forward to the right position');
 
+                        assert.ok(true, 'command #5: rewind()');
                         player.rewind();
                     },
                     play: true
@@ -355,6 +360,7 @@ define([
 
                         assert.equal(Math.floor(player.player.getPosition()), 0, 'The media player has restarted from the beginning');
 
+                        assert.ok(true, 'command #6: seek(1)');
                         player.seek(1);
                     },
                     play: true
@@ -365,6 +371,7 @@ define([
 
                         assert.equal(Math.floor(player.player.getPosition()), 1, 'The media player has moved forward to the right position');
 
+                        assert.ok(true, 'command #7: pause()');
                         player.pause();
                     },
                     play: true
@@ -373,6 +380,7 @@ define([
                         forward();
                         assert.equal(player, instance, 'The pause event provides the instance');
 
+                        assert.ok(true, 'command #8: restart()');
                         player.restart();
                     },
                     update: true
@@ -383,6 +391,7 @@ define([
 
                         assert.equal(Math.floor(player.player.getPosition()), 0, 'The media player has restarted from the beginning');
 
+                        assert.ok(true, 'command #9: hide()');
                         player.hide();
                     },
                     update: true
@@ -391,11 +400,13 @@ define([
                         forward();
                         assert.equal(player, instance, 'The pause event provides the instance');
 
+                        assert.ok(true, 'command #10: play()');
                         player.play();
 
                         setTimeout(function () {
                             assert.ok(!player.is('playing'), 'The player cannot be played while hidden!');
 
+                            assert.ok(true, 'command #11: show()');
                             player.show();
                         }, 500);
                     },
@@ -405,6 +416,7 @@ define([
                         forward();
                         assert.equal(player, instance, 'The play event provides the instance');
 
+                        assert.ok(true, 'command #12: disable()');
                         player.disable();
                     },
                     update: true
@@ -413,11 +425,13 @@ define([
                         forward();
                         assert.equal(player, instance, 'The pause event provides the instance');
 
+                        assert.ok(true, 'command #13: play()');
                         player.play();
 
                         setTimeout(function () {
                             assert.ok(!player.is('playing'), 'The player cannot be played while disabled!');
 
+                            assert.ok(true, 'command #14: enable()');
                             player.enable();
                         }, 500);
                     },
@@ -427,6 +441,7 @@ define([
                         forward();
                         assert.equal(player, instance, 'The play event provides the instance');
 
+                        assert.ok(true, 'command #15: stop()');
                         player.stop();
                     },
                     update: true
@@ -435,6 +450,7 @@ define([
                         forward();
                         assert.equal(player, instance, 'The ended event provides the instance');
 
+                        assert.ok(true, 'command #16: destroy()');
                         player.destroy();
                     },
                     pause: true,
