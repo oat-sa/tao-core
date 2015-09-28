@@ -1523,7 +1523,7 @@ define([
                 this.trigger('limitreached', this);
             } else {
                 if (this.loop) {
-                    this.play();
+                    this.restart();
                 }
             }
         },

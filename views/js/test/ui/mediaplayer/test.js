@@ -456,10 +456,13 @@ define([
                     var step = path[current];
                     var stepEvent = step && step[event];
                     if (_.isFunction(stepEvent)) {
-                        assert.ok(true, 'The event ' + event + ' has been triggered!');
-                        _.defer(function () {
-                            stepEvent.apply(instance, args);
-                        });
+                        if (!stepEvent.triggered) {
+                            stepEvent.triggered = true;
+                            assert.ok(true, 'The event ' + event + ' has been triggered!');
+                            _.defer(function () {
+                                stepEvent.apply(instance, args);
+                            });
+                        }
                     } else if (!stepEvent) {
                         assert.ok(false, 'The event ' + event + ' was unexpected!');
                     }
