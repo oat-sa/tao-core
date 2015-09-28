@@ -32,14 +32,22 @@
 class tao_actions_Import extends tao_actions_CommonModule {
 
 	/**
+	 * @return string
+	 */
+	protected function getFormClass(){
+		return 'tao_actions_form_Import';
+	}
+
+	/**
 	 * initialize the classUri and execute the upload action
 	 * @requiresRight id WRITE
-	 * @return void
 	 */
 	public function index(){
-		
+
 		$importer = $this->getCurrentImporter();
-		$formContainer = new tao_actions_form_Import(
+
+		$formClass = $this->getFormClass();
+		$formContainer = new $formClass(
 			$importer,
 			$this->getAvailableImportHandlers(),
 			$this->getCurrentClass()

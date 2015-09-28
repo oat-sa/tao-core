@@ -53,6 +53,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * 'multi_values_delimiter' => 'a multi values delimiter, default is |',
      * 'first_row_column_names' => 'boolean value describing if the first row
      * column names').
+     * 'atomic' => 'boolean value - either all rows in the CSV import successfully or no rows are imported
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -75,6 +76,9 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		if(!isset($this->options['first_row_column_names'])){
 			$this->options['first_row_column_names'] = true;
 		}
+	    if ( ! isset( $this->options['atomic'] )) {
+		    $this->options['atomic'] = false;
+	    }
 
 		// Bind resource callbacks.
 		if (isset($this->options['onResourceImported']) && is_array($this->options['onResourceImported'])){
@@ -114,6 +118,8 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string $source
      * @param  core_kernel_classes_Class $destination
+     * @throws BadFunctionCallException
+     * @throws InvalidArgumentException
      * @return common_report_Report
      */
     public function import($source,  core_kernel_classes_Class $destination = null)
@@ -126,9 +132,9 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         }
 
         $csvData = $this->load($source);
-        
-        $createdResources = 0;
-        $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
+        //whether all proceeded lines can be imported
+	    $isFileValid = true;
+	    $createdResources = array();
 
     	for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++){
     	    helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::SHORT);
@@ -157,34 +163,40 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			        }
 			    }
 			    
-			    // create resource
-			    $resource = $destination->createInstanceWithProperties($evaluatedData);
-			    
+			    // we are adding resources only for ato
+				if ($isFileValid || ! $this->options['atomic']) {
+					$resource = $destination->createInstanceWithProperties($evaluatedData);
+					$createdResources[] = $resource;
+				}
+
 			    // Apply 'resourceImported' callbacks.
 			    foreach ($this->resourceImported as $callback){
 			        $callback($resource);
 			    }
 			    
-			    $createdResources++;
-			    
-			} catch (tao_helpers_data_ValidationException $valExc) {
-			    $targetProperty = new core_kernel_classes_Property($propUri);
+			} catch (ValidationException $valExc) {
                 $this->addErrorMessage(
 			        $propUri,
 			        common_report_Report::createFailure(
 			            'Row '.$rowIterator. ' ' .$valExc->getProperty()->getLabel(). ': ' .$valExc->getUserMessage(). ' "' . $valExc->getValue() . '"'
 			        )
 			    );
-			    $valid = false;
+			    $isFileValid = false;
 			}
 			
 			helpers_TimeOutHelper::reset();
 		}
 
 		$this->addOption('to_import', count($csvData));
-		$this->addOption('imported', $createdResources);
+		$this->addOption('imported', count($createdResources));
 
-		$report = $this->getResult($createdResources);
+	    if ( ! $isFileValid && $this->options['atomic']) {
+		    foreach ($createdResources as $resource){
+			    $resource->delete();
+		    }
+	    }
+
+		$report = $this->getResult(count($createdResources));
 
 		return $report;
     }
@@ -222,7 +234,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         $evaluatedValue = $this->applyCallbacks($value, $this->options, $property);
         // ensure it's an array
         $evaluatedValue = is_array($evaluatedValue) ? $evaluatedValue : array($evaluatedValue);
-        
+
         if ($range->getUri() != RDFS_LITERAL) {
             // validate resources
             foreach ($evaluatedValue as $key => $eVal) {
@@ -317,7 +329,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 	 * @param $propUri
 	 * @param $csvRow
 	 * @param $csvColumn
-	 * @throws tao_helpers_data_ValidationException
+	 * @throws ValidationException
 	 * @return array
 	 */
 	protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn)
@@ -325,10 +337,10 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		/**  @var tao_helpers_form_Validator $validator */
 		$validators = $this->getValidator($propUri);
 		foreach ((array)$validators as $validator) {
-            $validator->setOptions( array(
-                'resourceClass' => $destination,
-                'property'      => $propUri
-            ));
+			$validator->setOptions(array_merge($validator->getOptions(), array(
+				'resourceClass' => $destination,
+				'property'      => $propUri
+			)));
 
             if (!$validator->evaluate($csvRow[$csvColumn])) {
                 throw new ValidationException(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn], $validator->getMessage());
@@ -355,6 +367,12 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		if (!$createdResources) {
 			$type = common_report_Report::TYPE_ERROR;
             $message = __('Data not imported. All records are invalid.');
+		}
+
+
+		if ($this->hasErrors() && $this->options['atomic']) {
+			$type = common_report_Report::TYPE_ERROR;
+			$message = __('Data not imported. Rollback, some of data are invalid.');
 		}
 
 		$report = new common_report_Report($type, $message);
