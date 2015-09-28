@@ -355,7 +355,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		$type = common_report_Report::TYPE_SUCCESS;
 
 		if ($this->hasErrors()) {
-			$type = common_report_Report::TYPE_WARNING;
+			$type = common_report_Report::TYPE_ERROR;
             $message = __('Data not imported. Some records are invalid.');
 		}
 
