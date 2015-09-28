@@ -36,36 +36,24 @@ class tao_helpers_form_validators_Length
     // --- ATTRIBUTES ---
 
     // --- OPERATIONS ---
-
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
+    public function setOptions(array $options)
     {
-        
-		
-		parent::__construct($options);
-		
-		if( isset($this->options['min']) && isset($this->options['max']) ){
-			$this->message = __('Invalid field length')." (minimum ".$this->options['min'].", maximum ".$this->options['max'].")";
-		}
-		else if( isset($this->options['min']) && !isset($this->options['max']) ){
-			$this->message = __('This field is too short')." (minimum ".$this->options['min'].")";
-		}
-		else if( !isset($this->options['min']) && isset($this->options['max']) ){
-			$this->message = __('This field is too long')." (maximum ".$this->options['max'].")";
-		}
-		else{
-			throw new Exception("Please set 'min' and/or 'max' options!");
-		}
-		
-        
+        parent::setOptions($options);
+
+        if( isset($this->options['min']) && isset($this->options['max']) ){
+            $this->setMessage(__('Invalid field length')." (minimum ".$this->options['min'].", maximum ".$this->options['max'].")");
+        }
+        else if( isset($this->options['min']) && !isset($this->options['max']) ){
+            $this->setMessage(__('This field is too short')." (minimum ".$this->options['min'].")");
+        }
+        else if( !isset($this->options['min']) && isset($this->options['max']) ){
+            $this->setMessage(__('This field is too long')." (maximum ".$this->options['max'].")");
+        }
+        else{
+            throw new Exception("Please set 'min' and/or 'max' options!");
+        }
     }
+
 
     /**
      * Short description of method evaluate

@@ -38,21 +38,6 @@ class tao_helpers_form_validators_Integer
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
-    {
-        
-				parent::__construct($options);
-        
-    }
-
-    /**
      * Short description of method evaluate
      *
      * @access public
@@ -63,19 +48,16 @@ class tao_helpers_form_validators_Integer
     public function evaluate($values)
     {
         $returnValue = (bool) false;
-
         
-				if ($values == intval($values)) {
-					$returnValue = parent::evaluate($values);
-				} else {
-					$returnValue = false;
-					$this->message .= __('The value of this field must be an integer');
-				}
+		if ($values == intval($values)) {
+			$returnValue = parent::evaluate($values);
+		} else {
+			$returnValue = false;
+			$this->setMessage(__('The value of this field must be an integer'));
+		}
         
 
         return (bool) $returnValue;
     }
 
 }
-
-?>

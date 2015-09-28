@@ -87,14 +87,6 @@ class tao_actions_form_Login
 			tao_helpers_form_FormFactory::getValidator('NotEmpty')
 		);
 		$this->form->addElement($passElt);
-
-		//apply additional elements from config
-		if( isset($this->options['elements']) && is_array($this->options['elements']) ){
-			foreach ($this->options['elements'] as $element) {
-				if( $element instanceof tao_helpers_form_FormElement )
-				$this->form->addElement($element);
-			}
-		}
     }
 
 }

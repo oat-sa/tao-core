@@ -44,13 +44,13 @@ class tao_helpers_form_validators_IndexIdentifier
         if(preg_match("/^[a-z]+[a-z_0-9]*$/", $values) === 1){
             return true;
         } else {
-            $this->message = isset($this->options['message'])
-                ? $this->options['message']
-                : (empty($values)
+            if (!isset($this->options['message'])) {
+                $message = empty($values)
                     ? __('The index identifier should not be empty')
                     : __('"%s" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only', $values)
-                );
-            
+                ; 
+                $this->setMessage($message);
+            }
         }
         return false;
     }

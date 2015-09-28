@@ -18,34 +18,33 @@
  *
  *
  */
-namespace oat\tao\model\search;
 
-use core_kernel_classes_Class;
-use oat\oatbox\PhpSerializable;
+namespace oat\tao\model\asset;
+
+use oat\oatbox\service\ConfigurableService;
 
 /**
- * Search interface
- * 
- * @author Joel Bout <joel@taotesting.com>
+ * Asset service to retrieve assets easily based on a config
+ *
+ * @author Antoine Robin
  */
-interface Search extends PhpSerializable 
+class AssetService extends ConfigurableService
 {
-    /**
-     * Search for instances using a Lucene query
-     *
-     * @param string $queryString
-     * @param core_kernel_classes_Class $rootClass
-     * @param int $start
-     * @param int $count
-     *
-     * @return ResultSet
-     */
-    public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
+    const SERVICE_ID = 'tao/asset';
 
-    /**
-     * Index the resources given as a traversable
-     * 
-     * @param \Traversable $resourceTraversable
-     */
-    public function index(\Traversable $resourceTraversable);
+    public function getAsset($asset, $extensionId)
+    {
+        return $this->getJsBaseWww($extensionId) . $asset;
+    }
+
+    public function getJsBaseWww($extensionId)
+    {
+        return $this->getAssetUrl() . $extensionId . '/views/';
+    }
+
+    protected function getAssetUrl()
+    {
+        return $this->hasOption('base') ? $this->getOption('base') : ROOT_URL;
+    }
+
 }

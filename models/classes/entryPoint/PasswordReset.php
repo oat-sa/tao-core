@@ -18,34 +18,34 @@
  *
  *
  */
-namespace oat\tao\model\search;
 
-use core_kernel_classes_Class;
+namespace oat\tao\model\entryPoint;
+
 use oat\oatbox\PhpSerializable;
+use tao_models_classes_accessControl_AclProxy;
+use oat\oatbox\Configurable;
 
-/**
- * Search interface
- * 
- * @author Joel Bout <joel@taotesting.com>
- */
-interface Search extends PhpSerializable 
+class PasswordReset extends Configurable implements Entrypoint
 {
-    /**
-     * Search for instances using a Lucene query
-     *
-     * @param string $queryString
-     * @param core_kernel_classes_Class $rootClass
-     * @param int $start
-     * @param int $count
-     *
-     * @return ResultSet
-     */
-    public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
 
-    /**
-     * Index the resources given as a traversable
-     * 
-     * @param \Traversable $resourceTraversable
-     */
-    public function index(\Traversable $resourceTraversable);
+    public function getId() {
+        return 'passwordreset';
+    }
+    
+    public function getTitle() {
+        return __("Unable to access your account?");
+    }
+    
+    public function getLabel() {
+        return __('Password reset');
+    }
+    
+    public function getDescription() {
+        return __('Request a password reset via Email.');
+    }
+    
+    public function getUrl() {
+        return _url('index', 'PasswordRecovery', 'tao');
+    }
+
 }
