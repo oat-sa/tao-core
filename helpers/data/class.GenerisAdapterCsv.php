@@ -53,7 +53,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * 'multi_values_delimiter' => 'a multi values delimiter, default is |',
      * 'first_row_column_names' => 'boolean value describing if the first row
      * column names').
-     * 'atomic' => 'boolean value - either all rows in the CSV import successfully or no rows are imported
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -76,9 +75,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		if(!isset($this->options['first_row_column_names'])){
 			$this->options['first_row_column_names'] = true;
 		}
-	    if ( ! isset( $this->options['atomic'] )) {
-		    $this->options['atomic'] = false;
-	    }
 
 		// Bind resource callbacks.
 		if (isset($this->options['onResourceImported']) && is_array($this->options['onResourceImported'])){
@@ -163,8 +159,8 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			        }
 			    }
 			    
-			    // we are adding resources only for ato
-				if ($isFileValid || ! $this->options['atomic']) {
+			    // we are adding resources only if it still have sense
+				if ($isFileValid) {
 					$resource = $destination->createInstanceWithProperties($evaluatedData);
 					$createdResources[] = $resource;
 				}
@@ -190,13 +186,13 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		$this->addOption('to_import', count($csvData));
 		$this->addOption('imported', count($createdResources));
 
-	    if ( ! $isFileValid && $this->options['atomic']) {
+	    if ( ! $isFileValid ) {
 		    foreach ($createdResources as $resource){
 			    $resource->delete();
 		    }
 	    }
 
-		$report = $this->getResult(count($createdResources));
+		$report = $this->getResult();
 
 		return $report;
     }
@@ -350,29 +346,17 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 	}
 
 	/**
-	 * @param $createdResources
 	 * @return common_report_Report
 	 * @throws common_exception_Error
 	 */
-	protected function getResult($createdResources)
+	protected function getResult()
 	{
         $message = __('Data imported');
 		$type = common_report_Report::TYPE_SUCCESS;
 
 		if ($this->hasErrors()) {
 			$type = common_report_Report::TYPE_WARNING;
-            $message = __('Data imported. Some records are invalid.');
-		}
-
-		if (!$createdResources) {
-			$type = common_report_Report::TYPE_ERROR;
-            $message = __('Data not imported. All records are invalid.');
-		}
-
-
-		if ($this->hasErrors() && $this->options['atomic']) {
-			$type = common_report_Report::TYPE_ERROR;
-			$message = __('Data not imported. Rollback, some of data are invalid.');
+            $message = __('Data not imported. Some records are invalid.');
 		}
 
 		$report = new common_report_Report($type, $message);
