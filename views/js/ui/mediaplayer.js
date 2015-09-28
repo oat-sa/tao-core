@@ -370,7 +370,7 @@ define([
                 startPolling : function _youtubePlayerStartPolling() {
                     interval = setInterval(function() {
                         mediaplayer._onTimeUpdate();
-                    }, 100);
+                    }, mediaplayerFactory.youtubePolling);
                 },
 
                 destroy : function _youtubePlayerDestroy() {
@@ -1689,6 +1689,13 @@ define([
      * @type {Boolean}
      */
     mediaplayerFactory.canPlay = _canPlay;
+
+    /**
+     * The polling interval used to update the progress bar while playing a YouTube video.
+     * Note : the YouTube API does not provide events to update this progress bar...
+     * @type {Number}
+     */
+    mediaplayerFactory.youtubePolling = 100;
 
     return mediaplayerFactory;
 });

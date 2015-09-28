@@ -291,6 +291,8 @@ define([
             assert.ok(true, 'The browser does not support the video or audio tags!');
         });
     } else {
+        mediaplayer.youtubePolling = 1000; // large polling window to avoid useless update events
+
         QUnit
             .cases(mediaplayerTypes)
             .asyncTest('Events ', function (data, assert) {
