@@ -22,6 +22,7 @@
 namespace oat\tao\scripts\update;
 
 use common_ext_ExtensionsManager;
+use oat\tao\model\asset\AssetService;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -42,6 +43,8 @@ use oat\tao\model\search\strategy\GenerisSearch;
 use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\ThemeRegistry;
+use oat\tao\model\entryPoint\PasswordReset;
+use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\theme\ThemeService;
 use oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\CompatibilityTheme;
@@ -298,7 +301,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $currentVersion = '2.10.0';
         }
-        
+
         // widget definitions
         if ($currentVersion === '2.10.0') {
             OntologyUpdater::syncModels();
@@ -349,6 +352,34 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($currentVersion === '2.13.0') {
+            $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $entryPoints = $tao->getConfig('entrypoint');
+            
+            $service = new EntryPointService();
+            foreach ($entryPoints as $id => $entryPoint) {
+                $service->overrideEntryPoint($id, $entryPoint);
+                $service->activateEntryPoint($id, EntryPointService::OPTION_POSTLOGIN);
+            }
+            // register, don't activate
+            $passwordResetEntry = new PasswordReset();
+            $service->overrideEntryPoint($passwordResetEntry->getId(), $passwordResetEntry);
+            
+            $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $service);
+            
+            $currentVersion = '2.13.1';
+        }
+
+        if ($currentVersion === '2.13.1') {
+            try {
+                $this->getServiceManager()->get(AssetService::SERVICE_ID);
+                // all good, already configured
+            } catch (ServiceNotFoundException $error) {
+                $this->getServiceManager()->register(AssetService::SERVICE_ID, new AssetService());
+            }
+            $currentVersion = '2.13.2';
+        }
+        
+        if ($currentVersion === '2.13.2') {
 
             //add the new customizable template "login-message" to backOffice target
             $themeService = new ThemeService();

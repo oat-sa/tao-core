@@ -4,9 +4,12 @@ use oat\tao\helpers\Layout;
 <div id="login-box" class="entry-point entry-point-container">
     <?=Layout::renderThemeTemplate('backOffice', 'login-message')?>
     <?= get_data('form') ?>
-    <?php if (get_data('messageServiceIsAvailable')): ?>
-    <a href="<?= _url('index', 'PasswordRecovery', 'tao') ?>"> <?= __("Unable to access your account?") ?></a>
-    <?php endif; ?>
+    
+    <?php foreach(get_data('entryPoints') as $entrypoint): ?>
+    <div>
+        <a href="<?= $entrypoint->getUrl() ?>"><?= $entrypoint->getTitle() ?></a>
+    </div>
+    <?php endforeach;?>
 </div>
 <script>
     requirejs.config({
