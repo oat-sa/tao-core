@@ -22,6 +22,11 @@
 $root = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR;
 define('TAO_INSTALL_PATH', $root);
 
+// only script that may use the quick TZ fix
+if(function_exists("date_default_timezone_set")){
+	date_default_timezone_set('UTC');
+}
+
 require_once ($root . 'vendor/autoload.php');
 
 common_log_Dispatcher::singleton()->init(array(

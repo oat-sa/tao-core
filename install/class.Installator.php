@@ -270,7 +270,7 @@ class tao_install_Installator{
 			 * 6 - Run the extensions bootstrap
 			 */
 			$this->log('d', 'Running the extensions bootstrap', 'INSTALL');
-			require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
+			common_Config::load();
 			
 			/*
 			 * 6b - Create cache persistence

@@ -135,7 +135,7 @@ class Bootstrap {
 	{
 		if(!self::$isStarted){
 			$this->session();
-			$this->includePath();
+			$this->setDefaultTimezone();
 			$this->registerErrorhandler();
 			self::$isStarted = true;
 		}
@@ -350,11 +350,13 @@ class Bootstrap {
 	}
 
 	/**
-	 * Update the include path
+	 * Set Timezone quickfix
 	 */
-	protected function includePath()
+	protected function setDefaultTimezone()
 	{
-		set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);
+	    if(function_exists("date_default_timezone_set") && defined('TIME_ZONE')){
+	        date_default_timezone_set(TIME_ZONE);
+	    }
 	}
 
 	/**
