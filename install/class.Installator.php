@@ -270,8 +270,12 @@ class tao_install_Installator{
 			 * 6 - Run the extensions bootstrap
 			 */
 			$this->log('d', 'Running the extensions bootstrap', 'INSTALL');
+			//load config
 			common_Config::load();
-			
+
+			// autoloader
+			require_once ROOT_PATH.'vendor/autoload.php';
+
 			/*
 			 * 6b - Create cache persistence
 			*/
