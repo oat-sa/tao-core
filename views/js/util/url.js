@@ -131,6 +131,15 @@ define([
         },
 
         /**
+         * Determine whether encoding is required to match XML standards for attributes
+         * @param {String} url
+         * @returns {String}
+         */
+        encodeAsXmlAttr : function encodeAsXmlAttr(uri) {
+            return (/[<>&']+/.test(uri)) ? encodeURIComponent(uri) : uri;
+        },
+
+        /**
          * Build a URL.
          * It does not take case about baseURL.
          *

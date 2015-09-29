@@ -21,6 +21,15 @@
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\EntryPointService;
+use oat\tao\model\entryPoint\PasswordReset;
 
-EntryPointService::getRegistry()->registerEntryPoint(new BackOfficeEntrypoint());
-//ServiceManager::getServiceManager()->register('tao/entrypoint', $entryPointManager);
+$serviceManager = ServiceManager::getServiceManager();
+$entryPointService = $serviceManager->get(EntryPointService::SERVICE_ID);
+
+$entryPointService->addEntryPoint(new BackOfficeEntrypoint(), EntryPointService::OPTION_POSTLOGIN);
+
+// register, don't activate
+$passwordResetEntry = new PasswordReset();
+$entryPointService->overrideEntryPoint($passwordResetEntry->getId(), $passwordResetEntry);
+
+$serviceManager->register(EntryPointService::SERVICE_ID, $entryPointService);

@@ -40,29 +40,21 @@ class tao_helpers_form_validators_Equals
 
     // --- OPERATIONS ---
 
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
+    public function setOptions(array $options)
     {
-        
-        parent::__construct($options);
-    	if(!isset($this->options['reference']) || !$this->options['reference'] instanceof tao_helpers_form_FormElement){
-			throw new common_Exception("No FormElement provided as reference for Equals validator");
-		}
+        parent::setOptions($options);
+
+        if(!isset($this->options['reference']) || !$this->options['reference'] instanceof tao_helpers_form_FormElement){
+            throw new common_Exception("No FormElement provided as reference for Equals validator");
+        }
         $reference = $this->options['reference'];
-		if (isset($this->options['invert']) && $this->options['invert']) {
-			$this->message = __('This should not equal ').$reference->getDescription();
-		} else {
-			$this->message = __('This should equal ').$reference->getDescription();
-		}
-        
+        if (isset($this->options['invert']) && $this->options['invert']) {
+            $this->setMessage(__('This should not equal %s',$reference->getDescription()));
+        } else {
+            $this->setMessage(__('This should equal %s',$reference->getDescription()));
+        }
     }
+
 
     /**
      * Short description of method evaluate
@@ -87,5 +79,3 @@ class tao_helpers_form_validators_Equals
     }
 
 }
-
-?>

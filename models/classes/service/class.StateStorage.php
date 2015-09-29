@@ -18,20 +18,34 @@
  * 
  */
 
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ConfigurableService;
 /**
  * Persistence for the item delivery service
  *
  * @access public
- * @author @author Joel Bout, <joel@taotesting.com>
- * @package taoItemRunner
- 
+ * @author Joel Bout, <joel@taotesting.com>
+ * @package tao
  */
 class tao_models_classes_service_StateStorage
-    extends tao_models_classes_Service
+    extends ConfigurableService
 {
+    /**
+     * @var string name of former hardcoded persistence
+     * @deprecated
+     */
+    const PERSISTENCE_ID = 'serviceState';
+    
     const KEY_NAMESPACE = 'tao:state:';
     
-    const PERSISTENCE_ID = 'serviceState';
+    const OPTION_PERSISTENCE = 'persistence';
+    
+    /**
+     * @deprecated
+     */
+    public static function singleton() {
+        return ServiceManager::getServiceManager()->getServiceManager()->get('tao/stateStorage');
+    }
     
     /**
      * Persistence to store service states to
@@ -43,9 +57,11 @@ class tao_models_classes_service_StateStorage
     /**
      * protected constructor to ensure singleton pattern
      */
-	protected function __construct() {
-		parent::__construct();
-		$this->persistence = common_persistence_KeyValuePersistence::getPersistence(self::PERSISTENCE_ID);
+	protected function getPersistence() {
+	    if (is_null($this->persistence)) {
+	        $this->persistence = common_persistence_KeyValuePersistence::getPersistence($this->getOption(self::OPTION_PERSISTENCE));
+	    }
+		return $this->persistence;
 	}
 	
 	/**
@@ -58,7 +74,7 @@ class tao_models_classes_service_StateStorage
 	 */
   	public function set($userId, $callId, $data) {
   	    $key = $this->getSerial($userId, $callId);
-  	    return $this->persistence->set($key, $data);
+  	    return $this->getPersistence()->set($key, $data);
   	}
   	
   	/**
@@ -71,7 +87,7 @@ class tao_models_classes_service_StateStorage
   	 */
   	public function get($userId, $callId) {
   	    $key = $this->getSerial($userId, $callId);
-  	    $returnValue = $this->persistence->get($key);
+  	    $returnValue = $this->getPersistence()->get($key);
   	    if ($returnValue === false && !$this->has($userId, $callId)) {
   	        $returnValue = null;
   	    }
@@ -87,7 +103,7 @@ class tao_models_classes_service_StateStorage
   	 */
   	public function has($userId, $callId) {
   	    $key = $this->getSerial($userId, $callId);
-  	    return $this->persistence->exists($key);
+  	    return $this->getPersistence()->exists($key);
   	}
   	
   	/**
@@ -99,7 +115,7 @@ class tao_models_classes_service_StateStorage
   	 */
   	public function del($userId, $callId) {
   	    $key = $this->getSerial($userId, $callId);
-  	    return $this->persistence->del($key);
+  	    return $this->getPersistence()->del($key);
   	}
   	
   	/**

@@ -27,19 +27,14 @@
  */
 class tao_helpers_form_validators_Email extends tao_helpers_form_Validator
 {
-
     /**
-     * Setup email validator
+     * Overrides parent default message
      *
-     * @access public
-     * @author Aleh Hutnikau <hutnikau@1pt.com>
-     * @param array Validator options
-     * @return void
+     * @return string
      */
-    public function __construct($options = array())
+    protected function getDefaultMessage()
     {
-        parent::__construct($options);
-        (isset($options['message'])) ? $this->message = $options['message'] : $this->message = __('This is not a valid email address.');
+        return __('This is not a valid email address.');
     }
 
     /**
