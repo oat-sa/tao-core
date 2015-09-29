@@ -45,13 +45,6 @@ define([
     var _reYoutube = /([?&\/]v[=\/])([\w-]+)([&\/]?)/;
 
     /**
-     * A Regex to detect Mobile browsers
-     * @type {RegExp}
-     * @private
-     */
-    var _reMobile = /((?:iPhone|iPod|iPad|IEMobile|BlackBerry|BB10|Opera Mini|Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000))|((?=.*\bAndroid\b)(?=.*\b(?:Safari|Mobile|SD4930UR|KFOT|KFTT|KFJWI|KFJWA|KFSOWI|KFTHWI|KFTHWA|KFAPWI|KFAPWA|KFARWI|KFASWI|KFSAWI|KFSAWA)\b))|((?=.*\bWindows\b)(?=.*\bARM\b))|((?=.*\bFirefox|CriOS|Chrome\b)(?=.*\bMobile\b))/i;
-
-    /**
      * Array slice method needed to slice arguments
      * @type {Function}
      * @private
@@ -156,23 +149,6 @@ define([
     };
 
     /**
-     * Checks if a userAgent matches a mobile browser signature
-     * @param {String} [userAgent]
-     * @returns {Boolean}
-     */
-    var isMobileBrowser = function isMobileBrowser(userAgent) {
-        var ua = (userAgent || navigator.userAgent).split('[FBAN')[0];
-        return _reMobile.test(ua);
-    };
-
-    /**
-     * Checks if the browser is a mobile version
-     * @type {Boolean}
-     * @private
-     */
-    var _isMobile = isMobileBrowser();
-
-    /**
      * Checks if the browser can play audio and video
      * @type {Boolean}
      * @private
@@ -212,12 +188,14 @@ define([
          * Add a Youtube player
          * @param {String|jQuery|HTMLElement} elem
          * @param {Object} player
+         * @param {Object} [options]
+         * @param {Boolean} [options.controls]
          */
-        add : function add(elem, player) {
+        add : function add(elem, player, options) {
             if (this.ready) {
-                this.create(elem, player);
+                this.create(elem, player, options);
             } else {
-                this.pending.push([elem, player]);
+                this.pending.push([elem, player, options]);
 
                 if (!this.injected) {
                     this.injectApi();
@@ -243,12 +221,18 @@ define([
          * Install a Youtube player. The Youtube API must be ready
          * @param {String|jQuery|HTMLElement} elem
          * @param {Object} player
+         * @param {Object} [options]
+         * @param {Boolean} [options.controls]
          */
-        create : function create(elem, player) {
+        create : function create(elem, player, options) {
             var $elem;
 
             if (!this.ready) {
-                return this.add(elem, player);
+                return this.add(elem, player, options);
+            }
+
+            if (!options) {
+                options = {};
             }
 
             $elem = $(elem);
@@ -260,7 +244,7 @@ define([
                 playerVars: {
                     //hd: true,
                     autoplay: 0,
-                    controls: _isMobile ? 1 : 0,
+                    controls: options.controls ? 1 : 0,
                     rel: 0,
                     showinfo: 0,
                     wmode: 'transparent',
@@ -343,7 +327,9 @@ define([
                     destroyed = false;
 
                     if ($media) {
-                        _youtubeManager.add($media, this);
+                        _youtubeManager.add($media, this, {
+                            controls : mediaplayer.is('nogui')
+                        });
                     }
 
                     return !!$media;
@@ -520,7 +506,7 @@ define([
                             result = true;
                         }
 
-                        if (!_isMobile) {
+                        if (!mediaplayer.is('nogui')) {
                             $media.removeAttr('controls');
                         }
 
@@ -1205,7 +1191,6 @@ define([
             }
 
             this._setState('error', error);
-            this._setState('nogui', _isMobile);
         },
 
         /**
@@ -1721,20 +1706,6 @@ define([
      * @type {Boolean}
      */
     mediaplayerFactory.canPlay = _canPlay;
-
-    /**
-     * Checks if a userAgent matches a mobile browser signature
-     * @type {Function}
-     * @param {String} [userAgent]
-     * @returns {Boolean}
-     */
-    mediaplayerFactory.isMobileBrowser = isMobileBrowser;
-
-    /**
-     * Tells if the browser is a mobile version
-     * @type {Boolean}
-     */
-    mediaplayerFactory.isMobile = _isMobile;
 
     /**
      * The polling interval used to update the progress bar while playing a YouTube video.
