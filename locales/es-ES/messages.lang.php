@@ -1,11 +1,9 @@
 <?php
-$GLOBALS['__l10n']["\n            Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."]="\nCrear elementos, administrar elemento y baterías de pruebas, organizar cohortes y entregables, preparar reportes, configurar flujos de trabajo";
 $GLOBALS['__l10n'][" and "]=" y ";
 $GLOBALS['__l10n'][" has been deleted successfully"]=" ha sido borrado exitosamente";
 $GLOBALS['__l10n'][" has been installed"]=" ha sido instalado";
 $GLOBALS['__l10n'][" next"]=" siguiente";
 $GLOBALS['__l10n'][" requires a subgrid adapter"]=" requiere un adaptador de sub rejilla";
-$GLOBALS['__l10n']["\"list saved\""]="\"lista guardada\"";
 $GLOBALS['__l10n']["%d day"]="día %d";
 $GLOBALS['__l10n']["%d days"]="%d días";
 $GLOBALS['__l10n']["%h hour"]="hora %h";
@@ -25,6 +23,8 @@ $GLOBALS['__l10n']["Add / Edit lists"]="Agregar / Editar listas";
 $GLOBALS['__l10n']["Add a CSV file"]="Agregar archivo CSV";
 $GLOBALS['__l10n']["Add a user"]="Agregar un usuario";
 $GLOBALS['__l10n']["Add an RDF/XML file"]="Agregar archivo RDF/XML";
+$GLOBALS['__l10n']["all"]="todos";
+$GLOBALS['__l10n']["All rights reserved."]="Todos los derechos reservados";
 $GLOBALS['__l10n']["Alpha version"]="Versión Alpha";
 $GLOBALS['__l10n']["An error occured during user deletion"]="Un error ocurrió durante la eliminación del usuario";
 $GLOBALS['__l10n']["Are you sure to delete the versioned resource?\nThe history will be lost as well."]="Está seguro de borrar este recurso versionado?\nLa historia se perderá también.";
@@ -43,6 +43,7 @@ $GLOBALS['__l10n']["Choose import format"]="Elegir formato para importar";
 $GLOBALS['__l10n']["class selected"]="Clase seleccionada";
 $GLOBALS['__l10n']["Close tab"]="Cerrar pestaña";
 $GLOBALS['__l10n']["Collapse Message"]="Minimizar mensaje";
+$GLOBALS['__l10n']["Connect to the TAO platform"]="Conectar a la plataforma TAO";
 $GLOBALS['__l10n']["Current language"]="Lenguaje actual";
 $GLOBALS['__l10n']["Data imported"]="Datos importados";
 $GLOBALS['__l10n']["Data imported successfully"]="Datos importados exitosamente";
@@ -97,5 +98,9 @@ $GLOBALS['__l10n']["List - Single choice - Radio button"]="Lista - Opción senci
 $GLOBALS['__l10n']["List deleted"]="Lista borrada";
 $GLOBALS['__l10n']["List not deleted"]="Lista no borrada";
 $GLOBALS['__l10n']["List not saved"]="Lista no guardada";
+$GLOBALS['__l10n']["Log in"]="Iniciar sesión";
+$GLOBALS['__l10n']["Login"]="Inicio de sesión";
+$GLOBALS['__l10n']["Password"]="Contraseña";
+$GLOBALS['__l10n']["Yes"]="Sí";
 
 ?>

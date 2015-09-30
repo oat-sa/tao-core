@@ -83,7 +83,8 @@ define([
                         file.display = (file.identifier + file.name);
                     }
 
-                    file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + encodeURIComponent(file.uri);
+                    file.viewUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + encodeURIComponent(file.uri);
+                    file.downloadUrl = file.viewUrl + '&svgzsupport=true';
                     return file;
                 });
             
@@ -105,11 +106,6 @@ define([
             var $selected   = $(this);
             var $files      = $('.files > li', $fileSelector);
             var data        = _.clone($selected.data()); 
-
-            if($.contains($selected.find('.actions')[0], e.target)){
-                e.preventDefault();
-                return true;
-            }
 
             $files.removeClass('active');
             $selected.addClass('active');
@@ -134,8 +130,11 @@ define([
             if(e.namespace === 'deleter' && $target.length){
                 path = $target.data('file');
                 params[options.pathParam] = path;
-                $.getJSON(options.deleteUrl, _.merge(params, options.params));
-                $container.trigger('filedelete.' + ns, [path]);
+                $.getJSON(options.deleteUrl, _.merge(params, options.params), function(response){
+                    if(response.deleted){
+                        $container.trigger('filedelete.' + ns, [path]);
+                    }
+                });
             }
         });
        
@@ -178,7 +177,15 @@ define([
 
                     //check the mime-type
                     if(options.params.filters){
-                        var filters = options.params.filters.split(',');
+                        var filters = [];
+
+                        if (!_.isString(options.params.filters)) {
+                            for(var i in options.params.filters){
+                                filters.push(options.params.filters[i]['mime']);
+                            }
+                        } else {
+                            filters = options.params.filters.split(',');
+                        }
                         //TODO check stars
                         files = _.filter(files, function(file){
                             return _.contains(filters, file.type);

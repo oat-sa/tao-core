@@ -78,14 +78,39 @@ require(['config'], function() {
 
                     if (success == true) {
                         $('#deployment').css('visibility', 'hidden');
-
                         // Redirection to the main TAO main (login) screen.
-                        install.redirect('../../');
+                        var msg = '<b>' + data.value.message + '</b><br><br>';
+                        
+                        if (data.value.log.ext && data.value.log.ext.length) {
+                            msg += 'Installed extensions: <ul>';
+                            $.each(data.value.log.ext, function (key, val) {
+                                msg += '<li>' + val + '</li>';
+                            });
+                            msg += '</ul>';
+                        }
+                        
+                        if (data.value.log.w && data.value.log.w.length) {
+                            msg += '<br><br>Warnings occured during installation: <ul>';
+                            $.each(data.value.log.w, function (key, val) {
+                                msg += '<li>' + val + '</li>';
+                            });
+                            msg += '</ul>';
+                        }
+                        
+                        displayPopup({
+                            msg : msg, 
+                            title : 'Installation complete', 
+                            type : 'help',
+                            onClose : function () {
+                                install.redirect('/');
+                            }
+                        });
                     } else {
                         $('#deployment').css('visibility', 'hidden');
                         $('#submitForm').removeClass('disabled')
                             .addClass('enabled')
                             .attr('disabled', false);
+                    
                         displayTaoError(data.value.message);
                     }
                 });

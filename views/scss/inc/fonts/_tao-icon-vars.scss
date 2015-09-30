@@ -31,6 +31,7 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-tree { content: "\e6b4"; }
 @mixin icon-home { content: "\e6b3"; }
 @mixin icon-shared-file { content: "\e6b2"; }
 @mixin icon-end-attempt { content: "\e603"; }
@@ -215,3 +216,5 @@
 @mixin icon-loop { content: "\ea2e"; }
 @mixin icon-calendar { content: "\e953"; }
 @mixin icon-reload { content: "\e984"; }
+@mixin icon-speed { content: "\e9a6"; }
+@mixin icon-volume { content: "\ea27"; }

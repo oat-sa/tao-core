@@ -37,33 +37,18 @@ class tao_helpers_form_validators_Callback
 
     // --- OPERATIONS ---
 
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array options
-     * @return mixed
-     */
-    public function __construct($options = array())
+    public function setOptions(array $options)
     {
-        
-		
-		parent::__construct($options);
-		
-		if(isset($this->options['message'])) {
-			$this->message = $this->options['message'];
-		}
-		
-		if(!isset($this->options['function']) 
-			&& !((isset($this->options['class']) || isset($this->options['object'])) 
-				&& isset($this->options['method']))
-			){
-			throw new Exception("Please define a callback function or method");
-		}
-		
-        
+        parent::setOptions($options);
+
+        if(!isset($this->options['function'])
+            && !((isset($this->options['class']) || isset($this->options['object']))
+                && isset($this->options['method']))
+        ){
+            throw new Exception("Please define a callback function or method");
+        }
     }
+
 
     /**
      * Short description of method evaluate

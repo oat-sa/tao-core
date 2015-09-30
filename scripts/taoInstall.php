@@ -19,12 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-//quick TZ fix
-if(function_exists("date_default_timezone_set")){
-	date_default_timezone_set('UTC');
-}
 
 require_once dirname(__FILE__) . '/../install/init.php';
 

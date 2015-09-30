@@ -20,66 +20,66 @@
  */
 
 /**
- * Short description of class tao_helpers_form_validators_Unique
+ * Validator to ensure a property value is unique
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
 class tao_helpers_form_validators_Unique
     extends tao_helpers_form_Validator
 {
-    // --- ASSOCIATIONS ---
+    private $property;
+    /**
+     * (non-PHPdoc)
+     * @see tao_helpers_form_Validator::getDefaultMessage()
+     */
+    protected function getDefaultMessage()
+    {
+        return __('The value for the property "%s" must be unique.', $this->getProperty()->getLabel());
+    }
 
+    public function setOptions(array $options)
+    {
+        unset($this->property);
 
-    // --- ATTRIBUTES ---
+        parent::setOptions($options);
+    }
 
-    // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array $options
-     * @return mixed
+     * @return core_kernel_classes_Property
+     * @throws common_exception_Error
      */
-    public function __construct($options = array())
+    protected function getProperty()
     {
-        
-		parent::__construct($options);
-		
-		(isset($options['message'])) ? $this->message = $options['message'] : $this->message = __('Entity with such field already present');
+        if( !isset($this->property) || empty($this->property) ){
+            if (!array_key_exists('property', $this->options)) {
+                throw new common_exception_Error('Property not set');
+            }
 
+            $this->property = ($this->options['property'] instanceof core_kernel_classes_Property)
+                ? $this->options['property']
+                : new core_kernel_classes_Property($this->options['property']);
+        }
+
+        return $this->property;
     }
 
     /**
-     * Short description of method evaluate
-     *
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  mixed $values
-     * @return boolean
+     * (non-PHPdoc)
+     * @see tao_helpers_form_Validator::evaluate()
      */
     public function evaluate($values)
     {
-		$result = true;
-		/** @var core_kernel_classes_Class $resource */
-		$resourceClass = $values[0];
-		/** @var string $property */
-		$property = $values[1];
-		$value = $values[2];
-
-		$parentClasses = $resourceClass->getParentClasses(true);
-		if (is_array($parentClasses)) {
-			$veryParentClass = end($parentClasses);
-			if ($veryParentClass) {
-				$resources = $veryParentClass->searchInstances(array($property => $value,), array('recursive' => true));
-				$result = (count($resources) === 0);
-			}
-		}
-
-		return $result;
+        $domain = $this->getProperty()->getDomain();
+        foreach ($domain as $class) {
+            $resources = $class->searchInstances(array($this->getProperty()->getUri() => $values), array('recursive' => true, 'like' => false));
+            if (count($resources) > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

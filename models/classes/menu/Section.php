@@ -23,6 +23,7 @@ namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
 use oat\taoBackOffice\model\menuStructure\ClassActionRegistry;
+use oat\taoBackOffice\model\menuStructure\Action as iAction;
 
 class Section extends MenuElement implements PhpSerializable
 {
@@ -172,12 +173,12 @@ class Section extends MenuElement implements PhpSerializable
         return $this->actions;
     }
 
-    public function addAction(Action $action)
+    public function addAction(iAction $action)
     {
         $this->actions[] = $action;
     }
 
-    public function removeAction(Action $action)
+    public function removeAction(iAction $action)
     {
         $index = array_search($action, $this->actions, true);
         if($index !== false) {

@@ -14,20 +14,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  *
- * @author lionel
- * @license GPLv2
- * @package package_name
- * @subpackage
  *
  */
 
-use oat\tao\model\ThemeRegistry;
-use oat\tao\model\websource\TokenWebSource;
+namespace oat\tao\model\asset;
 
-$itemThemesDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
-$itemThemesDataPathFs = \tao_models_classes_FileSourceService::singleton()->addLocalSource('Theme FileSource', $itemThemesDataPath);
+use oat\oatbox\service\ConfigurableService;
 
-$websource = TokenWebSource::spawnWebsource($itemThemesDataPathFs);
-ThemeRegistry::getRegistry()->setWebSource($websource->getId());
+/**
+ * Asset service to retrieve assets easily based on a config
+ *
+ * @author Antoine Robin
+ */
+class AssetService extends ConfigurableService
+{
+    const SERVICE_ID = 'tao/asset';
+
+    public function getAsset($asset, $extensionId)
+    {
+        return $this->getJsBaseWww($extensionId) . $asset;
+    }
+
+    public function getJsBaseWww($extensionId)
+    {
+        return $this->getAssetUrl() . $extensionId . '/views/';
+    }
+
+    protected function getAssetUrl()
+    {
+        return $this->hasOption('base') ? $this->getOption('base') : ROOT_URL;
+    }
+
+}

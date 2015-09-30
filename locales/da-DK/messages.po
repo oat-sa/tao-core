@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T13:59:11\n"
+"Project-Id-Version: TAO 3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-08-11T14:45:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
@@ -212,17 +212,14 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-msgid "buffer"
-msgstr ""
-
 msgid "Calendar"
-msgstr ""
-
-msgid "cancel"
 msgstr ""
 
 msgid "Cancel"
 msgstr "Afslutte"
+
+msgid "cancel"
+msgstr ""
 
 msgid "Cannot be edited"
 msgstr ""
@@ -385,11 +382,11 @@ msgstr "Rediger forekomst"
 msgid "Edit this list"
 msgstr ""
 
-msgid "element"
-msgstr "element"
-
 msgid "Element"
 msgstr "Element"
+
+msgid "element"
+msgstr "element"
 
 msgid "Element deleted"
 msgstr ""
@@ -558,10 +555,10 @@ msgstr "Installer udvidelser %s..."
 msgid "Instance saved"
 msgstr "Forekomst gemt"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Interface sprog"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Interface sprog"
 
 msgid "Invalid date range"
@@ -599,9 +596,6 @@ msgstr "Sprog ikke understøttet"
 
 msgid "Last Name"
 msgstr "Efternavn"
-
-msgid "length"
-msgstr ""
 
 msgid "less than a minute"
 msgstr ""
@@ -768,10 +762,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No result found"
@@ -790,9 +784,6 @@ msgid "Number of elements"
 msgstr "Antal elementer"
 
 msgid "of"
-msgstr ""
-
-msgid "offset"
 msgstr ""
 
 msgid "Old Password"
@@ -828,17 +819,11 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr "Adgangskoder matcher ikke"
 
-msgid "platform"
-msgstr ""
-
 msgid "Please confirm deletion"
 msgstr "Vil du virkelig slette"
 
 msgid "Please confirm property deletion!"
 msgstr "Vil du virkelig slette egenskab!"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr ""
@@ -883,16 +868,10 @@ msgstr ""
 msgid "RDF"
 msgstr ""
 
-msgid "readable"
-msgstr ""
-
 msgid "Release"
 msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
-
-msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -1192,10 +1171,10 @@ msgstr ""
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Fravælg alle"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Fravælg alle"
 
 msgid "Undo"
@@ -1256,9 +1235,6 @@ msgstr "Bruger gemt"
 msgid "User Settings"
 msgstr ""
 
-msgid "userAgent"
-msgstr ""
-
 #, tao-public
 msgid "Users"
 msgstr "Brugere"
@@ -1270,9 +1246,6 @@ msgid "Versioning"
 msgstr "Versionering"
 
 msgid "Width"
-msgstr ""
-
-msgid "width"
 msgstr ""
 
 msgid "Yes"

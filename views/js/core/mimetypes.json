@@ -11,8 +11,8 @@
     },
     "image" : {
         "category" : "media",
-        "mimes" : ["image/*"], 
-        "extensions" : ["png", "jpg", "jpeg", "gif", "svg", "ico"] 
+        "mimes" : ["image/*", "application/x-gzip"],
+        "extensions" : ["png", "jpg", "jpeg", "gif", "svg", "svgz", "ico"]
     },
     "flash" : {
         "category" : "media", 

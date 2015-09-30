@@ -115,7 +115,6 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function login()
 	{
-
 		$params = array();
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
@@ -147,10 +146,12 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('form', $myForm->render());
         $this->setData('title', __("TAO Login"));
-        $this->setData('messageServiceIsAvailable', MessagingService::singleton()->isAvailable());
+
+        $entryPointService = $this->getServiceManager()->getServiceManager()->get(EntryPointService::SERVICE_ID);
+        $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));
         
         if ($this->hasRequestParameter('msg')) {
-            $this->setData('msg', htmlentities($this->getRequestParameter('msg')));
+            $this->setData('msg', $this->getRequestParameter('msg'));
         }
         $this->setData('content-template', array('blocks/login.tpl', 'tao'));
 
@@ -274,13 +275,11 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     private function getMenuElementChildren(Perspective $menuElement)
     {
+        $user = common_Session_SessionManager::getSession()->getUser();
         $children = array();
         foreach ($menuElement->getChildren() as $section) {
-            if (
-                tao_models_classes_accessControl_AclProxy::hasAccess(
-                    $section->getAction(), $section->getController(), $section->getExtensionId()
-                )
-            ) {
+            $resolver = new ActionResolver($section->getUrl());
+            if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                 $children[] = $section;
             }
         }
@@ -303,17 +302,12 @@ class tao_actions_Main extends tao_actions_CommonModule
         if (!is_null($structure)) {
             foreach ($structure->getChildren() as $section) {
                 
-                if (
-                    tao_models_classes_accessControl_AclProxy::hasAccess(
-                        $section->getAction(),
-                        $section->getController(),
-                        $section->getExtensionId()
-                    )
-                ) {
-    
+                $resolver = new ActionResolver($section->getUrl());
+                if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
+
                     foreach($section->getActions() as $action){
-                        $resolver = ActionResolver::getByControllerName($action->getController(), $action->getExtensionId());  
-                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $action->getAction())){
+                        $resolver = new ActionResolver($action->getUrl());
+                        if(!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())){
                             $section->removeAction($action); 
                         }
                         
