@@ -317,20 +317,16 @@ class tao_install_Installator{
 	        /*
 			 * 9 - Install the extensions
 			 */			
-			InstallHelper::installRecursively($extensionIDs, $installData);
-			
+			$installed = InstallHelper::installRecursively($extensionIDs, $installData);
+			$this->log('ext', $installed);
+
             /*
              *  9bis - Generates client side translation bundles (depends on extension install)
              */
 			$this->log('i', 'Generates client side translation bundles', 'INSTALL');
             
-//             
-
-
-	
 			$files = tao_models_classes_LanguageService::singleton()->generateClientBundles();
 
-			
 			/*
 			 *  10 - Insert Super User
 			 */
@@ -519,7 +515,12 @@ class tao_install_Installator{
         if (method_exists('common_Logger', $logLevel)) {
             call_user_func('common_Logger::' . $logLevel, $message, $tags);
         }
-        $this->log[$logLevel][] = $message;
+		if(is_array($message)){
+			$this->log[$logLevel] = (isset($this->log[$logLevel])) ? array_merge($this->log[$logLevel], $message) : $message;
+		}
+		else{
+			$this->log[$logLevel][] = $message;
+		}
     }
     
     /**
