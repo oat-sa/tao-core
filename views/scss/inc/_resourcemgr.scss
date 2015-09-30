@@ -9,6 +9,13 @@
     width: 100%;
     height: 100%;
 
+    #mediaManager &.modal {
+        overflow: scroll;
+        max-height: 700px;
+        top: 40px !important;
+        bottom: 40px;
+    }
+
     & > h2 {
         @include font-size(15);
     }

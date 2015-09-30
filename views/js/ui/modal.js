@@ -219,7 +219,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                 };
 
                 //Calculate the top offset
-                topOffset = (options.vCenter || modalHeight > windowHeight) ? 40 : (windowHeight - modalHeight) / 2;
+                topOffset = (!options.vCenter || modalHeight > windowHeight) ? 40 : (windowHeight - modalHeight) / 2;
                 to = {
                     'opacity': '1',
                     'top': topOffset + 'px'
