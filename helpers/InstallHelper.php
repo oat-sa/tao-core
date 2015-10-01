@@ -28,13 +28,22 @@ use common_Logger;
  */
 class InstallHelper extends \helpers_InstallHelper
 {
+    /**
+     * Override of original install helper to throw install exception
+     * on errors
+     * 
+     * @param array $extensionIDs
+     * @param array $installData
+     * @throws \tao_install_utils_Exception
+     * @return multitype:string
+     */
     public static function installRecursively($extensionIDs, $installData=array())
     {
         try {
             return parent::installRecursively($extensionIDs, $installData);
         } catch (\common_ext_ExtensionException $e) {
-            common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$e->getId().'"');
-            throw new \tao_install_utils_Exception("An error occured during the installation of extension '" . $e->getId() . "'.");
+            common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$e->getExtensionId().'"');
+            throw new \tao_install_utils_Exception("An error occured during the installation of extension '" . $e->getExtensionId() . "'.");
         }
     }
     
