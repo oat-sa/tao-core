@@ -369,11 +369,11 @@ class tao_models_classes_UserService
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Class clazz
-     * @param  array options
+     * @param  core_kernel_classes_Class $clazz
+     * @param  array $options
      * @return array
      */
-    public function toTree( core_kernel_classes_Class $clazz, $options)
+    public function toTree( core_kernel_classes_Class $clazz, array $options = array())
     {
         $returnValue = array();
 
