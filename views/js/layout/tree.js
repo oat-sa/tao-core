@@ -409,7 +409,10 @@ define([
 
                     //update the state with data to be used later (ie. filter value, etc.)
                     treeState = _.merge($elt.data('tree-state') || {}, data);
-                    treeState.selectNode = data.loadNode;
+
+                    if (data && data.loadNode) {
+                        treeState.selectNode = data.loadNode;
+                    }
                     $elt.data('tree-state', treeState);
                     tree.refresh();
                 }
