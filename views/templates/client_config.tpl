@@ -63,7 +63,7 @@ require.config({
         'store'             : 'lib/store/store.min',
         'lodash'            : 'lib/lodash.min',
         'async'             : 'lib/async',
-        'moment'            : 'lib/moment.min',
+        'moment'            : 'lib/moment-with-locales.min',
         'handlebars'        : 'lib/handlebars',
 
         'class'             : 'lib/class',
