@@ -101,39 +101,46 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             name : 'fileExists',
             message : __('no file not found in this location'),
             options : {baseUrl : ''},
-            validate : function(value, callback, options){
-                
-                if(!value){
-                    callback(false);
-                    return;
-                }
-                
-                //valid way to know if it is an url
-                var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])?)\\.)+[a-z]{2,}|'+ // domain name
-                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-                    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                if(!pattern.test(value) && !/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(value)){
-                	//request HEAD only for bandwidth saving
-                    $.ajax({
-                        type : 'HEAD',
-                        url : options.baseUrl + encodeURIComponent(value),
-                        success : function(){
-                            callback(true);
-                        },
-                        error : function(){
-                            callback(false);
-                        }
-                    });
-                
-                }else{
-                    
-                    callback(true);
-                }
-                
-            }
+            validate : (function() {
+                var request;
+                return function (value, callback, options) {
+                    if (request) {
+                        request.abort();
+                    }
+
+                    if(!value){
+                        callback(false);
+                        return;
+                    }
+
+                    //valid way to know if it is an url
+                    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                        '((([a-z\\d]([a-z\\d-]*[a-z\\d])?)\\.)+[a-z]{2,}|'+ // domain name
+                        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+                    if(!pattern.test(value) && !/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(value)){
+                        //request HEAD only for bandwidth saving
+                        request = $.ajax({
+                            type : 'HEAD',
+                            url : options.baseUrl + encodeURIComponent(value),
+                            success : function(){
+                                callback(true);
+                            },
+                            error : function(jqXHR, textStatus, errorThrown) {
+                                if (textStatus !== 'abort') {
+                                    callback(false);
+                                }
+                            }
+                        });
+
+                    }else{
+
+                        callback(true);
+                    }
+                };
+            })()
         },
         validRegex : {
             name: 'validRegex',
