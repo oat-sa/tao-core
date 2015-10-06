@@ -93,6 +93,44 @@ define(['core/eventifier'], function(eventifier){
 
         emitter.trigger('foo');
     });
+
+    QUnit.asyncTest("before/success", 5, function(assert){
+        
+        var itemValid = true;
+        var testDriver = eventifier();
+
+        testDriver.on('next', function() {
+            assert.ok(true, "The 1st listener should be executed : e.g. save context recovery");
+        });
+        testDriver.on('next', function() {
+            assert.ok(true, "The 2nd listener should be executed : e.g. save resposne ");
+        });
+        testDriver.on('next', function() {
+            assert.ok(true, "The third and last listener should be executed : e.g. move to next item");
+            QUnit.start();
+        });
+        
+        testDriver.before('next', function(){
+            assert.ok(true, "The 1st 'before' listener should be executed : e.g. validate item state");
+            return itemValid;
+        });
+        testDriver.before('next', function(){
+            assert.ok(true, "The 2nd 'before' listener should be executed : e.g. validate a special interaction state");
+            return itemValid;
+        });
+
+        testDriver.trigger('next');
+    });
+    
+//    QUnit.asyncTest("before/interruption",  function(assert){
+//        
+//        var formValidator = {};
+//        var itemEditor = {};
+//        
+//        itemEditor.on('save', function(){
+//            assert.ok(true, "The listener should be executed : e.g. do save item");
+//        });
+//        
+//        
+//    });
 });
-
-

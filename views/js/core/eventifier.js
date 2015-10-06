@@ -84,11 +84,32 @@ define(['lodash'], function(_){
         trigger : function trigger(name){
             var self = this;
             var args = [].slice.call(arguments, 1);
-
-            if(this._events[name] && _.isArray(this._events[name])){
+            var execution = true;
+            if(this._before[name] && _.isArray(this._before[name])){
+                execution = _.reduce(this._before[name], function(exec, handler){
+                    return exec && handler.apply(self, args);
+                }, execution);
+            }
+            if(this._events[name] && _.isArray(this._events[name]) && execution){
                 _.forEach(this._events[name], function(handler){
                     handler.apply(self, args);
                 });
+            }
+            return this;
+        },
+        
+        /**
+         * Register a callback that is executed before the given event name
+         * Provides an opportunity to cancel the execution of the event if one of the returned value is false
+         * 
+         * @this the target
+         * @param {String} name
+         * @returns {Object} the target object
+         */
+        before : function before(name, handler){
+            if(typeof handler === 'function'){
+                this._before[name] = this._before[name] || [];
+                this._before[name].push(handler);
             }
             return this;
         }
@@ -103,6 +124,7 @@ define(['lodash'], function(_){
 
         target = target || {};
         target._events = {};
+        target._before = {};
 
         _(eventApi).functions().forEach(function(method){
             target[method] = function delegate(){
