@@ -122,15 +122,24 @@ define(['core/eventifier'], function(eventifier){
         testDriver.trigger('next');
     });
     
-//    QUnit.asyncTest("before/interruption",  function(assert){
-//        
-//        var formValidator = {};
-//        var itemEditor = {};
-//        
-//        itemEditor.on('save', function(){
-//            assert.ok(true, "The listener should be executed : e.g. do save item");
-//        });
-//        
-//        
-//    });
+    QUnit.asyncTest("before/interruption",  2, function(assert){
+        
+        var formValid = false;
+        var itemEditor = eventifier();
+        
+        itemEditor.on('save', function(){
+            assert.ok(true, "The listener should not be executed : e.g. do save item");
+        });
+        itemEditor.before('save', function(){
+            assert.ok(true, "The 1st 'before' listener should be executed : e.g. do save item");
+            return true;
+        });
+        itemEditor.before('save', function(){
+            assert.ok(true, "The 2nd 'before' listener should be executed : e.g. do save item");
+            QUnit.start();
+            return formValid;
+        });
+        
+        itemEditor.trigger('save');
+    });
 });
