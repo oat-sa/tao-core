@@ -40,11 +40,6 @@
 	    		<h2>Debug Message</h2>    		
 	    		<pre><?= $message ?></pre>
 	    	<?php endif; ?>
-	    	
-	    	<?php if (!empty($trace)): ?>
-	    		<h2>Stack Trace</h2>    		
-	    		<pre><?= $trace ?></pre>
-	    	<?php endif; ?>
 	    <?php endif; ?>
 
     </div>
