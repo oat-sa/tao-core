@@ -88,7 +88,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
             'order' 	=> $order,
             'orderdir'	=> strtoupper($sord),
             'offset'    => $start,
-				'limit'		=> $limit
+			'limit'		=> $limit
 		);
 		
 		// get total user count...

@@ -56,20 +56,36 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
 
             //initialize the user manager component
             $userList.datatable({
-                'url': helpers._url('data', 'Users', 'tao'),
-                'actions' : {
-                    'edit': editUser,
-                    'remove': removeUser
+                url: helpers._url('data', 'Users', 'tao'),
+                selectable: true,
+                filter: true,
+                status: true,
+                actions: { // raw actions
+                    edit: editUser,
+                    remove: removeUser,
+                    test: function (uri) {
+                        console.log('This is test!');
+                        alert(uri);
+                    }
                 },
-                'model' : [
+                tools: { // toolbar
+                    edit: editUser,
+                    remove: removeUser,
+                    test: function() {
+                        alert('test');
+                    }
+                },
+                'model': [
                     {
                         id : 'login',
                         label : __('Login'),
-                        sortable : true
+                        sortable : true,
+                        filterable: true // new property
                     },{
                         id : 'name',
                         label : __('Name'),
-                        sortable : true
+                        sortable : true,
+                        filterable: true // new property
                     },
                     {
                         id : 'email',
@@ -88,7 +104,11 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                         label : __('Interface Language'),
                         sortable : true
                     }
-                ]
+                ],
+
+                'loadRow': function() { // callback for selected row
+
+                }
             });
         }
     };

@@ -49,6 +49,7 @@ define([
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
          * @param {Object} options.data - inject predefined data to avoid the first query.
          * @param {Object} options.tools - a list of tool buttons to display above the table
+         *
          * @param {Object|Boolean} options.status - allow to display a status bar
          * @param {Object|Boolean} options.filter - allow to display a filter bar
          * @fires dataTable#create.datatable
@@ -105,6 +106,9 @@ define([
          * @fires dataTable#query.datatable
          */
         _query: function($elt){
+
+
+
             var self = this;
             var options = $elt.data(dataNs);
             var parameters = _.merge({},_.pick(options, ['rows', 'page', 'sortby', 'sortorder']), options.params || {});
@@ -114,6 +118,7 @@ define([
                 dataType : 'json',
                 type: options.querytype || 'GET'
             };
+
 
             // add current filter if any
             if (options.filter && options.filter.value) {
@@ -240,7 +245,8 @@ define([
 
             // Attach a listener to every tool button created
             _.forEach(options.tools, function(action, name) {
-                var massAction = false;
+
+                var massAction = true;
                 var css;
 
                 if (!_.isFunction(action)) {
@@ -463,6 +469,9 @@ define([
          */
         _filter: function($elt, query) {
             var options = $elt.data(dataNs);
+
+            console.log(query, options.filter);
+
 
             //set the filter
             if (!_.isObject(options.filter)) {

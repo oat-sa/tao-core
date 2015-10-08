@@ -3,6 +3,7 @@
     <aside class="filter">
         <input type="text" value="{{value}}" name="filter" placeholder="{{#if label}}{{label}}{{else}}{{__ 'Filter'}}{{/if}}">
         <button class="icon-find" type="button"></button>
+        {*<button class="icon-reset" type="reset">reset</button>*}
     </aside>
     {{/with}}
     {{#with status}}
