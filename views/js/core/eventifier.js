@@ -30,7 +30,7 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash'], function(_){
+define(['lodash', 'async'], function(_, async){
     'use strict';
 
     /**
@@ -84,17 +84,49 @@ define(['lodash'], function(_){
         trigger : function trigger(name){
             var self = this;
             var args = [].slice.call(arguments, 1);
-            var execution = true;
-            if(this._before[name] && _.isArray(this._before[name])){
-                execution = _.reduce(this._before[name], function(exec, handler){
-                    return exec && handler.apply(self, args);
-                }, execution);
+            var callstack;
+            if(this._events[name] && _.isArray(this._events[name])){
+                
+                if(this._before[name] && _.isArray(this._before[name])){
+                    callstack = _.map(this._before[name], function(handler){
+                        //create a function for async execution
+                        return function(cb){
+                            handler({
+                                data : _.clone(args)
+                            }, function ok(){
+                                //allow passing to next
+                                cb(null, {success:true});
+                            }, function interrupt(immediate){
+                                //inerrrupt the execution of the event
+                                if(immediate){
+                                    cb(new Error('interuption'), {success:false, immediate:true});
+                                }else{
+                                    cb(null, {success:false});
+                                }
+                            });
+                        };
+                    });
+                    async.series(callstack, function(err, results){
+                        var successes = _.pluck(results, 'success');
+                        if(_.indexOf(successes, false) === -1){
+                            triggerEvent();
+                        }
+                    });
+                }else{
+                    triggerEvent();
+                }
             }
-            if(this._events[name] && _.isArray(this._events[name]) && execution){
-                _.forEach(this._events[name], function(handler){
+            
+            /**
+             * Call the actual registered event handlers
+             * @returns {undefined}
+             */
+            function triggerEvent(){
+                _.forEach(self._events[name], function(handler){
                     handler.apply(self, args);
                 });
             }
+                
             return this;
         },
         

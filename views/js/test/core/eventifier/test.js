@@ -25,7 +25,7 @@ define(['core/eventifier'], function(eventifier){
         var emitter = eventifier();
         var params = ['bar', 'baz'];
 
-        emitter.on('foo', function handleFoo(p0, p1) {
+        emitter.on('foo', function handleFoo(p0, p1){
             assert.ok(true, "The foo event is triggered on emitter");
             assert.equal(p0, params[0], 'The received parameters are those from the trigger');
             assert.equal(p1, params[1], 'The received parameters are those from the trigger');
@@ -48,10 +48,10 @@ define(['core/eventifier'], function(eventifier){
         var emitter1 = eventifier();
         var emitter2 = eventifier();
 
-        emitter1.on('foo', function(success) {
+        emitter1.on('foo', function(success){
             assert.ok(success, "The foo event is triggered on emitter1");
         });
-        emitter2.on('foo', function(success) {
+        emitter2.on('foo', function(success){
             assert.ok(success, "The foo event is triggered on emitter2");
             QUnit.start();
         });
@@ -65,10 +65,10 @@ define(['core/eventifier'], function(eventifier){
     QUnit.asyncTest("off", 1, function(assert){
         var emitter = eventifier();
 
-        emitter.on('foo', function() {
+        emitter.on('foo', function(){
             assert.ok(false, "The foo event shouldn't be triggered");
         });
-        emitter.on('bar', function() {
+        emitter.on('bar', function(){
             assert.ok(true, "The bar event should  be triggered");
             QUnit.start();
         });
@@ -83,10 +83,10 @@ define(['core/eventifier'], function(eventifier){
     QUnit.asyncTest("multiple listeners", 2, function(assert){
         var emitter = eventifier();
 
-        emitter.on('foo', function() {
+        emitter.on('foo', function(){
             assert.ok(true, "The 1st foo listener should be executed");
         });
-        emitter.on('foo', function() {
+        emitter.on('foo', function(){
             assert.ok(true, "The 2nd foo listener should be executed");
             QUnit.start();
         });
@@ -95,51 +95,50 @@ define(['core/eventifier'], function(eventifier){
     });
 
     QUnit.asyncTest("before/success", 5, function(assert){
-        
-        var itemValid = true;
+
         var testDriver = eventifier();
 
-        testDriver.on('next', function() {
+        testDriver.on('next', function(){
             assert.ok(true, "The 1st listener should be executed : e.g. save context recovery");
         });
-        testDriver.on('next', function() {
+        testDriver.on('next', function(){
             assert.ok(true, "The 2nd listener should be executed : e.g. save resposne ");
         });
-        testDriver.on('next', function() {
+        testDriver.on('next', function(){
             assert.ok(true, "The third and last listener should be executed : e.g. move to next item");
             QUnit.start();
         });
-        
-        testDriver.before('next', function(){
+
+        testDriver.before('next', function(e, ok){
             assert.ok(true, "The 1st 'before' listener should be executed : e.g. validate item state");
-            return itemValid;
+            ok();
         });
-        testDriver.before('next', function(){
+        testDriver.before('next', function(e, ok){
             assert.ok(true, "The 2nd 'before' listener should be executed : e.g. validate a special interaction state");
-            return itemValid;
+            ok();
         });
 
         testDriver.trigger('next');
     });
-    
-    QUnit.asyncTest("before/interruption",  2, function(assert){
-        
-        var formValid = false;
+
+    QUnit.asyncTest("before/interruption", 2, function(assert){
+
         var itemEditor = eventifier();
-        
+
         itemEditor.on('save', function(){
             assert.ok(true, "The listener should not be executed : e.g. do save item");
         });
-        itemEditor.before('save', function(){
-            assert.ok(true, "The 1st 'before' listener should be executed : e.g. do save item");
-            return true;
+        itemEditor.before('save', function(e, ok, interrupt){
+            assert.ok(true, "The 1st 'before' listener should be executed : e.g. validate current edition form");
+            //form invalid
+            interrupt();
         });
-        itemEditor.before('save', function(){
-            assert.ok(true, "The 2nd 'before' listener should be executed : e.g. do save item");
+        itemEditor.before('save', function(e, ok){
+            assert.ok(true, "The 2nd 'before' listener should be executed : e.g. do save item stylesheet");
+            ok();
             QUnit.start();
-            return formValid;
         });
-        
+
         itemEditor.trigger('save');
     });
 });
