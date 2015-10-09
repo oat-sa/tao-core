@@ -69,6 +69,8 @@ define(['lodash', 'async'], function(_, async){
          */
         off : function off(name){
             this._events[name] = [];
+            this._before[name] = [];
+            this._after[name] = [];
             return this;
         },
 
@@ -86,10 +88,9 @@ define(['lodash', 'async'], function(_, async){
             var args = [].slice.call(arguments, 1);
             var callstack;
             if(this._events[name] && _.isArray(this._events[name])){
-                
                 if(this._before[name] && _.isArray(this._before[name])){
+                    //create a async execution stack
                     callstack = _.map(this._before[name], function(handler){
-                        //create a function for async execution
                         return function(cb){
                             handler({
                                 data : _.clone(args)
@@ -122,9 +123,18 @@ define(['lodash', 'async'], function(_, async){
              * @returns {undefined}
              */
             function triggerEvent(){
+                
+                //trigger the event handlers
                 _.forEach(self._events[name], function(handler){
                     handler.apply(self, args);
                 });
+                
+                //trigger the after event handlers if applicable
+                if(self._after[name] && _.isArray(self._after[name])){
+                    _.forEach(self._after[name], function(handler){
+                        handler.apply(self, args);
+                    });
+                }
             }
                 
             return this;
@@ -144,6 +154,22 @@ define(['lodash', 'async'], function(_, async){
                 this._before[name].push(handler);
             }
             return this;
+        },
+        
+        /**
+         * Register a callback that is executed after the given event name
+         * The handlers will all be executed, no matter what
+         * 
+         * @this the target
+         * @param {String} name
+         * @returns {Object} the target object
+         */
+        after : function after(name, handler){
+            if(typeof handler === 'function'){
+                this._after[name] = this._after[name] || [];
+                this._after[name].push(handler);
+            }
+            return this;
         }
     };
 
@@ -157,6 +183,7 @@ define(['lodash', 'async'], function(_, async){
         target = target || {};
         target._events = {};
         target._before = {};
+        target._after = {};
 
         _(eventApi).functions().forEach(function(method){
             target[method] = function delegate(){

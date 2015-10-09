@@ -164,4 +164,22 @@ define(['core/eventifier'], function(eventifier){
 
         itemEditor.trigger('save');
     });
+    
+    QUnit.module('after');
+    
+    QUnit.asyncTest("trigger", 2, function(assert){
+        
+        var testDriver = eventifier();
+        
+        testDriver.on('next', function(){
+            assert.ok(true, "This listener should be executed : e.g. move to next item");
+        });
+        
+        testDriver.after('next', function(){
+            assert.ok(true, "This listener should be executed : e.g. push response to storage");
+            QUnit.start();
+        });
+        
+        testDriver.trigger('next');
+    });
 });
