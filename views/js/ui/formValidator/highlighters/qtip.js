@@ -43,7 +43,6 @@ define([
                 position: {
                     my: 'bottom center',
                     at: 'top center'//, // at the bottom right of...
-                    //target: $('.selector') // my target
                 },
                 show: { ready: true },
                 hide: {
@@ -64,7 +63,10 @@ define([
             var options =  $.extend(true, self.options.qtip, {
                 content: {
                     text: message
-                }
+                },
+                position: {
+                    container: $field.parent()
+                },
             });
             $field.qtip(options);
             $field.addClass(self.options.errorClass);
