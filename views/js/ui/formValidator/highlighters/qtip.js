@@ -23,23 +23,36 @@
 define([
     'jquery',
     'lodash',
-    'i18n'
-], function ($, _, __) {
+    'i18n',
+    'qtip'
+], function ($, _, __, tooltipster) {
     'use strict';
 
     /**
      * Error field highlighter
      * @param {Object} options
      * @param {string} [options.errorClass] - field error class
-     * @param {string} [options.errorMessageClass] - error message class
+     * @see {Object} [options.qtip] - {@link here: http://qtip2.com} - more qtip plugin options
      * @constructor
      */
-    function Highlighter(options) {
+    function Highlighter() {
         var self = this;
 
         self.options = $.extend(true, {
-            errorClass : 'error',
-            errorMessageClass : 'validate-error'
+            qtip : {
+                position: {
+                    my: 'bottom center',
+                    at: 'top center'//, // at the bottom right of...
+                    //target: $('.selector') // my target
+                },
+                show: { ready: true },
+                hide: {
+                    event: false
+                },
+                style : {
+                    classes : 'qtip-rounded qtip-red'
+                }
+            }
         }, self.options);
 
         /**
@@ -48,9 +61,13 @@ define([
          * @param {string} message - message text.
          */
         this.highlight = function highlight($field, message) {
-            self.unhighlight($field);
+            var options =  $.extend(true, self.options.qtip, {
+                content: {
+                    text: message
+                }
+            });
+            $field.qtip(options);
             $field.addClass(self.options.errorClass);
-            $field.after("<span class='" + self.options.errorMessageClass + "'>" + message + "</span>");
         };
 
         /**
@@ -59,11 +76,11 @@ define([
          */
         this.unhighlight = function unhighlight($field) {
             $field.removeClass(self.options.errorClass);
-            $field.next('.' + self.options.errorMessageClass).remove();
+            $field.qtip('destroy', true);
         };
 
         this.destroy = function ($field) {
-            return;
+            $field.qtip('destroy', true);
         };
     }
 

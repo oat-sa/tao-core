@@ -152,6 +152,16 @@ define([
         };
 
         /**
+         * Destroy validator.
+         */
+        this.destroy = function () {
+            var $fields = getFieldsToValidate();
+            $fields.each(function () {
+                highlighter.destroy($(this));
+            });
+        }
+
+        /**
          * Callback will be called after field validation.
          * @param {jQuery} $field - validated field
          * @param {boolean} valid - whether field is valid

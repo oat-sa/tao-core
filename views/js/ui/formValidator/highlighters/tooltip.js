@@ -71,6 +71,10 @@ define([
 
             $field.removeClass(self.options.errorClass);
         };
+
+        this.destroy = function ($field) {
+            $field.tooltipster('destroy');
+        };
     }
 
     return Highlighter;

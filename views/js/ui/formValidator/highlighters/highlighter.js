@@ -25,8 +25,9 @@ define([
     'lodash',
     'i18n',
     'ui/formValidator/highlighters/message',
-    'ui/formValidator/highlighters/tooltip'
-], function ($, _, __, messageHighlighter, tooltipHighlighter) {
+    'ui/formValidator/highlighters/tooltip',
+    'ui/formValidator/highlighters/qtip'
+], function ($, _, __, messageHighlighter, tooltipHighlighter, qtipHighlighter) {
     'use strict';
 
     /**
@@ -54,17 +55,24 @@ define([
                 case 'tooltip':
                     tooltipHighlighter.apply(this, Array.prototype.slice.call(arguments));
                     break;
+                case 'qtip':
+                    qtipHighlighter.apply(this, Array.prototype.slice.call(arguments));
+                    break;
                 default:
                     throw new TypeError('Highlighter not found');
             }
         };
 
-        this.highlight = function () {
-            console.log('should be overwrited');
+        this.highlight = function ($field, message) {
+            console.log('should be overwritten');
         };
 
-        this.unhighlight = function () {
-            console.log('should be overwrited');
+        this.unhighlight = function ($field) {
+            console.log('should be overwritten');
+        };
+
+        this.destroy = function ($field) {
+            console.log('should be overwritten');
         };
 
         this.init();
