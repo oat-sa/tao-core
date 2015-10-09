@@ -93,8 +93,10 @@ define(['core/eventifier'], function(eventifier){
 
         emitter.trigger('foo');
     });
-
-    QUnit.asyncTest("before/success", 5, function(assert){
+    
+    QUnit.module('before');
+    
+    QUnit.asyncTest("success", 5, function(assert){
 
         var testDriver = eventifier();
 
@@ -121,7 +123,7 @@ define(['core/eventifier'], function(eventifier){
         testDriver.trigger('next');
     });
 
-    QUnit.asyncTest("before/interruption", 2, function(assert){
+    QUnit.asyncTest("interruption", 2, function(assert){
 
         var itemEditor = eventifier();
 
@@ -137,6 +139,27 @@ define(['core/eventifier'], function(eventifier){
             assert.ok(true, "The 2nd 'before' listener should be executed : e.g. do save item stylesheet");
             ok();
             QUnit.start();
+        });
+
+        itemEditor.trigger('save');
+    });
+    
+    QUnit.asyncTest("immediate interruption", 1, function(assert){
+
+        var itemEditor = eventifier();
+
+        itemEditor.on('save', function(){
+            assert.ok(true, "The listener should not be executed : e.g. do save item");
+        });
+        itemEditor.before('save', function(e, ok, interrupt){
+            assert.ok(true, "The 1st 'before' listener should be executed : e.g. validate current edition form");
+            //form invalid that interrupt all following call
+            interrupt(true);
+            QUnit.start();
+        });
+        itemEditor.before('save', function(e, ok){
+            assert.ok(true, "The 2nd 'before' listener should not be executed : e.g. do save item stylesheet");
+            ok();
         });
 
         itemEditor.trigger('save');
