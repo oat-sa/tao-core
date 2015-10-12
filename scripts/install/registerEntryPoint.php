@@ -28,6 +28,6 @@ $entryPointService = $serviceManager->get(EntryPointService::SERVICE_ID);
 
 // register, don't activate
 $passwordResetEntry = new PasswordReset();
-$entryPointService->overrideEntryPoint($passwordResetEntry->getId(), $passwordResetEntry);
+$entryPointService->addEntryPoint($passwordResetEntry);
 
 $serviceManager->register(EntryPointService::SERVICE_ID, $entryPointService);

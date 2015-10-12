@@ -24,7 +24,7 @@ namespace oat\tao\model\entryPoint;
 use oat\oatbox\PhpSerializable;
 use tao_models_classes_accessControl_AclProxy;
 use oat\oatbox\Configurable;
-use oat\taoBackOffice\model\entryPoint\BackOfficeEntrypoint as RealEntryPoint;
+use oat\taoBackOffice\model\entryPoint\BackOfficeEntryPoint as RealEntryPoint;
 
 /**
  * 
