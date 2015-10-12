@@ -9,8 +9,23 @@
     width: 100%;
     height: 100%;
 
+    #mediaManager &.modal {
+        max-height: 700px;
+        top: 40px !important;
+        bottom: 40px;
+        padding: 0;
+    }
+
     & > h2 {
         @include font-size(15);
+        margin: 40px;
+        height: 40px;
+    }
+
+    .file-wrapper {
+        overflow-y: auto;
+        padding: 0 40px;
+        height: calc(100% - 40px - 80px - 40px); // full height - h2.padding - h2.height - modal.bottom-padding
     }
 
    .file-browser, .file-selector, .file-preview {
@@ -54,7 +69,7 @@
     .file-browser{
         background-color: $uiClickableDefaultBg;
         & > h1 {
-            width: 200px;
+            width: 260px;
             background-color: $uiHeaderBg;
         }
 

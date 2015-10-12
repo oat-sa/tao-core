@@ -1,15 +1,17 @@
 <div class="resourcemgr modal">
 
     <h2>{{title}}</h2>
+
+    <div class="file-wrapper">
     
-<!-- left section: items selection -->
-    <section class="file-browser">
+    <!-- left section: items selection -->
+        <section class="file-browser">
         
         <h1>{{ __ 'Browse resources'}}</h1>
     </section>
  
-<!-- test editor  -->
-    <section class="file-selector">
+    <!-- test editor  -->
+        <section class="file-selector">
         <h1>
             <div class="title lft"></div>
             <div class="upload-switcher rgt">
@@ -28,7 +30,7 @@
     
     </section>   
 
-    <section class="file-preview">
+        <section class="file-preview">
         <h1>{{__ 'Preview'}}</h1>
         <div class="previewer">
             <p class="nopreview">{{__ 'No Preview available'}}</p>
@@ -69,4 +71,6 @@
             </button>
         </div>
     </section>
+
+    </div>
 </div>
