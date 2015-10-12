@@ -26,8 +26,6 @@ use oat\tao\model\entryPoint\PasswordReset;
 $serviceManager = ServiceManager::getServiceManager();
 $entryPointService = $serviceManager->get(EntryPointService::SERVICE_ID);
 
-$entryPointService->addEntryPoint(new BackOfficeEntrypoint(), EntryPointService::OPTION_POSTLOGIN);
-
 // register, don't activate
 $passwordResetEntry = new PasswordReset();
 $entryPointService->overrideEntryPoint($passwordResetEntry->getId(), $passwordResetEntry);
