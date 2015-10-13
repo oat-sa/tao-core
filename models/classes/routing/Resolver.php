@@ -97,22 +97,14 @@ class Resolver
      */
     protected function resolve() {
         $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
-        $extPrefix = substr($relativeUrl, 0, strpos($relativeUrl, '/'));
-        
-        if (common_ext_ExtensionsManager::singleton()->isEnabled($extPrefix)) {
-            $extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extPrefix);
-        } else {
-            $extension = common_ext_ExtensionsManager::singleton()->getExtensionById(self::DEFAULT_EXTENSION);
-        }
-        $routes = $this->getRoutes($extension);
-        
-        foreach ($this->getRoutes($extension) as $route) {
+        foreach ($this->getRouteMap() as $entry) {
+            $route = $entry['route'];
             $called = $route->resolve($relativeUrl);
             if (!is_null($called)) {
                 list($controller, $action) = explode('@', $called);
                 $this->controller = $controller;
                 $this->action = $action;
-                $this->extensionId = $extension->getId();
+                $this->extensionId = $entry['extId'];
                 return true;
             }
         }
@@ -129,6 +121,19 @@ class Resolver
         }
         if (empty($routes)) {
             $routes[] = new LegacyRoute($extension, $extension->getName(), array());
+        }
+        return $routes;
+    }
+    
+    private function getRouteMap() {
+        $routes = array();
+        foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+            foreach ($this->getRoutes($extension) as $route) {
+                $routes[] = array(
+                	'extId' => $extension->getId(),
+                    'route' => $route
+                );
+            }
         }
         return $routes;
     }
