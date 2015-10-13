@@ -58,9 +58,13 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
             $userList.datatable({
                 url: helpers._url('data', 'Users', 'tao'),
                 selectable: true,
-                filter: true,
+                clickable: true,
+                //filter: true,
+                filer: {
+                    columns: ['login', 'name', 'guiLg']
+                },
                 status: true,
-                actions: { // raw actions
+                actions: {
                     edit: editUser,
                     remove: removeUser,
                     test: function (uri) {
@@ -68,7 +72,7 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                         alert(uri);
                     }
                 },
-                tools: { // toolbar
+                tools: {
                     edit: editUser,
                     remove: removeUser,
                     test: function() {
@@ -104,11 +108,7 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                         label : __('Interface Language'),
                         sortable : true
                     }
-                ],
-
-                'loadRow': function() { // callback for selected row
-
-                }
+                ]
             });
         }
     };
