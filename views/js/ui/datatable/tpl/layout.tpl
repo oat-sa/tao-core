@@ -3,7 +3,6 @@
     <aside class="filter">
         <input type="text" value="{{value}}" name="filter" placeholder="{{#if label}}{{label}}{{else}}{{__ 'Filter'}}{{/if}}">
         <button class="icon-find" type="button"></button>
-        {*<button class="icon-reset" type="reset">reset</button>*}
     </aside>
     {{/with}}
     {{#with status}}
@@ -47,7 +46,15 @@
                     {{/if}}
                     <th class="id"></th>
                     {{#model}}
-                    <th {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</th>
+                    <th>
+                        <div {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</div>
+                        {{#if filterable}}
+                            <aside class="filter column" data-column="{{id}}">
+                                <input type="text" value="{{filter}}" name="filter" placeholder="{{__ 'Filter'}}">
+                                <button class="icon-find" type="button"></button>
+                            </aside>
+                        {{/if}}
+                    </th>
                     {{/model}}
                     {{#if actions}}
                     <th class="actions">{{__ 'Actions'}}</th>
