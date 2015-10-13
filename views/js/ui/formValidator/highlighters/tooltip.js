@@ -39,13 +39,15 @@ define([
         var self = this;
 
         self.options = $.extend(true, {
-            delay : 0,
-            theme : 'tao-error-tooltip',
-            trigger : 'custom'
+            tooltip : {
+                delay : 0,
+                theme : 'tao-error-tooltip',
+                trigger : 'custom'
+            }
         }, self.options);
 
         this.initTooltip = function ($field) {
-            $field.tooltipster(self.options);
+            $field.tooltipster(self.options.tooltip);
         };
 
         /**
@@ -73,7 +75,9 @@ define([
         };
 
         this.destroy = function ($field) {
-            $field.tooltipster('destroy');
+            if ($field.data('tooltipster') !== undefined) {
+                $field.tooltipster('destroy');
+            }
         };
     }
 

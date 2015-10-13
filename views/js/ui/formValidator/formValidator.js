@@ -72,8 +72,16 @@ define([
 ], function($, _, __, validator, Highlighter){
     'use strict';
 
-    var highlighter;
-
+    var defaultOptions = {
+        highlighter : {
+            type : 'message',
+            errorClass : 'error'
+        },
+        container : $(document),
+        selector : '[data-validate]',
+        validateOnInit : false,
+        events : ['change', 'blur']
+    };
     /**
      * @param {Object} options
      * @param {jQuery} [options.container] - container which contains elements to validate
@@ -83,24 +91,14 @@ define([
      * @param {Object} [options.validateOnInit = false] - whether form should be validated after plugin initialization
      * @constructor
      */
-    function FormValidator(options) {
+    var formValidatorFactory = function formValidatorFactory(options) {
         var self = this,
             state = {
                 valid : true,
                 errors : []
             },
+            highlighter,
             $toValidate;
-
-        this.options = {
-            highlighter : {
-                type : 'message',
-                errorClass : 'error'
-            },
-            container : $(document),
-            selector : '[data-validate]',
-            validateOnInit : false,
-            events : ['change', 'blur']
-        };
 
         this.init = function init() {
             self.options = $.extend(true, self.options, options);
@@ -157,7 +155,9 @@ define([
         this.destroy = function () {
             var $fields = getFieldsToValidate();
             $fields.each(function () {
-                highlighter.destroy($(this));
+                if (highlighter) {
+                    highlighter.destroy($(this));
+                }
             });
         }
 

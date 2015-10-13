@@ -1,4 +1,4 @@
-define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, FormValidator) {
+define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, formValidator) {
     'use strict';
 
     var validData = {
@@ -36,7 +36,7 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, Fo
     QUnit.test('validate', function(assert) {
         QUnit.expect(2);
 
-        var validator = new FormValidator({
+        var validator = formValidator({
             container : $('#form_1'),
             event : 'change',
             selector : fieldSelector
@@ -51,7 +51,7 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, Fo
     });
 
     QUnit.test('Highlight/unhighlight fields', function(assert) {
-        var validator = new FormValidator({
+        var validator = formValidator({
             container : $('#form_1'),
             event : 'change',
             selector : fieldSelector
@@ -69,7 +69,7 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, Fo
     });
 
     QUnit.test('getState', function(assert) {
-        var validator = new FormValidator({
+        var validator = formValidator({
             container : $('#form_1'),
             event : 'change',
             selector : fieldSelector

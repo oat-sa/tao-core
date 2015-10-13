@@ -26,8 +26,7 @@ define([
     'i18n',
     'ui/formValidator/highlighters/message',
     'ui/formValidator/highlighters/tooltip',
-    'ui/formValidator/highlighters/qtip'
-], function ($, _, __, messageHighlighter, tooltipHighlighter, qtipHighlighter) {
+], function ($, _, __, messageHighlighter, tooltipHighlighter) {
     'use strict';
 
     /**
@@ -54,9 +53,6 @@ define([
                     break;
                 case 'tooltip':
                     tooltipHighlighter.apply(this, Array.prototype.slice.call(arguments));
-                    break;
-                case 'qtip':
-                    qtipHighlighter.apply(this, Array.prototype.slice.call(arguments));
                     break;
                 default:
                     throw new TypeError('Highlighter not found');
