@@ -75,7 +75,7 @@ class tao_helpers_Date
             $ts = self::getTimeStampWithMicroseconds($timestamp);
         } elseif (is_numeric($timestamp)) {
             $ts = $timestamp;
-        } elseif (is_string($timestamp) && preg_match('/.Z$/', $timestamp)) {
+        } elseif (is_string($timestamp) && preg_match('/.\+0000$/', $timestamp)) {
             $ts = self::getTimeStampWithMicroseconds(new DateTime($timestamp, new DateTimeZone('UTC')));
         } else {
             throw new common_Exception('Unexpected timestamp');

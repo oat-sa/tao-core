@@ -55,10 +55,10 @@ class EuropeanFormatter extends Configurable implements Formatter
 			case \tao_helpers_Date::FORMAT_ISO8601:
 				$milliseconds = round(fmod($timestamp, 1), 3) * 1000;
 				$milliseconds = str_pad($milliseconds, 3, '0', STR_PAD_RIGHT);
-				$formatString = 'Y-m-d\TH:i:s.'.$milliseconds.'\Z';
+				$formatString = 'Y-m-d\TH:i:s.'.$milliseconds.'+0000';
 				break;
         	default:
-        	    common_Logger::w('Unkown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
+        	    common_Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
         	    $formatString = '';
         }
         
