@@ -13,7 +13,7 @@
         position: relative;
         input {
             padding-right: 30px;
-            min-width: 250px !important;
+            min-width: 250px;
         }
         button {
             position: absolute;
@@ -28,18 +28,29 @@
                 color: #666;
             }
         }
+        &.column {
+            float: none;
+            input {
+                min-width: inherit;
+            }
+        }
     }
 }
 .datatable-container {
     overflow-y: auto;
 }
 table.datatable{
+    &.matrix {
+        th {
+            vertical-align: top;
+        }
+    }
     th{
         cursor: not-allowed;
-        &[data-sort-by]{
+        [data-sort-by]{
             cursor: pointer;
         }
-        &.sorted{
+        .sorted{
             &:after{
                 float:right;
             }
