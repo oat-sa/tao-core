@@ -45,6 +45,20 @@ define([
     var _reYoutube = /([?&\/]v[=\/])([\w-]+)([&\/]?)/;
 
     /**
+     * A Regex to detect Apple mobile browsers
+     * @type {RegExp}
+     * @private
+     */
+    var _reAppleMobiles = /ip(hone|od)/i;
+
+    /**
+     * A Regex to detect Apple device browsers
+     * @type {RegExp}
+     * @private
+     */
+    var _reAppleDevices = /ip(hone|od|ad)/i;
+
+    /**
      * Array slice method needed to slice arguments
      * @type {Function}
      * @private
@@ -102,6 +116,23 @@ define([
     };
 
     /**
+     * A list of MIME types with codec declaration
+     * @type {Object}
+     * @private
+     */
+    var _mimeTypes = {
+        // video
+        'video/webm': 'video/webm; codecs="vp8, vorbis"',
+        'video/mp4': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
+        'video/ogg': 'video/ogg; codecs="theora, vorbis"',
+        // audio
+        'audio/mpeg': 'audio/mpeg;',
+        'audio/mp4': 'audio/mp4; codecs="mp4a.40.5"',
+        'audio/ogg': 'audio/ogg; codecs="vorbis"',
+        'audio/wav': 'audio/wav; codecs="1"'
+    };
+
+    /**
      * Extracts the ID of a Youtube video from an URL
      * @param {String} url
      * @returns {String}
@@ -149,15 +180,78 @@ define([
     };
 
     /**
-     * Checks if the browser can play audio and video
-     * @type {Boolean}
+     * Checks if the browser can play media
+     * @param {HTMLMediaElement} media The media element on which check support
+     * @param {String} [mimeType] An optional MIME type to precise the support
+     * @returns {Boolean}
      * @private
      */
-    var _canPlay = (function() {
-        var audio = document.createElement('audio');
-        var video = document.createElement('video');
-        return !!(video.canPlayType && audio.canPlayType);
-    })();
+    var _checkSupport = function(media, mimeType) {
+        var support = !!media.canPlayType;
+        if (mimeType && support) {
+            support = !!media.canPlayType(_mimeTypes[mimeType] || mimeType).replace(/no/, '');
+        }
+        return support;
+    };
+
+    /**
+     * Support dection
+     * @type {Object}
+     * @private
+     */
+    var _support = {
+        /**
+         * Checks if the browser can play video and audio
+         * @param {String} [type] The type of media (audio or video)
+         * @param {String} [mime] A media MIME type to check
+         * @returns {Boolean}
+         */
+        canPlay: function(type, mime) {
+            if (type) {
+                switch (type.toLowerCase()) {
+                    case 'audio': return this.canPlayAudio(mime);
+                    case 'youtube':
+                    case 'video': return this.canPlayVideo(mime);
+                    default: return false;
+                }
+            }
+            return this.canPlayAudio() && this.canPlayVideo();
+        },
+
+        /**
+         * Checks if the browser can play audio
+         * @param {String} [mime] A media MIME type to check
+         * @returns {Boolean}
+         */
+        canPlayAudio: function(mime) {
+            if (!this._mediaAudio) {
+                this._mediaAudio = document.createElement('audio');
+            }
+
+            return _checkSupport(this._mediaAudio, mime);
+        },
+
+        /**
+         * Checks if the browser can play video
+         * @param {String} [mime] A media MIME type to check
+         * @returns {Boolean}
+         */
+        canPlayVideo: function(mime) {
+            if (!this._mediaVideo) {
+                this._mediaVideo = document.createElement('video');
+            }
+
+            return _checkSupport(this._mediaVideo, mime);
+        },
+
+        /**
+         * Checks if the browser allows to control the media playback
+         * @returns {Boolean}
+         */
+        canControl: function() {
+            return !_reAppleMobiles.test(navigator.userAgent);
+        }
+    };
 
     /**
      * A local manager for Youtube players.
@@ -1176,7 +1270,7 @@ define([
             var player = _players[this.config.type];
             var error;
 
-            if (_canPlay) {
+            if (_support.canPlay(this.config.type)) {
                 if (_.isFunction(player)) {
                     this.player = player(this);
                 }
@@ -1191,6 +1285,7 @@ define([
             }
 
             this._setState('error', error);
+            this._setState('nogui', !_support.canControl());
         },
 
         /**
@@ -1703,9 +1798,39 @@ define([
 
     /**
      * Tells if the browser can play audio and video
+     * @param {String} [type] The type of media (audio or video)
+     * @param {String} [mime] A media MIME type to check
      * @type {Boolean}
      */
-    mediaplayerFactory.canPlay = _canPlay;
+    mediaplayerFactory.canPlay = function canPlay(type, mime) {
+        return _support.canPlay(type, mime);
+    };
+
+    /**
+     * Tells if the browser can play audio
+     * @param {String} [mime] A media MIME type to check
+     * @type {Boolean}
+     */
+    mediaplayerFactory.canPlayAudio = function canPlayAudio(mime) {
+        return _support.canPlayAudio(mime);
+    };
+
+    /**
+     * Tells if the browser can play video
+     * @param {String} [mime] A media MIME type to check
+     * @type {Boolean}
+     */
+    mediaplayerFactory.canPlayVideo = function canPlayVideo(mime) {
+        return _support.canPlayVideo(mime);
+    };
+
+    /**
+     * Checks if the browser allows to control the media playback
+     * @returns {Boolean}
+     */
+    mediaplayerFactory.canControl = function canControl() {
+        return _support.canControl();
+    };
 
     /**
      * The polling interval used to update the progress bar while playing a YouTube video.
