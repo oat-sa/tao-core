@@ -49,9 +49,9 @@ define([
              * Destroy init
              * @param {object} options
              */
-            init : function init(options) {
+            init : function init() {
                 options = $.extend(true, defaultOptions, options);
-                provider = getProvider(options.type, options);
+                provider = getProvider(options);
 
                 return this;
             },
@@ -61,30 +61,36 @@ define([
              * @param {string} message - message text.
              */
             highlight : function highlight($field, message) {
-                provider.highlight.call(this, $field, message);
+                provider.highlight($field, message);
             },
             /**
              * Unhighlight field
              * @param {jQuery} $field
              */
             unhighlight : function unhighlight($field) {
-                provider.unhighlight.call(this, $field);
+                provider.unhighlight($field);
             },
             /**
              * Destroy highlighter
              * @param {jQuery} $field
              */
             destroy : function destroy($field) {
-                provider.destroy.call(this, $field);
+                provider.destroy($field);
             }
         };
 
-        function getProvider(name, options) {
-            if (!highlighterFactory.providers[name]) {
+        /**
+         * Get highlighter implementation
+         * @private
+         * @param {object} options - options
+         * @returns {object} - highlighter implementation
+         */
+        function getProvider(options) {
+            if (!highlighterFactory.providers[options.type]) {
                 throw new TypeError('Provider ' + name + ' is not registered.');
             }
 
-            return highlighterFactory.providers[name](options);
+            return highlighterFactory.providers[options.type](options);
         }
 
         return highlighter.init();
@@ -96,8 +102,8 @@ define([
         highlighterFactory.providers[name] = provider;
     };
 
-    //highlighterFactory.register('message', messageHighlighter);
-    highlighterFactory.register('message', tooltipHighlighter);
+    highlighterFactory.register('message', messageHighlighter);
+    highlighterFactory.register('tooltip', tooltipHighlighter);
 
     return highlighterFactory;
 });

@@ -37,7 +37,6 @@ define([
      * @param {Object} options
      * @param {string} [options.errorClass] - field error class
      * @param {string} [options.errorMessageClass] - error message class
-     * @constructor
      */
     function highlighterFactory(options) {
         var highlighter;

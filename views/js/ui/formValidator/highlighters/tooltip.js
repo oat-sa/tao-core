@@ -41,7 +41,6 @@ define([
      * @param {Object} options
      * @param {string} [options.errorClass] - field error class
      * @see {@link here: http://iamceege.github.io/tooltipster/} - more tooltipster plugin options
-     * @constructor
      */
     function highlighterFactory(options) {
         var highlighter;
@@ -71,9 +70,7 @@ define([
              * @param {jQuery} $field
              */
             unhighlight : function unhighlight($field) {
-                this.initTooltip($field);
-                $field.tooltipster('hide');
-
+                this.destroy($field);
                 $field.removeClass(options.errorClass);
             },
 
