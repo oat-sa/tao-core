@@ -51,7 +51,6 @@ class GenerisTreeFactory
 	/**
 	 * @var array
 	 */
-	private $propertyFilter = array();
 	private $openNodes = array();
 	/**
 	 * @var bool
@@ -63,14 +62,12 @@ class GenerisTreeFactory
 	 * @param array $openNodes
 	 * @param int $limit
 	 * @param int $offset
-	 * @param array $propertyFilter filter resources based on properties uri => value
 	 * @param string $resourceUriToShow All siblings of this resource will be loaded, independent of current limit
 	 */
-	public function __construct($showResources, array $openNodes = array(), $limit = 10, $offset = 0, array $propertyFilter = array(), $resourceUriToShow = null)
+	public function __construct($showResources, array $openNodes = array(), $limit = 10, $offset = 0, $resourceUriToShow = null)
 	{
 		$this->limit          = (int) $limit;
 		$this->offset         = (int) $offset;
-		$this->propertyFilter = $propertyFilter;
 		$this->openNodes      = $openNodes;
 		$this->showResources  = $showResources;
 
@@ -116,11 +113,7 @@ class GenerisTreeFactory
 
             // only show the resources count if we allow resources to be viewed
 	        if ($this->showResources) {
-                if(!empty($propertyFilter)){
-                     $returnValue['count'] = count($class->searchInstances($propertyFilter, array('recursive' => false)));
-                } else  {
-                    $returnValue['count'] = $instancesCount;
-                }
+                $returnValue['count'] = $instancesCount;
             }
         }
         return $returnValue;
@@ -149,7 +142,7 @@ class GenerisTreeFactory
 			    $limit = 0;
 		    }
 
-		    $searchResult = $class->searchInstances($this->propertyFilter, array(
+		    $searchResult = $class->searchInstances(array(), array(
 				'limit'		=> $limit,
 				'offset'	=> $this->offset,
 				'recursive'	=> false
