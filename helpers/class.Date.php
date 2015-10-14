@@ -77,6 +77,8 @@ class tao_helpers_Date
             $ts = $timestamp;
         } elseif (is_string($timestamp) && preg_match('/.\+0000$/', $timestamp)) {
             $ts = self::getTimeStampWithMicroseconds(new DateTime($timestamp, new DateTimeZone('UTC')));
+        } elseif (is_string($timestamp) && preg_match('/0\.[\d]+\s[\d]+/', $timestamp)) {
+            $ts = self::getTimeStamp($timestamp, true);
         } else {
             throw new common_Exception('Unexpected timestamp');
         }
@@ -102,7 +104,7 @@ class tao_helpers_Date
         $newDate = new \DateTime();
         $intervalObj = $intervalObj instanceof DateTime ? $newDate->diff($intervalObj, true) : $intervalObj;
         if (! $intervalObj instanceof DateInterval) {
-            common_Logger::w('Unkown interval format ' . get_class($interval) . ' for ' . __FUNCTION__, 'TAO');
+            common_Logger::w('Unknown interval format ' . get_class($interval) . ' for ' . __FUNCTION__, 'TAO');
             return '';
         }
         
@@ -119,7 +121,7 @@ class tao_helpers_Date
                     $returnValue = self::formatElapsed($intervalObj, $formatStrings);
                     break;
                 default:
-                    common_Logger::w('Unkown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
+                    common_Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
             }
         }
         return $returnValue;
