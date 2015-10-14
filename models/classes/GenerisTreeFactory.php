@@ -36,10 +36,10 @@ use tao_helpers_Uri;
 class GenerisTreeFactory
 {
 	/**
-	 * All siblings of this resource will be loaded, independent of current limit
-	 * @var core_kernel_classes_Resource|null
+	 * All instances of those classes loaded, independent of current limit ( Contain uris only )
+	 * @var array
 	 */
-	private $resourceToShow;
+	private $browsableTypes = array();
 	/**
 	 * @var int
 	 */
@@ -51,7 +51,6 @@ class GenerisTreeFactory
 	/**
 	 * @var array
 	 */
-	private $propertyFilter = array();
 	private $openNodes = array();
 	/**
 	 * @var bool
@@ -63,20 +62,21 @@ class GenerisTreeFactory
 	 * @param array $openNodes
 	 * @param int $limit
 	 * @param int $offset
-	 * @param array $propertyFilter filter resources based on properties uri => value
-	 * @param string $resourceUriToShow All siblings of this resource will be loaded, independent of current limit
+	 * @param array $resourceUrisToShow All siblings of this resources will be loaded, independent of current limit
 	 */
-	public function __construct($showResources, array $openNodes = array(), $limit = 10, $offset = 0, array $propertyFilter = array(), $resourceUriToShow = null)
+	public function __construct($showResources, array $openNodes = array(), $limit = 10, $offset = 0, array $resourceUrisToShow = array())
 	{
 		$this->limit          = (int) $limit;
 		$this->offset         = (int) $offset;
-		$this->propertyFilter = $propertyFilter;
 		$this->openNodes      = $openNodes;
 		$this->showResources  = $showResources;
 
-		if ($resourceUriToShow) {
-			$this->resourceToShow = new core_kernel_classes_Resource($resourceUriToShow);
+		$types = array();
+		foreach ($resourceUrisToShow as $uri) {
+			$resource = new core_kernel_classes_Resource($uri);
+			$types[]  = $resource->getTypes();
 		}
+		$this->browsableTypes = array_keys(call_user_func_array('array_merge', $types));
 	}
 
 	/**
@@ -116,11 +116,7 @@ class GenerisTreeFactory
 
             // only show the resources count if we allow resources to be viewed
 	        if ($this->showResources) {
-                if(!empty($propertyFilter)){
-                     $returnValue['count'] = count($class->searchInstances($propertyFilter, array('recursive' => false)));
-                } else  {
-                    $returnValue['count'] = $instancesCount;
-                }
+                $returnValue['count'] = $instancesCount;
             }
         }
         return $returnValue;
@@ -144,12 +140,11 @@ class GenerisTreeFactory
 
 		    $limit = $this->limit;
 
-		    //load all instances of currently opened class if we have resource specified to be shown
-		    if ($this->resourceToShow && $this->resourceToShow->hasType($class)) {
+		    if (in_array($class->getUri(), $this->browsableTypes)) {
 			    $limit = 0;
 		    }
 
-		    $searchResult = $class->searchInstances($this->propertyFilter, array(
+		    $searchResult = $class->searchInstances(array(), array(
 				'limit'		=> $limit,
 				'offset'	=> $this->offset,
 				'recursive'	=> false
