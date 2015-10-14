@@ -29,6 +29,8 @@
  * @package tao
  
  */
+use oat\tao\model\GenerisTreeFactory;
+
 class tao_actions_GenerisTree extends tao_actions_CommonModule {
 	
 	const DEFAULT_LIMIT = 10;
@@ -59,8 +61,8 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule {
 		$offset		= $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
 		$showInst	= $this->hasRequestParameter('hideInstances') ? !$this->getRequestParameter('hideInstances') : true;
 		
-		$factory = new tao_models_classes_GenerisTreeFactory();
-		$array = $factory->buildTree($class, $showInst, $openNodes, $limit, $offset);
+		$factory = new GenerisTreeFactory($class, $showInst, $openNodes, $limit, $offset);
+		$array = $factory->buildTree();
 		if ($hideNode) {
 			$array = isset($array['children']) ? $array['children'] : array();
 		}

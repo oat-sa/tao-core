@@ -20,6 +20,8 @@
  * 
  * 
  */
+use oat\tao\helpers\TreeHelper;
+use oat\tao\model\GenerisTreeFactory;
 
 
 /**
@@ -536,24 +538,23 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
         // A unique node URI to be returned from as a tree leaf.
         $uniqueNode = (isset($options['uniqueNode'])) ? $options['uniqueNode'] : null;
         
-        $factory = new tao_models_classes_GenerisTreeFactory();
-        
         if ($uniqueNode !== null) {
             $instance = new \core_kernel_classes_Resource($uniqueNode);
-            $results[] = $factory->buildResourceNode($instance, $clazz);
+            $results[] = TreeHelper::buildResourceNode($instance, $clazz);
             $returnValue = $results;
         } else {
             // Let's walk the tree with super walker! ~~~ p==[w]õ__
             array_walk($browse, function(&$item) {
                 $item = tao_helpers_Uri::decode($item);
             });
-            $openNodes = tao_models_classes_GenerisTreeFactory::getNodesToOpen($browse, $clazz);
+            $openNodes = TreeHelper::getNodesToOpen($browse, $clazz);
 
 	        if (!in_array($clazz->getUri(), $openNodes)) {
                 $openNodes[] = $clazz->getUri();
             }
 
-            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter, array_shift($browse));
+	        $factory = new GenerisTreeFactory($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter, array_shift($browse));
+            $tree = $factory->buildTree();
             $returnValue = $chunk ? ($tree['children']) : $tree;
         }
         return $returnValue;
