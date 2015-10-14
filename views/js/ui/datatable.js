@@ -13,13 +13,13 @@ define([
     var dataNs = 'ui.' + ns;
 
     var defaults = {
-        'start'   : 0,
+        'start': 0,
         'rows': 25,
         'page': 1,
         'sortby': 'id',
         'sortorder': 'asc',
-        'model'   : null,
-        'actions' : null
+        'model': null,
+        'actions': null
     };
 
     /**
@@ -167,6 +167,7 @@ define([
             var $checkAll;
             var $checkboxes;
             var $massActionBtns = $();
+            var $row;
             var amount;
 
             dataset = dataset || {};
@@ -298,13 +299,30 @@ define([
                     });
             });
 
+            // bind listeners to events
+            _.forEach(options.listeners, function (callback, event) {
+                $elt.on([event, ns].join('.'), callback);
+            });
+
             // Now $rendering takes the place of $elt...
+            $row = $rendering.find('tbody tr');
             $forwardBtn = $rendering.find('.datatable-forward');
             $backwardBtn = $rendering.find('.datatable-backward');
             $sortBy = $rendering.find('th [data-sort-by]');
             $sortElement = $rendering.find('[data-sort-by="'+ options.sortby +'"]');
             $checkAll = $rendering.find('th.checkboxes input');
             $checkboxes = $rendering.find('td.checkboxes input');
+
+            $row.click(function () {
+                $row.removeClass('selected');
+                $(this).toggleClass('selected');
+
+                var id = $(this).data('item-identifier');
+
+                $elt.trigger('selected.' + ns,
+                    _.where(dataset.data, {id: id})
+                );
+            });
 
             $forwardBtn.click(function() {
                 self._next($elt);
@@ -321,26 +339,24 @@ define([
 
             // Add the filter behavior
             if (options.filter) {
-                //$rendering.find('.filter input').removeClass('active');
-
                 _.forEach($rendering.find('.filter'), function ($filter) {
 
-                    var filterInput = $('input' , $filter);
-                    var filterBtn = $('button' , $filter);
+                    var $filterInput = $('input' , $filter);
+                    var $filterBtn = $('button' , $filter);
                     var column = $($filter).data('column');
 
                     if (column == options.column) {
-                        filterInput.addClass('focused');
+                        $filterInput.addClass('focused');
                     }
 
                     // clicking the button trigger the request
-                    filterBtn.off('click').on('click', function(e) {
+                    $filterBtn.off('click').on('click', function(e) {
                         e.preventDefault();
                         self._filter($elt, $filter, column ? [column] : []);
                     });
 
                     // or press ENTER
-                    filterInput.off('keypress').on('keypress', function(e) {
+                    $filterInput.off('keypress').on('keypress', function(e) {
                         if (e.which === 13) {
                             e.preventDefault();
                             self._filter($elt, $filter, column ? [column] : []);
@@ -366,7 +382,7 @@ define([
                 /**
                  * @event dataTable#select.dataTable
                  */
-                $elt.trigger('select.' + nd);
+                $elt.trigger('select.' + ns);
             });
 
             // when check/uncheck a box, toggle the check/uncheck all

@@ -108,7 +108,22 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                         label : __('Interface Language'),
                         sortable : true
                     }
-                ]
+                ],
+                listeners: {
+                    // example of listener
+                    selected: function(e, user) {
+
+                        var html = '<pre>' + JSON.stringify(user, null, 2) + '</pre>';
+
+                        $('<div/>', {id: 'user-dialog', title: 'Showing user info'})
+                            .html(html)
+                            .dialog({
+                                modal: true,
+                                width: 500,
+                                height: 430
+                            });
+                    }
+                }
             });
         }
     };

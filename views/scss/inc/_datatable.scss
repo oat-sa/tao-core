@@ -44,6 +44,9 @@ table.datatable{
         th {
             vertical-align: top;
         }
+        tr.selected {
+            background: $lightBlueGrey;
+        }
     }
     th{
         cursor: not-allowed;
@@ -62,6 +65,11 @@ table.datatable{
                 @include tao-icon-setup;
                 @include icon-up;
             }
+        }
+    }
+    tr{
+        &.selected {
+            background: $lightBlueGrey;
         }
     }
     th,
