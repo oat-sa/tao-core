@@ -53,8 +53,7 @@ class EuropeanFormatter extends Configurable implements Formatter
         	    $formatString = 'F j, Y, g:i:s a';
         	    break;
 			case \tao_helpers_Date::FORMAT_ISO8601:
-				$milliseconds = round(fmod($timestamp, 1), 3) * 1000;
-				$milliseconds = str_pad($milliseconds, 3, '0', STR_PAD_RIGHT);
+				$milliseconds = str_replace('0.', '', sprintf('%0.3f', fmod($timestamp, 1)));
 				$formatString = 'Y-m-d\TH:i:s.'.$milliseconds.'+0000';
 				break;
         	default:

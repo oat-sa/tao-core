@@ -179,7 +179,7 @@ class tao_helpers_Date
         $parts = array_reverse(explode(" ", $microtime));
 
         $timestamp = $microseconds && isset($parts[1])
-            ? $parts[0] . '.' . round($parts[1] * 1000000, 0)
+            ? $parts[0] . '.' . str_replace('0.', '', sprintf('%0.6f', $parts[1]))
             : $parts[0];
 
         return $timestamp;

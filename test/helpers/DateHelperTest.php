@@ -33,13 +33,13 @@ class DateHelperTest extends TaoPhpUnitTestRunner
      */
     public function testDisplayDate()
     {
-        $mybirthday = DateTime::createFromFormat('Y-m-d H:i:s.u', '1980-02-01 10:00:00.123456', new \DateTimeZone(\common_session_SessionManager::getSession()->getTimeZone()));
+        $mybirthday = DateTime::createFromFormat('Y-m-d H:i:s.u', '1980-02-01 10:00:00.012345', new \DateTimeZone(\common_session_SessionManager::getSession()->getTimeZone()));
 
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday));
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_LONG));
         $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_DATEPICKER));
         $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_VERBOSE));
-        $this->assertEquals('1980-02-01T10:00:00.123+0000', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_ISO8601));
+        $this->assertEquals('1980-02-01T10:00:00.012+0000', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_ISO8601));
         
         $mybirthdayTs = $mybirthday->getTimeStamp();
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthdayTs));
@@ -60,7 +60,7 @@ class DateHelperTest extends TaoPhpUnitTestRunner
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_LONG));
         $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_DATEPICKER));
         $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_VERBOSE));
-        $this->assertEquals('1980-02-01T10:00:00.123+0000', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601));
+        $this->assertEquals('1980-02-01T10:00:00.012+0000', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601));
     }
 
     /**
