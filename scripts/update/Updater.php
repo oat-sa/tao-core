@@ -45,6 +45,10 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\entryPoint\PasswordReset;
 use oat\oatbox\service\ServiceNotFoundException;
+use oat\tao\model\theme\ThemeService;
+use oat\tao\model\theme\DefaultTheme;
+use oat\tao\model\theme\CompatibilityTheme;
+use oat\tao\model\theme\Theme;
 
 /**
  * 
@@ -337,7 +341,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $currentVersion = '2.11.0';
         }
-        
+
         if ($currentVersion === '2.11.0') {
             $service = new \tao_models_classes_service_StateStorage(array('persistence' => 'serviceState'));
             $this->getServiceManager()->register('tao/stateStorage', $service);
@@ -347,7 +351,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion === '2.12.0') {
             $currentVersion = '2.13.0';
         }
-        
+
         if ($currentVersion === '2.13.0') {
             $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $entryPoints = $tao->getConfig('entrypoint');
@@ -376,6 +380,44 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.13.2';
         }
         
+        if ($currentVersion === '2.13.2') {
+
+            //add the new customizable template "login-message" to backOffice target
+            $themeService = new ThemeService();
+            
+            //test for overrides
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $oldConfig = $ext->getConfig('themes');
+            $compatibilityConfig = array();
+            foreach ($oldConfig['frontOffice']['available'] as $arr) {
+                if ($arr['id'] == $oldConfig['frontOffice']['default']) {
+                    $compatibilityConfig[Theme::CONTEXT_FRONTOFFICE] = $arr; 
+                }
+            }
+            foreach ($oldConfig['backOffice']['available'] as $arr) {
+                if ($arr['id'] == $oldConfig['backOffice']['default']) {
+                    $compatibilityConfig[Theme::CONTEXT_BACKOFFICE] = $arr;
+                }
+            }
+            
+            if (empty($compatibilityConfig)) {
+                $themeService->setTheme(new DefaultTheme());
+            } else {
+                $themeService->setTheme(new CompatibilityTheme($compatibilityConfig));
+            }
+
+            unset($oldConfig['backOffice']);
+            unset($oldConfig['frontOffice']);
+            $ext->setConfig('themes', $oldConfig );
+            
+            $this->getServiceManager()->register(ThemeService::SERVICE_ID, $themeService);
+            
+            $currentVersion = '2.14.0';
+        }
+
+        if ($currentVersion === '2.14.0') {
+            $currentVersion = '2.14.1';
+        }
         
         return $currentVersion;
     }

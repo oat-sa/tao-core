@@ -19,11 +19,6 @@
  *
  */
 
-//quick TZ fix
-if(function_exists("date_default_timezone_set")){
-	date_default_timezone_set('UTC');
-}
-
 require_once dirname(__FILE__) .'/../includes/raw_start.php';
 
 $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');

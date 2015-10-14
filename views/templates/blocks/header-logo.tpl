@@ -7,7 +7,7 @@ if($releaseMsgData['link']):?>
     <?php else:?>
         <div class="lft">
         <?php endif;?>
-        <img src="<?=$releaseMsgData['logo']?>" alt="<?=$releaseMsgData['branding']?> Logo" id="tao-main-logo"/>
+        <img src="<?=$releaseMsgData['logo']?>" alt="TAO Logo" id="tao-main-logo"/>
         <?php if($releaseMsgData['link']):?>
     </a>
 <?php else:?>
