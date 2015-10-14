@@ -250,8 +250,8 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 		$limit = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 0;
 		$offset = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
 		
-		$factory = new GenerisTreeFactory($clazz, $showInstances, array($clazz->getUri()), $limit, $offset);
-		$tree = $factory->buildTree();
+		$factory = new GenerisTreeFactory($showInstances, array($clazz->getUri()), $limit, $offset);
+		$tree = $factory->buildTree($clazz);
 		
 		$returnValue = $hideNode ? ($tree['children']) : $tree;
 		echo json_encode($returnValue);

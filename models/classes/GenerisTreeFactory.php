@@ -59,12 +59,6 @@ class GenerisTreeFactory
 	private $showResources;
 
 	/**
-	 * @var core_kernel_classes_Class
-	 */
-	private $class;
-
-	/**
-	 * @param core_kernel_classes_Class $class
 	 * @param boolean $showResources
 	 * @param array $openNodes
 	 * @param int $limit
@@ -72,9 +66,8 @@ class GenerisTreeFactory
 	 * @param array $propertyFilter filter resources based on properties uri => value
 	 * @param string $resourceUriToShow All siblings of this resource will be loaded, independent of current limit
 	 */
-	public function __construct(core_kernel_classes_Class $class, $showResources, array $openNodes = array(), $limit = 10, $offset = 0, array $propertyFilter = array(), $resourceUriToShow = null)
+	public function __construct($showResources, array $openNodes = array(), $limit = 10, $offset = 0, array $propertyFilter = array(), $resourceUriToShow = null)
 	{
-		$this->class          = $class;
 		$this->limit          = (int) $limit;
 		$this->offset         = (int) $offset;
 		$this->propertyFilter = $propertyFilter;
@@ -88,10 +81,11 @@ class GenerisTreeFactory
 
 	/**
 	 * builds the data for a generis tree
+	 * @param core_kernel_classes_Class $class
 	 * @return array
 	 */
-    public function buildTree() {
-	    return $this->classToNode($this->class, null);
+    public function buildTree(core_kernel_classes_Class $class) {
+	    return $this->classToNode($class, null);
     }
 
 	/**

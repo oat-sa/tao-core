@@ -61,8 +61,8 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule {
 		$offset		= $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
 		$showInst	= $this->hasRequestParameter('hideInstances') ? !$this->getRequestParameter('hideInstances') : true;
 		
-		$factory = new GenerisTreeFactory($class, $showInst, $openNodes, $limit, $offset);
-		$array = $factory->buildTree();
+		$factory = new GenerisTreeFactory($showInst, $openNodes, $limit, $offset);
+		$array = $factory->buildTree($class);
 		if ($hideNode) {
 			$array = isset($array['children']) ? $array['children'] : array();
 		}
