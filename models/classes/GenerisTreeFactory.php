@@ -76,7 +76,10 @@ class GenerisTreeFactory
 			$resource = new core_kernel_classes_Resource($uri);
 			$types[]  = $resource->getTypes();
 		}
-		$this->browsableTypes = array_keys(call_user_func_array('array_merge', $types));
+
+		if ($types) {
+			$this->browsableTypes = array_keys(call_user_func_array('array_merge', $types));
+		}
 	}
 
 	/**
