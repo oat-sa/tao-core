@@ -180,9 +180,10 @@ class tao_helpers_Http
      * @author "Martin for OAT <code@taotesting.com>"
      * @param string $filename the file name
      * @param boolean $contenttype whether to add content type header or not
+     * @param boolean $svgzSupport whether to add content encoding header or not
      * @throws common_exception_Error
      */
-    public static function returnFile($filename, $contenttype = true)
+    public static function returnFile($filename, $contenttype = true, $svgzSupport = false)
     {
         if (tao_helpers_File::securityCheck($filename, true)) {
             if (file_exists($filename)) {
@@ -196,7 +197,7 @@ class tao_helpers_Http
                 } else {
 
                     $pathinfo = pathinfo($filename);
-                    if ($pathinfo['extension'] === 'svgz') {
+                    if ($pathinfo['extension'] === 'svgz' && !$svgzSupport) {
                         header('Content-Encoding: gzip');
                     }
                     

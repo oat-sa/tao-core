@@ -51,7 +51,8 @@ define(['lodash', 'async', 'core/validator/Report', 'core/validator/validators']
         _.each(this.rules, function(rule){
 
             //note: individual validating option reserved for a later usage:
-            var validatorOptions = {};
+            var validatorOptions = {},
+                message;
 
             callstack.push(function(cb){
 
@@ -59,7 +60,8 @@ define(['lodash', 'async', 'core/validator/Report', 'core/validator/validators']
                     if(success){
                         cb(null, new Report('success', {validator : rule.name}));
                     }else{
-                        var report = new Report('failure', {validator : rule.name, message : rule.message});
+                        message = rule.options.message || rule.message;
+                        var report = new Report('failure', {validator : rule.name, message : message});
                         if(options.lazy){
                             cb(new Error('lazy mode'), report);//stop execution now
                         }else{

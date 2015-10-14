@@ -25,8 +25,8 @@ use \common_Logger;
 use oat\tao\helpers\Template;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\menu\MenuService;
-use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\Entrypoint;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * 
@@ -34,43 +34,109 @@ use oat\tao\model\entryPoint\Entrypoint;
  *
  * @author Lionel Lecaque, lionel@taotesting.com
  */
-class EntryPointService extends AbstractRegistry
+class EntryPointService extends ConfigurableService
 {
-    public function registerEntryPoint(Entrypoint $e)
-    {
-        $this->set($e->getId(), $e);
-    }
+    const SERVICE_ID = 'tao/entrypoint';
+    
+    const OPTION_ENTRYPOINTS = 'existing';
+    
+    const OPTION_PRELOGIN = 'prelogin';
+    
+    const OPTION_POSTLOGIN = 'postlogin';
     
     /**
-     * Specify in which extensions the config will be stored
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @return common_ext_Extension
+     * Replace the entrypoint with the id provided
+     * 
+     * @param string $id
+     * @param Entrypoint $e
      */
-    protected function getExtension() {
-        return \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+    public function overrideEntryPoint($id, Entrypoint $e)
+    {
+        $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
+        $entryPoints[$id] = $e;
+        $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
     }
     
     /**
-     *
-     * config file in which the data will be stored
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @return string
-    */
-    protected function getConfigId() {
-        return 'entrypoint';
+     * Activate an existing entry point for a specific target
+     * 
+     * @param string $entryId
+     * @param string $target
+     */
+    public function activateEntryPoint($entryId, $target)
+    {
+        $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
+        if (!isset($entryPoints[$entryId])) {
+            throw new \common_exception_InconsistentData('Unknown entrypoint '.$entryId);
+        }
+        $actives = $this->hasOption($target) ? $this->getOption($target) : array();
+        if (!in_array($entryId, $actives)) {
+            $actives[] = $entryId;
+            $this->setOption($target, $actives);
+        }
     }
     
-    public function getEntryPoints()
+    /**
+     * Add an Entrypoint and activate it if a target is specified
+     * 
+     * @param Entrypoint $e
+     * @param string $target
+     */
+    public function addEntryPoint(Entrypoint $e, $target = null)
+    {
+        $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
+        $entryPoints[$e->getId()] = $e;
+        $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
+
+        if (!is_null($target)) {
+            $this->activateEntryPoint($e->getId(), $target);
+        }
+    }
+    
+    /**
+     * Get all entrypoints for a designated target
+     * 
+     * @param string $target
+     * @return Entrypoint[]
+     */
+    public function getEntryPoints($target = self::OPTION_POSTLOGIN)
     {
         $entryPoints = array();
-        foreach (MenuService::getEntryPoints() as $entry) {
-            $entryPoints[$entry->getId()] = $entry;
+        if ($target == self::OPTION_POSTLOGIN) {
+            foreach (MenuService::getEntryPoints() as $entry) {
+                $entryPoints[$entry->getId()] = $entry;
+            }
         }
-        foreach ($this->getMap() as $entry) {
-            $entryPoints[$entry->getId()] = $entry;
+        
+        $ids = $this->hasOption($target) ? $this->getOption($target) : array();
+        $existing = $this->getOption(self::OPTION_ENTRYPOINTS);
+        foreach ($ids as $id) {
+            $entryPoints[$id] = $existing[$id];
         }
         return $entryPoints;
+    }
+
+    /**
+     * Legacy function for backward compatibilitiy
+     * 
+     * @return EntryPointService
+     * @deprecated
+     */
+    public static function getRegistry()
+    {
+        return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
+    }
+    
+    /**
+     * Legacy function for backward compatibilitiy
+     * 
+     * @param Entrypoint $e
+     * @param string $target
+     * @deprecated
+     */
+    public function registerEntryPoint(Entrypoint $e)
+    {
+        $this->addEntryPoint($e, self::OPTION_POSTLOGIN);
+        $this->getServiceManager()->register(self::SERVICE_ID, $this);
     }
 }

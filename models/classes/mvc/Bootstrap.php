@@ -21,7 +21,9 @@
  */
 namespace oat\tao\model\mvc;
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
+use oat\tao\model\asset\AssetService;
 use oat\tao\model\routing\TaoFrontController;
 use common_Profiler;
 use common_Logger;
@@ -133,7 +135,7 @@ class Bootstrap {
 	{
 		if(!self::$isStarted){
 			$this->session();
-			$this->includePath();
+			$this->setDefaultTimezone();
 			$this->registerErrorhandler();
 			self::$isStarted = true;
 		}
@@ -348,11 +350,13 @@ class Bootstrap {
 	}
 
 	/**
-	 * Update the include path
+	 * Set Timezone quickfix
 	 */
-	protected function includePath()
+	protected function setDefaultTimezone()
 	{
-		set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);
+	    if(function_exists("date_default_timezone_set") && defined('TIME_ZONE')){
+	        date_default_timezone_set(TIME_ZONE);
+	    }
 	}
 
 	/**
@@ -374,9 +378,9 @@ class Bootstrap {
 	protected function scripts()
 	{
         $cssFiles = array(
-            TAOBASE_WWW . 'css/layout.css',
-            TAOBASE_WWW . 'css/tao-main-style.css',
-            TAOBASE_WWW . 'css/tao-3.css'
+			self::getAssetService()->getJsBaseWww('tao') . 'css/layout.css',
+			self::getAssetService()->getJsBaseWww('tao') . 'css/tao-main-style.css',
+			self::getAssetService()->getJsBaseWww('tao') . 'css/tao-3.css'
         );
 
         //stylesheets to load
@@ -384,7 +388,7 @@ class Bootstrap {
 
         if(\common_session_SessionManager::isAnonymous()) {
             \tao_helpers_Scriptloader::addCssFile(
-                TAOBASE_WWW . 'css/portal.css'
+				self::getAssetService()->getJsBaseWww('tao') . 'css/portal.css'
             );
         }
 
@@ -395,4 +399,14 @@ class Bootstrap {
             );
         }
     }
+
+	/**
+	 * @return AssetService
+	 * @throws \common_Exception
+	 * @throws \oat\oatbox\service\ServiceNotFoundException
+	 */
+	private static function getAssetService()
+	{
+		return ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+	}
 }

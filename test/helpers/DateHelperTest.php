@@ -33,23 +33,34 @@ class DateHelperTest extends TaoPhpUnitTestRunner
      */
     public function testDisplayDate()
     {
-        $mybirthday = DateTime::createFromFormat('Y-m-d H:i', '1980-02-01 10:00', new \DateTimeZone(\common_session_SessionManager::getSession()->getTimeZone()));
+        $mybirthday = DateTime::createFromFormat('Y-m-d H:i:s.u', '1980-02-01 10:00:00.123456', new \DateTimeZone(\common_session_SessionManager::getSession()->getTimeZone()));
+
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday));
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_LONG));
         $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_DATEPICKER));
         $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_VERBOSE));
+        $this->assertEquals('1980-02-01T10:00:00.123+0000', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_ISO8601));
         
         $mybirthdayTs = $mybirthday->getTimeStamp();
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthdayTs));
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_LONG));
         $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_DATEPICKER));
         $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_VERBOSE));
+        $this->assertEquals('1980-02-01T10:00:00.000+0000', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_ISO8601));
         
         $literal = new \core_kernel_classes_Literal($mybirthdayTs);
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($literal));
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_LONG));
         $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_DATEPICKER));
         $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_VERBOSE));
+        $this->assertEquals('1980-02-01T10:00:00.000+0000', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_ISO8601));
+
+        $ms = tao_helpers_Date::getTimeStampWithMicroseconds($mybirthday);
+        $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($ms));
+        $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_LONG));
+        $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_DATEPICKER));
+        $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_VERBOSE));
+        $this->assertEquals('1980-02-01T10:00:00.123+0000', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601));
     }
 
     /**
@@ -60,6 +71,16 @@ class DateHelperTest extends TaoPhpUnitTestRunner
     {
         $microtime = "0.60227900 1425372507";
         $this->assertEquals(1425372507, tao_helpers_Date::getTimeStamp($microtime));
+    }
+
+    /**
+     *
+     * @author Ivan Klimchuk, klimchuk@1pt.com
+     */
+    public function testGetTimeStampWithMicroseconds()
+    {
+        $datetime = new DateTime('2015-07-22T17:59:08.956902+0000');
+        $this->assertEquals('1437587948.956902', tao_helpers_Date::getTimeStampWithMicroseconds($datetime));
     }
 
     /**
