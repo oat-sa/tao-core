@@ -29,50 +29,75 @@ define([
 ], function ($, _, __, messageHighlighter, tooltipHighlighter) {
     'use strict';
 
+    var defaultOptions = {
+        type : 'message'
+    };
+
     /**
      * Error field highlighter
      * @param {Object} options
-     * @param {string} [options.type] -
+     * @param {string} [options.type] - highlighter provider name
      * @param {string} [options.errorClass] -
      * @param {string} [options.errorMessageClass] -
-     * @constructor
      */
-    function Highlighter(options) {
-        var self = this;
+    function highlighterFactory(options) {
+        var highlighter,
+            provider;
 
-        this.options = {
-            type : 'message'
-        };
+        highlighter = {
+            /**
+             * Destroy init
+             * @param {object} options
+             */
+            init : function init(options) {
+                options = $.extend(true, defaultOptions, options);
+                provider = getProvider(options.type, options);
 
-        this.init = function init() {
-            self.options = $.extend(true, self.options, options);
-
-            switch(options.type) {
-                case 'message':
-                    messageHighlighter.apply(this, Array.prototype.slice.call(arguments));
-                    break;
-                case 'tooltip':
-                    tooltipHighlighter.apply(this, Array.prototype.slice.call(arguments));
-                    break;
-                default:
-                    throw new TypeError('Highlighter not found');
+                return this;
+            },
+            /**
+             * Highlight field
+             * @param {jQuery} $field - field element to be highlighted
+             * @param {string} message - message text.
+             */
+            highlight : function highlight($field, message) {
+                provider.highlight.call(this, $field, message);
+            },
+            /**
+             * Unhighlight field
+             * @param {jQuery} $field
+             */
+            unhighlight : function unhighlight($field) {
+                provider.unhighlight.call(this, $field);
+            },
+            /**
+             * Destroy highlighter
+             * @param {jQuery} $field
+             */
+            destroy : function destroy($field) {
+                provider.destroy.call(this, $field);
             }
         };
 
-        this.highlight = function ($field, message) {
-            console.log('should be overwritten');
-        };
+        function getProvider(name, options) {
+            if (!highlighterFactory.providers[name]) {
+                throw new TypeError('Provider ' + name + ' is not registered.');
+            }
 
-        this.unhighlight = function ($field) {
-            console.log('should be overwritten');
-        };
+            return highlighterFactory.providers[name](options);
+        }
 
-        this.destroy = function ($field) {
-            console.log('should be overwritten');
-        };
+        return highlighter.init();
+    }
 
-        this.init();
+    highlighterFactory.providers = {};
+
+    highlighterFactory.register = function (name, provider) {
+        highlighterFactory.providers[name] = provider;
     };
 
-    return Highlighter;
+    //highlighterFactory.register('message', messageHighlighter);
+    highlighterFactory.register('message', tooltipHighlighter);
+
+    return highlighterFactory;
 });

@@ -27,6 +27,11 @@ define([
 ], function ($, _, __) {
     'use strict';
 
+    var defaultOptions = {
+        errorClass : 'error',
+        errorMessageClass : 'validate-error'
+    };
+
     /**
      * Error field highlighter
      * @param {Object} options
@@ -34,38 +39,38 @@ define([
      * @param {string} [options.errorMessageClass] - error message class
      * @constructor
      */
-    function Highlighter(options) {
-        var self = this;
+    function highlighterFactory(options) {
+        var highlighter;
 
-        self.options = $.extend(true, {
-            errorClass : 'error',
-            errorMessageClass : 'validate-error'
-        }, self.options);
+        options = $.extend(true, defaultOptions, options);
 
-        /**
-         * Highlight field by class defined in <i>self.options.errorClass</i> and add error message after it.
-         * @param {jQuery} $field - field element to be highlighted
-         * @param {string} message - message text.
-         */
-        this.highlight = function highlight($field, message) {
-            self.unhighlight($field);
-            $field.addClass(self.options.errorClass);
-            $field.after("<span class='" + self.options.errorMessageClass + "'>" + message + "</span>");
+        highlighter = {
+            /**
+             * Highlight field by class defined in <i>self.options.errorClass</i> and add error message after it.
+             * @param {jQuery} $field - field element to be highlighted
+             * @param {string} message - message text.
+             */
+            highlight : function highlight($field, message) {
+                this.unhighlight($field);
+                $field.addClass(options.errorClass);
+                $field.after("<span class='" + options.errorMessageClass + "'>" + message + "</span>");
+            },
+            /**
+             * Unhighlight field (remove error class and error message).
+             * @param {jQuery} $field
+             */
+            unhighlight : function unhighlight($field) {
+                $field.removeClass(options.errorClass);
+                $field.next('.' + options.errorMessageClass).remove();
+            },
+
+            destroy : function ($field) {
+                return;
+            }
         };
 
-        /**
-         * Unhighlight field (remove error class and error message).
-         * @param {jQuery} $field
-         */
-        this.unhighlight = function unhighlight($field) {
-            $field.removeClass(self.options.errorClass);
-            $field.next('.' + self.options.errorMessageClass).remove();
-        };
-
-        this.destroy = function ($field) {
-            return;
-        };
+        return highlighter;
     }
 
-    return Highlighter;
+    return highlighterFactory;
 });

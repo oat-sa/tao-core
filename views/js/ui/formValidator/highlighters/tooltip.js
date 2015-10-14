@@ -28,6 +28,14 @@ define([
 ], function ($, _, __, tooltipster) {
     'use strict';
 
+    var defaultOptions = {
+        tooltip : {
+            delay : 0,
+            theme : 'tao-error-tooltip',
+            trigger : 'custom'
+        }
+    };
+
     /**
      * Error field highlighter
      * @param {Object} options
@@ -35,51 +43,49 @@ define([
      * @see {@link here: http://iamceege.github.io/tooltipster/} - more tooltipster plugin options
      * @constructor
      */
-    function Highlighter() {
-        var self = this;
+    function highlighterFactory(options) {
+        var highlighter;
 
-        self.options = $.extend(true, {
-            tooltip : {
-                delay : 0,
-                theme : 'tao-error-tooltip',
-                trigger : 'custom'
-            }
-        }, self.options);
+        options = $.extend(true, defaultOptions, options);
 
-        this.initTooltip = function ($field) {
-            $field.tooltipster(self.options.tooltip);
-        };
+        highlighter = {
+            initTooltip : function ($field) {
+                $field.tooltipster(options.tooltip);
+            },
 
-        /**
-         * Highlight field by class defined in <i>self.options.errorClass</i> and add error message after it.
-         * @param {jQuery} $field - field element to be highlighted
-         * @param {string} message - message text.
-         */
-        this.highlight = function highlight($field, message) {
-            self.initTooltip($field);
-            $field.tooltipster('content', message);
-            $field.tooltipster('show');
+            /**
+             * Highlight field by class defined in <i>self.options.errorClass</i> and add error message after it.
+             * @param {jQuery} $field - field element to be highlighted
+             * @param {string} message - message text.
+             */
+            highlight : function highlight($field, message) {
+                this.initTooltip($field);
+                $field.tooltipster('content', message);
+                $field.tooltipster('show');
 
-            $field.addClass(self.options.errorClass);
-        };
+                $field.addClass(options.errorClass);
+            },
 
-        /**
-         * Unhighlight field (remove error class and error message).
-         * @param {jQuery} $field
-         */
-        this.unhighlight = function unhighlight($field) {
-            self.initTooltip($field);
-            $field.tooltipster('hide');
+            /**
+             * Unhighlight field (remove error class and error message).
+             * @param {jQuery} $field
+             */
+            unhighlight : function unhighlight($field) {
+                this.initTooltip($field);
+                $field.tooltipster('hide');
 
-            $field.removeClass(self.options.errorClass);
-        };
+                $field.removeClass(options.errorClass);
+            },
 
-        this.destroy = function ($field) {
-            if ($field.data('tooltipster') !== undefined) {
-                $field.tooltipster('destroy');
+            destroy : function destroy($field) {
+                if ($field.data('tooltipster') !== undefined) {
+                    $field.tooltipster('destroy');
+                }
             }
         };
+
+        return highlighter;
     }
 
-    return Highlighter;
+    return highlighterFactory;
 });
