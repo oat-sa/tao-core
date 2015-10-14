@@ -20,11 +20,13 @@
  * 
  * 
  */
+use oat\tao\helpers\TreeHelper;
+use oat\tao\model\GenerisTreeFactory;
 
 
 /**
- * The Service class is an abstraction of each service instance. 
- * Used to centralize the behavior related to every servcie instances.
+ * The Service class is an abstraction of each service instance.
+ * Used to centralize the behavior related to every service instances.
  *
  * @abstract
  * @access public
@@ -32,8 +34,7 @@
  * @package tao
  
  */
-abstract class tao_models_classes_GenerisService
-    extends tao_models_classes_Service
+abstract class tao_models_classes_GenerisService extends tao_models_classes_Service
 {
 
     /**
@@ -508,15 +509,13 @@ abstract class tao_models_classes_GenerisService
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Class clazz
-     * @param  array options
+     * @param  core_kernel_classes_Class $clazz
+     * @param  array $options
      * @return array
      */
     public function toTree( core_kernel_classes_Class $clazz, $options)
     {
-        $returnValue = array();
 
-        
         // show subclasses yes/no, not implemented
         $subclasses = (isset($options['subclasses'])) ? $options['subclasses'] : true;
         // show instances yes/no
@@ -530,7 +529,7 @@ abstract class tao_models_classes_GenerisService
         // probably which subtrees should be opened
         $browse = (isset($options['browse'])) ? $options['browse'] : array();
         // limit of instances shown by subclass if no search label is given
-        // if a search string is given, this is the total limit of results, independant of classes
+        // if a search string is given, this is the total limit of results, independent of classes
         $limit = (isset($options['limit'])) ? $options['limit'] : 0;
         // offset for limit
         $offset = (isset($options['offset'])) ? $options['offset'] : 0;
@@ -539,29 +538,26 @@ abstract class tao_models_classes_GenerisService
         // A unique node URI to be returned from as a tree leaf.
         $uniqueNode = (isset($options['uniqueNode'])) ? $options['uniqueNode'] : null;
         
-        $factory = new tao_models_classes_GenerisTreeFactory();
-        
         if ($uniqueNode !== null) {
             $instance = new \core_kernel_classes_Resource($uniqueNode);
-            $results[] = $factory->buildResourceNode($instance, $clazz);
+            $results[] = TreeHelper::buildResourceNode($instance, $clazz);
             $returnValue = $results;
         } else {
             // Let's walk the tree with super walker! ~~~ p==[w]õ__
             array_walk($browse, function(&$item) {
                 $item = tao_helpers_Uri::decode($item);
             });
-            $openNodes = tao_models_classes_GenerisTreeFactory::getNodesToOpen($browse, $clazz);
+            $openNodes = TreeHelper::getNodesToOpen($browse, $clazz);
 
-            if (!in_array($clazz->getUri(), $openNodes)) {
+	        if (!in_array($clazz->getUri(), $openNodes)) {
                 $openNodes[] = $clazz->getUri();
             }
 
-            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter);
+	        $factory = new GenerisTreeFactory($instances, $openNodes, $limit, $offset, $propertyFilter, array_shift($browse));
+	        $tree = $factory->buildTree($clazz);
             $returnValue = $chunk ? ($tree['children']) : $tree;
         }
         return $returnValue;
     }
 
-} /* end of abstract class tao_models_classes_GenerisService */
-
-?>
+}
