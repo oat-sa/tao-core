@@ -181,6 +181,11 @@ define([
             // Add the model to the data set for the tpl
             dataset.model = options.model;
 
+            // overrides filterable option if filtering turned off globally
+            _.each(dataset.model, function (field) {
+                field.filterable = field.filterable && options.filter;
+            });
+
             // Forward options to the data set
             dataset.selectable = !!options.selectable;
             dataset.clickable = !!options.clickable;

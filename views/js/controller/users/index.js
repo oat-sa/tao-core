@@ -60,7 +60,7 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                 selectable: true,
                 clickable: true,
                 //filter: true,
-                filer: {
+                filter: {
                     columns: ['login', 'name', 'guiLg']
                 },
                 status: true,
