@@ -545,8 +545,8 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
                 $openNodes[] = $clazz->getUri();
             }
 
-	        $factory = new GenerisTreeFactory($instances, $openNodes, $limit, $offset, array_shift($browse));
-	        $tree = $factory->buildTree($clazz);;
+	        $factory = new GenerisTreeFactory($instances, $openNodes, $limit, $offset, $browse);
+	        $tree = $factory->buildTree($clazz);
             $returnValue = $chunk ? ($tree['children']) : $tree;
         }
         return $returnValue;
