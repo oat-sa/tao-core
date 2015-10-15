@@ -1406,6 +1406,10 @@ define([
         _bindEvents : function _bindEvents() {
             var self = this;
 
+            this.$component.on('contextmenu' + _ns, function(event) {
+                event.preventDefault();
+            });
+
             this.$controls.on('click' + _ns, '.action', function(event) {
                 var $target = $(event.target);
                 var $action = $target.closest('.action');
@@ -1439,6 +1443,7 @@ define([
          * @private
          */
         _unbindEvents : function _unbindEvents() {
+            this.$component.off(_ns);
             this.$player.off(_ns);
             this.$controls.off(_ns);
             this.$seek.off(_ns);
