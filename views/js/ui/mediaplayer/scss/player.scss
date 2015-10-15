@@ -33,6 +33,10 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
     .player {
         position: relative;
 
+        iframe {
+            pointer-events: none;
+        }
+
         .overlay {
             position: absolute;
             z-index: 1;
@@ -340,6 +344,11 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
     }
 
     &.nogui {
+        .player {
+            iframe {
+                pointer-events: inherit;
+            }
+        }
         .overlay {
             display: none !important;
         }
