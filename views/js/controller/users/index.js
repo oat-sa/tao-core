@@ -58,7 +58,6 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
             $userList.datatable({
                 url: helpers._url('data', 'Users', 'tao'),
                 selectable: true,
-                clickable: true,
                 //filter: true,
                 filter: {
                     columns: ['login', 'name', 'guiLg']
@@ -84,12 +83,12 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                         id : 'login',
                         label : __('Login'),
                         sortable : true,
-                        filterable: true // new property
+                        filterable: true
                     },{
                         id : 'name',
                         label : __('Name'),
                         sortable : true,
-                        filterable: true // new property
+                        filterable: true
                     },
                     {
                         id : 'email',
@@ -111,7 +110,7 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                 ],
                 listeners: {
                     // example of listener
-                    selected: function(e, user) {
+                    selected: function (e, user) {
 
                         var html = '<pre>' + JSON.stringify(user, null, 2) + '</pre>';
 
@@ -122,7 +121,17 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                                 width: 500,
                                 height: 430
                             });
+                    },
+                    select: function (e) {
+                        console.log('rows was selected by checkbox');
+                    },
+                    load: function (e) {
+                        console.log('grid was loaded');
+                    },
+                    create: function (e) {
+                        console.log('grid was created');
                     }
+
                 }
             });
         }

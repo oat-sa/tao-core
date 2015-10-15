@@ -47,7 +47,6 @@ define([
          * @param {String} options.url - the URL of the service used to retrieve the resources.
          * @param {Function} options.actions.xxx - the callback function for items xxx, with a single parameter representing the identifier of the items.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
-         * @param {Boolean} options.choisable - enables the selection of rows using simple click by row // interactive?
          * @param {Object} options.data - inject predefined data to avoid the first query.
          * @param {Object} options.tools - a list of tool buttons to display above the table
          *
@@ -189,7 +188,6 @@ define([
 
             // Forward options to the data set
             dataset.selectable = !!options.selectable;
-            dataset.clickable = !!options.clickable;
 
             if (dataset.rows) {
                 options.rows = dataset.rows;
@@ -313,14 +311,15 @@ define([
             $checkAll = $rendering.find('th.checkboxes input');
             $checkboxes = $rendering.find('td.checkboxes input');
 
-            $row.click(function () {
-                $row.removeClass('selected');
-                $(this).toggleClass('selected');
+            $row.find('td:not(.checkboxes,.actions)').click(function () {
 
-                var id = $(this).data('item-identifier');
+                var currentRow = $(this).parent();
+
+                $row.removeClass('selected');
+                currentRow.toggleClass('selected');
 
                 $elt.trigger('selected.' + ns,
-                    _.where(dataset.data, {id: id})
+                    _.where(dataset.data, {id: currentRow.data('item-identifier')})
                 );
             });
 
