@@ -343,7 +343,10 @@ define([
                     showinfo: 0,
                     wmode: 'transparent',
                     modestbranding: 1,
-                    disablekb: 1
+                    disablekb: 1,
+                    playsinline: 1,
+                    enablejsapi: 1,
+                    origin: location.hostname
                 },
                 events: {
                     onReady: player.onReady.bind(player),
@@ -387,7 +390,7 @@ define([
         injectApi : function injectApi() {
             var self = this;
             if (!self.isApiReady()) {
-                require(['//www.youtube.com/iframe_api'], function() {
+                require(['https://www.youtube.com/iframe_api'], function() {
                     var check = function() {
                         if (!self.isApiReady()) {
                             setTimeout(check, 100);
@@ -1042,9 +1045,7 @@ define([
             height = Math.max(defaults.minHeight, height);
 
             if (this.$component) {
-                this.$component.width(width);
-                height -= this.$component.outerHeight() - this.$component.height();
-                width -= this.$component.outerWidth() - this.$component.width();
+                this.$component.width(width).height(height);
 
                 if (!this.is('nogui')) {
                     height -= this.$controls.outerHeight();
