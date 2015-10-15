@@ -98,8 +98,16 @@ class tao_helpers_form_GenerisFormFactory
 						);
 					}
 					else{
+						/** @var core_kernel_classes_Resource $rangeInstance */
 						foreach($range->getInstances(true) as $rangeInstance){
-							$options[ tao_helpers_Uri::encode($rangeInstance->getUri()) ] = $rangeInstance->getLabel();
+							$level = $rangeInstance->getOnePropertyValue(new core_kernel_classes_Property(TAO_LIST_LEVEL_PROP));
+							$level = ($level instanceof core_kernel_classes_Resource) ? $level->getUri() : (string)$level;
+							$options[$level] = array(tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel());
+						}
+						ksort($options);
+						$sortedOptions = array();
+						foreach($options as $id => $values){
+							$sortedOptions[$values[0]] = $values[1];
 						}
 						//set the default value to an empty space
 						if(method_exists($element, 'setEmptyOption')){
@@ -108,7 +116,7 @@ class tao_helpers_form_GenerisFormFactory
 					}
 
 					//complete the options listing
-					$element->setOptions($options);
+					$element->setOptions($sortedOptions);
 				}
 			}
 			$returnValue = $element;
