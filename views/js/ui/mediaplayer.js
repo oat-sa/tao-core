@@ -937,7 +937,7 @@ define([
         },
 
         /**
-         * Restarts the media from the begining
+         * Restarts the media from the beginning
          * @returns {mediaplayer}
          */
         restart : function restart() {
@@ -947,7 +947,7 @@ define([
         },
 
         /**
-         * Rewind the media to the begining
+         * Rewind the media to the beginning
          * @returns {mediaplayer}
          */
         rewind : function rewind() {
@@ -1058,9 +1058,11 @@ define([
         },
 
         /**
-         * Add a media source
+         * Add a media source.
+         * This method has no effect once the player has been rendered.
          * @param {String|Object} src - The media URL, or an object containing the source and the type
          * @param {String} [type] - The media MIME type
+         * @returns {mediaplayer}
          */
         addSource : function addSource(src, type) {
             var source;
@@ -1082,6 +1084,7 @@ define([
             }
 
             this.config.sources.push(source);
+            return this;
         },
 
         /**
