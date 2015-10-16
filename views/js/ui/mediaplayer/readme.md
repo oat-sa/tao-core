@@ -36,7 +36,7 @@ require(['ui/mediaplayer'], function(mediaplayer) {
 ### Events
 
 Some events are triggered both on the component using `eventifier` and on the DOM through the component wrapper.
-The events triggered through the DOM are namespaced like this: *`eventname`*`.mediaplayer`.
+The events triggered through the DOM are namespaced like this: `eventname.mediaplayer`.
 
 - **render** / **render.mediaplayer**
 
@@ -263,3 +263,25 @@ The events triggered through the DOM are namespaced like this: *`eventname`*`.me
     Executes a command onto the media.
 
     - *String* **command**
+
+
+- *mediaplayer* **player.on(eventName, eventHandler)**
+
+    Binds a particular event with a handler.
+
+    - *String* **eventName**
+    - *Function* **eventHandler**
+
+
+- *mediaplayer* **player.off(eventName)**
+
+    Removes all handlers bound with a particular event
+
+    - *String* **eventName**
+
+
+- *mediaplayer* **player.trigger(eventName)**
+
+    Triggers an event. All arguments following the eventName will be forwarded to each called handler.
+
+    - *String* **eventName**
