@@ -1045,6 +1045,8 @@ define([
             height = Math.max(defaults.minHeight, height);
 
             if (this.$component) {
+                height -= this.$component.outerHeight() - this.$component.height();
+                width -= this.$component.outerWidth() - this.$component.width();
                 this.$component.width(width).height(height);
 
                 if (!this.is('nogui')) {
