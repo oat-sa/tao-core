@@ -433,11 +433,20 @@ define([
                 },
 
                 onReady : function _youtubePlayerOnReady(event) {
+                    var callbacks = this._callbacks;
+
                     media = event.target;
                     $media = $(media.getIframe());
+                    this._callbacks = null;
 
                     if (!destroyed) {
                         mediaplayer._onReady();
+
+                        if (callbacks) {
+                            _.forEach(callbacks, function(cb) {
+                                cb();
+                            });
+                        }
                     } else {
                         this.destroy();
                     }
@@ -566,6 +575,39 @@ define([
                 isMuted : function _youtubePlayerIsMuted() {
                     if (media) {
                         return media.isMuted();
+                    }
+                    return false;
+                },
+
+                addMedia : function _youtubePlayerSetMedia(url) {
+                    var id = _extractYoutubeId(url);
+                    var cb = id && function() {
+                        media.cueVideoById(id);
+                    };
+                    if (cb) {
+                        if (media) {
+                            cb();
+                        } else {
+                            this._callbacks = this._callbacks || [];
+                            this._callbacks.push(cb);
+                        }
+                        return true;
+                    }
+                    return false;
+                },
+
+                setMedia : function _youtubePlayerSetMedia(url) {
+                    var id = _extractYoutubeId(url);
+                    var cb = id && function() {
+                        media.loadVideoById(id);
+                    };
+                    if (cb) {
+                        if (media) {
+                            cb();
+                        } else {
+                            this._callbacks = [cb];
+                        }
+                        return true;
                     }
                     return false;
                 }
@@ -712,6 +754,29 @@ define([
                 isMuted : function _nativePlayerIsMuted() {
                     if (media) {
                         return !!media.muted;
+                    }
+                    return false;
+                },
+
+                addMedia : function _nativePlayerSetMedia(url, type) {
+                    type = type || _defaults.type;
+                    if (media) {
+                        if (!_checkSupport(media, type)) {
+                            return false;
+                        }
+                    }
+
+                    if (url && $media) {
+                        $media.append('<source src="' + url + '" type="' + (_mimeTypes[type] || type) + '" />');
+                        return true;
+                    }
+                    return false;
+                },
+
+                setMedia : function _nativePlayerSetMedia(url, type) {
+                    if ($media) {
+                        $media.empty();
+                        return this.addMedia(url, type);
                     }
                     return false;
                 }
@@ -1060,32 +1125,44 @@ define([
         },
 
         /**
-         * Add a media source.
-         * This method has no effect once the player has been rendered.
+         * Gets the list of media
+         * @returns {Array}
+         */
+        getSources : function getSources() {
+            return this.config.sources.slice();
+        },
+
+        /**
+         * Sets the media source. If a source has been already set, it will be replaced.
+         * @param {String|Object} src - The media URL, or an object containing the source and the type
+         * @param {String} [type] - The media MIME type
+         * @returns {mediaplayer}
+         */
+        setSource : function setSource(src, type) {
+            var source = this._getSource(src, type);
+            this.config.sources = [source];
+
+            if (this.is('rendered')) {
+                this.player.setMedia(source.src, source.type);
+            }
+
+            return this;
+        },
+
+        /**
+         * Adds a media source.
          * @param {String|Object} src - The media URL, or an object containing the source and the type
          * @param {String} [type] - The media MIME type
          * @returns {mediaplayer}
          */
         addSource : function addSource(src, type) {
-            var source;
-
-            if (_.isString(src)) {
-                source = {
-                    src : src
-                };
-            } else {
-                source = src;
-            }
-
-            if (!source.type) {
-                source.type = type || _defaults.type;
-            }
-
-            if (this.is('youtube')) {
-                source.id = _extractYoutubeId(source.src);
-            }
-
+            var source = this._getSource(src, type);
             this.config.sources.push(source);
+
+            if (this.is('rendered')) {
+                this.player.addMedia(source.src, source.type);
+            }
+
             return this;
         },
 
@@ -1144,6 +1221,34 @@ define([
          */
         getDom : function getDom() {
             return this.$component;
+        },
+
+        /**
+         * Gets a source descriptor.
+         * @param {String|Object} src - The media URL, or an object containing the source and the type
+         * @param {String} [type] - The media MIME type
+         * @returns {Object}
+         */
+        _getSource : function _getSource(src, type) {
+            var source;
+
+            if (_.isString(src)) {
+                source = {
+                    src : src
+                };
+            } else {
+                source = _.clone(src);
+            }
+
+            if (!source.type) {
+                source.type = type || _defaults.type;
+            }
+
+            if (this.is('youtube')) {
+                source.id = _extractYoutubeId(source.src);
+            }
+
+            return source;
         },
 
         /**

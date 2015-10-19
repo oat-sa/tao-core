@@ -74,6 +74,8 @@ define([
         { name : 'on', title : 'on' },
         { name : 'off', title : 'off' },
         { name : 'getDom', title : 'getDom' },
+        { name : 'getSources', title : 'getSources' },
+        { name : 'setSource', title : 'setSource' },
         { name : 'addSource', title : 'addSource' }
     ];
 
@@ -291,7 +293,8 @@ define([
         title: 'youtube player',
         fixture : '6',
         type: 'youtube',
-        url: 'YJWSVUPSQqw'
+        url: 'YJWSVUPSQqw',
+        url2: 'YUHRY27pg8g'
     }];
 
     if (skipPlaybackIfUnsupported && !mediaplayer.canPlay()) {
@@ -987,6 +990,52 @@ define([
                     QUnit.start();
                 }
             });
+        });
+
+
+    QUnit
+        .cases(mediaplayerTypes)
+        .test('Sources management ', function(data, assert) {
+            var url1 = _.isArray(data.url) ? data.url[0] : data.url;
+            var url2 = data.url2 || data.url[1];
+            var player = mediaplayer({
+                type: data.type
+            });
+            var res = player.getSources();
+
+            assert.equal(res.length, 0, 'The media player has an empty list of sources');
+
+            player.setSource(url1);
+            res = player.getSources();
+
+            assert.equal(res.length, 1, 'The media player has one media in its list of sources');
+            if ('object' === typeof url1) {
+                assert.equal(res[0].src, url1.src, 'The media player has the right media at the first position in its list of sources');
+            } else {
+                assert.equal(res[0].src, url1, 'The media player has the right media at the first position in its list of sources');
+            }
+
+            player.addSource(url2);
+            res = player.getSources();
+
+            assert.equal(res.length, 2, 'The media player has two media in its list of sources');
+            if ('object' === typeof url2) {
+                assert.equal(res[1].src, url2.src, 'The media player has the right media at the second position in its list of sources');
+            } else {
+                assert.equal(res[1].src, url2, 'The media player has the right media at the second position in its list of sources');
+            }
+
+            player.setSource(url1);
+            res = player.getSources();
+
+            assert.equal(res.length, 1, 'The media player has one media in its list of sources');
+            if ('object' === typeof url1) {
+                assert.equal(res[0].src, url1.src, 'The media player has the right media at the first position in its list of sources');
+            } else {
+                assert.equal(res[0].src, url1, 'The media player has the right media at the first position in its list of sources');
+            }
+
+            player.destroy();
         });
 
 });

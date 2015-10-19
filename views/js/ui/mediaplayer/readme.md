@@ -218,9 +218,22 @@ The events triggered through the DOM are namespaced like this: `eventname.mediap
     - *Number* **height**
 
 
+- *Array* **player.getSources()**
+
+    Gets the list of media.
+
+
 - *mediaplayer* **player.addSource(src, [type])**
 
-    Add a media source to the player. This method has no effect once the player has been rendered.
+    Adds a media source to the player.
+
+    - *String* / *Object* **src** - The media URL, or an object containing the source and the type
+    - *String* **type** - The media MIME type
+
+
+- *mediaplayer* **player.setSource(src, [type])**
+
+    Sets the media source. If a source has been already set, it will be replaced.
 
     - *String* / *Object* **src** - The media URL, or an object containing the source and the type
     - *String* **type** - The media MIME type
