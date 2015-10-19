@@ -22,8 +22,6 @@
 namespace oat\tao\helpers;
 
 use oat\tao\model\controllerMap\Factory;
-use oat\generis\model\data\permission\PermissionManager;
-use oat\generis\model\data\permission\PermissionInterface;
 /**
  * Utility class that focuses on he controllers.
  *
