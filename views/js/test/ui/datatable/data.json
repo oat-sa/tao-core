@@ -5,8 +5,8 @@
             "id": "1",
             "login": "bertrand",
             "name": "Bertrand Chevrier",
-            "mail": "bertrand@taotesting.com",
-            "roles": "Global Manager, System Administrator",
+            "email": "bertrand@taotesting.com",
+            "role": "Global Manager, System Administrator",
             "dataLg": "English",
             "guiLg": "English"
         },
@@ -14,8 +14,8 @@
             "id": "2",
             "login": "jdoe",
             "name": "John Doe",
-            "mail": "jdoe@nowhere.org",
-            "roles": "Items Manager",
+            "email": "jdoe@nowhere.org",
+            "role": "Items Manager",
             "dataLg": "English",
             "guiLg": "English"
         },
@@ -23,8 +23,8 @@
             "id": "3",
             "login": "jfoo",
             "name": "Jack Foo",
-            "mail": "jack@foo.me",
-            "roles": "Back Office, Global Manager, TAO Manager",
+            "email": "jack@foo.me",
+            "role": "Back Office, Global Manager, TAO Manager",
             "dataLg": "English",
             "guiLg": "English"
         }

@@ -183,7 +183,7 @@ define([
 
             // overrides filterable option if filtering turned off globally
             _.each(dataset.model, function (field) {
-                field.filterable = field.filterable && options.filter;
+                field.filterable = !!(field.filterable && options.filter);
             });
 
             // Forward options to the data set
@@ -203,12 +203,12 @@ define([
             });
 
             // set query value for active column filter
-            if (dataset.filter && dataset.filter.columns && dataset.filter.columns.length == 1) {
+            if (dataset.filter && dataset.filter.columns && dataset.filter.columns.length === 1) {
 
                 options.column = dataset.filter.columns.pop();
 
                 _(dataset.model).forEach(function (row) {
-                    if (row.id == options.column) {
+                    if (row.id === options.column) {
                         row.filter = dataset.filter.value;
                     }
                 });
@@ -344,7 +344,7 @@ define([
                     var $filterBtn = $('button' , $filter);
                     var column = $($filter).data('column');
 
-                    if (column == options.column) {
+                    if (column === options.column) {
                         $filterInput.addClass('focused');
                     }
 
@@ -534,6 +534,12 @@ define([
 
             //rebind options to the elt
             $elt.data(dataNs, options);
+
+            /**
+             * @event dataTable#filter.datatable
+             * @param {Object} filter - The filter config
+             */
+            $elt.trigger('filter.' + ns, options.filter);
 
             /**
              * @event dataTable#sort.datatable
