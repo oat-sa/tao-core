@@ -210,12 +210,14 @@ The events triggered through the DOM are namespaced like this: `eventname.mediap
     Gets the number of times the media has been played
 
 
-- *mediaplayer* **player.resize(width, height)**
+- *jQuery* **player.getType()**
 
-    Changes the size of the player
+    Gets the type of player
 
-    - *Number* **width**
-    - *Number* **height**
+
+- *jQuery* **player.getDom()**
+
+    Gets the underlying DOM element
 
 
 - *Array* **player.getSources()**
@@ -246,6 +248,14 @@ The events triggered through the DOM are namespaced like this: `eventname.mediap
     - *String* **state**
 
 
+- *mediaplayer* **player.resize(width, height)**
+
+    Changes the size of the player
+
+    - *Number* **width**
+    - *Number* **height**
+
+
 - *mediaplayer* **player.enable()**
 
     Enables the media player
@@ -264,11 +274,6 @@ The events triggered through the DOM are namespaced like this: `eventname.mediap
 - *mediaplayer* **player.hide()**
 
     Hides the media player
-
-
-- *jQuery* **player.getDom()**
-
-    Gets the underlying DOM element
 
 
 - **player.execute(command)**

@@ -96,14 +96,14 @@ define([
         video : {
             width : 480,
             height : 270,
-            minWidth: 320,
+            minWidth: 200,
             minHeight: 200
         },
         audio : {
             width : 400,
             height : 30,
-            minWidth: 320,
-            minHeight: 30
+            minWidth: 200,
+            minHeight: 36
         },
         options : {
             volume : Math.floor(_volumeRange * .8),
@@ -177,6 +177,30 @@ define([
         parts.push(_leadingZero(seconds, 2));
 
         return parts.join(':');
+    };
+
+    /**
+     * Extract a list of media sources from a config object
+     * @param {Object} config
+     * @returns {Array}
+     * @private
+     */
+    var _configToSources = function(config) {
+        var sources = config.sources || [];
+
+        if (!_.isArray(sources)) {
+            sources = [sources];
+        }
+
+        if (config.url) {
+            if (_.isArray(config.url)) {
+                sources = sources.concat(config.url);
+            } else {
+                sources.push(config.url);
+            }
+        }
+
+        return sources;
     };
 
     /**
@@ -1097,31 +1121,19 @@ define([
         },
 
         /**
-         * Changes the size of the player
-         * @param {Number} width
-         * @param {Number} height
-         * @returns {mediaplayer}
+         * Gets the type of player
+         * @returns {String}
          */
-        resize : function resize(width, height) {
-            var type = this.is('video') ? 'video' : 'audio';
-            var defaults = _defaults[type] || _defaults.video;
+        getType : function getType() {
+            return this.config.type;
+        },
 
-            width = Math.max(defaults.minWidth, width);
-            height = Math.max(defaults.minHeight, height);
-
-            if (this.$component) {
-                height -= this.$component.outerHeight() - this.$component.height();
-                width -= this.$component.outerWidth() - this.$component.width();
-                this.$component.width(width).height(height);
-
-                if (!this.is('nogui')) {
-                    height -= this.$controls.outerHeight();
-                }
-            }
-
-            this.execute('setSize', width, height);
-
-            return this;
+        /**
+         * Gets the underlying DOM element
+         * @returns {jQuery}
+         */
+        getDom : function getDom() {
+            return this.$component;
         },
 
         /**
@@ -1176,6 +1188,34 @@ define([
         },
 
         /**
+         * Changes the size of the player
+         * @param {Number} width
+         * @param {Number} height
+         * @returns {mediaplayer}
+         */
+        resize : function resize(width, height) {
+            var type = this.is('video') ? 'video' : 'audio';
+            var defaults = _defaults[type] || _defaults.video;
+
+            width = Math.max(defaults.minWidth, width);
+            height = Math.max(defaults.minHeight, height);
+
+            if (this.$component) {
+                height -= this.$component.outerHeight() - this.$component.height();
+                width -= this.$component.outerWidth() - this.$component.width();
+                this.$component.width(width).height(height);
+
+                if (!this.is('nogui')) {
+                    height -= this.$controls.outerHeight();
+                }
+            }
+
+            this.execute('setSize', width, height);
+
+            return this;
+        },
+
+        /**
          * Enables the media player
          * @returns {mediaplayer}
          */
@@ -1213,14 +1253,6 @@ define([
             this._toState('hidden');
 
             return this;
-        },
-
-        /**
-         * Gets the underlying DOM element
-         * @returns {jQuery}
-         */
-        getDom : function getDom() {
-            return this.$component;
         },
 
         /**
@@ -1289,19 +1321,31 @@ define([
 
         /**
          * Ensures the right media type is set
+         * @param {Object} config - The initial config set
          * @private
          */
-        _initType : function _initType() {
+        _initType : function _initType(config) {
             var type = '' + (this.config.type || _defaults.type);
             var isYoutube = false;
             var isVideo = false;
             var isAudio = false;
 
+            if (type.indexOf('application/ogg') !== -1) {
+                type = 'video/ogg';
+                _.forEach(_configToSources(config), function(source) {
+                    var url = '' + (source.src || source);
+                    if (url.substr(-4) === '.ogg') {
+                        type = 'audio/ogg';
+                        return false;
+                    }
+                });
+            }
+
             if (type.indexOf('youtube') !== -1) {
                 type = 'youtube';
                 isYoutube = true;
                 isVideo = true;
-            } else if (type.indexOf('video') === 0 || type.indexOf('application/ogg') !== -1) {
+            } else if (type.indexOf('video') === 0) {
                 type = 'video';
                 isVideo = true;
             } else if (type.indexOf('audio') === 0) {
@@ -1338,21 +1382,9 @@ define([
          */
         _initSources : function _initSources(config) {
             var self = this;
-            var sources = config.sources || [];
-
-            if (!_.isArray(sources)) {
-                sources = [sources];
-            }
+            var sources = _configToSources(config);
 
             this.config.sources = [];
-
-            if (config.url) {
-                if (_.isArray(config.url)) {
-                    sources = sources.concat(config.url);
-                } else {
-                    sources.push(config.url);
-                }
-            }
 
             _.forEach(sources, function(source) {
                 self.addSource(source, config.type);
