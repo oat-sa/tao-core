@@ -1333,8 +1333,9 @@ define([
             if (type.indexOf('application/ogg') !== -1) {
                 type = 'video/ogg';
                 _.forEach(_configToSources(config), function(source) {
-                    var url = '' + (source.src || source);
-                    if (url.substr(-4) === '.ogg') {
+                    var url = source.src || source;
+                    var ext = url && url.substr(-4);
+                    if (ext === '.ogg' || ext === '.oga') {
                         type = 'audio/ogg';
                         return false;
                     }
