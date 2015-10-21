@@ -53,7 +53,7 @@ require.config({
         'tooltipster'       : 'lib/tooltipster/jquery.tooltipster',
         'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.trunc'		: 'lib/jquery.badonkatrunc',
-        'jquery.fileDownload'  : 'lib/jquery.fileDownload'
+        'jquery.fileDownload'  : 'lib/jquery.fileDownload',
 
 //polyfills
         'polyfill'          : 'lib/polyfill',
