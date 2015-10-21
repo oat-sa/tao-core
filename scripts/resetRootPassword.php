@@ -19,10 +19,6 @@
 *
 */
 
-//quick TZ fix
-if(function_exists("date_default_timezone_set")){
-    date_default_timezone_set('UTC');
-}
 require_once dirname(__FILE__) .'/../includes/raw_start.php';
 
 $user = new core_kernel_classes_Resource(LOCAL_NAMESPACE.DEFAULT_USER_URI_SUFFIX);

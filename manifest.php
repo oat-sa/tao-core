@@ -27,7 +27,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '2.13.0',
+    'version' => '2.14.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=2.7.1'
@@ -58,6 +58,9 @@ return array(
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_dom', 'name' => 'dom')),
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_mbstring', 'name' => 'mbstring')),
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_suhosin', 'name' => 'suhosin', 'silent' => true)),
+                array('type' => 'CheckCustom',      'value' => array('id' => 'tao_extension_opcache', 'name' => 'opcache', 'optional' => true, 'extension' => 'tao')),
+                array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_opcache_save_comments', 'name' => 'opcache.save_comments', 'value' => '1', 'dependsOn' => array('tao_extension_opcache'))),
+                array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_opcache_load_comments', 'name' => 'opcache.load_comments', 'value' => '1', 'dependsOn' => array('tao_extension_opcache'))),
                 array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_magic_quotes_gpc', 'name' => 'magic_quotes_gpc', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
                 array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_register_globals', 'name' => 'register_globals', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
                 array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_safe_mode', 'name' => 'safe_mode', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
@@ -76,9 +79,7 @@ return array(
             dirname(__FILE__).'/scripts/install/setupServiceFileStorage.php',
             dirname(__FILE__).'/scripts/install/setServiceState.php',
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
-            dirname(__FILE__).'/scripts/install/setDefaultTheme.php',
-            dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
-            dirname(__FILE__).'/scripts/install/addLoginFormConfig.php',
+            dirname(__FILE__).'/scripts/install/registerEntryPoint.php'
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
