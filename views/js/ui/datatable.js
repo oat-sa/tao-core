@@ -1,3 +1,21 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ */
+
 define([
     'jquery',
     'lodash',
@@ -46,12 +64,13 @@ define([
          * @param {Object} options - the plugin options
          * @param {String} options.url - the URL of the service used to retrieve the resources.
          * @param {Function} options.actions.xxx - the callback function for items xxx, with a single parameter representing the identifier of the items.
+         * @param {Function} options.listeners.xxx - the callback function for event xxx, parameters depends to event trigger call.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
          * @param {Object} options.data - inject predefined data to avoid the first query.
          * @param {Object} options.tools - a list of tool buttons to display above the table
-         *
          * @param {Object|Boolean} options.status - allow to display a status bar
          * @param {Object|Boolean} options.filter - allow to display a filter bar
+         * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overriden by column filter.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
@@ -181,9 +200,10 @@ define([
             // Add the model to the data set for the tpl
             dataset.model = options.model;
 
-            // overrides filterable option if filtering turned off globally
+            // overrides column options
             _.each(dataset.model, function (field) {
-                field.filterable = !!(field.filterable && options.filter);
+                field.filterable = !!(field.filterable && options.filter); // disable column filter if filtering turned off globally
+                field.filterValue = '';
             });
 
             // Forward options to the data set
@@ -196,23 +216,17 @@ define([
                 options = this._sortOptions($elt, dataset.sortby, dataset.sortorder);
             }
 
-            // default value for filtering
+            // reset column value for column filters. If undefined will be used common filter in top toolbar.
             options.column = undefined;
-            _(dataset.model).forEach(function (model) {
-                model.filter = undefined;
-            });
 
             // set query value for active column filter
             if (dataset.filter && dataset.filter.columns && dataset.filter.columns.length === 1) {
-
                 options.column = dataset.filter.columns.pop();
-
                 _(dataset.model).forEach(function (row) {
                     if (row.id === options.column) {
-                        row.filter = dataset.filter.value;
+                        row.filterValue = dataset.filter.value;
                     }
                 });
-
                 dataset.filter = {};
             }
 
@@ -311,7 +325,11 @@ define([
             $checkAll = $rendering.find('th.checkboxes input');
             $checkboxes = $rendering.find('td.checkboxes input');
 
-            $row.find('td:not(.checkboxes,.actions)').click(function () {
+            $rendering.on('click', 'tbody td', function (e) {
+
+                if ($(e.target).hasClass('checkboxes') || $(e.target).hasClass('actions')) {
+                    return;
+                }
 
                 var currentRow = $(this).parent();
 
@@ -518,7 +536,7 @@ define([
          * @fires dataTable#filter.datatable
          * @private
          */
-        _filter: function($elt, filter, columns) {
+        _filter: function _filter($elt, filter, columns) {
             var options = $elt.data(dataNs);
             var query = $('input', filter).val();
 
