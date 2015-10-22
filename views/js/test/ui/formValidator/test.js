@@ -25,20 +25,6 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, fo
         fieldSelector = '[data-validate]:not(.ignore)',
         validator;
 
-    function bindValues(values, $container) {
-        var $elt;
-        _.forEach(values, function (value, selector) {
-            if ($container !== undefined && $container.length) {
-                $elt = $container.find(selector);
-            } else {
-                $elt = $(selector);
-            }
-            if ($elt.length) {
-                $elt.val(value);
-            }
-        });
-    }
-
     QUnit.module("Form Validator", {
         setup: function() {
             validator = formValidator({
@@ -56,7 +42,10 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, fo
         .test('validate valid form', function(data, assert) {
             QUnit.expect(1);
 
-            bindValues(data, $('#form_1'));
+            _.forEach(data, function (value, selector) {
+                $(selector).val(value);
+            });
+
             assert.ok(validator.validate(), 'Form is valid');
         });
 
@@ -64,13 +53,19 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, fo
         .test('validate valid form', function(data, assert) {
             QUnit.expect(1);
 
-            bindValues(data, $('#form_1'));
+            _.forEach(data, function (value, selector) {
+                $(selector).val(value);
+            });
+
             assert.ok(!validator.validate(), 'Form is mot valid');
         });
 
     QUnit.cases(casesInvalid)
         .test('Highlight fields', function(data, assert) {
-            bindValues(data, $('#form_1'));
+            _.forEach(data, function (value, selector) {
+                $(selector).val(value);
+            });
+
             validator.validate();
             assert.equal($('#form_1').find('.error').length, $(fieldSelector).length, 'Fields highlighted');
             assert.equal($('#form_1').find('.validate-error').length, $(fieldSelector).length, 'Error messages rendered');
@@ -78,7 +73,10 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, fo
 
     QUnit.cases(casesValid)
         .test('Unhighlight fields', function(data, assert) {
-            bindValues(data, $('#form_1'));
+            _.forEach(data, function (value, selector) {
+                $(selector).val(value);
+            });
+
             $('#field_1').val('non numeric');
             validator.validate();
             $('#field_1').val('1');
@@ -89,7 +87,10 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, fo
 
     QUnit.cases(casesInvalid)
         .test('getState invalid', function(data, assert) {
-            bindValues(data, $('#form_1'));
+            _.forEach(data, function (value, selector) {
+                $(selector).val(value);
+            });
+
             validator.validate();
             assert.ok(validator.getState().valid === false);
             assert.ok(validator.getState().errors.length > 0);
@@ -100,7 +101,10 @@ define(['lodash', 'jquery', 'ui/formValidator/formValidator'], function(_, $, fo
 
     QUnit.cases(casesValid)
         .test('getState valid', function(data, assert) {
-            bindValues(data, $('#form_1'));
+            _.forEach(data, function (value, selector) {
+                $(selector).val(value);
+            });
+
             validator.validate();
             assert.ok(validator.getState().valid);
             assert.ok(validator.getState().errors.length === 0);
