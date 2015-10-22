@@ -41,7 +41,7 @@ define([
     function highlighterFactory(options) {
         var highlighter;
 
-        options = $.extend(true, defaultOptions, options);
+        options = _.merge(defaultOptions, options);
 
         highlighter = {
             /**
