@@ -49,7 +49,7 @@
  *
  * JavaScript:
  * <pre>
- * var validator = new FormValidator({
+ * var validator = formValidatorFactory({
  *   highlighter : {
  *     type : 'tooltip',
  *     errorClass : 'error',
@@ -69,10 +69,19 @@ define([
     'i18n',
     'ui/validator',
     'ui/formValidator/highlighters/highlighter'
-], function($, _, __, validator, Highlighter){
+], function($, _, __, validator, highlighterFactory){
     'use strict';
 
-    var highlighter;
+    var defaultOptions = {
+        highlighter : {
+            type : 'message',
+            errorClass : 'error'
+        },
+        container : $(document),
+        selector : '[data-validate]',
+        validateOnInit : false,
+        events : ['change', 'blur']
+    };
 
     /**
      * @param {Object} options
@@ -81,78 +90,100 @@ define([
      * @param {string|Array} [options.events = ['change', 'blur']] - the default event that triggers the validation
      * @param {Object} [options.highlighter - error filed highlighter options {@see ui/formValidator/highlighters/highlighter}
      * @param {Object} [options.validateOnInit = false] - whether form should be validated after plugin initialization
-     * @constructor
      */
-    function FormValidator(options) {
-        var self = this,
-            state = {
+    var formValidatorFactory = function formValidatorFactory(options) {
+        var state = {
                 valid : true,
                 errors : []
             },
-            $toValidate;
+            highlighter,
+            $toValidate,
+            validator;
 
-        this.options = {
-            highlighter : {
-                type : 'message',
-                errorClass : 'error'
-            },
-            container : $(document),
-            selector : '[data-validate]',
-            validateOnInit : false,
-            events : ['change', 'blur']
-        };
+        validator = {
+            init : function init() {
+                var self = this;
 
-        this.init = function init() {
-            self.options = $.extend(true, self.options, options);
+                self.options = $.extend(true, defaultOptions, options);
 
-            $toValidate = getFieldsToValidate();
+                $toValidate = getFieldsToValidate();
 
-            $toValidate.validator({
-                event : self.options.events,
-                validated : function (valid, report) {
-                    afterFieldValidate($(this), valid, report);
+                $toValidate.validator({
+                    event : self.options.events,
+                    validated : function (valid, report) {
+                        afterFieldValidate($(this), valid, report);
+                    }
+                });
+
+                if (options.validateOnInit) {
+                    self.validate();
                 }
-            });
 
-            if (options.validateOnInit) {
-                self.validate();
+                return self;
+            },
+            /**
+             * Validate form.
+             * @returns {boolean} - whether form is valid
+             */
+            validate : function validate() {
+                var self = this,
+                    $toValidate = getFieldsToValidate();
+
+                state = {
+                    valid : true,
+                    errors : []
+                };
+                $toValidate.validator('validate', function (valid, report) {
+                    afterFieldValidate($(this), valid, report);
+                });
+
+                return state.valid;
+            },
+            /**
+             * Get form state in following format:
+             * <pre>
+             *  {
+             *    valid : false,
+             *
+             *  }
+             * </pre>
+             * @returns {object}
+             */
+            getState : function getState() {
+                return state;
+            },
+            /**
+             * Destroy validator.
+             */
+            destroy : function destroy() {
+                var $fields = getFieldsToValidate();
+                $fields.each(function () {
+                    if (highlighter) {
+                        highlighter.destroy($(this));
+                    }
+                });
+            },
+            /**
+             * Get container which contains fields to validate
+             * @returns {jQuery}
+             */
+            getContainer : function getContainer() {
+                var self = this,
+                    $container;
+
+                if (self.options.container && self.options.container.length) {
+                    $container = self.options.container;
+                } else {
+                    $container = $(document);
+                }
+
+                return $container;
             }
         };
 
         /**
-         * Validate form.
-         * @returns {boolean} - whether form is valid
-         */
-        this.validate = function () {
-            var $toValidate = getFieldsToValidate();
-
-            state = {
-                valid : true,
-                errors : []
-            };
-            $toValidate.validator('validate', function (valid, report) {
-                afterFieldValidate($(this), valid, report);
-            });
-
-            return state.valid;
-        };
-
-        /**
-         * Get form state in following format:
-         * <pre>
-         *  {
-         *    valid : false,
-         *
-         *  }
-         * </pre>
-         * @returns {object}
-         */
-        this.getState = function () {
-            return state;
-        };
-
-        /**
          * Callback will be called after field validation.
+         * @private
          * @param {jQuery} $field - validated field
          * @param {boolean} valid - whether field is valid
          * @param {array} report - list of reports {@see core/validator/Report}
@@ -178,9 +209,10 @@ define([
 
         /**
          * Add or remove error class and error message
+         * @private
          * @param {jQuery} $field - element to be highlighted
          * @param {boolean} success - whether input is valid or not.
-         * @param {string} message
+         * @param {string} [message]
          */
         function highlightField($field, success, message) {
             var highlighter = getHighlighter();
@@ -193,46 +225,36 @@ define([
 
         /**
          * Get highlighter helper
+         * @private
          * @return {object} - highlighter {@see ui/formValidator/highlighters/highlighter}
          */
         function getHighlighter() {
+            var self = validator;
+
             if (highlighter === undefined) {
-                highlighter = new Highlighter(self.options.highlighter);
+                highlighter = highlighterFactory(self.options.highlighter);
             }
             return highlighter;
         }
 
         /**
          * Get fields to validate
+         * @private
          * @returns {jQuery}
          */
         function getFieldsToValidate() {
-            var $container;
+            var self = validator,
+                $container;
+
             if ($toValidate === undefined) {
-                $container = getContainer();
+                $container = self.getContainer();
                 $toValidate = $container.find(self.options.selector);
             }
             return $toValidate;
         }
 
-        /**
-         * Get container which contains fields to validate
-         * @returns {jQuery}
-         */
-        function getContainer() {
-            var $container;
+        return validator.init();
+    };
 
-            if (self.options.container && self.options.container.length) {
-                $container = self.options.container;
-            } else {
-                $container = $(document);
-            }
-
-            return $container;
-        }
-
-        this.init();
-    }
-
-    return FormValidator;
+    return formValidatorFactory;
 });
