@@ -56,6 +56,7 @@
 						moveInstance CDATA #IMPLIED
 						delete CDATA #IMPLIED
 						rootNode CDATA #IMPLIED
+                        init CDATA #IMPLIED
 					>
 	
 				<!-- The list of contextual actions to load in the section panel -->

@@ -122,6 +122,12 @@ body {
         vertical-align: middle;
     }
 
+    // the above rule breaks SVG on MathJax and thus requires a reset
+    .MathJax svg {
+        display: inline;
+        vertical-align: baseline;
+    }
+
     a {
         cursor: pointer;
         background: transparent;
@@ -225,6 +231,7 @@ body {
     img {
         border: 0;
         max-width: 100%;
+        height: auto;
     }
 
     svg:not(:root) {
