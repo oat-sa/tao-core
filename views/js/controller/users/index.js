@@ -57,38 +57,16 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
             //initialize the user manager component
             $userList.datatable({
                 url: helpers._url('data', 'Users', 'tao'),
-                selectable: true,
-                //filter: true,
-                filter: {
-                    columns: ['login', 'name', 'guiLg']
-                },
-                status: true,
-                actions: {
-                    edit: editUser,
-                    remove: removeUser,
-                    test: function (uri) {
-                        console.log('This is test!');
-                        alert(uri);
-                    }
-                },
-                tools: {
-                    edit: editUser,
-                    remove: removeUser,
-                    test: function() {
-                        alert('test');
-                    }
-                },
+                filter: true,
                 'model': [
                     {
                         id : 'login',
                         label : __('Login'),
-                        sortable : true,
-                        filterable: true
+                        sortable : true
                     },{
                         id : 'name',
                         label : __('Name'),
-                        sortable : true,
-                        filterable: true
+                        sortable : true
                     },
                     {
                         id : 'email',
@@ -107,32 +85,7 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                         label : __('Interface Language'),
                         sortable : true
                     }
-                ],
-                listeners: {
-                    // example of listener
-                    selected: function (e, user) {
-
-                        var html = '<pre>' + JSON.stringify(user, null, 2) + '</pre>';
-
-                        $('<div/>', {id: 'user-dialog', title: 'Showing user info'})
-                            .html(html)
-                            .dialog({
-                                modal: true,
-                                width: 500,
-                                height: 430
-                            });
-                    },
-                    select: function (e) {
-                        console.log('rows was selected by checkbox');
-                    },
-                    load: function (e) {
-                        console.log('grid was loaded');
-                    },
-                    create: function (e) {
-                        console.log('grid was created');
-                    }
-
-                }
+                ]
             });
         }
     };
