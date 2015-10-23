@@ -47,8 +47,26 @@ define([
     var hiddenCls = 'hidden';
 
     /**
-     * The dataTable component makes you able to browse itemss and bind specific
+     * The dataTable component makes you able to browse items and bind specific
      * actions to undertake for edition and removal of them.
+     *
+     * Parameters that will be send to backend by component:
+     *
+     * Pagination
+     * @param {Integer} rows - count of rows, that should be returned from backend, in other words limit.
+     * @param {Integer} page - number of page, that should be requested.
+     *
+     * Sorting
+     * @param {String} sortby - name of column
+     * @param {String} sortorder - order of sorting, can be 'asc' or 'desc' for ascending sorting and descending sorting respectively.
+     *
+     * Filtering
+     * @param {String} filter - query string for filtering of rows.
+     * @param {String[]} columns[] - array of columns, in which will be implemented search during filtering process.
+     * For column filter it will be only one item with column name, but component has ability define list of columns for default filter (in top toolbar).
+     * Backend should correctly receive this list of columns and do search in accordance with this parameters.
+     *
+     * Example of query (GET): rows=25&page=1&sortby=login&sortorder=asc&filter=loginame&columns[]=login
      *
      * @exports ui/datatable
      */
@@ -70,7 +88,7 @@ define([
          * @param {Object} options.tools - a list of tool buttons to display above the table
          * @param {Object|Boolean} options.status - allow to display a status bar
          * @param {Object|Boolean} options.filter - allow to display a filter bar
-         * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overriden by column filter.
+         * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overridden by column filter.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
