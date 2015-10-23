@@ -23,6 +23,8 @@
     "grunt-notify": "^0.2.18",
     "grunt-qunit-junit": "^0.2.0",
     "grunt-replace": "^0.5.1",
+    "grunt-aws-s3" : "^0.14.0",
+    "grunt-contrib-compress" : "^0.13.0",
     "load-grunt-tasks": "^0.3.0",
     "lodash": "~2.4.1",
     "time-grunt": "^1.0.0"
