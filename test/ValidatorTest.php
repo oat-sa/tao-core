@@ -19,6 +19,8 @@
  * 
  */
 use oat\tao\test\TaoPhpUnitTestRunner;
+use \oat\generis\model\user\PasswordConstraintsService;
+
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -29,6 +31,10 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  
  */
 class ValidatorTest extends TaoPhpUnitTestRunner {
+
+	public static function staticMirror($value) {
+		return $value;
+	}
 
 	/**
 	 * tests initialization
@@ -63,6 +69,30 @@ class ValidatorTest extends TaoPhpUnitTestRunner {
 			array(null, '!', '&auml;', '/root/test/why', '1.23', '2,5', array()),
 			'AlphaNum with punctuation'
 		);
+	}
+
+	public function exec(tao_helpers_form_Validator $pValidator, $pValid, $pInvalid = array(), $pHint = '') {
+		$this->validValues($pValidator, is_array($pValid) ? $pValid : array($pValid), $pHint);
+		$this->invalidValues($pValidator, is_array($pInvalid) ? $pInvalid : array($pInvalid), $pHint);
+	}
+
+	public function validValues(tao_helpers_form_Validator $pValidator, $pValues, $pHint = '') {
+		$desc = empty($pHint) ? get_class($pValidator) : $pHint;
+		foreach ($pValues as $val) {
+			$nfo = $val;
+			if (is_array($val) && isset($val['name'])) $nfo = $val['name'];
+			$this->assertTrue($pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as false');
+		}
+	}
+
+	public function invalidValues(tao_helpers_form_Validator $pValidator, $pValues, $pHint = '') {
+		$desc = empty($pHint) ? get_class($pValidator) : $pHint;
+		foreach ($pValues as $val) {
+			$nfo = $val;
+			if (is_array($val) && isset($val['uploaded_file'])) $nfo = $val['uploaded_file'];
+			if (is_array($nfo)) $nfo = implode('-', $nfo);
+			$this->assertFalse($pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as true');
+		}
 	}
 
 	public function testCallback(){
@@ -303,81 +333,319 @@ class ValidatorTest extends TaoPhpUnitTestRunner {
 		$this->assertFalse($minlenght->evaluate($umls), 'Error during length validation of special characters \''.$utf8.'\' using encoding '.mb_internal_encoding());
 	}
 
-	public function testNotEmpty(){
-		//@todo implement test cases
+    /**
+     * @dataProvider notEmptyProvider
+     */
+	public function testNotEmpty($value, $expected){
+
+        $validator = tao_helpers_form_FormFactory::getValidator('NotEmpty');
+        $this->assertEquals( $expected, $validator->evaluate($value) );
 	}
+
+    public function notEmptyProvider(){
+        $validObject   = new \stdClass();
+        $validObject->data = 'valid_object';
+
+        return array(
+            'valid_string'   => array('valid_string', true),
+            'valid_array'    => array(array('valid_array'),  true),
+            'valid_int'      => array(1, true),
+            'valid_int_zero' => array(1, true),
+            'valid_float'      => array(1.5, true),
+            'valid_float_zero' => array(0.0, true),
+            'valid_object'     => array($validObject, true),
+            'valid_bool_t'     => array(true, true),
+            'valid_bool_f'     => array(false, true),
+
+            'invalid_string'   => array('', false),
+            'invalid_array'    => array(array(),  false),
+            'invalid_null'     => array(null, false),
+        );
+    }
 
 	public function testEquals() {
 		$formelement = new tao_helpers_form_elements_xhtml_Textbox('testelement');
 		$formelement->setValue('123');
-		
+
 		$equals = tao_helpers_form_FormFactory::getValidator('Equals', array(
-			'reference' => $formelement 
+			'reference' => $formelement
 		));
 		$this->assertIsA($equals, 'tao_helpers_form_validators_Equals');
 
 		$this->assertFalse($equals->evaluate('1234'));
 		$this->assertTrue($equals->evaluate('123'));
-		
+
 		$equals = tao_helpers_form_FormFactory::getValidator('Equals', array(
 			'reference' => $formelement,
-			'invert'	=> true 
+			'invert'	=> true
 		));
 		$this->assertIsA($equals, 'tao_helpers_form_validators_Equals');
-		
+
 		$this->assertFalse($equals->evaluate('123'));
 		$this->assertTrue($equals->evaluate('1234'));
-		
+
 		$this->setExpectedException('common_Exception');
 		$equals = tao_helpers_form_FormFactory::getValidator('Equals');
 		//@todo implement test cases for multivalues
 	}
-	
-	public function testPassword(){
-		//@todo implement test cases
+
+    /**
+     * Positive test for tao_helpers_form_validators_Password
+     */
+	public function testPasswordPositive(){
+        $validPassword = 'valid_top_secret_test_password';
+        $invalidPassword = 'invalid_top_secret_test_password';
+
+        $formElement = new tao_helpers_form_elements_xhtml_Password('testelement');
+        $formElement->setValue($validPassword);
+
+        $validator = tao_helpers_form_FormFactory::getValidator('Password', array(
+            'password2_ref' => $formElement
+        ));
+
+        $this->assertInstanceOf('tao_helpers_form_Validator', $validator);
+        $this->assertTrue( $validator->evaluate($validPassword) );
+        $this->assertFalse( $validator->evaluate($invalidPassword) );
 	}
 
-	public function testRegex(){
-		//@todo implement test cases
+    /**
+     * @expectedException common_Exception
+     * @expectedExceptionMessage Please set the reference of the second password element
+     */
+    public function testPasswordNegativeNoReference()
+    {
+        $validator = tao_helpers_form_FormFactory::getValidator('Password');
+        $validator->evaluate('something');
+    }
+
+    /**
+     * @expectedException common_Exception
+     * @expectedExceptionMessage Please set the reference of the second password element
+     */
+    public function testPasswordNegativeInvalidReference()
+    {
+        $validator = tao_helpers_form_FormFactory::getValidator('Password', array('password2_ref' => 'invalid_form_element'));
+        $validator->evaluate('something');
+    }
+
+    /**
+     * @param string $value
+     * @param string $format
+     * @param bool $expected
+     *
+     * @dataProvider regexProvider
+     */
+	public function testRegex($value, $format, $expected)
+    {
+        $validator = tao_helpers_form_FormFactory::getValidator('Regex', array(
+            'format' => $format
+        ));
+
+        $this->assertInstanceOf('tao_helpers_form_Validator', $validator);
+        $this->assertEquals($expected, $validator->evaluate($value) );
 	}
 
-	public function testUrl(){
-		//@todo implement test cases
+    /**
+     * @expectedException common_Exception
+     * @expectedExceptionMessage Please set the format options (define your regular expression)!
+     */
+    public function testRegexMisconfig()
+    {
+        tao_helpers_form_FormFactory::getValidator('Regex', array());
+    }
+
+    public function regexProvider()
+    {
+        return array(
+            'valid'   => array('aaaaababaaab','/[ab]+/',true),
+            'invalid' => array('cdcdcdcdcddd','/[ab]+/',false),
+        );
+    }
+
+    /**
+     * @param $value
+     * @param $allowParams
+     * @param $expected
+     *
+     * @dataProvider urlProvider
+     */
+	public function testUrl($value, $allowParams, $expected)
+    {
+        $options = array();
+
+        if( $allowParams === true ){
+            $options['allow_parameters'] = true;
+        }
+
+        $validator = tao_helpers_form_FormFactory::getValidator('Url', $options);
+        $this->assertInstanceOf('tao_helpers_form_Validator', $validator);
+        $this->assertEquals( $expected, $validator->evaluate($value) );
 	}
+
+    public function urlProvider(){
+        return array(
+            'valid_short'       => array('http://example.com', false, true),
+            'valid_port'        => array('http://example.com:1234', false, true),
+            'valid_ip'          => array('http://127.0.0.1', false, true),
+            'valid_ip_port'     => array('http://127.0.0.1:1234', false, true),
+            'valid_proto'       => array('ftp://example.com', false, true),
+            'valid_subdomain'   => array('http://subdomain.example.com', false, true),
+            'valid_full'        => array('http://example.com/foo/bar.html', false, true),
+            'valid_short_path'  => array('http://example.com/foo/bar', false, true),
+            'valid_full_params' => array('http://example.com/foo/bar.html?param=1', true, true),
+            //--------
+            'invalid_not_url'   => array('not_an_url', false, false),
+            'invalid_url_1'     => array('http//example.com', false, false),
+            'invalid_url_2'     => array('http:/example.com', false, false),
+            'invalid_url_3'     => array('http://example,com', false, false),
+            'invalid_long_port' => array('http://example,com:234242', false, false),
+            'invalid_no_params' => array('http://example.com/?param=restricted', false, false),
+        );
+    }
+
+    public function testPasswordStrength()
+    {
+        $validator = tao_helpers_form_FormFactory::getValidator('PasswordStrength');
+
+        $this->assertInstanceOf('tao_helpers_form_Validator', $validator);
+        $this->assertTrue( $validator->evaluate( $this->buildValidPassword() ) );
+        $this->assertFalse( $validator->evaluate( $this->buildInvalidPassword() ) );
+    }
 
 	//Helpers
 
-	public function exec(tao_helpers_form_Validator $pValidator, $pValid, $pInvalid = array(), $pHint = '') {
-		$this->validValues($pValidator, is_array($pValid) ? $pValid : array($pValid), $pHint);
-		$this->invalidValues($pValidator, is_array($pInvalid) ? $pInvalid : array($pInvalid), $pHint);
-	}
+    protected function buildValidPassword()
+    {
+        $validPassword = '';
 
-	public function validValues(tao_helpers_form_Validator $pValidator, $pValues, $pHint = '') {
-		$desc = empty($pHint) ? get_class($pValidator) : $pHint;
-		foreach ($pValues as $val) {
-			$nfo = $val;
-			if (is_array($val) && isset($val['name'])) $nfo = $val['name'];
-			$this->assertTrue($pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as false');
-		}
-	}
+        $constaintsService = PasswordConstraintsService::singleton();
 
-	public function invalidValues(tao_helpers_form_Validator $pValidator, $pValues, $pHint = '') {
-		$desc = empty($pHint) ? get_class($pValidator) : $pHint;
-		foreach ($pValues as $val) {
-			$nfo = $val;
-			if (is_array($val) && isset($val['uploaded_file'])) $nfo = $val['uploaded_file'];
-			if (is_array($nfo)) $nfo = implode('-', $nfo);
-			$this->assertFalse($pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as true');
-		}
-	}
+        $config = $this->invokeProtectedMethod($constaintsService, 'getConfig');
+
+        if( $config['upper'] === true ){
+            $validPassword .= 'A';
+        }
+
+        if( $config['lower'] === true ){
+            $validPassword .= 'b';
+        }
+
+        if( $config['number'] === true ){
+            $validPassword .= '3';
+        }
+
+        if( $config['spec'] === true ){
+            $validPassword .= '@';
+        }
+
+        $validPassword = str_pad($validPassword, $config['length'], 'c');
+
+        return $validPassword;
+    }
+
+    protected function buildInvalidPassword()
+    {
+        $constaintsService = PasswordConstraintsService::singleton();
+        $config = $this->invokeProtectedMethod($constaintsService, 'getConfig');
+
+        $invalidPassword = $this->buildValidPassword();
+
+        if( $config['upper'] === true ){
+            $invalidPassword = str_replace('A', '', $invalidPassword);
+        }
+
+        if( $config['lower'] === true ){
+            $invalidPassword = str_replace('b', '', $invalidPassword);
+        }
+
+        if( $config['number'] === true ){
+            $invalidPassword = str_replace('3', '', $invalidPassword);
+        }
+
+        if( $config['spec'] === true ){
+            $invalidPassword = str_replace('@', '', $invalidPassword);
+        }
+
+        $invalidPassword = substr($invalidPassword, 0, $config['length']-1 );
+
+        return $invalidPassword;
+    }
+
+    public function testUnique()
+    {
+        $resourceMock = $this->getMockBuilder('core_kernel_classes_Class')->disableOriginalConstructor()->getMock();
+        $resourceMock->method('getParentClasses')->willReturn(array(new kernel_class_Stub()));
+
+        $validator = tao_helpers_form_FormFactory::getValidator('Unique');
+        $this->assertInstanceOf('tao_helpers_form_Validator', $validator);
+
+        $options = array(
+            'property'      => new kernel_property_Stub(kernel_class_Stub::TEST_PROPERTY_NAME),
+        );
+        $validator->setOptions($options);
+
+        $this->assertTrue($validator->evaluate(kernel_class_Stub::PROPERTY_NOT_EXISTS));
+        $this->assertFalse($validator->evaluate(kernel_class_Stub::PROPERTY_EXISTS_FIRST_LEVEL));
+        $this->assertFalse($validator->evaluate(kernel_class_Stub::PROPERTY_EXISTS_RECURSIVE));
+    }
+
+    /**
+     * @expectedException common_exception_Error
+     * @expectedExceptionMessage Property not set
+     */
+    public function testUniqueNegativePropertyNotSet(){
+        $resourceMock = $this->getMockBuilder('core_kernel_classes_Class')->disableOriginalConstructor()->getMock();
+        $resourceMock->method('getParentClasses')->willReturn(array(new kernel_class_Stub()));
+
+        $options = array(
+            'resourceClass' => $resourceMock,
+        );
+
+        $validator = tao_helpers_form_FormFactory::getValidator('Unique', $options);
+        $validator->evaluate('some value');
+    }
 
 	public function instanceMirror($value) {
 		return $value;
 	}
+}
 
-	public static function staticMirror($value) {
-		return $value;
+class kernel_class_Stub {
+
+    const TEST_PROPERTY_NAME          = 'testProperty';
+    const PROPERTY_EXISTS_FIRST_LEVEL = 'exists_first_level';
+    const PROPERTY_EXISTS_RECURSIVE   = 'exists_recursive';
+    const PROPERTY_NOT_EXISTS         = 'not_exists';
+
+    public function searchInstances($propertyFilters = array(), $options = array())
+    {
+        $recursive = isset( $options['recursive'] ) ? $options['recursive'] : false;
+
+        $returnValue = array();
+
+        switch( $propertyFilters[self::TEST_PROPERTY_NAME] ){
+            case self::PROPERTY_EXISTS_FIRST_LEVEL: {
+                $returnValue[] = 'some_found_value';
+                break;
+            }
+            case self::PROPERTY_EXISTS_RECURSIVE: {
+                if( $recursive === true ){
+                    $returnValue[] = 'some_found_value';
+                }
+                break;
+            }
+        }
+
+        return $returnValue;
+    }
+}
+
+class kernel_property_Stub extends core_kernel_classes_Property {
+	public function getDomain()
+	{
+		return array( new kernel_class_Stub() );
 	}
+
 }
 
 //Global function

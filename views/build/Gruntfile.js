@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 
 
     //set up contextual config
-    var root                = require('path').resolve('../../../');                 //tao dist root
+    var root                = require('path').resolve('../../../').replace(/\\/g, '/'); //tao dist root
     var ext                 = require('./tasks/helpers/extensions')(grunt, root);   //extension helper
     var currentExtension    = grunt.option('extension') || 'tao';                   //target extension, add "--extension name" to CLI if needed
     var reportOutput        = grunt.option('reports') || 'reports';                 //where reports are saved

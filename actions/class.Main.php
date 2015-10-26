@@ -81,7 +81,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
 	        // single entrypoint -> redirect
 	        $entry = current($entries);
-	        return $this->redirect($entry->getUrl());
+	        return $this->forwardUrl($entry->getUrl());
 	    } else {
 	        // multiple entries -> choice
 	        if (!common_session_SessionManager::isAnonymous()) {
@@ -115,9 +115,6 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function login()
 	{
-        $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $config = $tao->getConfig('loginForm');
-
 		$params = array();
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
@@ -126,7 +123,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 				$params['redirect'] = $redirectUrl;
 			}
 		}
-		$myLoginFormContainer = new tao_actions_form_Login($params, $config);
+		$myLoginFormContainer = new tao_actions_form_Login($params);
 		$myForm = $myLoginFormContainer->getForm();
 
 		if($myForm->isSubmited()){
@@ -138,7 +135,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 					if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {
-						$this->redirect(_url('entry', 'Main'));
+						$this->forward('entry');
 					}
                 } else {
                     \common_Logger::i("Unsuccessful login of user '" . $myForm->getValue('login') . "'.");
@@ -149,7 +146,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('form', $myForm->render());
         $this->setData('title', __("TAO Login"));
-        $this->setData('messageServiceIsAvailable', MessagingService::singleton()->isAvailable());
+
+        $entryPointService = $this->getServiceManager()->getServiceManager()->get(EntryPointService::SERVICE_ID);
+        $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));
         
         if ($this->hasRequestParameter('msg')) {
             $this->setData('msg', $this->getRequestParameter('msg'));

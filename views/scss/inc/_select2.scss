@@ -509,7 +509,11 @@ disabled look for disabled choices in the results dropdown
     -ms-user-select: none;
     user-select: none;
 
-    background-color: #e4e4e4;
+    background-color: blacken($uiClickableDefaultBg, .1);
+    
+    &.partial {
+        background-color: whiten($uiClickableDefaultBg, .6);
+    }
 }
 
 .select2-container-multi .select2-choices .select2-search-choice .select2-chosen {
