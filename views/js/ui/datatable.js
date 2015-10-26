@@ -379,7 +379,7 @@ define([
                     // clicking the button trigger the request
                     $filterBtn.off('click').on('click', function(e) {
                         e.preventDefault();
-                        self._filter($elt, $filter, column ? [column] : options.filter.columns);
+                        self._filter($elt, $filter, column ? column.split(',') : options.filter.columns);
                     });
 
                     // or press ENTER
@@ -566,9 +566,9 @@ define([
 
             /**
              * @event dataTable#filter.datatable
-             * @param {Object} filter - The filter config
+             * @param {Object} options - The options list
              */
-            $elt.trigger('filter.' + ns, options.filter);
+            $elt.trigger('filter.' + ns, options);
 
             /**
              * @event dataTable#sort.datatable

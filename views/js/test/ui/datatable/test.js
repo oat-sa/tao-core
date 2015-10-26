@@ -497,9 +497,9 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             $elt.find('.datatable-wrapper aside.filter button').trigger('click');
         });
 
-        $elt.on('filter.datatable', function (event, filter) {
-            assert.equal(filter.value, 'abcdef', 'the filter set right search query');
-            assert.deepEqual(filter.columns, ["login", "name"], 'the filter set right columns');
+        $elt.on('filter.datatable', function (event, options) {
+            assert.equal(options.filterquery, 'abcdef', 'the filter set right search query');
+            assert.deepEqual(options.filtercolumns, ["login", "name"], 'the filter set right columns');
             setTimeout(function() {
                 assert.equal($elt.find('.datatable-wrapper aside.filter input').hasClass('focused'), true, 'the filter is focusable after refreshing');
                 QUnit.start();
@@ -555,9 +555,9 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             $elt.find('aside.filter[data-column="login"] button').trigger('click');
         });
 
-        $elt.on('filter.datatable', function (event, filter) {
-            assert.equal(filter.columns, 'login', 'the filter set right column');
-            assert.equal(filter.value, 'abcdef', 'the filter set right search query');
+        $elt.on('filter.datatable', function (event, options) {
+            assert.equal(options.filtercolumns, 'login', 'the filter set right column');
+            assert.equal(options.filterquery, 'abcdef', 'the filter set right search query');
             setTimeout(function() {
                 assert.equal($elt.find('aside.filter[data-column="login"] input').hasClass('focused'), true, 'the login column filter is focusable after refreshing');
                 QUnit.start();
