@@ -449,6 +449,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
 
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
+            selectbyclick: true,
             'model' : [{
                 id : 'login',
                 label : 'Login',

@@ -61,12 +61,13 @@ define([
      * @param {String} sortorder - order of sorting, can be 'asc' or 'desc' for ascending sorting and descending sorting respectively.
      *
      * Filtering
-     * @param {String} filter - query string for filtering of rows.
-     * @param {String[]} columns[] - array of columns, in which will be implemented search during filtering process.
+     * @param {String} filterquery - query string for filtering of rows.
+     * @param {String[]} filtercolumns[] - array of columns, in which will be implemented search during filtering process.
      * For column filter it will be only one item with column name, but component has ability define list of columns for default filter (in top toolbar).
      * Backend should correctly receive this list of columns and do search in accordance with this parameters.
+     * By default, columns are not defined, so this parameter not will be sent. If filtercolumns[] not exists, backend should search by all columns.
      *
-     * @example of query (GET): rows=25&page=1&sortby=login&sortorder=asc&filter=loginame&columns[]=login
+     * @example of query (GET): rows=25&page=1&sortby=login&sortorder=asc&filterquery=loginame&filtercolumns[]=login
      *
      * @exports ui/datatable
      */
@@ -84,6 +85,7 @@ define([
          * @param {Function} options.actions.xxx - the callback function for items xxx, with a single parameter representing the identifier of the items.
          * @param {Function} options.listeners.xxx - the callback function for event xxx, parameters depends to event trigger call.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
+         * @param {Boolean} options.selectbyclick - enables the selection of rows by clicking on them.
          * @param {Object} options.data - inject predefined data to avoid the first query.
          * @param {Object} options.tools - a list of tool buttons to display above the table
          * @param {Object|Boolean} options.status - allow to display a status bar
@@ -331,21 +333,23 @@ define([
             $checkAll = $rendering.find('th.checkboxes input');
             $checkboxes = $rendering.find('td.checkboxes input');
 
-            $rendering.on('click', 'tbody td', function (e) {
+            if (options.selectbyclick) {
+                $rendering.on('click', 'tbody td', function (e) {
+                    // exclude from processing columns with actions
+                    if (($(e.target).hasClass('checkboxes') || $(e.target).hasClass('actions'))) {
+                        return false;
+                    }
 
-                if ($(e.target).hasClass('checkboxes') || $(e.target).hasClass('actions')) {
-                    return;
-                }
+                    var currentRow = $(this).parent();
 
-                var currentRow = $(this).parent();
+                    $row.removeClass('selected');
+                    currentRow.toggleClass('selected');
 
-                $row.removeClass('selected');
-                currentRow.toggleClass('selected');
-
-                $elt.trigger('selected.' + ns,
-                    _.where(dataset.data, {id: currentRow.data('item-identifier')})
-                );
-            });
+                    $elt.trigger('selected.' + ns,
+                        _.where(dataset.data, {id: currentRow.data('item-identifier')})
+                    );
+                });
+            }
 
             $forwardBtn.click(function() {
                 self._next($elt);
