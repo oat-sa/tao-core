@@ -48,8 +48,7 @@ return array(
             dirname(__FILE__). '/models/ontology/widegetdefinitions.rdf'
         ),
         'checks' => array(
-                array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.3.10')),
-                array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime53', 'min' => '5.3', 'max' => '5.3.x', 'silent' => true)),
+                array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.4')),
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_pdo', 'name' => 'PDO')),
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_curl', 'name' => 'curl')),
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_zip', 'name' => 'zip')),
