@@ -39,6 +39,7 @@ use HTTPToolkit;
 
 use Exception;
 use oat\oatbox\service\ServiceNotFoundException;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -194,6 +195,9 @@ class Bootstrap {
     	    } catch (ServiceNotFoundException $e) {
     	        if (class_exists($action)) {
     	            $command = new $action();
+    	            if ($command instanceof ConfigurableService) {
+    	                $command->setServiceManager($this->getServiceManager());
+    	            }
     	            if (is_callable($command)) {
     	                $invocable = $command;
     	            } else {
