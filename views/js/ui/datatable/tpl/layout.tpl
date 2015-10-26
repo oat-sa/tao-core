@@ -1,7 +1,7 @@
 <div class="datatable-wrapper">
     {{#with filter}}
-    <aside class="filter">
-        <input type="text" value="{{value}}" name="filter" placeholder="{{#if label}}{{label}}{{else}}{{__ 'Filter'}}{{/if}}">
+    <aside class="filter" data-column="{{columns}}">
+        <input type="text" value="" name="filter" placeholder="{{__ 'Filter'}}">
         <button class="icon-find" type="button"></button>
     </aside>
     {{/with}}
@@ -49,10 +49,10 @@
                     <th>
                         <div {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</div>
                         {{#if filterable}}
-                            <aside class="filter column" data-column="{{id}}">
-                                <input type="text" value="{{filterValue}}" name="filter" placeholder="{{__ 'Filter'}}">
-                                <button class="icon-find" type="button"></button>
-                            </aside>
+                        <aside class="filter column" data-column="{{id}}">
+                            <input type="text" value="" name="filter" placeholder="{{__ 'Filter'}}">
+                            <button class="icon-find" type="button"></button>
+                        </aside>
                         {{/if}}
                     </th>
                     {{/model}}

@@ -53,8 +53,8 @@ define([
      * Parameters that will be send to backend by component:
      *
      * Pagination
-     * @param {Integer} rows - count of rows, that should be returned from backend, in other words limit.
-     * @param {Integer} page - number of page, that should be requested.
+     * @param {Number} rows - count of rows, that should be returned from backend, in other words limit.
+     * @param {Number} page - number of page, that should be requested.
      *
      * Sorting
      * @param {String} sortby - name of column
@@ -66,7 +66,7 @@ define([
      * For column filter it will be only one item with column name, but component has ability define list of columns for default filter (in top toolbar).
      * Backend should correctly receive this list of columns and do search in accordance with this parameters.
      *
-     * Example of query (GET): rows=25&page=1&sortby=login&sortorder=asc&filter=loginame&columns[]=login
+     * @example of query (GET): rows=25&page=1&sortby=login&sortorder=asc&filter=loginame&columns[]=login
      *
      * @exports ui/datatable
      */
@@ -89,6 +89,8 @@ define([
          * @param {Object|Boolean} options.status - allow to display a status bar
          * @param {Object|Boolean} options.filter - allow to display a filter bar
          * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overridden by column filter.
+         * @param {String} options.filterquery - a query string for filtering, using only in runtime
+         * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
@@ -155,13 +157,13 @@ define([
             };
 
             // add current filter if any
-            if (options.filter && options.filter.value) {
-                ajaxConfig.data.filter = options.filter.value;
+            if (options.filter && options.filterquery) {
+                ajaxConfig.data.filterquery = options.filterquery;
             }
 
             // add columns for filter if any
-            if (options.filter && options.filter.columns) {
-                ajaxConfig.data.columns = options.filter.columns;
+            if (options.filter && options.filtercolumns) {
+                ajaxConfig.data.filtercolumns = options.filtercolumns;
             }
 
             /**
@@ -221,31 +223,17 @@ define([
             // overrides column options
             _.each(dataset.model, function (field) {
                 field.filterable = !!(field.filterable && options.filter); // disable column filter if filtering turned off globally
-                field.filterValue = '';
             });
 
             // Forward options to the data set
             dataset.selectable = !!options.selectable;
+            dataset.filter = options.filter;
 
             if (dataset.rows) {
                 options.rows = dataset.rows;
             }
             if (dataset.sortby) {
                 options = this._sortOptions($elt, dataset.sortby, dataset.sortorder);
-            }
-
-            // reset column value for column filters. If undefined will be used common filter in top toolbar.
-            options.column = undefined;
-
-            // set query value for active column filter
-            if (dataset.filter && dataset.filter.columns && dataset.filter.columns.length === 1) {
-                options.column = dataset.filter.columns.pop();
-                _(dataset.model).forEach(function (row) {
-                    if (row.id === options.column) {
-                        row.filterValue = dataset.filter.value;
-                    }
-                });
-                dataset.filter = {};
             }
 
             /**
@@ -376,25 +364,29 @@ define([
             if (options.filter) {
                 _.forEach($rendering.find('.filter'), function ($filter) {
 
-                    var $filterInput = $('input' , $filter);
-                    var $filterBtn = $('button' , $filter);
+                    var $filterInput = $('input', $filter);
+                    var $filterBtn = $('button', $filter);
                     var column = $($filter).data('column');
+                    var filterColumns = options.filtercolumns ? options.filtercolumns : [];
 
-                    if (column === options.column) {
-                        $filterInput.addClass('focused');
+                    // set value to filter field
+                    if (options.filterquery) {
+                        if (column == filterColumns.join()) {
+                            $filterInput.val(options.filterquery).addClass('focused');
+                        }
                     }
 
                     // clicking the button trigger the request
                     $filterBtn.off('click').on('click', function(e) {
                         e.preventDefault();
-                        self._filter($elt, $filter, column ? [column] : []);
+                        self._filter($elt, $filter, column ? [column] : options.filter.columns);
                     });
 
                     // or press ENTER
                     $filterInput.off('keypress').on('keypress', function(e) {
                         if (e.which === 13) {
                             e.preventDefault();
-                            self._filter($elt, $filter, column ? [column] : []);
+                            self._filter($elt, $filter, column ? [column] : options.filter.columns);
                         }
                     });
                 });
@@ -479,7 +471,7 @@ define([
             $elt.html($rendering);
 
             // if the filter is enabled and a value is present, set the focus on the input field
-            if (options.filter && options.filter.value) {
+            if (options.filter && options.filterquery) {
                 $rendering.find('[name=filter].focused').focus();
             }
 
@@ -547,26 +539,27 @@ define([
         },
 
         /**
-         * Query the current page with filter value
+         * Query filtered list of items
          *
          * @param {jQueryElement} $elt - plugin's element
-         * @param {String} query - the filter value
+         * @param {String} query - the filter query
+         * @param {String[]} columns - list of columns in which will be done search
          * @fires dataTable#filter.datatable
+         * @fires dataTable#sort.datatable
          * @private
          */
-        _filter: function _filter($elt, filter, columns) {
+        _filter: function _filter($elt, query, columns) {
             var options = $elt.data(dataNs);
-            var query = $('input', filter).val();
+            var query = $('input', query).val();
 
             //set the filter
             if (!_.isObject(options.filter)) {
                 options.filter = {};
             }
-            options.filter.value = query;
 
-            if (columns.length) {
-                options.filter.columns = columns;
-            }
+            // set correct filter data
+            options.filterquery = query;
+            options.filtercolumns = (columns && columns.length) ? columns : [];
 
             //rebind options to the elt
             $elt.data(dataNs, options);
@@ -579,7 +572,7 @@ define([
 
             /**
              * @event dataTable#sort.datatable
-             * @param {String} query - The filter value
+             * @param {String} query - The filter query
              */
             $elt.trigger('sort.' + ns, [query]);
 
