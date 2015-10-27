@@ -37,9 +37,6 @@ class IntlFormatter extends Configurable implements Formatter
 {
     public function format($timestamp, $format)
     {
-        $locale = common_session_SessionManager::getSession()->getInterfaceLanguage();
-        $timezone = new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone());
-
         switch ($format) {
             case \tao_helpers_Date::FORMAT_LONG:
                 $dateFormat = IntlDateFormatter::SHORT;
@@ -58,6 +55,8 @@ class IntlFormatter extends Configurable implements Formatter
                 throw new \common_Exception('Unexpected date format "' . $format . '"');
         }
 
+        $locale = common_session_SessionManager::getSession()->getInterfaceLanguage();
+        $timezone = new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone());
         $formatter = new IntlDateFormatter($locale, $dateFormat, $timeFormat, $timezone);
 
         return $formatter->format($timestamp);
