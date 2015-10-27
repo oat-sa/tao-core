@@ -31,12 +31,12 @@ class DateHelperTest extends TaoPhpUnitTestRunner
 
 
     public function testGetISO8601Offset(){
-        $this->assertEquals('+0000', EuropeanFormatter::getISO8601Offset(0));
-        $this->assertEquals('-0400', EuropeanFormatter::getISO8601Offset(-14400));
-        $this->assertEquals('-1200', EuropeanFormatter::getISO8601Offset(-43200));
-        $this->assertEquals('+0100', EuropeanFormatter::getISO8601Offset(3600));
-        $this->assertEquals('+1000', EuropeanFormatter::getISO8601Offset(36000));
-        $this->assertEquals('+0530', EuropeanFormatter::getISO8601Offset(19800));
+        $this->assertEquals('+0000', EuropeanFormatter::formatISO8601Offset(0));
+        $this->assertEquals('-0400', EuropeanFormatter::formatISO8601Offset(-14400));
+        $this->assertEquals('-1200', EuropeanFormatter::formatISO8601Offset(-43200));
+        $this->assertEquals('+0100', EuropeanFormatter::formatISO8601Offset(3600));
+        $this->assertEquals('+1000', EuropeanFormatter::formatISO8601Offset(36000));
+        $this->assertEquals('+0530', EuropeanFormatter::formatISO8601Offset(19800));
     }
 
 
@@ -49,7 +49,7 @@ class DateHelperTest extends TaoPhpUnitTestRunner
         $mybirthday = DateTime::createFromFormat('Y-m-d H:i:s.u', '1980-02-01 10:00:00.012345', new \DateTimeZone(\common_session_SessionManager::getSession()->getTimeZone()));
 
         $offset = $mybirthday->getOffset();
-        $offset = EuropeanFormatter::getISO8601Offset($offset);
+        $offset = EuropeanFormatter::formatISO8601Offset($offset);
 
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday));
         $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_LONG));

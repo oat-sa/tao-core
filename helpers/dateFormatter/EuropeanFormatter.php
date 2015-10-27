@@ -54,7 +54,7 @@ class EuropeanFormatter extends Configurable implements Formatter
         	    break;
 			case \tao_helpers_Date::FORMAT_ISO8601:
 				$offset = $dateTime->getOffset();
-				$offset = self::getISO8601Offset($offset);
+				$offset = self::formatISO8601Offset($offset);
 				$milliseconds = str_replace('0.', '', sprintf('%0.3f', fmod($timestamp, 1)));
 				$formatString = 'Y-m-d\TH:i:s.'.$milliseconds.$offset;
 				break;
@@ -66,7 +66,7 @@ class EuropeanFormatter extends Configurable implements Formatter
         return $dateTime->format($formatString);
     }
 
-	public static function getISO8601Offset($minuteOffset){
+	public static function formatISO8601Offset($minuteOffset){
 		$minus = ($minuteOffset<0)?'-':'';
 		$minuteOffset = abs($minuteOffset);
 		return $minus.gmdate("Hi", $minuteOffset);
