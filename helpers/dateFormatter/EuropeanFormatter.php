@@ -54,7 +54,7 @@ class EuropeanFormatter extends Configurable implements Formatter
         	    break;
 			case \tao_helpers_Date::FORMAT_ISO8601:
 				$milliseconds = str_replace('0.', '', sprintf('%0.3f', fmod($timestamp, 1)));
-				$formatString = 'Y-m-d\TH:i:s.'.$milliseconds.'+0000';
+				$formatString = 'Y-m-d\TH:i:s.'.$milliseconds.'O';
 				break;
         	default:
         	    common_Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
