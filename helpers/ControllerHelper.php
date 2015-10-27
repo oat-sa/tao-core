@@ -21,6 +21,7 @@
 
 namespace oat\tao\helpers;
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\controllerMap\Factory;
 /**
  * Utility class that focuses on he controllers.
@@ -42,14 +43,14 @@ class ControllerHelper
      */
     public static function getControllers($extensionId) {
         try {
-            $controllerClasses = \common_cache_FileCache::singleton()->get(self::EXTENSION_PREFIX.$extensionId);
+            $controllerClasses = ServiceManager::getServiceManager()->get('generis/cache')->get(self::EXTENSION_PREFIX.$extensionId);
         } catch (\common_cache_NotFoundException $e) {
             $factory = new Factory();
             $controllerClasses = array();
             foreach ($factory->getControllers($extensionId) as $controller) {
                 $controllerClasses[] = $controller->getClassName();
             }
-            \common_cache_FileCache::singleton()->put($controllerClasses, self::EXTENSION_PREFIX.$extensionId);
+            ServiceManager::getServiceManager()->get('generis/cache')->put($controllerClasses, self::EXTENSION_PREFIX.$extensionId);
         }
         return $controllerClasses;
     }
@@ -57,12 +58,12 @@ class ControllerHelper
     /**
      * Get the list of actions for a controller
      * 
-     * @param unknown $controllerClassName
+     * @param string $controllerClassName
      * @return array
      */
     public static function getActions($controllerClassName) {
         try {
-            $actions = \common_cache_FileCache::singleton()->get(self::CONTROLLER_PREFIX.$controllerClassName);
+            $actions = ServiceManager::getServiceManager()->get('generis/cache')->get(self::CONTROLLER_PREFIX.$controllerClassName);
         } catch (\common_cache_NotFoundException $e) {
             $factory = new Factory();
             $desc =  $factory->getControllerDescription($controllerClassName);
@@ -71,7 +72,7 @@ class ControllerHelper
             foreach ($desc->getActions() as $action) {
                 $actions[] = $action->getName();
             }
-            \common_cache_FileCache::singleton()->put($actions, self::CONTROLLER_PREFIX.$controllerClassName);
+            ServiceManager::getServiceManager()->get('generis/cache')->put($actions, self::CONTROLLER_PREFIX.$controllerClassName);
         }
         return $actions;
     }
@@ -88,12 +89,12 @@ class ControllerHelper
      */
     public static function getRequiredRights($controllerClassName, $actionName) {
         try {
-            $rights = \common_cache_FileCache::singleton()->get(self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
+            $rights = ServiceManager::getServiceManager()->get('generis/cache')->get(self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
         } catch (\common_cache_NotFoundException $e) {
             $factory = new Factory();
             $controller = $factory->getActionDescription($controllerClassName, $actionName);
             $rights = $controller->getRequiredRights();
-            \common_cache_FileCache::singleton()->put($rights, self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
+            ServiceManager::getServiceManager()->get('generis/cache')->put($rights, self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
         }
         return $rights;
     }
