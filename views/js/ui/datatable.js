@@ -207,7 +207,7 @@ define([
             var $checkAll;
             var $checkboxes;
             var $massActionBtns = $();
-            var $row;
+            var $rows;
             var amount;
 
             dataset = dataset || {};
@@ -325,7 +325,7 @@ define([
             });
 
             // Now $rendering takes the place of $elt...
-            $row = $rendering.find('tbody tr');
+            $rows = $rendering.find('tbody tr');
             $forwardBtn = $rendering.find('.datatable-forward');
             $backwardBtn = $rendering.find('.datatable-backward');
             $sortBy = $rendering.find('th [data-sort-by]');
@@ -342,7 +342,7 @@ define([
 
                     var currentRow = $(this).parent();
 
-                    $row.removeClass('selected');
+                    $rows.removeClass('selected');
                     currentRow.toggleClass('selected');
 
                     $elt.trigger('selected.' + ns,
