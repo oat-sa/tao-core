@@ -73,10 +73,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         $limit = $this->getRequestParameter('rows');
         $sortby = $this->getRequestParameter('sortby');
         $sortorder = $this->getRequestParameter('sortorder');
-        $filter = $this->getRequestParameter('filter');
         $start = $limit * $page - $limit;
-
-//		print_r($filter);
 
         switch ($sortby) {
             case 'name':

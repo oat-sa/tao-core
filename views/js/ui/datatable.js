@@ -86,6 +86,7 @@ define([
          * @param {Function} options.listeners.xxx - the callback function for event xxx, parameters depends to event trigger call.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
          * @param {Boolean} options.selectbyclick - enables the selection of rows by clicking on them.
+         * @param {Boolean} options.transformable - enables use custom transform handlers, defined in model
          * @param {Object} options.data - inject predefined data to avoid the first query.
          * @param {Object} options.tools - a list of tool buttons to display above the table
          * @param {Object|Boolean} options.status - allow to display a status bar
@@ -236,6 +237,20 @@ define([
             }
             if (dataset.sortby) {
                 options = this._sortOptions($elt, dataset.sortby, dataset.sortorder);
+            }
+
+            if (options.transformable) {
+                // process data by model rules
+                _.each(dataset.data, function (row) {
+                    _.each(row, function (field, index, collection) {
+                        var model = _.findWhere(options.model, {'id': index});
+                        if (model && model.transform && typeof model.transform === 'function') {
+                            collection[index] = model.transform(field);
+                        } else if (typeof field === 'object') {
+                            collection[index] = field.join(', ');
+                        }
+                    });
+                });
             }
 
             /**

@@ -6,7 +6,7 @@
             "login": "bertrand",
             "name": "Bertrand Chevrier",
             "email": "bertrand@taotesting.com",
-            "role": "Global Manager, System Administrator",
+            "roles": "Global Manager, System Administrator",
             "dataLg": "English",
             "guiLg": "English"
         },
@@ -15,7 +15,7 @@
             "login": "jdoe",
             "name": "John Doe",
             "email": "jdoe@nowhere.org",
-            "role": "Items Manager",
+            "roles": "Items Manager",
             "dataLg": "English",
             "guiLg": "English"
         },
@@ -24,7 +24,7 @@
             "login": "jfoo",
             "name": "Jack Foo",
             "email": "jack@foo.me",
-            "role": "Back Office, Global Manager, TAO Manager",
+            "roles": ["Back Office", "Global Manager", "TAO Manager"],
             "dataLg": "English",
             "guiLg": "English"
         }

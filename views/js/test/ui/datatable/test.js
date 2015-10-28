@@ -70,7 +70,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -128,7 +128,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -196,7 +196,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -241,7 +241,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -342,7 +342,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -408,7 +408,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -463,7 +463,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -525,7 +525,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -584,7 +584,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 sortable : true,
                 filterable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
