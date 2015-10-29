@@ -77,21 +77,21 @@ define(['lodash', 'async'], function(_, async){
             return function(cb){
 
                 var result; 
-                var async = false;
+                var asyncMode = false;
                 var _args = _.clone(args);
                 var event = {
                     done : function asyncDone(){
-                        async = true;
+                        asyncMode = true;
                         //returns the done function and wait until it is called to continue the async queue processing
                         return done;
                     },
                     prevent : function asyncPrevent(){
-                        async = true;
+                        asyncMode = true;
                         //immediately call prevent()
                         prevent();
                     },
                     preventNow : function asyncPreventNow(){
-                        async = true;
+                        asyncMode = true;
                         //immediately call preventNow()
                         preventNow();
                     }
@@ -127,7 +127,7 @@ define(['lodash', 'async'], function(_, async){
                 _args.unshift(event);
                 result = handler.apply(context, _args);
 
-                if(!async){
+                if(!asyncMode){
                     if(result === false){
                         //if the call 
                         prevent();
