@@ -20,14 +20,41 @@
 /**
  * Make an object an event emitter.
  *
- * @example
+ * @example simple usage
  * var emitter = eventifier({});
  * emitter.on('hello', function(who){
  *      console.log('Hello ' + who);
  * });
  * emitter.trigger('hello', 'world');
  *
- *
+ * @example using before
+ * emitter.before('hello', function(e, who){
+ *      if(who === 'nobody'){
+ *          console.log('I am not saying Hello to nobody');
+ *          return false;
+ *      }
+ * }); 
+ * 
+ * @example using before asynchronously
+ * emitter.before('hello', function(e, who){
+ *      
+ *      //I am in an asynchronous context
+ *      var done = e.done();
+ *      
+ *      //ajax call
+ *      fetch('do/I/know?who='+who).then(function(yes){
+ *          if(yes){
+ *              console.log('I know', who);
+ *          }else{
+ *              console.log('I don't talk to stranger');
+ *              e.prevent();
+ *          }
+ *      })).catch(function(){
+ *          console.log('System failure, I should quit now');
+ *          e.preventNow();
+ *      });
+ * }); 
+ *  
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define(['lodash', 'async'], function(_, async){
