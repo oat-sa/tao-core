@@ -32,7 +32,92 @@
  */
 define(['lodash', 'async'], function(_, async){
     'use strict';
+    
+    /**
+     * Create an async callstack 
+     * @param {array} handlers - array of handlers to create the async callstack from
+     * @param {object} context - the object that each handler will be applied on
+     * @param {array} args - the arguments passed to each handler
+     * @param {function} success - the success callback
+     * @returns {array} array of aync call stack
+     */
+    function createAsyncCallstack(handlers, context, args, success){
+                    
+        var callstack =  _.map(handlers, function(handler){
+            
+            //return an async call
+            return function(cb){
 
+                var result; 
+                var async = false;
+                var _args = _.clone(args);
+                var event = {
+                    done : function asyncDone(){
+                        async = true;
+                        //returns the done function and wait until it is called to continue the async queue processing
+                        return done;
+                    },
+                    prevent : function asyncPrevent(){
+                        async = true;
+                        //immediately call prevent()
+                        prevent();
+                    },
+                    preventNow : function asyncPreventNow(){
+                        async = true;
+                        //immediately call preventNow()
+                        preventNow();
+                    }
+                };
+                
+                /**
+                 * Call success
+                 * @private
+                 */
+                function done(){
+                    //allow passing to next
+                    cb(null, {success:true});
+                };
+                
+                /**
+                 * Call fail but can continue to next loop
+                 * @private
+                 */
+                function prevent(){
+                    cb(null, {success:false});
+                }
+                
+                /**
+                 * Call fail and must stop the execution of the stack right now
+                 * @returns {undefined}
+                 */
+                function preventNow(){
+                    //stop async processing queue right now
+                    cb(new Error('prevent now'), {success:false, immediate:true});
+                }
+
+                //set the event object as the first argument
+                _args.unshift(event);
+                result = handler.apply(context, _args);
+
+                if(!async){
+                    if(result === false){
+                        //if the call 
+                        prevent();
+                    }else{
+                        done();
+                    }
+                }
+            };
+        });
+        
+        async.series(callstack, function(err, results){
+            var successes = _.pluck(results, 'success');
+            if(_.indexOf(successes, false) === -1){
+                success();
+            }
+        });
+                    
+    }
     /**
      * The API itself is just a placeholder, all methods will be delegated to a target.
      */
@@ -86,70 +171,9 @@ define(['lodash', 'async'], function(_, async){
         trigger : function trigger(name){
             var self = this;
             var args = [].slice.call(arguments, 1);
-            var callstack;
             if(this._events[name] && _.isArray(this._events[name])){
                 if(this._before[name] && _.isArray(this._before[name])){
-                    //create an async execution stack
-                    callstack = _.map(this._before[name], function(handler){
-                        
-                        return function(cb){
-                            
-                            var result; 
-                            var async = false;
-                            var beforeArgs = _.clone(args);
-                            var event = {
-                                done : function asyncDone(){
-                                    async = true;
-                                    //returns the done function and wait until it is called to continue the async queue processing
-                                    return done;
-                                },
-                                prevent : function asyncPrevent(){
-                                    async = true;
-                                    //immediately call prevent()
-                                    prevent();
-                                },
-                                preventNow : function asyncPreventNow(){
-                                    async = true;
-                                    //immediately call preventNow()
-                                    preventNow();
-                                }
-                            };
-
-                            function done(){
-                                //allow passing to next
-                                cb(null, {success:true});
-                            };
-
-                            function prevent(){
-                                cb(null, {success:false});
-                            }
-
-                            function preventNow(){
-                                //stop async processing queue right now
-                                cb(new Error('prevent now'), {success:false, immediate:true});
-                            }
-
-                            //set the event object as the first argument
-                            beforeArgs.unshift(event);
-                            var result = handler.apply(self, beforeArgs);
-
-                            if(!async){
-                                if(result === false){
-                                    //if the call 
-                                    prevent();
-                                }else{
-                                    done();
-                                }
-                            }
-                        };
-                    });
-                    
-                    async.series(callstack, function(err, results){
-                        var successes = _.pluck(results, 'success');
-                        if(_.indexOf(successes, false) === -1){
-                            triggerEvent();
-                        }
-                    });
+                    createAsyncCallstack(this._before[name], self, args, triggerEvent);
                 }else{
                     triggerEvent();
                 }
@@ -157,7 +181,7 @@ define(['lodash', 'async'], function(_, async){
             
             /**
              * Call the actual registered event handlers
-             * @returns {undefined}
+             * @private
              */
             function triggerEvent(){
                 
