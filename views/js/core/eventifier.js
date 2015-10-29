@@ -29,7 +29,7 @@
  *
  * @example using before
  * emitter.before('hello', function(e, who){
- *      if(who === 'nobody'){
+ *      if(!who || who === 'nobody'){
  *          console.log('I am not saying Hello to nobody');
  *          return false;
  *      }
@@ -45,6 +45,7 @@
  *      fetch('do/I/know?who='+who).then(function(yes){
  *          if(yes){
  *              console.log('I know', who);
+ *              e.done();
  *          }else{
  *              console.log('I don't talk to stranger');
  *              e.prevent();
