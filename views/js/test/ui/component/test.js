@@ -59,18 +59,32 @@ define([
 
 
     QUnit.test('init', function(assert) {
+        var specs = {
+            value : 10,
+            method: function() {
+
+            }
+        };
+        var defaults = {
+            label: 'a label'
+        };
         var config = {
             nothing: undefined,
             dummy: null,
             title: 'My Title'
         };
-        var instance = component().init(config);
+        var instance = component(specs, defaults).init(config);
 
+        assert.notEqual(instance, specs, 'The component instance must not be the same obect as the list of specs');
         assert.notEqual(instance.config, config, 'The component instance must duplicate the config set');
         assert.equal(instance.hasOwnProperty('nothing'), false, 'The component instance must not accept undefined config properties');
         assert.equal(instance.hasOwnProperty('dummy'), false, 'The component instance must not accept null config properties');
+        assert.equal(instance.hasOwnProperty('value'), false, 'The component instance must not accept properties from the list of specs');
         assert.equal(instance.config.title, config.title, 'The component instance must catch the title config');
+        assert.equal(instance.config.label, defaults.label, 'The component instance must set the label config');
         assert.equal(instance.is('rendered'), false, 'The component instance must not be rendered');
+        assert.equal(typeof instance.method, 'function', 'The component instance must have the functions provided in the list of specs');
+        assert.notEqual(instance.method, specs.method, 'The component instance must have created a delegate of the functions provided in the list of specs');
 
         instance.destroy();
     });
@@ -215,6 +229,70 @@ define([
 
         assert.equal(instance.is('customState'), false, 'The component instance does not have the customState state');
         assert.equal(instance.getDom().hasClass('customState'), false, 'The component instance does not have the customState class');
+
+        instance.destroy();
+    });
+
+
+    QUnit.asyncTest('events', function(assert) {
+        var instance = component();
+
+        QUnit.stop(7);
+
+        instance.on('custom', function() {
+            assert.ok(true, 'The component instance can handle custom events');
+            QUnit.start();
+        });
+
+        instance.on('init', function() {
+            assert.ok(true, 'The component instance triggers event when it is initialized');
+            QUnit.start();
+        });
+
+        instance.on('render', function() {
+            assert.ok(true, 'The component instance triggers event when it is rendered');
+            QUnit.start();
+        });
+
+        instance.on('destroy', function() {
+            assert.ok(true, 'The component instance triggers event when it is destroyed');
+            QUnit.start();
+        });
+
+        instance.init({
+            oncustom : function() {
+                assert.ok(true, 'The component instance can handle custom events directly from its config');
+                QUnit.start();
+            },
+
+            oninit : function(ins) {
+                assert.ok(true, 'The component instance triggers event when it is initialized (handler set in config)');
+                assert.equal(ins, instance, 'The init event comes with instance as parameter');
+                QUnit.start();
+            },
+
+            onrender : function($dom, ins) {
+                assert.ok(true, 'The component instance triggers event when it is rendered (handler set in config)');
+                assert.equal($dom, instance.getDom(), 'The render event comes with rendered content as parameter');
+                assert.equal(ins, instance, 'The render event comes with instance as parameter');
+                QUnit.start();
+            },
+
+            ondestroy : function(ins) {
+                assert.ok(true, 'The component instance triggers event when it is destroyed (handler set in config)');
+                assert.equal(ins, instance, 'The destroy event comes with instance as parameter');
+                QUnit.start();
+            }
+        });
+
+        assert.equal(instance.config.hasOwnProperty('oncustom'), false, 'The component instance did not forward the event custom to config');
+        assert.equal(instance.config.hasOwnProperty('oninit'), false, 'The component instance did not forward the event init to config');
+        assert.equal(instance.config.hasOwnProperty('onrender'), false, 'The component instance did not forward the event render to config');
+        assert.equal(instance.config.hasOwnProperty('ondestroy'), false, 'The component instance did not forward the event destroy to config');
+
+        instance.render();
+
+        instance.trigger('custom');
 
         instance.destroy();
     });

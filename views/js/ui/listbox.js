@@ -46,35 +46,6 @@ define([
      */
     var listBox = {
         /**
-         * Uninstalls the component
-         */
-        tearDown : function tearDown() {
-            this.controls = null;
-        },
-
-        /**
-         * Renders the component
-         */
-        postRender : function postRender() {
-            this.controls = {
-                $title : this.$component.find('h1'),
-                $textEmpty : this.$component.find('.empty-list'),
-                $textAvailable : this.$component.find('.available-list'),
-                $textLoading : this.$component.find('.loading span'),
-                $numberLabel : this.$component.find('.available-list .label'),
-                $numberValue : this.$component.find('.available-list .count'),
-                $list : this.$component.find('.list')
-            };
-
-            if (this.config.list) {
-                this.update(this.config.list);
-            } else {
-                this.setState('empty', true);
-                this.setState('loaded', false);
-            }
-        },
-
-        /**
          * Updates the list of boxes
          * @param {Array} list
          * @param {String} [list.url] - The URL of the entry point
@@ -163,7 +134,7 @@ define([
          * @param {String|Boolean} text - The text to set. If the value is false no label is displayed
          * @returns {listBox}
          */
-        setTextEmpty : function setTextNumber(text) {
+        setTextEmpty : function setTextEmpty(text) {
             var $textEmpty = this.controls && this.controls.$textEmpty;
             this.config.textEmpty = text;
             if ($textEmpty) {
@@ -210,7 +181,35 @@ define([
      * @returns {listBox}
      */
     var entryPointsFactory = function entryPointsFactory(config) {
-        var instance = component(listBox, mainTpl, _defaults);
+        var instance = component(listBox, _defaults);
+
+        instance.setTemplate(mainTpl);
+
+        // uninstalls the component
+        instance.on('destroy', function() {
+            this.controls = null;
+        });
+
+        // renders the component
+        instance.on('render', function() {
+            this.controls = {
+                $title : this.$component.find('h1'),
+                $textEmpty : this.$component.find('.empty-list'),
+                $textAvailable : this.$component.find('.available-list'),
+                $textLoading : this.$component.find('.loading span'),
+                $numberLabel : this.$component.find('.available-list .label'),
+                $numberValue : this.$component.find('.available-list .count'),
+                $list : this.$component.find('.list')
+            };
+
+            if (this.config.list) {
+                this.update(this.config.list);
+            } else {
+                this.setState('empty', true);
+                this.setState('loaded', false);
+            }
+        });
+
         return instance.init(config);
     };
 

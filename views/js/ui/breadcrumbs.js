@@ -70,7 +70,8 @@ define([
      * @returns {breadcrumbs}
      */
     var breadcrumbsFactory = function breadcrumbsFactory(config) {
-        var instance = component(breadcrumbs, breadcrumbsTpl);
+        var instance = component(breadcrumbs);
+        instance.setTemplate(breadcrumbsTpl);
         return instance.init(config);
     };
 

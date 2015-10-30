@@ -21,23 +21,25 @@
 define([
     'jquery',
     'lodash',
+    'core/eventifier',
     'tpl!ui/component/tpl/component'
-], function ($, _, defaultTpl) {
+], function ($, _, eventifier, defaultTpl) {
     'use strict';
+
+    var _slice = [].slice;
 
     /**
      * Builds a component from a base skeleton
-     * @param {Object} specs - Some extra methods to assign to the component instance
-     * @param {Function} template - The DOM factory template
-     * @param {Object} defaults - Some default config entries
+     * @param {Object} [specs] - Some extra methods to assign to the component instance
+     * @param {Object} [defaults] - Some default config entries
      * @returns {component}
      */
-    var component = function component(specs, template, defaults) {
+    var component = function component(specs, defaults) {
         // the template is a private property
-        var componentTpl;
+        var componentTpl = defaultTpl;
 
         // base skeleton
-        var instance = {
+        var componentApi = {
             /**
              * Initializes the component
              * @param {Object} config
@@ -46,14 +48,25 @@ define([
              * @returns {component}
              */
             init : function init(config) {
+                var self = this;
                 var initConfig = config || {};
-                this.config = _.omit(initConfig, function(value) {
-                    return value === undefined || value === null;
+                this.config = _.omit(initConfig, function(value, name) {
+                    var omit = value === undefined || value === null;
+                    if (!omit && !name.indexOf('on')) {
+                        self.on(name.substr(2), value);
+                        omit = true;
+                    }
+                    return omit;
                 });
                 _.defaults(this.config, defaults || {});
                 this.config.is = {};
 
-                this.setup();
+                /**
+                 * Executes extra init tasks
+                 * @event component#init
+                 * @param {component} component
+                 */
+                this.trigger('init', this);
 
                 if (this.config.renderTo) {
                     this.render();
@@ -67,7 +80,12 @@ define([
              * @returns {component}
              */
             destroy : function destroy() {
-                this.tearDown();
+                /**
+                 * Executes extra destroy tasks
+                 * @event component#destroy
+                 * @param {component} component
+                 */
+                this.trigger('destroy', this);
 
                 if (this.$component) {
                     this.$component.remove();
@@ -99,30 +117,16 @@ define([
                 }
 
                 this.setState('rendered', true);
-                this.postRender();
+
+                /**
+                 * Executes extra render tasks
+                 * @event component#render
+                 * @param {jQuery} $component
+                 * @param {component} component
+                 */
+                this.trigger('render', this.$component, this);
 
                 return this.$component;
-            },
-
-            /**
-             * Configures the component
-             */
-            setup : function setup() {
-                // just a template method to be overridden
-            },
-
-            /**
-             * Uninstalls the component
-             */
-            tearDown : function tearDown() {
-                // just a template method to be overridden
-            },
-
-            /**
-             * Performs additional tasks on render
-             */
-            postRender : function postRender() {
-                // just a template method to be overridden
             },
 
             /**
@@ -201,7 +205,7 @@ define([
             /**
              * Sets the template used to render this component
              * @param {Function} template
-             * @returns {instance}
+             * @returns {componentApi}
              */
             setTemplate : function setTemplate(template) {
                 var tpl = template || defaultTpl;
@@ -220,10 +224,16 @@ define([
 
         // let's extend the instance with extra methods
         if (specs) {
-            _.assign(instance, specs);
+            _(specs).functions().forEach(function(method){
+                componentApi[method] = function delegate(){
+                    return specs[method].apply(componentApi, _slice.call(arguments));
+                };
+            });
         }
 
-        return instance.setTemplate(template);
+        eventifier(componentApi);
+
+        return componentApi;
     };
 
     return component;
