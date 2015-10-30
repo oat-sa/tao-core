@@ -1,0 +1,33 @@
+@import "inc/bootstrap";
+
+.breadcrumbs {
+  font-style: italic;
+  font-weight: normal;
+  font-family: $headingFont;
+  @include font-size(11);
+  padding: 8px;
+  margin: 0;
+  list-style: none;
+
+  li {
+    display: inline-block;
+    positio: relative;
+
+    ul {
+      display: none;
+      position: absolute;
+      top: 1rem;
+      left: 0;
+    }
+
+    &:hover ul {
+      display: inline-block;
+    }
+  }
+
+  li:not(:first-child):before {
+    @include tao-icon-setup;
+    @include icon-right();
+    padding: 0 4px 0 8px;
+  }
+}
