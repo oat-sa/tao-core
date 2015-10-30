@@ -1,7 +1,7 @@
-<ul class="entry-point-box flex-grid plain">
+<ul class="list-box flex-grid plain">
     {{#each list}}
-    <li class="entry flex-grid-{{#if width}}{{width}}{{else}}6{{/if}}">
-        <a class="block entry-point" href="{{url}}">
+    <li class="entry flex-col-{{#if width}}{{width}}{{else}}12{{/if}}">
+        <a class="block box" href="{{url}}">
             <h3 class="title">{{label}}</h3>
             {{#if content}}<div class="content clearfix">{{{content}}}</div>{{/if}}
             <div class="bottom clearfix">
