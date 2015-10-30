@@ -43,7 +43,7 @@ define([
          * @returns {jQuery}
          */
         update : function update(breadcrumbs) {
-            var $oldComponent = this.getDom();
+            var $oldComponent = this.getContainer();
             var $component;
 
             this.config.breadcrumbs = breadcrumbs;

@@ -51,7 +51,7 @@ define([
         { name : 'setTextNumber', title : 'setTextNumber' },
         { name : 'setTextEmpty', title : 'setTextEmpty' },
         { name : 'setTextLoading', title : 'setTextLoading' },
-        { name : 'getDom', title : 'getDom' },
+        { name : 'getContainer', title : 'getContainer' },
         { name : 'getTemplate', title : 'getTemplate' },
         { name : 'setTemplate', title : 'setTemplate' }
     ];
@@ -116,25 +116,25 @@ define([
 
         assert.equal($container.find('.dummy').length, 0, 'The container does not contain an element of the class dummy');
         assert.equal(instance.is('rendered'), true, 'The listBox instance must be rendered');
-        assert.equal(typeof instance.getDom(), 'object', 'The listBox instance returns the rendered content as an object');
-        assert.equal(instance.getDom().length, 1, 'The listBox instance returns the rendered content');
-        assert.equal(instance.getDom().parent().get(0), $container.get(0), 'The listBox instance is rendered inside the right container');
+        assert.equal(typeof instance.getContainer(), 'object', 'The listBox instance returns the rendered content as an object');
+        assert.equal(instance.getContainer().length, 1, 'The listBox instance returns the rendered content');
+        assert.equal(instance.getContainer().parent().get(0), $container.get(0), 'The listBox instance is rendered inside the right container');
 
-        assert.equal(instance.getDom().find('h1').text(), config.title, 'The listBox instance has rendered a title with the right content');
-        assert.equal(instance.getDom().find('.empty-list').text(), config.textEmpty, 'The listBox instance has rendered a message to display when the list is empty, and set the right content');
-        assert.equal(instance.getDom().find('.available-list .label').text(), config.textNumber, 'The listBox instance has rendered a message to show the number of boxes, and set the right content');
-        assert.equal(instance.getDom().find('.loading').text(), config.textLoading + '...', 'The listBox instance has rendered a message to show when the component is in loading state, and set the right content');
+        assert.equal(instance.getContainer().find('h1').text(), config.title, 'The listBox instance has rendered a title with the right content');
+        assert.equal(instance.getContainer().find('.empty-list').text(), config.textEmpty, 'The listBox instance has rendered a message to display when the list is empty, and set the right content');
+        assert.equal(instance.getContainer().find('.available-list .label').text(), config.textNumber, 'The listBox instance has rendered a message to show the number of boxes, and set the right content');
+        assert.equal(instance.getContainer().find('.loading').text(), config.textLoading + '...', 'The listBox instance has rendered a message to show when the component is in loading state, and set the right content');
 
-        assert.equal(instance.getDom().find('.list .entry').length, config.list.length, 'The listBox instance has rendered the list of boxes');
-        assert.equal(instance.getDom().find('.list .entry').first().find('a').attr('href'), config.list[0].url, 'The listBox instance has set the right url in the first entry');
-        assert.equal(instance.getDom().find('.list .entry').first().find('h3').text(), config.list[0].label, 'The listBox instance has set the right label in the first entry');
-        assert.equal(instance.getDom().find('.list .entry').first().find('.content').html(), config.list[0].content, 'The listBox instance has set the content text in the first entry');
-        assert.equal(instance.getDom().find('.list .entry').first().find('.text-link').text(), config.list[0].text, 'The listBox instance has set the right bottom text in the first entry');
+        assert.equal(instance.getContainer().find('.list .entry').length, config.list.length, 'The listBox instance has rendered the list of boxes');
+        assert.equal(instance.getContainer().find('.list .entry').first().find('a').attr('href'), config.list[0].url, 'The listBox instance has set the right url in the first entry');
+        assert.equal(instance.getContainer().find('.list .entry').first().find('h3').text(), config.list[0].label, 'The listBox instance has set the right label in the first entry');
+        assert.equal(instance.getContainer().find('.list .entry').first().find('.content').html(), config.list[0].content, 'The listBox instance has set the content text in the first entry');
+        assert.equal(instance.getContainer().find('.list .entry').first().find('.text-link').text(), config.list[0].text, 'The listBox instance has set the right bottom text in the first entry');
 
         instance.destroy();
 
         assert.equal($container.children().length, 0, 'The container is now empty');
-        assert.equal(instance.getDom(), null, 'The listBox instance has removed its rendered content');
+        assert.equal(instance.getContainer(), null, 'The listBox instance has removed its rendered content');
     });
 
 
@@ -151,10 +151,10 @@ define([
         assert.equal(instance.is('rendered'), true, 'The listBox instance must be rendered');
         assert.equal($component.length, 1, 'The listBox instance returns the rendered content');
 
-        assert.equal(instance.getDom().find('.list .entry').length, 0, 'The listBox instance has rendered an empty list');
-        assert.equal(instance.getDom().hasClass('empty'), true, 'The listBox instance displays a message telling the list is empty');
-        assert.equal(instance.getDom().hasClass('loaded'), false, 'The listBox instance does not display the number of boxes');
-        assert.equal(instance.getDom().hasClass('loading'), false, 'The listBox instance is not loading');
+        assert.equal(instance.getContainer().find('.list .entry').length, 0, 'The listBox instance has rendered an empty list');
+        assert.equal(instance.getContainer().hasClass('empty'), true, 'The listBox instance displays a message telling the list is empty');
+        assert.equal(instance.getContainer().hasClass('loaded'), false, 'The listBox instance does not display the number of boxes');
+        assert.equal(instance.getContainer().hasClass('loading'), false, 'The listBox instance is not loading');
 
         assert.equal(instance.is('empty'), true, 'The listBox instance has the state empty');
         assert.equal(instance.is('loaded'), false, 'The listBox instance does not have the state loaded');
@@ -162,16 +162,16 @@ define([
 
         instance.update(list);
 
-        assert.equal(instance.getDom().find('.list .entry').length, list.length, 'The listBox instance has rendered the list of boxes');
-        assert.equal(instance.getDom().find('.list .entry').first().find('a').attr('href'), list[0].url, 'The listBox instance has set the right url in the first entry');
-        assert.equal(instance.getDom().find('.list .entry').first().find('h3').text(), list[0].label, 'The listBox instance has set the right label in the first entry');
-        assert.equal(instance.getDom().find('.list .entry').first().find('.content').html(), list[0].content, 'The listBox instance has set the content text in the first entry');
-        assert.equal(instance.getDom().find('.list .entry').first().find('.text-link').text(), list[0].text, 'The listBox instance has set the right bottom text in the first entry');
+        assert.equal(instance.getContainer().find('.list .entry').length, list.length, 'The listBox instance has rendered the list of boxes');
+        assert.equal(instance.getContainer().find('.list .entry').first().find('a').attr('href'), list[0].url, 'The listBox instance has set the right url in the first entry');
+        assert.equal(instance.getContainer().find('.list .entry').first().find('h3').text(), list[0].label, 'The listBox instance has set the right label in the first entry');
+        assert.equal(instance.getContainer().find('.list .entry').first().find('.content').html(), list[0].content, 'The listBox instance has set the content text in the first entry');
+        assert.equal(instance.getContainer().find('.list .entry').first().find('.text-link').text(), list[0].text, 'The listBox instance has set the right bottom text in the first entry');
 
-        assert.equal(instance.getDom().hasClass('empty'), false, 'The listBox instance does not display a message telling the list is empty');
-        assert.equal(instance.getDom().hasClass('loaded'), true, 'The listBox instance displays the number of boxes');
-        assert.equal(instance.getDom().hasClass('loading'), false, 'The listBox instance is not loading');
-        assert.equal(instance.getDom().find('.available-list .count').text(), list.length, 'The listBox instance dispkays the right number of boxes');
+        assert.equal(instance.getContainer().hasClass('empty'), false, 'The listBox instance does not display a message telling the list is empty');
+        assert.equal(instance.getContainer().hasClass('loaded'), true, 'The listBox instance displays the number of boxes');
+        assert.equal(instance.getContainer().hasClass('loading'), false, 'The listBox instance is not loading');
+        assert.equal(instance.getContainer().find('.available-list .count').text(), list.length, 'The listBox instance dispkays the right number of boxes');
 
         assert.equal(instance.is('empty'), false, 'The listBox instance does not have the state empty');
         assert.equal(instance.is('loaded'), true, 'The listBox instance has the state loaded');
@@ -189,17 +189,17 @@ define([
         assert.equal($component.length, 1, 'The listBox instance returns the rendered content');
 
         assert.equal(instance.is('hidden'), false, 'The listBox instance is visible');
-        assert.equal(instance.getDom().hasClass('hidden'), false, 'The listBox instance does not have the hidden class');
+        assert.equal(instance.getContainer().hasClass('hidden'), false, 'The listBox instance does not have the hidden class');
 
         instance.hide();
 
         assert.equal(instance.is('hidden'), true, 'The listBox instance is hidden');
-        assert.equal(instance.getDom().hasClass('hidden'), true, 'The listBox instance has the hidden class');
+        assert.equal(instance.getContainer().hasClass('hidden'), true, 'The listBox instance has the hidden class');
 
         instance.show();
 
         assert.equal(instance.is('hidden'), false, 'The listBox instance is visible');
-        assert.equal(instance.getDom().hasClass('hidden'), false, 'The listBox instance does not have the hidden class');
+        assert.equal(instance.getContainer().hasClass('hidden'), false, 'The listBox instance does not have the hidden class');
 
         instance.destroy();
     });
@@ -213,17 +213,17 @@ define([
         assert.equal($component.length, 1, 'The listBox instance returns the rendered content');
 
         assert.equal(instance.is('disabled'), false, 'The listBox instance is enabled');
-        assert.equal(instance.getDom().hasClass('disabled'), false, 'The listBox instance does not have the disabled class');
+        assert.equal(instance.getContainer().hasClass('disabled'), false, 'The listBox instance does not have the disabled class');
 
         instance.disable();
 
         assert.equal(instance.is('disabled'), true, 'The listBox instance is disabled');
-        assert.equal(instance.getDom().hasClass('disabled'), true, 'The listBox instance has the disabled class');
+        assert.equal(instance.getContainer().hasClass('disabled'), true, 'The listBox instance has the disabled class');
 
         instance.enable();
 
         assert.equal(instance.is('disabled'), false, 'The listBox instance is enabled');
-        assert.equal(instance.getDom().hasClass('disabled'), false, 'The listBox instance does not have the disabled class');
+        assert.equal(instance.getContainer().hasClass('disabled'), false, 'The listBox instance does not have the disabled class');
 
         instance.destroy();
     });
@@ -238,31 +238,31 @@ define([
 
         // loading
         assert.equal(instance.is('loading'), false, 'The listBox instance is not loading');
-        assert.equal(instance.getDom().hasClass('loading'), false, 'The listBox instance does not have the loading class');
+        assert.equal(instance.getContainer().hasClass('loading'), false, 'The listBox instance does not have the loading class');
 
         instance.setLoading(true);
 
         assert.equal(instance.is('loading'), true, 'The listBox instance is loading');
-        assert.equal(instance.getDom().hasClass('loading'), true, 'The listBox instance has the loading class');
+        assert.equal(instance.getContainer().hasClass('loading'), true, 'The listBox instance has the loading class');
 
         instance.setLoading(false);
 
         assert.equal(instance.is('loading'), false, 'The listBox instance is not loading');
-        assert.equal(instance.getDom().hasClass('loading'), false, 'The listBox instance does not have the loading class');
+        assert.equal(instance.getContainer().hasClass('loading'), false, 'The listBox instance does not have the loading class');
 
         // custom state
         assert.equal(instance.is('customState'), false, 'The listBox instance does not have the customState state');
-        assert.equal(instance.getDom().hasClass('customState'), false, 'The listBox instance does not have the customState class');
+        assert.equal(instance.getContainer().hasClass('customState'), false, 'The listBox instance does not have the customState class');
 
         instance.setState('customState', true);
 
         assert.equal(instance.is('customState'), true, 'The listBox instance has the customState state');
-        assert.equal(instance.getDom().hasClass('customState'), true, 'The listBox instance has the customState class');
+        assert.equal(instance.getContainer().hasClass('customState'), true, 'The listBox instance has the customState class');
 
         instance.setState('customState', false);
 
         assert.equal(instance.is('customState'), false, 'The listBox instance does not have the customState state');
-        assert.equal(instance.getDom().hasClass('customState'), false, 'The listBox instance does not have the customState class');
+        assert.equal(instance.getContainer().hasClass('customState'), false, 'The listBox instance does not have the customState class');
 
         instance.destroy();
     });
@@ -286,26 +286,26 @@ define([
         assert.notEqual(instance.config.textNumber, config.textNumber, 'The listBox instance has its own number label');
         assert.notEqual(instance.config.textLoading, config.textLoading, 'The listBox instance has its own loading message');
 
-        assert.notEqual(instance.getDom().find('h1').text(), config.title, 'The listBox instance has rendered a title with its own content');
-        assert.notEqual(instance.getDom().find('.empty-list').text(), config.textEmpty, 'The listBox instance has rendered a message to display when the list is empty, and set its own content');
-        assert.notEqual(instance.getDom().find('.available-list .label').text(), config.textNumber, 'The listBox instance has rendered a message to show the number of boxes, and set its own content');
-        assert.notEqual(instance.getDom().find('.loading').text(), config.textLoading + '...', 'The listBox instance has rendered a message to show when the component is in loading state, and set its own content');
+        assert.notEqual(instance.getContainer().find('h1').text(), config.title, 'The listBox instance has rendered a title with its own content');
+        assert.notEqual(instance.getContainer().find('.empty-list').text(), config.textEmpty, 'The listBox instance has rendered a message to display when the list is empty, and set its own content');
+        assert.notEqual(instance.getContainer().find('.available-list .label').text(), config.textNumber, 'The listBox instance has rendered a message to show the number of boxes, and set its own content');
+        assert.notEqual(instance.getContainer().find('.loading').text(), config.textLoading + '...', 'The listBox instance has rendered a message to show when the component is in loading state, and set its own content');
 
         instance.setTitle(config.title);
         assert.equal(instance.config.title, config.title, 'The listBox instance has taken the right title');
-        assert.equal(instance.getDom().find('h1').text(), config.title, 'The listBox instance has updated the title with the right content');
+        assert.equal(instance.getContainer().find('h1').text(), config.title, 'The listBox instance has updated the title with the right content');
 
         instance.setTextEmpty(config.textEmpty);
         assert.equal(instance.config.textEmpty, config.textEmpty, 'The listBox instance has the right empty list message');
-        assert.equal(instance.getDom().find('.empty-list').text(), config.textEmpty, 'The listBox instance has updated the message to display when the list is empty, and set the right content');
+        assert.equal(instance.getContainer().find('.empty-list').text(), config.textEmpty, 'The listBox instance has updated the message to display when the list is empty, and set the right content');
 
         instance.setTextNumber(config.textNumber);
         assert.equal(instance.config.textNumber, config.textNumber, 'The listBox instance has the right number label');
-        assert.equal(instance.getDom().find('.available-list .label').text(), config.textNumber, 'The listBox instance has updated the number label, and set the right content');
+        assert.equal(instance.getContainer().find('.available-list .label').text(), config.textNumber, 'The listBox instance has updated the number label, and set the right content');
 
         instance.setTextLoading(config.textLoading);
         assert.equal(instance.config.textLoading, config.textLoading, 'The listBox instance has the right loading label');
-        assert.equal(instance.getDom().find('.loading').text(), config.textLoading + '...', 'The listBox instance has updated the loading label, and set the right content');
+        assert.equal(instance.getContainer().find('.loading').text(), config.textLoading + '...', 'The listBox instance has updated the loading label, and set the right content');
 
         instance.destroy();
 
@@ -321,9 +321,9 @@ define([
         assert.equal(instance.config.textNumber, config.textNumber, 'The listBox instance has its own number label');
         assert.equal(instance.config.textLoading, config.textLoading, 'The listBox instance has its own loading message');
 
-        assert.equal(instance.getDom().find('h1').text(), config.title, 'The listBox instance has rendered a title with its own content');
-        assert.equal(instance.getDom().find('.empty-list').text(), config.textEmpty, 'The listBox instance has rendered a message to display when the list is empty, and set its own content');
-        assert.equal(instance.getDom().find('.available-list .label').text(), config.textNumber, 'The listBox instance has rendered a message to show the number of boxes, and set its own content');
-        assert.equal(instance.getDom().find('.loading').text(), config.textLoading + '...', 'The listBox instance has rendered a message to show when the component is in loading state, and set its own content');
+        assert.equal(instance.getContainer().find('h1').text(), config.title, 'The listBox instance has rendered a title with its own content');
+        assert.equal(instance.getContainer().find('.empty-list').text(), config.textEmpty, 'The listBox instance has rendered a message to display when the list is empty, and set its own content');
+        assert.equal(instance.getContainer().find('.available-list .label').text(), config.textNumber, 'The listBox instance has rendered a message to show the number of boxes, and set its own content');
+        assert.equal(instance.getContainer().find('.loading').text(), config.textLoading + '...', 'The listBox instance has rendered a message to show when the component is in loading state, and set its own content');
     });
 });

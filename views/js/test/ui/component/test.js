@@ -45,7 +45,7 @@ define([
         { name : 'disable', title : 'disable' },
         { name : 'is', title : 'is' },
         { name : 'setState', title : 'setState' },
-        { name : 'getDom', title : 'getDom' },
+        { name : 'getContainer', title : 'getContainer' },
         { name : 'getTemplate', title : 'getTemplate' },
         { name : 'setTemplate', title : 'setTemplate' }
     ];
@@ -112,14 +112,14 @@ define([
 
         assert.equal($container1.find('.dummy').length, 0, 'The container1 does not contain an element of the class dummy');
         assert.equal(instance.is('rendered'), true, 'The component instance must be rendered');
-        assert.equal(typeof instance.getDom(), 'object', 'The component instance returns the rendered content as an object');
-        assert.equal(instance.getDom().length, 1, 'The component instance returns the rendered content');
-        assert.equal(instance.getDom().parent().get(0), $container1.get(0), 'The component instance is rendered inside the right container');
+        assert.equal(typeof instance.getContainer(), 'object', 'The component instance returns the rendered content as an object');
+        assert.equal(instance.getContainer().length, 1, 'The component instance returns the rendered content');
+        assert.equal(instance.getContainer().parent().get(0), $container1.get(0), 'The component instance is rendered inside the right container');
 
         instance.destroy();
 
         assert.equal($container1.children().length, 0, 'The container1 is now empty');
-        assert.equal(instance.getDom(), null, 'The component instance has removed its rendered content');
+        assert.equal(instance.getContainer(), null, 'The component instance has removed its rendered content');
 
         // explicit render
         assert.equal($container2.children().length, 1, 'The container2 already contains an element');
@@ -131,15 +131,15 @@ define([
 
         assert.equal($container2.find('.dummy').length, 1, 'The container2 contains an element of the class dummy');
         assert.equal(instance.is('rendered'), true, 'The component instance must be rendered');
-        assert.equal(typeof instance.getDom(), 'object', 'The component instance returns the rendered content as an object');
-        assert.equal(instance.getDom().length, 1, 'The component instance returns the rendered content');
-        assert.equal(instance.getDom().parent().get(0), $container2.get(0), 'The component instance is rendered inside the right container');
+        assert.equal(typeof instance.getContainer(), 'object', 'The component instance returns the rendered content as an object');
+        assert.equal(instance.getContainer().length, 1, 'The component instance returns the rendered content');
+        assert.equal(instance.getContainer().parent().get(0), $container2.get(0), 'The component instance is rendered inside the right container');
 
         instance.destroy();
 
         assert.equal($container2.children().length, 1, 'The component has beend removed from the container2');
         assert.equal($container2.find('.dummy').length, 1, 'The container2 contains an element of the class dummy');
-        assert.equal(instance.getDom(), null, 'The component instance has removed its rendered content');
+        assert.equal(instance.getContainer(), null, 'The component instance has removed its rendered content');
 
         instance = component().init();
         instance.setTemplate(template);
@@ -150,15 +150,15 @@ define([
         instance.render($container3);
 
         assert.equal(instance.is('rendered'), true, 'The component instance must be rendered');
-        assert.equal(typeof instance.getDom(), 'object', 'The component instance returns the rendered content as an object');
-        assert.equal(instance.getDom().length, 1, 'The component instance returns the rendered content');
-        assert.equal(instance.getDom().parent().get(0), $container3.get(0), 'The component instance is rendered inside the right container');
+        assert.equal(typeof instance.getContainer(), 'object', 'The component instance returns the rendered content as an object');
+        assert.equal(instance.getContainer().length, 1, 'The component instance returns the rendered content');
+        assert.equal(instance.getContainer().parent().get(0), $container3.get(0), 'The component instance is rendered inside the right container');
         assert.equal($container3.html(), renderedTemplate, 'The component instance has rendered the right content');
 
         instance.destroy();
 
         assert.equal($container3.children().length, 0, 'The container1 is now empty');
-        assert.equal(instance.getDom(), null, 'The component instance has removed its rendered content');
+        assert.equal(instance.getContainer(), null, 'The component instance has removed its rendered content');
     });
 
 
@@ -170,17 +170,17 @@ define([
         assert.equal($component.length, 1, 'The component instance returns the rendered content');
 
         assert.equal(instance.is('hidden'), false, 'The component instance is visible');
-        assert.equal(instance.getDom().hasClass('hidden'), false, 'The component instance does not have the hidden class');
+        assert.equal(instance.getContainer().hasClass('hidden'), false, 'The component instance does not have the hidden class');
 
         instance.hide();
 
         assert.equal(instance.is('hidden'), true, 'The component instance is hidden');
-        assert.equal(instance.getDom().hasClass('hidden'), true, 'The component instance has the hidden class');
+        assert.equal(instance.getContainer().hasClass('hidden'), true, 'The component instance has the hidden class');
 
         instance.show();
 
         assert.equal(instance.is('hidden'), false, 'The component instance is visible');
-        assert.equal(instance.getDom().hasClass('hidden'), false, 'The component instance does not have the hidden class');
+        assert.equal(instance.getContainer().hasClass('hidden'), false, 'The component instance does not have the hidden class');
 
         instance.destroy();
     });
@@ -194,17 +194,17 @@ define([
         assert.equal($component.length, 1, 'The component instance returns the rendered content');
 
         assert.equal(instance.is('disabled'), false, 'The component instance is enabled');
-        assert.equal(instance.getDom().hasClass('disabled'), false, 'The component instance does not have the disabled class');
+        assert.equal(instance.getContainer().hasClass('disabled'), false, 'The component instance does not have the disabled class');
 
         instance.disable();
 
         assert.equal(instance.is('disabled'), true, 'The component instance is disabled');
-        assert.equal(instance.getDom().hasClass('disabled'), true, 'The component instance has the disabled class');
+        assert.equal(instance.getContainer().hasClass('disabled'), true, 'The component instance has the disabled class');
 
         instance.enable();
 
         assert.equal(instance.is('disabled'), false, 'The component instance is enabled');
-        assert.equal(instance.getDom().hasClass('disabled'), false, 'The component instance does not have the disabled class');
+        assert.equal(instance.getContainer().hasClass('disabled'), false, 'The component instance does not have the disabled class');
 
         instance.destroy();
     });
@@ -218,17 +218,17 @@ define([
         assert.equal($component.length, 1, 'The component instance returns the rendered content');
 
         assert.equal(instance.is('customState'), false, 'The component instance does not have the customState state');
-        assert.equal(instance.getDom().hasClass('customState'), false, 'The component instance does not have the customState class');
+        assert.equal(instance.getContainer().hasClass('customState'), false, 'The component instance does not have the customState class');
 
         instance.setState('customState', true);
 
         assert.equal(instance.is('customState'), true, 'The component instance has the customState state');
-        assert.equal(instance.getDom().hasClass('customState'), true, 'The component instance has the customState class');
+        assert.equal(instance.getContainer().hasClass('customState'), true, 'The component instance has the customState class');
 
         instance.setState('customState', false);
 
         assert.equal(instance.is('customState'), false, 'The component instance does not have the customState state');
-        assert.equal(instance.getDom().hasClass('customState'), false, 'The component instance does not have the customState class');
+        assert.equal(instance.getContainer().hasClass('customState'), false, 'The component instance does not have the customState class');
 
         instance.destroy();
     });
@@ -273,7 +273,7 @@ define([
 
             onrender : function($dom, ins) {
                 assert.ok(true, 'The component instance triggers event when it is rendered (handler set in config)');
-                assert.equal($dom, instance.getDom(), 'The render event comes with rendered content as parameter');
+                assert.equal($dom, instance.getContainer(), 'The render event comes with rendered content as parameter');
                 assert.equal(ins, instance, 'The render event comes with instance as parameter');
                 QUnit.start();
             },

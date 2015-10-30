@@ -38,6 +38,8 @@ define([
         // the template is a private property
         var componentTpl = defaultTpl;
 
+        var componentState;
+
         // base skeleton
         var componentApi = {
             /**
@@ -59,7 +61,7 @@ define([
                     return omit;
                 });
                 _.defaults(this.config, defaults || {});
-                this.config.is = {};
+                componentState = {};
 
                 /**
                  * Executes extra init tasks
@@ -92,7 +94,7 @@ define([
                 }
 
                 this.$component = null;
-                this.config.is = {};
+                componentState = {};
 
                 return this;
             },
@@ -167,7 +169,7 @@ define([
              * @returns {Boolean}
              */
             is : function is(state) {
-                return !!this.config.is[state];
+                return !!componentState[state];
             },
 
             /**
@@ -177,7 +179,7 @@ define([
              * @returns {component}
              */
             setState : function setState(state, flag) {
-                this.config.is[state] = !!flag;
+                componentState[state] = !!flag;
 
                 if (this.$component) {
                     this.$component.toggleClass(state, !!flag);
@@ -190,7 +192,7 @@ define([
              * Gets the underlying DOM element
              * @returns {jQuery}
              */
-            getDom : function getDom() {
+            getContainer : function getDom() {
                 return this.$component;
             },
 
