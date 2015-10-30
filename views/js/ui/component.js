@@ -136,6 +136,13 @@ define([
              * @returns {component}
              */
             show : function show() {
+                /**
+                 * Executes extra tasks on show
+                 * @event component#show
+                 * @param {component} component
+                 */
+                this.trigger('show', this);
+
                 return this.setState('hidden', false);
             },
 
@@ -144,6 +151,13 @@ define([
              * @returns {component}
              */
             hide : function hide() {
+                /**
+                 * Executes extra tasks on hide
+                 * @event component#hide
+                 * @param {component} component
+                 */
+                this.trigger('hide', this);
+
                 return this.setState('hidden', true);
             },
 
@@ -152,6 +166,13 @@ define([
              * @returns {component}
              */
             enable : function enable() {
+                /**
+                 * Executes extra tasks on enable
+                 * @event component#enable
+                 * @param {component} component
+                 */
+                this.trigger('enable', this);
+
                 return this.setState('disabled', false);
             },
 
@@ -160,6 +181,13 @@ define([
              * @returns {component}
              */
             disable : function disable() {
+                /**
+                 * Executes extra tasks on disable
+                 * @event component#disable
+                 * @param {component} component
+                 */
+                this.trigger('disable', this);
+
                 return this.setState('disabled', true);
             },
 
@@ -179,11 +207,21 @@ define([
              * @returns {component}
              */
             setState : function setState(state, flag) {
-                componentState[state] = !!flag;
+                flag = !!flag;
+                componentState[state] = flag;
 
                 if (this.$component) {
-                    this.$component.toggleClass(state, !!flag);
+                    this.$component.toggleClass(state, flag);
                 }
+
+                /**
+                 * Executes extra tasks on state change
+                 * @event component#state
+                 * @param {String} state
+                 * @param {Boolean} flag
+                 * @param {component} component
+                 */
+                this.trigger('state', state, flag, this);
 
                 return this;
             },
@@ -192,7 +230,7 @@ define([
              * Gets the underlying DOM element
              * @returns {jQuery}
              */
-            getContainer : function getDom() {
+            getContainer : function getContainer() {
                 return this.$component;
             },
 
@@ -219,6 +257,14 @@ define([
                         return tpl;
                     }
                 }
+
+                /**
+                 * Executes extra tasks on template change
+                 * @event component#template
+                 * @param {function} componentTpl
+                 * @param {component} component
+                 */
+                this.trigger('template', componentTpl, this);
 
                 return this;
             }
