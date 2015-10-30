@@ -30,6 +30,7 @@ define([
     'use strict';
 
     //start the history polyfill, see https://github.com/devote/HTML5-History-API (a getter should trigger it)
+    var historyRouter;
     var location = window.history.location || window.location;
 
 
@@ -41,16 +42,19 @@ define([
      * var router = historyRouter();
      * router.trigger('dispatch', url);
      *
-     * @returns {historyRouter} the router
+     * @returns {historyRouter} the router (same instance)
      */
     var historyRouterFactory = function historyRouterFactory(){
 
+        if(historyRouter){
+            return historyRouter;
+        }
 
         /**
          * @typedef historyRouter
-         * @see core/eventifierj
+         * @see core/eventifier
          */
-        var historyRouter =  eventifier({
+        historyRouter =  eventifier({
 
             /**
              * Dispatch manually and replace the current state if necessary
@@ -94,7 +98,7 @@ define([
         });
 
         //back & forward button, and push state
-        $(window).off('popstate').on('popstate', function (event) {
+        $(window).on('popstate', function (event) {
             historyRouter.dispatch(history.state);
         });
 
