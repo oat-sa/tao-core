@@ -47,7 +47,17 @@ define([
              * @param {Object} config
              * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
              * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
+             * @param {Function} [config.oninit] - Bind an event handler to the init event
+             * @param {Function} [config.ondestroy] - Bind an event handler to the destroy event
+             * @param {Function} [config.onrender] - Bind an event handler to the render event
+             * @param {Function} [config.onshow] - Bind an event handler to the show event
+             * @param {Function} [config.onhide] - Bind an event handler to the hide event
+             * @param {Function} [config.onenable] - Bind an event handler to the enable event
+             * @param {Function} [config.ondisable] - Bind an event handler to the disable event
+             * @param {Function} [config.onstate] - Bind an event handler to the state event
+             * @param {Function} [config.ontemplate] - Bind an event handler to the template event
              * @returns {component}
+             * @fires component#init
              */
             init : function init(config) {
                 var self = this;
@@ -80,6 +90,7 @@ define([
             /**
              * Uninstalls the component
              * @returns {component}
+             * @fires component#destroy
              */
             destroy : function destroy() {
                 /**
@@ -103,6 +114,7 @@ define([
              * Renders the component
              * @param {jQuery|HTMLElement|String} [to]
              * @returns {jQuery}
+             * @fires component#render
              */
             render : function render(to) {
                 var renderTo = to || this.config.renderTo;
@@ -134,6 +146,7 @@ define([
             /**
              * Shows the component
              * @returns {component}
+             * @fires component#show
              */
             show : function show() {
                 /**
@@ -149,6 +162,7 @@ define([
             /**
              * Hides the component
              * @returns {component}
+             * @fires component#hide
              */
             hide : function hide() {
                 /**
@@ -164,6 +178,7 @@ define([
             /**
              * Enables the component
              * @returns {component}
+             * @fires component#enable
              */
             enable : function enable() {
                 /**
@@ -179,6 +194,7 @@ define([
             /**
              * Disables the component
              * @returns {component}
+             * @fires component#disable
              */
             disable : function disable() {
                 /**
@@ -205,6 +221,7 @@ define([
              * @param {String} state
              * @param {Boolean} flag
              * @returns {component}
+             * @fires component#state
              */
             setState : function setState(state, flag) {
                 flag = !!flag;
@@ -246,6 +263,7 @@ define([
              * Sets the template used to render this component
              * @param {Function} template
              * @returns {componentApi}
+             * @fires component#template
              */
             setTemplate : function setTemplate(template) {
                 var tpl = template || defaultTpl;
