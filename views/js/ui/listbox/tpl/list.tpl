@@ -1,6 +1,6 @@
 <ul class="list-box flex-grid plain">
     {{#each list}}
-    <li class="entry flex-col-{{#if width}}{{width}}{{else}}12{{/if}}">
+    <li class="entry flex-col-{{#if width}}{{width}}{{else}}{{#if ../../width}}{{../../../width}}{{else}}12{{/if}}{{/if}}">
         <a class="block box" href="{{url}}">
             <h3 class="title">{{label}}</h3>
             {{#if content}}<div class="content clearfix">{{{content}}}</div>{{/if}}

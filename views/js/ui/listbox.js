@@ -37,7 +37,8 @@ define([
         title : false,
         textNumber : __('Available'),
         textEmpty : __('There is nothing to list!'),
-        textLoading : __('Loading')
+        textLoading : __('Loading'),
+        width : 12
     };
 
     /**
@@ -64,8 +65,13 @@ define([
                 $list.empty();
 
                 if (list && list.length) {
-                    $list.append(listTpl({list : list}));
+                    $list.append(listTpl({
+                        list : list,
+                        width: this.config.width
+                    }));
+
                     $numberValue && $numberValue.text(list.length);
+
                     this.setState('empty', false);
                     this.setState('loaded', true);
                 } else {
@@ -175,6 +181,7 @@ define([
      * @param {String|Boolean} [config.textNumber] - Sets the label of the number of boxes. If the value is false no label is displayed (default: 'Available')
      * @param {String|Boolean} [config.textEmpty] - Sets the label displayed when there no boxes available. If the value is false no label is displayed (default: 'There is nothing to list!')
      * @param {String|Boolean} [config.textLoading] - Sets the label displayed when the list is loading. If the value is false no label is displayed (default: 'Loading')
+     * @param {Number} [config.width] - Sets the default width of all boxes, unless they define their own value. (default: 12)
      * @param {Array} [config.list] - The list of boxes to display
      * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before

@@ -99,11 +99,18 @@ define([
             textLoading: 'Please wait',
             renderTo: $container,
             replace: true,
+            width: 8,
             list: [{
                 url: 'http://localhost/test',
                 label: 'Test',
                 text: 'test',
                 content: '<b>TEST</b>'
+            }, {
+                url: 'http://localhost/test2',
+                label: 'Test2',
+                text: 'test2',
+                content: '<b>TEST2</b>',
+                width: 4
             }]
         };
         var instance;
@@ -126,10 +133,20 @@ define([
         assert.equal(instance.getContainer().find('.loading').text(), config.textLoading + '...', 'The listBox instance has rendered a message to show when the component is in loading state, and set the right content');
 
         assert.equal(instance.getContainer().find('.list .entry').length, config.list.length, 'The listBox instance has rendered the list of boxes');
+
+        // 1st
+        assert.equal(instance.getContainer().find('.list .entry').first().hasClass('flex-col-8'), true, 'The listBox instance has set the right flex width in the first entry');
         assert.equal(instance.getContainer().find('.list .entry').first().find('a').attr('href'), config.list[0].url, 'The listBox instance has set the right url in the first entry');
         assert.equal(instance.getContainer().find('.list .entry').first().find('h3').text(), config.list[0].label, 'The listBox instance has set the right label in the first entry');
         assert.equal(instance.getContainer().find('.list .entry').first().find('.content').html(), config.list[0].content, 'The listBox instance has set the content text in the first entry');
         assert.equal(instance.getContainer().find('.list .entry').first().find('.text-link').text(), config.list[0].text, 'The listBox instance has set the right bottom text in the first entry');
+
+        // 2nd
+        assert.equal(instance.getContainer().find('.list .entry').last().hasClass('flex-col-4'), true, 'The listBox instance has set the right flex width in the second entry');
+        assert.equal(instance.getContainer().find('.list .entry').last().find('a').attr('href'), config.list[1].url, 'The listBox instance has set the right url in the second entry');
+        assert.equal(instance.getContainer().find('.list .entry').last().find('h3').text(), config.list[1].label, 'The listBox instance has set the right label in the second entry');
+        assert.equal(instance.getContainer().find('.list .entry').last().find('.content').html(), config.list[1].content, 'The listBox instance has set the content text in the second entry');
+        assert.equal(instance.getContainer().find('.list .entry').last().find('.text-link').text(), config.list[1].text, 'The listBox instance has set the right bottom text in the second entry');
 
         instance.destroy();
 
@@ -163,6 +180,7 @@ define([
         instance.update(list);
 
         assert.equal(instance.getContainer().find('.list .entry').length, list.length, 'The listBox instance has rendered the list of boxes');
+        assert.equal(instance.getContainer().find('.list .entry').first().hasClass('flex-col-12'), true, 'The listBox instance has set the right flex width in the first entry');
         assert.equal(instance.getContainer().find('.list .entry').first().find('a').attr('href'), list[0].url, 'The listBox instance has set the right url in the first entry');
         assert.equal(instance.getContainer().find('.list .entry').first().find('h3').text(), list[0].label, 'The listBox instance has set the right label in the first entry');
         assert.equal(instance.getContainer().find('.list .entry').first().find('.content').html(), list[0].content, 'The listBox instance has set the content text in the first entry');
