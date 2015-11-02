@@ -110,7 +110,8 @@ define([
                 label: 'Test2',
                 text: 'test2',
                 content: '<b>TEST2</b>',
-                width: 4
+                width: 4,
+                cls: 'myclass'
             }]
         };
         var instance;
@@ -143,6 +144,7 @@ define([
 
         // 2nd
         assert.equal(instance.getContainer().find('.list .entry').last().hasClass('flex-col-4'), true, 'The listBox instance has set the right flex width in the second entry');
+        assert.equal(instance.getContainer().find('.list .entry').last().hasClass('myclass'), true, 'The listBox instance has set an extra CSS class in the second entry');
         assert.equal(instance.getContainer().find('.list .entry').last().find('a').attr('href'), config.list[1].url, 'The listBox instance has set the right url in the second entry');
         assert.equal(instance.getContainer().find('.list .entry').last().find('h3').text(), config.list[1].label, 'The listBox instance has set the right label in the second entry');
         assert.equal(instance.getContainer().find('.list .entry').last().find('.content').html(), config.list[1].content, 'The listBox instance has set the content text in the second entry');

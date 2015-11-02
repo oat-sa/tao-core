@@ -53,7 +53,8 @@ define([
          * @param {String} [list.label] - The displayed label
          * @param {String} [list.content] - An optional content displayed in the middle
          * @param {String} [list.text] - A bottom text
-         * @param {String} [list.width] - The width of the entry related to flex-grid (default: 6)
+         * @param {Number} [list.width] - The width of the entry related to flex-grid (default: 6)
+         * @param {String} [list.cls] - An optional CSS class to add
          * @returns {listBox}
          */
         update : function update(list) {
