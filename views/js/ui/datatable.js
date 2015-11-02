@@ -86,7 +86,6 @@ define([
          * @param {Function} options.listeners.xxx - the callback function for event xxx, parameters depends to event trigger call.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
          * @param {Boolean} options.selectbyclick - enables the selection of rows by clicking on them.
-         * @param {Boolean} options.transformable - enables use custom transform handlers, defined in model
          * @param {Object} options.data - inject predefined data to avoid the first query.
          * @param {Object} options.tools - a list of tool buttons to display above the table
          * @param {Object|Boolean} options.status - allow to display a status bar
@@ -210,6 +209,9 @@ define([
             var $massActionBtns = $();
             var $rows;
             var amount;
+            var join = function join(input) {
+                return typeof input !== 'object' ? input : input.join(', ');
+            };
 
             dataset = dataset || {};
 
@@ -220,15 +222,16 @@ define([
                 }
             });
 
-            // Add the model to the data set for the tpl
-            dataset.model = options.model;
-
             // overrides column options
-            _.each(dataset.model, function (field) {
+            _.each(options.model, function (field) {
                 field.filterable = !!(field.filterable && options.filter); // disable column filter if filtering turned off globally
+                if (field.transform) {
+                    field.transform = typeof field.transform === 'function' ? field.transform : join;
+                }
             });
 
             // Forward options to the data set
+            dataset.model = options.model;
             dataset.selectable = !!options.selectable;
             dataset.filter = options.filter;
 
@@ -239,18 +242,15 @@ define([
                 options = this._sortOptions($elt, dataset.sortby, dataset.sortorder);
             }
 
-            if (options.transformable) {
-                // process data by model rules
+            // process data by model rules
+            if (_.some(options.model, 'transform')) {
+                var transforms = _.where(options.model, 'transform');
                 _.each(dataset.data, function (row) {
-                    _.each(row, function (field, index, collection) {
-                        var model = _.findWhere(options.model, {'id': index});
-                        if (model && model.transform && typeof model.transform === 'function') {
-                            collection[index] = model.transform(field);
-                        } else if (typeof field === 'object') {
-                            collection[index] = field.join(', ');
-                        }
+                    _.each(transforms, function (field) {
+                        row[field.id] = field.transform(row[field.id]);
                     });
                 });
+
             }
 
             /**
@@ -390,7 +390,7 @@ define([
 
                     // set value to filter field
                     if (options.filterquery) {
-                        if (column == filterColumns.join()) {
+                        if (column === filterColumns.join()) {
                             $filterInput.val(options.filterquery).addClass('focused');
                         }
                     }
@@ -561,15 +561,15 @@ define([
          * Query filtered list of items
          *
          * @param {jQueryElement} $elt - plugin's element
-         * @param {String} query - the filter query
+         * @param {String} $filter - the filter input
          * @param {String[]} columns - list of columns in which will be done search
          * @fires dataTable#filter.datatable
          * @fires dataTable#sort.datatable
          * @private
          */
-        _filter: function _filter($elt, query, columns) {
+        _filter: function _filter($elt, $filter, columns) {
             var options = $elt.data(dataNs);
-            var query = $('input', query).val();
+            var query = $('input', $filter).val();
 
             //set the filter
             if (!_.isObject(options.filter)) {
