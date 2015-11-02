@@ -62,7 +62,8 @@ define([
              * @param {String} state.url - if the state is an object, then it must have an URL to dispatch
              * @param {Boolean} [replace = false] - if we replace the current state
              *
-             * @fires historyRouter#dispatched once done
+             * @fires historyRouter#dispatching before dispatch
+             * @fires historyRouter#dispatched  once dispatch succeed
              */
             dispatch : function dispatch(state, replace){
                 var self = this;
@@ -72,6 +73,8 @@ define([
                 if(!state || !state.url){
                     return;
                 }
+
+               self.trigger('dispatching', state.url);
 
                 if(replace === true){
                     history.replaceState(state, '', state.url);
