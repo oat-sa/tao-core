@@ -187,11 +187,6 @@ class Layout{
         $contentTemplate['ext']  = $templateData[1] ? $templateData[1] : 'tao';
         return $contentTemplate;
     }
-
-    private static function isThemingEnabled() {
-        $extManager = \common_ext_ExtensionsManager::singleton();
-        return $extManager->isInstalled('taoThemingPlatform') && $extManager->isEnabled('taoThemingPlatform');
-    }
     
     /**
      * Get the logo URL.

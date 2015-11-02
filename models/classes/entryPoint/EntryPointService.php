@@ -25,7 +25,6 @@ use \common_Logger;
 use oat\tao\helpers\Template;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\menu\MenuService;
-use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\Entrypoint;
 use oat\oatbox\service\ServiceManager;
 
@@ -78,18 +77,20 @@ class EntryPointService extends ConfigurableService
     }
     
     /**
-     * Add and activate an Entrypoint
+     * Add an Entrypoint and activate it if a target is specified
      * 
      * @param Entrypoint $e
      * @param string $target
      */
-    public function addEntryPoint(Entrypoint $e, $target)
+    public function addEntryPoint(Entrypoint $e, $target = null)
     {
         $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
         $entryPoints[$e->getId()] = $e;
         $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
 
-        $this->activateEntryPoint($e->getId(), $target);
+        if (!is_null($target)) {
+            $this->activateEntryPoint($e->getId(), $target);
+        }
     }
     
     /**

@@ -17,6 +17,7 @@
  * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+use oat\tao\helpers\DateIntervalMS;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
@@ -36,6 +37,7 @@ class DurationHelperTest extends TaoPhpUnitTestRunner {
         return array(
             array('00:00:00', 'PT0H0M0S'),
             array('01:34:28', 'PT1H34M28S'),
+            array('01:34:28.012345', 'PT1H34M28.012345S'),
             array('', 'PT0S'),
             array(null, 'PT0S')
         );
@@ -60,7 +62,8 @@ class DurationHelperTest extends TaoPhpUnitTestRunner {
     public function intervalToTimeProvider(){
         return array(
             array(new DateInterval('PT0H0M0S'), '00:00:00'),
-            array(new DateInterval('PT1H34M28S'), '01:34:28')
+            array(new DateInterval('PT1H34M28S'), '01:34:28'),
+            array(new DateIntervalMS('PT1H34M28.012345S'), '01:34:28.012345'),
         );
     }
     
@@ -84,6 +87,7 @@ class DurationHelperTest extends TaoPhpUnitTestRunner {
         return array(
             array('PT0H0M0S', '00:00:00'),
             array('PT1H34M28S', '01:34:28'),
+            array('PT1H34M28.012345S', '01:34:28.012345'),
             array('', null),
             array(null, null)
         );

@@ -1,6 +1,8 @@
 <?php
 use oat\tao\helpers\Template;
-/*  
+use oat\tao\helpers\TreeHelper;
+
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -49,7 +51,7 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 		
 		$values = $resource->getPropertyValues($property);
 		$tree->setData('values', $values);
-		$openNodeUris = tao_models_classes_GenerisTreeFactory::getNodesToOpen($values, $range); 
+		$openNodeUris = TreeHelper::getNodesToOpen($values, $range);
 		$tree->setData('openNodes',		$openNodeUris);
 		return $tree;
 	}
@@ -77,7 +79,7 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
     		), array('recursive' => true, 'like' => false)));
     		
     		$tree->setData('values', $values);
-    		$openNodeUris = tao_models_classes_GenerisTreeFactory::getNodesToOpen($values, $domain); 
+    		$openNodeUris = TreeHelper::getNodesToOpen($values, $domain);
     		$tree->setData('openNodes',		$openNodeUris);
 		}
 		return $tree;

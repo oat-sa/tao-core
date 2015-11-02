@@ -29,10 +29,11 @@ namespace oat\tao\model\routing;
 class NamespaceRoute extends Route
 {
     public function resolve($relativeUrl) {
-        list ($first, $rest) = explode('/', $relativeUrl, 2);
-        if ($first == $this->getId()) {
+        $slash = strpos($relativeUrl, '/');
+        if ($slash !== false && substr($relativeUrl, 0, $slash) == $this->getId()) {
 	        $namespace = $this->getConfig();
-            if (!empty($rest)) {
+	        $rest = substr($relativeUrl, $slash+1);
+	        if (!empty($rest)) {
                 $parts = explode('/', $rest, 3);
                 $controller = rtrim($namespace, '\\').'\\'.$parts[0];
                 //todo

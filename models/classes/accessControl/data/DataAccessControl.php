@@ -75,9 +75,8 @@ class DataAccessControl implements AccessControl
      * @return boolean
      */
     static public function hasPrivileges(User $user, array $required) {
-        foreach (array_keys($required) as $resourceId) {
-            $right = $required[$resourceId];
-            if ($right == 'WRITE' && !self::hasWritePrivilege($user, $resourceId)) {
+        foreach ($required as $resourceId=>$right) {
+            if ($right === 'WRITE' && !self::hasWritePrivilege($user, $resourceId)) {
                 common_Logger::d('User \''.$user->getIdentifier().'\' does not have lock for resource \''.$resourceId.'\'');
                 return false;
             }

@@ -636,8 +636,8 @@ define([
                 if(node.count){
                     node.attributes['data-count'] = node.count;
 
-                    if(node.count > pageRange && node.children){
-                       node.children.push(moreNode);
+                    if (node.children && node.count > node.children.length) {
+                        node.children.push(moreNode);
                     }
                 }
                 if(node.children){
