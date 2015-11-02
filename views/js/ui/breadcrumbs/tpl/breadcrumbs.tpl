@@ -1,13 +1,13 @@
-<ul class="breadcrumbs">
+<ul class="breadcrumbs plain">
     {{#each breadcrumbs}}
-    <li data-breadcrumb="{{id}}">
+    <li class="breadcrumb" data-breadcrumb="{{id}}">
         {{#if url}}
         <a href="{{url}}">{{label}}{{#if data}} - {{data}}{{/if}}</a>
         {{else}}
         <span class="a">{{label}}{{#if data}} - {{data}}{{/if}}</span>
         {{/if}}
         {{#if entries}}
-        <ul class="entries">
+        <ul class="entries plain">
             {{#each entries}}
             <li data-breadcrumb="{{id}}">
                 <a href="{{url}}">{{label}}{{#if data}} - {{data}}{{/if}}</a>

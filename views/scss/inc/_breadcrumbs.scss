@@ -9,25 +9,38 @@
   margin: 0;
   list-style: none;
 
-  li {
+  li.breadcrumb {
     display: inline-block;
     position: relative;
+
+    &:not(:first-child):before {
+      @include tao-icon-setup;
+      @include icon-right();
+      padding: 0 4px 0 9px;
+    }
 
     ul {
       display: none;
       position: absolute;
-      top: 1rem;
+      top: 0;
       left: 0;
+      padding: 1.6rem 1rem 1rem 0;
+      @include simple-border();
+      border-top: none;
+
+      li {
+        white-space: nowrap;
+
+        &:before {
+          @include tao-icon-setup;
+          @include icon-right();
+          padding: 0 4px 0 8px;
+        }
+      }
     }
 
     &:hover ul {
-      display: inline-block;
+      display: block;
     }
-  }
-
-  li:not(:first-child):before {
-    @include tao-icon-setup;
-    @include icon-right();
-    padding: 0 4px 0 8px;
   }
 }
