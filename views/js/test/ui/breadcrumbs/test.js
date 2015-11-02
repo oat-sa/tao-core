@@ -98,6 +98,7 @@ define([
         }]
     }, {
         id: 'current',
+        url: 'http://localhost/current',
         label: 'Current',
         data: 'context'
     }];
@@ -121,6 +122,7 @@ define([
         }]
     }, {
         id: 'other',
+        url: 'http://localhost/other',
         label: 'Other',
         data: 'context'
     }];

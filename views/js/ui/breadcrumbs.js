@@ -47,6 +47,14 @@ define([
             var $component;
 
             this.config.breadcrumbs = breadcrumbs;
+
+            /**
+             * Notifies the update
+             * @event breadcrumbs#update
+             * @param {breadcrumbs} breadcrumbs
+             */
+            this.trigger('update', breadcrumbs, this);
+
             $component = this.render();
 
             if ($oldComponent) {
@@ -62,6 +70,19 @@ define([
     };
 
     /**
+     * Remove the link from the last crumb
+     */
+    var removeLastLink = function() {
+        var breadcrumbs = this.config.breadcrumbs;
+
+        if (breadcrumbs && breadcrumbs.length) {
+            breadcrumbs = _.cloneDeep(this.config.breadcrumbs);
+            breadcrumbs[breadcrumbs.length - 1].url = null;
+            this.config.breadcrumbs = breadcrumbs;
+        }
+    };
+
+    /**
      * Builds an instance of the breadcrumbs component
      * @param {Object} config
      * @param {Array} [config.breadcrumbs] - The list of entries to display
@@ -72,6 +93,10 @@ define([
     var breadcrumbsFactory = function breadcrumbsFactory(config) {
         var instance = component(breadcrumbs);
         instance.setTemplate(breadcrumbsTpl);
+
+        instance.on('init', removeLastLink);
+        instance.on('update', removeLastLink);
+
         return instance.init(config);
     };
 
