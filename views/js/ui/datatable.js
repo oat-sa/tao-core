@@ -439,7 +439,7 @@ define([
             // Add the sorted class to the sorted element and the order class
             $sortElement.addClass('sorted').addClass('sorted_'+options.sortorder);
 
-            if (dataset.page === 1) {
+            if (!dataset.page || dataset.page === 1) {
                 $backwardBtn.attr('disabled', '');
             } else {
                 $backwardBtn.removeAttr('disabled');
