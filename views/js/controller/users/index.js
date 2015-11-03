@@ -57,7 +57,6 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
             //initialize the user manager component
             $userList.datatable({
                 url: helpers._url('data', 'Users', 'tao'),
-                filter: true,
                 actions: {
                     'edit': editUser,
                     'remove': removeUser
