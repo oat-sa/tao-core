@@ -8,12 +8,14 @@
         margin: 10px 0;
     }
     .filter {
-        float: right;
         display: inline-block;
         position: relative;
+        text-align: right;
+        width: 100%;
+        margin-bottom: 10px;
         input {
             padding-right: 30px;
-            min-width: 250px !important;
+            min-width: 250px;
         }
         button {
             position: absolute;
@@ -28,18 +30,37 @@
                 color: #666;
             }
         }
+        &.column {
+            float: none;
+            input {
+                min-width: inherit;
+            }
+        }
+    }
+    .pagination {
+        &.bottom {
+            margin-top: 20px;
+        }
     }
 }
 .datatable-container {
     overflow-y: auto;
 }
 table.datatable{
+    &.matrix {
+        th {
+            vertical-align: top;
+        }
+        tr.selected {
+            background: $lightBlueGrey;
+        }
+    }
     th{
         cursor: not-allowed;
-        &[data-sort-by]{
+        [data-sort-by]{
             cursor: pointer;
         }
-        &.sorted{
+        .sorted{
             &:after{
                 float:right;
             }
@@ -51,6 +72,11 @@ table.datatable{
                 @include tao-icon-setup;
                 @include icon-up;
             }
+        }
+    }
+    tr{
+        &.selected {
+            background: $lightBlueGrey;
         }
     }
     th,

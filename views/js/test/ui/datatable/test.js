@@ -1,5 +1,6 @@
 define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], function($, dataset){
-    
+
+    "use strict";
     
     QUnit.module('DataTable Test');
    
@@ -35,9 +36,9 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
-            assert.equal($elt.find('.datatable thead th:eq(1)').text(), 'Login', 'the login label is created');
-            assert.equal($elt.find('.datatable thead th:eq(2)').text(), 'Name', 'the name label is created');
-            assert.equal($elt.find('.datatable thead th:eq(1)').data('sort-by'), 'login', 'the login col is sortable');
+            assert.equal($elt.find('.datatable thead th:eq(1) div').text(), 'Login', 'the login label is created');
+            assert.equal($elt.find('.datatable thead th:eq(2) div').text(), 'Name', 'the name label is created');
+            assert.equal($elt.find('.datatable thead th:eq(1) div').data('sort-by'), 'login', 'the login col is sortable');
             QUnit.start();
         });
         $elt.on('query.datatable', function(event, ajaxConfig) {
@@ -69,7 +70,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -95,9 +96,9 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
-            assert.equal($elt.find('.datatable thead th:eq(1)').text(), 'Login', 'the login label is created');
-            assert.equal($elt.find('.datatable thead th:eq(2)').text(), 'Name', 'the name label is created');
-            assert.equal($elt.find('.datatable thead th:eq(1)').data('sort-by'), 'login', 'the login col is sortable');
+            assert.equal($elt.find('.datatable thead th:eq(1) div').text(), 'Login', 'the login label is created');
+            assert.equal($elt.find('.datatable thead th:eq(2) div').text(), 'Name', 'the name label is created');
+            assert.equal($elt.find('.datatable thead th:eq(1) div').data('sort-by'), 'login', 'the login col is sortable');
             QUnit.start();
         });
         $elt.on('query.datatable', function(event, ajaxConfig) {
@@ -113,7 +114,6 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
-            data: dataset,
             'model' : [{
                 id : 'login',
                 label : 'Login',
@@ -127,7 +127,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -139,7 +139,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Interface Language',
                 sortable : true
             }]
-        });
+        }, dataset);
     });
 
     QUnit.asyncTest('Data rendering', function(assert){
@@ -154,9 +154,9 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
-            assert.equal($elt.find('.datatable thead th:eq(1)').text(), 'Login', 'the login label is created');
-            assert.equal($elt.find('.datatable thead th:eq(2)').text(), 'Name', 'the name label is created');
-            assert.equal($elt.find('.datatable thead th:eq(1)').data('sort-by'), 'login', 'the login col is sortable');
+            assert.equal($elt.find('.datatable thead th:eq(1) div').text(), 'Login', 'the login label is created');
+            assert.equal($elt.find('.datatable thead th:eq(2) div').text(), 'Name', 'the name label is created');
+            assert.equal($elt.find('.datatable thead th:eq(1) div').data('sort-by'), 'login', 'the login col is sortable');
             QUnit.start();
         });
         $elt.on('query.datatable', function(event, ajaxConfig) {
@@ -176,7 +176,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             if (!renderCalled) {
                 renderCalled = true;
                 setTimeout(function() {
-                    $elt.datatable('render', dataset);
+                    $elt.datatable('render', response);
                 }, 1);
             }
         });
@@ -195,7 +195,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -240,7 +240,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -341,7 +341,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -407,7 +407,183 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Email',
                 sortable : true
             },{
-                id : 'role',
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            }]
+        });
+    });
+
+    QUnit.asyncTest('Selectable rows', function (assert) {
+        QUnit.expect(10);
+
+        var $elt = $('#container-1');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        $elt.on('create.datatable', function () {
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
+
+            $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
+        });
+
+        $elt.on('selected.datatable', function () {
+            assert.equal($elt.find('.datatable tbody tr.selected td:eq(0)').text(), 'jdoe', 'the login field in selected row is correct');
+            assert.equal($elt.find('.datatable tbody tr.selected td:eq(1)').text(), 'John Doe', 'the name field in selected row is correct');
+            assert.equal($elt.find('.datatable tbody tr.selected td:eq(2)').text(), 'jdoe@nowhere.org', 'the mail field in selected row is correct');
+            assert.equal($elt.find('.datatable tbody tr.selected td:eq(3)').text(), 'Items Manager', 'the roles field in selected row is correct');
+            assert.equal($elt.find('.datatable tbody tr.selected td:eq(4)').text(), 'English', 'the dataLg field in selected row is correct');
+            assert.equal($elt.find('.datatable tbody tr.selected td:eq(5)').text(), 'English', 'the guiLg field in selected row is correct');
+
+            QUnit.start();
+        });
+
+        $elt.datatable({
+            url : 'js/test/ui/datatable/data.json',
+            selectbyclick: true,
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            }],
+            listeners: {
+                selected: function () {
+                    assert.ok(true, 'the handler was attached and caused');
+                }
+            }
+        });
+    });
+
+    QUnit.asyncTest('Default filtering enabled', function (assert) {
+        QUnit.expect(7);
+
+        var $elt = $('#container-1');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        $elt.on('create.datatable', function () {
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
+            assert.ok($elt.find('.datatable-wrapper aside.filter').length, 'the filter is enabled');
+
+            $elt.find('.datatable-wrapper aside.filter input').val('abcdef');
+            $elt.find('.datatable-wrapper aside.filter button').trigger('click');
+        });
+
+        $elt.on('filter.datatable', function (event, options) {
+            assert.equal(options.filterquery, 'abcdef', 'the filter set right search query');
+            assert.deepEqual(options.filtercolumns, ["login", "name"], 'the filter set right columns');
+            setTimeout(function() {
+                assert.equal($elt.find('.datatable-wrapper aside.filter input').hasClass('focused'), true, 'the filter is focusable after refreshing');
+                QUnit.start();
+            }, 100);
+        });
+
+        $elt.datatable({
+            url : 'js/test/ui/datatable/data.json',
+            filter: {
+                columns: ['login', 'name']
+            },
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            }]
+        });
+    });
+
+    QUnit.asyncTest('Column filtering enabled', function (assert) {
+        QUnit.expect(8);
+
+        var $elt = $('#container-1');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        $elt.on('create.datatable', function () {
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
+            assert.equal($elt.find('.datatable thead th:eq(1) aside.filter').data('column'), 'login', 'the login col is filterable');
+            assert.equal($elt.find('.datatable thead th:eq(3) aside.filter').data('column'), 'email', 'the email col is filterable');
+
+            $elt.find('aside.filter[data-column="login"] input').val('abcdef');
+            $elt.find('aside.filter[data-column="login"] button').trigger('click');
+        });
+
+        $elt.on('filter.datatable', function (event, options) {
+            assert.equal(options.filtercolumns, 'login', 'the filter set right column');
+            assert.equal(options.filterquery, 'abcdef', 'the filter set right search query');
+            setTimeout(function() {
+                assert.equal($elt.find('aside.filter[data-column="login"] input').hasClass('focused'), true, 'the login column filter is focusable after refreshing');
+                QUnit.start();
+            }, 100);
+
+        });
+
+        $elt.datatable({
+            url : 'js/test/ui/datatable/data.json',
+            filter: true,
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true,
+                filterable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true,
+                filterable : true
+            },{
+                id : 'roles',
                 label :'Roles',
                 sortable : false
             },{
@@ -422,5 +598,3 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
         });
     });
 });
-
-
