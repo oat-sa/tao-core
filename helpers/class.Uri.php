@@ -246,16 +246,13 @@ class tao_helpers_Uri
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string uri
-     * @param  boolean dotMode
+     * @param  string $uri
+     * @param  boolean $dotMode
      * @return string
      */
     public static function decode($uri, $dotMode = true)
     {
-        $returnValue = (string) '';
-
-        
-		if (preg_match("/^http/", $uri)) {
+        if (0 === strpos($uri, 'http')) {
 			//return base64_decode($uri);
 			if ($dotMode) {
 				//$returnValue = urldecode(str_replace('__', '.', $uri));
