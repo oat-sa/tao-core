@@ -8,7 +8,7 @@
   .flex-col-#{$i} {
     @include simple-flex-box($i);
     $width: ((100/12)*$i) * 1%;
-    $margin: 10px;
+    $margin: 20px;
     margin-left: $margin;
     width: calc(#{$width} - #{$margin});
   }
