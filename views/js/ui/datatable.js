@@ -31,13 +31,11 @@ define([
     var dataNs = 'ui.' + ns;
 
     var defaults = {
-        'start': 0,
-        'rows': 25,
-        'page': 1,
-        'sortby': 'id',
-        'sortorder': 'asc',
-        'model': null,
-        'actions': null
+        start: 0,
+        rows: 25,
+        page: 1,
+        sortby: 'id',
+        sortorder: 'asc'
     };
 
     /**
@@ -77,26 +75,27 @@ define([
          * Initialize the plugin.
          *
          * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').datatable({});
+         * @example $('selector').datatable([], {});
          *
          * @constructor
-         * @param {Object} options - the plugin options
+         * @param {Object} options - the plugin options.
          * @param {String} options.url - the URL of the service used to retrieve the resources.
+         * @param {Object[]} options.model - the model definition.
          * @param {Function} options.actions.xxx - the callback function for items xxx, with a single parameter representing the identifier of the items.
          * @param {Function} options.listeners.xxx - the callback function for event xxx, parameters depends to event trigger call.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
          * @param {Boolean} options.selectbyclick - enables the selection of rows by clicking on them.
-         * @param {Object} options.data - inject predefined data to avoid the first query.
-         * @param {Object} options.tools - a list of tool buttons to display above the table
-         * @param {Object|Boolean} options.status - allow to display a status bar
-         * @param {Object|Boolean} options.filter - allow to display a filter bar
+         * @param {Object} options.tools - a list of tool buttons to display above the table.
+         * @param {Object} data - inject predefined data to avoid the first query.
+         * @param {Object|Boolean} options.status - allow to display a status bar.
+         * @param {Object|Boolean} options.filter - allow to display a filter bar.
          * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overridden by column filter.
-         * @param {String} options.filterquery - a query string for filtering, using only in runtime
-         * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime
+         * @param {String} options.filterquery - a query string for filtering, using only in runtime.
+         * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
-        init: function(options) {
+        init: function(options, data) {
 
             var self = dataTable;
             options = _.defaults(options, defaults);
@@ -116,8 +115,8 @@ define([
                         $elt.trigger('create.' + ns);
                     });
 
-                    if (options.data) {
-                        self._render($elt, options.data);
+                    if (data) {
+                        self._render($elt, data);
                     } else {
                         self._query($elt);
                     }
@@ -136,6 +135,7 @@ define([
          * @param {jQueryElement} $elt - plugin's element
          */
         _refresh : function($elt){
+            // TODO: refresh only rows with data, not all component
             this._query($elt);
         },
 
@@ -215,42 +215,26 @@ define([
 
             dataset = dataset || {};
 
-            // Add the list of custom actions to the data set for the tpl
-            _(['actions', 'tools', 'status', 'filter']).forEach(function(prop) {
-                if (options[prop]) {
-                    dataset[prop] = options[prop];
-                }
-            });
-
             // overrides column options
-            _.each(options.model, function (field) {
+            _.forEach(options.model, function (field) {
                 field.filterable = !!(field.filterable && options.filter); // disable column filter if filtering turned off globally
                 if (field.transform) {
-                    field.transform = typeof field.transform === 'function' ? field.transform : join;
+                    field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }
             });
 
-            // Forward options to the data set
-            dataset.model = options.model;
-            dataset.selectable = !!options.selectable;
-            dataset.filter = options.filter;
-
-            if (dataset.rows) {
-                options.rows = dataset.rows;
-            }
-            if (dataset.sortby) {
-                options = this._sortOptions($elt, dataset.sortby, dataset.sortorder);
+            if (options.sortby) {
+                options = this._sortOptions($elt, options.sortby, options.sortorder);
             }
 
             // process data by model rules
             if (_.some(options.model, 'transform')) {
                 var transforms = _.where(options.model, 'transform');
-                _.each(dataset.data, function (row) {
-                    _.each(transforms, function (field) {
+                _.forEach(dataset.data, function (row) {
+                    _.forEach(transforms, function (field) {
                         row[field.id] = field.transform(row[field.id]);
                     });
                 });
-
             }
 
             /**
@@ -260,7 +244,7 @@ define([
             $elt.trigger('beforeload.' + ns, [dataset]);
 
             // Call the rendering
-            $rendering = $(layout(dataset));
+            $rendering = $(layout({options: options, dataset: dataset}));
 
             // the readonly property contains an associative array where keys are the ids of the items (lines)
             // the value can be a boolean (true for disable buttons, false to enable)
@@ -329,7 +313,7 @@ define([
                         var $btn = $(this);
                         e.preventDefault();
                         if (!$btn.hasClass('disabled')) {
-                            action.apply($btn, [self._selection($elt)]);
+                            action.apply($btn, self._selection($elt));
                         }
                     });
             });
@@ -405,7 +389,7 @@ define([
                     $filterInput.off('keypress').on('keypress', function(e) {
                         if (e.which === 13) {
                             e.preventDefault();
-                            self._filter($elt, $filter, column ? [column] : options.filter.columns);
+                            self._filter($elt, $filter, column ? column.split(',') : options.filter.columns);
                         }
                     });
                 });
@@ -587,7 +571,7 @@ define([
              * @event dataTable#filter.datatable
              * @param {Object} options - The options list
              */
-            $elt.trigger('filter.' + ns, options);
+            $elt.trigger('filter.' + ns, [options]);
 
             /**
              * @event dataTable#sort.datatable
@@ -653,6 +637,7 @@ define([
 
             //rebind options to the elt
             $elt.data(dataNs, options);
+
             return options;
         },
 

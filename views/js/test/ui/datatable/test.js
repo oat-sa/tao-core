@@ -114,7 +114,6 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
-            data: dataset,
             'model' : [{
                 id : 'login',
                 label : 'Login',
@@ -140,7 +139,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 label : 'Interface Language',
                 sortable : true
             }]
-        });
+        }, dataset);
     });
 
     QUnit.asyncTest('Data rendering', function(assert){
