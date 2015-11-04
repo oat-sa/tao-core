@@ -35,10 +35,10 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
 
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
-            assert.equal($elt.find('.datatable thead th:eq(1) div').text(), 'Login', 'the login label is created');
-            assert.equal($elt.find('.datatable thead th:eq(2) div').text(), 'Name', 'the name label is created');
-            assert.equal($elt.find('.datatable thead th:eq(1) div').data('sort-by'), 'login', 'the login col is sortable');
+            assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
+            assert.equal($elt.find('.datatable thead th:eq(0) div').text(), 'Login', 'the login label is created');
+            assert.equal($elt.find('.datatable thead th:eq(1) div').text(), 'Name', 'the name label is created');
+            assert.equal($elt.find('.datatable thead th:eq(0) div').data('sort-by'), 'login', 'the login col is sortable');
             QUnit.start();
         });
         $elt.on('query.datatable', function(event, ajaxConfig) {
@@ -95,10 +95,10 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
 
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
-            assert.equal($elt.find('.datatable thead th:eq(1) div').text(), 'Login', 'the login label is created');
-            assert.equal($elt.find('.datatable thead th:eq(2) div').text(), 'Name', 'the name label is created');
-            assert.equal($elt.find('.datatable thead th:eq(1) div').data('sort-by'), 'login', 'the login col is sortable');
+            assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
+            assert.equal($elt.find('.datatable thead th:eq(0) div').text(), 'Login', 'the login label is created');
+            assert.equal($elt.find('.datatable thead th:eq(1) div').text(), 'Name', 'the name label is created');
+            assert.equal($elt.find('.datatable thead th:eq(0) div').data('sort-by'), 'login', 'the login col is sortable');
             QUnit.start();
         });
         $elt.on('query.datatable', function(event, ajaxConfig) {
@@ -153,10 +153,10 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
 
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
-            assert.equal($elt.find('.datatable thead th:eq(1) div').text(), 'Login', 'the login label is created');
-            assert.equal($elt.find('.datatable thead th:eq(2) div').text(), 'Name', 'the name label is created');
-            assert.equal($elt.find('.datatable thead th:eq(1) div').data('sort-by'), 'login', 'the login col is sortable');
+            assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
+            assert.equal($elt.find('.datatable thead th:eq(0) div').text(), 'Login', 'the login label is created');
+            assert.equal($elt.find('.datatable thead th:eq(1) div').text(), 'Name', 'the name label is created');
+            assert.equal($elt.find('.datatable thead th:eq(0) div').data('sort-by'), 'login', 'the login col is sortable');
             QUnit.start();
         });
         $elt.on('query.datatable', function(event, ajaxConfig) {
@@ -430,7 +430,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
 
         $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
+            assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
 
             $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
         });
@@ -490,7 +490,7 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
 
         $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
+            assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
             assert.ok($elt.find('.datatable-wrapper aside.filter').length, 'the filter is enabled');
 
             $elt.find('.datatable-wrapper aside.filter input').val('abcdef');
@@ -547,9 +547,9 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
 
         $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements (id included)');
-            assert.equal($elt.find('.datatable thead th:eq(1) aside.filter').data('column'), 'login', 'the login col is filterable');
-            assert.equal($elt.find('.datatable thead th:eq(3) aside.filter').data('column'), 'email', 'the email col is filterable');
+            assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
+            assert.equal($elt.find('.datatable thead th:eq(0) aside.filter').data('column'), 'login', 'the login col is filterable');
+            assert.equal($elt.find('.datatable thead th:eq(2) aside.filter').data('column'), 'email', 'the email col is filterable');
 
             $elt.find('aside.filter[data-column="login"] input').val('abcdef');
             $elt.find('aside.filter[data-column="login"] button').trigger('click');
