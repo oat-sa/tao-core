@@ -21,9 +21,7 @@ use oat\tao\model\websource\WebsourceManager;
  *
  */
 
-require_once '../generis/helpers/class.File.php';
-require_once '../tao/helpers/class.File.php';
-require_once '../tao/helpers/class.Http.php';
+require_once '../tao/includes/raw_start.php';
 
 $rel = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], '/getFile.php/') + strlen('/getFile.php/'));
 $parts = explode('/', $rel, 4);
