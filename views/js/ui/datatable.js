@@ -313,7 +313,7 @@ define([
                         var $btn = $(this);
                         e.preventDefault();
                         if (!$btn.hasClass('disabled')) {
-                            action.apply($btn, self._selection($elt));
+                            action.apply($btn, [self._selection($elt)]);
                         }
                     });
             });
@@ -333,6 +333,7 @@ define([
             $checkboxes = $rendering.find('td.checkboxes input');
 
             if (options.selectbyclick) {
+                $('table.datatable', $rendering).addClass('selectablebyclick');
                 $rendering.on('click', 'tbody td', function (e) {
                     // exclude from processing columns with actions
                     if (($(e.target).hasClass('checkboxes') || $(e.target).hasClass('actions'))) {

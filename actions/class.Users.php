@@ -256,11 +256,14 @@ class tao_actions_Users extends tao_actions_CommonModule {
      */
     public function edit(){
 
-        if(!$this->hasRequestParameter('uri')){
+        if (!$this->hasRequestParameter('uri')) {
             throw new Exception('Please set the user uri in request parameter');
         }
 
-        $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $uri = $this->getRequestParameter('uri');
+        $uri = is_array($uri) ? array_shift($uri) : $uri;
+
+        $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($uri));
 
         $myFormContainer = new tao_actions_form_Users($this->userService->getClass($user), $user);
         $myForm = $myFormContainer->getForm();
