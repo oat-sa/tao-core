@@ -84,7 +84,7 @@ define([
          * @param {Function} options.actions.xxx - the callback function for items xxx, with a single parameter representing the identifier of the items.
          * @param {Function} options.listeners.xxx - the callback function for event xxx, parameters depends to event trigger call.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
-         * @param {Boolean} options.selectbyclick - enables the selection of rows by clicking on them.
+         * @param {Boolean} options.rowSelection - enables the selection of rows by clicking on them.
          * @param {Object} options.tools - a list of tool buttons to display above the table.
          * @param {Object} data - inject predefined data to avoid the first query.
          * @param {Object|Boolean} options.status - allow to display a status bar.
@@ -332,8 +332,8 @@ define([
             $checkAll = $rendering.find('th.checkboxes input');
             $checkboxes = $rendering.find('td.checkboxes input');
 
-            if (options.selectbyclick) {
-                $('table.datatable', $rendering).addClass('selectablebyclick');
+            if (options.rowSelection) {
+                $('table.datatable', $rendering).addClass('hoverable');
                 $rendering.on('click', 'tbody td', function (e) {
                     // exclude from processing columns with actions
                     if (($(e.target).hasClass('checkboxes') || $(e.target).hasClass('actions'))) {
