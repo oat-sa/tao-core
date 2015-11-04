@@ -55,6 +55,11 @@ table.datatable{
             background: $lightBlueGrey;
         }
     }
+    &.hoverable {
+        tr:hover  {
+            background: $lightBlueGrey;
+        }
+    }
     th{
         cursor: not-allowed;
         [data-sort-by]{
@@ -81,9 +86,6 @@ table.datatable{
     }
     th,
     td{
-        &.id{
-            display:none;
-        }
         &.checkboxes{
             width: 20px;
             text-align: center;

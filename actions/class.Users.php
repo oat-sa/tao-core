@@ -256,7 +256,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
      */
     public function edit(){
 
-        if(!$this->hasRequestParameter('uri')){
+        if (!$this->hasRequestParameter('uri')) {
             throw new Exception('Please set the user uri in request parameter');
         }
 
@@ -296,4 +296,3 @@ class tao_actions_Users extends tao_actions_CommonModule {
         $this->setView('user/form.tpl');
     }
 }
-?>

@@ -39,17 +39,15 @@
                 {{#if options.selectable}}
                 <col/>
                 {{/if}}
+                {{#each options.model}}
                 <col/>
-                {{#model}}
-                <col/>
-                {{/model}}
+                {{/each}}
             </colgroup>
             <thead>
                 <tr>
                     {{#if options.selectable}}
                     <th class="checkboxes"><input type="checkbox" name="checkall" value="1" /></th>
                     {{/if}}
-                    <th class="id"></th>
                     {{#each options.model}}
                     <th>
                         <div {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</div>
