@@ -260,10 +260,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
             throw new Exception('Please set the user uri in request parameter');
         }
 
-        $uri = $this->getRequestParameter('uri');
-        $uri = is_array($uri) ? array_shift($uri) : $uri;
-
-        $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($uri));
+        $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 
         $myFormContainer = new tao_actions_form_Users($this->userService->getClass($user), $user);
         $myForm = $myFormContainer->getForm();
@@ -299,4 +296,3 @@ class tao_actions_Users extends tao_actions_CommonModule {
         $this->setView('user/form.tpl');
     }
 }
-?>
