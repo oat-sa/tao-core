@@ -273,7 +273,7 @@ define([
                 if (!_.isFunction(componentTpl)) {
                     componentTpl = function() {
                         return tpl;
-                    }
+                    };
                 }
 
                 /**

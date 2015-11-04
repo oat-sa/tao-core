@@ -104,7 +104,7 @@ define(['lodash', 'async'], function(_, async){
                 function done(){
                     //allow passing to next
                     cb(null, {success:true});
-                };
+                }
                 
                 /**
                  * Call fail but can continue to next loop
