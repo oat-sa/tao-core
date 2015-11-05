@@ -35,10 +35,15 @@ define([
      * @returns {component}
      */
     var component = function component(specs, defaults) {
+
         // the template is a private property
         var componentTpl = defaultTpl;
 
-        var componentState;
+        //contains the states of the components
+        var componentState = {};
+
+        //where the component is added
+        var $container;
 
         // base skeleton
         var componentApi = {
@@ -47,40 +52,23 @@ define([
              * @param {Object} config
              * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
              * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
-             * @param {Function} [config.oninit] - Bind an event handler to the init event
-             * @param {Function} [config.ondestroy] - Bind an event handler to the destroy event
-             * @param {Function} [config.onrender] - Bind an event handler to the render event
-             * @param {Function} [config.onshow] - Bind an event handler to the show event
-             * @param {Function} [config.onhide] - Bind an event handler to the hide event
-             * @param {Function} [config.onenable] - Bind an event handler to the enable event
-             * @param {Function} [config.ondisable] - Bind an event handler to the disable event
-             * @param {Function} [config.onstate] - Bind an event handler to the state event
-             * @param {Function} [config.ontemplate] - Bind an event handler to the template event
              * @returns {component}
              * @fires component#init
              */
             init : function init(config) {
                 var self = this;
-                var initConfig = config || {};
-                this.config = _.omit(initConfig, function(value, name) {
-                    var omit = value === undefined || value === null;
-                    if (!omit && !name.indexOf('on')) {
-                        self.on(name.substr(2), value);
-                        omit = true;
-                    }
-                    return omit;
-                });
-                _.defaults(this.config, defaults || {});
+                this.config = _.defaults(_.clone(config) || {}, defaults || {});
+
                 componentState = {};
 
                 /**
                  * Executes extra init tasks
                  * @event component#init
-                 * @param {component} component
                  */
-                this.trigger('init', this);
+                this.trigger('init');
 
                 if (this.config.renderTo) {
+                    $container = $(this.config.renderTo);
                     this.render();
                 }
 
@@ -96,9 +84,8 @@ define([
                 /**
                  * Executes extra destroy tasks
                  * @event component#destroy
-                 * @param {component} component
                  */
-                this.trigger('destroy', this);
+                this.trigger('destroy');
 
                 if (this.$component) {
                     this.$component.remove();
@@ -112,22 +99,21 @@ define([
 
             /**
              * Renders the component
-             * @param {jQuery|HTMLElement|String} [to]
-             * @returns {jQuery}
+             * @param {jQuery|HTMLElement|String} [container] - where the component is rendered
+             * @returns {component}
              * @fires component#render
              */
-            render : function render(to) {
-                var renderTo = to || this.config.renderTo;
-                var $to;
-
+            render : function render(container) {
+                if(container){
+                    $container = $(container);
+                }
                 this.$component = $(componentTpl(this.config));
 
-                if (renderTo) {
-                    $to = $(renderTo);
+                if ($container) {
                     if (this.config.replace) {
-                        $to.empty();
+                        $container.empty();
                     }
-                    $to.append(this.$component);
+                    $container.append(this.$component);
                 }
 
                 this.setState('rendered', true);
@@ -136,11 +122,10 @@ define([
                  * Executes extra render tasks
                  * @event component#render
                  * @param {jQuery} $component
-                 * @param {component} component
                  */
-                this.trigger('render', this.$component, this);
+                this.trigger('render', this.$component);
 
-                return this.$component;
+                return this;
             },
 
             /**
@@ -248,6 +233,15 @@ define([
              * @returns {jQuery}
              */
             getContainer : function getContainer() {
+                return $container;
+            },
+
+
+            /**
+             * Gets the underlying DOM element
+             * @returns {jQuery}
+             */
+            getElement : function getElement() {
                 return this.$component;
             },
 
@@ -280,9 +274,8 @@ define([
                  * Executes extra tasks on template change
                  * @event component#template
                  * @param {function} componentTpl
-                 * @param {component} component
                  */
-                this.trigger('template', componentTpl, this);
+                this.trigger('template', componentTpl);
 
                 return this;
             }
@@ -297,9 +290,7 @@ define([
             });
         }
 
-        eventifier(componentApi);
-
-        return componentApi;
+        return eventifier(componentApi);
     };
 
     return component;

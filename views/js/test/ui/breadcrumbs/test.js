@@ -45,6 +45,7 @@ define([
         { name : 'disable', title : 'disable' },
         { name : 'is', title : 'is' },
         { name : 'setState', title : 'setState' },
+        { name : 'getElement', title : 'getElement' },
         { name : 'getContainer', title : 'getContainer' },
         { name : 'getTemplate', title : 'getTemplate' },
         { name : 'setTemplate', title : 'setTemplate' }
@@ -146,42 +147,42 @@ define([
 
         assert.equal($container.find('.dummy').length, 0, 'The container does not contain an element of the class dummy');
         assert.equal(instance.is('rendered'), true, 'The breadcrumbs instance must be rendered');
-        assert.equal(typeof instance.getContainer(), 'object', 'The breadcrumbs instance returns the rendered content as an object');
-        assert.equal(instance.getContainer().length, 1, 'The breadcrumbs instance returns the rendered content');
-        assert.equal(instance.getContainer().parent().get(0), $container.get(0), 'The breadcrumbs instance is rendered inside the right container');
+        assert.equal(typeof instance.getElement(), 'object', 'The breadcrumbs instance returns the rendered content as an object');
+        assert.equal(instance.getElement().length, 1, 'The breadcrumbs instance returns the rendered content');
+        assert.equal(instance.getElement().parent().get(0), $container.get(0), 'The breadcrumbs instance is rendered inside the right container');
 
-        assert.equal(instance.getContainer().find('> li').length, breadcrumbsEntries.length, 'The breadcrumbs instance has rendered the list of entries');
+        assert.equal(instance.getElement().find('> li').length, breadcrumbsEntries.length, 'The breadcrumbs instance has rendered the list of entries');
 
         // 1st
-        assert.equal(instance.getContainer().find('> li').first().data('breadcrumb'), breadcrumbsEntries[0].id, 'The 1st breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').first().find('a').text(), breadcrumbsEntries[0].label, 'The 1st breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').first().find('a').attr('href'), breadcrumbsEntries[0].url, 'The 1st breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').first().data('breadcrumb'), breadcrumbsEntries[0].id, 'The 1st breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').first().find('a').text(), breadcrumbsEntries[0].label, 'The 1st breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').first().find('a').attr('href'), breadcrumbsEntries[0].url, 'The 1st breadcrumb has the right URL');
 
         // 2nd
-        assert.equal(instance.getContainer().find('> li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].id, 'The 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('> a').text(), breadcrumbsEntries[1].label, 'The 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('> a').attr('href'), breadcrumbsEntries[1].url, 'The 2nd breadcrumb has the right URL');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').length, breadcrumbsEntries[1].entries.length, 'The 2nd breadcrumb has a sub list');
+        assert.equal(instance.getElement().find('> li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].id, 'The 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('> a').text(), breadcrumbsEntries[1].label, 'The 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('> a').attr('href'), breadcrumbsEntries[1].url, 'The 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').length, breadcrumbsEntries[1].entries.length, 'The 2nd breadcrumb has a sub list');
 
         // 2nd sub 1
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).data('breadcrumb'), breadcrumbsEntries[1].entries[0].id, 'The 1st list entry of the 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).find('a').text(), breadcrumbsEntries[1].entries[0].label, 'The 1st list entry of the 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).find('a').attr('href'), breadcrumbsEntries[1].entries[0].url, 'The 1st list entry of the 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).data('breadcrumb'), breadcrumbsEntries[1].entries[0].id, 'The 1st list entry of the 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).find('a').text(), breadcrumbsEntries[1].entries[0].label, 'The 1st list entry of the 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).find('a').attr('href'), breadcrumbsEntries[1].entries[0].url, 'The 1st list entry of the 2nd breadcrumb has the right URL');
 
         // 2nd sub 2
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].entries[1].id, 'The 2nd list entry of the 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).find('a').text(), breadcrumbsEntries[1].entries[1].label, 'The 2nd list entry of the 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).find('a').attr('href'), breadcrumbsEntries[1].entries[1].url, 'The 2nd list entry of the 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].entries[1].id, 'The 2nd list entry of the 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).find('a').text(), breadcrumbsEntries[1].entries[1].label, 'The 2nd list entry of the 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).find('a').attr('href'), breadcrumbsEntries[1].entries[1].url, 'The 2nd list entry of the 2nd breadcrumb has the right URL');
 
         // 3rd
-        assert.equal(instance.getContainer().find('> li').eq(2).data('breadcrumb'), breadcrumbsEntries[2].id, 'The 3rd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(2).find('.a').text(), breadcrumbsEntries[2].label + ' - ' + breadcrumbsEntries[2].data, 'The 3rd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(2).find('a').length, 0, 'The 3rd breadcrumb does not have a link');
+        assert.equal(instance.getElement().find('> li').eq(2).data('breadcrumb'), breadcrumbsEntries[2].id, 'The 3rd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(2).find('.a').text(), breadcrumbsEntries[2].label + ' - ' + breadcrumbsEntries[2].data, 'The 3rd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(2).find('a').length, 0, 'The 3rd breadcrumb does not have a link');
 
         instance.destroy();
 
         assert.equal($container.children().length, 0, 'The container is now empty');
-        assert.equal(instance.getContainer(), null, 'The breadcrumbs instance has removed its rendered content');
+        assert.equal(instance.getElement(), null, 'The breadcrumbs instance has removed its rendered content');
     });
 
 
@@ -195,75 +196,75 @@ define([
         var instance = breadcrumbs();
 
         assert.equal(instance.is('rendered'), false, 'The breadcrumbs instance must not be rendered');
-        assert.equal(instance.getContainer(), null, 'The breadcrumbs instance must not have DOM element');
+        assert.equal(instance.getElement(), null, 'The breadcrumbs instance must not have DOM element');
 
         /*** 1ST PASS - WITHOUT CONTAINER - EXPLICIT RENDERING ***/
         instance.update(breadcrumbsEntries);
 
         assert.equal(instance.is('rendered'), true, '[1st pass] The breadcrumbs instance must be rendered');
-        assert.equal(instance.getContainer().length, 1, '[1st pass] The breadcrumbs instance must have DOM element');
+        assert.equal(instance.getElement().length, 1, '[1st pass] The breadcrumbs instance must have DOM element');
 
-        assert.equal(instance.getContainer().find('> li').length, breadcrumbsEntries.length, '[1st pass] The breadcrumbs instance has rendered the list of entries');
+        assert.equal(instance.getElement().find('> li').length, breadcrumbsEntries.length, '[1st pass] The breadcrumbs instance has rendered the list of entries');
 
         // 1st
-        assert.equal(instance.getContainer().find('> li').first().data('breadcrumb'), breadcrumbsEntries[0].id, '[1st pass] The 1st breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').first().find('a').text(), breadcrumbsEntries[0].label, '[1st pass] The 1st breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').first().find('a').attr('href'), breadcrumbsEntries[0].url, '[1st pass] The 1st breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').first().data('breadcrumb'), breadcrumbsEntries[0].id, '[1st pass] The 1st breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').first().find('a').text(), breadcrumbsEntries[0].label, '[1st pass] The 1st breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').first().find('a').attr('href'), breadcrumbsEntries[0].url, '[1st pass] The 1st breadcrumb has the right URL');
 
         // 2nd
-        assert.equal(instance.getContainer().find('> li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].id, '[1st pass] The 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('> a').text(), breadcrumbsEntries[1].label, '[1st pass] The 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('> a').attr('href'), breadcrumbsEntries[1].url, '[1st pass] The 2nd breadcrumb has the right URL');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').length, breadcrumbsEntries[1].entries.length, '[1st pass] The 2nd breadcrumb has a sub list');
+        assert.equal(instance.getElement().find('> li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].id, '[1st pass] The 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('> a').text(), breadcrumbsEntries[1].label, '[1st pass] The 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('> a').attr('href'), breadcrumbsEntries[1].url, '[1st pass] The 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').length, breadcrumbsEntries[1].entries.length, '[1st pass] The 2nd breadcrumb has a sub list');
 
         // 2nd sub 1
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).data('breadcrumb'), breadcrumbsEntries[1].entries[0].id, '[1st pass] The 1st list entry of the 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).find('a').text(), breadcrumbsEntries[1].entries[0].label, '[1st pass] The 1st list entry of the 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).find('a').attr('href'), breadcrumbsEntries[1].entries[0].url, '[1st pass] The 1st list entry of the 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).data('breadcrumb'), breadcrumbsEntries[1].entries[0].id, '[1st pass] The 1st list entry of the 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).find('a').text(), breadcrumbsEntries[1].entries[0].label, '[1st pass] The 1st list entry of the 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).find('a').attr('href'), breadcrumbsEntries[1].entries[0].url, '[1st pass] The 1st list entry of the 2nd breadcrumb has the right URL');
 
         // 2nd sub 2
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].entries[1].id, '[1st pass] The 2nd list entry of the 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).find('a').text(), breadcrumbsEntries[1].entries[1].label, '[1st pass] The 2nd list entry of the 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).find('a').attr('href'), breadcrumbsEntries[1].entries[1].url, '[1st pass] The 2nd list entry of the 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].entries[1].id, '[1st pass] The 2nd list entry of the 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).find('a').text(), breadcrumbsEntries[1].entries[1].label, '[1st pass] The 2nd list entry of the 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).find('a').attr('href'), breadcrumbsEntries[1].entries[1].url, '[1st pass] The 2nd list entry of the 2nd breadcrumb has the right URL');
 
         // 3rd
-        assert.equal(instance.getContainer().find('> li').eq(2).data('breadcrumb'), breadcrumbsEntries[2].id, '[1st pass] The 3rd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(2).find('.a').text(), breadcrumbsEntries[2].label + ' - ' + breadcrumbsEntries[2].data, '[1st pass] The 3rd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(2).find('a').length, 0, '[1st pass] The 3rd breadcrumb does not have a link');
+        assert.equal(instance.getElement().find('> li').eq(2).data('breadcrumb'), breadcrumbsEntries[2].id, '[1st pass] The 3rd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(2).find('.a').text(), breadcrumbsEntries[2].label + ' - ' + breadcrumbsEntries[2].data, '[1st pass] The 3rd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(2).find('a').length, 0, '[1st pass] The 3rd breadcrumb does not have a link');
 
         /*** 2ND PASS - WITHOUT CONTAINER - EXPLICIT RENDERING ***/
         instance.update(breadcrumbsEntries2);
 
         assert.equal(instance.is('rendered'), true, '[2nd pass] The breadcrumbs instance must be rendered');
-        assert.equal(instance.getContainer().length, 1, '[2nd pass] The breadcrumbs instance must have DOM element');
+        assert.equal(instance.getElement().length, 1, '[2nd pass] The breadcrumbs instance must have DOM element');
 
-        assert.equal(instance.getContainer().find('> li').length, breadcrumbsEntries2.length, '[2nd pass] The breadcrumbs instance has rendered the list of entries');
+        assert.equal(instance.getElement().find('> li').length, breadcrumbsEntries2.length, '[2nd pass] The breadcrumbs instance has rendered the list of entries');
 
         // 1st
-        assert.equal(instance.getContainer().find('> li').first().data('breadcrumb'), breadcrumbsEntries2[0].id, '[2nd pass] The 1st breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').first().find('a').text(), breadcrumbsEntries2[0].label, '[2nd pass] The 1st breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').first().find('a').attr('href'), breadcrumbsEntries2[0].url, '[2nd pass] The 1st breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').first().data('breadcrumb'), breadcrumbsEntries2[0].id, '[2nd pass] The 1st breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').first().find('a').text(), breadcrumbsEntries2[0].label, '[2nd pass] The 1st breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').first().find('a').attr('href'), breadcrumbsEntries2[0].url, '[2nd pass] The 1st breadcrumb has the right URL');
 
         // 2nd
-        assert.equal(instance.getContainer().find('> li').eq(1).data('breadcrumb'), breadcrumbsEntries2[1].id, '[2nd pass] The 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('> a').text(), breadcrumbsEntries2[1].label, '[2nd pass] The 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('> a').attr('href'), breadcrumbsEntries2[1].url, '[2nd pass] The 2nd breadcrumb has the right URL');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').length, breadcrumbsEntries2[1].entries.length, '[2nd pass] The 2nd breadcrumb has a sub list');
+        assert.equal(instance.getElement().find('> li').eq(1).data('breadcrumb'), breadcrumbsEntries2[1].id, '[2nd pass] The 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('> a').text(), breadcrumbsEntries2[1].label, '[2nd pass] The 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('> a').attr('href'), breadcrumbsEntries2[1].url, '[2nd pass] The 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').length, breadcrumbsEntries2[1].entries.length, '[2nd pass] The 2nd breadcrumb has a sub list');
 
         // 2nd sub 1
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).data('breadcrumb'), breadcrumbsEntries2[1].entries[0].id, '[2nd pass] The 1st list entry of the 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).find('a').text(), breadcrumbsEntries2[1].entries[0].label, '[2nd pass] The 1st list entry of the 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).find('a').attr('href'), breadcrumbsEntries2[1].entries[0].url, '[2nd pass] The 1st list entry of the 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).data('breadcrumb'), breadcrumbsEntries2[1].entries[0].id, '[2nd pass] The 1st list entry of the 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).find('a').text(), breadcrumbsEntries2[1].entries[0].label, '[2nd pass] The 1st list entry of the 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).find('a').attr('href'), breadcrumbsEntries2[1].entries[0].url, '[2nd pass] The 1st list entry of the 2nd breadcrumb has the right URL');
 
         // 2nd sub 2
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).data('breadcrumb'), breadcrumbsEntries2[1].entries[1].id, '[2nd pass] The 2nd list entry of the 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).find('a').text(), breadcrumbsEntries2[1].entries[1].label, '[2nd pass] The 2nd list entry of the 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).find('a').attr('href'), breadcrumbsEntries2[1].entries[1].url, '[2nd pass] The 2nd list entry of the 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).data('breadcrumb'), breadcrumbsEntries2[1].entries[1].id, '[2nd pass] The 2nd list entry of the 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).find('a').text(), breadcrumbsEntries2[1].entries[1].label, '[2nd pass] The 2nd list entry of the 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).find('a').attr('href'), breadcrumbsEntries2[1].entries[1].url, '[2nd pass] The 2nd list entry of the 2nd breadcrumb has the right URL');
 
         // 3rd
-        assert.equal(instance.getContainer().find('> li').eq(2).data('breadcrumb'), breadcrumbsEntries2[2].id, '[2nd pass] The 3rd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(2).find('.a').text(), breadcrumbsEntries2[2].label + ' - ' + breadcrumbsEntries2[2].data, '[2nd pass] The 3rd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(2).find('a').length, 0, '[2nd pass] The 3rd breadcrumb does not have a link');
+        assert.equal(instance.getElement().find('> li').eq(2).data('breadcrumb'), breadcrumbsEntries2[2].id, '[2nd pass] The 3rd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(2).find('.a').text(), breadcrumbsEntries2[2].label + ' - ' + breadcrumbsEntries2[2].data, '[2nd pass] The 3rd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(2).find('a').length, 0, '[2nd pass] The 3rd breadcrumb does not have a link');
 
         instance.destroy();
 
@@ -274,150 +275,153 @@ define([
         instance = breadcrumbs(config);
 
         assert.equal(instance.is('rendered'), true, '[3rd pass] The breadcrumbs instance must be rendered');
-        assert.equal(typeof instance.getContainer(), 'object', '[3rd pass] The breadcrumbs instance returns the rendered content as an object');
-        assert.equal(instance.getContainer().length, 1, '[3rd pass] The breadcrumbs instance returns the rendered content');
-        assert.equal(instance.getContainer().parent().get(0), $container.get(0), '[3rd pass] The breadcrumbs instance is rendered inside the right container');
-        assert.equal(instance.getContainer().get(0), $container.children().get(0), '[3rd pass] The breadcrumbs instance is rendered inside the right container and is the only child');
+        assert.equal(typeof instance.getElement(), 'object', '[3rd pass] The breadcrumbs instance returns the rendered content as an object');
+        assert.equal(instance.getElement().length, 1, '[3rd pass] The breadcrumbs instance returns the rendered content');
+        assert.equal(instance.getElement().parent().get(0), $container.get(0), '[3rd pass] The breadcrumbs instance is rendered inside the right container');
+        assert.equal(instance.getElement().get(0), $container.children().get(0), '[3rd pass] The breadcrumbs instance is rendered inside the right container and is the only child');
 
-        assert.equal(instance.getContainer().find('> li').length, breadcrumbsEntries.length, '[3rd pass] The breadcrumbs instance has rendered the list of entries');
+        assert.equal(instance.getElement().find('> li').length, breadcrumbsEntries.length, '[3rd pass] The breadcrumbs instance has rendered the list of entries');
 
         // 1st
-        assert.equal(instance.getContainer().find('> li').first().data('breadcrumb'), breadcrumbsEntries[0].id, '[3rd pass] The 1st breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').first().find('a').text(), breadcrumbsEntries[0].label, '[3rd pass] The 1st breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').first().find('a').attr('href'), breadcrumbsEntries[0].url, '[3rd pass] The 1st breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').first().data('breadcrumb'), breadcrumbsEntries[0].id, '[3rd pass] The 1st breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').first().find('a').text(), breadcrumbsEntries[0].label, '[3rd pass] The 1st breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').first().find('a').attr('href'), breadcrumbsEntries[0].url, '[3rd pass] The 1st breadcrumb has the right URL');
 
         // 2nd
-        assert.equal(instance.getContainer().find('> li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].id, '[3rd pass] The 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('> a').text(), breadcrumbsEntries[1].label, '[3rd pass] The 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('> a').attr('href'), breadcrumbsEntries[1].url, '[3rd pass] The 2nd breadcrumb has the right URL');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').length, breadcrumbsEntries[1].entries.length, '[3rd pass] The 2nd breadcrumb has a sub list');
+        assert.equal(instance.getElement().find('> li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].id, '[3rd pass] The 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('> a').text(), breadcrumbsEntries[1].label, '[3rd pass] The 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('> a').attr('href'), breadcrumbsEntries[1].url, '[3rd pass] The 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').length, breadcrumbsEntries[1].entries.length, '[3rd pass] The 2nd breadcrumb has a sub list');
 
         // 2nd sub 1
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).data('breadcrumb'), breadcrumbsEntries[1].entries[0].id, '[3rd pass] The 1st list entry of the 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).find('a').text(), breadcrumbsEntries[1].entries[0].label, '[3rd pass] The 1st list entry of the 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).find('a').attr('href'), breadcrumbsEntries[1].entries[0].url, '[3rd pass] The 1st list entry of the 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).data('breadcrumb'), breadcrumbsEntries[1].entries[0].id, '[3rd pass] The 1st list entry of the 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).find('a').text(), breadcrumbsEntries[1].entries[0].label, '[3rd pass] The 1st list entry of the 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).find('a').attr('href'), breadcrumbsEntries[1].entries[0].url, '[3rd pass] The 1st list entry of the 2nd breadcrumb has the right URL');
 
         // 2nd sub 2
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].entries[1].id, '[3rd pass] The 2nd list entry of the 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).find('a').text(), breadcrumbsEntries[1].entries[1].label, '[3rd pass] The 2nd list entry of the 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).find('a').attr('href'), breadcrumbsEntries[1].entries[1].url, '[3rd pass] The 2nd list entry of the 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).data('breadcrumb'), breadcrumbsEntries[1].entries[1].id, '[3rd pass] The 2nd list entry of the 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).find('a').text(), breadcrumbsEntries[1].entries[1].label, '[3rd pass] The 2nd list entry of the 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).find('a').attr('href'), breadcrumbsEntries[1].entries[1].url, '[3rd pass] The 2nd list entry of the 2nd breadcrumb has the right URL');
 
         // 3rd
-        assert.equal(instance.getContainer().find('> li').eq(2).data('breadcrumb'), breadcrumbsEntries[2].id, '[3rd pass] The 3rd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(2).find('.a').text(), breadcrumbsEntries[2].label + ' - ' + breadcrumbsEntries[2].data, '[3rd pass] The 3rd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(2).find('a').length, 0, '[3rd pass] The 3rd breadcrumb does not have a link');
+        assert.equal(instance.getElement().find('> li').eq(2).data('breadcrumb'), breadcrumbsEntries[2].id, '[3rd pass] The 3rd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(2).find('.a').text(), breadcrumbsEntries[2].label + ' - ' + breadcrumbsEntries[2].data, '[3rd pass] The 3rd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(2).find('a').length, 0, '[3rd pass] The 3rd breadcrumb does not have a link');
 
         /*** 4TH PASS - INSIDE CONTAINER - EXPLICIT RENDERING ***/
         instance.update(breadcrumbsEntries2);
 
         assert.equal(instance.is('rendered'), true, '[4th pass] The breadcrumbs instance must be rendered');
-        assert.equal(typeof instance.getContainer(), 'object', '[4th pass] The breadcrumbs instance returns the rendered content as an object');
-        assert.equal(instance.getContainer().length, 1, '[4th pass] The breadcrumbs instance returns the rendered content');
-        assert.equal(instance.getContainer().parent().get(0), $container.get(0), '[4th pass] The breadcrumbs instance is rendered inside the right container');
-        assert.equal(instance.getContainer().get(0), $container.children().get(0), '[3rd pass] The breadcrumbs instance is rendered inside the right container and is the only child');
+        assert.equal(typeof instance.getElement(), 'object', '[4th pass] The breadcrumbs instance returns the rendered content as an object');
+        assert.equal(instance.getElement().length, 1, '[4th pass] The breadcrumbs instance returns the rendered content');
+        assert.equal(instance.getElement().parent().get(0), $container.get(0), '[4th pass] The breadcrumbs instance is rendered inside the right container');
+        assert.equal(instance.getElement().get(0), $container.children().get(0), '[3rd pass] The breadcrumbs instance is rendered inside the right container and is the only child');
 
-        assert.equal(instance.getContainer().find('> li').length, breadcrumbsEntries2.length, '[4th pass] The breadcrumbs instance has rendered the list of entries');
+        assert.equal(instance.getElement().find('> li').length, breadcrumbsEntries2.length, '[4th pass] The breadcrumbs instance has rendered the list of entries');
 
         // 1st
-        assert.equal(instance.getContainer().find('> li').first().data('breadcrumb'), breadcrumbsEntries2[0].id, '[4th pass] The 1st breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').first().find('a').text(), breadcrumbsEntries2[0].label, '[4th pass] The 1st breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').first().find('a').attr('href'), breadcrumbsEntries2[0].url, '[4th pass] The 1st breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').first().data('breadcrumb'), breadcrumbsEntries2[0].id, '[4th pass] The 1st breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').first().find('a').text(), breadcrumbsEntries2[0].label, '[4th pass] The 1st breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').first().find('a').attr('href'), breadcrumbsEntries2[0].url, '[4th pass] The 1st breadcrumb has the right URL');
 
         // 2nd
-        assert.equal(instance.getContainer().find('> li').eq(1).data('breadcrumb'), breadcrumbsEntries2[1].id, '[4th pass] The 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('> a').text(), breadcrumbsEntries2[1].label, '[4th pass] The 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('> a').attr('href'), breadcrumbsEntries2[1].url, '[4th pass] The 2nd breadcrumb has the right URL');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').length, breadcrumbsEntries2[1].entries.length, '[4th pass] The 2nd breadcrumb has a sub list');
+        assert.equal(instance.getElement().find('> li').eq(1).data('breadcrumb'), breadcrumbsEntries2[1].id, '[4th pass] The 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('> a').text(), breadcrumbsEntries2[1].label, '[4th pass] The 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('> a').attr('href'), breadcrumbsEntries2[1].url, '[4th pass] The 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').length, breadcrumbsEntries2[1].entries.length, '[4th pass] The 2nd breadcrumb has a sub list');
 
         // 2nd sub 1
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).data('breadcrumb'), breadcrumbsEntries2[1].entries[0].id, '[4th pass] The 1st list entry of the 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).find('a').text(), breadcrumbsEntries2[1].entries[0].label, '[4th pass] The 1st list entry of the 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(0).find('a').attr('href'), breadcrumbsEntries2[1].entries[0].url, '[4th pass] The 1st list entry of the 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).data('breadcrumb'), breadcrumbsEntries2[1].entries[0].id, '[4th pass] The 1st list entry of the 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).find('a').text(), breadcrumbsEntries2[1].entries[0].label, '[4th pass] The 1st list entry of the 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(0).find('a').attr('href'), breadcrumbsEntries2[1].entries[0].url, '[4th pass] The 1st list entry of the 2nd breadcrumb has the right URL');
 
         // 2nd sub 2
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).data('breadcrumb'), breadcrumbsEntries2[1].entries[1].id, '[4th pass] The 2nd list entry of the 2nd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).find('a').text(), breadcrumbsEntries2[1].entries[1].label, '[4th pass] The 2nd list entry of the 2nd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(1).find('li').eq(1).find('a').attr('href'), breadcrumbsEntries2[1].entries[1].url, '[4th pass] The 2nd list entry of the 2nd breadcrumb has the right URL');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).data('breadcrumb'), breadcrumbsEntries2[1].entries[1].id, '[4th pass] The 2nd list entry of the 2nd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).find('a').text(), breadcrumbsEntries2[1].entries[1].label, '[4th pass] The 2nd list entry of the 2nd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(1).find('li').eq(1).find('a').attr('href'), breadcrumbsEntries2[1].entries[1].url, '[4th pass] The 2nd list entry of the 2nd breadcrumb has the right URL');
 
         // 3rd
-        assert.equal(instance.getContainer().find('> li').eq(2).data('breadcrumb'), breadcrumbsEntries2[2].id, '[4th pass] The 3rd breadcrumb has the right identifier');
-        assert.equal(instance.getContainer().find('> li').eq(2).find('.a').text(), breadcrumbsEntries2[2].label + ' - ' + breadcrumbsEntries2[2].data, '[4th pass] The 3rd breadcrumb has the right label');
-        assert.equal(instance.getContainer().find('> li').eq(2).find('a').length, 0, '[4th pass] The 3rd breadcrumb does not have a link');
+        assert.equal(instance.getElement().find('> li').eq(2).data('breadcrumb'), breadcrumbsEntries2[2].id, '[4th pass] The 3rd breadcrumb has the right identifier');
+        assert.equal(instance.getElement().find('> li').eq(2).find('.a').text(), breadcrumbsEntries2[2].label + ' - ' + breadcrumbsEntries2[2].data, '[4th pass] The 3rd breadcrumb has the right label');
+        assert.equal(instance.getElement().find('> li').eq(2).find('a').length, 0, '[4th pass] The 3rd breadcrumb does not have a link');
 
         instance.destroy();
 
         assert.equal($container.children().length, 0, '[4th pass] The container is now empty');
-        assert.equal(instance.getContainer(), null, '[4th pass] The breadcrumbs instance has removed its rendered content');
+        assert.equal(instance.getElement(), null, '[4th pass] The breadcrumbs instance has removed its rendered content');
     });
 
 
     QUnit.test('show/hide', function(assert) {
-        var instance = breadcrumbs();
-        var $component = instance.render();
+        var instance = breadcrumbs()
+                        .render();
+        var $component = instance.getElement();
 
         assert.equal(instance.is('rendered'), true, 'The breadcrumbs instance must be rendered');
         assert.equal($component.length, 1, 'The breadcrumbs instance returns the rendered content');
 
         assert.equal(instance.is('hidden'), false, 'The breadcrumbs instance is visible');
-        assert.equal(instance.getContainer().hasClass('hidden'), false, 'The breadcrumbs instance does not have the hidden class');
+        assert.equal(instance.getElement().hasClass('hidden'), false, 'The breadcrumbs instance does not have the hidden class');
 
         instance.hide();
 
         assert.equal(instance.is('hidden'), true, 'The breadcrumbs instance is hidden');
-        assert.equal(instance.getContainer().hasClass('hidden'), true, 'The breadcrumbs instance has the hidden class');
+        assert.equal(instance.getElement().hasClass('hidden'), true, 'The breadcrumbs instance has the hidden class');
 
         instance.show();
 
         assert.equal(instance.is('hidden'), false, 'The breadcrumbs instance is visible');
-        assert.equal(instance.getContainer().hasClass('hidden'), false, 'The breadcrumbs instance does not have the hidden class');
+        assert.equal(instance.getElement().hasClass('hidden'), false, 'The breadcrumbs instance does not have the hidden class');
 
         instance.destroy();
     });
 
 
     QUnit.test('enable/disable', function(assert) {
-        var instance = breadcrumbs();
-        var $component = instance.render();
+        var instance = breadcrumbs()
+                        .render();
+        var $component = instance.getElement();
 
         assert.equal(instance.is('rendered'), true, 'The breadcrumbs instance must be rendered');
         assert.equal($component.length, 1, 'The breadcrumbs instance returns the rendered content');
 
         assert.equal(instance.is('disabled'), false, 'The breadcrumbs instance is enabled');
-        assert.equal(instance.getContainer().hasClass('disabled'), false, 'The breadcrumbs instance does not have the disabled class');
+        assert.equal(instance.getElement().hasClass('disabled'), false, 'The breadcrumbs instance does not have the disabled class');
 
         instance.disable();
 
         assert.equal(instance.is('disabled'), true, 'The breadcrumbs instance is disabled');
-        assert.equal(instance.getContainer().hasClass('disabled'), true, 'The breadcrumbs instance has the disabled class');
+        assert.equal(instance.getElement().hasClass('disabled'), true, 'The breadcrumbs instance has the disabled class');
 
         instance.enable();
 
         assert.equal(instance.is('disabled'), false, 'The breadcrumbs instance is enabled');
-        assert.equal(instance.getContainer().hasClass('disabled'), false, 'The breadcrumbs instance does not have the disabled class');
+        assert.equal(instance.getElement().hasClass('disabled'), false, 'The breadcrumbs instance does not have the disabled class');
 
         instance.destroy();
     });
 
 
     QUnit.test('state', function(assert) {
-        var instance = breadcrumbs();
-        var $component = instance.render();
+        var instance = breadcrumbs()
+                        .render();
+        var $component = instance.getElement();
 
         assert.equal(instance.is('rendered'), true, 'The breadcrumbs instance must be rendered');
         assert.equal($component.length, 1, 'The breadcrumbs instance returns the rendered content');
 
         assert.equal(instance.is('customState'), false, 'The breadcrumbs instance does not have the customState state');
-        assert.equal(instance.getContainer().hasClass('customState'), false, 'The breadcrumbs instance does not have the customState class');
+        assert.equal(instance.getElement().hasClass('customState'), false, 'The breadcrumbs instance does not have the customState class');
 
         instance.setState('customState', true);
 
         assert.equal(instance.is('customState'), true, 'The breadcrumbs instance has the customState state');
-        assert.equal(instance.getContainer().hasClass('customState'), true, 'The breadcrumbs instance has the customState class');
+        assert.equal(instance.getElement().hasClass('customState'), true, 'The breadcrumbs instance has the customState class');
 
         instance.setState('customState', false);
 
         assert.equal(instance.is('customState'), false, 'The breadcrumbs instance does not have the customState state');
-        assert.equal(instance.getContainer().hasClass('customState'), false, 'The breadcrumbs instance does not have the customState class');
+        assert.equal(instance.getElement().hasClass('customState'), false, 'The breadcrumbs instance does not have the customState class');
 
         instance.destroy();
     });
