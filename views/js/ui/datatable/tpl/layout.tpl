@@ -71,7 +71,7 @@
                         <td class="checkboxes"><input type="checkbox" name="cb[{{id}}]" value="1" /></td>
                         {{/if}}
                         {{#each ../options.model}}
-                            <td class="{{id}}">{{property id ../this}}</td>
+                            <td class="{{id}}">{{{property id ../this}}}</td>
                         {{/each}}
                         {{#if ../options.actions}}
                         <td class="actions">
