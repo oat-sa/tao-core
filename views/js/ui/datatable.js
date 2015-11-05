@@ -230,9 +230,9 @@ define([
             // process data by model rules
             if (_.some(options.model, 'transform')) {
                 var transforms = _.where(options.model, 'transform');
-                _.forEach(dataset.data, function (row) {
+                _.forEach(dataset.data, function (row, index) {
                     _.forEach(transforms, function (field) {
-                        row[field.id] = field.transform(row[field.id]);
+                        row[field.id] = field.transform(row[field.id], row, field, index, dataset.data);
                     });
                 });
             }
