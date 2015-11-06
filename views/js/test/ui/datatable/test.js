@@ -2,7 +2,12 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
 
     "use strict";
     
-    QUnit.module('DataTable Test');
+    QUnit.module('DataTable Test', {
+        teardown : function(){
+            //reset the container
+            $('#container-1').empty().off('.datatable');
+        }
+    });
    
     QUnit.test('plugin', function(assert){
        QUnit.expect(1);
@@ -596,5 +601,75 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
                 sortable : true
             }]
         });
+    });
+
+    QUnit.asyncTest('Transform', function(assert) {
+
+        var $elt = $('#container-1');
+        var renderFullName = function(row) {
+            return row.firstname + ' ' + row.lastname;
+        };
+        var transform = function(value, row, field, index, data) {
+            assert.equal(typeof row, 'object', 'The row is provided');
+            assert.equal(typeof field, 'object', 'The field is provided');
+            assert.equal(typeof index, 'number', 'The row index is provided');
+            assert.equal(typeof data, 'object', 'The dataset is provided');
+            assert.equal(data, dataset, 'The provided dataset is the right dataset');
+
+            assert.equal(row, dataset[index], 'The provided row is the exact row at index');
+            assert.equal(typeof field.id, 'string', 'The field id is provided');
+            assert.equal(value, row[field.id], 'The right value is provided');
+
+            QUnit.start();
+            return renderFullName(row);
+        };
+        var model = [{
+            id: 'fullName',
+            label: 'Full name',
+            transform: transform
+        }, {
+            id: 'email',
+            label: 'Email'
+        }];
+        var dataset = [{
+            id: 1,
+            firstname: 'John',
+            lastname: 'Smith',
+            email: 'john.smith@mail.com'
+        }, {
+            id: 1,
+            firstname: 'Jane',
+            lastname: 'Doe',
+            email: 'jane.doe@mail.com'
+        }];
+
+        QUnit.expect(26);
+        QUnit.stop(2);
+
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        $elt.on('create.datatable', function () {
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 2, 'the table contains 2 heads elements');
+            assert.equal($elt.find('.datatable thead th:eq(0)').text().trim(), model[0].label, 'The first column contains the right header');
+            assert.equal($elt.find('.datatable thead th:eq(1)').text().trim(), model[1].label, 'The second column contains the right header');
+
+            assert.equal($elt.find('.datatable tbody tr').length, dataset.length, 'The table contains the same lines number as in the dataset');
+
+            assert.equal($elt.find('.datatable tbody tr:eq(0) td:eq(0)').text().trim(), renderFullName(dataset[0]), 'The first line contains the right full name');
+            assert.equal($elt.find('.datatable tbody tr:eq(0) td:eq(1)').text().trim(), dataset[0].email, 'The first line contains the right email');
+
+            assert.equal($elt.find('.datatable tbody tr:eq(1) td:eq(0)').text().trim(), renderFullName(dataset[1]), 'The second line contains the right full name');
+            assert.equal($elt.find('.datatable tbody tr:eq(1) td:eq(1)').text().trim(), dataset[1].email, 'The second line contains the right email');
+
+            QUnit.start();
+        });
+
+        $elt.datatable({
+            model: model
+        }, {
+            data: dataset
+        });
+
     });
 });
