@@ -57,7 +57,13 @@ define([
              */
             init : function init(config) {
                 var self = this;
-                this.config = _.defaults(_.clone(config) || {}, defaults || {});
+
+                this.config = _(config || {})
+                                .omit(function(value){
+                                    return value === null || value === undefined;
+                                })
+                                .defaults(defaults || {})
+                                .value();
 
                 componentState = {};
 
