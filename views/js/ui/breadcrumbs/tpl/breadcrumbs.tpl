@@ -1,4 +1,4 @@
-<ul class="breadcrumbs plain">
+<ul class="breadcrumbs plain{{#if cls}} {{cls}}{{/if}}">
     {{#each breadcrumbs}}
     <li class="breadcrumb" data-breadcrumb="{{id}}">
         {{#if url}}
