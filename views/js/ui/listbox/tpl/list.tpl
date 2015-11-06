@@ -5,7 +5,8 @@
             <h3 class="title">{{label}}</h3>
             {{#if content}}<div class="content clearfix">{{{content}}}</div>{{/if}}
             <div class="bottom clearfix">
-                <span class="text-link"><span class="icon-play"></span>{{text}}</span>
+                {{#if html}}<span class="text-html">{{{html}}}</span>{{/if}}
+                {{#if text}}<span class="text-link"><span class="icon-play"></span>{{text}}</span>{{/if}}
             </div>
         </a>
     </li>

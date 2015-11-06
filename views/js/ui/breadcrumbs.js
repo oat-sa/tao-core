@@ -72,7 +72,7 @@ define([
     /**
      * Remove the link from the last crumb
      */
-    var removeLastLink = function() {
+    var removeLastLink = function removeLastLink() {
         var breadcrumbs = this.config.breadcrumbs;
 
         if (breadcrumbs && breadcrumbs.length) {
@@ -91,13 +91,11 @@ define([
      * @returns {breadcrumbs}
      */
     var breadcrumbsFactory = function breadcrumbsFactory(config) {
-        var instance = component(breadcrumbs);
-        instance.setTemplate(breadcrumbsTpl);
-
-        instance.on('init', removeLastLink);
-        instance.on('update', removeLastLink);
-
-        return instance.init(config);
+        return component(breadcrumbs)
+                .on('init', removeLastLink)
+                .on('update', removeLastLink)
+                .setTemplate(breadcrumbsTpl)
+                .init(config);
     };
 
     return breadcrumbsFactory;
