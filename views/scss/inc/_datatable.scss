@@ -52,12 +52,13 @@ table.datatable{
             vertical-align: top;
         }
         tr.selected {
-            background: $lightBlueGrey;
+            background: $darkBlueGrey;
         }
     }
     &.hoverable {
         tr:hover  {
             background: $lightBlueGrey;
+            cursor: pointer;
         }
     }
     th{
@@ -81,7 +82,7 @@ table.datatable{
     }
     tr{
         &.selected {
-            background: $lightBlueGrey;
+            background: $darkBlueGrey;
         }
     }
     th,
