@@ -71,7 +71,9 @@ define([
                         width: this.config.width
                     }));
 
-                    $numberValue && $numberValue.text(list.length);
+                    if($numberValue){
+                        $numberValue.text(list.length);
+                    }
 
                     this.setState('empty', false);
                     this.setState('loaded', true);
@@ -126,10 +128,10 @@ define([
             var $textAvailable = this.controls && this.controls.$textAvailable;
             this.config.textNumber = text;
             if ($numberLabel) {
-                if (false === text) {
-                    $textAvailable && $textAvailable.addClass('hidden');
-                } else {
+                if(text !== false){
                     $numberLabel.html(text).removeClass('hidden');
+                } else if ($textAvailable){
+                    $textAvailable.addClass('hidden');
                 }
             }
 
@@ -188,38 +190,37 @@ define([
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
      * @returns {listBox}
      */
-    var entryPointsFactory = function entryPointsFactory(config) {
-        var instance = component(listBox, _defaults);
+    var listBoxactory = function listBoxFactory(config) {
 
-        instance.setTemplate(mainTpl);
+        return component(listBox, _defaults)
+                .setTemplate(mainTpl)
 
-        // uninstalls the component
-        instance.on('destroy', function() {
-            this.controls = null;
-        });
+                // uninstalls the component
+                .on('destroy', function() {
+                    this.controls = null;
+                })
 
-        // renders the component
-        instance.on('render', function() {
-            this.controls = {
-                $title : this.$component.find('h1'),
-                $textEmpty : this.$component.find('.empty-list'),
-                $textAvailable : this.$component.find('.available-list'),
-                $textLoading : this.$component.find('.loading span'),
-                $numberLabel : this.$component.find('.available-list .label'),
-                $numberValue : this.$component.find('.available-list .count'),
-                $list : this.$component.find('.list')
-            };
+                // renders the component
+                .on('render', function() {
+                    this.controls = {
+                        $title : this.$component.find('h1'),
+                        $textEmpty : this.$component.find('.empty-list'),
+                        $textAvailable : this.$component.find('.available-list'),
+                        $textLoading : this.$component.find('.loading span'),
+                        $numberLabel : this.$component.find('.available-list .label'),
+                        $numberValue : this.$component.find('.available-list .count'),
+                        $list : this.$component.find('.list')
+                    };
 
-            if (this.config.list) {
-                this.update(this.config.list);
-            } else {
-                this.setState('empty', true);
-                this.setState('loaded', false);
-            }
-        });
-
-        return instance.init(config);
+                    if (this.config.list) {
+                        this.update(this.config.list);
+                    } else {
+                        this.setState('empty', true);
+                        this.setState('loaded', false);
+                    }
+                })
+                .init(config);
     };
 
-    return entryPointsFactory;
+    return listBoxactory;
 });
