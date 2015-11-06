@@ -40,6 +40,8 @@ use HTTPToolkit;
 use Exception;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\action\ActionResolver;
+use oat\oatbox\action\ResolutionException;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -188,32 +190,19 @@ class Bootstrap {
 	    if (count($params) < 1) {
 	        $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('No action specified'));
 	    } else {
-    	    $action = array_shift($params);
-    	    $invocable = null;
-    	    try {
-        	    $invocable = $this->getServiceManager()->get($action);
-    	    } catch (ServiceNotFoundException $e) {
-    	        if (class_exists($action)) {
-    	            $command = new $action();
-    	            if ($command instanceof ConfigurableService) {
-    	                $command->setServiceManager($this->getServiceManager());
-    	            }
-    	            if (is_callable($command)) {
-    	                $invocable = $command;
-    	            } else {
-    	                $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('"%s" is not a valid command.', $action));
-    	            }
-    	        } else {
-    	           $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Action "%s" not found.', $action));
+	        try {
+    	        $resolver = new ActionResolver();
+    	        $resolver->setServiceManager($this->getServiceManager());
+    	        $actionIdentifier = array_shift($params);
+    	        $invocable = $resolver->resolve($actionIdentifier);
+    	        try {
+    	            $report = call_user_func($invocable, $params);
+    	        } catch (\Exception $e) {
+    	            $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('An error occured while running "%s", please check your error log.', $actionIdentifier));
     	        }
-    	    }
-    	    if (!is_null($invocable)) {
-        	    try {
-        	        $report = call_user_func($invocable, $params);
-        	    } catch (\Exception $e) {
-        	        $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('An error occured while running "%s", please check your error log.', $action));
-        	    }
-    	    } 
+	        } catch (ResolutionException $e) {
+	            $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Action "%s" not found.', $actionIdentifier));
+	        }
 	    }
 	     
 	    echo \tao_helpers_report_Rendering::renderToCommandline($report);

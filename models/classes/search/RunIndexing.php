@@ -23,14 +23,14 @@ namespace oat\tao\model\search;
 use oat\oatbox\Configurable;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\SearchService;
+use oat\oatbox\action\Action;
 /**
  * Command to reindex all resources
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  */
-class RunIndexing
-    extends ConfigurableService
+class RunIndexing extends ConfigurableService implements Action
 {
     /**
      * 
