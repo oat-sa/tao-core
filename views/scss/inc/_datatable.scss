@@ -6,6 +6,11 @@
     }
     .action-bar {
         margin: 10px 0;
+        .btn-info{
+            overflow: hidden;
+            background: transparent;
+            border : 1px  white(.3) solid;
+        }
     }
     .filter {
         display: inline-block;
@@ -55,12 +60,13 @@ table.datatable{
             vertical-align: top;
         }
         tr.selected {
-            background: $lightBlueGrey;
+            background: $darkBlueGrey;
         }
     }
     &.hoverable {
         tr:hover  {
             background: $lightBlueGrey;
+            cursor: pointer;
         }
     }
     th{
@@ -84,7 +90,7 @@ table.datatable{
     }
     tr{
         &.selected {
-            background: $lightBlueGrey;
+            background: $darkBlueGrey;
         }
     }
     th,
@@ -97,7 +103,7 @@ table.datatable{
             text-align: center;
         }
         button{
-          text-transform: capitalize;
+            text-transform: capitalize;
         }
     }
 }
