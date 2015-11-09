@@ -51,7 +51,6 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                 if(section.id === 'list_users'){
                     $userList.datatable('refresh');
                 }
-
             });
 
             //initialize the user manager component
@@ -70,17 +69,11 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                     },{
                         id : 'name',
                         label : __('Name'),
-                        sortable : true,
-                        filterable: {
-                            placeholder: __('Filter by last name')
-                        }
+                        sortable : true
                     },{
                         id : 'email',
                         label : __('Email'),
-                        sortable : true,
-                        filterable: {
-                            placeholder: __('Filter by email')
-                        }
+                        sortable : true
                     },{
                         id : 'roles',
                         label : __('Roles'),

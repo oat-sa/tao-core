@@ -305,12 +305,10 @@ class tao_models_classes_UserService
 	 * @param array $filters
      * @return array
      */
-    public function getAllUsers($options = [], $filters = [])
+    public function getAllUsers($options = [], $filters = [PROPERTY_USER_LOGIN => '*'])
     {
         $userClass = new core_kernel_classes_Class(CLASS_TAO_USER);
-
 		$options = array_merge(['recursive' => true, 'like' => true], $options);
-		$filters = array_merge([PROPERTY_USER_LOGIN => '*'], $filters);
 
 		return (array) $userClass->searchInstances($filters, $options);
     }

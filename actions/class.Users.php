@@ -83,7 +83,9 @@ class tao_actions_Users extends tao_actions_CommonModule
             'name' => PROPERTY_USER_LASTNAME,
             'email' => PROPERTY_USER_MAIL,
             'dataLg' => PROPERTY_USER_DEFLG,
-            'guiLg' => PROPERTY_USER_UILG
+            'guiLg' => PROPERTY_USER_UILG,
+            'firstname' => PROPERTY_USER_FIRSTNAME,
+            'lastname' => PROPERTY_USER_LASTNAME
         ];
 
         // sorting
@@ -96,8 +98,21 @@ class tao_actions_Users extends tao_actions_CommonModule
                 // if filter columns not set, search by all columns
                 $filterColumns = array_keys($fieldsMap);
             }
+
+            if (array_search('name', $filterColumns) !== false) {
+                // split name filter to first name and last name
+                $filterColumns[] = 'firstname';
+                $filterColumns[] = 'lastname';
+            }
+
             $filters = array_flip(array_intersect_key($fieldsMap, array_flip($filterColumns)));
-            array_walk($filters, function (&$row) use($filterQuery) {
+            array_walk($filters, function (&$row, $key) use($filterQuery) {
+                if ($key === PROPERTY_USER_FIRSTNAME) {
+                    $filterQuery = array_shift((explode(' ', $filterQuery)));
+                }
+                if ($key === PROPERTY_USER_LASTNAME) {
+                    $filterQuery = array_pop((explode(' ', $filterQuery)));
+                }
                 $row = $filterQuery;
             });
         }
