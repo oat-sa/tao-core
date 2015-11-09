@@ -77,62 +77,7 @@ define([
 
 
     QUnit.asyncTest('events', function(assert) {
-        var instance = polling({
-            oncustom : function() {
-                assert.ok(true, 'The polling instance can handle custom events directly from its config');
-                QUnit.start();
-            },
-
-            oncall : function() {
-                assert.ok(true, 'The polling instance triggers event when the action is called (handler set in config)');
-                QUnit.start();
-            },
-
-            onresolved : function() {
-                assert.ok(true, 'The polling instance triggers event when the action is validated in async mode (handler set in config)');
-                QUnit.start();
-            },
-
-            onrejected : function() {
-                assert.ok(true, 'The polling instance triggers event when the action is canceled in async mode (handler set in config)');
-                QUnit.start();
-            },
-
-            onasync : function() {
-                assert.ok(true, 'The polling instance triggers event when the action is set to async mode (handler set in config)');
-                QUnit.start();
-            },
-
-            onnext : function() {
-                assert.ok(true, 'The polling instance triggers event when the action is triggered immediately (handler set in config)');
-                QUnit.start();
-            },
-
-            onstart : function() {
-                assert.ok(true, 'The polling instance triggers event when the polling is started (handler set in config)');
-                QUnit.start();
-            },
-
-            onstop : function() {
-                assert.ok(true, 'The polling instance triggers event when the polling is stopped (handler set in config)');
-                QUnit.start();
-            },
-
-            onsetinterval : function() {
-                assert.ok(true, 'The polling instance triggers event when the interval is changed (handler set in config)');
-                QUnit.start();
-            },
-
-            onsetaction : function() {
-                assert.ok(true, 'The polling instance triggers event when the action to call is changed (handler set in config)');
-                QUnit.start();
-            },
-
-            onsetcontext : function() {
-                assert.ok(true, 'The polling instance triggers event when the call context is changed (handler set in config)');
-                QUnit.start();
-            }
-        });
+        var instance = polling();
 
         var interval = 50;
         var context = {
@@ -175,77 +120,67 @@ define([
             QUnit.start();
         });
 
-        instance.on('call', function(ins) {
+        instance.on('call', function() {
             assert.ok(true, 'The polling instance triggers event when the action is called [step ' + context.step + ']');
-            assert.equal(ins, instance, 'The parameter of the action event is the instance');
             QUnit.start();
         });
 
-        instance.on('resolved', function(ins) {
+        instance.on('resolved', function() {
             assert.ok(true, 'The polling instance triggers event when the action is validated in async mode [step ' + context.step + ']');
-            assert.equal(ins, instance, 'The parameter of the resolved event is the instance');
             QUnit.start();
         });
 
-        instance.on('rejected', function(ins) {
+        instance.on('rejected', function() {
             assert.ok(true, 'The polling instance triggers event when the action is canceled in async mode [step ' + context.step + ']');
-            assert.equal(ins, instance, 'The parameter of the rejected event is the instance');
             QUnit.start();
         });
 
-        instance.on('async', function(cb, ins) {
+        instance.on('async', function(cb) {
             assert.ok(true, 'The polling instance triggers event when the action is set to async mode [step ' + context.step + ']');
             assert.equal(typeof cb, 'object', 'The first parameter of the async event is the resolve object');
             assert.ok(cb.resolve, 'The first parameter of the async event has a resolve method');
             assert.ok(cb.reject, 'The first parameter of the async event has a reject method');
-            assert.equal(ins, instance, 'The second parameter of the async event is the instance');
             QUnit.start();
         });
 
-        instance.on('next', function(ins) {
+        instance.on('next', function() {
             assert.ok(true, 'The polling instance triggers event when the action is triggered immediately [step ' + context.step + ']');
-            assert.equal(ins, instance, 'The parameter of the next event is the instance');
             QUnit.start();
         });
 
-        instance.on('start', function(ins) {
+        instance.on('start', function() {
             assert.ok(true, 'The polling instance triggers event when the polling is started [step ' + context.step + ']');
-            assert.equal(ins, instance, 'The parameter of the start event is the instance');
             QUnit.start();
         });
 
-        instance.on('stop', function(ins) {
+        instance.on('stop', function() {
             assert.ok(true, 'The polling instance triggers event when the polling is stopped [step ' + context.step + ']');
-            assert.equal(ins, instance, 'The parameter of the stop event is the instance');
             QUnit.start();
 
             if (2 === context.step || 3 === context.step) {
-                ins.next();
+                instance.next();
             }
         });
 
-        instance.on('setinterval', function(val, ins) {
+        instance.on('setinterval', function(val) {
             assert.ok(true, 'The polling instance triggers event when the interval is changed');
             assert.equal(val, interval, 'The first parameter of the setinterval event is the changed value');
-            assert.equal(ins, instance, 'The second parameter of the setinterval event is the instance');
             QUnit.start();
         });
 
-        instance.on('setaction', function(val, ins) {
+        instance.on('setaction', function(val) {
             assert.ok(true, 'The polling instance triggers event when the action to call is changed');
             assert.equal(val, action, 'The first parameter of the setaction event is the changed value');
-            assert.equal(ins, instance, 'The second parameter of the setaction event is the instance');
             QUnit.start();
         });
 
-        instance.on('setcontext', function(val, ins) {
+        instance.on('setcontext', function(val) {
             assert.ok(true, 'The polling instance triggers event when the call context is changed');
             assert.equal(val, context, 'The first parameter of the setcontext event is the changed value');
-            assert.equal(ins, instance, 'The second parameter of the setcontext event is the instance');
             QUnit.start();
         });
 
-        QUnit.stop(43);
+        QUnit.stop(21);
 
         instance.trigger('custom');
 

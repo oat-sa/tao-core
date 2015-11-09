@@ -40,7 +40,6 @@ define([
      * @param {Number|String} [config.interval] - The minimal time between two iterations
      * @param {Boolean} [config.autoStart] - Whether or not the polling should start immediately
      * @param {Object} [config.context] - An optional context to apply on each action call
-     * @param {Function} [config.oneventname] - Bind an event handler to the event eventname
      * @returns {polling}
      */
     var pollingFactory = function pollingFactory(config) {
@@ -83,9 +82,8 @@ define([
                     /**
                      * Notifies the polling continues
                      * @event polling#resolved
-                     * @param {polling} polling
                      */
-                    polling.trigger('resolved', polling);
+                    polling.trigger('resolved');
 
                     // next iteration
                     startTimer();
@@ -95,9 +93,8 @@ define([
                     /**
                      * Notifies the polling has been halted
                      * @event polling#rejected
-                     * @param {polling} polling
                      */
-                    polling.trigger('rejected', polling);
+                    polling.trigger('rejected');
 
                     // breaks the polling
                     polling.stop();
@@ -137,9 +134,8 @@ define([
                  * @param {Object} async
                  * @param {Function} async.resolve
                  * @param {Function} async.reject
-                 * @param {polling} polling
                  */
-                polling.trigger('async', cb, polling);
+                polling.trigger('async', cb);
 
                 return cb;
             },
@@ -159,7 +155,7 @@ define([
                      * @event polling#next
                      * @param {polling} polling
                      */
-                    this.trigger('next', this);
+                    this.trigger('next');
 
                     iteration();
                 }
@@ -177,9 +173,8 @@ define([
                     /**
                      * Notifies the start
                      * @event polling#start
-                     * @param {polling} polling
                      */
-                    this.trigger('start', this);
+                    this.trigger('start');
                 }
                 return this;
             },
@@ -194,9 +189,8 @@ define([
                 /**
                  * Notifies the stop
                  * @event polling#stop
-                 * @param {polling} polling
                  */
-                this.trigger('stop', this);
+                this.trigger('stop');
 
                 return this;
             },
@@ -213,9 +207,8 @@ define([
                  * Notifies the interval change
                  * @event polling#setinterval
                  * @param {Number} interval
-                 * @param {polling} polling
                  */
-                this.trigger('setinterval', interval, this);
+                this.trigger('setinterval', interval);
 
                 return this;
             },
@@ -240,9 +233,8 @@ define([
                  * Notifies the action change
                  * @event polling#setaction
                  * @param {Function} action
-                 * @param {polling} polling
                  */
-                this.trigger('setaction', action, this);
+                this.trigger('setaction', action);
 
                 return this;
             },
@@ -267,9 +259,8 @@ define([
                  * Notifies the context change
                  * @event polling#setcontext
                  * @param {Object} context
-                 * @param {polling} polling
                  */
-                this.trigger('setcontext', ctx, this);
+                this.trigger('setcontext', ctx);
 
                 return this;
             },
@@ -304,13 +295,6 @@ define([
             polling.setInterval(config.interval || arguments[1]);
             polling.setContext(config.context);
             autoStart = !!config.autoStart;
-
-            // install the events handlers
-            _.forEach(config, function(handler, name) {
-                if (!name.indexOf('on')) {
-                    polling.on(name.substr(2), handler);
-                }
-            });
         }
 
         if (autoStart) {
