@@ -67,8 +67,12 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                         label : __('Login'),
                         sortable : true
                     },{
-                        id : 'name',
-                        label : __('Name'),
+                        id : 'firstname',
+                        label : __('First Name'),
+                        sortable : true
+                    },{
+                        id : 'lastname',
+                        label : __('Last Name'),
                         sortable : true
                     },{
                         id : 'email',
