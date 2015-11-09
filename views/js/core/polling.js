@@ -69,9 +69,8 @@ define([
             /**
              * Notifies the action is about to be called
              * @event polling#call
-             * @param {polling} polling
              */
-            polling.trigger('call', polling);
+            polling.trigger('call');
 
             action.call(context, polling);
 
