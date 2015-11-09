@@ -6,6 +6,11 @@
     }
     .action-bar {
         margin: 10px 0;
+        .btn-info{
+            overflow: hidden;
+            background: transparent;
+            border : 1px  white(.3) solid;
+        }
     }
     .filter {
         display: inline-block;
@@ -95,7 +100,7 @@ table.datatable{
             text-align: center;
         }
         button{
-          text-transform: capitalize;
+            text-transform: capitalize;
         }
     }
 }
