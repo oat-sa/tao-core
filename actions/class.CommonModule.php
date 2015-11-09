@@ -237,10 +237,11 @@ abstract class tao_actions_CommonModule extends Module
     }
     
     /**
+     * Placeholder function until controllers properly support service manager
      * 
      * @return \oat\oatbox\service\ServiceManager
      */
-    public function getServiceManager()
+    protected function getServiceManager()
     {
         return ServiceManager::getServiceManager();
     }

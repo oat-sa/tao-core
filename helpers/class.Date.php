@@ -38,12 +38,14 @@ class tao_helpers_Date
 
     const FORMAT_DATEPICKER = 2;
 
+    const FORMAT_ISO8601 = 3;
+
     const FORMAT_INTERVAL_LONG = 100;
 
     const FORMAT_INTERVAL_SHORT = 101;
     
     private static $service;
-    
+
     static protected function getDateFormatter()
     {
         if (is_null(self::$service)) {
@@ -53,6 +55,7 @@ class tao_helpers_Date
                 ? $service
                 : new EuropeanFormatter();
         }
+
         return self::$service;
     }
 
@@ -69,13 +72,17 @@ class tao_helpers_Date
         if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
             $ts = $timestamp->__toString();
         } elseif (is_object($timestamp) && $timestamp instanceof DateTime) {
-            $ts = $timestamp->getTimestamp();
+            $ts = self::getTimeStampWithMicroseconds($timestamp);
         } elseif (is_numeric($timestamp)) {
             $ts = $timestamp;
+        } elseif (is_string($timestamp) && preg_match('/.\+0000$/', $timestamp)) {
+            $ts = self::getTimeStampWithMicroseconds(new DateTime($timestamp, new DateTimeZone('UTC')));
+        } elseif (is_string($timestamp) && preg_match('/0\.[\d]+\s[\d]+/', $timestamp)) {
+            $ts = self::getTimeStamp($timestamp, true);
         } else {
             throw new common_Exception('Unexpected timestamp');
         }
-        
+
         return self::getDateFormatter()->format($ts, $format);
     }
 
@@ -97,7 +104,7 @@ class tao_helpers_Date
         $newDate = new \DateTime();
         $intervalObj = $intervalObj instanceof DateTime ? $newDate->diff($intervalObj, true) : $intervalObj;
         if (! $intervalObj instanceof DateInterval) {
-            common_Logger::w('Unkown interval format ' . get_class($interval) . ' for ' . __FUNCTION__, 'TAO');
+            common_Logger::w('Unknown interval format ' . get_class($interval) . ' for ' . __FUNCTION__, 'TAO');
             return '';
         }
         
@@ -114,7 +121,7 @@ class tao_helpers_Date
                     $returnValue = self::formatElapsed($intervalObj, $formatStrings);
                     break;
                 default:
-                    common_Logger::w('Unkown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
+                    common_Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
             }
         }
         return $returnValue;
@@ -169,9 +176,19 @@ class tao_helpers_Date
      * @param unknown $microtime            
      * @return number
      */
-    static function getTimeStamp($microtime)
+    static function getTimeStamp($microtime, $microseconds = false)
     {
-        list ($usec, $sec) = explode(" ", $microtime);
-        return ((float) $sec);
+        $parts = array_reverse(explode(" ", $microtime));
+
+        $timestamp = $microseconds && isset($parts[1])
+            ? $parts[0] . '.' . str_replace('0.', '', sprintf('%0.6f', $parts[1]))
+            : $parts[0];
+
+        return $timestamp;
+    }
+
+    static function getTimeStampWithMicroseconds(DateTime $dt)
+    {
+        return join('.', array($dt->getTimestamp(), $dt->format('u')));
     }
 }

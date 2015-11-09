@@ -6,14 +6,21 @@
     }
     .action-bar {
         margin: 10px 0;
+        .btn-info{
+            overflow: hidden;
+            background: transparent;
+            border : 1px  white(.3) solid;
+        }
     }
     .filter {
-        float: right;
         display: inline-block;
         position: relative;
+        text-align: right;
+        width: 100%;
+        margin-bottom: 10px;
         input {
             padding-right: 30px;
-            min-width: 250px !important;
+            min-width: 250px;
         }
         button {
             position: absolute;
@@ -28,18 +35,43 @@
                 color: #666;
             }
         }
+        &.column {
+            float: none;
+            input {
+                min-width: inherit;
+            }
+        }
+    }
+    .pagination {
+        &.bottom {
+            margin-top: 20px;
+        }
     }
 }
 .datatable-container {
     overflow-y: auto;
 }
 table.datatable{
-    th{
-        cursor: not-allowed;
-        &[data-sort-by]{
+    &.matrix {
+        th {
+            vertical-align: top;
+        }
+        tr.selected {
+            background: $darkBlueGrey;
+        }
+    }
+    &.hoverable {
+        tr:hover  {
+            background: $lightBlueGrey;
             cursor: pointer;
         }
-        &.sorted{
+    }
+    th{
+        cursor: not-allowed;
+        [data-sort-by]{
+            cursor: pointer;
+        }
+        .sorted{
             &:after{
                 float:right;
             }
@@ -53,11 +85,13 @@ table.datatable{
             }
         }
     }
+    tr{
+        &.selected {
+            background: $darkBlueGrey;
+        }
+    }
     th,
     td{
-        &.id{
-            display:none;
-        }
         &.checkboxes{
             width: 20px;
             text-align: center;
@@ -66,7 +100,7 @@ table.datatable{
             text-align: center;
         }
         button{
-          text-transform: capitalize;
+            text-transform: capitalize;
         }
     }
 }

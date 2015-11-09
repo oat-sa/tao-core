@@ -38,6 +38,10 @@ use HttpRequest;
 use HTTPToolkit;
 
 use Exception;
+use oat\oatbox\service\ServiceNotFoundException;
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\action\ActionResolver;
+use oat\oatbox\action\ResolutionException;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -135,11 +139,73 @@ class Bootstrap {
 	{
 		if(!self::$isStarted){
 			$this->session();
-			$this->includePath();
+			$this->setDefaultTimezone();
 			$this->registerErrorhandler();
 			self::$isStarted = true;
 		}
 		common_Profiler::stop('start');
+	}
+	
+	protected function dispatchHttp()
+	{
+	    $isAjax = tao_helpers_Request::isAjax();
+	    
+	    if(tao_helpers_Context::check('APP_MODE')){
+	        if(!$isAjax){
+	            $this->scripts();
+	        }
+	    }
+	    
+	    //Catch all exceptions
+	    try{
+	        //the app is ready
+	        if($this->isReady()){
+	            $this->mvc();
+	        }
+	        //the app is not ready
+	        else{
+	            //the request is not an ajax request, redirect the user to the maintenance page
+	            if(!$isAjax){
+	                require_once Template::getTemplate('error/maintenance.tpl', 'tao');
+	                //else throw an exception, this exception will be send to the client properly
+	            }
+	            else{
+	    
+	                throw new \common_exception_SystemUnderMaintenance();
+	            }
+	        }
+	    }
+	    catch(Exception $e){
+	        $this->catchError($e);
+	    }
+	    
+	    // explicitly close session
+	    session_write_close();
+	}
+	
+	protected function dispatchCli()
+	{
+	    $params = $_SERVER['argv'];
+	    $file = array_shift($params);
+	    if (count($params) < 1) {
+	        $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('No action specified'));
+	    } else {
+	        try {
+    	        $resolver = new ActionResolver();
+    	        $resolver->setServiceManager($this->getServiceManager());
+    	        $actionIdentifier = array_shift($params);
+    	        $invocable = $resolver->resolve($actionIdentifier);
+    	        try {
+    	            $report = call_user_func($invocable, $params);
+    	        } catch (\Exception $e) {
+    	            $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('An error occured while running "%s", please check your error log.', $actionIdentifier));
+    	        }
+	        } catch (ResolutionException $e) {
+	            $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Action "%s" not found.', $actionIdentifier));
+	        }
+	    }
+	     
+	    echo \tao_helpers_report_Rendering::renderToCommandline($report);
 	}
 
 	/**
@@ -152,40 +218,11 @@ class Bootstrap {
 	{
 		common_Profiler::start('dispatch');
 		if(!self::$isDispatched){
-            $isAjax = tao_helpers_Request::isAjax();
-
-			if(tao_helpers_Context::check('APP_MODE')){
-				if(!$isAjax){
-					$this->scripts();
-				}
-			}
-
-            //Catch all exceptions
-            try{
-                //the app is ready
-                if($this->isReady()){
-                    $this->mvc();
-                }
-                //the app is not ready
-                else{
-                    //the request is not an ajax request, redirect the user to the maintenance page
-                    if(!$isAjax){
-                        require_once Template::getTemplate('error/maintenance.tpl', 'tao');
-                    //else throw an exception, this exception will be send to the client properly
-                    }
-                    else{
-                        
-                        throw new \common_exception_SystemUnderMaintenance();
-                    }
-                }
-            }
-            catch(Exception $e){
-                $this->catchError($e);
-            }
-
-            // explicitly close session
-            session_write_close();
-
+		    if (PHP_SAPI == 'cli') {
+		        $this->dispatchCli();
+		    } else {
+                $this->dispatchHttp();
+		    }
             self::$isDispatched = true;
         }
         common_Profiler::stop('dispatch');
@@ -350,11 +387,13 @@ class Bootstrap {
 	}
 
 	/**
-	 * Update the include path
+	 * Set Timezone quickfix
 	 */
-	protected function includePath()
+	protected function setDefaultTimezone()
 	{
-		set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);
+	    if(function_exists("date_default_timezone_set") && defined('TIME_ZONE')){
+	        date_default_timezone_set(TIME_ZONE);
+	    }
 	}
 
 	/**
@@ -375,10 +414,11 @@ class Bootstrap {
 	 */
 	protected function scripts()
 	{
+	    $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
         $cssFiles = array(
-			self::getAssetService()->getJsBaseWww('tao') . 'css/layout.css',
-			self::getAssetService()->getJsBaseWww('tao') . 'css/tao-main-style.css',
-			self::getAssetService()->getJsBaseWww('tao') . 'css/tao-3.css'
+			$assetService->getJsBaseWww('tao') . 'css/layout.css',
+			$assetService->getJsBaseWww('tao') . 'css/tao-main-style.css',
+			$assetService->getJsBaseWww('tao') . 'css/tao-3.css'
         );
 
         //stylesheets to load
@@ -386,7 +426,7 @@ class Bootstrap {
 
         if(\common_session_SessionManager::isAnonymous()) {
             \tao_helpers_Scriptloader::addCssFile(
-				self::getAssetService()->getJsBaseWww('tao') . 'css/portal.css'
+				$assetService->getJsBaseWww('tao') . 'css/portal.css'
             );
         }
 
@@ -398,13 +438,8 @@ class Bootstrap {
         }
     }
 
-	/**
-	 * @return AssetService
-	 * @throws \common_Exception
-	 * @throws \oat\oatbox\service\ServiceNotFoundException
-	 */
-	private static function getAssetService()
+	private function getServiceManager()
 	{
-		return ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+	    return ServiceManager::getServiceManager();
 	}
 }

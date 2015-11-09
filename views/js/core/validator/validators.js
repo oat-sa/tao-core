@@ -1,12 +1,18 @@
 /**
+ * Enables you register validators and provide most common validators.
+ *
  * @author Sam <sam@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash', 'i18n', 'jquery'], function(_, __, $){
+define([
+    'jquery',
+    'lodash',
+    'i18n'
+], function($, _, __){
     'use strict';
 
     /**
-     * Defines the validation callback 
+     * Defines the validation callback
      * @callback IsValidCallback
      * @param {Boolean} isValid - whether the value is valid or not
      */
@@ -101,39 +107,43 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
             name : 'fileExists',
             message : __('no file not found in this location'),
             options : {baseUrl : ''},
-            validate : function(value, callback, options){
-                
-                if(!value){
-                    callback(false);
-                    return;
-                }
-                
-                //valid way to know if it is an url
-                var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])?)\\.)+[a-z]{2,}|'+ // domain name
-                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-                    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-                if(!pattern.test(value) && !/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(value)){
-                	//request HEAD only for bandwidth saving
-                    $.ajax({
-                        type : 'HEAD',
-                        url : options.baseUrl + encodeURIComponent(value),
-                        success : function(){
-                            callback(true);
-                        },
-                        error : function(){
-                            callback(false);
-                        }
-                    });
-                
-                }else{
-                    
-                    callback(true);
-                }
-                
-            }
+            validate : (function() {
+                return function (value, callback, options) {
+
+                    if(!value){
+                        callback(false);
+                        return;
+                    }
+
+                    //FIXME use util/url
+                    //valid way to know if it is an url
+                    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                        '((([a-z\\d]([a-z\\d-]*[a-z\\d])?)\\.)+[a-z]{2,}|'+ // domain name
+                        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+                    if(!pattern.test(value) && !/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/.test(value)){
+                        //request HEAD only for bandwidth saving
+                        $.ajax({
+
+                            type : 'HEAD',
+                            //FIXME change this to use an URL without transfomations. the validator should be called with the right URL,
+                            //here it works only for the getFile service...
+                            url : options.baseUrl + encodeURIComponent(value),
+                            success : function(){
+                                callback(true);
+                            },
+                            error : function(jqXHR, textStatus, errorThrown) {
+                                callback(false);
+                            }
+                        });
+
+                    } else {
+                        callback(true);
+                    }
+                };
+            })()
         },
         validRegex : {
             name: 'validRegex',
@@ -163,12 +173,16 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
      * Register a new validator
      * @param {String} [name] - the validator name
      * @param {Object} validator - the validator
+     * @param {String} [validator.name] - the name if not used in first parameter
      * @param {String} validator.message - the failure message
      * @param {Function} validator.validate - the validator
+     * @param {Boolean} [force = false] - force to register the validator even if it is always registered
      */
-    var register = function registerValidator(name, validator){
-        name = (typeof name === 'object' && name.name) ? name.name : name;
-        validator = (typeof name === 'object') ? name : validator;
+    var register = function registerValidator(name, validator, force){
+        if(_.isPlainObject(name) && name.name && !validator){
+            validator = name;
+            name = validator.name;
+        }
 
         if(!_.isString(name) || _.isEmpty(name)){
             throw new Error('Please name your validator');
@@ -179,18 +193,17 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
         }
 
         //do not override
-        if(!validators[name]){
+        if(!validators[name] || !!force){
             validators[name] = validator;
         }
     };
 
     /**
      * Gives access to the validator and enable to register new validators
-     * @exports validator/validators 
+     * @exports validator/validators
      */
     return {
         validators : validators,
         register : register
     };
 });
-
