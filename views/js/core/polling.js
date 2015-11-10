@@ -15,7 +15,102 @@
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
+
 /**
+ * Defines a polling manager with flow control: schedules action to run periodically.
+ * Ensures each polling step is done before scheduling the next one, even if the action is asynchronous.
+ * Handles synchronous as wells as asynchronous actions.
+ * The scheduling can be paused/resumed any time, or the next schedule can be forced to occurs immediately.
+ *
+ * @example <caption>Simple synchronous polling</caption>
+ * // direct assignment
+ * var poll = polling({
+ *     action: function() {
+ *         // something to do at interval
+ *
+ *         // you can stop the polling immediately at this point is needed, using:
+ *         // this.stop();
+ *     },
+ *     interval: 50,   // each action will occur 50 ms after the last step
+ *     autoStart: true // start immediately
+ * });
+ *
+ * // explicit assignment
+ * var poll = polling();
+ *
+ * poll.setAction(function() {
+ *     // something to do at interval
+ * });
+ *
+ * // each action will occur 50 ms after the last step
+ * poll.setInterval(50);
+ *
+ * // start the polling
+ * poll.start();
+ *
+ * // stop after a period of time
+ * setTimeout(function() {
+ *     poll.stop();
+ * }, 1000);
+ *
+ * @example <caption>Asynchronous polling</caption>
+ * // direct assignment
+ * var poll = polling({
+ *     action: function() {
+ *         // get into asynchronous mode
+ *         var async = this.async();
+ *
+ *         // defer the next schedule
+ *         setTimeout(function() {
+ *             if (needToContinue) {
+ *                 // continue the polling
+ *                 async.resolve();
+ *             } else {
+ *                 // stop immediately the polling
+ *                 async.reject();
+ *             }
+ *         }, 100);
+ *     },
+ *     interval: 50,   // each action will occur 50 ms after the last step
+ *     autoStart: true // start immediately
+ * });
+ *
+ * // explicit assignment
+ * var poll = polling();
+ *
+ * // you can also change the 'this' of each action
+ * var anObject = { foo: 'bar' };
+ * poll.setContext(anObject);
+ *
+ * poll.setAction(function(p) {
+ *     // get into asynchronous mode,
+ *     // but as the context is not the polling manager
+ *     // you need to use the argument
+ *     var async = p.async();
+ *
+ *     // defer the next schedule
+ *     setTimeout(function() {
+ *         if (needToContinue) {
+ *             // continue the polling
+ *             async.resolve();
+ *         } else {
+ *             // stop immediately the polling
+ *             async.reject();
+ *         }
+ *     }, 100);
+ * });
+ *
+ * // each action will occur 50 ms after the last step
+ * poll.setInterval(50);
+ *
+ * // start the polling
+ * poll.start();
+ *
+ * // stop after a period of time
+ * setTimeout(function() {
+ *     poll.stop();
+ * }, 1000);
+ *
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
@@ -36,15 +131,15 @@ define([
     /**
      * Create a polling manager for a particular action
      * @param {Object|Function} [config] - A config object, or the action called on each iteration
-     * @param {Function} [config.action] - The callback action called on each iteration
+     * @param {Function} [config.action] - The callback action called on each iteration, the polling instance is provided as first argument
      * @param {Number|String} [config.interval] - The minimal time between two iterations
+     * @param {Number|String} [config.max] - Set a max number of iterations, after what the polling is stopped.
      * @param {Boolean} [config.autoStart] - Whether or not the polling should start immediately
      * @param {Object} [config.context] - An optional context to apply on each action call
-     * @param {Function} [config.oneventname] - Bind an event handler to the event eventname
      * @returns {polling}
      */
     var pollingFactory = function pollingFactory(config) {
-        var stopped, timer, promise, interval, action, context, autoStart;
+        var stopped, timer, promise, interval, max, iter, action, context, autoStart;
 
         /**
          * Fires a new timer
@@ -67,12 +162,21 @@ define([
          * Runs an iteration of the polling loop
          */
         var iteration = function iteration() {
+            // prevent more iterations than needed to be ran
+            if (max && iter >= max) {
+                // breaks the polling
+                polling.stop();
+                return;
+            }
+
+            // count the iteration
+            iter = (iter || 0) + 1;
+
             /**
              * Notifies the action is about to be called
              * @event polling#call
-             * @param {polling} polling
              */
-            polling.trigger('call', polling);
+            polling.trigger('call');
 
             action.call(context, polling);
 
@@ -80,27 +184,25 @@ define([
                 promise.then(function() {
                     promise = null;
 
+                    // next iteration
+                    startTimer();
+
                     /**
                      * Notifies the polling continues
                      * @event polling#resolved
-                     * @param {polling} polling
                      */
-                    polling.trigger('resolved', polling);
-
-                    // next iteration
-                    startTimer();
+                    polling.trigger('resolved');
                 }).catch(function() {
                     promise = null;
+
+                    // breaks the polling
+                    polling.stop();
 
                     /**
                      * Notifies the polling has been halted
                      * @event polling#rejected
-                     * @param {polling} polling
                      */
-                    polling.trigger('rejected', polling);
-
-                    // breaks the polling
-                    polling.stop();
+                    polling.trigger('rejected');
                 });
             } else {
                 if (!stopped) {
@@ -116,10 +218,10 @@ define([
          */
         var polling = {
             /**
-             * Sets the current action to asynchronous mode.
+             * Gets the current action into asynchronous mode.
              * The next iteration won't be executed until the resolve method has been called.
-             * If the reject method is called, the polling is then stopped!
-             * @returns {Object}
+             * However if the reject method is called, the polling is then stopped!
+             * @returns {Promise}
              */
             async : function async() {
                 var cb = {};
@@ -134,14 +236,13 @@ define([
                 /**
                  * Notifies the current action is asynchronous
                  * @event polling#async
-                 * @param {Object} async
+                 * @param {Promise} async
                  * @param {Function} async.resolve
                  * @param {Function} async.reject
-                 * @param {polling} polling
                  */
-                polling.trigger('async', cb, polling);
+                polling.trigger('async', promise);
 
-                return cb;
+                return promise;
             },
 
             /**
@@ -150,7 +251,19 @@ define([
              * @returns {polling}
              */
             next : function next() {
+                // reset the counter if the polling is stopped
+                if (stopped) {
+                    iter = 0;
+                }
+
+                // ensure the scheduling if off
                 stopTimer();
+
+                // prevent more iterations than needed to be ran
+                if (max && iter >= max) {
+                    return this;
+                }
+
                 stopped = false;
 
                 if (!promise) {
@@ -159,7 +272,7 @@ define([
                      * @event polling#next
                      * @param {polling} polling
                      */
-                    this.trigger('next', this);
+                    this.trigger('next');
 
                     iteration();
                 }
@@ -172,14 +285,14 @@ define([
              */
             start : function start() {
                 if (!timer) {
+                    iter = 0;
                     startTimer();
 
                     /**
                      * Notifies the start
                      * @event polling#start
-                     * @param {polling} polling
                      */
-                    this.trigger('start', this);
+                    this.trigger('start');
                 }
                 return this;
             },
@@ -194,9 +307,8 @@ define([
                 /**
                  * Notifies the stop
                  * @event polling#stop
-                 * @param {polling} polling
                  */
-                this.trigger('stop', this);
+                this.trigger('stop');
 
                 return this;
             },
@@ -207,15 +319,14 @@ define([
              * @returns {polling}
              */
             setInterval : function setInterval(value) {
-                interval = parseInt(value, 10) || _defaultInterval;
+                interval = Math.abs(parseInt(value, 10) || _defaultInterval);
 
                 /**
                  * Notifies the interval change
                  * @event polling#setinterval
                  * @param {Number} interval
-                 * @param {polling} polling
                  */
-                this.trigger('setinterval', interval, this);
+                this.trigger('setinterval', interval);
 
                 return this;
             },
@@ -240,9 +351,8 @@ define([
                  * Notifies the action change
                  * @event polling#setaction
                  * @param {Function} action
-                 * @param {polling} polling
                  */
-                this.trigger('setaction', action, this);
+                this.trigger('setaction', action);
 
                 return this;
             },
@@ -267,9 +377,8 @@ define([
                  * Notifies the context change
                  * @event polling#setcontext
                  * @param {Object} context
-                 * @param {polling} polling
                  */
-                this.trigger('setcontext', ctx, this);
+                this.trigger('setcontext', ctx);
 
                 return this;
             },
@@ -280,6 +389,33 @@ define([
              */
             getContext : function getContext() {
                 return context;
+            },
+
+
+            /**
+             * Sets the max number of polling occurrences
+             * @param {Number} value
+             * @returns {polling}
+             */
+            setMax : function setMax(value) {
+                max = Math.abs(parseInt(value, 10) || 0);
+                return this;
+            },
+
+            /**
+             * Gets the max number of polling occurrences
+             * @returns {Number}
+             */
+            getMax : function getMax() {
+                return max;
+            },
+
+            /**
+             * Gets the number of ran iterations
+             * @returns {Number}
+             */
+            getIteration : function getIteration() {
+                return iter || 0;
             }
         };
 
@@ -291,6 +427,7 @@ define([
         action = null;
         stopped = true;
         autoStart = false;
+        iter = 0;
 
         // maybe only the action is provided
         if (_.isFunction(config)) {
@@ -303,14 +440,8 @@ define([
             polling.setAction(config.action);
             polling.setInterval(config.interval || arguments[1]);
             polling.setContext(config.context);
+            polling.setMax(config.max);
             autoStart = !!config.autoStart;
-
-            // install the events handlers
-            _.forEach(config, function(handler, name) {
-                if (!name.indexOf('on')) {
-                    polling.on(name.substr(2), handler);
-                }
-            });
         }
 
         if (autoStart) {
