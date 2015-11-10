@@ -1,26 +1,31 @@
 /**
+ *
+ * FIXME I am an util, so please move me into the util folder
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define(['jquery'], function($){
-    
+    'use strict';
+
+
     var ns = 'history';
 
     /**
      * Browser history management
-     * @exports core/history 
+     * @exports core/history
      */
     var history = {
 
         /**
          * Some browsers have the backspace button configured to run window.history.back(); we will fix this awefull behavior.
-         * The strategy is to prevent backspace everywhere except in text and editable elements.  
+         * The strategy is to prevent backspace everywhere except in text and editable elements.
          */
         fixBrokenBrowsers : function fixBrokenBrowsers(){
-    
+
             //to be completed if needed
             var enabledSelector = [
                 'input',
-                'textarea', 
+                'textarea',
                 '[contenteditable=true]'
             ].join(',');
 

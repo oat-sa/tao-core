@@ -108,7 +108,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
         
         try {
 	        $instance = $this->getTargetInstance();
-	        
+			$eventManager = \oat\oatbox\service\ServiceManager::getServiceManager()->get(\oat\oatbox\event\EventManager::CONFIG_ID);
 	        foreach($data as $propertyUri => $propertyValue){
 	        	
 	        	if (false === in_array($propertyUri, $excludedPredicates)){
@@ -167,6 +167,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
 	        				);
 	        			}
 	        		}
+					$eventManager->trigger(new \oat\tao\model\event\MetadataModified($instance, $propertyUri, $propertyValue));
 	        	}
 	        }
 	        

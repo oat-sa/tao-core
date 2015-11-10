@@ -1,8 +1,14 @@
 /**
+ * Enables you register validators and provide most common validators.
+ *
  * @author Sam <sam@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash', 'i18n', 'jquery'], function(_, __, $){
+define([
+    'jquery',
+    'lodash',
+    'i18n'
+], function($, _, __){
     'use strict';
 
     /**
@@ -167,12 +173,16 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
      * Register a new validator
      * @param {String} [name] - the validator name
      * @param {Object} validator - the validator
+     * @param {String} [validator.name] - the name if not used in first parameter
      * @param {String} validator.message - the failure message
      * @param {Function} validator.validate - the validator
+     * @param {Boolean} [force = false] - force to register the validator even if it is always registered
      */
-    var register = function registerValidator(name, validator){
-        name = (typeof name === 'object' && name.name) ? name.name : name;
-        validator = (typeof name === 'object') ? name : validator;
+    var register = function registerValidator(name, validator, force){
+        if(_.isPlainObject(name) && name.name && !validator){
+            validator = name;
+            name = validator.name;
+        }
 
         if(!_.isString(name) || _.isEmpty(name)){
             throw new Error('Please name your validator');
@@ -183,7 +193,7 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
         }
 
         //do not override
-        if(!validators[name]){
+        if(!validators[name] || !!force){
             validators[name] = validator;
         }
     };
@@ -197,4 +207,3 @@ define(['lodash', 'i18n', 'jquery'], function(_, __, $){
         register : register
     };
 });
-
