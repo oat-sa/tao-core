@@ -181,28 +181,28 @@ define([
             action.call(context, polling);
 
             if (promise) {
-                promise .then(function() {
+                promise.then(function() {
                     promise = null;
+
+                    // next iteration
+                    startTimer();
 
                     /**
                      * Notifies the polling continues
                      * @event polling#resolved
                      */
                     polling.trigger('resolved');
-
-                    // next iteration
-                    startTimer();
                 }).catch(function() {
                     promise = null;
+
+                    // breaks the polling
+                    polling.stop();
 
                     /**
                      * Notifies the polling has been halted
                      * @event polling#rejected
                      */
                     polling.trigger('rejected');
-
-                    // breaks the polling
-                    polling.stop();
                 });
             } else {
                 if (!stopped) {
