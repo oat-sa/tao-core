@@ -189,4 +189,34 @@ define([
         instance.setAction(action);
         instance.start();
     });
+
+
+    QUnit.asyncTest('limit', function(assert) {
+        var instance = polling();
+        var max = 3;
+        var interval = 50;
+        var context = {
+            step : 0
+        };
+
+        var action = function() {
+            this.step ++;
+            assert.equal(instance.getIteration(), this.step, 'The iteration is counted #' + this.step);
+            assert.ok(instance.getIteration() <= max, 'The number of iterations is under the max #' + this.step);
+            QUnit.start();
+        };
+
+        instance.on('stop', function() {
+            assert.ok(true, 'The polling instance is stopped');
+            QUnit.start();
+        });
+
+        QUnit.stop(3);
+
+        instance.setInterval(interval);
+        instance.setContext(context);
+        instance.setAction(action);
+        instance.setMax(max);
+        instance.start();
+    });
 });
