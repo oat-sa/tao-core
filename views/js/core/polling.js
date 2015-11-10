@@ -218,10 +218,10 @@ define([
          */
         var polling = {
             /**
-             * Sets the current action to asynchronous mode.
+             * Gets the current action into asynchronous mode.
              * The next iteration won't be executed until the resolve method has been called.
-             * If the reject method is called, the polling is then stopped!
-             * @returns {Object}
+             * However if the reject method is called, the polling is then stopped!
+             * @returns {Promise}
              */
             async : function async() {
                 var cb = {};
@@ -236,13 +236,13 @@ define([
                 /**
                  * Notifies the current action is asynchronous
                  * @event polling#async
-                 * @param {Object} async
+                 * @param {Promise} async
                  * @param {Function} async.resolve
                  * @param {Function} async.reject
                  */
-                polling.trigger('async', cb);
+                polling.trigger('async', promise);
 
-                return cb;
+                return promise;
             },
 
             /**
