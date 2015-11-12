@@ -22,53 +22,66 @@ define([
     'jquery',
     'lodash',
     'ui/bulkActionPopup'
-], function($, _, bulkActionPopup) {
+], function ($, _, bulkActionPopup){
     'use strict';
 
     QUnit.module('component');
 
-    QUnit.test('render', 0, function(assert) {
-        
+    QUnit.test('render', 0, function (assert){
+
         var $dummy = $('<div class="dummy" />');
         var $container = $('#fixture-1').append($dummy);
         var config = {
             renderTo : $container,
-            actionName: 'Resume Test Session',
+            actionName : 'Resume Test Session',
             resourceType : 'test taker',
-            categories: [
-                {
-                    name : 'option A',
-                    categories : [
-                        {
-                            name : 'option A-1',
-                            categories : [
-                                {name : 'option A-1-a'},
-                                {name : 'option A-1-b'},
-                                {name : 'option A-1-c'}
+            categories : {
+                id: 'reason1',
+                name : 'Primary Reason',
+                list : [
+                    {
+                        id : 'option_A',
+                        name : 'option A',
+                        categories : {
+                            id: 'reason2',
+                            name : 'Secondary Reason',
+                            list : [
+                                {
+                                    name : 'option A-1',
+                                    categories : [
+                                        {name : 'option A-1-a'},
+                                        {name : 'option A-1-b'},
+                                        {name : 'option A-1-c'}
+                                    ]
+                                },
+                                {
+                                    name : 'option A-2',
+                                    categories : [
+                                        {name : 'option A-2-a'},
+                                        {name : 'option A-2-b'}
+                                    ]
+                                },
+                                {
+                                    name : 'option A-3'
+                                }
                             ]
-                        },
-                        {
-                            name : 'option A-2',
-                            categories : [
-                                {name : 'option A-2-a'},
-                                {name : 'option A-2-b'}
-                            ]
-                        },
-                        {
-                            name : 'option A-3'
                         }
-                    ]
-                },
-                {
-                    name : 'option B',
-                    categories : [
-                        {name : 'option B-1'},
-                        {name : 'option B-2'},
-                        {name : 'option B-3'},
-                        {name : 'option B-4'}
-                    ]
-                }
-            ],
+                    },
+                    {
+                                               
+                        categories : [
+                            {name : 'option B-1'},
+                            {name : 'option B-2'},
+                            {name : 'option B-3'},
+                            {name : 'option B-4'}
+                        ]
+                    },
+                    {
+                        id : 'option_C',
+                        name : 'option C'
+                    }
+                ]
+            },
             comment : true,
             allowedResources : [
                 {

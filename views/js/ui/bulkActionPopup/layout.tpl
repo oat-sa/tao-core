@@ -36,8 +36,7 @@
     <div class="reason">
         <div class="categories"></div>
         <div class="comment">
-            <label>{{__ "Comment"}}</label>
-            <textarea></textarea>
+            <textarea placeholder="{{__ "comment..."}}"></textarea>
         </div>
     </div>
 </div>

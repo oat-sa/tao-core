@@ -20,36 +20,46 @@ define([
     'lodash',
     'i18n',
     'tpl!ui/bulkActionPopup/layout',
+    'tpl!ui/bulkActionPopup/select',
     'ui/component',
     'ui/modal'
-], function ($, _, __, layoutTpl, component) {
+], function ($, _, __, layoutTpl, selectTpl, component){
     'use strict';
-    
+
     var _defaults = {};
-    
+
     var bulkActionPopup = {
-        
     };
-    
-    return function bulkActionPopupFactory(config) {
-        
+
+    function cascadingSelect($container, options){
+
+        function createCombox(opts){
+            return $(selectTpl({options : opts}));
+        }
+
+
+        $container.append();
+    }
+
+    return function bulkActionPopupFactory(config){
+
         //modify the template
         if(config.allowedResources.length === 1){
             config.single = true;
         }
-        
+
         return component(bulkActionPopup, _defaults)
-                .setTemplate(layoutTpl)
+            .setTemplate(layoutTpl)
 
-                // uninstalls the component
-                .on('destroy', function() {
-                    console.log('destroy stuff')
-                })
+            // uninstalls the component
+            .on('destroy', function (){
+                console.log('destroy stuff')
+            })
 
-                // renders the component
-                .on('render', function() {
-                    console.log('rendered');
-                })
-                .init(config);
+            // renders the component
+            .on('render', function (){
+                console.log('rendered');
+            })
+            .init(config);
     };
 });
