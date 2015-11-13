@@ -28,9 +28,8 @@ define([
     QUnit.module('component');
 
     QUnit.test('render', 0, function(assert){
-
-        var $dummy = $('<div class="dummy" />');
-        var $container = $('#fixture-1').append($dummy);
+        return;
+        var $container = $('#fixture-1');
         var config = {
             renderTo : $container,
             actionName : 'Resume Test Session',
@@ -170,8 +169,45 @@ define([
 
         instance = bulkActionPopup(config).on('change', function(state){
             console.log('aaa', arguments);
+        }).on('ok', function(state){
+            console.log('ok', state.reasons, state.comment);
+        }).on('cancel', function(){
+            console.log('cancel');
+        }).on('destroy', function(){
+            console.log('destroy');
         });
-        
     });
 
+    QUnit.test('ok', function(assert){
+        var $container = $('#fixture-2');
+        var config = {
+            renderTo : $container,
+            actionName : 'Resume Test Session',
+            resourceType : 'test taker',
+            comment : true,
+            allowedResources : [
+                {
+                    id : 'uri_ns#i0000001',
+                    label : 'Test Taker 1'
+                }
+            ]
+        };
+
+        QUnit.stop(2);
+        var instance = bulkActionPopup(config)
+            .on('cancel', function(){
+                assert.ok(true, 'cancelled');
+                QUnit.start();
+            }).on('destroy', function(){
+                assert.ok(true, 'destroyed');
+                QUnit.start();
+            });
+
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
+
+        $container.find('.cancel').click();
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
 });

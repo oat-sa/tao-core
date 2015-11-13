@@ -94,8 +94,10 @@ define([
             }
         }
 
-        $comboBox = createCombox(0, options.categories);
-        $container.append($comboBox);
+        if(_.isArray(options.categoriesDefinitions) && _.isArray(options.categories)){
+            $comboBox = createCombox(0, options.categories);
+            $container.append($comboBox);
+        }
     }
 
     /**
@@ -103,49 +105,68 @@ define([
      * @param {type} $container
      * @returns {undefined}
      */
-    function initModal($container){
-        $container.addClass('modal').modal();
+    function initModal(instance){
+
+        instance.getElement()
+            .addClass('modal')
+            .on('closed.modal', function(){
+                //on shot only, on close, destroy the widget
+                console.log('closed.modal');
+                instance.destroy();
+            })
+            .modal();
     }
-    
-    function triggerChange(){}
-    
+
+    function destroy(instance){
+        instance.getElement().removeClass('modal').modal('destroy');
+        instance.trigger('destroyed');
+    }
+
+
     return function bulkActionPopupFactory(config){
 
         var state = {
             reasons : null,
             comment : ''
         };
-        
+
         //modify the template
         config.resourceCount = config.allowedResources.length;
         if(config.resourceCount === 1){
             config.single = true;
         }
-        
-        
-        
+
         return component(bulkActionPopup, _defaults)
             .setTemplate(layoutTpl)
 
             // uninstalls the component
             .on('destroy', function(){
-                console.log('destroy stuff')
+                console.log('destroyed')
+                this.getElement().removeClass('modal').modal('destroy');
             })
 
             // renders the component
             .on('render', function(){
-                
+
                 var self = this;
                 var $element = this.getElement();
-                
-                initModal($element);
+
+                initModal(this);
                 initCascadingComboBox($element.find('.reason').children('.categories'), config);
+//                destroyModal($element);
                 $element.on('selected.cascading-combobox' + _ns, function(e, reasons){
                     state.reasons = reasons;
                     self.trigger('change', state);
                 }).on('change' + _ns, 'textarea', function(){
                     state.comment = $(this).text();
                     self.trigger('change', state);
+                }).on('click', '.actions .done', function(e){
+                    self.trigger('ok', state);
+                    self.destroy();
+                }).on('click', '.actions .cancel', function(e){
+                    e.preventDefault();
+                    self.trigger('cancel');
+                    self.destroy();
                 });
             })
             .init(config);

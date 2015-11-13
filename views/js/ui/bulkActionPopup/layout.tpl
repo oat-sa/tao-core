@@ -3,13 +3,13 @@
     {{#if single}}
     <div class="single" data-resource="{{allowedResources.0.id}}">
         <p>
-        The action will be applied to the {{resourceType}} <span class="resource-label">{{allowedResources.0.label}}</span>
+            The action will be applied to the {{resourceType}} <span class="resource-label">{{allowedResources.0.label}}</span>
         </p>
     </div>
     {{else}}
     <div class="multiple">
         <p>
-        The action will be applied to the following <span class="resource-count">{{resourceCount}}</span> {{resourceType}}s:
+            The action will be applied to the following <span class="resource-count">{{resourceCount}}</span> {{resourceType}}s:
         </p>
         <ul class="plain applicables">
             {{#each allowedResources}}
@@ -20,7 +20,7 @@
         </ul>
         {{#if deniedResources.length}}
         <p>
-        However, the action does not apply to the following {{resourceType}}s:
+            However, the action does not apply to the following {{resourceType}}s:
         </p>
         <ul class="plain no-applicables">
             {{#each deniedResources}}
@@ -42,6 +42,8 @@
             <textarea placeholder="{{__ "comment..."}}"></textarea>
         </div>
     </div>
-    <div>
+    <div class="actions">
+        <button class="btn btn-info small done">{{__ "OK"}}</button>
+        <a href="#" class="btn cancel" title="{{__ "cancel the action"}}">{{__ "cancel"}}</a>
     </div>
 </div>

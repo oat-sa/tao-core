@@ -19,6 +19,7 @@
 @import "inc/bootstrap";
 
 .bulk-action-popup{
+    padding-bottom : 20px;
     h2{
         margin-top : 0;
         margin-bottom : 20px
@@ -43,6 +44,19 @@
     .cascading-combo-box{
         .select2-container{
             margin-right : 10px;
+        }
+    }
+    .reason{
+        margin-bottom : 20px;
+    }
+    .actions{
+        .btn{
+            float:right;
+            margin-left:20px;
+            &.cancel{
+                position:relative;
+                top:3px;
+            }
         }
     }
 }
