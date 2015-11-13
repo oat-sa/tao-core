@@ -22,8 +22,9 @@ define([
     'tpl!ui/bulkActionPopup/layout',
     'tpl!ui/bulkActionPopup/select',
     'ui/component',
-    'ui/modal'
-], function ($, _, __, layoutTpl, selectTpl, component){
+    'ui/modal',
+    'select2'
+], function($, _, __, layoutTpl, selectTpl, component){
     'use strict';
 
     var _defaults = {};
@@ -31,14 +32,68 @@ define([
     var bulkActionPopup = {
     };
 
-    function cascadingSelect($container, options){
+    function initCascadingComboBox($container, options){
+        
+        var $comboBox,
+            selectedValues = {};
 
-        function createCombox(opts){
-            return $(selectTpl({options : opts}));
+        function createCombox(level, categories){
+            if(options.categoriesDefinitions[level]){
+                var categoryDef = options.categoriesDefinitions[level];
+                if(categoryDef.id){
+
+                    //format categories
+                    var _categories = _.map(categories, function(cat){
+                        if(cat.categories){
+                            //encode subcategory in json
+                            cat.categories = JSON.stringify(cat.categories);
+                        }
+                        return cat;
+                    });
+
+                    //init <select> DOM element
+                    var $comboBox = $(selectTpl({
+                        comboboxId : categoryDef.id,
+                        comboboxLabel : categoryDef.label || '',
+                        options : _categories
+                    }));
+
+                    //add event handler
+                    $comboBox.on('change', function(){
+                        
+                        var $selected = $comboBox.find(":selected");
+                        selectedValues[categoryDef.id] = $selected.attr("id");
+                        $comboBox.next('.cascading-combo-box').remove();
+                        
+                        //trigger event
+                        $comboBox.trigger('selected.cascading-combobox', [selectedValues]);
+                        
+                        var subCategories = $selected.data('categories');
+                        if(_.isArray(subCategories) && subCategories.length){
+                            //init sub-level select box
+                            var $subComboBox = createCombox(level + 1, subCategories);
+                            if($subComboBox){
+                                $comboBox.after($subComboBox);
+                            }
+                        }
+                    });
+
+                    //init select 2 on $comboBox
+                    $comboBox.find('select').select2({
+                        width : 'element',
+                        placeholder : categoryDef.placeholder || __('select...'),
+                        minimumResultsForSearch : -1
+                    });
+        
+                    return $comboBox;
+                }
+            }else{
+                throw 'missing category definition on level : '+level;
+            }
         }
 
-
-        $container.append();
+        $comboBox = createCombox(0, options.categories);
+        $container.append($comboBox);
     }
 
     return function bulkActionPopupFactory(config){
@@ -52,13 +107,13 @@ define([
             .setTemplate(layoutTpl)
 
             // uninstalls the component
-            .on('destroy', function (){
+            .on('destroy', function(){
                 console.log('destroy stuff')
             })
 
             // renders the component
-            .on('render', function (){
-                console.log('rendered');
+            .on('render', function(){
+                initCascadingComboBox(this.getElement().find('.reason').children('.categories'), config);
             })
             .init(config);
     };

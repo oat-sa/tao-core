@@ -22,12 +22,12 @@ define([
     'jquery',
     'lodash',
     'ui/bulkActionPopup'
-], function ($, _, bulkActionPopup){
+], function($, _, bulkActionPopup){
     'use strict';
 
     QUnit.module('component');
 
-    QUnit.test('render', 0, function (assert){
+    QUnit.test('render', 0, function(assert){
 
         var $dummy = $('<div class="dummy" />');
         var $container = $('#fixture-1').append($dummy);
@@ -35,53 +35,63 @@ define([
             renderTo : $container,
             actionName : 'Resume Test Session',
             resourceType : 'test taker',
-            categories : {
-                id: 'reason1',
-                name : 'Primary Reason',
-                list : [
-                    {
-                        id : 'option_A',
-                        name : 'option A',
-                        categories : {
-                            id: 'reason2',
-                            name : 'Secondary Reason',
-                            list : [
-                                {
-                                    name : 'option A-1',
-                                    categories : [
-                                        {name : 'option A-1-a'},
-                                        {name : 'option A-1-b'},
-                                        {name : 'option A-1-c'}
-                                    ]
-                                },
-                                {
-                                    name : 'option A-2',
-                                    categories : [
-                                        {name : 'option A-2-a'},
-                                        {name : 'option A-2-b'}
-                                    ]
-                                },
-                                {
-                                    name : 'option A-3'
-                                }
+            categoriesDefinitions : [
+                {
+                    id : 'reason1',
+                    label : 'Reason 1'
+                },
+                {
+                    id : 'reason2',
+                    label : 'Reason 2'
+                },
+                {
+                    id : 'reason3',
+                    placeholder : 'Reason 3'
+                }
+            ],
+            categories : [
+                {
+                    id : 'optionA',
+                    label : 'option A',
+                    categories : [
+                        {
+                            id : 'optionA1',
+                            label : 'option A-1',
+                            categories : [
+                                {id : 'option A1a', label : 'option A-1-a'},
+                                {id : 'option A1b', label : 'option A-1-b'},
+                                {id : 'option A1c', label : 'option A-1-c'}
                             ]
+                        },
+                        {
+                            id : 'optionA2',
+                            label : 'option A-2',
+                            categories : [
+                                {id : 'option A2a', label : 'option A-2-a'},
+                                {id : 'option A2b', label : 'option A-2-b'}
+                            ]
+                        },
+                        {
+                            label : 'option A-3'
                         }
-                    },
-                    {
-                                               
-                        categories : [
-                            {name : 'option B-1'},
-                            {name : 'option B-2'},
-                            {name : 'option B-3'},
-                            {name : 'option B-4'}
-                        ]
-                    },
-                    {
-                        id : 'option_C',
-                        name : 'option C'
-                    }
-                ]
-            },
+                    ]
+                },
+                {
+                    id : 'optionB',
+                    label : 'option B',
+                    categories : [
+                        {id : 'option B1', label : 'option B-1'},
+                        {id : 'option B2', label : 'option B-2'},
+                        {id : 'option B3', label : 'option B-3'},
+                        {id : 'option B4', label : 'option B-4'}
+                    ]
+                },
+                {
+                    id : 'option_C',
+                    label : 'option C'
+                }
+            ]
+            ,
             comment : true,
             allowedResources : [
                 {
