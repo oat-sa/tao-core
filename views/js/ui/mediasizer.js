@@ -29,7 +29,7 @@ define([
     'core/pluginifier',
     'tpl!ui/mediasizer/mediasizer',
     'nouislider',
-    'tooltipster'
+    'ui/qtip'
 ], function ($, _, Pluginifier, tpl) {
     'use strict';
 

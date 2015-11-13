@@ -9,18 +9,18 @@ define([
     'ui/durationer',
     'ui/selecter',
     'ui/modal',
-    'ui/tooltipster',
+    'ui/qtip',
     'ui/form',
     'ui/validator',
     'ui/groupvalidator'
-], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltipster, form) {
+], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, qtip, form) {
     'use strict';
         
     /**
      * @author Bertrand Chevrier <bertrand@taotesting.com>
      * @exports ui
      */
-     return {
+    return {
          
         /**
          * Start up the components lookup and data-attr listening 
@@ -42,7 +42,7 @@ define([
             incrementer($container);
             durationer($container);
             selecter($container);
-            tooltipster($container);
+            qtip($container);
         }
     };
 });

@@ -26,7 +26,7 @@ define([
     'i18n',
     'util/capitalize',
     'jquery.autocomplete',
-    'tooltipster'
+    'qtip'
 ], function($, _, __, capitalize) {
     'use strict';
 
@@ -41,10 +41,24 @@ define([
      * @type {Object}
      */
     var tooltipConfigTooMany = {
+        position: {
+            viewport: $(window)
+        },
+        style: {
+            classes: 'qtip-rounded qtip-blue'
+        },
+        content: {
+            text: __('Too many suggestions match your query. Only a few are listed')
+        },
+        show: {
+            event: 'custom'
+        }
+    };
+    /*{
         content : __('Too many suggestions match your query. Only a few are listed'),
         theme : 'tao-info-tooltip',
         trigger: 'custom'
-    };
+    };*/
 
     /**
      * A list of default values for allowed options
@@ -254,7 +268,7 @@ define([
             ]));
 
             // prepare the tooltip displayed when more suggestions are available on the server side for the current query
-            this.$element.tooltipster(tooltipConfigTooMany);
+            this.$element.qtip(tooltipConfigTooMany);
 
             // install the keyboard listener used to prevent auto submits
             this.on('keyup keydown keypress', this._onKeyEvent.bind(this));
@@ -278,7 +292,7 @@ define([
             this.applyPlugin('dispose');
             if (this.$element) {
                 this.$element.off('.' + NS);
-                this.$element.tooltipster('destroy');
+                this.$element.qtip('destroy', true);
             }
             this.$element = null;
             return this;
@@ -382,7 +396,7 @@ define([
          */
         showTooltipTooMany : function() {
             if (this.$element) {
-                this.$element.tooltipster('show');
+                this.$element.qtip('show');
             }
         },
 
@@ -391,7 +405,7 @@ define([
          */
         hideTooltipTooMany : function() {
             if (this.$element) {
-                this.$element.tooltipster('hide');
+                this.$element.qtip('hide');
             }
         },
 
@@ -957,7 +971,7 @@ define([
             }
 
             // detect when the server has limited the amount of suggestions
-            this.tooManySuggestions = response.total && response.total > 1;
+            this.tooManySuggestions = true;//response.total && response.total > 1;
             if (this.hasTooManySuggestions()) {
                 this.showTooltipTooMany();
             } else {
