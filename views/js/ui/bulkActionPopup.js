@@ -33,7 +33,7 @@ define([
     };
 
     function initCascadingComboBox($container, options){
-        
+
         var $comboBox,
             selectedValues = {};
 
@@ -60,14 +60,14 @@ define([
 
                     //add event handler
                     $comboBox.on('change', function(){
-                        
+
                         var $selected = $comboBox.find(":selected");
                         selectedValues[categoryDef.id] = $selected.attr("id");
-                        $comboBox.next('.cascading-combo-box').remove();
-                        
+                        $comboBox.nextAll('.cascading-combo-box').remove();
+
                         //trigger event
                         $comboBox.trigger('selected.cascading-combobox', [selectedValues]);
-                        
+
                         var subCategories = $selected.data('categories');
                         if(_.isArray(subCategories) && subCategories.length){
                             //init sub-level select box
@@ -84,11 +84,11 @@ define([
                         placeholder : categoryDef.placeholder || __('select...'),
                         minimumResultsForSearch : -1
                     });
-        
+
                     return $comboBox;
                 }
             }else{
-                throw 'missing category definition on level : '+level;
+                throw 'missing category definition on level : ' + level;
             }
         }
 
@@ -96,8 +96,14 @@ define([
         $container.append($comboBox);
     }
 
-    return function bulkActionPopupFactory(config){
+    function initModal($container){
+        
+        $container.addClass('modal').modal();
+        
+    }
 
+    return function bulkActionPopupFactory(config){
+        
         //modify the template
         if(config.allowedResources.length === 1){
             config.single = true;
@@ -113,6 +119,7 @@ define([
 
             // renders the component
             .on('render', function(){
+                initModal(this.getElement());
                 initCascadingComboBox(this.getElement().find('.reason').children('.categories'), config);
             })
             .init(config);

@@ -141,7 +141,7 @@ define([
         var instance;
 
         instance = bulkActionPopup(config);
-
+        
     });
 
 });
