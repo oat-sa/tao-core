@@ -38,11 +38,11 @@ define([
             categoriesDefinitions : [
                 {
                     id : 'reason1',
-                    label : 'Reason 1'
+                    placeholder : 'Reason 1'
                 },
                 {
                     id : 'reason2',
-                    label : 'Reason 2'
+                    placeholder : 'Reason 2'
                 },
                 {
                     id : 'reason3',
@@ -113,6 +113,34 @@ define([
                 {
                     id : 'uri_ns#i0000005',
                     label : 'Test Taker 5'
+                },
+                {
+                    id : 'uri_ns#i0000006',
+                    label : 'Test Taker 6'
+                },
+                {
+                    id : 'uri_ns#i0000007',
+                    label : 'Test Taker 7'
+                },
+                {
+                    id : 'uri_ns#i0000008',
+                    label : 'Test Taker 8'
+                },
+                {
+                    id : 'uri_ns#i0000009',
+                    label : 'Test Taker 9'
+                },
+                {
+                    id : 'uri_ns#i0000010',
+                    label : 'Test Taker 10'
+                },
+                {
+                    id : 'uri_ns#i0000011',
+                    label : 'Test Taker 11'
+                },
+                {
+                    id : 'uri_ns#i0000012',
+                    label : 'Test Taker with exessiiiiiiiiiiiiive loooooooooooooong loooooooooooooong label'
                 }
             ],
             deniedResources : [
@@ -140,7 +168,9 @@ define([
         };
         var instance;
 
-        instance = bulkActionPopup(config);
+        instance = bulkActionPopup(config).on('change', function(state){
+            console.log('aaa', arguments);
+        });
         
     });
 

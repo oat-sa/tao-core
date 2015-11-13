@@ -27,6 +27,8 @@ define([
 ], function($, _, __, layoutTpl, selectTpl, component){
     'use strict';
 
+    var _ns = '.bulk-action-popup';
+
     var _defaults = {};
 
     var bulkActionPopup = {
@@ -96,19 +98,32 @@ define([
         $container.append($comboBox);
     }
 
+    /**
+     * Add the form into a popup and display it
+     * @param {type} $container
+     * @returns {undefined}
+     */
     function initModal($container){
-        
         $container.addClass('modal').modal();
-        
     }
-
+    
+    function triggerChange(){}
+    
     return function bulkActionPopupFactory(config){
+
+        var state = {
+            reasons : null,
+            comment : ''
+        };
         
         //modify the template
-        if(config.allowedResources.length === 1){
+        config.resourceCount = config.allowedResources.length;
+        if(config.resourceCount === 1){
             config.single = true;
         }
-
+        
+        
+        
         return component(bulkActionPopup, _defaults)
             .setTemplate(layoutTpl)
 
@@ -119,8 +134,19 @@ define([
 
             // renders the component
             .on('render', function(){
-                initModal(this.getElement());
-                initCascadingComboBox(this.getElement().find('.reason').children('.categories'), config);
+                
+                var self = this;
+                var $element = this.getElement();
+                
+                initModal($element);
+                initCascadingComboBox($element.find('.reason').children('.categories'), config);
+                $element.on('selected.cascading-combobox' + _ns, function(e, reasons){
+                    state.reasons = reasons;
+                    self.trigger('change', state);
+                }).on('change' + _ns, 'textarea', function(){
+                    state.comment = $(this).text();
+                    self.trigger('change', state);
+                });
             })
             .init(config);
     };

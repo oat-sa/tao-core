@@ -1,5 +1,5 @@
-<div>
-    <h1>{{__ "Action"}}: {{actionName}}</h1>
+<div class="bulk-action-popup">
+    <h2>{{__ "Action"}}: {{actionName}}</h2>
     {{#if single}}
     <div class="single" data-resource="{{allowedResources.0.id}}">
         <p>
@@ -9,7 +9,7 @@
     {{else}}
     <div class="multiple">
         <p>
-        The action will be applied to the following {{resourceType}}s:
+        The action will be applied to the following <span class="resource-count">{{resourceCount}}</span> {{resourceType}}s:
         </p>
         <ul class="plain applicables">
             {{#each allowedResources}}
@@ -20,7 +20,7 @@
         </ul>
         {{#if deniedResources.length}}
         <p>
-        However, the action does not applied to the following {{resourceType}}s:
+        However, the action does not apply to the following {{resourceType}}s:
         </p>
         <ul class="plain no-applicables">
             {{#each deniedResources}}
@@ -34,9 +34,14 @@
     </div>
     {{/if}}
     <div class="reason">
+        <p>
+            {{__ "Please provide a reason"}}:
+        </p>
         <div class="categories"></div>
         <div class="comment">
             <textarea placeholder="{{__ "comment..."}}"></textarea>
         </div>
+    </div>
+    <div>
     </div>
 </div>
