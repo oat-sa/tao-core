@@ -82,7 +82,7 @@ define([
 
                     //init select 2 on $comboBox
                     $comboBox.find('select').select2({
-                        width : 'element',
+                        dropdownAutoWidth : true,
                         placeholder : categoryDef.placeholder || __('select...'),
                         minimumResultsForSearch : -1
                     });
