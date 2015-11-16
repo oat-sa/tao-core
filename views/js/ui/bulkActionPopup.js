@@ -153,7 +153,6 @@ define([
 
                 initModal(this);
                 initCascadingComboBox($element.find('.reason').children('.categories'), config);
-//                destroyModal($element);
                 $element.on('selected.cascading-combobox' + _ns, function(e, reasons){
                     state.reasons = reasons;
                     self.trigger('change', state);
