@@ -46,11 +46,12 @@ define([
 
                     //format categories
                     var _categories = _.map(categories, function(cat){
-                        if(cat.categories){
+                        var _cat = _.clone(cat);
+                        if(_cat.categories){
                             //encode subcategory in json
-                            cat.categories = JSON.stringify(cat.categories);
+                            _cat.categories = JSON.stringify(_cat.categories);
                         }
-                        return cat;
+                        return _cat;
                     });
 
                     //init <select> DOM element
@@ -65,6 +66,8 @@ define([
 
                         var $selected = $comboBox.find(":selected");
                         selectedValues[categoryDef.id] = $selected.attr("id");
+                        
+                        //clean previously created combo boxes
                         $comboBox.nextAll('.cascading-combo-box').remove();
 
                         //trigger event
@@ -79,7 +82,7 @@ define([
                             }
                         }
                     });
-
+                    
                     //init select 2 on $comboBox
                     $comboBox.find('select').select2({
                         dropdownAutoWidth : true,
