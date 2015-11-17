@@ -411,6 +411,8 @@ define([
                     treeState = _.merge($elt.data('tree-state') || {}, data);
 
                     if (data && data.loadNode) {
+                        tree.deselect_branch(tree.selected);
+                        tree.settings.selected = false;
                         treeState.selectNode = data.loadNode;
                     }
                     $elt.data('tree-state', treeState);
