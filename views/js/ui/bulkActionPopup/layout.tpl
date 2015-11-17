@@ -1,5 +1,5 @@
 <div class="bulk-action-popup">
-    <h2>{{__ "Action"}}: {{actionName}}</h2>
+    <h2 class="title">{{__ "Action"}}: {{actionName}}</h2>
     {{#if single}}
     <div class="single" data-resource="{{allowedResources.0.id}}">
         <p>
