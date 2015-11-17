@@ -28,24 +28,36 @@ define([
     'use strict';
 
     var _ns = '.bulk-action-popup';
-
-    var _defaults = {};
-
-    var bulkActionPopup = {
-    };
-
+    
+    /**
+     * Init the cascading combobox and append it to the $container in args
+     * 
+     * @param {jQuery} $container
+     * @param {object} options
+     * @param {array} options.
+     * @returns {undefined}
+     */
     function initCascadingComboBox($container, options){
-
+        
         var $comboBox,
             selectedValues = {};
-
-        function createCombox(level, categories){
-            if(options.categoriesDefinitions[level]){
-                var categoryDef = options.categoriesDefinitions[level];
+        
+        /**
+         * Create a combobox and initialize it with select2
+         * 
+         * @param {integer} level
+         * @param {array} categoriesDefinitions - the array that defines the number and config for each level of combobox cascade
+         * @param {array} categories - the array that contains nested array of categories
+         * @returns {jQuery}
+         */
+        function createCombox(level, categoriesDefinitions, categories){
+            if(categoriesDefinitions[level]){
+                var categoryDef = categoriesDefinitions[level];
+                var _categories, $comboBox;
                 if(categoryDef.id){
 
                     //format categories
-                    var _categories = _.map(categories, function(cat){
+                    _categories = _.map(categories, function(cat){
                         var _cat = _.clone(cat);
                         if(_cat.categories){
                             //encode subcategory in json
@@ -55,7 +67,7 @@ define([
                     });
 
                     //init <select> DOM element
-                    var $comboBox = $(selectTpl({
+                    $comboBox = $(selectTpl({
                         comboboxId : categoryDef.id,
                         comboboxLabel : categoryDef.label || '',
                         options : _categories
@@ -63,7 +75,8 @@ define([
 
                     //add event handler
                     $comboBox.on('change', function(){
-
+                        
+                        var subCategories, $subComboBox;
                         var $selected = $comboBox.find(":selected");
                         selectedValues[categoryDef.id] = $selected.attr("id");
                         
@@ -73,10 +86,10 @@ define([
                         //trigger event
                         $comboBox.trigger('selected.cascading-combobox', [selectedValues]);
 
-                        var subCategories = $selected.data('categories');
+                        subCategories = $selected.data('categories');
                         if(_.isArray(subCategories) && subCategories.length){
-                            //init sub-level select box
-                            var $subComboBox = createCombox(level + 1, subCategories);
+                            //init sub-level select box by recursive call to createCombobox
+                            $subComboBox = createCombox(level + 1, categoriesDefinitions, subCategories);
                             if($subComboBox){
                                 $comboBox.after($subComboBox);
                             }
@@ -98,7 +111,7 @@ define([
         }
 
         if(_.isArray(options.categoriesDefinitions) && _.isArray(options.categories)){
-            $comboBox = createCombox(0, options.categories);
+            $comboBox = createCombox(0, options.categoriesDefinitions, options.categories);
             $container.append($comboBox);
         }
     }
@@ -114,20 +127,20 @@ define([
             .addClass('modal')
             .on('closed.modal', function(){
                 //on shot only, on close, destroy the widget
-                console.log('closed.modal');
                 instance.destroy();
             })
             .modal();
     }
-
-    function destroy(instance){
-        instance.getElement().removeClass('modal').modal('destroy');
-        instance.trigger('destroyed');
-    }
-
-
+    
+    /**
+     * Builds an instance of the bulkActionPopup component
+     * 
+     * @param {Object} config
+     * @returns {bulkActionPopup}
+     */
     return function bulkActionPopupFactory(config){
-
+        
+        //private object to hold the state of edition
         var state = {
             reasons : null,
             comment : ''
@@ -139,12 +152,11 @@ define([
             config.single = true;
         }
 
-        return component(bulkActionPopup, _defaults)
+        return component()
             .setTemplate(layoutTpl)
 
             // uninstalls the component
             .on('destroy', function(){
-                console.log('destroyed')
                 this.getElement().removeClass('modal').modal('destroy');
             })
 
