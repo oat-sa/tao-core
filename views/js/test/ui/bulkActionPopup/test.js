@@ -27,7 +27,7 @@ define([
 
     QUnit.module('Bulk Action Popup');
 
-    QUnit.test('render', 0, function(assert){
+    QUnit.test('render (all options)', function(assert){
         
         var $container = $('#fixture-1');
         var config = {
@@ -91,7 +91,7 @@ define([
                 }
             ]
             ,
-            comment : true,
+            reason : true,
             allowedResources : [
                 {
                     id : 'uri_ns#i0000001',
@@ -165,19 +165,110 @@ define([
                 }
             ]
         };
-        var instance;
-
-        instance = bulkActionPopup(config).on('change', function(state){
-            console.log('aaa', arguments);
-        }).on('ok', function(state){
-            console.log('ok', state.reasons, state.comment);
-        }).on('cancel', function(){
-            console.log('cancel');
-        }).on('destroy', function(){
-            console.log('destroy');
-        });
+        var $element;
+        var instance = bulkActionPopup(config);
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        
+        $element = $container.children('.bulk-action-popup');
+        assert.equal($element.length, 1, 'element ok');
+        assert.equal($element.find('.applicables li').length, 12, 'allowed resources are displayed');
+        assert.equal($element.find('.no-applicables li').length, 4, 'denied resources are displayed');
+        assert.equal($element.children('.reason').length, 1, 'the reason box is displayed');
     });
-
+    
+    QUnit.test('render (without reason)', function(assert){
+        
+        var $container = $('#fixture-1');
+        var config = {
+            renderTo : $container,
+            actionName : 'Resume Test Session',
+            resourceType : 'test taker',
+            reason : false,
+            allowedResources : [
+                {
+                    id : 'uri_ns#i0000001',
+                    label : 'Test Taker 1'
+                },
+                {
+                    id : 'uri_ns#i0000002',
+                    label : 'Test Taker 2'
+                },
+                {
+                    id : 'uri_ns#i0000003',
+                    label : 'Test Taker 3'
+                },
+                {
+                    id : 'uri_ns#i0000004',
+                    label : 'Test Taker 4'
+                },
+                {
+                    id : 'uri_ns#i0000005',
+                    label : 'Test Taker 5'
+                },
+                {
+                    id : 'uri_ns#i0000006',
+                    label : 'Test Taker 6'
+                },
+                {
+                    id : 'uri_ns#i0000007',
+                    label : 'Test Taker 7'
+                },
+                {
+                    id : 'uri_ns#i0000008',
+                    label : 'Test Taker 8'
+                },
+                {
+                    id : 'uri_ns#i0000009',
+                    label : 'Test Taker 9'
+                },
+                {
+                    id : 'uri_ns#i0000010',
+                    label : 'Test Taker 10'
+                },
+                {
+                    id : 'uri_ns#i0000011',
+                    label : 'Test Taker 11'
+                },
+                {
+                    id : 'uri_ns#i0000012',
+                    label : 'Test Taker with exessiiiiiiiiiiiiive loooooooooooooong loooooooooooooong label'
+                }
+            ],
+            deniedResources : [
+                {
+                    id : 'uri_ns#i1000001',
+                    label : 'Test Taker a',
+                    reason : 'too tired'
+                },
+                {
+                    id : 'uri_ns#i1000002',
+                    label : 'Test Taker b',
+                    reason : 'too sleepy'
+                },
+                {
+                    id : 'uri_ns#i1000003',
+                    label : 'Test Taker c',
+                    reason : 'too affraid'
+                },
+                {
+                    id : 'uri_ns#i1000004',
+                    label : 'Test Taker d',
+                    reason : 'does not want to'
+                }
+            ]
+        };
+        var $element;
+        var instance = bulkActionPopup(config);
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        
+        $element = $container.children('.bulk-action-popup');
+        assert.equal($element.length, 1, 'element ok');
+        assert.equal($element.find('.applicables li').length, 12, 'allowed resources are displayed');
+        assert.equal($element.find('.no-applicables li').length, 4, 'denied resources are displayed');
+        assert.equal($element.children('.reason').length, 0, 'the reason box is displayed');
+        
+    });
+    
     QUnit.test('cancel', function(assert){
         
         var $container = $('#fixture-2');
@@ -185,7 +276,7 @@ define([
             renderTo : $container,
             actionName : 'Resume Test Session',
             resourceType : 'test taker',
-            comment : true,
+            reason : true,
             allowedResources : [
                 {
                     id : 'uri_ns#i0000001',
@@ -219,7 +310,7 @@ define([
             renderTo : $container,
             actionName : 'Resume Test Session',
             resourceType : 'test taker',
-            comment : true,
+            reason : true,
             allowedResources : [
                 {
                     id : 'uri_ns#i0000001',

@@ -28,7 +28,7 @@ define([
     'use strict';
 
     var _ns = '.bulk-action-popup';
-    
+
     /**
      * Init the cascading combobox and append it to the $container in args
      * 
@@ -38,10 +38,10 @@ define([
      * @returns {undefined}
      */
     function initCascadingComboBox($container, options){
-        
+
         var $comboBox,
             selectedValues = {};
-        
+
         /**
          * Create a combobox and initialize it with select2
          * 
@@ -75,11 +75,11 @@ define([
 
                     //add event handler
                     $comboBox.on('change', function(){
-                        
+
                         var subCategories, $subComboBox;
                         var $selected = $comboBox.find(":selected");
                         selectedValues[categoryDef.id] = $selected.attr("id");
-                        
+
                         //clean previously created combo boxes
                         $comboBox.nextAll('.cascading-combo-box').remove();
 
@@ -95,7 +95,7 @@ define([
                             }
                         }
                     });
-                    
+
                     //init select 2 on $comboBox
                     $comboBox.find('select').select2({
                         dropdownAutoWidth : true,
@@ -118,7 +118,7 @@ define([
 
     /**
      * Add the form into a popup and display it
-     * @param {type} $container
+     * @param {JQuery} $container
      * @returns {undefined}
      */
     function initModal(instance){
@@ -131,15 +131,23 @@ define([
             })
             .modal();
     }
-    
+
     /**
      * Builds an instance of the bulkActionPopup component
      * 
      * @param {Object} config
+     * @param {JQuery} config.renderTo - the jQuery container it should be rendered to
+     * @param {String} config.actionName - the action name
+     * @param {String} config.resourceType - the name of the resource type
+     * @param {Boolean} config.reason - defines if the reason section should be displayed or not
+     * @param {Array} config.categoriesDefinitions - the array that defines the number and config for each level of combobox cascade
+     * @param {Array} config.categories - the array that contains nested array of categories
+     * @param {Array} config.allowedResources - list of allowed resources to be displayed
+     * @param {Array} config.deniedResources - list of denied resources to be displayed
      * @returns {bulkActionPopup}
      */
     return function bulkActionPopupFactory(config){
-        
+
         //private object to hold the state of edition
         var state = {
             reasons : null,
