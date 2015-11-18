@@ -78,7 +78,7 @@ define([
 
                         var subCategories, $subComboBox;
                         var $selected = $comboBox.find(":selected");
-                        selectedValues[categoryDef.id] = $selected.attr("id");
+                        selectedValues[categoryDef.id] = $selected.val();
 
                         //clean previously created combo boxes
                         $comboBox.nextAll('.cascading-combo-box').remove();
@@ -180,7 +180,7 @@ define([
                     state.reasons = reasons;
                     self.trigger('change', state);
                 }).on('change' + _ns, 'textarea', function(){
-                    state.comment = $(this).text();
+                    state.comment = $(this).val();
                     self.trigger('change', state);
                 }).on('click', '.actions .done', function(e){
                     self.trigger('ok', state);
