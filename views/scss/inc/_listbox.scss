@@ -51,6 +51,9 @@ $entryArrowHeight: 150;
       &:hover {
         color: $info;
       }
+      [class*=" icon-"], [class^="icon-"] {
+          margin-right: 10px;
+      }
     }
     a {
       height: $entryArrowHeight * 1px;
