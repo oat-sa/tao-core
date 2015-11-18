@@ -29,8 +29,10 @@ define([
     QUnit.module('dialog');
 
 
-    QUnit.test('module', 3, function(assert) {
+    QUnit.test('module', 5, function(assert) {
         assert.equal(typeof dialog, 'function', "The dialog module exposes a function");
+        assert.equal(typeof dialog.alert, 'function', "The dialog module exposes an alert function");
+        assert.equal(typeof dialog.confirm, 'function', "The dialog module exposes a confirm function");
         assert.equal(typeof dialog(), 'object', "The dialog factory produces an object");
         assert.notStrictEqual(dialog(), dialog(), "The dialog factory provides a different object on each call");
     });
@@ -262,4 +264,60 @@ define([
         modal.getDom().find('button[data-control="ok"]').click();
         modal.getDom().find('button[data-control="done"]').click();
     });
-});
+
+    QUnit.asyncTest('alert', function(assert) {
+        var message = 'test';
+        var action = function() {
+            assert.ok(true, 'The dialog has triggered the callback function when closing!');
+            QUnit.start();
+        };
+        var modal = dialog.alert(message, action);
+
+        assert.equal(typeof modal, 'object', "The dialog instance is an object");
+        assert.equal(typeof modal.getDom(), 'object', "The dialog instance gets a DOM element");
+        assert.ok(!!modal.getDom().length, "The dialog instance gets a DOM element");
+        assert.equal(modal.getDom().parent().length, 1, "The dialog box is rendered by default");
+        assert.equal(modal.getDom().find('.message').text(), message, "The dialog box displays the message");
+
+        assert.equal(modal.getDom().find('button').length, 1, "The dialog box displays a unique button");
+        assert.equal(modal.getDom().find('button[data-control="ok"]').length, 1, "The dialog box displays a 'ok' button");
+
+        modal.getDom().find('button[data-control="ok"]').click();
+    });
+
+    var confirmCases = [{
+        message: 'must accept',
+        button: 'ok',
+        title: 'accept'
+    }, {
+        message: 'must refuse',
+        button: 'cancel',
+        title: 'refuse'
+    }];
+
+    QUnit
+        .cases(confirmCases)
+        .asyncTest('confirm ', function(data, assert) {
+            var accept = function() {
+                assert.equal(data.button, 'ok', 'The dialog has triggered the accept callback function when hitting the ok button!');
+                QUnit.start();
+            };
+            var refuse = function() {
+                assert.equal(data.button, 'cancel', 'The dialog has triggered the refuse callback function when hitting the cancel button!');
+                QUnit.start();
+            };
+            var modal = dialog.confirm(data.message, accept, refuse);
+
+            assert.equal(typeof modal, 'object', "The dialog instance is an object");
+            assert.equal(typeof modal.getDom(), 'object', "The dialog instance gets a DOM element");
+            assert.ok(!!modal.getDom().length, "The dialog instance gets a DOM element");
+            assert.equal(modal.getDom().parent().length, 1, "The dialog box is rendered by default");
+            assert.equal(modal.getDom().find('.message').text(), data.message, "The dialog box displays the message");
+
+            assert.equal(modal.getDom().find('button').length, 2, "The dialog box displays 2 buttons");
+            assert.equal(modal.getDom().find('button[data-control="ok"]').length, 1, "The dialog box displays a 'ok' button");
+            assert.equal(modal.getDom().find('button[data-control="cancel"]').length, 1, "The dialog box displays a 'cancel' button");
+
+            modal.getDom().find('button[data-control="' + data.button + '"]').click();
+        });
+    });

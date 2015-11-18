@@ -415,5 +415,57 @@ define([
         return instance;
     };
 
+    /**
+     * Displays an alert message
+     * @param {String} message - The displayed message
+     * @param {Function} action - An action called when the alert is closed
+     * @returns {dialog} - Returns the dialog instance
+     */
+    dialogFactory.alert = function dialogAlert(message, action) {
+        var dlg = dialogFactory({
+            message: message,
+            buttons: 'ok',
+            autoRender: true,
+            autoDestroy: true
+        });
+
+        if (_.isFunction(action)) {
+            dlg.on('closed.modal', action);
+        }
+        return dlg;
+    };
+
+    /**
+     * Displays a confirm message
+     * @param {String} message - The displayed message
+     * @param {Function} accept - An action called when the message is accepted
+     * @param {Function} refuse - An action called when the message is refused
+     * @returns {dialog} - Returns the dialog instance
+     */
+    dialogFactory.confirm = function dialogAlert(message, accept, refuse) {
+        var accepted = false;
+        var dlg = dialogFactory({
+            message: message,
+            buttons: 'cancel,ok',
+            autoRender: true,
+            autoDestroy: true,
+            onOkBtn: function() {
+                accepted = true;
+                if (_.isFunction(accept)) {
+                    accept.call(this);
+                }
+            }
+        });
+
+        if (_.isFunction(refuse)) {
+            dlg.on('closed.modal', function() {
+                if (!accepted) {
+                    refuse.call(this);
+                }
+            });
+        }
+        return dlg;
+    };
+
     return dialogFactory;
 });
