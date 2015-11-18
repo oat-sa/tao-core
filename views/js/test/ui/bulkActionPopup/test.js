@@ -271,7 +271,7 @@ define([
     
     QUnit.test('cancel', function(assert){
         
-        var $container = $('#fixture-2');
+        var $container = $('#fixture-1');
         var config = {
             renderTo : $container,
             actionName : 'Resume Test Session',
@@ -305,7 +305,7 @@ define([
 
     QUnit.test('ok', function(assert){
         var theReason = 'The Reason.';
-        var $container = $('#fixture-2');
+        var $container = $('#fixture-1');
         var config = {
             renderTo : $container,
             actionName : 'Resume Test Session',
@@ -322,8 +322,7 @@ define([
         QUnit.stop(2);
         var instance = bulkActionPopup(config)
             .on('ok', function(state){
-                console.log('state', state);
-            assert.equal(state.comment, theReason, 'the reason has been sent');
+                assert.equal(state.comment, theReason, 'the reason has been sent');
                 assert.ok(true, 'ok !');
                 QUnit.start();
             }).on('destroy', function(){
