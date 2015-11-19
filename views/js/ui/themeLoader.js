@@ -42,6 +42,20 @@ define(['jquery', 'lodash'], function($, _){
 
 
     /**
+     * Trigger a theme change that is slightly delayed to be
+     * reasonably sure all styles have been applied.
+     *
+     * @param themeId
+     */
+
+    var triggerThemeChange = function triggerThemeChange(themeId) {
+        _.delay(function() {
+            $(document).trigger('themechange.' + ns, { id: themeId });
+        }, 200);
+    };
+
+
+    /**
      * Create a stylesheet tag
      * @param {Theme} theme - the theme
      * @return {jQueryElement} the link node
@@ -116,6 +130,8 @@ define(['jquery', 'lodash'], function($, _){
         var themes;
         var i;
 
+
+
         /*
          * validate config
          */
@@ -159,6 +175,7 @@ define(['jquery', 'lodash'], function($, _){
             }
         });
 
+
         /**
          * The loader instance
          */
@@ -171,6 +188,9 @@ define(['jquery', 'lodash'], function($, _){
             load : function load(){
                 _.forEach(styles, function($link, id){
                     if(!isAttached(id)){
+                        $link.on('load', function() {
+                            triggerThemeChange(id);
+                        });
                         disable($link);
                         $container.append($link);
                     }
@@ -180,7 +200,7 @@ define(['jquery', 'lodash'], function($, _){
                         enable($link);
 
                         activeTheme = id;
-                        $(document).trigger('themechange.' + ns, { id: activeTheme });
+                        triggerThemeChange(activeTheme);
                     }
                 });
                 return this;
@@ -216,7 +236,7 @@ define(['jquery', 'lodash'], function($, _){
                     enable(getLink(id));
 
                     activeTheme = id;
-                    $(document).trigger('themechange.' + ns, { id: activeTheme });
+                    triggerThemeChange(activeTheme);
 
                 }
                 return this;
