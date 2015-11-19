@@ -177,10 +177,11 @@ define([
 
                     //check the mime-type
                     if(options.params.filters){
-                        var filters = [];
+                        var filters = [],
+                            i;
 
                         if (!_.isString(options.params.filters)) {
-                            for(var i in options.params.filters){
+                            for(i in options.params.filters){
                                 filters.push(options.params.filters[i]['mime']);
                             }
                         } else {
@@ -188,7 +189,10 @@ define([
                         }
                         //TODO check stars
                         files = _.filter(files, function(file){
-                            return _.contains(filters, file.type);
+                            // Under rare circumstances a browser may report the mime type
+                            // with quotes (e.g. "application/foo" instead of application/foo)
+                            var checkType = file.type.replace(/^["']+|['"]+$/g, '');
+                            return _.contains(filters, checkType);
                         });
                          
                         if(files.length !== givenLength){
