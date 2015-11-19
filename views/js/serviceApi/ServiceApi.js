@@ -110,14 +110,39 @@ define(['jquery', 'urlParser'], function($, UrlParser){
         }
     };
 
+    /**
+     * Sets a callback on the finish action
+     * @param {Function} callback
+     * @returns {ServiceApi}
+     */
     ServiceApi.prototype.onFinish = function(callback) {
         this.onFinishCallback = callback;
+        return this;
     };
 
+    /**
+     * Sets a callback on the kill action
+     * @param {Function} callback
+     * @returns {ServiceApi}
+     */
     ServiceApi.prototype.onKill = function(callback) {
         this.onKillCallback = callback;
+        return this;
     };
 
+    /**
+     * Sets a callback on the exit action
+     * @param {Function} callback
+     * @returns {ServiceApi}
+     */
+    ServiceApi.prototype.onExit = function(callback) {
+        this.onExitCallback = callback;
+        return this;
+    };
+
+    /**
+     * @param {Function} callback - Function called if no dedicated callback is found
+     */
     ServiceApi.prototype.kill = function(callback) {
     	if (typeof this.onKillCallback === 'function') {
     		this.onKillCallback(callback);
@@ -126,8 +151,22 @@ define(['jquery', 'urlParser'], function($, UrlParser){
     	}
     };
 
-    // Flow
-    // valueArray are return parameters of the service.
+    /**
+     * Exits the flow
+     * @param {Function} callback - Function called if no dedicated callback is found
+     */
+    ServiceApi.prototype.exit = function(callback) {
+    	if (typeof this.onExitCallback === 'function') {
+    		this.onExitCallback(callback);
+    	} else {
+    		callback(0);
+    	}
+    };
+
+    /**
+     * Finishes the flow
+     * @param valueArray - return parameters of the service.
+     */
     ServiceApi.prototype.finish = function(valueArray) {
         //return execution to service caller
         if (typeof this.onFinishCallback === 'function') {
