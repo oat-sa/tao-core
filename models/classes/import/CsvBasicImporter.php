@@ -46,7 +46,7 @@ class CSVBasicImporter extends CsvAbstractImporter
      */
     public function getCsvMapping($class, $file, $options)
     {
-        $properties = $class->getProperties();
+        $properties = $this->getClassProperties($class);
         $csv_data = new \tao_helpers_data_CsvFile($options);
         $csv_data->load($file);
         $firstRowAsColumnNames = (isset($options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]))?$options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]:false;

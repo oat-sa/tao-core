@@ -19,6 +19,7 @@
  */
 
 use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\tao\model\import\CSVBasicImporter;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
@@ -28,7 +29,7 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 	const CSV_FILE_USERS_NO_HEADER_UNICODE = '/../samples/csv/users1-no-header.csv';
 	
 	public function testImport(){
-		$importer = new \oat\tao\model\import\CSVBasicImporter();
+		$importer = new CSVBasicImporter();
 
 		$staticMap = array();
 		//copy file because it should be removed
@@ -52,7 +53,7 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 	}
 
 	public function testCsvMapping(){
-		$importer = new \oat\tao\model\import\CSVBasicImporter();
+		$importer = new CSVBasicImporter();
 
 		$expectedHeaderMap = array('label','First Name','Last Name','Login','Mail','password','UserUILg');
 
@@ -70,7 +71,8 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 
 		$properties = array($property1->reveal(), $property2->reveal(), $property3->reveal());
 		$class = $this->prophesize('\core_kernel_classes_Class');
-		$class->getProperties()->willReturn($properties);
+		$class->getProperties(false)->willReturn($properties);
+		$class->getUri()->willReturn(CLASS_GENERIS_RESOURCE);
 
 		//copy file because it should be removed
 		$path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
@@ -98,7 +100,7 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 
 
 	public function testGetDataSample(){
-		$importer = new \oat\tao\model\import\CSVBasicImporter();
+		$importer = new CSVBasicImporter();
 
 		$path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
 		$expectedKeys = array('label','First Name','Last Name','Login','Mail','password','UserUILg');
@@ -121,8 +123,42 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 			$this->assertCount(7,$row);
 			$this->assertEquals($expectedKeys, array_keys($row));
 		}
+	}
 
+	public function testGetColumnMapping(){
+		$file = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
+		$importer = new CSVBasicImporter();
+		$class = new ReflectionClass('oat\\tao\\model\\import\\CSVBasicImporter');
+		$method = $class->getMethod('getColumnMapping');
+		$method->setAccessible(true);
+		$csv_data = new \tao_helpers_data_CsvFile();
+		$csv_data->load($file);
+		$map = $method->invokeArgs($importer, array($csv_data, false));
 
+		$this->assertEquals(array_fill(0, 7, null), $map);
+
+		$expectedHeader = array('label','First Name','Last Name','Login','Mail','password','UserUILg');
+		$map = $method->invokeArgs($importer, array($csv_data, true));
+		$this->assertEquals($expectedHeader, $map);
+	}
+
+	public function testGetClassProperties(){
+		$importer = new CSVBasicImporter();
+		$class = new ReflectionClass('oat\\tao\\model\\import\\CSVBasicImporter');
+		$method = $class->getMethod('getClassProperties');
+		$method->setAccessible(true);
+
+		$property1 = new \core_kernel_classes_Property('testProperty1');
+		$property2 = new \core_kernel_classes_Property('testProperty2');
+		$property3 = new \core_kernel_classes_Property('testProperty3');
+
+		$propertiesExpected = array($property1, $property2, $property3);
+		$clazz = $this->prophesize('\core_kernel_classes_Class');
+		$clazz->getUri()->willReturn(CLASS_GENERIS_RESOURCE);
+		$clazz->getProperties(false)->willReturn($propertiesExpected);
+		$properties = $method->invokeArgs($importer, array($clazz->reveal()));
+
+		$this->assertEquals($propertiesExpected, $properties);
 	}
 
 }

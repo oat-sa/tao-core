@@ -75,7 +75,8 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 		$rangedProperties = array();
 
 		$classUri = \tao_helpers_Uri::decode($_POST['classUri']);
-		$classProperties = $this->getClassProperties($classUri);
+		$class = new core_kernel_classes_Class($classUri);
+		$classProperties = $this->getClassProperties($class);
 
 		foreach($classProperties as $property){
 			if(!in_array($property->getUri(), $this->getExludedProperties())){

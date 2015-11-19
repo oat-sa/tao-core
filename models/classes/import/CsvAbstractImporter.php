@@ -76,10 +76,8 @@ abstract class CsvAbstractImporter
 	/**
 	 * @return array
 	 */
-	protected function getClassProperties($classUri)
+	protected function getClassProperties($clazz)
 	{
-		$clazz = new \core_kernel_classes_Class($classUri);
-
 		$topLevelClass = new \core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
 		$classProperties = \tao_models_classes_TaoService::singleton()->getClazzProperties($clazz, $topLevelClass);
 
