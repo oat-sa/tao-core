@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -50,7 +50,7 @@ define(['jquery', 'lodash'], function($, _){
 
     var triggerThemeChange = function triggerThemeChange(themeId) {
         _.delay(function() {
-            $(document).trigger('themechange.' + ns, { id: themeId });
+            $(document).trigger('themechange.' + ns, [themeId]);
         }, 200);
     };
 
