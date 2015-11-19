@@ -19,7 +19,7 @@
  */
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\tao\model\import\CSVBasicImporter;
+use oat\tao\model\import\CsvBasicImporter;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
@@ -29,7 +29,7 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 	const CSV_FILE_USERS_NO_HEADER_UNICODE = '/../samples/csv/users1-no-header.csv';
 	
 	public function testImport(){
-		$importer = new CSVBasicImporter();
+		$importer = new CsvBasicImporter();
 
 		$staticMap = array();
 		//copy file because it should be removed
@@ -53,7 +53,7 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 	}
 
 	public function testCsvMapping(){
-		$importer = new CSVBasicImporter();
+		$importer = new CsvBasicImporter();
 
 		$expectedHeaderMap = array('label','First Name','Last Name','Login','Mail','password','UserUILg');
 
@@ -100,7 +100,7 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 
 
 	public function testGetDataSample(){
-		$importer = new CSVBasicImporter();
+		$importer = new CsvBasicImporter();
 
 		$path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
 		$expectedKeys = array('label','First Name','Last Name','Login','Mail','password','UserUILg');
@@ -127,8 +127,8 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 
 	public function testGetColumnMapping(){
 		$file = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
-		$importer = new CSVBasicImporter();
-		$class = new ReflectionClass('oat\\tao\\model\\import\\CSVBasicImporter');
+		$importer = new CsvBasicImporter();
+		$class = new ReflectionClass('oat\\tao\\model\\import\\CsvBasicImporter');
 		$method = $class->getMethod('getColumnMapping');
 		$method->setAccessible(true);
 		$csv_data = new \tao_helpers_data_CsvFile();
@@ -143,8 +143,8 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 	}
 
 	public function testGetClassProperties(){
-		$importer = new CSVBasicImporter();
-		$class = new ReflectionClass('oat\\tao\\model\\import\\CSVBasicImporter');
+		$importer = new CsvBasicImporter();
+		$class = new ReflectionClass('oat\\tao\\model\\import\\CsvBasicImporter');
 		$method = $class->getMethod('getClassProperties');
 		$method->setAccessible(true);
 

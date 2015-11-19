@@ -28,7 +28,7 @@ namespace oat\tao\model\import;
  * @author Antoine Robin, <antoine.robin@vesperiagroup.com>
  * @package tao
  */
-class CSVBasicImporter extends CsvAbstractImporter
+class CsvBasicImporter extends CsvAbstractImporter
 {
     const OPTION_POSTFIX = '_O';
 
