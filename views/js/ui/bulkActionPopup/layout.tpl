@@ -4,13 +4,13 @@
     {{#if single}}
     <div class="single" data-resource="{{allowedResources.0.id}}">
         <p>
-            The action will be applied to the {{resourceType}} <span class="resource-label">{{allowedResources.0.label}}</span>
+            {{__ "The action will be applied to"}} {{resourceType}} <span class="resource-label">{{allowedResources.0.label}}</span>
         </p>
     </div>
     {{else}}
     <div class="multiple">
         <p>
-            The action will be applied to the following <span class="resource-count">{{resourceCount}}</span> {{resourceType}}s:
+            {{__ "The action will be applied to the following"}} <span class="resource-count">{{resourceCount}}</span> {{resourceTypes}}:
         </p>
         <ul class="plain applicables">
             {{#each allowedResources}}
@@ -24,7 +24,7 @@
     
     {{#if deniedResources.length}}
     <p>
-        However, the action does not apply to the following {{resourceType}}s:
+        {{__ "However, the action will not be applied to the following"}} {{resourceTypes}}:
     </p>
     <ul class="plain no-applicables">
         {{#each deniedResources}}
