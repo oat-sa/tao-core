@@ -64,11 +64,11 @@ class tao_helpers_Date
      * Should in theory be dependant on the users locale and timezone
      * @param mixed $timestamp
      * @param int $format The date format. See tao_helpers_Date's constants.
-     * @param string $timeZone user timezone
+     * @param DateTimeZone $timeZone user timezone
      * @return string The formatted date.
      * @throws common_Exception when timestamp is not recognized
      */
-    static public function displayeDate($timestamp, $format = self::FORMAT_LONG, $timeZone = null)
+    static public function displayeDate($timestamp, $format = self::FORMAT_LONG, DateTimeZone $timeZone = null)
     {
         if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
             $ts = $timestamp->__toString();
