@@ -188,9 +188,11 @@ define(['jquery', 'lodash'], function($, _){
             load : function load(){
                 _.forEach(styles, function($link, id){
                     if(!isAttached(id)){
-                        $link.on('load', function() {
-                            triggerThemeChange(id);
-                        });
+                        if (id === activeTheme) {
+                            $link.on('load', function() {
+                                triggerThemeChange(id);
+                            });
+                        }
                         disable($link);
                         $container.append($link);
                     }
