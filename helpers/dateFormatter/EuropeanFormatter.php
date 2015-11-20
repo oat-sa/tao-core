@@ -36,7 +36,7 @@ use common_session_SessionManager;
 class EuropeanFormatter extends Configurable implements Formatter
 {
 
-    public function format($timestamp, $format, $timeZone = null)
+    public function format($timestamp, $format, DateTimeZone $timeZone = null)
     {
         $dateTime = new DateTime();
         $dateTime->setTimestamp($timestamp);

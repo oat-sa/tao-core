@@ -35,7 +35,7 @@ use oat\oatbox\Configurable;
  */
 class IntlFormatter extends Configurable implements Formatter
 {
-    public function format($timestamp, $format, $timeZone = null)
+    public function format($timestamp, $format, DateTimeZone $timeZone = null)
     {
         $locale = common_session_SessionManager::getSession()->getInterfaceLanguage();
         if(is_null($timeZone)){
