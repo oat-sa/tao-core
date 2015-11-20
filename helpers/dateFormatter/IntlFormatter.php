@@ -35,10 +35,13 @@ use oat\oatbox\Configurable;
  */
 class IntlFormatter extends Configurable implements Formatter
 {
-    public function format($timestamp, $format)
+    public function format($timestamp, $format, $timeZone = null)
     {
         $locale = common_session_SessionManager::getSession()->getInterfaceLanguage();
-        $timezone = new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone());
+        if(is_null($timeZone)){
+            $timeZone = common_session_SessionManager::getSession()->getTimeZone();
+        }
+        $timezone = new DateTimeZone($timeZone);
 
         switch ($format) {
             case \tao_helpers_Date::FORMAT_LONG:

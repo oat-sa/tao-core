@@ -60,14 +60,15 @@ class tao_helpers_Date
     }
 
     /**
-     * Dispalys a date/time
-     * Should in theorie be dependant on the users locale and timezone
-     *
-     * @param mixed $timestamp            
-     * @param int $format  The date format. See tao_helpers_Date's constants.
+     * Displays a date/time
+     * Should in theory be dependant on the users locale and timezone
+     * @param mixed $timestamp
+     * @param int $format The date format. See tao_helpers_Date's constants.
+     * @param string $timeZone user timezone
      * @return string The formatted date.
+     * @throws common_Exception when timestamp is not recognized
      */
-    static public function displayeDate($timestamp, $format = self::FORMAT_LONG)
+    static public function displayeDate($timestamp, $format = self::FORMAT_LONG, $timeZone = null)
     {
         if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
             $ts = $timestamp->__toString();
@@ -83,7 +84,7 @@ class tao_helpers_Date
             throw new common_Exception('Unexpected timestamp');
         }
 
-        return self::getDateFormatter()->format($ts, $format);
+        return self::getDateFormatter()->format($ts, $format, $timeZone);
     }
 
     /**

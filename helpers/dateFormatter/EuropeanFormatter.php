@@ -36,11 +36,14 @@ use common_session_SessionManager;
 class EuropeanFormatter extends Configurable implements Formatter
 {
 
-    public function format($timestamp, $format)
+    public function format($timestamp, $format, $timeZone = null)
     {
         $dateTime = new DateTime();
         $dateTime->setTimestamp($timestamp);
-        $dateTime->setTimezone(new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone()));
+		if(is_null($timeZone)){
+			$timeZone = common_session_SessionManager::getSession()->getTimeZone();
+		}
+        $dateTime->setTimezone(new DateTimeZone($timeZone));
         
         switch ($format) {
         	case \tao_helpers_Date::FORMAT_LONG:
