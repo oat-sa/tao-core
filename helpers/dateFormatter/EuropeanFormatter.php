@@ -41,9 +41,9 @@ class EuropeanFormatter extends Configurable implements Formatter
         $dateTime = new DateTime();
         $dateTime->setTimestamp($timestamp);
 		if(is_null($timeZone)){
-			$timeZone = common_session_SessionManager::getSession()->getTimeZone();
+			$timeZone = new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone());
 		}
-        $dateTime->setTimezone(new DateTimeZone($timeZone));
+        $dateTime->setTimezone($timeZone);
         
         switch ($format) {
         	case \tao_helpers_Date::FORMAT_LONG:

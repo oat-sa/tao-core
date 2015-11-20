@@ -68,34 +68,35 @@ class DateHelperTest extends TaoPhpUnitTestRunner
     public function testDisplayDateSpecificTimeZone()
     {
         $pacific = 'Pacific/Honolulu';
-        $mybirthday = DateTime::createFromFormat('Y-m-d H:i:s.u', '1980-02-01 10:00:00.012345', new \DateTimeZone($pacific));
+        $pacificTimeZone = new \DateTimeZone($pacific);
+        $mybirthday = DateTime::createFromFormat('Y-m-d H:i:s.u', '1980-02-01 10:00:00.012345', $pacificTimeZone);
 
         $this->assertNotEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday));
-        $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_LONG, $pacific));
-        $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_DATEPICKER, $pacific));
-        $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_VERBOSE, $pacific));
-        $this->assertEquals('1980-02-01T10:00:00.012', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_ISO8601, $pacific));
+        $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_LONG, $pacificTimeZone));
+        $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_DATEPICKER, $pacificTimeZone));
+        $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_VERBOSE, $pacificTimeZone));
+        $this->assertEquals('1980-02-01T10:00:00.012', tao_helpers_Date::displayeDate($mybirthday, tao_helpers_Date::FORMAT_ISO8601, $pacificTimeZone));
 
         $mybirthdayTs = $mybirthday->getTimeStamp();
         $this->assertNotEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthdayTs));
-        $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_LONG, $pacific));
-        $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_DATEPICKER, $pacific));
-        $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_VERBOSE, $pacific));
-        $this->assertEquals('1980-02-01T10:00:00.000', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_ISO8601, $pacific));
+        $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_LONG, $pacificTimeZone));
+        $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_DATEPICKER, $pacificTimeZone));
+        $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_VERBOSE, $pacificTimeZone));
+        $this->assertEquals('1980-02-01T10:00:00.000', tao_helpers_Date::displayeDate($mybirthdayTs, tao_helpers_Date::FORMAT_ISO8601, $pacificTimeZone));
 
         $literal = new \core_kernel_classes_Literal($mybirthdayTs);
         $this->assertNotEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($literal));
-        $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_LONG, $pacific));
-        $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_DATEPICKER, $pacific));
-        $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_VERBOSE, $pacific));
-        $this->assertEquals('1980-02-01T10:00:00.000', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_ISO8601, $pacific));
+        $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_LONG, $pacificTimeZone));
+        $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_DATEPICKER, $pacificTimeZone));
+        $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_VERBOSE, $pacificTimeZone));
+        $this->assertEquals('1980-02-01T10:00:00.000', tao_helpers_Date::displayeDate($literal, tao_helpers_Date::FORMAT_ISO8601, $pacificTimeZone));
 
         $ms = tao_helpers_Date::getTimeStampWithMicroseconds($mybirthday);
         $this->assertNotEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($ms));
-        $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_LONG, $pacific));
-        $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_DATEPICKER, $pacific));
-        $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_VERBOSE, $pacific));
-        $this->assertEquals('1980-02-01T10:00:00.012', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601, $pacific));
+        $this->assertEquals('01/02/1980 10:00:00', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_LONG, $pacificTimeZone));
+        $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_DATEPICKER, $pacificTimeZone));
+        $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_VERBOSE, $pacificTimeZone));
+        $this->assertEquals('1980-02-01T10:00:00.012', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601, $pacificTimeZone));
     }
 
     /**

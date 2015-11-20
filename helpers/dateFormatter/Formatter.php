@@ -34,7 +34,7 @@ interface Formatter
      * 
      * @param long $timestamp
      * @param string $format see constants of tao_helpers_Date for possible values
-     * @param string $timeZone
+     * @param \DateTimeZone $timeZone
      */
     public function format($timestamp, $format, $timeZone);
 
