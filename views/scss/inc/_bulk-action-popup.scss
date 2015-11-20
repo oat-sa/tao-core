@@ -28,8 +28,14 @@
         max-height: 100px;
         overflow-y: auto;
         background: #DDD;
-        padding : 6px 18px;
+        padding-top: 5px;
         margin-bottom : 20px;
+        .resource-label{
+            padding : 6px 18px 0;
+        }
+        li:last-child .resource-label{
+            padding-bottom : 6px;
+        }
     }
     .categories{
         margin-bottom : 10px;
@@ -46,10 +52,8 @@
             margin-right : 10px;
         }
     }
-    .reason{
-        margin-bottom : 20px;
-    }
     .actions{
+        margin-top : 20px;
         .btn{
             float:right;
             margin-left:20px;
@@ -58,5 +62,11 @@
                 top:3px;
             }
         }
+    }
+    .single .resource-label{
+        font-weight : bold;
+    }
+    .multiple .resource-count{
+        font-weight : bold;
     }
 }
