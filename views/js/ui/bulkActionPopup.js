@@ -121,7 +121,7 @@ define([
      * @param {JQuery} $container
      * @returns {undefined}
      */
-    function initModal(instance){
+    function initModal(instance, modalConfig){
 
         instance.getElement()
             .addClass('modal')
@@ -129,7 +129,7 @@ define([
                 //on shot only, on close, destroy the widget
                 instance.destroy();
             })
-            .modal();
+            .modal(modalConfig);
     }
 
     /**
@@ -178,7 +178,9 @@ define([
                 var self = this;
                 var $element = this.getElement();
 
-                initModal(this);
+                initModal(this, {
+                    width : (config.single && !config.deniedResources.length && !config.reason) ? 600 : 800
+                });
                 initCascadingComboBox($element.find('.reason').children('.categories'), config);
                 $element.on('selected.cascading-combobox' + _ns, function(e, reasons){
                     state.reasons = reasons;
