@@ -1,5 +1,6 @@
 <div class="bulk-action-popup">
     <h2 class="title">{{__ "Action"}}: {{actionName}}</h2>
+    
     {{#if single}}
     <div class="single" data-resource="{{allowedResources.0.id}}">
         <p>
@@ -18,21 +19,23 @@
             </li>
             {{/each}}
         </ul>
-        {{#if deniedResources.length}}
-        <p>
-            However, the action does not apply to the following {{resourceType}}s:
-        </p>
-        <ul class="plain no-applicables">
-            {{#each deniedResources}}
-            <li data-resource="{{id}}">
-                <span class="resource-label">{{label}}</span>
-                <span class="reason">({{reason}})</span>
-            </li>
-            {{/each}}
-        </ul>
-        {{/if}}
     </div>
     {{/if}}
+    
+    {{#if deniedResources.length}}
+    <p>
+        However, the action does not apply to the following {{resourceType}}s:
+    </p>
+    <ul class="plain no-applicables">
+        {{#each deniedResources}}
+        <li data-resource="{{id}}">
+            <span class="resource-label">{{label}}</span>
+            <span class="reason">({{reason}})</span>
+        </li>
+        {{/each}}
+    </ul>
+    {{/if}}
+    
     {{#if reason}}
     <div class="reason">
         <p>
