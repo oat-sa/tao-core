@@ -59,17 +59,21 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 
 		$property1 = $this->prophesize('\core_kernel_classes_Property');
 		$property1->getUri()->willReturn('uriproperty1');
-		$property1->getLabel()->willReturn('label');
+		$property1->getLabel()->willReturn('LaBeL');
 
 		$property2 = $this->prophesize('\core_kernel_classes_Property');
 		$property2->getUri()->willReturn('uriproperty2');
 		$property2->getLabel()->willReturn('Login');
 
 		$property3 = $this->prophesize('\core_kernel_classes_Property');
-		$property3->getUri()->willReturn('uriproperty3');
+		$property3->getUri()->willReturn('http://tao.unit/test.rdf#fIrstnAmE');
 		$property3->getLabel()->willReturn('labelproperty3');
 
-		$properties = array($property1->reveal(), $property2->reveal(), $property3->reveal());
+		$property4 = $this->prophesize('\core_kernel_classes_Property');
+		$property4->getUri()->willReturn('http://tao.unit/test.rdf#email');
+		$property4->getLabel()->willReturn('labelproperty4');
+
+		$properties = array($property1->reveal(), $property2->reveal(), $property3->reveal(), $property4->reveal());
 		$class = $this->prophesize('\core_kernel_classes_Class');
 		$class->getProperties(false)->willReturn($properties);
 		$class->getUri()->willReturn(CLASS_GENERIS_RESOURCE);
@@ -84,17 +88,20 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$this->assertArrayHasKey('headerList',$map);
 		$this->assertArrayHasKey('mapping',$map);
 		$this->assertEquals($expectedHeaderMap,$map['headerList']);
-		$this->assertCount(3,$map['classProperties']);
+		$this->assertCount(4,$map['classProperties']);
 		$this->assertArrayHasKey('uriproperty1',$map['classProperties']);
 		$this->assertArrayHasKey('uriproperty2',$map['classProperties']);
-		$this->assertArrayHasKey('uriproperty3',$map['classProperties']);
-		$this->assertEquals('label',$map['classProperties']['uriproperty1']);
+		$this->assertArrayHasKey('http://tao.unit/test.rdf#fIrstnAmE',$map['classProperties']);
+		$this->assertArrayHasKey('http://tao.unit/test.rdf#email',$map['classProperties']);
+		$this->assertEquals('LaBeL',$map['classProperties']['uriproperty1']);
 		$this->assertEquals('Login',$map['classProperties']['uriproperty2']);
-		$this->assertEquals('labelproperty3',$map['classProperties']['uriproperty3']);
-		$this->assertCount(2,$map['mapping']);
+		$this->assertEquals('labelproperty3',$map['classProperties']['http://tao.unit/test.rdf#fIrstnAmE']);
+		$this->assertEquals('labelproperty4',$map['classProperties']['http://tao.unit/test.rdf#email']);
+		$this->assertCount(4,$map['mapping']);
 		$this->assertEquals(0,$map['mapping']['uriproperty1']);
 		$this->assertEquals(3,$map['mapping']['uriproperty2']);
-		$this->assertArrayNotHasKey('uriproperty3',$map['mapping']);
+		$this->assertEquals(1,$map['mapping']['http://tao.unit/test.rdf#fIrstnAmE']);
+		$this->assertEquals(4,$map['mapping']['http://tao.unit/test.rdf#email']);
 
 	}
 
