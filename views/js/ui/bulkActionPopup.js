@@ -121,7 +121,7 @@ define([
      * @param {JQuery} $container
      * @returns {undefined}
      */
-    function initModal(instance){
+    function initModal(instance, modalConfig){
 
         instance.getElement()
             .addClass('modal')
@@ -129,7 +129,7 @@ define([
                 //on shot only, on close, destroy the widget
                 instance.destroy();
             })
-            .modal();
+            .modal(modalConfig);
     }
 
     /**
@@ -137,13 +137,14 @@ define([
      * 
      * @param {Object} config
      * @param {JQuery} config.renderTo - the jQuery container it should be rendered to
-     * @param {String} config.actionName - the action name
-     * @param {String} config.resourceType - the name of the resource type
-     * @param {Boolean} config.reason - defines if the reason section should be displayed or not
-     * @param {Array} config.categoriesDefinitions - the array that defines the number and config for each level of combobox cascade
-     * @param {Array} config.categories - the array that contains nested array of categories
+     * @param {String} config.actionName - the action name (use in the title text)
+     * @param {String} config.resourceType - the name of the resource type (use in the text)
+     * @param {String} [config.resourceTypes] - the name of the resource type in plural (use in the text)
+     * @param {Boolean} [config.reason] - defines if the reason section should be displayed or not
+     * @param {Array} [config.categoriesDefinitions] - the array that defines the number and config for each level of combobox cascade
+     * @param {Array} [config.categories] - the array that contains nested array of categories
      * @param {Array} config.allowedResources - list of allowed resources to be displayed
-     * @param {Array} config.deniedResources - list of denied resources to be displayed
+     * @param {Array} [config.deniedResources] - list of denied resources to be displayed
      * @returns {bulkActionPopup}
      */
     return function bulkActionPopupFactory(config){
@@ -154,12 +155,15 @@ define([
             comment : ''
         };
 
-        //modify the template
-        config.resourceCount = config.allowedResources.length;
-        if(config.resourceCount === 1){
-            config.single = true;
-        }
-
+        //compute extra config data (essentially for the template)
+        config = _.defaults(config, {
+            deniedResources : [],
+            reason : false,
+            resourceCount : config.allowedResources.length,
+            single : (config.allowedResources.length === 1),
+            resourceTypes : config.resourceType + 's'
+        });
+        
         return component()
             .setTemplate(layoutTpl)
 
@@ -174,7 +178,9 @@ define([
                 var self = this;
                 var $element = this.getElement();
 
-                initModal(this);
+                initModal(this, {
+                    width : (config.single && !config.deniedResources.length && !config.reason) ? 600 : 800
+                });
                 initCascadingComboBox($element.find('.reason').children('.categories'), config);
                 $element.on('selected.cascading-combobox' + _ns, function(e, reasons){
                     state.reasons = reasons;
