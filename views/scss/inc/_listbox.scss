@@ -73,14 +73,6 @@ $entryArrowHeight: 150;
         z-index: 2;
       }
 
-      .text-link {
-        ::before {
-          position: relative;
-          top: 1px;
-          left: -2px;
-        }
-      }
-
       &:before {
         border-left-color: $uiGeneralContentBorder;
         width: $entryArrowWidthBefore * 1px;
