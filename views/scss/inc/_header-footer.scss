@@ -78,6 +78,7 @@ $navHeight: 64;
         }
     }
     nav {
+        background:inherit;
         position: relative;
         z-index: 8000;
         li {
@@ -143,16 +144,20 @@ $navHeight: 64;
         }
 
         .main-menu, .settings-menu {
+            background:inherit;
             li {
                 @include font-size(13);
                 ul {
                     min-width: 130px;
-                    background: $darkBar;
+                    background:inherit;
                     position: absolute;
                     left: 0px;
                     border-top: 1px solid #666;
                     padding: 5px 0 !important;
                     @include menu-states(normal);
+                    li {
+                        background:inherit;
+                    }
                 }
                 // display sub menu on hover
                 &:hover {
