@@ -31,7 +31,7 @@ $settingsMenu = get_data('settings-menu');
 
     <div class="settings-menu rgt">
         <span class="reduced-menu-trigger">
-            <span class="icon-mobile-menu"></span>
+            <span class="icon-mobile-menu glyph"></span>
             <?=__('More')?>
         </span>
         <ul class="clearfix plain">
@@ -80,7 +80,7 @@ $settingsMenu = get_data('settings-menu');
 
             <li data-env="user" class="li-logout">
                 <a id="logout" href="<?= _url('logout', 'Main', 'tao') ?>" title="<?= __('Log Out') ?>">
-                    <span class="icon-logout"></span>
+                    <span class="icon-logout glyph"></span>
                 </a>
             </li>
         </ul>
