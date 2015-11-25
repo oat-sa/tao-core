@@ -183,7 +183,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
     });
 
     QUnit.test('Add value which is not represented in the model', function(assert){
-        QUnit.expect(3);
+        QUnit.expect(2);
 
         var $container = $('#container-4');
         var $sectionParts = $('ul', $container);
@@ -198,7 +198,6 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
         var databinder = new DataBinder($container, model);
         databinder.bind();
 
-        strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 4, 'model length has been updated');
         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[3].visible, true, 'new element has been added');
     });
 
