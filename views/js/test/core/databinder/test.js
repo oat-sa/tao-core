@@ -195,7 +195,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
 
         $sectionParts.append($newSection);
 
-        databinder = new DataBinder($container, model);
+        var databinder = new DataBinder($container, model);
         databinder.bind();
 
         strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 4, 'model length has been updated');
