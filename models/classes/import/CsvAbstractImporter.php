@@ -151,12 +151,14 @@ abstract class CsvAbstractImporter
 	public function importFile($class, $options) {
 
 
+                $options['staticMap'] = $this->getStaticData();
 		$options = array_merge($options, $this->getAdditionAdapterOptions());
 
 		// Check if we have a proper UTF-8 file.
 		if (@preg_match('//u', file_get_contents($options['file'])) === false) {
 			return new \common_report_Report(\common_report_Report::TYPE_ERROR, __("The imported file is not properly UTF-8 encoded."));
-		}
+                }
+
 
 		$adapter = new \tao_helpers_data_GenerisAdapterCsv($options);
 		$adapter->setValidators($this->getValidators());
