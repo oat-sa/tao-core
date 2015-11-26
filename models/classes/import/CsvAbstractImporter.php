@@ -151,7 +151,7 @@ abstract class CsvAbstractImporter
 	public function importFile($class, $options) {
 
 
-                $options['staticMap'] = $this->getStaticData();
+		$options['staticMap'] = $this->getStaticData();
 		$options = array_merge($options, $this->getAdditionAdapterOptions());
 
 		// Check if we have a proper UTF-8 file.
