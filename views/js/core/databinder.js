@@ -253,7 +253,7 @@ function($, _, Handlebars, Encoders, Filters){
      */
     DataBinder.prototype._bindNode = function _bindNode($node, path, model, domFirst) {
         if(!$node.data('bound')){
-            if(domFirst === true){
+            if(domFirst === true || locate(model, path) === undefined){
                   update(model, path, this._getNodeValue($node));
             }
 
