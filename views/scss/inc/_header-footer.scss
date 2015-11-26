@@ -145,8 +145,12 @@ $navHeight: 64;
 
         .main-menu, .settings-menu {
             background:inherit;
+            ul {
+                background:inherit;
+            }
             li {
                 @include font-size(13);
+                background:inherit;
                 ul {
                     min-width: 130px;
                     background:inherit;
