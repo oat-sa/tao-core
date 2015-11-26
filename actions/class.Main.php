@@ -27,8 +27,6 @@ use oat\tao\helpers\TaoCe;
 use oat\tao\model\menu\Action;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
-use \common_session_SessionManager;
-use \common_Logger;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
