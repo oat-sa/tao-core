@@ -22,16 +22,22 @@ define([
         }
 
         /**
-         * Reposition the radio buttons of a property and make them look nice.
+         * Reposition the radio buttons or checkboxes of a property and make them look nice.
          *
          * @private
          */
-        function _upgradeRadioButtons($container) {
+        function _upgradeButtons($container, type){
 
-            $container.find('.form_radlst').not('.property-radio-list').each(function() {
+            var selector = '.form_checklst';
+            var notSelector = '';
+            if(type === 'radio'){
+                selector = '.form_radlst';
+                notSelector = '.form_checklst, ';
+            }
+            $container.find(selector).not(notSelector+'.property-'+type+'-list').each(function() {
                 var $radioList = $(this);
-                $radioList.addClass('property-radio-list');
-                $radioList.parent().addClass('property-radio-list-box');
+                $radioList.addClass('property-'+type+'-list');
+                $radioList.parent().addClass('property-'+type+'-list-box');
                 $radioList.each(function() {
                     var $block = $(this),
                         $inputs = $block.find('input');
@@ -43,7 +49,7 @@ define([
                     $inputs.each(function() {
                         var $input = $(this),
                             $label = $block.find('label[for="' + this.id + '"]'),
-                            $icon  = $('<span>', { 'class': 'icon-radio'});
+                            $icon  = $('<span>', { 'class': 'icon-'+type});
 
                         $label.prepend($icon);
                         $label.prepend($input);
@@ -194,7 +200,8 @@ define([
                 return;
             }
             _wrapPropsInContainer($properties);
-            _upgradeRadioButtons($container);
+            _upgradeButtons($container, 'radio');
+            _upgradeButtons($container, 'checkbox');
             _toggleModeBtn('disabled');
         }
 
