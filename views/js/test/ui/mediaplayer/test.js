@@ -787,7 +787,7 @@ define([
                     onplay: function (player) {
                         assert.ok(true, 'The media player has started the playback');
 
-                        player.seek(player.getDuration());
+                        player.seek(player.getDuration() - 0.1);
                     },
                     onended: function (player) {
                         count++;
