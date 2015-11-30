@@ -144,6 +144,17 @@ define([
     };
 
     /**
+     * Ensures a value is a number
+     * @param {Number|String} value
+     * @returns {Number}
+     * @private
+     */
+    var _ensureNumber = function(value) {
+        value = parseFloat(value);
+        return isFinite(value) ? value : 0;
+    };
+
+    /**
      * Format a number to string with leading zeros
      * @param {Number} n
      * @param {Number} len
@@ -230,7 +241,7 @@ define([
          * @param {String} [mime] A media MIME type to check
          * @returns {Boolean}
          */
-        canPlay: function(type, mime) {
+        canPlay: function canPlay(type, mime) {
             if (type) {
                 switch (type.toLowerCase()) {
                     case 'audio': return this.canPlayAudio(mime);
@@ -247,7 +258,7 @@ define([
          * @param {String} [mime] A media MIME type to check
          * @returns {Boolean}
          */
-        canPlayAudio: function(mime) {
+        canPlayAudio: function canPlayAudio(mime) {
             if (!this._mediaAudio) {
                 this._mediaAudio = document.createElement('audio');
             }
@@ -260,7 +271,7 @@ define([
          * @param {String} [mime] A media MIME type to check
          * @returns {Boolean}
          */
-        canPlayVideo: function(mime) {
+        canPlayVideo: function canPlayVideo(mime) {
             if (!this._mediaVideo) {
                 this._mediaVideo = document.createElement('video');
             }
@@ -272,7 +283,7 @@ define([
          * Checks if the browser allows to control the media playback
          * @returns {Boolean}
          */
-        canControl: function() {
+        canControl: function canControl() {
             return !_reAppleMobiles.test(navigator.userAgent);
         }
     };
@@ -1519,15 +1530,15 @@ define([
             }
 
             return $elt.noUiSlider({
-                start: value || 0,
+                start: _ensureNumber(value) || 0,
                 step: 1,
                 connect: 'lower',
                 orientation: orientation,
                 direction: direction,
                 animate: true,
                 range: {
-                    min: min || 0,
-                    max : max || 0
+                    min: _ensureNumber(min) || 0,
+                    max : _ensureNumber(max) || 0
                 }
             })
         },
@@ -1667,7 +1678,7 @@ define([
                 this.$seekSlider = null;
             }
 
-            if (value) {
+            if (value && isFinite(value)) {
                 this.$seekSlider = this._renderSlider(this.$seek, 0, 0, value);
             }
         },
@@ -1679,7 +1690,7 @@ define([
          */
         _updateDurationLabel : function _updateDurationLabel(value) {
             if (this.$duration) {
-                if (value) {
+                if (value && isFinite(value)) {
                     this.$duration.text(_timerFormat(value)).show();
                 } else {
                     this.$duration.hide();
