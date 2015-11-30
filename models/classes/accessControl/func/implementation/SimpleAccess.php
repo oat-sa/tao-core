@@ -93,15 +93,42 @@ class SimpleAccess
             }
         }
     }
-    
-    public function revokeRule(AccessRule $rule) {
-        if ($rule->getRole()->getUri() == INSTANCE_ROLE_ANONYMOUS) {
-            $mask = $rule->getMask();
-            $ruleString = $mask['ext'].'::'.(isset($mask['mod']) ? $mask['mod'] : '*').'::'.(isset($mask['act']) ? $mask['act'] : '*');
-            $remaining = array_diff(explode(',', $this->whitelist), array($ruleString));
-            $this->whitelist = implode(',', $remaining);
+
+    public function revokeRule(AccessRule $rule){
+        if ($rule->getRole()->getUri() === INSTANCE_ROLE_ANONYMOUS) {
             $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-            common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig(self::WHITELIST_KEY, $this->whitelist);
+
+            $this->controllers = $ext->hasConfig(self::WHITELIST_KEY) ? $ext->getConfig(self::WHITELIST_KEY) : array();
+            $mask = $rule->getMask();
+
+            if (isset($mask['ext']) && !isset($mask['mod'])) {
+                foreach (ControllerHelper::getControllers($mask['ext']) as $controllerClassName) {
+                    unset($this->controllers[$controllerClassName]);
+                }
+            } elseif (isset($mask['ext']) && isset($mask['mod']) && !isset($mask['act'])) {
+                unset($this->controllers[FuncHelper::getClassName($mask['ext'], $mask['mod'])]);
+            } elseif (isset($mask['ext']) && isset($mask['mod']) && isset($mask['act'])) {
+                $controller = FuncHelper::getClassName($mask['ext'], $mask['mod']);
+                if (isset($this->controllers[$controller])) {
+                    unset($this->controllers[$controller][$mask['act']]);
+                    if (0 === count($this->controllers[$controller])) {
+                        unset($this->controllers[$controller]);
+                    }
+                }
+            } elseif (isset($mask['controller'])) {
+                unset($this->controllers[$mask['controller']]);
+            } elseif (isset($mask['act']) && strpos($mask['act'], '@') !== false) {
+                list($controller, $action) = explode('@', $mask['act'], 2);
+                if (isset($this->controllers[$controller])) {
+                    unset($this->controllers[$controller][$action]);
+                    if (0 === count($this->controllers[$controller])) {
+                        unset($this->controllers[$controller]);
+                    }
+                }
+            } else {
+                \common_Logger::w('Unrecognised mask keys: '.implode(',', array_keys($mask)));
+            }
+            $ext->setConfig(self::WHITELIST_KEY, $this->controllers);
         }
     }
     
