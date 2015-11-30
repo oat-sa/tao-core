@@ -162,7 +162,7 @@ abstract class CsvAbstractImporter
 	 */
 	public function importFile($class, $options) {
 
-                if(!isset($options['staticMap']) && !is_array($options['staticMap'])){
+                if(!isset($options['staticMap']) || !is_array($options['staticMap'])){
                     $options['staticMap'] = $this->getStaticData();
                 } else {
                     $options['staticMap'] = array_merge($options['staticMap'], $this->getStaticData());
