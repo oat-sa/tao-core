@@ -64,7 +64,7 @@ define([
                                 })
                                 .defaults(defaults || {})
                                 .value();
-
+                            
                 componentState = {};
 
                 /**

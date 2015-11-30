@@ -407,7 +407,7 @@ define([
     /**
      * Builds a dialog box instance
      * @param {Object} options
-     * @returns {Object}
+     * @returns {dialog}
      */
     var dialogFactory = function dialogFactory(options) {
         var instance = _.clone(dialog, true);

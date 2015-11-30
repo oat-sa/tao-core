@@ -217,7 +217,9 @@ define([
 
             // overrides column options
             _.forEach(options.model, function (field) {
-                field.filterable = !!(field.filterable && options.filter); // disable column filter if filtering turned off globally
+                if (!options.filter) {
+                    field.filterable = false;
+                }
                 if (field.transform) {
                     field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }

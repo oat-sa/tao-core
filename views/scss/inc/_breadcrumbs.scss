@@ -13,6 +13,8 @@
   li.breadcrumb {
     display: inline-block;
     position: relative;
+    text-align: left;
+    float: none;
 
     &:not(:first-child):before {
       @include tao-icon-setup;
@@ -33,6 +35,8 @@
       li {
         white-space: nowrap;
         padding: 2px 0;
+        text-align: left;
+        float: none;
 
         &:before {
           @include tao-icon-setup;

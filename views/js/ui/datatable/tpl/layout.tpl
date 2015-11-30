@@ -53,7 +53,7 @@
                         <div {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</div>
                         {{#if filterable}}
                         <aside class="filter column" data-column="{{id}}">
-                            <input type="text" value="" name="filter" placeholder="{{__ 'Filter'}}">
+                            <input type="text" value="" name="filter" placeholder="{{#if filterable.placeholder}}{{filterable.placeholder}}{{else}}{{__ 'Filter'}}{{/if}}">
                             <button class="icon-find" type="button"></button>
                         </aside>
                         {{/if}}

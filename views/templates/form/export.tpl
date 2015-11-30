@@ -33,6 +33,7 @@
 
         //overwrite the submit behaviour
         $submitter.off('click').on('click', function(e){
+            e.preventDefault();
 
             if(parseInt($sent.val())){
                 

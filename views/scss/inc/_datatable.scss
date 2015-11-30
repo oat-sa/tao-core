@@ -37,6 +37,9 @@
         }
         &.column {
             float: none;
+            width: auto;
+            text-align: left;
+            margin-bottom: 0;
             input {
                 min-width: inherit;
             }
