@@ -134,6 +134,18 @@ abstract class CsvAbstractImporter
 	}
 
 
+    /**
+     * Additional mapping values but that comes from another source than the CSV file.
+     * It enables you to define a mapping that will to work along with the CSV mapping.
+     *
+     * @return the mapping in the same form than the staticData (uri -> val/uri)
+     */
+    public function getStaticMap()
+    {
+        return array();
+    }
+
+
 	/**
 	 * @param \core_kernel_classes_Class $class where data will be imported
 	 * @param array $options contains parameters under key => value format
@@ -150,23 +162,29 @@ abstract class CsvAbstractImporter
 	 */
 	public function importFile($class, $options) {
 
-
-		$options['staticMap'] = $this->getStaticData();
+        if(!isset($options['staticMap']) || !is_array($options['staticMap'])){
+            $options['staticMap'] = $this->getStaticData();
+        } else {
+            $options['staticMap'] = array_merge($options['staticMap'], $this->getStaticData());
+        }
 		$options = array_merge($options, $this->getAdditionAdapterOptions());
 
 		// Check if we have a proper UTF-8 file.
 		if (@preg_match('//u', file_get_contents($options['file'])) === false) {
 			return new \common_report_Report(\common_report_Report::TYPE_ERROR, __("The imported file is not properly UTF-8 encoded."));
-                }
+        }
 
 
 		$adapter = new \tao_helpers_data_GenerisAdapterCsv($options);
 		$adapter->setValidators($this->getValidators());
 
 		//import it!
-		$report = $adapter->import($options['file'], $class);
+        $report = $adapter->import($options['file'], $class);
+
+
 		if ($report->getType() == \common_report_Report::TYPE_SUCCESS) {
-			@unlink($options['file']);
+            @unlink($options['file']);
+            $report->setData($adapter->getOptions());
 		}
 		return $report;
 	}
