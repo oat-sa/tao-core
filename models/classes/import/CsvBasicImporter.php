@@ -55,7 +55,7 @@ class CsvBasicImporter extends CsvAbstractImporter
         array_walk($modifiedHeader, function(&$value){
             $value = str_replace(' ', '', strtolower($value));
         });
-        $propertiesMap = array();
+        $properties[] = new \core_kernel_classes_Property(RDFS_LABEL);
         $map = array();
         /** @var \core_kernel_classes_Property $property */
         foreach($properties as $property){

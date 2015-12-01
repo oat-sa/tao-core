@@ -269,7 +269,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		
 		$returnValue = $value;
 
-        return (string) $returnValue;
+        return $returnValue;
     }
 
     /**

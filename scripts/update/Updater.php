@@ -22,6 +22,7 @@
 namespace oat\tao\scripts\update;
 
 use common_ext_ExtensionsManager;
+use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
@@ -418,7 +419,13 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion === '2.14.0' || $currentVersion === '2.14.1') {
             $currentVersion = '2.15.0';
         }
-        
+
+        if ($currentVersion === '2.15.0') {
+            (new SimpleAccess())->revokeRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',
+                ['ext' => 'tao', 'mod' => 'AuthApi']));
+            $currentVersion = '2.15.1';
+        }
+
         return $currentVersion;
     }
     
