@@ -24,16 +24,23 @@ define([
         /**
          * Reposition the radio buttons or checkboxes of a property and make them look nice.
          *
+         * @param $container the container in which to search and upgrade buttons
+         * @param type string the type of input we want to upgrade 'checkbox' or 'radio' by default we use radio
          * @private
          */
         function _upgradeButtons($container, type){
 
+            //if the type is not radio or checkbox we put by default radio
+            if(type !== 'radio' && type !== 'checkbox'){
+                type = 'radio';
+            }
             var selector = '.form_checklst';
             var notSelector = '';
             if(type === 'radio'){
                 selector = '.form_radlst';
                 notSelector = '.form_checklst, ';
             }
+
             $container.find(selector).not(notSelector+'.property-'+type+'-list').each(function() {
                 var $radioList = $(this);
                 $radioList.addClass('property-'+type+'-list');
@@ -82,7 +89,7 @@ define([
          * @private
          */
         function _wrapPropsInContainer($properties) {
-            var $propertyContainer = getPropertyContainer($properties),
+            var $propertyContainer = getPropertyContainer(),
                 // the reason why this is not done via a simple counter is that
                 // the function could have been called multiple times, e.g. when
                 // properties are created dynamically.
