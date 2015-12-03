@@ -191,6 +191,32 @@ define([
     };
 
     /**
+     * Checks if a type needs to be infered as OGG
+     * @param {String} type
+     * @returns {Boolean}
+     * @private
+     */
+    var _needOggDetection = function(type) {
+        return 'string' === typeof type && type.indexOf('application/ogg') !== -1;
+    };
+
+    /**
+     * Infers real OGG type
+     * @param {Object|String} source
+     * @returns {String}
+     * @private
+     */
+    var _getOggType = function(source) {
+        var type = 'video/ogg';
+        var url = source && source.src || source;
+        var ext = url && url.substr(-4);
+        if (ext === '.ogg' || ext === '.oga') {
+            type = 'audio/ogg';
+        }
+        return type;
+    };
+
+    /**
      * Extract a list of media sources from a config object
      * @param {Object} config
      * @returns {Array}
@@ -1294,6 +1320,10 @@ define([
                 source.type = type || _defaults.type;
             }
 
+            if (_needOggDetection(source.type)) {
+                source.type = _getOggType(source);
+            }
+
             if (this.is('youtube')) {
                 source.id = _extractYoutubeId(source.src);
             }
@@ -1348,12 +1378,10 @@ define([
             var isVideo = false;
             var isAudio = false;
 
-            if (type.indexOf('application/ogg') !== -1) {
+            if (_needOggDetection(type)) {
                 type = 'video/ogg';
                 _.forEach(_configToSources(config), function(source) {
-                    var url = source.src || source;
-                    var ext = url && url.substr(-4);
-                    if (ext === '.ogg' || ext === '.oga') {
+                    if (_getOggType(source) === 'audio/ogg') {
                         type = 'audio/ogg';
                         return false;
                     }
