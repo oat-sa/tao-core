@@ -699,6 +699,13 @@ define([
                             .on('timeupdate' + _ns, function() {
                                 mediaplayer._onTimeUpdate();
                             })
+                            .on('error' + _ns, function() {
+                                var unrecoverable = false;
+                                if (media.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+                                    unrecoverable = true;
+                                }
+                                mediaplayer._setState('error', unrecoverable);
+                            })
                             .on('loadedmetadata' + _ns, function() {
                                 mediaplayer._onReady();
                             });
