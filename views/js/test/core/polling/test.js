@@ -45,7 +45,11 @@ define([
         { name : 'setAction', title : 'setAction' },
         { name : 'getAction', title : 'getAction' },
         { name : 'setContext', title : 'setContext' },
-        { name : 'getContext', title : 'getContext' }
+        { name : 'getContext', title : 'getContext' },
+        { name : 'getIteration', title : 'getIteration' },
+        { name : 'setMax', title : 'setMax' },
+        { name : 'getMax', title : 'getMax' },
+        { name : 'is', title : 'is' }
     ];
 
     QUnit
@@ -87,6 +91,8 @@ define([
         var action = function() {
             var async;
 
+            assert.equal(instance.is('processing'), true, 'The instance must be in state processing');
+
             switch (this.step ++) {
                 case 0:
                     async = instance.async();
@@ -126,11 +132,17 @@ define([
         });
 
         instance.on('resolved', function() {
+            assert.equal(instance.is('processing'), false, 'The instance must not be in state processing');
+            assert.equal(instance.is('pending'), true, 'The instance must be in state pending');
             assert.ok(true, 'The polling instance triggers event when the action is validated in async mode [step ' + context.step + ']');
             QUnit.start();
         });
 
         instance.on('rejected', function() {
+            if (4 !== context.step) {
+                assert.equal(instance.is('processing'), false, 'The instance must not be in state processing');
+                assert.equal(instance.is('stopped'), true, 'The instance must be in state stopped');
+            }
             assert.ok(true, 'The polling instance triggers event when the action is canceled in async mode [step ' + context.step + ']');
             QUnit.start();
         });
@@ -144,16 +156,21 @@ define([
         });
 
         instance.on('next', function() {
+            assert.equal(instance.is('stopped'), false, 'The instance must not be in state stopped');
             assert.ok(true, 'The polling instance triggers event when the action is triggered immediately [step ' + context.step + ']');
             QUnit.start();
         });
 
         instance.on('start', function() {
+            assert.equal(instance.is('pending'), true, 'The instance must be in state pending');
+            assert.equal(instance.is('stopped'), false, 'The instance must not be in state stopped');
             assert.ok(true, 'The polling instance triggers event when the polling is started [step ' + context.step + ']');
             QUnit.start();
         });
 
         instance.on('stop', function() {
+            assert.equal(instance.is('pending'), false, 'The instance must not be in state pending');
+            assert.equal(instance.is('stopped'), true, 'The instance must be in state stopped');
             assert.ok(true, 'The polling instance triggers event when the polling is stopped [step ' + context.step + ']');
             QUnit.start();
 
@@ -180,7 +197,7 @@ define([
             QUnit.start();
         });
 
-        QUnit.stop(21);
+        QUnit.stop(19);
 
         instance.trigger('custom');
 

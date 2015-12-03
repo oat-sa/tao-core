@@ -139,14 +139,16 @@ define([
      * @returns {polling}
      */
     var pollingFactory = function pollingFactory(config) {
-        var stopped, timer, promise, interval, max, iter, action, context, autoStart;
+        var timer, promise, interval, max, iter, action, context, autoStart;
+        var state = {};
 
         /**
          * Fires a new timer
          */
         var startTimer = function startTimer() {
             timer = setTimeout(iteration, interval);
-            stopped = false;
+            state.stopped = false;
+            state.pending = true;
         };
 
         /**
@@ -155,7 +157,8 @@ define([
         var stopTimer = function stopTimer() {
             clearTimeout(timer);
             timer = null;
-            stopped = true;
+            state.stopped = true;
+            state.pending = false;
         };
 
         /**
@@ -171,6 +174,8 @@ define([
 
             // count the iteration
             iter = (iter || 0) + 1;
+            state.processing = true;
+            state.pending = false;
 
             /**
              * Notifies the action is about to be called
@@ -178,37 +183,13 @@ define([
              */
             polling.trigger('call');
 
+            // process the action in the right context
             action.call(context, polling);
 
-            if (promise) {
-                promise.then(function() {
-                    promise = null;
-
-                    // next iteration
-                    startTimer();
-
-                    /**
-                     * Notifies the polling continues
-                     * @event polling#resolved
-                     */
-                    polling.trigger('resolved');
-                }).catch(function() {
-                    promise = null;
-
-                    // breaks the polling
-                    polling.stop();
-
-                    /**
-                     * Notifies the polling has been halted
-                     * @event polling#rejected
-                     */
-                    polling.trigger('rejected');
-                });
-            } else {
-                if (!stopped) {
-                    // next iteration
-                    startTimer();
-                }
+            // next iteration in synchronous mode
+            if (!promise && !state.stopped) {
+                state.processing = false;
+                startTimer();
             }
         };
 
@@ -226,11 +207,42 @@ define([
             async : function async() {
                 var cb = {};
 
+                // create a promise and extract the control callbacks
                 promise = new Promise(function(resolve, reject) {
                     cb.resolve = resolve;
                     cb.reject = reject;
                 });
 
+                // directly install the pending actions
+                promise.then(function() {
+                    promise = null;
+                    state.processing = false;
+
+                    // next iteration only if allowed
+                    if (!state.stopped) {
+                        startTimer();
+                    }
+
+                    /**
+                     * Notifies the polling continues
+                     * @event polling#resolved
+                     */
+                    polling.trigger('resolved');
+                }).catch(function() {
+                    promise = null;
+                    state.processing = false;
+
+                    // breaks the polling
+                    polling.stop();
+
+                    /**
+                     * Notifies the polling has been halted
+                     * @event polling#rejected
+                     */
+                    polling.trigger('rejected');
+                });
+
+                // need to assign the control callbacks since the Promise instance does not include them
                 _.assign(promise, cb);
 
                 /**
@@ -251,8 +263,10 @@ define([
              * @returns {polling}
              */
             next : function next() {
+                var _next;
+
                 // reset the counter if the polling is stopped
-                if (stopped) {
+                if (state.stopped) {
                     iter = 0;
                 }
 
@@ -264,7 +278,9 @@ define([
                     return this;
                 }
 
-                stopped = false;
+                // the next() method can be called either to force a next iteration or to start immediately the action
+                // so we need to ensure the schedule is not blocked
+                state.stopped = false;
 
                 if (!promise) {
                     /**
@@ -275,6 +291,10 @@ define([
                     this.trigger('next');
 
                     iteration();
+                } else {
+                    // as a promise is still pending, ensure a call to next() will be processed after
+                    _next = this.next.bind(this);
+                    promise.then(_next).catch(_next);
                 }
                 return this;
             },
@@ -416,6 +436,18 @@ define([
              */
             getIteration : function getIteration() {
                 return iter || 0;
+            },
+
+            /**
+             * Checks if the manager is in a particular state
+             * @param {String} stateName The name of the state to check. Possible values are:
+             * - stopped: the polling manager is stopped, and won't process action until restart
+             * - pending: the polling manager has scheduled an action an is waiting for it processing
+             * - processing: the polling manager is currently processing an action and wait for its completion
+             * @returns {Boolean}
+             */
+            is : function is(stateName) {
+                return !!state[stateName];
             }
         };
 
@@ -425,7 +457,7 @@ define([
         interval = _defaultInterval;
         context = polling;
         action = null;
-        stopped = true;
+        state.stopped = true;
         autoStart = false;
         iter = 0;
 

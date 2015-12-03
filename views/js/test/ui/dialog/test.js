@@ -262,4 +262,5 @@ define([
         modal.getDom().find('button[data-control="ok"]').click();
         modal.getDom().find('button[data-control="done"]').click();
     });
+
 });
