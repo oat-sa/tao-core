@@ -699,9 +699,6 @@ define([
                             .on('timeupdate' + _ns, function() {
                                 mediaplayer._onTimeUpdate();
                             })
-                            .on('error' + _ns, function() {
-                                mediaplayer._setState('error', true);
-                            })
                             .on('loadedmetadata' + _ns, function() {
                                 mediaplayer._onReady();
                             });
