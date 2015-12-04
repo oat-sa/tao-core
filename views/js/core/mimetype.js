@@ -34,11 +34,12 @@ define(['jquery', 'lodash', 'core/promise', 'json!core/mimetypes.json'], functio
                         resolve(mime);
                     },
 
-                    error: function onError(jqXHR, textStatus, errorThrown) {
+                    error: function onError(jqXHR) {
+                        var error = jqXHR.status || 404;
                         if (callback) {
-                            callback(errorThrown);
+                            callback(error);
                         }
-                        reject(errorThrown);
+                        reject(error);
                     }
                 });
             });
