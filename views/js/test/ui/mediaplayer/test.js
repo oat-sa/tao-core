@@ -73,7 +73,8 @@ define([
         { name : 'trigger', title : 'trigger' },
         { name : 'on', title : 'on' },
         { name : 'off', title : 'off' },
-        { name : 'getDom', title : 'getDom' },
+        { name : 'getContainer', title : 'getContainer' },
+        { name : 'getElement', title : 'getElement' },
         { name : 'getSources', title : 'getSources' },
         { name : 'setSource', title : 'setSource' },
         { name : 'addSource', title : 'addSource' }
@@ -93,54 +94,55 @@ define([
         var instance = mediaplayer({
             url: url,
             type: 'audio/mp3',
-            renderTo: $container,
-            onrender: function($dom) {
-                var $player = $dom.find('.player');
-                var $controls = $dom.find('.controls');
-                var $overlay = $player.find('.overlay');
-                var $media = $player.find('.media');
-                var $source = $media.find('source');
+            renderTo: $container
+        });
 
-                assert.ok(true, 'The media player has trigger the render event');
+        instance.on('render', function($dom) {
+            var $player = $dom.find('.player');
+            var $controls = $dom.find('.controls');
+            var $overlay = $player.find('.overlay');
+            var $media = $player.find('.media');
+            var $source = $media.find('source');
 
-                assert.equal($container.find('.mediaplayer').length, 1, 'The media player has been inserted into the page');
+            assert.ok(true, 'The media player has trigger the render event');
 
-                assert.equal(typeof $dom, 'object', 'The rendered content is returned by the render() method');
-                assert.notEqual(typeof $dom.jquery, 'undefined', 'The rendered content is returned as a jQuery selection by the render() method');
-                assert.equal($dom.length, 1, 'The rendered content contains a root element');
+            assert.equal($container.find('.mediaplayer').length, 1, 'The media player has been inserted into the page');
 
-                assert.equal($player.length, 1, 'The rendered content contains a player element');
-                assert.equal($player.find('.audio').length, 1, 'The player is related to audio');
+            assert.equal(typeof $dom, 'object', 'The rendered content is returned by the render() method');
+            assert.notEqual(typeof $dom.jquery, 'undefined', 'The rendered content is returned as a jQuery selection by the render() method');
+            assert.equal($dom.length, 1, 'The rendered content contains a root element');
 
-                assert.equal($media.length, 1, 'The rendered content contains a media element');
-                assert.equal($media.is('audio'), true, 'The rendered content uses an audio tag to embed the audio track');
+            assert.equal($player.length, 1, 'The rendered content contains a player element');
+            assert.equal($player.find('.audio').length, 1, 'The player is related to audio');
 
-                assert.equal($source.length, 1, 'The rendered content contains an audio source');
-                assert.equal($source.attr('src'), url, 'Audio source targets the right URL');
+            assert.equal($media.length, 1, 'The rendered content contains a media element');
+            assert.equal($media.is('audio'), true, 'The rendered content uses an audio tag to embed the audio track');
 
-                assert.equal($overlay.length, 1, 'The rendered content contains an overlay element');
-                assert.equal($overlay.find('[data-control="play"]').length, 1, 'The overlay element contains a play control');
-                assert.equal($overlay.find('[data-control="pause"]').length, 1, 'The overlay element contains a pause control');
+            assert.equal($source.length, 1, 'The rendered content contains an audio source');
+            assert.equal($source.attr('src'), url, 'Audio source targets the right URL');
 
-                assert.equal($controls.length, 1, 'The rendered content contains a controls element');
-                assert.equal($controls.find('.bar').length, 1, 'The controls element contains a bar element');
-                assert.equal($controls.find('[data-control="play"]').length, 1, 'The controls element contains a play control');
-                assert.equal($controls.find('[data-control="pause"]').length, 1, 'The controls element contains a pause control');
-                assert.equal($controls.find('[data-control="time-cur"]').length, 1, 'The controls element contains a current position control');
-                assert.equal($controls.find('[data-control="time-end"]').length, 1, 'The controls element contains a duration control');
-                assert.equal($controls.find('[data-control="mute"]').length, 1, 'The controls element contains a mute control');
-                assert.equal($controls.find('[data-control="unmute"]').length, 1, 'The controls element contains an unmute control');
-                assert.equal($controls.find('.seek .slider').length, 1, 'The controls element contains seek slider control');
-                assert.equal($controls.find('.volume .slider').length, 1, 'The controls element contains volume slider control');
+            assert.equal($overlay.length, 1, 'The rendered content contains an overlay element');
+            assert.equal($overlay.find('[data-control="play"]').length, 1, 'The overlay element contains a play control');
+            assert.equal($overlay.find('[data-control="pause"]').length, 1, 'The overlay element contains a pause control');
 
-                _.defer(function() {
-                    instance.destroy();
+            assert.equal($controls.length, 1, 'The rendered content contains a controls element');
+            assert.equal($controls.find('.bar').length, 1, 'The controls element contains a bar element');
+            assert.equal($controls.find('[data-control="play"]').length, 1, 'The controls element contains a play control');
+            assert.equal($controls.find('[data-control="pause"]').length, 1, 'The controls element contains a pause control');
+            assert.equal($controls.find('[data-control="time-cur"]').length, 1, 'The controls element contains a current position control');
+            assert.equal($controls.find('[data-control="time-end"]').length, 1, 'The controls element contains a duration control');
+            assert.equal($controls.find('[data-control="mute"]').length, 1, 'The controls element contains a mute control');
+            assert.equal($controls.find('[data-control="unmute"]').length, 1, 'The controls element contains an unmute control');
+            assert.equal($controls.find('.seek .slider').length, 1, 'The controls element contains seek slider control');
+            assert.equal($controls.find('.volume .slider').length, 1, 'The controls element contains volume slider control');
 
-                    assert.equal($container.find('.mediaplayer').length, 0, 'The media player has been removed by the destroy action');
+            _.defer(function() {
+                instance.destroy();
 
-                    QUnit.start();
-                });
-            }
+                assert.equal($container.find('.mediaplayer').length, 0, 'The media player has been removed by the destroy action');
+
+                QUnit.start();
+            });
         });
     });
 
@@ -151,54 +153,55 @@ define([
         var instance = mediaplayer({
             url: url,
             type: 'video/mp4',
-            renderTo: $container,
-            onrender: function($dom) {
-                var $player = $dom.find('.player');
-                var $controls = $dom.find('.controls');
-                var $overlay = $player.find('.overlay');
-                var $media = $player.find('.media');
-                var $source = $media.find('source');
+            renderTo: $container
+        });
 
-                assert.ok(true, 'The media player has trigger the render event');
+        instance.on('render', function($dom) {
+            var $player = $dom.find('.player');
+            var $controls = $dom.find('.controls');
+            var $overlay = $player.find('.overlay');
+            var $media = $player.find('.media');
+            var $source = $media.find('source');
 
-                assert.equal($container.find('.mediaplayer').length, 1, 'The media player has been inserted into the page');
+            assert.ok(true, 'The media player has trigger the render event');
 
-                assert.equal(typeof $dom, 'object', 'The rendered content is returned by the render() method');
-                assert.notEqual(typeof $dom.jquery, 'undefined', 'The rendered content is returned as a jQuery selection by the render() method');
-                assert.equal($dom.length, 1, 'The rendered content contains a root element');
+            assert.equal($container.find('.mediaplayer').length, 1, 'The media player has been inserted into the page');
 
-                assert.equal($player.length, 1, 'The rendered content contains a player element');
-                assert.equal($player.find('.video').length, 1, 'The player is related to video');
+            assert.equal(typeof $dom, 'object', 'The rendered content is returned by the render() method');
+            assert.notEqual(typeof $dom.jquery, 'undefined', 'The rendered content is returned as a jQuery selection by the render() method');
+            assert.equal($dom.length, 1, 'The rendered content contains a root element');
 
-                assert.equal($media.length, 1, 'The rendered content contains a media element');
-                assert.equal($media.is('video'), true, 'The rendered content uses a video tag to embed the movie');
+            assert.equal($player.length, 1, 'The rendered content contains a player element');
+            assert.equal($player.find('.video').length, 1, 'The player is related to video');
 
-                assert.equal($source.length, 1, 'The rendered content contains a video source');
-                assert.equal($source.attr('src'), url, 'Video source targets the right URL');
+            assert.equal($media.length, 1, 'The rendered content contains a media element');
+            assert.equal($media.is('video'), true, 'The rendered content uses a video tag to embed the movie');
 
-                assert.equal($overlay.length, 1, 'The rendered content contains an overlay element');
-                assert.equal($overlay.find('[data-control="play"]').length, 1, 'The overlay element contains a play control');
-                assert.equal($overlay.find('[data-control="pause"]').length, 1, 'The overlay element contains a pause control');
+            assert.equal($source.length, 1, 'The rendered content contains a video source');
+            assert.equal($source.attr('src'), url, 'Video source targets the right URL');
 
-                assert.equal($controls.length, 1, 'The rendered content contains a controls element');
-                assert.equal($controls.find('.bar').length, 1, 'The controls element contains a bar element');
-                assert.equal($controls.find('[data-control="play"]').length, 1, 'The controls element contains a play control');
-                assert.equal($controls.find('[data-control="pause"]').length, 1, 'The controls element contains a pause control');
-                assert.equal($controls.find('[data-control="time-cur"]').length, 1, 'The controls element contains a current position control');
-                assert.equal($controls.find('[data-control="time-end"]').length, 1, 'The controls element contains a duration control');
-                assert.equal($controls.find('[data-control="mute"]').length, 1, 'The controls element contains a mute control');
-                assert.equal($controls.find('[data-control="unmute"]').length, 1, 'The controls element contains an unmute control');
-                assert.equal($controls.find('.seek .slider').length, 1, 'The controls element contains seek slider control');
-                assert.equal($controls.find('.volume .slider').length, 1, 'The controls element contains volume slider control');
+            assert.equal($overlay.length, 1, 'The rendered content contains an overlay element');
+            assert.equal($overlay.find('[data-control="play"]').length, 1, 'The overlay element contains a play control');
+            assert.equal($overlay.find('[data-control="pause"]').length, 1, 'The overlay element contains a pause control');
 
-                _.defer(function() {
-                    instance.destroy();
+            assert.equal($controls.length, 1, 'The rendered content contains a controls element');
+            assert.equal($controls.find('.bar').length, 1, 'The controls element contains a bar element');
+            assert.equal($controls.find('[data-control="play"]').length, 1, 'The controls element contains a play control');
+            assert.equal($controls.find('[data-control="pause"]').length, 1, 'The controls element contains a pause control');
+            assert.equal($controls.find('[data-control="time-cur"]').length, 1, 'The controls element contains a current position control');
+            assert.equal($controls.find('[data-control="time-end"]').length, 1, 'The controls element contains a duration control');
+            assert.equal($controls.find('[data-control="mute"]').length, 1, 'The controls element contains a mute control');
+            assert.equal($controls.find('[data-control="unmute"]').length, 1, 'The controls element contains an unmute control');
+            assert.equal($controls.find('.seek .slider').length, 1, 'The controls element contains seek slider control');
+            assert.equal($controls.find('.volume .slider').length, 1, 'The controls element contains volume slider control');
 
-                    assert.equal($container.find('.mediaplayer').length, 0, 'The media player has been removed by the destroy action');
+            _.defer(function() {
+                instance.destroy();
 
-                    QUnit.start();
-                });
-            }
+                assert.equal($container.find('.mediaplayer').length, 0, 'The media player has been removed by the destroy action');
+
+                QUnit.start();
+            });
         });
     });
 
@@ -210,53 +213,54 @@ define([
         var instance = mediaplayer({
             url: url,
             type: 'video/youtube',
-            renderTo: $container,
-            onrender: function($dom) {
-                var $player = $dom.find('.player');
-                var $controls = $dom.find('.controls');
-                var $overlay = $player.find('.overlay');
-                var $media = $player.find('.media');
+            renderTo: $container
+        });
 
-                assert.ok(true, 'The media player has trigger the render event');
+        instance.on('render', function($dom) {
+            var $player = $dom.find('.player');
+            var $controls = $dom.find('.controls');
+            var $overlay = $player.find('.overlay');
+            var $media = $player.find('.media');
 
-                assert.equal($container.find('.mediaplayer').length, 1, 'The media player has been inserted into the page');
+            assert.ok(true, 'The media player has trigger the render event');
 
-                assert.equal(typeof $dom, 'object', 'The rendered content is returned by the render() method');
-                assert.notEqual(typeof $dom.jquery, 'undefined', 'The rendered content is returned as a jQuery selection by the render() method');
-                assert.equal($dom.length, 1, 'The rendered content contains a root element');
+            assert.equal($container.find('.mediaplayer').length, 1, 'The media player has been inserted into the page');
 
-                assert.equal($player.length, 1, 'The rendered content contains a player element');
-                assert.equal($player.find('.video').length, 1, 'The player is related to video');
+            assert.equal(typeof $dom, 'object', 'The rendered content is returned by the render() method');
+            assert.notEqual(typeof $dom.jquery, 'undefined', 'The rendered content is returned as a jQuery selection by the render() method');
+            assert.equal($dom.length, 1, 'The rendered content contains a root element');
 
-                assert.equal($media.length, 1, 'The rendered content contains a media element');
-                assert.equal($media.is('.youtube'), true, 'The rendered content uses a placeholder to embed the youtube player');
-                assert.equal($media.data('videoSrc'), url, 'The video source targets the right URL');
-                assert.equal($media.data('videoId'), videoId, 'The video ID contains the right identifier');
-                assert.equal($media.data('type'), 'youtube', 'The type is youtube');
+            assert.equal($player.length, 1, 'The rendered content contains a player element');
+            assert.equal($player.find('.video').length, 1, 'The player is related to video');
 
-                assert.equal($overlay.length, 1, 'The rendered content contains an overlay element');
-                assert.equal($overlay.find('[data-control="play"]').length, 1, 'The overlay element contains a play control');
-                assert.equal($overlay.find('[data-control="pause"]').length, 1, 'The overlay element contains a pause control');
+            assert.equal($media.length, 1, 'The rendered content contains a media element');
+            assert.equal($media.is('.youtube'), true, 'The rendered content uses a placeholder to embed the youtube player');
+            assert.equal($media.data('videoSrc'), url, 'The video source targets the right URL');
+            assert.equal($media.data('videoId'), videoId, 'The video ID contains the right identifier');
+            assert.equal($media.data('type'), 'youtube', 'The type is youtube');
 
-                assert.equal($controls.length, 1, 'The rendered content contains a controls element');
-                assert.equal($controls.find('.bar').length, 1, 'The controls element contains a bar element');
-                assert.equal($controls.find('[data-control="play"]').length, 1, 'The controls element contains a play control');
-                assert.equal($controls.find('[data-control="pause"]').length, 1, 'The controls element contains a pause control');
-                assert.equal($controls.find('[data-control="time-cur"]').length, 1, 'The controls element contains a current position control');
-                assert.equal($controls.find('[data-control="time-end"]').length, 1, 'The controls element contains a duration control');
-                assert.equal($controls.find('[data-control="mute"]').length, 1, 'The controls element contains a mute control');
-                assert.equal($controls.find('[data-control="unmute"]').length, 1, 'The controls element contains an unmute control');
-                assert.equal($controls.find('.seek .slider').length, 1, 'The controls element contains seek slider control');
-                assert.equal($controls.find('.volume .slider').length, 1, 'The controls element contains volume slider control');
+            assert.equal($overlay.length, 1, 'The rendered content contains an overlay element');
+            assert.equal($overlay.find('[data-control="play"]').length, 1, 'The overlay element contains a play control');
+            assert.equal($overlay.find('[data-control="pause"]').length, 1, 'The overlay element contains a pause control');
 
-                _.defer(function() {
-                    instance.destroy();
+            assert.equal($controls.length, 1, 'The rendered content contains a controls element');
+            assert.equal($controls.find('.bar').length, 1, 'The controls element contains a bar element');
+            assert.equal($controls.find('[data-control="play"]').length, 1, 'The controls element contains a play control');
+            assert.equal($controls.find('[data-control="pause"]').length, 1, 'The controls element contains a pause control');
+            assert.equal($controls.find('[data-control="time-cur"]').length, 1, 'The controls element contains a current position control');
+            assert.equal($controls.find('[data-control="time-end"]').length, 1, 'The controls element contains a duration control');
+            assert.equal($controls.find('[data-control="mute"]').length, 1, 'The controls element contains a mute control');
+            assert.equal($controls.find('[data-control="unmute"]').length, 1, 'The controls element contains an unmute control');
+            assert.equal($controls.find('.seek .slider').length, 1, 'The controls element contains seek slider control');
+            assert.equal($controls.find('.volume .slider').length, 1, 'The controls element contains volume slider control');
 
-                    assert.equal($container.find('.mediaplayer').length, 0, 'The media player has been removed by the destroy action');
+            _.defer(function() {
+                instance.destroy();
 
-                    QUnit.start();
-                });
-            }
+                assert.equal($container.find('.mediaplayer').length, 0, 'The media player has been removed by the destroy action');
+
+                QUnit.start();
+            });
         });
     });
 
@@ -315,24 +319,27 @@ define([
                     throw new Error('The browser does not support the ' + data.type + ' player!');
                 }
 
+                // pointer inside the life cycle path
                 var current = 0;
+
+                // the media player life cycle must follow this path during this test
                 var path = [{
-                    render: function ($dom, player) {
+                    render: function ($dom) {
                         assert.equal(typeof $dom, 'object', 'The render event provides the DOM');
                         assert.ok($dom.is('.mediaplayer'), 'The provided DOM has the right class');
-                        assert.equal($dom, instance.getDom(), 'The render event provides the right DOM');
-                        assert.equal(player, instance, 'The render event provides the instance');
+                        assert.equal($dom, instance.getElement(), 'The render event provides the right DOM');
+                        assert.equal(this, instance, 'The render event is bound to the instance');
                     },
-                    ready: function (player) {
+                    ready: function () {
                         forward();
-                        assert.equal(player, instance, 'The ready event provides the instance');
-
+                        assert.equal(this, instance, 'The ready event is bound to the instance');
                         assert.ok(true, 'command #1: play()');
-                        player.play();
+                        this.play();
                     }
                 }, {
-                    play: function (player) {
-                        assert.equal(player, instance, 'The play event provides the instance');
+                    play: function () {
+                        var player = this;
+                        assert.equal(this, instance, 'The play event is bound to the instance');
 
                         setTimeout(function () {
                             forward();
@@ -342,150 +349,143 @@ define([
                     },
                     update: true
                 }, {
-                    pause: function (player) {
+                    pause: function () {
                         forward();
-                        assert.equal(player, instance, 'The pause event provides the instance');
-
+                        assert.equal(this, instance, 'The pause event is bound to the instance');
                         assert.ok(true, 'command #3: resume()');
-                        player.resume();
+                        this.resume();
                     },
                     update: true
                 }, {
-                    play: function (player) {
+                    play: function () {
                         forward();
-                        assert.equal(player, instance, 'The play event provides the instance');
-
+                        assert.equal(this, instance, 'The play event is bound to the instance');
                         assert.ok(true, 'command #4: seek(1)');
-                        player.seek(1);
+                        this.seek(1);
                     },
                     update: true
                 }, {
-                    update: function (player) {
+                    update: function () {
                         forward();
-                        assert.equal(player, instance, 'The update event provides the instance');
-
-                        assert.equal(Math.floor(player.player.getPosition()), 1, 'The media player has moved forward to the right position');
-
+                        assert.equal(this, instance, 'The update event is bound to the instance');
+                        assert.equal(Math.floor(this.player.getPosition()), 1, 'The media player has moved forward to the right position');
                         assert.ok(true, 'command #5: rewind()');
-                        player.rewind();
+                        this.rewind();
                     },
                     play: true
                 }, {
-                    update: function (player) {
+                    update: function () {
                         forward();
-                        assert.equal(player, instance, 'The update event provides the instance');
-
-                        assert.equal(Math.floor(player.player.getPosition()), 0, 'The media player has restarted from the beginning');
-
+                        assert.equal(this, instance, 'The update event is bound to the instance');
+                        assert.equal(Math.floor(this.player.getPosition()), 0, 'The media player has restarted from the beginning');
                         assert.ok(true, 'command #6: seek(1)');
-                        player.seek(1);
+                        this.seek(1);
                     },
                     play: true
                 }, {
-                    update: function (player) {
+                    update: function () {
                         forward();
-                        assert.equal(player, instance, 'The update event provides the instance');
-
-                        assert.equal(Math.floor(player.player.getPosition()), 1, 'The media player has moved forward to the right position');
-
+                        assert.equal(this, instance, 'The update event is bound to the instance');
+                        assert.equal(Math.floor(this.player.getPosition()), 1, 'The media player has moved forward to the right position');
                         assert.ok(true, 'command #7: pause()');
-                        player.pause();
+                        this.pause();
                     },
                     play: true
                 }, {
-                    pause: function (player) {
+                    pause: function () {
                         forward();
-                        assert.equal(player, instance, 'The pause event provides the instance');
-
+                        assert.equal(this, instance, 'The pause event is bound to the instance');
                         assert.ok(true, 'command #8: restart()');
-                        player.restart();
+                        this.restart();
                     },
                     update: true
                 }, {
-                    play: function (player) {
+                    play: function () {
                         forward();
-                        assert.equal(player, instance, 'The play event provides the instance');
-
-                        assert.equal(Math.floor(player.player.getPosition()), 0, 'The media player has restarted from the beginning');
-
+                        assert.equal(this, instance, 'The play event is bound to the instance');
+                        assert.equal(Math.floor(this.player.getPosition()), 0, 'The media player has restarted from the beginning');
                         assert.ok(true, 'command #9: hide()');
-                        player.hide();
+                        this.hide();
                     },
                     update: true
                 }, {
-                    pause: function (player) {
+                    pause: function () {
+                        var player = this;
                         forward();
-                        assert.equal(player, instance, 'The pause event provides the instance');
-
+                        assert.equal(this, instance, 'The pause event is bound to the instance');
                         assert.ok(true, 'command #10: play()');
-                        player.play();
+                        this.play();
 
                         setTimeout(function () {
                             assert.ok(!player.is('playing'), 'The player cannot be played while hidden!');
-
                             assert.ok(true, 'command #11: show()');
                             player.show();
                         }, 500);
                     },
                     update: true
                 }, {
-                    play: function (player) {
+                    play: function () {
                         forward();
-                        assert.equal(player, instance, 'The play event provides the instance');
-
+                        assert.equal(this, instance, 'The play event is bound to the instance');
                         assert.ok(true, 'command #12: disable()');
-                        player.disable();
+                        this.disable();
                     },
                     update: true
                 }, {
-                    pause: function (player) {
+                    pause: function () {
+                        var player = this;
                         forward();
-                        assert.equal(player, instance, 'The pause event provides the instance');
-
+                        assert.equal(this, instance, 'The pause event is bound to the instance');
                         assert.ok(true, 'command #13: play()');
-                        player.play();
+                        this.play();
 
                         setTimeout(function () {
                             assert.ok(!player.is('playing'), 'The player cannot be played while disabled!');
-
                             assert.ok(true, 'command #14: enable()');
                             player.enable();
                         }, 500);
                     },
                     update: true
                 }, {
-                    play: function (player) {
+                    play: function () {
                         forward();
-                        assert.equal(player, instance, 'The play event provides the instance');
-
+                        assert.equal(this, instance, 'The play event is bound to the instance');
                         assert.ok(true, 'command #15: stop()');
-                        player.stop();
+                        this.stop();
                     },
                     update: true
                 }, {
-                    ended: function (player) {
+                    ended: function () {
                         forward();
-                        assert.equal(player, instance, 'The ended event provides the instance');
-
+                        assert.equal(this, instance, 'The ended event is bound to the instance');
                         assert.ok(true, 'command #16: destroy()');
-                        player.destroy();
+                        this.destroy();
                     },
                     pause: true,
                     update: true
                 }, {
-                    destroy: function (player) {
+                    destroy: function () {
                         forward();
-                        assert.equal(player, instance, 'The destroy event provides the instance');
-
+                        assert.equal(this, instance, 'The destroy event is bound to the instance');
                         QUnit.start();
                     }
                 }];
 
-                var forward = function () {
-                    current++;
-                };
+                var $container = $('#fixture-' + data.fixture);
+                var events = ['render', 'ready', 'play', 'pause', 'update', 'ended', 'destroy'];
+                var instance = mediaplayer({
+                    url: data.url,
+                    type: data.type,
+                    startMuted: true
+                });
 
-                var checkPath = function (event, args) {
+                // move to next step into the life cycle path
+                function forward() {
+                    current++;
+                }
+
+                // checks that the media player has correctly reached the current step in the life cycle path
+                function checkPath(event, args) {
                     var step = path[current];
                     var stepEvent = step && step[event];
                     if (_.isFunction(stepEvent)) {
@@ -499,57 +499,40 @@ define([
                     } else if (!stepEvent) {
                         assert.ok(false, 'The event ' + event + ' was unexpected!');
                     }
-                };
+                }
 
-                var $container = $('#fixture-' + data.fixture);
-                var instance = mediaplayer({
-                    url: data.url,
-                    type: data.type,
-                    startMuted: true,
-                    onrender: function () {
+                instance
+                    .on('render', function () {
                         checkPath('render', arguments);
-                    },
-                    onready: function () {
+                    })
+                    .on('ready', function () {
                         checkPath('ready', arguments);
-                    },
-                    onplay: function () {
+                    })
+                    .on('play', function () {
                         checkPath('play', arguments);
-                    },
-                    onupdate: function () {
+                    })
+                    .on('update', function () {
                         checkPath('update', arguments);
-                    },
-                    onpause: function () {
+                    })
+                    .on('pause', function () {
                         checkPath('pause', arguments);
-                    },
-                    onended: function () {
+                    })
+                    .on('ended', function () {
                         checkPath('ended', arguments);
-                    },
-                    ondestroy: function () {
+                    })
+                    .on('destroy', function () {
                         checkPath('destroy', arguments);
-                    }
-                });
+                    });
 
-                var events = ['render', 'ready', 'play', 'pause', 'update', 'ended', 'destroy'];
-                var triggered = {};
                 _.forEach(events, function (event) {
                     $container.one(event + '.mediaplayer', function () {
                         assert.ok(true, 'The media player has triggered the ' + event + ' event through the DOM');
 
                         QUnit.start();
                     });
-
-                    instance.on(event, function () {
-                        // todo: update eventifier to allow off() for particular handler and add once()
-                        if (!triggered[event]) {
-                            triggered[event] = true;
-                            assert.ok(true, 'The media player has triggered the ' + event + ' event using internal handling');
-
-                            QUnit.start();
-                        }
-                    });
                 });
 
-                QUnit.stop(events.length * 2 + 2);
+                QUnit.stop(events.length + 2);
                 instance.render($container);
 
                 $container.on('custom.mediaplayer', function () {
@@ -577,18 +560,19 @@ define([
                     type: data.type,
                     startMuted: true,
                     autoStart: true,
-                    renderTo: '#fixture-' + data.fixture,
-                    onplay: function (player) {
+                    renderTo: '#fixture-' + data.fixture
+                })
+                    .on('play', function () {
+                        var player = this;
                         assert.ok(true, 'The media player has auto started the playback');
 
                         _.defer(function () {
                             player.destroy();
                         });
-                    },
-                    ondestroy: function () {
+                    })
+                    .on('destroy', function () {
                         QUnit.start();
-                    }
-                });
+                    })
             });
 
 
@@ -605,20 +589,21 @@ define([
                     type: data.type,
                     startMuted: true,
                     autoStartAt: expected,
-                    renderTo: '#fixture-' + data.fixture,
-                    onplay: function (player) {
-                        player.pause();
+                    renderTo: '#fixture-' + data.fixture
+                })
+                    .on('play', function () {
+                        var player = this;
+                        this.pause();
                         assert.ok(true, 'The media player has auto started the playback');
-                        assert.equal(Math.floor(player.player.getPosition()), expected, 'The media player has auto started the playback at the right position');
+                        assert.equal(Math.floor(this.player.getPosition()), expected, 'The media player has auto started the playback at the right position');
 
                         _.defer(function () {
                             player.destroy();
                         });
-                    },
-                    ondestroy: function () {
+                    })
+                    .on('destroy', function () {
                         QUnit.start();
-                    }
-                });
+                    });
             });
 
 
@@ -637,23 +622,23 @@ define([
                     startMuted: true,
                     autoStart: true,
                     canPause: false,
-                    renderTo: '#fixture-' + data.fixture,
-                    onplay: function (player) {
+                    renderTo: '#fixture-' + data.fixture
+                })
+                    .on('play', function () {
+                        var player = this;
                         assert.ok(true, 'The media player has auto started the playback');
-
-                        player.pause();
+                        this.pause();
 
                         setTimeout(function () {
                             player.destroy();
                         }, 500);
-                    },
-                    onpause: function () {
+                    })
+                    .on('pause', function () {
                         assert.ok(false, 'The media player cannot be paused!');
-                    },
-                    ondestroy: function () {
+                    })
+                    .on('destroy', function () {
                         QUnit.start();
-                    }
-                });
+                    });
 
                 mediaplayer({
                     url: data.url,
@@ -661,23 +646,23 @@ define([
                     startMuted: true,
                     autoStart: true,
                     canPause: true,
-                    renderTo: '#fixture-' + data.fixture,
-                    onplay: function (player) {
+                    renderTo: '#fixture-' + data.fixture
+                })
+                    .on('play', function () {
                         assert.ok(true, 'The media player has auto started the playback');
-
-                        player.pause();
-                    },
-                    onpause: function (player) {
+                        this.pause();
+                    })
+                    .on('pause', function () {
+                        var player = this;
                         assert.ok(true, 'The media player can be paused');
 
                         _.defer(function () {
                             player.destroy();
                         });
-                    },
-                    ondestroy: function () {
+                    })
+                    .on('destroy', function () {
                         QUnit.start();
-                    }
-                });
+                    });
             });
 
 
@@ -695,44 +680,46 @@ define([
                     type: data.type,
                     startMuted: true,
                     autoStart: true,
-                    renderTo: '#fixture-' + data.fixture,
-                    onplay: function (player) {
+                    renderTo: '#fixture-' + data.fixture
+                })
+                    .on('play', function () {
+                        var player = this;
                         assert.ok(true, 'The media player has auto started the playback');
-                        assert.ok(player.player.isMuted(), 'The media player is muted');
-                        assert.ok(player.is('muted'), 'The media player is muted');
+                        assert.ok(this.player.isMuted(), 'The media player is muted');
+                        assert.ok(this.is('muted'), 'The media player is muted');
 
-                        player.pause();
+                        this.pause();
 
                         _.defer(function () {
                             player.destroy();
                         });
-                    },
-                    ondestroy: function () {
+                    })
+                    .on('destroy', function () {
                         QUnit.start();
-                    }
-                });
+                    });
 
                 mediaplayer({
                     url: data.url,
                     type: data.type,
                     startMuted: false,
                     autoStart: true,
-                    renderTo: '#fixture-' + data.fixture,
-                    onplay: function (player) {
+                    renderTo: '#fixture-' + data.fixture
+                })
+                    .on('play', function () {
+                        var player = this;
                         assert.ok(true, 'The media player has auto started the playback');
-                        assert.ok(!player.player.isMuted(), 'The media player is not muted');
-                        assert.ok(!player.is('muted'), 'The media player is not muted');
+                        assert.ok(!this.player.isMuted(), 'The media player is not muted');
+                        assert.ok(!this.is('muted'), 'The media player is not muted');
 
-                        player.pause();
+                        this.pause();
 
                         _.defer(function () {
                             player.destroy();
                         });
-                    },
-                    ondestroy: function () {
+                    })
+                    .on('destroy', function () {
                         QUnit.start();
-                    }
-                });
+                    });
             });
 
 
@@ -749,22 +736,23 @@ define([
                     type: data.type,
                     volume: expected,
                     autoStart: true,
-                    renderTo: '#fixture-' + data.fixture,
-                    onplay: function (player) {
+                    renderTo: '#fixture-' + data.fixture
+                })
+                    .on('play', function () {
+                        var player = this;
                         assert.ok(true, 'The media player has auto started the playback');
-                        assert.equal(player.player.getVolume(), expected, 'The media player has the right volume set');
-                        assert.equal(player.getVolume(), expected, 'The media player must provide the right volume');
+                        assert.equal(this.player.getVolume(), expected, 'The media player has the right volume set');
+                        assert.equal(this.getVolume(), expected, 'The media player must provide the right volume');
 
-                        player.pause();
+                        this.pause();
 
                         _.defer(function () {
                             player.destroy();
                         });
-                    },
-                    ondestroy: function () {
+                    })
+                    .on('destroy', function () {
                         QUnit.start();
-                    }
-                });
+                    });
             });
 
 
@@ -783,30 +771,31 @@ define([
                     loop: true,
                     autoStart: true,
                     startMuted: true,
-                    renderTo: '#fixture-' + data.fixture,
-                    onplay: function (player) {
+                    renderTo: '#fixture-' + data.fixture
+                })
+                    .on('play', function () {
                         assert.ok(true, 'The media player has started the playback');
 
-                        player.seek(player.getDuration() - 0.1);
-                    },
-                    onended: function (player) {
+                        this.seek(this.getDuration() - 0.1);
+                    })
+                    .on('ended', function () {
+                        var player = this;
                         count++;
                         assert.ok(true, 'The media player has finished the playback');
-                        assert.equal(player.getTimesPlayed(), count, 'The media player must provide the right number of plays');
+                        assert.equal(this.getTimesPlayed(), count, 'The media player must provide the right number of plays');
 
                         if (count >= expected) {
                             assert.ok(true, 'The media player has looped the playback');
-                            player.loop = false;
+                            this.loop = false;
 
                             _.defer(function () {
                                 player.destroy();
                             });
                         }
-                    },
-                    ondestroy: function () {
+                    })
+                    .on('destroy', function () {
                         QUnit.start();
-                    }
-                });
+                    });
             });
 
 
@@ -826,8 +815,10 @@ define([
                     maxPlays: expected,
                     autoStart: true,
                     startMuted: true,
-                    renderTo: '#fixture-' + data.fixture,
-                    onplay: function (player) {
+                    renderTo: '#fixture-' + data.fixture
+                })
+                    .on('play', function () {
+                        var player = this;
                         assert.ok(true, 'The media player has started the playback');
 
                         count++;
@@ -848,17 +839,19 @@ define([
                                 player.stop();
                             });
                         }
-                    },
-                    onended: function (player) {
+                    })
+                    .on('ended', function () {
+                        var player = this;
                         assert.ok(true, 'The media player has finished the playback');
-                        assert.equal(player.getTimesPlayed(), count, 'The media player must provide the right number of plays');
+                        assert.equal(this.getTimesPlayed(), count, 'The media player must provide the right number of plays');
 
                         _.defer(function () {
                             player.play();
                         });
-                    },
-                    onlimitreached: function (player) {
-                        if (player.is('playing') || count > expected) {
+                    })
+                    .on('limitreached', function () {
+                        var player = this;
+                        if (this.is('playing') || count > expected) {
                             assert.ok(false, 'The media player must be stopped!');
                         } else {
                             assert.ok(true, 'The media player has stopped the playback after the play limit has been reached');
@@ -871,11 +864,10 @@ define([
 
                             player.play();
                         });
-                    },
-                    ondestroy: function () {
+                    })
+                    .on('destroy', function () {
                         QUnit.start();
-                    }
-                });
+                    });
             });
     }
 
@@ -900,18 +892,19 @@ define([
                 mediaplayer({
                     url: data.url,
                     type: data.type,
-                    renderTo: place.container,
-                    onrender: function($dom, player) {
+                    renderTo: place.container
+                })
+                    .on('render', function($dom) {
+                        var player = this;
                         assert.ok($dom.parent().is(selector), 'The media player has been rendered in the container provided using ' + place.type);
 
                         _.defer(function() {
                             player.destroy();
                         });
-                    },
-                    ondestroy: function() {
+                    })
+                    .on('destroy', function() {
                         QUnit.start();
-                    }
-                });
+                    });
             });
         });
 
@@ -923,8 +916,10 @@ define([
             mediaplayer({
                 url: data.url,
                 type: data.type,
-                renderTo: selector,
-                onrender: function($dom, player) {
+                renderTo: selector
+            })
+                .on('render', function($dom) {
+                    var player = this;
                     assert.ok($dom.parent().is(selector), 'The media player has been rendered in the container');
 
                     assert.equal($dom.length, 1, 'the media player exists');
@@ -948,11 +943,10 @@ define([
                             });
                         });
                     });
-                },
-                ondestroy: function() {
+                })
+                .on('destroy', function() {
                     QUnit.start();
-                }
-            });
+                });
         });
 
 
@@ -963,8 +957,10 @@ define([
             mediaplayer({
                 url: data.url,
                 type: data.type,
-                renderTo: selector,
-                onrender: function($dom, player) {
+                renderTo: selector
+            })
+                .on('render', function($dom) {
+                    var player = this;
                     assert.ok($dom.parent().is(selector), 'The media player has been rendered in the container');
 
                     assert.equal($dom.length, 1, 'the media player exists');
@@ -985,11 +981,10 @@ define([
                             });
                         });
                     });
-                },
-                ondestroy: function() {
+                })
+                .on('destroy', function() {
                     QUnit.start();
-                }
-            });
+                });
         });
 
 

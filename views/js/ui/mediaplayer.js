@@ -22,12 +22,14 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'async',
     'urlParser',
     'core/eventifier',
+    'core/mimetype',
     'tpl!ui/mediaplayer/tpl/player',
     'css!ui/mediaplayer/css/player',
     'nouislider'
-], function ($, _, __, UrlParser, eventifier, playerTpl) {
+], function ($, _, __, async, UrlParser, eventifier, mimetype, playerTpl) {
     'use strict';
 
     /**
@@ -191,22 +193,22 @@ define([
     };
 
     /**
-     * Checks if a type needs to be infered as OGG
+     * Checks if a type needs to be adjusted
      * @param {String} type
      * @returns {Boolean}
      * @private
      */
-    var _needOggDetection = function(type) {
-        return 'string' === typeof type && type.indexOf('application/ogg') !== -1;
+    var _needTypeAdjust = function(type) {
+        return 'string' === typeof type && type.indexOf('application') === 0;
     };
 
     /**
-     * Infers real OGG type
+     * Adjust bad type by apllying heuristic on URI
      * @param {Object|String} source
      * @returns {String}
      * @private
      */
-    var _getOggType = function(source) {
+    var _getAdjustedType = function(source) {
         var type = 'video/ogg';
         var url = source && source.src || source;
         var ext = url && url.substr(-4);
@@ -224,17 +226,17 @@ define([
      */
     var _configToSources = function(config) {
         var sources = config.sources || [];
+        var url = config.url;
 
         if (!_.isArray(sources)) {
             sources = [sources];
         }
 
-        if (config.url) {
-            if (_.isArray(config.url)) {
-                sources = sources.concat(config.url);
-            } else {
-                sources.push(config.url);
+        if (url) {
+            if (!_.isArray(config.url)) {
+                url = [url];
             }
+            sources = sources.concat(url);
         }
 
         return sources;
@@ -726,11 +728,11 @@ define([
                                 mediaplayer._onTimeUpdate();
                             })
                             .on('error' + _ns, function() {
-                                var unrecoverable = false;
                                 if (media.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
-                                    unrecoverable = true;
+                                    mediaplayer._onError();
+                                } else {
+                                    mediaplayer._onRecoverError();
                                 }
-                                mediaplayer._setState('error', unrecoverable);
                             })
                             .on('loadedmetadata' + _ns, function() {
                                 mediaplayer._onReady();
@@ -885,29 +887,36 @@ define([
          * @param {Number} [config.volume] - Sets the sound volume (default: 80)
          * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
          * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
-         * @param {Function} [config.onrender] - Event listener called when the player is rendering
-         * @param {Function} [config.onready] - Event listener called when the player is fully ready
-         * @param {Function} [config.onplay] - Event listener called when the playback is starting
-         * @param {Function} [config.onupdate] - Event listener called while the player is playing
-         * @param {Function} [config.onpause] - Event listener called when the playback is paused
-         * @param {Function} [config.onended] - Event listener called when the playback is ended
-         * @param {Function} [config.onlimitreached] - Event listener called when the play limit has been reached
-         * @param {Function} [config.ondestroy] - Event listener called when the player is destroying
          * @returns {mediaplayer}
          */
         init : function init(config) {
-            var initConfig = config || {};
+            var self = this;
 
-            this._initEvents(initConfig);
-            this._initConfig(initConfig);
-            this._initType(initConfig);
-            this._initSize(initConfig);
-            this._initSources(initConfig);
-            this._initOptions(initConfig);
+            // load the config set, discard null values in order to allow defaults to be set
+            this.config = _.omit(config || {}, function(value) {
+                return value === undefined || value === null;
+            });
+            _.defaults(this.config, _defaults.options);
+            this._setType(this.config.type || _defaults.type);
 
-            if (initConfig.renderTo) {
-                this.render(initConfig.renderTo);
-            }
+            this._reset();
+            this._initEvents();
+            this._initSources(function() {
+                if (!self.is('youtube')) {
+                    _.each(self.config.sources, function(source) {
+                        if (source.type.indexOf('audio') === 0) {
+                            self._setType(source.type);
+                            self._initType();
+                            return false;
+                        }
+                    });
+                }
+                if (self.config.renderTo) {
+                    _.defer(function() {
+                        self.render();
+                    });
+                }
+            });
 
             return this;
         },
@@ -920,9 +929,8 @@ define([
             /**
              * Triggers a destroy event
              * @event mediaplayer#destroy
-             * @param {mediaplayer} this
              */
-            this.trigger('destroy', this);
+            this.trigger('destroy');
 
             if (this.player) {
                 this.player.destroy();
@@ -944,9 +952,11 @@ define([
         /**
          * Renders the media player according to the media type
          * @param {String|jQuery|HTMLElement} [to]
-         * @returns {jQuery}
+         * @returns {mediaplayer}
          */
         render : function render(to) {
+            var renderTo = to || this.config.renderTo;
+
             if (this.$component) {
                 this.destroy();
             }
@@ -958,23 +968,22 @@ define([
             this._bindEvents();
             this._playingState(false, true);
             this._initPlayer();
-
+            this._initSize();
             this.resize(this.config.width, this.config.height);
             this.config.is.rendered = true;
 
-            if (to) {
-                $(to).append(this.$component);
+            if (renderTo) {
+                this.$container = $(renderTo).append(this.$component);
             }
 
             /**
              * Triggers a render event
              * @event mediaplayer#render
              * @param {jQuery} $component
-             * @param {mediaplayer} this
              */
-            this.trigger('render', this.$component, this);
+            this.trigger('render', this.$component);
 
-            return this.$component;
+            return this;
         },
 
         /**
@@ -1169,14 +1178,29 @@ define([
          * @returns {String}
          */
         getType : function getType() {
-            return this.config.type;
+            return this.type;
+        },
+
+        /**
+         * Gets the DOM container
+         * @returns {jQuery}
+         */
+        getContainer : function getContainer() {
+            var $container;
+            if (!this.$container && this.$component) {
+                $container = this.$component.parent();
+                if ($container.length) {
+                    this.$container = $container;
+                }
+            }
+            return this.$container;
         },
 
         /**
          * Gets the underlying DOM element
          * @returns {jQuery}
          */
-        getDom : function getDom() {
+        getElement : function getElement() {
             return this.$component;
         },
 
@@ -1191,16 +1215,22 @@ define([
         /**
          * Sets the media source. If a source has been already set, it will be replaced.
          * @param {String|Object} src - The media URL, or an object containing the source and the type
-         * @param {String} [type] - The media MIME type
+         * @param {Function} [callback] - A function called to provide the added media source object
          * @returns {mediaplayer}
          */
-        setSource : function setSource(src, type) {
-            var source = this._getSource(src, type);
-            this.config.sources = [source];
+        setSource : function setSource(src, callback) {
+            this._getSource(src, function(source) {
+                this.config.sources = [source];
 
-            if (this.is('rendered')) {
-                this.player.setMedia(source.src, source.type);
-            }
+                if (this.is('rendered')) {
+                    this.player.setMedia(source.src, source.type);
+                }
+
+                if (callback) {
+                    callback.call(this, source);
+                }
+            });
+
 
             return this;
         },
@@ -1208,16 +1238,21 @@ define([
         /**
          * Adds a media source.
          * @param {String|Object} src - The media URL, or an object containing the source and the type
-         * @param {String} [type] - The media MIME type
+         * @param {Function} [callback] - A function called to provide the added media source object
          * @returns {mediaplayer}
          */
-        addSource : function addSource(src, type) {
-            var source = this._getSource(src, type);
-            this.config.sources.push(source);
+        addSource : function addSource(src, callback) {
+            this._getSource(src, function(source) {
+                this.config.sources.push(source);
 
-            if (this.is('rendered')) {
-                this.player.addMedia(source.src, source.type);
-            }
+                if (this.is('rendered')) {
+                    this.player.addMedia(source.src, source.type);
+                }
+
+                if (callback) {
+                    callback.call(this, source);
+                }
+            });
 
             return this;
         },
@@ -1243,6 +1278,9 @@ define([
 
             width = Math.max(defaults.minWidth, width);
             height = Math.max(defaults.minHeight, height);
+
+            this.config.width = width;
+            this.config.height = height;
 
             if (this.$component) {
                 height -= this.$component.outerHeight() - this.$component.height();
@@ -1300,12 +1338,38 @@ define([
         },
 
         /**
+         * Ensures the right media type is set
+         * @param {String} type
+         * @private
+         */
+        _setType : function _setType(type) {
+            if (type.indexOf('youtube') !== -1) {
+                this.type = 'youtube';
+            } else if (type.indexOf('audio') === 0) {
+                this.type = 'audio';
+            } else {
+                this.type = 'video';
+            }
+        },
+
+        /**
+         * Ensures the type is correctly applied
+         * @private
+         */
+        _initType : function _initType() {
+            var is = this.config.is;
+            is.youtube = 'youtube' === this.type;
+            is.video = 'video' === this.type || 'youtube' === this.type;
+            is.audio = 'audio' === this.type;
+        },
+
+        /**
          * Gets a source descriptor.
          * @param {String|Object} src - The media URL, or an object containing the source and the type
-         * @param {String} [type] - The media MIME type
-         * @returns {Object}
+         * @param {Function} callback - A function called to provide the media source object
          */
-        _getSource : function _getSource(src, type) {
+        _getSource : function _getSource(src, callback) {
+            var self = this;
             var source;
 
             if (_.isString(src)) {
@@ -1316,19 +1380,51 @@ define([
                 source = _.clone(src);
             }
 
+            if (this.is('youtube') && !source.type) {
+                source.type = _defaults.type;
+            }
+
             if (!source.type) {
-                source.type = type || _defaults.type;
+                mimetype.getResourceType(source.src, function(err, type) {
+                    if (err) {
+                        type = _defaults.type;
+                    }
+                    source.type = type;
+                    done();
+                });
+            } else {
+                done();
             }
 
-            if (_needOggDetection(source.type)) {
-                source.type = _getOggType(source);
-            }
+            function done() {
+                if (_needTypeAdjust(source.type)) {
+                    source.type = _getAdjustedType(source);
+                }
 
-            if (this.is('youtube')) {
-                source.id = _extractYoutubeId(source.src);
-            }
+                if (self.is('youtube')) {
+                    source.id = _extractYoutubeId(source.src);
+                }
 
-            return source;
+                callback.call(self, source);
+            }
+        },
+
+        /**
+         * Ensures the sources are correctly set
+         * @param {Function} callback - A function called once all sources have been initialized
+         * @private
+         */
+        _initSources : function _initSources(callback) {
+            var self = this;
+            var sources = _configToSources(this.config);
+
+            this.config.sources = [];
+
+            async.each(sources, function(source, callback) {
+                self.addSource(source, function(source) {
+                    callback(null, source);
+                });
+            }, callback);
         },
 
         /**
@@ -1350,67 +1446,6 @@ define([
         },
 
         /**
-         * Loads the config set
-         * @param {Object} config - The initial config set
-         * @private
-         */
-        _initConfig : function _initConfig(config) {
-            var self = this;
-            this.config = _.omit(config, function(value, name) {
-                var omit = value === undefined || value === null;
-
-                if (!omit && name.length > 3 && name.indexOf('on') === 0) {
-                    self.on(name.substr(2), value);
-                    omit = true;
-                }
-                return omit;
-            });
-        },
-
-        /**
-         * Ensures the right media type is set
-         * @param {Object} config - The initial config set
-         * @private
-         */
-        _initType : function _initType(config) {
-            var type = '' + (this.config.type || _defaults.type);
-            var isYoutube = false;
-            var isVideo = false;
-            var isAudio = false;
-
-            if (_needOggDetection(type)) {
-                type = 'video/ogg';
-                _.forEach(_configToSources(config), function(source) {
-                    if (_getOggType(source) === 'audio/ogg') {
-                        type = 'audio/ogg';
-                        return false;
-                    }
-                });
-            }
-
-            if (type.indexOf('youtube') !== -1) {
-                type = 'youtube';
-                isYoutube = true;
-                isVideo = true;
-            } else if (type.indexOf('video') === 0) {
-                type = 'video';
-                isVideo = true;
-            } else if (type.indexOf('audio') === 0) {
-                type = 'audio';
-                isAudio = true;
-            }
-
-            this.config.type = type;
-            this.kind = {
-                audio : isAudio,
-                video : isVideo,
-                youtube : isYoutube
-            };
-
-            this._reset();
-        },
-
-        /**
          * Ensures the right size is set according to the media type
          * @private
          */
@@ -1423,44 +1458,14 @@ define([
         },
 
         /**
-         * Ensures the sources are correctly set
-         * @param {Object} config - The initial config set
-         * @private
-         */
-        _initSources : function _initSources(config) {
-            var self = this;
-            var sources = _configToSources(config);
-
-            this.config.sources = [];
-
-            _.forEach(sources, function(source) {
-                self.addSource(source, config.type);
-            });
-        },
-
-        /**
-         * Ensures some options are sets
-         * @private
-         */
-        _initOptions : function _initOptions() {
-            _.defaults(this.config, _defaults.options);
-
-            // these options can be overridden by the GUI
-            this.volume = this.config.volume;
-            this.autoStart = this.config.autoStart;
-            this.autoStartAt = this.config.autoStartAt;
-            this.startMuted = this.config.startMuted;
-        },
-
-        /**
          * Initializes the right player instance
          * @private
          */
         _initPlayer : function _initPlayer() {
-            var player = _players[this.config.type];
+            var player = _players[this.type];
             var error;
 
-            if (_support.canPlay(this.config.type)) {
+            if (_support.canPlay(this.type)) {
                 if (_.isFunction(player)) {
                     this.player = player(this);
                 }
@@ -1506,9 +1511,11 @@ define([
          * @private
          */
         _reset : function _reset() {
-            this.config.is = _.clone(this.kind);
+            this.config.is = {};
+            this._initType();
 
             this.$component = null;
+            this.$container = null;
             this.$player = null;
             this.$media = null;
             this.$controls = null;
@@ -1523,6 +1530,11 @@ define([
             this.duration = 0;
             this.position = 0;
             this.timesPlayed = 0;
+
+            this.volume = this.config.volume;
+            this.autoStart = this.config.autoStart;
+            this.autoStartAt = this.config.autoStartAt;
+            this.startMuted = this.config.startMuted;
         },
 
         /**
@@ -1757,9 +1769,8 @@ define([
             /**
              * Triggers a media ready event
              * @event mediaplayer#ready
-             * @param {mediaplayer} this
              */
-            this.trigger('ready', this);
+            this.trigger('ready');
 
             // set the initial state
             this.setVolume(this.volume);
@@ -1772,6 +1783,34 @@ define([
         },
 
         /**
+         * Event called when the media throws unrecoverable error
+         * @private
+         */
+        _onError : function _onError() {
+            this._setState('error', true);
+
+            /**
+             * Triggers an unrecoverable media error event
+             * @event mediaplayer#error
+             */
+            this.trigger('error');
+        },
+
+        /**
+         * Event called when the media throws recoverable error
+         * @private
+         */
+        _onRecoverError : function _onRecoverError() {
+            this._setState('error', false);
+
+            /**
+             * Triggers a recoverable media error event
+             * @event mediaplayer#recovererror
+             */
+            this.trigger('recovererror');
+        },
+
+        /**
          * Event called when the media is played
          * @private
          */
@@ -1781,9 +1820,8 @@ define([
             /**
              * Triggers a media playback event
              * @event mediaplayer#play
-             * @param {mediaplayer} this
              */
-            this.trigger('play', this);
+            this.trigger('play');
         },
 
         /**
@@ -1796,9 +1834,8 @@ define([
             /**
              * Triggers a media paused event
              * @event mediaplayer#pause
-             * @param {mediaplayer} this
              */
-            this.trigger('pause', this);
+            this.trigger('pause');
         },
 
         /**
@@ -1813,9 +1850,8 @@ define([
             /**
              * Triggers a media ended event
              * @event mediaplayer#ended
-             * @param {mediaplayer} this
              */
-            this.trigger('ended', this);
+            this.trigger('ended');
 
             // disable GUI when the play limit is reached
             if (this._playLimitReached()) {
@@ -1825,9 +1861,8 @@ define([
                 /**
                  * Triggers a play limit reached event
                  * @event mediaplayer#limitreached
-                 * @param {mediaplayer} this
                  */
-                this.trigger('limitreached', this);
+                this.trigger('limitreached');
             } else {
                 if (this.loop) {
                     this.restart();
@@ -1845,9 +1880,8 @@ define([
             /**
              * Triggers a media time update event
              * @event mediaplayer#update
-             * @param {mediaplayer} this
              */
-            this.trigger('update', this);
+            this.trigger('update');
         },
 
         /**
@@ -1976,14 +2010,16 @@ define([
      * @param {Number} [config.volume] - Sets the sound volume (default: 80)
      * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
      * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
-     * @param {Function} [config.onrender] - Event listener called when the player is rendering
-     * @param {Function} [config.onready] - Event listener called when the player is fully ready
-     * @param {Function} [config.onplay] - Event listener called when the playback is starting
-     * @param {Function} [config.onupdate] - Event listener called while the player is playing
-     * @param {Function} [config.onpause] - Event listener called when the playback is paused
-     * @param {Function} [config.onended] - Event listener called when the playback is ended
-     * @param {Function} [config.onlimitreached] - Event listener called when the play limit has been reached
-     * @param {Function} [config.ondestroy] - Event listener called when the player is destroying
+     * @event render - Event triggered when the player is rendering
+     * @event error - Event triggered when the player throws an unrecoverable error
+     * @event recovererror - Event triggered when the player throws a recoverable error
+     * @event ready - Event triggered when the player is fully ready
+     * @event play - Event triggered when the playback is starting
+     * @event update - Event triggered while the player is playing
+     * @event pause - Event triggered when the playback is paused
+     * @event ended - Event triggered when the playback is ended
+     * @event limitreached - Event triggered when the play limit has been reached
+     * @event destroy - Event triggered when the player is destroying
      * @returns {mediaplayer}
      */
     var mediaplayerFactory = function mediaplayerFactory(config) {
