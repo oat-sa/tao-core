@@ -164,14 +164,14 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'ui/med
                         self.player = mediaplayer({
                             url: options.url,
                             type: options.mime,
-                            renderTo: $content,
-                            onready: function(player) {
-                                var defSize = defaultSize[player.getType()] || defaultSize.video;
+                            renderTo: $content
+                        })
+                            .on('ready', function() {
+                                var defSize = defaultSize[this.getType()] || defaultSize.video;
                                 var width = options.width || defSize.width;
                                 var height = options.height || defSize.height;
-                                player.resize(width, height);
-                            }
-                        });
+                                this.resize(width, height);
+                            });
 
                         // stop video and free the socket on escape keypress(modal window hides)
                         $('body')
