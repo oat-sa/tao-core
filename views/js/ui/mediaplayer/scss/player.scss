@@ -363,12 +363,15 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
         }
 
         .error {
-            display: block;
+            display: table;
+            text-align: center;
+            width: 100%;
+            height: 100%;
 
             .message {
                 color: $error;
-                text-align: center;
-                padding-top: 20%;
+                display: table-cell;
+                vertical-align: middle;
             }
         }
     }
