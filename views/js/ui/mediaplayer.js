@@ -727,6 +727,11 @@ define([
                             .on('timeupdate' + _ns, function() {
                                 mediaplayer._onTimeUpdate();
                             })
+                            .on('loadstart', function() {
+                                if (media.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+                                    mediaplayer._onError();
+                                }
+                            })
                             .on('error' + _ns, function() {
                                 if (media.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
                                     mediaplayer._onError();
@@ -735,6 +740,9 @@ define([
                                 }
                             })
                             .on('loadedmetadata' + _ns, function() {
+                                if (mediaplayer.is('error')) {
+                                    mediaplayer._onRecoverError();
+                                }
                                 mediaplayer._onReady();
                             });
                     }
