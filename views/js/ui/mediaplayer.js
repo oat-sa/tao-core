@@ -727,6 +727,9 @@ define([
                             .on('timeupdate' + _ns, function() {
                                 mediaplayer._onTimeUpdate();
                             })
+                            .on('abort canplay canplaythrough canshowcurrentframe dataunavailable durationchange emptied empty ended error loadedfirstframe loadedmetadata loadstart pause play progress ratechange seeked seeking suspend timeupdate volumechange waiting', function(e) {
+                                console.log(e.type, $media.find('source').attr('src'), media.networkState);
+                            })
                             .on('loadstart', function() {
                                 if (media.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
                                     mediaplayer._onError();
@@ -963,7 +966,7 @@ define([
          * @returns {mediaplayer}
          */
         render : function render(to) {
-            var renderTo = to || this.config.renderTo;
+            var renderTo = to || this.config.renderTo || this.$container;
 
             if (this.$component) {
                 this.destroy();
@@ -1816,6 +1819,11 @@ define([
              * @event mediaplayer#recovererror
              */
             this.trigger('recovererror');
+
+            // recover from playing error
+            if (this.is('playing')) {
+                this.render();
+            }
         },
 
         /**
