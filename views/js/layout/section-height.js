@@ -39,11 +39,12 @@ define([
      * @returns {number}
      */
     function getTreeActionIdealHeight() {
-        var $visibleActionBar = $('.tree-action-bar-box .tree-action-bar'),
-            $mainButtons      = $visibleActionBar.find('li'),
-            $visibleButtons   = $mainButtons.filter(':visible'),
+        var $visibleActionBarBox = $('.tree-action-bar-box'),
+            $visibleActionBar    = $visibleActionBarBox.find('.tree-action-bar'),
+            $mainButtons         = $visibleActionBar.find('li'),
+            $visibleButtons      = $mainButtons.filter(':visible'),
             // at least two rows
-            $requiredRows     = Math.max(Math.ceil($mainButtons.length/4), 2),
+            $requiredRows        = Math.max(Math.ceil($mainButtons.length/4), 2),
             idealHeight;
 
         if(!$visibleButtons.length) {
@@ -51,10 +52,14 @@ define([
             $visibleActionBar.append($visibleButtons);
         }
 
-        idealHeight = ($visibleButtons.outerHeight(true) * $requiredRows) + parseInt($visibleActionBar.css('margin-bottom'));
+        idealHeight = ($visibleButtons.outerHeight(true) * $requiredRows) +
+            parseInt($visibleActionBarBox.css('margin-bottom')) +
+            parseInt($visibleActionBarBox.css('margin-top'));
         $visibleButtons.filter('.dummy').remove();
+
         return idealHeight;
     }
+    
 
     /**
      * Compute the height of the navi- and content container
@@ -105,6 +110,7 @@ define([
          * @param {jQueryElement} $scope - the section scope
          */
         init: function ($scope) {
+
 
             $window
                 .off('resize.sectionheight')

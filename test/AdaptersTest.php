@@ -29,6 +29,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
 class AdaptersTestCase extends TaoPhpUnitTestRunner {
 
 	const CSV_FILE_USERS_HEADER_UNICODE = '/samples/csv/users1-header.csv';
+	const CSV_FILE_USERS_HEADER_UNICODE_WITH_MULTI_FIELD_VALUE = '/samples/csv/users1-header-multi-field-values.csv';
 	const CSV_FILE_USERS_NO_HEADER_UNICODE = '/samples/csv/users1-no-header.csv';
 	
 	public function testGenerisAdapterCsv() {
@@ -102,4 +103,90 @@ class AdaptersTestCase extends TaoPhpUnitTestRunner {
 							 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN');
 		$this->assertEquals($csvFile->getRow(15), $expectedRow);
 	}
+
+	public function testCSVFileParsingWithMultipleFieldValues() {
+
+        $path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE_WITH_MULTI_FIELD_VALUE;
+        // Without multi values
+        //---------------------------------------------------------------------------------
+        $csvFile = new tao_helpers_data_CsvFile();
+        $csvFile->load($path);
+
+        // - test column mapping.
+        $expectedMapping = array('label', 'First Name', 'Last Name',
+            'Login', 'Mail', 'password', 'UserUILg');
+        $this->assertEquals($expectedMapping, $csvFile->getColumnMapping(), 'The column mapping should be ' . var_export($expectedMapping, true) . '.');
+        $this->assertEquals($csvFile->count(), 16, 'The CSV file contains ' . $csvFile->count() . ' rows instead of 16.');
+        $this->assertEquals($csvFile->getColumnCount(), 7, 'The CSV file contains ' . $csvFile->getColumnCount() . ' columns instead of 7.');
+
+        // - test some row retrievals.
+        $expectedRow = array('TAO Jérôme Bogaerts',
+            'Jérôme',
+            'Bogaerts',
+            'jbogaerts',
+            'jerome.bogaerts@tudor.lu|jerome@example.com',
+            'jbogaerts',
+            'http://www.tao.lu/Ontologies/TAO.rdf#LangEN');
+        $this->assertEquals($csvFile->getRow(0), $expectedRow);
+
+        $expectedRow = array('label' => 'TAO Isabelle Jars',
+            'First Name' => 'Isabelle',
+            'Last Name' => 'Jars',
+            'Login' => 'ijars',
+            'Mail' => 'isabelle.jars@tudor.lu',
+            'password' => 'ijars',
+            'UserUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN');
+        $this->assertEquals($csvFile->getRow(4, true), $expectedRow);
+
+        $expectedRow = array('label' => 'TAO Igor Ribassin',
+            'First Name' => 'Igor',
+            'Last Name' => 'Ribassin',
+            'Login' => 'iribassin',
+            'Mail' => 'igor.ribassin@tudor.lu',
+            'password' => 'iribassin',
+            'UserUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN|http://www.tao.lu/Ontologies/TAO.rdf#LangAR|http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
+        $this->assertEquals($csvFile->getRow(13, true), $expectedRow);
+
+
+        // With multi values
+        //---------------------------------------------------------------------------------
+        $csvFile = new tao_helpers_data_CsvFile(['multi_values_delimiter' => '|']);
+        $csvFile->load($path);
+
+        // - test column mapping.
+        $expectedMapping = array('label', 'First Name', 'Last Name',
+            'Login', 'Mail', 'password', 'UserUILg');
+        $this->assertEquals($expectedMapping, $csvFile->getColumnMapping(), 'The column mapping should be ' . var_export($expectedMapping, true) . '.');
+        $this->assertEquals($csvFile->count(), 16, 'The CSV file contains ' . $csvFile->count() . ' rows instead of 16.');
+        $this->assertEquals($csvFile->getColumnCount(), 7, 'The CSV file contains ' . $csvFile->getColumnCount() . ' columns instead of 7.');
+
+        // - test some row retrievals.
+        $expectedRow = array('TAO Jérôme Bogaerts',
+            'Jérôme',
+            'Bogaerts',
+            'jbogaerts',
+            ['jerome.bogaerts@tudor.lu', 'jerome@example.com'],
+            'jbogaerts',
+            'http://www.tao.lu/Ontologies/TAO.rdf#LangEN');
+        $this->assertEquals($csvFile->getRow(0), $expectedRow);
+
+        $expectedRow = array('label' => 'TAO Isabelle Jars',
+            'First Name' => 'Isabelle',
+            'Last Name' => 'Jars',
+            'Login' => 'ijars',
+            'Mail' => 'isabelle.jars@tudor.lu',
+            'password' => 'ijars',
+            'UserUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN');
+        $this->assertEquals($csvFile->getRow(4, true), $expectedRow);
+
+        $expectedRow = array('label' => 'TAO Igor Ribassin',
+            'First Name' => 'Igor',
+            'Last Name' => 'Ribassin',
+            'Login' => 'iribassin',
+            'Mail' => 'igor.ribassin@tudor.lu',
+            'password' => 'iribassin',
+            'UserUILg' => ['http://www.tao.lu/Ontologies/TAO.rdf#LangEN','http://www.tao.lu/Ontologies/TAO.rdf#LangAR','http://www.tao.lu/Ontologies/TAO.rdf#LangDE']);
+        $this->assertEquals($csvFile->getRow(13, true), $expectedRow);
+
+    }
 }

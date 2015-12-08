@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technlogies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -39,6 +39,20 @@ define(['jquery', 'lodash'], function($, _){
      * @property {String} path  - theme location
      * @property {String} [name] - name to display
      */
+
+
+    /**
+     * Trigger a theme change that is slightly delayed to be
+     * reasonably sure all styles have been applied.
+     *
+     * @param themeId
+     */
+
+    var triggerThemeChange = function triggerThemeChange(themeId) {
+        _.delay(function() {
+            $(document).trigger('themechange.' + ns, [themeId]);
+        }, 200);
+    };
 
 
     /**
@@ -116,6 +130,8 @@ define(['jquery', 'lodash'], function($, _){
         var themes;
         var i;
 
+
+
         /*
          * validate config
          */
@@ -159,6 +175,7 @@ define(['jquery', 'lodash'], function($, _){
             }
         });
 
+
         /**
          * The loader instance
          */
@@ -171,6 +188,11 @@ define(['jquery', 'lodash'], function($, _){
             load : function load(){
                 _.forEach(styles, function($link, id){
                     if(!isAttached(id)){
+                        if (id === activeTheme) {
+                            $link.on('load', function() {
+                                triggerThemeChange(id);
+                            });
+                        }
                         disable($link);
                         $container.append($link);
                     }
@@ -180,7 +202,7 @@ define(['jquery', 'lodash'], function($, _){
                         enable($link);
 
                         activeTheme = id;
-                        $(document).trigger('themechange.' + ns, { id: activeTheme });
+                        triggerThemeChange(activeTheme);
                     }
                 });
                 return this;
@@ -216,7 +238,7 @@ define(['jquery', 'lodash'], function($, _){
                     enable(getLink(id));
 
                     activeTheme = id;
-                    $(document).trigger('themechange.' + ns, { id: activeTheme });
+                    triggerThemeChange(activeTheme);
 
                 }
                 return this;

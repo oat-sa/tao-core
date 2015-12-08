@@ -19,14 +19,13 @@
  *
  */
 use oat\tao\model\mvc\Bootstrap as MvcBootstrap;
-/*
+/**
  * The generis extension loader is included there ONCE!
-*  1. Load and initialize the API and so the database
-*  2. Initialize the autoloaders
-*  3. Initialize the extension manager
-*/
+ *  1. Load and initialize the API and so the database
+ *  2. Initialize the autoloaders
+ *  3. Initialize the extension manager
+ */
 require_once __DIR__ . '/../../vendor/autoload.php';
-//require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
  * A bootstrap instance initialize the context and starts all the services:

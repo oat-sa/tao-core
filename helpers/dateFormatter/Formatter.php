@@ -34,7 +34,10 @@ interface Formatter
      * 
      * @param long $timestamp
      * @param string $format see constants of tao_helpers_Date for possible values
+     * @param \DateTimeZone $timeZone
+     * @return string the formatted date
+     * @throws \common_exception_Error
      */
-    public function format($timestamp, $format);
+    public function format($timestamp, $format, \DateTimeZone $timeZone);
 
 }
