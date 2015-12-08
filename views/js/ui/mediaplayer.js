@@ -727,9 +727,6 @@ define([
                             .on('timeupdate' + _ns, function() {
                                 mediaplayer._onTimeUpdate();
                             })
-                            .on('abort canplay canplaythrough canshowcurrentframe dataunavailable durationchange emptied empty ended error loadedfirstframe loadedmetadata loadstart pause play progress ratechange seeked seeking suspend timeupdate volumechange waiting', function(e) {
-                                console.log(e.type, $media.find('source').attr('src'), media.networkState);
-                            })
                             .on('loadstart', function() {
                                 if (media.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
                                     mediaplayer._onError();
