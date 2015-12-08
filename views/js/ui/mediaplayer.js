@@ -33,6 +33,13 @@ define([
     'use strict';
 
     /**
+     * Enable the debug mode
+     * @type {boolean}
+     * @private
+     */
+    var _debugMode = false;
+
+    /**
      * CSS namespace
      * @type {String}
      * @private
@@ -479,6 +486,10 @@ define([
         var interval;
         var destroyed;
 
+        function loopEvents(callback) {
+            _.forEach(['onStateChange', 'onPlaybackQualityChange', 'onPlaybackRateChange', 'onError', 'onApiChange'], callback);
+        }
+
         if (mediaplayer) {
             player = {
                 init : function _youtubePlayerInit() {
@@ -503,6 +514,15 @@ define([
                     this._callbacks = null;
 
                     if (!destroyed) {
+                        if (_debugMode) {
+                            // install debug logger
+                            loopEvents(function(ev) {
+                                media.addEventListener(ev, function(e) {
+                                    console.log(ev, e);
+                                });
+                            });
+                        }
+
                         mediaplayer._onReady();
 
                         if (callbacks) {
@@ -556,6 +576,9 @@ define([
                     destroyed = true;
 
                     if (media) {
+                        loopEvents(function(ev) {
+                            media.removeEventListener(ev);
+                        });
                         media.destroy();
                     } else {
                         _youtubeManager.remove($media, this);
@@ -737,6 +760,11 @@ define([
                                     mediaplayer._onError();
                                 } else {
                                     mediaplayer._onRecoverError();
+
+                                    // recover from playing error
+                                    if (media.networkState === HTMLMediaElement.NETWORK_LOADING && mediaplayer.is('playing')) {
+                                        mediaplayer.render();
+                                    }
                                 }
                             })
                             .on('loadedmetadata' + _ns, function() {
@@ -745,6 +773,15 @@ define([
                                 }
                                 mediaplayer._onReady();
                             });
+
+                        if (_debugMode) {
+                            // install debug logger
+                            _.forEach(['abort', 'canplay', 'canplaythrough', 'canshowcurrentframe', 'dataunavailable', 'durationchange', 'emptied', 'empty', 'ended', 'error', 'loadedfirstframe', 'loadedmetadata', 'loadstart', 'pause', 'play', 'progress', 'ratechange', 'seeked', 'seeking', 'suspend', 'timeupdate', 'volumechange', 'waiting'], function(ev) {
+                                $media.on(ev + _ns, function(e) {
+                                    console.log(e.type, $media && $media.find('source').attr('src'), media && media.networkState);
+                                });
+                            });
+                        }
                     }
 
                     return result;
@@ -1816,11 +1853,6 @@ define([
              * @event mediaplayer#recovererror
              */
             this.trigger('recovererror');
-
-            // recover from playing error
-            if (this.is('playing')) {
-                this.render();
-            }
         },
 
         /**
