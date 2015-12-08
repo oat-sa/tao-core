@@ -29,27 +29,11 @@ define(['core/mimetype'], function(mimeType){
     QUnit
         .cases(resources)
         .asyncTest('getResourceType ', function(data, assert) {
-            QUnit.stop();
-
-            var p = mimeType.getResourceType(data.url, function(err, type) {
+            mimeType.getResourceType(data.url, function(err, type) {
                 assert.equal(!!err, data.error, 'The callback accept an error');
                 if (!data.error) {
                     assert.equal(type, data.type, 'The callback received the correct MIME type');
                 }
-                QUnit.start();
-            });
-
-            assert.equal(p instanceof Promise, true, 'The mime function return a promise.');
-
-            p.then(function(type) {
-                if (data.error) {
-                    assert.ok(false, 'The promise must throw an error!');
-                } else {
-                    assert.equal(type, data.type, 'The promise resolved with the correct MIME type');
-                }
-                QUnit.start();
-            }).catch(function(err) {
-                assert.equal(!!err, data.error, 'The promise thrown an error!');
                 QUnit.start();
             });
         });
