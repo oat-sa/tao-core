@@ -21,7 +21,9 @@
 
 namespace oat\tao\helpers;
 
+use oat\oatbox\user\User;
 use core_kernel_classes_Resource;
+use core_kernel_users_GenerisUser;
 use Jig\Utils\StringUtils;
 
 /**
@@ -46,5 +48,92 @@ class UserHelper
         return !empty($mail)
             ? '<a href="mailto:'.$mail.'">'.$label.'</a>'
             : $label;
+    }
+
+    /**
+     * Gets a user from a URI
+     *
+     * @todo Make a stronger helper which take care of provider (LDAP, OAUTH, etc.)
+     *
+     * @param string $userId
+     * @return User
+     */
+    public static function getUser($userId)
+    {
+        if (is_string($userId)) {
+            $userId = new core_kernel_classes_Resource($userId);
+        }
+
+        if (!($userId instanceof core_kernel_users_GenerisUser)) {
+            $userId = new core_kernel_users_GenerisUser($userId);
+        }
+
+        return $userId;
+    }
+
+    /**
+     * Gets the value of a string property from a user
+     * @param User $user
+     * @param string $property
+     * @return string
+     */
+    public static function getUserStringProp(User $user, $property)
+    {
+        $value = $user->getPropertyValues($property);
+        return empty($value) ? '' : current($value);
+    }
+
+    /**
+     * Gets the user's first name
+     * @param User $user
+     * @param bool $defaultToLabel
+     * @return string
+     */
+    public static function getUserFirstName(User $user, $defaultToLabel = false)
+    {
+        $firstName = self::getUserStringProp($user, PROPERTY_USER_FIRSTNAME);
+
+        if (empty($firstName) && $defaultToLabel) {
+            $firstName = self::getUserStringProp($user, RDFS_LABEL);
+        }
+        
+        return $firstName;
+    }
+    
+    /**
+     * Gets the user's last name
+     * @param User $user
+     * @param bool $defaultToLabel
+     * @return string
+     */
+    public static function getUserLastName(User $user, $defaultToLabel = false)
+    {
+        $lastName = self::getUserStringProp($user, PROPERTY_USER_LASTNAME);
+
+        if (empty($lastName) && $defaultToLabel) {
+            $lastName = self::getUserStringProp($user, RDFS_LABEL);
+        }
+        
+        return $lastName;
+    }
+
+    /**
+     * Gets the full user name
+     * @param User $user
+     * @param bool $defaultToLabel
+     * @return string
+     */
+    public static function getUserName(User $user, $defaultToLabel = false)
+    {
+        $firstName = self::getUserStringProp($user, PROPERTY_USER_FIRSTNAME);
+        $lastName = self::getUserStringProp($user, PROPERTY_USER_LASTNAME);
+        
+        $userName = trim($firstName . ' ' . $lastName);
+        
+        if (empty($userName) && $defaultToLabel) {
+            $userName = self::getUserStringProp($user, RDFS_LABEL);
+        }
+
+        return $userName;
     }
 }
