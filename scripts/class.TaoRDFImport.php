@@ -1,4 +1,5 @@
 <?php
+use oat\tao\model\import\ImportRdf;
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -86,68 +87,21 @@ class tao_scripts_TaoRDFImport
         if ($userService->loginUser($this->options['user'], $this->options['password'])){
         	$this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
         	
-        	//determine the target namespace.
-        	$targetNamespace = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
+        	$filename = $this->options['input'];
+        	$action = new ImportRdf();
+        	$params = array($filename);
+        	
         	if (!empty($this->options['model'])){
-        		$targetNamespace = $this->options['model'];
+        	    $nameSpace = common_ext_NamespaceManager::singleton()->getNamespace($this->options['model']);
+        	    $params[] = $nameSpace->getModelId();
         	}
-        	else{
-        		// Look for XML Base.
-        		$this->outVerbose("Looking up for the value of xml:base as the model URI.");
-        		try{
-        			$dom = new DOMDocument('1.0', TAO_DEFAULT_ENCODING);
-        			if (false !== $dom->load($this->options['input'])){
-        				$this->outVerbose("RDF-XML document loaded.");
-        				// try to find the 'xml:base' attribute on the root node.
-        				$roots = $dom->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'RDF');
-        				
-        				if ($roots->length > 0){
-        					$this->outVerbose("Root RDF element found.");
-        					$root = $roots->item(0);
-	        				$node = $root->getAttributeNodeNS('http://www.w3.org/XML/1998/namespace', 'base');
-	        				if (!empty($node)){
-	        					$targetNamespace = $node->value;
-	        				}
-	        				else{
-	        					$this->outVerbose("No xml:base attribute found. The local model will be used.");	
-	        				}
-        				}
-        			}
-        			else{
-        				$this->err("RDF-XML could not be loaded.", true);
-        			}
-        		}
-        		catch (DOMException $e){
-        			$this->err("RDF-XML parsing error: " . $e->getMessage(), true);
-        		}
+        	 
+        	$report = $action->__invoke($params);
+        	
+        	$string = tao_helpers_report_Rendering::renderToCommandline($report);
+        	foreach (explode(PHP_EOL, $string) as $line) {
+        	    $this->out($line);
         	}
-			
-        	//validate the file to import
-			$parser = new tao_models_classes_Parser($this->options['input'],
-													array('extension' => 'rdf'));
-			$parser->validate();
-			$this->outVerbose("Model URI is '${targetNamespace}'.");
-			if(!$parser->isValid()){
-				foreach ($parser->getErrors() as $error) {
-					$this->outVerbose("RDF-XML parsing error in '" . $error['file'] . "' at line '" . $error['line'] . "': '" . $error['message']. "'.");
-				}
-				
-				$userService->logout();
-				$this->err("RDF-XML parsing error.", true);
-			}
-			else{
-			
-				//initialize the adapter (no target class but a target namespace)
-				$adapter = new tao_helpers_data_GenerisAdapterRdf();
-				if($adapter->import($this->options['input'], null, $targetNamespace)){
-					$this->outVerbose("RDF 'input' file successfully imported.");
-					$userService->logout();
-				}		
-				else{
-					$userService->logout();
-					$this->err("An error occured during RDF-XML import.", true);
-				}	
-			}
         }
         else{
         	$this->err("Unable to connect to TAO as '" . $this->options['user'] . "'.", true);
@@ -169,5 +123,3 @@ class tao_scripts_TaoRDFImport
     }
 
 }
-
-?>
