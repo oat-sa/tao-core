@@ -1,7 +1,7 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'core/promise', 'json!core/mimetypes.json'], function($, _, Promise, mimeTypes){
+define(['jquery', 'lodash', 'json!core/mimetypes.json'], function($, _, mimeTypes){
     'use strict';
 
     /**
@@ -18,31 +18,28 @@ define(['jquery', 'lodash', 'core/promise', 'json!core/mimetypes.json'], functio
          *                                This callback must accept 2 arguments:
          *                                the first is the potential error if the request failed,
          *                                the second is the MIME type if the request succeed.
-         * @returns {Promise} Returns a promise
+         * @returns {mimetype}
          */
         getResourceType : function getResourceType(url, callback) {
-            return new Promise(function(resolve, reject) {
-                $.ajax({
-                    type: "HEAD",
-                    async: true,
-                    url: url,
-                    success: function onSuccess(message, text, jqXHR) {
-                        var mime = jqXHR.getResponseHeader('Content-Type');
-                        if (callback) {
-                            callback(null, mime);
-                        }
-                        resolve(mime);
-                    },
-
-                    error: function onError(jqXHR) {
-                        var error = jqXHR.status || 404;
-                        if (callback) {
-                            callback(error);
-                        }
-                        reject(error);
+            $.ajax({
+                type: "HEAD",
+                async: true,
+                url: url,
+                success: function onSuccess(message, text, jqXHR) {
+                    var mime = jqXHR.getResponseHeader('Content-Type');
+                    if (callback) {
+                        callback(null, mime);
                     }
-                });
+                },
+
+                error: function onError(jqXHR) {
+                    var error = jqXHR.status || 404;
+                    if (callback) {
+                        callback(error);
+                    }
+                }
             });
+            return this;
         },
 
         /**
