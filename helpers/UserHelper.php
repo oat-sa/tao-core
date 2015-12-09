@@ -84,6 +84,16 @@ class UserHelper
     }
 
     /**
+     * Gets the user's label
+     * @param User $user
+     * @return string
+     */
+    public static function getUserLabel(User $user)
+    {
+        return self::getUserStringProp($user, RDFS_LABEL);
+    }
+
+    /**
      * Gets the user's first name
      * @param User $user
      * @param bool $defaultToLabel
@@ -94,7 +104,7 @@ class UserHelper
         $firstName = self::getUserStringProp($user, PROPERTY_USER_FIRSTNAME);
 
         if (empty($firstName) && $defaultToLabel) {
-            $firstName = self::getUserStringProp($user, RDFS_LABEL);
+            $firstName = self::getUserLabel($user);
         }
         
         return $firstName;
@@ -111,7 +121,7 @@ class UserHelper
         $lastName = self::getUserStringProp($user, PROPERTY_USER_LASTNAME);
 
         if (empty($lastName) && $defaultToLabel) {
-            $lastName = self::getUserStringProp($user, RDFS_LABEL);
+            $lastName = self::getUserLabel($user);
         }
         
         return $lastName;
@@ -131,7 +141,7 @@ class UserHelper
         $userName = trim($firstName . ' ' . $lastName);
         
         if (empty($userName) && $defaultToLabel) {
-            $userName = self::getUserStringProp($user, RDFS_LABEL);
+            $userName = self::getUserLabel($user);
         }
 
         return $userName;
