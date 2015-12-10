@@ -9,11 +9,11 @@ define([
     'ui/durationer',
     'ui/selecter',
     'ui/modal',
-    'ui/qtip',
+    'ui/tooltip',
     'ui/form',
     'ui/validator',
     'ui/groupvalidator'
-], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, qtip, form) {
+], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltip, form) {
     'use strict';
         
     /**
@@ -42,7 +42,7 @@ define([
             incrementer($container);
             durationer($container);
             selecter($container);
-            qtip($container);
+            tooltip($container);
         }
     };
 });

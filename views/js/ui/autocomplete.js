@@ -26,10 +26,9 @@ define([
     'i18n',
     'util/capitalize',
     'jquery.autocomplete',
-    'qtip'
+    'ui/tooltip'
 ], function($, _, __, capitalize) {
     'use strict';
-
     /**
      * Namespace for component
      * @type {String}
@@ -44,9 +43,7 @@ define([
         position: {
             viewport: $(window)
         },
-        style: {
-            classes: 'qtip-rounded qtip-blue'
-        },
+        theme : 'info',
         content: {
             text: __('Too many suggestions match your query. Only a few are listed')
         },
@@ -54,11 +51,6 @@ define([
             event: 'custom'
         }
     };
-    /*{
-        content : __('Too many suggestions match your query. Only a few are listed'),
-        theme : 'tao-info-tooltip',
-        trigger: 'custom'
-    };*/
 
     /**
      * A list of default values for allowed options

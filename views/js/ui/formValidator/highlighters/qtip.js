@@ -24,24 +24,17 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'qtip'
+    'ui/tooltip'
 ], function ($, _, __) {
     'use strict';
 
     var defaultOptions = {
         qtip : {
-            position: {
-                my: 'bottom center',
-                at: 'top center'//, // at the bottom right of...
-                //target: $('.selector') // my target
-            },
             show: { ready: true },
             hide: {
                 event: false
             },
-            style : {
-                classes : 'qtip-rounded qtip-red'
-            }
+            theme : 'error'
         }
     };
 
