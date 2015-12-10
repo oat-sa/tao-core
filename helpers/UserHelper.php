@@ -64,8 +64,13 @@ class UserHelper
             $userId = new core_kernel_classes_Resource($userId);
         }
 
-        if (!($userId instanceof core_kernel_users_GenerisUser)) {
+        if ($userId instanceof core_kernel_classes_Resource) {
             $userId = new core_kernel_users_GenerisUser($userId);
+        }
+        
+        if (!($userId instanceof core_kernel_users_GenerisUser)) {
+            \common_Logger::i('Unable to get user from ' . $userId);
+            $userId = null;
         }
 
         return $userId;
