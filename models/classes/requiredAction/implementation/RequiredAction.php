@@ -35,8 +35,11 @@ use oat\tao\model\requiredAction\RequiredActionRuleInterface;
  */
 class RequiredAction implements RequiredActionInterface
 {
+
+    private $name;
+
     /**
-     * @var callable[]
+     * @var RequiredActionRuleInterface[]
      */
     private $rules = [];
 
@@ -47,12 +50,14 @@ class RequiredAction implements RequiredActionInterface
 
     /**
      * RequiredAction constructor.
+     * @param string $name
      * @param callable $callback
      * @param RequiredActionRuleInterface[] $rules
      * @throws Exception
      */
-    public function __construct(callable $callback, $rules = [])
+    public function __construct($name, callable $callback, array $rules = [])
     {
+        $this->name = $name;
         $this->callback = $callback;
         foreach ($rules as $rule) {
             $this->setRule($rule);
@@ -81,6 +86,18 @@ class RequiredAction implements RequiredActionInterface
     }
 
     /**
+     * Mark action as completed.
+     * @return mixed
+     */
+    public function completed()
+    {
+        $rules = $this->getRules();
+        foreach ($rules as $rule) {
+            $rule->completed($this);
+        }
+    }
+
+    /**
      * Get array of rules
      * @return RequiredActionRuleInterface[]
      */
@@ -97,6 +114,15 @@ class RequiredAction implements RequiredActionInterface
     public function setRule(RequiredActionRuleInterface $rule)
     {
         $this->rules[] = $rule;
+    }
+
+    /**
+     * Get action name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -121,7 +147,7 @@ class RequiredAction implements RequiredActionInterface
         $result = false;
 
         foreach ($rules as $rule) {
-            if ($rule->execute()) {
+            if ($rule->check()) {
                 $result = true;
                 break;
             }

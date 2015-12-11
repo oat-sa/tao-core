@@ -45,13 +45,13 @@ class TimeRuleTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider optionsProvider
      */
-    public function testExecute($result, $options)
+    public function testCheck($result, $options)
     {
         $executionTime = isset($options['executionTime']) ? $options['executionTime'] : null;
         $interval = isset($options['interval']) ? $options['interval'] : null;
 
         $rule = new TimeRule($executionTime, $interval);
-        $ruleResult = $rule->execute();
+        $ruleResult = $rule->check();
 
         $this->assertEquals($ruleResult, $result);
     }

@@ -55,7 +55,7 @@ class RequiredActionTest extends TaoPhpUnitTestRunner
     public function testMustBeExecuted($result, $rules, $callback)
     {
 
-        $action = new RequiredAction($callback, $rules);
+        $action = new RequiredAction('testAction', $callback, $rules);
         foreach ($rules as $rule) {
             $action->setRule($rule);
         }
@@ -101,7 +101,7 @@ class RequiredActionTest extends TaoPhpUnitTestRunner
     private function getPositiveRule()
     {
         $ruleMock = $this->prophesize('oat\tao\model\requiredAction\implementation\TimeRule');
-        $ruleMock->execute()->willReturn(true);
+        $ruleMock->check()->willReturn(true);
 
         return $ruleMock->reveal();
     }
@@ -109,7 +109,7 @@ class RequiredActionTest extends TaoPhpUnitTestRunner
     private function getNegativeRule()
     {
         $ruleMock = $this->prophesize('oat\tao\model\requiredAction\implementation\TimeRule');
-        $ruleMock->execute()->willReturn(false);
+        $ruleMock->check()->willReturn(false);
 
         return $ruleMock->reveal();
     }

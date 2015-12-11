@@ -22,6 +22,7 @@
 namespace oat\tao\model\requiredAction\implementation;
 
 use oat\tao\model\requiredAction\RequiredActionRuleInterface;
+use oat\tao\model\requiredAction\RequiredActionInterface;
 use \DateTime;
 use \DateInterval;
 
@@ -54,12 +55,22 @@ class TimeRule implements RequiredActionRuleInterface
     }
 
     /**
-     * Execute the rule.
+     * Check the rule.
      * @return bool
      */
-    public function execute()
+    public function check()
     {
         return $this->checkTime();
+    }
+
+    /**
+     * Mark rule as executed and save time of completed.
+     * @param RequiredActionInterface $action action which has been completed
+     * @return mixed
+     */
+    public function completed(RequiredActionInterface $action)
+    {
+        //TODO set execution time
     }
 
     /**

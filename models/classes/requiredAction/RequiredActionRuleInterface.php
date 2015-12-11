@@ -32,8 +32,15 @@ namespace oat\tao\model\requiredAction;
 interface RequiredActionRuleInterface
 {
     /**
-     * Execute the rule.
+     * Check the rule.
      * @return boolean
      */
-    function execute();
+    function check();
+
+    /**
+     * Mark rule as completed
+     * @param RequiredActionInterface $action - action which has been completed.
+     * @return mixed
+     */
+    function completed(RequiredActionInterface $action);
 }
