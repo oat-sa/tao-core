@@ -163,11 +163,31 @@ define(['jquery'], function($){
         $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data);})
                                  .fail(function(jqxhr){callback(jqxhr.status);});
     };
+    
+    /**
+     * Check if the AllowOverride directive is set to All
+     */
+    /*TaoInstall.prototype.сheckAllowOverride = function(check, callback){
+
+        var config = {"name": "AllowOverride", "extension": "tao",'id':'xxx'};
+
+        var data = {
+            type: 'CheckCustom',
+            value: $.extend(check, config)
+        };
+
+        var options = {data: JSON.stringify(data),
+                       type: 'POST',
+                       dataType: 'json'};
+
+        $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data);})
+                                 .fail(function(jqxhr){callback(jqxhr.status);});
+    };*/
 
     /**
      * Check connection to TAO Forge
      */
-    TaoInstall.prototype.checkTAOForgeConnection = function(check, callback){
+    /*TaoInstall.prototype.checkTAOForgeConnection = function(check, callback){
         
             check.password = this.nullToEmptyString(check.password);
         
@@ -180,7 +200,7 @@ define(['jquery'], function($){
                        
         $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
                                  .fail(function(jqxhr){callback(jqxhr.status)});
-    };
+    };*/
 
     TaoInstall.prototype.install = function(inputs, callback){
         inputs.db_pass = this.nullToEmptyString(inputs.db_pass);
