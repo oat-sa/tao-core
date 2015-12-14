@@ -20,6 +20,7 @@ require(['jquery', 'generis.tree.select'], function($, GenerisTreeSelectClass) {
                         propertyUri: '<?=get_data('propertyUri')?>'
                 },
                 checkedNodes: <?=json_encode(tao_helpers_Uri::encodeArray(get_data('values')))?>,
+                hiddenNodes: <?=json_encode(get_data('hiddenNodes'))?>,
                 serverParameters: {
                         openNodes: <?=json_encode(get_data('openNodes'))?>,
                         rootNode: <?=json_encode(get_data('rootNode'))?>

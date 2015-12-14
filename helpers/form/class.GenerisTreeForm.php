@@ -102,8 +102,23 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 		$this->setData('resourceUri',	$resource->getUri());
 		$this->setData('propertyUri',	$property->getUri());
 
+        $this->setHiddenNodes(array());
 	}
-	
+
+    /**
+     * Set list of nodes id to be hidden
+     * 
+     * @param Array $hiddenNodes
+     */
+	public function setHiddenNodes($hiddenNodes) {
+	    $this->setData('hiddenNodes',	$hiddenNodes);
+	}
+
+    /**
+     * Set the title of the tree widget
+     * 
+     * @param string $title
+     */
 	public function setTitle($title) {
 	    $this->setData('title',	$title);
 	}
