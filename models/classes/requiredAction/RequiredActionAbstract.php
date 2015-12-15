@@ -19,11 +19,12 @@
  *
  */
 
-namespace oat\tao\model\requiredAction\implementation;
+namespace oat\tao\model\requiredAction;
 
 use oat\tao\model\requiredAction\RequiredActionInterface;
 use \Exception;
 use oat\tao\model\requiredAction\RequiredActionRuleInterface;
+use oat\tao\model\routing\FlowController;
 
 /**
  * Class RequiredAction
@@ -33,32 +34,27 @@ use oat\tao\model\requiredAction\RequiredActionRuleInterface;
  * @package oat\tao\model\requiredAction\implementation
  * @author Aleh Hutnilau <hutnikau@1pt.com>
  */
-class RequiredAction implements RequiredActionInterface
+abstract class RequiredActionAbstract implements RequiredActionInterface
 {
-
-    private $name;
+    /**
+     * @var string
+     */
+    protected $name;
 
     /**
      * @var RequiredActionRuleInterface[]
      */
-    private $rules = [];
-
-    /**
-     * @var callable
-     */
-    private $callback;
+    protected $rules = [];
 
     /**
      * RequiredAction constructor.
      * @param string $name
-     * @param callable $callback
      * @param RequiredActionRuleInterface[] $rules
      * @throws Exception
      */
-    public function __construct($name, callable $callback, array $rules = [])
+    public function __construct($name, array $rules = [])
     {
         $this->name = $name;
-        $this->callback = $callback;
         foreach ($rules as $rule) {
             $this->setRule($rule);
         }
@@ -66,13 +62,10 @@ class RequiredAction implements RequiredActionInterface
 
     /**
      * Execute an action
-     * @param array $params params to be passed to callback function
+     * @param array $params
      * @return mixed
      */
-    public function execute(array $params = [])
-    {
-        return call_user_func_array($this->getCallback(), $params);
-    }
+    abstract function execute(array $params = []);
 
     /**
      * Whether the action must be executed.
@@ -93,7 +86,7 @@ class RequiredAction implements RequiredActionInterface
     {
         $rules = $this->getRules();
         foreach ($rules as $rule) {
-            $rule->completed($this);
+            $rule->completed();
         }
     }
 
@@ -113,6 +106,7 @@ class RequiredAction implements RequiredActionInterface
      */
     public function setRule(RequiredActionRuleInterface $rule)
     {
+        $rule->setRequiredAction($this);
         $this->rules[] = $rule;
     }
 
@@ -126,22 +120,12 @@ class RequiredAction implements RequiredActionInterface
     }
 
     /**
-     * Get callback to be executed in case if action must be performed.
-     *
-     * @return callable
-     */
-    private function getCallback()
-    {
-        return $this->callback;
-    }
-
-    /**
      * Check rules whether action must be performed.
      * If at least one rule returns true the action will be performed.
      * If result is `true` then action must be performed.
      * @return bool
      */
-    private function checkRules()
+    protected function checkRules()
     {
         $rules = $this->getRules();
         $result = false;
@@ -155,5 +139,4 @@ class RequiredAction implements RequiredActionInterface
 
         return $result;
     }
-
 }

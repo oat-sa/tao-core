@@ -32,9 +32,18 @@ namespace oat\tao\model\requiredAction;
  */
 interface RequiredActionServiceInterface
 {
+    const CONFIG_ID = 'tao/requiredAction';
+    const OPTION_REQUIRED_ACTIONS = 'required_actions';
+
     /**
-     * Get list of required actions
+     * Get list of all required actions
      * @return RequiredAction[] array of required action instances
      */
     function getRequiredActions();
+
+    /**
+     * Get first action which should be executed (one of action's rules return true).
+     * @return mixed
+     */
+    function getActionToBePerformed();
 }

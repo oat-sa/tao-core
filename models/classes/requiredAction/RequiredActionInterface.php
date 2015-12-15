@@ -31,6 +31,10 @@ namespace oat\tao\model\requiredAction;
  */
 interface RequiredActionInterface
 {
+    const CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredAction';
+    const PROPERTY_NAME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName';
+    const PROPERTY_EXECUTION_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime';
+    const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject';
 
     /**
      * @return string

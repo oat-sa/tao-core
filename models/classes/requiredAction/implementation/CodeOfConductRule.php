@@ -19,34 +19,26 @@
  *
  */
 
-namespace oat\tao\model\requiredAction;
+namespace oat\tao\model\requiredAction\implementation;
 
 /**
- * Interface RequiredActionRuleInterface
- *
- * RequiredActionRuleInterface rule which checks whether an action must be executed
- *
- * @package oat\tao\model\requiredAction
+ * Class TimeRule
  * @author Aleh Hutnilau <hutnikau@1pt.com>
  */
-interface RequiredActionRuleInterface
+class CodeOfConductRule extends TimeRule
 {
-    /**
-     * Check the rule.
-     * @return boolean
-     */
-    function check();
 
-    /**
-     * Mark rule as completed
-     * @return mixed
-     */
-    function completed();
+    private $roles = [
+        'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',
+        'http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole'
+    ];
 
-    /**
-     * Set required action instance
-     * @param \oat\tao\model\requiredAction\RequiredActionInterface $requiredAction
-     * @return mixed
-     */
-    function setRequiredAction(RequiredActionInterface $requiredAction);
+    public function check()
+    {
+        $user = $this->getUser();
+        $userRoles = $user->getRoles();
+        $result = count(array_intersect($userRoles, $this->roles)) > 0;
+        $result = $result && parent::check();
+        return $result;
+    }
 }

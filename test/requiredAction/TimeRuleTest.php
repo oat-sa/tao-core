@@ -50,7 +50,8 @@ class TimeRuleTest extends TaoPhpUnitTestRunner
         $executionTime = isset($options['executionTime']) ? $options['executionTime'] : null;
         $interval = isset($options['interval']) ? $options['interval'] : null;
 
-        $rule = new TimeRule($executionTime, $interval);
+        $rule = new TimeRule($interval, $executionTime);
+        $rule->setRequiredAction($this->getRequiredAction());
         $ruleResult = $rule->check();
 
         $this->assertEquals($ruleResult, $result);
@@ -87,5 +88,13 @@ class TimeRuleTest extends TaoPhpUnitTestRunner
                 ],
             ],
         ];
+    }
+
+    private function getRequiredAction()
+    {
+        $actionMock = $this->prophesize('oat\tao\model\requiredAction\implementation\RequiredActionRedirect');
+        $actionMock->getName()->willReturn('RequiredActionRedirect');
+
+        return $actionMock->reveal();
     }
 }

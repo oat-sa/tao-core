@@ -14,39 +14,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA
  *
  */
+namespace oat\tao\model\event;
 
-namespace oat\tao\model\requiredAction;
 
-/**
- * Interface RequiredActionRuleInterface
- *
- * RequiredActionRuleInterface rule which checks whether an action must be executed
- *
- * @package oat\tao\model\requiredAction
- * @author Aleh Hutnilau <hutnikau@1pt.com>
- */
-interface RequiredActionRuleInterface
+use oat\oatbox\event\Event;
+
+class LoginEvent implements Event
 {
-    /**
-     * Check the rule.
-     * @return boolean
-     */
-    function check();
 
     /**
-     * Mark rule as completed
-     * @return mixed
+     * LoginEvent constructor.
      */
-    function completed();
+    public function __construct()
+    {
+
+    }
 
     /**
-     * Set required action instance
-     * @param \oat\tao\model\requiredAction\RequiredActionInterface $requiredAction
-     * @return mixed
+     * Return a unique name for this event
+     * @see \oat\oatbox\event\Event::getName()
      */
-    function setRequiredAction(RequiredActionInterface $requiredAction);
+    public function getName()
+    {
+        return __CLASS__;
+    }
 }

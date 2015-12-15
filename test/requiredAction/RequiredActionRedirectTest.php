@@ -19,9 +19,10 @@
  *
  */
 
-use oat\tao\model\requiredAction\implementation\RequiredAction;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
 use oat\tao\model\requiredAction\implementation\TimeRule;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use Prophecy\Argument;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
@@ -31,7 +32,7 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  * @author Aleh Hutnilau <hutnikau@1pt.com>
  * @package tao
  */
-class RequiredActionTest extends TaoPhpUnitTestRunner
+class RequiredActionRedirectTest extends TaoPhpUnitTestRunner
 {
     /**
      * tests initialization
@@ -52,13 +53,9 @@ class RequiredActionTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider optionsProvider
      */
-    public function testMustBeExecuted($result, $rules, $callback)
+    public function testMustBeExecuted($result, $rules)
     {
-
-        $action = new RequiredAction('testAction', $callback, $rules);
-        foreach ($rules as $rule) {
-            $action->setRule($rule);
-        }
+        $action = new RequiredActionRedirect('testAction', $rules, 'url');
         $this->assertEquals($action->mustBeExecuted(), $result);
     }
 
@@ -71,21 +68,18 @@ class RequiredActionTest extends TaoPhpUnitTestRunner
             [//no rules
                 'result' => false,
                 'rules' => [],
-                'callback' => 'RequiredActionTest::actionCallback',
             ],
             [//one rule which returns false
                 'result' => false,
                 'rules' => [
                     $this->getNegativeRule()
                 ],
-                'callback' => 'RequiredActionTest::actionCallback',
             ],
             [//one rule which returns true
                 'result' => true,
                 'rules' => [
                     $this->getPositiveRule(),
                 ],
-                'callback' => 'RequiredActionTest::actionCallback',
             ],
             [//two rules and one of them returns true
                 'result' => true,
@@ -93,7 +87,6 @@ class RequiredActionTest extends TaoPhpUnitTestRunner
                     $this->getPositiveRule(),
                     $this->getNegativeRule()
                 ],
-                'callback' => 'RequiredActionTest::actionCallback',
             ],
         ];
     }
@@ -101,6 +94,7 @@ class RequiredActionTest extends TaoPhpUnitTestRunner
     private function getPositiveRule()
     {
         $ruleMock = $this->prophesize('oat\tao\model\requiredAction\implementation\TimeRule');
+        $ruleMock->setRequiredAction(Argument::type('oat\tao\model\requiredAction\RequiredActionInterface'))->willReturn(null);
         $ruleMock->check()->willReturn(true);
 
         return $ruleMock->reveal();
@@ -109,23 +103,10 @@ class RequiredActionTest extends TaoPhpUnitTestRunner
     private function getNegativeRule()
     {
         $ruleMock = $this->prophesize('oat\tao\model\requiredAction\implementation\TimeRule');
+        $ruleMock->setRequiredAction(Argument::type('oat\tao\model\requiredAction\RequiredActionInterface'))->willReturn(null);
         $ruleMock->check()->willReturn(false);
 
         return $ruleMock->reveal();
     }
 
-    static function actionCallback()
-    {
-        return func_get_args();
-    }
-
-    static function positiveRule()
-    {
-        return true;
-    }
-
-    static function negativeRule()
-    {
-        return false;
-    }
 }

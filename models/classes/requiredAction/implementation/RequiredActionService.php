@@ -22,7 +22,9 @@
 namespace oat\tao\model\requiredAction\implementation;
 
 use oat\tao\model\requiredAction\RequiredActionServiceInterface;
+use oat\tao\model\requiredAction\RequiredActionInterface;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Class RequiredActionService
@@ -35,14 +37,72 @@ use oat\oatbox\service\ConfigurableService;
  */
 class RequiredActionService extends ConfigurableService implements RequiredActionServiceInterface
 {
-    const CONFIG_ID = 'tao/requiredAction';
-
     /**
      * Get list of required actions
      * @return RequiredAction[] array of required action instances
      */
     public function getRequiredActions()
     {
-        // TODO: Implement getRequiredActions() method.
+        $actions = $this->getOption(self::OPTION_REQUIRED_ACTIONS);
+        return $actions ? $actions : [];
+    }
+
+    /**
+     * Attach new action
+     * @param RequiredActionInterface $action
+     */
+    public function attachAction(RequiredActionInterface $action)
+    {
+        $actions = $this->getRequiredActions();
+        $actions[] = $action;
+        $this->setOption(self::OPTION_REQUIRED_ACTIONS, $actions);
+    }
+
+    /**
+     * Get required action by name
+     * @param  string $name name of action
+     * @return RequiredActionInterface array of required action instances
+     */
+    public function getRequiredAction($name)
+    {
+        $result = null;
+        $actions = $this->getOption(self::OPTION_REQUIRED_ACTIONS);
+        foreach ($actions as $action) {
+            if ($action->getName() === $name) {
+                $result = $action;
+                break;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Get first action which should be executed (one of action's rules return true).
+     * @return null|RequiredAction
+     */
+    public function getActionToBePerformed()
+    {
+        $result = null;
+        foreach ($this->getRequiredActions() as $requiredAction) {
+            if ($requiredAction->mustBeExecuted()) {
+                $result = $requiredAction;
+                break;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Check if any action must be executed and execute first of them.
+     * @throws \InterruptedActionException
+     */
+    public static function checkRequiredActions()
+    {
+        /** @var RequiredActionService $service */
+        $service = ServiceManager::getServiceManager()->get(self::CONFIG_ID);
+        $action = $service->getActionToBePerformed();
+        if ($action !== null) {
+            $action->execute();
+        }
     }
 }
