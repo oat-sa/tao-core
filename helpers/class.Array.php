@@ -63,9 +63,10 @@ class tao_helpers_Array
     }
     
     /**
-     * Sorts an array of objects implementing the __equal() function
+     * remove duplicate from array of objects implementing the __equal() function
      * 
      * @param array $array
+     * @return array $array
      */
     public static function array_unique($array) {
         $keys = array_keys($array);
