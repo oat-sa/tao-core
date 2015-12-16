@@ -3,43 +3,23 @@ define(['core/logger/console'], function(consoleLogger){
 
     var cinfo = window.console.info;
     var clog = window.console.log;
+    var cdebug = window.console.debug;
+    var ctrace = window.console.trace;
 
-    QUnit.module('API');
-
-    QUnit.test("module", function(assert){
-        QUnit.expect(2);
+    QUnit.test("api", function(assert){
+        QUnit.expect(3);
 
         assert.ok(typeof consoleLogger !== 'undefined', "The module exports something");
-        assert.ok(typeof consoleLogger === 'function', "The module exposes a function");
+        assert.ok(typeof consoleLogger === 'object', "The module exposes an object");
+        assert.equal(typeof consoleLogger.log, 'function', 'The logger has a log method');
     });
-
-    QUnit.test("factory", function(assert){
-        QUnit.expect(2);
-
-        assert.ok(typeof consoleLogger() === 'object', "The factory creates an object");
-        assert.notEqual(consoleLogger(), consoleLogger(), "The factory creates an new object");
-
-    });
-
-    QUnit.test("logger", function(assert){
-        QUnit.expect(8);
-
-        var logger = consoleLogger();
-        assert.equal(typeof logger, 'object', 'The logger should be an object');
-        assert.equal(typeof logger.log, 'function', 'The logger has a log method');
-        assert.equal(typeof logger.fatal, 'function', 'The logger has a fatal method');
-        assert.equal(typeof logger.error, 'function', 'The logger has an error method');
-        assert.equal(typeof logger.warn, 'function', 'The logger has a warn method');
-        assert.equal(typeof logger.info, 'function', 'The logger has an info method');
-        assert.equal(typeof logger.debug, 'function', 'The logger has a debug method');
-        assert.equal(typeof logger.trace, 'function', 'The logger has a trace method');
-    });
-
 
     QUnit.module('console logger', {
-        tearDown : function(){
+        teardown : function(){
              window.console.info = cinfo;
              window.console.log = clog;
+             window.console.debug = cdebug;
+             window.console.trace = ctrace;
         }
     });
 
@@ -52,8 +32,10 @@ define(['core/logger/console'], function(consoleLogger){
            QUnit.start();
         };
 
-        var logger = consoleLogger();
-        logger.info('foo');
+        consoleLogger.log({
+            level: 'info',
+            messages : ['foo']
+        });
     });
 
     QUnit.asyncTest("fatal log", function(assert){
@@ -66,23 +48,46 @@ define(['core/logger/console'], function(consoleLogger){
            QUnit.start();
         };
 
-        var logger = consoleLogger();
-        logger.fatal('baz');
+        consoleLogger.log({
+            level: 'fatal',
+            messages : ['baz']
+        });
     });
 
-
-    QUnit.asyncTest("info context log", function(assert){
-        QUnit.expect(2);
+    QUnit.asyncTest("trace multiple messages", function(assert){
+        QUnit.expect(3);
 
         //hack the window...
-        window.console.info = function(context, message){
-           assert.equal(context, '[TEST]', 'The context match');
-           assert.equal(message, 'bar', 'The message match');
+        window.console.trace = function(message1, message2, message3){
+           assert.equal(message1, 'foo', 'The message match');
+           assert.equal(message2, 'bar', 'The message match');
+           assert.equal(message3, 'baz', 'The message match');
            QUnit.start();
         };
 
-        var logger = consoleLogger('TEST');
-        logger.info('bar');
+        consoleLogger.log({
+            level: 'trace',
+            messages : ['foo', 'bar', 'baz']
+        });
+    });
+
+    QUnit.asyncTest("debug withe context", function(assert){
+        QUnit.expect(2);
+
+        //hack the window...
+        window.console.trace = function(context, message){
+           assert.equal(context, '[context]', 'The context match');
+           assert.equal(message, 'abar', 'The message match');
+           QUnit.start();
+        };
+
+        consoleLogger.log({
+            level: 'trace',
+            messages : ['abar'],
+            context : 'context'
+        });
     });
 });
+
+
 

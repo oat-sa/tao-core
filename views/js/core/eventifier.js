@@ -33,14 +33,14 @@
  *          console.log('I am not saying Hello to nobody');
  *          return false;
  *      }
- * }); 
- * 
+ * });
+ *
  * @example using before asynchronously
  * emitter.before('hello', function(e, who){
- *      
+ *
  *      //I am in an asynchronous context
  *      var done = e.done();
- *      
+ *
  *      //ajax call
  *      fetch('do/I/know?who='+who).then(function(yes){
  *          if(yes){
@@ -54,15 +54,15 @@
  *          console.log('System failure, I should quit now');
  *          e.preventNow();
  *      });
- * }); 
- *  
+ * });
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define(['lodash', 'async'], function(_, async){
     'use strict';
-    
+
     /**
-     * Create an async callstack 
+     * Create an async callstack
      * @param {array} handlers - array of handlers to create the async callstack from
      * @param {object} context - the object that each handler will be applied on
      * @param {array} args - the arguments passed to each handler
@@ -70,13 +70,13 @@ define(['lodash', 'async'], function(_, async){
      * @returns {array} array of aync call stack
      */
     function createAsyncCallstack(handlers, context, args, success){
-                    
+
         var callstack =  _.map(handlers, function(handler){
-            
+
             //return an async call
             return function(cb){
 
-                var result; 
+                var result;
                 var asyncMode = false;
                 var _args = _.clone(args);
                 var event = {
@@ -96,7 +96,7 @@ define(['lodash', 'async'], function(_, async){
                         preventNow();
                     }
                 };
-                
+
                 /**
                  * Call success
                  * @private
@@ -105,7 +105,7 @@ define(['lodash', 'async'], function(_, async){
                     //allow passing to next
                     cb(null, {success:true});
                 }
-                
+
                 /**
                  * Call fail but can continue to next loop
                  * @private
@@ -113,7 +113,7 @@ define(['lodash', 'async'], function(_, async){
                 function prevent(){
                     cb(null, {success:false});
                 }
-                
+
                 /**
                  * Call fail and must stop the execution of the stack right now
                  * @returns {undefined}
@@ -129,7 +129,7 @@ define(['lodash', 'async'], function(_, async){
 
                 if(!asyncMode){
                     if(result === false){
-                        //if the call 
+                        //if the call
                         prevent();
                     }else{
                         done();
@@ -137,14 +137,14 @@ define(['lodash', 'async'], function(_, async){
                 }
             };
         });
-        
+
         async.series(callstack, function(err, results){
             var successes = _.pluck(results, 'success');
             if(_.indexOf(successes, false) === -1){
                 success();
             }
         });
-                    
+
     }
     /**
      * The API itself is just a placeholder, all methods will be delegated to a target.
@@ -206,18 +206,18 @@ define(['lodash', 'async'], function(_, async){
                     triggerEvent();
                 }
             }
-            
+
             /**
              * Call the actual registered event handlers
              * @private
              */
             function triggerEvent(){
-                
+
                 //trigger the event handlers
                 _.forEach(self._events[name], function(handler){
                     handler.apply(self, args);
                 });
-                
+
                 //trigger the after event handlers if applicable
                 if(self._after[name] && _.isArray(self._after[name])){
                     _.forEach(self._after[name], function(handler){
@@ -225,14 +225,14 @@ define(['lodash', 'async'], function(_, async){
                     });
                 }
             }
-                
+
             return this;
         },
-        
+
         /**
          * Register a callback that is executed before the given event name
          * Provides an opportunity to cancel the execution of the event if one of the returned value is false
-         * 
+         *
          * @this the target
          * @param {String} name
          * @returns {Object} the target object
@@ -244,11 +244,11 @@ define(['lodash', 'async'], function(_, async){
             }
             return this;
         },
-        
+
         /**
          * Register a callback that is executed after the given event name
          * The handlers will all be executed, no matter what
-         * 
+         *
          * @this the target
          * @param {String} name
          * @returns {Object} the target object
@@ -265,9 +265,10 @@ define(['lodash', 'async'], function(_, async){
     /**
      * Makes the target an event emitter by delegating calls to the event API.
      * @param {Object} [target = {}] - the target object, a new plain object is created when omited.
+     * @param {logger} [logger] - a logger to trace events
      * @returns {Object} the target for conveniance
      */
-    function eventifier(target){
+    function eventifier(target, logger){
 
         target = target || {};
         target._events = {};
@@ -276,7 +277,11 @@ define(['lodash', 'async'], function(_, async){
 
         _(eventApi).functions().forEach(function(method){
             target[method] = function delegate(){
-                return eventApi[method].apply(target, [].slice.call(arguments));
+                var args =  [].slice.call(arguments);
+                if(logger && logger.trace){
+                    logger.trace.apply(logger, ['event', method].concat(args));
+                }
+                return eventApi[method].apply(target, args);
             };
         });
         return target;

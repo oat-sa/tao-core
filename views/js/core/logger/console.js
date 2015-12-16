@@ -24,29 +24,26 @@
  */
 define([
     'lodash',
-    'core/logger/api'
-], function(_, loggerApi){
+], function(_){
     'use strict';
 
     /**
-     * Create an instance of the console logger
-     * @param {String} [logContext] - an arbitrary context prepended to the messages
+     * Initialize the logger API with the console provider
      * @returns {logger} the logger
      */
-    return function consoleLogger(logContext){
+    return {
+        log : function log(message){
 
-        /**
-         * Initialize the logger API with the console provider
-         * @returns {logger} the logger
-         */
-        return loggerApi({
-            log : function log(level, messages){
-                if(_.isFunction(window.console[level])){
-                    window.console[level].apply(window.console, messages);
-                } else {
-                    window.console.log.apply(window.console, [level.toUpperCase()].concat(messages));
-                }
+            var level = message.level;
+            var messages = message.messages;
+            if(message.context){
+                messages.unshift('[' + message.context + ']');
             }
-        }, logContext);
+            if(_.isFunction(window.console[level])){
+                window.console[level].apply(window.console, messages);
+            } else {
+                window.console.log.apply(window.console, [level.toUpperCase()].concat(messages));
+            }
+        }
     };
 });

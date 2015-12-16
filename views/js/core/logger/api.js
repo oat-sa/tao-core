@@ -22,7 +22,6 @@
  * Logger API, highly inspired from https://github.com/trentm/node-bunyan
  *
  * TODO sprintf like messages
- * TODO structured messages { timestamp, context, message, stack, etc. } in order to to pattern based printing
  * TODO
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -41,18 +40,16 @@ define(['lodash'], function(_){
         trace : 10  // Logging from external libraries used by your app or very detailed application logging.
     };
 
+    var logQueue = [];
+
     /**
-     * Creates a logger instance based on the given provider
-     * @param {Object} provider - the logger provider
-     * @param {Function} provider.log - the function the logs are delegated to
+     * Creates a logger instance
+     * @param {loggerProvider} provider - the logger provider
      * @param {String} [context] - add a context in all logged messages
      * @returns {logger} a new logger instance
      */
-    return function loggerFactory(provider, context){
+    var loggerFactory = function loggerFactory(context){
 
-        if(!_.isPlainObject(provider) || !_.isFunction(provider.log)){
-            throw new TypeError('A log provider is an object with a log method');
-        }
 
         /**
          * Exposes a log method and one by log level, like logger.trace()
@@ -66,9 +63,12 @@ define(['lodash'], function(_){
              *
              * @param {String|Number} [level] - the log level
              * @param {...String} messages - the messages
+             * @returns {logger} chains
              */
             log : function log(level){
                 var messages;
+                var stack;
+                var time = Date.now();
 
                 //extract arguments : optional level and messages
                 if(_.isString(level) && !_.isNumber(levels[level])){
@@ -93,11 +93,40 @@ define(['lodash'], function(_){
                     return msg + '';
                 });
 
-                //prepend the context
-                if(context){
-                    messages.unshift('[' + context + ']');
+                if(levels[level] >= levels.error){
+                    stack = new Error().stack;
                 }
-                return provider.log.call(provider, level, messages);
+
+                //push the message to the queue
+                logQueue.push({
+                    time     : time,
+                    level    : level,
+                    messages : messages,
+                    context  : context,
+                    stack    : stack
+                });
+
+               this.flush();
+
+                return this;
+            },
+
+            /**
+             * Flush the message queue if there's at least on provider
+             * @returns {logger} chains
+             */
+            flush : function flush(){
+                if(loggerFactory.providers && loggerFactory.providers.length){
+                    _.forEach(logQueue, function(message){
+                        //forward to the providers
+                        _.forEach(loggerFactory.providers, function(provider){
+                            provider.log.call(provider, message);
+                        });
+                    });
+                    //clear the queue
+                    logQueue = [];
+                }
+                return this;
             }
         };
 
@@ -108,4 +137,20 @@ define(['lodash'], function(_){
         }, logger);
     };
 
+    /**
+     * A logger provider provides with a way to log
+     * @typedef {Object} loggerProvider
+     * @property {Function} log - called with the message in parameter
+     * @throws TypeError
+     */
+    loggerFactory.register = function register(provider){
+
+        if(!_.isPlainObject(provider) || !_.isFunction(provider.log)){
+            throw new TypeError('A log provider is an object with a log method');
+        }
+        this.providers = this.providers || [];
+        this.providers.push(provider);
+    };
+
+    return loggerFactory;
 });
