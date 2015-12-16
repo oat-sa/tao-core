@@ -73,7 +73,7 @@ class tao_helpers_Array
         for ($i = count($keys) - 1; $i >=0 ; $i-- ) {
             for ($j = $i - 1; $j >=0 ; $j--) {
                 if ($array[$keys[$i]]->__equals($array[$keys[$j]])) {
-                    $toDrop[] = $i;
+                    $toDrop[] = $keys[$i];
                     break;
                 }
             }
