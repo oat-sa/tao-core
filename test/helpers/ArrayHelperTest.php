@@ -21,7 +21,6 @@ namespace oat\tao\helpers\test;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 
-require_once __DIR__.'/../../includes/raw_start.php';
 
 class ArrayHelperTest extends TaoPhpUnitTestRunner
 {
