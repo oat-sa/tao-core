@@ -175,31 +175,20 @@ define([
         setSelection : function setSelection(selection) {
             var controls = this.controls || {};
             var $list = controls.$list;
-            var $checkboxes = controls.$checkboxes;
-            var $massAction = controls.$massAction;
 
             if ($list) {
                 // be sure to discard existing selection
-                $checkboxes.removeAttr('checked');
-                $massAction.addClass('hidden');
+                controls.$checkboxes.removeAttr('checked');
 
                 if (selection) {
                     // find each line and check it according to the provided selection
                     _.forEach(selection, function(id) {
                         $list.find('[data-id="' + id + '"] input[type="checkbox"]').attr('checked', 'checked');
                     });
-
-                    selection = this.getSelection();
-                    if (selection.length) {
-                        $massAction.removeClass('hidden');
-                    }
                 }
 
-                /**
-                 * @event datalist#select
-                 * @param {Array} selection
-                 */
-                this.trigger('select', selection);
+                // takes care of the new selection
+                this._onSelection();
 
                 // remove pending selection to avoid overwrite on next update
                 this.pendingSelection = null;
@@ -209,6 +198,34 @@ define([
             }
 
             return this;
+        },
+
+        /**
+         * Called when a selection has been made
+         * @fires datalist#select
+         * @private
+         */
+        _onSelection : function _onSelection() {
+            var controls = this.controls || {};
+            var $checkboxes = controls.$checkboxes;
+            var $checkAll = controls.$checkAll;
+            var $checked = $checkboxes.filter(':checked');
+
+            // update the checkAll button
+            if ($checked.length === $checkboxes.length) {
+                $checkAll.attr('checked', 'checked');
+            } else {
+                $checkAll.removeAttr('checked');
+            }
+
+            // show/hide the mass actions tools
+            controls.$massAction.toggleClass('hidden', !$checked.length);
+
+            /**
+             * @event datalist#select
+             * @param {Array} selection
+             */
+            this.trigger('select', this.getSelection());
         },
 
         /**
@@ -426,44 +443,42 @@ define([
                 // take care of clicks on labels
                 this.setState('selectable', this.config.selectable);
                 this.controls.$list.on('click', 'td.label', function() {
+                    var $checkbox;
+
                     if (self.config.selectable) {
-                        $(this).closest('tr').find('input[type="checkbox"]').click();
+                        $checkbox = $(this).closest('tr').find('input[type="checkbox"]');
+
+                        // toggle the line selection
+                        if ($checkbox.attr('checked')) {
+                            $checkbox.removeAttr('checked');
+                        } else {
+                            $checkbox.attr('checked', 'checked');
+                        }
+
+                        // takes care of the new selection
+                        self._onSelection();
                     }
                 });
 
                 // take care of clicks on checkboxes
-                this.controls.$list.on('click', 'input[type="checkbox"]', function(e) {
-                    var $checked = self.controls.$checkboxes.filter(':checked');
-                    if ($checked.length === self.controls.$checkboxes.length) {
-                        self.controls.$checkAll.attr('checked', 'checked');
-                    } else {
-                        self.controls.$checkAll.removeAttr('checked');
-                    }
-
-                    self.controls.$massAction.toggleClass('hidden', !$checked.length);
-
-                    /**
-                     * @event datalist#select
-                     * @param {Array} selection
-                     */
-                    self.trigger('select', self.getSelection());
+                this.controls.$list.on('click', 'input[type="checkbox"]', function() {
+                    // just takes care of the new selection
+                    self._onSelection();
                 });
 
                 // check/uncheck all checkboxes
                 this.controls.$checkAll.on('click', function() {
+                    var $checkboxes = self.controls.$checkboxes;
+
+                    // select/unselect all lines
                     if (this.checked) {
-                        self.controls.$checkboxes.attr('checked', 'checked');
+                        $checkboxes.attr('checked', 'checked');
                     } else {
-                        self.controls.$checkboxes.removeAttr('checked');
+                        $checkboxes.removeAttr('checked');
                     }
 
-                    self.controls.$massAction.toggleClass('hidden', !this.checked);
-
-                    /**
-                     * @event datalist#select
-                     * @param {Array} selection
-                     */
-                    self.trigger('select', self.getSelection());
+                    // takes care of the new selection
+                    self._onSelection();
                 });
 
                 // data already available ?

@@ -28,6 +28,50 @@ define([
 ], function($, _, datalist) {
     'use strict';
 
+    // toggle the sample display
+    var showSample = false;
+
+    // display a sample of the component
+    if (showSample) {
+        datalist({
+            renderTo: $('body'),
+            selectable: true,
+            tools: [{
+                id: 'always',
+                label: 'Always displayed',
+                action: function() {
+                    console.log('tool', arguments)
+                }
+            }, {
+                id: 'selection',
+                label: 'On selection',
+                massAction: true,
+                action: function() {
+                    console.log('tool', arguments)
+                }
+            }],
+            actions: [{
+                id: 'action',
+                label: 'Action',
+                action: function() {
+                    console.log('action', arguments)
+                }
+            }]
+        }, [{
+            id: '1',
+            label: 'Line 1'
+        }, {
+            id: '2',
+            label: 'Line 2'
+        }, {
+            id: '3',
+            label: 'Line 3'
+        }]).on('select', function(selection) {
+            console.log('selection', selection);
+        });
+    }
+
+
     QUnit.module('datalist');
 
 
