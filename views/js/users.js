@@ -20,7 +20,7 @@ define(['jquery', 'i18n', 'context'], function($, __, context){
                 if(trimmedValue === ''){
                     $('span.login-info').remove();
                 } else{
-                    $.postJson(url,
+                    $.post(url,
                         { login: value },
                         function(data){
                             $('span.login-info').remove();
