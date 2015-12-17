@@ -107,4 +107,9 @@
       display: none;
     }
   }
+  &.selectable {
+    td.label {
+      cursor: default;
+    }
+  }
 }

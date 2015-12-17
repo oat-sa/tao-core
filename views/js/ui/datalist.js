@@ -423,6 +423,14 @@ define([
                     self.trigger('action', lineId, buttonId);
                 });
 
+                // take care of clicks on labels
+                this.setState('selectable', this.config.selectable);
+                this.controls.$list.on('click', 'td.label', function() {
+                    if (self.config.selectable) {
+                        $(this).closest('tr').find('input[type="checkbox"]').click();
+                    }
+                });
+
                 // take care of clicks on checkboxes
                 this.controls.$list.on('click', 'input[type="checkbox"]', function(e) {
                     var $checked = self.controls.$checkboxes.filter(':checked');
