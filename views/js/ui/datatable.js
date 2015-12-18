@@ -322,7 +322,10 @@ define([
 
             // bind listeners to events
             _.forEach(options.listeners, function (callback, event) {
-                $elt.on([event, ns].join('.'), callback);
+                var ev = [event, ns].join('.');
+                $elt
+                    .off(ev)
+                    .on(ev, callback);
             });
 
             // Now $rendering takes the place of $elt...

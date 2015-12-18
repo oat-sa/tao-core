@@ -436,19 +436,8 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
         $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
-
+            
             $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
-        });
-
-        $elt.on('selected.datatable', function () {
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(0)').text(), 'jdoe', 'the login field in selected row is correct');
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(1)').text(), 'John Doe', 'the name field in selected row is correct');
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(2)').text(), 'jdoe@nowhere.org', 'the mail field in selected row is correct');
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(3)').text(), 'Items Manager', 'the roles field in selected row is correct');
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(4)').text(), 'English', 'the dataLg field in selected row is correct');
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(5)').text(), 'English', 'the guiLg field in selected row is correct');
-
-            QUnit.start();
         });
 
         $elt.datatable({
@@ -482,11 +471,18 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             listeners: {
                 selected: function () {
                     assert.ok(true, 'the handler was attached and caused');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(0)').text(), 'jdoe', 'the login field in selected row is correct');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(1)').text(), 'John Doe', 'the name field in selected row is correct');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(2)').text(), 'jdoe@nowhere.org', 'the mail field in selected row is correct');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(3)').text(), 'Items Manager', 'the roles field in selected row is correct');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(4)').text(), 'English', 'the dataLg field in selected row is correct');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(5)').text(), 'English', 'the guiLg field in selected row is correct');
+                    QUnit.start();
                 }
             }
         });
     });
-
+    
     QUnit.asyncTest('Default filtering enabled', function (assert) {
         QUnit.expect(7);
 
@@ -671,5 +667,66 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             data: dataset
         });
 
+    });
+
+    QUnit.asyncTest('Endless listeners on events', function(assert) {
+        QUnit.expect(5);
+
+        var $elt = $('#container-1');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        $elt.on('create.datatable', function () {
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
+            
+            // run listener 
+            $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
+            
+            // sort list 
+            // and here we had render once again
+            $elt.find('.datatable thead tr:nth-child(1) th:eq(0) div').click();
+        });
+        
+        $elt.on('sort.datatable', function() {
+            setTimeout(function () {
+                $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
+                QUnit.start();
+            }, 400)
+        });
+        
+        $elt.datatable({
+            url : 'js/test/ui/datatable/data.json',
+            rowSelection: true,
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            }],
+            listeners: {
+                selected: function selectRow(e) {
+                    assert.ok(true, 'the handler was attached and caused');
+                }
+            }
+        });
     });
 });
