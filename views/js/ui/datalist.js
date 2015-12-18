@@ -93,7 +93,8 @@ define([
                         // the data to render only refer to id and identifier
                         list.push({
                             id: id,
-                            label: label
+                            label: label,
+                            line: line  // provide the original data for dynamic behavior like hidden actions
                         });
                     });
 
