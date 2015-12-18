@@ -94,8 +94,9 @@ define([
                     width : (config.single && !config.deniedResources.length && !config.reason) ? 600 : 800
                 });
 
-                if ( _.isFunction(config.categoriesSelector)) {
-                    config.categoriesSelector($element.find('.reason').children('.categories'));
+                if ( _.isObject(config.categoriesSelector)) {
+                    var $container = $element.find('.reason').children('.categories');
+                    config.categoriesSelector.render($container);
                 }
 
                 $element.on('selected.cascading-combobox' + _ns, function(e, reasons){

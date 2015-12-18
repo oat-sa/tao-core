@@ -36,53 +36,31 @@ define([
      * @returns {jQuery}
      */
     function createCombobox(level, categoriesDefinitions, categories){
-        if(categoriesDefinitions[level]){
+        if (categoriesDefinitions[level] && categories[level]) {
             var categoryDef = categoriesDefinitions[level];
-            var _categories, $comboBox;
+            var $comboBox;
             if(categoryDef.id){
-
-                //format categories
-                _categories = _.map(categories, function(cat){
-                    var _cat = _.clone(cat);
-                    if(_cat.categories){
-                        //encode subcategory in json
-                        _cat.categories = JSON.stringify(_cat.categories);
-                    }
-                    return _cat;
-                });
 
                 //init <select> DOM element
                 $comboBox = $(selectTpl({
                     comboboxId : categoryDef.id,
                     comboboxLabel : categoryDef.label || '',
-                    options : _categories
+                    options : categories[level]
                 }));
 
                 //add event handler
-                $comboBox.on('change', function(){
+                $comboBox.on('change', function(e,x){
 
-                    var subCategories, $subComboBox;
                     var $selected = $comboBox.find(":selected");
                     selectedValues[categoryDef.id] = $selected.val();
-
-                    //clean previously created combo boxes
-                    $comboBox.nextAll('.cascading-combo-box').remove();
-
                     //trigger event
                     $comboBox.trigger('selected.cascading-combobox', [selectedValues]);
 
-                    subCategories = $selected.data('categories');
-                    if(_.isArray(subCategories) && subCategories.length){
-                        //init sub-level select box by recursive call to createCombobox
-                        $subComboBox = createCombobox(level + 1, categoriesDefinitions, subCategories);
-                        if($subComboBox){
-                            $comboBox.after($subComboBox);
-                        }
-                    }
                 });
 
                 //init select 2 on $comboBox
                 $comboBox.find('select').select2({
+                    allowClear : true,
                     dropdownAutoWidth : true,
                     placeholder : categoryDef.placeholder || __('select...'),
                     minimumResultsForSearch : -1
@@ -97,17 +75,19 @@ define([
 
     /**
      * @param {object} options
-     * @param {Array} [options.categoriesDefinitions] - the array that defines the number and config for each level of combobox cascade
-     * @param {Array} [options.categories] - the array that contains nested array of categories
+     * @param {Array} [options.categoriesDefinitions] - the array that defines the number and config for each level of combobox
+     * @param {Array} [options.categories] - the array that contains array of categories
      * @returns {function}
      */
-    return function cascadingComboBoxFactory(options) {
+    return function independentComboBoxFactory(options) {
 
         return component()
             .on('render', function render($container) {
                 if (_.isArray(options.categoriesDefinitions) && _.isArray(options.categories)) {
-                    var $comboBox = createCombobox(0, options.categoriesDefinitions, options.categories);
-                    $container.append($comboBox);
+                    options.categoriesDefinitions.forEach(function(k,i){
+                        var $comboBox = createCombobox(i, options.categoriesDefinitions, options.categories);
+                        $container.append($comboBox);
+                    });
                 }
             })
             .init(options);

@@ -173,7 +173,6 @@ define([
         
         $element = $container.children('.bulk-action-popup');
         assert.equal($element.length, 1, 'element ok');
-        assert.equal($element.find("option[value='optionB']").length, 1, 'option added to DOM');
         assert.equal($element.find('.applicables li').length, 12, 'allowed resources are displayed');
         assert.equal($element.find('.no-applicables li').length, 4, 'denied resources are displayed');
         assert.equal($element.children('.reason').length, 1, 'the reason box is displayed');
