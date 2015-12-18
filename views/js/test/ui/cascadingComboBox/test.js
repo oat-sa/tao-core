@@ -21,14 +21,14 @@
 define([
     'jquery',
     'lodash',
-    'ui/bulkActionPopup/cascadingComboBox'
+    'ui/cascadingComboBox'
 ], function($, _, cascadingComboBox){
     'use strict';
 
     QUnit.module('Cascading ComboBox');
 
     QUnit.test('render (all options)', function(assert){
-        
+
         var $container = $('#fixture-1');
         var combo =  cascadingComboBox({
                 categoriesDefinitions: [
@@ -117,6 +117,5 @@ define([
         assert.equal($container.find('.cascading-combo-box').length, 2, 'removing cascading OK');
         assert.equal($container.find("option[value='optionA1']").length, 0, 'removing cascading OK');
     });
-    
 
 });

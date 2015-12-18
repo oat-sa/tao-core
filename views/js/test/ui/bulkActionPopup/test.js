@@ -22,7 +22,7 @@ define([
     'jquery',
     'lodash',
     'ui/bulkActionPopup',
-    'ui/bulkActionPopup/cascadingComboBox'
+    'ui/cascadingComboBox'
 ], function($, _, bulkActionPopup, cascadingComboBox){
     'use strict';
 

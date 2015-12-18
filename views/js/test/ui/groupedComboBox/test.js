@@ -21,7 +21,7 @@
 define([
     'jquery',
     'lodash',
-    'ui/bulkActionPopup/groupedComboBox'
+    'ui/groupedComboBox'
 ], function($, _, groupedComboBox){
     'use strict';
 
