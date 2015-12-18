@@ -132,6 +132,7 @@ define([
         assert.equal(instance.getElement().find('h1').text(), config.title, 'The listBox instance has rendered a title with the right content');
         assert.equal(instance.getElement().find('.empty-list').text(), config.textEmpty, 'The listBox instance has rendered a message to display when the list is empty, and set the right content');
         assert.equal(instance.getElement().find('.available-list .label').text(), config.textNumber, 'The listBox instance has rendered a message to show the number of boxes, and set the right content');
+        assert.equal(instance.getElement().find('.available-list .count').text(), config.list.length, 'The listBox instance displays the right number of boxes');
         assert.equal(instance.getElement().find('.loading').text(), config.textLoading + '...', 'The listBox instance has rendered a message to show when the component is in loading state, and set the right content');
 
         assert.equal(instance.getElement().find('.list .entry').length, config.list.length, 'The listBox instance has rendered the list of boxes');
@@ -180,6 +181,8 @@ define([
         assert.equal(instance.is('loaded'), false, 'The listBox instance does not have the state loaded');
         assert.equal(instance.is('loading'), false, 'The listBox instance does not have the state loading');
 
+        assert.equal(instance.getElement().find('.available-list .count').text(), 0, 'The listBox instance displays the right number of boxes');
+
         instance.update(list);
 
         assert.equal(instance.getElement().find('.list .entry').length, list.length, 'The listBox instance has rendered the list of boxes');
@@ -192,7 +195,7 @@ define([
         assert.equal(instance.getElement().hasClass('empty'), false, 'The listBox instance does not display a message telling the list is empty');
         assert.equal(instance.getElement().hasClass('loaded'), true, 'The listBox instance displays the number of boxes');
         assert.equal(instance.getElement().hasClass('loading'), false, 'The listBox instance is not loading');
-        assert.equal(instance.getElement().find('.available-list .count').text(), list.length, 'The listBox instance dispkays the right number of boxes');
+        assert.equal(instance.getElement().find('.available-list .count').text(), list.length, 'The listBox instance displays the right number of boxes');
 
         assert.equal(instance.is('empty'), false, 'The listBox instance does not have the state empty');
         assert.equal(instance.is('loaded'), true, 'The listBox instance has the state loaded');
@@ -347,5 +350,60 @@ define([
         assert.equal(instance.getElement().find('.empty-list').text(), config.textEmpty, 'The listBox instance has rendered a message to display when the list is empty, and set its own content');
         assert.equal(instance.getElement().find('.available-list .label').text(), config.textNumber, 'The listBox instance has rendered a message to show the number of boxes, and set its own content');
         assert.equal(instance.getElement().find('.loading').text(), config.textLoading + '...', 'The listBox instance has rendered a message to show when the component is in loading state, and set its own content');
+    });
+
+
+    QUnit.test('countRenderer', function(assert) {
+        var $container = $('#fixture-1');
+        var list = [{
+            url: 'http://localhost/test',
+            label: 'Test',
+            text: 'test',
+            content: '<b>TEST</b>'
+        }, {
+            url: 'http://localhost/test2',
+            label: 'Test2',
+            text: 'test2',
+            content: '<b>TEST2</b>',
+            width: 4,
+            cls: 'myclass'
+        }];
+        var config = {
+            renderTo: $container,
+            replace: true,
+            list: list,
+            countRenderer: function(count) {
+                return count - 1;
+            }
+        };
+
+        var expectedCount = list.length - 1;
+        var instance = listBox(config);
+
+        assert.equal(instance.is('rendered'), true, 'The listBox instance must be rendered');
+        assert.equal(typeof instance.getElement(), 'object', 'The listBox instance returns the rendered content as an object');
+        assert.equal(instance.getElement().length, 1, 'The listBox instance returns the rendered content');
+        assert.equal(instance.getElement().parent().get(0), $container.get(0), 'The listBox instance is rendered inside the right container');
+
+        assert.equal(instance.getElement().find('.available-list .count').text(), expectedCount, 'The listBox instance displays the right number of boxes');
+
+        assert.equal(instance.getElement().find('.list .entry').length, list.length, 'The listBox instance has rendered the list of boxes');
+
+        var list2 = list.concat([{
+            url: 'http://localhost/test3',
+            label: 'Test3',
+            text: 'test3',
+            content: '<b>TEST3</b>',
+            width: 4,
+            cls: 'myclass'
+        }]);
+        instance.update(list2);
+        expectedCount = list2.length - 1;
+
+        assert.equal(instance.getElement().find('.available-list .count').text(), expectedCount, 'The listBox instance displays the right number of boxes');
+
+        assert.equal(instance.getElement().find('.list .entry').length, list2.length, 'The listBox instance has rendered the list of boxes');
+
+        instance.destroy();
     });
 });

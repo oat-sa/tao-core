@@ -99,6 +99,26 @@ class UserHelper
     }
 
     /**
+     * Gets the user's login
+     * @param User $user
+     * @return string
+     */
+    public static function getUserLogin(User $user)
+    {
+        return self::getUserStringProp($user, PROPERTY_USER_LOGIN);
+    }
+
+    /**
+     * Gets the user's email
+     * @param User $user
+     * @return string
+     */
+    public static function getUserMail(User $user)
+    {
+        return self::getUserStringProp($user, PROPERTY_USER_MAIL);
+    }
+
+    /**
      * Gets the user's first name
      * @param User $user
      * @param bool $defaultToLabel
