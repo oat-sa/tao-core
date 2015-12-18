@@ -53,6 +53,9 @@ define([
             actions: [{
                 id: 'action',
                 label: 'Action',
+                hidden: function() {
+                    return this.id === '2';
+                },
                 action: function() {
                     console.log('action', arguments)
                 }
@@ -206,7 +209,10 @@ define([
                 icon: 'play'
             }, {
                 id: 'action2',
-                label: 'Action 2'
+                label: 'Action 2',
+                hidden: function() {
+                    return this.id === '2';
+                }
             }]
         }
     }];
@@ -311,15 +317,20 @@ define([
                     assert.equal($line.find('td.actions').length, 1, 'The datalist instance has rendered an actions column in the line with id ' + id);
 
                     _.forEach(config.actions, function(action) {
-                        assert.equal($line.find('td.actions [data-control="' + action.id + '"]').length, 1, 'The datalist instance has rendered the action button ' + action.id + ' in the line with id ' + id);
-                        assert.equal($line.find('td.actions [data-control="' + action.id + '"]').text().trim(), action.label, 'The datalist instance has rendered the action button ' + action.id + ' with the label ' + action.label + ' in the line with id ' + id);
+                        if (!action.hidden || !action.hidden.call(line)) {
+                            assert.equal($line.find('td.actions [data-control="' + action.id + '"]').length, 1, 'The datalist instance has rendered the action button ' + action.id + ' in the line with id ' + id);
+                            assert.equal($line.find('td.actions [data-control="' + action.id + '"]').text().trim(), action.label, 'The datalist instance has rendered the action button ' + action.id + ' with the label ' + action.label + ' in the line with id ' + id);
 
-                        if (action.icon) {
-                            assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').length, 1, 'The datalist instance has rendered the action button ' + action.id + ' with an icon in the line with id ' + id);
-                            assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').hasClass('icon-' + action.icon), true, 'The datalist instance has rendered the action button ' + action.id + ' with the icon ' + action.icon + ' in the line with id ' + id);
+                            if (action.icon) {
+                                assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').length, 1, 'The datalist instance has rendered the action button ' + action.id + ' with an icon in the line with id ' + id);
+                                assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').hasClass('icon-' + action.icon), true, 'The datalist instance has rendered the action button ' + action.id + ' with the icon ' + action.icon + ' in the line with id ' + id);
+                            } else {
+                                assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').length, 0, 'The datalist instance has rendered the action button ' + action.id + ' without an icon in the line with id ' + id);
+                            }
                         } else {
-                            assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').length, 0, 'The datalist instance has rendered the action button ' + action.id + ' without an icon in the line with id ' + id);
+                            assert.equal($line.find('td.actions [data-control="' + action.id + '"]').length, 0, 'The datalist instance must not render the hidden action button ' + action.id + ' in the line with id ' + id);
                         }
+
                     });
                 } else {
                     assert.equal($line.find('td.actions').length, 0, 'The datalist instance must not render an actions column in the line with id ' + id);
@@ -438,14 +449,18 @@ define([
                     assert.equal($line.find('td.actions').length, 1, 'The datalist instance has rendered an actions column in the line with id ' + id);
 
                     _.forEach(config.actions, function(action) {
-                        assert.equal($line.find('td.actions [data-control="' + action.id + '"]').length, 1, 'The datalist instance has rendered the action button ' + action.id + ' in the line with id ' + id);
-                        assert.equal($line.find('td.actions [data-control="' + action.id + '"]').text().trim(), action.label, 'The datalist instance has rendered the action button ' + action.id + ' with the label ' + action.label + ' in the line with id ' + id);
+                        if (!action.hidden || !action.hidden.call(line)) {
+                            assert.equal($line.find('td.actions [data-control="' + action.id + '"]').length, 1, 'The datalist instance has rendered the action button ' + action.id + ' in the line with id ' + id);
+                            assert.equal($line.find('td.actions [data-control="' + action.id + '"]').text().trim(), action.label, 'The datalist instance has rendered the action button ' + action.id + ' with the label ' + action.label + ' in the line with id ' + id);
 
-                        if (action.icon) {
-                            assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').length, 1, 'The datalist instance has rendered the action button ' + action.id + ' with an icon in the line with id ' + id);
-                            assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').hasClass('icon-' + action.icon), true, 'The datalist instance has rendered the action button ' + action.id + ' with the icon ' + action.icon + ' in the line with id ' + id);
+                            if (action.icon) {
+                                assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').length, 1, 'The datalist instance has rendered the action button ' + action.id + ' with an icon in the line with id ' + id);
+                                assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').hasClass('icon-' + action.icon), true, 'The datalist instance has rendered the action button ' + action.id + ' with the icon ' + action.icon + ' in the line with id ' + id);
+                            } else {
+                                assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').length, 0, 'The datalist instance has rendered the action button ' + action.id + ' without an icon in the line with id ' + id);
+                            }
                         } else {
-                            assert.equal($line.find('td.actions [data-control="' + action.id + '"] .icon').length, 0, 'The datalist instance has rendered the action button ' + action.id + ' without an icon in the line with id ' + id);
+                            assert.equal($line.find('td.actions [data-control="' + action.id + '"]').length, 0, 'The datalist instance must not render the hidden action button ' + action.id + ' in the line with id ' + id);
                         }
                     });
                 } else {

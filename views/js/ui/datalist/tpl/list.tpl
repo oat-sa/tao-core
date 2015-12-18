@@ -7,10 +7,16 @@
     {{#if ../actions}}
     <td class="actions">
         {{#each ../../actions}}
+            {{#with ../../line}}
+                {{#unless ../hidden}}
+                    {{#with ../../this}}
         <button class="btn-info small" data-control="{{id}}"{{#if title}} title="{{title}}"{{/if}}>
             {{#if icon}}<span class="icon icon-{{icon}}"></span>{{/if}}
             {{label}}
         </button>
+                    {{/with}}
+                {{/unless}}
+            {{/with}}
         {{/each}}
     </td>
     {{/if}}
