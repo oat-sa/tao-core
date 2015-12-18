@@ -687,13 +687,6 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             $elt.find('.datatable thead tr:nth-child(1) th:eq(0) div').click();
         });
         
-        $elt.on('sort.datatable', function() {
-            setTimeout(function () {
-                $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
-                QUnit.start();
-            }, 400)
-        });
-        
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
             rowSelection: true,
@@ -725,6 +718,12 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             listeners: {
                 selected: function selectRow(e) {
                     assert.ok(true, 'the handler was attached and caused');
+                },
+                sort: function() {
+                    setTimeout(function () {
+                        $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
+                        QUnit.start();
+                    }, 400);
                 }
             }
         });
