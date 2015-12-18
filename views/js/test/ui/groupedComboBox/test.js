@@ -21,16 +21,16 @@
 define([
     'jquery',
     'lodash',
-    'ui/bulkActionPopup/independentComboBox'
-], function($, _, independentComboBox){
+    'ui/bulkActionPopup/groupedComboBox'
+], function($, _, groupedComboBox){
     'use strict';
 
-    QUnit.module('independent ComboBox');
+    QUnit.module('grouped ComboBox');
 
     QUnit.test('render', function(assert){
         
         var $container = $('#fixture-1');
-        var combo =  independentComboBox({
+        var combo =  groupedComboBox({
                 categoriesDefinitions: [
                     {
                         id: 'reason1',

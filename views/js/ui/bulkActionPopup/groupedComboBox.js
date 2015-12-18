@@ -79,7 +79,7 @@ define([
      * @param {Array} [options.categories] - the array that contains array of categories
      * @returns {function}
      */
-    return function independentComboBoxFactory(options) {
+    return function groupedComboBoxFactory(options) {
 
         return component()
             .on('render', function render($container) {
