@@ -30,8 +30,9 @@ class tao_install_checks_PasswordConformity extends common_configuration_Compone
     public function check()
     {
         $content = json_decode( file_get_contents( 'php://input' ), true );
+        $errors = PasswordConstraintsService::singleton()->getErrors( $content['value']['password'] );
 
-        if (PasswordConstraintsService::singleton()->validate( $content['value']['password'] )) {
+        if (0 === count($errors)) {
             $report = new common_configuration_Report(
                 common_configuration_Report::VALID,
                 'Password is strong enough',
@@ -40,7 +41,7 @@ class tao_install_checks_PasswordConformity extends common_configuration_Compone
         } else {
             $report = new common_configuration_Report(
                 common_configuration_Report::INVALID,
-                implode( "</br>", PasswordConstraintsService::singleton()->getErrors() ),
+                implode( "</br>", $errors ),
                 $this
             );
         }

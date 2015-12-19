@@ -34,11 +34,11 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	/**
 	 * initialize the classUri and execute the upload action
 	 * @requiresRight id WRITE
-	 * @return void
 	 */
 	public function index(){
-		
+
 		$importer = $this->getCurrentImporter();
+
 		$formContainer = new tao_actions_form_Import(
 			$importer,
 			$this->getAvailableImportHandlers(),

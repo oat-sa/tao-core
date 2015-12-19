@@ -114,6 +114,8 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string $source
      * @param  core_kernel_classes_Class $destination
+     * @throws BadFunctionCallException
+     * @throws InvalidArgumentException
      * @return common_report_Report
      */
     public function import($source,  core_kernel_classes_Class $destination = null)
@@ -126,9 +128,9 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         }
 
         $csvData = $this->load($source);
-        
-        $createdResources = 0;
-        $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
+        //whether all proceeded lines can be imported
+	    $isFileValid = true;
+	    $createdResources = array();
 
     	for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++){
     	    helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::SHORT);
@@ -157,34 +159,40 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			        }
 			    }
 			    
-			    // create resource
-			    $resource = $destination->createInstanceWithProperties($evaluatedData);
-			    
+			    // we are adding resources only if it still have sense
+				if ($isFileValid) {
+					$resource = $destination->createInstanceWithProperties($evaluatedData);
+					$createdResources[] = $resource;
+				}
+
 			    // Apply 'resourceImported' callbacks.
 			    foreach ($this->resourceImported as $callback){
 			        $callback($resource);
 			    }
 			    
-			    $createdResources++;
-			    
-			} catch (tao_helpers_data_ValidationException $valExc) {
-			    $targetProperty = new core_kernel_classes_Property($propUri);
+			} catch (ValidationException $valExc) {
                 $this->addErrorMessage(
 			        $propUri,
 			        common_report_Report::createFailure(
 			            'Row '.$rowIterator. ' ' .$valExc->getProperty()->getLabel(). ': ' .$valExc->getUserMessage(). ' "' . $valExc->getValue() . '"'
 			        )
 			    );
-			    $valid = false;
+			    $isFileValid = false;
 			}
 			
 			helpers_TimeOutHelper::reset();
 		}
 
 		$this->addOption('to_import', count($csvData));
-		$this->addOption('imported', $createdResources);
+		$this->addOption('imported', count($createdResources));
 
-		$report = $this->getResult($createdResources);
+	    if ( ! $isFileValid ) {
+		    foreach ($createdResources as $resource){
+			    $resource->delete();
+		    }
+	    }
+
+		$report = $this->getResult();
 
 		return $report;
     }
@@ -222,7 +230,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         $evaluatedValue = $this->applyCallbacks($value, $this->options, $property);
         // ensure it's an array
         $evaluatedValue = is_array($evaluatedValue) ? $evaluatedValue : array($evaluatedValue);
-        
+
         if ($range->getUri() != RDFS_LITERAL) {
             // validate resources
             foreach ($evaluatedValue as $key => $eVal) {
@@ -317,7 +325,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 	 * @param $propUri
 	 * @param $csvRow
 	 * @param $csvColumn
-	 * @throws tao_helpers_data_ValidationException
+	 * @throws ValidationException
 	 * @return array
 	 */
 	protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn)
@@ -325,10 +333,10 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		/**  @var tao_helpers_form_Validator $validator */
 		$validators = $this->getValidator($propUri);
 		foreach ((array)$validators as $validator) {
-            $validator->setOptions( array(
-                'resourceClass' => $destination,
-                'property'      => $propUri
-            ));
+			$validator->setOptions(array_merge($validator->getOptions(), array(
+				'resourceClass' => $destination,
+				'property'      => $propUri
+			)));
 
             if (!$validator->evaluate($csvRow[$csvColumn])) {
                 throw new ValidationException(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn], $validator->getMessage());
@@ -338,23 +346,17 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 	}
 
 	/**
-	 * @param $createdResources
 	 * @return common_report_Report
 	 * @throws common_exception_Error
 	 */
-	protected function getResult($createdResources)
+	protected function getResult()
 	{
         $message = __('Data imported');
 		$type = common_report_Report::TYPE_SUCCESS;
 
 		if ($this->hasErrors()) {
-			$type = common_report_Report::TYPE_WARNING;
-            $message = __('Data imported. Some records are invalid.');
-		}
-
-		if (!$createdResources) {
 			$type = common_report_Report::TYPE_ERROR;
-            $message = __('Data not imported. All records are invalid.');
+            $message = __('Data not imported. Some records are invalid.');
 		}
 
 		$report = new common_report_Report($type, $message);
