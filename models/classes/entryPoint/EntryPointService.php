@@ -77,6 +77,31 @@ class EntryPointService extends ConfigurableService
     }
     
     /**
+     * Dectivate an existing entry point for a specific target
+     *
+     * @param string $entryId
+     * @param string $target
+     * @return boolean success
+     */
+    public function deactivateEntryPoint($entryId, $target = self::OPTION_POSTLOGIN)
+    {
+        $success = false;
+        $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
+        if (!isset($entryPoints[$entryId])) {
+            throw new \common_exception_InconsistentData('Unknown entrypoint '.$entryId);
+        }
+        $actives = $this->hasOption($target) ? $this->getOption($target) : array();
+        if (in_array($entryId, $actives)) {
+            $actives = array_diff($actives, $entryId);
+            $success = $this->setOption($target, $actives);
+        } else {
+            \common_Logger::w('Tried to desactivate inactive entry point '.$entryId);
+        }
+        return $success;
+    }
+    
+    
+    /**
      * Add an Entrypoint and activate it if a target is specified
      * 
      * @param Entrypoint $e
