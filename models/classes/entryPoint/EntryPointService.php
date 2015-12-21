@@ -92,7 +92,7 @@ class EntryPointService extends ConfigurableService
         }
         $actives = $this->hasOption($target) ? $this->getOption($target) : array();
         if (in_array($entryId, $actives)) {
-            $actives = array_diff($actives, $entryId);
+            $actives = array_diff($actives, array($entryId));
             $success = $this->setOption($target, $actives);
         } else {
             \common_Logger::w('Tried to desactivate inactive entry point '.$entryId);
