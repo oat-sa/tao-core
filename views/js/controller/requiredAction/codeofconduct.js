@@ -33,6 +33,10 @@ define([
 
             var $splashScreen = $('.splash-modal');
             var $splashWrapper = $('.splash-screen-wrapper');
+            var urlParser = new UrlParser(window.location.href);
+            var queryParams = urlParser.getParams();
+            var redirectUrl = queryParams.return_url !== undefined ? queryParams.return_url : null;
+
 
             $splashWrapper.css('display', 'block');
 
@@ -43,14 +47,10 @@ define([
 
             $('.js-agree').on('click', function () {
                 $.ajax({
-                    url : helpers._url('codeofconduct', 'RequiredAction', 'tao'),
+                    url : helpers._url('codeofconduct', 'RequiredAction', 'tao', {'redirectUrl' : redirectUrl}),
                     type : 'POST',
                     data : {accepted : true},
                     success : function () {
-                        var urlParser = new UrlParser(window.location.href);
-                        var queryParams = urlParser.getParams();
-                        var redirectUrl = queryParams.return_url !== undefined ? queryParams.return_url : null;
-
                         if (redirectUrl) {
                             window.location = redirectUrl;
                         }

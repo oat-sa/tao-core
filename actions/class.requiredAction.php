@@ -40,6 +40,10 @@ class tao_actions_RequiredAction extends \tao_actions_Main
         if ($this->isRequestPost() && $this->getRequestParameter('accepted') ) {
             $action = $service->getRequiredAction('codeOfConduct');
             $action->completed();
+            $redirectUrl = $this->getParameter('redirectUrl');
+            if ($redirectUrl) {
+                $this->redirect($redirectUrl);
+            }
         }
 
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
