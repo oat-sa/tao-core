@@ -1,4 +1,4 @@
-define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], function($, dataset){
+define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/test/ui/datatable/largedata.json', 'ui/datatable'], function($, _, dataset, largeDataset){
 
     "use strict";
     
@@ -15,19 +15,67 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
     });
 
     QUnit.asyncTest('Initialization', function(assert){
-        QUnit.expect(2);
+        QUnit.expect(3);
         
         var $elt = $('#container-1');
+        var firstUrl = 'js/test/ui/datatable/data.json';
+        var secondUrl = 'js/test/ui/datatable/largedata.json';
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        
-        $elt.on('create.datatable', function(){
+        $elt.one('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            QUnit.start();
+
+            // *** check the reinit of the datatable
+            $elt.one('create.datatable', function(){
+                assert.ok(false, 'The create event must not be triggered when reinit');
+            });
+
+            $elt.one('load.datatable', function() {
+                var data = $elt.data('ui.datatable');
+                assert.equal(data && data.url, secondUrl, 'The options must be updated by reinit');
+                QUnit.start();
+            });
+
+            $elt.datatable({
+                url : secondUrl
+            });
+            // *** end reinit check
         });
         $elt.datatable({
-            url : 'js/test/ui/datatable/data.json'
+            url : firstUrl
         });
+    });
+
+    QUnit.asyncTest('Options', function(assert){
+        QUnit.expect(5);
+
+        var $elt = $('#container-1');
+        var firstOptions = {
+            url: 'js/test/ui/datatable/data.json'
+        };
+        var secondOptions = {
+            url: 'js/test/ui/datatable/largedata.json',
+            tools: [{
+                id: 'test',
+                label: 'TEST'
+            }]
+        };
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        $elt.on('create.datatable', function(){
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+
+            var data = $elt.data('ui.datatable') || {};
+            assert.equal(data.url, firstOptions.url, 'The options must be set');
+
+            $elt.datatable('options', secondOptions);
+
+            data = $elt.data('ui.datatable') || {};
+            assert.equal(data.url, secondOptions.url, 'The url option must be updated');
+            assert.deepEqual(data.tools, secondOptions.tools, 'The tools options must be added');
+            QUnit.start();
+        });
+        $elt.datatable(firstOptions);
     });
 
     QUnit.asyncTest('Model loading using AJAX', function(assert){
@@ -91,12 +139,12 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
     });
 
     QUnit.asyncTest('Model loading using predefined data', function(assert){
-        QUnit.expect(8);
+        QUnit.expect(12);
 
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        QUnit.stop(2);
+        QUnit.stop(4);
 
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
@@ -113,9 +161,22 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             assert.equal(typeof response, 'object', 'the beforeload event is triggered and provides the response data');
             QUnit.start();
         });
-        $elt.on('load.datatable', function(event, response) {
+        $elt.one('load.datatable', function(event, response) {
             assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
+            assert.equal($elt.find('.datatable tbody tr').length, dataset.data.length, 'the lines from the small dataset are rendered');
+
             QUnit.start();
+
+            // *** check the refresh with predefined data
+            _.defer(function() {
+                $elt.one('load.datatable', function(event, response) {
+                    assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
+                    assert.equal($elt.find('.datatable tbody tr').length, largeDataset.data.length, 'the lines from the large dataset are rendered');
+                    QUnit.start();
+                });
+
+                $elt.datatable('refresh', largeDataset);
+            });
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
