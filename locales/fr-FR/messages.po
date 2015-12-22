@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T14:00:29\n"
+"Project-Id-Version: TAO 3.1.0-sprint04\n"
+"PO-Revision-Date: 2015-12-22T13:29:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -41,10 +41,10 @@ msgid "%h hours"
 msgstr "%h heures"
 
 msgid "%i minute"
-msgstr "%i minute"
+msgstr "%i minute(s)"
 
 msgid "%i minutes"
-msgstr "%i minutes"
+msgstr "%i minute(s)"
 
 msgid "%m month"
 msgstr "%m mois"
@@ -56,28 +56,28 @@ msgid "%s (%s kb)"
 msgstr "%s (%s kb)"
 
 msgid "%s Class saved"
-msgstr ""
+msgstr "%s Classe sauvegardée"
 
 msgid "%s could not be released"
-msgstr ""
+msgstr "%s n'a pu être libéré"
 
 msgid "%s extension(s) to install."
 msgstr "%s extension(s) à installer."
 
 msgid "%s has been deleted"
-msgstr ""
+msgstr "%s a été supprimé"
 
 msgid "%s has been released"
-msgstr ""
+msgstr "%s a été libéré"
 
 msgid "%s is of a type that cannot be published"
-msgstr ""
+msgstr "%s est dans un format qui n'a pas pu être publié"
 
 msgid "%s Locked"
-msgstr ""
+msgstr "%s verrouillé"
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
-msgstr ""
+msgstr "%s n'est pas un identifiant d'index valide. Celui-ci devrait débuter par un caractère alphabétique et contenir soit des caractères, des nombres ou des barre de souligné uniquement. "
 
 msgid "%y year"
 msgstr "%y année"
@@ -92,7 +92,7 @@ msgid "... reloading page."
 msgstr "... rechargement de la page."
 
 msgid "<del>Filters</del>"
-msgstr "<del>Filtres<del>"
+msgstr "<del>Filtres</del>"
 
 msgid "<del>Options</del>"
 msgstr "<del>Options</del>"
@@ -107,10 +107,10 @@ msgid "A fatal error occured during the installation process."
 msgstr "Une erreur fatale s'est produite pendant l'installation."
 
 msgid "A message with further instructions has been sent to your email address: %s"
-msgstr ""
+msgstr "Un message avec des instructions a été envoyée vers votre adresse courriel: %s"
 
 msgid "A similar resource has already been versioned"
-msgstr "Une ressource similaire est déjà versionnée"
+msgstr "Une ressource similaire a déjà été versionnée"
 
 msgid "Access Denied"
 msgstr "Accès refusé"
@@ -141,7 +141,7 @@ msgid "Add file(s)"
 msgstr "Ajouter un ou des fichier(s)"
 
 msgid "Add property"
-msgstr ""
+msgstr "Ajouter une propriété"
 
 msgid "Advanced Mode"
 msgstr "Mode avancé"
@@ -150,7 +150,7 @@ msgid "all"
 msgstr "tout"
 
 msgid "All data will be removed in %s"
-msgstr ""
+msgstr "Toutes les données vont être supprimées dans %s"
 
 msgid "All fields are required"
 msgstr "Tous les champs sont requis"
@@ -165,7 +165,7 @@ msgid "Alpha version"
 msgstr "Version alpha"
 
 msgid "An email has been sent"
-msgstr ""
+msgstr "Un courriel vous a été envoyé"
 
 msgid "An error occured during user deletion"
 msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
@@ -179,11 +179,11 @@ msgid "Are you sure you want to delete it?"
 msgstr "Êtes-vous sûr(e) de vouloir le supprimer  ?"
 
 msgid "Assign User to role"
-msgstr "Assigner Utilisateur à un rôle"
+msgstr "Assigner l'utilisateur à un rôle"
 
 #, tao-public
 msgid "Assign Users"
-msgstr ""
+msgstr "Assigner les utilisateurs"
 
 msgid "Author"
 msgstr "Auteur"
@@ -193,6 +193,9 @@ msgstr "Créer l'item"
 
 msgid "Authoring"
 msgstr "Éditeur "
+
+msgid "Available"
+msgstr ""
 
 msgid "Available Extensions"
 msgstr "Extensions disponibles"
@@ -212,14 +215,11 @@ msgstr "Parcourir les dossiers:"
 msgid "Browse..."
 msgstr "Naviguer..."
 
-msgid "buffer"
-msgstr ""
-
 msgid "Calendar"
 msgstr "Calendrier"
 
 msgid "cancel"
-msgstr ""
+msgstr "annuler"
 
 msgid "Cancel"
 msgstr "Annuler"
@@ -385,11 +385,11 @@ msgstr "Modifier Instance"
 msgid "Edit this list"
 msgstr "Modifier cette liste"
 
-msgid "element"
-msgstr "élément"
-
 msgid "Element"
 msgstr "Élément"
+
+msgid "element"
+msgstr "élément"
 
 msgid "Element deleted"
 msgstr "Élément supprimé"
@@ -558,10 +558,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid date range"
@@ -599,9 +599,6 @@ msgstr "Langue non supportée"
 
 msgid "Last Name"
 msgstr "Nom"
-
-msgid "length"
-msgstr ""
 
 msgid "less than a minute"
 msgstr "Moins d'une minute"
@@ -641,6 +638,9 @@ msgstr "Chargé"
 
 msgid "Loaded at Startup"
 msgstr "Chargé au Démarrage"
+
+msgid "Loading"
+msgstr ""
 
 msgid "Log in"
 msgstr "Se connecter"
@@ -786,14 +786,14 @@ msgstr "Aucune donnée n'a été importée"
 msgid "Nothing to install !"
 msgstr "Rien à installer !"
 
+msgid "Nothing to list!"
+msgstr ""
+
 msgid "Number of elements"
 msgstr "Nombre d'éléments"
 
 msgid "of"
 msgstr "de"
-
-msgid "offset"
-msgstr ""
 
 msgid "Old Password"
 msgstr "Ancien mot de passe"
@@ -828,17 +828,11 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr "Les mots de passe ne correspondent pas"
 
-msgid "platform"
-msgstr ""
-
 msgid "Please confirm deletion"
 msgstr "Veuillez confirmer la suppression."
 
 msgid "Please confirm property deletion!"
 msgstr "Veuillez confirmer la suppression de la propriété"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr "Veuillez confirmer cette opération."
@@ -883,16 +877,10 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
-msgid "readable"
-msgstr ""
-
 msgid "Release"
 msgstr "Publication"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
-
-msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -1075,6 +1063,9 @@ msgstr "La colonne "
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
 msgstr "L'image se redimensionne avec son contenant, par ex. 50% signifie la moitié de la taille du contenant, et non la moitié de la taille de l'image."
 
+msgid "The imported file is not properly UTF-8 encoded."
+msgstr ""
+
 msgid "The index identifier should not be empty"
 msgstr ""
 
@@ -1256,9 +1247,6 @@ msgstr "Utilisateur enregistré"
 msgid "User Settings"
 msgstr "Paramètres Utilisateur"
 
-msgid "userAgent"
-msgstr ""
-
 #, tao-public
 msgid "Users"
 msgstr "Utilisateurs"
@@ -1271,9 +1259,6 @@ msgstr "Gestion des versions"
 
 msgid "Width"
 msgstr "Largeur"
-
-msgid "width"
-msgstr ""
 
 msgid "Yes"
 msgstr "Oui"

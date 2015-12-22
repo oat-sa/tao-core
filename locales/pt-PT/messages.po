@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T14:02:38\n"
+"Project-Id-Version: TAO 3.1.0-sprint04\n"
+"PO-Revision-Date: 2015-12-22T13:29:55\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -194,6 +194,9 @@ msgstr ""
 msgid "Authoring"
 msgstr "Criar"
 
+msgid "Available"
+msgstr ""
+
 msgid "Available Extensions"
 msgstr "Extensões disponíveis"
 
@@ -210,9 +213,6 @@ msgid "Browse folders:"
 msgstr ""
 
 msgid "Browse..."
-msgstr ""
-
-msgid "buffer"
 msgstr ""
 
 msgid "Calendar"
@@ -385,11 +385,11 @@ msgstr "Editar instância"
 msgid "Edit this list"
 msgstr ""
 
-msgid "element"
-msgstr "elemento"
-
 msgid "Element"
 msgstr "Elemento"
+
+msgid "element"
+msgstr "elemento"
 
 msgid "Element deleted"
 msgstr ""
@@ -558,11 +558,11 @@ msgstr "Extensões instaladas %s..."
 msgid "Instance saved"
 msgstr "Instância guardada"
 
-msgid "Interface Language"
-msgstr "Idioma do Interface"
-
 msgid "Interface language"
 msgstr "Idioma do interface"
+
+msgid "Interface Language"
+msgstr "Idioma do Interface"
 
 msgid "Invalid date range"
 msgstr "Intervalo de data inválido"
@@ -599,9 +599,6 @@ msgstr "Idioma não suportado"
 
 msgid "Last Name"
 msgstr "Apelido"
-
-msgid "length"
-msgstr ""
 
 msgid "less than a minute"
 msgstr ""
@@ -641,6 +638,9 @@ msgstr "Carregado"
 
 msgid "Loaded at Startup"
 msgstr "Carregado no inicio"
+
+msgid "Loading"
+msgstr ""
 
 msgid "Log in"
 msgstr "Iniciar sessão"
@@ -786,13 +786,13 @@ msgstr "Nada foi importado"
 msgid "Nothing to install !"
 msgstr "Nada para instalar!"
 
+msgid "Nothing to list!"
+msgstr ""
+
 msgid "Number of elements"
 msgstr "Numero de elementos"
 
 msgid "of"
-msgstr ""
-
-msgid "offset"
 msgstr ""
 
 msgid "Old Password"
@@ -828,17 +828,11 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr "As palavras-passes não são iguais"
 
-msgid "platform"
-msgstr ""
-
 msgid "Please confirm deletion"
 msgstr "Por favor confirme a eliminação"
 
 msgid "Please confirm property deletion!"
 msgstr "Por favor confirme a eliminação da propriedade"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr ""
@@ -883,16 +877,10 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
-msgid "readable"
-msgstr ""
-
 msgid "Release"
 msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
-
-msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -1073,6 +1061,9 @@ msgid "The column "
 msgstr "A coluna"
 
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
+msgstr ""
+
+msgid "The imported file is not properly UTF-8 encoded."
 msgstr ""
 
 msgid "The index identifier should not be empty"
@@ -1256,9 +1247,6 @@ msgstr "Utilizador guardado"
 msgid "User Settings"
 msgstr "Definições do utilizador"
 
-msgid "userAgent"
-msgstr ""
-
 #, tao-public
 msgid "Users"
 msgstr "Utilizadores"
@@ -1270,9 +1258,6 @@ msgid "Versioning"
 msgstr "Versionamento"
 
 msgid "Width"
-msgstr ""
-
-msgid "width"
 msgstr ""
 
 msgid "Yes"

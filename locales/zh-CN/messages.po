@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T14:03:42\n"
+"Project-Id-Version: TAO 3.1.0-sprint04\n"
+"PO-Revision-Date: 2015-12-22T13:30:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -194,6 +194,9 @@ msgstr "创作题目"
 msgid "Authoring"
 msgstr "创作"
 
+msgid "Available"
+msgstr ""
+
 msgid "Available Extensions"
 msgstr "可用的扩充程式"
 
@@ -211,9 +214,6 @@ msgstr "浏览文件夹："
 
 msgid "Browse..."
 msgstr "浏览..."
-
-msgid "buffer"
-msgstr ""
 
 msgid "Calendar"
 msgstr "日历"
@@ -241,7 +241,7 @@ msgid "Check All"
 msgstr "全部勾选"
 
 msgid "Check-in"
-msgstr ""
+msgstr "登记"
 
 msgid "Choose export format"
 msgstr "选择导出格式"
@@ -262,7 +262,7 @@ msgid "Column"
 msgstr "专栏"
 
 msgid "Commit"
-msgstr ""
+msgstr "提交"
 
 msgid "Commit message : "
 msgstr "提交讯息："
@@ -316,7 +316,7 @@ msgid "Date"
 msgstr "日期"
 
 msgid "Default search"
-msgstr ""
+msgstr "默认搜索"
 
 msgid "Default user cannot be deleted"
 msgstr "无法删除默认用户"
@@ -385,10 +385,10 @@ msgstr "编辑实例"
 msgid "Edit this list"
 msgstr "编辑这个清单"
 
-msgid "element"
+msgid "Element"
 msgstr "元素"
 
-msgid "Element"
+msgid "element"
 msgstr "元素"
 
 msgid "Element deleted"
@@ -436,7 +436,7 @@ msgid "Extensions manager"
 msgstr "扩展程序管理器"
 
 msgid "False"
-msgstr ""
+msgstr "假"
 
 msgid "Field delimiter"
 msgstr "栏的分隔符"
@@ -498,7 +498,7 @@ msgid "Forgot your password?"
 msgstr "忘记了您的密码？"
 
 msgid "Fuzzy Matching"
-msgstr ""
+msgstr "模糊匹配"
 
 msgid "Go Back"
 msgstr "返回"
@@ -516,7 +516,7 @@ msgid "hours"
 msgstr "小时"
 
 msgid "Identifier"
-msgstr ""
+msgstr "识别码"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "如果您不想更改密码，您可以忽略这封电子邮件，您的密码不会改变。"
@@ -558,10 +558,10 @@ msgstr "正在安装扩展程序%s..."
 msgid "Instance saved"
 msgstr "实体已储存"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面语言"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面语言"
 
 msgid "Invalid date range"
@@ -599,9 +599,6 @@ msgstr "不支持语言"
 
 msgid "Last Name"
 msgstr "姓氏"
-
-msgid "length"
-msgstr ""
 
 msgid "less than a minute"
 msgstr "少于一分钟"
@@ -642,6 +639,9 @@ msgstr "已载入"
 msgid "Loaded at Startup"
 msgstr "程式启动时自动载入"
 
+msgid "Loading"
+msgstr ""
+
 msgid "Log in"
 msgstr "登入"
 
@@ -681,7 +681,7 @@ msgid "maximum value: "
 msgstr "最大值:"
 
 msgid "Message"
-msgstr ""
+msgstr "信息"
 
 msgid "minimum value: "
 msgstr "最小值:"
@@ -786,14 +786,14 @@ msgstr "没有导入任何物件"
 msgid "Nothing to install !"
 msgstr "没有任何可安装的物件"
 
+msgid "Nothing to list!"
+msgstr ""
+
 msgid "Number of elements"
 msgstr "元素的数量"
 
 msgid "of"
 msgstr "的"
-
-msgid "offset"
-msgstr ""
 
 msgid "Old Password"
 msgstr "旧密码"
@@ -828,17 +828,11 @@ msgstr "密码更改成功"
 msgid "Passwords are not matching"
 msgstr "密码不相符"
 
-msgid "platform"
-msgstr ""
-
 msgid "Please confirm deletion"
 msgstr "请确认删除"
 
 msgid "Please confirm property deletion!"
 msgstr "请确认属性删除!"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr "请确认这个行动。"
@@ -856,7 +850,7 @@ msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please give a message to your commit"
-msgstr ""
+msgstr "请把信息给您的提交"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr "Forge上面报告错误,想法,意见或反馈"
@@ -878,21 +872,15 @@ msgid "Properties"
 msgstr "属性"
 
 msgid "Property\'s label field is required"
-msgstr ""
+msgstr "必须要属性的标签字段"
 
 msgid "RDF"
 msgstr "RDF"
-
-msgid "readable"
-msgstr ""
 
 msgid "Release"
 msgstr "释放"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
-
-msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -1075,8 +1063,11 @@ msgstr "栏"
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
 msgstr "图片会依据容器而自动调整大小，例如缩小50％会使容器尺寸缩成一半，而不是图片缩成一半。"
 
-msgid "The index identifier should not be empty"
+msgid "The imported file is not properly UTF-8 encoded."
 msgstr ""
+
+msgid "The index identifier should not be empty"
+msgstr "索引识别码不应该留空"
 
 msgid "The lock has been released"
 msgstr "锁已被释放"
@@ -1139,10 +1130,10 @@ msgid "to translate"
 msgstr "翻译"
 
 msgid "Tokenizer"
-msgstr ""
+msgstr "标记生成器"
 
 msgid "Too many suggestions match your query. Only a few are listed"
-msgstr ""
+msgstr "太多的建议符合您的查询，所以这里只列出几个建议"
 
 msgid "Translate"
 msgstr "翻译"
@@ -1157,7 +1148,7 @@ msgid "Translation saved"
 msgstr "翻译已储存"
 
 msgid "True"
-msgstr ""
+msgstr "真"
 
 msgid "Type"
 msgstr "类型"
@@ -1256,9 +1247,6 @@ msgstr "用户已储存"
 msgid "User Settings"
 msgstr "用户设定"
 
-msgid "userAgent"
-msgstr ""
-
 #, tao-public
 msgid "Users"
 msgstr "用户"
@@ -1271,9 +1259,6 @@ msgstr "版本"
 
 msgid "Width"
 msgstr "宽度"
-
-msgid "width"
-msgstr ""
 
 msgid "Yes"
 msgstr "是"
@@ -1288,7 +1273,7 @@ msgid "You currently have no access to the platform"
 msgstr "您目前无权进入平台"
 
 msgid "You do not have the required rights to edit this resource."
-msgstr ""
+msgstr "您没有编辑这个资源的权利。"
 
 msgid "You don't have sufficient permissions to access"
 msgstr "您没有足够的权限进入"

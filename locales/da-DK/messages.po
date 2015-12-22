@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T13:59:11\n"
+"Project-Id-Version: TAO 3.1.0-sprint04\n"
+"PO-Revision-Date: 2015-12-22T13:29:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
@@ -194,6 +194,9 @@ msgstr ""
 msgid "Authoring"
 msgstr "Forfatter"
 
+msgid "Available"
+msgstr ""
+
 msgid "Available Extensions"
 msgstr "Tilgængelige udvidelser"
 
@@ -210,9 +213,6 @@ msgid "Browse folders:"
 msgstr ""
 
 msgid "Browse..."
-msgstr ""
-
-msgid "buffer"
 msgstr ""
 
 msgid "Calendar"
@@ -385,11 +385,11 @@ msgstr "Rediger forekomst"
 msgid "Edit this list"
 msgstr ""
 
-msgid "element"
-msgstr "element"
-
 msgid "Element"
 msgstr "Element"
+
+msgid "element"
+msgstr "element"
 
 msgid "Element deleted"
 msgstr ""
@@ -558,10 +558,10 @@ msgstr "Installer udvidelser %s..."
 msgid "Instance saved"
 msgstr "Forekomst gemt"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Interface sprog"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Interface sprog"
 
 msgid "Invalid date range"
@@ -599,9 +599,6 @@ msgstr "Sprog ikke understøttet"
 
 msgid "Last Name"
 msgstr "Efternavn"
-
-msgid "length"
-msgstr ""
 
 msgid "less than a minute"
 msgstr ""
@@ -641,6 +638,9 @@ msgstr "Indlæste"
 
 msgid "Loaded at Startup"
 msgstr "Indlæst ved opstart"
+
+msgid "Loading"
+msgstr ""
 
 msgid "Log in"
 msgstr ""
@@ -786,13 +786,13 @@ msgstr "Intet importeret"
 msgid "Nothing to install !"
 msgstr "Intet at installere !"
 
+msgid "Nothing to list!"
+msgstr ""
+
 msgid "Number of elements"
 msgstr "Antal elementer"
 
 msgid "of"
-msgstr ""
-
-msgid "offset"
 msgstr ""
 
 msgid "Old Password"
@@ -828,17 +828,11 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr "Adgangskoder matcher ikke"
 
-msgid "platform"
-msgstr ""
-
 msgid "Please confirm deletion"
 msgstr "Vil du virkelig slette"
 
 msgid "Please confirm property deletion!"
 msgstr "Vil du virkelig slette egenskab!"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr ""
@@ -883,16 +877,10 @@ msgstr ""
 msgid "RDF"
 msgstr ""
 
-msgid "readable"
-msgstr ""
-
 msgid "Release"
 msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
-
-msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -1073,6 +1061,9 @@ msgid "The column "
 msgstr "Kolonnen "
 
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
+msgstr ""
+
+msgid "The imported file is not properly UTF-8 encoded."
 msgstr ""
 
 msgid "The index identifier should not be empty"
@@ -1256,9 +1247,6 @@ msgstr "Bruger gemt"
 msgid "User Settings"
 msgstr ""
 
-msgid "userAgent"
-msgstr ""
-
 #, tao-public
 msgid "Users"
 msgstr "Brugere"
@@ -1270,9 +1258,6 @@ msgid "Versioning"
 msgstr "Versionering"
 
 msgid "Width"
-msgstr ""
-
-msgid "width"
 msgstr ""
 
 msgid "Yes"

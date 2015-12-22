@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T14:04:13\n"
+"Project-Id-Version: TAO 3.1.0-sprint04\n"
+"PO-Revision-Date: 2015-12-22T13:30:04\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -141,7 +141,7 @@ msgid "Add file(s)"
 msgstr "新增檔案"
 
 msgid "Add property"
-msgstr ""
+msgstr "加入屬性"
 
 msgid "Advanced Mode"
 msgstr "進階模式"
@@ -165,7 +165,7 @@ msgid "Alpha version"
 msgstr "Alpha版本"
 
 msgid "An email has been sent"
-msgstr ""
+msgstr "電子郵件已發送"
 
 msgid "An error occured during user deletion"
 msgstr "刪除用戶時發生錯誤"
@@ -183,7 +183,7 @@ msgstr "分配用戶角色"
 
 #, tao-public
 msgid "Assign Users"
-msgstr ""
+msgstr "分配用戶"
 
 msgid "Author"
 msgstr "作者"
@@ -193,6 +193,9 @@ msgstr "創作題目"
 
 msgid "Authoring"
 msgstr "創作"
+
+msgid "Available"
+msgstr ""
 
 msgid "Available Extensions"
 msgstr "可用的擴充程式"
@@ -211,9 +214,6 @@ msgstr "瀏覽資料夾："
 
 msgid "Browse..."
 msgstr "瀏覽..."
-
-msgid "buffer"
-msgstr ""
 
 msgid "Calendar"
 msgstr "日曆"
@@ -241,7 +241,7 @@ msgid "Check All"
 msgstr "全部勾選"
 
 msgid "Check-in"
-msgstr ""
+msgstr "登記"
 
 msgid "Choose export format"
 msgstr "選擇匯出格式"
@@ -262,7 +262,7 @@ msgid "Column"
 msgstr "欄"
 
 msgid "Commit"
-msgstr ""
+msgstr "提交"
 
 msgid "Commit message : "
 msgstr "提交訊息："
@@ -316,7 +316,7 @@ msgid "Date"
 msgstr "日期"
 
 msgid "Default search"
-msgstr ""
+msgstr "預設搜索"
 
 msgid "Default user cannot be deleted"
 msgstr "無法刪除預設用戶"
@@ -385,10 +385,10 @@ msgstr "編輯實例"
 msgid "Edit this list"
 msgstr "編輯這個清單"
 
-msgid "element"
+msgid "Element"
 msgstr "元素"
 
-msgid "Element"
+msgid "element"
 msgstr "元素"
 
 msgid "Element deleted"
@@ -436,7 +436,7 @@ msgid "Extensions manager"
 msgstr "擴展程序管理器"
 
 msgid "False"
-msgstr ""
+msgstr "假"
 
 msgid "Field delimiter"
 msgstr "欄位分隔符"
@@ -495,10 +495,10 @@ msgid "Force Release"
 msgstr "強制釋放"
 
 msgid "Forgot your password?"
-msgstr ""
+msgstr "忘了您的密碼嗎？"
 
 msgid "Fuzzy Matching"
-msgstr ""
+msgstr "模糊匹配"
 
 msgid "Go Back"
 msgstr "返回"
@@ -516,10 +516,10 @@ msgid "hours"
 msgstr "小時"
 
 msgid "Identifier"
-msgstr ""
+msgstr "識別碼"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr ""
+msgstr "您若不想更改您的密碼，請忽略此電子郵件，您的密碼保持不變。"
 
 msgid "Import"
 msgstr "匯入"
@@ -558,10 +558,10 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面語言"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面語言"
 
 msgid "Invalid date range"
@@ -599,9 +599,6 @@ msgstr "不支持語言"
 
 msgid "Last Name"
 msgstr "姓氏"
-
-msgid "length"
-msgstr ""
 
 msgid "less than a minute"
 msgstr "少於一分鐘"
@@ -642,6 +639,9 @@ msgstr "已載入"
 msgid "Loaded at Startup"
 msgstr "程式啟動時自動載入"
 
+msgid "Loading"
+msgstr ""
+
 msgid "Log in"
 msgstr "登入"
 
@@ -681,7 +681,7 @@ msgid "maximum value: "
 msgstr "最大值: "
 
 msgid "Message"
-msgstr ""
+msgstr "訊息"
 
 msgid "minimum value: "
 msgstr "最小值: "
@@ -694,7 +694,7 @@ msgstr "更多"
 
 #, tao-public
 msgid "Move role"
-msgstr ""
+msgstr "變動身分"
 
 msgid "Move to"
 msgstr "移動到"
@@ -786,14 +786,14 @@ msgstr "沒有匯入任何物件"
 msgid "Nothing to install !"
 msgstr "沒有任何可安裝的物件"
 
+msgid "Nothing to list!"
+msgstr ""
+
 msgid "Number of elements"
 msgstr "元素的數量"
 
 msgid "of"
 msgstr "的"
-
-msgid "offset"
-msgstr ""
 
 msgid "Old Password"
 msgstr "舊密碼"
@@ -823,22 +823,16 @@ msgid "Password changed"
 msgstr "密碼已變更"
 
 msgid "Password successfully changed"
-msgstr ""
+msgstr "密碼已成功的更改。"
 
 msgid "Passwords are not matching"
 msgstr "密碼不相符"
-
-msgid "platform"
-msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "請確認刪除"
 
 msgid "Please confirm property deletion!"
 msgstr "請確認屬性刪除!"
-
-msgid "Please confirm the deletion of the activity"
-msgstr ""
 
 msgid "Please confirm this operation."
 msgstr "請確認此行動。"
@@ -856,7 +850,7 @@ msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
 msgid "Please give a message to your commit"
-msgstr ""
+msgstr "請把信息給您的提交"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
 msgstr "請在 TAO Forge 上面報告錯誤,想法,意見或反饋"
@@ -878,21 +872,15 @@ msgid "Properties"
 msgstr "屬性"
 
 msgid "Property\'s label field is required"
-msgstr ""
+msgstr "必須要屬性的標籤字段"
 
 msgid "RDF"
 msgstr "RDF"
-
-msgid "readable"
-msgstr ""
 
 msgid "Release"
 msgstr "釋放"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
-
-msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -956,7 +944,7 @@ msgid "Responsive mode"
 msgstr "回應模式"
 
 msgid "Return to sign in page"
-msgstr ""
+msgstr "回到登錄頁面"
 
 msgid "Revision control"
 msgstr "修訂控制"
@@ -1075,8 +1063,11 @@ msgstr "欄"
 msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
 msgstr "圖片會依據容器而自動調整大小，例如縮小50％會使容器尺寸縮成一半，而不是圖片縮成一半。"
 
-msgid "The index identifier should not be empty"
+msgid "The imported file is not properly UTF-8 encoded."
 msgstr ""
+
+msgid "The index identifier should not be empty"
+msgstr "索引識別碼不應該留空"
 
 msgid "The lock has been released"
 msgstr "鎖已被釋放"
@@ -1106,7 +1097,7 @@ msgid "This field is too short"
 msgstr "此欄位太短了"
 
 msgid "This is not a valid email address."
-msgstr ""
+msgstr "這不是一個有效的電子郵件地址。"
 
 msgid "this is required"
 msgstr "這是必需的"
@@ -1115,7 +1106,7 @@ msgid "This Login is already in use"
 msgstr "此登錄已在使用"
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr ""
+msgstr "此密碼重置鏈接已不再有效。它可能已被使用。如果你仍然想重置密碼，請申請一個新的鏈接。"
 
 msgid "This resource is locked"
 msgstr "此資源被鎖定"
@@ -1133,16 +1124,16 @@ msgid "Time zone"
 msgstr "時區"
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
-msgstr ""
+msgstr "如要重置密碼，請點擊下面的鏈接，或將鏈接貼到瀏覽器。然後，系統將要求您設定一個新的密碼。"
 
 msgid "to translate"
 msgstr "翻譯"
 
 msgid "Tokenizer"
-msgstr ""
+msgstr "標記生成器"
 
 msgid "Too many suggestions match your query. Only a few are listed"
-msgstr ""
+msgstr "太多的建議符合您的查詢，所以這裡只列出幾個建議"
 
 msgid "Translate"
 msgstr "翻譯"
@@ -1157,7 +1148,7 @@ msgid "Translation saved"
 msgstr "翻譯已儲存"
 
 msgid "True"
-msgstr ""
+msgstr "真"
 
 msgid "Type"
 msgstr "類型"
@@ -1166,7 +1157,7 @@ msgid "UI Lang."
 msgstr "介面語言."
 
 msgid "Unable to access your account?"
-msgstr ""
+msgstr "您無法進入您的帳戶嗎？"
 
 msgid "Unable to change passwords in demo mode"
 msgstr "在試用模式無法更改密碼"
@@ -1181,10 +1172,10 @@ msgid "Unable to release the lock"
 msgstr "無法解除鎖定"
 
 msgid "Unable to remove the property."
-msgstr ""
+msgstr "無法移除屬性。"
 
 msgid "Unable to send the password reset request"
-msgstr ""
+msgstr "無法發送密碼重置請求"
 
 msgid "Unable to upload file"
 msgstr "無法上傳檔案"
@@ -1214,7 +1205,7 @@ msgid "Unknown Error"
 msgstr "不明的錯誤"
 
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 msgid "Upload"
 msgstr "上傳"
@@ -1247,7 +1238,7 @@ msgid "User deletion not permited on a demo instance"
 msgstr "試用實例不應許刪除用戶"
 
 msgid "User not found"
-msgstr ""
+msgstr "找不到該使用者"
 
 msgid "User saved"
 msgstr "用戶已儲存"
@@ -1255,9 +1246,6 @@ msgstr "用戶已儲存"
 #, tao-public
 msgid "User Settings"
 msgstr "用戶設定"
-
-msgid "userAgent"
-msgstr ""
 
 #, tao-public
 msgid "Users"
@@ -1272,9 +1260,6 @@ msgstr "版本"
 msgid "Width"
 msgstr "寬度"
 
-msgid "width"
-msgstr ""
-
 msgid "Yes"
 msgstr "是"
 
@@ -1288,7 +1273,7 @@ msgid "You currently have no access to the platform"
 msgstr "您目前無權進入平台"
 
 msgid "You do not have the required rights to edit this resource."
-msgstr ""
+msgstr "您沒有編輯這個資源的權利。"
 
 msgid "You don't have sufficient permissions to access"
 msgstr "您沒有足夠的權限進入"
@@ -1297,8 +1282,8 @@ msgid "You must activate JavaScript in your browser to run this application."
 msgstr "您必須在瀏覽器中啟用JavaScript才可以應用該程序。"
 
 msgid "Your mail"
-msgstr ""
+msgstr "您的信"
 
 msgid "Your TAO Password"
-msgstr ""
+msgstr "您的密碼"
 
