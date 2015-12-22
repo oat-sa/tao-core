@@ -430,7 +430,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.15.1';
         }
 
-        if ($currentVersion === '2.15.1') {
+        $this->setVersion($currentVersion);
+
+        if ($this->isVersion('2.15.1')) {
             try {
                 $this->getServiceManager()->get(RequiredActionService::CONFIG_ID);
                 // all good, already configured
@@ -448,10 +450,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $ext->setConfig(\tao_actions_RequiredAction::CONF_CODE_OF_CONDUCT, '');
 
-            $currentVersion = '2.16.0';
+            $this->setVersion('2.16.0');
         }
-
-        return $currentVersion;
     }
     
     private function migrateFsAccess() {
