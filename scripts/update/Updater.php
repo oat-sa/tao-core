@@ -52,8 +52,6 @@ use oat\tao\model\theme\CompatibilityTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\oatbox\event\EventManager;
-use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
-use oat\tao\model\requiredAction\implementation\CodeOfConductRule;
 
 /**
  * 
