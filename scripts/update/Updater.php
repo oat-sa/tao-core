@@ -439,10 +439,6 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
             }
 
-            $accessService = \funcAcl_models_classes_AccessService::singleton();
-            $baseUserRole = new \core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole');
-            $accessService->grantModuleAccess($baseUserRole, 'tao', 'RequiredAction');
-
             OntologyUpdater::syncModels();
 
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
