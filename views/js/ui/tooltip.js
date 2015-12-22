@@ -52,7 +52,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler', 'qtip'], function($, _, Data
             }
         }
 
-        qtipConstructor.call(this, options, notation, newValue);
+        return qtipConstructor.call(this, options, notation, newValue);
     };
 
     /**
