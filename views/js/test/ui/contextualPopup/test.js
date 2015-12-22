@@ -118,7 +118,91 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         
         popup1.destroy();
     });
-    
+
+    QUnit.test('callbacks', function(){
+
+        QUnit.expect(8);
+
+        var $container = $('#main-container');
+        var popup1 = contextualPopup(
+            $container.find('.center1'),
+            $container,
+            {
+                content : 'content 1',
+                controls : {
+                    done : true,
+                    cancel : true
+                },
+                callbacks : {
+                    beforeDone : function () {
+                        return true;
+                    },
+                    beforeCancel : function () {
+                        return true;
+                    }
+                }
+            }
+        );
+
+        $container.off('.contextual-popup')
+            .on('done.contextual-popup', function(){
+                QUnit.assert.ok(true, 'triggered done');
+            }).on('cancel.contextual-popup', function(){
+                QUnit.assert.ok(true, 'triggered cancel');
+            });
+
+        //redisplay it
+        popup1.show();
+        QUnit.assert.ok(popup1.isVisible());
+
+        //done by clicking on the button
+        popup1.getPopup().find('.btn.done').click();
+        QUnit.assert.ok(!popup1.isVisible());
+
+        //redisplay it
+        popup1.show();
+        QUnit.assert.ok(popup1.isVisible());
+
+        //done by clicking on the button
+        popup1.getPopup().find('.btn.cancel').click();
+        QUnit.assert.ok(!popup1.isVisible());
+
+        popup1.destroy();
+
+
+        var popup2 = contextualPopup(
+            $container.find('.center1'),
+            $container,
+            {
+                content : 'content 1',
+                controls : {
+                    done : true,
+                    cancel : true
+                },
+                callbacks : {
+                    beforeDone : function () {
+                        return false;
+                    },
+                    beforeCancel : function () {
+                        return false;
+                    }
+                }
+            }
+        );
+
+        popup2.show();
+
+        //should not be hidden
+        popup2.getPopup().find('.btn.done').click();
+        QUnit.assert.ok(popup2.isVisible());
+
+        //should not be hidden
+        popup2.getPopup().find('.btn.cancel').click();
+        QUnit.assert.ok(popup2.isVisible());
+
+        popup2.destroy();
+    });
+
     QUnit.test('cancel', function(){
         
         //cancel button hides and trigger event done

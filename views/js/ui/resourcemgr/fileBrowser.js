@@ -8,7 +8,7 @@ define(['jquery', 'lodash'], function($, _) {
         var root            = options.root || '/';
         var path            = options.path || '/';
         var $container      = options.$target;
-        var $fileBrowser    = $('.file-browser', $container);
+        var $fileBrowser    = $('.file-browser .file-browser-wrapper', $container);
         var $divContainer   = $('.'+root, $fileBrowser);
         var $folderContainer= $('.folders', $divContainer);
         var fileTree        = {};

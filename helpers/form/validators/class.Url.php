@@ -28,7 +28,7 @@
  
  */
 class tao_helpers_form_validators_Url
-    extends tao_helpers_form_validators_Regex
+    extends tao_helpers_form_Validator
 {
     // --- ASSOCIATIONS ---
 
@@ -47,21 +47,39 @@ class tao_helpers_form_validators_Url
      */
     public function __construct($options = array())
     {
-        
-        
-    	if(isset($options['format'])){
-    		unset($options['format']);	//the pattern cannot be overriden
-    	}
-    	
-    	$pattern = "([a-zA-Z]+:\/\/)?(www\.)?([a-zA-Z0-9_\-.\/]){2,}(:[0-9]{1,5})?";
-    	if(isset($options['allow_parameters'])){
-    		$pattern .= "(\?(.*)+)?"; 
-    	}
-    	$pattern = "/^$pattern$/";
-    	
-    	parent::__construct(array_merge(array('format' => $pattern), $options));
-    	
-        
+    	parent::__construct($options);
+    }
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public function evaluate($value)
+    {
+        //backward compatible behavior:
+        //scheme should be prepended if not found (pattern includes spelling errors)
+        if( preg_match('/^[a-zA-Z]{1,10}[:\/]{1,3}/',$value) === false ){
+            $value = 'http://' . $value;
+        }
+
+        $returnValue = !(filter_var($value, FILTER_VALIDATE_URL) === false);
+
+        //'isset' is backward compatible behavior
+        if( !isset( $this->options['allow_parameters'] ) ){
+            $returnValue = $returnValue && (strpos($value, '?') === false);
+        }
+
+        return $returnValue;
+    }
+
+    /**
+     * Default error message
+     *
+     * @return string
+     */
+    protected function getDefaultMessage()
+    {
+        return __('Provided URL is not valid');
     }
 
 }

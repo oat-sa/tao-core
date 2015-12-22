@@ -27,7 +27,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '2.10.0',
+    'version' => '2.15.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=2.7.1'
@@ -44,11 +44,11 @@ return array(
             dirname(__FILE__). '/models/ontology/webservice.rdf',
             dirname(__FILE__). '/models/ontology/services.rdf',
             dirname(__FILE__). '/models/ontology/indexation.rdf',
-            dirname(__FILE__). '/models/ontology/model.rdf'
+            dirname(__FILE__). '/models/ontology/model.rdf',
+            dirname(__FILE__). '/models/ontology/widegetdefinitions.rdf'
         ),
         'checks' => array(
-                array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.3.10')),
-                array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime53', 'min' => '5.3', 'max' => '5.3.x', 'silent' => true)),
+                array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.4')),
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_pdo', 'name' => 'PDO')),
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_curl', 'name' => 'curl')),
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_zip', 'name' => 'zip')),
@@ -57,16 +57,17 @@ return array(
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_dom', 'name' => 'dom')),
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_mbstring', 'name' => 'mbstring')),
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_suhosin', 'name' => 'suhosin', 'silent' => true)),
-                array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_magic_quotes_gpc', 'name' => 'magic_quotes_gpc', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
-                array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_register_globals', 'name' => 'register_globals', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
-                array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_safe_mode', 'name' => 'safe_mode', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
+                array('type' => 'CheckCustom',      'value' => array('id' => 'tao_extension_opcache', 'name' => 'opcache', 'optional' => true, 'extension' => 'tao')),
+                array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_opcache_save_comments', 'name' => 'opcache.save_comments', 'value' => '1', 'dependsOn' => array('tao_extension_opcache'))),
+                array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_opcache_load_comments', 'name' => 'opcache.load_comments', 'value' => '1', 'dependsOn' => array('tao_extension_opcache'))),
                 array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_post_max_name_length', 'name' => 'suhosin.post.max_name_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
                 array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_request_max_varname_length', 'name' => 'suhosin.request.max_varname_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
-                array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_data', 'location' => 'data', 'rights' => 'rw')),
-                array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf', 'location' => 'config', 'rights' => 'rw')),
+                array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_data', 'location' => 'data', 'rights' => 'rw', 'recursive' => true)),
+                array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf', 'location' => 'config', 'rights' => 'rw', 'recursive' => true)),
                 array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_client_locales', 'location' => 'tao/views/locales', 'rights' => 'rw')),
                 array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_not_nginx', 'name' => 'not_nginx', 'extension' => 'tao', "optional" => true)),
-                array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_mod_rewrite', 'name' => 'mod_rewrite', 'extension' => 'tao', 'dependsOn' => array('tao_custom_not_nginx'))),
+                array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_allowoverride', 'name' => 'allow_override', 'extension' => 'tao', "optional" => true, 'dependsOn' => array('tao_custom_not_nginx'))),
+                array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_mod_rewrite', 'name' => 'mod_rewrite', 'extension' => 'tao', 'dependsOn' => array('tao_custom_allowoverride'))),
                 array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao'))
         ),
         'php' => array(
@@ -75,7 +76,6 @@ return array(
             dirname(__FILE__).'/scripts/install/setupServiceFileStorage.php',
             dirname(__FILE__).'/scripts/install/setServiceState.php',
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
-            dirname(__FILE__).'/scripts/install/setDefaultTheme.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php'
         )
     ),
@@ -101,14 +101,12 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('act' => 'tao_actions_Lock@locked')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('act' => 'tao_actions_Lock@release')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',   array('act' => 'tao_actions_Lock@forceRelease')),
-        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', array('controller' => 'tao_actions_Lists')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', array('controller' => 'tao_actions_PropertiesAuthoring')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'entry')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'login')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'logout')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'index')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'resetPassword')),
-        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'AuthApi')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'ClientConfig'))
     ),
     'constants' => array(

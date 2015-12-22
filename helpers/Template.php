@@ -21,6 +21,9 @@
 
 namespace oat\tao\helpers;
 
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\asset\AssetService;
+
 class Template {
 
     /**
@@ -35,8 +38,8 @@ class Template {
         if (is_null($extensionId)) {
             $extensionId = \Context::getInstance()->getExtensionName();
         }
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
-        return $ext->getConstant('BASE_WWW').'img/'.$path;
+
+        return self::getAssetService()->getAsset('img/'.$path, $extensionId);
     }
     
     /**
@@ -44,15 +47,14 @@ class Template {
      * if extension name is omitted the current extension is used
      * 
      * @param string $path
-     * @param string $extensionName
+     * @param string $extensionId
      * @return string
      */
-    public static function css($path, $extensionName = null) {
-        if (is_null($extensionName)) {
-            $extensionName = \Context::getInstance()->getExtensionName();
+    public static function css($path, $extensionId = null) {
+        if (is_null($extensionId)) {
+            $extensionId = \Context::getInstance()->getExtensionName();
         }
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);
-        return $ext->getConstant('BASE_WWW').'css/'.$path;
+        return self::getAssetService()->getAsset('css/'.$path, $extensionId);
     }
     
     /**
@@ -60,15 +62,14 @@ class Template {
      * if extension name is omitted the current extension is used
      * 
      * @param string $path
-     * @param string $extensionName
+     * @param string $extensionId
      * @return string
      */
-    public static function js($path, $extensionName = null) {
-        if (is_null($extensionName)) {
-            $extensionName = \Context::getInstance()->getExtensionName();
+    public static function js($path, $extensionId = null) {
+        if (is_null($extensionId)) {
+            $extensionId = \Context::getInstance()->getExtensionName();
         }
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);
-        return $ext->getConstant('BASE_WWW').'js/'.$path;
+        return self::getAssetService()->getAsset('js/'.$path, $extensionId);
     }
     
     /**
@@ -76,23 +77,23 @@ class Template {
      * if extension name is omitted the current extension is used
      *
      * @param string $path
-     * @param string $extensionName
+     * @param string $extensionId
      * @param array $data bind additional data to the context
      * @return string
      */
-    public static function inc($path, $extensionName = null, $data = array()) {
+    public static function inc($path, $extensionId = null, $data = array()) {
         $context = \Context::getInstance();
-        if (!is_null($extensionName) && $extensionName != $context->getExtensionName()) {
+        if (!is_null($extensionId) && $extensionId != $context->getExtensionName()) {
             // template is within different extension, change context
             $formerContext = $context->getExtensionName();
-            $context->setExtensionName($extensionName);
+            $context->setExtensionName($extensionId);
         }
 
         if(count($data) > 0){
             \RenderContext::pushContext($data);
         }
         
-        $absPath = self::getTemplate($path, $extensionName);
+        $absPath = self::getTemplate($path, $extensionId);
         if (file_exists($absPath)) {
             include($absPath);
         } else {
@@ -106,12 +107,12 @@ class Template {
 
     /**
      * @param $path
-     * @param null $extensionName
+     * @param null $extensionId
      * @return string
      */
-    public static function getTemplate($path, $extensionName = null) {
-        $extensionName = is_null($extensionName) ? \Context::getInstance()->getExtensionName() : $extensionName;
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionName);
+    public static function getTemplate($path, $extensionId = null) {
+        $extensionId = is_null($extensionId) ? \Context::getInstance()->getExtensionName() : $extensionId;
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
         return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$path;
     }
 
@@ -128,5 +129,15 @@ class Template {
             $messages['info'] = get_data('message');
         }
         return !!count($messages) ? $messages : false;
+    }
+
+    /**
+     * @return AssetService
+     * @throws \common_Exception
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     */
+    private static function getAssetService()
+    {
+        return ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
     }
 }

@@ -109,6 +109,7 @@
 
 .select2-container.select2-allowclear .select2-choice abbr {
     display: inline-block;
+    top: 5px;
 }
 
 .select2-container .select2-choice abbr:hover {
@@ -128,7 +129,7 @@
     height: auto;
     width: auto;
     opacity: 0;
-    z-index: 19998;
+    z-index: 109998;
     /* styles required for IE to work */
     background-color: $uiClickableDefaultBg;
     filter: alpha(opacity=0);
@@ -138,7 +139,7 @@
     width: 100%;
     margin-top: -1px;
     position: absolute;
-    z-index: 19999;
+    z-index: 109999;
     top: 100%;
 
     background: $uiGeneralContentBg;
@@ -509,7 +510,11 @@ disabled look for disabled choices in the results dropdown
     -ms-user-select: none;
     user-select: none;
 
-    background-color: #e4e4e4;
+    background-color: blacken($uiClickableDefaultBg, .1);
+    
+    &.partial {
+        background-color: whiten($uiClickableDefaultBg, .6);
+    }
 }
 
 .select2-container-multi .select2-choices .select2-search-choice .select2-chosen {

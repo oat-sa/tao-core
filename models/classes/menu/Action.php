@@ -22,13 +22,12 @@
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
+use oat\taoBackOffice\model\menuStructure\Action as iAction;
 
-class Action implements PhpSerializable
+class Action implements PhpSerializable, iAction
 {
     const SERIAL_VERSION = 1392821334;
 
-    const GROUP_DEFAULT = 'tree';
-    
     public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
 		$url = isset($node['url']) ? (string) $node['url'] : '#';
 		if ($url == '#' || empty($url)) {

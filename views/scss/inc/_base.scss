@@ -16,6 +16,9 @@ html {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    &.fullscreen {
+        width: 100%;
+    }
 }
 
 body {
@@ -117,6 +120,12 @@ body {
     svg {
         display: inline-block;
         vertical-align: middle;
+    }
+
+    // the above rule breaks SVG on MathJax and thus requires a reset
+    .MathJax svg {
+        display: inline;
+        vertical-align: baseline;
     }
 
     a {
@@ -222,6 +231,7 @@ body {
     img {
         border: 0;
         max-width: 100%;
+        height: auto;
     }
 
     svg:not(:root) {

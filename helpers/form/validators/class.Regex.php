@@ -29,54 +29,15 @@
  */
 class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
 {
-    // --- ASSOCIATIONS ---
 
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     *
-     * @param  array $options
-     *
-     * @param string $name
-     *
-     * @throws Exception
-     */
-    public function __construct(array $options = array(), $name = '')
+    public function setOptions(array $options)
     {
-        
-		parent::__construct($options);
-		
-		if(!isset($this->options['format'])){
-			throw new Exception("Please set the format options (define your regular expression)!");
-		}
+        parent::setOptions($options);
 
-        $this->message = array_key_exists( 'message', $this->options ) ? $this->options['message'] : __(
-            'The format of this field is not valid.'
-        );
-
-        if (is_string( $name ) && $name) {
-            $this->name = $name;
-        } else {
-            $this->name = str_replace( 'tao_helpers_form_validators_', '', get_class( $this ) );
+        if(!isset($this->options['format'])){
+            throw new common_Exception("Please set the format options (define your regular expression)!");
         }
-
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
 
     /**
      * Short description of method evaluate
@@ -95,6 +56,11 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
         }
 
         return $returnValue;
+    }
+
+    protected function getDefaultMessage()
+    {
+        return __('The format of this field is not valid.');
     }
 
 }

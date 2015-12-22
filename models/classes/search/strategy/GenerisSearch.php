@@ -20,11 +20,10 @@
  */
 namespace oat\tao\model\search\strategy;
 
+use core_kernel_classes_Class;
 use oat\tao\model\search\Search;
-use tao_models_classes_FileSourceService;
-use common_Logger;
 use oat\oatbox\Configurable;
-use oat\tao\model\search\SyntaxException;
+use oat\tao\model\search\ResultSet;
 
 /**
  * Simple Search implementation that ignores the indexes
@@ -33,23 +32,28 @@ use oat\tao\model\search\SyntaxException;
  * @author Joel Bout <joel@taotesting.com>
  */
 class GenerisSearch extends Configurable implements Search
-{	
-    
+{
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
-    public function query($queryString, $rootClass = null) {
+    public function query($queryString, $rootClass = null, $start = 0, $count = 10) {
         $results = $rootClass->searchInstances(array(
         	RDFS_LABEL => $queryString
         ), array(
-        	'recursive' => true, 'like' => true
+            'recursive' => true,
+            'like'      => true,
+            'offset'    => $start,
+            'limit'     => $count,
         ));
         $ids = array();
         foreach ($results as $resource) {
             $ids[] = $resource->getUri();
         }
-        return $ids;
+
+        return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
+
     }
     
     /**
@@ -61,4 +65,24 @@ class GenerisSearch extends Configurable implements Search
         return 0;
     }
 
+    /**
+     * Return total count of corresponded instances
+     *
+     * @param string $queryString
+     * @param core_kernel_classes_Class $rootClass
+     *
+     * @return array
+     */
+    private function getTotalCount( $queryString, $rootClass = null )
+    {
+        return $rootClass->countInstances(
+            array(
+                RDFS_LABEL => $queryString
+            ),
+            array(
+                'recursive' => true,
+                'like'      => true,
+            )
+        );
+    }
 }

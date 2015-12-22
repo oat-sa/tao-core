@@ -19,6 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\model\GenerisTreeFactory;
 
 /**
  * This controller provides backward compatibility for legacy
@@ -249,8 +250,8 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 		$limit = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 0;
 		$offset = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
 		
-		$factory = new tao_models_classes_GenerisTreeFactory();
-		$tree = $factory->buildTree($clazz, $showInstances, array($clazz->getUri()), $limit, $offset);
+		$factory = new GenerisTreeFactory($showInstances, array($clazz->getUri()), $limit, $offset);
+		$tree = $factory->buildTree($clazz);
 		
 		$returnValue = $hideNode ? ($tree['children']) : $tree;
 		echo json_encode($returnValue);
@@ -268,4 +269,3 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 		return $variableService->save($cleaned);
     }
 }
-?>
