@@ -78,12 +78,22 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
 
     /**
      * Get first action which should be executed (one of action's rules return true).
+     * @param string[] array of action names which should be checked. If array is empty all action will be checked.
      * @return null|RequiredAction
      */
-    public function getActionToBePerformed()
+    public function getActionToBePerformed($names = [])
     {
         $result = null;
-        foreach ($this->getRequiredActions() as $requiredAction) {
+        if (empty($names)) {
+            $actionsToCheck = $this->getRequiredActions();
+        } else {
+            $actionsToCheck = [];
+            foreach ($names as $name) {
+                $actionsToCheck[] = $this->getRequiredAction($name);
+            }
+        }
+
+        foreach ($actionsToCheck as $requiredAction) {
             if ($requiredAction->mustBeExecuted()) {
                 $result = $requiredAction;
                 break;

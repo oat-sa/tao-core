@@ -435,17 +435,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $this->getServiceManager()->get(RequiredActionService::CONFIG_ID);
                 // all good, already configured
             } catch (ServiceNotFoundException $error) {
-                $requiredActionService = new RequiredActionService([
-                    RequiredActionService::OPTION_REQUIRED_ACTIONS => [
-                        new RequiredActionRedirect(
-                            'codeOfConduct',
-                            [
-                                new CodeOfConductRule(new \DateInterval('P1Y')),
-                            ],
-                            _url('codeofconduct', 'RequiredAction', 'tao')
-                        ),
-                    ]
-                ]);
+                $requiredActionService = new RequiredActionService();
                 $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
             }
 
@@ -454,16 +444,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $accessService->grantModuleAccess($baseUserRole, 'tao', 'RequiredAction');
 
             OntologyUpdater::syncModels();
-
-            $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
-            $eventManager->attach(
-                'oat\\tao\\model\\event\\BeforeAction',
-                array(
-                    'oat\\tao\\model\\requiredAction\\implementation\\RequiredActionService',
-                    'checkRequiredActions'
-                )
-            );
-            $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
 
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $ext->setConfig(\tao_actions_RequiredAction::CONF_CODE_OF_CONDUCT, '');
