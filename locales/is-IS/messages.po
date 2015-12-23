@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T13:17:16\n"
+"PO-Revision-Date: 2015-12-23T12:59:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -223,14 +223,17 @@ msgstr "Vafra í möppum:"
 msgid "Browse..."
 msgstr "Vafra..."
 
+msgid "buffer"
+msgstr ""
+
 msgid "Calendar"
 msgstr "Dagatal"
 
-msgid "Cancel"
-msgstr "Hætta við"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "Hætta við"
 
 msgid "cancel the action"
 msgstr ""
@@ -245,10 +248,10 @@ msgstr "Breyta lykilorði"
 msgid "Change the password"
 msgstr "Breyta lykilorðinu"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Merkja við allt"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Merkja við allt"
 
 msgid "Check-in"
@@ -603,6 +606,9 @@ msgstr "Tungumál"
 msgid "Last Name"
 msgstr "Eftirnafn"
 
+msgid "length"
+msgstr ""
+
 msgid "less than a minute"
 msgstr "minna en mínúta"
 
@@ -731,10 +737,10 @@ msgstr "Engar skrár"
 msgid "no label"
 msgstr "ekkert merki"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -755,10 +761,13 @@ msgstr ""
 msgid "of"
 msgstr ""
 
-msgid "OK"
+msgid "offset"
 msgstr ""
 
 msgid "Ok"
+msgstr ""
+
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -796,6 +805,9 @@ msgstr "Tókst að breyta lykilorði"
 
 msgid "Passwords are not matching"
 msgstr "Lykilorðin stemma ekki"
+
+msgid "platform"
+msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "Staðfesta eyðingu"
@@ -846,10 +858,16 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
+msgid "readable"
+msgstr ""
+
 msgid "Release"
 msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -935,11 +953,11 @@ msgstr "Leita í undirflokkum"
 msgid "seconds"
 msgstr "sekúndur"
 
-msgid "Select"
-msgstr "Velja"
-
 msgid "select"
 msgstr "velja"
+
+msgid "Select"
+msgstr "Velja"
 
 msgid "Select a language"
 msgstr "Veldu tungumál"
@@ -1158,10 +1176,10 @@ msgstr "Get ekki hlaðið upp skrá"
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undo"
@@ -1224,6 +1242,9 @@ msgstr "Notandi vistaður"
 #, tao-public
 msgid "User Settings"
 msgstr "Notandastillingar"
+
+msgid "userAgent"
+msgstr ""
 
 #, tao-public
 msgid "Users"

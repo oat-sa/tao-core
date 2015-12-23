@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T13:17:37\n"
+"PO-Revision-Date: 2015-12-23T13:00:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -224,14 +224,17 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
+msgid "buffer"
+msgstr ""
+
 msgid "Calendar"
 msgstr "Calendário"
 
-msgid "Cancel"
-msgstr "Cancelar"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "Cancelar"
 
 msgid "cancel the action"
 msgstr ""
@@ -246,11 +249,11 @@ msgstr "Mudar palavra-passe"
 msgid "Change the password"
 msgstr "Mudar a palavra-passe"
 
-msgid "Check All"
-msgstr "Marcar Todos"
-
 msgid "Check all"
 msgstr "Marcar todos"
+
+msgid "Check All"
+msgstr "Marcar Todos"
 
 msgid "Check-in"
 msgstr ""
@@ -604,6 +607,9 @@ msgstr "Idioma"
 msgid "Last Name"
 msgstr "Apelido"
 
+msgid "length"
+msgstr ""
+
 msgid "less than a minute"
 msgstr ""
 
@@ -732,10 +738,10 @@ msgstr ""
 msgid "no label"
 msgstr "Sem rótulos"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -756,10 +762,13 @@ msgstr "Numero de elementos"
 msgid "of"
 msgstr ""
 
-msgid "OK"
+msgid "offset"
 msgstr ""
 
 msgid "Ok"
+msgstr ""
+
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -797,6 +806,9 @@ msgstr ""
 
 msgid "Passwords are not matching"
 msgstr "As palavras-passes não são iguais"
+
+msgid "platform"
+msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "Por favor confirme a eliminação"
@@ -847,10 +859,16 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
+msgid "readable"
+msgstr ""
+
 msgid "Release"
 msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -936,11 +954,11 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "Select"
-msgstr "Seleccione"
-
 msgid "select"
 msgstr "seleccione"
+
+msgid "Select"
+msgstr "Seleccione"
 
 msgid "Select a language"
 msgstr "Seleccione uma língua"
@@ -1159,11 +1177,11 @@ msgstr ""
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck all"
-msgstr "Desmarcar todos"
-
 msgid "Uncheck All"
 msgstr "Desmarcar Todos"
+
+msgid "Uncheck all"
+msgstr "Desmarcar todos"
 
 msgid "Undo"
 msgstr ""
@@ -1225,6 +1243,9 @@ msgstr "Utilizador guardado"
 #, tao-public
 msgid "User Settings"
 msgstr "Definições do utilizador"
+
+msgid "userAgent"
+msgstr ""
 
 #, tao-public
 msgid "Users"

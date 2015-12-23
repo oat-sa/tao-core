@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T13:16:51\n"
+"PO-Revision-Date: 2015-12-23T12:58:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: el-GR\n"
@@ -223,13 +223,16 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
+msgid "buffer"
+msgstr ""
+
 msgid "Calendar"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -245,10 +248,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check-in"
@@ -602,6 +605,9 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
+msgid "length"
+msgstr ""
+
 msgid "less than a minute"
 msgstr ""
 
@@ -730,10 +736,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -754,10 +760,13 @@ msgstr ""
 msgid "of"
 msgstr ""
 
-msgid "OK"
+msgid "offset"
 msgstr ""
 
 msgid "Ok"
+msgstr ""
+
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -794,6 +803,9 @@ msgid "Password successfully changed"
 msgstr ""
 
 msgid "Passwords are not matching"
+msgstr ""
+
+msgid "platform"
 msgstr ""
 
 msgid "Please confirm deletion"
@@ -845,10 +857,16 @@ msgstr ""
 msgid "RDF"
 msgstr ""
 
+msgid "readable"
+msgstr ""
+
 msgid "Release"
 msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -934,10 +952,10 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a language"
@@ -1157,10 +1175,10 @@ msgstr ""
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undo"
@@ -1222,6 +1240,9 @@ msgstr ""
 
 #, tao-public
 msgid "User Settings"
+msgstr ""
+
+msgid "userAgent"
 msgstr ""
 
 #, tao-public

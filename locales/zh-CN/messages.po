@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T13:17:55\n"
+"PO-Revision-Date: 2015-12-23T13:01:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -224,14 +224,17 @@ msgstr "浏览文件夹："
 msgid "Browse..."
 msgstr "浏览..."
 
+msgid "buffer"
+msgstr ""
+
 msgid "Calendar"
 msgstr "日历"
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "取消"
 
 msgid "cancel the action"
 msgstr ""
@@ -246,10 +249,10 @@ msgstr "更改密码"
 msgid "Change the password"
 msgstr "更改密码"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -604,6 +607,9 @@ msgstr "语言"
 msgid "Last Name"
 msgstr "姓氏"
 
+msgid "length"
+msgstr ""
+
 msgid "less than a minute"
 msgstr "少于一分钟"
 
@@ -732,10 +738,10 @@ msgstr "没有文件"
 msgid "no label"
 msgstr "无标签"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "没有可用的预览"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "没有可用的预览"
 
 msgid "No results found"
@@ -756,10 +762,13 @@ msgstr "元素的数量"
 msgid "of"
 msgstr "的"
 
-msgid "OK"
+msgid "offset"
 msgstr ""
 
 msgid "Ok"
+msgstr ""
+
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -797,6 +806,9 @@ msgstr "密码更改成功"
 
 msgid "Passwords are not matching"
 msgstr "密码不相符"
+
+msgid "platform"
+msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "请确认删除"
@@ -847,10 +859,16 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
+msgid "readable"
+msgstr ""
+
 msgid "Release"
 msgstr "释放"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -936,10 +954,10 @@ msgstr "搜索子类别"
 msgid "seconds"
 msgstr "秒"
 
-msgid "Select"
+msgid "select"
 msgstr "选择"
 
-msgid "select"
+msgid "Select"
 msgstr "选择"
 
 msgid "Select a language"
@@ -1159,10 +1177,10 @@ msgstr "无法上传文件"
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾选"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾选"
 
 msgid "Undo"
@@ -1225,6 +1243,9 @@ msgstr "用户已储存"
 #, tao-public
 msgid "User Settings"
 msgstr "用户设定"
+
+msgid "userAgent"
+msgstr ""
 
 #, tao-public
 msgid "Users"
