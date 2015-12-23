@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T13:17:05\n"
+"PO-Revision-Date: 2015-12-23T12:59:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -224,14 +224,17 @@ msgstr "Parcourir les dossiers:"
 msgid "Browse..."
 msgstr "Naviguer..."
 
+msgid "buffer"
+msgstr ""
+
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "Cancel"
-msgstr "Annuler"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "Annuler"
 
 msgid "cancel the action"
 msgstr ""
@@ -246,11 +249,11 @@ msgstr "Changer le mot de passe"
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check All"
-msgstr "Cocher Tout"
-
 msgid "Check all"
 msgstr "Cocher tout"
+
+msgid "Check All"
+msgstr "Cocher Tout"
 
 msgid "Check-in"
 msgstr ""
@@ -604,6 +607,9 @@ msgstr "Langue"
 msgid "Last Name"
 msgstr "Nom"
 
+msgid "length"
+msgstr ""
+
 msgid "less than a minute"
 msgstr "Moins d'une minute"
 
@@ -732,10 +738,10 @@ msgstr "Aucun fichier"
 msgid "no label"
 msgstr "sans étiquette"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Aucun aperçu disponible"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Aucun aperçu disponible"
 
 msgid "No results found"
@@ -756,10 +762,13 @@ msgstr "Nombre d'éléments"
 msgid "of"
 msgstr "de"
 
-msgid "OK"
+msgid "offset"
 msgstr ""
 
 msgid "Ok"
+msgstr ""
+
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -797,6 +806,9 @@ msgstr ""
 
 msgid "Passwords are not matching"
 msgstr "Les mots de passe ne correspondent pas"
+
+msgid "platform"
+msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "Veuillez confirmer la suppression."
@@ -847,10 +859,16 @@ msgstr ""
 msgid "RDF"
 msgstr "RDF"
 
+msgid "readable"
+msgstr ""
+
 msgid "Release"
 msgstr "Publication"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "remain"
 msgstr ""
 
 msgid "Remove"
@@ -936,11 +954,11 @@ msgstr "Chercher des sous-classes"
 msgid "seconds"
 msgstr "secondes"
 
-msgid "Select"
-msgstr "Choisir"
-
 msgid "select"
 msgstr "choisir"
+
+msgid "Select"
+msgstr "Choisir"
 
 msgid "Select a language"
 msgstr "Sélectionner un langage"
@@ -1159,10 +1177,10 @@ msgstr "Autoriser le téléchargement du fichier"
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
 msgid "Undo"
@@ -1225,6 +1243,9 @@ msgstr "Utilisateur enregistré"
 #, tao-public
 msgid "User Settings"
 msgstr "Paramètres Utilisateur"
+
+msgid "userAgent"
+msgstr ""
 
 #, tao-public
 msgid "Users"
