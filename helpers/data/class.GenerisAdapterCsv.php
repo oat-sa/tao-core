@@ -167,15 +167,13 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			    
 			    $createdResources++;
 			    
-			} catch (tao_helpers_data_ValidationException $valExc) {
-			    $targetProperty = new core_kernel_classes_Property($propUri);
+			} catch (ValidationException $valExc) {
                 $this->addErrorMessage(
 			        $propUri,
 			        common_report_Report::createFailure(
 			            'Row '.$rowIterator. ' ' .$valExc->getProperty()->getLabel(). ': ' .$valExc->getUserMessage(). ' "' . $valExc->getValue() . '"'
 			        )
 			    );
-			    $valid = false;
 			}
 			
 			helpers_TimeOutHelper::reset();
