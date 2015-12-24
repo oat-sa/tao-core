@@ -33,6 +33,10 @@ use oat\oatbox\user\User;
  */
 class TimeRule implements RequiredActionRuleInterface
 {
+    const CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule';
+    const PROPERTY_NAME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName';
+    const PROPERTY_EXECUTION_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime';
+    const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject';
 
     /**
      * @var string|DateTime
@@ -87,14 +91,14 @@ class TimeRule implements RequiredActionRuleInterface
     {
         $resource = $this->getActionExecution();
         if ($resource === null) {
-            $requiredActionClass = new \core_kernel_classes_Class(RequiredActionInterface::CLASS_URI);
+            $requiredActionClass = new \core_kernel_classes_Class(self::CLASS_URI);
             $resource = $requiredActionClass->createInstanceWithProperties(array(
-                RequiredActionInterface::PROPERTY_SUBJECT => $this->getUser()->getIdentifier(),
-                RequiredActionInterface::PROPERTY_NAME => $this->requiredAction->getName(),
-                RequiredActionInterface::PROPERTY_EXECUTION_TIME => time(),
+                self::PROPERTY_SUBJECT => $this->getUser()->getIdentifier(),
+                self::PROPERTY_NAME => $this->requiredAction->getName(),
+                self::PROPERTY_EXECUTION_TIME => time(),
             ));
         }
-        $timeProperty = (new \core_kernel_classes_Property(RequiredActionInterface::PROPERTY_EXECUTION_TIME));
+        $timeProperty = (new \core_kernel_classes_Property(self::PROPERTY_EXECUTION_TIME));
         $resource->editPropertyValues($timeProperty, time());
         return $resource;
     }
@@ -136,7 +140,7 @@ class TimeRule implements RequiredActionRuleInterface
 
             if ($resource !== null) {
                 /** @var \core_kernel_classes_Resource $resource */
-                $time = (string) $resource->getOnePropertyValue(new \core_kernel_classes_Property(RequiredActionInterface::PROPERTY_EXECUTION_TIME));
+                $time = (string) $resource->getOnePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_EXECUTION_TIME));
                 if (!empty($time)) {
                     $this->executionTime = new DateTime('@' . $time);
                 }
@@ -171,10 +175,10 @@ class TimeRule implements RequiredActionRuleInterface
     protected function getActionExecution()
     {
         $result = null;
-        $requiredActionClass = new \core_kernel_classes_Class(RequiredActionInterface::CLASS_URI);
+        $requiredActionClass = new \core_kernel_classes_Class(self::CLASS_URI);
         $resources = $requiredActionClass->searchInstances([
-            RequiredActionInterface::PROPERTY_NAME => $this->requiredAction->getName(),
-            RequiredActionInterface::PROPERTY_SUBJECT => $this->getUser()->getIdentifier(),
+            self::PROPERTY_NAME => $this->requiredAction->getName(),
+            self::PROPERTY_SUBJECT => $this->getUser()->getIdentifier(),
         ], [
             'like' => false,
         ]);
