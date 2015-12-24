@@ -173,4 +173,88 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$this->assertEquals($propertiesExpected, $properties);
 	}
 
+	public function testImportRules() {
+
+        $path = $this->getSamplePath('/csv/users1-header-rules-validator.csv');
+
+        $file = tao_helpers_File::createTempDir() . '/temp-import-rules-validator.csv';
+        tao_helpers_File::copy($path, $file);
+        $this->assertFileExists($file);
+
+
+        $importer = new CsvBasicImporter();
+        
+        $class = $this->prophesize('\core_kernel_classes_Class');
+        
+        $importer->setValidators([
+            'label' => [
+                tao_helpers_form_FormFactory::getValidator('Length', ["max" => 20])
+            ],
+            'firstName' => [
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+                tao_helpers_form_FormFactory::getValidator('Length', ["min" => 2, "max" => 25])
+            ],
+            'lastName' => [
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+                tao_helpers_form_FormFactory::getValidator('Length', ["min" => 2, "max" => 12])
+            ],
+            'login' => [
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+                tao_helpers_form_FormFactory::getValidator('AlphaNum'),
+                tao_helpers_form_FormFactory::getValidator('Unique'),
+                tao_helpers_form_FormFactory::getValidator('Length', ["min" => 2, "max" => 12])
+            ],
+            'mail' => [
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+                tao_helpers_form_FormFactory::getValidator('Email'),
+                tao_helpers_form_FormFactory::getValidator('Length', ["min" => 6, "max" => 100])
+            ],
+            'password' => [
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+                tao_helpers_form_FormFactory::getValidator('PasswordStrength'),
+            ],
+            'UserUIlg' => [
+                tao_helpers_form_FormFactory::getValidator('Url'),
+            ]
+        ]);
+        
+        $report = $importer->import( $class->reveal(), [
+            'file' => $file,
+            'map' => [
+                'label'     => "0",
+                'firstName' => "1",
+                'lastName'  => "2",
+                'login'     => "3",
+                'mail'      => "4",
+                'password'  => "5",
+                'UserUIlg'  => "6",
+            ],
+        ]);
+        
+        $this->assertInstanceOf('common_report_Report', $report);
+        $this->assertEquals('Data imported. Some records are invalid.', $report->getMessage());
+
+        $this->assertEquals('Row 1 : This field is too long (maximum 20) "Error: with too many label chars here"', $report->getErrors()[0]->getMessage());
+        $this->assertEquals('Row 4 : This field is too long (maximum 20) "incorrect login symbol"', $report->getErrors()[1]->getMessage());
+        $this->assertEquals('Row 7 : This field is too long (maximum 20) "all fields with some errors, just very bad row"', $report->getErrors()[2]->getMessage());
+        $this->assertEquals('Row 2 : This field is required ""', $report->getErrors()[3]->getMessage());
+        $this->assertEquals('Row 3 : Invalid field length (minimum 2, maximum 25) "J"', $report->getErrors()[4]->getMessage());
+        $this->assertEquals('Row 5 : This is not a valid email address. "jerome.bogaerts_tudor.lu"', $report->getErrors()[5]->getMessage());
+        $this->assertEquals('Row 6 : This field is too short (minimum 10), Must include at least one letter, Must include upper case letters, Must include at least one special letter "jbogaerts"', $report->getErrors()[6]->getMessage());
+        
+        //cause import has errors
+        $this->assertFileExists($file);
+        tao_helpers_File::remove($file);
+        $this->assertFileNotExists($file);
+    }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    protected function getSamplePath($path)
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR .'samples' . str_replace('/', DIRECTORY_SEPARATOR, $path);
+    }
+	
 }
