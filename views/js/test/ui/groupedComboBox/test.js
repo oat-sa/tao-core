@@ -63,7 +63,7 @@ define([
         QUnit.expect(2);
         var combo =  groupedComboBox();
         assert.ok(typeof combo === 'object', 'The GroupedComboBox function creates an object');
-        assert.ok(typeof combo.render === 'function', 'The GroupedComboBox instance has a info method');
+        assert.ok(typeof combo.render === 'function', 'The GroupedComboBox instance has a render method');
     });
 
     QUnit.test('render', function(assert) {
