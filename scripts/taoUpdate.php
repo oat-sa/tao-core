@@ -18,10 +18,11 @@
  *
  *
  */
-
 require_once dirname(__FILE__) .'/../includes/raw_start.php';
 
-$action = new common_ext_UpdateExtensions();
+use oat\tao\model\extension\UpdateExtensions;
+
+$action = new UpdateExtensions();
 $report = $action->__invoke(array());
 echo tao_helpers_report_Rendering::renderToCommandline($report);
 echo 'Update completed' . PHP_EOL;
