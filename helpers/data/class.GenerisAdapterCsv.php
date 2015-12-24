@@ -324,14 +324,9 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		/**  @var tao_helpers_form_Validator $validator */
 		$validators = $this->getValidator($propUri);
 		foreach ((array)$validators as $validator) {
-			
-			if(!count($validator->getOptions())) {
-				$validator->setOptions( array(
-					'resourceClass' => $destination,
-					'property'      => $propUri
-				));
-			}
 
+			$validator->setOptions( array_merge(array('resourceClass' => $destination,'property' => $propUri), $validator->getOptions()) );
+			
             if (!$validator->evaluate($csvRow[$csvColumn])) {
                 throw new ValidationException(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn], $validator->getMessage());
 			}
