@@ -1,4 +1,4 @@
-define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], function($, dataset){
+define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/test/ui/datatable/largedata.json', 'ui/datatable'], function($, _, dataset, largeDataset){
 
     "use strict";
     
@@ -15,19 +15,67 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
     });
 
     QUnit.asyncTest('Initialization', function(assert){
-        QUnit.expect(2);
+        QUnit.expect(3);
         
         var $elt = $('#container-1');
+        var firstUrl = 'js/test/ui/datatable/data.json';
+        var secondUrl = 'js/test/ui/datatable/largedata.json';
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        
-        $elt.on('create.datatable', function(){
+        $elt.one('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            QUnit.start();
+
+            // *** check the reinit of the datatable
+            $elt.one('create.datatable', function(){
+                assert.ok(false, 'The create event must not be triggered when reinit');
+            });
+
+            $elt.one('load.datatable', function() {
+                var data = $elt.data('ui.datatable');
+                assert.equal(data && data.url, secondUrl, 'The options must be updated by reinit');
+                QUnit.start();
+            });
+
+            $elt.datatable({
+                url : secondUrl
+            });
+            // *** end reinit check
         });
         $elt.datatable({
-            url : 'js/test/ui/datatable/data.json'
+            url : firstUrl
         });
+    });
+
+    QUnit.asyncTest('Options', function(assert){
+        QUnit.expect(5);
+
+        var $elt = $('#container-1');
+        var firstOptions = {
+            url: 'js/test/ui/datatable/data.json'
+        };
+        var secondOptions = {
+            url: 'js/test/ui/datatable/largedata.json',
+            tools: [{
+                id: 'test',
+                label: 'TEST'
+            }]
+        };
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        $elt.on('create.datatable', function(){
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+
+            var data = $elt.data('ui.datatable') || {};
+            assert.equal(data.url, firstOptions.url, 'The options must be set');
+
+            $elt.datatable('options', secondOptions);
+
+            data = $elt.data('ui.datatable') || {};
+            assert.equal(data.url, secondOptions.url, 'The url option must be updated');
+            assert.deepEqual(data.tools, secondOptions.tools, 'The tools options must be added');
+            QUnit.start();
+        });
+        $elt.datatable(firstOptions);
     });
 
     QUnit.asyncTest('Model loading using AJAX', function(assert){
@@ -91,12 +139,12 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
     });
 
     QUnit.asyncTest('Model loading using predefined data', function(assert){
-        QUnit.expect(8);
+        QUnit.expect(12);
 
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        QUnit.stop(2);
+        QUnit.stop(4);
 
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
@@ -113,9 +161,22 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             assert.equal(typeof response, 'object', 'the beforeload event is triggered and provides the response data');
             QUnit.start();
         });
-        $elt.on('load.datatable', function(event, response) {
+        $elt.one('load.datatable', function(event, response) {
             assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
+            assert.equal($elt.find('.datatable tbody tr').length, dataset.data.length, 'the lines from the small dataset are rendered');
+
             QUnit.start();
+
+            // *** check the refresh with predefined data
+            _.defer(function() {
+                $elt.one('load.datatable', function(event, response) {
+                    assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
+                    assert.equal($elt.find('.datatable tbody tr').length, largeDataset.data.length, 'the lines from the large dataset are rendered');
+                    QUnit.start();
+                });
+
+                $elt.datatable('refresh', largeDataset);
+            });
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
@@ -436,19 +497,8 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
         $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
-
+            
             $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
-        });
-
-        $elt.on('selected.datatable', function () {
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(0)').text(), 'jdoe', 'the login field in selected row is correct');
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(1)').text(), 'John Doe', 'the name field in selected row is correct');
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(2)').text(), 'jdoe@nowhere.org', 'the mail field in selected row is correct');
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(3)').text(), 'Items Manager', 'the roles field in selected row is correct');
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(4)').text(), 'English', 'the dataLg field in selected row is correct');
-            assert.equal($elt.find('.datatable tbody tr.selected td:eq(5)').text(), 'English', 'the guiLg field in selected row is correct');
-
-            QUnit.start();
         });
 
         $elt.datatable({
@@ -482,11 +532,18 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             listeners: {
                 selected: function () {
                     assert.ok(true, 'the handler was attached and caused');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(0)').text(), 'jdoe', 'the login field in selected row is correct');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(1)').text(), 'John Doe', 'the name field in selected row is correct');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(2)').text(), 'jdoe@nowhere.org', 'the mail field in selected row is correct');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(3)').text(), 'Items Manager', 'the roles field in selected row is correct');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(4)').text(), 'English', 'the dataLg field in selected row is correct');
+                    assert.equal($elt.find('.datatable tbody tr.selected td:eq(5)').text(), 'English', 'the guiLg field in selected row is correct');
+                    QUnit.start();
                 }
             }
         });
     });
-
+    
     QUnit.asyncTest('Default filtering enabled', function (assert) {
         QUnit.expect(7);
 
@@ -671,5 +728,65 @@ define(['jquery', 'json!tao/test/ui/datatable/data.json', 'ui/datatable'], funct
             data: dataset
         });
 
+    });
+
+    QUnit.asyncTest('Endless listeners on events', function(assert) {
+        QUnit.expect(5);
+
+        var $elt = $('#container-1');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        $elt.on('create.datatable', function () {
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
+            
+            // run listener 
+            $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
+            
+            // sort list 
+            // and here we had render once again
+            $elt.find('.datatable thead tr:nth-child(1) th:eq(0) div').click();
+        });
+        
+        $elt.datatable({
+            url : 'js/test/ui/datatable/data.json',
+            rowSelection: true,
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            }],
+            listeners: {
+                selected: function selectRow(e) {
+                    assert.ok(true, 'the handler was attached and caused');
+                },
+                sort: function() {
+                    setTimeout(function () {
+                        $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
+                        QUnit.start();
+                    }, 400);
+                }
+            }
+        });
     });
 });
