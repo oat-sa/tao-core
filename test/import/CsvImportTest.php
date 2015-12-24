@@ -20,6 +20,7 @@
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\import\CsvBasicImporter;
+use Prophecy\Argument;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
@@ -185,7 +186,10 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
         $importer = new CsvBasicImporter();
         
         $class = $this->prophesize('\core_kernel_classes_Class');
-        
+        $resource = $this->prophesize('\core_kernel_classes_Resource');
+        $class->createInstanceWithProperties(Argument::any())->willReturn($resource->reveal());
+
+
         $importer->setValidators([
             'label' => [
                 tao_helpers_form_FormFactory::getValidator('Length', ["max" => 20])
