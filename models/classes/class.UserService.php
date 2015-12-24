@@ -301,23 +301,35 @@ class tao_models_classes_UserService
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array options
+     * @param array $options
+	 * @param array $filters
      * @return array
      */
-    public function getAllUsers($options = array())
+    public function getAllUsers($options = [], $filters = [PROPERTY_USER_LOGIN => '*'])
     {
-        $returnValue = array();
-
         $userClass = new core_kernel_classes_Class(CLASS_TAO_USER);
-		$options = array_merge(array('recursive' => true, 'like' => true), $options);
-		$filters = array(PROPERTY_USER_LOGIN => '*');
-		$returnValue = $userClass->searchInstances($filters, $options);
+		$options = array_merge(['recursive' => true, 'like' => true], $options);
 
-        return (array) $returnValue;
+		return (array) $userClass->searchInstances($filters, $options);
     }
 
+	/**
+	 * Returns count of instances, that match conditions in options and filters
+	 * @access public
+	 * @author Ivan Klimchuk <klimchuk@1pt.com>
+	 * @param array $options
+	 * @param array $filters
+	 * @return int
+     */
+	public function getCountUsers($options = [], $filters = [])
+	{
+		$userClass = new core_kernel_classes_Class(CLASS_TAO_USER);
+
+		return $userClass->countInstances($filters, $options);
+	}
+
     /**
-     * returns the nr of users fullfilling the criterias,
+     * returns the nr of users full filling the criteria,
      * uses the same syntax as getUsersByRole
      *
      * @access public

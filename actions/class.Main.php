@@ -100,6 +100,8 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
 
             $this->setData('settings-menu', $naviElements);
+            
+            $this->setData('current-section', $this->getRequestParameter('section'));
 
             $this->setData('content-template', array('blocks/entry-points.tpl', 'tao'));
 
@@ -228,6 +230,8 @@ class tao_actions_Main extends tao_actions_CommonModule
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
+
+        $this->setData('current-section', $this->getRequestParameter('section'));
 		                
         //creates the URL of the action used to configure the client side
         $clientConfigParams = array(

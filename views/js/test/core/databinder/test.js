@@ -182,6 +182,25 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[4].href, 'http://new.rdf#test', 'model element has been added');
     });
 
+    QUnit.test('Add value which is not represented in the model', function(assert){
+        QUnit.expect(2);
+
+        var $container = $('#container-4');
+        var $sectionParts = $('ul', $container);
+        assert.ok($container.length === 1, 'Test the fixture is available');
+
+        var $newSection = $("<li>" +
+            "<input checked='checked' type='checkbox' value='true' data-bind-encoder='boolean' data-bind='visible'>" +
+            "</li>");
+
+        $sectionParts.append($newSection);
+
+        var databinder = new DataBinder($container, model);
+        databinder.bind();
+
+        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[3].visible, true, 'new element has been added');
+    });
+
      QUnit.test('Array value filter', function(assert){
         QUnit.expect(2);
 

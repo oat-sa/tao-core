@@ -61,6 +61,7 @@ define([
         update : function update(list) {
             var $list = this.controls && this.controls.$list;
             var $numberValue = this.controls && this.controls.$numberValue;
+            var count;
 
             this.setLoading(true);
             if ($list) {
@@ -73,7 +74,11 @@ define([
                     }));
 
                     if($numberValue){
-                        $numberValue.text(list.length);
+                        count = list.length;
+                        if (_.isFunction(this.config.countRenderer)) {
+                            count = this.config.countRenderer(count);
+                        }
+                        $numberValue.text(count);
                     }
 
                     this.setState('empty', false);
@@ -189,6 +194,7 @@ define([
      * @param {Array} [config.list] - The list of boxes to display
      * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
+     * @param {Function} [config.countRenderer] - An optional callback applied on the list count before display
      * @returns {listBox}
      */
     var listBoxactory = function listBoxFactory(config) {

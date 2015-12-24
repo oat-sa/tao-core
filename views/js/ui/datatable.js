@@ -86,12 +86,12 @@ define([
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
          * @param {Boolean} options.rowSelection - enables the selection of rows by clicking on them.
          * @param {Object} options.tools - a list of tool buttons to display above the table.
-         * @param {Object} data - inject predefined data to avoid the first query.
          * @param {Object|Boolean} options.status - allow to display a status bar.
          * @param {Object|Boolean} options.filter - allow to display a filter bar.
          * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overridden by column filter.
          * @param {String} options.filterquery - a query string for filtering, using only in runtime.
          * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime.
+         * @param {Object} [data] - inject predefined data to avoid the first query.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
@@ -102,9 +102,9 @@ define([
 
             return this.each(function() {
                 var $elt = $(this);
+                var currentOptions = $elt.data(dataNs);
 
-                if(!$elt.data(dataNs)){
-
+                if (!currentOptions) {
                     //add data to the element
                     $elt.data(dataNs, options);
 
@@ -121,7 +121,12 @@ define([
                         self._query($elt);
                     }
                 } else {
-                    self._refresh($elt);
+                    // update existing options
+                    if (options) {
+                        $elt.data(dataNs, _.merge(currentOptions, options));
+                    }
+
+                    self._refresh($elt, data);
                 }
             });
         },
@@ -133,10 +138,15 @@ define([
          * @example $('selector').datatable('refresh');
          *
          * @param {jQueryElement} $elt - plugin's element
+         * @param {Object} [data] - Data to render immediately, prevents the query to be made.
          */
-        _refresh : function($elt){
+        _refresh: function($elt, data) {
             // TODO: refresh only rows with data, not all component
-            this._query($elt);
+            if (data) {
+                this._render($elt, data);
+            } else {
+                this._query($elt);
+            }
         },
 
         /**
@@ -146,7 +156,7 @@ define([
          * @param {jQueryElement} $elt - plugin's element
          * @fires dataTable#query.datatable
          */
-        _query: function($elt){
+        _query: function($elt) {
 
             var self = this;
             var options = $elt.data(dataNs);
@@ -217,7 +227,9 @@ define([
 
             // overrides column options
             _.forEach(options.model, function (field) {
-                field.filterable = !!(field.filterable && options.filter); // disable column filter if filtering turned off globally
+                if (!options.filter) {
+                    field.filterable = false;
+                }
                 if (field.transform) {
                     field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }
@@ -320,7 +332,10 @@ define([
 
             // bind listeners to events
             _.forEach(options.listeners, function (callback, event) {
-                $elt.on([event, ns].join('.'), callback);
+                var ev = [event, ns].join('.');
+                $elt
+                    .off(ev)
+                    .on(ev, callback);
             });
 
             // Now $rendering takes the place of $elt...

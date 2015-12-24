@@ -94,7 +94,8 @@ class tao_helpers_data_CsvFile
         
         $defaults = array('field_delimiter' => ';',
         				  'field_encloser' => '"',
-        				  'multi_values_delimiter' => '|',
+                            // if empty - don't use multi_values
+        				  'multi_values_delimiter' => '',
         				  'first_row_column_names' => true);
         
         $this->setOptions(array_merge($defaults, $options));
@@ -228,7 +229,15 @@ class tao_helpers_data_CsvFile
 						// abstraction consistency.
 						if ($fieldData == ''){
 							$fieldData = null;	
-						}
+						} elseif(!empty($MULTI) && mb_strpos($fieldData, $MULTI) !== false) {
+                            // try to split by multi_value_delimiter
+                            $multiField = [];
+                            foreach (explode($MULTI, $fieldData) as $item) {
+                                if(!empty($item))
+                                    $multiField[] = $item;
+                            }
+                            $fieldData = $multiField;
+                        }
 						$data[$lineNumber][$i] = $fieldData;
 					}
 

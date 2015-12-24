@@ -50,7 +50,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * an associative array formated like this:
      * array('field_delimiter' => 'a delimiter char', default is ;,
      * 'field_encloser' => 'a field encloser char, default is "',
-     * 'multi_values_delimiter' => 'a multi values delimiter, default is |',
+     * 'multi_values_delimiter' => 'a multi values delimiter, default is empty string - do not use multi values',
      * 'first_row_column_names' => 'boolean value describing if the first row
      * column names').
      *
@@ -70,7 +70,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			$this->options['field_encloser'] = '"';		//double quote
 		}
 		if(!isset($this->options['multi_values_delimiter'])){
-			$this->options['multi_values_delimiter'] = '|';
+			$this->options['multi_values_delimiter'] = '';
 		}
 		if(!isset($this->options['first_row_column_names'])){
 			$this->options['first_row_column_names'] = true;
@@ -269,7 +269,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		
 		$returnValue = $value;
 
-        return (string) $returnValue;
+        return $returnValue;
     }
 
     /**

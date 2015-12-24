@@ -40,6 +40,7 @@ define([
          * @param {String} [breadcrumbs.label] - The displayed label
          * @param {String} [breadcrumbs.data] - An extra label to display, usually related to the current context
          * @param {Array} [breadcrumbs.entries] - A list of parallels links
+         * @param {Array} [breadcrumbs.cls] - CSS class to add to the container
          * @returns {jQuery}
          */
         update : function update(breadcrumbs) {

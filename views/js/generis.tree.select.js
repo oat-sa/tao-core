@@ -12,7 +12,7 @@
  * @author Jehan Bihin (class)
  */
 
-define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback', 'jquery.tree', 'lib/jsTree/plugins/jquery.tree.checkbox'], function($, __, context, GenerisTreeClass, helpers, feedback) {
+define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback', 'jquery.tree', 'lib/jsTree/plugins/jquery.tree.checkbox'], function($, _, __, context, GenerisTreeClass, helpers, feedback) {
 	var GenerisTreeSelectClass = GenerisTreeClass.extend({
 		/**
 		 * Constructor
@@ -21,7 +21,8 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback', '
 		 * @param {Object} options
 		 */
 		init: function(selector, dataUrl, options) {
-			this.checkedNodes = (typeof options.checkedNodes !== "undefined") ? options.checkedNodes.slice(0) : new Array ();
+			this.checkedNodes = (typeof options.checkedNodes !== "undefined") ? options.checkedNodes.slice(0) : [];
+			this.hiddenNodes = (typeof options.hiddenNodes !== "undefined") ? options.hiddenNodes.slice(0) : [];
 			if (options.callback && options.callback.checkPaginate) {
 				this.checkPaginate = options.callback.checkPaginate;
 			}
@@ -47,7 +48,6 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback', '
 					//before check
 					beforecheck: function(NODE, TREE_OBJ) {
 						var nodeId = $(NODE).prop('id');
-
 						if (instance.isRefreshing) {
 							if ($.inArray(nodeId, instance.checkedNodes) === -1) {
 								return false;
@@ -130,9 +130,13 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback', '
 						if (DATA.children) {
 							DATA.state = 'open';
 						}
-
+                        
 						//extract meta data from children
 						instance.extractMeta(DATA);
+                        
+                        //remove hidden nodes from the data
+                        instance.removeHiddenNodes(DATA.children || DATA);
+                        
 						return DATA;
 					}
 				},
@@ -153,7 +157,27 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback', '
 				e.data.instance.saveData();
 			});
 		},
-
+        
+        /**
+         * Remove configured hidden nodes from the DATA
+         * @param {Array} nodes
+         */
+        removeHiddenNodes : function removeHiddenNodes(nodes){
+            
+            var self = this;
+            var hiddenNodes = this.hiddenNodes;
+            
+            if(_.isArray(nodes) && hiddenNodes && _.isArray(hiddenNodes)){
+                _.remove(nodes, function(node){
+                    if(node.type === 'instance'){
+                        return (_.indexOf(hiddenNodes, node.attributes['data-uri']) >= 0);
+                    }else if(node.type === 'class' && node.children){
+                        self.removeHiddenNodes(node.children);
+                    }
+                });
+            }
+        },
+        
 		trace: function() {
 			/*console.log('TRACE '+
 				arguments.callee.caller
@@ -176,7 +200,7 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/feedback', '
 				"limit": instancesLeft < this.paginate ? instancesLeft : this.paginate
 			};
 			options = $.extend(options, pOptions);
-
+            
 			$.post(this.dataUrl, options, (function(instance) {return function(DATA) {
 				//Hide paginate options
 				instance.hidePaginate(NODE, TREE_OBJ);
