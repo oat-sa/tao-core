@@ -145,6 +145,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			    foreach ($this->options['map'] as $propUri => $csvColumn) {
 			        $this->validate($destination, $propUri, $csvRow, $csvColumn);
 			    }
+				
 			    // evaluate csv values
 			    foreach($this->options['map'] as $propUri => $csvColumn){
 			        
@@ -171,7 +172,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
                 $this->addErrorMessage(
 			        $propUri,
 			        common_report_Report::createFailure(
-			            'Row '.$rowIterator. ' ' .$valExc->getProperty()->getLabel(). ': ' .$valExc->getUserMessage(). ' "' . $valExc->getValue() . '"'
+			            __('Row %s', $rowIterator) . ' ' .$valExc->getProperty()->getLabel(). ': ' . $valExc->getUserMessage() . ' "' . $valExc->getValue() . '"'
 			        )
 			    );
 			}

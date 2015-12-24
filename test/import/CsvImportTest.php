@@ -187,8 +187,18 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
         
         $class = $this->prophesize('\core_kernel_classes_Class');
         $resource = $this->prophesize('\core_kernel_classes_Resource');
-        $class->createInstanceWithProperties(Argument::any())->willReturn($resource->reveal());
-
+        
+        $class->createInstanceWithProperties([
+            "label" => ["Correct row"],
+            "firstName" => ["Jérôme"],
+            "lastName" => ["Bogaerts"],
+            "login" => ["jbogaerts"],
+            "mail" => ["jerome.bogaerts@tudor.lu"],
+            "password" => ["jbogaerts!!!111Ok"],
+            "UserUIlg" => ["http://www.tao.lu/Ontologies/TAO.rdf#LangEN"]
+        ])
+            ->shouldBeCalledTimes(1)
+            ->willReturn($resource->reveal());
 
         $importer->setValidators([
             'label' => [
@@ -215,7 +225,6 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
             ],
             'password' => [
                 tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-                tao_helpers_form_FormFactory::getValidator('PasswordStrength'),
             ],
             'UserUIlg' => [
                 tao_helpers_form_FormFactory::getValidator('Url'),
@@ -236,15 +245,9 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
         ]);
         
         $this->assertInstanceOf('common_report_Report', $report);
-        $this->assertEquals('Data imported. Some records are invalid.', $report->getMessage());
+        $this->assertEquals(common_report_Report::TYPE_WARNING, $report->getType());
 
-        $this->assertEquals('Row 1 : This field is too long (maximum 20) "Error: with too many label chars here"', $report->getErrors()[0]->getMessage());
-        $this->assertEquals('Row 4 : This field is too long (maximum 20) "incorrect login symbol"', $report->getErrors()[1]->getMessage());
-        $this->assertEquals('Row 7 : This field is too long (maximum 20) "all fields with some errors, just very bad row"', $report->getErrors()[2]->getMessage());
-        $this->assertEquals('Row 2 : This field is required ""', $report->getErrors()[3]->getMessage());
-        $this->assertEquals('Row 3 : Invalid field length (minimum 2, maximum 25) "J"', $report->getErrors()[4]->getMessage());
-        $this->assertEquals('Row 5 : This is not a valid email address. "jerome.bogaerts_tudor.lu"', $report->getErrors()[5]->getMessage());
-        $this->assertEquals('Row 6 : This field is too short (minimum 10), Must include at least one letter, Must include upper case letters, Must include at least one special letter "jbogaerts"', $report->getErrors()[6]->getMessage());
+        $this->assertCount(6, $report->getErrors());
         
         //cause import has errors
         $this->assertFileExists($file);
