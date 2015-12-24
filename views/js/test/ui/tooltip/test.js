@@ -28,9 +28,36 @@ define([
     QUnit.module('tooltip');
 
     QUnit.test('jQuery.fn', function(assert) {
+        var $el = $($('#for_tooltip_1')),
+            tooltipApi;
+
         assert.equal(typeof $.qtip, 'function', "The tooltip widget is registered");
 
-        tooltip($('#qunit-fixture'))
+        $el.qtip({
+            theme : 'warning',
+            content: {
+                text: 'Tooltip content'
+            }
+        });
+
+        tooltipApi = $el.qtip('api');
+
+        QUnit.assert.ok(!tooltipApi.rendered);
+
+        $el.trigger('mouseover');
+
+        QUnit.stop();
+        //wait showing delay
+        setTimeout(function() {
+            start();
+            assert.ok(tooltipApi.rendered);
+            assert.ok($(tooltipApi.elements.content).is(':visible'));
+        }, 500);
+    });
+
+    QUnit.test('Tooltipstered element', function(assert) {
+
+        tooltip($('#qunit-fixture'));
 
         var tooltipApi = $('#tooltipstered_1').qtip('api');
         QUnit.assert.ok(!tooltipApi.rendered);
