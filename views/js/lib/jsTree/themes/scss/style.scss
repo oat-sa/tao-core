@@ -13,7 +13,6 @@
         min-height: 150px;
         overflow: visible;
     }
-
     ul {
         margin: 0 8px;
         padding: 5px 0;
@@ -24,6 +23,7 @@
         }
         ins {
             display: inline-block;
+            background-repeat: no-repeat;
             text-decoration: none;
             width: 16px;
             height: 19px;
@@ -225,10 +225,6 @@
 
 .taotree-item .node-instance ins:before{
     @include icon-item;
-}
-
-.taotree-repository .node-instance ins:before{
-    @include icon-repository;
 }
 
 .taotree-result_server .node-instance ins:before{

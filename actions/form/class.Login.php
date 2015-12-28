@@ -87,8 +87,6 @@ class tao_actions_form_Login
 			tao_helpers_form_FormFactory::getValidator('NotEmpty')
 		);
 		$this->form->addElement($passElt);
-		
-        
     }
 
 }

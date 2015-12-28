@@ -1,4 +1,5 @@
 <?php
+
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,24 +30,12 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
 {
 
     /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
-     * @param array options
-     * @return mixed
-     */
-    public function __construct($options = array())
-    {
-        parent::__construct($options);
-    }
-
-    /**
      * Short description of method evaluate
      *
      * @access public
      * @author Jehan Bihin, <jehan.bihin@tudor.lu>
-     * @param values
+     * @param
+     *            values
      * @return boolean
      */
     public function evaluate($values)
@@ -60,33 +49,29 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
             return $returnValue;
         }
         if (! is_numeric($rowValue) || $value != $rowValue) {
-            $this->message = __('The value of this field must be numeric');
+            $this->setMessage(__('The value of this field must be numeric'));
             $returnValue = false;
         } else {
             if (isset($this->options['min']) || isset($this->options['max'])) {
-                $this->message = __('Invalid field range');
                 
                 if (isset($this->options['min']) && isset($this->options['max'])) {
-                    $this->message .= ' (' . __('minimum value: ') . $this->options['min'] . ', ' . __('maximum value: ') . $this->options['max'] . ')';
                     
                     if ($this->options['min'] <= $value && $value <= $this->options['max']) {
                         $returnValue = true;
-                    }
-                } else {
-                    if (isset($this->options['min']) && ! isset($this->options['max'])) {
-                        $this->message .= ' (' . __('minimum value: ') . $this->options['min'] . ')';
-                        
-                        if ($this->options['min'] <= $value) {
-                            $returnValue = true;
-                        }
                     } else {
-                        if (! isset($this->options['min']) && isset($this->options['max'])) {
-                            $this->message .= ' (' . __('maximum value: ') . $this->options['max'] . ')';
-                            
-                            if ($value <= $this->options['max']) {
-                                $returnValue = true;
-                            }
-                        }
+                        $this->setMessage(__('Invalid field range (minimum value: %1$s, maximum value: %2$s)', $this->options['min'], $this->options['max']));
+                    }
+                } elseif (isset($this->options['min']) && ! isset($this->options['max'])) {
+                    if ($this->options['min'] <= $value) {
+                        $returnValue = true;
+                    } else {
+                        $this->setMessage(__('Invalid field range (minimum value: %s)',$this->options['min']));
+                    }
+                } elseif (! isset($this->options['min']) && isset($this->options['max'])) {
+                    if ($value <= $this->options['max']) {
+                        $returnValue = true;
+                    } else {
+                        $this->setMessage(__('Invalid field range (maximum value: %s)', $this->options['max']));
                     }
                 }
             } else {

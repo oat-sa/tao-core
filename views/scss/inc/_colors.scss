@@ -37,6 +37,18 @@ $uiOverlay: $lightBlueGrey;
 // sidebars etc.
 $canvas: mix(#fff, $grey, 85%);
 
+// colors taken from feedback.scss
+$errorBgColor: whiten($error, .8);
+$errorBorderColor: whiten($error, .1);
+
+$infoBgColor: whiten($info, .8);
+$infoBorderColor: whiten($info, .1);
+
+$successBgColor: whiten($success, .8);
+$successBorderColor: whiten($success, .1);
+
+$warningBgColor: whiten($warning, .8);
+$warningBorderColor: whiten($warning, .1);
 
 
 $darkBar : rgb(51, 51, 51);

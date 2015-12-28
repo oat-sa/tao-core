@@ -29,6 +29,9 @@
  * @package tao
  
  */
+use oat\tao\model\GenerisTreeFactory;
+use oat\tao\helpers\TreeHelper;
+
 class tao_actions_GenerisTree extends tao_actions_CommonModule {
 	
 	const DEFAULT_LIMIT = 10;
@@ -53,14 +56,17 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule {
 		$openNodes	= array($class->getUri());
 		if ($this->hasRequestParameter('openNodes') && is_array($this->getRequestParameter('openNodes'))) {
 			$openNodes = array_merge($openNodes, $this->getRequestParameter('openNodes'));
-		}
+        }else if($this->hasRequestParameter('openParentNodes') && is_array($this->getRequestParameter('openParentNodes'))) {
+            $childNodes = $this->getRequestParameter('openParentNodes');
+            $openNodes = TreeHelper::getNodesToOpen($childNodes, $class);
+        }
 		
 		$limit		= $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : self::DEFAULT_LIMIT;
 		$offset		= $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
 		$showInst	= $this->hasRequestParameter('hideInstances') ? !$this->getRequestParameter('hideInstances') : true;
 		
-		$factory = new tao_models_classes_GenerisTreeFactory();
-		$array = $factory->buildTree($class, $showInst, $openNodes, $limit, $offset);
+		$factory = new GenerisTreeFactory($showInst, $openNodes, $limit, $offset);
+		$array = $factory->buildTree($class);
 		if ($hideNode) {
 			$array = isset($array['children']) ? $array['children'] : array();
 		}

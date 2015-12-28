@@ -1,3 +1,26 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+/**
+ *
+ * @author Bertrand <bertrand@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -83,7 +106,8 @@ define([
                         file.display = (file.identifier + file.name);
                     }
 
-                    file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + encodeURIComponent(file.uri);
+                    file.viewUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + encodeURIComponent(file.uri);
+                    file.downloadUrl = file.viewUrl + '&svgzsupport=true';
                     return file;
                 });
             
@@ -105,11 +129,6 @@ define([
             var $selected   = $(this);
             var $files      = $('.files > li', $fileSelector);
             var data        = _.clone($selected.data()); 
-
-            if($.contains($selected.find('.actions')[0], e.target)){
-                e.preventDefault();
-                return true;
-            }
 
             $files.removeClass('active');
             $selected.addClass('active');
@@ -134,8 +153,11 @@ define([
             if(e.namespace === 'deleter' && $target.length){
                 path = $target.data('file');
                 params[options.pathParam] = path;
-                $.getJSON(options.deleteUrl, _.merge(params, options.params));
-                $container.trigger('filedelete.' + ns, [path]);
+                $.getJSON(options.deleteUrl, _.merge(params, options.params), function(response){
+                    if(response.deleted){
+                        $container.trigger('filedelete.' + ns, [path]);
+                    }
+                });
             }
         });
        
@@ -178,10 +200,22 @@ define([
 
                     //check the mime-type
                     if(options.params.filters){
-                        var filters = options.params.filters.split(',');
+                        var filters = [],
+                            i;
+
+                        if (!_.isString(options.params.filters)) {
+                            for(i in options.params.filters){
+                                filters.push(options.params.filters[i]['mime']);
+                            }
+                        } else {
+                            filters = options.params.filters.split(',');
+                        }
                         //TODO check stars
                         files = _.filter(files, function(file){
-                            return _.contains(filters, file.type);
+                            // Under rare circumstances a browser may report the mime type
+                            // with quotes (e.g. "application/foo" instead of application/foo)
+                            var checkType = file.type.replace(/^["']+|['"]+$/g, '');
+                            return _.contains(filters, checkType);
                         });
                          
                         if(files.length !== givenLength){

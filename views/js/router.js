@@ -18,13 +18,14 @@
  *
  */
 define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, context, UrlParser, async) {
+    'use strict';
 
     /**
      * The router helps you to execute a controller when an URL maps a defined route.
-     * 
+     *
      * The routes are defined by extension, into the module {extension}/controller/routes
      * @see http://forge.taotesting.com/projects/tao/wiki/Front_js
-     * 
+     *
      * @author Bertrand Chevrier <bertrand@taotesting.com>
      * @exports router
      */
@@ -32,9 +33,9 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
 
         /**
          * Routing dispatching: execute the controller for the given URL.
-         * If more than one URL is provided, we try to dispatch until a valid routing if found 
+         * If more than one URL is provided, we try to dispatch until a valid routing if found
          * (used mainly for forward/redirects).
-         * 
+         *
          * @param {Array|String} url - the urls to try to dispatch
          * @param {Function} cb - a callback executed once dispatched
          */
@@ -42,11 +43,11 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
              if(!_.isArray(urls)){
                  urls = [urls];
              }
-             
+
              var routed = false;
              var counter = 0, size = urls.length;
              async.whilst(
-                function whileTest () { return routed === false && counter < size; }, 
+                function whileTest () { return routed === false && counter < size; },
                 function tryToDispatch (done) {
                     _dispatch(urls[counter], function(){
                         if(_.isFunction(cb)){
@@ -55,7 +56,7 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
                         routed = true;
                     }, done);
                     counter++;
-                }, 
+                },
                 function finished (err){
                     if(err){
                         return console.error(err);
@@ -64,7 +65,7 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
              );
          }
     };
-    
+
     /**
     * Parse an URL and extract MVC route
     * @private
@@ -85,22 +86,22 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
         }
         return route;
     };
-     
+
    /**
     * Routing dispatching: execute the controller for the given URL
     * @private
-    * @param {String} url - the 
+    * @param {String} url - the
     * @param {Function} cb - a callback executed once dispatched
     */
     var _dispatch = function _dispatch(url, cb, done){
-            
+
         //parse the URL
         var route = parseMvcUrl(url);
         if(route){
-            
+
             //loads the routing for the current extensino
             require([route.extension + '/controller/routes'], function(routes){
-                
+
                 if(routes && routes[route.module]){
 
                     //get the dependencies for the current context
@@ -126,7 +127,7 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
                         action = moduleRoutes.actions[route.action] || moduleRoutes[route.action];
                         if(_.isString(action) || _.isArray(action)){
                             dependencies = dependencies.concat(action);
-                        } 
+                        }
                         if(action.deps){
                             dependencies = dependencies.concat(action.deps);
                         }
@@ -141,7 +142,7 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
                         return /^controller/.test(dep) ?  route.extension + '/' + dep : dep;
                     });
 
-                    //URL parameters are given by default to the required module (through module.confid()) 
+                    //URL parameters are given by default to the required module (through module.confid())
                     if(!_.isEmpty(route.params)){
                         var moduleConfig =  {};
                         _.forEach(dependencies, function(dependency){
@@ -170,8 +171,8 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
                     done();
                 }
             });
-        } 
+        }
     };
-    
+
     return router;
 });

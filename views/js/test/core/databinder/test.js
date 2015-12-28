@@ -132,8 +132,9 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[2].href, "http:\/\/tao26.localdomain\/bertao.rdf#i138356893796686", 'the model value order has been updated');
 
         $sectionParts.find('li:nth-child(2)').find('[data-bind="href"]').text('toto').trigger('change');
-        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[2].href, "toto", 'the model value order has been updated');
-        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[2].index, "2", 'the model value index has been updated');
+        var index = $sectionParts.find('li:nth-child(2)').attr('data-bind-index');
+        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].href, "toto", 'the model value order has been updated');
+        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].index, 1, 'the model value index has been updated');
     });
 
      QUnit.test('Array value remove', function(assert){
@@ -160,7 +161,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
          $sectionParts.find('li:nth-child(1)  [data-bind="href"]').text('http://new.url').trigger('change');
 
          assert.equal($sectionParts.find('li:nth-child(1) [data-bind="href"]').text(), 'http://new.url', 'the model value has changed');
-         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[1].href, 'http://new.url', 'the model value has changed');
+         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[0].href, 'http://new.url', 'the model value has changed');
      });
 
     QUnit.test('Array value add', function(assert){
@@ -179,6 +180,25 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
         strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 5, 'model length has been updated');
         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[4].identifier, 'sectionpart-5', 'model element has been added');
         assert.equal(model.testParts[0].assessmentSections[0].sectionParts[4].href, 'http://new.rdf#test', 'model element has been added');
+    });
+
+    QUnit.test('Add value which is not represented in the model', function(assert){
+        QUnit.expect(2);
+
+        var $container = $('#container-4');
+        var $sectionParts = $('ul', $container);
+        assert.ok($container.length === 1, 'Test the fixture is available');
+
+        var $newSection = $("<li>" +
+            "<input checked='checked' type='checkbox' value='true' data-bind-encoder='boolean' data-bind='visible'>" +
+            "</li>");
+
+        $sectionParts.append($newSection);
+
+        var databinder = new DataBinder($container, model);
+        databinder.bind();
+
+        assert.equal(model.testParts[0].assessmentSections[0].sectionParts[3].visible, true, 'new element has been added');
     });
 
      QUnit.test('Array value filter', function(assert){

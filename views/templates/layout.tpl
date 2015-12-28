@@ -1,6 +1,7 @@
 <?php
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
+use oat\tao\model\theme\Theme;
 
 $releaseMsgData = Layout::getReleaseMsgData();
 
@@ -8,6 +9,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
 // never removed by user
 // and version considered unstable resp. sandbox
 $hasVersionWarning = empty($_COOKIE['versionWarning'])
+    && !!$releaseMsgData['msg']
     && ($releaseMsgData['is-unstable']
     || $releaseMsgData['is-sandbox']);
 ?>
@@ -26,9 +28,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
     <?= tao_helpers_Scriptloader::render() ?>
     <?= Layout::getAmdLoader() ?>
-    <?php if (($themeUrl = Layout::getThemeUrl()) !== null): ?>
-    <link rel="stylesheet" href="<?= $themeUrl ?>" />
-    <?php endif; ?>
+    <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_BACKOFFICE) ?>" />
 </head>
 
 <body>
@@ -38,46 +38,25 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 </div>
 <script src="<?= Template::js('layout/requirement-check.js', 'tao')?>"></script>
 
-    <div class="content-wrap">
+<div class="content-wrap">
 
-        <?php /* alpha|beta|sandbox message */
-        if($hasVersionWarning) {
-            Template::inc('blocks/version-warning.tpl', 'tao');
-        }?>
+    <?php /* alpha|beta|sandbox message */
+    if($hasVersionWarning) {
+        Template::inc('blocks/version-warning.tpl', 'tao');
+    }?>
 
-        <?php /* <header> + <nav> */
-        Template::inc('blocks/header.tpl', 'tao'); ?>
+    <?php /* <header> + <nav> */
+    Template::inc('blocks/header.tpl', 'tao'); ?>
 
+    <div id="feedback-box"></div>
 
-        <div id="feedback-box"></div>
+    <?php /* actual content */
+    $contentTemplate = Layout::getContentTemplate();
+    Template::inc($contentTemplate['path'], $contentTemplate['ext']); ?>
+</div>
 
-        <?php /* actual content */
-        $contentTemplate = Layout::getContentTemplate();
-        Template::inc($contentTemplate['path'], $contentTemplate['ext']); ?>
-    </div>
+<?=Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'footer')?>
 
-<footer class="dark-bar">
-    <?php
-    if (!$val = Layout::getCopyrightNotice()):
-    ?>
-    © 2013 - <?= date('Y') ?> · <span class="tao-version"><?= TAO_VERSION_NAME ?></span> ·
-    <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
-    · <?= __('All rights reserved.') ?>
-    <?php else: ?>
-    <?= $val ?>
-    <?php endif; ?>
-    <?php $releaseMsgData = Layout::getReleaseMsgData();
-    if ($releaseMsgData['is-unstable'] || $releaseMsgData['is-sandbox']): ?>
-        <span class="rgt">
-            <?php if ($releaseMsgData['is-unstable']): ?>
-                <span class="icon-warning"></span>
-
-            <?php endif; ?>
-            <?=$releaseMsgData['version-type']?> ·
-        <a href="<?=$releaseMsgData['link']?>" target="_blank"><?=$releaseMsgData['msg']?></a></span>
-
-    <?php endif; ?>
-</footer>
 <div class="loading-bar"></div>
 </body>
 </html>

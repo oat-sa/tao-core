@@ -3,7 +3,7 @@
 $loadingBarBorder: whiten($darkBar, .4);
 
 @mixin loading-gradient($color-1, $color-2) {
-    @include vendor-prefix(background, linear-gradient(left,  $color-2 0%, $color-1 20%, $color-1 80%, $color-2 100%), value);
+    @include vendor-prefix(background, linear-gradient(to right,  $color-2 0%, $color-1 20%, $color-1 80%, $color-2 100%), value);
 }
 
 @include keyframes(loadingbar) {
@@ -34,7 +34,7 @@ $loadingBarBorder: whiten($darkBar, .4);
         display: block;
         &:before {
             position: absolute;
-            top: 87px;
+            top: 86px;
             content: '';
             height: 6px;
             width: 20%;

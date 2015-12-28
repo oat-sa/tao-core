@@ -51,32 +51,35 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
                 if(section.id === 'list_users'){
                     $userList.datatable('refresh');
                 }
-
             });
 
             //initialize the user manager component
             $userList.datatable({
-                'url': helpers._url('data', 'Users', 'tao'),
-                'actions' : {
+                url: helpers._url('data', 'Users', 'tao'),
+                filter: true,
+                actions: {
                     'edit': editUser,
                     'remove': removeUser
                 },
-                'model' : [
+                'model': [
                     {
                         id : 'login',
                         label : __('Login'),
                         sortable : true
                     },{
-                        id : 'name',
-                        label : __('Name'),
+                        id : 'firstname',
+                        label : __('First Name'),
                         sortable : true
-                    },
-                    {
+                    },{
+                        id : 'lastname',
+                        label : __('Last Name'),
+                        sortable : true
+                    },{
                         id : 'email',
                         label : __('Email'),
                         sortable : true
                     },{
-                        id : 'role',
+                        id : 'roles',
                         label : __('Roles'),
                         sortable : false
                     },{

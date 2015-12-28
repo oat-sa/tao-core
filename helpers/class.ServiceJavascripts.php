@@ -17,6 +17,7 @@
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+use oat\oatbox\service\ServiceManager;
 
 /**
  * @access public
@@ -26,7 +27,9 @@
 class tao_helpers_ServiceJavascripts
 {
     public static function getServiceStorage($serviceCallId) {
-        $state = tao_models_classes_service_StateStorage::singleton()->get(
+        $serviceService = ServiceManager::getServiceManager()->get('tao/stateStorage');
+        
+        $state = $serviceService->get(
             common_session_SessionManager::getSession()->getUserUri(),
             $serviceCallId
         );

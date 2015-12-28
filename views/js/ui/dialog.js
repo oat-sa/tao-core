@@ -76,6 +76,9 @@ define([
         message : '',
         content : '',
         width : 500,
+        animate : false,
+        autoRender: false,
+        autoDestroy: false,
         renderTo : 'body',
         buttons : 'cancel,ok'
     };
@@ -101,7 +104,9 @@ define([
          *     - close: A boolean value telling if the dialog must be closed after the button has been activated
          * @param {String|jQuery|HTMLElement} options.renderTo - A container in which renders the dialog (default: 'body').
          * @param {Boolean} options.autoRender - Allow the dialog to be immediately rendered after initialise.
+         * @param {Boolean} options.autoDestroy - Allow the dialog to be immediately destroyed when closing.
          * @param {Number} options.width - The dialog box width in pixels (default: 500).
+         * @param {Number|Boolean} options.animate - The dialog box animate duration (default: false).
          * @param {Function} options.onXYZbtn - An event handler assigned to a particular button (XYZ).
          * @returns {dialog}
          */
@@ -125,6 +130,7 @@ define([
             this.$html = $(bodyTpl(this));
             this.$buttons = this.$html.find('.buttons');
             this.rendered = false;
+            this.destroyed = false;
 
             // install the buttons and bind the actions
             this.$buttons.on('click' + _scope, 'button', this._onButtonClick.bind(this));
@@ -150,14 +156,19 @@ define([
          * @returns {dialog}
          */
         destroy: function destroy() {
-            // disable events and remove DOM
-            this.$buttons.off(_scope);
-            this.$html.off(_scope).remove();
+            if (!this.destroyed) {
+                this._destroy();
 
-            // reset the context
-            this.$html = null;
-            this.$buttons = null;
-            this.rendered = false;
+                // disable events and remove DOM
+                this.$buttons.off(_scope);
+                this.$html.off(_scope).remove();
+
+                // reset the context
+                this.$html = null;
+                this.$buttons = null;
+                this.rendered = false;
+                this.destroyed = true;
+            }
 
             return this;
         },
@@ -170,37 +181,39 @@ define([
         setButtons : function setButtons(buttons) {
             var self = this;
 
-            if (!buttons) {
-                buttons = _defaults.buttons;
+            if (!this.destroyed) {
+                if (!buttons) {
+                    buttons = _defaults.buttons;
+                }
+
+                if (!_.isArray(buttons)) {
+                    // buttons can be set as a list of names
+                    if (_.isString(buttons)) {
+                        buttons = buttons.split(',');
+                    } else {
+                        buttons = [buttons];
+                    }
+                }
+
+                // bind the buttons with
+                this.buttons = {};
+                _.forEach(buttons, function(btn) {
+                    if (_.isString(btn)) {
+                        btn = btn.trim();
+                        btn = _definedButtons[btn] || {
+                                id: btn,
+                                type: 'info',
+                                label: btn
+                            };
+                    }
+                    if (!btn.type) {
+                        btn.type = 'regular';
+                    }
+                    self.buttons[btn.id] = btn;
+                });
+
+                this.$buttons.html(buttonsTpl(this));
             }
-
-            if (!_.isArray(buttons)) {
-                // buttons can be set as a list of names
-                if (_.isString(buttons)) {
-                    buttons = buttons.split(',');
-                } else {
-                    buttons = [buttons];
-                }
-            }
-
-            // bind the buttons with
-            this.buttons = {};
-            _.forEach(buttons, function(btn) {
-                if (_.isString(btn)) {
-                    btn = btn.trim();
-                    btn = _definedButtons[btn] || {
-                        id: btn,
-                        type: 'info',
-                        label: btn
-                    };
-                }
-                if (!btn.type) {
-                    btn.type = 'regular';
-                }
-                self.buttons[btn.id] = btn;
-            });
-
-            this.$buttons.html(buttonsTpl(this));
 
             return this;
         },
@@ -212,10 +225,11 @@ define([
          * @fires modal#create.modal
          */
         render : function render(to) {
-            var $to = $(to || this.renderTo);
-            $to.append(this.$html);
-            this._install();
-            this.rendered = true;
+            if (!this.destroyed) {
+                $(to || this.renderTo).append(this.$html);
+                this._install();
+                this.rendered = true;
+            }
             return this;
         },
 
@@ -225,10 +239,12 @@ define([
          * @fires modal#opened.modal
          */
         show : function show() {
-            if (!this.rendered) {
-                this.render();
-            } else {
-                this._open();
+            if (!this.destroyed) {
+                if (!this.rendered) {
+                    this.render();
+                } else {
+                    this._open();
+                }
             }
             return this;
         },
@@ -239,8 +255,12 @@ define([
          * @fires modal#closed.modal
          */
         hide : function hide() {
-            if (this.rendered) {
+            if (!this.destroyed && this.rendered) {
                 this._close();
+
+                if (this.autoDestroy) {
+                    this.destroy();
+                }
             }
             return this;
         },
@@ -330,17 +350,17 @@ define([
          * @fires dialog#[button.id]btn.modal
          */
         _execute : function(btn) {
+            // call the optional callback
+            if (btn.action) {
+                btn.action.apply(this, [btn, this]);
+            }
+
             /**
              * Fires the event based on the button name
              * @event dialog#[button.id]btn.modal
              * @param {Object} btn - The related button
              */
             this.trigger(btn.id + 'btn' + _scope, [btn]);
-
-            // call the optional callback
-            if (btn.action) {
-                btn.action.apply(btn, [btn, this]);
-            }
 
             // auto close the dialog box if the button allows it
             if (btn.close) {
@@ -353,7 +373,10 @@ define([
          * @private
          */
         _install : function() {
-            this.$html.modal({ width: this.width });
+            this.$html.modal({
+                width: this.width,
+                animate: this.animate
+            });
         },
 
         /**
@@ -365,18 +388,26 @@ define([
         },
 
         /**
-         * Close the dialog box
+         * Closes the dialog box
          * @private
          */
         _close : function() {
             this.$html.modal('close');
+        },
+
+        /**
+         * Destroys the dialog box
+         * @private
+         */
+        _destroy : function() {
+            this.$html.modal('destroy');
         }
     };
 
     /**
      * Builds a dialog box instance
      * @param {Object} options
-     * @returns {Object}
+     * @returns {dialog}
      */
     var dialogFactory = function dialogFactory(options) {
         var instance = _.clone(dialog, true);

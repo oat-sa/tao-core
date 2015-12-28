@@ -29,7 +29,8 @@ define([
     var _defaults = {
         controls : false,
         style : {},
-        position : 'bottom'
+        position : 'bottom',
+        callbacks : {}
     };
 
 
@@ -41,10 +42,14 @@ define([
      * @param {Object} options
      * @param {JQuery|String} [options.content] - the inital content of the popup
      * @param {Boolean} [options.controls] - add cancel/done button
+     * @param {Function} [options.callbacks.beforeDone] - Triggered when a dialog is about to close. If returned <i>false</i>, the dialog will not close.
+     * @param {Function} [options.callbacks.beforeCancel] - Triggered when a dialog is about to close. If returned <i>false</i>, the dialog will not close.
+     * @param {Function} [options.callbacks.beforeDestroy] - Triggered when a dialog is about to destroy.
      * @returns {Object} the new selector instance
      */
     function create($anchor, $container, options){
 
+        var destroyed =  false;
         options = _.defaults(options, _defaults);
         $anchor.data('contextual-popup-options', options);
 
@@ -64,9 +69,13 @@ define([
         $element.css('width', options.style.popupWidth);
         $anchor.append($element);
         $element.off(_ns).on('click' + _ns, '.done', function(){
-            _done($element);
+            if (runCallback('beforeDone')) {
+                _done($element);
+            }
         }).on('click' + _ns, '.cancel', function(){
-            _cancel($element);
+            if (runCallback('beforeCancel')) {
+                _cancel($element);
+            }
         });
 
         if(options.content){
@@ -82,6 +91,19 @@ define([
             if(content instanceof $ || _.isString(content)){
                 $element.find('.popup-content').empty().append(content);
             }
+        }
+
+        /**
+         * Run callback function before action. If returned <i>false</i>, action will not be executed.
+         * @param {string} name - callback name
+         * @returns {boolean}
+         */
+        function runCallback(name) {
+            var result = true;
+            if (options.callbacks[name] && _.isFunction(options.callbacks[name])) {
+                result = options.callbacks[name]();
+            }
+            return result;
         }
 
         var popup = {
@@ -150,8 +172,12 @@ define([
              * @returns {undefined}
              */
             destroy : function destroy(){
-                $element.remove();
-                $element.trigger('destroy' + _ns);
+                if (!destroyed) {
+                    runCallback('beforeDestroy');
+                    destroyed = true;
+                    $element.remove();
+                    $element.trigger('destroy' + _ns);
+                }
             },
             /**
              * Tells if the popup is currently hidden or visible

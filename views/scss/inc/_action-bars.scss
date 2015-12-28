@@ -187,8 +187,7 @@
     }
 }
 
-
-@media (max-width: 1100px) {
+@mixin mobile-search() {
     .action-bar {
         &.horizontal-action-bar {
             .search-area {
@@ -198,7 +197,7 @@
                 input {
                     padding-right: 30px;
                     min-width: auto !important;
-                    width: 180px;
+                    width: 150px;
                     &:focus {
                         width: 220px;
                     }
@@ -208,3 +207,11 @@
     }
 }
 
+@media (max-width: 1150px) {
+    @include mobile-search();
+}
+
+// works in conjunction with layout/nav.js
+body.oversized-nav:not(.delivery-scope){
+    @include mobile-search();
+}

@@ -14,6 +14,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         step : 1,
         min : null,
         max : null,
+        zero : false,
         incrementerClass : 'incrementer',
         incrementerCtrlClass : 'incrementer-ctrl',
         incrementerWrapperClass : 'incrementer-ctrl-wrapper',
@@ -38,6 +39,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
          * @param {Number} [options.step = 1] - the increment step
          * @param {Number} [options.min] - the minimum value
          * @param {Number} [options.max] - the maximum value
+         * @param {Number} [options.zero] - whether input can take zero value even in min value more than zero
          * @returns {jQueryElement} for chaining
          */
         init : function(options){
@@ -98,7 +100,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                                     value = negative ? -value : value;
                                     
                                     //check if the min and max are respected:
-                                    if(options.min === null || (_.isNumber(options.min) && value >= options.min)){
+                                    if(options.min === null || (_.isNumber(options.min) && value >= options.min) || (options.zero===true && value===0)){
                                         $elt.val(value);
                                     }else{
                                         $elt.val(options.min);
@@ -190,7 +192,12 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
             }else{
                 current = parseFloat(currentFloat.toFixed(options.decimal));
             }
+
             value = current + options.step;
+            if (_.isNumber(options.min) && value < options.min) {
+                value = options.min;
+            }
+
             if(options.max === null || (_.isNumber(options.max) && value <= options.max)){
                 $elt.val(value);
 
@@ -222,8 +229,12 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                 current = parseFloat(currentFloat.toFixed(options.decimal));
                 value = current - options.step;
             }
-           
-            if(options.min === null || (_.isNumber(options.min) && value >= options.min)){
+
+            if(options.zero===true && _.isNumber(options.min) && value < options.min) {
+                value = 0;
+            }
+
+            if(options.min === null || (_.isNumber(options.min) && value >= options.min) || (options.zero===true && value===0)){
                 $elt.val(value);
 
                 /**
@@ -274,9 +285,11 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
             var $elt = $(this);
             var decimal = Incrementer._decimalPlaces($elt.attr('data-increment'));
             var step = parseFloat($elt.attr('data-increment'));
+            var zero = !!$elt.data('zero');
             var min, max;
 
             var options = {};
+            options.zero = zero;
             if(!_.isNaN(step)){
                 options.step = step;
             }

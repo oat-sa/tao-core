@@ -48,8 +48,8 @@ define([
          * @param {Number}  [options.undoTimeout = 5000] - the time the undo remains available
          * @param {String} [options.undoMessage = '...'] - the message to display in the undo box
          * @param {String|jQueryElement} [options.undoContainer = 'body'] - the element that will contain the undo box
-         * @param {boolean} [options.confirm = false] - diplay a popup to confirm the closing
-         * @param {string} [optionsconfirmMessage = '...'] - the confirmation message
+         * @param {boolean} [options.confirm = false] - display a popup to confirm the closing
+         * @param {string} [options.confirmMessage = '...'] - the confirmation message
          * @fires deleter#create.deleter
          * @returns {jQueryElement} for chaining
          */
@@ -183,7 +183,7 @@ define([
                         $(document).one('mousedown.unundo.' + ns, function(e){
                             e.preventDefault();
                             e.stopImmediatePropagation();
-                            if($undoBox.find(e.target).length === 0  && typeof timeout === 'number'){
+                            if(($undoBox.find(e.target).length === 0 || !$(e.target).hasClass('undo') )  && typeof timeout === 'number'){
                                 clearTimeout(timeout);
                                 undoRemove();
                             }
@@ -265,8 +265,8 @@ define([
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){
-      
-        //handle data-delete 
+
+        //handle data-delete
         new DataAttrHandler('delete', {
             container: $container,
             listenerEvent: 'click',
@@ -304,30 +304,5 @@ define([
             $elt.deleter('delete');
         });
             
-        //handle data-close
-        new DataAttrHandler('close', {
-            container: $container,
-            listenerEvent: 'click',
-            namespace: dataNs,
-            bubbled: true
-        }).init(function($elt, $target) {
-            var options = {
-                target: $target,
-                bindEvent: false,
-                undo : false
-            };
-            var confirm = $elt.data('delete-confirm');
-            var undo = $elt.data('delete-undo');
-            if(confirm){
-                options.confirm = true;
-                options.undo = false;
-                if(confirm.length > 0){
-                    options.confirmMessage = confirm;
-                }
-            }
-            $elt.deleter(options);
-        }).trigger(function($elt) {
-            $elt.deleter('delete');
-        });
     };
 });

@@ -1,6 +1,6 @@
 require.config({
 
-    baseUrl : '<?=TAOBASE_WWW?>js',
+    baseUrl : '<?=get_data('tao_base_www')?>js',
     catchError: true,
     waitSeconds: <?=get_data('client_timeout')?>,
 
@@ -8,7 +8,7 @@ require.config({
         'context': {
             root_url                : '<?=ROOT_URL?>',
             base_url                : '<?=BASE_URL?>',
-            taobase_www             : '<?=TAOBASE_WWW?>',
+            taobase_www             : '<?=get_data('tao_base_www')?>',
             base_www                : '<?=get_data('base_www')?>',
             base_lang               : '<?=get_data('lang')?>',
             locale                  : '<?=get_data('locale')?>',
@@ -20,6 +20,12 @@ require.config({
             extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
             timeout                 : <?=get_data('client_timeout')?>,
         },
+        text: {
+            useXhr: function(){
+                return true;
+            }
+        },
+
         'ui/themes' : <?= get_data('themesAvailable') ?>,
 //dynamic lib config
     <?php foreach (get_data('libConfigs') as $name => $config) :?>
@@ -57,7 +63,7 @@ require.config({
         'store'             : 'lib/store/store.min',
         'lodash'            : 'lib/lodash.min',
         'async'             : 'lib/async',
-        'moment'            : 'lib/moment.min',
+        'moment'            : 'lib/moment-with-locales.min',
         'handlebars'        : 'lib/handlebars',
 
         'class'             : 'lib/class',

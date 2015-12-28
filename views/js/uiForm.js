@@ -499,18 +499,30 @@ define([
              */
             function showPropertyList() {
                 var $this = $(this);
-                var elt = $this.parent("div").next("div");
-                if (/list$/.test($this.val())) {
-                    if (elt.css('display') === 'none') {
-                        elt.show();
-                        elt.find('select').removeAttr('disabled');
+                var $elt = $this.parent("div").next("div");
+                var propertiesTypes = ['list','tree'];
+
+                var re = new RegExp(propertiesTypes.join('$|').concat('$'));
+                if (re.test($this.val())) {
+                    if ($elt.css('display') === 'none') {
+                        $elt.show();
+                        $elt.find('select').removeAttr('disabled');
+
                     }
                 }
-                else if (elt.css('display') !== 'none') {
-                    elt.css('display', 'none');
-                    elt.find('select').prop('disabled', "disabled");
-                    elt.find('select option[value=" "]').attr('selected',true);
+                else if ($elt.css('display') !== 'none') {
+                    $elt.css('display', 'none');
+                    $elt.find('select').prop('disabled', "disabled");
+                    $elt.find('select option[value=" "]').attr('selected',true);
                 }
+
+                $.each(propertiesTypes, function (i, rangedPropertyName) {
+                    var re = new RegExp(rangedPropertyName + '$');
+                    if (re.test($this.val())) {
+                        $elt.find('select').html($elt.closest('.property-edit-container').find('.' + rangedPropertyName + '-template').html());
+                        return true;
+                    }
+                })
             }
 
             /**
@@ -518,6 +530,7 @@ define([
              */
             function showPropertyListValues() {
                 var $this = $(this);
+                var elt = $this.parent("div");
                 if ($this.val() === 'new') {
                     //Open the list editor: a tree in a dialog popup
                     var rangeId = $this.prop('id');
@@ -526,7 +539,6 @@ define([
                     var closerId = rangeId.replace('_range', '_closer');
 
                     //dialog content to embed the list tree
-                    var elt = $this.parent("div");
                     elt.append("<div id='" + dialogId + "' style='display:none;' > " +
                         "<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br /><br />" +
                         "<div id='" + treeId + "' ></div> " +
@@ -556,7 +568,7 @@ define([
                     });
 
                     $dialogElm.bind('dialogopen', function (event, ui) {
-                        var url = context.root_url + 'tao/Lists/';
+                        var url = context.root_url + 'taoBackOffice/Lists/';
                         var dataUrl = url + 'getListsData';
                         var renameUrl = url + 'rename';
                         var createUrl = url + 'create';
@@ -742,13 +754,13 @@ define([
                 }
                 else {
                     //load the instances and display them (the list items)
-                    $this.parent("div").children("ul.form-elt-list").remove();
+                    $(elt).parent("div").children("ul.form-elt-list").remove();
                     var classUri = $this.val();
-                    if (classUri !== '') {
+                    if (classUri !== '' && classUri !== ' ') {
                         $this.parent("div").children("div.form-error").remove();
                         //var elt = this;
                         $.ajax({
-                            url: context.root_url + 'tao/Lists/getListElements',
+                            url: context.root_url + 'taoBackOffice/Lists/getListElements',
                             type: "POST",
                             data: {listUri: classUri},
                             dataType: 'json',
@@ -771,22 +783,24 @@ define([
 
             //bind functions to the drop down:
 
+            $('.property-template').each(function(){
+                $(this).closest('div').hide();
+            });
+
             //display the values drop down regarding the selected type
             var $propertyType = $(".property-type"),
                 $propertyListValues = $(".property-listvalues");
 
-            $propertyType.change(showPropertyList);
-            $propertyType.each(showPropertyList);
+            $propertyType.on('change', showPropertyList).trigger('change');
 
             //display the values of the selected list
-            $propertyListValues.change(showPropertyListValues);
-            $propertyListValues.each(showPropertyListValues);
+            $propertyListValues.on('change', showPropertyListValues).trigger('change');
 
             //show the "green plus" button to manage the lists
             $propertyListValues.each(function () {
                 var listField = $(this);
                 if (listField.parent().find('img').length === 0) {
-                    var listControl = $("<img title='manage lists' style='cursor:pointer;' />");
+                    var listControl = $("<img title='manage lists' class='manage-lists' style='cursor:pointer;' />");
                     listControl.prop('src', context.taobase_www + "img/add.png");
                     listControl.click(function () {
                         listField.val('new');

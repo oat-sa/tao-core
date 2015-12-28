@@ -81,7 +81,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
 	        // single entrypoint -> redirect
 	        $entry = current($entries);
-	        return $this->redirect($entry->getUrl());
+	        return $this->forwardUrl($entry->getUrl());
 	    } else {
 	        // multiple entries -> choice
 	        if (!common_session_SessionManager::isAnonymous()) {
@@ -100,6 +100,8 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
 
             $this->setData('settings-menu', $naviElements);
+            
+            $this->setData('current-section', $this->getRequestParameter('section'));
 
             $this->setData('content-template', array('blocks/entry-points.tpl', 'tao'));
 
@@ -115,7 +117,6 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function login()
 	{
-
 		$params = array();
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
@@ -136,7 +137,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 					if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {
-						$this->redirect(_url('entry', 'Main'));
+						$this->forward('entry');
 					}
                 } else {
                     \common_Logger::i("Unsuccessful login of user '" . $myForm->getValue('login') . "'.");
@@ -147,7 +148,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('form', $myForm->render());
         $this->setData('title', __("TAO Login"));
-        $this->setData('messageServiceIsAvailable', MessagingService::singleton()->isAvailable());
+
+        $entryPointService = $this->getServiceManager()->getServiceManager()->get(EntryPointService::SERVICE_ID);
+        $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));
         
         if ($this->hasRequestParameter('msg')) {
             $this->setData('msg', $this->getRequestParameter('msg'));
@@ -227,6 +230,8 @@ class tao_actions_Main extends tao_actions_CommonModule
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
+
+        $this->setData('current-section', $this->getRequestParameter('section'));
 		                
         //creates the URL of the action used to configure the client side
         $clientConfigParams = array(

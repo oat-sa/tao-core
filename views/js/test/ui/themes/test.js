@@ -21,6 +21,12 @@ define([
     var blue = 'rgb(0, 0, 255)';
     var green= 'rgb(0, 128, 0)';
 
+    var eventTriggered = '';
+
+    $(document).off('themechange.themeloader').on('themechange.themeloader', function(e, data) {
+        eventTriggered = data;
+    });
+
     QUnit.module('Theme Loader API');
 
     QUnit.test('module', function(assert){
@@ -73,7 +79,7 @@ define([
     });
 
 
-    QUnit.asyncTest('load', 5, function(assert){
+    QUnit.asyncTest('load', 6, function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
         assert.equal($container.length, 1, 'The container exists');
@@ -88,7 +94,11 @@ define([
             assert.equal($container.css('background-color'), pink, 'The base style is loaded and computed');
             assert.equal($container.css('color'), blue, 'The theme style is loaded and computed');
 
-            QUnit.start();
+
+            setTimeout(function() {
+                assert.equal(eventTriggered, loader.getActiveTheme(), 'The themechange event has been triggered along with the correct parameters');
+                QUnit.start();
+            }, 250);
         }, 50);
     });
 
@@ -126,9 +136,10 @@ define([
     });
 
 
-    QUnit.asyncTest('change', 8, function(assert){
+    QUnit.asyncTest('change', 9, function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
+
         assert.equal($container.length, 1, 'The container exists');
 
         loader.load();
@@ -149,13 +160,17 @@ define([
                 assert.equal($container.css('color'), green, 'The new theme style is loaded and computed');
                 assert.equal(loader.getActiveTheme(), 'green', 'The new theme became the active theme');
 
-                QUnit.start();
+                setTimeout(function() {
+                    assert.equal(eventTriggered, loader.getActiveTheme(), 'The themechange event has been triggered along with the correct parameters');
+                    QUnit.start();
+                }, 250);
+
             }, 50);
         }, 50);
     });
 
 
-    QUnit.asyncTest('change back to default', 10, function(assert){
+    QUnit.asyncTest('change back to default', 11, function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
         assert.equal($container.length, 1, 'The container exists');
@@ -186,13 +201,18 @@ define([
                     assert.equal($container.css('color'), blue, 'The default theme style is loaded');
                     assert.equal(loader.getActiveTheme(), 'blue', 'The active theme has been reset to default');
 
-                    QUnit.start();
+
+                    setTimeout(function() {
+                        assert.equal(eventTriggered, loader.getActiveTheme(), 'The themechange event has been triggered along with the correct parameters');
+                        QUnit.start();
+                    }, 250);
+
                 }, 50);
             }, 50);
         }, 50);
     });
 
-    QUnit.asyncTest('reload and change', 15, function(assert){
+    QUnit.asyncTest('reload and change', 16, function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
         assert.equal($container.length, 1, 'The container exists');
@@ -232,13 +252,17 @@ define([
                         assert.equal($container.css('color'), green, 'The new theme style is loaded and computed');
                         assert.equal(loader2.getActiveTheme(), 'green', 'The new theme became the active theme');
 
-                        QUnit.start();
+
+                        setTimeout(function() {
+                            assert.equal(eventTriggered, loader2.getActiveTheme(), 'The themechange event has been triggered along with the correct parameters');
+                            QUnit.start();
+                        }, 250);
+
 
                     }, 50);
                 }, 50);
             }, 50);
         }, 50);
     });
-
 
 });
