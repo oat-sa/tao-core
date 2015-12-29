@@ -21,6 +21,7 @@
  */
 
 use oat\tao\helpers\FileUploadException;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Description of class
@@ -197,7 +198,7 @@ class tao_helpers_Http
                 } else {
 
                     $pathinfo = pathinfo($filename);
-                    if ($pathinfo['extension'] === 'svgz' && !$svgzSupport) {
+                    if (isset($pathinfo['extension']) && $pathinfo['extension'] === 'svgz' && !$svgzSupport) {
                         header('Content-Encoding: gzip');
                     }
                     
@@ -286,7 +287,23 @@ class tao_helpers_Http
             throw new common_exception_Error('Security exception for path ' . $filename);
         }
     }
+    
+    public static function returnStream(StreamInterface $stream, $fileSize, $mimeType = null)
+    {
+        if (!is_null($mimeType)) {
+            header('Content-Type: ' . $mimeType);
+        }
+        header('HTTP/1.1 200 OK');
+        header("Content-Length: " . $fileSize);
+        if (ob_get_level() > 0) {
+            ob_end_flush();
+        }
+        
+        $bytesPerCycle = (1024 * 1024) * 0.5;
+        while (!$stream->eof()) {
+            $data = $stream->read($bytesPerCycle);
+            echo $data;
+        }
+    }
 
 }
-
-?>

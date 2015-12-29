@@ -47,7 +47,8 @@
 		"phpdocumentor/reflection-docblock" : "2.*",
 		"oat-sa/oatbox-extension-installer" : "dev-master",
 		"phpmailer/phpmailer" : "dev-master",
-        "oat-sa/jig" : "dev-master"
+        "oat-sa/jig" : "dev-master",
+        "psr/http-message" : "~1.0"
     },
 	"minimum-stability" : "dev",
 	"autoload" : {
