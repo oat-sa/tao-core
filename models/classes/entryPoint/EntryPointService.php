@@ -126,15 +126,10 @@ class EntryPointService extends ConfigurableService
      */
     public function getEntryPoints($target = self::OPTION_POSTLOGIN)
     {
-        $entryPoints = array();
-        if ($target == self::OPTION_POSTLOGIN) {
-            foreach (MenuService::getEntryPoints() as $entry) {
-                $entryPoints[$entry->getId()] = $entry;
-            }
-        }
-        
         $ids = $this->hasOption($target) ? $this->getOption($target) : array();
         $existing = $this->getOption(self::OPTION_ENTRYPOINTS);
+        
+        $entryPoints = array();
         foreach ($ids as $id) {
             $entryPoints[$id] = $existing[$id];
         }
