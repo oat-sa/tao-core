@@ -426,7 +426,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.15.1';
         }
 
-        return $currentVersion;
+        $this->setVersion($currentVersion);
+
+        if($this->isVersion('2.15.1')){
+            $this->setVersion('2.15.2');
+        }
+        return null;
     }
     
     private function migrateFsAccess() {
