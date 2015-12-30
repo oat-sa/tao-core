@@ -126,7 +126,7 @@ class tao_install_Installator{
 			 */
 			
 			$this->log('d', 'Removing old config', 'INSTALL');
-			$oatBoxInstall = new Installer($installData);
+			$oatBoxInstall = new Installer($this->options);
 			$oatBoxInstall->install();
 			
 			/*
