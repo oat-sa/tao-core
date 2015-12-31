@@ -425,10 +425,10 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ['ext' => 'tao', 'mod' => 'AuthApi']));
             $currentVersion = '2.15.1';
         }
-        
+
         $this->setVersion($currentVersion);
-        
-        if ($this->isVersion('2.15.1')) {
+
+        if ($this->isVersion('2.15.1') || $this->isVersion('2.15.2')) {
             $this->setVersion('2.16.0');
         }
     }

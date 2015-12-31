@@ -99,17 +99,6 @@ class MenuService {
         $structure = self::readStructure();
         return $structure['perspectives'];
     }
-
-    /**
-     * Returns all the existing entry points
-     *
-     * @return array()
-     */
-    public static function getEntryPoints()
-    {
-        $structure = self::readStructure();
-        return $structure['entrypoints'];
-    }    
     
     /**
      * Reads the structure data. 
@@ -144,7 +133,6 @@ class MenuService {
     protected static function buildStructures()
     {
 		$perspectives = array();
-		$entrypoints = array();
 		$toAdd = array();
 		$sorted = \helpers_ExtensionHelper::sortByDependencies(\common_ext_ExtensionsManager::singleton()->getEnabledExtensions());
 		foreach(array_keys($sorted) as $extId){
@@ -161,15 +149,6 @@ class MenuService {
 				            $perspectives[$perspective->getId()]->addSection($section);
 				        }
 				    }
-				}
-				foreach($xmlStructures->xpath("/structures/entrypoint") as $xmlStructure){
-				    $entryPoint = Entrypoint::fromSimpleXMLElement($xmlStructure);
-				    foreach ($entryPoint->getReplacedIds() as $id) {
-				        if (isset($entrypoints[$id])) {
-				            unset($entrypoints[$id]);
-				        }
-				    }
-				    $entrypoints[$entryPoint->getId()] = $entryPoint;
 				}
 				foreach($xmlStructures->xpath("/structures/toolbar/toolbaraction") as $xmlStructure){
 				    $perspective = Perspective::fromLegacyToolbarAction($xmlStructure, $extId);
@@ -192,8 +171,7 @@ class MenuService {
         $sortCb = create_function('$a,$b', "return \$a->getLevel() - \$b->getLevel(); ");
 		usort($perspectives, $sortCb);
 		return array(
-			'perspectives' => $perspectives,
-		    'entrypoints' => $entrypoints
+			'perspectives' => $perspectives
 		);
     }
 
