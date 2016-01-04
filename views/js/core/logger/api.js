@@ -94,7 +94,7 @@ define(['lodash'], function(_){
                 });
 
                 if(levels[level] >= levels.error){
-                    stack = new Error().stack;
+                    stack = new Error().stack || 'no stack infos';
                 }
 
                 //push the message to the queue
