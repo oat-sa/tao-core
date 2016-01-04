@@ -295,7 +295,7 @@ class tao_helpers_Http
         }
         header('HTTP/1.1 200 OK');
         header("Content-Length: " . $fileSize);
-        if (ob_get_level() > 0) {
+        while (ob_get_level() > 0) {
             ob_end_flush();
         }
         
