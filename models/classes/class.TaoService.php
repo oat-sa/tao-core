@@ -81,4 +81,12 @@ class tao_models_classes_TaoService
         return $returnValue;
     }
 
+    /**
+     * Get the tao version
+     * @return string
+     */
+    public function getVersion(){
+        return TAO_VERSION;
+    }
+
 }
