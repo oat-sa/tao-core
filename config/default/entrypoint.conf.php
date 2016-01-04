@@ -10,4 +10,6 @@ return new oat\tao\model\entryPoint\EntryPointService(array(
     ),
     'postlogin' => array(
     ),
+    'prelogin' => array(
+    )
 ));
