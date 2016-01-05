@@ -21,8 +21,9 @@
 define([
     'jquery',
     'lodash',
-    'ui/bulkActionPopup'
-], function($, _, bulkActionPopup){
+    'ui/bulkActionPopup',
+    'ui/cascadingComboBox'
+], function($, _, bulkActionPopup, cascadingComboBox){
     'use strict';
 
     QUnit.module('Bulk Action Popup');
@@ -34,63 +35,64 @@ define([
             renderTo : $container,
             actionName : 'Resume Test Session',
             resourceType : 'test taker',
-            categoriesDefinitions : [
-                {
-                    id : 'reason1',
-                    placeholder : 'Reason 1'
-                },
-                {
-                    id : 'reason2',
-                    placeholder : 'Reason 2'
-                },
-                {
-                    id : 'reason3',
-                    placeholder : 'Reason 3'
-                }
-            ],
-            categories : [
-                {
-                    id : 'optionA',
-                    label : 'option A',
-                    categories : [
-                        {
-                            id : 'optionA1',
-                            label : 'option A-1',
-                            categories : [
-                                {id : 'option A1a', label : 'option A-1-a'},
-                                {id : 'option A1b', label : 'option A-1-b'},
-                                {id : 'option A1c', label : 'option A-1-c'}
-                            ]
-                        },
-                        {
-                            id : 'optionA2',
-                            label : 'option A-2',
-                            categories : [
-                                {id : 'option A2a', label : 'option A-2-a'},
-                                {id : 'option A2b', label : 'option A-2-b'}
-                            ]
-                        },
-                        {
-                            label : 'option A-3'
-                        }
-                    ]
-                },
-                {
-                    id : 'optionB',
-                    label : 'option B',
-                    categories : [
-                        {id : 'option B1', label : 'option B-1'},
-                        {id : 'option B2', label : 'option B-2'},
-                        {id : 'option B3', label : 'option B-3'},
-                        {id : 'option B4', label : 'option B-4'}
-                    ]
-                },
-                {
-                    id : 'option_C',
-                    label : 'option C'
-                }
-            ]
-            ,
+            categoriesSelector: cascadingComboBox({
+                categoriesDefinitions: [
+                    {
+                        id: 'reason1',
+                        placeholder: 'Reason 1'
+                    },
+                    {
+                        id: 'reason2',
+                        placeholder: 'Reason 2'
+                    },
+                    {
+                        id: 'reason3',
+                        placeholder: 'Reason 3'
+                    }
+                ],
+                categories : [
+                    {
+                        id : 'optionA',
+                        label : 'option A',
+                        categories : [
+                            {
+                                id : 'optionA1',
+                                label : 'option A-1',
+                                categories : [
+                                    {id : 'option A1a', label : 'option A-1-a'},
+                                    {id : 'option A1b', label : 'option A-1-b'},
+                                    {id : 'option A1c', label : 'option A-1-c'}
+                                ]
+                            },
+                            {
+                                id : 'optionA2',
+                                label : 'option A-2',
+                                categories : [
+                                    {id : 'option A2a', label : 'option A-2-a'},
+                                    {id : 'option A2b', label : 'option A-2-b'}
+                                ]
+                            },
+                            {
+                                label : 'option A-3'
+                            }
+                        ]
+                    },
+                    {
+                        id : 'optionB',
+                        label : 'option B',
+                        categories : [
+                            {id : 'option B1', label : 'option B-1'},
+                            {id : 'option B2', label : 'option B-2'},
+                            {id : 'option B3', label : 'option B-3'},
+                            {id : 'option B4', label : 'option B-4'}
+                        ]
+                    },
+                    {
+                        id : 'option_C',
+                        label : 'option C'
+                    }
+                ]
+            }),
             reason : true,
             allowedResources : [
                 {

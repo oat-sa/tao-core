@@ -52,8 +52,6 @@ use oat\tao\model\theme\CompatibilityTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\oatbox\event\EventManager;
-use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
-use oat\tao\model\requiredAction\implementation\CodeOfConductRule;
 
 /**
  * 
@@ -430,48 +428,24 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.15.1';
         }
 
-        if ($currentVersion === '2.15.1') {
+        $this->setVersion($currentVersion);
+
+        if ($this->isVersion('2.15.1')) {
             try {
                 $this->getServiceManager()->get(RequiredActionService::CONFIG_ID);
                 // all good, already configured
             } catch (ServiceNotFoundException $error) {
-                $requiredActionService = new RequiredActionService([
-                    RequiredActionService::OPTION_REQUIRED_ACTIONS => [
-                        new RequiredActionRedirect(
-                            'codeOfConduct',
-                            [
-                                new CodeOfConductRule(new \DateInterval('P1Y')),
-                            ],
-                            _url('codeofconduct', 'RequiredAction', 'tao')
-                        ),
-                    ]
-                ]);
+                $requiredActionService = new RequiredActionService();
                 $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
             }
 
-            $accessService = \funcAcl_models_classes_AccessService::singleton();
-            $baseUserRole = new \core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole');
-            $accessService->grantModuleAccess($baseUserRole, 'tao', 'RequiredAction');
-
             OntologyUpdater::syncModels();
-
-            $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
-            $eventManager->attach(
-                'oat\\tao\\model\\event\\BeforeAction',
-                array(
-                    'oat\\tao\\model\\requiredAction\\implementation\\RequiredActionService',
-                    'checkRequiredActions'
-                )
-            );
-            $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
 
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $ext->setConfig(\tao_actions_RequiredAction::CONF_CODE_OF_CONDUCT, '');
 
-            $currentVersion = '2.16.0';
+            $this->setVersion('2.16.0');
         }
-
-        return $currentVersion;
     }
     
     private function migrateFsAccess() {

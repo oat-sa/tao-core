@@ -30,6 +30,7 @@
  
  */
 use oat\tao\model\GenerisTreeFactory;
+use oat\tao\helpers\TreeHelper;
 
 class tao_actions_GenerisTree extends tao_actions_CommonModule {
 	
@@ -55,7 +56,10 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule {
 		$openNodes	= array($class->getUri());
 		if ($this->hasRequestParameter('openNodes') && is_array($this->getRequestParameter('openNodes'))) {
 			$openNodes = array_merge($openNodes, $this->getRequestParameter('openNodes'));
-		}
+        }else if($this->hasRequestParameter('openParentNodes') && is_array($this->getRequestParameter('openParentNodes'))) {
+            $childNodes = $this->getRequestParameter('openParentNodes');
+            $openNodes = TreeHelper::getNodesToOpen($childNodes, $class);
+        }
 		
 		$limit		= $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : self::DEFAULT_LIMIT;
 		$offset		= $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;

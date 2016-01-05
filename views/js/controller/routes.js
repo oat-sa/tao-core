@@ -35,11 +35,6 @@ define(function(){
                 'index' : 'controller/passwordRecovery'
             },
         },
-        'RequiredAction': {
-            'actions' : {
-                'codeofconduct' : 'controller/requiredAction/codeofconduct'
-            },
-        },
         'Lock': {
             'actions' : {
                 'locked' : 'controller/Lock/locked'
