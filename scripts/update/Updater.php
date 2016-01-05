@@ -427,10 +427,13 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ['ext' => 'tao', 'mod' => 'AuthApi']));
             $currentVersion = '2.15.1';
         }
-
         $this->setVersion($currentVersion);
 
-        if ($this->isVersion('2.15.1')) {
+        if ($this->isVersion('2.15.1') || $this->isVersion('2.15.2')) {
+            $this->setVersion('2.16.0');
+        }
+
+        if ($this->isVersion('2.16.0')) {
             try {
                 $this->getServiceManager()->get(RequiredActionService::CONFIG_ID);
                 // all good, already configured
@@ -444,8 +447,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $ext->setConfig(\tao_actions_RequiredAction::CONF_CODE_OF_CONDUCT, '');
 
-            $this->setVersion('2.16.0');
+            $this->setVersion('2.17.0');
         }
+       
     }
     
     private function migrateFsAccess() {
