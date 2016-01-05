@@ -61,11 +61,6 @@ class tao_models_classes_FileSourceService
 			'', '', '', $path, $label, true
 		);
         
-        $serviceManager = ServiceManager::getServiceManager();
-        $fsm = $serviceManager->get(FileSystemService::SERVICE_ID);
-        $fsm->addLocalFileSystem($returnValue->getUri(), $path);
-        $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
-        
         return $returnValue;
     }
 
