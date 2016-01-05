@@ -444,9 +444,6 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             OntologyUpdater::syncModels();
 
-            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-            $ext->setConfig(\tao_actions_RequiredAction::CONF_CODE_OF_CONDUCT, '');
-
             $this->setVersion('2.17.0');
         }
        
