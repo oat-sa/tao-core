@@ -175,7 +175,7 @@ define([
      */
     function getNamespace(eventName){
         if(eventName.indexOf('.') > -1){
-            return eventName.substr(eventName.indexOf('.'));
+            return eventName.substr(eventName.indexOf('.') + 1);
         }
         return globalNs;
     }
