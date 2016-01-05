@@ -82,10 +82,10 @@ class tao_models_classes_TaoService
     }
 
     /**
-     * Get the tao version
+     * Get the tao platform version
      * @return string
      */
-    public function getVersion()
+    public function getPlatformVersion()
     {
         return TAO_VERSION;
     }
