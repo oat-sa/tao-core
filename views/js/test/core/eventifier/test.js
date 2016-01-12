@@ -484,7 +484,7 @@ define(['core/eventifier'], function(eventifier){
         var emitter = eventifier({
                 name : 'moo'
             }, {
-            trace : function trace(name, method, eventName){
+            debug : function (name, method, eventName){
                 assert.equal(name, 'moo', 'The logger get the target name');
                 assert.equal(method, 'trigger', 'The logger get the method name');
                 assert.equal(eventName, 'foo.bar', 'The logger get the event name');

@@ -380,8 +380,8 @@ define([
         _(eventApi).functions().forEach(function(method){
             target[method] = function delegate(){
                 var args =  [].slice.call(arguments);
-                if(logger && logger.trace){
-                    logger.trace.apply(logger, [targetName, method].concat(args));
+                if(logger && logger.debug){
+                    logger.debug.apply(logger, [targetName, method].concat(args));
                 }
                 return eventApi[method].apply(target, args);
             };

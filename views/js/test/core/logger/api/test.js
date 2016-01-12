@@ -120,8 +120,8 @@ define(['core/logger/api'], function(loggerFactory){
                 assert.equal(message.messages.length, 4, 'There is one message');
                 assert.equal(message.messages[0], '10', 'The message is correct');
                 assert.equal(message.messages[1], 'bar', 'The message is correct');
-                assert.equal(message.messages[2], '{"a":"b"}', 'The message is correct');
-                assert.equal(message.messages[3], '[1,2]', 'The message is correct');
+                assert.deepEqual(message.messages[2], { a: 'b'}, 'The message is correct');
+                assert.deepEqual(message.messages[3], [1,2], 'The message is correct');
             }
         });
 
