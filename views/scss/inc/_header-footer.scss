@@ -230,7 +230,7 @@ $navHeight: 64;
 }
 
 
-.content-wrap > header {
+.content-wrap > header, body > header {
     position: relative;
     border-bottom: 1px $uiGeneralContentBorder solid;
 }
@@ -383,6 +383,7 @@ body > footer {
 }
 
 // works in conjunction with layout/nav.js
-body.oversized-nav:not(.delivery-scope){
+// .delivery-scope is the old test runner, .test-runner-scope the new one
+body.oversized-nav:not(.delivery-scope):not(.test-runner-scope){
     @include mobile-navi();
 }

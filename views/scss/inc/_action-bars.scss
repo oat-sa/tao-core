@@ -4,14 +4,16 @@
     background: whiten($info, .1);
     padding: 3px;
     overflow: hidden;
+    color: whiten($info, .9);
+
     li {
         float: left;
         .li-inner {
             padding-bottom: 1px;
-            color: whiten($info, .9);
             text-decoration: none !important;
             outline: 0;
             display: inline-block;
+            color: inherit;
             &:hover {
                 color: white;
             }
@@ -212,6 +214,7 @@
 }
 
 // works in conjunction with layout/nav.js
-body.oversized-nav:not(.delivery-scope){
+// .delivery-scope is the old test runner, .test-runner-scope the new one
+body.oversized-nav:not(.delivery-scope):not(.test-runner-scope){
     @include mobile-search();
 }
