@@ -23,20 +23,20 @@
 define(['module'], function (module) {
     'use strict';
 
-    var config = module.config();
-
     /**
      * Util object for manipulate locale dependent data
      * @exports util/locale
      */
     return {
 
+        config: module.config(),
+
         /**
          * Returns current system decimal separator
          * @returns {string}
          */
         getDecimalSeparator: function getDecimalSeparator() {
-            return config && config.decimalSeparator ? config.decimalSeparator : '.';
+            return this.config && this.config.decimalSeparator ? this.config.decimalSeparator : '.';
         },
 
         /**
@@ -44,7 +44,7 @@ define(['module'], function (module) {
          * @returns {string}
          */
         getThousandsSeparator: function getThousandsSeparator() {
-            return config && config.thousandsSeparator ? config.thousandsSeparator : '';
+            return this.config && this.config.thousandsSeparator ? this.config.thousandsSeparator : '';
         },
 
         /**
