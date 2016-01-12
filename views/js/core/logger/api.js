@@ -85,14 +85,6 @@ define(['lodash'], function(_){
                    messages = [].slice.call(arguments, 1);
                 }
 
-                //stringify the messages
-                messages = _.map(messages, function(msg){
-                    if(typeof msg === 'object'){
-                        return JSON.stringify(msg);
-                    }
-                    return msg + '';
-                });
-
                 if(levels[level] >= levels.error){
                     stack = new Error().stack || 'no stack infos';
                 }
