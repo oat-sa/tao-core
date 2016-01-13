@@ -20,7 +20,7 @@
 
 namespace oat\tao\model\session;
 
-use common_session_BasicSession;
+use common_session_DefaultSession;
 use common_session_Session;
 use common_session_SessionManager;
 use oat\oatbox\user\User;
@@ -32,7 +32,7 @@ use oat\oatbox\user\User;
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package oat\tao\model
  */
-class PretenderSession extends common_session_BasicSession
+class PretenderSession extends common_session_DefaultSession
 {
     /**
      * Real user session
