@@ -138,6 +138,8 @@ define(['jquery', 'ui/feedback'], function($, feedback){
         var $container = $('#feedback-box');
         feedback($container).message('warning', 'DANGER_ZONE').display();
 
+        assert.equal($('.feedback-warning', $container).length, 1 , 'The feedback content has been appended to the container');
+
         $container.on('close.feedback', function(e){
             assert.equal($('.feedback-warning', $container).length, 0, 'The feedback content has been removed from the container');
             QUnit.start();
