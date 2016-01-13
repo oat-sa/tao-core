@@ -22,6 +22,7 @@
 namespace oat\tao\model\session;
 
 use oat\oatbox\user\User;
+use oat\oatbox\service\ConfigurableService;
 use common_session_Session;
 use common_session_SessionManager;
 
@@ -33,7 +34,7 @@ use common_session_SessionManager;
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package oat\tao\model
  */
-class SessionSubstitutionService implements \oat\tao\model\SessionSubstitutionService
+class SessionSubstitutionService extends ConfigurableService implements \oat\tao\model\SessionSubstitutionService
 {
     /**
      * @param User $user
