@@ -83,7 +83,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
 	        // single entrypoint -> redirect
 	        $entry = current($entries);
-	        return $this->forwardUrl($entry->getUrl());
+	        return $this->redirect($entry->getUrl());
 	    } else {
 	        // multiple entries -> choice
 	        if (!common_session_SessionManager::isAnonymous()) {
