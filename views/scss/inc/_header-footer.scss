@@ -383,7 +383,6 @@ body > footer {
 }
 
 // works in conjunction with layout/nav.js
-// .delivery-scope is the old test runner, .test-runner-scope the new one
-body.oversized-nav:not(.delivery-scope):not(.test-runner-scope){
+body.oversized-nav:not(.delivery-scope){
     @include mobile-navi();
 }
