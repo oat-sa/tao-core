@@ -34,35 +34,35 @@ interface RequiredActionInterface
     /**
      * @return string
      */
-    function getName();
+    public function getName();
 
     /**
      * @param RequiredActionRuleInterface $rule
      * @return mixed
      */
-    function setRule(RequiredActionRuleInterface $rule);
+    public function setRule(RequiredActionRuleInterface $rule);
 
     /**
      * @return RequiredActionRuleInterface[]
      */
-    function getRules();
+    public function getRules();
 
     /**
      * Execute an action.
      * @return mixed
      */
-    function execute();
+    public function execute();
 
     /**
      * Mark action as completed.
      * @return mixed
      */
-    function completed();
+    public function completed();
 
     /**
      * Check whether the action must be executed.
      * @return boolean
      */
-    function mustBeExecuted();
+    public function mustBeExecuted();
 
 }

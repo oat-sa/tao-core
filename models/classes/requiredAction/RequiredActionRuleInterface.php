@@ -35,18 +35,18 @@ interface RequiredActionRuleInterface
      * Check the rule.
      * @return boolean
      */
-    function check();
+    public function check();
 
     /**
      * Mark rule as completed
      * @return mixed
      */
-    function completed();
+    public function completed();
 
     /**
      * Set required action instance
      * @param \oat\tao\model\requiredAction\RequiredActionInterface $requiredAction
      * @return mixed
      */
-    function setRequiredAction(RequiredActionInterface $requiredAction);
+    public function setRequiredAction(RequiredActionInterface $requiredAction);
 }

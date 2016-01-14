@@ -21,10 +21,7 @@
 
 namespace oat\tao\model\requiredAction;
 
-use oat\tao\model\requiredAction\RequiredActionInterface;
 use \Exception;
-use oat\tao\model\requiredAction\RequiredActionRuleInterface;
-use oat\tao\model\routing\FlowController;
 
 /**
  * Class RequiredAction
@@ -65,7 +62,7 @@ abstract class RequiredActionAbstract implements RequiredActionInterface
      * @param array $params
      * @return mixed
      */
-    abstract function execute(array $params = []);
+    abstract public function execute(array $params = []);
 
     /**
      * Whether the action must be executed.
