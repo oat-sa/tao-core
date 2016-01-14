@@ -230,7 +230,7 @@ $navHeight: 64;
 }
 
 
-.content-wrap > header {
+.content-wrap > header, body > header {
     position: relative;
     border-bottom: 1px $uiGeneralContentBorder solid;
 }
