@@ -58,8 +58,17 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash', 'async'], function(_, async){
+define([
+    'lodash',
+    'async',
+    'lib/uuid'
+], function(_, async, uuid){
     'use strict';
+
+    /**
+     * All events have a namespace, this one is the default
+     */
+    var globalNs = '*';
 
     /**
      * Create an async callstack
@@ -144,123 +153,44 @@ define(['lodash', 'async'], function(_, async){
                 success();
             }
         });
-
     }
+
+
     /**
-     * The API itself is just a placeholder, all methods will be delegated to a target.
+     * Get the name part of an event name: the 'foo' of 'foo.bar'
+     * @param {String} eventName - the name of the event
+     * @returns {String} the name part
      */
-    var eventApi = {
-
-        /**
-         * Attach an handler to an event.
-         * Calling `on` with the same eventName multiple times add callbacks: they
-         * will all be executed.
-         *
-         * @example target.on('foo', function(bar){ console.log('Cool ' + bar) } );
-         *
-         * @this the target
-         * @param {String} name - the name of the event to listen
-         * @param {Function} handler - the callback to run once the event is triggered
-         * @returns {Object} the target object
-         */
-        on : function on(name, handler){
-            if(typeof handler === 'function'){
-                this._events[name] = this._events[name] || [];
-                this._events[name].push(handler);
-            }
-            return this;
-        },
-
-        /**
-         * Remove ALL handlers for an event.
-         *
-         * @example target.off('foo');
-         *
-         * @this the target
-         * @param {String} name - the name of the event
-         * @returns {Object} the target object
-         */
-        off : function off(name){
-            this._events[name] = [];
-            this._before[name] = [];
-            this._after[name] = [];
-            return this;
-        },
-
-        /**
-         * Trigger an event.
-         *
-         * @example target.trigger('foo', 'Awesome');
-         *
-         * @this the target
-         * @param {String} name - the name of the event to trigger
-         * @returns {Object} the target object
-         */
-        trigger : function trigger(name){
-            var self = this;
-            var args = [].slice.call(arguments, 1);
-            if(this._events[name] && _.isArray(this._events[name])){
-                if(this._before[name] && _.isArray(this._before[name])){
-                    createAsyncCallstack(this._before[name], self, args, triggerEvent);
-                }else{
-                    triggerEvent();
-                }
-            }
-
-            /**
-             * Call the actual registered event handlers
-             * @private
-             */
-            function triggerEvent(){
-
-                //trigger the event handlers
-                _.forEach(self._events[name], function(handler){
-                    handler.apply(self, args);
-                });
-
-                //trigger the after event handlers if applicable
-                if(self._after[name] && _.isArray(self._after[name])){
-                    _.forEach(self._after[name], function(handler){
-                        handler.apply(self, args);
-                    });
-                }
-            }
-
-            return this;
-        },
-
-        /**
-         * Register a callback that is executed before the given event name
-         * Provides an opportunity to cancel the execution of the event if one of the returned value is false
-         *
-         * @this the target
-         * @param {String} name
-         * @returns {Object} the target object
-         */
-        before : function before(name, handler){
-            if(typeof handler === 'function'){
-                this._before[name] = this._before[name] || [];
-                this._before[name].push(handler);
-            }
-            return this;
-        },
-
-        /**
-         * Register a callback that is executed after the given event name
-         * The handlers will all be executed, no matter what
-         *
-         * @this the target
-         * @param {String} name
-         * @returns {Object} the target object
-         */
-        after : function after(name, handler){
-            if(typeof handler === 'function'){
-                this._after[name] = this._after[name] || [];
-                this._after[name].push(handler);
-            }
-            return this;
+    function getName(eventName){
+        if(eventName.indexOf('.') > -1){
+            return eventName.substr(0, eventName.indexOf('.'));
         }
-    };
+        return eventName;
+    }
+
+    /**
+     * Get the namespace part of an event name: the 'bar' of 'foo.bar'
+     * @param {String} eventName - the name of the event
+     * @returns {String} the namespace, that defaults to globalNs
+     */
+    function getNamespace(eventName){
+        if(eventName.indexOf('.') > -1){
+            return eventName.substr(eventName.indexOf('.') + 1);
+        }
+        return globalNs;
+    }
+
+    /**
+     * Creates a new EventHandler object structure
+     * @returns {Object} the handler structure
+     */
+    function getHandlerObject(){
+        return {
+            before : [],
+            between: [],
+            after  : []
+        };
+    }
 
     /**
      * Makes the target an event emitter by delegating calls to the event API.
@@ -270,23 +200,195 @@ define(['lodash', 'async'], function(_, async){
      */
     function eventifier(target, logger){
 
+        var targetName;
+
+        //it stores all the handlers under ns/name/[handlers]
+        var eventHandlers  = {};
+
+        /**
+         * Get the handlers for an event type
+         * @param {String} name - the event name
+         * @param {String} ns - the event namespace
+         * @param {String} [type = 'between'] - the type of event in before, between and after
+         * @returns {Function[]} the handlers
+         */
+        var getHandlers = function getHandlers(name, ns, type){
+            type = type || 'between';
+            eventHandlers[ns] = eventHandlers[ns] || {};
+            eventHandlers[ns][name] = eventHandlers[ns][name] || getHandlerObject();
+            return eventHandlers[ns][name][type];
+        };
+
+       /**
+        * The API itself is just a placeholder, all methods will be delegated to a target.
+        */
+        var eventApi = {
+
+           /**
+            * Attach an handler to an event.
+            * Calling `on` with the same eventName multiple times add callbacks: they
+            * will all be executed.
+            *
+            * @example target.on('foo', function(bar){ console.log('Cool ' + bar) } );
+            *
+            * @this the target
+            * @param {String} eventName - the name of the event to listen
+            * @param {Function} handler - the callback to run once the event is triggered
+            * @returns {Object} the target object
+            */
+            on : function on(eventName, handler){
+                var ns = getNamespace(eventName);
+                var name = getName(eventName);
+
+                if(typeof handler === 'function'){
+                    getHandlers(name, ns).push(handler);
+                }
+
+                return this;
+            },
+
+           /**
+            * Remove ALL handlers for an event.
+            *
+            * @example target.off('foo');
+            *
+            * @this the target
+            * @param {String} eventName - the name of the event
+            * @returns {Object} the target object
+            */
+            off : function off(eventName){
+                var ns = getNamespace(eventName);
+                var name = getName(eventName);
+
+                if(ns && !name){
+                    //off the complete namespace
+                    eventHandlers[ns] = {};
+                } else {
+
+                    _.forEach(eventHandlers, function(nsHandlers, namespace){
+                        if(nsHandlers[name] && (ns === globalNs || ns === namespace)){
+                            nsHandlers[name] = getHandlerObject();
+                        }
+                    });
+                }
+
+                return this;
+            },
+
+            /**
+            * Trigger an event.
+            *
+            * @example target.trigger('foo', 'Awesome');
+            *
+            * @this the target
+            * @param {String} eventName - the name of the event to trigger
+            * @returns {Object} the target object
+            */
+            trigger : function trigger(eventName){
+                var self = this;
+                var args = [].slice.call(arguments, 1);
+                var ns = getNamespace(eventName);
+                var name = getName(eventName);
+
+                //check which ns needs to be executed and then merge the handlers to be executed
+                var mergedHandlers = _(eventHandlers)
+                 .filter(function(nsHandlers, namespace){
+                    return nsHandlers[name] && (ns === globalNs || ns === namespace);
+                 })
+                 .reduce(function(acc, nsHandlers){
+                     acc.before  = acc.before.concat(nsHandlers[name].before);
+                     acc.between = acc.between.concat(nsHandlers[name].between);
+                     acc.after   = acc.after.concat(nsHandlers[name].after);
+                    return acc;
+                 }, getHandlerObject());
+
+                 if(mergedHandlers){
+
+                    //if there is something in before we delay the execution
+                    if(mergedHandlers.before.length){
+                        createAsyncCallstack(mergedHandlers.before, self, args, _.partial(triggerEvent, mergedHandlers));
+                    } else {
+                        triggerEvent(mergedHandlers);
+                    }
+                }
+
+                /**
+                 * Execute the given event handlers (between and then after)
+                 *
+                 * @private
+                 * @param {Object} handlers - the event handler object to execute
+                 */
+                function triggerEvent(handlers){
+                    //trigger the event handlers
+                    _.forEach(handlers.between, function(handler){
+                        handler.apply(self, args);
+                    });
+
+                    //trigger the after event handlers if applicable
+                    _.forEach(handlers.after, function(handler){
+                        handler.apply(self, args);
+                    });
+                }
+
+                return this;
+            },
+
+            /**
+            * Register a callback that is executed before the given event name
+            * Provides an opportunity to cancel the execution of the event if one of the returned value is false
+            *
+            * @this the target
+            * @param {String} eventName
+            * @returns {Object} the target object
+            */
+            before : function before(eventName, handler){
+                var ns = getNamespace(eventName);
+                var name = getName(eventName);
+
+                if(typeof handler === 'function'){
+                    getHandlers(name, ns, 'before').push(handler);
+                }
+                return this;
+            },
+
+            /**
+            * Register a callback that is executed after the given event name
+            * The handlers will all be executed, no matter what
+            *
+            * @this the target
+            * @param {String} eventName
+            * @returns {Object} the target object
+            */
+            after : function after(eventName, handler){
+                var ns = getNamespace(eventName);
+                var name = getName(eventName);
+
+                if(typeof handler === 'function'){
+                    getHandlers(name, ns, 'after').push(handler);
+                }
+                return this;
+            }
+        };
+
         target = target || {};
-        target._events = {};
-        target._before = {};
-        target._after = {};
+
+        if(logger){
+            //try to get something that looks like a name, an id or generate one only for logging purposes
+            targetName = target.name || target.id || target.serial || uuid(6);
+        }
 
         _(eventApi).functions().forEach(function(method){
             target[method] = function delegate(){
                 var args =  [].slice.call(arguments);
-                if(logger && logger.trace){
-                    logger.trace.apply(logger, ['event', method].concat(args));
+                if(logger && logger.debug){
+                    logger.debug.apply(logger, [targetName, method].concat(args));
                 }
                 return eventApi[method].apply(target, args);
             };
         });
+
         return target;
     }
 
     return eventifier;
-
 });

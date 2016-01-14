@@ -31,6 +31,9 @@ use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\accessControl\data\PermissionException;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\event\EventManager;
+use oat\tao\model\event\BeforeAction;
 
 /**
  * ActionEnforcer class
@@ -102,7 +105,7 @@ class ActionEnforcer implements IExecutable
 	{
 	    // Are we authorized to execute this action?
         try {
-	    $this->verifyAuthorization();
+            $this->verifyAuthorization();
         } catch(PermissionException $pe){
             //forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch error). 
             \Context::getInstance()->setExtensionName('tao');
@@ -110,11 +113,11 @@ class ActionEnforcer implements IExecutable
             $this->controller   = 'tao_actions_Permission';
             $this->extension    = 'tao';
         }
-	    
+
 	    // get the controller
 	    $controller = $this->getController();
 	    $action = $this->getAction();
-	     
+
 	    // if the method related to the specified action exists, call it
 	    if (method_exists($controller, $action)) {
 	
@@ -135,6 +138,10 @@ class ActionEnforcer implements IExecutable
 	        // method parameters.
 	        $user = common_session_SessionManager::getSession()->getUser();
 	        common_Logger::d('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
+
+            $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+            $eventManager->trigger(new BeforeAction());
+
 	        call_user_func_array(array($controller, $action), $tabParam);
 	
 	        // Render the view if selected.
