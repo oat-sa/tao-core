@@ -39,11 +39,11 @@ interface RequiredActionServiceInterface
      * Get list of all required actions
      * @return RequiredAction[] array of required action instances
      */
-    function getRequiredActions();
+    public function getRequiredActions();
 
     /**
      * Get first action which should be executed (one of action's rules return true).
      * @return mixed
      */
-    function getActionToBePerformed();
+    public function getActionToBePerformed();
 }
