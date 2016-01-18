@@ -51,7 +51,7 @@ define(['jquery', 'lodash'], function($, _) {
 
                 //post the full form that contains the file
                 fd = new FormData(this[0]);
-
+                fd.append('content', options.file);
                 xhr.open("POST", opts.url, true);
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4) {
