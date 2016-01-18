@@ -22,7 +22,7 @@ define(['jquery', 'lodash'], function($, _) {
          *  @param {Object} options - the sending options
          *  @param {String} [options.url] - the url where the form will send the file, if not set we get the form.action attr
          *  @param {String} [options.frame] - a name for the frame create in background
-         *  @param {String} [options.fileParamName] - the name of the element of request payload which will cantain file.
+         *  @param {String} [options.fileParamName] - the name of the element of request payload which will contain file.
          *  @param {FileLoadedCallback} [options.loaded] - executed once received the server response
          */
         _init: function(options) {
