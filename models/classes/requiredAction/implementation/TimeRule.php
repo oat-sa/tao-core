@@ -104,6 +104,20 @@ class TimeRule implements RequiredActionRuleInterface
     }
 
     /**
+     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
+     */
+    public function __toPhpCode()
+    {
+        $class = get_class($this);
+        $interval = serialize($this->getInterval());
+        $executionTime = serialize($this->getExecutionTime());
+        return "new $class(
+            unserialize('$interval'),
+            unserialize('$executionTime')
+        )";
+    }
+
+    /**
      * Check if it is time to perform an action.
      * If `$this->lastExecution` is null (action has never been executed)
      * or since the last execution took time more than specified interval (`$this->interval`) then action must be performed.

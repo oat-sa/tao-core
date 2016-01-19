@@ -117,6 +117,20 @@ abstract class RequiredActionAbstract implements RequiredActionInterface
     }
 
     /**
+     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
+     */
+    public function __toPhpCode()
+    {
+        $class = get_class($this);
+        $name = $this->name;
+        $rules = \common_Utils::toHumanReadablePhpString($this->getRules());
+        return "new $class(
+            '$name',
+            $rules
+        )";
+    }
+
+    /**
      * Check rules whether action must be performed.
      * If at least one rule returns true the action will be performed.
      * If result is `true` then action must be performed.
