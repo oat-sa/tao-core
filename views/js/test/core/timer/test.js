@@ -77,15 +77,31 @@ define([
             },
             started : false,
             running : false
+        }, {
+            title : 'config: startDuration=100',
+            config : {
+                autoStart: false,
+                startDuration: 100
+            },
+            started : false,
+            running : false,
+            duration : 100
         }
     ];
 
     QUnit
         .cases(timerOptions)
-        .test('timer.start ', 2, function(data, assert) {
+        .test('timer.start ', 6, function(data, assert) {
+            var expectedDuration = data.duration || 0;
             var timer = timerFactory(data.config);
+            assert.equal(Math.floor(timer.getDuration()), expectedDuration, 'The duration must be initialized with the right value (' + expectedDuration + ')');
             assert.equal(timer.is('started'), data.started, 'The timer started state must be ' + data.started);
             assert.equal(timer.is('running'), data.running, 'The timer running state must be ' + data.running);
+
+            timer.start(data.duration);
+            assert.equal(Math.floor(timer.getDuration()), expectedDuration, 'The duration must be initialized with the right value (' + expectedDuration + ')');
+            assert.equal(timer.is('started'), true, 'The timer must be started');
+            assert.equal(timer.is('running'), true, 'The timer must be running');
         });
 
 
@@ -153,11 +169,11 @@ define([
             assert.equal(timer.is('running'), data.running, 'The timer running state must be ' + data.running);
 
             setTimeout(function() {
-                assert.ok(timer.tick() >= delay, 'The timer must return the right tick interval');
+                assert.ok(timer.tick() >= delay, 'The timer must return the right tick interval (>=' + delay + ')');
 
                 delay = 100;
                 setTimeout(function() {
-                    assert.ok(timer.tick() >= delay, 'The timer must return the right tick interval');
+                    assert.ok(timer.tick() >= delay, 'The timer must return the right tick interval (>=' + delay + ')');
                     QUnit.start();
                 }, delay)
             }, delay)
@@ -167,42 +183,42 @@ define([
         .cases(timerOptions)
         .asyncTest('timer.getDuration ', 8, function(data, assert) {
             var delay = 100;
-            var expectedDuration = 0;
+            var expectedDuration = data.duration || 0;
             var timer = timerFactory(data.config);
 
-            assert.equal(Math.floor(timer.getDuration()), 0, 'The duration must be zero');
+            assert.equal(Math.floor(timer.getDuration()), expectedDuration, 'The duration must be initialized with the right value (' + expectedDuration + ')');
             assert.equal(timer.is('started'), data.started, 'The timer started state must be ' + data.started);
             assert.equal(timer.is('running'), data.running, 'The timer running state must be ' + data.running);
 
             if (!timer.is('started')) {
-                timer.start();
+                timer.start(data.duration);
             }
 
             setTimeout(function() {
                 expectedDuration += delay;
-                assert.ok(timer.getDuration() >= expectedDuration, 'The timer must return the right duration');
+                assert.ok(timer.getDuration() >= expectedDuration, 'The timer must return the right duration (>=' + expectedDuration + ')');
 
                 timer.pause();
                 expectedDuration = timer.getDuration();
 
                 setTimeout(function() {
-                    assert.equal(timer.getDuration(), expectedDuration, 'The timer must return the right duration');
+                    assert.equal(timer.getDuration(), expectedDuration, 'The timer must return the right duration (=' + expectedDuration + ')');
 
                     timer.resume();
 
                     setTimeout(function() {
                         expectedDuration += delay;
-                        assert.ok(timer.getDuration() >= expectedDuration, 'The timer must return the right duration');
+                        assert.ok(timer.getDuration() >= expectedDuration, 'The timer must return the right duration (>=' + expectedDuration + ')');
 
                         setTimeout(function() {
                             expectedDuration += delay;
-                            assert.ok(timer.getDuration() >= expectedDuration, 'The timer must return the right duration');
+                            assert.ok(timer.getDuration() >= expectedDuration, 'The timer must return the right duration (>=' + expectedDuration + ')');
 
                             timer.stop();
                             expectedDuration = timer.getDuration();
 
                             setTimeout(function() {
-                                assert.equal(timer.getDuration(), expectedDuration, 'The timer must return the right duration');
+                                assert.equal(timer.getDuration(), expectedDuration, 'The timer must return the right duration (=' + expectedDuration + ')');
                                 QUnit.start();
                             }, delay);
                         }, delay);

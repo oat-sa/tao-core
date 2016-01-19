@@ -25,14 +25,16 @@ define(['lib/polyfill/performance-now'], function () {
      * Gets a timer
      * @param {Object|Boolean} config - The init config. Can be either false to disable autoStart, or an object
      * @param {Boolean} [config.autoStart] - Auto start the timer (default: true)
+     * @param {Number} [config.startDuration] - Initial duration (default: 0)
      * @returns {timer}
      */
     function timerFactory(config) {
+        var initConfig = config || {};
         var begin = now();
         var last = begin;
-        var duration = 0;
+        var duration = initConfig.startDuration || 0;
         var state = {};
-        var disableAutoStart = false === config || config && false === config.autoStart;
+        var disableAutoStart = false === config || false === initConfig.autoStart;
 
         /**
          * The timer instance
@@ -41,12 +43,13 @@ define(['lib/polyfill/performance-now'], function () {
         var timer = {
             /**
              * Starts the timer
+             * @param {Number} [startDuration] - Initial duration (default: 0)
              * @returns {timer}
              */
-            start : function start() {
+            start : function start(startDuration) {
                 begin = now();
                 last = begin;
-                duration = 0;
+                duration = startDuration || 0;
                 state.running = true;
                 state.started = true;
 
@@ -137,7 +140,7 @@ define(['lib/polyfill/performance-now'], function () {
         }
 
         if (!disableAutoStart) {
-            timer.start();
+            timer.start(initConfig.startDuration);
         }
 
         return timer;
