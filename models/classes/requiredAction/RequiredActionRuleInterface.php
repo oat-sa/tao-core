@@ -20,7 +20,7 @@
  */
 
 namespace oat\tao\model\requiredAction;
-
+use oat\oatbox\PhpSerializable;
 /**
  * Interface RequiredActionRuleInterface
  *
@@ -29,7 +29,7 @@ namespace oat\tao\model\requiredAction;
  * @package oat\tao\model\requiredAction
  * @author Aleh Hutnilau <hutnikau@1pt.com>
  */
-interface RequiredActionRuleInterface
+interface RequiredActionRuleInterface extends PhpSerializable
 {
     /**
      * Check the rule.
