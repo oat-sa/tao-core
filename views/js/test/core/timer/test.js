@@ -1,0 +1,214 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ */
+/**
+ * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
+ */
+define([
+    'lodash',
+    'core/timer'
+], function(_, timerFactory) {
+    'use strict';
+
+    QUnit.module('timer');
+
+
+    QUnit.test('module', 3, function(assert) {
+        assert.equal(typeof timerFactory, 'function', "The timer module exposes a function");
+        assert.equal(typeof timerFactory(), 'object', "The timer factory produces an object");
+        assert.notStrictEqual(timerFactory(), timerFactory(), "The timer factory provides a different object on each call");
+    });
+
+
+    var timerApi = [
+        { name : 'start', title : 'start' },
+        { name : 'stop', title : 'stop' },
+        { name : 'pause', title : 'pause' },
+        { name : 'resume', title : 'resume' },
+        { name : 'tick', title : 'tick' },
+        { name : 'getDuration', title : 'getDuration' },
+        { name : 'is', title : 'is' }
+    ];
+
+    QUnit
+        .cases(timerApi)
+        .test('instance API ', 1, function(data, assert) {
+            var instance = timerFactory();
+            assert.equal(typeof instance[data.name], 'function', 'The timer instance exposes a "' + data.name + '" function');
+        });
+
+
+    var timerOptions = [
+        {
+            title : 'config: default',
+            config : undefined,
+            started : true,
+            running : true
+        }, {
+            title : 'config: false',
+            config : false,
+            started : false,
+            running : false
+        }, {
+            title : 'config: autoStart=true',
+            config : {
+                autoStart: true
+            },
+            started : true,
+            running : true
+        }, {
+            title : 'config: autoStart=false',
+            config : {
+                autoStart: false
+            },
+            started : false,
+            running : false
+        }
+    ];
+
+    QUnit
+        .cases(timerOptions)
+        .test('timer.start ', 2, function(data, assert) {
+            var timer = timerFactory(data.config);
+            assert.equal(timer.is('started'), data.started, 'The timer started state must be ' + data.started);
+            assert.equal(timer.is('running'), data.running, 'The timer running state must be ' + data.running);
+        });
+
+
+    QUnit
+        .cases(timerOptions)
+        .test('timer.stop ', 8, function(data, assert) {
+            var timer = timerFactory(data.config);
+
+            assert.equal(timer.is('started'), data.started, 'The timer started state must be ' + data.started);
+            assert.equal(timer.is('running'), data.running, 'The timer running state must be ' + data.running);
+
+            timer.stop();
+            assert.equal(timer.is('started'), false, 'The timer must be stopped');
+            assert.equal(timer.is('running'), false, 'The timer must not be running');
+
+            timer.start();
+            assert.equal(timer.is('started'), true, 'The timer must be started');
+            assert.equal(timer.is('running'), true, 'The timer must be running');
+
+            timer.stop();
+            assert.equal(timer.is('started'), false, 'The timer must be stopped');
+            assert.equal(timer.is('running'), false, 'The timer must not be running');
+        });
+
+
+    QUnit
+        .cases(timerOptions)
+        .test('timer.pause ', 4, function(data, assert) {
+            var timer = timerFactory(data.config);
+
+            assert.equal(timer.is('started'), data.started, 'The timer started state must be ' + data.started);
+            assert.equal(timer.is('running'), data.running, 'The timer running state must be ' + data.running);
+
+            timer.pause();
+            assert.equal(timer.is('started'), data.started, 'The timer started state must be ' + data.started);
+            assert.equal(timer.is('running'), false, 'The timer must not be running');
+        });
+
+
+    QUnit
+        .cases(timerOptions)
+        .test('timer.resume ', 6, function(data, assert) {
+            var timer = timerFactory(data.config);
+
+            assert.equal(timer.is('started'), data.started, 'The timer started state must be ' + data.started);
+            assert.equal(timer.is('running'), data.running, 'The timer running state must be ' + data.running);
+
+            timer.pause();
+            assert.equal(timer.is('started'), data.started, 'The timer started state must be ' + data.started);
+            assert.equal(timer.is('running'), false, 'The timer must not be running');
+
+            timer.resume();
+            assert.equal(timer.is('started'), true, 'The timer must be started');
+            assert.equal(timer.is('running'), true, 'The timer must be running');
+        });
+
+
+    QUnit
+        .cases(timerOptions)
+        .asyncTest('timer.tick ', 4, function(data, assert) {
+            var delay = 200;
+            var timer = timerFactory(data.config);
+
+            assert.equal(timer.is('started'), data.started, 'The timer started state must be ' + data.started);
+            assert.equal(timer.is('running'), data.running, 'The timer running state must be ' + data.running);
+
+            setTimeout(function() {
+                assert.ok(timer.tick() >= delay, 'The timer must return the right tick interval');
+
+                delay = 100;
+                setTimeout(function() {
+                    assert.ok(timer.tick() >= delay, 'The timer must return the right tick interval');
+                    QUnit.start();
+                }, delay)
+            }, delay)
+        });
+
+    QUnit
+        .cases(timerOptions)
+        .asyncTest('timer.getDuration ', 8, function(data, assert) {
+            var delay = 100;
+            var expectedDuration = 0;
+            var timer = timerFactory(data.config);
+
+            assert.equal(Math.floor(timer.getDuration()), 0, 'The duration must be zero');
+            assert.equal(timer.is('started'), data.started, 'The timer started state must be ' + data.started);
+            assert.equal(timer.is('running'), data.running, 'The timer running state must be ' + data.running);
+
+            if (!timer.is('started')) {
+                timer.start();
+            }
+
+            setTimeout(function() {
+                expectedDuration += delay;
+                assert.ok(timer.getDuration() >= expectedDuration, 'The timer must return the right duration');
+
+                timer.pause();
+                expectedDuration = timer.getDuration();
+
+                setTimeout(function() {
+                    assert.equal(timer.getDuration(), expectedDuration, 'The timer must return the right duration');
+
+                    timer.resume();
+
+                    setTimeout(function() {
+                        expectedDuration += delay;
+                        assert.ok(timer.getDuration() >= expectedDuration, 'The timer must return the right duration');
+
+                        setTimeout(function() {
+                            expectedDuration += delay;
+                            assert.ok(timer.getDuration() >= expectedDuration, 'The timer must return the right duration');
+
+                            timer.stop();
+                            expectedDuration = timer.getDuration();
+
+                            setTimeout(function() {
+                                assert.equal(timer.getDuration(), expectedDuration, 'The timer must return the right duration');
+                                QUnit.start();
+                            }, delay);
+                        }, delay);
+                    }, delay);
+                }, delay);
+            }, delay);
+        });
+
+});
