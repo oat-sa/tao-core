@@ -24,8 +24,10 @@ define(['module', 'util/locale'], function(module, locale) {
     QUnit.test('util api', function(assert) {
 
         // American style
-        locale.config.decimalSeparator = '.';
-        locale.config.thousandsSeparator = ',';
+        locale.setConfig({
+            decimalSeparator: '.',
+            thousandsSeparator: ','
+        });
 
         assert.equal(locale.getDecimalSeparator(), '.', 'Default decimal separator');
         assert.equal(locale.getThousandsSeparator(), ',', 'Default thousands separator');
@@ -40,8 +42,10 @@ define(['module', 'util/locale'], function(module, locale) {
         assert.equal(locale.parseInt('6,000.123'), 6000, 'the valid integer value with dot as decimal separator and comma as thousands separator');
 
         // Other style
-        locale.config.decimalSeparator = ',';
-        locale.config.thousandsSeparator = '';
+        locale.setConfig({
+            decimalSeparator: ',',
+            thousandsSeparator: ''
+        });
 
         assert.equal(locale.parseFloat('6.000'), 6.0, 'the valid float value with dot as decimal separator');
         assert.equal(locale.parseFloat('6,000'), 6.0, 'the valid float value with comma as thousands separator');
