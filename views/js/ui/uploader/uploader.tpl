@@ -25,7 +25,7 @@
 </div>
 <div class="grid-row">
     {{#if showResetButton}}
-    <button class="btn-info btn-reset small"><span class="icon-eraser"></span>{{__ 'Reset'}}</button>
+    <button type="button" class="btn-info btn-reset small"><span class="icon-eraser"></span>{{__ 'Reset'}}</button>
     {{/if}}
     {{#if showUploadButton}}
     <button class="btn-success btn-upload small"><span class="icon-upload"></span>{{uploadBtnText}}</button>
