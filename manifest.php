@@ -27,10 +27,10 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '2.15.3',
+    'version' => '2.17.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=2.7.1'
+        'generis' => '>=2.12.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -45,7 +45,8 @@ return array(
             dirname(__FILE__). '/models/ontology/services.rdf',
             dirname(__FILE__). '/models/ontology/indexation.rdf',
             dirname(__FILE__). '/models/ontology/model.rdf',
-            dirname(__FILE__). '/models/ontology/widegetdefinitions.rdf'
+            dirname(__FILE__). '/models/ontology/widegetdefinitions.rdf',
+            dirname(__FILE__). '/models/ontology/requiredaction.rdf',
         ),
         'checks' => array(
                 array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.4')),

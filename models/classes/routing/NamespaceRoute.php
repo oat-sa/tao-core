@@ -28,10 +28,13 @@ namespace oat\tao\model\routing;
  */
 class NamespaceRoute extends Route
 {
+    const OPTION_NAMESPACE = 'namespace';
+    
     public function resolve($relativeUrl) {
         $slash = strpos($relativeUrl, '/');
         if ($slash !== false && substr($relativeUrl, 0, $slash) == $this->getId()) {
-	        $namespace = $this->getConfig();
+	        $config = $this->getConfig();
+	        $namespace = $config[self::OPTION_NAMESPACE];
 	        $rest = substr($relativeUrl, $slash+1);
 	        if (!empty($rest)) {
                 $parts = explode('/', $rest, 3);

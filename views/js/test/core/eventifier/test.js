@@ -8,6 +8,7 @@ define(['core/eventifier'], function(eventifier){
         assert.ok(typeof eventifier === 'function', "The module has an eventifier method");
     });
 
+
     QUnit.module('eventification');
 
     QUnit.test("delegates", 4, function(assert){
@@ -93,15 +94,91 @@ define(['core/eventifier'], function(eventifier){
 
         emitter.trigger('foo');
     });
-    
+
+    QUnit.module('namspaces');
+
+    QUnit.asyncTest("listen namespace, trigger without namespace", function(assert){
+        QUnit.expect(2);
+
+        var emitter = eventifier();
+
+        emitter.on('foo', function(){
+            assert.ok(true, 'the foo handler is called');
+        });
+        emitter.on('foo.bar', function(){
+            assert.ok(true, 'the foo.bar handler is called');
+            QUnit.start();
+        });
+
+        emitter.trigger('foo');
+    });
+
+    QUnit.asyncTest("listen namespace, trigger with namespace", function(assert){
+        QUnit.expect(1);
+
+        var emitter = eventifier();
+
+        emitter.on('foo', function(){
+            assert.ok(false, 'the foo handler should not be called');
+        });
+        emitter.on('foo.bar', function(){
+            assert.ok(true, 'the foo.bar handler is called');
+            QUnit.start();
+        });
+
+        emitter.trigger('foo.bar');
+    });
+
+    QUnit.asyncTest("off namespaced event", function(assert){
+        QUnit.expect(0);
+
+        var emitter = eventifier();
+
+        emitter.on('foo', function(){
+            assert.ok(false, 'the foo handler should not be called');
+        });
+        emitter.on('foo.bar', function(){
+            assert.ok(false, 'the foo.bar handler should not be called');
+        });
+        emitter.off('foo');
+
+        emitter.trigger('foo');
+        setTimeout(function(){
+            QUnit.start();
+        }, 1);
+    });
+
+    QUnit.asyncTest("off all namespace", function(assert){
+        QUnit.expect(1);
+
+        var emitter = eventifier();
+
+        emitter.on('foo', function(){
+            assert.ok(true, 'the foo handler should  be called');
+            QUnit.start();
+        });
+        emitter.on('foo.bar', function(){
+            assert.ok(false, 'the foo.bar handler should not be called');
+
+        });
+        emitter.on('norz.bar', function(){
+            assert.ok(false, 'the norz.bar handler should not be called');
+        });
+
+        emitter.off('.bar');
+
+        emitter.trigger('foo').trigger('norz');
+
+    });
+
     QUnit.module('before');
-    
+
     QUnit.asyncTest("sync done - return nothing", function(assert){
 
         var testDriver = eventifier();
         var arg1 = 'X',
             arg2 = 'Y';
-            
+
         testDriver.on('next', function(){
             assert.ok(true, "The 1st listener should be executed : e.g. save context recovery");
         });
@@ -126,13 +203,13 @@ define(['core/eventifier'], function(eventifier){
 
         testDriver.trigger('next', arg1, arg2);
     });
-    
+
     QUnit.asyncTest("async done", function(assert){
 
         var testDriver = eventifier();
         var arg1 = 'X',
             arg2 = 'Y';
-            
+
         testDriver.on('next', function(){
             assert.ok(true, "The 1st listener should be executed : e.g. save context recovery");
         });
@@ -153,7 +230,7 @@ define(['core/eventifier'], function(eventifier){
                 done();
             }, 10);
         });
-        
+
         testDriver.before('next', function(e, a1, a2){
             assert.equal(a1, arg1, 'the first event arg is correct');
             assert.equal(a2, arg2, 'the second event arg is correct');
@@ -162,11 +239,11 @@ define(['core/eventifier'], function(eventifier){
 
         testDriver.trigger('next', arg1, arg2);
     });
-    
+
     QUnit.test("async done - fail to call done()", 1, function(assert){
 
         var testDriver = eventifier();
-            
+
         testDriver.on('next', function(){
             assert.ok(true, "The listener should not be executed : e.g. save context recovery");
         });
@@ -176,7 +253,7 @@ define(['core/eventifier'], function(eventifier){
             var done = e.done();
             //fail to call done here although we are in an async context
         });
-        
+
         testDriver.before('next', function(e){
             assert.ok(true, "The 2nd 'before' listener should not be executed : e.g. validate a special interaction state");
         });
@@ -247,7 +324,7 @@ define(['core/eventifier'], function(eventifier){
 
         itemEditor.trigger('save');
     });
-    
+
     QUnit.asyncTest("sync prevent now", 1, function(assert){
 
         var itemEditor = eventifier();
@@ -267,8 +344,8 @@ define(['core/eventifier'], function(eventifier){
 
         itemEditor.trigger('save');
     });
-    
-    
+
+
     QUnit.asyncTest("async prevent now", 1, function(assert){
 
         var itemEditor = eventifier();
@@ -279,12 +356,12 @@ define(['core/eventifier'], function(eventifier){
         itemEditor.before('save', function(e){
             assert.ok(true, "The 1st 'before' listener should be executed : e.g. validate current edition form");
             e.done();
-            
+
             //form invalid that interrupt all following call
             setTimeout(function(){
                 e.preventNow();
             }, 10);
-            
+
             QUnit.start();
         });
         itemEditor.before('save', function(e){
@@ -293,22 +370,130 @@ define(['core/eventifier'], function(eventifier){
 
         itemEditor.trigger('save');
     });
-    
+
+    QUnit.asyncTest("namespaced events before order", function(assert){
+        QUnit.expect(12);
+
+        var emitter = eventifier();
+        var state = {
+            foo : false,
+            foobar : false,
+            beforefoo: false,
+            beforefoobar : false
+        };
+
+        emitter.on('foo', function(){
+            assert.ok(true, "The foo handler is called");
+            assert.equal(state.beforefoo, true, 'The before foo handler should hoave been called');
+            assert.equal(state.beforefoobar, true, 'The before foo.bar handler should have been called');
+            state.foo = true;
+        });
+        emitter.on('foo.bar', function(){
+            assert.ok(true, "The foo.bar handler is called");
+            assert.equal(state.beforefoo, true, 'The before foo handler should have been called');
+            assert.equal(state.beforefoobar, true, 'The before foo.bar handler should have been called');
+            state.foobar = true;
+        });
+        emitter.before('foo', function(){
+            assert.ok(true, "The after foo handler is called");
+            assert.equal(state.foo, false, 'The foo handler should not have been called');
+            assert.equal(state.foobar, false, 'The foo.bar handler should have been called');
+            state.beforefoo = true;
+        });
+        emitter.before('foo.bar', function(){
+            assert.ok(true, "The after foo.bar handler is called");
+            assert.equal(state.foo, false, 'The foo handler should not have been called');
+            assert.equal(state.foobar, false, 'The foo.bar handler should have been called');
+            state.beforefoobar = true;
+        });
+
+        emitter.trigger('foo');
+
+        setTimeout(function(){
+            QUnit.start();
+        }, 10);
+    });
+
+
     QUnit.module('after');
-    
+
     QUnit.asyncTest("trigger", 2, function(assert){
-        
+
         var testDriver = eventifier();
-        
+
         testDriver.on('next', function(){
             assert.ok(true, "This listener should be executed : e.g. move to next item");
         });
-        
+
         testDriver.after('next', function(){
             assert.ok(true, "This listener should be executed : e.g. push response to storage");
             QUnit.start();
         });
-        
+
         testDriver.trigger('next');
     });
+
+    QUnit.asyncTest("namespaced after events order", function(assert){
+        QUnit.expect(12);
+
+        var emitter = eventifier();
+        var state = {
+            foo : false,
+            foobar : false,
+            afterfoo: false,
+            afterfoobar : false
+        };
+
+        emitter.on('foo', function(){
+            assert.ok(true, "The foo handler is called");
+            assert.equal(state.afterfoo, false, 'The after foo handler should not be called yet');
+            assert.equal(state.afterfoobar, false, 'The after foo.bar handler should not be called yet');
+            state.foo = true;
+        });
+        emitter.on('foo.bar', function(){
+            assert.ok(true, "The foo.bar handler is called");
+            assert.equal(state.afterfoo, false, 'The after foo handler should not be called yet');
+            assert.equal(state.afterfoobar, false, 'The after foo.bar handler should not be called yet');
+            state.foobar = true;
+        });
+        emitter.after('foo', function(){
+            assert.ok(true, "The after foo handler is called");
+            assert.equal(state.foo, true, 'The foo handler should have been called');
+            assert.equal(state.foobar, true, 'The foo.bar handler should have been called');
+            state.afterfoo = true;
+        });
+        emitter.after('foo.bar', function(){
+            assert.ok(true, "The after foo.bar handler is called");
+            assert.equal(state.foo, true, 'The foo handler should have been called');
+            assert.equal(state.foobar, true, 'The foo.bar handler should have been called');
+            state.afterfoobar = true;
+        });
+
+        emitter.trigger('foo');
+
+        setTimeout(function(){
+            QUnit.start();
+        }, 10);
+    });
+
+    QUnit.module('logger');
+
+    QUnit.asyncTest("logging events", 2, function(assert){
+        QUnit.expect(3);
+
+        var emitter = eventifier({
+                name : 'moo'
+            }, {
+            debug : function (name, method, eventName){
+                assert.equal(name, 'moo', 'The logger get the target name');
+                assert.equal(method, 'trigger', 'The logger get the method name');
+                assert.equal(eventName, 'foo.bar', 'The logger get the event name');
+
+                QUnit.start();
+            }
+        });
+
+        emitter.trigger('foo.bar');
+    });
+
 });

@@ -51,6 +51,8 @@ use oat\tao\model\theme\ThemeService;
 use oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\CompatibilityTheme;
 use oat\tao\model\theme\Theme;
+use oat\tao\model\requiredAction\implementation\RequiredActionService;
+use oat\oatbox\event\EventManager;
 
 /**
  * 
@@ -429,19 +431,31 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->setVersion($currentVersion);
 
-        if($this->isVersion('2.15.1')){
-            $this->setVersion('2.15.2');
+        if ($this->isVersion('2.15.1') || $this->isVersion('2.15.2')) {
+            $this->setVersion('2.16.0');
         }
 
-        if ($currentVersion === '2.15.2') {
+        if ($this->isVersion('2.16.0')) {
+            try {
+                $this->getServiceManager()->get(RequiredActionService::CONFIG_ID);
+                // all good, already configured
+            } catch (ServiceNotFoundException $error) {
+                $requiredActionService = new RequiredActionService();
+                $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
+            }
+
+            OntologyUpdater::syncModels();
+
+            $this->setVersion('2.17.0');
+        }
+       	
+		if ($currentVersion === '2.17.0') {
             ClientLibConfigRegistry::getRegistry()->register(
                 'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
             );
 
-            $this->setVersion('2.15.3');
+            $this->setVersion('2.17.1');
         }
-
-        return null;
     }
     
     private function migrateFsAccess() {
