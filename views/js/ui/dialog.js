@@ -16,6 +16,13 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 /**
+ * Create a modal dialog component
+ *
+ *
+ * TODO move to ui/component
+ * TODO use core/eventifier
+ *
+ *
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
@@ -88,6 +95,7 @@ define([
      * @type {Object}
      */
     var dialog = {
+
         /**
          * Initialise the dialog box.
          * @param {Object} options - A list of options.
@@ -145,7 +153,7 @@ define([
             });
 
             if (this.autoRender) {
-                this.render()
+                this.render();
             }
 
             return this;
@@ -159,15 +167,19 @@ define([
             if (!this.destroyed) {
                 this._destroy();
 
+                // reset the context
+
+                this.rendered = false;
+                this.destroyed = true;
+
+
+                this.trigger('destroy' + _scope);
+
                 // disable events and remove DOM
                 this.$buttons.off(_scope);
                 this.$html.off(_scope).remove();
-
-                // reset the context
                 this.$html = null;
                 this.$buttons = null;
-                this.rendered = false;
-                this.destroyed = true;
             }
 
             return this;
