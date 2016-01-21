@@ -59,11 +59,6 @@ define([
             started : true,
             running : true
         }, {
-            title : 'config: false',
-            config : false,
-            started : false,
-            running : false
-        }, {
             title : 'config: autoStart=true',
             config : {
                 autoStart: true
