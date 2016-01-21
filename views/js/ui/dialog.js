@@ -162,16 +162,15 @@ define([
         /**
          * Destroys the dialog box
          * @returns {dialog}
+         * @fires dialog#destroy.modal
          */
         destroy: function destroy() {
             if (!this.destroyed) {
                 this._destroy();
 
                 // reset the context
-
                 this.rendered = false;
                 this.destroyed = true;
-
 
                 this.trigger('destroy' + _scope);
 
