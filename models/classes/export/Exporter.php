@@ -23,6 +23,7 @@ namespace oat\tao\model\export;
 /**
  * Interface Exporter
  * @package oat\tao\model\export
+ * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
 interface Exporter
 {

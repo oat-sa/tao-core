@@ -25,6 +25,7 @@ use oat\tao\model\export\Exporter;
 /**
  * Class AbstractExporter
  * @package oat\tao\model\export
+ * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
 abstract class AbstractExporter implements Exporter
 {
