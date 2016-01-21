@@ -59,9 +59,12 @@ class CsvExporter extends AbstractExporter
 
     /**
      * @param string|null $fileName
+     * @param boolean $columnNames array keys will be used in the first line of CSV data as column names.
+     * @param string $delimiter sets the field delimiter (one character only).
+     * @param string $enclosure sets the field enclosure (one character only).
      * @return null
      */
-    public function download($fileName = null)
+    public function download($fileName = null, $columnNames = false, $delimiter = ",", $enclosure = '"')
     {
         if ($fileName === null) {
             $fileName = time() . '.csv';
