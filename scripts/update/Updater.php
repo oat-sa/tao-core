@@ -24,6 +24,7 @@ namespace oat\tao\scripts\update;
 use common_ext_ExtensionsManager;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\ClientLibConfigRegistry;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -427,6 +428,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ['ext' => 'tao', 'mod' => 'AuthApi']));
             $currentVersion = '2.15.1';
         }
+
         $this->setVersion($currentVersion);
 
         if ($this->isVersion('2.15.1') || $this->isVersion('2.15.2')) {
@@ -446,7 +448,14 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('2.17.0');
         }
-       
+       	
+		if ($currentVersion === '2.17.0') {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
+            );
+
+            $this->setVersion('2.17.1');
+        }
     }
     
     private function migrateFsAccess() {

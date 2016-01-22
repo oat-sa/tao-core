@@ -20,6 +20,7 @@
  */
 
 namespace oat\tao\model\requiredAction;
+use oat\oatbox\PhpSerializable;
 
 /**
  * Interface RequiredActionInterface
@@ -29,7 +30,7 @@ namespace oat\tao\model\requiredAction;
  * @package oat\tao\model\requiredAction
  * @author Aleh Hutnilau <hutnikau@1pt.com>
  */
-interface RequiredActionInterface
+interface RequiredActionInterface extends PhpSerializable
 {
     /**
      * @return string

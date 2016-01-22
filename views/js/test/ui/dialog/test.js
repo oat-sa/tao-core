@@ -263,4 +263,35 @@ define([
         modal.getDom().find('button[data-control="done"]').click();
     });
 
+    QUnit.asyncTest('destroy', function(assert) {
+        QUnit.expect(4);
+
+        var message = 'foo';
+        var content = 'bar';
+        var renderTo = '#qunit-fixture';
+
+        var modal = dialog({
+            message: message,
+            content: content,
+            renderTo: renderTo
+        });
+
+        modal.on('create.modal', function() {
+            assert.equal($(renderTo + ' .modal').length, 1, 'The modal element is created');
+            assert.equal($(renderTo + ' .message').text(), message, 'The modal message is correct');
+
+            modal.destroy();
+        });
+        modal.on('destroy.modal', function() {
+
+            assert.equal($(renderTo + ' .modal').length, 1, 'The modal element is still there due to the way the modal works');
+            assert.equal(modal.destroyed, true, 'The dialog has the destroyed state');
+
+
+            QUnit.start();
+        });
+
+
+        modal.render();
+    });
 });
