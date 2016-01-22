@@ -38,10 +38,4 @@ interface Exporter
      * @return string
      */
     public function export();
-
-    /**
-     * Send file with exported data to end user
-     * @return mixed
-     */
-    public function download();
 }

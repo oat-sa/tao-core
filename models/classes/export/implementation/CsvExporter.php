@@ -27,7 +27,7 @@ use SPLTempFileObject;
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package oat\tao\model\export
  */
-class CsvExporter extends AbstractExporter
+class CsvExporter extends AbstractFileExporter
 {
     /**
      * @var string value of `Content-Type` header
@@ -36,11 +36,12 @@ class CsvExporter extends AbstractExporter
 
     /**
      * @param boolean $columnNames array keys will be used in the first line of CSV data as column names.
+     * @param boolean $download
      * @param string $delimiter sets the field delimiter (one character only).
      * @param string $enclosure sets the field enclosure (one character only).
      * @return string
      */
-    public function export($columnNames = false, $delimiter = ",", $enclosure = '"')
+    public function export($columnNames = false, $download = false, $delimiter = ",", $enclosure = '"')
     {
         $data = $this->data;
 
@@ -51,25 +52,15 @@ class CsvExporter extends AbstractExporter
         foreach ($data as $row) {
             $file->fputcsv($row, $delimiter, $enclosure);
         }
+
         $length = $file->ftell();
         $file->rewind();
+        $exportData = trim($file->fread($length));
 
-        return trim($file->fread($length));
-    }
-
-    /**
-     * @param string|null $fileName
-     * @param boolean $columnNames array keys will be used in the first line of CSV data as column names.
-     * @param string $delimiter sets the field delimiter (one character only).
-     * @param string $enclosure sets the field enclosure (one character only).
-     * @return null
-     */
-    public function download($fileName = null, $columnNames = false, $delimiter = ",", $enclosure = '"')
-    {
-        if ($fileName === null) {
-            $fileName = time() . '.csv';
+        if ($download) {
+            $this->download($exportData, 'export.csv');
+        } else {
+            return $exportData;
         }
-
-        parent::download($fileName);
     }
 }

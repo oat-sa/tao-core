@@ -21,13 +21,14 @@
 namespace oat\tao\model\export\implementation;
 
 use oat\tao\model\export\Exporter;
+use SplFileObject;
 
 /**
  * Class AbstractExporter
  * @package oat\tao\model\export
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-abstract class AbstractExporter implements Exporter
+abstract class AbstractFileExporter implements Exporter
 {
     /**
      * @var string value of `Content-Type` header
@@ -56,13 +57,12 @@ abstract class AbstractExporter implements Exporter
 
     /**
      * Send exported data to end user
-     * @param string $fileName
+     * @param string $data Data to be exported
+     * @param string|null $fileName
      * @return mixed
      */
-    public function download($fileName = null)
+    protected function download($data, $fileName = null)
     {
-        $exportData = $this->export();
-
         if ($fileName === null) {
             $fileName = time();
         }
@@ -73,8 +73,8 @@ abstract class AbstractExporter implements Exporter
 
         header('Content-Type: ' . $this->contentType);
         header('Content-Disposition: attachment; fileName="' . $fileName .'"');
-        header("Content-Length: " . strlen($exportData));
+        header("Content-Length: " . strlen($data));
 
-        echo $exportData;
+        echo $data;
     }
 }
