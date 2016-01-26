@@ -428,8 +428,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.15.1';
         }
         $this->setVersion($currentVersion);
-
-        if ($this->isVersion('2.15.1') || $this->isVersion('2.15.2')) {
+        
+        if ($this->isBetween('2.15.1','2.16.0')) {
             $this->setVersion('2.16.0');
         }
 
