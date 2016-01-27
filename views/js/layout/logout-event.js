@@ -26,7 +26,7 @@ define(['jquery', 'i18n', 'helpers', 'ui/dialog/alert'],
     function ($, __, helpers, alert) {
         'use strict';
 
-        return function LogoutEvent() {
+        return function logoutEvent() {
             
             alert(__('You have been logged out. Please login again'), function () {
                 window.location = helpers._url('logout', 'Main', 'tao');
