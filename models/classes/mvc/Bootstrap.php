@@ -260,7 +260,7 @@ class Bootstrap {
                     'msg' => $ue->getUserMessage()
                 ))));
             } else {
-                $this->dispatchError($ue, 403);
+                $this->dispatchError($ue, 403, $ue->getUserMessage());
             }
     	}
     	catch (\tao_models_classes_UserException $ue){
