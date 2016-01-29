@@ -459,6 +459,13 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('2.17.0');
         }
+
+        if ($this->isBetween('2.17.0','2.17.3')) {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
+            );
+            $this->setVersion('2.17.3');
+        }
         return null;
        
     }
