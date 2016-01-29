@@ -24,6 +24,7 @@ namespace oat\tao\scripts\update;
 use common_ext_ExtensionsManager;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\ClientLibConfigRegistry;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -429,7 +430,19 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         $this->setVersion($currentVersion);
         
-        if ($this->isBetween('2.15.1','2.16.0')) {
+        if ($this->isVersion('2.15.1')) {
+            $this->setVersion('2.15.2');
+        }
+
+        if ($currentVersion === '2.15.2') {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
+            );
+
+            $this->setVersion('2.15.3');
+        }
+
+        if ($this->isVersion('2.15.3')) {
             $this->setVersion('2.16.0');
         }
 
@@ -446,6 +459,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('2.17.0');
         }
+        return null;
        
     }
     
