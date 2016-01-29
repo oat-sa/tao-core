@@ -28,6 +28,8 @@ use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\messaging\MessagingService;
 use oat\tao\model\entryPoint\EntryPointService;
+use oat\oatbox\event\EventManager;
+use oat\tao\model\event\LoginEvent;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -81,7 +83,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
 	        // single entrypoint -> redirect
 	        $entry = current($entries);
-	        return $this->forwardUrl($entry->getUrl());
+	        return $this->redirect($entry->getUrl());
 	    } else {
 	        // multiple entries -> choice
 	        if (!common_session_SessionManager::isAnonymous()) {
@@ -133,7 +135,10 @@ class tao_actions_Main extends tao_actions_CommonModule
 			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
 				if($success){
 				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "'.");
-				    
+
+                    $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+                    $eventManager->trigger(new LoginEvent());
+
 					if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {

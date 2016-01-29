@@ -208,6 +208,15 @@ define([
 
                     }, this._getTimeout());
                 }
+
+                // close button
+                var $btn = this._container.find('.icon-close');
+                if($btn.length) {
+                    $btn
+                        .off('click')
+                        .on('click', self.close );
+                }
+                
             }
             return this;
         },
