@@ -428,10 +428,21 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ['ext' => 'tao', 'mod' => 'AuthApi']));
             $currentVersion = '2.15.1';
         }
-
         $this->setVersion($currentVersion);
 
-        if ($this->isVersion('2.15.1') || $this->isVersion('2.15.2')) {
+        if ($this->isVersion('2.15.1')) {
+            $this->setVersion('2.15.2');
+        }
+
+        if ($this->isVersion('2.15.2')) {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
+            );
+
+            $this->setVersion('2.15.3');
+        }
+
+        if ($this->isVersion('2.15.3')) {
             $this->setVersion('2.16.0');
         }
 
@@ -448,14 +459,14 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('2.17.0');
         }
-       	
-		if ($currentVersion === '2.17.0') {
+       
+        if ($this->isBetween('2.17.0','2.17.3')) {
             ClientLibConfigRegistry::getRegistry()->register(
                 'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
             );
-
-            $this->setVersion('2.17.1');
+            $this->setVersion('2.17.3');
         }
+        return null;
     }
     
     private function migrateFsAccess() {
