@@ -23,6 +23,7 @@ use oat\tao\model\accessControl\AccessControl;
 use common_ext_ExtensionsManager;
 use common_Logger;
 use oat\oatbox\user\User;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Proxy for the Acl Implementation
@@ -34,6 +35,8 @@ use oat\oatbox\user\User;
  */
 class AclProxy implements AccessControl
 {
+    const SERVICE_ID = 'tao/FuncAccessControl';
+    
     const CONFIG_KEY_IMPLEMENTATION = 'FuncAccessControl';
     
     const FALLBACK_IMPLEMENTATION_CLASS = 'oat\tao\model\accessControl\func\implementation\NoAccess';
@@ -48,12 +51,7 @@ class AclProxy implements AccessControl
      */
     protected static function getImplementation() {
         if (is_null(self::$implementation)) {
-            $implClass = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_KEY_IMPLEMENTATION);
-            if (empty($implClass) || !class_exists($implClass)) {
-                common_Logger::e('No implementation found for Access Control, locking down the server');
-                $implClass = self::FALLBACK_IMPLEMENTATION_CLASS;
-            }
-            self::$implementation = new $implClass();
+            self::$implementation = ServiceManager::getServiceManager()->get(self::SERVICE_ID);
         }
         return self::$implementation;
     }
@@ -65,7 +63,7 @@ class AclProxy implements AccessControl
      */
     public static function setImplementation(FuncAccessControl $implementation) {
         self::$implementation = $implementation;
-        common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig(self::CONFIG_KEY_IMPLEMENTATION, get_class($implementation));
+        ServiceManager::getServiceManager()->register(self::SERVICE_ID, $implementation);
     }    
     
     /**

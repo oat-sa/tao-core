@@ -466,7 +466,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             );
             $this->setVersion('2.17.4');
         }
-        return null;
+        
+        if ($this->isVersion('2.17.4')) {
+            $implClass = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig('FuncAccessControl');
+            $impl = new $implClass;
+            $this->getServiceManager()->register(AclProxy::SERVICE_ID, $impl);
+            $this->setVersion('2.18.0');
+        }
     }
     
     private function migrateFsAccess() {

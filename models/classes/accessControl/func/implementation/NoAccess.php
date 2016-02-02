@@ -23,6 +23,7 @@ namespace oat\tao\model\accessControl\func\implementation;
 use oat\tao\model\accessControl\func\FuncAccessControl;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\oatbox\user\User;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * Fallback functional Access Controll denying all access
@@ -30,7 +31,7 @@ use oat\oatbox\user\User;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  */
-class NoAccess
+class NoAccess extends ConfigurableService
     implements FuncAccessControl
 {
     
