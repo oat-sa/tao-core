@@ -28,6 +28,7 @@ use oat\taoDevTools\actions\ControllerMap;
 use oat\tao\model\accessControl\func\FuncHelper;
 use oat\tao\helpers\ControllerHelper;
 use oat\oatbox\user\User;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access
@@ -40,7 +41,7 @@ use oat\oatbox\user\User;
  * @package tao
  
  */
-class SimpleAccess
+class SimpleAccess extends ConfigurableService
     implements FuncAccessControl
 {
     
@@ -51,7 +52,8 @@ class SimpleAccess
     /**
      * 
      */
-    public function __construct() {
+    public function __construct($options = array()) {
+        parent::__construct($options);
         $data = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::WHITELIST_KEY);
         if (is_array($data)) {
             $this->controllers = $data;
