@@ -1,4 +1,4 @@
-define(['jquery', 'lodash'], function($, _) {
+define(['jquery', 'lodash', 'layout/logout-event'], function($, _, logoutEvent) {
     'use strict';
 
     /**
@@ -59,6 +59,7 @@ define(['jquery', 'lodash'], function($, _) {
                 }
 
                 xhr.open("POST", opts.url, true);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
@@ -71,6 +72,11 @@ define(['jquery', 'lodash'], function($, _) {
                                 opts.loaded(result);
                             }
                         } else {
+                            
+                            if(xhr.status === 403) {
+                                logoutEvent();
+                            }
+                            
                             if (typeof opts.failed === 'function') {
                                 opts.failed();
                             }
