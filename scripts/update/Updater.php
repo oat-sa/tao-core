@@ -473,6 +473,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(AclProxy::SERVICE_ID, $impl);
             $this->setVersion('2.18.0');
         }
+
+        if ($this->isVersion('2.18.0')) {
+            $this->setVersion('2.18.1');
+        }
     }
     
     private function migrateFsAccess() {

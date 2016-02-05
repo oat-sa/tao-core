@@ -28,12 +28,6 @@ namespace oat\tao\model\export;
 interface Exporter
 {
     /**
-     * Exporter constructor.
-     * @param $data Data to be exported
-     */
-    public function __construct($data);
-
-    /**
      * Export data as string
      * @return string
      */
