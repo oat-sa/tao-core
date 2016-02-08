@@ -79,19 +79,25 @@ class SimpleAccess extends ConfigurableService
         if ($rule->getRole()->getUri() == INSTANCE_ROLE_ANONYMOUS) {
             $mask = $rule->getMask();
             
-            if (isset($mask['ext']) && !isset($mask['mod'])) {
-                $this->whiteListExtension($mask['ext']);
-            } elseif (isset($mask['ext']) && isset($mask['mod']) && !isset($mask['act'])) {
-                $this->whiteListController(FuncHelper::getClassName($mask['ext'], $mask['mod']));
-            } elseif (isset($mask['ext']) && isset($mask['mod']) && isset($mask['act'])) {
-                $this->whiteListAction(FuncHelper::getClassName($mask['ext'], $mask['mod']), $mask['act']);
-            } elseif (isset($mask['controller'])) {
-                $this->whiteListController($mask['controller']);
-            } elseif (isset($mask['act']) && strpos($mask['act'], '@') !== false) {
-                list($controller, $action) = explode('@', $mask['act'], 2);
+            if (is_string($mask)) {
+                list($controller, $action) = explode('@', $mask, 2);
                 $this->whiteListAction($controller, $action);
             } else {
-                \common_Logger::w('Unregoginised mask keys: '.implode(',', array_keys($mask)));
+            
+                if (isset($mask['ext']) && !isset($mask['mod'])) {
+                    $this->whiteListExtension($mask['ext']);
+                } elseif (isset($mask['ext']) && isset($mask['mod']) && !isset($mask['act'])) {
+                    $this->whiteListController(FuncHelper::getClassName($mask['ext'], $mask['mod']));
+                } elseif (isset($mask['ext']) && isset($mask['mod']) && isset($mask['act'])) {
+                    $this->whiteListAction(FuncHelper::getClassName($mask['ext'], $mask['mod']), $mask['act']);
+                } elseif (isset($mask['controller'])) {
+                    $this->whiteListController($mask['controller']);
+                } elseif (isset($mask['act']) && strpos($mask['act'], '@') !== false) {
+                    list($controller, $action) = explode('@', $mask['act'], 2);
+                    $this->whiteListAction($controller, $action);
+                } else {
+                    \common_Logger::w('Unregoginised mask keys: '.implode(',', array_keys($mask)));
+                }
             }
         }
     }
