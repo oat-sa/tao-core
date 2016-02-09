@@ -87,6 +87,22 @@ class RequiredActionRedirect extends RequiredActionAbstract
     }
 
     /**
+     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
+     */
+    public function __toPhpCode()
+    {
+        $class = get_class($this);
+        $name = $this->name;
+        $url = $this->url;
+        $rules = \common_Utils::toHumanReadablePhpString($this->getRules());
+        return "new $class(
+            '$name',
+            $rules,
+            '$url'
+        )";
+    }
+
+    /**
      * Some actions should not be redirected (such as retrieving requireJs config)
      * @return array
      */

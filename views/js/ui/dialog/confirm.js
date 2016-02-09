@@ -28,7 +28,7 @@ define(['lodash', 'ui/dialog'], function (_, dialog) {
      * @param {Function} refuse - An action called when the message is refused
      * @returns {dialog} - Returns the dialog instance
      */
-    return function dialogAlert(message, accept, refuse) {
+    return function dialogConfirm(message, accept, refuse) {
         var accepted = false;
         var dlg = dialog({
             message: message,

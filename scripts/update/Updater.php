@@ -429,7 +429,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.15.1';
         }
         $this->setVersion($currentVersion);
-        
+
         if ($this->isVersion('2.15.1')) {
             $this->setVersion('2.15.2');
         }
@@ -459,15 +459,14 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('2.17.0');
         }
-
-        if ($this->isBetween('2.17.0','2.17.3')) {
+       
+        if ($this->isBetween('2.17.0','2.17.4')) {
             ClientLibConfigRegistry::getRegistry()->register(
                 'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
             );
-            $this->setVersion('2.17.3');
+            $this->setVersion('2.17.4');
         }
         return null;
-       
     }
     
     private function migrateFsAccess() {

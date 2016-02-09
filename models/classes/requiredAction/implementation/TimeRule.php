@@ -104,6 +104,28 @@ class TimeRule implements RequiredActionRuleInterface
     }
 
     /**
+     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
+     */
+    public function __toPhpCode()
+    {
+        $class = get_class($this);
+        $executionTime = $this->getExecutionTime();
+        if ($executionTime === null) {
+            $serializedExecutionTime = 'null';
+        } else {
+            $serializedExecutionTime = 'new \DateTime(' . $executionTime->getTimestamp() . ')';
+        }
+
+        $interval = $this->getInterval();
+        $serializedInterval = 'new \DateInterval("' . $interval->format('P%yY%mM%dDT%hH%iM%sS') . '")';
+
+        return "new $class(
+            $serializedInterval,
+            $serializedExecutionTime
+        )";
+    }
+
+    /**
      * Check if it is time to perform an action.
      * If `$this->lastExecution` is null (action has never been executed)
      * or since the last execution took time more than specified interval (`$this->interval`) then action must be performed.
