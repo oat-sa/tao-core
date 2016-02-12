@@ -14,22 +14,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-
-namespace oat\tao\model\export;
+namespace oat\tao\model;
 
 /**
- * Interface Exporter
- * @package oat\tao\model\export
- * @author Aleh Hutnikau <hutnikau@1pt.com>
+ * Attempt to handle a missing theme
+ *
+ * @access public
+ * @author Dieter Raber, <dieter@taotesting.com>
+ * @package tao
+
  */
-interface Exporter
+class ThemeNotFoundException extends \common_Exception implements \common_log_SeverityLevel
 {
     /**
-     * Export data as string
-     * @return string
+     * Get the severity of the error.
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return int
      */
-    public function export();
+    public function getSeverity()
+    {
+        return \common_Logger::INFO_LEVEL;
+    }
 }

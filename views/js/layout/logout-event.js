@@ -1,5 +1,4 @@
-<?php
-/**
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,18 +17,21 @@
  *
  */
 
-namespace oat\tao\model\export;
-
 /**
- * Interface Exporter
- * @package oat\tao\model\export
- * @author Aleh Hutnikau <hutnikau@1pt.com>
+ * Notify user about logout
+ *
+ * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-interface Exporter
-{
-    /**
-     * Export data as string
-     * @return string
-     */
-    public function export();
-}
+define(['jquery', 'i18n', 'helpers', 'ui/dialog/alert'],
+    function ($, __, helpers, alert) {
+        'use strict';
+
+        return function logoutEvent() {
+            
+            alert(__('You have been logged out. Please login again'), function () {
+                window.location = helpers._url('logout', 'Main', 'tao');
+            });
+        };
+    });
+
+

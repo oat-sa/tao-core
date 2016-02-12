@@ -13,8 +13,8 @@
          * Main entry point for the backend.
          * Initialize high level components like the router, the error messages and the ui components listeners
          */
-        require(['jquery', 'i18n', 'lodash', 'context', 'helpers', 'router', 'ui', 'core/history', 'ui/feedback'],
-            function ($, __, _, context, helpers, router, ui, history, feedback) {
+        require(['jquery', 'i18n', 'lodash', 'context', 'helpers', 'router', 'ui', 'core/history', 'ui/feedback', 'layout/logout-event'],
+            function ($, __, _, context, helpers, router, ui, history, feedback, logoutEvent) {
 
                 var $doc = $(document);
                 var $container = $('body > .content-wrap');
@@ -72,11 +72,13 @@
                             // It does not seem to be valid JSON.
                             errorMessage = request.status + ': ' + request.responseText;
                         }
-                    } else if (request.status === 403) {
-                        window.location = context.root_url + 'tao/Main/logout';
                     }
-
-                    feedback().error(errorMessage);
+                    
+                    if (request.status === 403) {
+                        logoutEvent();
+                    } else {
+                        feedback().error(errorMessage);
+                    }
                 });
 
                 //initialize new components
