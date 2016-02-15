@@ -117,6 +117,13 @@ define([
                                 _hideProperties($editContainer);
                                 _hideIndexes($editContainer);
 
+                                var $propertyMode = $('.property-mode');
+                                if ($propertyMode.hasClass('property-mode-simple')) {
+                                    $indexIcon.hide();
+                                } else if($propertyMode.hasClass('property-mode-advanced')) {
+                                    $indexIcon.show();
+                                }
+
                                 //on click on edit icon show property form or hide it
                                 $editIcon.on('click', function() {
                                     //form is close so open it (hide index, show property)
