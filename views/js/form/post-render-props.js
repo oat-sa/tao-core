@@ -100,6 +100,8 @@ define([
                 var $property = $(this);
                 if($property.attr !== undefined){
                     var type = (function() {
+                        var $propertyMode = $('.property-mode');
+
                         switch($property.attr('id').replace(/_?property_[\d]+/, '')) {
                             case 'ro':
                                 return 'readonly-property';
@@ -117,7 +119,6 @@ define([
                                 _hideProperties($editContainer);
                                 _hideIndexes($editContainer);
 
-                                var $propertyMode = $('.property-mode');
                                 if ($propertyMode.hasClass('property-mode-simple')) {
                                     $indexIcon.hide();
                                 } else if($propertyMode.hasClass('property-mode-advanced')) {
