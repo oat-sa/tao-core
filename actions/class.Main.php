@@ -287,9 +287,13 @@ class tao_actions_Main extends tao_actions_CommonModule
         $user = common_Session_SessionManager::getSession()->getUser();
         $children = array();
         foreach ($menuElement->getChildren() as $section) {
-            $resolver = new ActionResolver($section->getUrl());
-            if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
-                $children[] = $section;
+            try {
+                $resolver = new ActionResolver($section->getUrl());
+                if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
+                    $children[] = $section;
+                }
+            } catch (ResolverException $e) {
+                common_Logger::w('Invalid reference in structures: '.$e->getMessage());
             }
         }
         return $children;
