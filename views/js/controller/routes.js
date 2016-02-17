@@ -27,7 +27,8 @@ define(function(){
             'actions' : {
                 'index' : 'controller/main',
                 'getSectionActions' : 'controller/main/actions',
-                'getSectionTrees' : 'controller/main/trees'
+                'getSectionTrees' : 'controller/main/trees',
+                'login' : 'controller/login'
             }
         },
         'PasswordRecovery': {
