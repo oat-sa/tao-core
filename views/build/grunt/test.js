@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     grunt.config('qunit_junit', {
         options : {
             dest : reportOutput,
-            namer : function(url){
+            fileNamer : function(url){
                 return url
                     .replace(testUrl + '/', '')
                     .replace('/test.html', '')
