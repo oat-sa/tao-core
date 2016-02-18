@@ -62,8 +62,11 @@ define(['lib/polyfill/performance-now'], function () {
              */
             tick : function tick() {
                 var timestamp = now();
-                var elapsed = timestamp - last;
-                last = timestamp;
+                var elapsed;
+                if(state.running){
+                    elapsed = timestamp - last;
+                    last = timestamp;
+                }
                 return elapsed;
             },
 
@@ -87,6 +90,7 @@ define(['lib/polyfill/performance-now'], function () {
             resume : function resume() {
                 if (!state.running) {
                     begin = now();
+                    last = begin;
                     state.started = true;
                     state.running = true;
                 }
