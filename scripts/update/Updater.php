@@ -440,6 +440,10 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('2.15.3');
         }
+        
+        if($this->isVersion('2.15.3')){
+            $this->setVersion('2.15.4');
+        }
 
         return null;
     }
