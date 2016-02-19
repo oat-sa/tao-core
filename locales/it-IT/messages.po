@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2016-02-19T14:22:22\n"
+"Project-Id-Version: TAO 3.1.0-sprint20\n"
+"PO-Revision-Date: 2016-02-19T17:54:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -226,11 +226,11 @@ msgstr "Sfoglia..."
 msgid "Calendar"
 msgstr "Calendario"
 
-msgid "Cancel"
-msgstr "Cancella"
-
 msgid "cancel"
 msgstr "annulla"
+
+msgid "Cancel"
+msgstr "Cancella"
 
 msgid "cancel the action"
 msgstr "annulla operazione"
@@ -245,11 +245,11 @@ msgstr "Cambia password"
 msgid "Change the password"
 msgstr "Cambia la password"
 
-msgid "Check all"
-msgstr "Verifica tutto"
-
 msgid "Check All"
 msgstr "Controlla Tutti"
+
+msgid "Check all"
+msgstr "Verifica tutto"
 
 msgid "Check-in"
 msgstr "Check-in"
@@ -733,10 +733,10 @@ msgstr "Nessun file"
 msgid "no label"
 msgstr "nessuna etichetta"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Nessuna anteprima disponibile"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Nessuna anteprima disponibile"
 
 msgid "No results found"
@@ -757,11 +757,11 @@ msgstr "Numero di elementi"
 msgid "of"
 msgstr "di"
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Ok"
 msgstr "Ok"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Old Password"
 msgstr "Vecchia password"
@@ -940,11 +940,11 @@ msgstr "Cerca sotto-classi"
 msgid "seconds"
 msgstr "secondi"
 
-msgid "select"
-msgstr "seleziona"
-
 msgid "Select"
 msgstr "Seleziona"
+
+msgid "select"
+msgstr "seleziona"
 
 msgid "Select a language"
 msgstr "Scegli una lingua"
@@ -1260,6 +1260,9 @@ msgstr "Non hai i requisiti per editare questa risorsa"
 
 msgid "You don't have sufficient permissions to access"
 msgstr "Non hai permessi sufficienti per accedere"
+
+msgid "You have been logged out. Please login again"
+msgstr ""
 
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr "Devi attivare JavaScript nel tuo browser per utilizzare questa applicazione"
