@@ -51,7 +51,7 @@ use oat\tao\model\theme\ThemeService;
 use oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\CompatibilityTheme;
 use oat\tao\model\theme\Theme;
-
+use oat\tao\scripts\update\OntologyUpdater;
 /**
  * 
  * @author Joel Bout <joel@taotesting.com>
@@ -442,6 +442,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         
         if($this->isVersion('2.15.3')){
+            OntologyUpdater::syncModels();
             $this->setVersion('2.15.4');
         }
 
