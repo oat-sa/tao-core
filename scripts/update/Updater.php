@@ -434,6 +434,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.15.2');
         }
 
+
+
         if ($this->isVersion('2.15.2')) {
             ClientLibConfigRegistry::getRegistry()->register(
                 'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
@@ -442,7 +444,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.15.3');
         }
 
-        if ($this->isVersion('2.15.3')) {
+        if ($this->isBetween('2.15.3','2.16.0')) {
             $this->setVersion('2.16.0');
         }
 
