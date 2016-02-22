@@ -177,6 +177,12 @@ define([
      * Builds an instance of the actionbar component
      * @param {Object} config
      * @param {Array} config.buttons - The list of buttons to display.
+     * @param {String} config.buttons.id - The id of the button
+     * @param {String} config.buttons.label - The text displayed in the button
+     * @param {String} config.buttons.icon - An optional icon displayed in the button
+     * @param {String} config.buttons.title - An optional tooltip displayed on the button
+     * @param {Boolean} config.buttons.conditional - The button is hidden by default and must be displayed later
+     * @param {Function} config.buttons.action - An action called when the button is clicked
      * @param {Boolean} [config.vertical] - Displays the action bar vertically
      * @returns {actionbar}
      *
