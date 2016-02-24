@@ -93,4 +93,13 @@ class HttpSource implements MediaBrowser
     {
         throw new \common_Exception('Unable to browse the internet');
     }
+
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\media\MediaBrowser::render()
+     */
+    public function render($link){
+        $filename = $this->download($link);
+        \tao_helpers_Http::returnFile($filename);
+    }
 }

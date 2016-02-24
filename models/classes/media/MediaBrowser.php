@@ -55,4 +55,11 @@ interface MediaBrowser {
      */
     public function download($link);
 
+    /**
+     * @param string $link
+     * @return string path of the file to render
+     * @throws \tao_models_classes_FileNotFoundException
+     */
+    public function render($link);
+
 } 
