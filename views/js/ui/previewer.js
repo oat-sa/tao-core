@@ -1,7 +1,16 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaElement'], function($, _, __, mimeType, Pluginifier) {
+define([
+    'jquery',
+    'lodash',
+    'i18n',
+    'core/mimetype',
+    'core/pluginifier',
+    'iframeNotifier',
+    'mediaElement'
+],
+function($, _, __, mimeType, Pluginifier, iframeNotifier) {
     'use strict';
 
     var ns = 'previewer';
@@ -128,7 +137,9 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaE
                 }
                 $content = $(content);
 
-
+                $content.on('load', function() {
+                    iframeNotifier.parent('imageloaded');
+                });
 
                 if (options.width) {
                     $content.attr('width', options.width);
