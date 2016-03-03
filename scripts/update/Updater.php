@@ -441,10 +441,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.15.3');
         }
         
-        if($this->isVersion('2.15.3')){
+        if($this->isVersion('2.15.3','2.15.5')){
+            //update lg sync ontology
             OntologyUpdater::syncModels();
-            $this->setVersion('2.15.4');
+            $this->setVersion('2.15.5');
         }
+
 
         return null;
     }
