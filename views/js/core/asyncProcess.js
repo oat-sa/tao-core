@@ -20,8 +20,9 @@
  */
 define([
     'lodash',
-    'core/promise'
-], function (_, Promise) {
+    'core/promise',
+    'core/eventifier'
+], function (_, Promise, eventifier) {
     'use strict';
 
     /**
@@ -30,12 +31,16 @@ define([
      * The running process must register each deferred steps, and it must also notify its logical end
      * (i.e.: when its main stuff is finished, no matter if the deferred steps are also finished)
      * @returns {asyncProcess}
+     * @trigger start - When a process start
+     * @trigger step - When a step is added
+     * @trigger resolve - When the process has finished without error
+     * @trigger reject - When the process has finished on error
      */
     function asyncProcessFactory() {
         var running = false;
         var steps = [];
 
-        return {
+        return eventifier({
             /**
              * Tells if a process is running
              * @returns {Boolean}
@@ -58,6 +63,11 @@ define([
                     if (_.isFunction(cb)) {
                         cb();
                     }
+
+                    /**
+                     * @event asyncProcess#start
+                     */
+                    this.trigger('start');
                 }
                 return started;
             },
@@ -70,6 +80,13 @@ define([
              */
             addStep: function addStep(step) {
                 steps.push(step);
+
+                /**
+                 * @event asyncProcess#step
+                 * @param {Promise} step - The added step
+                 */
+                this.trigger('step', step);
+
                 return this;
             },
 
@@ -80,6 +97,7 @@ define([
              * @returns {Promise} - Returns the finish promise
              */
             done: function done(cb) {
+                var self = this;
                 var finish = Promise.all(steps);
 
                 finish
@@ -89,6 +107,12 @@ define([
                         if (_.isFunction(cb)) {
                             cb(null, data);
                         }
+
+                        /**
+                         * @event asyncProcess#resolve
+                         * @param {Object} data - The resolved data
+                         */
+                        self.trigger('resolve', data);
                     })
                     .catch(function(error) {
                         running = false;
@@ -96,11 +120,17 @@ define([
                         if (_.isFunction(cb)) {
                             cb(error || true);
                         }
+
+                        /**
+                         * @event asyncProcess#reject
+                         * @param {Object} error - The reject reason
+                         */
+                        self.trigger('reject', error);
                     });
 
                 return finish;
             }
-        }
+        });
     }
 
     return asyncProcessFactory;

@@ -55,9 +55,23 @@ define([
 
 
     QUnit.asyncTest('simple process', function (assert) {
-        QUnit.expect(9);
+        QUnit.expect(11);
 
         var asyncProcess = asyncProcessFactory();
+
+        asyncProcess
+            .on('start', function() {
+                assert.ok(true, 'The process is started');
+                QUnit.start();
+            })
+            .on('resolve', function() {
+                assert.ok(true, 'The process is finished and the resolve event has been triggered');
+                QUnit.start();
+            })
+            .on('reject', function() {
+                assert.ok(false, 'The process is finished and the reject event has been triggered');
+                QUnit.start();
+            });
 
         assert.equal(asyncProcess.isRunning(), false, 'There is no running process at this time');
 
@@ -73,7 +87,7 @@ define([
             QUnit.start();
         });
 
-        QUnit.stop();
+        QUnit.stop(3);
 
         assert.ok('object' === typeof p, 'The done method returns an object');
         assert.ok('function' === typeof p.then && 'function' === typeof p.catch, 'The done method returns a promise');
@@ -89,10 +103,24 @@ define([
 
 
     QUnit.asyncTest('deferred process', function (assert) {
-        QUnit.expect(11);
-        QUnit.stop();
+        QUnit.expect(13);
+        QUnit.stop(3);
 
         var asyncProcess = asyncProcessFactory();
+
+        asyncProcess
+            .on('start', function() {
+                assert.ok(true, 'The process is started');
+                QUnit.start();
+            })
+            .on('resolve', function() {
+                assert.ok(true, 'The process is finished and the resolve event has been triggered');
+                QUnit.start();
+            })
+            .on('reject', function() {
+                assert.ok(false, 'The process is finished and the reject event has been triggered');
+                QUnit.start();
+            });
 
         function process() {
             assert.ok(true, 'The process main has been called');
@@ -129,10 +157,32 @@ define([
 
 
     QUnit.asyncTest('process with steps', function (assert) {
-        QUnit.expect(17);
-        QUnit.stop();
+        QUnit.expect(24);
+        QUnit.stop(5);
 
         var asyncProcess = asyncProcessFactory();
+
+        asyncProcess
+            .on('start', function() {
+                assert.ok(true, 'The process is started');
+                QUnit.start();
+            })
+            .on('step', function() {
+                assert.ok(true, 'A step has been added');
+                QUnit.start();
+            })
+            .on('resolve', function(data) {
+                assert.ok(true, 'The process is finished and the resolve event has been triggered');
+
+                assert.ok(_.isArray(data), 'The resolved data has been provided');
+                assert.ok(_.indexOf(data, 1) !== -1, 'The data contains the first resolved step');
+                assert.ok(_.indexOf(data, 2) !== -1, 'The data contains the second resolved step');
+                QUnit.start();
+            })
+            .on('reject', function() {
+                assert.ok(false, 'The process is finished and the reject event has been triggered');
+                QUnit.start();
+            });
 
         function process() {
             assert.ok(true, 'The process main has been called');
@@ -191,10 +241,25 @@ define([
 
 
     QUnit.asyncTest('process with errors', function (assert) {
-        QUnit.expect(11);
-        QUnit.stop();
+        QUnit.expect(14);
+        QUnit.stop(3);
 
         var asyncProcess = asyncProcessFactory();
+
+        asyncProcess
+            .on('start', function() {
+                assert.ok(true, 'The process is started');
+                QUnit.start();
+            })
+            .on('resolve', function() {
+                assert.ok(false, 'The process is finished and the resolve event has been triggered');
+                QUnit.start();
+            })
+            .on('reject', function(err) {
+                assert.ok(true, 'The process is finished and the reject event has been triggered');
+                assert.equal(err, 'oups', 'An error is reported by the handler');
+                QUnit.start();
+            });
 
         function process() {
             assert.ok(true, 'The process main has been called');
@@ -213,7 +278,7 @@ define([
             }));
 
             setTimeout(function() {
-                var p = asyncProcess.done(function (err, data) {
+                var p = asyncProcess.done(function (err) {
                     assert.equal(err, 'oups', 'An error is reported by the handler');
                     assert.equal(asyncProcess.isRunning(), false, 'The process is now finished');
 
