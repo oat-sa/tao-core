@@ -442,7 +442,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.15.3');
         }
 
-        if ($this->isVersion('2.15.3')) {
+        if ($this->isBetween('2.15.3','2.16.0')) {
             $this->setVersion('2.16.0');
         }
 
@@ -475,6 +475,20 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('2.18.0', '2.18.2');
+
+        if ($this->isVersion('2.18.2')) {
+            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $config = $extension->getConfig('login');
+            if (!is_array($config)) {
+                $config = [];
+            }
+            if (!array_key_exists('disableAutocomplete', $config)) {
+                $config['disableAutocomplete'] = false;
+            }
+            $extension->setConfig('login', $config);
+
+            $this->setVersion('2.19.0');
+        }
     }
     
     private function migrateFsAccess() {
