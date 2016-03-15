@@ -23,9 +23,18 @@ module.exports = function(grunt) {
     grunt.config('qunit_junit', {
         options : {
             dest : reportOutput,
+
             fileNamer : function(url){
                 return url
                     .replace(testUrl + '/', '')
+                    .replace('/test.html', '')
+                    .replace(/\//g, '.');
+            },
+
+            classNamer : function (moduleName, url) {
+                return url
+                    .replace(testUrl + '/', '')
+                    .replace('views/js/test/', '')
                     .replace('/test.html', '')
                     .replace(/\//g, '.');
             }
