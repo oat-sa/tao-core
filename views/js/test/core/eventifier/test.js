@@ -476,6 +476,81 @@ define(['core/eventifier'], function(eventifier){
         }, 10);
     });
 
+
+    QUnit.module('multiple events names');
+
+    QUnit.asyncTest("listen multiples, trigger one by one", function(assert){
+        QUnit.expect(2);
+
+        var emitter = eventifier();
+
+        var counter = 0;
+        emitter.on('foo bar', function(){
+            assert.ok(true, 'the handler is called');
+
+            if(++counter === 2){
+                QUnit.start();
+            }
+        });
+        emitter.trigger('foo')
+               .trigger('bar');
+    });
+
+    QUnit.asyncTest("listen multiple, trigger multiples with params", function(assert){
+        QUnit.expect(8);
+
+        var emitter = eventifier();
+
+        var counter = 0;
+        emitter.on('foo bar', function(bool, str, num){
+            assert.ok(true, 'the handler is called');
+            assert.equal(bool, true, 'The 1st parameter is correct');
+            assert.equal(str, 'yo', 'The 2nd parameter is correct');
+            assert.equal(num, 1.4, 'The 3rd parameter is correct');
+
+            if(++counter === 2){
+                QUnit.start();
+            }
+        });
+        emitter.trigger('foo bar', true, 'yo', 1.4);
+    });
+
+    QUnit.asyncTest("listen multiple, off multiple", function(assert){
+        QUnit.expect(1);
+
+        var emitter = eventifier();
+
+        emitter.on('foo bar', function(){
+            assert.ok(false, 'the handler must not be called');
+        });
+        emitter.off('foo bar');
+
+        emitter.trigger('foo')
+               .trigger('bar');
+
+        setTimeout(function(){
+            assert.ok(true, 'control');
+            QUnit.start();
+        }, 10);
+    });
+
+    QUnit.asyncTest("support namespace in multiple events", function(assert){
+        QUnit.expect(3);
+
+        var emitter = eventifier();
+
+        var counter = 0;
+        emitter.on('foo bar.moo', function(){
+            assert.ok(true, 'the handler is called');
+
+            if(++counter === 3){
+                QUnit.start();
+            }
+        });
+
+        emitter.trigger('foo bar.moo bar');
+    });
+
     QUnit.module('logger');
 
     QUnit.asyncTest("logging events", 2, function(assert){
