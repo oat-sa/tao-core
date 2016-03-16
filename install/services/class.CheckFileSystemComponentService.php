@@ -101,20 +101,38 @@ class tao_install_services_CheckFileSystemComponentService
         $rights = $content['value']['rights'];
         $id = $content['value']['id'];
         $root = dirname(__FILE__) . '/../../../';
+
+        $methodKeys = ['isReadable', 'isWriteable', 'isExecutable', 'getRecursive', 'getLocation'];
+        $methods = array_fill_keys($methodKeys, false);
+        
+        array_walk($methods, function(&$value, $method) use ($component){
+            if (method_exists($component, $method)) {
+                if ( method_exists($component, 'exists') && in_array($method, ['isReadable', 'isWriteable', 'isExecutable'])) {
+                    if (!$component->exists()) {
+                        $value = false;
+                    } else {
+                        $value = $component->$method();
+                    }
+                } else {
+                    $value = $component->$method();
+                }
+            }
+        });
         
         $data = array('type' => 'FileSystemComponentReport',
-                      'value' => array('status' => $report->getStatusAsString(),
-                                       'message' => $report->getMessage(),
-        							   'id' => $id,
-                                       'optional' => $component->isOptional(),
-                                       'isReadable' => $component->isReadable(),
-                                       'isWritable' => $component->isWritable(),
-                                       'isExecutable' => $component->isExecutable(),
-                                       'recursive' => $component->getRecursive(),
-        							   'expectedRights' => $rights,
-        							   'isFile' => is_file($root . $component->getLocation()),
-        							   'location' => $component->getLocation()));	
-        
+            'value' => array('status' => $report->getStatusAsString(),
+                'message' => $report->getMessage(),
+                'id' => $id,
+                'optional' => $component->isOptional(),
+                'isReadable' => $methods['isReadable'],
+                'isWritable' => $methods['isWriteable'],
+                'isExecutable' => $methods['isExecutable'],
+                'recursive' => $methods['getRecursive'],
+                'expectedRights' => $rights,
+                'isFile' => is_file($root . $methods['getLocation']),
+                'location' => $methods['getLocation']));
+
+
         return new tao_install_services_Data(json_encode($data));						   	
 	}
 }
