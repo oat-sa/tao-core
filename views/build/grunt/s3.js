@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     var awsS3    = grunt.config('aws_s3') || {};
     var clean    = grunt.config('clean') || {};
     var root     = grunt.option('root');
+    var concurrency = grunt.option('s3-concurrency') || 20;                  // run the cli with --s3-concurrency=N
     var ext      = require('../tasks/helpers/extensions')(grunt, root);   //extension helper
     var out      = 'output';
 
@@ -40,7 +41,7 @@ module.exports = function(grunt) {
         accessKeyId: awsConfig.s3.accessKeyId,
         secretAccessKey: awsConfig.s3.secretKey,
         region: awsConfig.s3.region,
-        uploadConcurrency: 5,
+        uploadConcurrency: concurrency,
         bucket: awsConfig.s3.bucket
     };
     awsS3.clean = {
