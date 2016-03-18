@@ -132,6 +132,30 @@ define(['lib/polyfill/performance-now'], function () {
              */
             is : function is(stateName) {
                 return !!state[stateName];
+            },
+
+            /**
+             * Add time to the timer
+             * @param {Number} time
+             * @returns {timer}
+             */
+            add : function add(time) {
+                time = parseFloat(time);
+                duration += time;
+                last -= time;
+                return this;
+            },
+
+            /**
+             * Remove time from the timer
+             * @param {Number} time
+             * @returns {timer}
+             */
+            sub : function sub(time) {
+                time = parseFloat(time);
+                duration -= time;
+                last += time;
+                return this;
             }
         };
 

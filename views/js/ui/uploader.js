@@ -215,9 +215,20 @@ define([
                             .on('dragend', dragOutHandler)
                             .on('dragleave', dragOutHandler)
                             .on('drop', function(e){
+                                var files = [];
                                 dragOutHandler(e);
 
-                                self._selectFiles($elt, _.values(e.target.files || e.originalEvent.files || e.originalEvent.dataTransfer.files), options.$dropZone.children('ul').length > 0);
+                                if(e.target.files){
+                                    files = _.values(e.target.files);
+                                } else if ( e.originalEvent.files){
+                                    files = _.values(e.originalEvent.files);
+                                } else if ( e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files){
+                                    files = _.values(e.originalEvent.dataTransfer.files);
+                                }
+
+                                if(files && files.length){
+                                    self._selectFiles($elt, files, options.$dropZone.children('ul').length > 0);
+                                }
                                 return false;
                             });
                     } else {

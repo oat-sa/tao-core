@@ -56,6 +56,9 @@
  *      });
  * });
  *
+ * TODO replace before done syntax by promises
+ * TODO support flow control for all types of events not only before.
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -155,6 +158,17 @@ define([
         });
     }
 
+    /**
+     * Get the list of events from an eventName string (ie, separated by spaces)
+     * @param {String} eventNames - the event strings
+     * @returns {String[]} the event list (no empty, no duplicate)
+     */
+    function getEventNames(eventNames){
+        if(!_.isString(eventNames) || _.isEmpty(eventNames)){
+            return [];
+        }
+        return _(eventNames.split(/\s/g)).compact().uniq().value();
+    }
 
     /**
      * Get the name part of an event name: the 'foo' of 'foo.bar'
@@ -207,12 +221,14 @@ define([
 
         /**
          * Get the handlers for an event type
-         * @param {String} name - the event name
-         * @param {String} ns - the event namespace
+         * @param {String} eventName - the event name, namespace included
          * @param {String} [type = 'between'] - the type of event in before, between and after
          * @returns {Function[]} the handlers
          */
-        var getHandlers = function getHandlers(name, ns, type){
+        var getHandlers = function getHandlers(eventName, type){
+            var name = getName(eventName);
+            var ns = getNamespace(eventName);
+
             type = type || 'between';
             eventHandlers[ns] = eventHandlers[ns] || {};
             eventHandlers[ns][name] = eventHandlers[ns][name] || getHandlerObject();
@@ -232,18 +248,16 @@ define([
             * @example target.on('foo', function(bar){ console.log('Cool ' + bar) } );
             *
             * @this the target
-            * @param {String} eventName - the name of the event to listen
+            * @param {String} eventNames- the name of the event, or multiple events separated by a space
             * @param {Function} handler - the callback to run once the event is triggered
             * @returns {Object} the target object
             */
-            on : function on(eventName, handler){
-                var ns = getNamespace(eventName);
-                var name = getName(eventName);
-
-                if(typeof handler === 'function'){
-                    getHandlers(name, ns).push(handler);
+            on : function on(eventNames, handler){
+                if(_.isFunction(handler)){
+                    _.forEach(getEventNames(eventNames), function(eventName){
+                        getHandlers(eventName).push(handler);
+                    });
                 }
-
                 return this;
             },
 
@@ -253,25 +267,28 @@ define([
             * @example target.off('foo');
             *
             * @this the target
-            * @param {String} eventName - the name of the event
+            * @param {String} eventNames- the name of the event, or multiple events separated by a space
             * @returns {Object} the target object
             */
-            off : function off(eventName){
-                var ns = getNamespace(eventName);
-                var name = getName(eventName);
+            off : function off(eventNames){
 
-                if(ns && !name){
-                    //off the complete namespace
-                    eventHandlers[ns] = {};
-                } else {
+                _.forEach(getEventNames(eventNames), function(eventName){
 
-                    _.forEach(eventHandlers, function(nsHandlers, namespace){
-                        if(nsHandlers[name] && (ns === globalNs || ns === namespace)){
-                            nsHandlers[name] = getHandlerObject();
-                        }
-                    });
-                }
+                    var name = getName(eventName);
+                    var ns = getNamespace(eventName);
 
+                    if(ns && !name){
+                        //off the complete namespace
+                        eventHandlers[ns] = {};
+                    } else {
+
+                        _.forEach(eventHandlers, function(nsHandlers, namespace){
+                            if(nsHandlers[name] && (ns === globalNs || ns === namespace)){
+                                nsHandlers[name] = getHandlerObject();
+                            }
+                        });
+                    }
+                });
                 return this;
             },
 
@@ -281,36 +298,39 @@ define([
             * @example target.trigger('foo', 'Awesome');
             *
             * @this the target
-            * @param {String} eventName - the name of the event to trigger
+            * @param {String} eventNames- the name of the event to trigger, or multiple events separated by a space
             * @returns {Object} the target object
             */
-            trigger : function trigger(eventName){
+            trigger : function trigger(eventNames){
                 var self = this;
                 var args = [].slice.call(arguments, 1);
-                var ns = getNamespace(eventName);
-                var name = getName(eventName);
 
-                //check which ns needs to be executed and then merge the handlers to be executed
-                var mergedHandlers = _(eventHandlers)
-                 .filter(function(nsHandlers, namespace){
-                    return nsHandlers[name] && (ns === globalNs || ns === namespace);
-                 })
-                 .reduce(function(acc, nsHandlers){
-                     acc.before  = acc.before.concat(nsHandlers[name].before);
-                     acc.between = acc.between.concat(nsHandlers[name].between);
-                     acc.after   = acc.after.concat(nsHandlers[name].after);
-                    return acc;
-                 }, getHandlerObject());
+                _.forEach(getEventNames(eventNames), function(eventName){
+                    var ns = getNamespace(eventName);
+                    var name = getName(eventName);
 
-                 if(mergedHandlers){
+                    //check which ns needs to be executed and then merge the handlers to be executed
+                    var mergedHandlers = _(eventHandlers)
+                    .filter(function(nsHandlers, namespace){
+                        return nsHandlers[name] && (ns === globalNs || ns === namespace);
+                    })
+                    .reduce(function(acc, nsHandlers){
+                        acc.before  = acc.before.concat(nsHandlers[name].before);
+                        acc.between = acc.between.concat(nsHandlers[name].between);
+                        acc.after   = acc.after.concat(nsHandlers[name].after);
+                        return acc;
+                    }, getHandlerObject());
 
-                    //if there is something in before we delay the execution
-                    if(mergedHandlers.before.length){
-                        createAsyncCallstack(mergedHandlers.before, self, args, _.partial(triggerEvent, mergedHandlers));
-                    } else {
-                        triggerEvent(mergedHandlers);
+                    if(mergedHandlers){
+
+                        //if there is something in before we delay the execution
+                        if(mergedHandlers.before.length){
+                            createAsyncCallstack(mergedHandlers.before, self, args, _.partial(triggerEvent, mergedHandlers));
+                        } else {
+                            triggerEvent(mergedHandlers);
+                        }
                     }
-                }
+                });
 
                 /**
                  * Execute the given event handlers (between and then after)
@@ -341,12 +361,11 @@ define([
             * @param {String} eventName
             * @returns {Object} the target object
             */
-            before : function before(eventName, handler){
-                var ns = getNamespace(eventName);
-                var name = getName(eventName);
-
-                if(typeof handler === 'function'){
-                    getHandlers(name, ns, 'before').push(handler);
+            before : function before(eventNames, handler){
+                if(_.isFunction(handler)) {
+                    _.forEach(getEventNames(eventNames), function(eventName){
+                        getHandlers(eventName, 'before').push(handler);
+                    });
                 }
                 return this;
             },
@@ -359,12 +378,11 @@ define([
             * @param {String} eventName
             * @returns {Object} the target object
             */
-            after : function after(eventName, handler){
-                var ns = getNamespace(eventName);
-                var name = getName(eventName);
-
-                if(typeof handler === 'function'){
-                    getHandlers(name, ns, 'after').push(handler);
+            after : function after(eventNames, handler){
+                if(_.isFunction(handler)) {
+                    _.forEach(getEventNames(eventNames), function(eventName){
+                        getHandlers(eventName, 'after').push(handler);
+                    });
                 }
                 return this;
             }

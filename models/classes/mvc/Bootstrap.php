@@ -30,6 +30,7 @@ use common_Logger;
 use common_ext_ExtensionsManager;
 use common_session_SessionManager;
 use common_AjaxResponse;
+use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
@@ -188,7 +189,7 @@ class Bootstrap {
 	    $params = $_SERVER['argv'];
 	    $file = array_shift($params);
 	    if (count($params) < 1) {
-	        $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('No action specified'));
+	        $report = new Report(Report::TYPE_ERROR, __('No action specified'));
 	    } else {
 	        try {
     	        $resolver = new ActionResolver();
@@ -198,10 +199,11 @@ class Bootstrap {
     	        try {
     	            $report = call_user_func($invocable, $params);
     	        } catch (\Exception $e) {
-    	            $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('An error occured while running "%s", please check your error log.', $actionIdentifier));
+    	            $report = new Report(Report::TYPE_ERROR, __('An exception occured while running "%s"', $actionIdentifier));
+    	            $report->add(new Report(Report::TYPE_ERROR, $e->getMessage()));
     	        }
 	        } catch (ResolutionException $e) {
-	            $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Action "%s" not found.', $actionIdentifier));
+	            $report = new Report(Report::TYPE_ERROR, __('Action "%s" not found.', $actionIdentifier));
 	        }
 	    }
 	     
