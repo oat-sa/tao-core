@@ -14,19 +14,27 @@ module.exports = function(grunt) {
     /*
      * Global tasks/config
      */
-
-
     qunit.options = {
-        inject : './config/phantomjs-bridge.js'
+        inject: './config/phantomjs-bridge.js',
+        force: true
     };
 
     //convert QUnit report to JUnit reports for Jenkins
     grunt.config('qunit_junit', {
         options : {
             dest : reportOutput,
-            namer : function(url){
+
+            fileNamer : function(url){
                 return url
                     .replace(testUrl + '/', '')
+                    .replace('/test.html', '')
+                    .replace(/\//g, '.');
+            },
+
+            classNamer : function (moduleName, url) {
+                return url
+                    .replace(testUrl + '/', '')
+                    .replace('views/js/test/', '')
                     .replace('/test.html', '')
                     .replace(/\//g, '.');
             }
@@ -83,8 +91,9 @@ module.exports = function(grunt) {
      */
     qunit.single = {
         options : {
-            console : true,
-            urls : [testUrl + grunt.option('test')]
+            console: true,
+            force:   false,
+            urls:    [testUrl + grunt.option('test')]
         }
     };
 

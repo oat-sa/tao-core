@@ -1,7 +1,17 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'ui/mediaplayer', 'mediaElement'], function($, _, __, mimeType, Pluginifier, mediaplayer) {
+define([
+    'jquery',
+    'lodash',
+    'i18n',
+    'core/mimetype',
+    'core/pluginifier',
+    'ui/mediaplayer',
+    'iframeNotifier',
+    'mediaElement'
+],
+function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
     'use strict';
 
     var ns = 'previewer';
@@ -150,6 +160,10 @@ define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'ui/med
                     content = previewGenerator.placeHolder(_.merge({desc: __('No preview available')}, options));
                 }
                 $content = $(content);
+
+                $content.on('load', function() {
+                    iframeNotifier.parent('imageloaded');
+                });
 
                 if (options.width) {
                     $content.attr('width', options.width);

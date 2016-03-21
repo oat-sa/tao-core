@@ -11,8 +11,8 @@ define(['lodash'], function(_){
      *  - %s : string
      *  - %d : number
      *  - %j : json
-     * 
-     * @example format('Resize %s to %d%', 'width', 100); //returns Resize width to 100%  
+     *
+     * @example format('Resize %s to %d%', 'width', 100); //returns Resize width to 100%
      * @exports core/format
      * @param {String} message - the message to format
      * @param {...String|Number|Object} [replacements] -  the replacements arguments in the order defined in the message
@@ -21,22 +21,22 @@ define(['lodash'], function(_){
     return function(message){
         var replacements = Array.prototype.slice.call(arguments, 1);
         return _.reduce(
-            message.match(pattern), 
+            message.match(pattern),
             function(acc, match, index){
                 var replacement = '';
-                if(replacements[index]){
+                if(undefined !== replacements[index]){
                      switch(match){
                         case '%d': replacement = Number(replacements[index]); break;
-                        case '%j': try{ 
-                                replacement = JSON.stringify(replacements[index]).replace(/"/g, ''); 
-                            } catch(e){} 
+                        case '%j': try{
+                                replacement = JSON.stringify(replacements[index]).replace(/"/g, '');
+                            } catch(e){}
                             break;
-                        default : replacement = replacements[index]; break; 
+                        default : replacement = replacements[index]; break;
                      }
                      message = message.replace(match, replacement);
                 }
                 return message;
-            }, 
+            },
             message
         );
     };

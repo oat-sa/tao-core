@@ -28,6 +28,8 @@ use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\messaging\MessagingService;
 use oat\tao\model\entryPoint\EntryPointService;
+use oat\oatbox\event\EventManager;
+use oat\tao\model\event\LoginEvent;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -81,7 +83,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
 	        // single entrypoint -> redirect
 	        $entry = current($entries);
-	        return $this->forwardUrl($entry->getUrl());
+	        return $this->redirect($entry->getUrl());
 	    } else {
 	        // multiple entries -> choice
 	        if (!common_session_SessionManager::isAnonymous()) {
@@ -117,7 +119,13 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function login()
 	{
-		$params = array();
+        $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $config = $extension->getConfig('login');
+        $disableAutocomplete = !empty($config['disableAutocomplete']);
+
+		$params = array(
+            'disableAutocomplete' => $disableAutocomplete,
+        );
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
 				
@@ -133,7 +141,10 @@ class tao_actions_Main extends tao_actions_CommonModule
 			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
 				if($success){
 				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "'.");
-				    
+
+                    $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+                    $eventManager->trigger(new LoginEvent());
+
 					if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {
@@ -146,7 +157,37 @@ class tao_actions_Main extends tao_actions_CommonModule
 			}
 		}
 
-        $this->setData('form', $myForm->render());
+        $renderedForm = $myForm->render();
+
+        // replace the login form by a fake form that will delegate the submit to the real form
+        // this will allow to prevent the browser ability to cache login/password
+        if ($disableAutocomplete) {
+            // make a copy of the form and replace the form attributes
+            $fakeForm = preg_replace('/<form[^>]+>/', '<div class="form loginForm fakeForm">', $renderedForm);
+            $fakeForm = str_replace('</form>', '</div>', $fakeForm);
+
+            // replace the password field by a text field in the actual form,
+            // so the browser won't detect it and won't be able to cache the credentials
+            $renderedForm = preg_replace('/type=[\'"]+password[\'"]+/', 'type="text"', $renderedForm);
+
+            // hide the actual form,
+            // it will be submitted through javascript delegation
+            $renderedForm = preg_replace_callback('/<form([^>]+)>/', function($matches) {
+                $str = $matches[0];
+                if (false !== strpos($str, ' style=')) {
+                    $str = preg_replace('/ style=([\'"]+)([^\'"]+)([\'"]+)/', ' style=$1$2;display:none;$3', $str);
+                } else {
+                    $str = '<form' . $matches[1] . ' style="display:none;">';
+                }
+                return $str;
+            }, $renderedForm);
+
+            // the fake form will be displayed instead of the actual form,
+            // it will behave like the actual form
+            $renderedForm .= $fakeForm;
+        }
+
+        $this->setData('form', $renderedForm);
         $this->setData('title', __("TAO Login"));
 
         $entryPointService = $this->getServiceManager()->getServiceManager()->get(EntryPointService::SERVICE_ID);
@@ -282,9 +323,13 @@ class tao_actions_Main extends tao_actions_CommonModule
         $user = common_Session_SessionManager::getSession()->getUser();
         $children = array();
         foreach ($menuElement->getChildren() as $section) {
-            $resolver = new ActionResolver($section->getUrl());
-            if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
-                $children[] = $section;
+            try {
+                $resolver = new ActionResolver($section->getUrl());
+                if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
+                    $children[] = $section;
+                }
+            } catch (ResolverException $e) {
+                common_Logger::w('Invalid reference in structures: '.$e->getMessage());
             }
         }
         return $children;

@@ -4,14 +4,16 @@
     background: whiten($info, .1);
     padding: 3px;
     overflow: hidden;
+    color: whiten($info, .9);
+
     li {
         float: left;
         .li-inner {
             padding-bottom: 1px;
-            color: whiten($info, .9);
             text-decoration: none !important;
             outline: 0;
             display: inline-block;
+            color: inherit;
             &:hover {
                 color: white;
             }
@@ -96,6 +98,7 @@
                 background: none !important;
                 text-shadow: inherit !important;
                 opacity : 0.45 !important;
+                color: inherit !important;
                 a {
                     cursor: not-allowed !important;
                 }
