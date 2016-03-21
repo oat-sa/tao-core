@@ -220,6 +220,8 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
                 z-index: 3;
                 display: none;
                 padding: 7px;
+                right: 0;
+                bottom: 0;
             }
 
             .slider {
