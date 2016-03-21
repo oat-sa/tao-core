@@ -138,7 +138,7 @@ function($, _, __, mimeType, Pluginifier, iframeNotifier) {
                 $content = $(content);
 
                 $content.on('load', function() {
-                    iframeNotifier.parent('imageloaded');
+                    iframeNotifier.parent('itemcontentchange');
                 });
 
                 if (options.width) {
