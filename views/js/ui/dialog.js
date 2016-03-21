@@ -380,13 +380,14 @@ define([
         },
 
         _setFocusOnModal: function _setFocusOnModal(){
+            var $btnOk, $btn;
             // default OK button (for enter key)
-            var $ok = $('button.ok', this.$buttons);
-            if ($ok.length) {
-                $ok.focus();
+            $btnOk = $('button.ok', this.$buttons);
+            if ($btnOk.length) {
+                $btnOk.focus();
             } else {
                 // other button
-                var $btn = $('button', this.$buttons).first();
+                $btn = $('button', this.$buttons).first();
                 if ($btn.length) {
                     $btn.focus();
                 }
