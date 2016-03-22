@@ -22,6 +22,10 @@
 
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
+use oat\oatbox\filesystem\FileSystemService;
+use Slim\Http\Stream;
+
+
 /**
  * 
  * Controller use for the file upload components
@@ -258,11 +262,11 @@ class tao_actions_File extends tao_actions_CommonModule{
 	public function accessFile() {
         list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);;
         list($key, $subPath) = explode(' ', base64_decode($code), 2);
-        
+
         $source = WebsourceManager::singleton()->getWebsource($key);
         if ($source instanceof ActionWebSource) {
-            $path = $source->getFileSystem()->getPath().$subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR.$filePath);
-            tao_helpers_Http::returnFile($path);
+            $path = $subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR . $filePath);
+            tao_helpers_Http::returnStream($source->getFileStream($path));
         }
     }
 }

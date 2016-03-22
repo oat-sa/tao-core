@@ -19,9 +19,11 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
-
 use oat\tao\helpers\FileUploadException;
 use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Slim\Http\Request;
+use Slim\Http\Environment;
 
 /**
  * Description of class
@@ -287,11 +289,23 @@ class tao_helpers_Http
             throw new common_exception_Error('Security exception for path ' . $filename);
         }
     }
-    
-    public static function returnStream(StreamInterface $stream, $fileSize, $mimeType = null)
+
+    /**
+     * @param StreamInterface $stream
+     * @param $fileSize
+     * @param null|string $mimeType
+     * @param ServerRequestInterface|null $request not used yet.
+     */
+    public static function returnStream(StreamInterface $stream, $fileSize = null, $mimeType = null, ServerRequestInterface $request = null)
     {
-        if (!is_null($mimeType)) {
+        if ($request === null) {
+            $request = Request::createFromEnvironment(new Environment($_SERVER));
+        }
+        if (is_null($mimeType)) {
             header('Content-Type: ' . $mimeType);
+        }
+        if (is_null($fileSize)) {
+            $fileSize = $stream->getSize();
         }
         header('HTTP/1.1 200 OK');
         header("Content-Length: " . $fileSize);

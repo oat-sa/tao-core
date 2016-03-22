@@ -21,7 +21,10 @@
 namespace oat\tao\model\websource;
 
 use core_kernel_fileSystem_FileSystem;
-use common_ext_ExtensionsManager;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ServiceManager;
+use Slim\Http\Stream;
+use League\Flysystem\FileNotFoundException;
 
 /**
  * Grants Access to compiled data via the MVC
@@ -39,8 +42,26 @@ class ActionWebSource extends BaseWebsource
     }
     
 	public function getAccessUrl($relativePath) {
-	    $fsUri = $this->getFileSystem()->getUri();
-	    $trailingSlash = substr($relativePath, -1) == DIRECTORY_SEPARATOR ? '/' : '';
 	    return _url('accessFile/'.base64_encode($this->getId().' '.trim($relativePath, DIRECTORY_SEPARATOR)).'/','File', 'tao');
 	}
+
+    /**
+     * @param $filePath
+     * @throws \tao_models_classes_FileNotFoundException
+     * @return Stream
+     */
+    public function getFileStream($filePath)
+    {
+        if ($filePath === '') {
+            throw new \tao_models_classes_FileNotFoundException("File not found");
+        }
+        $fsService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
+        $fs = $fsService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
+        try {
+            $resource = $fs->readStream($filePath);
+        } catch(FileNotFoundException $e) {
+            throw new \tao_models_classes_FileNotFoundException("File not found");
+        }
+        return new Stream($resource);
+    }
 }
