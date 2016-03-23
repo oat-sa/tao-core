@@ -22,9 +22,6 @@
 
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
-use oat\oatbox\filesystem\FileSystemService;
-use Slim\Http\Stream;
-
 
 /**
  * 
@@ -258,15 +255,20 @@ class tao_actions_File extends tao_actions_CommonModule{
 		echo json_encode($data);
 		
 	}
-	
-	public function accessFile() {
+
+    /**
+     * @throws ResolverException
+     * @throws \oat\tao\model\websource\WebsourceNotFound
+     * @throws tao_models_classes_FileNotFoundException
+     */
+    public function accessFile() {
         list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);;
         list($key, $subPath) = explode(' ', base64_decode($code), 2);
 
         $source = WebsourceManager::singleton()->getWebsource($key);
         if ($source instanceof ActionWebSource) {
             $path = $subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR . $filePath);
-            tao_helpers_Http::returnStream($source->getFileStream($path));
+            tao_helpers_Http::returnStream($source->getFileStream($path), $source->getMimetype($path));
         }
     }
 }

@@ -20,6 +20,9 @@
  *
  */
 use oat\tao\helpers\FileUploadException;
+use oat\tao\model\http\HttpRange;
+use oat\tao\model\http\HttpRangeException;
+use oat\tao\helpers\HttpRang;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Http\Request;
@@ -282,7 +285,9 @@ class tao_helpers_Http
                     fclose($fp);
                 }
             } else {
-                common_Logger::w('File '.$filename.' not found');
+                if (class_exists('common_Logger')) {
+                    common_Logger::w('File '.$filename.' not found');
+                }
                 header("HTTP/1.0 404 Not Found");
             }
         } else {
@@ -292,32 +297,71 @@ class tao_helpers_Http
 
     /**
      * @param StreamInterface $stream
-     * @param $fileSize
      * @param null|string $mimeType
      * @param ServerRequestInterface|null $request not used yet.
      */
-    public static function returnStream(StreamInterface $stream, $fileSize = null, $mimeType = null, ServerRequestInterface $request = null)
+    public static function returnStream(StreamInterface $stream, $mimeType = null, ServerRequestInterface $request = null)
     {
         if ($request === null) {
             $request = Request::createFromEnvironment(new Environment($_SERVER));
         }
-        if (is_null($mimeType)) {
+
+        if (!is_null($mimeType)) {
             header('Content-Type: ' . $mimeType);
         }
-        if (is_null($fileSize)) {
-            $fileSize = $stream->getSize();
+
+        try{
+            $ranges = self::getRanges($stream, $request);
+            $contentLength = 0;
+            if (!empty($ranges)) {
+                header('HTTP/1.1 206 Partial Content');
+                foreach ($ranges as $range) {
+                    $contentLength += (($range->getLastPos() - $range->getFirstPos()) + 1);
+                }
+                //@todo Content-Range for multiple ranges?
+                header('Content-Range: bytes ' . $ranges[0]->getFirstPos() . '-' . $ranges[0]->getLastPos() . '/' . $stream->getSize());
+            } else {
+                $contentLength = $stream->getSize();
+            }
+
+            header('HTTP/1.1 200 OK');
+            header("Content-Length: " . $contentLength);
+
+            if (empty($ranges)) {
+                $bytesPerCycle = (1024 * 1024) * 0.5;
+                while (!$stream->eof()) {
+                    echo $stream->read($bytesPerCycle);
+                }
+            } else {
+                foreach ($ranges as $range) {
+                    $stream->seek($range->getFirstPos());
+                    $length = (($range->getLastPos() - $range->getFirstPos()) + 1);
+                    echo $stream->read($length);
+                }
+            }
+        } catch (HttpRangeException $e) {
+            header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
-        header('HTTP/1.1 200 OK');
-        header("Content-Length: " . $fileSize);
-        while (ob_get_level() > 0) {
-            ob_end_flush();
+    }
+
+    /**
+     * @param StreamInterface $stream
+     * @param ServerRequestInterface $request
+     * @throws HttpRangeException
+     * @return HttpRange[]
+     */
+    private static function getRanges(StreamInterface $stream, ServerRequestInterface $request)
+    {
+        $result = [];
+        if ($request->hasHeader('Range')) {
+            $rangeHeader = $request->getHeader('Range');
+            $ranges = explode(',', $rangeHeader[0]);
+            foreach($ranges as $range) {
+                $range = str_replace('bytes=', '', $range);
+                $result[] = new HttpRange($stream, $range);
+            }
         }
-        
-        $bytesPerCycle = (1024 * 1024) * 0.5;
-        while (!$stream->eof()) {
-            $data = $stream->read($bytesPerCycle);
-            echo $data;
-        }
+        return $result;
     }
 
 }

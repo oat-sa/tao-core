@@ -23,6 +23,9 @@ namespace oat\tao\model\websource;
 
 use oat\oatbox\Configurable;
 use core_kernel_fileSystem_FileSystem;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ServiceManager;
+
 /**
  * This is the base class of the Access Providers
  *
@@ -44,7 +47,7 @@ implements Websource
 	 * @var core_kernel_fileSystem_FileSystem
 	 */
 	private $fileSystem = null;
-	
+
 	/**
 	 * Identifier of the Access Provider 
 	 * 
@@ -56,8 +59,8 @@ implements Websource
 	 * Used to instantiate new AccessProviders
 	 * 
 	 * @param core_kernel_fileSystem_FileSystem $fileSystem
-	 * @param unknown $customConfig
-	 * @return tao_models_classes_fsAccess_AccessProvider
+	 * @param array $customConfig
+	 * @return \tao_models_classes_fsAccess_AccessProvider
 	 */
 	protected static function spawn(core_kernel_fileSystem_FileSystem $fileSystem, $customConfig = array()) {
 	    $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystem->getUri();
@@ -68,18 +71,6 @@ implements Websource
 	}
 
 	/**
-	 * Filesystem made available by this Access Provider
-	 * 
-	 * @return core_kernel_fileSystem_FileSystem
-	 */
-	public function getFileSystem() {
-	    if (is_null($this->fileSystem)) {
-	        $this->fileSystem = new core_kernel_fileSystem_FileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
-	    }
-	    return $this->fileSystem;
-	}
-
-	/**
 	 * Return the identifer of the AccessProvider
 	 * 
 	 * @return string
@@ -87,5 +78,15 @@ implements Websource
 	public function getId() {
 	    return $this->getOption(self::OPTION_ID);
 	}
-	
+
+    /**
+     * @return \League\Flysystem\Filesystem
+     */
+    public function getFileSystem()
+    {
+        /** @var FileSystemService $fsService */
+        $fsService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
+        return $fsService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
+    }
+
 }

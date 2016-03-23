@@ -20,11 +20,9 @@
  */
 namespace oat\tao\model\websource;
 
-use core_kernel_fileSystem_FileSystem;
-use oat\oatbox\filesystem\FileSystemService;
-use oat\oatbox\service\ServiceManager;
 use Slim\Http\Stream;
 use League\Flysystem\FileNotFoundException;
+use \core_kernel_fileSystem_FileSystem;
 
 /**
  * Grants Access to compiled data via the MVC
@@ -55,13 +53,22 @@ class ActionWebSource extends BaseWebsource
         if ($filePath === '') {
             throw new \tao_models_classes_FileNotFoundException("File not found");
         }
-        $fsService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
-        $fs = $fsService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
+        $fs = $this->getFileSystem();
         try {
             $resource = $fs->readStream($filePath);
         } catch(FileNotFoundException $e) {
             throw new \tao_models_classes_FileNotFoundException("File not found");
         }
         return new Stream($resource);
+    }
+
+    /**
+     * Get a file's mime-type.
+     * @param string $filePath The path to the file.
+     * @return string|false The file mime-type or false on failure.
+     */
+    public function getMimetype($filePath)
+    {
+        return $this->getFileSystem()->getMimetype($filePath);
     }
 }
