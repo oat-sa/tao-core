@@ -12,6 +12,5 @@
             </label>
             <input type="text" name="message" class="message">
             <button class="btn-info small commit">{{__ 'Commit'}}</button>
-        </div>
     </div>
 </div>
