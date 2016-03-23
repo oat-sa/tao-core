@@ -156,7 +156,7 @@ class Factory
             // abstract so just move along
             $reflection = new \ReflectionClass($controllerClassName);
             if ($reflection->isAbstract()) {
-                common_Logger::w($controllerClassName.' is abstract');
+                common_Logger::i($controllerClassName.' is abstract');
                 $returnValue = false;
             }
         }

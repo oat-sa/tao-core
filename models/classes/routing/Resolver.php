@@ -50,7 +50,7 @@ class Resolver
     /**
      * Resolves a request to a method
      * 
-     * @param HttpRequest $pRequest
+     * @param common_http_Request $pRequest
      * @return string
      */
     public function __construct(common_http_Request $request) {
