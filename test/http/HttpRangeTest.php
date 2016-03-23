@@ -28,7 +28,8 @@ use Slim\Http\Stream;
  * @package tao
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
+class HttpRangeTest extends TaoPhpUnitTestRunner
+{
 
 
     protected function setUp()
