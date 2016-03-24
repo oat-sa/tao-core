@@ -379,6 +379,21 @@ define([
             }
         },
 
+        _setFocusOnModal: function _setFocusOnModal(){
+            var $btnOk, $btn;
+            // default OK button (for enter key)
+            $btnOk = $('button.ok', this.$buttons);
+            if ($btnOk.length) {
+                $btnOk.focus();
+            } else {
+                // other button
+                $btn = $('button', this.$buttons).first();
+                if ($btn.length) {
+                    $btn.focus();
+                }
+            }
+        },
+        
         /**
          * Installs the dialog box
          * @private
@@ -388,6 +403,8 @@ define([
                 width: this.width,
                 animate: this.animate
             });
+            
+            this._setFocusOnModal();
         },
 
         /**
