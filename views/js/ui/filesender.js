@@ -1,4 +1,4 @@
-define(['jquery', 'lodash'], function($, _) {
+define(['jquery', 'lodash', 'layout/logout-event'], function($, _, logoutEvent) {
     'use strict';
 
     /**
@@ -22,6 +22,7 @@ define(['jquery', 'lodash'], function($, _) {
          *  @param {Object} options - the sending options
          *  @param {String} [options.url] - the url where the form will send the file, if not set we get the form.action attr
          *  @param {String} [options.frame] - a name for the frame create in background
+         *  @param {String} [options.fileParamName] - the name of the element of request payload which will contain file.
          *  @param {FileLoadedCallback} [options.loaded] - executed once received the server response
          */
         _init: function(options) {
@@ -31,6 +32,7 @@ define(['jquery', 'lodash'], function($, _) {
                 xhr2 = typeof XMLHttpRequest !== 'undefined' && new XMLHttpRequest().upload && typeof FormData !== 'undefined',
                 $form = this,
                 id = opts.frame,
+                fileParamName = options.fileParamName || 'content',
                 $file, xhr, fd;
 
             if (!$form.attr('action') && (!opts.url || opts.url.trim().length === 0)) {
@@ -52,7 +54,12 @@ define(['jquery', 'lodash'], function($, _) {
                 //post the full form that contains the file
                 fd = new FormData(this[0]);
 
+                if (options.file && options.file instanceof File) {
+                    fd.append(fileParamName, options.file);
+                }
+
                 xhr.open("POST", opts.url, true);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
@@ -65,6 +72,11 @@ define(['jquery', 'lodash'], function($, _) {
                                 opts.loaded(result);
                             }
                         } else {
+                            
+                            if(xhr.status === 403) {
+                                logoutEvent();
+                            }
+                            
                             if (typeof opts.failed === 'function') {
                                 opts.failed();
                             }

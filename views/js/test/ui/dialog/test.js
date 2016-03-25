@@ -263,4 +263,94 @@ define([
         modal.getDom().find('button[data-control="done"]').click();
     });
 
+    QUnit.asyncTest('destroy', function(assert) {
+        QUnit.expect(4);
+
+        var message = 'foo';
+        var content = 'bar';
+        var renderTo = '#qunit-fixture';
+
+        var modal = dialog({
+            message: message,
+            content: content,
+            renderTo: renderTo
+        });
+
+        modal.on('create.modal', function() {
+            assert.equal($(renderTo + ' .modal').length, 1, 'The modal element is created');
+            assert.equal($(renderTo + ' .message').text(), message, 'The modal message is correct');
+
+            modal.destroy();
+        });
+        modal.on('destroy.modal', function() {
+
+            assert.equal($(renderTo + ' .modal').length, 1, 'The modal element is still there due to the way the modal works');
+            assert.equal(modal.destroyed, true, 'The dialog has the destroyed state');
+
+
+            QUnit.start();
+        });
+
+
+        modal.render();
+    });
+    
+    QUnit.asyncTest('autoFocusOnOK', function(assert) {
+        QUnit.expect(3);
+
+        var message = 'foo';
+        var content = 'bar';
+        var renderTo = '#qunit-fixture';
+
+        var modal = dialog({
+            message: message,
+            content: content,
+            renderTo: renderTo,
+            buttons: 'ok,cancel'
+        });
+
+        modal.getDom().find('button[data-control="ok"]').on('focus', function(){
+            assert.ok('true', 'Focus on OK button');
+            QUnit.start();
+        });
+
+        modal.getDom().find('button[data-control="cancel"]').on('focus', function(){
+            assert.ok('false', 'Focus on Cancel button');
+            QUnit.start();
+        });
+        
+        modal.on('create.modal', function() {
+            assert.equal($(renderTo + ' .modal').length, 1, 'The modal element is created');
+            assert.equal(modal.getDom().find('button').length, 2, "The dialog box displays 2 buttons");
+        });
+
+        modal.render();
+    });
+
+    QUnit.asyncTest('autoFocusOnOtherButtons', function(assert) {
+        QUnit.expect(3);
+
+        var message = 'foo';
+        var content = 'bar';
+        var renderTo = '#qunit-fixture';
+
+        var modal = dialog({
+            message: message,
+            content: content,
+            renderTo: renderTo,
+            buttons: 'cancel'
+        });
+
+        modal.getDom().find('button[data-control="cancel"]').on('focus', function(){
+            assert.ok('true', 'Focus on Cancel button');
+            QUnit.start();
+        });
+
+        modal.on('create.modal', function() {
+            assert.equal($(renderTo + ' .modal').length, 1, 'The modal element is created');
+            assert.equal(modal.getDom().find('button').length, 1, "The dialog box displays 1 button");
+        });
+
+        modal.render();
+    });
 });

@@ -20,6 +20,7 @@
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\import\CsvBasicImporter;
+use Prophecy\Argument;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
@@ -173,4 +174,94 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$this->assertEquals($propertiesExpected, $properties);
 	}
 
+	public function testImportRules() {
+
+        $path = $this->getSamplePath('/csv/users1-header-rules-validator.csv');
+
+        $file = tao_helpers_File::createTempDir() . '/temp-import-rules-validator.csv';
+        tao_helpers_File::copy($path, $file);
+        $this->assertFileExists($file);
+
+
+        $importer = new CsvBasicImporter();
+        
+        $class = $this->prophesize('\core_kernel_classes_Class');
+        $resource = $this->prophesize('\core_kernel_classes_Resource');
+        
+        $class->createInstanceWithProperties([
+            "label" => ["Correct row"],
+            "firstName" => ["Jérôme"],
+            "lastName" => ["Bogaerts"],
+            "login" => ["jbogaerts"],
+            "mail" => ["jerome.bogaerts@tudor.lu"],
+            "password" => ["jbogaerts!!!111Ok"],
+            "UserUIlg" => ["http://www.tao.lu/Ontologies/TAO.rdf#LangEN"]
+        ])
+            ->shouldBeCalledTimes(1)
+            ->willReturn($resource->reveal());
+
+        $importer->setValidators([
+            'label' => [
+                tao_helpers_form_FormFactory::getValidator('Length', ["max" => 20])
+            ],
+            'firstName' => [
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+                tao_helpers_form_FormFactory::getValidator('Length', ["min" => 2, "max" => 25])
+            ],
+            'lastName' => [
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+                tao_helpers_form_FormFactory::getValidator('Length', ["min" => 2, "max" => 12])
+            ],
+            'login' => [
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+                tao_helpers_form_FormFactory::getValidator('AlphaNum'),
+                tao_helpers_form_FormFactory::getValidator('Unique'),
+                tao_helpers_form_FormFactory::getValidator('Length', ["min" => 2, "max" => 12])
+            ],
+            'mail' => [
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+                tao_helpers_form_FormFactory::getValidator('Email'),
+                tao_helpers_form_FormFactory::getValidator('Length', ["min" => 6, "max" => 100])
+            ],
+            'password' => [
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+            ],
+            'UserUIlg' => [
+                tao_helpers_form_FormFactory::getValidator('Url'),
+            ]
+        ]);
+        
+        $report = $importer->import( $class->reveal(), [
+            'file' => $file,
+            'map' => [
+                'label'     => "0",
+                'firstName' => "1",
+                'lastName'  => "2",
+                'login'     => "3",
+                'mail'      => "4",
+                'password'  => "5",
+                'UserUIlg'  => "6",
+            ],
+        ]);
+        
+        $this->assertInstanceOf('common_report_Report', $report);
+        $this->assertEquals(common_report_Report::TYPE_WARNING, $report->getType());
+
+        $this->assertCount(6, $report->getErrors());
+        
+        //cause import has errors
+        $this->assertFileExists($file);
+        tao_helpers_File::remove($file);
+        $this->assertFileNotExists($file);
+    }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    protected function getSamplePath($path)
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR .'samples' . str_replace('/', DIRECTORY_SEPARATOR, $path);
+    }
+	
 }

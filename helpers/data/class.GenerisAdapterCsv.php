@@ -145,6 +145,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			    foreach ($this->options['map'] as $propUri => $csvColumn) {
 			        $this->validate($destination, $propUri, $csvRow, $csvColumn);
 			    }
+				
 			    // evaluate csv values
 			    foreach($this->options['map'] as $propUri => $csvColumn){
 			        
@@ -167,15 +168,13 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			    
 			    $createdResources++;
 			    
-			} catch (tao_helpers_data_ValidationException $valExc) {
-			    $targetProperty = new core_kernel_classes_Property($propUri);
+			} catch (ValidationException $valExc) {
                 $this->addErrorMessage(
 			        $propUri,
 			        common_report_Report::createFailure(
-			            'Row '.$rowIterator. ' ' .$valExc->getProperty()->getLabel(). ': ' .$valExc->getUserMessage(). ' "' . $valExc->getValue() . '"'
+			            __('Row %s', $rowIterator) . ' ' .$valExc->getProperty()->getLabel(). ': ' . $valExc->getUserMessage() . ' "' . $valExc->getValue() . '"'
 			        )
 			    );
-			    $valid = false;
 			}
 			
 			helpers_TimeOutHelper::reset();
@@ -317,19 +316,17 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 	 * @param $propUri
 	 * @param $csvRow
 	 * @param $csvColumn
-	 * @throws tao_helpers_data_ValidationException
-	 * @return array
+	 * @throws ValidationException
+	 * @return bool
 	 */
 	protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn)
 	{
 		/**  @var tao_helpers_form_Validator $validator */
 		$validators = $this->getValidator($propUri);
 		foreach ((array)$validators as $validator) {
-            $validator->setOptions( array(
-                'resourceClass' => $destination,
-                'property'      => $propUri
-            ));
 
+			$validator->setOptions( array_merge(array('resourceClass' => $destination,'property' => $propUri), $validator->getOptions()) );
+			
             if (!$validator->evaluate($csvRow[$csvColumn])) {
                 throw new ValidationException(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn], $validator->getMessage());
 			}

@@ -30,11 +30,11 @@ use common_Logger;
 use common_ext_ExtensionsManager;
 use common_session_SessionManager;
 use common_AjaxResponse;
+use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
 use Request;
-use HttpRequest;
 use HTTPToolkit;
 
 use Exception;
@@ -188,7 +188,7 @@ class Bootstrap {
 	    $params = $_SERVER['argv'];
 	    $file = array_shift($params);
 	    if (count($params) < 1) {
-	        $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('No action specified'));
+	        $report = new Report(Report::TYPE_ERROR, __('No action specified'));
 	    } else {
 	        try {
     	        $resolver = new ActionResolver();
@@ -198,10 +198,11 @@ class Bootstrap {
     	        try {
     	            $report = call_user_func($invocable, $params);
     	        } catch (\Exception $e) {
-    	            $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('An error occured while running "%s", please check your error log.', $actionIdentifier));
+    	            $report = new Report(Report::TYPE_ERROR, __('An exception occured while running "%s"', $actionIdentifier));
+    	            $report->add(new Report(Report::TYPE_ERROR, $e->getMessage()));
     	        }
 	        } catch (ResolutionException $e) {
-	            $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Action "%s" not found.', $actionIdentifier));
+	            $report = new Report(Report::TYPE_ERROR, __('Action "%s" not found.', $actionIdentifier));
 	        }
 	    }
 	     
@@ -260,7 +261,7 @@ class Bootstrap {
                     'msg' => $ue->getUserMessage()
                 ))));
             } else {
-                $this->dispatchError($ue, 403);
+                $this->dispatchError($ue, 403, $ue->getUserMessage());
             }
     	}
     	catch (\tao_models_classes_UserException $ue){
@@ -401,12 +402,12 @@ class Bootstrap {
 	 *  @throws ActionEnforcingException in case of wrong module or action
 	 *  @throws tao_models_classes_UserException when a request try to acces a protected area
 	 */
-	protected function mvc()
-	{	
-		$re		= new HttpRequest();
-		$fc		= new TaoFrontController($re);
-		$fc->loadModule();
-	}
+    protected function mvc()
+    {
+        $re = \common_http_Request::currentRequest();
+        $fc = new TaoFrontController();
+        $fc->legacy($re);
+    }
 
 	/**
 	 * Load external resources for the current context

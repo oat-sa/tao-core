@@ -33,10 +33,12 @@ define([
      * @param {Number} level
      * @param {array} categoriesDefinitions - the array that defines the number and config for each level of combobox cascade
      * @param {array} categories - the array that contains nested array of categories
+     * @param {array} selected - the array that contains options selected
      * @returns {jQuery}
      */
-    function createCombobox(level, categoriesDefinitions, categories){
+    function createCombobox(level, categoriesDefinitions, categories, selected){
         if (categoriesDefinitions[level] && categories[level]) {
+            selected = selected || [];
             var categoryDef = categoriesDefinitions[level];
             var $comboBox;
             if(categoryDef.id){
@@ -48,8 +50,10 @@ define([
                     options : categories[level]
                 }));
 
+                $comboBox.find('select').val(selected[level] || '');
+
                 //add event handler
-                $comboBox.on('change', function(e,x){
+                $comboBox.on('change', function(){
 
                     var $selected = $comboBox.find(":selected");
                     selectedValues[categoryDef.id] = $selected.val();
@@ -77,6 +81,7 @@ define([
      * @param {object} options
      * @param {Array} [options.categoriesDefinitions] - the array that defines the number and config for each level of combobox
      * @param {Array} [options.categories] - the array that contains array of categories
+     * @param {Array} [options.selected] - the array that contains array of selected options
      * @returns {function}
      */
     return function groupedComboBoxFactory(options) {
@@ -85,7 +90,7 @@ define([
             .on('render', function render($container) {
                 if (_.isArray(options.categoriesDefinitions) && _.isArray(options.categories)) {
                     options.categoriesDefinitions.forEach(function(k,i){
-                        var $comboBox = createCombobox(i, options.categoriesDefinitions, options.categories);
+                        var $comboBox = createCombobox(i, options.categoriesDefinitions, options.categories, options.selected);
                         $container.append($comboBox);
                     });
                 }

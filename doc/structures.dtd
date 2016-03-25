@@ -83,16 +83,6 @@
 					<!ATTLIST action js CDATA "_load">
 					<!-- The JS binding of this action -->
 					<!ATTLIST action binding CDATA "_load">
-
-	<!ELEMENT entrypoint  ( description, (replace)* )>
-		<!ATTLIST entrypoint id ID #REQUIRED>
-		<!ATTLIST entrypoint title CDATA #REQUIRED>
-		<!ATTLIST entrypoint label CDATA #REQUIRED>
-		<!ATTLIST entrypoint url CDATA #REQUIRED>
-
-		<!ELEMENT replace EMPTY>
-		
-			<!ATTLIST replace id CDATA #REQUIRED>
 		
     <!-- DEPRECATED -->	
 	<!ELEMENT toolbar  ( (toolbaraction)* )>

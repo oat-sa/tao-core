@@ -22,6 +22,7 @@
 
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\tao\helpers\InstallHelper;
+use oat\oatbox\install\Installer;
 
 /**
  *
@@ -119,6 +120,15 @@ class tao_install_Installator{
 					throw new tao_install_utils_Exception($msg);
 				}
 			}
+			
+			/*
+			 *  X - Setup Oatbox
+			 */
+			
+			$this->log('d', 'Removing old config', 'INSTALL');
+			$consistentOptions = array_merge($installData, $this->options);
+			$oatBoxInstall = new Installer($consistentOptions);
+			$oatBoxInstall->install();
 			
 			/*
 			 *  2 - Test DB connection (done by the constructor)
@@ -227,10 +237,6 @@ class tao_install_Installator{
 			 *  5 - Create the generis config files
 			 */
 			
-			$this->log('d', 'Removing old config', 'INSTALL');
-            if (!helpers_File::emptyDirectory($this->options['root_path'].'config/', true)) {
-                throw new common_exception_Error('Unable to empty ' . $this->options['root_path'] . 'config/ folder.');
-            }
 			$this->log('d', 'Writing generis config', 'INSTALL');
 			$generisConfigWriter = new tao_install_utils_ConfigWriter(
 				$this->options['root_path'].'generis/config/sample/generis.conf.php',
