@@ -579,6 +579,7 @@ define([
             // set correct filter data
             options.filterquery = query;
             options.filtercolumns = (columns && columns.length) ? columns : [];
+            options.page = 1;
 
             //rebind options to the elt
             $elt.data(dataNs, options);
