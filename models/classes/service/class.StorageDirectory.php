@@ -23,6 +23,8 @@ use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\FileSystemService;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use League\Flysystem\Filesystem;
+use Psr\Http\Message\StreamInterface;
 /**
  * Represents  direxctory for file storage 
  *
@@ -52,9 +54,11 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
     }
     
     /**
-     * Returns the absolute path to this directory
+     * Returned the absolute path to this directory
+     * Please use read and write to access files
      * 
      * @return string
+     * @deprecated
      */
     public function getPath() {
         return $this->fs->getPath().$this->relPath;
@@ -84,6 +88,13 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
         return !is_null($this->accessProvider);
     }
     
+    /**
+     * Returns a URL that allows you to access the files in a directory
+     * preserving the relative paths
+     * 
+     * @return string
+     * @throws common_Exception
+     */
     public function getPublicAccessUrl() {
         if (is_null($this->accessProvider)) {
             common_Logger::e('accessss');
@@ -92,7 +103,30 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
         return $this->accessProvider->getAccessUrl($this->relPath);
     }
     
-    public function getFileSystem() {
-        return $this->getServiceManager()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->fs->getUri());
+    /**
+     * 
+     * @param string $path
+     * @return StreamInterface
+     */
+    public function read($path) {
+        return $this->getFileSystem()->readStream($this->getRelativePath().$path);
+    }
+    
+    /**
+     * Store a file in the directory
+     * 
+     * @param string $path
+     * @param mixed $resource
+     * @return boolean
+     */
+    public function write($path, $resource) {
+        return $this->getFileSystem()->writeStream($this->getRelativePath().$path, $resource);
+    }
+    
+    /**
+     * @return Filesystem
+     */
+    protected function getFileSystem() {
+        return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->fs->getUri());
     }
 }
