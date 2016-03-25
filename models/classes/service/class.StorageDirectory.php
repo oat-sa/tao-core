@@ -19,17 +19,27 @@
  * 
  */
 
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\filesystem\FileSystemService;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 /**
  * Represents  direxctory for file storage 
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
-class tao_models_classes_service_StorageDirectory
+class tao_models_classes_service_StorageDirectory implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+    
     private $id;
+    
+    /**
+     * 
+     * @var core_kernel_fileSystem_FileSystem
+     */
     private $fs;
     private $relPath;
     private $accessProvider;
@@ -82,4 +92,7 @@ class tao_models_classes_service_StorageDirectory
         return $this->accessProvider->getAccessUrl($this->relPath);
     }
     
+    public function getFileSystem() {
+        return $this->getServiceManager()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->fs->getUri());
+    }
 }

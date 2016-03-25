@@ -1,5 +1,4 @@
 <?php
-use oat\tao\model\websource\TokenWebSource;
 /*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +20,8 @@ use oat\tao\model\websource\TokenWebSource;
  * 
  */
 
+use oat\tao\model\websource\TokenWebSource;
+use oat\oatbox\service\ServiceManager;
 /*
  * This post-installation script creates a new local file source for file uploaded
  * by end-users through the TAO GUI.
@@ -41,4 +42,9 @@ $privateFs = tao_models_classes_FileSourceService::singleton()->addLocalSource('
 
 $websource = TokenWebSource::spawnWebsource($publicFs);
 
-tao_models_classes_service_FileStorage::configure($privateFs, $publicFs, $websource);
+$service = new tao_models_classes_service_FileStorage(array(
+    tao_models_classes_service_FileStorage::OPTION_PUBLIC_FS => $publicFs->getUri(),
+    tao_models_classes_service_FileStorage::OPTION_PRIVATE_FS => $privateFs->getUri(),
+    tao_models_classes_service_FileStorage::OPTION_ACCESS_PROVIDER => $websource->getId()
+));
+ServiceManager::getServiceManager()->register(tao_models_classes_service_FileStorage::SERVICE_ID, $service);
