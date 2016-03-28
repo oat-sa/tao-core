@@ -24,6 +24,7 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\TokenWebSource;
+use oat\tao\model\websource\FlyTokenWebSource;
 use oat\tao\model\websource\DirectWebSource;
 use oat\tao\model\websource\Websource;
 
@@ -80,11 +81,10 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         return array(
             array(DirectWebSource::spawnWebsource(self::$fileSystem, $ext->getConstant('BASE_WWW'))),
             array(TokenWebSource::spawnWebsource(self::$fileSystem)),
-            array(ActionWebSource::spawnWebsource(self::$fileSystem))
+            array(ActionWebSource::spawnWebsource(self::$fileSystem)),
+            array(FlyTokenWebSource::spawnWebsource(self::$fileSystem)),
         );
     }
-    
-
     
     /**
      * @expectedException common_Exception

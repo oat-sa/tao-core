@@ -19,7 +19,6 @@
  */
 namespace oat\tao\model\websource;
 
-use core_kernel_fileSystem_FileSystem;
 use common_ext_ExtensionsManager;
 
 /**
@@ -31,17 +30,62 @@ class FlyTokenWebSource extends TokenWebSource
 {
     const ENTRY_POINT = '/getFileFlysystem.php/';
 
-    public static function getFilePath()
+    static $instances = [];
+
+    /**
+     * /**
+     * get instance from url.
+     * @param string|null $url
+     * @return FlyTokenWebSource
+     * @throws \common_exception_InconsistentData
+     * @throws WebsourceNotFound
+     * @throws \tao_models_classes_FileNotFoundException
+     */
+    public static function createFromUrl($url = null)
     {
-        $rel = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], self::ENTRY_POINT) + strlen(self::ENTRY_POINT));
+        if ($url === null) {
+            $url = $_SERVER['REQUEST_URI'];
+        }
+        $rel = substr($url, strpos($url, self::ENTRY_POINT) + strlen(self::ENTRY_POINT));
+        $parts = explode('/', $rel, 2);
+        list ($webSourceId) = $parts;
+        $webSourceId = preg_replace('/[^a-zA-Z0-9]*/', '', $webSourceId);
+        if (!isset($instances[$webSourceId])) {
+            $configPath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR . 'websource_' . $webSourceId . '.conf.php';
+
+            if (!file_exists($configPath)) {
+                throw new \tao_models_classes_FileNotFoundException("Config file not found");
+            }
+
+            $config = include $configPath;
+            if (!is_array($config) || !isset($config['className'])) {
+                throw new WebsourceNotFound('Undefined websource ' . $webSourceId);
+            }
+            $className = $config['className'];
+            $options = isset($config['options']) ? $config['options'] : array();
+            $instances[$webSourceId] = new $className($options);
+            if (!$instances[$webSourceId] instanceof TokenWebSource) {
+                throw new \common_exception_InconsistentData('Unexpected websource class');
+            }
+        }
+        return $instances[$webSourceId];
+    }
+
+    /**
+     * Get file path from url.
+     * @param null $url
+     * @return string
+     * @throws \tao_models_classes_FileNotFoundException
+     */
+    public function getFilePathFromUrl($url = null)
+    {
+        if ($url === null) {
+            $url = $_SERVER['REQUEST_URI'];
+        }
+        $url = parse_url($url)['path']; //remove query part from url.
+        $rel = substr($url, strpos($url, self::ENTRY_POINT) + strlen(self::ENTRY_POINT));
         $parts = explode('/', $rel, 4);
         list ($webSourceId, $timestamp, $token, $subPath) = $parts;
-        $webSourceId = preg_replace('/[^a-zA-Z0-9]*/', '', $webSourceId);
-        $configPath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR . 'websource_' . $webSourceId . '.conf.php';
-
-        if (!file_exists($configPath)) {
-            throw new \tao_models_classes_FileNotFoundException("File not found");
-        }
 
         $parts = explode('*/', $subPath, 2);
         if (count($parts) < 2) {
@@ -49,12 +93,10 @@ class FlyTokenWebSource extends TokenWebSource
         }
         list ($subPath, $file) = $parts;
 
-        $config = include $configPath;
-        $compiledPath = $config['options']['path'];
-        $secretPassphrase = $config['options']['secret'];
-        $ttl = $config['options']['ttl'];
+        $secret = $this->getOption('secret');
+        $ttl = $this->getOption('ttl');
 
-        $correctToken = md5($timestamp . $subPath . $secretPassphrase);
+        $correctToken = md5($timestamp . $subPath . $secret);
 
         if (time() - $timestamp > $ttl || $token != $correctToken) {
             throw new \tao_models_classes_FileNotFoundException("File not found");
@@ -64,16 +106,17 @@ class FlyTokenWebSource extends TokenWebSource
         foreach (explode('/', $subPath . $file) as $ele) {
             $path[] = rawurldecode($ele);
         }
-        $filename = $compiledPath . implode(DIRECTORY_SEPARATOR, $path);
-        if (strpos($filename, '?')) {
-            // A query string is provided with the file to be retrieved - clean up!
-            $parts = explode('?', $filename);
-            $filename = $parts[0];
-        }
+        $filename = implode(DIRECTORY_SEPARATOR, $path);
 
         return $filename;
     }
 
+    /**
+     * @param string $relativePath
+     * @return string
+     * @throws \common_exception_Error
+     * @throws \common_ext_ExtensionException
+     */
     public function getAccessUrl($relativePath) {
         $path = array();
         foreach (explode(DIRECTORY_SEPARATOR, ltrim($relativePath, DIRECTORY_SEPARATOR)) as $ele) {
@@ -83,24 +126,5 @@ class FlyTokenWebSource extends TokenWebSource
         $token = $this->generateToken($relUrl);
         $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         return $taoExtension->getConstant('BASE_URL').'getFileFlysystem.php/'.$this->getId().'/'.$token.'/'.$relUrl.'*/';
-    }
-
-    /**
-     * @param $filePath
-     * @throws \tao_models_classes_FileNotFoundException
-     * @return Stream
-     */
-    public function getFileStream($filePath)
-    {
-        if ($filePath === '') {
-            throw new \tao_models_classes_FileNotFoundException("File not found");
-        }
-        $fs = $this->getFileSystem();
-        try {
-            $resource = $fs->readStream($filePath);
-        } catch(FileNotFoundException $e) {
-            throw new \tao_models_classes_FileNotFoundException("File not found");
-        }
-        return new Stream($resource);
     }
 }

@@ -1,5 +1,4 @@
 <?php
-use oat\tao\model\websource\WebsourceManager;
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -22,14 +21,17 @@ use oat\tao\model\websource\WebsourceManager;
  */
 
 require_once __DIR__ . '/../vendor/autoload.php';
-
 use \oat\tao\model\websource\FlyTokenWebSource;
 
+\common_Config::load();
 
+$source = FlyTokenWebSource::createFromUrl();
 
-$filePath = FlyTokenWebSource::getFilePath();
-
-
-tao_helpers_Http::returnStream($stream);
-
+$path = $source->getFilePathFromUrl();
+try {
+    $stream = $source->getFileStream($path);
+    tao_helpers_Http::returnStream($stream, $source->getMimetype($path));
+} catch (\tao_models_classes_FileNotFoundException $e) {
+    header("HTTP/1.0 404 Not Found");
+}
 exit();

@@ -20,8 +20,6 @@
  */
 namespace oat\tao\model\websource;
 
-use Slim\Http\Stream;
-use League\Flysystem\FileNotFoundException;
 use \core_kernel_fileSystem_FileSystem;
 
 /**
@@ -42,23 +40,4 @@ class ActionWebSource extends BaseWebsource
 	public function getAccessUrl($relativePath) {
 	    return _url('accessFile/'.base64_encode($this->getId().' '.trim($relativePath, DIRECTORY_SEPARATOR)).'/','File', 'tao');
 	}
-
-    /**
-     * @param $filePath
-     * @throws \tao_models_classes_FileNotFoundException
-     * @return Stream
-     */
-    public function getFileStream($filePath)
-    {
-        if ($filePath === '') {
-            throw new \tao_models_classes_FileNotFoundException("File not found");
-        }
-        $fs = $this->getFileSystem();
-        try {
-            $resource = $fs->readStream($filePath);
-        } catch(FileNotFoundException $e) {
-            throw new \tao_models_classes_FileNotFoundException("File not found");
-        }
-        return new Stream($resource);
-    }
 }

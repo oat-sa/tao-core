@@ -25,6 +25,8 @@ use oat\oatbox\Configurable;
 use core_kernel_fileSystem_FileSystem;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
+use Slim\Http\Stream;
+use League\Flysystem\FileNotFoundException;
 
 /**
  * This is the base class of the Access Providers
@@ -87,6 +89,25 @@ implements Websource
         /** @var FileSystemService $fsService */
         $fsService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
         return $fsService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
+    }
+
+    /**
+     * @param $filePath
+     * @throws \tao_models_classes_FileNotFoundException
+     * @return Stream
+     */
+    public function getFileStream($filePath)
+    {
+        if ($filePath === '') {
+            throw new \tao_models_classes_FileNotFoundException("File not found");
+        }
+        $fs = $this->getFileSystem();
+        try {
+            $resource = $fs->readStream($filePath);
+        } catch(FileNotFoundException $e) {
+            throw new \tao_models_classes_FileNotFoundException("File not found");
+        }
+        return new Stream($resource);
     }
 
     /**
