@@ -336,7 +336,15 @@ class tao_helpers_Http
                 foreach ($ranges as $range) {
                     $stream->seek($range->getFirstPos());
                     $length = (($range->getLastPos() - $range->getFirstPos()) + 1);
-                    echo $stream->read($length);
+                    $bytesPerCycle = (1024 * 1024) * 0.5;
+
+                    while ($length > 0) {
+                        if ($length < $bytesPerCycle) {
+                            $bytesPerCycle = $length;
+                        }
+                        $length = $length - $bytesPerCycle;
+                        echo $stream->read($bytesPerCycle);
+                    }
                 }
             }
         } catch (HttpRangeException $e) {
