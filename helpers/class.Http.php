@@ -36,6 +36,8 @@ use Slim\Http\Environment;
 class tao_helpers_Http
 {
 
+    const BYTES_BY_CYCLE =  5242880; //1024 * 1024 * 5
+
     /**
      * @author "Patrick Plichart, <patrick@taotesting.com>"
      * @return boolean|Ambigous <unknown, string>
@@ -322,28 +324,23 @@ class tao_helpers_Http
                 header('Content-Range: bytes ' . $ranges[0]->getFirstPos() . '-' . $ranges[0]->getLastPos() . '/' . $stream->getSize());
             } else {
                 $contentLength = $stream->getSize();
+                header('HTTP/1.1 200 OK');
             }
 
-            header('HTTP/1.1 200 OK');
             header("Content-Length: " . $contentLength);
 
             if (empty($ranges)) {
-                $bytesPerCycle = (1024 * 1024) * 0.5;
                 while (!$stream->eof()) {
-                    echo $stream->read($bytesPerCycle);
+                    echo $stream->read(self::BYTES_BY_CYCLE);
                 }
             } else {
                 foreach ($ranges as $range) {
-                    $stream->seek($range->getFirstPos());
-                    $length = (($range->getLastPos() - $range->getFirstPos()) + 1);
-                    $bytesPerCycle = (1024 * 1024) * 0.5;
-
-                    while ($length > 0) {
-                        if ($length < $bytesPerCycle) {
-                            $bytesPerCycle = $length;
-                        }
-                        $length = $length - $bytesPerCycle;
-                        echo $stream->read($bytesPerCycle);
+                    $pos = $range->getFirstPos();
+                    $stream->seek($pos);
+                    while ($pos <= $range->getLastPos()) {
+                        $length = min((($range->getLastPos() - $pos) + 1), self::BYTES_BY_CYCLE);
+                        echo $stream->read($length);
+                        $pos += $length;
                     }
                 }
             }

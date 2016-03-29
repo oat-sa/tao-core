@@ -120,6 +120,12 @@ class HttpRangeTest extends TaoPhpUnitTestRunner
                 'first' => 7,
                 'last' => 9
             ],
+            [
+                'stream' => $this->getStream('0123456789'),
+                'range' => '0-0',
+                'first' => 0,
+                'last' => 0
+            ],
         ];
     }
 
