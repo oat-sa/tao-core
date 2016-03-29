@@ -308,6 +308,7 @@ class tao_helpers_Http
             $request = Request::createFromEnvironment(new Environment($_SERVER));
         }
 
+        header('Accept-Ranges: bytes');
         if (!is_null($mimeType)) {
             header('Content-Type: ' . $mimeType);
         }
