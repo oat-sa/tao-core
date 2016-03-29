@@ -35,7 +35,6 @@ use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
 use Request;
-use HttpRequest;
 use HTTPToolkit;
 
 use Exception;
@@ -403,12 +402,12 @@ class Bootstrap {
 	 *  @throws ActionEnforcingException in case of wrong module or action
 	 *  @throws tao_models_classes_UserException when a request try to acces a protected area
 	 */
-	protected function mvc()
-	{	
-		$re		= new HttpRequest();
-		$fc		= new TaoFrontController($re);
-		$fc->loadModule();
-	}
+    protected function mvc()
+    {
+        $re = \common_http_Request::currentRequest();
+        $fc = new TaoFrontController();
+        $fc->legacy($re);
+    }
 
 	/**
 	 * Load external resources for the current context
