@@ -121,8 +121,8 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function readStream($path)
     {
-        $resource =  $this->getFileSystem()->readStream($this->getRelativePath().$path);
-        return new \Slim\Http\Stream($resource);
+        $resource =  $this->read($path);
+        return new \GuzzleHttp\Psr7\Stream($resource);
     }
 
     /**
@@ -134,6 +134,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function write($path, $resource)
     {
+        common_Logger::d('Writting in ' . $this->getRelativePath().$path);
         return $this->getFileSystem()->writeStream($this->getRelativePath().$path, $resource);
     }
 
@@ -150,8 +151,9 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
         if (!$stream->isReadable()) {
             throw new common_Exception('Stream is not readable. Write to filesystem aborted.');
         }
-
-        if (($resource = fopen('data://text/plain;base64,' . base64_encode($stream->getContents()),'r'))===false) {
+        $stream->rewind();
+        $resource = GuzzleHttp\Psr7\StreamWrapper::getResource($stream);
+        if (!is_resource($resource)) {
             throw new common_Exception('Unable to create resource from the given stream. Write to filesystem aborted.');
         }
 
