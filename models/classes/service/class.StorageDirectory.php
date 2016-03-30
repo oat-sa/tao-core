@@ -19,12 +19,12 @@
  * 
  */
 
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\FileSystemService;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use League\Flysystem\Filesystem;
 use Psr\Http\Message\StreamInterface;
+
 /**
  * Represents  direxctory for file storage 
  *
@@ -104,25 +104,60 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
     }
     
     /**
-     * 
+     * Return content of file located at $path. Output as string
+     *
      * @param string $path
      * @return StreamInterface
      */
-    public function read($path) {
-        return $this->getFileSystem()->readStream($this->getRelativePath().$path);
+    public function read($path)
+    {
+        return  $this->getFileSystem()->readStream($this->getRelativePath().$path);
     }
-    
+
     /**
-     * Store a file in the directory
-     * 
+     * Return content of file located at $path. Output as stream
+     * @param $path
+     * @return \Slim\Http\Stream
+     */
+    public function readStream($path)
+    {
+        $resource =  $this->getFileSystem()->readStream($this->getRelativePath().$path);
+        return new \Slim\Http\Stream($resource);
+    }
+
+    /**
+     * Store a file in the directory from resource
+     *
      * @param string $path
      * @param mixed $resource
      * @return boolean
      */
-    public function write($path, $resource) {
+    public function write($path, $resource)
+    {
         return $this->getFileSystem()->writeStream($this->getRelativePath().$path, $resource);
     }
-    
+
+    /**
+     * Store a file in the directory from stream
+     *
+     * @param $path
+     * @param StreamInterface $stream
+     * @return bool
+     * @throws common_Exception
+     */
+    public function writeStream($path, StreamInterface $stream)
+    {
+        if (!$stream->isReadable()) {
+            throw new common_Exception('Stream is not readable. Write to filesystem aborted.');
+        }
+
+        if (($resource = fopen('data://text/plain;base64,' . base64_encode($stream->getContents()),'r'))===false) {
+            throw new common_Exception('Unable to create resource from the given stream. Write to filesystem aborted.');
+        }
+
+        return $this->write($path, $resource);
+    }
+
     /**
      * @return Filesystem
      */
