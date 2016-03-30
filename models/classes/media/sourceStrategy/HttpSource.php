@@ -99,13 +99,11 @@ class HttpSource implements MediaBrowser
     {
         $url = str_replace('\/', '/', $link);
         common_Logger::d('Getting Stream ' . $url);
-        helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::NO_TIMEOUT);
 
         if (!$fp = fopen($url, 'r')) {
             throw new \tao_models_classes_FileNotFoundException($url);
         }
         $stream = new Stream($fp);
-        helpers_TimeOutHelper::reset();
 
         return $stream;
     }
