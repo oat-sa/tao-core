@@ -23,11 +23,11 @@ namespace oat\tao\model\http;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * Class HttpRange
+ * Class SourceRange
  * @package oat\tao\model\http
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class HttpRange
+class SourceRange
 {
     /**
      * @var integer
@@ -40,7 +40,7 @@ class HttpRange
     private $lastPos;
 
     /**
-     * HttpRange constructor.
+     * SourceRange constructor.
      * @param StreamInterface $stream
      * @param string $range
      * @throws
@@ -53,7 +53,7 @@ class HttpRange
             $this->firstPos = intval($match[1]);
 
             if ($this->firstPos > ($length - 1)) {
-                throw new HttpRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
+                throw new SourceRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
             }
             $this->lastPos = $length - 1;
 
@@ -62,19 +62,19 @@ class HttpRange
             $this->lastPos = intval($match[2]);
 
             if ($this->lastPos < $this->firstPos || $this->lastPos > ($length - 1)) {
-                throw new HttpRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
+                throw new SourceRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
             }
         } elseif (preg_match('/^\-(\d+)$/', $range, $match)) {
             $suffixLength = intval($match[1]);
 
             if ($suffixLength === 0 || $suffixLength > $length) {
-                throw new HttpRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
+                throw new SourceRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
             }
 
             $this->firstPos = $length - $suffixLength;
             $this->lastPos = $length - 1;
         } else {
-            throw new HttpRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
+            throw new SourceRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
     }
 

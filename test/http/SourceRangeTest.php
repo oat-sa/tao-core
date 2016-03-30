@@ -19,16 +19,16 @@
  */
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\tao\model\http\HttpRange;
-use oat\tao\model\http\HttpRangeException;
+use oat\tao\model\http\SourceRange;
+use oat\tao\model\http\SourceRangeException;
 use Slim\Http\Stream;
 
 /**
- * Class HttpRange
+ * Class SourceRangeTest
  * @package tao
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class HttpRangeTest extends TaoPhpUnitTestRunner
+class SourceRangeTest extends TaoPhpUnitTestRunner
 {
 
 
@@ -43,18 +43,18 @@ class HttpRangeTest extends TaoPhpUnitTestRunner
      */
     public function testConstruct($stream, $rangeValue, $first, $last)
     {
-        $range = new HttpRange($stream, $rangeValue);
+        $range = new SourceRange($stream, $rangeValue);
         $this->assertEquals($first, $range->getFirstPos());
         $this->assertEquals($last, $range->getLastPos());
     }
 
     /**
      * @dataProvider wrongRangesProvider
-     * @expectedException \oat\tao\model\http\HttpRangeException
+     * @expectedException \oat\tao\model\http\SourceRangeException
      */
     public function testConstructExcept($stream, $rangeValue)
     {
-        $range = new HttpRange($stream, $rangeValue);
+        $range = new SourceRange($stream, $rangeValue);
     }
 
 

@@ -23,10 +23,10 @@ namespace oat\tao\model\http;
 use Exception;
 
 /**
- * Class HttpRangeException
+ * Class SourceRangeException
  * @package oat\tao\model\http
  */
-class HttpRangeException extends Exception
+class SourceRangeException extends Exception
 {
     public function __construct($message, $code = 0, Exception $previous = null) {
         parent::__construct($message, $code, $previous);

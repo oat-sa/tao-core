@@ -20,13 +20,10 @@
  *
  */
 use oat\tao\helpers\FileUploadException;
-use oat\tao\model\http\HttpRange;
-use oat\tao\model\http\HttpRangeException;
-use oat\tao\helpers\HttpRang;
+use oat\tao\model\http\SourceRange;
+use oat\tao\model\http\SourceRangeException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Http\Request;
-use Slim\Http\Environment;
 
 /**
  * Description of class
@@ -37,6 +34,8 @@ class tao_helpers_Http
 {
 
     const BYTES_BY_CYCLE =  5242880; //1024 * 1024 * 5
+
+    static $headers;
 
     /**
      * @author "Patrick Plichart, <patrick@taotesting.com>"
@@ -88,9 +87,37 @@ class tao_helpers_Http
         return $needed_parts ? false : $data;
     }
 
+    /**
+     * Return array of HTTP headers from the current request
+     * @return array|false
+     */
     public static function getHeaders()
     {
-        return apache_request_headers();
+        if (self::$headers === null) {
+            if (function_exists('apache_request_headers')) {
+                $headers = apache_request_headers();
+            } else {
+                $headers = array();
+                if (isset($_SERVER['CONTENT_TYPE'])) {
+                    $headers['Content-Type'] = $_SERVER['CONTENT_TYPE'];
+                }
+                if (isset($_ENV['CONTENT_TYPE'])) {
+                    $headers['Content-Type'] = $_ENV['CONTENT_TYPE'];
+                }
+                foreach ($_SERVER as $key => $value) {
+                    if (substr($key, 0, 5) == "HTTP_") {
+                        // this is chaos, basically it is just there to capitalize the first
+                        // letter of every word that is not an initial HTTP and strip HTTP
+                        // code from przemek
+                        $key = str_replace(" ", "-", ucwords(strtolower(str_replace("_", " ", substr($key, 5)))));
+                        $headers[$key] = $value;
+                    }
+                }
+            }
+            self::$headers = $headers;
+        }
+
+        return self::$headers;
     }
 
     /**
@@ -341,7 +368,7 @@ class tao_helpers_Http
                     }
                 }
             }
-        } catch (HttpRangeException $e) {
+        } catch (SourceRangeException $e) {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
     }
@@ -349,14 +376,14 @@ class tao_helpers_Http
     /**
      * @param StreamInterface $stream
      * @param ServerRequestInterface $request
-     * @throws HttpRangeException
-     * @return HttpRange[]
+     * @throws SourceRangeException
+     * @return SourceRange[]
      */
     private static function getRanges(StreamInterface $stream, ServerRequestInterface $request = null)
     {
         $result = [];
         if ($request === null) {
-            $headers = getallheaders();
+            $headers = self::getHeaders();
             $rangeHeader = isset($headers['Range']) ? [$headers['Range']] : null;
         } else {
             $rangeHeader = $request->hasHeader('Range') ? $request->getHeader('Range') : null;
@@ -365,7 +392,7 @@ class tao_helpers_Http
             $ranges = explode(',', $rangeHeader[0]);
             foreach($ranges as $range) {
                 $range = str_replace('bytes=', '', $range);
-                $result[] = new HttpRange($stream, $range);
+                $result[] = new SourceRange($stream, $range);
             }
         }
         return $result;
