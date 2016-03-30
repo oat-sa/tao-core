@@ -356,7 +356,7 @@ class tao_helpers_Http
     {
         $result = [];
         if ($request === null) {
-            $headers = apache_request_headers();
+            $headers = getallheaders();
             $rangeHeader = isset($headers['Range']) ? [$headers['Range']] : null;
         } else {
             $rangeHeader = $request->hasHeader('Range') ? $request->getHeader('Range') : null;
