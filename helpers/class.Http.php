@@ -304,10 +304,6 @@ class tao_helpers_Http
      */
     public static function returnStream(StreamInterface $stream, $mimeType = null, ServerRequestInterface $request = null)
     {
-        if ($request === null) {
-            $request = Request::createFromEnvironment(new Environment($_SERVER));
-        }
-
         header('Accept-Ranges: bytes');
         if (!is_null($mimeType)) {
             header('Content-Type: ' . $mimeType);
@@ -356,11 +352,16 @@ class tao_helpers_Http
      * @throws HttpRangeException
      * @return HttpRange[]
      */
-    private static function getRanges(StreamInterface $stream, ServerRequestInterface $request)
+    private static function getRanges(StreamInterface $stream, ServerRequestInterface $request = null)
     {
         $result = [];
-        if ($request->hasHeader('Range')) {
-            $rangeHeader = $request->getHeader('Range');
+        if ($request === null) {
+            $headers = apache_request_headers();
+            $rangeHeader = isset($headers['Range']) ? [$headers['Range']] : null;
+        } else {
+            $rangeHeader = $request->hasHeader('Range') ? $request->getHeader('Range') : null;
+        }
+        if ($rangeHeader) {
             $ranges = explode(',', $rangeHeader[0]);
             foreach($ranges as $range) {
                 $range = str_replace('bytes=', '', $range);

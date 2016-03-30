@@ -32,6 +32,20 @@ class FlyTokenWebSource extends TokenWebSource
 
     static $instances = [];
 
+    protected $fsService;
+
+    /**
+     * @return \League\Flysystem\Filesystem
+     */
+    public function getFileSystem()
+    {
+        /** @var FileSystemService $fsService */
+        if ($this->fsService === null) {
+            $this->fsService = include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'generis' . DIRECTORY_SEPARATOR . 'filesystem.conf.php';
+        }
+        return $this->fsService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
+    }
+
     /**
      * /**
      * get instance from url.
