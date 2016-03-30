@@ -23,9 +23,6 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 use \oat\tao\model\websource\FlyTokenWebSource;
 
-//load generis constants
-\common_Config::load();
-
 $source = FlyTokenWebSource::createFromUrl();
 
 $path = $source->getFilePathFromUrl();
