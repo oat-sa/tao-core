@@ -20,8 +20,8 @@
  *
  */
 use oat\tao\helpers\FileUploadException;
-use oat\tao\model\http\SourceRange;
-use oat\tao\model\http\SourceRangeException;
+use oat\tao\model\http\StreamRange;
+use oat\tao\model\http\StreamRangeException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -337,7 +337,7 @@ class tao_helpers_Http
         }
 
         try{
-            $ranges = self::getRanges($stream, $request);
+            $ranges = StreamRange::createFromRequest($stream, $request);
             $contentLength = 0;
             if (!empty($ranges)) {
                 header('HTTP/1.1 206 Partial Content');
@@ -368,34 +368,8 @@ class tao_helpers_Http
                     }
                 }
             }
-        } catch (SourceRangeException $e) {
+        } catch (StreamRangeException $e) {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
     }
-
-    /**
-     * @param StreamInterface $stream
-     * @param ServerRequestInterface $request
-     * @throws SourceRangeException
-     * @return SourceRange[]
-     */
-    private static function getRanges(StreamInterface $stream, ServerRequestInterface $request = null)
-    {
-        $result = [];
-        if ($request === null) {
-            $headers = self::getHeaders();
-            $rangeHeader = isset($headers['Range']) ? [$headers['Range']] : null;
-        } else {
-            $rangeHeader = $request->hasHeader('Range') ? $request->getHeader('Range') : null;
-        }
-        if ($rangeHeader) {
-            $ranges = explode(',', $rangeHeader[0]);
-            foreach($ranges as $range) {
-                $range = str_replace('bytes=', '', $range);
-                $result[] = new SourceRange($stream, $range);
-            }
-        }
-        return $result;
-    }
-
 }

@@ -21,13 +21,14 @@
 namespace oat\tao\model\http;
 
 use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Class SourceRange
+ * Class StreamRange
  * @package oat\tao\model\http
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class SourceRange
+class StreamRange
 {
     /**
      * @var integer
@@ -40,7 +41,7 @@ class SourceRange
     private $lastPos;
 
     /**
-     * SourceRange constructor.
+     * StreamRange constructor.
      * @param StreamInterface $stream
      * @param string $range
      * @throws
@@ -53,7 +54,7 @@ class SourceRange
             $this->firstPos = intval($match[1]);
 
             if ($this->firstPos > ($length - 1)) {
-                throw new SourceRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
+                throw new StreamRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
             }
             $this->lastPos = $length - 1;
 
@@ -62,20 +63,46 @@ class SourceRange
             $this->lastPos = intval($match[2]);
 
             if ($this->lastPos < $this->firstPos || $this->lastPos > ($length - 1)) {
-                throw new SourceRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
+                throw new StreamRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
             }
         } elseif (preg_match('/^\-(\d+)$/', $range, $match)) {
             $suffixLength = intval($match[1]);
 
             if ($suffixLength === 0 || $suffixLength > $length) {
-                throw new SourceRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
+                throw new StreamRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
             }
 
             $this->firstPos = $length - $suffixLength;
             $this->lastPos = $length - 1;
         } else {
-            throw new SourceRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
+            throw new StreamRangeException('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
+    }
+
+    /**
+     * Create array of StreamRange instances based on current request range headers
+     * @param StreamInterface $stream
+     * @param ServerRequestInterface $request
+     * @throws StreamRangeException
+     * @return StreamRange[]
+     */
+    public static function createFromRequest(StreamInterface $stream, ServerRequestInterface $request = null)
+    {
+        $result = [];
+        if ($request === null) {
+            $headers = self::getHeaders();
+            $rangeHeader = isset($headers['Range']) ? [$headers['Range']] : null;
+        } else {
+            $rangeHeader = $request->hasHeader('Range') ? $request->getHeader('Range') : null;
+        }
+        if ($rangeHeader) {
+            $ranges = explode(',', $rangeHeader[0]);
+            foreach($ranges as $range) {
+                $range = str_replace('bytes=', '', $range);
+                $result[] = new StreamRange($stream, $range);
+            }
+        }
+        return $result;
     }
 
     /**
