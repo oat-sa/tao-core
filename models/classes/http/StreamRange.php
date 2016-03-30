@@ -90,7 +90,7 @@ class StreamRange
     {
         $result = [];
         if ($request === null) {
-            $headers = self::getHeaders();
+            $headers = \tao_helpers_Http::getHeaders();
             $rangeHeader = isset($headers['Range']) ? [$headers['Range']] : null;
         } else {
             $rangeHeader = $request->hasHeader('Range') ? $request->getHeader('Range') : null;
