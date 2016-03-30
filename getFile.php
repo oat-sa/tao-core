@@ -21,8 +21,6 @@ use oat\tao\model\websource\WebsourceManager;
  *
  */
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 require_once '../generis/helpers/class.File.php';
 require_once '../tao/helpers/class.File.php';
 require_once '../tao/helpers/class.Http.php';
