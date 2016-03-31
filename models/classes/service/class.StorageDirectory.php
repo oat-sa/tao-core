@@ -151,7 +151,9 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
         if (!$stream->isReadable()) {
             throw new common_Exception('Stream is not readable. Write to filesystem aborted.');
         }
-        $stream->rewind();
+        if ($stream->isSeekable()) {
+            $stream->rewind();
+        }
         $resource = GuzzleHttp\Psr7\StreamWrapper::getResource($stream);
         if (!is_resource($resource)) {
             throw new common_Exception('Unable to create resource from the given stream. Write to filesystem aborted.');
