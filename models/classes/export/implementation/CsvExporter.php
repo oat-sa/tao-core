@@ -53,9 +53,12 @@ class CsvExporter extends AbstractFileExporter
             $file->fputcsv($row, $delimiter, $enclosure);
         }
 
-        $length = $file->ftell();
         $file->rewind();
-        $exportData = trim($file->fread($length));
+        $exportData = '';
+        while (!$file->eof()) {
+            $exportData .= $file->fgets();
+        }
+        $exportData = trim($exportData);
 
         if ($download) {
             $this->download($exportData, 'export.csv');
