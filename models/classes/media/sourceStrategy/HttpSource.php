@@ -84,7 +84,25 @@ class HttpSource implements MediaBrowser
         
         return $fileName;
     }
-    
+
+    public function getBaseName($link)
+    {
+        $url = str_replace('\/', '/', $link);
+
+        // by URL Basename
+        $stripped_url = preg_replace('/\\?.*/', '', $url);
+        $realfilename = basename($stripped_url);
+
+        $content = get_headers($url,1);
+        $content = array_change_key_case($content, CASE_LOWER);
+        // by header
+        if (isset($content['content-disposition'])) {
+            $tmp_name = explode('=', $content['content-disposition']);
+            if ($tmp_name[1]) $realfilename = trim($tmp_name[1],'";\'');
+        }
+        return $realfilename;
+    }
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\media\MediaBrowser::getDirectory()
