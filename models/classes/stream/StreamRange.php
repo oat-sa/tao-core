@@ -18,14 +18,14 @@
  *
  */
 
-namespace oat\tao\model\http;
+namespace oat\tao\model\stream;
 
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class StreamRange
- * @package oat\tao\model\http
+ * @package oat\tao\model\stream
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
 class StreamRange

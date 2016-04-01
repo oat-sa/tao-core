@@ -20,8 +20,8 @@
  *
  */
 use oat\tao\helpers\FileUploadException;
-use oat\tao\model\http\StreamRange;
-use oat\tao\model\http\StreamRangeException;
+use oat\tao\model\stream\StreamRange;
+use oat\tao\model\stream\StreamRangeException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

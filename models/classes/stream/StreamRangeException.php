@@ -18,13 +18,13 @@
  *
  */
 
-namespace oat\tao\model\http;
+namespace oat\tao\model\stream;
 
 use Exception;
 
 /**
  * Class StreamRangeException
- * @package oat\tao\model\http
+ * @package oat\tao\model\stream
  */
 class StreamRangeException extends Exception
 {

@@ -19,8 +19,8 @@
  */
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\tao\model\http\StreamRange;
-use oat\tao\model\http\StreamRangeException;
+use oat\tao\model\stream\StreamRange;
+use oat\tao\model\stream\StreamRangeException;
 use Slim\Http\Stream;
 
 /**
@@ -50,7 +50,7 @@ class StreamRangeTest extends TaoPhpUnitTestRunner
 
     /**
      * @dataProvider wrongRangesProvider
-     * @expectedException \oat\tao\model\http\StreamRangeException
+     * @expectedException \oat\tao\model\stream\StreamRangeException
      */
     public function testConstructExcept($stream, $rangeValue)
     {
