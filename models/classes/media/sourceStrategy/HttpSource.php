@@ -20,9 +20,9 @@
 namespace oat\tao\model\media\sourceStrategy;
 
 use common_Logger;
+use GuzzleHttp\Client;
 use helpers_TimeOutHelper;
 use oat\tao\model\media\MediaBrowser;
-use Slim\Http\Stream;
 
 /**
  * This media source gives access to files not part of the Tao platform
@@ -95,16 +95,24 @@ class HttpSource implements MediaBrowser
         throw new \common_Exception('Unable to browse the internet');
     }
 
+
     public function getFileStream($link)
     {
         $url = str_replace('\/', '/', $link);
         common_Logger::d('Getting Stream ' . $url);
 
-        if (!$fp = fopen($url, 'r')) {
-            throw new \tao_models_classes_FileNotFoundException($url);
-        }
-        $stream = new Stream($fp);
-
+        $response = $this->getRequest($url);
+        $stream = $response->getBody();
         return $stream;
+    }
+
+    /**
+     * @param $url
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    private function getRequest($url)
+    {
+        $client = new Client();
+        return $client->get($url);
     }
 }
