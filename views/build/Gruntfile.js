@@ -36,7 +36,6 @@ module.exports = function(grunt) {
         'jquery',
         'jqueryui',
         'filereader',
-        'store',
         'select2',
         'lodash',
         'async',
