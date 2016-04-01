@@ -27,6 +27,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     protected $fsPath;
     protected $adapterUrl ;
     protected $instance;
+    protected $sampleDir;
 
     /**
      * tests initialization
@@ -37,6 +38,8 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $this->path = 'samples/';
         $this->fsPath = 'path/directory/';
         $this->adapterUrl = 'fixtureUrl';
+
+        $this->sampleDir = tao_helpers_File::createTempDir();
     }
 
     public function tearDown()
@@ -45,9 +48,20 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
             unset($this->instance);
         }
 
-        if (file_exists(__DIR__ . '/samples/test.php')) {
-           unlink(__DIR__ . '/samples/test.php');
+        $this->rrmdir($this->sampleDir);
+    }
+
+    protected function rrmdir($dir)
+    {
+        foreach(glob($dir . '/*') as $file) {
+            if(is_dir($file)) {
+                $this->rrmdir($file);
+            }
+            else {
+                unlink($file);
+            }
         }
+        rmdir($dir);
     }
 
     /**
@@ -169,12 +183,12 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     public function getServiceLocatorWithFileSystem()
     {
         $adaptersFixture = array (
-            'filesPath' => __DIR__ ,
+            'filesPath' => $this->sampleDir,
             'adapters' => array (
                 $this->adapterUrl => array(
                     'class' => 'Local',
                     'options' => array(
-                        'root' => __DIR__
+                        'root' => $this->sampleDir
                     )
                 )
             )
@@ -184,32 +198,33 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
 
         $smProphecy = $this->prophesize(\Zend\ServiceManager\ServiceLocatorInterface::class);
         $smProphecy->get(\oat\oatbox\filesystem\FileSystemService::SERVICE_ID)->willReturn($fileSystemService);
-
         return $smProphecy->reveal();
     }
+
 
     /**
      * Test read and write from resource
      */
     public function testReadWriteUsingAdapter()
     {
+        $tmpFile = uniqid() . '.php';
         $this->instance = $this->getDirectoryStorage();
         $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
         $this->instance->setServiceLocator($serviceLocatorFixture);
 
-        $resource = fopen(__DIR__ . '/samples/sample.php', 'r');
-        $this->instance->write('test.php', $resource);
-        $this->assertTrue(file_exists(__DIR__ . '/samples/test.php'));
+        $resource = fopen(__DIR__ . '/samples/sample.php', 'a+');
+        rewind($resource);
+        $this->instance->write($tmpFile, $resource);
+        $this->assertTrue(file_exists($this->sampleDir . $this->path . $tmpFile));
         fclose($resource);
-
-        $readFixture = $this->instance->read('test.php');
-        $this->assertTrue(is_resource($readFixture));
-        fclose($readFixture);
-
         $this->assertEquals(
             file_get_contents(__DIR__ . '/samples/sample.php'),
-            file_get_contents(__DIR__ . '/samples/test.php')
+            file_get_contents($this->sampleDir . $this->path . $tmpFile)
         );
+
+        $readFixture = $this->instance->read($tmpFile);
+        $this->assertTrue(is_resource($readFixture));
+        fclose($readFixture);
     }
 
     /**
@@ -217,6 +232,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
      */
     public function testWriteReadStream()
     {
+        $tmpFile = uniqid() . '.php';
         $this->instance = $this->getDirectoryStorage();
         $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
         $this->instance->setServiceLocator($serviceLocatorFixture);
@@ -224,55 +240,35 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $resource = fopen(__DIR__ . '/samples/sample.php', 'r');
         $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
 
-        $this->instance->writeStream('test.php', $streamFixture);
-        $this->assertTrue(file_exists(__DIR__ . '/samples/test.php'));
+        $this->instance->writeStream($tmpFile, $streamFixture);
+        $this->assertTrue(file_exists($this->sampleDir . $this->path . $tmpFile));
         fclose($resource);
         $streamFixture->close();
+        $this->assertEquals(
+            file_get_contents(__DIR__ . '/samples/sample.php'),
+            file_get_contents($this->sampleDir . $this->path . $tmpFile)
+        );
 
-        $readFixture = $this->instance->readStream('test.php');
+        $readFixture = $this->instance->readStream($tmpFile);
         $this->assertInstanceOf(GuzzleHttp\Psr7\Stream::class, $readFixture);
         $readFixture->close();
 
-        $this->assertEquals(
-            file_get_contents(__DIR__ . '/samples/sample.php'),
-            file_get_contents(__DIR__ . '/samples/test.php')
-        );
     }
 
+    /**
+     * Test write stream in case of remote resource
+     */
     public function testUnseekableWriteStream()
     {
+        $tmpFile = uniqid() . '.php';
         $this->instance = $this->getDirectoryStorage();
         $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
         $this->instance->setServiceLocator($serviceLocatorFixture);
 
-
-        $opts = array(
-            'http'=>array(
-                'method'=>"GET",
-                'header'=>"Accept-language: en\r\n"
-            )
-        );
-
-        $context = stream_context_create($opts);
-
-        /* Sends an http request to www.example.com
-           with additional headers shown above */
-        $fp = fopen('http://docs.guzzlephp.org/', 'r', false, $context);
-        $streamFixture = new \Slim\Http\Stream($fp);
-        $this->assertTrue($this->instance->writeStream('test.php', $streamFixture));
-        fclose($fp);
-
-
-        //$src  = fopen('https://www.google.lu', 'r');
-       // $src = fopen(__DIR__ . '/samples/sample.php', 'r');
-       // $client = new \GuzzleHttp\Client();
-        // $stream = $client->get('http://www.google.org', array('stream' => true));
-
-        //$dest = fopen(__DIR__ . '/samples/test.php', 'w+');
-       // stream_copy_to_stream($src, $dest);
-        // $streamFixture = GuzzleHttp\Psr7\stream_for($stream);
-        //  var_dump($streamFixture->getContents());
-        // $this->assertTrue($this->instance->writeStream('test.php', $streamFixture));
+        $client = new \GuzzleHttp\Client();
+        $response = $client->get('http://www.google.org');
+        $this->assertTrue($this->instance->writeStream($tmpFile, $response->getBody()));
+        $this->assertNotEquals(0, $response->getBody()->getSize());
     }
 }
 
