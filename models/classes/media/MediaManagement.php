@@ -39,10 +39,10 @@ interface MediaManagement extends MediaBrowser{
 
 
     /**
-     * @param $filename
+     * @param $link
      * @return boolean the removal was successful
      */
-    public function delete($filename);
+    public function delete($link);
 
 
 } 
