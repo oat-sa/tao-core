@@ -48,7 +48,7 @@ implements Websource
 	 * 
 	 * @var core_kernel_fileSystem_FileSystem
 	 */
-	private $fileSystem = null;
+	protected $fileSystem = null;
 
 	/**
 	 * Identifier of the Access Provider 
@@ -86,9 +86,12 @@ implements Websource
      */
     public function getFileSystem()
     {
-        /** @var FileSystemService $fsService */
-        $fsService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
-        return $fsService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
+        if ($this->fileSystem === null) {
+            /** @var FileSystemService $fsService */
+            $fsService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
+            $this->fileSystem = $fsService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
+        }
+        return $this->fileSystem;
     }
 
     /**

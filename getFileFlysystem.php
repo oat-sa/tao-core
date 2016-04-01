@@ -21,12 +21,42 @@
  */
 
 require_once __DIR__ . '/../vendor/autoload.php';
-use \oat\tao\model\websource\FlyTokenWebSource;
 
-$source = FlyTokenWebSource::createFromUrl();
+use oat\tao\model\websource\FlyTokenWebSource;
+use oat\tao\model\websource\TokenWebSource;
 
-$path = $source->getFilePathFromUrl();
+$url = $_SERVER['REQUEST_URI'];
+$rel = substr($url, strpos($url, FlyTokenWebSource::ENTRY_POINT) + strlen(FlyTokenWebSource::ENTRY_POINT));
+$parts = explode('/', $rel, 2);
+list ($webSourceId) = $parts;
+$webSourceId = preg_replace('/[^a-zA-Z0-9]*/', '', $webSourceId);
+$configPath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR . 'websource_' . $webSourceId . '.conf.php';
+
+if (!file_exists($configPath)) {
+    header('HTTP/1.0 403 Forbidden');
+    die();
+}
+
+$config = include $configPath;
+if (!is_array($config) || !isset($config['className'])) {
+    header('HTTP/1.0 403 Forbidden');
+    die();
+}
+$className = $config['className'];
+$options = isset($config['options']) ? $config['options'] : array();
+$source = new $className($options);
+if (!$source instanceof TokenWebSource) {
+    header('HTTP/1.0 403 Forbidden');
+    die();
+}
+
+$root = $_SERVER['DOCUMENT_ROOT'];
+$fsService = include $root . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'generis' . DIRECTORY_SEPARATOR . 'filesystem.conf.php';
+$fileSystem = $fsService->getFileSystem($source->getOption($source::OPTION_FILESYSTEM_ID));
+$source->setFileSystem($fileSystem);
+
 try {
+    $path = $source->getFilePathFromUrl($url);
     $stream = $source->getFileStream($path);
     tao_helpers_Http::returnStream($stream, $source->getMimetype($path));
 } catch (\tao_models_classes_FileNotFoundException $e) {

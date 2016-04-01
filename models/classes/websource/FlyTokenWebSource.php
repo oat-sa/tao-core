@@ -35,54 +35,11 @@ class FlyTokenWebSource extends TokenWebSource
     protected $fsService;
 
     /**
-     * @return \League\Flysystem\Filesystem
+     * @param $fileSystem
      */
-    public function getFileSystem()
+    public function setFileSystem($fileSystem)
     {
-        /** @var FileSystemService $fsService */
-        if ($this->fsService === null) {
-            $this->fsService = include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'generis' . DIRECTORY_SEPARATOR . 'filesystem.conf.php';
-        }
-        return $this->fsService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
-    }
-
-    /**
-     * /**
-     * get instance from url.
-     * @param string|null $url
-     * @return FlyTokenWebSource
-     * @throws \common_exception_InconsistentData
-     * @throws WebsourceNotFound
-     * @throws \tao_models_classes_FileNotFoundException
-     */
-    public static function createFromUrl($url = null)
-    {
-        if ($url === null) {
-            $url = $_SERVER['REQUEST_URI'];
-        }
-        $rel = substr($url, strpos($url, self::ENTRY_POINT) + strlen(self::ENTRY_POINT));
-        $parts = explode('/', $rel, 2);
-        list ($webSourceId) = $parts;
-        $webSourceId = preg_replace('/[^a-zA-Z0-9]*/', '', $webSourceId);
-        if (!isset($instances[$webSourceId])) {
-            $configPath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR . 'websource_' . $webSourceId . '.conf.php';
-
-            if (!file_exists($configPath)) {
-                throw new \tao_models_classes_FileNotFoundException("Config file not found");
-            }
-
-            $config = include $configPath;
-            if (!is_array($config) || !isset($config['className'])) {
-                throw new WebsourceNotFound('Undefined websource ' . $webSourceId);
-            }
-            $className = $config['className'];
-            $options = isset($config['options']) ? $config['options'] : array();
-            $instances[$webSourceId] = new $className($options);
-            if (!$instances[$webSourceId] instanceof TokenWebSource) {
-                throw new \common_exception_InconsistentData('Unexpected websource class');
-            }
-        }
-        return $instances[$webSourceId];
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -91,11 +48,8 @@ class FlyTokenWebSource extends TokenWebSource
      * @return string
      * @throws \tao_models_classes_FileNotFoundException
      */
-    public function getFilePathFromUrl($url = null)
+    public function getFilePathFromUrl($url)
     {
-        if ($url === null) {
-            $url = $_SERVER['REQUEST_URI'];
-        }
         $url = parse_url($url)['path']; //remove query part from url.
         $rel = substr($url, strpos($url, self::ENTRY_POINT) + strlen(self::ENTRY_POINT));
         $parts = explode('/', $rel, 4);
