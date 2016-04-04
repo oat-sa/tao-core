@@ -212,7 +212,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
         $this->instance->setServiceLocator($serviceLocatorFixture);
 
-        $resource = fopen(__DIR__ . '/samples/sample.php', 'a+');
+        $resource = fopen(__DIR__ . '/samples/sample.php', 'r');
         rewind($resource);
         $this->instance->write($tmpFile, $resource);
         $this->assertTrue(file_exists($this->sampleDir . $this->path . $tmpFile));
