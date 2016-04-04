@@ -19,9 +19,9 @@
  */
 namespace oat\tao\model\media\sourceStrategy;
 
-use oat\tao\model\media\MediaBrowser;
 use common_Logger;
 use helpers_TimeOutHelper;
+use oat\tao\model\media\MediaBrowser;
 
 /**
  * This media source gives access to files not part of the Tao platform
@@ -90,16 +90,24 @@ class HttpSource implements MediaBrowser
         $url = str_replace('\/', '/', $link);
 
         // by URL Basename
-        $stripped_url = preg_replace('/\\?.*/', '', $url);
-        $realfilename = basename($stripped_url);
+        $path = parse_url($url, PHP_URL_PATH);
+        $realfilename = basename($path);
 
-        $content = get_headers($url,1);
-        $content = array_change_key_case($content, CASE_LOWER);
-        // by header
-        if (isset($content['content-disposition'])) {
-            $tmp_name = explode('=', $content['content-disposition']);
-            if ($tmp_name[1]) $realfilename = trim($tmp_name[1],'";\'');
+        try {
+            $content = get_headers($url, 1);
+            $content = array_change_key_case($content, CASE_LOWER);
+            // by header
+            if (isset($content['content-disposition'])) {
+                $tmp_name = explode('=', $content['content-disposition']);
+                if ($tmp_name[1]) {
+                    $realfilename = trim($tmp_name[1], '";\'');
+                }
+            }
+        } catch (\Exception $e) {
+            common_Logger::d($e->getMessage());
+            throw new \tao_models_classes_FileNotFoundException($url);
         }
+
         return $realfilename;
     }
 
