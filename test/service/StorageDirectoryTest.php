@@ -212,12 +212,12 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
         $this->instance->setServiceLocator($serviceLocatorFixture);
 
-        $resource = fopen(__DIR__ . '/samples/sample.php', 'r');
+        $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
         $this->instance->write($tmpFile, $resource);
         $this->assertTrue(file_exists($this->sampleDir . $this->path . $tmpFile));
         fclose($resource);
         $this->assertEquals(
-            file_get_contents(__DIR__ . '/samples/sample.php'),
+            file_get_contents(__DIR__ . '/samples/43bytes.php'),
             file_get_contents($this->sampleDir . $this->path . $tmpFile)
         );
 
@@ -236,7 +236,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
         $this->instance->setServiceLocator($serviceLocatorFixture);
 
-        $resource = fopen(__DIR__ . '/samples/sample.php', 'r');
+        $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
         $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
 
         $this->instance->writeStream($tmpFile, $streamFixture);
@@ -244,7 +244,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         fclose($resource);
         $streamFixture->close();
         $this->assertEquals(
-            file_get_contents(__DIR__ . '/samples/sample.php'),
+            file_get_contents(__DIR__ . '/samples/43bytes.php'),
             file_get_contents($this->sampleDir . $this->path . $tmpFile)
         );
 
@@ -280,7 +280,9 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
         $this->instance->setServiceLocator($serviceLocatorFixture);
 
-        $resource = fopen(__DIR__ . '/samples/sample.php', 'r+');
+        $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
+        fseek($resource, 43);
+       // echo filesize(__DIR__ . '/samples/43bytes.php');
         $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
 
         $this->instance->writeStream($tmpFile, $streamFixture);
@@ -288,7 +290,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         fclose($resource);
         $streamFixture->close();
         $this->assertEquals(
-            file_get_contents(__DIR__ . '/samples/sample.php'),
+            file_get_contents(__DIR__ . '/samples/43bytes.php'),
             file_get_contents($this->sampleDir . $this->path . $tmpFile)
         );
 
@@ -296,5 +298,20 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf(GuzzleHttp\Psr7\Stream::class, $readFixture);
         $readFixture->close();
     }
+     public function testUnseekableResource()
+     {
+         $tmpFile = uniqid() . '.php';
+         $this->instance = $this->getDirectoryStorage();
+         $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
+         $this->instance->setServiceLocator($serviceLocatorFixture);
+
+         $resource = fopen('http://www.google.org', 'r');
+         $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
+
+         $this->setExpectedException(common_Exception::class);
+         $this->instance->writeStream($tmpFile, $streamFixture);
+
+         fclose($resource);
+     }
 }
 
