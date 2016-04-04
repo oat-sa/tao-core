@@ -212,8 +212,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
         $this->instance->setServiceLocator($serviceLocatorFixture);
 
-        $resource = fopen(__DIR__ . '/samples/sample.php', 'a');
-        rewind($resource);
+        $resource = fopen(__DIR__ . '/samples/sample.php', 'r');
         $this->instance->write($tmpFile, $resource);
         $this->assertTrue(file_exists($this->sampleDir . $this->path . $tmpFile));
         fclose($resource);
@@ -258,7 +257,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     /**
      * Test write stream in case of remote resource
      */
-    public function testUnseekableWriteStream()
+    public function testWriteRemoteStream()
     {
         $tmpFile = uniqid() . '.php';
         $this->instance = $this->getDirectoryStorage();
@@ -269,6 +268,33 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $response = $client->get('http://www.google.org');
         $this->assertTrue($this->instance->writeStream($tmpFile, $response->getBody()));
         $this->assertNotEquals(0, $response->getBody()->getSize());
+    }
+
+    /**
+     * Test write stream in case of remote resource
+     */
+    public function testSeekToEndOfFileForWriteStream()
+    {
+        $tmpFile = uniqid() . '.php';
+        $this->instance = $this->getDirectoryStorage();
+        $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
+        $this->instance->setServiceLocator($serviceLocatorFixture);
+
+        $resource = fopen(__DIR__ . '/samples/sample.php', 'r+');
+        $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
+
+        $this->instance->writeStream($tmpFile, $streamFixture);
+        $this->assertTrue(file_exists($this->sampleDir . $this->path . $tmpFile));
+        fclose($resource);
+        $streamFixture->close();
+        $this->assertEquals(
+            file_get_contents(__DIR__ . '/samples/sample.php'),
+            file_get_contents($this->sampleDir . $this->path . $tmpFile)
+        );
+
+        $readFixture = $this->instance->readStream($tmpFile);
+        $this->assertInstanceOf(GuzzleHttp\Psr7\Stream::class, $readFixture);
+        $readFixture->close();
     }
 }
 
