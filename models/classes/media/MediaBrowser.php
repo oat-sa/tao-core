@@ -56,6 +56,14 @@ interface MediaBrowser {
     public function download($link);
 
     /**
+     * Get the stream linked to the media
+     * @param string $link
+     * @throws \tao_models_classes_FileNotFoundException
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    public function getFileStream($link);
+
+        /**
      * @param string $link
      * @return string baseName of the file
      * @throws \tao_models_classes_FileNotFoundException
