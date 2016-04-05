@@ -20,7 +20,7 @@
  * Test the indexdb store backend
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise){
+define(['core/store/localstorage', 'core/promise'], function(localStorageBackend, Promise){
     'use strict';
 
     QUnit.module('API');
@@ -28,30 +28,30 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     QUnit.test("module", function(assert){
         QUnit.expect(2);
 
-        assert.ok(typeof indexDbBackend !== 'undefined', "The module exports something");
-        assert.ok(typeof indexDbBackend === 'function', "The module exposes a function");
+        assert.ok(typeof localStorageBackend !== 'undefined', "The module exports something");
+        assert.ok(typeof localStorageBackend === 'function', "The module exposes a function");
     });
 
     QUnit.test("factory", function(assert){
         QUnit.expect(4);
 
         assert.throws(function(){
-            indexDbBackend();
+            localStorageBackend();
         }, TypeError, 'The backend should be created with a store id');
 
         assert.throws(function(){
-            indexDbBackend(false);
+            localStorageBackend(false);
         }, TypeError, 'The backend should be created with a valid store id');
 
-        var store = indexDbBackend('foo');
+        var store = localStorageBackend('foo');
 
         assert.equal(typeof store, 'object', 'The factory return an object');
-        assert.notDeepEqual(indexDbBackend('foo'), store, 'The factory creates a new object');
+        assert.notDeepEqual(localStorageBackend('foo'), store, 'The factory creates a new object');
     });
 
     QUnit.test("store", function(assert){
         QUnit.expect(5);
-        var store = indexDbBackend('foo');
+        var store = localStorageBackend('foo');
 
         assert.equal(typeof store, 'object', 'The store is an object');
         assert.equal(typeof store.getItem, 'function', 'The store exposes the getItem method');
@@ -67,7 +67,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     QUnit.asyncTest("setItem", function(assert){
         QUnit.expect(4);
 
-        var store = indexDbBackend('foo');
+        var store = localStorageBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         var p = store.setItem('bar', 'boz');
@@ -88,7 +88,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     QUnit.asyncTest("getItem", function(assert){
         QUnit.expect(5);
 
-        var store = indexDbBackend('foo');
+        var store = localStorageBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         var p = store.setItem('bar', 'noz');
@@ -113,7 +113,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     QUnit.asyncTest("removeItem", function(assert){
         QUnit.expect(5);
 
-        var store = indexDbBackend('foo');
+        var store = localStorageBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         store.setItem('moo', 'noob')
@@ -138,10 +138,37 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
         });
     });
 
+    QUnit.asyncTest("object", function(assert){
+        QUnit.expect(3);
+
+        var sample = {
+            collection : [{
+                item1: true,
+                item2: 'false',
+                item3: 12
+            },{
+                item4: { value : null }
+            }]
+        };
+        var store = localStorageBackend('foo');
+        assert.equal(typeof store, 'object', 'The store is an object');
+
+        store.setItem('sample', sample).then(function(added){
+            assert.ok(added, 'The item is added');
+            store.getItem('sample').then(function(result){
+                assert.deepEqual(result, sample, 'Retrieving the sample');
+                QUnit.start();
+            });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
     QUnit.asyncTest("clear", function(assert){
         QUnit.expect(5);
 
-        var store = indexDbBackend('foo');
+        var store = localStorageBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         Promise.all([
@@ -169,35 +196,6 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
             QUnit.start();
         });
     });
-
-    QUnit.asyncTest("object", function(assert){
-        QUnit.expect(3);
-
-        var sample = {
-            collection : [{
-                item1: true,
-                item2: 'false',
-                item3: 12
-            },{
-                item4: { value : null }
-            }]
-        };
-        var store = indexDbBackend('foo');
-        assert.equal(typeof store, 'object', 'The store is an object');
-
-        store.setItem('sample', sample).then(function(added){
-            assert.ok(added, 'The item is added');
-            store.getItem('sample').then(function(result){
-                assert.deepEqual(result, sample, 'Retrieving the sample');
-                QUnit.start();
-            });
-        }).catch(function(err){
-            assert.ok(false, err);
-            QUnit.start();
-        });
-    });
-
-
 });
 
 
