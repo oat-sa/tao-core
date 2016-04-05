@@ -55,4 +55,11 @@ interface MediaBrowser {
      */
     public function download($link);
 
+    /**
+     * @param string $link
+     * @return string baseName of the file
+     * @throws \tao_models_classes_FileNotFoundException
+     */
+    public function getBaseName($link);
+
 } 
