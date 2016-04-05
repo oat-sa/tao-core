@@ -93,19 +93,19 @@ class HttpSource implements MediaBrowser
         $path = parse_url($url, PHP_URL_PATH);
         $realfilename = basename($path);
 
-        try {
-            $content = get_headers($url, 1);
-            $content = array_change_key_case($content, CASE_LOWER);
-            // by header
-            if (isset($content['content-disposition'])) {
-                $tmp_name = explode('=', $content['content-disposition']);
-                if ($tmp_name[1]) {
-                    $realfilename = trim($tmp_name[1], '";\'');
-                }
-            }
-        } catch (\Exception $e) {
-            common_Logger::d($e->getMessage());
+        $content = @get_headers($url, 1);
+
+        if($content === false){
             throw new \tao_models_classes_FileNotFoundException($url);
+        }
+
+        $content = array_change_key_case($content, CASE_LOWER);
+        // by header
+        if (isset($content['content-disposition'])) {
+            $tmp_name = explode('=', $content['content-disposition']);
+            if ($tmp_name[1]) {
+                $realfilename = trim($tmp_name[1], '";\'');
+            }
         }
 
         return $realfilename;
