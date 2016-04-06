@@ -108,16 +108,18 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
              * @returns {Promise} with the result in resolve, undefined if nothing
              */
             getItem : function getItem(key){
-                return getStore().then(function(store){
-                    return new Promise(function(resolve, reject){
-                        var success = function success(entry){
-                            if(!entry || !entry.value){
-                                return resolve(entry);
-                            }
+                return ensureSerie(function getWritingPromise(){
+                    return getStore().then(function(store){
+                        return new Promise(function(resolve, reject){
+                            var success = function success(entry){
+                                if(!entry || !entry.value){
+                                    return resolve(entry);
+                                }
 
-                            resolve(entry.value);
-                        };
-                        store.get(key, success, reject);
+                                resolve(entry.value);
+                            };
+                            store.get(key, success, reject);
+                        });
                     });
                 });
             },
