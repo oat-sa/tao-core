@@ -1,198 +1,208 @@
-define(['core/logger/api'], function(loggerFactory){
+define(['core/store', 'core/promise'], function(store, Promise){
     'use strict';
+
+    var data = {};
+    var mockBackend = function(name){
+
+        if(!name){
+            throw new TypeError('no name');
+        }
+        return {
+            getItem : function getItem(key){
+                return Promise.resolve(data[key]);
+            },
+            setItem : function setItem(key, value){
+                data[key] = value;
+                return Promise.resolve(true);
+            },
+            removeItem : function removeItem(key){
+                delete data[key];
+                return Promise.resolve(true);
+            },
+            clear : function clear(){
+                data = {};
+                return Promise.resolve(true);
+            }
+        };
+    };
 
     QUnit.module('API');
 
     QUnit.test("module", function(assert){
-        QUnit.expect(2);
-
-        assert.ok(typeof loggerFactory !== 'undefined', "The module exports something");
-        assert.ok(typeof loggerFactory === 'function', "The module exposes a function");
-    });
-
-    QUnit.test("register", function(assert){
         QUnit.expect(3);
 
-        assert.ok(typeof loggerFactory.register === 'function', "The module exposes also a register method");
-
-        assert.throws(function(){
-            loggerFactory.register('foo');
-        }, TypeError, 'A provider is an object');
-
-        assert.throws(function(){
-            loggerFactory.register({ foo : function(){} });
-        }, TypeError, 'A provider is an object with a log method');
-
-
-        loggerFactory.register({ log : function(){} });
+        assert.ok(typeof store !== 'undefined', "The module exports something");
+        assert.ok(typeof store === 'function', "The module exposes a function");
+        assert.ok(typeof store.backends === 'object', "The module has a backends object");
     });
-
 
     QUnit.test("factory", function(assert){
-        QUnit.expect(2);
+        QUnit.expect(6);
 
-        assert.ok(typeof loggerFactory() === 'object', "The factory creates an object");
-        assert.notEqual(loggerFactory(), loggerFactory(), "The factory creates an new object");
+        assert.throws(function(){
+            store();
+        }, TypeError, 'A storeName is likely required');
+
+        assert.throws(function(){
+            store('foo', 'bar');
+        }, TypeError, 'A backend is a function');
+
+        assert.throws(function(){
+            store('foo', function(){ return 'bar'; });
+        }, TypeError, 'A backend is a function that returns a storage');
+
+        assert.throws(function(){
+            store('foo', function(){
+                return  {
+                    getItem : function(){}
+                };
+            });
+        }, TypeError, 'A backend is a function that returns a complete storage');
+
+        store('foo', mockBackend);
+
+        assert.ok(typeof store('foo') === 'object', "The factory creates an object");
+        assert.notEqual(store('foo'), store('foo'), "The factory creates an new object");
+
     });
 
-    QUnit.test("logger", function(assert){
-        QUnit.expect(9);
 
-        var logger = loggerFactory();
-        assert.equal(typeof logger, 'object', 'The logger should be an object');
-        assert.equal(typeof logger.log, 'function', 'The logger has a log method');
-        assert.equal(typeof logger.fatal, 'function', 'The logger has a fatal method');
-        assert.equal(typeof logger.error, 'function', 'The logger has an error method');
-        assert.equal(typeof logger.warn, 'function', 'The logger has a warn method');
-        assert.equal(typeof logger.info, 'function', 'The logger has an info method');
-        assert.equal(typeof logger.debug, 'function', 'The logger has a debug method');
-        assert.equal(typeof logger.trace, 'function', 'The logger has a trace method');
-        assert.equal(typeof logger.flush, 'function', 'The logger has a flush method');
-    });
-
-
-    QUnit.module('provider', {
+    QUnit.module('CRUD', {
         setup    : function(){
-            loggerFactory.providers = undefined;
+            data = {};
         }
     });
 
-    QUnit.test("level name call", function(assert){
+    QUnit.asyncTest("setItem", function(assert){
+        QUnit.expect(4);
+
+        var storage = store('foo', mockBackend);
+        assert.equal(typeof storage, 'object', 'The store is an object');
+
+        var p = storage.setItem('bar', 'boz');
+        assert.ok(p instanceof Promise, 'setItem returns a Promise');
+
+        p.then(function(result){
+
+            assert.equal(typeof result, 'boolean', 'The result is a boolean');
+            assert.ok(result, 'The item is added');
+
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("getItem", function(assert){
         QUnit.expect(5);
 
-        loggerFactory.register({
-            log : function log(message){
-                assert.equal(typeof message, 'object', 'the message object is there');
-                assert.equal(typeof message.time, 'number', 'the message has a time');
-                assert.equal(message.level, 'info', 'the level matches');
-                assert.equal(message.messages.length, 1, 'there is one message');
-                assert.equal(message.messages[0], 'foo', 'the message is correct');
-            }
-        });
+        var storage = store('foo', mockBackend);
+        assert.equal(typeof storage, 'object', 'The store is an object');
 
-        var logger = loggerFactory();
-        logger.info('foo');
-    });
+        var p = storage.setItem('bar', 'noz');
+        assert.ok(p instanceof Promise, 'setItem returns a Promise');
 
+        p.then(function(result){
+            assert.ok(result, 'The item is added');
 
-    QUnit.test("level number call", function(assert){
-        QUnit.expect(5);
+            storage.getItem('bar').then(function(value){
 
-        loggerFactory.register({
-            log : function log(message){
-                assert.equal(typeof message, 'object', 'The message object is there');
-                assert.equal(typeof message.time, 'number', 'The message has a time');
-                assert.equal(message.level, 'warn', 'The level matches');
-                assert.equal(message.messages.length, 1, 'There is one message');
-                assert.equal(message.messages[0], 'bar', 'The message is correct');
-            }
-        });
+                assert.equal(typeof value, 'string', 'The result is a string');
+                assert.equal(value, 'noz', 'The retrieved value is correct');
 
-        var logger = loggerFactory();
-        logger.log(40, 'bar');
-    });
-
-    QUnit.test("log default level call", function(assert){
-       QUnit.expect(5);
-
-       loggerFactory.register({
-            log : function log(message){
-                assert.equal(typeof message, 'object', 'the message object is there');
-                assert.equal(typeof message.time, 'number', 'the message has a time');
-                assert.equal(message.level, 'info', 'the level matches');
-                assert.equal(message.messages.length, 1, 'there is one message');
-                assert.equal(message.messages[0], 'foo', 'the message is correct');
-            }
-        });
-
-        var logger = loggerFactory();
-        logger.log('foo');
-    });
-
-    QUnit.test("multiple messages call", function(assert){
-        QUnit.expect(8);
-
-       loggerFactory.register({
-            log : function log(message){
-                assert.equal(typeof message, 'object', 'the message object is there');
-                assert.equal(typeof message.time, 'number', 'the message has a time');
-                assert.equal(message.level, 'trace', 'The level matches');
-                assert.equal(message.messages.length, 4, 'There is one message');
-                assert.equal(message.messages[0], '10', 'The message is correct');
-                assert.equal(message.messages[1], 'bar', 'The message is correct');
-                assert.deepEqual(message.messages[2], { a: 'b'}, 'The message is correct');
-                assert.deepEqual(message.messages[3], [1,2], 'The message is correct');
-            }
-        });
-
-        var logger = loggerFactory();
-        logger.trace(10, 'bar', { a : 'b'}, [1, 2]);
-    });
-
-    QUnit.test("context", function(assert){
-        QUnit.expect(3);
-        var out = {};
-        loggerFactory.register({
-            log : function log(message){
-                out[message.level] = message.context+'-'+message.messages.join('-');
-            }
-        });
-        var logger = loggerFactory('TEST');
-        logger.debug('foo');
-        logger.warn('bar');
-        logger.fatal('moo', 'nox');
-
-        assert.equal(out.debug, 'TEST-foo', 'The contxtualized message is correct');
-        assert.equal(out.warn, 'TEST-bar', 'The contxtualized message is correct');
-        assert.equal(out.fatal, 'TEST-moo-nox', 'The contxtualized message is correct');
-    });
-
-    QUnit.test("fatal with a stack", function(assert){
-        QUnit.expect(5);
-
-        loggerFactory.register({
-            log : function log(message){
-                assert.equal(typeof message, 'object', 'the message object is there');
-                assert.equal(typeof message.time, 'number', 'the message has a time');
-                assert.equal(message.level, 'fatal', 'the level matches');
-                assert.equal(typeof message.stack, 'string', 'a stack trace is present');
-                assert.ok(message.stack.length > 0, 'the stack is not empty');
-            }
-        });
-
-        var logger = loggerFactory();
-        logger.fatal('foo');
-    });
-
-    QUnit.asyncTest('late regsitration', function(assert){
-        QUnit.expect(8);
-
-        var counter = 0;
-        var logger = loggerFactory();
-
-        assert.ok(typeof loggerFactory.providers === 'undefined', 'There is no provider registered');
-        logger.fatal('foo');
-        logger.fatal('$bar');
-        logger.debug('baz');
-        logger.warn('nox');
-        assert.ok(typeof loggerFactory.providers === 'undefined', 'There is no provider registered');
-
-
-        setTimeout(function(){
-            loggerFactory.register({
-                log : function log(msg){
-                   assert.equal(msg.messages.length, 1, 'There is a message');
-                   counter++;
-
-                   if(counter === 5){
-                        QUnit.start();
-                   }
-                }
+                QUnit.start();
             });
-            assert.ok(typeof loggerFactory.providers !== 'undefined', 'There is a provider registered');
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
 
-            //this one triggers the flush
-            logger.debug('boo');
-        }, 1);
+    QUnit.asyncTest("removeItem", function(assert){
+        QUnit.expect(5);
+
+        var storage = store('foo', mockBackend);
+        assert.equal(typeof storage, 'object', 'The store is an object');
+
+        storage.setItem('moo', 'noob')
+        .then(function(result){
+            assert.ok(result, 'The item is added');
+
+            return storage.getItem('moo').then(function(value){
+                assert.equal(value, 'noob', 'The retrieved value is correct');
+            });
+        }).then(function(){
+            return storage.removeItem('moo').then(function(rmResult){
+                    assert.ok(rmResult, 'The item is removed');
+                });
+        }).then(function(){
+            return storage.getItem('moo').then(function(value){
+                assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                QUnit.start();
+            });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("clear", function(assert){
+        QUnit.expect(5);
+
+        var storage = store('foo', mockBackend);
+        assert.equal(typeof storage, 'object', 'The store is an object');
+
+        Promise.all([
+            storage.setItem('zoo', 'zoob'),
+            storage.setItem('too', 'toob')
+        ])
+        .then(function(){
+            return storage.getItem('too').then(function(value){
+                assert.equal(value, 'toob', 'The retrieved value is correct');
+            });
+        }).then(function(){
+            return storage.clear().then(function(rmResult){
+                    assert.ok(rmResult, 'The item is removed');
+                });
+        }).then(function(){
+            return storage.getItem('too').then(function(value){
+                assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                return storage.getItem('zoo').then(function(value){
+                    assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                    QUnit.start();
+                });
+            });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("object", function(assert){
+        QUnit.expect(3);
+
+        var sample = {
+            collection : [{
+                item1: true,
+                item2: 'false',
+                item3: 12
+            },{
+                item4: { value : null }
+            }]
+        };
+        var storage = store('foo', mockBackend);
+        assert.equal(typeof storage, 'object', 'The store is an object');
+
+        storage.setItem('sample', sample).then(function(added){
+            assert.ok(added, 'The item is added');
+            storage.getItem('sample').then(function(result){
+                assert.deepEqual(result, sample, 'Retrieving the sample');
+                QUnit.start();
+            });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
     });
 });
