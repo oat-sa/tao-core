@@ -118,7 +118,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
                 : array_merge($columnsOptionsLiteral, $columnsOptions);
 
 			$value = 'csv_select';
-			if (isset($_POST[$propertyUri]) && isset($columnsOptions[$_POST[$propertyUri]])) {
+			if (isset($_POST[$propertyUri]) && isset($options[$_POST[$propertyUri]])) {
 				$value = $_POST[$propertyUri];
 			}
 
@@ -153,7 +153,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
     		if(!is_null($propElt)){
     			$defName = tao_helpers_Uri::encode($property->getUri()) . self::DEFAULT_VALUES_SUFFIX;
     			$propElt->setName($defName);
-				if ($_POST[$propertyUri]=='csv_null') {
+				if ($this->form->getElement($propertyUri)->getRawValue()=='csv_null') {
 					$propElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 				}
     			$this->form->addElement($propElt);
