@@ -298,6 +298,10 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf(GuzzleHttp\Psr7\Stream::class, $readFixture);
         $readFixture->close();
     }
+
+    /**
+     * Test exception for unseekable resource
+     */
      public function testUnseekableResource()
      {
          $tmpFile = uniqid() . '.php';
@@ -313,5 +317,39 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
 
          fclose($resource);
      }
+
+    /**
+     * Test has and delete file function with no file
+     */
+    public function testHasAndDeleteWithNoFile()
+    {
+        $tmpFile = uniqid() . '.php';
+        $this->instance = $this->getDirectoryStorage();
+        $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
+        $this->instance->setServiceLocator($serviceLocatorFixture);
+
+        $this->assertFalse($this->instance->has($tmpFile));
+
+        $this->setExpectedException(common_Exception::class);
+        $this->instance->delete($tmpFile);
+    }
+
+    /**
+     * Test has and delete file function with valid file
+     */
+    public function testHasAndDeleteWithValidFile()
+    {
+        $tmpFile = uniqid() . '.php';
+        $this->instance = $this->getDirectoryStorage();
+        $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
+        $this->instance->setServiceLocator($serviceLocatorFixture);
+
+        $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
+        $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
+        $this->instance->writeStream($tmpFile, $streamFixture);
+
+        $this->assertTrue($this->instance->has($tmpFile));
+        $this->assertTrue($this->instance->delete($tmpFile));
+    }
 }
 
