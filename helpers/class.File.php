@@ -439,26 +439,25 @@ class tao_helpers_File
         $done = 0;
 
         if ($src instanceof \Psr\Http\Message\StreamInterface) {
-			if ($zipArchive->addFromString(ltrim($dest, "/\\"), $src->getContents())) {
-				$done++;
-			}
- 		}elseif (is_dir($src)) {
+            if ($zipArchive->addFromString(ltrim($dest, "/\\"), $src->getContents())) {
+                $done++;
+            }
+        } elseif (is_dir($src)) {
             // Go deeper in folder hierarchy !
             $src = rtrim($src, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
             $dest = rtrim($dest, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;;
             // Recursively copy.
             $content = scandir($src);
-             
+
             foreach ($content as $file) {
                 // avoid . , .. , .svn etc ...
-                if(!preg_match("/^\./", $file)) {
-                    $done += self::addFilesToZip($zipArchive, $src.$file, $dest.$file);
+                if (!preg_match("/^\./", $file)) {
+                    $done += self::addFilesToZip($zipArchive, $src . $file, $dest . $file);
                 }
             }
-        }
-        else {
+        } else {
             // Simply copy the file. Beware of leading slashes
-            if($zipArchive->addFile($src, ltrim($dest, DIRECTORY_SEPARATOR))){
+            if ($zipArchive->addFile($src, ltrim($dest, DIRECTORY_SEPARATOR))) {
                 $done++;
             }
         }
