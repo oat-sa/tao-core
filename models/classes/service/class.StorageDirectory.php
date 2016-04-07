@@ -180,7 +180,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
                 $files[] = str_replace($this->getRelativePath(), '', $file['path']);
             }
         }
-        return $files;
+        return new ArrayIterator($files);
     }
 
     /**
