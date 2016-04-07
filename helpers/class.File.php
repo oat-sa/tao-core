@@ -429,7 +429,7 @@ class tao_helpers_File
      * As a result, you will get a file entry in the final ZIP archive at '/i123/myitem.xml'.
      *
      * @param ZipArchive $zipArchive the archive to add to
-     * @param string $src The path to the source file or folder to copy into the ZIP Archive.
+     * @param string $src | StreamInterface The path to the source file or folder to copy into the ZIP Archive.
      * @param string *dest The <u>relative</u> to the destination within the ZIP archive.
      * @return integer The amount of files that were transfered from TAO to the ZIP archive within the method call.
      */
@@ -437,8 +437,12 @@ class tao_helpers_File
         $returnValue = null;
     
         $done = 0;
-    
-        if (is_dir($src)) {
+
+        if ($src instanceof \Psr\Http\Message\StreamInterface) {
+			if ($zipArchive->addFromString(ltrim($dest, "/\\"), $src->getContents())) {
+				$done++;
+			}
+ 		}elseif (is_dir($src)) {
             // Go deeper in folder hierarchy !
             $src = rtrim($src, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
             $dest = rtrim($dest, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;;
