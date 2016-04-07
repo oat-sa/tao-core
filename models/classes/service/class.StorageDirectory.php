@@ -165,6 +165,17 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
     }
 
     /**
+     * Check if file exists
+     *
+     * @param $path
+     * @return bool
+     */
+    public function has($path)
+    {
+        return $this->getFileSystem()->has($this->getRelativePath().$path);
+    }
+
+    /**
      * @return Filesystem
      */
     protected function getFileSystem() {
