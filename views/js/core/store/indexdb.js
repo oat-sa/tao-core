@@ -84,7 +84,7 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
                 //run the current request
                 var runWrite = function(){
                     var p = getWritingPromise();
-                    getWritingPromise = p; //and keep the ref
+                    writePromise = p; //and keep the ref
                     p.then(resolve).catch(reject);
                 };
 

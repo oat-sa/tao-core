@@ -43,6 +43,7 @@ define(['lodash', 'core/promise'], function(_, Promise){
             throw new TypeError('The store name is required');
         }
 
+        //prefix all storage entries to avoid global keys confusion
         name = prefix + storeName + '.';
 
         /**
@@ -59,7 +60,7 @@ define(['lodash', 'core/promise'], function(_, Promise){
                 return new Promise(function(resolve, reject){
                     var value;
                     try{
-                        value = storage.getItem(key);
+                        value = storage.getItem(name + key);
                         if(value === null){
                             resolve();
                         } else {
@@ -78,13 +79,9 @@ define(['lodash', 'core/promise'], function(_, Promise){
              * @returns {Promise} with true in resolve if added/updated
              */
             setItem :  function setItem(key, value){
-                var entry = {
-                    key : key,
-                    value : value
-                };
                 return new Promise(function(resolve, reject){
                     try{
-                        storage.setItem(key, JSON.stringify(value));
+                        storage.setItem(name + key, JSON.stringify(value));
                         resolve(true);
                     } catch(ex){
                         reject(ex);
@@ -100,7 +97,7 @@ define(['lodash', 'core/promise'], function(_, Promise){
             removeItem : function removeItem(key){
                 return new Promise(function(resolve, reject){
                     try{
-                        storage.removeItem(key);
+                        storage.removeItem(name + key);
                         resolve(true);
                     } catch(ex){
                         reject(ex);
@@ -113,9 +110,20 @@ define(['lodash', 'core/promise'], function(_, Promise){
              * @returns {Promise} with true in resolve once cleared
              */
             clear : function clear(){
+                var keyPattern = new RegExp('^' + name);
                 return new Promise(function(resolve, reject){
+                    var i;
                     try{
-                        storage.clear();
+                        _(storage)
+                            .map(function(entry, index){
+                                return storage.key(index);
+                            })
+                            .filter(function(key){
+                                return keyPattern.test(key);
+                            })
+                            .forEach(function(key){
+                                storage.removeItem(key);
+                            });
                         resolve(true);
                     } catch(ex){
                         reject(ex);
