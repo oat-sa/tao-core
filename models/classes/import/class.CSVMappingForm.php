@@ -80,7 +80,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
     	if(!isset($this->options['csv_column'])){
     		throw new Exception('No csv columns found');
     	}
-    	
+
         $columnsOptions = array();
         $columnsOptionsLabels = array();
     	$columnsOptionsLiteral =  array();
@@ -107,7 +107,6 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
 	    	}
     	}
 
-    	$i = 0;
     	foreach($this->options['class_properties'] as $propertyUri => $propertyLabel){
 
     		$propElt = tao_helpers_form_FormFactory::getElement($propertyUri, 'Combobox');
@@ -130,9 +129,20 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
             $propElt->setOptions($options);
             $propElt->setValue($value);
 
+			/** Add mandatory label */
+			if (tao_helpers_Uri::decode($propertyUri)==RDFS_LABEL) {
+				$elementEqualsToCsvSelect = new tao_helpers_form_elements_xhtml_Hidden();
+				$elementEqualsToCsvSelect->setValue('csv_select');
+				$elementEqualsToCsvSelect->setDescription(' to null');
+				$propElt->addValidator(tao_helpers_form_FormFactory::getValidator(
+					'Equals', array(
+						'reference' => $elementEqualsToCsvSelect,
+						'invert' => true
+					)
+				));
+			}
+
     		$this->form->addElement($propElt);
-    		
-    		$i++;
     	}
     	$this->form->createGroup('property_mapping', __('Map the properties to the CSV columns'), array_keys($this->options['class_properties']));
     	
