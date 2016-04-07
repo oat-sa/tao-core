@@ -201,6 +201,21 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         return $smProphecy->reveal();
     }
 
+    public function testGetIterator()
+    {
+        $this->instance = $this->getDirectoryStorage();
+        $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
+        $this->instance->setServiceLocator($serviceLocatorFixture);
+
+        $iterator = $this->instance->getIterator();
+        $this->assertInstanceOf(Traversable::class, $iterator);
+        
+        $files = array('43bytes.php', 'test/myFile.css', 'test/sample');
+        foreach($this->instance as $key => $file){
+            $this->assertEquals($files[$key], $file);
+        }
+    }
+
 
     /**
      * Test read and write from resource
