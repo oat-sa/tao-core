@@ -187,7 +187,8 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
         try {
             return $this->getFileSystem()->delete($this->getRelativePath() . $path);
         } catch (\League\Flysystem\FileNotFoundException $e) {
-            throw new FileNotFoundException('File to delete not found.', 0, $e);
+            common_Logger::e($e->getMessage());
+            throw new tao_models_classes_FileNotFoundException($path);
         }
     }
 

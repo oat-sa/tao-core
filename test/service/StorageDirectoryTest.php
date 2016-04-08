@@ -345,7 +345,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
 
         $this->assertFalse($this->instance->has($tmpFile));
 
-        $this->setExpectedException(FileNotFoundException::class);
+        $this->setExpectedException(tao_models_classes_FileNotFoundException::class);
         $this->instance->delete($tmpFile);
     }
 
