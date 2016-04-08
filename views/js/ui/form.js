@@ -1,4 +1,24 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
+ *
+ */
 define(['jquery'], function($){
+
     'use strict';
 
     /**
@@ -8,20 +28,8 @@ define(['jquery'], function($){
     var pseudoLabel = function pseudoLabel(selector){
 
         $(document).on('click', selector + ' .pseudo-label-box', function (e) {
-            e.preventDefault();
-
-            var $box = $(this);
-            var $radios =  $box.find('input:radio').not('[disabled]').not('.disabled');
-            var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
-           
-            if($radios.length){
-                $radios.not(':checked').prop('checked', true);
-                $radios.trigger('change');
-            }
-            if($checkboxes.length){
-               $checkboxes.prop('checked', !$checkboxes.prop('checked')); 
-               $checkboxes.trigger('change');
-            }
+            e.stopPropagation();
+            $(this).find('input').trigger('click').focus();
         });
     };
 
@@ -30,20 +38,20 @@ define(['jquery'], function($){
      * @param {String} selector - to scope the listening
      */
     var preventDisabled = function preventDisabled(selector){
-        
+
         $(document).on('click', selector + ' .disabled, ' + selector + ' :disabled', function (e) {
             e.preventDefault();
             return false;
         });
     };
 
-   /**
-    * Manages general behavior on form elements
-    * 
-    * @param {jQueryElement} $container - the root context to lookup inside
-    */
+    /**
+     * Manages general behavior on form elements
+     *
+     * @param {jQueryElement} $container - the root context to lookup inside
+     */
     return function listenFormBehavior($container){
-        var selector = $container.selector || '.tao-scope'; 
+        var selector = $container.selector || '.tao-scope';
 
         pseudoLabel(selector);
         preventDisabled(selector);
