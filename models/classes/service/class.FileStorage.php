@@ -86,7 +86,6 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
     public function spawnDirectory($public = false) {
         $id = common_Utils::getNewUri().($public ? '+' : '-');
         $directory = $this->getDirectoryById($id);
-        mkdir($directory->getPath(), 0700, true);
         return $directory;
     }
 
