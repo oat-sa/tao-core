@@ -165,6 +165,34 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
     }
 
     /**
+     * Check if file exists
+     *
+     * @param $path
+     * @return bool
+     */
+    public function has($path)
+    {
+        return $this->getFileSystem()->has($this->getRelativePath().$path);
+    }
+
+    /**
+     * Delete file
+     *
+     * @param $path
+     * @return bool
+     * @throws FileNotFoundException
+     */
+    public function delete($path)
+    {
+        try {
+            return $this->getFileSystem()->delete($this->getRelativePath() . $path);
+        } catch (\League\Flysystem\FileNotFoundException $e) {
+            common_Logger::e($e->getMessage());
+            throw new tao_models_classes_FileNotFoundException($path);
+        }
+    }
+
+    /**
      * Retrieve an external iterator
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return Traversable An instance of an object implementing <b>Iterator</b> or
