@@ -32,7 +32,7 @@ use Psr\Http\Message\StreamInterface;
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class tao_models_classes_service_StorageDirectory implements ServiceLocatorAwareInterface
+class tao_models_classes_service_StorageDirectory implements ServiceLocatorAwareInterface, IteratorAggregate
 {
     use ServiceLocatorAwareTrait;
     
@@ -162,6 +162,53 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
         }
 
         return $this->write($path, $resource);
+    }
+
+    /**
+     * Check if file exists
+     *
+     * @param $path
+     * @return bool
+     */
+    public function has($path)
+    {
+        return $this->getFileSystem()->has($this->getRelativePath().$path);
+    }
+
+    /**
+     * Delete file
+     *
+     * @param $path
+     * @return bool
+     * @throws FileNotFoundException
+     */
+    public function delete($path)
+    {
+        try {
+            return $this->getFileSystem()->delete($this->getRelativePath() . $path);
+        } catch (\League\Flysystem\FileNotFoundException $e) {
+            common_Logger::e($e->getMessage());
+            throw new tao_models_classes_FileNotFoundException($path);
+        }
+    }
+
+    /**
+     * Retrieve an external iterator
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return Traversable An instance of an object implementing <b>Iterator</b> or
+     * <b>Traversable</b>
+     * @since 5.0.0
+     */
+    public function getIterator()
+    {
+        $files = array();
+        $content = $this->getFileSystem()->listContents($this->getRelativePath(), true);
+        foreach($content as $file){
+            if($file['type'] === 'file'){
+                $files[] = str_replace($this->getRelativePath(), '', $file['path']);
+            }
+        }
+        return new ArrayIterator($files);
     }
 
     /**

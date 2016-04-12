@@ -201,6 +201,21 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         return $smProphecy->reveal();
     }
 
+    public function testGetIterator()
+    {
+        $this->instance = $this->getDirectoryStorage();
+        $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
+        $this->instance->setServiceLocator($serviceLocatorFixture);
+
+        $iterator = $this->instance->getIterator();
+        $this->assertInstanceOf(Traversable::class, $iterator);
+        
+        $files = array('43bytes.php', 'test/myFile.css', 'test/sample');
+        foreach($this->instance as $key => $file){
+            $this->assertEquals($files[$key], $file);
+        }
+    }
+
 
     /**
      * Test read and write from resource
@@ -298,6 +313,10 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf(GuzzleHttp\Psr7\Stream::class, $readFixture);
         $readFixture->close();
     }
+
+    /**
+     * Test exception for unseekable resource
+     */
      public function testUnseekableResource()
      {
          $tmpFile = uniqid() . '.php';
@@ -313,5 +332,39 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
 
          fclose($resource);
      }
+
+    /**
+     * Test has and delete file function with no file
+     */
+    public function testHasAndDeleteWithNoFile()
+    {
+        $tmpFile = uniqid() . '.php';
+        $this->instance = $this->getDirectoryStorage();
+        $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
+        $this->instance->setServiceLocator($serviceLocatorFixture);
+
+        $this->assertFalse($this->instance->has($tmpFile));
+
+        $this->setExpectedException(tao_models_classes_FileNotFoundException::class);
+        $this->instance->delete($tmpFile);
+    }
+
+    /**
+     * Test has and delete file function with valid file
+     */
+    public function testHasAndDeleteWithValidFile()
+    {
+        $tmpFile = uniqid() . '.php';
+        $this->instance = $this->getDirectoryStorage();
+        $serviceLocatorFixture = $this->getServiceLocatorWithFileSystem();
+        $this->instance->setServiceLocator($serviceLocatorFixture);
+
+        $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
+        $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
+        $this->instance->writeStream($tmpFile, $streamFixture);
+
+        $this->assertTrue($this->instance->has($tmpFile));
+        $this->assertTrue($this->instance->delete($tmpFile));
+    }
 }
 
