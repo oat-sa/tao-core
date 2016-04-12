@@ -60,7 +60,6 @@ require.config({
         'filereader'        : 'lib/polyfill/jquery.FileReader.min',
 
 //libs
-        'store'             : 'lib/store/store.min',
         'lodash'            : 'lib/lodash.min',
         'async'             : 'lib/async',
         'moment'            : 'lib/moment-with-locales.min',

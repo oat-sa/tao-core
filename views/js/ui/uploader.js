@@ -227,7 +227,13 @@ define([
                                 }
 
                                 if(files && files.length){
-                                    self._selectFiles($elt, files, options.$dropZone.children('ul').length > 0);
+                                    var append = options.$dropZone.children('ul').length > 0;
+                                    if(!options.multiple){
+                                        files = [files[0]];
+                                        append = false;
+                                    }
+
+                                    self._selectFiles($elt, files, append);
                                 }
                                 return false;
                             });
