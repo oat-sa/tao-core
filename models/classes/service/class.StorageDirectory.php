@@ -132,10 +132,11 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      * @param mixed $resource
      * @return boolean
      */
-    public function write($path, $resource)
+    public function write($path, $resource, $mimeType = null)
     {
         common_Logger::d('Writting in ' . $this->getRelativePath().$path);
-        return $this->getFileSystem()->writeStream($this->getRelativePath().$path, $resource);
+        $config = $mimeType = null ? [] : ['ContentType' => $mimeType];
+        return $this->getFileSystem()->writeStream($this->getRelativePath().$path, $resource, $config);
     }
 
     /**
@@ -146,7 +147,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      * @return bool
      * @throws common_Exception
      */
-    public function writeStream($path, StreamInterface $stream)
+    public function writeStream($path, StreamInterface $stream, $mimeType = null)
     {
         if (!$stream->isReadable()) {
             throw new common_Exception('Stream is not readable. Write to filesystem aborted.');
@@ -161,7 +162,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
             throw new common_Exception('Unable to create resource from the given stream. Write to filesystem aborted.');
         }
 
-        return $this->write($path, $resource);
+        return $this->write($path, $resource, $mimeType);
     }
 
     /**
