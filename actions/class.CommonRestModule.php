@@ -95,7 +95,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		case "DELETE":{$this->delete($uri);break;}
 		default:{
 			throw new common_exception_BadRequest($this->getRequestURI());
-		    ;}
+		    }
 	    }
 	}
 	
@@ -243,7 +243,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 			   $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
 		    }
 		    if ($this->isRequiredParameter($checkParameterShort) and !(isset($effectiveParameters[$checkParameterUri]))){
-		    throw new common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());
+		    	throw new common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());
 		    }
 		}
 		return array_merge($this->getCustomParameters(), $effectiveParameters);
@@ -262,27 +262,34 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	}
 	/**
 	 * Defines if the parameter is mandatory according to getParametersRequirements (probably overriden) and according to the action type
+	 *
 	 * @param type $parameter the alias name or uri of a parameter
+	 * @return bool
 	 */
-	private function isRequiredParameter($parameter){
-
-	    $isRequired = false;
+	private function isRequiredParameter($parameter)
+	{
 	    $method = $this->getRequestMethod();//ppl todo, method retrieval
-	    if (isset($requirements[$method])) {
-	    $requirements = $this->getParametersRequirements();
-	    $aliases = $this->getParametersAliases();
-	    
+		$requirements = $this->getParametersRequirements();
 
-	    //The requirments may have been declared using URIs, loook up for the URI
-	    if (isset($aliases[$parameter])) {
-		    $isRequired = $isRequired or in_array($aliases[$parameter],$requirements[$method]);
+		$requirements = array_change_key_case($requirements, CASE_LOWER);
+		$method = strtolower($method);
+
+		if (!isset($requirements[$method])) {
+			return false;
 		}
-	    
-	    $isRequired = $isRequired or in_array($parameter,$requirements[$method]);
-	    
 
-	    }
-	    return $isRequired;
+		if (in_array($parameter,$requirements[$method])) {
+			return true;
+		}
+
+		$isRequired = false;
+		
+		//The requirments may have been declared using URIs, look up for the URI
+		$aliases = $this->getParametersAliases();
+		if (isset($aliases[$parameter])) {
+			$isRequired = in_array($aliases[$parameter],$requirements[$method]);
+		}
+		return $isRequired;
 	}
         /**
          * 
@@ -295,7 +302,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 
 	protected function get($uri = null){
 		try {
-		    if (!is_null($uri)){
+			if (!is_null($uri)){
 			if (!common_Utils::isUri($uri)){
 			    throw new common_exception_InvalidArgumentType();
 			}
