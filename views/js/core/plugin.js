@@ -58,14 +58,15 @@ define([
      * @param {Object} provider - the plugin provider
      * @param {String} provider.name - the plugin name
      * @param {Function} provider.init - the plugin initialization method
-     * @param {Function} [provider.render] - plugin render behaviorV
-     * @param {Function} [provider.finish] - plugin render behaviorV
+     * @param {Function} [provider.render] - plugin rendering behavior
+     * @param {Function} [provider.finish] - plugin finish behavior
      * @param {Function} [provider.destroy] - plugin destroy behavior
      * @param {Function} [provider.show] - plugin show behavior
      * @param {Function} [provider.hide] - plugin hide behavior
      * @param {Function} [provider.enable] - plugin enable behavior
      * @param {Function} [provider.disable] - plugin disable behavior
      * @param {Object} defaults - default configuration to be assigned
+     * @param {String} [defaults.hostName] - the name of the host, used to alias the getHost method to getHostName
      * @returns {Function} - the generated plugin factory
      */
     function pluginFactory(provider, defaults){
@@ -83,7 +84,7 @@ define([
          * The configured plugin factory
          *
          * @param {host} host - the plugin host instance
-         * @param {areaBroker} areaBroker - an instance of an areaBroker
+         * @param {areaBroker} [areaBroker] - an instance of an areaBroker. This should be your access point to GUI.
          * @param {Object} [config] - plugin configuration
          * @returns {plugin} the plugin instance
          */
@@ -205,8 +206,8 @@ define([
                 },
 
                 /**
-                 * Get the host testRunner
-                 * @returns {host} the plugins's host
+                 * Get the host's areaBroker
+                 * @returns {areaBroker} the areaBroker
                  */
                 getAreaBroker : function getAreaBroker(){
                     return areaBroker;
