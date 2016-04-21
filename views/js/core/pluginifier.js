@@ -1,4 +1,9 @@
 /**
+ * Used to register jquery plugins
+ *
+ * !!! Prefer component to jQuery plugins !!!
+ *
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @requires jquery
  * @requires lodash
@@ -30,10 +35,10 @@ define(['jquery', 'lodash'], function($, _){
         },
 
        /**
-        * Disable the component. 
-        * 
+        * Disable the component.
+        *
         * It can be called prior to the plugin initilization.
-        * 
+        *
         * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').pluginName('disable');
         * @param  {String} dataNs - the data namespace
@@ -51,9 +56,9 @@ define(['jquery', 'lodash'], function($, _){
             });
        },
 
-       /**  
-        * Enable the component. 
-        * 
+       /**
+        * Enable the component.
+        *
         * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').pluginName('enable');
         * @param  {String} dataNs - the data namespace
@@ -71,19 +76,19 @@ define(['jquery', 'lodash'], function($, _){
             });
        },
     };
-   
-   /** 
+
+   /**
     * Helps you to create a jQuery plugin, the Cards way
     * @exports core/pluginifer
     */
     var Pluginifier = {
-        
+
         /**
          * Regsiter a new jQuery plugin, the Cards way
          * @param {string} pluginName - the name of the plugin to regsiter. ie $('selector').pluginName();
-         * @param {Object} plugin - the plugin as a plain object 
+         * @param {Object} plugin - the plugin as a plain object
          * @param {Function} plugin.init - the entry point of the plugin is always an init method
-         * @param {Object} [config] - plugin configuration 
+         * @param {Object} [config] - plugin configuration
          * @param {String} [config.ns = pluginName] - plugin namespace (used for events and data-attr)
          * @param {String} [config.dataNs = ui.pluginName] - plugin namespace (used for events and data-attr)
          * @param {Array<String>} [config.expose] - list of methods to expose
@@ -101,24 +106,24 @@ define(['jquery', 'lodash'], function($, _){
             if(!_.isPlainObject(plugin) || !_.isFunction(plugin.init)){
                 return $.error('The object to register as a jQuery plugin must be a plain object with an `init` method.');
             }
-            
+
             //configure and augments the plugin
             _.assign(plugin, _.transform(basePlugin, function(result, prop, key){
                 if(_.isFunction(prop)){
                     result[key] = _.partial(basePlugin[key], dataNs, ns);
                 }
             }));
-            
+
             //set up public methods to wrap privates the jquery way
             _.forEach(expose, function(toExposeName){
-                var privateMethod = toExposeName; 
-                var publicMethod  = toExposeName; 
+                var privateMethod = toExposeName;
+                var publicMethod  = toExposeName;
                 if(!/^_/.test(expose)){
                     privateMethod = '_' + privateMethod;
                 } else {
                     publicMethod = publicMethod.replace(/^_/, '');
                 }
-        
+
                 //do not override if exists
                 if(_.isFunction(plugin[privateMethod]) && !_.isFunction(plugin[publicMethod])){
                     plugin[publicMethod] = function(){
@@ -145,12 +150,12 @@ define(['jquery', 'lodash'], function($, _){
                      }
                 } else if ( typeof method === 'object' || ! method) {
                      return plugin.init.apply( this, arguments );
-                } 
+                }
                 $.error( 'Method ' + method + ' does not exist on plugin' );
             };
         }
     };
-   
+
     return Pluginifier;
 });
 
