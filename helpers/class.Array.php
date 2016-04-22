@@ -84,5 +84,18 @@ class tao_helpers_Array
         }
         return $array;
     }
+    
+    /**
+     * Test if ann array is associative or not
+     * 
+     * taken from http://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
+     * 
+     * @param array $arr
+     * @return boolean
+     */
+    public static function isAssoc($arr)
+    {
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
 
 }
