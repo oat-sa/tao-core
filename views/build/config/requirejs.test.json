@@ -20,7 +20,6 @@
         "jquery.fileDownload"  : "lib/jquery.fileDownload",
 
         "polyfill"          : "lib/polyfill",
-        "filereader"        : "lib/polyfill/jquery.FileReader.min",
 
         "lodash"            : "lib/lodash.min",
         "async"             : "lib/async",
