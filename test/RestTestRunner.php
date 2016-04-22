@@ -73,12 +73,12 @@ abstract class RestTestRunner extends TaoPhpUnitTestRunner
     protected function curl($url, $method = CURLOPT_HTTPGET, $returnType = "data", $curlOptions = array())
     {
         $options = $this->getDefaultCurlOptions();
+        if (!\tao_helpers_Array::isAssoc($curlOptions)) {
+            $curlOptions = array(CURLOPT_HTTPHEADER => $curlOptions);
+        }
         foreach ($curlOptions as $key => $value) {
-            if (is_numeric($key)) {
-                if (!isset($options[CURLOPT_HTTPHEADER])) {
-                    $options[CURLOPT_HTTPHEADER] = array();
-                }
-                $options[CURLOPT_HTTPHEADER][] = $value;
+            if (isset($options[$key]) && is_array($options[$key]) && is_array($value)) {
+                $options[$key] = array_merge($options[$key], $value);
             } else {
                 $options[$key] = $value;
             }
