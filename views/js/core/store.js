@@ -40,8 +40,28 @@ define([
 ], function(_, localStorageBackend, indexDbBackend){
     'use strict';
 
-    //does the browser have indexDB ?
-    var hasIndexDb = !! (window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB );
+    //detect the support the earliest
+    var supportsIndexedDB = false;
+    var test, indexedDB;
+    try {
+        indexedDB = window.indexedDB || window.webkitIndexedDB ||
+                    window.mozIndexedDB || window.OIndexedDB ||
+                    window.msIndexedDB;
+
+        //we need to try to open a db, for example FF in private browsing will fail.
+        test = indexedDB.open('__feature_test', 1);
+        test.onsuccess = function(){
+            if(test.result){
+                test.result.close();
+            }
+        };
+        test.onerror = function() {
+            supportsIndexedDB = false;
+        };
+        supportsIndexedDB = indexedDB && test.onupgradeneeded === null;
+    } catch(e) {
+        supportsIndexedDB = false;
+    }
 
     /**
      * Create a new store
@@ -54,7 +74,7 @@ define([
     var store = function store(storeName, backend) {
         var storeInstance;
         backend = backend || store.backends.indexDb;
-        if(!hasIndexDb){
+        if(!supportsIndexedDB){
             backend = store.backends.localStorage;
         }
         if(!_.isFunction(backend)){

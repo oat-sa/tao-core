@@ -7,12 +7,12 @@
     color: $textColor !important;
     &.small {
         padding: 8px 20px 8px 45px;
-        [class^="icon-"], [class*=" icon-"] {
+        & > [class^="icon-"], & > [class*=" icon-"] {
             top: 9px;
             left: 10px;
         }
     }
-    [class^="icon-"], [class*=" icon-"] {
+    & > [class^="icon-"], & > [class*=" icon-"] {
         @include font-size(20);
         position: absolute;
         top: 20px;
