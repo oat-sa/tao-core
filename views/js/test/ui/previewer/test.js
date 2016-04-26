@@ -49,7 +49,7 @@ define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
     });
 
     QUnit.asyncTest('Data Attribute', function(assert){
-        QUnit.expect(4);
+        QUnit.expect(5);
 
         var options     = {
             url    : 'http://techslides.com/demos/sample-videos/small.mp4',
@@ -63,8 +63,9 @@ define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
         $elt.on('create.previewer', function(){
             setTimeout(function(){
                 assert.equal($elt.find('video').length, 1, 'The video element is created');
-                assert.equal($elt.find('video').attr('src'), options.url, 'The video src is set');
-                assert.equal($elt.find('.mejs-container').length, 1, 'The media element player is set up');
+                assert.equal($elt.find('video source').length, 1, 'The video source element is created');
+                assert.equal($elt.find('video source').attr('src'), options.url, 'The video src is set');
+                assert.equal($elt.find('.mediaplayer').length, 1, 'The media element player is set up');
                 QUnit.start();
             }, 500);
         });

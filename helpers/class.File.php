@@ -210,6 +210,7 @@ class tao_helpers_File
             // audio/video
             'mp3' => 'audio/mpeg',
             'oga' => 'audio/ogg',
+            'ogg' => 'audio/ogg',
             'aac' => 'audio/aac',
             'qt' => 'video/quicktime',
             'mov' => 'video/quicktime',
@@ -306,8 +307,8 @@ class tao_helpers_File
         	else {
         		$mimetype = '';
         	}
-        	
-        	if (!in_array($ext, array('css'))) {
+
+            if (!in_array($ext, array('css', 'ogg'))) {
         		if  (file_exists($path)) {
         			if (function_exists('finfo_open')) {
         				$finfo = finfo_open(FILEINFO_MIME);

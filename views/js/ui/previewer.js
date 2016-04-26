@@ -7,10 +7,11 @@ define([
     'i18n',
     'core/mimetype',
     'core/pluginifier',
+    'ui/mediaplayer',
     'iframeNotifier',
     'mediaElement'
 ],
-function($, _, __, mimeType, Pluginifier, iframeNotifier) {
+function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
     'use strict';
 
     var ns = 'previewer';
@@ -21,11 +22,27 @@ function($, _, __, mimeType, Pluginifier, iframeNotifier) {
         containerClass: 'previewer'
     };
 
+    /**
+     * Some default size values
+     * @type {Object}
+     * @private
+     */
+    var defaultSize = {
+        video : {
+            width : 290,
+            height : 270
+        },
+        audio : {
+            width : 290,
+            height : 36
+        }
+    };
+
     var previewGenerator = {
         placeHolder: _.template("<p class='nopreview' data-type='${type}'>${desc}</p>"),
-        youtubeTemplate: _.template("<video preload='none'><source type='video/youtube' src=${jsonurl}/></video>"),
-        videoTemplate: _.template("<video src=${jsonurl} type='${mime}' preload='none'></video>"),
-        audioTemplate: _.template("<audio src=${jsonurl} type='${mime}'></audio>"),
+        youtubeTemplate: _.template("<div data-src=${jsonurl} data-type='video/youtube'></div>"),
+        videoTemplate: _.template("<div data-src=${jsonurl} data-type='${mime}'></div>"),
+        audioTemplate: _.template("<div data-src=${jsonurl} data-type='${mime}'></div>"),
         imageTemplate: _.template("<img src=${jsonurl} alt='${name}' />"),
         pdfTemplate: _.template("<object data=${jsonurl} type='application/pdf'><a href=${jsonurl} target='_blank'>${name}</a></object>"),
         flashTemplate: _.template("<object data=${jsonurl} type='application/x-shockwave-flash'><param name='movie' value=${jsonurl}></param></object>"),
@@ -107,38 +124,45 @@ function($, _, __, mimeType, Pluginifier, iframeNotifier) {
             });
         },
         /**
+         * Uninstalls the player if any
+         * @private
+         */
+        _clearPlayer: function() {
+            if (previewer.player) {
+                previewer.player.destroy();
+                previewer.player = null;
+            }
+        },
+        /**
          * Update the preview
          * @private
          * @param {jQueryElement} $elt - the current element
          */
         _update: function($elt) {
             var self = previewer;
-
-            if (self.meSkipUpdate === true) {
-                self.meSkipUpdate = false;
-                return;
-            }
-
-
-            var $content, mep;
+            var $content, $controls;
             var options = $elt.data(dataNs);
-            if (options) {
-                var type = options.type || mimeType.getFileType({mime: options.mime, name: options.url});
-                var content;
-                if (options.url) {
+            var content, type;
 
+            self._clearPlayer();
+
+            if (options) {
+                type = options.type || mimeType.getFileType({mime: options.mime, name: options.url});
+
+                if (options.url) {
                     if (!options.name) {
                         options.name = options.url.substring(options.url.lastIndexOf("/") + 1, options.url.lastIndexOf("."));
                     }
                     content = previewGenerator.generate(type, options);
                 }
+
                 if (!content) {
                     content = previewGenerator.placeHolder(_.merge({desc: __('No preview available')}, options));
                 }
                 $content = $(content);
 
                 $content.on('load', function() {
-                    iframeNotifier.parent('itemcontentchange');
+                    iframeNotifier.parent('imageloaded');
                 });
 
                 if (options.width) {
@@ -151,67 +175,36 @@ function($, _, __, mimeType, Pluginifier, iframeNotifier) {
                 $elt.empty().html($content);
                 if (type === 'audio' || type === 'video') {
                     if (options.url) {
-                        $content.mediaelementplayer({
-                            pauseOtherPlayers: false,
-                            audioWidth: options.width || 290,
-                            audioHeight: options.height || 50,
-                            videoWidth: options.width || 290,
-                            videoHeight: options.height || 300,
-                            success: function(me, medom) {
-                                me.load();
+                        self.player = mediaplayer({
+                            url: options.url,
+                            type: options.mime,
+                            renderTo: $content
+                        })
+                            .on('ready', function() {
+                                var defSize = defaultSize[this.getType()] || defaultSize.video;
+                                var width = options.width || defSize.width;
+                                var height = options.height || defSize.height;
+                                this.resize(width, height);
+                            });
 
-                                //TODO all this code works only in the resource manager and may have impact on players elsewhere...
+                        // stop video and free the socket on escape keypress(modal window hides)
+                        $('body')
+                            .off('keydown.mediaelement')
+                            .on('keydown.mediaelement', function(event) {
+                                if (event.keyCode === 27) {
+                                    self._clearPlayer();
+                                }
+                            });
 
-                                // stop video and free the socket on escape keypress(modal window hides)
-                                $('body').off('keydown.mediaelement');
-                                $('body').on('keydown.mediaelement', function(event) {
-                                    if (event.keyCode === 27 && self.oldMediaElement !== undefined) {
-                                        self.oldMediaElement.setSrc('');
-                                    }
-                                });
-
-                                // stop the video and free the socket on file select from the action icons
-                                $('#mediaManager .actions a:nth-child(1)').off('mousedown.mediaelement');
-                                $('#mediaManager .actions a:nth-child(1)').on('mousedown.mediaelement', function(event) {
-                                    self.meSkipUpdate = true;
-                                    self.oldMediaElement.setSrc('');
-                                });
-
-                                // stop video, free the socket and remove player interface on video deletion
-                                $('#mediaManager .actions a:nth-child(3)').off('mousedown.mediaelementdel');
-                                $('#mediaManager .actions a:nth-child(3)').on('mousedown.mediaelementdel', function() {
-                                    if (self.oldMediaElement !== undefined) {
-                                        self.oldMediaElement.setSrc('');
-                                        self.meSkipUpdate = true;
-                                        if (self.oldMediaElementDom !== undefined) {
-                                            $(self.oldMediaElementDom).closest('.mejs-container').remove();
-                                        }
-                                    }
-                                });
-
-                                // stop video and free the socket on all other cases when video is selected or temporary hidden or modal window is closed
-                                var meSelector = '#mediaManager .icon-close, #mediaManager .upload-switcher, #mediaManager .select-action, #mediaManager .files li>span';
-                                $(meSelector).off('mousedown.mediaelement');
-                                $(meSelector).on('mousedown.mediaelement', function(event) {
-                                    event.stopPropagation();
-
-                                    // when we switch between list and upload views, we want to keep the player interface, so we use dontDestroy to indicate that
-                                    var dontDestroy = false;
-                                    if ($(event.target).children().first().hasClass('icon-undo')) {
-                                        self.oldMediaElement.setSrc(self.oldMediaElementSrc);
-                                        self.oldMediaElement.load();
-                                        self.oldMediaElement.play();
-                                        self.oldMediaElement.pause();
-                                        dontDestroy = true;
-                                    }
-
-                                    if (self.oldMediaElement !== undefined && dontDestroy === false) {
-                                        self.oldMediaElement.setSrc('');
-                                    }
-                                });
-                                self.oldMediaElement = me;
-                                self.oldMediaElementSrc = me.src;
-                                self.oldMediaElementDom = medom;
+                        // stop the video and free the socket on file select from the action icons
+                        // stop video, free the socket and remove player interface on video deletion
+                        // stop video and free the socket on all other cases when video is selected or temporary hidden or modal window is closed
+                        $controls = $('.actions a:nth-child(1), .actions a:nth-child(3), .icon-close, .upload-switcher, .select-action, .files li>span', '#mediaManager');
+                        $controls.off('mousedown.mediaelement').on('mousedown.mediaelement', function(event) {
+                            event.stopPropagation();
+                            if (!$(this).closest('.mediaplayer').length) {
+                                $controls.off('mousedown.mediaelement');
+                                self._clearPlayer();
                             }
                         });
                     }
@@ -224,10 +217,7 @@ function($, _, __, mimeType, Pluginifier, iframeNotifier) {
                 $elt.trigger('update.' + ns);
             }
         },
-        oldMediaElement: undefined,
-        oldMediaElementSrc: undefined,
-        oldMediaElementDom: undefined,
-        meSkipUpdate: false,
+        player: null,
         /**
          * Destroy completely the plugin.
          *
@@ -236,9 +226,10 @@ function($, _, __, mimeType, Pluginifier, iframeNotifier) {
          * @public
          */
         destroy: function() {
+            previewer._clearPlayer();
+
             this.each(function() {
                 var $elt = $(this);
-                var options = $elt.data(dataNs);
 
                 /**
                  * The plugin has been destroyed.
@@ -273,4 +264,3 @@ function($, _, __, mimeType, Pluginifier, iframeNotifier) {
         });
     };
 });
-
