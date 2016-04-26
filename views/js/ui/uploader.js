@@ -169,20 +169,10 @@ define([
 
 
                     //manage input selection
-                    if(options.read && !tests.filereader) {
-                        // Nope... :/
-                        require(['filereader'], function(){
-                            options.$input.fileReader({
-                                id: 'fileReaderSWFObject',
-                                filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
-                                callback: function() {
-                                    options.$input.on('change', inputHandler);
-                                }
-                            });
-                        });
-                    } else {
-                        options.$input.on('change', inputHandler);
+                    if (!tests.filereader) {
+                        throw new Error('FileReader API not supported! Please use a compliant browser!');
                     }
+                    options.$input.on('change', inputHandler);
 
                     // IE Specific hack. It prevents the browseBtn to slightly
                     // move on click. Special thanks to Dieter Raber, OAT S.A.

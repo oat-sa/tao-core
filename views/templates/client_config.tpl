@@ -57,7 +57,6 @@ require.config({
 
 //polyfills
         'polyfill'          : 'lib/polyfill',
-        'filereader'        : 'lib/polyfill/jquery.FileReader.min',
 
 //libs
         'lodash'            : 'lib/lodash.min',
