@@ -1,5 +1,4 @@
 <?php
-$GLOBALS['__l10n']["Add / Edit lists"]="Lëschten dobeisetzen / editéiren";
 $GLOBALS['__l10n']["An error occured during user deletion"]="Während dem Läschen vum User gouf et e Fehler";
 $GLOBALS['__l10n']["Create"]="Erstellen";
 $GLOBALS['__l10n']["CSV Options"]="CSV optiounen";
@@ -14,13 +13,10 @@ $GLOBALS['__l10n']["Groups"]="Gruppen";
 $GLOBALS['__l10n']["Groups library"]="Gruppensammlung";
 $GLOBALS['__l10n']["Interface language"]="Interface Sprooch";
 $GLOBALS['__l10n']["Invalid field length"]="Ongëlteg Datenfeld Längt";
-$GLOBALS['__l10n']["Invalid file size"]="Ongëlteg Dateigréisst";
 $GLOBALS['__l10n']["Invalid file type!"]="Ongëltegen Dateityp!";
 $GLOBALS['__l10n']["Items"]="Itemen";
 $GLOBALS['__l10n']["Language"]="Sprooch";
 $GLOBALS['__l10n']["List"]="Lëscht";
-$GLOBALS['__l10n']["List values"]="Werter uweisen";
-$GLOBALS['__l10n']["Lists"]="Lëschten";
 $GLOBALS['__l10n']["Manage data list"]="Daten Lëschten verwalten";
 $GLOBALS['__l10n']["Manage groups"]="Gruppen verwalten";
 $GLOBALS['__l10n']["Manage items"]="Itemen verwalten";
@@ -54,7 +50,6 @@ $GLOBALS['__l10n']["Settings"]="Astellungen";
 $GLOBALS['__l10n']["Test takers library"]="Testpersounen Sammlung";
 $GLOBALS['__l10n']["Tests"]="Tester";
 $GLOBALS['__l10n']["Tests library"]="Test Sammlung";
-$GLOBALS['__l10n']["The uploaded file is too large"]="De ropgeluedene Fichier as ze grouss";
 $GLOBALS['__l10n']["This field is too long"]="Dëst Datenfeld as ze laang";
 $GLOBALS['__l10n']["This field is too short"]="Dëst Datenfeld as ze kuerz";
 $GLOBALS['__l10n']["Translate"]="Iwersetzen";

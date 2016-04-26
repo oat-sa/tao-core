@@ -25,7 +25,6 @@ use \common_Logger;
 use oat\tao\helpers\Template;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\menu\MenuService;
-use oat\tao\model\entryPoint\BackOfficeEntrypoint;
 use oat\tao\model\entryPoint\Entrypoint;
 use oat\oatbox\service\ServiceManager;
 
@@ -78,18 +77,45 @@ class EntryPointService extends ConfigurableService
     }
     
     /**
-     * Add and activate an Entrypoint
+     * Dectivate an existing entry point for a specific target
+     *
+     * @param string $entryId
+     * @param string $target
+     * @return boolean success
+     */
+    public function deactivateEntryPoint($entryId, $target = self::OPTION_POSTLOGIN)
+    {
+        $success = false;
+        $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
+        if (!isset($entryPoints[$entryId])) {
+            throw new \common_exception_InconsistentData('Unknown entrypoint '.$entryId);
+        }
+        $actives = $this->hasOption($target) ? $this->getOption($target) : array();
+        if (in_array($entryId, $actives)) {
+            $actives = array_diff($actives, array($entryId));
+            $success = $this->setOption($target, $actives);
+        } else {
+            \common_Logger::w('Tried to desactivate inactive entry point '.$entryId);
+        }
+        return $success;
+    }
+    
+    
+    /**
+     * Add an Entrypoint and activate it if a target is specified
      * 
      * @param Entrypoint $e
      * @param string $target
      */
-    public function addEntryPoint(Entrypoint $e, $target)
+    public function addEntryPoint(Entrypoint $e, $target = null)
     {
         $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
         $entryPoints[$e->getId()] = $e;
         $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
 
-        $this->activateEntryPoint($e->getId(), $target);
+        if (!is_null($target)) {
+            $this->activateEntryPoint($e->getId(), $target);
+        }
     }
     
     /**
@@ -100,15 +126,10 @@ class EntryPointService extends ConfigurableService
      */
     public function getEntryPoints($target = self::OPTION_POSTLOGIN)
     {
-        $entryPoints = array();
-        if ($target == self::OPTION_POSTLOGIN) {
-            foreach (MenuService::getEntryPoints() as $entry) {
-                $entryPoints[$entry->getId()] = $entry;
-            }
-        }
-        
         $ids = $this->hasOption($target) ? $this->getOption($target) : array();
         $existing = $this->getOption(self::OPTION_ENTRYPOINTS);
+        
+        $entryPoints = array();
         foreach ($ids as $id) {
             $entryPoints[$id] = $existing[$id];
         }

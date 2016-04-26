@@ -22,6 +22,7 @@ namespace oat\tao\model;
 use oat\oatbox\AbstractRegistry;
 use common_ext_ExtensionsManager;
 use oat\tao\model\websource\WebsourceManager;
+use Jig\Utils\FsUtils;
 
 
 class ThemeRegistry extends AbstractRegistry
@@ -94,7 +95,7 @@ class ThemeRegistry extends AbstractRegistry
                 }
             }
             if (!$found) {
-                throw new \common_Exception('Theme '.$themeId.' not found for target '.$target);
+                throw new ThemeNotFoundException('Theme '.$themeId.' not found for target '.$target);
             }
         }
         return $returnValue;
@@ -228,7 +229,7 @@ class ThemeRegistry extends AbstractRegistry
         }
 
         if ( !$isDeleted ){
-            throw new \common_Exception('Theme '.$id.' not found for any target');
+            throw new ThemeNotFoundException('Theme '.$id.' not found for any target');
         }
     }
 
@@ -245,7 +246,8 @@ class ThemeRegistry extends AbstractRegistry
                 $theme['path'] = $webUrl;
             }
             else {
-                $theme['path'] = ROOT_URL . $theme['path'] ;
+                // normalizing makes sure that whatever\\comes/in gets/out/properly
+                $theme['path'] = ROOT_URL . FsUtils::normalizePath($theme['path']) ;
 
             }
         }
@@ -265,7 +267,8 @@ class ThemeRegistry extends AbstractRegistry
                 return $websource->getAccessUrl(substr($path, strlen(ThemeRegistry::WEBSOURCE)));
         }
         else {
-            return ROOT_URL . $path;
+            // normalizing makes sure that whatever\\comes/in gets/out/properly
+            return ROOT_URL . FsUtils::normalizePath($path);
         }
     }
     

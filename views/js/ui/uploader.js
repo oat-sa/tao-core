@@ -2,11 +2,11 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 
-    'lodash', 
-    'i18n', 
+    'jquery',
+    'lodash',
+    'i18n',
     'async',
-    'core/pluginifier', 
+    'core/pluginifier',
     'context',
     'util/bytes',
     'tpl!ui/uploader/uploader',
@@ -42,17 +42,17 @@ define([
         uploadBtnText       : __('Upload'),
 
         /**
-         * Make files available before file selection. It can be used to filter. 
+         * Make files available before file selection. It can be used to filter.
          * @callback fileSelect
          * @param {Array<File>} files - the selected files
          * @param {Function} [done] - callback with filtered files
-         * @returns {undefined|Array<File>} the files to be selected 
+         * @returns {undefined|Array<File>} the files to be selected
          */
         fileSelect : function(files, done){
             if(_.isFunction(done)){
                 return done(files);
-            } 
-            return files; 
+            }
+            return files;
         }
     };
 
@@ -67,7 +67,7 @@ define([
      * @exports ui/uploader
      */
     var uploader = {
-     
+
         /**
          * Initialize the plugin.
          *
@@ -77,6 +77,8 @@ define([
          * @constructor
          * @param {Object} [options] - the plugin options
          * @param {Boolean} [options.upload =  true] - if we upload the file once selected
+         * @param {String} [options.uploadUrl] - the URL where the files will be posted
+         * @param {jQueryElement} [options.$form] - a form to be used instead
          * @param {Boolean} [options.read =  false] - if we can read the file once selected
          * @param {Boolean} [options.multiple =  false] - enable to select more multiple files (may be not supported by old browsers)
          * @param {Number} [options.uploadQueueSize =  3] - max parallel uploads (applies only in multiple mode)
@@ -88,13 +90,13 @@ define([
          * @param {String} [options.progressBarClass = progressbar] - the class to identify the progress bar
          * @param {String} [options.dragOverClass = drag-hover] - the class to set to the drop zone when dragging over
          * @param {Function} [options.fileSelect] - called back before selection with files in params and returns the files to select; filter use case
-         * @param {Function} [options.formAttributes] - object with all the attributes you want to be on the form
-         * @param {Function} [options.defaultErrMsg] - localized error message when something goes wrong
-         * @param {Function} [options.uploadBtnText] - text on upload button
-         * @returns {jQueryElement} for chaining
+         * @param {Object} [options.formAttributes] - object with all the attributes you want to be on the form element
+         * @param {String} [options.defaultErrMsg] - localized error message when something goes wrong
+         * @param {String} [options.uploadBtnText] - text on upload button
+         * @returns {jQueryElement} for chainingV
          */
         init : function(options){
-            var self = uploader;       
+            var self = uploader;
 
             //get options using default
             options = _.defaults(options || {}, defaults);
@@ -108,7 +110,7 @@ define([
                     $elt.html(uploaderTpl(options));
 
                     // form could be inside $elt ...
-                    $builtInForm = $elt.find('form');
+                    $builtInForm = options.$form && options.$form.length ? options.$form : $elt.find('form');
 
                     // ... if not it could be a wrapper
                     if(!$builtInForm.length) {
@@ -122,7 +124,7 @@ define([
                     }
 
 
-                    //retrieve elements 
+                    //retrieve elements
                     options.$input          = $('input[type=file]', $elt);
                     options.$browseBtn      = $('.' + options.browseBtnClass, $elt);
                     options.$fileName       = $('.' + options.fileNameClass, $elt);
@@ -131,16 +133,16 @@ define([
                     options.$form           = $builtInForm;
                     options.$uploadBtn      = $('.' + options.uploadBtnClass, $elt);
                     options.$resetBtn       = $('.' + options.resetBtnClass, $elt);
-    
-                    options.useDropZone     = tests.dnd;     
+
+                    options.useDropZone     = tests.dnd;
 
                     options.dropZonePlaceholder = options.$dropZone.html();
                     options.fileNamePlaceholder = options.$fileName.text();
 
                     options.files = [];
-        
+
                     $elt.data(dataNs, options);
-           
+
                     self._reset($elt);
 
                     var inputHandler = function (e) {
@@ -150,7 +152,7 @@ define([
                         _.forEach(e.target.files, function(file) {
                             finalFiles.push(file);
                         });
-                        
+
                         self._selectFiles($elt, finalFiles);
                     };
 
@@ -165,22 +167,12 @@ define([
                         options.$dropZone.removeClass(options.dragOverClass);
                     };
 
-                    
+
                     //manage input selection
-                    if(options.read && !tests.filereader) {
-                        // Nope... :/
-                        require(['filereader'], function(){
-                            options.$input.fileReader({
-                                id: 'fileReaderSWFObject',
-                                filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
-                                callback: function() {
-                                    options.$input.on('change', inputHandler);
-                                }
-                            });
-                        });
-                    } else {
-                        options.$input.on('change', inputHandler);
+                    if (!tests.filereader) {
+                        throw new Error('FileReader API not supported! Please use a compliant browser!');
                     }
+                    options.$input.on('change', inputHandler);
 
                     // IE Specific hack. It prevents the browseBtn to slightly
                     // move on click. Special thanks to Dieter Raber, OAT S.A.
@@ -197,14 +189,14 @@ define([
                         $(document)
                             .off('drop.' +ns)
                             .on('drop.' + ns, function(e){
-                                e.stopImmediatePropagation(); 
+                                e.stopImmediatePropagation();
                                 e.preventDefault();
                                 return false;
                             });
                         $(document)
                             .off('dragover.' + ns)
                             .on('dragover.' + ns, function(e){
-                                e.stopImmediatePropagation(); 
+                                e.stopImmediatePropagation();
                                 e.preventDefault();
                                 return false;
                             });
@@ -213,21 +205,38 @@ define([
                             .on('dragend', dragOutHandler)
                             .on('dragleave', dragOutHandler)
                             .on('drop', function(e){
-                                dragOutHandler(e); 
-                                
-                                self._selectFiles($elt, _.values(e.target.files || e.originalEvent.files || e.originalEvent.dataTransfer.files), options.$dropZone.children('ul').length > 0);
-                                return false; 
+                                var files = [];
+                                dragOutHandler(e);
+
+                                if(e.target.files){
+                                    files = _.values(e.target.files);
+                                } else if ( e.originalEvent.files){
+                                    files = _.values(e.originalEvent.files);
+                                } else if ( e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files){
+                                    files = _.values(e.originalEvent.dataTransfer.files);
+                                }
+
+                                if(files && files.length){
+                                    var append = options.$dropZone.children('ul').length > 0;
+                                    if(!options.multiple){
+                                        files = [files[0]];
+                                        append = false;
+                                    }
+
+                                    self._selectFiles($elt, files, append);
+                                }
+                                return false;
                             });
                     } else {
                         options.$dropZone.hide();
-                    } 
+                    }
 
                     //getting files
                     $elt.on('fileselect.' + ns, function(){
                         if(options.files.length === 0){
                             self._reset($elt);
                         }
-                                
+
                         if(options.upload){
                            options.$uploadBtn
                                 .off('click')
@@ -240,7 +249,7 @@ define([
                         if(options.read){
                             self._read($elt, options.files);
                         }
-    
+
                         options.$resetBtn
                             .off('click')
                             .on('click', function(e){
@@ -248,7 +257,7 @@ define([
                                 self._reset($elt);
                             }).removeProp('disabled');
                     });
- 
+
                     /**
                      * The plugin has been created.
                      * @event uploader#create.uploader
@@ -260,13 +269,13 @@ define([
 
        /**
         * Select files to upload/read.
-        * 
+        *
         * Called the jQuery way once registered by the Pluginifier:
         * @example $('selector').uploader('selectFiles', files);
         *
         * @param {jQueryElement} $elt - plugin's element
         * @param {Array<File>} files - the selected files
-        * @param {Boolean} [append = false] - in append mode the files are added instead of replaced 
+        * @param {Boolean} [append = false] - in append mode the files are added instead of replaced
         * @fires uploader#fileselect.uploader
         */
         _selectFiles : function _selectFiles($elt, files, append){
@@ -280,29 +289,29 @@ define([
                 options.$fileName
                     .text(length + ' ' + (length > 1 ? __('files selected') : __('file selected')))
                     .removeClass('placeholder');
-            }; 
+            };
 
             if(files.length <= 0 && !append){
-                
-                //empty file list, so we reset the plugin
-                self._reset($elt);                            
 
-            } 
+                //empty file list, so we reset the plugin
+                self._reset($elt);
+
+            }
             if(files.length > 0){
 
                 //execute the fileSelect function to filter files before selection
                 options.fileSelect.call($elt, files, function(filteredFiles){
-                
+
                     if(append){
                         options.files = options.files.concat(filteredFiles);
                     } else {
                         options.files = filteredFiles;
-                    }  
+                    }
 
                     if(options.useDropZone){
 
-                        updateFileName(); 
-                        
+                        updateFileName();
+
                         listContent = _.reduce(filteredFiles, function(acc, file){
                             return acc + fileEntryTpl({
                                 name : file.name,
@@ -317,7 +326,7 @@ define([
                             options.$dropZone
                                 .html('<ul>' + listContent + '</ul>');
                         }
-        
+
                         options.$dropZone
                             .off('delete.delter', 'li')
                             .on('delete.deleter', 'li', function(e){
@@ -342,7 +351,7 @@ define([
                             .text(files[0].name)
                             .removeClass('placeholder');
                     }
-                    
+
                     /**
                      * Files has been selected
                      * @event uploader#fileselect.uploader
@@ -351,15 +360,15 @@ define([
                 });
             }
         },
-        
+
        /**
         * Get the selected files.
-        * 
+        *
         * Called the jQuery way once registered by the Pluginifier:
         * @example var files = $('selector').uploader('files');
         *
-        * @param {jQueryElement} $elt - plugin's element 
-        * @returns {Array<File>} the selected files 
+        * @param {jQueryElement} $elt - plugin's element
+        * @returns {Array<File>} the selected files
         */
         _files : function($elt){
             var files   = [];
@@ -372,25 +381,25 @@ define([
 
        /**
         * Reset the component
-        * 
+        *
         * Called the jQuery way once registered by the Pluginifier:
         * @example $('selector').uploader('reset');
         *
-        * @param {jQueryElement} $elt - plugin's element 
+        * @param {jQueryElement} $elt - plugin's element
         * @fires uploader#reset.uploader
         */
         _reset : function($elt){
             var options = $elt.data(dataNs);
-            
+
             options.$fileName
                 .text(options.fileNamePlaceholder)
-                .addClass('placeholder');    
+                .addClass('placeholder');
 
             options.$dropZone.empty().html(options.dropZonePlaceholder);
 
             options.$uploadBtn.prop('disabled', true);
             options.$resetBtn.prop('disabled', true);
- 
+
             if(options.$progressBar){
                 options.$progressBar
                     .removeClass('success')
@@ -406,28 +415,28 @@ define([
 
        /**
         * Upload the selected file
-        * 
+        *
         * Called the jQuery way once registered by the Pluginifier:
         * @example $('selector').uploader('upload');
         *
-        * @param {jQueryElement} $elt - plugin's element 
+        * @param {jQueryElement} $elt - plugin's element
         * @fires uploader#upload.uploader
         * @fires uploader#fail.uploader
         * @fires uploader#end.uploader
         */
         _upload : function($elt){
-            var length, 
+            var length,
                 $fileEntries,
                 entryHeight,
                 errors = [],
                 q;
 
             var options = $elt.data(dataNs);
-            
+
             if(options && options.files.length){
 
                 length          = options.files.length;
-                $fileEntries    = $('ul', options.$dropZone);       
+                $fileEntries    = $('ul', options.$dropZone);
                 entryHeight     = $('li:first', $fileEntries).outerHeight();
 
                 //create an async queue to start uploads
@@ -445,8 +454,8 @@ define([
 
                     //send (upload) the file
                     options.$form.sendfile({
-                        url : options.uploadUrl, 
-                        file : file, 
+                        url : options.uploadUrl,
+                        file : file,
                         loaded : function(result){
                             $status.removeClass('sending')
                                     .removeClass('error')
@@ -472,14 +481,14 @@ define([
                 options.$progressBar.progressbar('value', 0);
 
                 //start pushing uploads into the queue
-                _.forEach(options.files, function(file, index){   
-                    _.delay(function(){ 
+                _.forEach(options.files, function(file, index){
+                    _.delay(function(){
                         q.push(file, function(err, result){
                             var complete =  ((index + 1) / length) * 100;
- 
+
                             if(err){
                                 errors.push(err);
-                                
+
                                 /**
                                  * The file fails to upload
                                  * @event uploader#fail.uploader
@@ -487,7 +496,7 @@ define([
                                  * @param {Object} err - the error
                                  */
                                 $elt.trigger('fail.'+ns, [file, err]);
-                                
+
                             } else {
 
                                 /**
@@ -499,9 +508,9 @@ define([
                                 $elt.trigger('upload.'+ns, [file, result]);
                             }
 
-                            //update progress bar regarding the number of files uploaded 
+                            //update progress bar regarding the number of files uploaded
                             options.$progressBar.progressbar('value', complete);
-        
+
                             if(complete >= 100){
                                 if(errors.length === length){
                                     options.$progressBar.addClass('error');
@@ -525,13 +534,13 @@ define([
 
        /**
         * Read the selected file.
-        *   
+        *
         * TODO update files status and progress bar by file
-        * 
+        *
         * Called the jQuery way once registered by the Pluginifier:
         * @example $('selector').uploader('read');
-        * 
-        * @param {jQueryElement} $elt - plugin's element 
+        *
+        * @param {jQueryElement} $elt - plugin's element
         * @fires uploader#readstart.uploader
         * @fires uploader#readend.uploader
         */
@@ -539,13 +548,13 @@ define([
             var options = $elt.data(dataNs);
 
             if(options && options.files.length){
-           
+
                 _.forEach(options.files, function(file){
                     // Show information about the processed file to the candidate.
                     var filename = file.name;
                     var filesize = file.size;
                     var filetype = file.type;
-                    
+
                     // Let's read the file to get its base64 encoded content.
                     var reader = new FileReader();
 
@@ -558,9 +567,9 @@ define([
                          * @param {Object} file - the reading file
                          * @param {Object} result - the content
                          */
-                        $elt.trigger('readend.'+ns, [file, e.target.result]);                    
+                        $elt.trigger('readend.'+ns, [file, e.target.result]);
                     };
-                    
+
                     reader.onloadstart = function (e) {
                         options.$progressBar.progressbar('value', 0);
 
@@ -569,9 +578,9 @@ define([
                          * @event uploader#readstart.uploader
                          * @param {Object} file - the reading file
                          */
-                        $elt.trigger('readstart.'+ns, [file]); 
+                        $elt.trigger('readstart.'+ns, [file]);
                     };
-                   
+
                     if(options.$progressBar.length){
                         reader.onprogress = function (e) {
                             var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
@@ -588,13 +597,13 @@ define([
          *
          * Called the jQuery way once registered by the Pluginifier:
          * @example $('selector').uploader('destroy');
-         * 
+         *
          * @fires uploader#destroy.uploader
          */
         destroy : function(){
             this.each(function(){
                 var $elt = $(this);
-                
+
                 $(document)
                     .off('drop.' +ns)
                     .off('dragover.' + ns);

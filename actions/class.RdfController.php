@@ -233,11 +233,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 			$options['limit'] = $this->getRequestParameter('limit');
 		}
 		
-		if ($this->hasRequestParameter('subclasses')) {
-			$options['subclasses'] = $this->getRequestParameter('subclasses');
-		}
-		
-        //generate the tree from the given parameters	
+        //generate the tree from the given parameters
         $tree = $this->getClassService()->toTree($clazz, $options);
         
         $tree = $this->addPermissions($tree);

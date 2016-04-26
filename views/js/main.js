@@ -2,18 +2,19 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 (function(window){
+    'use strict';
 
     //the url of the app config is set into the data-config attr of the loader.
     var appConfig = document.getElementById('amd-loader').getAttribute('data-config');
     //loads the config
     require([appConfig], function(){
-        
-        /** 
-         * Main entry point for the backend. 
+
+        /**
+         * Main entry point for the backend.
          * Initialize high level components like the router, the error messages and the ui components listeners
          */
-        require(['jquery', 'i18n', 'lodash', 'context', 'router', 'ui', 'core/history', 'ui/feedback'], 
-            function ($, __, _, context, router, ui, history, feedback) {
+        require(['jquery', 'i18n', 'lodash', 'context', 'helpers', 'router', 'ui', 'core/history', 'ui/feedback', 'layout/logout-event'],
+            function ($, __, _, context, helpers, router, ui, history, feedback, logoutEvent) {
 
                 var $doc = $(document);
                 var $container = $('body > .content-wrap');
@@ -28,7 +29,7 @@
                        var urls = [settings.url];
                        var forward = request.getResponseHeader('X-Tao-Forward');
                        if(forward){
-                           urls.push(forward); 
+                           urls.push(forward);
                        }
 
                        router.dispatch(urls, function(){
@@ -37,9 +38,9 @@
                     }
                 });
 
-                //dispatch also the current page
-                router.dispatch(window.location.href);
-               
+                //dispatch also the current page (or the forward)
+                router.dispatch(helpers._url(context.action, context.module, context.extension));
+
                 //intercept errors
                 //TODO this should belongs to the Router
                 $doc.ajaxError(function (event, request, settings, exception) {
@@ -71,16 +72,18 @@
                             // It does not seem to be valid JSON.
                             errorMessage = request.status + ': ' + request.responseText;
                         }
-                    } else if (request.status === 403) {
-                        window.location = context.root_url + 'tao/Main/logout';
                     }
-
-                    feedback().error(errorMessage);
+                    
+                    if (request.status === 403) {
+                        logoutEvent();
+                    } else {
+                        feedback().error(errorMessage);
+                    }
                 });
-                
+
                 //initialize new components
                 ui.startEventComponents($container);
-                
+
         });
     });
 }(window));

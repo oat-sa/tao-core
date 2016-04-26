@@ -22,45 +22,72 @@
  */
 define([
     'jquery',
+    'lodash',
     'i18n',
     'module',
     'ui/feedback',
     'layout/version-warning'
-], function ($, __, module, feedback,  versionWarning) {
+], function ($, _, __, module, feedback, versionWarning) {
     'use strict';
 
-    var conf, type, context = $('.entry-pages-container'), $fields = $();
+    var conf = module.config();
+    var messages = conf.message || {};
+    var $context = $('.entry-point-container');
+    var $loginForm = $context.find('#loginForm');
+    var $fakeForm = $context.find('.fakeForm');
+
+    /**
+     * Submits the form after a copy of all the inputs the user has made in the fake form
+     */
+    function submitForm() {
+        // if the fake form exists, copy all fields values into the real form
+        $fakeForm.find(':input').each(function () {
+            var $field = $(this);
+            $loginForm.find('input[name="' + $field.attr('name') + '"]').val($field.val());
+        });
+
+        // just submit the real form as if the user did it
+        $loginForm.submit();
+    }
+
+    /**
+     * Displays the error/info messages
+     * @param {Object} messages
+     */
+    function displayMessages(messages) {
+        var $fields = $context.find(':input');
+        var renderer = feedback();
+        _.forEach(messages, function (message, type) {
+            if (message) {
+                if (_.isFunction(renderer[type])) {
+                    renderer[type](message);
+                }
+                $fields.addClass(type);
+            }
+        });
+    }
 
     versionWarning.init();
 
     // empty $fields sent
-    if(context.find('.form-error').length){
-        conf = {
-            message: {
-                error: __('All fields are required')
-            }
-        };
-        context.find(':input').each(function() {
-            if(!this.value) {
-                $fields = $fields.add($(this));
-            }
-        });
-    }
-    // if the module config contains a message object
-    else {
-        conf = module.config();
+    if (!messages.error && $context.find('.form-error').length) {
+        messages.error = __('All fields are required');
     }
 
     // any error/info creates feedback
-    if (conf.message) {
-        $fields = context.find(':input');
-        for (type in conf.message) {
-            if (!conf.message[type]) {
-                continue;
-            }
-            feedback()[type](conf.message[type]);
-            $fields.addClass(type);
-        }
-    }
+    displayMessages(messages);
 
+    // submit the form when the user hit the submit button inside the fake form
+    $fakeForm.find('input[type="submit"], button[type="submit"]').off('click').on('click', function (e) {
+        e.preventDefault();
+        submitForm();
+    });
+
+    // submit the form when the user hit the ENTER key inside the fake form
+    $fakeForm.on('keypress', function (e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            submitForm();
+        }
+    });
 });

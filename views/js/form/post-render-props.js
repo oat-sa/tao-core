@@ -22,16 +22,29 @@ define([
         }
 
         /**
-         * Reposition the radio buttons of a property and make them look nice.
+         * Reposition the radio buttons or checkboxes of a property and make them look nice.
          *
+         * @param $container the container in which to search and upgrade buttons
+         * @param type string the type of input we want to upgrade 'checkbox' or 'radio' by default we use radio
          * @private
          */
-        function _upgradeRadioButtons($container) {
+        function _upgradeButtons($container, type){
 
-            $container.find('.form_radlst').not('.property-radio-list').each(function() {
+            //if the type is not radio or checkbox we put by default radio
+            if(type !== 'radio' && type !== 'checkbox'){
+                type = 'radio';
+            }
+            var selector = '.form_checklst';
+            var notSelector = '';
+            if(type === 'radio'){
+                selector = '.form_radlst';
+                notSelector = '.form_checklst, ';
+            }
+
+            $container.find(selector).not(notSelector+'.property-'+type+'-list').each(function() {
                 var $radioList = $(this);
-                $radioList.addClass('property-radio-list');
-                $radioList.parent().addClass('property-radio-list-box');
+                $radioList.addClass('property-'+type+'-list');
+                $radioList.parent().addClass('property-'+type+'-list-box');
                 $radioList.each(function() {
                     var $block = $(this),
                         $inputs = $block.find('input');
@@ -43,7 +56,7 @@ define([
                     $inputs.each(function() {
                         var $input = $(this),
                             $label = $block.find('label[for="' + this.id + '"]'),
-                            $icon  = $('<span>', { 'class': 'icon-radio'});
+                            $icon  = $('<span>', { 'class': 'icon-'+type});
 
                         $label.prepend($icon);
                         $label.prepend($input);
@@ -76,7 +89,7 @@ define([
          * @private
          */
         function _wrapPropsInContainer($properties) {
-            var $propertyContainer = getPropertyContainer($properties),
+            var $propertyContainer = getPropertyContainer(),
                 // the reason why this is not done via a simple counter is that
                 // the function could have been called multiple times, e.g. when
                 // properties are created dynamically.
@@ -87,6 +100,8 @@ define([
                 var $property = $(this);
                 if($property.attr !== undefined){
                     var type = (function() {
+                        var $propertyMode = $('.property-mode');
+
                         switch($property.attr('id').replace(/_?property_[\d]+/, '')) {
                             case 'ro':
                                 return 'readonly-property';
@@ -103,6 +118,12 @@ define([
 
                                 _hideProperties($editContainer);
                                 _hideIndexes($editContainer);
+
+                                if ($propertyMode.hasClass('property-mode-simple')) {
+                                    $indexIcon.hide();
+                                } else if($propertyMode.hasClass('property-mode-advanced')) {
+                                    $indexIcon.show();
+                                }
 
                                 //on click on edit icon show property form or hide it
                                 $editIcon.on('click', function() {
@@ -194,7 +215,8 @@ define([
                 return;
             }
             _wrapPropsInContainer($properties);
-            _upgradeRadioButtons($container);
+            _upgradeButtons($container, 'radio');
+            _upgradeButtons($container, 'checkbox');
             _toggleModeBtn('disabled');
         }
 

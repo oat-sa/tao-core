@@ -21,6 +21,8 @@
  */
 
 use oat\tao\helpers\translation\TranslationBundle;
+use oat\tao\helpers\InstallHelper;
+use oat\oatbox\install\Installer;
 
 /**
  *
@@ -118,6 +120,15 @@ class tao_install_Installator{
 					throw new tao_install_utils_Exception($msg);
 				}
 			}
+			
+			/*
+			 *  X - Setup Oatbox
+			 */
+			
+			$this->log('d', 'Removing old config', 'INSTALL');
+			$consistentOptions = array_merge($installData, $this->options);
+			$oatBoxInstall = new Installer($consistentOptions);
+			$oatBoxInstall->install();
 			
 			/*
 			 *  2 - Test DB connection (done by the constructor)
@@ -226,10 +237,6 @@ class tao_install_Installator{
 			 *  5 - Create the generis config files
 			 */
 			
-			$this->log('d', 'Removing old config', 'INSTALL');
-            if (!helpers_File::emptyDirectory($this->options['root_path'].'config/', true)) {
-                throw new common_exception_Error('Unable to empty ' . $this->options['root_path'] . 'config/ folder.');
-            }
 			$this->log('d', 'Writing generis config', 'INSTALL');
 			$generisConfigWriter = new tao_install_utils_ConfigWriter(
 				$this->options['root_path'].'generis/config/sample/generis.conf.php',
@@ -270,7 +277,7 @@ class tao_install_Installator{
 			 * 6 - Run the extensions bootstrap
 			 */
 			$this->log('d', 'Running the extensions bootstrap', 'INSTALL');
-			require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
+			common_Config::load();
 			
 			/*
 			 * 6b - Create cache persistence
@@ -316,71 +323,16 @@ class tao_install_Installator{
 	        /*
 			 * 9 - Install the extensions
 			 */			
-			
-			$toInstall = array();
-			foreach ($extensionIDs as $id) {
-				try {
-					$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
-					
-					if (!common_ext_ExtensionsManager::singleton()->isInstalled($ext->getId())) {
-					    $this->log('d', 'Extension ' . $id . ' needs to be installed');
-						$toInstall[$id] = $ext;
-					}
-				} catch (common_ext_ExtensionException $e) {
-					$this->log('w', 'Extension '.$id.' not found');
-				}
-			}
-	
-			while (!empty($toInstall)) {
-				$modified = false;
-				foreach ($toInstall as $key => $extension) {
-					// if all dependencies are installed
-				    $this->log('d', 'Considering extension ' . $key);
-					$installed	= array_keys(common_ext_extensionsmanager::singleton()->getinstalledextensions());
-					$missing	= array_diff(array_keys($extension->getDependencies()), $installed);
-					if (count($missing) == 0) {
-						try {
-						    $importLocalData = ($installData['import_local'] == true);
-							$extinstaller = new tao_install_ExtensionInstaller($extension, $importLocalData);
-							
-							set_time_limit(300);
-							
-							$extinstaller->install();
-                            $this->log('ext', $key);
-                            $this->log('i', 'Extension '.$key.' installed');
-						} catch (common_ext_ExtensionException $e) {
-							$this->log('w', 'Exception('.$e->getMessage().') during install for extension "'.$extension->getId().'"');
-							throw new tao_install_utils_Exception("An error occured during the installation of extension '" . $extension->getId() . "'.");
-						}
-						unset($toInstall[$key]);
-						$modified = true;
-					} else {
-						$missing = array_diff($missing, array_keys($toInstall));
-						foreach ($missing as $extID) {
-						    $this->log('d', 'Extension ' . $extID . ' is required but missing, added to install list');
-							$toInstall[$extID] = common_ext_ExtensionsManager::singleton()->getExtensionById($extID);
-							$modified = true;
-						}
-					}
-				}
-				// no extension could be installed, and no new requirements was added
-				if (!$modified) {
-					throw new common_exception_Error('Unfulfilable/Cyclic reference found in extensions');
-				}
-			}
+			$installed = InstallHelper::installRecursively($extensionIDs, $installData);
+			$this->log('ext', $installed);
 
             /*
              *  9bis - Generates client side translation bundles (depends on extension install)
              */
 			$this->log('i', 'Generates client side translation bundles', 'INSTALL');
             
-//             
-
-
-	
 			$files = tao_models_classes_LanguageService::singleton()->generateClientBundles();
 
-			
 			/*
 			 *  10 - Insert Super User
 			 */
@@ -569,7 +521,12 @@ class tao_install_Installator{
         if (method_exists('common_Logger', $logLevel)) {
             call_user_func('common_Logger::' . $logLevel, $message, $tags);
         }
-        $this->log[$logLevel][] = $message;
+		if(is_array($message)){
+			$this->log[$logLevel] = (isset($this->log[$logLevel])) ? array_merge($this->log[$logLevel], $message) : $message;
+		}
+		else{
+			$this->log[$logLevel][] = $message;
+		}
     }
     
     /**

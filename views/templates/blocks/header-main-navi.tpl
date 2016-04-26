@@ -17,7 +17,7 @@ $settingsMenu = get_data('settings-menu');
                         <ul class="plain menu-dropdown">
                             <?php foreach ($item['children'] as $child): ?>
                                 <?php if(!$child->getDisabled()) : ?>
-                                <li>
+                                <li<?=$child->getId() === get_data('current-section') ? ' class="active"' : '' ?>>
                                     <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
                                 </li>
                                 <?php endif; ?>
@@ -31,7 +31,7 @@ $settingsMenu = get_data('settings-menu');
 
     <div class="settings-menu rgt">
         <span class="reduced-menu-trigger">
-            <span class="icon-mobile-menu"></span>
+            <span class="icon-mobile-menu glyph"></span>
             <?=__('More')?>
         </span>
         <ul class="clearfix plain">
@@ -67,7 +67,7 @@ $settingsMenu = get_data('settings-menu');
                             <ul class="plain menu-dropdown">
                                 <?php foreach ($item['children'] as $child): ?>
                                     <?php if(!$child->getDisabled()) : ?>
-                                        <li>
+                                        <li<?=$child->getId() === get_data('current-section') ? ' class="active"' : '' ?>>
                                             <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
                                         </li>
                                     <?php endif; ?>
@@ -80,7 +80,7 @@ $settingsMenu = get_data('settings-menu');
 
             <li data-env="user" class="li-logout">
                 <a id="logout" href="<?= _url('logout', 'Main', 'tao') ?>" title="<?= __('Log Out') ?>">
-                    <span class="icon-logout"></span>
+                    <span class="icon-logout glyph"></span>
                 </a>
             </li>
         </ul>

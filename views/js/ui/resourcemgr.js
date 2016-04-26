@@ -82,7 +82,7 @@ define([
                         $elt.trigger('close.' + ns);
                     });
                     //initialize the components
-                    var $fileBrowser    = $('.file-browser', $target);
+                    var $fileBrowser    = $('.file-browser .file-browser-wrapper', $target);
                     if(options.mediaSourcesUrl){
                         $.getJSON(options.mediaSourcesUrl)
                             .done(function(data){

@@ -34,18 +34,31 @@ class ThemeService extends ConfigurableService {
     
     const OPTION_CURRENT = 'current';
     
+    /**
+     * Get the current Theme
+     */
     public function getTheme()
     {
         return $this->getThemeById($this->getOption(self::OPTION_CURRENT));
     }
     
+    /**
+     * Add and set a theme as default
+     * 
+     * @param Theme $theme
+     */
     public function setTheme(Theme $theme)
     {
         $id = $this->addTheme($theme);
-        $this->setOption(self::OPTION_CURRENT, $id);
+        $this->setCurrentTheme($id);
     }
     
-    
+    /**
+     * Add a Theme but don't activate it
+     * 
+     * @param Theme $theme
+     * @return string
+     */
     public function addTheme(Theme $theme)
     {
         $themes = $this->getOption(self::OPTION_AVAILABLE);
@@ -59,13 +72,45 @@ class ThemeService extends ConfigurableService {
         return $baseId.$nr;
     }
     
+    /**
+     * Switch between themes
+     * 
+     * @param string $themeId
+     * @throws \common_exception_Error
+     */
+    public function setCurrentTheme($themeId)
+    {
+        $themes = $this->getOption(self::OPTION_AVAILABLE);
+        if (!isset($themes[$themeId])) {
+            throw new \common_exception_Error('Theme '.$themeId.' not found');
+        }
+        $this->setOption(self::OPTION_CURRENT, $themeId);
+    }
+    
+    /**
+     * Return all available Themes
+     * 
+     * @return Theme[]
+     */
+    public function getAllThemes()
+    {
+        return $this->getOption(self::OPTION_AVAILABLE);
+    }
+    
+    /**
+     * Get Theme identified by id
+     * 
+     * @param unknown $id
+     * @throws \common_exception_InconsistentData
+     * @return Theme
+     */
     protected function getThemeById($id)
     {
         $themes = $this->getOption(self::OPTION_AVAILABLE);
         if (isset($themes[$id])) {
             return $themes[$id];
         } else {
-            throw new \common_exception_InconsistentData('Theme not found');
+            throw new \common_exception_InconsistentData('Theme '.$id.' not found');
         }
     }
 }

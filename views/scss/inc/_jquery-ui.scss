@@ -217,24 +217,24 @@
     text-indent: 0 !important;
 }
 
-.ui-icon-triangle-1-n {
+.ui-icon-triangle-1-n:before {
     @include tao-icon-setup;
     @include icon-up;
 }
 
-.ui-datepicker-next,
-.ui-icon-triangle-1-e {
+.ui-datepicker-next:before,
+.ui-icon-triangle-1-e:before {
     @include tao-icon-setup;
     @include icon-right;
 }
 
-.ui-icon-triangle-1-s {
+.ui-icon-triangle-1-s:before {
     @include tao-icon-setup;
     @include icon-down;
 }
 
-.ui-datepicker-prev,
-.ui-icon-triangle-1-w {
+.ui-datepicker-prev:before,
+.ui-icon-triangle-1-w:before {
     @include tao-icon-setup;
     @include icon-left;
 }

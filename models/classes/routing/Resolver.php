@@ -50,7 +50,7 @@ class Resolver
     /**
      * Resolves a request to a method
      * 
-     * @param HttpRequest $pRequest
+     * @param common_http_Request $pRequest
      * @return string
      */
     public function __construct(common_http_Request $request) {
@@ -97,22 +97,14 @@ class Resolver
      */
     protected function resolve() {
         $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
-        $extPrefix = substr($relativeUrl, 0, strpos($relativeUrl, '/'));
-        
-        if (common_ext_ExtensionsManager::singleton()->isEnabled($extPrefix)) {
-            $extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extPrefix);
-        } else {
-            $extension = common_ext_ExtensionsManager::singleton()->getExtensionById(self::DEFAULT_EXTENSION);
-        }
-        $routes = $this->getRoutes($extension);
-        
-        foreach ($this->getRoutes($extension) as $route) {
+        foreach ($this->getRouteMap() as $entry) {
+            $route = $entry['route'];
             $called = $route->resolve($relativeUrl);
             if (!is_null($called)) {
                 list($controller, $action) = explode('@', $called);
                 $this->controller = $controller;
                 $this->action = $action;
-                $this->extensionId = $extension->getId();
+                $this->extensionId = $entry['extId'];
                 return true;
             }
         }
@@ -122,13 +114,33 @@ class Resolver
     private function getRoutes(\common_ext_Extension $extension) {
         $routes = array();
         foreach ($extension->getManifest()->getRoutes() as $routeId => $routeData) {
-            $class = is_array($routeData) && isset($routeData['class'])
-                ? $routeData['class']
-                : 'oat\tao\model\routing\NamespaceRoute';
-            $routes[] = new $class($extension, trim($routeId, '/'), $routeData);
+            if (is_string($routeData)) {
+                $routeData = array(
+                    'class' => 'oat\\tao\\model\\routing\\NamespaceRoute',
+                    NamespaceRoute::OPTION_NAMESPACE => $routeData
+                );
+            }
+            if (!isset($routeData['class']) || !is_subclass_of($routeData['class'], 'oat\tao\model\routing\Route')) {
+                throw new \common_exception_InconsistentData('Invalid route '.$routeId);
+            }
+            $className = $routeData['class'];
+            $routes[] = new $className($extension, trim($routeId, '/'), $routeData);
         }
         if (empty($routes)) {
             $routes[] = new LegacyRoute($extension, $extension->getName(), array());
+        }
+        return $routes;
+    }
+    
+    private function getRouteMap() {
+        $routes = array();
+        foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+            foreach ($this->getRoutes($extension) as $route) {
+                $routes[] = array(
+                	'extId' => $extension->getId(),
+                    'route' => $route
+                );
+            }
         }
         return $routes;
     }

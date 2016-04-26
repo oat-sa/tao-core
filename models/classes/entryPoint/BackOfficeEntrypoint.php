@@ -24,28 +24,13 @@ namespace oat\tao\model\entryPoint;
 use oat\oatbox\PhpSerializable;
 use tao_models_classes_accessControl_AclProxy;
 use oat\oatbox\Configurable;
+use oat\taoBackOffice\model\entryPoint\BackOfficeEntryPoint as RealEntryPoint;
 
-class BackOfficeEntrypoint extends Configurable implements Entrypoint
+/**
+ * 
+ * @author bout
+ * @deprecated
+ */
+class BackOfficeEntrypoint extends RealEntryPoint
 {
-
-    public function getId() {
-        return 'backoffice';
-    }
-    
-    public function getTitle() {
-        return __('Test Developers and Administrators');
-    }
-    
-    public function getLabel() {
-        return __('TAO Back Office');
-    }
-    
-    public function getDescription() {
-        return __('Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows.');
-    }
-    
-    public function getUrl() {
-        return _url("index", "Main", "tao");
-    }
-
 }

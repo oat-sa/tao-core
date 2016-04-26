@@ -95,7 +95,9 @@ class Factory
         // routes
         $namespaces = array();
         foreach ($extension->getManifest()->getRoutes() as $mapedPath => $ns) {
-            $namespaces[] = trim($ns, '\\');
+            if (is_string($ns)) {
+                $namespaces[] = trim($ns, '\\');
+            }
         }
         if (!empty($namespaces)) {
             common_Logger::t('Namespace found in routes for extension '. $extension->getId() );
@@ -154,7 +156,7 @@ class Factory
             // abstract so just move along
             $reflection = new \ReflectionClass($controllerClassName);
             if ($reflection->isAbstract()) {
-                common_Logger::w($controllerClassName.' is abstract');
+                common_Logger::i($controllerClassName.' is abstract');
                 $returnValue = false;
             }
         }

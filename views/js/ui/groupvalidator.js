@@ -10,7 +10,8 @@ define(['jquery', 'lodash', 'ui/validator'], function($, _){
      * @param {string} [options.errorClass = 'error'] - the class added to the element itself if the validation fails
      * @param {string} [options.errorMessageClass = 'validate-error'] - the class added to the inserted node that contains the failure message itself
      * @param {string} [options.validateOnInit = false] - trigger validation upon initialization
-     * @param {string|Array} [options.defaultEvent = ['change', 'blur']] - the default event that triggers the validation
+     * @param {string|Array} [options.events = ['change', 'blur']] - the default event that triggers the validation
+     * @param {function} [options.callback] - the default callback function triggered after validation.
      * @fires validated.group
      * @returns {jQueryElement} for chaining
      */

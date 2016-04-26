@@ -54,7 +54,7 @@ class tao_helpers_form_elements_xhtml_Calendar
 			$this->attributes['size'] = 20;
 		}
 		
-		$returnValue .= "<input type='text' name='{$this->name}' id='$elementId' ";
+		$returnValue .= "<input class='datepicker-input' type='text' name='{$this->name}' id='$elementId' ";
 		$returnValue .= $this->renderAttributes();
 		
 		if (!empty($this->value)) {

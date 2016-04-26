@@ -87,6 +87,13 @@ The visual representation of a rich combo widget looks as follows:
 
 }
 
+.cke_combo_off a.cke_combo_button:hover,
+.cke_combo_off a.cke_combo_button:focus,
+.cke_combo_off a.cke_combo_button:active {
+  background-color: $uiClickableActiveBg;
+  text-shadow: none;
+}
+
 .cke_rtl .cke_combo_button {
   float: right;
   margin-left: 5px;
@@ -112,7 +119,6 @@ The visual representation of a rich combo widget looks as follows:
   line-height: 26px;
   padding : {
     left: 10px;
-    top: 4px;
   }
   text-overflow: ellipsis;
   overflow: hidden;
@@ -149,6 +155,23 @@ The visual representation of a rich combo widget looks as follows:
   &:hover {
     color: $textHighlight;
     background: $uiClickableHoverBg;
+  }
+}
+
+.cke_combo_button:hover {
+  color: $textHighlight !important;
+  background: $uiClickableHoverBg !important;
+  .cke_combo_text{
+    color: $darkBarTxt !important;
+  }
+}
+
+.cke_combo_on {
+  .cke_combo_button {
+    background-color: $info;
+    .cke_combo_text {
+      color: $darkBarTxt !important;
+    }
   }
 }
 

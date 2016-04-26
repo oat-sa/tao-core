@@ -253,3 +253,7 @@ Usage:
     font-family: $headingFont;
     font-style: normal;
 }
+
+@mixin disableSelect() {
+    @include vendor-prefix(user-select, none, property);
+}

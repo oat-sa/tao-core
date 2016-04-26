@@ -21,7 +21,7 @@ define(['jquery', 'urlParser'], function($, UrlParser){
     /**
      * @constructor
      */
-    function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage, userService){
+    function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage, userService, paused){
         this.baseUrl = baseUrl;
         this.parameters = parameters;
         this.connected = false;
@@ -29,6 +29,7 @@ define(['jquery', 'urlParser'], function($, UrlParser){
         this.serviceCallId = serviceCallId;
         this.state = stateStorage;
         this.userService = userService;
+        this.hasBeenPaused = paused;
     }
 
     ServiceApi.SIG_SUCCESS = 0;
@@ -101,6 +102,15 @@ define(['jquery', 'urlParser'], function($, UrlParser){
         return this.state.set(state, callback);
     };
 
+    //Context
+    ServiceApi.prototype.getHasBeenPaused = function(){
+        return this.hasBeenPaused;
+    };
+
+    ServiceApi.prototype.setHasBeenPaused = function(paused){
+        this.hasBeenPaused = paused;
+    };
+
     // Variables
     ServiceApi.prototype.getParameter = function(identifier){
         if (typeof(this.parameters[identifier]) !== "undefined") {
@@ -110,14 +120,39 @@ define(['jquery', 'urlParser'], function($, UrlParser){
         }
     };
 
+    /**
+     * Sets a callback on the finish action
+     * @param {Function} callback
+     * @returns {ServiceApi}
+     */
     ServiceApi.prototype.onFinish = function(callback) {
         this.onFinishCallback = callback;
+        return this;
     };
 
+    /**
+     * Sets a callback on the kill action
+     * @param {Function} callback
+     * @returns {ServiceApi}
+     */
     ServiceApi.prototype.onKill = function(callback) {
         this.onKillCallback = callback;
+        return this;
     };
 
+    /**
+     * Sets a callback on the exit action
+     * @param {Function} callback
+     * @returns {ServiceApi}
+     */
+    ServiceApi.prototype.onExit = function(callback) {
+        this.onExitCallback = callback;
+        return this;
+    };
+
+    /**
+     * @param {Function} callback - Function called if no dedicated callback is found
+     */
     ServiceApi.prototype.kill = function(callback) {
     	if (typeof this.onKillCallback === 'function') {
     		this.onKillCallback(callback);
@@ -126,8 +161,22 @@ define(['jquery', 'urlParser'], function($, UrlParser){
     	}
     };
 
-    // Flow
-    // valueArray are return parameters of the service.
+    /**
+     * Exits the flow
+     * @param {Function} callback - Function called if no dedicated callback is found
+     */
+    ServiceApi.prototype.exit = function(callback) {
+    	if (typeof this.onExitCallback === 'function') {
+    		this.onExitCallback(callback);
+    	} else {
+    		callback(0);
+    	}
+    };
+
+    /**
+     * Finishes the flow
+     * @param valueArray - return parameters of the service.
+     */
     ServiceApi.prototype.finish = function(valueArray) {
         //return execution to service caller
         if (typeof this.onFinishCallback === 'function') {

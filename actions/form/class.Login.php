@@ -87,6 +87,11 @@ class tao_actions_form_Login
 			tao_helpers_form_FormFactory::getValidator('NotEmpty')
 		);
 		$this->form->addElement($passElt);
+
+		if (isset($this->data['disableAutocomplete']) && !empty($this->data['disableAutocomplete'])) {
+			$loginElt->setAttributes(array('autocomplete' => 'off'));
+			$passElt->setAttributes(array('autocomplete' => 'off'));
+		}
     }
 
 }

@@ -50,7 +50,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * an associative array formated like this:
      * array('field_delimiter' => 'a delimiter char', default is ;,
      * 'field_encloser' => 'a field encloser char, default is "',
-     * 'multi_values_delimiter' => 'a multi values delimiter, default is |',
+     * 'multi_values_delimiter' => 'a multi values delimiter, default is empty string - do not use multi values',
      * 'first_row_column_names' => 'boolean value describing if the first row
      * column names').
      *
@@ -70,7 +70,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			$this->options['field_encloser'] = '"';		//double quote
 		}
 		if(!isset($this->options['multi_values_delimiter'])){
-			$this->options['multi_values_delimiter'] = '|';
+			$this->options['multi_values_delimiter'] = '';
 		}
 		if(!isset($this->options['first_row_column_names'])){
 			$this->options['first_row_column_names'] = true;
@@ -145,6 +145,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			    foreach ($this->options['map'] as $propUri => $csvColumn) {
 			        $this->validate($destination, $propUri, $csvRow, $csvColumn);
 			    }
+				
 			    // evaluate csv values
 			    foreach($this->options['map'] as $propUri => $csvColumn){
 			        
@@ -167,15 +168,13 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			    
 			    $createdResources++;
 			    
-			} catch (tao_helpers_data_ValidationException $valExc) {
-			    $targetProperty = new core_kernel_classes_Property($propUri);
+			} catch (ValidationException $valExc) {
                 $this->addErrorMessage(
 			        $propUri,
 			        common_report_Report::createFailure(
-			            'Row '.$rowIterator. ' ' .$valExc->getProperty()->getLabel(). ': ' .$valExc->getUserMessage(). ' "' . $valExc->getValue() . '"'
+			            __('Row %s', $rowIterator) . ' ' .$valExc->getProperty()->getLabel(). ': ' . $valExc->getUserMessage() . ' "' . $valExc->getValue() . '"'
 			        )
 			    );
-			    $valid = false;
 			}
 			
 			helpers_TimeOutHelper::reset();
@@ -269,7 +268,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		
 		$returnValue = $value;
 
-        return (string) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -317,19 +316,17 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 	 * @param $propUri
 	 * @param $csvRow
 	 * @param $csvColumn
-	 * @throws tao_helpers_data_ValidationException
-	 * @return array
+	 * @throws ValidationException
+	 * @return bool
 	 */
 	protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn)
 	{
 		/**  @var tao_helpers_form_Validator $validator */
 		$validators = $this->getValidator($propUri);
 		foreach ((array)$validators as $validator) {
-            $validator->setOptions( array(
-                'resourceClass' => $destination,
-                'property'      => $propUri
-            ));
 
+			$validator->setOptions( array_merge(array('resourceClass' => $destination,'property' => $propUri), $validator->getOptions()) );
+			
             if (!$validator->evaluate($csvRow[$csvColumn])) {
                 throw new ValidationException(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn], $validator->getMessage());
 			}

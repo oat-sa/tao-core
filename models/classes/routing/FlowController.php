@@ -27,7 +27,6 @@ use common_http_Request;
 use common_ext_ExtensionsManager;
 use HTTPToolkit;
 use InterruptedActionException;
-use HttpRequest;
 use Context;
 use FlowController as ClearFwFlowController;
 use tao_helpers_Uri;
