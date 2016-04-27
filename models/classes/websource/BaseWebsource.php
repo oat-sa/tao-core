@@ -23,6 +23,11 @@ namespace oat\tao\model\websource;
 
 use oat\oatbox\Configurable;
 use core_kernel_fileSystem_FileSystem;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ServiceManager;
+use Slim\Http\Stream;
+use League\Flysystem\FileNotFoundException;
+
 /**
  * This is the base class of the Access Providers
  *
@@ -43,8 +48,8 @@ implements Websource
 	 * 
 	 * @var core_kernel_fileSystem_FileSystem
 	 */
-	private $fileSystem = null;
-	
+	protected $fileSystem = null;
+
 	/**
 	 * Identifier of the Access Provider 
 	 * 
@@ -56,8 +61,8 @@ implements Websource
 	 * Used to instantiate new AccessProviders
 	 * 
 	 * @param core_kernel_fileSystem_FileSystem $fileSystem
-	 * @param unknown $customConfig
-	 * @return tao_models_classes_fsAccess_AccessProvider
+	 * @param array $customConfig
+	 * @return \tao_models_classes_fsAccess_AccessProvider
 	 */
 	protected static function spawn(core_kernel_fileSystem_FileSystem $fileSystem, $customConfig = array()) {
 	    $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystem->getUri();
@@ -68,18 +73,6 @@ implements Websource
 	}
 
 	/**
-	 * Filesystem made available by this Access Provider
-	 * 
-	 * @return core_kernel_fileSystem_FileSystem
-	 */
-	public function getFileSystem() {
-	    if (is_null($this->fileSystem)) {
-	        $this->fileSystem = new core_kernel_fileSystem_FileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
-	    }
-	    return $this->fileSystem;
-	}
-
-	/**
 	 * Return the identifer of the AccessProvider
 	 * 
 	 * @return string
@@ -87,5 +80,52 @@ implements Websource
 	public function getId() {
 	    return $this->getOption(self::OPTION_ID);
 	}
-	
+
+    /**
+     * @return \League\Flysystem\Filesystem
+     */
+    public function getFileSystem()
+    {
+        if ($this->fileSystem === null) {
+            /** @var FileSystemService $fsService */
+            $fsService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
+            $this->fileSystem = $fsService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM_ID));
+        }
+        return $this->fileSystem;
+    }
+
+    /**
+     * @param $filePath
+     * @throws \tao_models_classes_FileNotFoundException
+     * @return Stream
+     */
+    public function getFileStream($filePath)
+    {
+        if ($filePath === '') {
+            throw new \tao_models_classes_FileNotFoundException("File not found");
+        }
+        $fs = $this->getFileSystem();
+        try {
+            $resource = $fs->readStream($filePath);
+        } catch(FileNotFoundException $e) {
+            throw new \tao_models_classes_FileNotFoundException("File not found");
+        }
+        return new Stream($resource);
+    }
+
+    /**
+     * Get a file's mime-type.
+     * @param string $filePath The path to the file.
+     * @return string|false The file mime-type or false on failure.
+     */
+    public function getMimetype($filePath)
+    {
+        $mimeType = $this->getFileSystem()->getMimetype($filePath);
+        //for css files mimetype can be 'text/plain' due to bug in finfo (see more: https://bugs.php.net/bug.php?id=53035)
+        $pathParts = pathinfo($filePath);
+        if ($mimeType === 'text/plain' && isset($pathParts['extension']) && $pathParts['extension'] === 'css') {
+            $mimeType = 'text/css';
+        }
+        return $mimeType;
+    }
 }

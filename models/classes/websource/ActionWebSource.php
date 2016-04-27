@@ -20,8 +20,7 @@
  */
 namespace oat\tao\model\websource;
 
-use core_kernel_fileSystem_FileSystem;
-use common_ext_ExtensionsManager;
+use \core_kernel_fileSystem_FileSystem;
 
 /**
  * Grants Access to compiled data via the MVC
@@ -39,8 +38,6 @@ class ActionWebSource extends BaseWebsource
     }
     
 	public function getAccessUrl($relativePath) {
-	    $fsUri = $this->getFileSystem()->getUri();
-	    $trailingSlash = substr($relativePath, -1) == DIRECTORY_SEPARATOR ? '/' : '';
 	    return _url('accessFile/'.base64_encode($this->getId().' '.trim($relativePath, DIRECTORY_SEPARATOR)).'/','File', 'tao');
 	}
 }
