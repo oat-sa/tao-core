@@ -35,7 +35,6 @@ module.exports = function(grunt) {
     var libs        = ext.getExtensionSources('tao', libsPattern, true).concat([
         'jquery',
         'jqueryui',
-        'filereader',
         'select2',
         'lodash',
         'async',
