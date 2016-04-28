@@ -69,7 +69,6 @@ require.config({
         'scale.raphael'     : 'lib/raphael/scale.raphael',
         'spin'              : 'lib/spin.min',
         'history'           : 'lib/history/history',
-        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player',
         'mathJax'           : [
             '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
             '../../../taoQtiItem/views/js/MathJaxFallback'

@@ -8,8 +8,7 @@ define([
     'core/mimetype',
     'core/pluginifier',
     'ui/mediaplayer',
-    'iframeNotifier',
-    'mediaElement'
+    'iframeNotifier'
 ],
 function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
     'use strict';
