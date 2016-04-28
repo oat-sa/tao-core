@@ -28,7 +28,12 @@ class Action implements PhpSerializable, iAction
 {
     const SERIAL_VERSION = 1392821334;
 
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
+    /**
+     * @param \SimpleXMLElement $node
+     * @param $structureExtensionId extension of t structures.xml
+     * @return static
+     */
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId) {
 		$url = isset($node['url']) ? (string) $node['url'] : '#';
 		if ($url == '#' || empty($url)) {
 			$extension  = null;
@@ -52,7 +57,7 @@ class Action implements PhpSerializable, iAction
         );
 
         if(isset($node->icon)){
-            $data['icon'] = Icon::fromSimpleXMLElement($node->icon);
+            $data['icon'] = Icon::fromSimpleXMLElement($node->icon, $structureExtensionId);
         }
 
         return new static($data);

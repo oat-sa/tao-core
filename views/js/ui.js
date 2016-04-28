@@ -15,6 +15,23 @@ define([
     'ui/groupvalidator'
 ], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltipster, form) {
     'use strict';
+
+    function initCrossBrowserSvg() {
+
+        // code taken from svg4everybody
+        var newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/;
+        var webkitUA = /\bAppleWebKit\/(\d+)\b/;
+        var olderEdgeUA = /\bEdge\/12\.(\d+)\b/;
+
+        if(newerIEUA.test(navigator.userAgent) ||
+            (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 ||
+            (navigator.userAgent.match(webkitUA) || [])[1] < 537){
+
+            require(['lib/polyfill/svg4everybody/svg4everybody'], function(svg4everybody){
+                svg4everybody();
+            });
+        }
+    }
         
     /**
      * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -43,6 +60,7 @@ define([
             durationer($container);
             selecter($container);
             tooltipster($container);
+            initCrossBrowserSvg();
         }
     };
 });

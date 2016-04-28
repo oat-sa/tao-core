@@ -28,8 +28,13 @@ class Tree  implements PhpSerializable
     const SERIAL_VERSION = 1392821334;
     
     private $data = array();
-    
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
+
+    /**
+     * @param \SimpleXMLElement $node
+     * @param $structureExtensionId
+     * @return static
+     */
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId) {
         $data = array();
         foreach($node->attributes() as $attrName => $attrValue) {
             $data[$attrName] = (string)$attrValue;
