@@ -57,7 +57,6 @@ define([
             limit           : pageRange
         });
 
-        var treeStore = store('taotree');
         var lastSelected;
 
         /**
@@ -84,12 +83,14 @@ define([
             // workaround to fix dublicate tree bindings on multiple page loads
             if (!$elt.hasClass('tree')) {
 
-                treeStore.getItem(context.section).then(function(node){
-                    if(node){
-                        lastSelected = node;
-                    }
-                    //create the tree
-                    $elt.tree(treeOptions);
+                store('taotree').then(function(treeStore){
+                    treeStore.getItem(context.section).then(function(node){
+                        if(node){
+                            lastSelected = node;
+                        }
+                        //create the tree
+                        $elt.tree(treeOptions);
+                    });
                 });
             }
         };
@@ -340,8 +341,10 @@ define([
                         nodeContext.context = ['instance', 'resource'];
 
                         //the last selected node is stored
-                        treeStore.setItem(context.section, nodeId).then(function(){
-                            executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
+                        store('taotree').then(function(treeStore){
+                            treeStore.setItem(context.section, nodeId).then(function(){
+                                executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
+                            });
                         });
                     }
 
