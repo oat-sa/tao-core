@@ -83,8 +83,15 @@
             border: 1px transparent solid;
             text-align: center;
             float: left;
-            .glyph {
+
+            // @see tao/views/scss/inc/_header-footer.scss for svg comments and examples
+            .glyph, .svg-glyph {
                 width: 14px;
+            }
+            .svg-glyph {
+                height: 14px;
+                fill: currentColor;
+                margin-right: 9px;
             }
             &.btn-info {
                 overflow: hidden;
@@ -143,10 +150,22 @@
             width: 65px;
             height: 65px;
             margin: 0 1px 1px 0;
-            .glyph {
+            .glyph,
+            .svg-glyph {
                 display:block;
-                color: $info;
                 margin: 12px auto 1px !important;
+            }
+
+            // @see tao/views/scss/inc/_header-footer.scss for svg comments and examples
+            .svg-glyph {
+                width: 20px;
+                height: 20px;
+                use, g.use {
+                    fill: $info !important;
+                }
+            }
+            .glyph {
+                color: $info;
                 @include font-size(17, true);
             }
             .li-inner {
