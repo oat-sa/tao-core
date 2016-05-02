@@ -39,21 +39,25 @@ define(['core/delegator'], function(delegator) {
         var expectedArg1 = 'test1';
         var expectedArg2 = 'test2';
         var api = {
+            isApi: true,
             action: function() {
                 assert.ok(true, 'Action called from the api');
                 return delegate('action', arguments);
             }
         };
         var adapter = {
+            isAdapter: true,
             action: function(arg1, arg2) {
                 assert.ok(true, 'Action delegated to the adapter');
+                assert.ok(this.isApi, 'The context is bound to the API');
+                assert.ok(!this.isAdapter, 'The context is not bound to the Adapter');
                 assert.equal(arg1, expectedArg1, 'The delegate function forwarded the first argument');
                 assert.equal(arg2, expectedArg2, 'The delegate function forwarded the second argument');
                 return expectedResponse;
             }
         };
 
-        QUnit.expect(6);
+        QUnit.expect(8);
         
         delegate = delegator(api, adapter);
         
@@ -69,6 +73,7 @@ define(['core/delegator'], function(delegator) {
         var expectedArg1 = 'test1';
         var expectedArg2 = 'test2';
         var api = {
+            isApi: true,
             action: function() {
                 assert.ok(true, 'Action called from the api');
                 return delegate('action', arguments);
@@ -83,15 +88,18 @@ define(['core/delegator'], function(delegator) {
             }
         };
         var adapter = {
+            isAdapter: true,
             action: function(arg1, arg2) {
                 assert.ok(true, 'Action delegated to the adapter');
+                assert.ok(this.isApi, 'The context is bound to the API');
+                assert.ok(!this.isAdapter, 'The context is not bound to the Adapter');
                 assert.equal(arg1, expectedArg1, 'The delegate function forwarded the first argument');
                 assert.equal(arg2, expectedArg2, 'The delegate function forwarded the second argument');
                 return expectedResponse;
             }
         };
 
-        QUnit.expect(10);
+        QUnit.expect(12);
 
         delegate = delegator(api, adapter);
 
@@ -101,11 +109,40 @@ define(['core/delegator'], function(delegator) {
     });
 
 
+    QUnit.test('delegate event disabled', function(assert) {
+        var delegate;
+        var api = {
+            action: function() {
+                assert.ok(true, 'Action called from the api');
+                return delegate('action', arguments);
+            },
+
+            trigger: function() {
+                assert.ok(false, 'The delegate function must not trigger the related event');
+            }
+        };
+        var adapter = {
+            action: function() {
+                assert.ok(true, 'Action delegated to the adapter');
+            }
+        };
+
+        QUnit.expect(3);
+
+        delegate = delegator(api, adapter, {
+            eventifier: false
+        });
+
+        assert.equal(typeof delegate, 'function', 'The delegator helper has created a delegate function');
+
+        api.action();
+    });
+
+
     QUnit.test('delegate errors', function(assert) {
         var delegate;
 
         QUnit.expect(4);
-
 
         delegate = delegator();
         assert.equal(typeof delegate, 'function', 'The delegator helper has created a delegate function');
@@ -120,4 +157,83 @@ define(['core/delegator'], function(delegator) {
         }, 'An error must be thrown if the delegate function is called with an unknown target function');
     });
 
+
+    QUnit.test('forward', function(assert) {
+        var delegate;
+        var expectedResponse = 'ok';
+        var expectedArg1 = 'test1';
+        var expectedArg2 = 'test2';
+        var api = {
+            isApi: true,
+            action: function() {
+                assert.ok(true, 'Action called from the api');
+                return delegate('action', arguments);
+            }
+        };
+        var adapter = {
+            isAdapter: true,
+            action: function(arg1, arg2) {
+                assert.ok(true, 'Action delegated to the adapter');
+                assert.ok(!this.isApi, 'The context is not bound to the API');
+                assert.ok(this.isAdapter, 'The context is bound to the Adapter');
+                assert.equal(arg1, expectedArg1, 'The delegate function forwarded the first argument');
+                assert.equal(arg2, expectedArg2, 'The delegate function forwarded the second argument');
+                return expectedResponse;
+            }
+        };
+
+        QUnit.expect(8);
+
+        delegate = delegator(api, adapter, {
+            forward: true
+        });
+
+        assert.equal(typeof delegate, 'function', 'The delegator helper has created a delegate function');
+
+        assert.equal(api.action(expectedArg1, expectedArg2), expectedResponse, 'The action has returned the expected response');
+    });
+
+
+    QUnit.asyncTest('forward event', function(assert) {
+        var delegate;
+        var expectedResponse = 'ok';
+        var expectedArg1 = 'test1';
+        var expectedArg2 = 'test2';
+        var api = {
+            isApi: true,
+            action: function() {
+                assert.ok(true, 'Action called from the api');
+                return delegate('action', arguments);
+            },
+
+            trigger: function(event, response, arg1, arg2) {
+                assert.equal(event, 'action', 'The delegate function has triggered the related event');
+                assert.equal(response, expectedResponse, 'The delegate function has forwarded the response');
+                assert.equal(arg1, expectedArg1, 'The delegate function has forwarded the first argument');
+                assert.equal(arg2, expectedArg2, 'The delegate function has forwarded the second argument');
+                QUnit.start();
+            }
+        };
+        var adapter = {
+            isAdapter: true,
+            action: function(arg1, arg2) {
+                assert.ok(true, 'Action delegated to the adapter');
+                assert.ok(!this.isApi, 'The context is not bound to the API');
+                assert.ok(this.isAdapter, 'The context is bound to the Adapter');
+                assert.equal(arg1, expectedArg1, 'The delegate function forwarded the first argument');
+                assert.equal(arg2, expectedArg2, 'The delegate function forwarded the second argument');
+                return expectedResponse;
+            }
+        };
+
+        QUnit.expect(12);
+
+        delegate = delegator(api, adapter, {
+            forward: true
+        });
+
+        assert.equal(typeof delegate, 'function', 'The delegator helper has created a delegate function');
+
+        assert.equal(api.action(expectedArg1, expectedArg2), expectedResponse, 'The action has returned the expected response');
+    });
 });

@@ -22,26 +22,31 @@ define([
     'lodash'
 ], function (_) {
     'use strict';
+    
+    var defaults = {
+        name: 'provided',
+        eventifier: true
+    };
 
     var _slice = [].slice;
 
     /**
-     * Creates a function that delegates api calls to an adapter
+     * Creates a function that delegates api calls to an provider
      * @param {Object} api - The api providing the calls
-     * @param {Object} adapter - The adapter on which delegate the calls
-     * @param {String} name - The name of the adapter
+     * @param {Object} provider - The provider on which delegate the calls
+     * @param {Object} [config] - An optional configuration set
+     * @param {String} [config.name] - The name of the provider
+     * @param {Boolean} [config.eventifier] - Enable the eventifier support
+     * @param {Boolean} [config.forward] - Forward the calls to the provider instead of delegate
      * @returns {delegate} - The delegate function
      */
-    function delegator(api, adapter, name) {
-
-        var eventifier = !!(api && api.trigger);
-
-        if (!name) {
-            name = 'provided';
-        }
+    function delegator(api, provider, config) {
+        var extendedConfig = _(config || {}).defaults(defaults).value();
+        var eventifier = !!(extendedConfig.eventifier && api && api.trigger);
+        var context = extendedConfig.forward ? provider : api;
 
         /**
-         * Delegates a function call from the api to the adapter.
+         * Delegates a function call from the api to the provider.
          * If the api supports eventifier, fires the related event
          *
          * @param {String} fnName - The name of the delegated method to call
@@ -53,13 +58,13 @@ define([
         function delegate(fnName, args) {
             var response;
 
-            if (adapter) {
-                if (_.isFunction(adapter[fnName])) {
+            if (provider) {
+                if (_.isFunction(provider[fnName])) {
                     // need real array of params, even if empty
                     args = args ? _slice.call(args) : [];
 
-                    // delegate the call to the adapter
-                    response = adapter[fnName].apply(api, args);
+                    // delegate the call to the provider
+                    response = provider[fnName].apply(context, args);
 
                     // if supported fire the method related event
                     if (eventifier) {
@@ -67,10 +72,10 @@ define([
                         api.trigger.apply(api, [fnName, response].concat(args));
                     }
                 } else {
-                    throw new Error('There is no method called ' + fnName + ' in the ' + name + ' adapter!');
+                    throw new Error('There is no method called ' + fnName + ' in the ' + extendedConfig.name + ' provider!');
                 }
             } else {
-                throw new Error('There is no ' + name + ' adapter!');
+                throw new Error('There is no ' + extendedConfig.name + ' provider!');
             }
 
             return response;
