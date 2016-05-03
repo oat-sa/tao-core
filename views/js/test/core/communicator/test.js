@@ -37,7 +37,8 @@ define(['lodash', 'core/communicator'], function(_, communicator) {
     });
 
     
-    QUnit.test('module', 5, function(assert){
+    QUnit.test('module', function(assert){
+        QUnit.expect(5);
         assert.equal(typeof communicator, 'function', "The communicator module exposes a function");
         assert.equal(typeof communicator(), 'object', "The communicator factory produces an object");
         assert.notStrictEqual(communicator(), communicator(), "The communicator factory provides a different object on each call");
