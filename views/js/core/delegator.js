@@ -38,6 +38,7 @@ define([
      * @param {String} [config.name] - The name of the provider
      * @param {Boolean} [config.eventifier] - Enable the eventifier support
      * @param {Boolean} [config.forward] - Forward the calls to the provider instead of delegate
+     * @param {Function} [config.default] - An optional default delegated function called if the provider do not have the requested target.
      * @returns {delegate} - The delegate function
      */
     function delegator(api, provider, config) {
@@ -59,12 +60,12 @@ define([
             var response;
 
             if (provider) {
-                if (_.isFunction(provider[fnName])) {
+                if (_.isFunction(provider[fnName]) || _.isFunction(extendedConfig.default)) {
                     // need real array of params, even if empty
                     args = args ? _slice.call(args) : [];
 
                     // delegate the call to the provider
-                    response = provider[fnName].apply(context, args);
+                    response = (provider[fnName] || extendedConfig.default).apply(context, args);
 
                     // if supported fire the method related event
                     if (eventifier) {

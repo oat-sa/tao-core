@@ -158,6 +158,27 @@ define(['core/delegator'], function(delegator) {
     });
 
 
+    QUnit.test('delegate default', function(assert) {
+        var delegate;
+
+        var api = {};
+        var provider = {};
+        var expectedResponse = 'response';
+
+        QUnit.expect(3);
+
+        delegate = delegator(api, provider, {
+            default: function() {
+                assert.ok(true, 'Default delegated function invoked!');
+                assert.equal(this, api, 'The default delegated is called using the api context');
+                return expectedResponse;
+            }
+        });
+
+        assert.equal(delegate('test'), expectedResponse, 'The default delegated has been invoked');
+    });
+
+
     QUnit.test('forward', function(assert) {
         var delegate;
         var expectedResponse = 'ok';
