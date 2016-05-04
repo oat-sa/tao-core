@@ -243,8 +243,9 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
     QUnit.asyncTest('send()', function (assert) {
         var expectedChannel = 'foo';
         var expectedMessage = 'bar';
+        var expectedResponse = 'ok';
 
-        QUnit.expect(13);
+        QUnit.expect(14);
 
         communicator.registerProvider('foo', {
             init: function () {
@@ -259,7 +260,7 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
                 assert.ok(true, 'The communicator has delegated the send');
                 assert.equal(channel, expectedChannel, 'The right channel has been used');
                 assert.equal(message, expectedMessage, 'The right message has been sent');
-                return Promise.resolve();
+                return Promise.resolve(expectedResponse);
             }
         });
 
@@ -286,8 +287,9 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
             });
 
             instance.open().then(function () {
-                instance.send(expectedChannel, expectedMessage).then(function () {
+                instance.send(expectedChannel, expectedMessage).then(function (response) {
                     assert.ok(true, 'The message has been sent');
+                    assert.equal(response, expectedResponse, 'The expected response has been receive');
                     QUnit.start();
                 });
             });

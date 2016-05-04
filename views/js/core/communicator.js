@@ -186,9 +186,9 @@ define([
                 return new Promise(function(resolve, reject) {
                     if (self.getState('opened')) {
                         delegate('send', [channel, message])
-                            .then(function() {
+                            .then(function(response) {
                                 self.trigger('sent', channel, message);
-                                resolve();
+                                resolve(response);
                             })
                             .catch(reject);
                     } else {
