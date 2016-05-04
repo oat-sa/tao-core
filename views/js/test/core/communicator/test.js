@@ -102,7 +102,12 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
         instance.init().then(function () {
             assert.ok(true, 'The communicator is initialized');
             assert.ok(instance.getState('ready'), 'The communicator is ready');
-            QUnit.start();
+
+            // double init to check direct resolve (only the first init() must delegate to the provider and fire events)
+            // if more asserts are done at this point, there is an issue
+            instance.init().then(function () {
+                QUnit.start();
+            });
         });
     });
 
@@ -174,7 +179,12 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
             instance.open().then(function () {
                 assert.ok(true, 'The communicator is open');
                 assert.ok(instance.getState('opened'), 'The communicator is in "opened" state');
-                QUnit.start();
+
+                // double open to check direct resolve (only the first open() must delegate to the provider and fire events)
+                // if more asserts are done at this point, there is an issue
+                instance.open().then(function () {
+                    QUnit.start();
+                });
             });
         });
     });

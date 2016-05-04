@@ -90,14 +90,18 @@ define([
              */
             init: function init() {
                 var self = this;
-                return new Promise(function(resolve, reject) {
-                    delegate('init')
-                        .then(function() {
-                            self.setState('ready')
-                                .trigger('ready');
-                            resolve();
-                        })
-                        .catch(reject);
+                return new Promise(function (resolve, reject) {
+                    if (self.getState('ready')) {
+                        resolve();
+                    } else {
+                        delegate('init')
+                            .then(function () {
+                                self.setState('ready')
+                                    .trigger('ready');
+                                resolve();
+                            })
+                            .catch(reject);
+                    }
                 });
             },
 
@@ -110,7 +114,7 @@ define([
              */
             destroy: function destroy() {
                 var self = this;
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     var stepPromise;
 
                     if (self.getState('opened')) {
@@ -120,9 +124,9 @@ define([
                     }
 
                     stepPromise
-                        .then(function() {
+                        .then(function () {
                             delegate('destroy')
-                                .then(function() {
+                                .then(function () {
                                     self.trigger('destroyed');
                                     states = {};
                                     resolve();
@@ -142,14 +146,18 @@ define([
              */
             open: function open() {
                 var self = this;
-                return new Promise(function(resolve, reject) {
-                    delegate('open')
-                        .then(function() {
-                            self.setState('opened')
-                                .trigger('opened');
-                            resolve();
-                        })
-                        .catch(reject);
+                return new Promise(function (resolve, reject) {
+                    if (self.getState('opened')) {
+                        resolve();
+                    } else {
+                        delegate('open')
+                            .then(function () {
+                                self.setState('opened')
+                                    .trigger('opened');
+                                resolve();
+                            })
+                            .catch(reject);
+                    }
                 });
             },
 
@@ -162,9 +170,9 @@ define([
              */
             close: function close() {
                 var self = this;
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     delegate('close')
-                        .then(function() {
+                        .then(function () {
                             self.setState('opened', false)
                                 .trigger('closed');
                             resolve();
@@ -183,10 +191,10 @@ define([
              */
             send: function send(channel, message) {
                 var self = this;
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     if (self.getState('opened')) {
                         delegate('send', [channel, message])
-                            .then(function(response) {
+                            .then(function (response) {
                                 self.trigger('sent', channel, message);
                                 resolve(response);
                             })
@@ -251,7 +259,7 @@ define([
         });
 
         // all messages comes through a message event, the each is dispatched to the right channel
-        communicator.on('message', function(channel, message) {
+        communicator.on('message', function (channel, message) {
             this.trigger('channel-' + channel, message);
         });
 
