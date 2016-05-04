@@ -20,10 +20,11 @@
  */
 define([
     'lodash',
+    'core/promise',
     'core/providerRegistry',
     'core/delegator',
     'core/eventifier'
-], function (_, providerRegistry, delegator, eventifier) {
+], function (_, Promise, providerRegistry, delegator, eventifier) {
     'use strict';
 
     /**
@@ -36,7 +37,10 @@ define([
     };
 
     /**
-     * Creates a communicator implementation
+     * Creates a communicator implementation.
+     * The communicator relies on a provider to execute the actions.
+     * Most of the delegated methods must return promises.
+     *
      * @param {Object} providerName - The name of the provider instance,
      *                                which MUST be defined before through a `.registerProvider()` call.
      * @param {Object} [config] - Optional config set
@@ -44,6 +48,12 @@ define([
      * @returns {communicator}
      */
     function communicatorFactory(providerName, config) {
+
+        /**
+         * The communicator config set
+         * @type {Object}
+         */
+        var extendedConfig = _(config || {}).defaults(defaults).value();
 
         /**
          * The communicator implementation
@@ -58,44 +68,133 @@ define([
         var delegate;
 
         /**
+         * The current states of the communicator
+         * @type {Object}
+         */
+        var states = {};
+
+        /**
          * The selected communication provider
          * @type {Object}
          */
         var provider = communicatorFactory.getProvider(providerName);
 
-        config = _(config || {})
-            .omit(function(value){
-                return value === null || value === undefined;
-            })
-            .defaults(defaults)
-            .value();
-
         // creates the implementation by setting an API an delegating calls to the provider
         communicator = eventifier({
             /**
-             * Initializes the communication implementation
-             * @returns {Object}
+             * Initializes the communication implementation.
+             * Sets the `ready` state.
+             * @returns {Promise} The delegated provider's method must return a promise
+             * @fires init
+             * @fires ready
              */
             init: function init() {
-                return delegate('init', arguments);
+                var self = this;
+                return new Promise(function(resolve, reject) {
+                    delegate('init')
+                        .then(function() {
+                            self.setState('ready')
+                                .trigger('ready');
+                            resolve();
+                        })
+                        .catch(reject);
+                });
             },
 
             /**
-             * Tears down the communication implementation
-             * @returns {Object}
+             * Tears down the communication implementation.
+             * Clears the states.
+             * @returns {Promise} The delegated provider's method must return a promise
+             * @fires destroy
+             * @fires destroyed
              */
             destroy: function destroy() {
-                return delegate('destroy', arguments);
+                var self = this;
+                return new Promise(function(resolve, reject) {
+                    var stepPromise;
+
+                    if (self.getState('opened')) {
+                        stepPromise = self.close();
+                    } else {
+                        stepPromise = Promise.resolve();
+                    }
+
+                    stepPromise
+                        .then(function() {
+                            delegate('destroy')
+                                .then(function() {
+                                    self.trigger('destroyed');
+                                    states = {};
+                                    resolve();
+                                })
+                                .catch(reject);
+                        })
+                        .catch(reject);
+                });
             },
 
             /**
-             * Sends an messages through the communication implementation
+             * Opens the connection.
+             * Sets the `opened` state.
+             * @returns {Promise} The delegated provider's method must return a promise
+             * @fires open
+             * @fires opened
+             */
+            open: function open() {
+                var self = this;
+                return new Promise(function(resolve, reject) {
+                    delegate('open')
+                        .then(function() {
+                            self.setState('opened')
+                                .trigger('opened');
+                            resolve();
+                        })
+                        .catch(reject);
+                });
+            },
+
+            /**
+             * Closes the connection.
+             * Clears the `opened` state.
+             * @returns {Promise} The delegated provider's method must return a promise
+             * @fires close
+             * @fires closed
+             */
+            close: function close() {
+                var self = this;
+                return new Promise(function(resolve, reject) {
+                    delegate('close')
+                        .then(function() {
+                            self.setState('opened', false)
+                                .trigger('closed');
+                            resolve();
+                        })
+                        .catch(reject);
+                });
+            },
+
+            /**
+             * Sends an messages through the communication implementation.
              * @param {String} channel - The name of the communication channel to use
              * @param {Object} message - The message to send
-             * @returns {Object}
+             * @returns {Promise} The delegated provider's method must return a promise
+             * @fires send
+             * @fires sent
              */
             send: function send(channel, message) {
-                return delegate('send', arguments);
+                var self = this;
+                return new Promise(function(resolve, reject) {
+                    if (self.getState('opened')) {
+                        delegate('send', [channel, message])
+                            .then(function() {
+                                self.trigger('sent', channel, message);
+                                resolve();
+                            })
+                            .catch(reject);
+                    } else {
+                        reject();
+                    }
+                });
             },
 
             /**
@@ -103,6 +202,7 @@ define([
              * @param {String} name - The name of the channel to listen
              * @param {Function} handler - The listener callback
              * @returns {communicator}
+             * @throws TypeError if the name is missing or the handler is not a callback
              */
             channel: function channel(name, handler) {
                 if (!_.isString(name) || name.length <= 0) {
@@ -123,7 +223,30 @@ define([
              * @returns {Object}
              */
             getConfig: function getConfig() {
-                return config;
+                return extendedConfig;
+            },
+
+            /**
+             * Sets a state
+             * @param {String} name - The name of the state to set
+             * @param {Boolean} [state] - The state itself (default: true)
+             * @returns {communicator}
+             */
+            setState: function setState(name, state) {
+                if (_.isUndefined(state)) {
+                    state = true;
+                }
+                states[name] = !!state;
+                return this;
+            },
+
+            /**
+             * Gets a state
+             * @param {String} name - The name of the state to get
+             * @returns {Boolean}
+             */
+            getState: function getState(name) {
+                return !!states[name];
             }
         });
 
@@ -133,7 +256,7 @@ define([
         });
 
         // use a delegate function to make a bridge between API and provider
-        delegate = delegator(communicator, provider, 'communicator');
+        delegate = delegator(communicator, provider, {name: 'communicator'});
 
         return communicator;
     }

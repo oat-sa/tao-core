@@ -18,131 +18,302 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['lodash', 'core/communicator'], function(_, communicator) {
+define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, communicator) {
     'use strict';
 
 
-    var mockProvider = {
-        init : _.noop,
-        destroy  : _.noop
-    };
-
     QUnit.module('communicator factory', {
-        setup: function(){
-            communicator.registerProvider('mock', mockProvider);
+        setup: function () {
+            communicator.registerProvider('mock', {init: _.noop});
         },
-        teardown: function() {
+        teardown: function () {
             communicator.clearProviders();
         }
     });
 
-    
-    QUnit.test('module', function(assert){
+
+    QUnit.test('module', function (assert) {
         QUnit.expect(5);
         assert.equal(typeof communicator, 'function', "The communicator module exposes a function");
-        assert.equal(typeof communicator(), 'object', "The communicator factory produces an object");
-        assert.notStrictEqual(communicator(), communicator(), "The communicator factory provides a different object on each call");
+        assert.equal(typeof communicator('mock'), 'object', "The communicator factory produces an object");
+        assert.notStrictEqual(communicator('mock'), communicator('mock'), "The communicator factory provides a different object on each call");
         assert.equal(typeof communicator.registerProvider, 'function', "The instance module exposes a function registerProvider()");
         assert.equal(typeof communicator.getProvider, 'function', "The instance module exposes a function getProvider()");
     });
 
 
     var communicatorApi = [
-        {name : 'init', title : 'init'},
-        {name : 'destroy', title : 'destroy'},
+        {name: 'init', title: 'init'},
+        {name: 'destroy', title: 'destroy'},
 
-        {name : 'send', title : 'send'},
-        {name : 'channel', title : 'channel'},
+        {name: 'open', title: 'open'},
+        {name: 'close', title: 'close'},
 
-        {name : 'getConfig', title : 'getConfig'},
+        {name: 'send', title: 'send'},
+        {name: 'channel', title: 'channel'},
 
-        {name : 'trigger', title : 'trigger'},
-        {name : 'before', title : 'before'},
-        {name : 'on', title : 'on'},
-        {name : 'after', title : 'after'}
+        {name: 'getConfig', title: 'getConfig'},
+        {name: 'setState', title: 'setState'},
+        {name: 'getState', title: 'getState'},
+
+        {name: 'trigger', title: 'trigger'},
+        {name: 'before', title: 'before'},
+        {name: 'on', title: 'on'},
+        {name: 'after', title: 'after'}
     ];
 
     QUnit
         .cases(communicatorApi)
-        .test('api', function(data, assert){
-            var instance = communicator();
+        .test('api', function (data, assert) {
+            var instance = communicator('mock');
             assert.equal(typeof instance[data.name], 'function', 'The communicator instance exposes a "' + data.name + '" function');
         });
 
 
     QUnit.module('provider', {
-        setup: function(){
+        setup: function () {
             communicator.clearProviders();
         }
     });
 
 
-    QUnit.asyncTest('init()', function(assert){
-        QUnit.expect(2);
+    QUnit.asyncTest('init()', function (assert) {
+        QUnit.expect(5);
+
+        var expectedContextValue = 'yo!';
 
         communicator.registerProvider('foo', {
-            init : function(){
-                assert.equal(this.bar, 'baz', 'The provider is executed on the instance context');
-                QUnit.start();
-                return this;
+            init: function () {
+                assert.equal(this.bar, expectedContextValue, 'The init method is executed on the instance context');
+                return Promise.resolve();
             }
         });
 
-        var instance = communicator('foo');
-        instance.bar = 'baz';
-        assert.equal(instance.init(), instance, 'The provider has returned the expected response');
+        var instance = communicator('foo')
+            .on('init', function () {
+                assert.ok(true, 'The communicator has fired the "init" event');
+            })
+            .on('ready', function () {
+                assert.ok(true, 'The communicator has fired the "ready" event');
+            });
+
+        instance.bar = expectedContextValue;
+
+        instance.init().then(function () {
+            assert.ok(true, 'The communicator is initialized');
+            assert.ok(instance.getState('ready'), 'The communicator is ready');
+            QUnit.start();
+        });
     });
 
 
-    QUnit.asyncTest('destroy()', function(assert){
-        QUnit.expect(2);
+    QUnit.asyncTest('destroy()', function (assert) {
+        QUnit.expect(5);
+
+        var expectedContextValue = 'yo!';
 
         communicator.registerProvider('foo', {
-            init: _.noop,
-            destroy : function(){
-                assert.ok(true, 'The provider has delegated the destroy');
-                QUnit.start();
-                return this;
+            init: function () {
+                return Promise.resolve();
+            },
+
+            destroy: function () {
+                assert.ok(true, 'The communicator has delegated the destroy');
+                assert.equal(this.bar, expectedContextValue, 'The destroy method is executed on the instance context');
+                return Promise.resolve();
             }
         });
 
-        var instance = communicator('foo');
-        assert.equal(instance.destroy(), instance, 'The provider has returned the expected response');
+        var instance = communicator('foo')
+            .on('destroy', function () {
+                assert.ok(true, 'The communicator has fired the "destroy" event');
+            })
+            .on('destroyed', function () {
+                assert.ok(true, 'The communicator has fired the "destroyed" event');
+            });
+
+        instance.bar = expectedContextValue;
+
+        instance.init().then(function () {
+            instance.destroy().then(function () {
+                assert.ok(true, 'The communicator is destroyed');
+                QUnit.start();
+            });
+        });
     });
 
 
-    QUnit.asyncTest('send()', function(assert){
+    QUnit.asyncTest('open()', function (assert) {
+        QUnit.expect(6);
+
+        var expectedContextValue = 'yo!';
+
+        communicator.registerProvider('foo', {
+            init: function () {
+                return Promise.resolve();
+            },
+
+            open: function () {
+                assert.ok(true, 'The communicator has delegated the open');
+                assert.equal(this.bar, expectedContextValue, 'The open method is executed on the instance context');
+                return Promise.resolve();
+            }
+        });
+
+        var instance = communicator('foo')
+            .on('open', function () {
+                assert.ok(true, 'The communicator has fired the "open" event');
+            })
+            .on('opened', function () {
+                assert.ok(true, 'The communicator has fired the "opened" event');
+            });
+
+        instance.bar = expectedContextValue;
+
+        instance.init().then(function () {
+            instance.open().then(function () {
+                assert.ok(true, 'The communicator is open');
+                assert.ok(instance.getState('opened'), 'The communicator is in "opened" state');
+                QUnit.start();
+            });
+        });
+    });
+
+
+    QUnit.asyncTest('close()', function (assert) {
+        QUnit.expect(15);
+
+        var expectedContextValue = 'yo!';
+
+        communicator.registerProvider('foo', {
+            init: function () {
+                return Promise.resolve();
+            },
+
+            destroy: function () {
+                return Promise.resolve();
+            },
+
+            open: function () {
+                return Promise.resolve();
+            },
+
+            close: function () {
+                assert.ok(true, 'The communicator has delegated the close');
+                assert.equal(this.bar, expectedContextValue, 'The close method is executed on the instance context');
+                return Promise.resolve();
+            }
+        });
+
+        var instance = communicator('foo')
+            .on('close', function () {
+                assert.ok(true, 'The communicator has fired the "close" event');
+            })
+            .on('closed', function () {
+                assert.ok(true, 'The communicator has fired the "closed" event');
+            });
+
+        instance.bar = expectedContextValue;
+
+        instance.init().then(function () {
+            instance.open().then(function () {
+                assert.ok(true, 'The communicator is open');
+                assert.ok(instance.getState('opened'), 'The communicator is in "opened" state');
+
+                instance.close().then(function () {
+                    assert.ok(true, 'The communicator is closed');
+                    assert.ok(!instance.getState('opened'), 'The communicator is not in "opened" state');
+
+                    instance.open().then(function () {
+                        assert.ok(true, 'The communicator is open');
+                        assert.ok(instance.getState('opened'), 'The communicator is in "opened" state');
+
+                        // check the auto-close when destroying
+                        instance.destroy().then(function () {
+                            assert.ok(true, 'The communicator is destroyed');
+                            QUnit.start();
+                        });
+                    });
+                });
+            });
+        });
+    });
+
+
+    QUnit.asyncTest('send()', function (assert) {
         var expectedChannel = 'foo';
         var expectedMessage = 'bar';
 
-        QUnit.expect(4);
+        QUnit.expect(13);
 
         communicator.registerProvider('foo', {
-            init: _.noop,
-            send: function(channel, message) {
-                assert.ok(true, 'The provider has delegated the send');
+            init: function () {
+                return Promise.resolve();
+            },
+
+            open: function () {
+                return Promise.resolve();
+            },
+
+            send: function (channel, message) {
+                assert.ok(true, 'The communicator has delegated the send');
                 assert.equal(channel, expectedChannel, 'The right channel has been used');
                 assert.equal(message, expectedMessage, 'The right message has been sent');
-                QUnit.start();
-                return this;
+                return Promise.resolve();
             }
         });
 
-        var instance = communicator('foo');
-        assert.equal(instance.send(expectedChannel, expectedMessage), instance, 'The provider has returned the expected response');
+        var instance = communicator('foo')
+            .on('send', function (promise, channel, message) {
+                assert.ok(true, 'The communicator has fired the "send" event');
+                assert.ok(promise instanceof Promise, 'The promise is provided');
+                assert.equal(channel, expectedChannel, 'The right channel is provided');
+                assert.equal(message, expectedMessage, 'The right message is provided');
+            })
+            .on('sent', function (channel, message) {
+                assert.ok(true, 'The communicator has fired the "sent" event');
+                assert.equal(channel, expectedChannel, 'The right channel is provided');
+                assert.equal(message, expectedMessage, 'The right message is provided');
+            });
+
+        instance.send(expectedChannel, expectedMessage).catch(function () {
+            assert.ok(true, 'The communicator cannot send a message while the instance is not initialized');
+        });
+
+        instance.init().then(function () {
+            instance.send(expectedChannel, expectedMessage).catch(function () {
+                assert.ok(true, 'The communicator cannot send a message while the connection is not open');
+            });
+
+            instance.open().then(function () {
+                instance.send(expectedChannel, expectedMessage).then(function () {
+                    assert.ok(true, 'The message has been sent');
+                    QUnit.start();
+                });
+            });
+        });
     });
 
 
-    QUnit.asyncTest('channel()', function(assert) {
+    QUnit.asyncTest('channel()', function (assert) {
         var expectedMessage = 'Hello';
 
-        QUnit.expect(2);
+        QUnit.expect(4);
 
         communicator.registerProvider('foo', {init: _.noop});
 
         var instance = communicator('foo');
 
-        instance.channel('bar', function(message) {
+        assert.throws(function () {
+            instance.channel(null, function (message) {
+            });
+        }, 'A channel must have a name');
+
+        assert.throws(function () {
+            instance.channel('foo', null);
+        }, 'A channel must have a handler');
+
+        instance.channel('bar', function (message) {
             assert.ok('The message has been received');
             assert.equal(message, expectedMessage, 'The right message has been received');
             QUnit.start();
@@ -152,41 +323,53 @@ define(['lodash', 'core/communicator'], function(_, communicator) {
     });
 
 
-    QUnit.test('channel() error', function(assert) {
-
-        QUnit.expect(2);
-
-        communicator.registerProvider('foo', {init: _.noop});
-
-        var instance = communicator('foo');
-
-        assert.throws(function() {
-            instance.channel(null, function(message) {});
-        }, 'A channel must have a name');
-
-        assert.throws(function() {
-            instance.channel('foo', null);
-        }, 'A channel must have a handler');
-    });
-
-
-    QUnit.asyncTest('getConfig()', function(assert){
+    QUnit.asyncTest('getConfig()', function (assert) {
         QUnit.expect(1);
 
         var config = {
             'timeout': 15000,
-            'moo' : 'norz'
+            'moo': 'norz'
         };
 
         communicator.registerProvider('foo', {
-            init : function(){
+            init: function () {
                 var myConfig = this.getConfig();
                 assert.deepEqual(myConfig, config, 'The retrieved config is the right one');
-                QUnit.start();
+                return Promise.resolve();
             }
         });
 
         var instance = communicator('foo', config);
-        instance.init();
+        instance.init().then(function () {
+            QUnit.start();
+        });
+    });
+
+
+    QUnit.asyncTest('setState()', function (assert) {
+        QUnit.expect(4);
+
+        communicator.registerProvider('foo', {
+            init: function () {
+                return Promise.resolve();
+            }
+        });
+
+        var instance = communicator('foo');
+        instance.init().then(function () {
+
+            assert.ok(!instance.getState('foo'), 'The state "foo" is not set');
+
+            instance.setState('foo');
+            assert.ok(instance.getState('foo'), 'The state "foo" is set');
+
+            instance.setState('foo', false);
+            assert.ok(!instance.getState('foo'), 'The state "foo" is not set');
+
+            instance.setState('foo', true);
+            assert.ok(instance.getState('foo'), 'The state "foo" is set');
+
+            QUnit.start();
+        });
     });
 });
