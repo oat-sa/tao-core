@@ -255,7 +255,7 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
         var expectedMessage = 'bar';
         var expectedResponse = 'ok';
 
-        QUnit.expect(14);
+        QUnit.expect(15);
 
         communicator.registerProvider('foo', {
             init: function () {
@@ -281,10 +281,11 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
                 assert.equal(channel, expectedChannel, 'The right channel is provided');
                 assert.equal(message, expectedMessage, 'The right message is provided');
             })
-            .on('sent', function (channel, message) {
+            .on('sent', function (channel, message, response) {
                 assert.ok(true, 'The communicator has fired the "sent" event');
                 assert.equal(channel, expectedChannel, 'The right channel is provided');
                 assert.equal(message, expectedMessage, 'The right message is provided');
+                assert.equal(response, expectedResponse, 'The right response is provided');
             });
 
         instance.send(expectedChannel, expectedMessage).catch(function () {
@@ -317,8 +318,7 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
         var instance = communicator('foo');
 
         assert.throws(function () {
-            instance.channel(null, function (message) {
-            });
+            instance.channel(null, _.noop);
         }, 'A channel must have a name');
 
         assert.throws(function () {
@@ -326,7 +326,7 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
         }, 'A channel must have a handler');
 
         instance.channel('bar', function (message) {
-            assert.ok('The message has been received');
+            assert.ok(true, 'The message has been received');
             assert.equal(message, expectedMessage, 'The right message has been received');
             QUnit.start();
         });

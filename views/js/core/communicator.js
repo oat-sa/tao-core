@@ -91,19 +91,16 @@ define([
              */
             init: function init() {
                 var self = this;
-                return new Promise(function (resolve, reject) {
-                    if (self.getState('ready')) {
-                        resolve();
-                    } else {
-                        delegate('init')
-                            .then(function () {
-                                self.setState('ready')
-                                    .trigger('ready');
-                                resolve();
-                            })
-                            .catch(reject);
-                    }
-                });
+
+                if (this.getState('ready')) {
+                    return Promise.resolve();
+                }
+
+                return delegate('init')
+                    .then(function () {
+                        self.setState('ready')
+                            .trigger('ready');
+                    });
             },
 
             /**
@@ -115,27 +112,22 @@ define([
              */
             destroy: function destroy() {
                 var self = this;
-                return new Promise(function (resolve, reject) {
-                    var stepPromise;
+                var stepPromise;
 
-                    if (self.getState('opened')) {
-                        stepPromise = self.close();
-                    } else {
-                        stepPromise = Promise.resolve();
-                    }
+                if (self.getState('opened')) {
+                    stepPromise = self.close();
+                } else {
+                    stepPromise = Promise.resolve();
+                }
 
-                    stepPromise
-                        .then(function () {
-                            delegate('destroy')
-                                .then(function () {
-                                    self.trigger('destroyed');
-                                    states = {};
-                                    resolve();
-                                })
-                                .catch(reject);
-                        })
-                        .catch(reject);
-                });
+                return stepPromise
+                    .then(function () {
+                        return delegate('destroy')
+                            .then(function () {
+                                self.trigger('destroyed');
+                                states = {};
+                            })
+                    });
             },
 
             /**
@@ -147,19 +139,16 @@ define([
              */
             open: function open() {
                 var self = this;
-                return new Promise(function (resolve, reject) {
-                    if (self.getState('opened')) {
-                        resolve();
-                    } else {
-                        delegate('open')
-                            .then(function () {
-                                self.setState('opened')
-                                    .trigger('opened');
-                                resolve();
-                            })
-                            .catch(reject);
-                    }
-                });
+
+                if (this.getState('opened')) {
+                    return Promise.resolve();
+                }
+
+                return delegate('open')
+                    .then(function () {
+                        self.setState('opened')
+                            .trigger('opened');
+                    });
             },
 
             /**
@@ -171,15 +160,11 @@ define([
              */
             close: function close() {
                 var self = this;
-                return new Promise(function (resolve, reject) {
-                    delegate('close')
-                        .then(function () {
-                            self.setState('opened', false)
-                                .trigger('closed');
-                            resolve();
-                        })
-                        .catch(reject);
-                });
+                return delegate('close')
+                    .then(function () {
+                        self.setState('opened', false)
+                            .trigger('closed');
+                    });
             },
 
             /**
@@ -192,18 +177,16 @@ define([
              */
             send: function send(channel, message) {
                 var self = this;
-                return new Promise(function (resolve, reject) {
-                    if (self.getState('opened')) {
-                        delegate('send', [channel, message])
-                            .then(function (response) {
-                                self.trigger('sent', channel, message);
-                                resolve(response);
-                            })
-                            .catch(reject);
-                    } else {
-                        reject();
-                    }
-                });
+
+                if (!this.getState('opened')) {
+                    return Promise.reject();
+                }
+
+                return delegate('send', [channel, message])
+                    .then(function (response) {
+                        self.trigger('sent', channel, message, response);
+                        return Promise.resolve(response);
+                    });
             },
 
             /**
