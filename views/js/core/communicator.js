@@ -41,9 +41,10 @@ define([
      * The communicator relies on a provider to execute the actions.
      * Most of the delegated methods must return promises.
      *
-     * @param {Object} providerName - The name of the provider instance,
+     * @param {String} providerName - The name of the provider instance,
      *                                which MUST be defined before through a `.registerProvider()` call.
      * @param {Object} [config] - Optional config set
+     * @param {String} [config.service] - The address of the remote service to request
      * @param {Number} [config.timeout] - The communication timeout, in milliseconds (default: 30000)
      * @returns {communicator}
      */
@@ -258,7 +259,7 @@ define([
             }
         });
 
-        // all messages comes through a message event, the each is dispatched to the right channel
+        // all messages comes through a message event, then each is dispatched to the right channel
         communicator.on('message', function (channel, message) {
             this.trigger('channel-' + channel, message);
         });

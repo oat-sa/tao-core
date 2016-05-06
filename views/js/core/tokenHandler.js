@@ -23,10 +23,11 @@ define(function () {
 
     /**
      * Stores the security token
+     * @param {String} initialToken
      * @returns {tokenHandler}
      */
-    function tokenHandlerFactory() {
-        var token = null;
+    function tokenHandlerFactory(initialToken) {
+        var token = initialToken || null;
 
         return {
             /**
@@ -42,8 +43,8 @@ define(function () {
 
             /**
              * Sets the current security token
-             * @param newToken
-             * @returns {jquery}
+             * @param {String} newToken
+             * @returns {Object} - this
              */
             setToken: function setToken(newToken) {
                 token = newToken;
