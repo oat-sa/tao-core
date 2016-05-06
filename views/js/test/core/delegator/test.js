@@ -142,7 +142,7 @@ define(['core/delegator'], function(delegator) {
     QUnit.test('delegate errors', function(assert) {
         var delegate;
 
-        QUnit.expect(4);
+        QUnit.expect(6);
 
         delegate = delegator();
         assert.equal(typeof delegate, 'function', 'The delegator helper has created a delegate function');
@@ -150,11 +150,20 @@ define(['core/delegator'], function(delegator) {
             delegate('action');
         }, 'An error must be thrown if the delegate function is called with no adapter');
 
-        delegate = delegator({}, {});
+        delegate = delegator({}, {}, {required: true});
         assert.equal(typeof delegate, 'function', 'The delegator helper has created a delegate function');
         assert.throws(function() {
             delegate('action');
         }, 'An error must be thrown if the delegate function is called with an unknown target function');
+
+        delegate = delegator({}, {});
+        assert.equal(typeof delegate, 'function', 'The delegator helper has created a delegate function');
+        try {
+            delegate('action');
+            assert.ok(true, 'A default delegated function has been called');
+        } catch(e) {
+            assert.ok(false, 'A default delegated function must be called when an unknown target is invoked while the `required` option is disabled');
+        }
     });
 
 
@@ -168,7 +177,7 @@ define(['core/delegator'], function(delegator) {
         QUnit.expect(3);
 
         delegate = delegator(api, provider, {
-            default: function() {
+            defaultProvider: function() {
                 assert.ok(true, 'Default delegated function invoked!');
                 assert.equal(this, api, 'The default delegated is called using the api context');
                 return expectedResponse;

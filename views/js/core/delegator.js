@@ -36,9 +36,10 @@ define([
      * @param {Object} provider - The provider on which delegate the calls
      * @param {Object} [config] - An optional configuration set
      * @param {String} [config.name] - The name of the provider
-     * @param {Boolean} [config.eventifier] - Enable the eventifier support
-     * @param {Boolean} [config.forward] - Forward the calls to the provider instead of delegate
-     * @param {Function} [config.default] - An optional default delegated function called if the provider do not have the requested target.
+     * @param {Boolean} [config.eventifier] - Enable the eventifier support (default: true)
+     * @param {Boolean} [config.forward] - Forward the calls to the provider instead of delegate (default: false)
+     * @param {Function} [config.defaultProvider] - An optional default delegated function called if the provider do not have the requested target.
+     * @param {Boolean} [config.required] - Throws exception if a delegated method is missing (default: false)
      * @returns {delegate} - The delegate function
      */
     function delegator(api, provider, config) {
@@ -58,14 +59,19 @@ define([
          */
         function delegate(fnName) {
             var response, args;
+            var defaultProvider = extendedConfig.defaultProvider || _.noop;
+
+            if (extendedConfig.required) {
+                defaultProvider = null;
+            }
 
             if (provider) {
-                if (_.isFunction(provider[fnName]) || _.isFunction(extendedConfig.default)) {
+                if (_.isFunction(provider[fnName]) || _.isFunction(defaultProvider)) {
                     // need real array of params, even if empty
                     args = _slice.call(arguments, 1);
 
                     // delegate the call to the provider
-                    response = (provider[fnName] || extendedConfig.default).apply(context, args);
+                    response = (provider[fnName] || defaultProvider).apply(context, args);
 
                     // if supported fire the method related event
                     if (eventifier) {
