@@ -51,18 +51,18 @@ define([
          * If the api supports eventifier, fires the related event
          *
          * @param {String} fnName - The name of the delegated method to call
-         * @param {Array} [args] - An optional array of arguments to apply to the method
+         * @param {Object} ... - Following parameters will be forwarded as is
          * @returns {Object} - The delegated method must return a response
          * @private
          * @throws Error
          */
-        function delegate(fnName, args) {
-            var response;
+        function delegate(fnName) {
+            var response, args;
 
             if (provider) {
                 if (_.isFunction(provider[fnName]) || _.isFunction(extendedConfig.default)) {
                     // need real array of params, even if empty
-                    args = args ? _slice.call(args) : [];
+                    args = _slice.call(arguments, 1);
 
                     // delegate the call to the provider
                     response = (provider[fnName] || extendedConfig.default).apply(context, args);

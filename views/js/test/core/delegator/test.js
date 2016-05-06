@@ -40,9 +40,9 @@ define(['core/delegator'], function(delegator) {
         var expectedArg2 = 'test2';
         var api = {
             isApi: true,
-            action: function() {
+            action: function(arg1, arg2) {
                 assert.ok(true, 'Action called from the api');
-                return delegate('action', arguments);
+                return delegate('action', arg1, arg2);
             }
         };
         var adapter = {
@@ -74,9 +74,9 @@ define(['core/delegator'], function(delegator) {
         var expectedArg2 = 'test2';
         var api = {
             isApi: true,
-            action: function() {
+            action: function(arg1, arg2) {
                 assert.ok(true, 'Action called from the api');
-                return delegate('action', arguments);
+                return delegate('action', arg1, arg2);
             },
 
             trigger: function(event, response, arg1, arg2) {
@@ -186,9 +186,9 @@ define(['core/delegator'], function(delegator) {
         var expectedArg2 = 'test2';
         var api = {
             isApi: true,
-            action: function() {
+            action: function(arg1, arg2) {
                 assert.ok(true, 'Action called from the api');
-                return delegate('action', arguments);
+                return delegate('action', arg1, arg2);
             }
         };
         var adapter = {
@@ -222,9 +222,9 @@ define(['core/delegator'], function(delegator) {
         var expectedArg2 = 'test2';
         var api = {
             isApi: true,
-            action: function() {
+            action: function(arg1, arg2) {
                 assert.ok(true, 'Action called from the api');
-                return delegate('action', arguments);
+                return delegate('action', arg1, arg2);
             },
 
             trigger: function(event, response, arg1, arg2) {

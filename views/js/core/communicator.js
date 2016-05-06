@@ -80,7 +80,7 @@ define([
          */
         var provider = communicatorFactory.getProvider(providerName);
 
-        // creates the implementation by setting an API an delegating calls to the provider
+        // creates the implementation by setting an API and delegating calls to the provider
         communicator = eventifier({
             /**
              * Initializes the communication implementation.
@@ -182,7 +182,7 @@ define([
                     return Promise.reject();
                 }
 
-                return delegate('send', [channel, message])
+                return delegate('send', channel, message)
                     .then(function (response) {
                         self.trigger('sent', channel, message, response);
                         return Promise.resolve(response);
