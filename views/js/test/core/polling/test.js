@@ -28,7 +28,8 @@ define([
     QUnit.module('polling');
 
 
-    QUnit.test('module', 3, function(assert) {
+    QUnit.test('module', function(assert) {
+        QUnit.expect(3);
         assert.equal(typeof polling, 'function', "The polling module exposes a function");
         assert.equal(typeof polling(), 'object', "The polling factory produces an object");
         assert.notStrictEqual(polling(), polling(), "The polling factory provides a different object on each call");
@@ -56,6 +57,7 @@ define([
         .cases(testReviewApi)
         .test('instance API ', function(data, assert) {
             var instance = polling();
+            QUnit.expect(1);
             assert.equal(typeof instance[data.name], 'function', 'The polling instance exposes a "' + data.title + '" function');
         });
 
@@ -65,6 +67,9 @@ define([
         var action = function() {};
         var interval = 250;
         var context = {};
+        var max = 3;
+
+        QUnit.expect(18);
 
         assert.equal(instance.getInterval(), 60000, 'The polling instance has set a default value for the interval');
         assert.equal(instance.getContext(), instance, 'The polling instance has set a default value for the call context');
@@ -72,11 +77,30 @@ define([
 
         assert.equal(instance.setInterval(interval), instance, 'The method setInterval returns the instance');
         assert.equal(instance.setContext(context), instance, 'The method setContext returns the instance');
+        assert.equal(instance.setMax(max), instance, 'The method setMax returns the instance');
         assert.equal(instance.setAction(action), instance, 'The method setAction returns the instance');
 
         assert.equal(instance.getInterval(), interval, 'The polling instance has set the right value for the interval');
         assert.equal(instance.getContext(), context, 'The polling instance has set the right value for the call context');
+        assert.equal(instance.getMax(), max, 'The polling instance has set the right value for the max number of iterations');
         assert.equal(instance.getAction(), action, 'The polling instance has set the right action callback');
+
+        var instance2 = polling(action);
+        assert.equal(instance2.getInterval(), 60000, 'The polling instance has set a default value for the interval');
+        assert.equal(instance2.getContext(), instance2, 'The polling instance has set a default value for the call context');
+        assert.equal(instance2.getAction(), action, 'The polling instance has set the right action callback');
+
+
+        var instance3 = polling({
+            action: action,
+            interval: interval,
+            context: context,
+            max: max
+        });
+        assert.equal(instance3.getInterval(), interval, 'The polling instance has set the right value for the interval');
+        assert.equal(instance3.getContext(), context, 'The polling instance has set the right value for the call context');
+        assert.equal(instance3.getMax(), max, 'The polling instance has set the right value for the max number of iterations');
+        assert.equal(instance3.getAction(), action, 'The polling instance has set the right action callback');
     });
 
 
@@ -198,6 +222,7 @@ define([
         });
 
         QUnit.stop(19);
+        QUnit.expect(48);
 
         instance.trigger('custom');
 
@@ -228,12 +253,73 @@ define([
             QUnit.start();
         });
 
-        QUnit.stop(3);
+        QUnit.stop(max);
+        QUnit.expect(11);
 
         instance.setInterval(interval);
         instance.setContext(context);
         instance.setAction(action);
         instance.setMax(max);
         instance.start();
+
+        assert.equal(instance.getMax(), max, 'The mex number of iteration is correct');
+
+        var instance2 = polling({
+            action: _.noop,
+            max: 2
+        });
+        assert.equal(instance2.next(), instance2, 'The next() method returned the instance');
+        assert.equal(instance2.next(), instance2, 'The next() method returned the instance');
+        assert.equal(instance2.next(), instance2, 'The next() method returned the instance');
+        instance2.stop();
+    });
+
+
+    QUnit.asyncTest('autoStart', function(assert) {
+        var instance = polling({
+            action: function() {
+                assert.ok(true, 'The instance has auto started the polling');
+            },
+            interval: 250,
+            max: 1,
+            autoStart: true
+        });
+
+        QUnit.expect(2);
+
+        instance.on('stop', function() {
+            assert.ok(true, 'The polling instance is stopped');
+            QUnit.start();
+        });
+    });
+
+
+    QUnit.asyncTest('next pending', function(assert) {
+        var instance = polling({
+            action: function() {
+                var async = this.async();
+
+                assert.ok(true, 'The next() method has force an iteration');
+                count ++;
+
+                setTimeout(function() {
+                    async.resolve();
+
+                    if(count >= 2) {
+                        instance.stop();
+                        QUnit.start();
+                    }
+                }, 250);
+            },
+            interval: 200
+        });
+        var count = 0;
+
+        QUnit.expect(4);
+
+        instance.next();
+        assert.equal(count, 1, "An iteration has been ran");
+        instance.next();
+        assert.equal(count, 1, "No other iteration has been ran at this time");
     });
 });
