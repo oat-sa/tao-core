@@ -41,6 +41,7 @@ define([
 
         var plugins = {};
         var modules = {};
+        var excludes = [];
 
         /**
          * The plugin loader
@@ -101,13 +102,24 @@ define([
             },
 
             /**
+             * Remove a plugin from the loading stack
+             * @param {String} name - the plugin's module
+             * @returns {loader} chains
+             * @throws {TypeError} misuse
+             */
+            remove : function remove(module){
+                excludes.push(module);
+                return this;
+            },
+
+            /**
              * Loads the dynamic plugins : trigger the dependency resolution
              * @returns {Promise}
              */
             load: function load() {
                 return new Promise(function(resolve, reject){
 
-                    var dependencies = _(modules).values().flatten().uniq().value();
+                    var dependencies = _(modules).values().flatten().uniq().difference(excludes).value();
 
                     if(dependencies.length){
 
