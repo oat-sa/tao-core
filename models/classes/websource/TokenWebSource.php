@@ -67,7 +67,7 @@ class TokenWebSource extends BaseWebsource
 	 * @param string $relPath
 	 * @return string
 	 */
-	private function generateToken($relPath) {
+	protected function generateToken($relPath) {
 		$time = time();
 		return $time.'/'.md5($time.$relPath.$this->getOption(self::OPTION_SECRET));
 	}

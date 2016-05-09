@@ -25,7 +25,6 @@ require.config({
 
 //polyfills
         'polyfill'          : 'lib/polyfill',
-        'filereader'        : 'lib/polyfill/jquery.FileReader.min',
 
 //libs
         'lodash'            : 'lib/lodash.min',
@@ -39,7 +38,6 @@ require.config({
         'spin'              : 'lib/spin.min',
         'history'           : 'lib/history/history',
 
-        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
 

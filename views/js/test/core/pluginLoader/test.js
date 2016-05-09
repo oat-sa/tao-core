@@ -143,4 +143,25 @@ define([
             QUnit.start();
         });
     });
+
+    QUnit.asyncTest('remove a plugin', function (assert){
+        QUnit.expect(3);
+
+        var loader = pluginLoader();
+
+        assert.equal(typeof loader, 'object', "The loader is an object");
+
+        loader.add('test/core/pluginLoader/mockPlugin', 'mock');
+
+        assert.deepEqual(loader.remove('mock'), loader, 'The loader chains');
+
+        loader.load().then(function(){
+            assert.equal(loader.getPlugins('test/core/pluginLoader/mockPlugin').length, 0, 'The mock plugin has been removed');
+            QUnit.start();
+        }).catch(function(e){
+            assert.ok(false, e);
+            QUnit.start();
+        });
+
+    });
 });

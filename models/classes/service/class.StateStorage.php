@@ -20,6 +20,8 @@
 
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\service\StateStorage;
+
 /**
  * Persistence for the item delivery service
  *
@@ -28,7 +30,7 @@ use oat\oatbox\service\ConfigurableService;
  * @package tao
  */
 class tao_models_classes_service_StateStorage
-    extends ConfigurableService
+    extends ConfigurableService implements StateStorage
 {
     /**
      * @var string name of former hardcoded persistence

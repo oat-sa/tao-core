@@ -151,7 +151,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	/**
 	 * returnSuccess and returnFailure should be used
 	 */
-	private function encode($data){
+	protected function encode($data){
 	switch ($this->responseEncoding){
 		case "application/rdf+xml":{
 		    throw new common_exception_NotImplemented();

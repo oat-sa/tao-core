@@ -150,7 +150,8 @@ class GenerisTreeFactory
 		    $searchResult = $class->searchInstances(array(), array(
 				'limit'		=> $limit,
 				'offset'	=> $this->offset,
-				'recursive'	=> false
+				'recursive'	=> false,
+				'order' => RDFS_LABEL,
 			));
 			
 			foreach ($searchResult as $instance){
