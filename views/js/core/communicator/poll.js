@@ -206,7 +206,7 @@ define([
                     self.polling.start();
                     resolve();
                 } else {
-                    reject();
+                    reject('The communicator has not been properly initialized');
                 }
             });
         },
@@ -222,7 +222,7 @@ define([
                     self.polling.stop();
                     resolve();
                 } else {
-                    reject();
+                    reject('The communicator has not been properly initialized');
                 }
             });
         },
