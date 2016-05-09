@@ -95,7 +95,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
 
     QUnit.asyncTest('init and destroy', function (assert) {
-        QUnit.expect(7);
+        QUnit.expect(11);
 
         communicator.registerProvider('poll', poll);
 
@@ -118,17 +118,28 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         instance.init().then(function () {
             assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
-            instance.destroy().then(function () {
-                assert.equal(instance.getState('ready'), false, 'The provider is destroyed');
+            // double check for init fallback when already ready
+            // the init events must not be triggered as the communicator is already ready
+            instance.init().then(function () {
+                assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
-                QUnit.start();
-            })
+                instance.destroy().then(function () {
+                    assert.equal(instance.getState('ready'), false, 'The provider is destroyed');
+
+                    // double check for destroy fallback when already destroyed
+                    instance.destroy().then(function () {
+                        assert.equal(instance.getState('ready'), false, 'The provider is already destroyed');
+
+                        QUnit.start();
+                    });
+                });
+            });
         });
     });
 
 
     QUnit.asyncTest('open and close', function (assert) {
-        QUnit.expect(15);
+        QUnit.expect(16);
 
         var config = {
             service: 'service.url',
@@ -184,13 +195,19 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
             instance.open().then(function () {
                 assert.equal(instance.getState('open'), true, 'The connection is open');
+
+                // double check for open fallback when already open
+                // the init events must not be triggered as the communicator is already open
+                instance.open().then(function () {
+                    assert.equal(instance.getState('ready'), true, 'The provider is initialized');
+                });
             });
         });
     });
 
 
     QUnit.asyncTest('send success', function (assert) {
-        QUnit.expect(22);
+        QUnit.expect(24);
 
         var config = {
             service: 'service.url',
@@ -259,6 +276,12 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
                 assert.equal(channel, requestChannel, 'The right channel is provided');
                 assert.equal(message, requestMessage, 'The right message is provided');
             })
+            .on('close', function () {
+                assert.ok(true, 'The communicator has fired the "close" event');
+            })
+            .on('closed', function () {
+                assert.ok(true, 'The communicator has fired the "closed" event');
+            })
             .channel(requestChannel, function (message) {
                 assert.equal(message, expectedResponse.messages[0].message, 'The provider has received the message');
                 // QUnit.start();
@@ -285,12 +308,15 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
                     assert.deepEqual(response, expectedResponse.responses[0], 'The message has received the expected response');
 
+                    // do not explicitly call the close() method,
+                    // it will be invoked by the destroy() method,
+                    // thus "close" and "closed" events must be triggered
                     instance.destroy().then(function () {
                         assert.ok(true, 'The provider is destroyed');
 
                         QUnit.start();
                     });
-                })
+                });
             });
         });
     });
@@ -374,7 +400,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
                         QUnit.start();
                     });
                 });
-            })
+            });
         });
     });
 

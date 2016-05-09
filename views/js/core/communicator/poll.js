@@ -187,12 +187,20 @@ define([
          * @returns {Promise}
          */
         destroy: function destroy() {
-            if (this.polling) {
-                this.polling.stop();
-            }
-            this.polling = this.throttledSend = this.messagesQueue = null;
+            var self = this;
+            var stopped;
 
-            return Promise.resolve();
+            if (this.polling) {
+                stopped = new Promise(function(resolve) {
+                    self.polling.off('stop.api').on('stop.api', resolve).stop();
+                });
+            } else {
+                stopped = Promise.resolve();
+            }
+
+            return stopped.then(function() {
+                self.polling = self.throttledSend = self.messagesQueue = null;
+            });
         },
 
         /**
@@ -201,14 +209,17 @@ define([
          */
         open: function open() {
             var self = this;
-            return new Promise(function (resolve, reject) {
-                if (self.polling) {
-                    self.polling.start().next();
-                    resolve();
-                } else {
-                    reject('The communicator has not been properly initialized');
-                }
-            });
+            var started;
+
+            if (this.polling) {
+                started = new Promise(function(resolve) {
+                    self.polling.off('next.api').on('next.api', resolve).start().next();
+                });
+            } else {
+                started = Promise.reject('The communicator has not been properly initialized');
+            }
+
+            return started;
         },
 
         /**
@@ -217,14 +228,17 @@ define([
          */
         close: function close() {
             var self = this;
-            return new Promise(function (resolve, reject) {
-                if (self.polling) {
-                    self.polling.stop();
-                    resolve();
-                } else {
-                    reject('The communicator has not been properly initialized');
-                }
-            });
+            var stopped;
+
+            if (this.polling) {
+                stopped = new Promise(function(resolve) {
+                    self.polling.off('stop.api').on('stop.api', resolve).stop();
+                });
+            } else {
+                stopped = Promise.reject('The communicator has not been properly initialized');
+            }
+
+            return stopped;
         },
 
         /**
