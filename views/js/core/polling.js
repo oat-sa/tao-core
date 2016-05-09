@@ -116,9 +116,9 @@
 define([
     'jquery',
     'lodash',
-    'core/promiseFactory',
+    'core/promise',
     'core/eventifier'
-], function ($, _, promiseFactory, eventifier) {
+], function ($, _, Promise, eventifier) {
     'use strict';
 
     /**
@@ -205,8 +205,13 @@ define([
              * @returns {Promise}
              */
             async : function async() {
-                // needs a promise that provides the resolve/reject callbacks
-                promise = promiseFactory();
+                var cb = {};
+
+                // create a promise and extract the control callbacks
+                promise = new Promise(function(resolve, reject) {
+                    cb.resolve = resolve;
+                    cb.reject = reject;
+                });
 
                 // directly install the pending actions
                 promise.then(function() {
@@ -236,6 +241,9 @@ define([
                      */
                     polling.trigger('rejected');
                 });
+
+                // need to assign the control callbacks since the Promise instance does not include them
+                _.assign(promise, cb);
 
                 /**
                  * Notifies the current action is asynchronous
