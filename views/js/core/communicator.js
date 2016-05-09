@@ -41,6 +41,10 @@ define([
      * The communicator relies on a provider to execute the actions.
      * Most of the delegated methods must return promises.
      *
+     * Some standard channels are reserved, and must be implemented by the providers:
+     * - error: to carry on error purpose messages
+     * - malformed: to carry on malformed received messages
+     *
      * @param {String} providerName - The name of the provider instance,
      *                                which MUST be defined before through a `.registerProvider()` call.
      * @param {Object} [config] - Optional config set

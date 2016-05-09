@@ -406,7 +406,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
 
     QUnit.asyncTest('receive', function (assert) {
-        QUnit.expect(8);
+        QUnit.expect(9);
 
         var config = {
             service: 'service.url',
@@ -419,6 +419,8 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             messages: [{
                 channel: expectedChannel,
                 message: 'bar'
+            }, {
+                message: 'malformed'
             }]
         };
 
@@ -436,9 +438,19 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         assert.ok(!!instance, 'The provider exists');
 
-        instance.channel(expectedChannel, function (message) {
-            assert.equal(message, expectedResponse.messages[0].message, 'The provider has received the message');
+        var received = [new Promise(function(resolve) {
+            instance.channel(expectedChannel, function (message) {
+                assert.equal(message, expectedResponse.messages[0].message, 'The provider has received the message');
+                resolve();
+            });
+        }), new Promise(function(resolve) {
+            instance.channel('malformed', function(message) {
+                assert.equal(message, expectedResponse.messages[1], 'The provider has received the malformed message');
+                resolve();
+            });
+        })];
 
+        Promise.all(received).then(function() {
             instance.destroy().then(function () {
                 assert.ok(true, 'The provider is destroyed');
 

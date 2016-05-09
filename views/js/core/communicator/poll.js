@@ -73,6 +73,8 @@ define([
      * Business logic errors can be implemented using the `error` channel.
      * Network errors have to be handled by the AJAX implementation and rejected promises.
      *
+     * Malformed messages will be issued through the `malformed` channel
+     *
      * @param {String} config.service - The address of the remote service to request
      * @param {Number} [config.timeout] - The communication timeout, in milliseconds (default: 30000)
      * @param {Number} [config.interval] - The poll interval, in milliseconds (default: 30000)
@@ -153,7 +155,11 @@ define([
 
                             // receive server messages
                             _.forEach(response.messages, function (msg) {
-                                self.trigger('message', msg.channel, msg.message);
+                                if (msg.channel) {
+                                    self.trigger('message', msg.channel, msg.message);
+                                } else {
+                                    self.trigger('message', 'malformed', msg);
+                                }
                             });
 
                             self.trigger('receive', response);
