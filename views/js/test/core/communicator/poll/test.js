@@ -35,32 +35,17 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
     /**
      * A simple AJAX mock factory that fakes a successful ajax call.
      * To use it, just replace $.ajax with the returned value:
-     * <pre>$.ajax = ajaxMockSuccess(mockData);</pre>
-     * @param {*} response - The mock data used as response
+     * <pre>$.ajax = ajaxMock(function(promise) { promise.resolve(mockData); });</pre>
+     * <pre>$.ajax = ajaxMock(function(promise) { promise.reject(mockError); });</pre>
+     * @param {Function} resolver - A data resolver that will receive a jQuery promise as argument and must resolve it or reject it
      * @param {Function} [validator] - An optional function called instead of the ajax method
      * @returns {Function}
      */
-    function ajaxMockSuccess(response, validator) {
-        var deferred = $.Deferred().resolve(response);
+    function ajaxMock(resolver, validator) {
         return function () {
+            var deferred = $.Deferred();
             validator && validator.apply(this, arguments);
-            return deferred.promise();
-        };
-    }
-
-
-    /**
-     * A simple AJAX mock factory that fakes a failing ajax call.
-     * To use it, just replace $.ajax with the returned value:
-     * <pre>$.ajax = ajaxMockError(mockData);</pre>
-     * @param {*} response - The mock data used as response
-     * @param {Function} [validator] - An optional function called instead of the ajax method
-     * @returns {Function}
-     */
-    function ajaxMockError(response, validator) {
-        var deferred = $.Deferred().reject(response);
-        return function () {
-            validator && validator.apply(this, arguments);
+            _.defer(resolver, deferred);
             return deferred.promise();
         };
     }
@@ -102,8 +87,8 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         var instance = communicator('poll');
 
-        instance.init().catch(function() {
-            assert.ok(true,'The provider needs the address of the remote service');
+        instance.init().catch(function () {
+            assert.ok(true, 'The provider needs the address of the remote service');
             QUnit.start();
         });
     });
@@ -131,10 +116,10 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         assert.ok(!!instance, 'The provider exists');
 
         instance.init().then(function () {
-            assert.ok(true, 'The provider is initialized');
+            assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
             instance.destroy().then(function () {
-                assert.ok(true, 'The provider is destroyed');
+                assert.equal(instance.getState('ready'), false, 'The provider is destroyed');
 
                 QUnit.start();
             })
@@ -147,10 +132,12 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         var config = {
             service: 'service.url',
-            interval: '500'
+            interval: 500
         };
 
-        $.ajax = ajaxMockSuccess({}, function (ajaxConfig) {
+        $.ajax = ajaxMock(function(promise) {
+            promise.resolve({});
+        }, function (ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
         });
 
@@ -169,14 +156,14 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             .on('closed', function () {
                 assert.ok(true, 'The communicator has fired the "closed" event');
             })
-            .on('receive', function() {
+            .on('receive', function () {
                 assert.ok(true, 'The communicator has fired the "receive" event');
 
-                instance.close().then(function() {
-                    assert.ok(true, 'The connection is closed');
+                instance.close().then(function () {
+                    assert.equal(instance.getState('open'), false, 'The connection is closed');
 
-                    instance.destroy().then(function() {
-                        assert.ok(true, 'The communictor is destroyed');
+                    instance.destroy().then(function () {
+                        assert.ok(true, 'The communicator is destroyed');
                         QUnit.start();
                     });
                 });
@@ -192,19 +179,18 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             assert.ok(true, 'The communicator cannot disconnect while the instance is not initialized');
         });
 
-        instance.init().then(function() {
-            assert.ok(true, 'The communicator is initialized');
+        instance.init().then(function () {
+            assert.equal(instance.getState('ready'), true, 'The communicator is initialized');
 
-            instance.open().then(function() {
-                assert.ok(true, 'The connection is open');
+            instance.open().then(function () {
+                assert.equal(instance.getState('open'), true, 'The connection is open');
             });
         });
     });
 
 
     QUnit.asyncTest('send success', function (assert) {
-        QUnit.expect(19);
-        QUnit.stop(1);
+        QUnit.expect(22);
 
         var config = {
             service: 'service.url',
@@ -214,25 +200,48 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         var requestChannel = 'foo';
         var requestMessage = 'hello';
 
-        var expectedResponse = {
+        var testPath = [{
+            token: 'token1',
+            request: [],
+            response: {
+                token: 'token2',
+                messages: [],
+                responses: []
+            }
+        }, {
             token: 'token2',
-            messages: [{
+            request: [{
                 channel: requestChannel,
-                message: 'bar'
+                message: requestMessage
             }],
-            responses: [
-                'ok'
-            ]
-        };
-
-        var expectedRequest = [{
-            channel: requestChannel,
-            message: requestMessage
+            response: {
+                token: 'token3',
+                messages: [{
+                    channel: requestChannel,
+                    message: 'bar'
+                }],
+                responses: [
+                    'ok'
+                ]
+            }
         }];
 
-        $.ajax = ajaxMockSuccess(expectedResponse, function (ajaxConfig) {
+        var currentStep = 0;
+
+        var expectedToken = testPath[currentStep].token;
+        var expectedRequest = testPath[currentStep].request;
+        var expectedResponse = testPath[currentStep].response;
+
+        $.ajax = ajaxMock(function(promise) {
+            promise.resolve(expectedResponse);
+
+            currentStep = Math.min(currentStep + 1, testPath.length - 1);
+            expectedToken = testPath[currentStep].token;
+            expectedRequest = testPath[currentStep].request;
+            expectedResponse = testPath[currentStep].response;
+        }, function (ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
-            assert.equal(ajaxConfig.headers['X-Auth-Token'], config.token, 'The provider has set the right security token');
+            assert.equal(ajaxConfig.headers['X-Auth-Token'], expectedToken, 'The provider has set the right security token');
             assert.deepEqual(ajaxConfig.data, expectedRequest, 'The provider has sent the request');
         });
 
@@ -250,9 +259,9 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
                 assert.equal(channel, requestChannel, 'The right channel is provided');
                 assert.equal(message, requestMessage, 'The right message is provided');
             })
-            .channel(requestChannel, function(message) {
+            .channel(requestChannel, function (message) {
                 assert.equal(message, expectedResponse.messages[0].message, 'The provider has received the message');
-                QUnit.start();
+                // QUnit.start();
             });
 
         assert.ok(!!instance, 'The provider exists');
@@ -262,14 +271,14 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         });
 
         instance.init().then(function () {
-            assert.ok(true, 'The provider is initialized');
+            assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
             instance.send(requestChannel, requestMessage).catch(function () {
                 assert.ok(true, 'The communicator cannot send a message while the connection is not open');
             });
 
-            instance.open().then(function() {
-                assert.ok(true, 'The connection is open');
+            instance.open().then(function () {
+                assert.equal(instance.getState('open'), true, 'The connection is open');
 
                 instance.send(requestChannel, requestMessage).then(function (response) {
                     assert.ok(true, 'The message is sent');
@@ -288,7 +297,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
 
     QUnit.asyncTest('send failed #network', function (assert) {
-        QUnit.expect(8);
+        QUnit.expect(11);
 
         var config = {
             service: 'service.url',
@@ -298,34 +307,63 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         var requestChannel = 'foo';
         var requestMessage = 'hello';
 
-        var expectedResponse = 'error';
-
-        var expectedRequest = [{
-            channel: requestChannel,
-            message: requestMessage
+        var testPath = [{
+            token: 'token1',
+            request: [],
+            response: {
+                token: 'token2',
+                messages: [],
+                responses: []
+            }
+        }, {
+            token: 'token2',
+            request: [{
+                channel: requestChannel,
+                message: requestMessage
+            }],
+            response: 'error'
         }];
+
+        var currentStep = 0;
+
+        var expectedToken = testPath[currentStep].token;
+        var expectedRequest = testPath[currentStep].request;
+        var expectedResponse = testPath[currentStep].response;
+        var mustFailed = false;
 
         communicator.registerProvider('poll', poll);
 
         var instance = communicator('poll', config);
 
-        $.ajax = ajaxMockError(expectedResponse, function (ajaxConfig) {
+        $.ajax = ajaxMock(function (promise) {
+            if (mustFailed) {
+                promise.reject(expectedResponse);
+            } else {
+                promise.resolve(expectedResponse);
+                mustFailed = true;
+            }
+
+            currentStep = Math.min(currentStep + 1, testPath.length - 1);
+            expectedToken = testPath[currentStep].token;
+            expectedRequest = testPath[currentStep].request;
+            expectedResponse = testPath[currentStep].response;
+        }, function (ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
-            assert.equal(ajaxConfig.headers['X-Auth-Token'], config.token, 'The provider has set the right security token');
+            assert.equal(ajaxConfig.headers['X-Auth-Token'], expectedToken, 'The provider has set the right security token');
             assert.deepEqual(ajaxConfig.data, expectedRequest, 'The provider has sent the request');
         });
 
         assert.ok(!!instance, 'The provider exists');
 
-        instance.channel(requestChannel, function() {
+        instance.channel(requestChannel, function () {
             assert.ok(false, 'The provider must not receive any message');
         });
 
         instance.init().then(function () {
-            assert.ok(true, 'The provider is initialized');
+            assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
-            instance.open().then(function() {
-                assert.ok(true, 'The connection is open');
+            instance.open().then(function () {
+                assert.equal(instance.getState('open'), true, 'The connection is open');
 
                 instance.send(requestChannel, requestMessage).catch(function () {
                     assert.ok(true, 'The message has not been received');
@@ -346,7 +384,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         var config = {
             service: 'service.url',
-            interval: '500'
+            interval: 500
         };
 
         var expectedChannel = 'foo';
@@ -362,7 +400,9 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         var instance = communicator('poll', config);
 
-        $.ajax = ajaxMockSuccess(expectedResponse, function (ajaxConfig) {
+        $.ajax = ajaxMock(function(promise) {
+            promise.resolve(expectedResponse);
+        }, function (ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
             assert.equal(typeof ajaxConfig.headers['X-Auth-Token'], 'undefined', 'The provider has not set any security token');
             assert.deepEqual(ajaxConfig.data, [], 'The provider has sent the request with no data');
@@ -370,7 +410,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
         assert.ok(!!instance, 'The provider exists');
 
-        instance.channel(expectedChannel, function(message) {
+        instance.channel(expectedChannel, function (message) {
             assert.equal(message, expectedResponse.messages[0].message, 'The provider has received the message');
 
             instance.destroy().then(function () {
@@ -381,10 +421,10 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         });
 
         instance.init().then(function () {
-            assert.ok(true, 'The provider is initialized');
+            assert.equal(instance.getState('ready'), true, 'The provider is initialized');
 
-            instance.open().then(function() {
-                assert.ok(true, 'The connection is open');
+            instance.open().then(function () {
+                assert.equal(instance.getState('open'), true, 'The connection is open');
             });
         });
     });

@@ -203,7 +203,7 @@ define([
             var self = this;
             return new Promise(function (resolve, reject) {
                 if (self.polling) {
-                    self.polling.start();
+                    self.polling.start().next();
                     resolve();
                 } else {
                     reject('The communicator has not been properly initialized');
