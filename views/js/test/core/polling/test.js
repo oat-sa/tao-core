@@ -28,7 +28,8 @@ define([
     QUnit.module('polling');
 
 
-    QUnit.test('module', 3, function(assert) {
+    QUnit.test('module', function(assert) {
+        QUnit.expect(3);
         assert.equal(typeof polling, 'function', "The polling module exposes a function");
         assert.equal(typeof polling(), 'object', "The polling factory produces an object");
         assert.notStrictEqual(polling(), polling(), "The polling factory provides a different object on each call");
@@ -56,6 +57,7 @@ define([
         .cases(testReviewApi)
         .test('instance API ', function(data, assert) {
             var instance = polling();
+            QUnit.expect(1);
             assert.equal(typeof instance[data.name], 'function', 'The polling instance exposes a "' + data.title + '" function');
         });
 
@@ -66,6 +68,8 @@ define([
         var interval = 250;
         var context = {};
         var max = 3;
+
+        QUnit.expect(18);
 
         assert.equal(instance.getInterval(), 60000, 'The polling instance has set a default value for the interval');
         assert.equal(instance.getContext(), instance, 'The polling instance has set a default value for the call context');
@@ -218,6 +222,7 @@ define([
         });
 
         QUnit.stop(19);
+        QUnit.expect(48);
 
         instance.trigger('custom');
 
@@ -249,6 +254,7 @@ define([
         });
 
         QUnit.stop(max);
+        QUnit.expect(11);
 
         instance.setInterval(interval);
         instance.setContext(context);
@@ -279,6 +285,8 @@ define([
             autoStart: true
         });
 
+        QUnit.expect(2);
+
         instance.on('stop', function() {
             assert.ok(true, 'The polling instance is stopped');
             QUnit.start();
@@ -306,6 +314,8 @@ define([
             interval: 200
         });
         var count = 0;
+
+        QUnit.expect(4);
 
         instance.next();
         assert.equal(count, 1, "An iteration has been ran");
