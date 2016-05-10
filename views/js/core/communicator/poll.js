@@ -21,11 +21,12 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'core/communicator',
     'core/polling',
     'core/promise',
     'core/tokenHandler'
-], function ($, _, communicator, pollingFactory, Promise, tokenHandlerFactory) {
+], function ($, _, __, communicator, pollingFactory, Promise, tokenHandlerFactory) {
     'use strict';
 
     /**
@@ -71,7 +72,8 @@ define([
      * A security token can be added, in the header `X-Auth-Token` for the request and in the `token` field for the response.
      *
      * Business logic errors can be implemented using the `error` channel.
-     * Network errors have to be handled by the AJAX implementation and rejected promises.
+     * Network errors are handled by the AJAX implementation, and are forwarded to the error channel.
+     * Additional network error handling can be achieve by the rejected send promises.
      *
      * Malformed messages will be issued through the `malformed` channel
      *
@@ -169,10 +171,23 @@ define([
 
                         // when the request fails...
                         .fail(function (jqXHR, textStatus, errorThrown) {
+                            var error = {
+                                code: jqXHR.status,
+                                type: textStatus || 'error',
+                                message: errorThrown || __('An error occurred!')
+                            };
+
+                            // reset the security token on error
+                            if (token) {
+                                tokenHandler.setToken(token);
+                            }
+
                             // reject all message promises
                             _.forEach(promises, function (promise) {
-                                promise.reject(errorThrown || textStatus);
+                                promise.reject(error);
                             });
+
+                            self.trigger('error', error);
 
                             // the request promise must be resolved, even if failed, to continue the polling
                             async.resolve();

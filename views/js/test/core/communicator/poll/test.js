@@ -207,7 +207,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
 
     QUnit.asyncTest('send success', function (assert) {
-        QUnit.expect(24);
+        QUnit.expect(28);
 
         var config = {
             service: 'service.url',
@@ -282,6 +282,10 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             .on('closed', function () {
                 assert.ok(true, 'The communicator has fired the "closed" event');
             })
+            .on('receive', function(response) {
+                assert.ok(true, 'A receive event is triggered');
+                assert.equal(response, expectedResponse, 'A response is received');
+            })
             .channel(requestChannel, function (message) {
                 assert.equal(message, expectedResponse.messages[0].message, 'The provider has received the message');
                 // QUnit.start();
@@ -323,7 +327,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
 
     QUnit.asyncTest('send failed #network', function (assert) {
-        QUnit.expect(11);
+        QUnit.expect(19);
 
         var config = {
             service: 'service.url',
@@ -355,18 +359,22 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         var expectedToken = testPath[currentStep].token;
         var expectedRequest = testPath[currentStep].request;
         var expectedResponse = testPath[currentStep].response;
-        var mustFailed = false;
+        var mustFail = false;
 
         communicator.registerProvider('poll', poll);
 
-        var instance = communicator('poll', config);
+        var instance = communicator('poll', config)
+            .on('error', function(error) {
+                assert.ok(true, 'An error event is triggered');
+                assert.equal(typeof error, 'object', 'An error object is provided');
+            });
 
         $.ajax = ajaxMock(function (promise) {
-            if (mustFailed) {
+            if (mustFail) {
                 promise.reject(expectedResponse);
             } else {
                 promise.resolve(expectedResponse);
-                mustFailed = true;
+                mustFail = true;
             }
 
             currentStep = Math.min(currentStep + 1, testPath.length - 1);
@@ -394,10 +402,15 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
                 instance.send(requestChannel, requestMessage).catch(function () {
                     assert.ok(true, 'The message has not been received');
 
-                    instance.destroy().then(function () {
-                        assert.ok(true, 'The provider is destroyed');
+                    // double send error to check the token reset
+                    instance.send(requestChannel, requestMessage).catch(function () {
+                        assert.ok(true, 'The message has not been received');
 
-                        QUnit.start();
+                        instance.destroy().then(function () {
+                            assert.ok(true, 'The provider is destroyed');
+
+                            QUnit.start();
+                        });
                     });
                 });
             });
