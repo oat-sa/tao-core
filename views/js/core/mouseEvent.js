@@ -22,7 +22,6 @@
 define([], function () {
     'use strict';
 
-    var createEvent;
     var dispatchEvent;
     var allowedEvents = [
         'click',
@@ -44,14 +43,12 @@ define([], function () {
      * @param {String} eventName
      * @param {*} options
      */
-    if (window.MouseEvent) {
-        createEvent = function createEventUsingMouseEvent(eventName, eventOptions) {
-            var event = new MouseEvent(eventName, eventOptions);
-            return event;
-        };
-    } else if (document.createEvent) {
-        createEvent = function createEventUsingCreateEvent(eventName, eventOptions) {
-            var event = document.createEvent('MouseEvents');
+    var createEvent = function createEvent(eventName, eventOptions) {
+        var event;
+        try {
+            event = new MouseEvent(eventName, eventOptions);
+        } catch (e) {
+            event = document.createEvent('MouseEvents');
             event.initMouseEvent(
                 eventName,
                 eventOptions.bubbles     || false,
@@ -69,12 +66,9 @@ define([], function () {
                 eventOptions.button      || 0,
                 eventOptions.relatedTarget || null
             );
-            return event;
-        };
-    } else {
-        createEvent = function createEventDummy() {
-        };
-    }
+        }
+        return event;
+    };
 
     /**
      * Dispatches an event
