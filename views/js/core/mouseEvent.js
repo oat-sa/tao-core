@@ -41,7 +41,8 @@ define([], function () {
      * Creates an event (requires IE > 9)
      * @function createEvent
      * @param {String} eventName
-     * @param {*} options
+     * @param {*} eventOptions
+     * @return {Event}
      */
     var createEvent = function createEvent(eventName, eventOptions) {
         var event;
@@ -108,13 +109,13 @@ define([], function () {
      * @param {*} eventOptions
      * @returns {Boolean} Returns true if the event has been successfully triggered
      */
-    var triggerMouseEvent = function triggerMouseEvent(element, eventName, eventOptions) {
+    return function triggerMouseEvent(element, eventName, eventOptions) {
+        var event;
+
         if (allowedEvents.indexOf(eventName) === -1) {
             return false;
         }
-        var event = createEvent(eventName, eventOptions);
+        event = createEvent(eventName, eventOptions);
         return dispatchEvent(element, eventName, event);
     };
-
-    return triggerMouseEvent;
 });
