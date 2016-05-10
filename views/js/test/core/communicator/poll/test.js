@@ -259,7 +259,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         }, function (ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
             assert.equal(ajaxConfig.headers['X-Auth-Token'], expectedToken, 'The provider has set the right security token');
-            assert.deepEqual(ajaxConfig.data, expectedRequest, 'The provider has sent the request');
+            assert.deepEqual(JSON.parse(ajaxConfig.data), expectedRequest, 'The provider has sent the request');
         });
 
         communicator.registerProvider('poll', poll);
@@ -376,7 +376,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         }, function (ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
             assert.equal(ajaxConfig.headers['X-Auth-Token'], expectedToken, 'The provider has set the right security token');
-            assert.deepEqual(ajaxConfig.data, expectedRequest, 'The provider has sent the request');
+            assert.deepEqual(JSON.parse(ajaxConfig.data), expectedRequest, 'The provider has sent the request');
         });
 
         assert.ok(!!instance, 'The provider exists');
@@ -433,7 +433,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
         }, function (ajaxConfig) {
             assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
             assert.equal(typeof ajaxConfig.headers['X-Auth-Token'], 'undefined', 'The provider has not set any security token');
-            assert.deepEqual(ajaxConfig.data, [], 'The provider has sent the request with no data');
+            assert.deepEqual(JSON.parse(ajaxConfig.data), [], 'The provider has sent the request with no data');
         });
 
         assert.ok(!!instance, 'The provider exists');

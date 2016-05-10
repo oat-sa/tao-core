@@ -133,7 +133,7 @@ define([
                             type: 'POST',
                             cache: false,
                             headers: headers,
-                            data: request,
+                            data: JSON.stringify(request),
                             async: true,
                             dataType: 'json',
                             contentType: 'application/json',
