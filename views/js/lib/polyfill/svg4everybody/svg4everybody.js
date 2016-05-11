@@ -53,7 +53,6 @@
         xhr.onreadystatechange();
     }
     function svg4everybody(rawopts) {
-        console.log('svg4everybody called');
         function oninterval() {
             // while the index exists in the live <use> collection
             for (// get the cached <use> index
