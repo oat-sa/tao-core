@@ -16,6 +16,10 @@ define([
 ], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltipster, form) {
     'use strict';
 
+    /**
+     * svg4everybody is only required by certain legacy browsers to enable the use of external SVG sprites.
+     * The functionality below is based on lib/polyfill/svg4everybody/svg4everybody.js
+     */
     function initCrossBrowserSvg() {
 
         // code taken from svg4everybody
