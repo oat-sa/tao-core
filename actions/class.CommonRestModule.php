@@ -18,7 +18,7 @@
  *
  */
 
-abstract class tao_actions_CommonRestModule extends tao_actions_RestModule
+abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 {
 	/**
 	 * Entry point of API

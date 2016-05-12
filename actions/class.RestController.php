@@ -18,7 +18,7 @@
  *
  */
 
-abstract class tao_actions_RestModule extends \tao_actions_CommonModule
+abstract class tao_actions_RestController extends \tao_actions_CommonModule
 {
     /**
      * @var array
@@ -97,14 +97,19 @@ abstract class tao_actions_RestModule extends \tao_actions_CommonModule
      * Send response with success, data & version of TAO
      *
      * @param array $rawData
+     * @param bool $withMessage
      * @throws common_exception_NotImplemented
      */
-    protected function returnSuccess($rawData = array())
+    protected function returnSuccess($rawData = array(), $withMessage=true)
     {
         $data = array();
-        $data['success'] = true;
-        $data['data'] 	 = $rawData;
-        $data['version'] = TAO_VERSION;
+        if ($withMessage) {
+            $data['success'] = true;
+            $data['data'] 	 = $rawData;
+            $data['version'] = TAO_VERSION;
+        } else {
+            $data = $rawData;
+        }
 
         echo $this->encode($data);
         exit(0);
