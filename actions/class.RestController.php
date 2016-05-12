@@ -36,22 +36,12 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     private $responseEncoding = "application/json";
 
     /**
-     * Check permission from the request
-     * Set response encoding
+     * Check response encoding requested
      *
      * tao_actions_RestModule constructor.
      */
     public function __construct()
     {
-        try {
-            $authAdapter = new tao_models_classes_HttpBasicAuthAdapter(common_http_Request::currentRequest());
-            $user = $authAdapter->authenticate();
-            $session = new common_session_RestSession($user);
-            common_session_SessionManager::startSession($session);
-        } catch (common_user_auth_AuthFailedException $e) {
-            $this->requireLogin();
-        }
-
         if ($this->hasHeader("Accept")) {
             try {
                 $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
@@ -149,7 +139,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      * Return a failed response(401)
      * Depending on Auth method, exception is used to handle http code & headers
      */
-    private function requireLogin()
+    public function requireLogin()
     {
         switch ($this->authMethod) {
             case "auth":
