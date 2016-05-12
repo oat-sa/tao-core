@@ -97,7 +97,7 @@ define([
             // validate the config
             if (!config.service) {
                 // a remote service is needed to build a long poll communication
-                return Promise.reject('You must provide a service URL');
+                return Promise.reject(new Error('You must provide a service URL'));
             }
 
             // there is no message in the queue at this moment
@@ -174,7 +174,7 @@ define([
                             var error = {
                                 source: 'network',
                                 purpose: 'communicator',
-                                context: jqXHR,
+                                context: this,
                                 code: jqXHR.status,
                                 type: textStatus || 'error',
                                 message: errorThrown || __('An error occurred!')
@@ -240,7 +240,7 @@ define([
                     self.polling.off('next.api').on('next.api', resolve).start().next();
                 });
             } else {
-                started = Promise.reject('The communicator has not been properly initialized');
+                started = Promise.reject(new Error('The communicator has not been properly initialized'));
             }
 
             return started;
@@ -259,7 +259,7 @@ define([
                     self.polling.off('stop.api').on('stop.api', resolve).stop();
                 });
             } else {
-                stopped = Promise.reject('The communicator has not been properly initialized');
+                stopped = Promise.reject(new Error('The communicator has not been properly initialized'));
             }
 
             return stopped;
