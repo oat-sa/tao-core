@@ -83,7 +83,7 @@ abstract class tao_actions_RestModule extends \tao_actions_CommonModule
         $data = array();
         if ($withMessage) {
             $data['success']	=  false;
-            $data['errorCode']	=  ($exception->getCode()==0) ? 500 : $exception->getCode();
+            $data['errorCode']	=  $exception->getCode();
             $data['errorMsg']	=  ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() : $exception->getMessage();
             $data['version']	= TAO_VERSION;
         }
