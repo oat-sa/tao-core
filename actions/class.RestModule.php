@@ -128,18 +128,15 @@ abstract class tao_actions_RestModule extends \tao_actions_CommonModule
     protected function encode($data)
     {
         switch ($this->responseEncoding){
-            case "application/rdf+xml":{
+            case "application/rdf+xml":
                 throw new common_exception_NotImplemented();
                 break;
-            }
             case "text/xml":
-            case "application/xml":{
+            case "application/xml":
                 return tao_helpers_Xml::from_array($data);
-            }
             case "application/json":
-            default:{
+            default:
                 return json_encode($data);
-            }
         }
     }
 
@@ -150,14 +147,12 @@ abstract class tao_actions_RestModule extends \tao_actions_CommonModule
     private function requireLogin()
     {
         switch ($this->authMethod) {
-            case "auth":{
+            case "auth":
                 $authException = new common_exception_UnauthorizedAuth();
                 break;
-            }
-            case "Basic":{
+            case "Basic":
                 $authException = new common_exception_UnauthorizedBasic();
                 break;
-            }
             default:
                 $authException = new common_exception_Unauthorized();
         }
