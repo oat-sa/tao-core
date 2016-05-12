@@ -173,6 +173,8 @@ define([
                         .fail(function (jqXHR, textStatus, errorThrown) {
                             var error = {
                                 source: 'network',
+                                purpose: 'communicator',
+                                context: jqXHR,
                                 code: jqXHR.status,
                                 type: textStatus || 'error',
                                 message: errorThrown || __('An error occurred!')
