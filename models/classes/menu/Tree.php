@@ -31,7 +31,8 @@ class Tree  implements PhpSerializable
 
     /**
      * @param \SimpleXMLElement $node
-     * @param $structureExtensionId
+     * @param $structureExtensionId Note that this is currently not used, but it will be for SVG icons in the tree. Also
+     * it makes sure that all instances of fromSimpleXMLElement() use the same interface.
      * @return static
      */
     public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId) {
