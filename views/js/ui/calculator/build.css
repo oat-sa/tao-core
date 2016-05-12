@@ -1,0 +1,121 @@
+/* reset commonly used properties */
+.calcContainer,
+.calcContainer form,
+.calcContainer .calcTitle,
+.calcContainer div,
+.calcContainer input {
+    background: none !important;
+    border: 0 !important;
+    bottom: auto !important;
+    clear: none !important;
+    color: #000 !important;
+    display: block !important;
+    float: none !important;
+    font-family: sans-serif !important;
+    font-size: 100% !important;
+    height: auto !important;
+    left: auto !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    max-height: none !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    position: static !important;
+    right: auto !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    top: auto !important;
+    visibility: visible !important;
+    width: auto !important;
+}
+
+/* self clearing */
+.calcContainer {
+    _height: 1% !important; /* IE6 */
+    *min-height: 1px !important; /* IE7 (and IE6) */
+}
+.calcContainer:after {
+    clear: both !important;
+    content: "." !important;
+    display: block !important;
+    height: 0 !important;
+    visibility: hidden !important;
+}
+
+.calcContainer form {
+    background-color: #d4d0c8 !important;
+    border: 1px solid #404040 !important;
+    float: left !important;
+    font-size: small !important;
+    *width: 17em !important; /* IE6 & IE7 need defined width */
+}
+
+.calcContainer .calcTitle {
+    background-color: #0a246a !important;
+    color: #fff !important;
+    font-size: 100% !important;
+    font-weight: bold !important;
+    padding: 0.1em !important;
+}
+
+.calcContainer div {
+    float: left !important;
+    padding: 0.5em !important;
+}
+
+.calcContainer input {
+    border: 1px solid #626262 !important;
+    float: left !important;
+    /* set font here */
+    height: 2.3em !important;
+    margin: 0.1em !important;
+    text-align: center !important;
+    width: 3em !important;
+}
+
+.calcContainer .calcDisplay {
+    background-color: #fff !important;
+    height: 1.2em !important;
+    text-align: right !important;
+    width: 98% !important;
+    *width: 15.2em !important;
+    /* IE7 has problems with text inputs with text-align: right;
+    and a percentage width in a floated parent (this rule applies to IE7 and below) */
+}
+
+.calcContainer .calcClear {
+    font-size: 88% !important;
+    margin-bottom: 0.3em !important;
+    margin-top: 0.5em !important;
+    width: 5.8em !important;
+}
+
+.calcContainer .calcFirst {
+    clear: left !important;
+}
+
+.calcContainer .calcFunction {
+    background-color: #e5e1d9 !important;
+    color: #f00 !important;
+}
+
+.calcContainer .calcInput {
+    background-color: #e5e1d9 !important;
+    color: #00f !important;
+}
+
+/*
+IE and Opera shift the button text down and to the right on :active.
+Opera also gives buttons a black border on :focus.
+These styles seem to be impossible to override without changing the HTML.
+*/
+.calcContainer .calcFunction:active,
+.calcContainer .calcInput:active {
+    background-color: #f6f2ea !important;
+    position: relative !important;
+    left: 1px !important;
+    top: 1px !important;
+}
