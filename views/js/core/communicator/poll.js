@@ -71,8 +71,8 @@ define([
      *
      * A security token can be added, in the header `X-Auth-Token` for the request and in the `token` field for the response.
      *
-     * Business logic errors can be implemented using the `error` channel.
-     * Network errors are handled by the AJAX implementation, and are forwarded to the error channel.
+     * Business logic errors can be implemented using the `error` *channel*.
+     * Network errors are handled by the AJAX implementation, and are forwarded to the `error` *event*.
      * Additional network error handling can be achieve by the rejected send promises.
      *
      * Malformed messages will be issued through the `malformed` channel
@@ -172,6 +172,7 @@ define([
                         // when the request fails...
                         .fail(function (jqXHR, textStatus, errorThrown) {
                             var error = {
+                                source: 'network',
                                 code: jqXHR.status,
                                 type: textStatus || 'error',
                                 message: errorThrown || __('An error occurred!')
