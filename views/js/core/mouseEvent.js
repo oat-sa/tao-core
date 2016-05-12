@@ -116,7 +116,7 @@ define([], function () {
      * Triggers a mouse event using native methods
      * @param {HTMLElement} element
      * @param {String} eventName
-     * @param {*} eventOptions
+     * @param {Object} eventOptions https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/MouseEvent
      * @returns {Boolean} Returns true if the event has been successfully triggered
      */
     return function triggerMouseEvent(element, eventName, eventOptions) {
