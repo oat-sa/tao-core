@@ -16,6 +16,18 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
 /**
+ * Creates and triggers a mouseEvent
+ * Deprecated method initMouseEvent is mainly used for current (2.1) PhantomJS compatibility
+ *
+ * @example triggerMouseEvent(
+ *      document.getElementById('#button'),
+ *      'click',
+ *      {
+ *          bubbles: true,
+ *          cancelable: true
+ *      }
+ * );
+ *
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -39,10 +51,9 @@ define([], function () {
 
     /**
      * Creates an event (requires IE > 9)
-     * @function createEvent
      * @param {String} eventName
      * @param {*} eventOptions
-     * @return {Event}
+     * @returns {Event}
      */
     var createEvent = function createEvent(eventName, eventOptions) {
         var event;
@@ -73,11 +84,10 @@ define([], function () {
 
     /**
      * Dispatches an event
-     * @function dispatchEvent
      * @param {HTMLElement} element
      * @param {String} eventName
      * @param {Event} event
-     * @return {Boolean} Returns `true` if the event has been dispatched
+     * @returns {Boolean} Returns `true` if the event has been dispatched
      */
     if (document.dispatchEvent) {
         dispatchEvent = function dispatchEventUsingDispatchEvent(element, eventName, event) {
