@@ -26,11 +26,6 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
 
     /**
-     * @var string
-     */
-    private $authMethod = "Basic";
-
-    /**
      * @var NULL|string
      */
     private $responseEncoding = "application/json";
@@ -65,7 +60,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      */
     protected function returnFailure(Exception $exception, $withMessage=true)
     {
-        if (is_subclass_of($exception, "common_Exception")) {
+        if (is_subclass_of($exception, common_Exception::class)) {
             $handler = new tao_helpers_RestExceptionHandler();
             $handler->handle($exception);
         }
@@ -106,14 +101,6 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     }
 
     /**
-     * Helper to redirect to unauthorized response
-     */
-    protected function logout()
-    {
-        $this->requireLogin();
-    }
-
-    /**
      * Encode data regarding responseEncoding
      *
      * @param $data
@@ -133,24 +120,5 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             default:
                 return json_encode($data);
         }
-    }
-
-    /**
-     * Return a failed response(401)
-     * Depending on Auth method, exception is used to handle http code & headers
-     */
-    public function requireLogin()
-    {
-        switch ($this->authMethod) {
-            case "auth":
-                $authException = new common_exception_UnauthorizedAuth();
-                break;
-            case "Basic":
-                $authException = new common_exception_UnauthorizedBasic();
-                break;
-            default:
-                $authException = new common_exception_Unauthorized();
-        }
-        $this->returnFailure($authException, false);
     }
 }
