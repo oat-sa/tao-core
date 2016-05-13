@@ -4,12 +4,12 @@
 
         <input type="button" value="%" class="calcInput calcFirst" />
         <input type="button" value="sqrt" class="calcInput" />
-        <input type="button" value="sqrt" class="calcInput" />
+        <input type="button" value="pow" class="calcInput" />
         <input type="button" value="1/x" class="calcInput" />
 
-        <input type="button" value="CE" class="calcFunction calcFirst" />
-        <input type="button" value="C" class="calcFunction" />
-        <input type="button" value="Backspace" class="calcFunction" />
+        <input type="button" value="C" class="calcFunction calcFirst" />
+        <input type="button" value="CE" class="calcFunction" />
+        <input type="button" value="DEL" class="calcFunction" />
         <input type="button" value="/" class="calcFunction" />
 
 

@@ -62,6 +62,9 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
                 case '/':
                     total /= val;
                     break;
+                case 'pow':
+                    total = Math.pow(total, val);
+                    break;
             }
             display.value = total;
         }
@@ -96,7 +99,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
                             break;
                         case 8:
                             // backspace
-                            key = 'Backspace';
+                            key = 'DEL';
                             break;
                         case 46:
                             // delete
@@ -180,6 +183,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
                 case '+':
                 case '-':
                 case '/':
+                case 'pow':    
                     // if an operation was the last key pressed,
                     // do nothing but change the current operation
                     if(!operationPressed){
@@ -208,7 +212,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
                     display.value = '0';
                     clearNext = true;
                     break;
-                case 'Backspace':
+                case 'DEL':
                     display.value = display.value.slice(0, display.value.length - 1);
                     break;
                 case '+/-':
