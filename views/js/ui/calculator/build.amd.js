@@ -14,7 +14,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
     var JSCALC = {},
         calculators = {}, // an object containing all the calculators created
         nextID = 0;
-
+        
     /**
      * Creates a new calculator in the specified container element (module).
      *
@@ -266,6 +266,8 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
         display.setAttribute('autocomplete', 'off');
         display.value = '0';
         display.onkeydown = display.onkeypress = form.onclick = handleInput;
+        
+        addFocusListener(form);
 
         /**
          * Calculates the value of the last entered operation and displays the result.
@@ -369,7 +371,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
 
         return calcObj;
     }
-
+    
     /**
      * Gets the Calculator object associated with the calculator contained in
      * the specified element.
@@ -458,17 +460,17 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
             calcMods[0] = elem;
             args = true;
         }else if(elem instanceof $){
-            elem.each(function(){
+            elem.each(function (){
                 calcMods.push(this);
             });
         }else{
             // if an element node was not found or specified, get all elements
             // with a class name of "calc"
-            $('.calc').each(function(){
+            $('.calc').each(function (){
                 calcMods.push(this);
             });
         }
-        
+
         len = calcMods.length;
 
         // if there is at least one element in the array
@@ -476,7 +478,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
             // loop through the array and create a calculator in each element
             for(i = 0; i < len; i += 1){
                 calcMod = calcMods[i];
-                
+
                 // check to ensure a calculator does not already exist in the
                 // specified element
                 if(!JSCALC.get(calcMod)){
@@ -505,11 +507,20 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
             }
         }
     };
-
-    // remove all event handlers on window unload
-    // this will prevent a memory leak in older versions of IE
-    if(window.attachEvent){
-        window.attachEvent('onunload', JSCALC.removeAll);
+    
+    /**
+     * Add focus listener to enable activating the calculator instance for keyboard input when clicked
+     * 
+     * @param {HTMLElement} form
+     */
+    function addFocusListener(form){
+        var $form = $(form);
+        var $display = $form.find('input:first');
+        $form.click(function (){
+            var strLength = $display.val().length + 1;
+            $display.focus();
+            $display[0].setSelectionRange(strLength, strLength);
+        });
     }
 
     return JSCALC;
