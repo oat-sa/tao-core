@@ -35,60 +35,92 @@
  */
 define([
     'lodash',
+    'core/promise',
     'core/store/localstorage',
     'core/store/indexdb'
-], function(_, localStorageBackend, indexDbBackend){
+], function(_, Promise, localStorageBackend, indexDbBackend){
     'use strict';
 
-    //detect the support the earliest
     var supportsIndexedDB = false;
-    var test, indexedDB;
-    try {
-        indexedDB = window.indexedDB || window.webkitIndexedDB ||
-                    window.mozIndexedDB || window.OIndexedDB ||
-                    window.msIndexedDB;
+    var dectectionDone    = false;
 
-        //we need to try to open a db, for example FF in private browsing will fail.
-        test = indexedDB.open('__feature_test', 1);
-        test.onsuccess = function(){
-            if(test.result){
-                test.result.close();
+    /**
+     * Detect IndexDB support.
+     * Due to a bug in firefox private mode, we need to try to open a database to be sure it's avaialable.
+     * @returns {Promise} that resolve the result
+     */
+    var isIndexDBSupported = function isIndexDBSupported(){
+        if(dectectionDone){
+            return Promise.resolve(supportsIndexedDB);
+        }
+        return new Promise(function(resolve){
+            var test, indexedDB;
+            var done = function done(result){
+                supportsIndexedDB = !!result;
+                dectectionDone = true;
+                return resolve(supportsIndexedDB);
+            };
+            try {
+                indexedDB = window.indexedDB || window.webkitIndexedDB ||
+                            window.mozIndexedDB || window.OIndexedDB ||
+                            window.msIndexedDB;
+                if(!indexedDB){
+                    return done(false);
+                }
+
+                //we need to try to open a db, for example FF in private browsing will fail.
+                test = indexedDB.open('__feature_test', 1);
+                test.onsuccess = function(){
+                    if(test.result){
+                        test.result.close();
+                        return done(true);
+                    }
+                };
+                //if we can't open a DB, we assume, we fallback
+                test.onerror = function(e) {
+                    e.preventDefault();
+                    done(false);
+                    return false;
+                };
+            } catch(err) {
+                //a sync err, we fallback
+                done(false);
             }
-        };
-        test.onerror = function() {
-            supportsIndexedDB = false;
-        };
-        supportsIndexedDB = indexedDB && test.onupgradeneeded === null;
-    } catch(e) {
-        supportsIndexedDB = false;
-    }
+        });
+    };
 
     /**
      * Create a new store
      *
      * @param {String} storeName - the name of the store
      * @param {Function} backend - the storage
-     * @returns {Storage} a Storage Like instance
-     * @throws {TypeError} if the backend isn't correct
+     * @returns {Promise} that resolves with the Storage a Storage Like instance
      */
     var store = function store(storeName, backend) {
-        var storeInstance;
-        backend = backend || store.backends.indexDb;
-        if(!supportsIndexedDB){
-            backend = store.backends.localStorage;
-        }
-        if(!_.isFunction(backend)){
-            throw new TypeError('No backend, no storage!');
-        }
-        storeInstance = backend(storeName);
 
-        if(_.some(['getItem', 'setItem', 'removeItem', 'clear'], function(method){
-            return !_.isFunction(storeInstance[method]);
-        })){
-            throw new TypeError('The backend does not comply with the Storage interface');
-        }
+        return isIndexDBSupported().then(function(hasIndexDB){
 
-        return storeInstance;
+            return new Promise(function(resolve, reject){
+                var storeInstance;
+                backend = backend || store.backends.indexDb;
+
+                if(!supportsIndexedDB){
+                    backend = store.backends.localStorage;
+                }
+                if(!_.isFunction(backend)){
+                    reject(new TypeError('No backend, no storage!'));
+                }
+                storeInstance = backend(storeName);
+
+                if(_.some(['getItem', 'setItem', 'removeItem', 'clear'], function(method){
+                    return !_.isFunction(storeInstance[method]);
+                })){
+                    reject(new TypeError('The backend does not comply with the Storage interface'));
+                }
+
+                resolve(storeInstance);
+            });
+        });
     };
 
     /**

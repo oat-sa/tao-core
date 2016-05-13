@@ -68,11 +68,11 @@ module.exports = function(grunt) {
                 name: 'main',
                 include: ['lib/require'],
                 deps : libs,
-                exclude : ['json!i18ntr/messages.json',  'mathJax', 'mediaElement'],
+                exclude : ['json!i18ntr/messages.json',  'mathJax'],
             }, {
                 name: 'controller/routes',
                 include : ext.getExtensionsControllers(['tao']),
-                exclude : ['mathJax', 'mediaElement'].concat(libs)
+                exclude : ['mathJax'].concat(libs)
             }]
         }
     };

@@ -24,6 +24,7 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\TokenWebSource;
+use oat\tao\model\websource\FlyTokenWebSource;
 use oat\tao\model\websource\DirectWebSource;
 use oat\tao\model\websource\Websource;
 
@@ -80,11 +81,10 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         return array(
             array(DirectWebSource::spawnWebsource(self::$fileSystem, $ext->getConstant('BASE_WWW'))),
             array(TokenWebSource::spawnWebsource(self::$fileSystem)),
-            array(ActionWebSource::spawnWebsource(self::$fileSystem))
+            array(ActionWebSource::spawnWebsource(self::$fileSystem)),
+            array(FlyTokenWebSource::spawnWebsource(self::$fileSystem)),
         );
     }
-    
-
     
     /**
      * @expectedException common_Exception
@@ -159,11 +159,11 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         $this->assertInstanceOf('oat\tao\model\websource\Websource', $fromManager);
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR.'tao.png');
-        $this->assertTrue(file_exists($access->getFileSystem()->getPath().'img'.DIRECTORY_SEPARATOR.'tao.png'), 'reference file not found');
+        $this->assertTrue($access->getFileSystem()->has('img'.DIRECTORY_SEPARATOR.'tao.png'), 'reference file not found');
         $this->assertUrlHttpCode($url);
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png');
-        $this->assertFalse(file_exists($access->getFileSystem()->getPath().'img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png'), 'reference file should not be found');
+        $this->assertFalse($access->getFileSystem()->has('img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png'), 'reference file should not be found');
         $this->assertUrlHttpCode($url, '404');
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR);
