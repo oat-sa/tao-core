@@ -1,7 +1,6 @@
 /* reset commonly used properties */
 .calcContainer,
 .calcContainer form,
-.calcContainer .calcTitle,
 .calcContainer div,
 .calcContainer input {
     background: none;
@@ -12,7 +11,7 @@
     display: block;
     float: none;
     font-family: sans-serif;
-    font-size: 100%;
+    font-size: 1.5rem;
     height: auto;
     left: auto;
     line-height: 1;
@@ -29,14 +28,13 @@
     text-decoration: none;
     top: auto;
     visibility: visible;
-    width: auto;
+    width: 100%;
 }
 
-/* self clearing */
-.calcContainer {
-    _height: 1%; /* IE6 */
-    *min-height: 1px; /* IE7 (and IE6) */
+.calcContainer form{
+    height: 100%;
 }
+
 .calcContainer:after {
     clear: both;
     content: ".";
@@ -46,51 +44,36 @@
 }
 
 .calcContainer form {
-    background-color: #d4d0c8;
-    border: 1px solid #404040;
+    border: 1px solid #ddd;
     float: left;
-    font-size: small;
-    *width: 17em; /* IE6 & IE7 need defined width */
-}
-
-.calcContainer .calcTitle {
-    background-color: #0a246a;
-    color: #fff;
-    font-size: 100%;
-    font-weight: bold;
-    padding: 0.1em;
 }
 
 .calcContainer div {
     float: left;
-    padding: 0.5em;
 }
 
 .calcContainer input {
-    border: 1px solid #626262;
+    border: 1px solid #ddd;
     float: left;
-    /* set font here */
-    height: 2.3em;
-    margin: 0.1em;
+    height: 15%;
     text-align: center;
-    width: 3em;
+    width: 25%;
+    cursor: pointer;
+}
+.calcContainer input:hover{
+    background-color: #f4f4f4;
 }
 
 .calcContainer .calcDisplay {
-    background-color: #fff;
-    height: 1.2em;
+    background-color: #fdfdfd;
     text-align: right;
-    width: 98%;
-    *width: 15.2em;
-    /* IE7 has problems with text inputs with text-align: right;
-    and a percentage width in a floated parent (this rule applies to IE7 and below) */
+    width: 100%;
+    padding: 0.6rem;
+    font-size: 2rem;
+    height: 11%;
 }
-
-.calcContainer .calcClear {
-    font-size: 88%;
-    margin-bottom: 0.3em;
-    margin-top: 0.5em;
-    width: 5.8em;
+.calcContainer .calcDisplay:hover{
+    background-color: #fff;
 }
 
 .calcContainer .calcFirst {
@@ -98,19 +81,19 @@
 }
 
 .calcContainer .calcFunction {
-    background-color: #e5e1d9;
-    color: #f00;
+    background-color: #f3f1ef;
+    color: #666;
 }
 
 .calcContainer .calcInput {
-    background-color: #e5e1d9;
-    color: #00f;
+    background-color: #f3f1ef;
+    color: #333;
 }
 
 /*
 IE and Opera shift the button text down and to the right on :active.
 Opera also gives buttons a black border on :focus.
-These styles seem to be impossible to override without changing the HTML.
+These styles serem to be impossible to override without changing the HTML.
 */
 .calcContainer .calcFunction:active,
 .calcContainer .calcInput:active {
@@ -118,4 +101,18 @@ These styles seem to be impossible to override without changing the HTML.
     position: relative;
     left: 1px;
     top: 1px;
+}
+
+.calcContainer{
+    width : 300px;
+    height:350px;
+}
+
+.calcContainer .calcSubmit{
+    color: #333 !important;
+    text-shadow: none;
+    font-weight: bold;
+}
+.calcContainer .calcDigit{
+    font-weight: bold;
 }
