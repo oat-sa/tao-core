@@ -97,33 +97,20 @@ $navHeight: 64;
                     position: relative;
                     top: 2px;
                 }
+
                 svg {
-                    height: 23px;
-                    width: 23px;
-                    display:block;
-                    margin: auto;
-                    // @see tao/views/js/lib/polyfill/svg4everybody/readme.md to understand g.use
-                    use, g.use {
-                        fill: currentColor !important;
+                    @include svg-icon() {
+                        height: 23px;
+                        width: 23px;
+                        display:block;
+                        margin: auto;
                     }
-                    // example to change a second color
-                    //path.some-class-name {
-                    //    fill: black;
-                    //}
                 }
 
                 &:hover {
                     svg {
-                        // @see tao/views/js/lib/polyfill/svg4everybody/readme.md to understand g.use
-                        use, g.use {
-                            fill: currentColor !important;
-                        }
+                        @include svg-icon();
                     }
-
-                    // example to change a second color
-                    //path.some-class-name {
-                    //    fill: firebrick !important;
-                    //}
                 }
             }
             & > a {

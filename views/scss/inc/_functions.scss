@@ -11,6 +11,7 @@
     }
 }
 
+
 /*
 Usage:
 - linear-gradient((color1, color2, color3)) - returns linear-gradient with evenly distributed colors,
@@ -218,6 +219,16 @@ Usage:
     @-moz-keyframes #{$name} { @content };
     @-webkit-keyframes #{$name} { @content };
     @keyframes #{$name} { @content };
+}
+
+
+@mixin svg-icon($inheritColor: true) {
+    @content;
+    @if($inheritColor == true){
+        use, g.use {
+            fill: currentColor !important;
+        }
+    }
 }
 
 
