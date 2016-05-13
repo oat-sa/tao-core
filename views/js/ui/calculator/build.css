@@ -55,7 +55,7 @@
 .calcContainer input {
     border: 1px solid #ddd;
     float: left;
-    height: 15%;
+    height: 14%;
     text-align: center;
     width: 25%;
     cursor: pointer;
@@ -70,7 +70,7 @@
     width: 100%;
     padding: 0.6rem;
     font-size: 2rem;
-    height: 11%;
+    height: 17%;
 }
 .calcContainer .calcDisplay:hover{
     background-color: #fff;
@@ -82,7 +82,7 @@
 
 .calcContainer .calcFunction {
     background-color: #f3f1ef;
-    color: #666;
+    color: #333;
 }
 
 .calcContainer .calcInput {
@@ -90,6 +90,10 @@
     color: #333;
 }
 
+.calcContainer .calcClear {
+    background-color: #f3f1ef;
+    color: #266d9c;/*info*/
+}
 /*
 IE and Opera shift the button text down and to the right on :active.
 Opera also gives buttons a black border on :focus.
@@ -104,14 +108,16 @@ These styles serem to be impossible to override without changing the HTML.
 }
 
 .calcContainer{
-    width : 300px;
-    height:350px;
+    width:280px;
+    height:360px;
 }
 
 .calcContainer .calcSubmit{
     color: #333 !important;
     text-shadow: none;
     font-weight: bold;
+    border-radius: 0;
+    background-color: #ddd;
 }
 .calcContainer .calcDigit{
     font-weight: bold;

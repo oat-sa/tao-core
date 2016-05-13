@@ -38,7 +38,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
             operationPressed = false, // whether an operation was the last key pressed
             calcObj = {},
             id = nextID;
-
+        
         /**
          * Performs the basic mathematical operations (addition, subtraction,
          * multiplication, division) on the current total with the given
@@ -49,6 +49,10 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
          * @ignore
          */
         function calculate(val){
+            if(!total || isNaN(total)){
+                total = 0;
+            }
+            console.log(total, val);
             switch(operation){
                 case '+':
                     total += val;
@@ -66,7 +70,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
                     total = Math.pow(total, val);
                     break;
             }
-            display.value = total;
+            display.value = fixDecimal(total);
         }
 
         /**
@@ -171,11 +175,10 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
                 case '9':
                 case '.':
                     // don't allow more than one decimal point
-                    if(!(key === '.' && dot.test(display.value))){
-                        if(clearNext){
-                            display.value = '';
-                            clearNext = false;
-                        }
+                    if(clearNext){
+                        display.value = key;
+                        clearNext = false;
+                    }else if(!(key === '.' && dot.test(display.value))){
                         display.value += key;
                     }
                     break;
@@ -520,12 +523,22 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
     function addFocusListener(form){
         var $form = $(form);
         var $display = $form.find('input:first');
-        $form.click(function (){
+        $form.on('click', '[type=button]', function (){
             var strLength = $display.val().length + 1;
             $display.focus();
             $display[0].setSelectionRange(strLength, strLength);
         });
     }
-
+    
+    /**
+     * Fix rounding issue due to math operation on float numbers in javascript
+     * 
+     * @param {Number} num
+     * @returns {Number}
+     */
+    function fixDecimal(num){
+        return (1*num.toFixed(15)).toString();
+    }
+    
     return JSCALC;
 });
