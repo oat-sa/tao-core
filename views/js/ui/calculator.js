@@ -48,7 +48,7 @@ define([
 
         $target.css({
             webkitTransform : transform,
-            transform : transform,
+            transform : transform
         });
 
         $target.attr('data-x', x);
@@ -76,12 +76,13 @@ define([
             webkitTransform : transform,
             transform : transform
         });
-
+        
+        
         $content.css({
-            width : e.rect.width,
-            height : e.rect.height - $title.height(),
+            width : $title.width(),
+            height : $target.innerHeight() - $title.height() - parseInt($target.css('padding-top')) - parseInt($target.css('padding-bottom'))
         });
-
+        
         $target.attr('data-x', x);
         $target.attr('data-y', y);
     }
