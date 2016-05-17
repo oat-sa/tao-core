@@ -74,7 +74,8 @@ require.config({
             '../../../taoQtiItem/views/js/MathJaxFallback'
         ],
         'ckeditor'          : 'lib/ckeditor/ckeditor',
-
+        'interact'          : 'lib/interact',
+        
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',
 

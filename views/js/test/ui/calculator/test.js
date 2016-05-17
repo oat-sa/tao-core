@@ -58,13 +58,13 @@ define([
         { name : 'setTemplate', title : 'setTemplate' }
     ];
 
-    QUnit
-        .cases(testReviewApi)
-        .test('instance API ', function(data, assert) {
-            var instance = calculator();
-            assert.equal(typeof instance[data.name], 'function', 'The calculator instance exposes a "' + data.title + '" function');
-            instance.destroy();
-        });
+//    QUnit
+//        .cases(testReviewApi)
+//        .test('instance API ', function(data, assert) {
+//            var instance = calculator();
+//            assert.equal(typeof instance[data.name], 'function', 'The calculator instance exposes a "' + data.title + '" function');
+//            instance.destroy();
+//        });
         
     QUnit.test('init', function(assert) {
         var config = {};
@@ -77,7 +77,12 @@ define([
     
     QUnit.test('render', function(assert) {
         var $dummy = $('<div class="dummy" />');
-        var $container = $('#fixture-0').append($dummy);
+        var $container = $('#fixture-0')
+            .css({
+                height : 1000,
+                backgroundColor : '#eee'
+            })
+            .append($dummy);
         var config = {
             renderTo: $container,
             replace: true

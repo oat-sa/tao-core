@@ -22,10 +22,11 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'interact',
     'ui/component',
     'ui/calculator/build.amd',
     'tpl!ui/calculator/calculator'
-], function ($, _, __, component, calculatorBuild, calculatorTpl){
+], function ($, _, __, interact, component, calculatorBuild, calculatorTpl){
     'use strict';
 
     /**
@@ -37,6 +38,53 @@ define([
 
         }
     };
+
+    function _moveItem(e){
+
+        var $target = $(e.target),
+            x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
+            y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
+            transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+        $target.css({
+            webkitTransform : transform,
+            transform : transform,
+        });
+
+        $target.attr('data-x', x);
+        $target.attr('data-y', y);
+    }
+
+    function _resizeItem(e){
+
+        var minWidth = 140;
+        var maxWidth = 640;
+        var $target = $(e.target),
+            $title = $target.find('.widget-title-bar'),
+            $content = $target.find('.widget-content'),
+            x = (parseFloat($target.attr('data-x')) || 0) + e.deltaRect.left,
+            y = (parseFloat($target.attr('data-y')) || 0) + e.deltaRect.top,
+            transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+        if(e.rect.width <= minWidth || e.rect.width >= maxWidth){
+            return;
+        }
+
+        $target.css({
+            width : e.rect.width,
+            height : e.rect.height,
+            webkitTransform : transform,
+            transform : transform
+        });
+
+        $content.css({
+            width : e.rect.width,
+            height : e.rect.height - $title.height(),
+        });
+
+        $target.attr('data-x', x);
+        $target.attr('data-y', y);
+    }
 
     /**
      * Builds an instance of the calculator component
@@ -65,8 +113,28 @@ define([
                 var $content = $element.find('.widget-content');
                 $content.width(config.width);
                 $content.height(config.height);
-                
+
                 calculatorBuild.init($content);
+
+                interact($element[0])
+                    .draggable({
+                        inertia : false,
+                        autoScroll : true,
+                        restrict : {
+                            restriction : 'parent',
+                            endOnly : true,
+                            elementRect : {top : 0, left : 0, bottom : 1, right : 1}
+                        },
+                        onmove : _moveItem,
+                        onend : function (){
+                            console.log('end', arguments);
+                        }
+                    }).resizable({
+                        preserveAspectRatio : true,
+                        edges : {left : true, right : true, bottom : true, top : true}
+                    }).on('resizemove', function (e){
+                        _resizeItem(e);
+                    });
 
                 console.log($element);
             })
