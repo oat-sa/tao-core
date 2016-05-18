@@ -2,10 +2,9 @@
     display:inline-block;
     background: $canvas;
     padding: 3px;
-/*    position: absolute;
-    right: ($sidebarWidth + 2) * 1px;
-    top: 37px; //height of blue action bar plus a bit
-    width: $sidebarWidth * 1px;*/
+    position: absolute;
+    left: 0;
+    top: 0;
     @include vendor-prefix(box-shadow, 0 0 2px 2px rgba($websiteBorder,.75), property, (-webkit-, -moz-, ''));
     /*display: none;*/
     z-index: 15000;
@@ -30,8 +29,22 @@
     .calcContainer{
         width : 100%;
         height : 100%;
-        .calcDisplay{
-            font-family: monospace;
+        input{
+            background-color : $uiClickableDefaultBg;
+            color : $textColor;
+            &:hover{
+                background: $uiClickableActiveBg;
+            }
+            &.triggered{
+                background: whiten($uiClickableHoverBg, .2);
+            }
+            &.calcClear{
+                color : $info;
+            }
+            &.calcDisplay{
+                background-color : whiten($uiClickableDefaultBg, .8);
+                font-family: monospace;
+            }
         }
     }
 }

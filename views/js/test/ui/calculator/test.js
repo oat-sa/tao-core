@@ -80,7 +80,9 @@ define([
         var $container = $('#fixture-0')
             .css({
                 height : 1000,
-                backgroundColor : '#eee'
+                width : 1000,
+                position : 'absolute',
+                backgroundColor : '#ccc'
             })
             .append($dummy);
         var config = {

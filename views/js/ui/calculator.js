@@ -86,7 +86,11 @@ define([
         $target.attr('data-x', x);
         $target.attr('data-y', y);
     }
-
+    
+    function _initActionHighlight($content){
+        
+    }
+    
     /**
      * Builds an instance of the calculator component
      * @param {Object} config
@@ -116,7 +120,9 @@ define([
                 $content.height(config.height);
 
                 calculatorBuild.init($content);
-
+                
+                _initActionHighlight($content);
+                
                 interact($element[0])
                     .draggable({
                         inertia : false,

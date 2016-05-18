@@ -53,63 +53,24 @@
 }
 
 .calcContainer input {
-    /*border: 1px solid #ddd;*/
     float: left;
     height: 14%;
     text-align: center;
     width: 25%;
     cursor: pointer;
 }
-.calcContainer input:hover{
-    background-color: #f4f4f4;
-}
 
 .calcContainer .calcDisplay {
-    background-color: #fdfdfd;
+    background-color: white;
     text-align: right;
     width: 100%;
     padding: 0.6rem;
     font-size: 2rem;
     height: 16%;
 }
-.calcContainer .calcDisplay:hover{
-    background-color: #fff;
-}
 
 .calcContainer .calcFirst {
     clear: left;
-}
-
-.calcContainer .calcFunction {
-    background-color: #f3f1ef;
-    color: #333;
-}
-
-.calcContainer .calcInput {
-    background-color: #f3f1ef;
-    color: #333;
-}
-
-.calcContainer .calcClear {
-    background-color: #f3f1ef;
-    color: #266d9c;/*info*/
-}
-/*
-IE and Opera shift the button text down and to the right on :active.
-Opera also gives buttons a black border on :focus.
-These styles serem to be impossible to override without changing the HTML.
-*/
-.calcContainer .calcFunction:active,
-.calcContainer .calcInput:active {
-    background-color: #f6f2ea;
-    position: relative;
-    left: 1px;
-    top: 1px;
-}
-
-.calcContainer{
-    width:280px;
-    height:360px;
 }
 
 .calcContainer .calcSubmit{
@@ -121,4 +82,8 @@ These styles serem to be impossible to override without changing the HTML.
 }
 .calcContainer .calcDigit{
     font-weight: bold;
+}
+
+.calcContainer input.triggered{
+    background: cyan;
 }

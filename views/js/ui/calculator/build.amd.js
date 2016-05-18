@@ -1,6 +1,8 @@
 /**
  * Adapted from https://github.com/wjbryant/calculator
+ * License MIT
  * AMDified + replaced custom selector with JQuery selectors
+ * Added focus listener, decial calculation fix, button highlight
  */
 define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], function ($, layoutTpl){
 
@@ -52,7 +54,6 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
             if(!total || isNaN(total)){
                 total = 0;
             }
-            console.log(total, val);
             switch(operation){
                 case '+':
                     total += val;
@@ -70,7 +71,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
                     total = Math.pow(total, val);
                     break;
             }
-            display.value = fixDecimal(total);
+            display.value = _fixDecimal(total);
         }
 
         /**
@@ -84,7 +85,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
          */
         function handleInput(e){
             e = e || window.event;
-
+            
             var key, // the key (char) that was pressed / clicked
                 code, // the key code
                 val, // the numeric value of the display
@@ -254,12 +255,12 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
                     form.onsubmit();
                     break;
             }
-
             operationPressed = isOperation;
             display.focus();
+            _initButtonHighlight(form, key, operation);
             return false;
         }
-
+        
         // increment the ID counter
         nextID += 1;
 
@@ -274,7 +275,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
         display.value = '0';
         display.onkeydown = display.onkeypress = form.onclick = handleInput;
         
-        addFocusListener(form);
+        _addFocusListener(form);
 
         /**
          * Calculates the value of the last entered operation and displays the result.
@@ -291,17 +292,9 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
             calculate(lastNum);
             clearNext = true;
             display.focus();
+            _initButtonHighlight(form, '=');
             return false;
         };
-
-        /**
-         * the Calculator class - Calculator objects are returned by some
-         * methods of the JSCALC object.
-         *
-         * @name Calculator
-         * @class
-         * @private
-         */
 
         /**
          * Gives focus to the calculator display.
@@ -520,7 +513,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
      * 
      * @param {HTMLElement} form
      */
-    function addFocusListener(form){
+    function _addFocusListener(form){
         var $form = $(form);
         var $display = $form.find('input:first');
         $form.on('click', '[type=button]', function (){
@@ -536,8 +529,23 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
      * @param {Number} num
      * @returns {Number}
      */
-    function fixDecimal(num){
+    function _fixDecimal(num){
         return (1*num.toFixed(15)).toString();
+    }
+    
+    /**
+     * Adding visual feedback when an input is registered
+     * 
+     * @param {HTMLElement} form
+     * @param {string} key
+     * @param {string} operationPressed
+     */
+    function _initButtonHighlight(form, key, operationPressed){
+        var $btn = $(form).find('input[data-key="'+key+'"]');
+        $btn.addClass('triggered');
+        setTimeout(function(){
+            $btn.removeClass('triggered');
+        }, 160);
     }
     
     return JSCALC;
