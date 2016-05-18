@@ -19,63 +19,17 @@
  * @author Sam <sam@taotesting.com>
  */
 define([
-    'jquery',
     'lodash',
     'i18n',
-    'interact',
-    'ui/component',
-    'ui/calculator/build.amd',
-    'tpl!ui/calculator/calculator'
-], function ($, _, __, interact, component, calculatorBuild, calculatorTpl){
+    'ui/dynamicComponent',
+    'ui/calculator/build.amd'
+], function (_, __, dynamicComponent, calculatorBuild){
     'use strict';
 
     var _defaults = {
-        title : __('Calculator'),
-        resizeable : true,
-        draggable : true,
-        width : 240,
-        height : 360,
-        minWidth : 150,
-        maxWidth : 600,
-        largeWidthThreshold : 380,
-        smallWidthThreshold : 200,
-        draggableContainer : 'parent',
-        top : 0, //position top absolute in the window
-        left : 0//position left absolute in the window
+        title : __('Calculator')
     };
-
-    /**
-     * Defines a calculator component
-     * @type {Object}
-     */
-    var calculator = {
-        reset : function reset(){
-            //clear calculator
-            this.calc.press('C');
-            this.resetPosition();
-            this.resetSize();
-        },
-        resetPosition : function resetPosition(){
-            this.getElement().css({
-                top : this.config.top,
-                left : this.config.left,
-                transform : 'none'
-            });
-        },
-        resetSize : function resetSize(){
-            var $element = this.getElement();
-            var $content = $element.find('.widget-content');
-            $element.css({
-                width : 'auto',
-                height : 'auto'
-            });
-            $content.css({
-                width : this.config.width,
-                height : this.config.height
-            });
-        }
-    };
-
+    
     /**
      * Builds an instance of the calculator component
      * @param {Object} config
@@ -88,94 +42,10 @@ define([
 
         config = _.defaults(config || {}, _defaults);
 
-        function _moveItem(e){
-
-            var $target = $(e.target),
-                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
-                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
-                transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            $target.css({
-                webkitTransform : transform,
-                transform : transform
-            });
-
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
-        }
-
-        function _resizeItem(e){
-
-            var $target = $(e.target),
-                $title = $target.find('.widget-title-bar'),
-                $content = $target.find('.widget-content'),
-                x = (parseFloat($target.attr('data-x')) || 0) + e.deltaRect.left,
-                y = (parseFloat($target.attr('data-y')) || 0) + e.deltaRect.top,
-                transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            if(e.rect.width <= config.minWidth || e.rect.width >= config.maxWidth){
-                return;
-            }else if(e.rect.width <= config.smallWidthThreshold){
-                $target.addClass('small').removeClass('large');
-            }else if(e.rect.width >= config.largeWidthThreshold){
-                $target.addClass('large').removeClass('small');
-            }else{
-                $target.removeClass('small').removeClass('large');
-            }
-
-            $target.css({
-                width : e.rect.width,
-                height : e.rect.height,
-                webkitTransform : transform,
-                transform : transform
-            });
-
-            $content.css({
-                width : $title.width(),
-                height : $target.innerHeight() - $title.height() - parseInt($target.css('padding-top')) - parseInt($target.css('padding-bottom'))
-            });
-
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
-        }
-
-        return component(calculator)
-            .setTemplate(calculatorTpl)
-            .on('render', function (){
-
-                var self = this;
-                var $element = this.getElement();
-                var $content = $element.find('.widget-content');
-
-                //set size + position
-                this.resetPosition();
-                this.resetSize();
-
-                //init closer
-                $element.find('.widget-title-bar .closer').click(function (e){
-                    e.preventDefault();
-                    self.hide();
-                });
-
+        return dynamicComponent(config)
+            .on('rendercontent', function ($content){
                 //init the calculator
                 this.calc = calculatorBuild.init($content);
-
-                //make the widget draggable + resizable
-                interact($element[0])
-                    .draggable({
-                        inertia : false,
-                        autoScroll : true,
-                        restrict : {
-                            restriction : config.draggableContainer,
-                            endOnly : false,
-                            elementRect : {top : 0, left : 0, bottom : 1, right : 1}
-                        },
-                        onmove : _moveItem
-                    }).resizable({
-                    preserveAspectRatio : true,
-                    edges : {left : true, right : true, bottom : true, top : true},
-                    onmove : _resizeItem
-                });
             })
             .after('show', function (){
                 var self = this;
@@ -184,12 +54,14 @@ define([
                     self.calc.focus();
                 });
             })
+            .on('reset', function(){
+                this.calc.press('C');
+            })
             .on('destroy', function (){
                 if(this.calc){
                     this.calc.remove();
                 }
-            })
-            .init(config);
+            }).init(config);
     };
 
     return calculatorFactory;
