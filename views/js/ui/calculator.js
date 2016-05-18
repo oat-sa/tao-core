@@ -35,7 +35,29 @@ define([
      */
     var calculator = {
         reset : function reset(){
-
+            //clear calculator
+            this.calc.press('C');
+            this.resetPosition();
+            this.resetSize();
+        },
+        resetPosition : function resetPosition(){
+            this.getElement().css({
+                top : this.config.top,
+                left : this.config.left,
+                transform : 'none'
+            });
+        },
+        resetSize : function resetSize(){
+            var $element = this.getElement();
+            var $content = $element.find('.widget-content');
+            $element.css({
+                width : 'auto',
+                height : 'auto'
+            });
+            $content.css({
+                width : this.config.width,
+                height : this.config.height
+            });
         }
     };
 
@@ -57,8 +79,8 @@ define([
 
     function _resizeItem(e){
 
-        var minWidth = 140;
-        var maxWidth = 640;
+        var minWidth = 150;
+        var maxWidth = 600;
         var $target = $(e.target),
             $title = $target.find('.widget-title-bar'),
             $content = $target.find('.widget-content'),
@@ -76,17 +98,16 @@ define([
             webkitTransform : transform,
             transform : transform
         });
-        
-        
+
         $content.css({
             width : $title.width(),
             height : $target.innerHeight() - $title.height() - parseInt($target.css('padding-top')) - parseInt($target.css('padding-bottom'))
         });
-        
+
         $target.attr('data-x', x);
         $target.attr('data-y', y);
     }
-    
+
     /**
      * Builds an instance of the calculator component
      * @param {Object} config
@@ -102,7 +123,10 @@ define([
             resizeable : true,
             draggable : true,
             width : 280,
-            height : 360
+            height : 360,
+            draggableContainer : 'parent',
+            top : 0,//position top absolute in the window
+            left : 0//position left absolute in the window
         });
 
         return component(calculator)
@@ -112,39 +136,46 @@ define([
                 var self = this;
                 var $element = this.getElement();
                 var $content = $element.find('.widget-content');
-                $content.width(config.width);
-                $content.height(config.height);
-                
+
+                //set size + position
+                this.resetPosition();
+                this.resetSize();
+
                 //init closer
-                $element.find('.widget-title-bar .closer').click(function(e){
+                $element.find('.widget-title-bar .closer').click(function (e){
                     e.preventDefault();
                     self.hide();
-                    console.log(self);
                 });
-                
-                calculatorBuild.init($content);
-                
+
+                //init the calculator
+                this.calc = calculatorBuild.init($content);
+
+                //make the widget draggable + resizable
                 interact($element[0])
                     .draggable({
                         inertia : false,
                         autoScroll : true,
                         restrict : {
-                            restriction : 'parent',
-                            endOnly : true,
+                            restriction : config.draggableContainer,
+                            endOnly : false,
                             elementRect : {top : 0, left : 0, bottom : 1, right : 1}
                         },
-                        onmove : _moveItem,
-                        onend : function (){
-                            console.log('end', arguments);
-                        }
+                        onmove : _moveItem
                     }).resizable({
                         preserveAspectRatio : true,
-                        edges : {left : true, right : true, bottom : true, top : true}
-                    }).on('resizemove', function (e){
-                        _resizeItem(e);
+                        edges : {left : true, right : true, bottom : true, top : true},
+                        onmove: _resizeItem
                     });
-                
-                
+            })
+            .after('show', function(){
+                var self = this;
+                _.defer(function(){
+                    //need defer to ensure that element show callbacks are all executed
+                    self.calc.focus();
+                });
+            })
+            .on('destroy', function(){
+                this.calc.remove();
             })
             .init(config);
     };

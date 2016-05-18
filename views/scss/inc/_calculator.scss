@@ -10,13 +10,14 @@
     z-index: 15000;
     .widget-title-bar{
         position: relative;
-        color: $textHighlight;
-        background: whiten($info, .2);
+        color: $darkBarTxt;
+        background: $darkBar;
         cursor: move;
-        a {
-            color: $textHighlight;
-        }
+        text-shadow: none;
+        font-size: 14px;
+        line-height: 1.4;
         .closer {
+            color: $darkBarTxt;
             position: absolute;
             top: 1px;
             right: 2px;
@@ -26,26 +27,54 @@
         h3 {
             padding : 0 5px;
             margin : 0;
+            text-align: left;
         }
     }
     .calcContainer{
         width : 100%;
         height : 100%;
-        input{
-            background-color : $uiClickableDefaultBg;
-            color : $textColor;
-            &:hover{
-                background: $uiClickableActiveBg;
-            }
-            &.triggered{
-                background: whiten($uiClickableHoverBg, .2);
-            }
-            &.calcClear{
-                color : $info;
-            }
-            &.calcDisplay{
-                background-color : whiten($uiClickableDefaultBg, .8);
-                font-family: monospace;
+        form{
+            height: 100%;
+            input{
+                background-color : $uiClickableDefaultBg;
+                color : $textColor;
+                float: left;
+                height: 14%;
+                text-align: center;
+                width: 25%; 
+                cursor: pointer;
+                font-size: 1.5rem;
+                &.calcClear{
+                    color : $info;
+                }
+                &.calcDisplay{
+                    background : whiten($uiClickableDefaultBg, .7);
+                    &:hover{
+                        background : whiten($uiClickableDefaultBg, .9);
+                    }
+                    font-family: monospace;
+                    text-align: right;
+                    width: 100%;
+                    padding: 0.6rem;
+                    font-size: 2rem;
+                    height: 16%;
+                }
+                &.calcDigit{
+                    font-weight: bold;
+                }
+                &.calcSubmit{
+                    font-weight: bold;
+                    border-radius: 0;
+                    color: $textColor !important;
+                    background-color: #ddd;
+                    text-shadow: none;
+                }
+                &:hover{
+                    background: $uiClickableActiveBg;
+                }
+                &.triggered{
+                    background: whiten($uiClickableHoverBg, .2);
+                }
             }
         }
     }

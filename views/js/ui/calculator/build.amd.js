@@ -4,7 +4,7 @@
  * AMDified + replaced custom selector with JQuery selectors
  * Added focus listener, decial calculation fix, button highlight
  */
-define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], function ($, layoutTpl){
+define(['jquery', 'tpl!ui/calculator/layout', 'i18n', 'css!ui/calculator/build'], function ($, layoutTpl, __){
 
     'use strict';
 
@@ -462,12 +462,14 @@ define(['jquery', 'tpl!ui/calculator/layout', 'css!ui/calculator/build'], functi
         }else if(elem instanceof $){
             elem.each(function (){
                 calcMods.push(this);
+                args = true;
             });
         }else{
             // if an element node was not found or specified, get all elements
             // with a class name of "calc"
             $('.calc').each(function (){
                 calcMods.push(this);
+                args = true;
             });
         }
 

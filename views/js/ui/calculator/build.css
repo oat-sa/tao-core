@@ -31,9 +31,9 @@
     width: 100%;
 }
 
-.calcContainer form{
+/*.calcContainer form{
     height: 100%;
-}
+}*/
 
 .calcContainer:after {
     clear: both;
@@ -48,42 +48,42 @@
     float: left;
 }
 
-.calcContainer div {
+/*.calcContainer div {
     float: left;
-}
+}*/
 
-.calcContainer input {
+/*.calcContainer input {
     float: left;
     height: 14%;
     text-align: center;
     width: 25%;
     cursor: pointer;
-}
+}*/
 
-.calcContainer .calcDisplay {
+/*.calcContainer .calcDisplay {
     background-color: white;
     text-align: right;
     width: 100%;
     padding: 0.6rem;
     font-size: 2rem;
     height: 16%;
-}
+}*/
 
 .calcContainer .calcFirst {
     clear: left;
 }
 
-.calcContainer .calcSubmit{
+/*.calcContainer .calcSubmit{
     color: #333 !important;
     text-shadow: none;
     font-weight: bold;
     border-radius: 0;
     background-color: #ddd;
-}
-.calcContainer .calcDigit{
+}*/
+/*.calcContainer .calcDigit{
     font-weight: bold;
 }
 
 .calcContainer input.triggered{
     background: cyan;
-}
+}*/
