@@ -41,6 +41,10 @@ define([
      * The communicator relies on a provider to execute the actions.
      * Most of the delegated methods must return promises.
      *
+     * Some standard channels are reserved, and must be implemented by the providers:
+     * - error: to carry on error purpose messages
+     * - malformed: to carry on malformed received messages
+     *
      * @param {String} providerName - The name of the provider instance,
      *                                which MUST be defined before through a `.registerProvider()` call.
      * @param {Object} [config] - Optional config set
@@ -114,7 +118,7 @@ define([
                 var self = this;
                 var stepPromise;
 
-                if (self.getState('opened')) {
+                if (self.getState('open')) {
                     stepPromise = self.close();
                 } else {
                     stepPromise = Promise.resolve();
@@ -132,7 +136,7 @@ define([
 
             /**
              * Opens the connection.
-             * Sets the `opened` state.
+             * Sets the `open` state.
              * @returns {Promise} The delegated provider's method must return a promise
              * @fires open
              * @fires opened
@@ -140,20 +144,20 @@ define([
             open: function open() {
                 var self = this;
 
-                if (this.getState('opened')) {
+                if (this.getState('open')) {
                     return Promise.resolve();
                 }
 
                 return delegate('open')
                     .then(function () {
-                        self.setState('opened')
+                        self.setState('open')
                             .trigger('opened');
                     });
             },
 
             /**
              * Closes the connection.
-             * Clears the `opened` state.
+             * Clears the `open` state.
              * @returns {Promise} The delegated provider's method must return a promise
              * @fires close
              * @fires closed
@@ -162,7 +166,7 @@ define([
                 var self = this;
                 return delegate('close')
                     .then(function () {
-                        self.setState('opened', false)
+                        self.setState('open', false)
                             .trigger('closed');
                     });
             },
@@ -178,7 +182,7 @@ define([
             send: function send(channel, message) {
                 var self = this;
 
-                if (!this.getState('opened')) {
+                if (!this.getState('open')) {
                     return Promise.reject();
                 }
 
