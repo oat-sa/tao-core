@@ -87,10 +87,6 @@ define([
         $target.attr('data-y', y);
     }
     
-    function _initActionHighlight($content){
-        
-    }
-    
     /**
      * Builds an instance of the calculator component
      * @param {Object} config
@@ -118,10 +114,15 @@ define([
                 var $content = $element.find('.widget-content');
                 $content.width(config.width);
                 $content.height(config.height);
-
-                calculatorBuild.init($content);
                 
-                _initActionHighlight($content);
+                //init closer
+                $element.find('.widget-title-bar .closer').click(function(e){
+                    e.preventDefault();
+                    self.hide();
+                    console.log(self);
+                });
+                
+                calculatorBuild.init($content);
                 
                 interact($element[0])
                     .draggable({
@@ -142,8 +143,8 @@ define([
                     }).on('resizemove', function (e){
                         _resizeItem(e);
                     });
-
-                console.log($element);
+                
+                
             })
             .init(config);
     };
