@@ -78,4 +78,16 @@
             }
         }
     }
+    &.small .calcContainer form input{
+        font-size: 1.2rem;
+        &.calcDisplay{
+            font-size: 1.4rem;
+        }
+    }
+    &.large .calcContainer form input{
+        font-size: 2.1rem;
+        &.calcDisplay{
+            font-size: 3.4rem;
+        }
+    }
 }

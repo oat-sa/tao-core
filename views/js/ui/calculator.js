@@ -87,9 +87,15 @@ define([
             x = (parseFloat($target.attr('data-x')) || 0) + e.deltaRect.left,
             y = (parseFloat($target.attr('data-y')) || 0) + e.deltaRect.top,
             transform = 'translate(' + x + 'px, ' + y + 'px)';
-
+        
         if(e.rect.width <= minWidth || e.rect.width >= maxWidth){
             return;
+        }else if(e.rect.width <= 200){
+            $target.addClass('small').removeClass('large');
+        }else if(e.rect.width >= 380){
+            $target.addClass('large').removeClass('small');
+        }else{
+            $target.removeClass('small').removeClass('large');
         }
 
         $target.css({
@@ -122,7 +128,7 @@ define([
             title : __('Calculator'),
             resizeable : true,
             draggable : true,
-            width : 280,
+            width : 240,
             height : 360,
             draggableContainer : 'parent',
             top : 0,//position top absolute in the window
@@ -175,7 +181,9 @@ define([
                 });
             })
             .on('destroy', function(){
-                this.calc.remove();
+                if(this.calc){
+                    this.calc.remove();
+                }
             })
             .init(config);
     };
