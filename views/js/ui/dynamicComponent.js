@@ -61,7 +61,7 @@ define([
         },
         resetSize : function resetSize(){
             var $element = this.getElement();
-            var $content = $element.find('.widget-content');
+            var $content = $element.find('.dynamic-component-content');
             $element.css({
                 width : 'auto',
                 height : 'auto'
@@ -100,12 +100,12 @@ define([
             $target.attr('data-x', x);
             $target.attr('data-y', y);
         }
-
+        
         function _resizeItem(e){
 
             var $target = $(e.target),
-                $title = $target.find('.widget-title-bar'),
-                $content = $target.find('.widget-content'),
+                $title = $target.find('.dynamic-component-title-bar'),
+                $content = $target.find('.dynamic-component-content'),
                 x = (parseFloat($target.attr('data-x')) || 0) + e.deltaRect.left,
                 y = (parseFloat($target.attr('data-y')) || 0) + e.deltaRect.top,
                 transform = 'translate(' + x + 'px, ' + y + 'px)';
@@ -142,7 +142,7 @@ define([
 
                 var self = this;
                 var $element = this.getElement();
-                var $content = $element.find('.widget-content');
+                var $content = $element.find('.dynamic-component-content');
                 var interactElement;
 
                 //set size + position
@@ -150,16 +150,15 @@ define([
                 this.resetSize();
 
                 //init closer
-                $element.find('.widget-title-bar .closer').click(function (e){
+                $element.find('.dynamic-component-title-bar .closer').click(function (e){
                     e.preventDefault();
                     self.hide();
                 });
 
                 //init the calculator
                 this.trigger('rendercontent', $content);
-                console.log($content);
                 
-                //make the widget draggable + resizable
+                //make the dynamic-component draggable + resizable
                 interactElement = interact($element[0]);
                 if(config.draggable){
                     interactElement.draggable({

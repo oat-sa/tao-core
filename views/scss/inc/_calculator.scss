@@ -1,38 +1,4 @@
-.widget-container{
-    display:inline-block;
-    background: $canvas;
-    padding: 3px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    @include vendor-prefix(box-shadow, 0 0 2px 2px rgba($websiteBorder,.75), property, (-webkit-, -moz-, ''));
-    /*display: none;*/
-    z-index: 15000;
-    .widget-title-bar{
-        position: relative;
-        color: $darkBarTxt;
-        background: $darkBar;
-        cursor: move;
-        text-shadow: none;
-        font-size: 14px;
-        line-height: 1.4;
-        .closer {
-            color: $darkBarTxt;
-            position: absolute;
-            top: 1px;
-            right: 2px;
-            text-decoration: none;
-            padding-left : 5px;
-        }
-        h3 {
-            padding : 0 5px;
-            margin : 0;
-            text-align: left;
-        }
-    }
-}
-
-.widget-container{
+.dynamic-component-container{
     .calcContainer{
         width : 100%;
         height : 100%;
