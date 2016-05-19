@@ -155,7 +155,6 @@ define([
                             onmove : _moveItem
                         });
                     }else{
-                        console.log(draggableContainer);
                         throw 'invalid draggableContainer type';
                     }
                 }

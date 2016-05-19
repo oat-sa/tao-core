@@ -6,7 +6,6 @@
     left: 0;
     top: 0;
     @include vendor-prefix(box-shadow, 0 0 2px 2px rgba($websiteBorder,.75), property, (-webkit-, -moz-, ''));
-    /*display: none;*/
     z-index: 15000;
     .dynamic-component-title-bar{
         position: relative;
