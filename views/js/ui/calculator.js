@@ -41,7 +41,7 @@ define([
 
         config = _.defaults(config || {}, _defaults);
 
-        return dynamicComponent(config)
+        return dynamicComponent()
             .on('rendercontent', function ($content){
                 //init the calculator
                 this.calc = calculatorBuild.init($content);

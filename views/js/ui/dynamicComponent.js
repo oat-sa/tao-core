@@ -48,9 +48,9 @@ define([
      */
     var dynamicComponent = {
         reset : function reset(){
-            this.trigger('reset');
             this.resetPosition();
             this.resetSize();
+            this.trigger('reset');
         },
         resetPosition : function resetPosition(){
             this.getElement().css({
@@ -81,62 +81,12 @@ define([
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
      * @returns {calculator}
      */
-    var dynComponentFactory = function dynComponentFactory(config){
+    var dynComponentFactory = function dynComponentFactory(specs, defaults){
 
-        config = _.defaults(config || {}, _defaults);
+        defaults = _.defaults(defaults || {}, _defaults);
+        specs = _.defaults(specs || {}, dynamicComponent);
 
-        function _moveItem(e){
-
-            var $target = $(e.target),
-                x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
-                y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
-                transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            $target.css({
-                webkitTransform : transform,
-                transform : transform
-            });
-
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
-        }
-        
-        function _resizeItem(e){
-
-            var $target = $(e.target),
-                $title = $target.find('.dynamic-component-title-bar'),
-                $content = $target.find('.dynamic-component-content'),
-                x = (parseFloat($target.attr('data-x')) || 0) + e.deltaRect.left,
-                y = (parseFloat($target.attr('data-y')) || 0) + e.deltaRect.top,
-                transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            if(e.rect.width <= config.minWidth || e.rect.width >= config.maxWidth){
-                return;
-            }else if(e.rect.width <= config.smallWidthThreshold){
-                $target.addClass('small').removeClass('large');
-            }else if(e.rect.width >= config.largeWidthThreshold){
-                $target.addClass('large').removeClass('small');
-            }else{
-                $target.removeClass('small').removeClass('large');
-            }
-
-            $target.css({
-                width : e.rect.width,
-                height : e.rect.height,
-                webkitTransform : transform,
-                transform : transform
-            });
-
-            $content.css({
-                width : $title.width(),
-                height : $target.innerHeight() - $title.height() - parseInt($target.css('padding-top')) - parseInt($target.css('padding-bottom'))
-            });
-
-            $target.attr('data-x', x);
-            $target.attr('data-y', y);
-        }
-
-        return component(dynamicComponent)
+        return component(specs, defaults)
             .setTemplate(layoutTpl)
             .on('render', function (){
 
@@ -144,6 +94,7 @@ define([
                 var $element = this.getElement();
                 var $content = $element.find('.dynamic-component-content');
                 var interactElement;
+                var config = this.config;
 
                 //set size + position
                 this.resetPosition();
@@ -178,6 +129,57 @@ define([
                         edges : {left : true, right : true, bottom : true, top : true},
                         onmove : _resizeItem
                     });
+                }
+
+                function _moveItem(e){
+
+                    var $target = $(e.target),
+                        x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
+                        y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
+                        transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+                    $target.css({
+                        webkitTransform : transform,
+                        transform : transform
+                    });
+
+                    $target.attr('data-x', x);
+                    $target.attr('data-y', y);
+                }
+
+                function _resizeItem(e){
+
+                    var $target = $(e.target),
+                        $title = $target.find('.dynamic-component-title-bar'),
+                        $content = $target.find('.dynamic-component-content'),
+                        x = (parseFloat($target.attr('data-x')) || 0) + e.deltaRect.left,
+                        y = (parseFloat($target.attr('data-y')) || 0) + e.deltaRect.top,
+                        transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+                    if(e.rect.width <= config.minWidth || e.rect.width >= config.maxWidth){
+                        return;
+                    }else if(e.rect.width <= config.smallWidthThreshold){
+                        $target.addClass('small').removeClass('large');
+                    }else if(e.rect.width >= config.largeWidthThreshold){
+                        $target.addClass('large').removeClass('small');
+                    }else{
+                        $target.removeClass('small').removeClass('large');
+                    }
+
+                    $target.css({
+                        width : e.rect.width,
+                        height : e.rect.height,
+                        webkitTransform : transform,
+                        transform : transform
+                    });
+
+                    $content.css({
+                        width : $title.width(),
+                        height : $target.innerHeight() - $title.height() - parseInt($target.css('padding-top')) - parseInt($target.css('padding-bottom'))
+                    });
+
+                    $target.attr('data-x', x);
+                    $target.attr('data-y', y);
                 }
             });
     };
