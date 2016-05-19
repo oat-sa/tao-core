@@ -22,7 +22,7 @@ define([
     'lodash',
     'i18n',
     'ui/dynamicComponent',
-    'ui/calculator/build.amd'
+    'lib/calculator/index'
 ], function (_, __, dynamicComponent, calculatorBuild){
     'use strict';
 
@@ -33,7 +33,6 @@ define([
     /**
      * Builds an instance of the calculator component
      * @param {Object} config
-     * @param {Array} [config.calculator] - The list of entries to display
      * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
      * @returns {calculator}
@@ -55,6 +54,7 @@ define([
                 });
             })
             .on('reset', function(){
+                //reset the calculator input
                 this.calc.press('C');
             })
             .on('destroy', function (){

@@ -30,13 +30,50 @@
             text-align: left;
         }
     }
+}
+
+.widget-container{
     .calcContainer{
         width : 100%;
         height : 100%;
+        background: none;
+        border: none;
+        bottom: auto;
+        clear: none;
+        color: #000;
+        display: block;
+        float: none;
+        font-family: sans-serif;
+        font-size: 1.5rem;
+        left: auto;
+        line-height: 1;
+        margin: 0;
+        max-height: none;
+        max-width: none;
+        min-height: 0;
+        min-width: 0;
+        overflow: visible;
+        padding: 0;
+        position: static;
+        right: auto;
+        text-align: left;
+        text-decoration: none;
+        top: auto;
+        visibility: visible;
+        &:after {
+            clear: both;
+            content: ".";
+            display: block;
+            height: 0;
+            visibility: hidden;
+        }
         form{
             height: 100%;
+            width: 100%;
+            /*float: left;*/
             input{
                 background-color : $uiClickableDefaultBg;
+                border: none;
                 color : $textColor;
                 float: left;
                 height: 14%;
@@ -44,6 +81,9 @@
                 width: 25%; 
                 cursor: pointer;
                 font-size: 1.5rem;
+                &.calcFirst{
+                    clear: left;
+                }
                 &.calcClear{
                     color : $info;
                 }
@@ -55,6 +95,7 @@
                     font-family: monospace;
                     text-align: right;
                     width: 100%;
+                    max-width: none;
                     padding: 0.6rem;
                     font-size: 2rem;
                     height: 16%;

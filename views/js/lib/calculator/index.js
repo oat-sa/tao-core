@@ -1,10 +1,17 @@
 /**
- * Adapted from https://github.com/wjbryant/calculator
- * License MIT
- * AMDified + replaced custom selector with JQuery selectors
- * Added focus listener, decial calculation fix, button highlight
+ * ORGINAL VERSION:
+ * calculator 2.0.0-dev by Bill Bryant 2013 
+ * Licensed under the MIT license.
+ * https://github.com/wjbryant/calculator
+ * 
+ * MODIFIED VERSION:
+ * @author Sam <sam@taotesting.com> for OAT SA in 2016
+ * - Code refactoring to fit AMD modules
+ * - replaced custom selector with JQuery selectors
+ * - added focus listener, decial calculation fix, button highlight
+ *  -i18n
  */
-define(['jquery', 'tpl!ui/calculator/layout', 'i18n', 'css!ui/calculator/build'], function ($, layoutTpl, __){
+define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateTpl, __){
 
     'use strict';
 
@@ -16,7 +23,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'i18n', 'css!ui/calculator/build']
     var JSCALC = {},
         calculators = {}, // an object containing all the calculators created
         nextID = 0;
-        
+    
     /**
      * Creates a new calculator in the specified container element (module).
      *
@@ -26,7 +33,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'i18n', 'css!ui/calculator/build']
      * @ignore
      */
     function createCalc(calcMod){
-        var calcTemplate = layoutTpl(),
+        var calcTemplate = templateTpl(),
             forms,
             form,
             display,
@@ -231,7 +238,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'i18n', 'css!ui/calculator/build']
                     if(val >= 0){
                         display.value = Math.sqrt(val);
                     }else{
-                        display.value = 'Invalid input for function';
+                        display.value = __('Invalid input for function');
                     }
                     break;
                 case 'a':
@@ -248,7 +255,7 @@ define(['jquery', 'tpl!ui/calculator/layout', 'i18n', 'css!ui/calculator/build']
                     if(val){
                         display.value = 1 / val;
                     }else{
-                        display.value = 'Cannot divide by zero';
+                        display.value = __('Cannot divide by zero');
                     }
                     break;
                 case '=':

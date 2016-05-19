@@ -18,23 +18,11 @@
 define([
     'jquery',
     'lodash',
-    'ui/calculator/build.amd',
     'ui/calculator'
-], function($, _, calculatorRaw, calculator){
+], function($, _, calculator){
     'use strict';
 
     QUnit.module('Calculator');
-
-//    QUnit.test('render (all options)', function(assert){
-//        
-//        QUnit.expect(0);
-//        
-//        var $containerA = $('#fixture-1 #calcA');
-//        var $containerB = $('#fixture-1 #calcB');
-//        
-//        calculatorRaw.init($containerA);
-//        calculatorRaw.init($containerB);
-//    });
 
     QUnit.test('module', 3, function(assert) {
         assert.equal(typeof calculator, 'function', "The calculator module exposes a function");
