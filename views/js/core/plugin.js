@@ -21,6 +21,7 @@
  *  - helps you to bind plugin's behavior to the host
  *  - have it's own state and lifecycle convention (init -> render -> finish -> destroy)
  *  - promise based
+ *  - calls the optional plugin installer after the plugin instance has been bound with its host
  *
  * @example
  *
@@ -58,6 +59,7 @@ define([
      * @param {Object} provider - the plugin provider
      * @param {String} provider.name - the plugin name
      * @param {Function} provider.init - the plugin initialization method
+     * @param {Function} [provider.install] - plugin installer called after the instance has been bound with its host
      * @param {Function} [provider.render] - plugin rendering behavior
      * @param {Function} [provider.finish] - plugin finish behavior
      * @param {Function} [provider.destroy] - plugin destroy behavior
@@ -357,6 +359,11 @@ define([
             //add a convenience method that alias getHost using the hostName
             if(_.isString(defaults.hostName) && !_.isEmpty(defaults.hostName)){
                 plugin['get' + defaults.hostName.charAt(0).toUpperCase() + defaults.hostName.slice(1)] = plugin.getHost;
+            }
+
+            //invokes the optional plugin installer
+            if(_.isFunction(provider.install)){
+                provider.install.call(plugin);
             }
 
             return plugin;
