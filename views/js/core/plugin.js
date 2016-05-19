@@ -48,8 +48,7 @@
  */
 define([
     'lodash',
-    'core/promise',
-    'core/delegator'
+    'core/promise'
 ], function (_, Promise){
     'use strict';
 
