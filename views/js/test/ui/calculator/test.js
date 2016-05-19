@@ -31,28 +31,32 @@ define([
     });
 
     var testReviewApi = [
-        { name : 'init', title : 'init' },
-        { name : 'destroy', title : 'destroy' },
-        { name : 'render', title : 'render' },
-        { name : 'show', title : 'show' },
-        { name : 'hide', title : 'hide' },
-        { name : 'enable', title : 'enable' },
-        { name : 'disable', title : 'disable' },
-        { name : 'is', title : 'is' },
-        { name : 'setState', title : 'setState' },
-        { name : 'getElement', title : 'getElement' },
-        { name : 'getContainer', title : 'getContainer' },
-        { name : 'getTemplate', title : 'getTemplate' },
-        { name : 'setTemplate', title : 'setTemplate' }
+        {name : 'init', title : 'init'},
+        {name : 'destroy', title : 'destroy'},
+        {name : 'render', title : 'render'},
+        {name : 'show', title : 'show'},
+        {name : 'hide', title : 'hide'},
+        {name : 'enable', title : 'enable'},
+        {name : 'disable', title : 'disable'},
+        {name : 'is', title : 'is'},
+        {name : 'setState', title : 'setState'},
+        {name : 'getContainer', title : 'getContainer'},
+        {name : 'getElement', title : 'getElement'},
+        {name : 'getTemplate', title : 'getTemplate'},
+        {name : 'setTemplate', title : 'setTemplate'},
+        {name : 'reset', title : 'reset'},
+        {name : 'resetPosition', title : 'resetPosition'},
+        {name : 'resetSize', title : 'resetSize'},
+        {name : 'press', title : 'press'}
     ];
 
-//    QUnit
-//        .cases(testReviewApi)
-//        .test('instance API ', function(data, assert) {
-//            var instance = calculator();
-//            assert.equal(typeof instance[data.name], 'function', 'The calculator instance exposes a "' + data.title + '" function');
-//            instance.destroy();
-//        });
+    QUnit
+        .cases(testReviewApi)
+        .test('instance API ', function(data, assert) {
+            var instance = calculator();
+            assert.equal(typeof instance[data.name], 'function', 'The calculator instance exposes a "' + data.title + '" function');
+            instance.destroy();
+        });
         
     QUnit.test('init', function(assert) {
         var config = {};
@@ -63,32 +67,76 @@ define([
         instance.destroy();
     });
     
-    QUnit.test('render', function(assert) {
-        var $dummy = $('<div class="dummy" />');
+    QUnit.test('render (visual test)', function(assert) {
+        
         var $container = $('#fixture-0')
             .css({
                 height : 1000,
                 width : 1000,
                 position : 'absolute',
                 backgroundColor : '#ccc'
-            })
-            .append($dummy);
+            });
         var config = {
             renderTo: $container,
             replace: true
         };
-        var instance;
-
-        assert.equal($container.children().length, 1, 'The container already contains an element');
-        assert.equal($container.children().get(0), $dummy.get(0), 'The container contains the dummy element');
-        assert.equal($container.find('.dummy').length, 1, 'The container contains an element of the class dummy');
-
-        instance = calculator(config);
+        calculator(config);
         
-        return;
-        instance.destroy();
-
-        assert.equal($container.children().length, 0, 'The container is now empty');
-        assert.equal(instance.getElement(), null, 'The calculator instance has removed its rendered content');
+        assert.equal($container.find('.dynamic-component-container .calcContainer').length, 1, 'calculator container ok');
+        assert.equal($container.find('.dynamic-component-container .calcContainer .calcDisplay').length, 1, 'calculator display ok');
+        assert.equal($container.find('.dynamic-component-container .calcContainer .calcFunction').length, 9, 'calculator function button ok');
+        assert.equal($container.find('.dynamic-component-container .calcContainer .calcClear').length, 3, 'calculator clear button ok');
+        assert.equal($container.find('.dynamic-component-container .calcContainer .calcDigit').length, 10, 'calculator digit button ok');
+    });
+    
+    QUnit.test('press', function(assert) {
+        
+        var $container = $('#fixture-1');
+        var config = {
+            renderTo: $container,
+            replace: true
+        };
+        var instance = calculator(config);
+        var $display = $container.find('.dynamic-component-container .calcContainer .calcDisplay');
+        
+        instance.press('1').press('2').press('3').press('.').press('4');
+        assert.equal($display.val(), '123.4', 'calculator display ok');
+        
+        instance.press('C').press('1').press('2').press('3').press('.').press('4').press('DEL').press('DEL').press('DEL').press('DEL').press('DEL');
+        assert.equal($display.val(), '', 'DEL ok');
+        
+        instance.press('C').press('1').press('2').press('3').press('.').press('4').press('C');
+        assert.equal($display.val(), '0', 'C ok');
+        
+        instance.press('C').press('1').press('+').press('2').press('=');
+        assert.equal($display.val(), '3', 'sum ok');
+        
+        instance.press('C').press('1').press('-').press('2').press('=');
+        assert.equal($display.val(), '-1', 'difference ok');
+        
+        instance.press('C').press('.').press('1').press('*').press('.').press('1').press('=');
+        assert.equal($display.val(), '0.01', 'multiplication ok');
+        
+        instance.press('C').press('.').press('1').press('/').press('.').press('1').press('=');
+        assert.equal($display.val(), '1', 'division ok');
+        
+        instance.press('C').press('1').press('+').press('2').press('CE').press('3').press('=');
+        assert.equal($display.val(), '4', 'CE ok');
+        
+        instance.press('C').press('1').press('2').press('+').press('2').press('%').press('=');
+        assert.equal($display.val(), '12.24', '% ok');
+        
+        instance.press('C').press('2').press('sqrt');
+        assert.equal($display.val(), '1.4142135623730951', 'sqrt ok');
+        
+        instance.press('C').press('2').press('sqrt').press('pow').press('2').press('=');
+        assert.equal($display.val(), '2', 'pow ok');
+        
+        instance.press('C').press('.').press('0').press('0').press('1').press('1/x');
+        assert.equal($display.val(), '1000', '1/x ok');
+        
+        instance.press('C').press('.').press('0').press('0').press('1').press('1/x').press('1/x');
+        assert.equal($display.val(), '0.001', '1/x ok');
+        
     });
 });

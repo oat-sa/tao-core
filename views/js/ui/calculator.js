@@ -30,18 +30,37 @@ define([
         title : __('Calculator')
     };
     
+    var calculator = {
+        press : function press(key){
+            this.calc.press(key);
+            return this;
+        }
+    };
+    
     /**
      * Builds an instance of the calculator component
      * @param {Object} config
      * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
+     * @param {String} [config.title] - title to be displayed in the title bar
+     * @param {Boolean} [config.resizable] - allow the component to be resizable
+     * @param {Boolean} [config.draggable] - allow the component to be draggable
+     * @param {Number} [config.width] - the initial width of the component content
+     * @param {Number} [config.height] - the intial height of the component content
+     * @param {Number} [config.minWidth] - the min width for resize
+     * @param {Number} [config.maxWidth] - the max width for resize
+     * @param {Number} [config.largeWidthThreshold] - the width below which the container will get the class "small"
+     * @param {Number} [config.smallWidthThreshold] - the width above which the container will get the class "large"
+     * @param {jQuery|HTMLElement|String} [config.draggableContainer] - the DOMElement the draggable component will be constraint in
+     * @param {Number} [config.top] - the initial position top absolute to the windows
+     * @param {Number} [config.left] - the initial position left absolute to the windows
      * @returns {calculator}
      */
     var calculatorFactory = function calculatorFactory(config){
 
         config = _.defaults(config || {}, _defaults);
 
-        return dynamicComponent()
+        return dynamicComponent(calculator)
             .on('rendercontent', function ($content){
                 //init the calculator
                 this.calc = calculatorBuild.init($content);
