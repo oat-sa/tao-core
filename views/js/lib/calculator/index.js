@@ -152,7 +152,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
                     break;
                 case 'click':
                     target = e.target || e.srcElement;
-                    if(target.tagName === 'INPUT' && target.type === 'button'){
+                    if((target.tagName === 'INPUT' || target.tagName === 'BUTTON') && target.type === 'button'){
                         key = target.value;
                     }else{
                         return true;
@@ -524,7 +524,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
      */
     function _addFocusListener(form){
         var $form = $(form);
-        var $display = $form.find('input:first');
+        var $display = $form.find('.calcDisplay');
         $form.on('click', '[type=button]', function (){
             var strLength = $display.val().length + 1;
             $display.focus();
@@ -550,7 +550,8 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
      * @param {string} operationPressed
      */
     function _initButtonHighlight(form, key, operationPressed){
-        var $btn = $(form).find('input[data-key="'+key+'"]');
+        var $btn = $(form).find('[data-key="'+key+'"]');
+        console.log(key);
         $btn.addClass('triggered');
         setTimeout(function(){
             $btn.removeClass('triggered');

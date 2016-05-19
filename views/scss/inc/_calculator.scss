@@ -36,21 +36,33 @@
         form{
             height: 100%;
             width: 100%;
-            input{
+            input,button{
                 background-color : $uiClickableDefaultBg;
+                border-radius: 0;
+                padding : 0;
                 border: none;
-                color : $textColor;
+                color : $textColor !important;
                 float: left;
                 height: 14%;
                 text-align: center;
+                text-shadow: none;
                 width: 25%; 
+                min-width:0;
                 cursor: pointer;
-                font-size: 1.5rem;
+                font-size: 1.5rem !important;
+                sup {
+                    padding-right: 1px;
+                    font-size: 1rem !important;
+                }
+                sub{
+                    padding-left: 1px;
+                    font-size: 1.2rem !important;
+                }
                 &.calcFirst{
                     clear: left;
                 }
                 &.calcClear{
-                    color : $info;
+                    color : $info !important;
                 }
                 &.calcDisplay{
                     background : whiten($uiClickableDefaultBg, .7);
@@ -62,7 +74,7 @@
                     width: 100%;
                     max-width: none;
                     padding: 0.6rem;
-                    font-size: 2rem;
+                    font-size: 2rem !important;
                     height: 16%;
                 }
                 &.calcDigit{
@@ -70,7 +82,6 @@
                 }
                 &.calcSubmit{
                     font-weight: bold;
-                    border-radius: 0;
                     color: $textColor !important;
                     background-color: #ddd;
                     text-shadow: none;
@@ -84,16 +95,33 @@
             }
         }
     }
-    &.small .calcContainer form input{
-        font-size: 1.2rem;
-        &.calcDisplay{
-            font-size: 1.4rem;
+    &.small .calcContainer form{
+        input,button{
+            font-size: 1.2rem !important;
+            &.calcDisplay{
+                font-size: 1.4rem !important;
+            }
+            sup {
+                font-size: .7rem !important;
+            }
+            sub{
+                font-size: .9rem !important;
+            }
         }
-    }
-    &.large .calcContainer form input{
-        font-size: 2.1rem;
-        &.calcDisplay{
-            font-size: 3.4rem;
+    } 
+    &.large .calcContainer form{
+        input,button{
+            font-size: 2.1rem !important;
+            &.calcDisplay{
+                font-size: 3.4rem !important;
+            }
+            sup {
+                font-size: 1.2rem !important;
+                top : -1rem;
+            }
+            sub {
+                font-size: 1.8rem !important;
+            }
         }
     }
 }
