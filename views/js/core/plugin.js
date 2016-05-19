@@ -95,6 +95,8 @@ define([
 
             var states = {};
 
+            var pluginContent = {};
+
             //basic checking for the host
             if(!_.isObject(host) || !_.isFunction(host.on) || !_.isFunction(host.trigger)){
                 throw new TypeError('A plugin host should be a valid eventified object');
@@ -128,13 +130,18 @@ define([
 
                 /**
                  * Called when the host is initializing
+                 * @param {Object|*} [content] the plugin content
                  * @returns {Promise} to resolve async delegation
                  */
-                init : function init(){
+                init : function init(content){
                     var self = this;
                     states = {};
 
-                    return delegate('init').then(function(){
+                    if(content){
+                        pluginContent = content;
+                    }
+
+                    return delegate('init', content).then(function(){
                         self.setState('init', true)
                             .trigger('init');
                     });
@@ -261,6 +268,28 @@ define([
                         throw new TypeError('The state must have a name');
                     }
                     states[name] = !!active;
+
+                    return this;
+                },
+
+                /**
+                 * Get the plugin content
+                 *
+                 * @returns {Object|*} the content
+                 */
+                getContent : function getContent(){
+                    return pluginContent;
+                },
+
+
+                /**
+                 * Set the plugin content
+                 *
+                 * @param {Object|*} [content] - the plugin content
+                 * @returns {plugin} chains
+                 */
+                setContent : function setContent(content){
+                    pluginContent = content;
 
                     return this;
                 },

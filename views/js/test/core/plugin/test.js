@@ -81,7 +81,7 @@ define([
     });
 
     QUnit.test('instantiation', function (assert){
-        QUnit.expect(19);
+        QUnit.expect(21);
 
         var myPlugin = pluginFactory(mockProvider, defaultConfig);
 
@@ -112,6 +112,8 @@ define([
         assert.equal(typeof plugin.setConfig, 'function', 'The plugin instance has also the default function setConfig');
         assert.equal(typeof plugin.getName, 'function', 'The plugin instance has also the default function getName');
         assert.equal(typeof plugin.getHost, 'function', 'The plugin instance has also the default function getHost');
+        assert.equal(typeof plugin.getContent, 'function', 'The plugin instance has also the default function getContent');
+        assert.equal(typeof plugin.setContent, 'function', 'The plugin instance has also the default function setContent');
     });
 
     QUnit.test('config', function (assert){
@@ -343,5 +345,29 @@ define([
         var instance1 = myPlugin(mockHost);
         assert.equal(instance1.getName(), name, 'The name matches');
         instance1.init();
+    });
+
+
+    QUnit.asyncTest('plugin content', function(assert){
+        QUnit.expect(4);
+
+        var name = 'foo-plugin';
+        var content1 = { foo : 'bar' };
+        var content2 = { foo : 'moo' };
+
+        var myPlugin = pluginFactory({
+            name : name,
+            init : function (data){
+                assert.deepEqual(data, content1, 'The given content is correct');
+                assert.deepEqual(this.getContent(), content1, 'The given content is set');
+            }
+        });
+
+        var instance1 = myPlugin(mockHost);
+        instance1.init(content1).then(function(){
+            assert.deepEqual(instance1.setContent(content2), instance1, 'The method set content chains');
+            assert.deepEqual(instance1.getContent(), content2, 'The given content is up to date');
+            QUnit.start();
+        });
     });
 });
