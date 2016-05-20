@@ -1,0 +1,265 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ */
+/**
+ * @author Sam <sam@taotesting.com>
+ */
+define([
+    'jquery',
+    'lodash',
+    'ui/dynamicComponent'
+], function ($, _, dynamicComponent){
+    'use strict';
+
+    QUnit.module('component');
+
+
+    QUnit.test('module', 3, function (assert){
+        assert.equal(typeof dynamicComponent, 'function', "The component module exposes a function");
+        assert.equal(typeof dynamicComponent(), 'object', "The component factory produces an object");
+        assert.notStrictEqual(dynamicComponent(), dynamicComponent(), "The component factory provides a different object on each call");
+    });
+
+
+    var testReviewApi = [
+        {name : 'init', title : 'init'},
+        {name : 'destroy', title : 'destroy'},
+        {name : 'render', title : 'render'},
+        {name : 'show', title : 'show'},
+        {name : 'hide', title : 'hide'},
+        {name : 'enable', title : 'enable'},
+        {name : 'disable', title : 'disable'},
+        {name : 'is', title : 'is'},
+        {name : 'setState', title : 'setState'},
+        {name : 'getContainer', title : 'getContainer'},
+        {name : 'getElement', title : 'getElement'},
+        {name : 'getTemplate', title : 'getTemplate'},
+        {name : 'setTemplate', title : 'setTemplate'},
+        {name : 'reset', title : 'reset'},
+        {name : 'resetPosition', title : 'resetPosition'},
+        {name : 'resetSize', title : 'resetSize'}
+    ];
+
+    QUnit
+        .cases(testReviewApi)
+        .test('instance API ', function (data, assert){
+            var instance = dynamicComponent();
+            assert.equal(typeof instance[data.name], 'function', 'The component instance exposes a "' + data.title + '" function');
+        });
+
+
+    QUnit.test('init', function (assert){
+        var specs = {
+            value : 10,
+            method : function (){
+
+            }
+        };
+        var defaults = {
+            label : 'a label'
+        };
+        var config = {
+            nothing : undefined,
+            dummy : null,
+            title : 'My Title'
+        };
+        var instance = dynamicComponent(specs, defaults).init(config);
+
+        assert.notEqual(instance, specs, 'The component instance must not be the same obect as the list of specs');
+        assert.notEqual(instance.config, config, 'The component instance must duplicate the config set');
+        assert.equal(instance.hasOwnProperty('nothing'), false, 'The component instance must not accept undefined config properties');
+        assert.equal(instance.hasOwnProperty('dummy'), false, 'The component instance must not accept null config properties');
+        assert.equal(instance.hasOwnProperty('value'), false, 'The component instance must not accept properties from the list of specs');
+        assert.equal(instance.config.title, config.title, 'The component instance must catch the title config');
+        assert.equal(instance.config.label, defaults.label, 'The component instance must set the label config');
+        assert.equal(instance.is('rendered'), false, 'The component instance must not be rendered');
+        assert.equal(typeof instance.method, 'function', 'The component instance must have the functions provided in the list of specs');
+        assert.notEqual(instance.method, specs.method, 'The component instance must have created a delegate of the functions provided in the list of specs');
+
+        instance.destroy();
+    });
+
+    QUnit.test('render', function (assert){
+        var $dummy1 = $('<div class="dummy" />');
+        var $content1 = $('<div class="my-custom-content">BBB</div>');
+        var $container1 = $('#fixture-1').append($dummy1);
+        var instance;
+
+        // auto render at init
+        assert.equal($container1.children().length, 1, 'The container1 already contains an element');
+        assert.equal($container1.children().get(0), $dummy1.get(0), 'The container1 contains the dummy element');
+        assert.equal($container1.find('.dummy').length, 1, 'The container1 contains an element of the class dummy');
+
+        instance = dynamicComponent({}, {
+            title : 'AAA'
+        }).on('rendercontent', function ($content){
+            //init the calculator
+            $content.append($content1);
+        }).init({
+            renderTo : $container1,
+            replace : true,
+            top : 10,
+            left : 10,
+            height : 200,
+            width : 300
+        });
+
+        assert.equal($container1.find('.dummy').length, 0, 'The container1 does not contain an element of the class dummy');
+        assert.equal(instance.is('rendered'), true, 'The component instance must be rendered');
+        assert.equal(typeof instance.getElement(), 'object', 'The component instance returns the rendered content as an object');
+        assert.equal(instance.getElement().length, 1, 'The component instance returns the rendered content');
+        assert.equal(instance.getElement().parent().get(0), $container1.get(0), 'The component instance is rendered inside the right container');
+
+        assert.equal($container1.find('.dynamic-component-container').length, 1, 'Dynamic component container ok');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar').length, 1, 'Dynamic component title ok');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar h3').text(), 'AAA', 'Dynamic component title is empty');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').length, 1, 'Dynamic component has content');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').text(), 'BBB', 'content ok');
+
+        //check configured size
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').width(), 300, 'width ok');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').height(), 200, 'height ok');
+
+        //check configured position
+        assert.equal($container1.find('.dynamic-component-container').offset().top, 10, 'position top ok');
+        assert.equal($container1.find('.dynamic-component-container').offset().left, 10, 'position top left');
+
+        //manual reset
+        $('#fixture-1').empty().attr('style', '');
+    });
+
+    QUnit.asyncTest('reset', function (assert){
+
+        var $content1 = $('<div class="my-custom-content">BBB</div>');
+        var $container1 = $('#fixture-1');
+        var instance = dynamicComponent({}, {
+            title : 'AAA'
+        }).on('rendercontent', function ($content){
+            //init the calculator
+            $content.append($content1);
+        }).init({
+            renderTo : $container1,
+            replace : true,
+            top : 10,
+            left : 10,
+            height : 200,
+            width : 300
+        });
+
+        assert.equal($container1.find('.dynamic-component-container').length, 1, 'Dynamic component container ok');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar').length, 1, 'Dynamic component title ok');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar h3').text(), 'AAA', 'Dynamic component title is empty');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').length, 1, 'Dynamic component has content');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').text(), 'BBB', 'Dynamic component has content');
+
+        //check configured size
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').width(), 300, 'width ok');
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').height(), 200, 'height ok');
+
+        //check configured position
+        assert.equal($container1.find('.dynamic-component-container').offset().top, 10, 'position top ok');
+        assert.equal($container1.find('.dynamic-component-container').offset().left, 10, 'position top left');
+
+        instance.on('reset', function (){
+            assert.ok(true, 'The component instance can handle reset events');
+
+            this.getElement().find('.my-custom-content').empty();
+
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').text(), '', 'Dynamic component has emptied content');
+
+            //check reset size
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').width(), 300, 'width ok');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').height(), 200, 'height ok');
+
+            //check reset position
+            assert.equal($container1.find('.dynamic-component-container').offset().top, 10, 'position top ok');
+            assert.equal($container1.find('.dynamic-component-container').offset().left, 10, 'position top left');
+
+            QUnit.start();
+        });
+
+        $container1.find('.dynamic-component-container').css({top : 100, left : 100});
+        $container1.find('.dynamic-component-container .dynamic-component-content').width(500).height(400);
+
+        instance.reset();
+
+        //manual reset
+        $('#fixture-1').empty().attr('style', '');
+    });
+    
+    QUnit.asyncTest('draggableContainer config', function (assert){
+        
+        var $container1 = $('#fixture-0');
+        var instance = dynamicComponent()
+            .on('error', function(){
+                assert.ok(false, 'error event should not be fired');
+            }).init({
+                renderTo : $container1,
+                replace : true,
+                draggableContainer : $container1 
+            });
+        
+        instance = dynamicComponent()
+            .on('error', function(){
+                assert.ok(false, 'error event should not be fired');
+            }).init({
+                renderTo : $container1,
+                replace : true,
+                draggableContainer : $container1[0] 
+            });
+            
+        instance = dynamicComponent()
+            .on('error', function(){
+                assert.ok(true, 'error event fired because of invalid draggableContainer configuration');
+            }).init({
+                renderTo : $('.no-existing-element'),
+                replace : true,
+                draggableContainer : 1324 
+            });
+            
+        instance = dynamicComponent()
+            .on('error', function(){
+                assert.ok(true, 'error event fired because of invalid draggableContainer configuration');
+                QUnit.start();
+            }).init({
+                renderTo : $container1,
+                replace : true,
+                draggableContainer : 1324 
+            });
+        
+    });
+    
+    QUnit.asyncTest('close', function (assert){
+        
+        var $container1 = $('#fixture-0');
+        var instance = dynamicComponent().init({
+            renderTo : $container1
+        }).on('hide', function(){
+            assert.ok('dynamic component hidden with the closer');
+            QUnit.start();
+        });
+       
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
+        
+        $container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').click();
+    });
+});
