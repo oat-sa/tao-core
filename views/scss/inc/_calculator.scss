@@ -10,7 +10,7 @@
         display: block;
         float: none;
         font-family: sans-serif;
-        font-size: 1.5rem;
+        @include font-size(15);
         left: auto;
         line-height: 1;
         margin: 0;
@@ -49,14 +49,14 @@
                 width: 25%; 
                 min-width:0;
                 cursor: pointer;
-                font-size: 1.5rem !important;
+                @include font-size(15, true);
                 sup {
                     padding-right: 1px;
-                    font-size: 1rem !important;
+                    @include font-size(10, true);
                 }
                 sub{
                     padding-left: 1px;
-                    font-size: 1.2rem !important;
+                    @include font-size(12, true);
                 }
                 &.calcFirst{
                     clear: left;
@@ -74,8 +74,8 @@
                     width: 100%;
                     max-width: none;
                     padding: 0.6rem;
-                    font-size: 2rem !important;
                     height: 16%;
+                    @include font-size(20, true);
                 }
                 &.calcDigit{
                     font-weight: bold;
@@ -97,30 +97,30 @@
     }
     &.small .calcContainer form{
         input,button{
-            font-size: 1.2rem !important;
+            @include font-size(12, true);
             &.calcDisplay{
-                font-size: 1.4rem !important;
+                @include font-size(14, true);
             }
             sup {
-                font-size: .7rem !important;
+                @include font-size(7, true);
             }
             sub{
-                font-size: .9rem !important;
+                @include font-size(9, true);
             }
         }
     } 
     &.large .calcContainer form{
         input,button{
-            font-size: 2.1rem !important;
+            @include font-size(21, true);
             &.calcDisplay{
-                font-size: 3.4rem !important;
+                @include font-size(34, true);
             }
             sup {
-                font-size: 1.2rem !important;
+                @include font-size(12, true);
                 top : -1rem;
             }
             sub {
-                font-size: 1.8rem !important;
+                @include font-size(18, true);
             }
         }
     }
