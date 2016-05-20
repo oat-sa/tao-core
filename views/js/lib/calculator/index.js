@@ -551,7 +551,6 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
      */
     function _initButtonHighlight(form, key, operationPressed){
         var $btn = $(form).find('[data-key="'+key+'"]');
-        console.log(key);
         $btn.addClass('triggered');
         setTimeout(function(){
             $btn.removeClass('triggered');

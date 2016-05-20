@@ -51,6 +51,7 @@ define([
             this.resetPosition();
             this.resetSize();
             this.trigger('reset');
+            return this;
         },
         resetPosition : function resetPosition(){
             this.getElement().css({
@@ -58,6 +59,7 @@ define([
                 left : this.config.left,
                 transform : 'none'
             });
+            return this;
         },
         resetSize : function resetSize(){
             var $element = this.getElement();
@@ -70,6 +72,7 @@ define([
                 width : this.config.width,
                 height : this.config.height
             });
+            return this;
         }
     };
     
@@ -89,7 +92,7 @@ define([
     };
     
     /**
-     * Builds an instance of the calculator component
+     * Builds an instance of the dynamic component
      * @param {Object} config
      * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
@@ -155,7 +158,7 @@ define([
                             onmove : _moveItem
                         });
                     }else{
-                        throw 'invalid draggableContainer type';
+                        self.trigger('error', new Error('invalid draggableContainer type'));
                     }
                 }
                 if(config.resizable){

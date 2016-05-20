@@ -139,7 +139,7 @@ define([
         //check configured position
         assert.equal($container1.find('.dynamic-component-container').offset().top, 10, 'position top ok');
         assert.equal($container1.find('.dynamic-component-container').offset().left, 10, 'position top left');
-        
+
         //manual reset
         $('#fixture-1').empty().attr('style', '');
     });
@@ -201,9 +201,65 @@ define([
         $container1.find('.dynamic-component-container .dynamic-component-content').width(500).height(400);
 
         instance.reset();
-        
-         //manual reset
+
+        //manual reset
         $('#fixture-1').empty().attr('style', '');
     });
-
+    
+    QUnit.asyncTest('draggableContainer config', function (assert){
+        
+        var $container1 = $('#fixture-0');
+        var instance = dynamicComponent()
+            .on('error', function(){
+                assert.ok(false, 'error event should not be fired');
+            }).init({
+                renderTo : $container1,
+                replace : true,
+                draggableContainer : $container1 
+            });
+        
+        instance = dynamicComponent()
+            .on('error', function(){
+                assert.ok(false, 'error event should not be fired');
+            }).init({
+                renderTo : $container1,
+                replace : true,
+                draggableContainer : $container1[0] 
+            });
+            
+        instance = dynamicComponent()
+            .on('error', function(){
+                assert.ok(true, 'error event fired because of invalid draggableContainer configuration');
+            }).init({
+                renderTo : $('.no-existing-element'),
+                replace : true,
+                draggableContainer : 1324 
+            });
+            
+        instance = dynamicComponent()
+            .on('error', function(){
+                assert.ok(true, 'error event fired because of invalid draggableContainer configuration');
+                QUnit.start();
+            }).init({
+                renderTo : $container1,
+                replace : true,
+                draggableContainer : 1324 
+            });
+        
+    });
+    
+    QUnit.asyncTest('close', function (assert){
+        
+        var $container1 = $('#fixture-0');
+        var instance = dynamicComponent().init({
+            renderTo : $container1
+        }).on('hide', function(){
+            assert.ok('dynamic component hidden with the closer');
+            QUnit.start();
+        });
+       
+        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
+        
+        $container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').click();
+    });
 });
