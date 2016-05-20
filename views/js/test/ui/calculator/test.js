@@ -140,22 +140,6 @@ define([
 
     });
 
-    QUnit.asyncTest('show', function (assert){
-        var $container = $('#fixture-1');
-        var config = {
-            renderTo : $container,
-            replace : true
-        };
-        calculator(config)
-            .after('show', function (){
-                _.delay(function (){
-                    assert.equal($container.find('.calcDisplay:focus').length, 1, 'calculator display on focus');
-                    QUnit.start();
-                }, 250);
-            })
-            .show();
-    });
-
     QUnit.asyncTest('reset', function (assert){
         var $container = $('#fixture-1');
         var config = {
