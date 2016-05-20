@@ -81,7 +81,7 @@ define([
     });
 
     QUnit.test('instantiation', function (assert){
-        QUnit.expect(19);
+        QUnit.expect(21);
 
         var myPlugin = pluginFactory(mockProvider, defaultConfig);
 
@@ -112,19 +112,27 @@ define([
         assert.equal(typeof plugin.setConfig, 'function', 'The plugin instance has also the default function setConfig');
         assert.equal(typeof plugin.getName, 'function', 'The plugin instance has also the default function getName');
         assert.equal(typeof plugin.getHost, 'function', 'The plugin instance has also the default function getHost');
+        assert.equal(typeof plugin.getContent, 'function', 'The plugin instance has also the default function getContent');
+        assert.equal(typeof plugin.setContent, 'function', 'The plugin instance has also the default function setContent');
     });
 
     QUnit.test('config', function (assert){
-        QUnit.expect(5);
+        QUnit.expect(8);
 
         var myPlugin = pluginFactory(mockProvider, defaultConfig);
-        var plugin = myPlugin(mockHost);
+        var myAreaBroker = {};
+        var instanceConfig = {c: "c"};
+        var plugin = myPlugin(mockHost, myAreaBroker, instanceConfig);
 
         assert.equal(typeof plugin, 'object', "My plugin factory produce a plugin instance object");
 
         var config1 = plugin.getConfig();
-        assert.equal(config1.a, defaultConfig.a, 'instance1 inherits the default config');
-        assert.equal(config1.b, defaultConfig.b, 'instance1 inherit the default config');
+        assert.equal(config1.a, defaultConfig.a, 'instance1 inherits the default config "a"');
+        assert.equal(config1.b, defaultConfig.b, 'instance1 inherit the default config "b"');
+        assert.equal(config1.c, instanceConfig.c, 'instance1 inherit the default config "c"');
+
+        var areaBroker = plugin.getAreaBroker();
+        assert.equal(areaBroker, myAreaBroker, 'instance1 inherit the provided areaBroker');
 
         var config2 = {
             a : true,
@@ -132,15 +140,22 @@ define([
         };
 
         plugin.setConfig(config2);
-        assert.equal(plugin.getConfig().a, config2.a, 'instance2 has new config value');
-        assert.equal(plugin.getConfig().b, config2.b, 'instance2 has new config value');
+        assert.equal(plugin.getConfig().a, config2.a, 'instance2 has new config value "a"');
+        assert.equal(plugin.getConfig().b, config2.b, 'instance2 has new config value "b"');
+
+        plugin.setConfig('foo', 'bar');
+        assert.equal(plugin.getConfig().foo, 'bar', 'instance2 has new config value "foo"');
     });
 
     QUnit.test('methods', function (assert){
-        QUnit.expect(11);
+        QUnit.expect(15);
 
         var samplePluginImpl = {
             name : 'samplePluginImpl',
+            install : function(){
+                assert.ok(true, 'called install');
+                assert.equal(this.getHost(), mockHost, 'instance1 has a host when install() is called');
+            },
             init : function (){
                 var config = this.getConfig();
                 assert.ok(true, 'called init');
@@ -330,5 +345,29 @@ define([
         var instance1 = myPlugin(mockHost);
         assert.equal(instance1.getName(), name, 'The name matches');
         instance1.init();
+    });
+
+
+    QUnit.asyncTest('plugin content', function(assert){
+        QUnit.expect(4);
+
+        var name = 'foo-plugin';
+        var content1 = { foo : 'bar' };
+        var content2 = { foo : 'moo' };
+
+        var myPlugin = pluginFactory({
+            name : name,
+            init : function (data){
+                assert.deepEqual(data, content1, 'The given content is correct');
+                assert.deepEqual(this.getContent(), content1, 'The given content is set');
+            }
+        });
+
+        var instance1 = myPlugin(mockHost);
+        instance1.init(content1).then(function(){
+            assert.deepEqual(instance1.setContent(content2), instance1, 'The method set content chains');
+            assert.deepEqual(instance1.getContent(), content2, 'The given content is up to date');
+            QUnit.start();
+        });
     });
 });

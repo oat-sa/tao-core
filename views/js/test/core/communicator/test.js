@@ -178,7 +178,7 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
         instance.init().then(function () {
             instance.open().then(function () {
                 assert.ok(true, 'The communicator is open');
-                assert.ok(instance.getState('opened'), 'The communicator is in "opened" state');
+                assert.ok(instance.getState('open'), 'The communicator is in "open" state');
 
                 // double open to check direct resolve (only the first open() must delegate to the provider and fire events)
                 // if more asserts are done at this point, there is an issue
@@ -228,15 +228,15 @@ define(['lodash', 'core/promise', 'core/communicator'], function (_, Promise, co
         instance.init().then(function () {
             instance.open().then(function () {
                 assert.ok(true, 'The communicator is open');
-                assert.ok(instance.getState('opened'), 'The communicator is in "opened" state');
+                assert.ok(instance.getState('open'), 'The communicator is in "open" state');
 
                 instance.close().then(function () {
                     assert.ok(true, 'The communicator is closed');
-                    assert.ok(!instance.getState('opened'), 'The communicator is not in "opened" state');
+                    assert.ok(!instance.getState('open'), 'The communicator is not in "open" state');
 
                     instance.open().then(function () {
                         assert.ok(true, 'The communicator is open');
-                        assert.ok(instance.getState('opened'), 'The communicator is in "opened" state');
+                        assert.ok(instance.getState('open'), 'The communicator is in "open" state');
 
                         // check the auto-close when destroying
                         instance.destroy().then(function () {

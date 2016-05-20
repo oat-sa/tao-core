@@ -202,59 +202,58 @@ define([
              * Gets the current action into asynchronous mode.
              * The next iteration won't be executed until the resolve method has been called.
              * However if the reject method is called, the polling is then stopped!
-             * @returns {Promise}
+             * @returns {Object} Returns a promise resolver that provides resolve() and reject() methods
              */
             async : function async() {
-                var cb = {};
+                var resolver = {};
 
                 // create a promise and extract the control callbacks
                 promise = new Promise(function(resolve, reject) {
-                    cb.resolve = resolve;
-                    cb.reject = reject;
+                    resolver.resolve = resolve;
+                    resolver.reject = reject;
                 });
 
                 // directly install the pending actions
-                promise.then(function() {
-                    promise = null;
-                    state.processing = false;
+                promise
+                    .then(function() {
+                        promise = null;
+                        state.processing = false;
 
-                    // next iteration only if allowed
-                    if (!state.stopped) {
-                        startTimer();
-                    }
+                        // next iteration only if allowed
+                        if (!state.stopped) {
+                            startTimer();
+                        }
 
-                    /**
-                     * Notifies the polling continues
-                     * @event polling#resolved
-                     */
-                    polling.trigger('resolved');
-                }).catch(function() {
-                    promise = null;
-                    state.processing = false;
+                        /**
+                         * Notifies the polling continues
+                         * @event polling#resolved
+                         */
+                        polling.trigger('resolved');
+                    })
+                    .catch(function() {
+                        promise = null;
+                        state.processing = false;
 
-                    // breaks the polling
-                    polling.stop();
+                        // breaks the polling
+                        polling.stop();
 
-                    /**
-                     * Notifies the polling has been halted
-                     * @event polling#rejected
-                     */
-                    polling.trigger('rejected');
-                });
-
-                // need to assign the control callbacks since the Promise instance does not include them
-                _.assign(promise, cb);
+                        /**
+                         * Notifies the polling has been halted
+                         * @event polling#rejected
+                         */
+                        polling.trigger('rejected');
+                    });
 
                 /**
                  * Notifies the current action is asynchronous
                  * @event polling#async
-                 * @param {Promise} async
-                 * @param {Function} async.resolve
-                 * @param {Function} async.reject
+                 * @param {Object} resolver
+                 * @param {Function} resolver.resolve
+                 * @param {Function} resolver.reject
                  */
-                polling.trigger('async', promise);
+                polling.trigger('async', resolver);
 
-                return promise;
+                return resolver;
             },
 
             /**

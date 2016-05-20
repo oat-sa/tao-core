@@ -21,6 +21,7 @@
  *  - helps you to bind plugin's behavior to the host
  *  - have it's own state and lifecycle convention (init -> render -> finish -> destroy)
  *  - promise based
+ *  - calls the optional plugin installer after the plugin instance has been bound with its host
  *
  * @example
  *
@@ -58,6 +59,7 @@ define([
      * @param {Object} provider - the plugin provider
      * @param {String} provider.name - the plugin name
      * @param {Function} provider.init - the plugin initialization method
+     * @param {Function} [provider.install] - plugin installer called after the instance has been bound with its host
      * @param {Function} [provider.render] - plugin rendering behavior
      * @param {Function} [provider.finish] - plugin finish behavior
      * @param {Function} [provider.destroy] - plugin destroy behavior
@@ -93,6 +95,8 @@ define([
 
             var states = {};
 
+            var pluginContent = {};
+
             //basic checking for the host
             if(!_.isObject(host) || !_.isFunction(host.on) || !_.isFunction(host.trigger)){
                 throw new TypeError('A plugin host should be a valid eventified object');
@@ -126,13 +130,18 @@ define([
 
                 /**
                  * Called when the host is initializing
+                 * @param {Object|*} [content] the plugin content
                  * @returns {Promise} to resolve async delegation
                  */
-                init : function init(){
+                init : function init(content){
                     var self = this;
                     states = {};
 
-                    return delegate('init').then(function(){
+                    if(content){
+                        pluginContent = content;
+                    }
+
+                    return delegate('init', content).then(function(){
                         self.setState('init', true)
                             .trigger('init');
                     });
@@ -264,6 +273,28 @@ define([
                 },
 
                 /**
+                 * Get the plugin content
+                 *
+                 * @returns {Object|*} the content
+                 */
+                getContent : function getContent(){
+                    return pluginContent;
+                },
+
+
+                /**
+                 * Set the plugin content
+                 *
+                 * @param {Object|*} [content] - the plugin content
+                 * @returns {plugin} chains
+                 */
+                setContent : function setContent(content){
+                    pluginContent = content;
+
+                    return this;
+                },
+
+                /**
                  * Get the plugin name
                  *
                  * @returns {String} the name
@@ -328,6 +359,11 @@ define([
             //add a convenience method that alias getHost using the hostName
             if(_.isString(defaults.hostName) && !_.isEmpty(defaults.hostName)){
                 plugin['get' + defaults.hostName.charAt(0).toUpperCase() + defaults.hostName.slice(1)] = plugin.getHost;
+            }
+
+            //invokes the optional plugin installer
+            if(_.isFunction(provider.install)){
+                provider.install.call(plugin);
             }
 
             return plugin;
