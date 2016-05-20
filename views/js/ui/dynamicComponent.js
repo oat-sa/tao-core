@@ -75,7 +75,7 @@ define([
             return this;
         }
     };
-    
+
     var _defaults = {
         title : '',
         resizable : true,
@@ -90,7 +90,7 @@ define([
         top : 0, //position top absolute in the window
         left : 0//position left absolute in the window
     };
-    
+
     /**
      * Builds an instance of the dynamic component
      * @param {Object} config
@@ -108,7 +108,7 @@ define([
      * @param {jQuery|HTMLElement|String} [config.draggableContainer] - the DOMElement the draggable component will be constraint in
      * @param {Number} [config.top] - the initial position top absolute to the windows
      * @param {Number} [config.left] - the initial position left absolute to the windows
-     * @returns {calculator}
+     * @returns {component}
      */
     var dynComponentFactory = function dynComponentFactory(specs, defaults){
 
@@ -125,7 +125,7 @@ define([
                 var interactElement;
                 var config = this.config;
                 var draggableContainer;
-                
+
                 //set size + position
                 this.resetPosition();
                 this.resetSize();
@@ -136,9 +136,9 @@ define([
                     self.hide();
                 });
 
-                //init the calculator
+                //init the component content
                 this.trigger('rendercontent', $content);
-                
+
                 //make the dynamic-component draggable + resizable
                 interactElement = interact($element[0]);
                 if(config.draggable){
@@ -168,7 +168,7 @@ define([
                         onmove : _resizeItem
                     });
                 }
-                
+
                 /**
                  * Callback for on move event
                  * @param {Object} e - the interact event object
@@ -178,7 +178,7 @@ define([
                     var $target = $(e.target),
                         x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
                         y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
-                        transform = 'translate(' + x + 'px, ' + y + 'px)';
+                        transform = 'translate(' + x + 'px, ' + y + 'px) translateZ(0)';
 
                     $target.css({
                         webkitTransform : transform,
@@ -188,7 +188,7 @@ define([
                     $target.attr('data-x', x);
                     $target.attr('data-y', y);
                 }
-                
+
                 /**
                  * Callback for on resize event
                  * @param {Object} e - the interact event object
