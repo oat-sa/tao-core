@@ -1,6 +1,5 @@
 {
     "paths" : {
-
         "text"              : "lib/text/text",
         "json"              : "lib/text/json",
         "css"               : "lib/require-css/css",
@@ -34,6 +33,7 @@
 
         "mathJax"           : "../../../taoQtiItem/views/js/mathjax/MathJax",
         "ckeditor"          : "lib/ckeditor/ckeditor",
+        "interact"          : "lib/interact",
 
         "i18ntr"            : "../locales/en-US"
    },
