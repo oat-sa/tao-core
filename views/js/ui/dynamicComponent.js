@@ -76,21 +76,6 @@ define([
         }
     };
 
-    var _defaults = {
-        title : '',
-        resizable : true,
-        draggable : true,
-        width : 240,
-        height : 360,
-        minWidth : 150,
-        maxWidth : 600,
-        largeWidthThreshold : 380,
-        smallWidthThreshold : 200,
-        draggableContainer : 'parent',
-        top : 0, //position top absolute in the window
-        left : 0//position left absolute in the window
-    };
-
     /**
      * Builds an instance of the dynamic component
      * @param {Object} config
