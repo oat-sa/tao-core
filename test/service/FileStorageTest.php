@@ -29,6 +29,7 @@ class FileStorageTest extends TaoPhpUnitTestRunner
     protected $sampleDir;
     protected $publicDir;
     protected $privateDir;
+    protected $adapterFixture;
 
     /**
      * tests initialization
@@ -36,8 +37,16 @@ class FileStorageTest extends TaoPhpUnitTestRunner
     public function setUp()
     {
         $this->sampleDir = __DIR__ . '/samples/';
-        $this->publicDir  = $this->sampleDir . 'public';
         $this->privateDir = $this->sampleDir . 'private';
+        $this->adapterFixture = 'adapterFixture';
+    }
+
+    /**
+     * Remove directory of $adapterFixture
+     */
+    public function tearDown()
+    {
+        \tao_helpers_File::delTree($this->privateDir);
     }
 
     /**
@@ -66,13 +75,7 @@ class FileStorageTest extends TaoPhpUnitTestRunner
         $adaptersFixture = array (
             'filesPath' => $this->sampleDir,
             'adapters' => array (
-                'public' => array(
-                    'class' => 'Local',
-                    'options' => array(
-                        'root' => $this->publicDir
-                    )
-                ),
-                'private' => array(
+                $this->adapterFixture => array(
                     'class' => 'Local',
                     'options' => array(
                         'root' => $this->privateDir
@@ -100,13 +103,9 @@ class FileStorageTest extends TaoPhpUnitTestRunner
         $fileStorage = \tao_models_classes_service_FileStorage::singleton();
         $reflectionClass = new \ReflectionClass('\tao_models_classes_service_FileStorage');
 
-        $reflectionProperty = $reflectionClass->getProperty('publicFs');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($fileStorage, $this->getFileSystemMock('public'));
-
         $reflectionProperty = $reflectionClass->getProperty('privateFs');
         $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($fileStorage, $this->getFileSystemMock('private'));
+        $reflectionProperty->setValue($fileStorage, $this->getFileSystemMock($this->adapterFixture));
 
         $fileStorage->setServiceLocator($this->getServiceLocatorWithFileSystem());
 
