@@ -19,9 +19,8 @@
  * Plugin modelisation :
  *  - helps you to create plugin's definition
  *  - helps you to bind plugin's behavior to the host
- *  - have it's own state and lifecycle convention (init -> render -> finish -> destroy)
+ *  - have it's own state and lifecycle convention (install -> init -> render -> finish -> destroy)
  *  - promise based
- *  - calls the optional plugin installer after the plugin instance has been bound with its host
  *
  * @example
  *
@@ -110,6 +109,18 @@ define([
              * @typedef {plugin}
              */
             plugin = {
+
+                /**
+                 * Called when the host is installing the plugins
+                 * @returns {Promise} to resolve async delegation
+                 */
+                install : function install(){
+                    var self = this;
+
+                    return delegate('install').then(function(){
+                        self.trigger('install');
+                    });
+                },
 
                 /**
                  * Called when the host is initializing
@@ -356,11 +367,6 @@ define([
             //add a convenience method that alias getHost using the hostName
             if(_.isString(defaults.hostName) && !_.isEmpty(defaults.hostName)){
                 plugin['get' + defaults.hostName.charAt(0).toUpperCase() + defaults.hostName.slice(1)] = plugin.getHost;
-            }
-
-            //invokes the optional plugin installer
-            if(_.isFunction(provider.install)){
-                provider.install.call(plugin);
             }
 
             return plugin;
