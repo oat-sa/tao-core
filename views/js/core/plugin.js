@@ -48,8 +48,9 @@
  */
 define([
     'lodash',
+    'core/delegator',
     'core/promise'
-], function (_, Promise){
+], function (_, delegator, Promise){
     'use strict';
 
     /**
@@ -90,7 +91,7 @@ define([
          * @returns {plugin} the plugin instance
          */
         return function instanciatePlugin(host, areaBroker, config){
-            var plugin;
+            var plugin, delegate;
 
             var states = {};
 
@@ -100,24 +101,6 @@ define([
             if(!_.isObject(host) || !_.isFunction(host.on) || !_.isFunction(host.trigger)){
                 throw new TypeError('A plugin host should be a valid eventified object');
             }
-
-            /**
-             * Delegate a function call to the provider
-             *
-             * @param {String} fnName - the function name
-             * @param {...} args - additional args are given to the provider
-             * @returns {*} up to the provider
-             */
-            function delegate(fnName){
-                var args = [].slice.call(arguments, 1);
-                return new Promise(function(resolve){
-                    if(!_.isFunction(provider[fnName])){
-                        return resolve();
-                    }
-                    return resolve(provider[fnName].apply(plugin, args));
-                });
-            }
-
 
             config = _.defaults(config || {}, defaults);
 
@@ -366,6 +349,20 @@ define([
                     });
                 }
             };
+
+            /**
+             * Delegate a function call to the provider
+             *
+             * @param {String} fnName - the function name
+             * @param {...} args - additional args are given to the provider
+             * @returns {*} up to the provider
+             */
+            delegate = delegator(plugin, provider, {
+                eventifier: false,
+                wrapper: function pluginWrapper(response){
+                    return Promise.resolve(response);
+                }
+            });
 
             //add a convenience method that alias getHost using the hostName
             if(_.isString(defaults.hostName) && !_.isEmpty(defaults.hostName)){
