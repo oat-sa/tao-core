@@ -148,7 +148,7 @@ define([
     });
 
     QUnit.test('methods', function (assert){
-        QUnit.expect(15);
+        QUnit.expect(13);
 
         var samplePluginImpl = {
             name : 'samplePluginImpl',
@@ -191,6 +191,7 @@ define([
         assert.equal(typeof myPlugin(mockHost), 'object', "My plugin factory produce a plugin instance object");
 
         var instance1 = myPlugin(mockHost);
+        instance1.install();
         instance1.init();
         instance1.render();
         instance1.hide();
