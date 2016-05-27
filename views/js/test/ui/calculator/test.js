@@ -187,7 +187,7 @@ define([
                     //check focus
                     assert.ok($container.find('.calcDisplay')[0] === document.activeElement, 'calculator display on focus');
                     QUnit.start();
-                }, 250);
+                }, 100);
             })
             .show();
     });
