@@ -20,6 +20,7 @@ define(['jquery', 'ui/feedback'], function($, feedback){
         assert.ok(typeof fb.info === 'function'                , 'The feedback instance has a info method');
         assert.ok(typeof fb.success === 'function'             , 'The feedback instance has a success method');
         assert.ok(typeof fb.warning === 'function'             , 'The feedback instance has a warning method');
+        assert.ok(typeof fb.danger === 'function'              , 'The feedback instance has a danger method');
         assert.ok(typeof fb.error === 'function'               , 'The feedback instance has an error method');
         assert.ok(typeof fb.open === 'function'                , 'The feedback instance has an open method');
         assert.ok(typeof fb.close === 'function'               , 'The feedback instance has a close method');
@@ -204,5 +205,3 @@ define(['jquery', 'ui/feedback'], function($, feedback){
     });
 
 });
-
-
