@@ -145,6 +145,11 @@ define([
                        .open();
         },
 
+        danger : function danger(msg, options){
+            return this.message('danger', msg, options)
+                       .open();
+        },
+
         error : function error(msg, options){
             return this.message('error', msg, options)
                        .open();
