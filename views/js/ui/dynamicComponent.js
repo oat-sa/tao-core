@@ -110,7 +110,8 @@ define([
                 var interactElement;
                 var config = this.config;
                 var draggableContainer;
-
+                var $draggingLayer;
+                
                 //set size + position
                 this.resetPosition();
                 this.resetSize();
@@ -132,15 +133,45 @@ define([
                         draggableContainer = draggableContainer[0];
                     }
                     if(_.isElement(draggableContainer) || _.isString(draggableContainer)){
+                        
+                        //add dragging layer on top of the content area to fix issue when dragging over an iframe
+                        $draggingLayer = $('<div class="dynamic-component-layer">').appendTo($content);
+                        
                         interactElement.draggable({
                             inertia : false,
                             autoScroll : true,
+                            manualStart: true,
                             restrict : {
                                 restriction : draggableContainer,
                                 endOnly : false,
                                 elementRect : {top : 0, left : 0, bottom : 1, right : 1}
                             },
-                            onmove : _moveItem
+                            onmove : _moveItem,
+                            onstart: function () {
+                                $draggingLayer.addClass('dragging-active');
+                            },
+                            onend: function () {
+                                $draggingLayer.removeClass('dragging-active');
+                            }
+                        });
+                        
+                        //manually start interactjs draggable on the handle
+                        interact($element.find('.dynamic-component-title-bar')[0]).on('down', function (event){
+                            
+                            var interaction = event.interaction,
+                                handle = event.currentTarget;
+
+                            interaction.start({
+                                name : 'drag',
+                                edges : {
+                                    top : handle.dataset.top,
+                                    left : handle.dataset.left,
+                                    bottom : handle.dataset.bottom,
+                                    right : handle.dataset.right
+                                }
+                            },
+                            interactElement,
+                            $element[0]);
                         });
                     }else{
                         self.trigger('error', new Error('invalid draggableContainer type'));
