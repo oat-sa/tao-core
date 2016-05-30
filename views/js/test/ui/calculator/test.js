@@ -174,4 +174,21 @@ define([
 
         instance.destroy();
     });
+    
+    QUnit.asyncTest('show', function (assert){
+        var $container = $('#fixture-1');
+        var config = {
+            renderTo : $container,
+            replace : true
+        };
+        calculator(config)
+            .after('show', function (){
+                _.delay(function (){
+                    //check focus
+                    assert.ok($container.find('.calcDisplay')[0] === document.activeElement, 'calculator display on focus');
+                    QUnit.start();
+                }, 100);
+            })
+            .show();
+    });
 });
