@@ -23,8 +23,9 @@
 define([
     'jquery',
     'lodash',
+    'interact',
     'core/mouseEvent'
-], function($, _, triggerMouseEvent) {
+], function($, _, interact, triggerMouseEvent) {
     'use strict';
 
     var interactHelper = {
@@ -83,6 +84,25 @@ define([
 
             domElement.setAttribute('data-x', 0);
             domElement.setAttribute('data-y', 0);
+        },
+
+        /**
+         * Chrome/Safari fix: manually drop a dragged element when the mouse leaves the item runner iframe
+         * Without this fix, following behaviour is to be expected:
+         *     - drag an element, move the mouse out of the browser window, release mouse button
+         *     - when the mouse enter again the browser window, the drag will continue event though the mouse button is released
+         * This only occurs with iFrames. Thus, this fix should be removed when the old test runner is discarded
+         *
+         * @param {Function} simulateDrop manually triggers handlers registered for drop and dragend events
+         */
+        iFrameDragFixOn: function iFrameDragFixOn(simulateDrop) {
+            $('body').on('mouseleave.commonRenderer', function () {
+                simulateDrop();
+                interact.stop();
+            });
+        },
+        iFrameDragFixOff: function iFrameDragFixOff() {
+            $('body').off('mouseleave.commonRenderer');
         }
 
     };
