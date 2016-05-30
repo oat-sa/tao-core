@@ -2,8 +2,9 @@ define([
     'jquery',
     'lodash',
     'interact',
-    'tao/ui/interactUtils'
-], function($, _, interact, interactUtils){
+    'tao/ui/interactUtils',
+    'core/mouseEvent'
+], function($, _, interact, interactUtils, triggerMouseEvent){
     'use strict';
 
     module('tapOn(), javascript element');
@@ -121,6 +122,23 @@ define([
         // doesn't work in PhantomJS
         // assert.equal(dragged.style.transform, 'translate(0px, 0px)', 'element has been moved with css transform');
         // assert.equal(dragged.style.webkitTransform, 'translate(0px, 0px)', 'element has been moved with css webkitTransform');
+    });
+
+    QUnit.module('iframe drag fix');
+
+    QUnit.asyncTest('registered callback is triggered when mouse leave browser window', function(assert) {
+        QUnit.expect(1);
+
+       interactUtils.iFrameDragFixOn(function() {
+          assert.ok(true, 'callback has been fired');
+           QUnit.start();
+       });
+
+        triggerMouseEvent(document.body, 'mouseleave', {});
+
+        interactUtils.iFrameDragFixOff();
+
+        triggerMouseEvent(document.body, 'mouseleave', {}); // triggers an error if event listener hasn't been removed
     });
 
 });
