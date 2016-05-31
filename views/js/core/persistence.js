@@ -20,9 +20,8 @@
  */
 define([
     'core/promise',
-    'core/eventifier',
     'core/store'
-], function (Promise, eventifier, store) {
+], function (Promise, store) {
     'use strict';
 
     /**
@@ -44,105 +43,57 @@ define([
 
         storageKey = storageKey || defaultKey;
 
-        return new Promise(function(resolve, reject) {
+        return store(storageName).then(function(storage) {
 
-            store(storageName)
-                .then(function(storage) {
+            return storage.getItem(storageKey)
+                .then(function(data) {
+                    // the persisted data set is always an object
+                    data = data || {};
+                    
+                    // just provide a data accessor that:
+                    // - immediately gets the values
+                    // - stores the changes through a promise.
+                    return {
+                        /**
+                         * Gets a value from the data
+                         * @param {String} name
+                         * @returns {Object}
+                         */
+                        get : function getPersistenceValue(name) {
+                            return data[name];
+                        },
 
-                    return storage.getItem(storageKey)
-                        .then(function(data) {
-                            // just provide a data accessor that:
-                            // - immediately gets the values
-                            // - stores the changes through a promise.
-                            var handler = eventifier({
-                                /**
-                                 * Gets a value from the data
-                                 * @param {String} name
-                                 * @returns {Object}
-                                 */
-                                get : function getPersistenceValue(name) {
-                                    return data[name];
-                                },
+                        /**
+                         * Sets a value in the data, then ensure the data will persist
+                         * @param {String} name
+                         * @param {Object} value
+                         * @returns {Promise} Returns a promise that will be resolved if the data have been successfully stored
+                         */
+                        set : function setPersistenceValue(name, value) {
+                            data[name] = value;
+                            return storage.setItem(storageKey, data);
+                        },
 
-                                /**
-                                 * Sets a value in the data, then ensure the data will persist
-                                 * @param {String} name
-                                 * @param {Object} value
-                                 * @returns {Promise} Returns a promise that will be resolved if the data have been successfully stored
-                                 * @fires set when the storage has been updated
-                                 * @fires error when the storage fails to write the value
-                                 */
-                                set : function setPersistenceValue(name, value) {
-                                    data[name] = value;
+                        /**
+                         * Removes a value from the data, then synchronise the data set with the storage
+                         * @param {String} name
+                         * @returns {Promise} Returns a promise that will be resolved if the data have been successfully stored
+                         */
+                        remove : function removePersistenceValue(name) {
+                            data[name] = undefined;
+                            return storage.setItem(storageKey, data);
+                        },
 
-                                    var storePromise = storage.setItem(storageKey, data);
-
-                                    storePromise
-                                        .then(function() {
-                                            handler.trigger('set', name, value);
-                                        })
-                                        .catch(function(error) {
-                                           handler.trigger('error', error);
-                                        });
-
-                                    return storePromise;
-                                },
-
-                                /**
-                                 * Removes a value from the data, then synchronise the data set with the storage
-                                 * @param {String} name
-                                 * @returns {Promise} Returns a promise that will be resolved if the data have been successfully stored
-                                 * @fires remove when the storage has been updated
-                                 * @fires error when the storage fails to write the value
-                                 */
-                                remove : function removePersistenceValue(name) {
-                                    data[name] = undefined;
-
-                                    var storePromise = storage.setItem(storageKey, data);
-
-                                    storePromise
-                                        .then(function() {
-                                            handler.trigger('remove', name);
-                                        })
-                                        .catch(function(error) {
-                                            handler.trigger('error', error);
-                                        });
-
-                                    return storePromise;
-                                },
-
-                                /**
-                                 * Clears the full data set
-                                 * @returns {Promise} Returns a promise that will be resolved if the data have been successfully erased
-                                 * @fires clear when the storage has been updated
-                                 * @fires error when the storage fails to write the value
-                                 */
-                                clear : function clearPersistence() {
-                                    var storePromise = storage.removeItem(storageKey);
-
-                                    data = {};
-
-                                    storePromise
-                                        .then(function() {
-                                            handler.trigger('clear');
-                                        })
-                                        .catch(function(error) {
-                                            handler.trigger('error', error);
-                                        });
-
-                                    return storePromise;
-                                }
-                            });
-
-                            // the persisted data set is always an object
-                            data = data || {};
-
-                            resolve(handler);
-                        });
-
-                })
-                .catch(reject);
-
+                        /**
+                         * Clears the full data set
+                         * @returns {Promise} Returns a promise that will be resolved if the data have been successfully erased
+                         */
+                        clear : function clearPersistence() {
+                            data = {};
+                            return storage.removeItem(storageKey);
+                        }
+                    };
+                });
         });
     }
 
