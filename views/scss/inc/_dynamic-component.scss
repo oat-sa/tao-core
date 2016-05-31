@@ -30,4 +30,17 @@
             text-align: left;
         }
     }
+    .dynamic-component-content{
+        position:relative;
+        .dynamic-component-layer{
+            position: absolute;
+            opacity: 0;
+            top: 0px;
+            left: 0px;
+            &.dragging-active{
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
 }
