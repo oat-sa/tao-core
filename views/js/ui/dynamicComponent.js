@@ -133,9 +133,8 @@ define([
                         draggableContainer = draggableContainer[0];
                     }
                     if(_.isElement(draggableContainer) || _.isString(draggableContainer)){
-                        
-                        //add dragging layer on top of the content area to fix issue when dragging over an iframe
-                        $draggingLayer = $('<div class="dynamic-component-layer">').appendTo($content);
+                        //the dragging layer enable issue while dragging content with iframes
+                        $draggingLayer = $content.find('.dynamic-component-layer');
                         
                         interactElement.draggable({
                             inertia : false,

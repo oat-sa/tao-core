@@ -4,5 +4,8 @@
         <a title="{{__ "close"}}" class="closer" href="#"></a>
     </div>
     <div class="dynamic-component-content">
+        {{#if draggableContainer}}
+        <div class="dynamic-component-layer"></div>
+        {{/if}}
     </div>
 </div>
