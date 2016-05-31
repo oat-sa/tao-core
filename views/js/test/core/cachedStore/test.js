@@ -18,16 +18,16 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['core/store', 'core/persistence'], function(store, persistence) {
+define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
     'use strict';
 
-    QUnit.module('persistence');
+    QUnit.module('cachedStore');
 
 
     QUnit.test('module', function(assert) {
         QUnit.expect(1);
         
-        assert.equal(typeof persistence, 'function', "The persistence module exposes a function");
+        assert.equal(typeof cachedStore, 'function', "The cachedStore module exposes a function");
     });
 
 
@@ -36,11 +36,11 @@ define(['core/store', 'core/persistence'], function(store, persistence) {
 
         var name = 'test1';
 
-        persistence(name).then(function(storage1) {
-            assert.equal(typeof storage1, 'object', 'An instance of the persistence accessor has been created');
+        cachedStore(name).then(function(storage1) {
+            assert.equal(typeof storage1, 'object', 'An instance of the cachedStore accessor has been created');
 
-            persistence(name).then(function(storage2) {
-                assert.equal(typeof storage2, 'object', 'Another instance of the persistence accessor has been created');
+            cachedStore(name).then(function(storage2) {
+                assert.equal(typeof storage2, 'object', 'Another instance of the cachedStore accessor has been created');
                 assert.notEqual(storage1, storage2, 'The factory creates a new instance on each build');
 
                 QUnit.start();
@@ -58,8 +58,8 @@ define(['core/store', 'core/persistence'], function(store, persistence) {
         var expectedValue1 = 'bar';
         var expectedValue2 = 'fake';
 
-        persistence(name).then(function(storage) {
-            assert.equal(typeof storage, 'object', 'An instance of the persistence accessor has been created');
+        cachedStore(name).then(function(storage) {
+            assert.equal(typeof storage, 'object', 'An instance of the cachedStore accessor has been created');
 
             storage.setItem(expectedName1, expectedValue1).then(function() {
                 assert.ok(true, 'The value1 has been set');
@@ -107,14 +107,14 @@ define(['core/store', 'core/persistence'], function(store, persistence) {
         var expectedName = 'foo';
         var expectedValue = 'bar';
 
-        persistence(name).then(function(storage1) {
-            assert.equal(typeof storage1, 'object', 'An instance of the persistence accessor has been created');
+        cachedStore(name).then(function(storage1) {
+            assert.equal(typeof storage1, 'object', 'An instance of the cachedStore accessor has been created');
 
             storage1.setItem(expectedName, expectedValue).then(function() {
                 assert.ok(true, 'The value has been set');
 
-                persistence(name).then(function(storage2) {
-                    assert.equal(typeof storage2, 'object', 'Another instance of the persistence accessor has been created');
+                cachedStore(name).then(function(storage2) {
+                    assert.equal(typeof storage2, 'object', 'Another instance of the cachedStore accessor has been created');
 
                     var value = storage2.getItem(expectedName);
                     assert.equal(value, expectedValue, 'The got value is correct');
