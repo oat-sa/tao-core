@@ -19,27 +19,26 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
-    'core/promise',
     'core/store'
-], function (Promise, store) {
+], function (store) {
     'use strict';
 
     /**
      * The default name of the key storage indexing the persisted data
      * @type {String}
      */
-    var defaultKey = 'persistence';
+    var defaultKey = 'cachedData';
 
     /**
-     * Builds a data accessor with persistence.
+     * Builds a cached store.
      *
-     * Loads data from a storage, then maintains persistence of changed values.
+     * Loads a data set from a storage, then maintains persistence of changed values.
      *
      * @param {String} storageName
      * @param {String} storageKey
      * @returns {Promise} Returns a promise that will be resolved with a data accessor
      */
-    function persistenceFactory(storageName, storageKey) {
+    function cachedStoreFactory(storageName, storageKey) {
 
         storageKey = storageKey || defaultKey;
 
@@ -59,7 +58,7 @@ define([
                          * @param {String} name
                          * @returns {Object}
                          */
-                        get : function getPersistenceValue(name) {
+                        getItem : function getItem(name) {
                             return data[name];
                         },
 
@@ -69,7 +68,7 @@ define([
                          * @param {Object} value
                          * @returns {Promise} Returns a promise that will be resolved if the data have been successfully stored
                          */
-                        set : function setPersistenceValue(name, value) {
+                        setItem : function setItem(name, value) {
                             data[name] = value;
                             return storage.setItem(storageKey, data);
                         },
@@ -79,7 +78,7 @@ define([
                          * @param {String} name
                          * @returns {Promise} Returns a promise that will be resolved if the data have been successfully stored
                          */
-                        remove : function removePersistenceValue(name) {
+                        removeItem : function removeItem(name) {
                             data[name] = undefined;
                             return storage.setItem(storageKey, data);
                         },
@@ -88,7 +87,7 @@ define([
                          * Clears the full data set
                          * @returns {Promise} Returns a promise that will be resolved if the data have been successfully erased
                          */
-                        clear : function clearPersistence() {
+                        clear : function clear() {
                             data = {};
                             return storage.removeItem(storageKey);
                         }
@@ -97,5 +96,5 @@ define([
         });
     }
 
-    return persistenceFactory;
+    return cachedStoreFactory;
 });

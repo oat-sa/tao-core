@@ -61,34 +61,34 @@ define(['core/store', 'core/persistence'], function(store, persistence) {
         persistence(name).then(function(storage) {
             assert.equal(typeof storage, 'object', 'An instance of the persistence accessor has been created');
 
-            storage.set(expectedName1, expectedValue1).then(function() {
+            storage.setItem(expectedName1, expectedValue1).then(function() {
                 assert.ok(true, 'The value1 has been set');
 
-                storage.set(expectedName2, expectedValue2).then(function() {
+                storage.setItem(expectedName2, expectedValue2).then(function() {
                     assert.ok(true, 'The value2 has been set');
 
-                    var value1 = storage.get(expectedName1);
+                    var value1 = storage.getItem(expectedName1);
                     assert.equal(value1, expectedValue1, 'The got value1 is correct');
 
-                    var value2 = storage.get(expectedName2);
+                    var value2 = storage.getItem(expectedName2);
                     assert.equal(value2, expectedValue2, 'The got value2 is correct');
 
-                    storage.remove(expectedName1).then(function() {
+                    storage.removeItem(expectedName1).then(function() {
                         assert.ok(true, 'The value1 has been removed');
 
-                        var value1 = storage.get(expectedName1);
+                        var value1 = storage.getItem(expectedName1);
                         assert.equal(value1, undefined, 'The value1 is erased');
 
-                        var value2 = storage.get(expectedName2);
+                        var value2 = storage.getItem(expectedName2);
                         assert.equal(value2, expectedValue2, 'The value2 is still there');
 
                         storage.clear().then(function() {
                             assert.ok(true, 'The data is erased');
 
-                            var value1 = storage.get(expectedName1);
+                            var value1 = storage.getItem(expectedName1);
                             assert.equal(value1, undefined, 'The value1 is erased');
 
-                            var value2 = storage.get(expectedName2);
+                            var value2 = storage.getItem(expectedName2);
                             assert.equal(value2, undefined, 'The value2 is erased');
 
                             QUnit.start();
@@ -110,13 +110,13 @@ define(['core/store', 'core/persistence'], function(store, persistence) {
         persistence(name).then(function(storage1) {
             assert.equal(typeof storage1, 'object', 'An instance of the persistence accessor has been created');
 
-            storage1.set(expectedName, expectedValue).then(function() {
+            storage1.setItem(expectedName, expectedValue).then(function() {
                 assert.ok(true, 'The value has been set');
 
                 persistence(name).then(function(storage2) {
                     assert.equal(typeof storage2, 'object', 'Another instance of the persistence accessor has been created');
 
-                    var value = storage2.get(expectedName);
+                    var value = storage2.getItem(expectedName);
                     assert.equal(value, expectedValue, 'The got value is correct');
 
                     QUnit.start();
