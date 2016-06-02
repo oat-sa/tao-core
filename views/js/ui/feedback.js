@@ -47,7 +47,7 @@ define([
         //persistent feedback stay until their are closed.
         //Other persistent feedback are merged to keep all the info.
         //To prevent UI pollution, they may be collapsed  in a notification area
-        'persistent'    : ['warning', 'error']
+        'persistent'    : ['warning', 'danger', 'error']
     };
 
     //extract the available levels from the categories
@@ -68,6 +68,7 @@ define([
             info: 2000,
             success: 2000,
             warning: 4000,
+            danger: 4000,
             error: 8000
         },
         // Note: value depends on font, font-weight and such.
@@ -142,6 +143,11 @@ define([
 
         warning : function warning(msg, options){
             return this.message('warning', msg, options)
+                       .open();
+        },
+
+        danger : function danger(msg, options){
+            return this.message('danger', msg, options)
                        .open();
         },
 
