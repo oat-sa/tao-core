@@ -56,6 +56,13 @@
 	color: $textColor;
 }
 
+.tao-danger-tooltip {
+    @extend %tao-theme-tooltip;
+    @extend .feedback-danger;
+    @include box-shadow;
+    color: $textColor;
+}
+
 .tao-error-tooltip {
     @extend %tao-theme-tooltip;
     @extend .feedback-error; 
