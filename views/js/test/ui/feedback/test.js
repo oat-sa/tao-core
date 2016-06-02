@@ -9,7 +9,7 @@ define(['jquery', 'ui/feedback'], function($, feedback){
     });
 
     QUnit.test('api', function(assert){
-        QUnit.expect(10);
+        QUnit.expect(11);
 
         var fb = feedback();
 
