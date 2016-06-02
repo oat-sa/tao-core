@@ -21,7 +21,7 @@ define(['jquery', 'urlParser'], function($, UrlParser){
     /**
      * @constructor
      */
-    function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage, userService){
+    function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage, userService, paused){
         this.baseUrl = baseUrl;
         this.parameters = parameters;
         this.connected = false;
@@ -29,6 +29,7 @@ define(['jquery', 'urlParser'], function($, UrlParser){
         this.serviceCallId = serviceCallId;
         this.state = stateStorage;
         this.userService = userService;
+        this.hasBeenPaused = paused;
     }
 
     ServiceApi.SIG_SUCCESS = 0;
@@ -99,6 +100,15 @@ define(['jquery', 'urlParser'], function($, UrlParser){
 
     ServiceApi.prototype.setState = function(state, callback){
         return this.state.set(state, callback);
+    };
+
+    //Context
+    ServiceApi.prototype.getHasBeenPaused = function(){
+        return this.hasBeenPaused;
+    };
+
+    ServiceApi.prototype.setHasBeenPaused = function(paused){
+        this.hasBeenPaused = paused;
     };
 
     // Variables

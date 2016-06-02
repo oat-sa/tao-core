@@ -28,6 +28,7 @@ use oat\taoDevTools\actions\ControllerMap;
 use oat\tao\model\accessControl\func\FuncHelper;
 use oat\tao\helpers\ControllerHelper;
 use oat\oatbox\user\User;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access
@@ -40,7 +41,7 @@ use oat\oatbox\user\User;
  * @package tao
  
  */
-class SimpleAccess
+class SimpleAccess extends ConfigurableService
     implements FuncAccessControl
 {
     
@@ -51,7 +52,8 @@ class SimpleAccess
     /**
      * 
      */
-    public function __construct() {
+    public function __construct($options = array()) {
+        parent::__construct($options);
         $data = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::WHITELIST_KEY);
         if (is_array($data)) {
             $this->controllers = $data;
@@ -77,19 +79,25 @@ class SimpleAccess
         if ($rule->getRole()->getUri() == INSTANCE_ROLE_ANONYMOUS) {
             $mask = $rule->getMask();
             
-            if (isset($mask['ext']) && !isset($mask['mod'])) {
-                $this->whiteListExtension($mask['ext']);
-            } elseif (isset($mask['ext']) && isset($mask['mod']) && !isset($mask['act'])) {
-                $this->whiteListController(FuncHelper::getClassName($mask['ext'], $mask['mod']));
-            } elseif (isset($mask['ext']) && isset($mask['mod']) && isset($mask['act'])) {
-                $this->whiteListAction(FuncHelper::getClassName($mask['ext'], $mask['mod']), $mask['act']);
-            } elseif (isset($mask['controller'])) {
-                $this->whiteListController($mask['controller']);
-            } elseif (isset($mask['act']) && strpos($mask['act'], '@') !== false) {
-                list($controller, $action) = explode('@', $mask['act'], 2);
+            if (is_string($mask)) {
+                list($controller, $action) = explode('@', $mask, 2);
                 $this->whiteListAction($controller, $action);
             } else {
-                \common_Logger::w('Unregoginised mask keys: '.implode(',', array_keys($mask)));
+            
+                if (isset($mask['ext']) && !isset($mask['mod'])) {
+                    $this->whiteListExtension($mask['ext']);
+                } elseif (isset($mask['ext']) && isset($mask['mod']) && !isset($mask['act'])) {
+                    $this->whiteListController(FuncHelper::getClassName($mask['ext'], $mask['mod']));
+                } elseif (isset($mask['ext']) && isset($mask['mod']) && isset($mask['act'])) {
+                    $this->whiteListAction(FuncHelper::getClassName($mask['ext'], $mask['mod']), $mask['act']);
+                } elseif (isset($mask['controller'])) {
+                    $this->whiteListController($mask['controller']);
+                } elseif (isset($mask['act']) && strpos($mask['act'], '@') !== false) {
+                    list($controller, $action) = explode('@', $mask['act'], 2);
+                    $this->whiteListAction($controller, $action);
+                } else {
+                    \common_Logger::w('Unregoginised mask keys: '.implode(',', array_keys($mask)));
+                }
             }
         }
     }

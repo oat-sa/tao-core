@@ -54,7 +54,7 @@ class WebsourceManager
             $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $conf = $ext->getConfig(self::CONFIG_PREFIX.$key);
             if (!is_array($conf) || !isset($conf['className'])) {
-                throw new WebsourceNotFound('Undefined websource '.$key);
+                throw new WebsourceNotFound('Undefined websource "'.$key.'"');
             }
             $className = $conf['className'];
             $options = isset($conf['options']) ? $conf['options'] : array();

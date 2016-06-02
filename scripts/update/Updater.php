@@ -24,6 +24,7 @@ namespace oat\tao\scripts\update;
 use common_ext_ExtensionsManager;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\ClientLibConfigRegistry;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -50,6 +51,8 @@ use oat\tao\model\theme\ThemeService;
 use oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\CompatibilityTheme;
 use oat\tao\model\theme\Theme;
+use oat\tao\model\requiredAction\implementation\RequiredActionService;
+use oat\oatbox\event\EventManager;
 
 /**
  * 
@@ -425,8 +428,78 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ['ext' => 'tao', 'mod' => 'AuthApi']));
             $currentVersion = '2.15.1';
         }
+        $this->setVersion($currentVersion);
 
-        return $currentVersion;
+        if ($this->isVersion('2.15.1')) {
+            $this->setVersion('2.15.2');
+        }
+
+        if ($this->isVersion('2.15.2')) {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
+            );
+
+            $this->setVersion('2.15.3');
+        }
+
+        if ($this->isBetween('2.15.3','2.16.0')) {
+            $this->setVersion('2.16.0');
+        }
+
+        if ($this->isVersion('2.16.0')) {
+            try {
+                $this->getServiceManager()->get(RequiredActionService::CONFIG_ID);
+                // all good, already configured
+            } catch (ServiceNotFoundException $error) {
+                $requiredActionService = new RequiredActionService();
+                $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
+            }
+
+            OntologyUpdater::syncModels();
+
+            $this->setVersion('2.17.0');
+        }
+       
+        if ($this->isBetween('2.17.0','2.17.4')) {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
+            );
+            $this->setVersion('2.17.4');
+        }
+        
+        if ($this->isVersion('2.17.4')) {
+            $implClass = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig('FuncAccessControl');
+            $impl = new $implClass;
+            $this->getServiceManager()->register(AclProxy::SERVICE_ID, $impl);
+            $this->setVersion('2.18.0');
+        }
+
+        $this->skip('2.18.0', '2.18.2');
+
+        if ($this->isVersion('2.18.2')) {
+            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $config = $extension->getConfig('login');
+            if (!is_array($config)) {
+                $config = [];
+            }
+            if (!array_key_exists('disableAutocomplete', $config)) {
+                $config['disableAutocomplete'] = false;
+            }
+            $extension->setConfig('login', $config);
+
+            $this->setVersion('2.19.0');
+        }
+
+        $this->skip('2.19.0', '2.21.0');
+
+        if ($this->isVersion('2.21.0')) {
+            $config = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig('ServiceFileStorage');
+            $service = new \tao_models_classes_service_FileStorage($config);
+            $this->getServiceManager()->register(\tao_models_classes_service_FileStorage::SERVICE_ID, $service);
+            $this->setVersion('2.22.0');
+        }
+        
+        $this->skip('2.22.0', '3.5.0');
     }
     
     private function migrateFsAccess() {

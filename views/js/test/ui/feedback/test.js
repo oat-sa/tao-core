@@ -9,7 +9,7 @@ define(['jquery', 'ui/feedback'], function($, feedback){
     });
 
     QUnit.test('api', function(assert){
-        QUnit.expect(10);
+        QUnit.expect(11);
 
         var fb = feedback();
 
@@ -20,6 +20,7 @@ define(['jquery', 'ui/feedback'], function($, feedback){
         assert.ok(typeof fb.info === 'function'                , 'The feedback instance has a info method');
         assert.ok(typeof fb.success === 'function'             , 'The feedback instance has a success method');
         assert.ok(typeof fb.warning === 'function'             , 'The feedback instance has a warning method');
+        assert.ok(typeof fb.danger === 'function'              , 'The feedback instance has a danger method');
         assert.ok(typeof fb.error === 'function'               , 'The feedback instance has an error method');
         assert.ok(typeof fb.open === 'function'                , 'The feedback instance has an open method');
         assert.ok(typeof fb.close === 'function'               , 'The feedback instance has a close method');
@@ -130,6 +131,23 @@ define(['jquery', 'ui/feedback'], function($, feedback){
 
         fb.close();
     });
+
+    QUnit.asyncTest('close button', function(assert) {
+
+        QUnit.expect(2);
+
+        var $container = $('#feedback-box');
+        feedback($container).message('warning', 'DANGER_ZONE').display();
+
+        assert.equal($('.feedback-warning', $container).length, 1 , 'The feedback content has been appended to the container');
+
+        $container.on('close.feedback', function(e){
+            assert.equal($('.feedback-warning', $container).length, 0, 'The feedback content has been removed from the container');
+            QUnit.start();
+        });
+        
+        $container.find('.icon-close').click();
+    });
     
     QUnit.asyncTest('callbacks', function(assert){
     
@@ -187,5 +205,3 @@ define(['jquery', 'ui/feedback'], function($, feedback){
     });
 
 });
-
-

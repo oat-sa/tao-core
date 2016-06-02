@@ -1,5 +1,5 @@
 <!-- Root Tag -->
-<!ELEMENT structures  (( structure )* , (toolbar)* ,(entrypoint)*) >
+<!ELEMENT structures  (( structure )*) >
 	<!ELEMENT structure  ( (description)? , (icon)?, sections )>
 	
 		<!-- The id of the structure -->
@@ -83,24 +83,4 @@
 					<!ATTLIST action js CDATA "_load">
 					<!-- The JS binding of this action -->
 					<!ATTLIST action binding CDATA "_load">
-
-	<!ELEMENT entrypoint  ( description, (replace)* )>
-		<!ATTLIST entrypoint id ID #REQUIRED>
-		<!ATTLIST entrypoint title CDATA #REQUIRED>
-		<!ATTLIST entrypoint label CDATA #REQUIRED>
-		<!ATTLIST entrypoint url CDATA #REQUIRED>
-
-		<!ELEMENT replace EMPTY>
-		
-			<!ATTLIST replace id CDATA #REQUIRED>
-		
-    <!-- DEPRECATED -->	
-	<!ELEMENT toolbar  ( (toolbaraction)* )>
-		<!-- displayed name of the section -->
-		<!ATTLIST toolbaraction id CDATA #REQUIRED>
-		<!ATTLIST toolbaraction icon CDATA #REQUIRED>
-		<!ATTLIST toolbaraction level CDATA #REQUIRED>
-		<!ATTLIST toolbaraction title CDATA #REQUIRED>
-		<!ATTLIST toolbaraction js CDATA #IMPLIED>
-		<!ATTLIST toolbaraction structure CDATA #IMPLIED>
 		

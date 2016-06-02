@@ -210,6 +210,7 @@ class tao_helpers_File
             // audio/video
             'mp3' => 'audio/mpeg',
             'oga' => 'audio/ogg',
+            'ogg' => 'audio/ogg',
             'aac' => 'audio/aac',
             'qt' => 'video/quicktime',
             'mov' => 'video/quicktime',
@@ -306,8 +307,8 @@ class tao_helpers_File
         	else {
         		$mimetype = '';
         	}
-        	
-        	if (!in_array($ext, array('css'))) {
+
+            if (!in_array($ext, array('css', 'ogg'))) {
         		if  (file_exists($path)) {
         			if (function_exists('finfo_open')) {
         				$finfo = finfo_open(FILEINFO_MIME);
@@ -429,7 +430,7 @@ class tao_helpers_File
      * As a result, you will get a file entry in the final ZIP archive at '/i123/myitem.xml'.
      *
      * @param ZipArchive $zipArchive the archive to add to
-     * @param string $src The path to the source file or folder to copy into the ZIP Archive.
+     * @param string $src | StreamInterface The path to the source file or folder to copy into the ZIP Archive.
      * @param string *dest The <u>relative</u> to the destination within the ZIP archive.
      * @return integer The amount of files that were transfered from TAO to the ZIP archive within the method call.
      */
@@ -437,24 +438,27 @@ class tao_helpers_File
         $returnValue = null;
     
         $done = 0;
-    
-        if (is_dir($src)) {
+
+        if ($src instanceof \Psr\Http\Message\StreamInterface) {
+            if ($zipArchive->addFromString(ltrim($dest, "/\\"), $src->getContents())) {
+                $done++;
+            }
+        } elseif (is_dir($src)) {
             // Go deeper in folder hierarchy !
             $src = rtrim($src, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
             $dest = rtrim($dest, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;;
             // Recursively copy.
             $content = scandir($src);
-             
+
             foreach ($content as $file) {
                 // avoid . , .. , .svn etc ...
-                if(!preg_match("/^\./", $file)) {
-                    $done += self::addFilesToZip($zipArchive, $src.$file, $dest.$file);
+                if (!preg_match("/^\./", $file)) {
+                    $done += self::addFilesToZip($zipArchive, $src . $file, $dest . $file);
                 }
             }
-        }
-        else {
+        } else {
             // Simply copy the file. Beware of leading slashes
-            if($zipArchive->addFile($src, ltrim($dest, DIRECTORY_SEPARATOR))){
+            if ($zipArchive->addFile($src, ltrim($dest, DIRECTORY_SEPARATOR))) {
                 $done++;
             }
         }

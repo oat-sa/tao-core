@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2015-08-31 15:19:00
+ * @date   2016-06-01 07:29:24
  * @package tao
  * @subpackage helpers
  */
@@ -134,11 +134,12 @@ class tao_helpers_Icon {
     const CLASS_SAVE = 'icon-save';
     const CLASS_WARNING = 'icon-warning';
     const CLASS_ADD = 'icon-add';
+    const CLASS_ERROR = 'icon-error';
     const CLASS_CLOSE = 'icon-close';
     const CLASS_SUCCESS = 'icon-success';
     const CLASS_REMOVE = 'icon-remove';
     const CLASS_INFO = 'icon-info';
-    const CLASS_ERROR = 'icon-error';
+    const CLASS_DANGER = 'icon-danger';
     const CLASS_USERS = 'icon-users';
     const CLASS_USER = 'icon-user';
     const CLASS_TEST_TAKER = 'icon-test-taker';
@@ -504,6 +505,10 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_ADD, $options);
     }
 
+    public static function iconError($options=array()){
+        return self::buildIcon(self::CLASS_ERROR, $options);
+    }
+
     public static function iconClose($options=array()){
         return self::buildIcon(self::CLASS_CLOSE, $options);
     }
@@ -520,8 +525,8 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_INFO, $options);
     }
 
-    public static function iconError($options=array()){
-        return self::buildIcon(self::CLASS_ERROR, $options);
+    public static function iconDanger($options=array()){
+        return self::buildIcon(self::CLASS_DANGER, $options);
     }
 
     public static function iconUsers($options=array()){

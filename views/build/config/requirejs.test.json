@@ -1,6 +1,5 @@
 {
     "paths" : {
-
         "text"              : "lib/text/text",
         "json"              : "lib/text/json",
         "css"               : "lib/require-css/css",
@@ -21,9 +20,7 @@
         "qtip"              : "lib/jquery.qtip/jquery.qtip",
 
         "polyfill"          : "lib/polyfill",
-        "filereader"        : "lib/polyfill/jquery.FileReader.min",
 
-        "store"             : "lib/store/store.min",
         "lodash"            : "lib/lodash.min",
         "async"             : "lib/async",
         "moment"            : "lib/moment-with-locales.min",
@@ -35,9 +32,9 @@
         "spin"              : "lib/spin.min",
         "history"           : "lib/history/history",
 
-        "mediaElement"      : "lib/mediaelement/mediaelement-and-player",
         "mathJax"           : "../../../taoQtiItem/views/js/mathjax/MathJax",
         "ckeditor"          : "lib/ckeditor/ckeditor",
+        "interact"          : "lib/interact",
 
         "i18ntr"            : "../locales/en-US"
    },

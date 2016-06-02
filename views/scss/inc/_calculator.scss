@@ -1,0 +1,127 @@
+.dynamic-component-container{
+    .calcContainer{
+        width : 100%;
+        height : 100%;
+        background: none;
+        border: none;
+        bottom: auto;
+        clear: none;
+        color: #000;
+        display: block;
+        float: none;
+        font-family: sans-serif;
+        @include font-size(15);
+        left: auto;
+        line-height: 1;
+        margin: 0;
+        max-height: none;
+        max-width: none;
+        min-height: 0;
+        min-width: 0;
+        overflow: visible;
+        padding: 0;
+        position: static;
+        right: auto;
+        text-align: left;
+        text-decoration: none;
+        top: auto;
+        visibility: visible;
+        &:after {
+            clear: both;
+            content: ".";
+            display: block;
+            height: 0;
+            visibility: hidden;
+        }
+        form{
+            height: 100%;
+            width: 100%;
+            input,button{
+                background-color : $uiClickableDefaultBg;
+                border-radius: 0;
+                padding : 0;
+                border: none;
+                color : $textColor !important;
+                float: left;
+                height: 14%;
+                text-align: center;
+                text-shadow: none;
+                width: 25%; 
+                min-width:0;
+                cursor: pointer;
+                @include font-size(15, true);
+                sup {
+                    padding-right: 1px;
+                    @include font-size(10, true);
+                }
+                sub{
+                    padding-left: 1px;
+                    @include font-size(12, true);
+                }
+                &.calcFirst{
+                    clear: left;
+                }
+                &.calcClear{
+                    color : $info !important;
+                }
+                &.calcDisplay{
+                    background : whiten($uiClickableDefaultBg, .7);
+                    &:hover{
+                        background : whiten($uiClickableDefaultBg, .9);
+                    }
+                    font-family: monospace;
+                    text-align: right;
+                    width: 100%;
+                    max-width: none;
+                    padding: 0.6rem;
+                    height: 16%;
+                    @include font-size(20, true);
+                }
+                &.calcDigit{
+                    font-weight: bold;
+                }
+                &.calcSubmit{
+                    font-weight: bold;
+                    color: $textColor !important;
+                    background-color: #ddd;
+                    text-shadow: none;
+                }
+                &:hover{
+                    background: $uiClickableActiveBg;
+                }
+                &.triggered{
+                    background: whiten($uiClickableHoverBg, .2);
+                }
+            }
+        }
+    }
+    &.small .calcContainer form{
+        input,button{
+            @include font-size(12, true);
+            &.calcDisplay{
+                @include font-size(14, true);
+            }
+            sup {
+                @include font-size(7, true);
+            }
+            sub{
+                @include font-size(9, true);
+            }
+        }
+    } 
+    &.large .calcContainer form{
+        input,button{
+            @include font-size(21, true);
+            &.calcDisplay{
+                @include font-size(34, true);
+            }
+            sup {
+                @include font-size(12, true);
+                top : -1rem;
+            }
+            sub {
+                @include font-size(18, true);
+            }
+        }
+    }
+}

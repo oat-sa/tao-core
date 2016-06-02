@@ -121,6 +121,18 @@ $navHeight: 64;
                     }
                 }
             }
+
+            //override default disabled style
+            &.disabled {
+                background: none !important;
+                text-shadow: inherit !important;
+                opacity : 0.45 !important;
+                color: inherit !important;
+                a {
+                    cursor: not-allowed !important;
+                }
+            }
+
             // sub menu
             ul {
                 background: $darkBar;
@@ -230,7 +242,7 @@ $navHeight: 64;
 }
 
 
-.content-wrap > header {
+.content-wrap > header, body > header {
     position: relative;
     border-bottom: 1px $uiGeneralContentBorder solid;
 }

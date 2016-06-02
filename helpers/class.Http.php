@@ -19,8 +19,11 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
-
 use oat\tao\helpers\FileUploadException;
+use oat\tao\model\stream\StreamRange;
+use oat\tao\model\stream\StreamRangeException;
+use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Description of class
@@ -29,6 +32,10 @@ use oat\tao\helpers\FileUploadException;
  */
 class tao_helpers_Http
 {
+
+    const BYTES_BY_CYCLE =  5242880; //1024 * 1024 * 5
+
+    static $headers;
 
     /**
      * @author "Patrick Plichart, <patrick@taotesting.com>"
@@ -80,9 +87,37 @@ class tao_helpers_Http
         return $needed_parts ? false : $data;
     }
 
+    /**
+     * Return array of HTTP headers from the current request
+     * @return array|false
+     */
     public static function getHeaders()
     {
-        return apache_request_headers();
+        if (self::$headers === null) {
+            if (function_exists('apache_request_headers')) {
+                $headers = apache_request_headers();
+            } else {
+                $headers = array();
+                if (isset($_SERVER['CONTENT_TYPE'])) {
+                    $headers['Content-Type'] = $_SERVER['CONTENT_TYPE'];
+                }
+                if (isset($_ENV['CONTENT_TYPE'])) {
+                    $headers['Content-Type'] = $_ENV['CONTENT_TYPE'];
+                }
+                foreach ($_SERVER as $key => $value) {
+                    if (substr($key, 0, 5) == "HTTP_") {
+                        // this is chaos, basically it is just there to capitalize the first
+                        // letter of every word that is not an initial HTTP and strip HTTP
+                        // code from przemek
+                        $key = str_replace(" ", "-", ucwords(strtolower(str_replace("_", " ", substr($key, 5)))));
+                        $headers[$key] = $value;
+                    }
+                }
+            }
+            self::$headers = $headers;
+        }
+
+        return self::$headers;
     }
 
     /**
@@ -197,7 +232,7 @@ class tao_helpers_Http
                 } else {
 
                     $pathinfo = pathinfo($filename);
-                    if ($pathinfo['extension'] === 'svgz' && !$svgzSupport) {
+                    if (isset($pathinfo['extension']) && $pathinfo['extension'] === 'svgz' && !$svgzSupport) {
                         header('Content-Encoding: gzip');
                     }
                     
@@ -279,7 +314,9 @@ class tao_helpers_Http
                     fclose($fp);
                 }
             } else {
-                common_Logger::w('File '.$filename.' not found');
+                if (class_exists('common_Logger')) {
+                    common_Logger::w('File '.$filename.' not found');
+                }
                 header("HTTP/1.0 404 Not Found");
             }
         } else {
@@ -287,6 +324,52 @@ class tao_helpers_Http
         }
     }
 
-}
+    /**
+     * @param StreamInterface $stream
+     * @param null|string $mimeType
+     * @param ServerRequestInterface|null $request not used yet.
+     */
+    public static function returnStream(StreamInterface $stream, $mimeType = null, ServerRequestInterface $request = null)
+    {
+        header('Accept-Ranges: bytes');
+        if (!is_null($mimeType)) {
+            header('Content-Type: ' . $mimeType);
+        }
 
-?>
+        try{
+            $ranges = StreamRange::createFromRequest($stream, $request);
+            $contentLength = 0;
+            if (!empty($ranges)) {
+                header('HTTP/1.1 206 Partial Content');
+                foreach ($ranges as $range) {
+                    $contentLength += (($range->getLastPos() - $range->getFirstPos()) + 1);
+                }
+                //@todo Content-Range for multiple ranges?
+                header('Content-Range: bytes ' . $ranges[0]->getFirstPos() . '-' . $ranges[0]->getLastPos() . '/' . $stream->getSize());
+            } else {
+                $contentLength = $stream->getSize();
+                header('HTTP/1.1 200 OK');
+            }
+
+            header("Content-Length: " . $contentLength);
+
+            if (empty($ranges)) {
+                while (!$stream->eof()) {
+                    echo $stream->read(self::BYTES_BY_CYCLE);
+                }
+            } else {
+                foreach ($ranges as $range) {
+                    $pos = $range->getFirstPos();
+                    $stream->seek($pos);
+                    while ($pos <= $range->getLastPos()) {
+                        $length = min((($range->getLastPos() - $pos) + 1), self::BYTES_BY_CYCLE);
+                        echo $stream->read($length);
+                        $pos += $length;
+                    }
+                }
+            }
+        } catch (StreamRangeException $e) {
+            header('HTTP/1.1 416 Requested Range Not Satisfiable');
+        }
+    }
+}

@@ -169,20 +169,10 @@ define([
 
 
                     //manage input selection
-                    if(options.read && !tests.filereader) {
-                        // Nope... :/
-                        require(['filereader'], function(){
-                            options.$input.fileReader({
-                                id: 'fileReaderSWFObject',
-                                filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
-                                callback: function() {
-                                    options.$input.on('change', inputHandler);
-                                }
-                            });
-                        });
-                    } else {
-                        options.$input.on('change', inputHandler);
+                    if (!tests.filereader) {
+                        throw new Error('FileReader API not supported! Please use a compliant browser!');
                     }
+                    options.$input.on('change', inputHandler);
 
                     // IE Specific hack. It prevents the browseBtn to slightly
                     // move on click. Special thanks to Dieter Raber, OAT S.A.
@@ -215,9 +205,26 @@ define([
                             .on('dragend', dragOutHandler)
                             .on('dragleave', dragOutHandler)
                             .on('drop', function(e){
+                                var files = [];
                                 dragOutHandler(e);
 
-                                self._selectFiles($elt, _.values(e.target.files || e.originalEvent.files || e.originalEvent.dataTransfer.files), options.$dropZone.children('ul').length > 0);
+                                if(e.target.files){
+                                    files = _.values(e.target.files);
+                                } else if ( e.originalEvent.files){
+                                    files = _.values(e.originalEvent.files);
+                                } else if ( e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files){
+                                    files = _.values(e.originalEvent.dataTransfer.files);
+                                }
+
+                                if(files && files.length){
+                                    var append = options.$dropZone.children('ul').length > 0;
+                                    if(!options.multiple){
+                                        files = [files[0]];
+                                        append = false;
+                                    }
+
+                                    self._selectFiles($elt, files, append);
+                                }
                                 return false;
                             });
                     } else {

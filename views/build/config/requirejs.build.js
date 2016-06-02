@@ -26,10 +26,8 @@ require.config({
 
 //polyfills
         'polyfill'          : 'lib/polyfill',
-        'filereader'        : 'lib/polyfill/jquery.FileReader.min',
 
 //libs
-        'store'             : 'lib/store/store.min',
         'lodash'            : 'lib/lodash.min',
         'async'             : 'lib/async',
         'moment'            : 'lib/moment-with-locales.min',
@@ -41,10 +39,10 @@ require.config({
         'spin'              : 'lib/spin.min',
         'history'           : 'lib/history/history',
 
-        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
-
+        'interact'          : 'lib/interact',
+        
 //optimizer needed
         'css-builder'       : 'lib/require-css/css-builder',
         'normalize'         : 'lib/require-css/normalize',

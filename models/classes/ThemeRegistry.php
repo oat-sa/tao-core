@@ -95,7 +95,7 @@ class ThemeRegistry extends AbstractRegistry
                 }
             }
             if (!$found) {
-                throw new \common_Exception('Theme '.$themeId.' not found for target '.$target);
+                throw new ThemeNotFoundException('Theme '.$themeId.' not found for target '.$target);
             }
         }
         return $returnValue;
@@ -229,7 +229,7 @@ class ThemeRegistry extends AbstractRegistry
         }
 
         if ( !$isDeleted ){
-            throw new \common_Exception('Theme '.$id.' not found for any target');
+            throw new ThemeNotFoundException('Theme '.$id.' not found for any target');
         }
     }
 

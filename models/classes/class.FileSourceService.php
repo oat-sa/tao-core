@@ -19,6 +19,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\filesystem\FileSystemService;
 
 /**
  * Filesource represents a directory structure
@@ -58,6 +60,7 @@ class tao_models_classes_FileSourceService
 			new core_kernel_classes_Resource(INSTANCE_GENERIS_VCS_TYPE_LOCAL),
 			'', '', '', $path, $label, true
 		);
+        
         return $returnValue;
     }
 
