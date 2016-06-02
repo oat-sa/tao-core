@@ -25,8 +25,8 @@ define([
     'lodash',
     'i18n',
     'ui/formValidator/highlighters/message',
-    'ui/formValidator/highlighters/tooltip',
-], function ($, _, __, messageHighlighter, tooltipHighlighter) {
+    'ui/formValidator/highlighters/qtip',
+], function ($, _, __, messageHighlighter, qtipHighlighter) {
     'use strict';
 
     var defaultOptions = {
@@ -103,7 +103,7 @@ define([
     };
 
     highlighterFactory.register('message', messageHighlighter);
-    highlighterFactory.register('tooltip', tooltipHighlighter);
+    highlighterFactory.register('qtip', qtipHighlighter);
 
     return highlighterFactory;
 });

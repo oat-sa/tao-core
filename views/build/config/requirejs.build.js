@@ -22,6 +22,7 @@ require.config({
         'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.trunc'		: 'lib/jquery.badonkatrunc',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
+        'qtip'              : 'lib/jquery.qtip/jquery.qtip',
 
 //polyfills
         'polyfill'          : 'lib/polyfill',
