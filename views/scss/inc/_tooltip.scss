@@ -239,6 +239,19 @@
   background-position: -42px 0;
 }
 
+/*! Danger (mix of read and orange) tooltip style */
+.qtip.qtip-danger{
+  @extend .feedback-danger;
+  color: $textColor;
+}
+
+.danger .qtip-titlebar{
+  background-color: #B0DE78;
+}
+
+.danger .qtip-close .qtip-icon{
+  background-position: -42px 0;
+}
 
 /*! Blue tooltip style */
 .qtip.qtip-blue{

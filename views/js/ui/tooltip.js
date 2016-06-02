@@ -19,7 +19,7 @@
 define(['jquery', 'lodash', 'core/dataattrhandler', 'qtip'], function($, _, DataAttrHandler){
     'use strict';
 
-    var themes = ['dark', 'default', 'info', 'warning', 'error', 'success'],
+    var themes = ['dark', 'default', 'info', 'warning', 'error', 'success', 'danger'],
         themesMap = {
             'default' : 'qtip-rounded qtip-plain',
             'dark' : 'qtip-rounded qtip-dark',
@@ -27,6 +27,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler', 'qtip'], function($, _, Data
             'success' :'qtip-rounded qtip-green',
             'info' : 'qtip-rounded qtip-blue',
             'warning' : 'qtip-rounded qtip-orange',
+            'danger' : 'qtip-rounded qtip-danger'
         },
         defaultOptions = {
             theme : 'warning',
