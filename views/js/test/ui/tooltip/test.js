@@ -49,7 +49,7 @@ define([
         QUnit.stop();
         //wait showing delay
         setTimeout(function() {
-            start();
+            QUnit.start();
             assert.ok(tooltipApi.rendered);
             assert.ok($(tooltipApi.elements.content).is(':visible'));
         }, 500);
@@ -66,7 +66,7 @@ define([
         QUnit.stop();
         //wait showing delay
         setTimeout(function() {
-            start();
+            QUnit.start();
             assert.ok(tooltipApi.rendered);
         }, 500);
     });

@@ -963,7 +963,7 @@ define([
             }
 
             // detect when the server has limited the amount of suggestions
-            this.tooManySuggestions = true;//response.total && response.total > 1;
+            this.tooManySuggestions = response.total && response.total > 1;
             if (this.hasTooManySuggestions()) {
                 this.showTooltipTooMany();
             } else {

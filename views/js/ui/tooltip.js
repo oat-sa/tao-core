@@ -48,7 +48,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler', 'qtip'], function($, _, Data
                     options.style = {};
                 }
                 options.style.classes = themesMap[options.theme];
-                delete options.theme;
+                options = _.omit(options, ['theme']);
             }
         }
 
