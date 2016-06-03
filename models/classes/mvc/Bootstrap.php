@@ -25,6 +25,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\routing\TaoFrontController;
+use oat\tao\model\routing\CliController;
 use common_Profiler;
 use common_Logger;
 use common_ext_ExtensionsManager;
@@ -36,12 +37,7 @@ use tao_helpers_Request;
 use tao_helpers_Uri;
 use Request;
 use HTTPToolkit;
-
 use Exception;
-use oat\oatbox\service\ServiceNotFoundException;
-use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\action\ActionResolver;
-use oat\oatbox\action\ResolutionException;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -187,23 +183,13 @@ class Bootstrap {
 	{
 	    $params = $_SERVER['argv'];
 	    $file = array_shift($params);
+
 	    if (count($params) < 1) {
 	        $report = new Report(Report::TYPE_ERROR, __('No action specified'));
 	    } else {
-	        try {
-    	        $resolver = new ActionResolver();
-    	        $resolver->setServiceManager($this->getServiceManager());
-    	        $actionIdentifier = array_shift($params);
-    	        $invocable = $resolver->resolve($actionIdentifier);
-    	        try {
-    	            $report = call_user_func($invocable, $params);
-    	        } catch (\Exception $e) {
-    	            $report = new Report(Report::TYPE_ERROR, __('An exception occured while running "%s"', $actionIdentifier));
-    	            $report->add(new Report(Report::TYPE_ERROR, $e->getMessage()));
-    	        }
-	        } catch (ResolutionException $e) {
-	            $report = new Report(Report::TYPE_ERROR, __('Action "%s" not found.', $actionIdentifier));
-	        }
+            $actionIdentifier = array_shift($params);
+            $cliController = new CliController();
+            $report = $cliController->runAction($actionIdentifier, $params);
 	    }
 	     
 	    echo \tao_helpers_report_Rendering::renderToCommandline($report);
