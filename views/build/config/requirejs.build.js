@@ -18,7 +18,6 @@ require.config({
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
         'jquery.timePicker' : 'lib/jquery.timePicker',
         'jquery.cookie'     : 'lib/jquery.cookie',
-        'tooltipster'       : 'lib/tooltipster/jquery.tooltipster',
         'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.trunc'		: 'lib/jquery.badonkatrunc',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
