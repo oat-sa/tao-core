@@ -21,7 +21,7 @@ define(['jquery', 'lodash', 'ui/validator'], function($, _){
 
         return this.each(function(){
 
-            var $container = $(this);
+            var $container = options.$container = $(this);
             var states = [];
             var callback = function(valid, results){
 

@@ -6,7 +6,7 @@
         <span class="icon-checkbox"></span>
         {{__ 'Responsive mode'}}
         </label>
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="warning"></span>
 
         <div class="tooltip-content">
             {{__ 'The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size.'}}

@@ -21,11 +21,8 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= Layout::getTitle() ?></title>
-    <link rel="shortcut icon" href="<?= Template::img('img/favicon.ico') ?>"/>
+    <link rel="shortcut icon" href="<?= Template::img('img/favicon.ico', 'tao') ?>"/>
 
-
-
-    <link rel="stylesheet" href="<?= Template::css('preview.css','taoItems') ?>" />
     <?= tao_helpers_Scriptloader::render() ?>
     <?= Layout::getAmdLoader() ?>
     <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_BACKOFFICE) ?>" />
