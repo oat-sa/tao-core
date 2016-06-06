@@ -69,7 +69,10 @@ define([
                 var self = this;
                 _.defer(function (){
                     //need defer to ensure that element show callbacks are all executed
-                    self.calc.focus();
+                    var $display = self.getElement().find('.calcDisplay');
+                    var strLength = $display.val().length + 1;
+                    $display.focus();
+                    $display[0].setSelectionRange(strLength, strLength);
                 });
             })
             .on('reset', function(){
