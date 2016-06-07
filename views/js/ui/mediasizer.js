@@ -29,7 +29,7 @@ define([
     'core/pluginifier',
     'tpl!ui/mediasizer/mediasizer',
     'nouislider',
-    'tooltipster'
+    'ui/tooltip'
 ], function ($, _, Pluginifier, tpl) {
     'use strict';
 
@@ -275,7 +275,7 @@ define([
             $responsiveToggleField.on('click', function () {
                 _checkMode();
                 $elt.trigger('responsiveswitch.' + ns, [$responsiveToggleField.is(':checked')]);
-                $elt.trigger('sizechange.' + ns, this._publicArgs($elt, options));
+                $elt.trigger('sizechange.' + ns, self._publicArgs($elt, options));
             });
 
             //initialize it properly
@@ -327,6 +327,8 @@ define([
          * @private
          */
         _sync: function ($elt, $field, eventType) {
+            var self = this;
+
             eventType = eventType === 'sliderchange' ? 'sliderEvent' : 'fieldEvent';
 
             var options = $elt.data(dataNs),
@@ -426,7 +428,7 @@ define([
                 options.target.attr('width', currentValues.width);
                 options.target.attr('height', currentValues.height);
             }
-            $elt.trigger('sizechange.' + ns, this._publicArgs($elt, options));
+            $elt.trigger('sizechange.' + ns, self._publicArgs($elt, options));
         },
 
 
@@ -507,10 +509,10 @@ define([
          * @private
          */
         _getValues: function ($elt) {
-            
+
             var options = $elt.data(dataNs),
                 attr = {};
-            
+
             _.forOwn(options.sizeProps[options.sizeProps.currentUnit].current, function (value, dimension) {
                 if (_.isNull(value)) {
                     value = '';

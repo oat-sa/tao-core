@@ -243,20 +243,6 @@
   .node-instance ins:before{
     @include icon-result;
   }
-  .node-class {
-    & > a > ins:before {
-      @include icon-delivery;
-      color: $colorWheel-06;
-      text-shadow: 1px 1px 0 blacken($warning, .2);
-    }
-    &.open {
-      & > a > ins:before {
-        @include icon-delivery;
-        color: $colorWheel-06;
-        text-shadow: 1px 1px 0 blacken($warning, .2);
-      }
-    }
-  }
 }
 
 .taotree-role .node-instance ins:before{

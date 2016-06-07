@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Ui Test - Modal Windows</title>
+        <base href="../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-only="tooltip.js"></script>
+
+        <script  type="text/javascript">
+            //don't start the test now
+            QUnit.config.autostart = false;
+
+            //load the config
+            require(['/tao/ClientConfig/config'], function(){
+
+                //load the test
+                require(['test/ui/tooltip/test'], function(){
+
+                    //Tests loaded, run tests
+                    QUnit.start();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit">
+        </div>
+        <div id="qunit-fixture">
+            <span id="tooltipstered_1" class="tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info">tooltipstered element</span>
+            <div id="for_tooltip_1">For tooltip 1</div>
+        </div>
+    </body>
+</html>

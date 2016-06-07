@@ -24,15 +24,17 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'tooltipster'
-], function ($, _, __, tooltipster) {
+    'ui/tooltip'
+], function ($, _, __) {
     'use strict';
 
     var defaultOptions = {
-        tooltip : {
-            delay : 0,
-            theme : 'tao-error-tooltip',
-            trigger : 'custom'
+        qtip : {
+            show: { ready: true },
+            hide: {
+                event: false
+            },
+            theme : 'error'
         }
     };
 
@@ -40,7 +42,7 @@ define([
      * Error field highlighter
      * @param {Object} options
      * @param {string} [options.errorClass] - field error class
-     * @see {@link here: http://iamceege.github.io/tooltipster/} - more tooltipster plugin options
+     * @see here: {@link http://qtip2.com/options/} - more qtip plugin options
      */
     function highlighterFactory(options) {
         var highlighter;
@@ -48,20 +50,20 @@ define([
         options = _.merge(defaultOptions, options);
 
         highlighter = {
-            initTooltip : function ($field) {
-                $field.tooltipster(options.tooltip);
-            },
-
             /**
              * Highlight field by class defined in <i>self.options.errorClass</i> and add error message after it.
              * @param {jQuery} $field - field element to be highlighted
              * @param {string} message - message text.
              */
             highlight : function highlight($field, message) {
-                this.initTooltip($field);
-                $field.tooltipster('content', message);
-                $field.tooltipster('show');
-
+                options = _.merge(options, {
+                    qtip : {
+                        content: {
+                            text: message
+                        }
+                    }
+                });
+                $field.qtip(options.qtip);
                 $field.addClass(options.errorClass);
             },
 
@@ -70,13 +72,13 @@ define([
              * @param {jQuery} $field
              */
             unhighlight : function unhighlight($field) {
-                this.destroy($field);
                 $field.removeClass(options.errorClass);
+                $field.qtip('destroy', true);
             },
 
             destroy : function destroy($field) {
-                if ($field.data('tooltipster') !== undefined) {
-                    $field.tooltipster('destroy');
+                if ($field.data('hasqtip') !== undefined) {
+                    $field.qtip('destroy', true);
                 }
             }
         };
