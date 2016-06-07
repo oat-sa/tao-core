@@ -108,32 +108,40 @@
         }
 
         &.paginate {
-            padding-left: 12px;
+            margin: 15px 0 0 0 !important;
+            display: inline-block !important;
+            width: 90px;
             background-image: none !important;
-            display: inline !important;
+            position: relative;
+            left: -20px;
             a {
+                width: 90px;
                 &:hover, &.hover {
-                    background: #91c7ff;
-                    border: 1px solid blue;
-                    padding: 0px;
                     @include font-size(13);
                 }
-                &.clicked {
-                    background: whiten($info, .1);
-                    border: none;
+            }
+            ins {
+                transform: rotate(90deg);
+                @include font-size(11);
+                padding: 3px;
+            }
+        }
+        &.paginate-more {
+            ins {
+                &:before {
+                    @include icon-play;
                 }
             }
-            span.clicked {
-                background: none;
-                border: none;
+        }
+
+        &.paginate-all {
+            ins {
+                &:before {
+                    @include icon-forward;
+                }
             }
         }
-        &.paginate-more ins {
-            background-image: url("paginate_more.png");
-        }
-        &.paginate-all ins {
-            background-image: url("paginate_all.png");
-        }
+
         
         &.private ins:after, &.permissions-partial ins:after, &.permissions-none ins:after {
             display: inline-block;
