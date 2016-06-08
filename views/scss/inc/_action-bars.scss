@@ -152,16 +152,14 @@
             .glyph,
             .svg-glyph {
                 display:block;
+                color: $info;
                 margin: 12px auto 1px !important;
             }
-
             .svg-glyph {
-                color: $info;
                 width: 20px;
                 height: 20px;
             }
             .glyph {
-                color: $info;
                 @include font-size(17, true);
             }
             .li-inner {
