@@ -16,26 +16,53 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  */
-
-/**
- *
- * @author dieter <dieter@taotesting.com>
- */
 (function () {
-
     'use strict';
 
-    var msgArea = document.querySelector('#requirement-check .requirement-msg-area'),
-        tests = [
-        ],
-        i = tests.length;
+    var jsFeedback = document.getElementById('js-check');
+    var reqFeedback = document.getElementById('requirement-check');
 
-    while(i--) {
-        if(!Modernizr[tests[i]]) {
-            msgArea.innerHTML = 'This browser is not supported by the TAO platform';
-            document.documentElement.className = 'no-js';
+    var tests = [{
+        name : 'ES5 Global JSON',
+        test : function (){
+            return 'JSON' in window && typeof JSON.parse === 'function' && typeof JSON.stringify === 'function';
+        }
+    }, {
+        name : 'ES5 Extension',
+        test : function (){
+            return typeof Function.prototype.bind === 'function' && typeof String.prototype.string === 'function';
+        }
+    }, {
+        name : 'localstorage',
+        test : function (){
+            return 'localStorage' in window;
+        }
+    }, {
+        name : 'querySelector',
+        test : function (){
+            return 'querySelector' in window.document && 'querySelectorAll' in window.document;
+        }
+    }, {
+        name : 'file reader',
+        test : function (){
+            return 'File' in window && 'FileReader' in window;
+        }
+    }];
+    var testCounter = 0;
+
+    //if we do jsi (basically if we are here), we hide the warning
+    if(jsFeedback){
+        jsFeedback.style.display = 'none';
+        document.documentElement.className = document.documentElement.className.replace('no-js', '');
+    }
+
+    //if one of the test fail, we show the warning
+    while(testCounter < tests.length){
+        if(typeof tests[testCounter].test === 'function' && !tests[testCounter].test()){
+            reqFeedback.style.display = 'block';
             break;
         }
+        testCounter++;
     }
 }());
 

@@ -16,11 +16,11 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 <!doctype html>
 <html class="no-js<?php if (!$hasVersionWarning): ?> no-version-warning<?php endif;?>">
 <head>
-    <script src="<?= Template::js('lib/modernizr-2.8/modernizr.js', 'tao')?>"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= Layout::getTitle() ?></title>
+
     <link rel="shortcut icon" href="<?= Template::img('img/favicon.ico', 'tao') ?>"/>
 
     <?= tao_helpers_Scriptloader::render() ?>
@@ -29,9 +29,11 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 </head>
 
 <body>
-<div id="requirement-check" class="feedback-error js-hide">
-    <span class="icon-error"></span>
-    <span class="requirement-msg-area"><?=__('You must activate JavaScript in your browser to run this application.')?></span>
+<div id="js-check" class="feedback-error">
+    <span class="icon-error"></span><?=__('You must activate JavaScript in your browser to run this application.')?>
+</div>
+<div id="requirement-check" class="feedback-error hidden">
+    <span class="icon-error"></span><?=__('Your browser does not meet the technical requirements to run TAO.')?>
 </div>
 <script src="<?= Template::js('layout/requirement-check.js', 'tao')?>"></script>
 
