@@ -601,7 +601,7 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
         });
     });
 
-    QUnit.asyncTest('Column filtering enabled', function (assert) {
+    QUnit.asyncTest('Column filtering (input) enabled', function (assert) {
         QUnit.expect(8);
 
         var $elt = $('#container-1');
@@ -639,6 +639,71 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
                 id : 'name',
                 label : 'Name',
                 sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true,
+                filterable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            }]
+        });
+    });
+
+    QUnit.asyncTest('Column filtering (select) enabled', function (assert) {
+        QUnit.expect(9);
+
+        var $elt = $('#container-1');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        $elt.on('create.datatable', function () {
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 7 heads elements (id included)');
+            assert.equal($elt.find('.datatable thead th:eq(1) aside.filter').data('column'), 'name', 'the name col is filterable');
+            assert.equal($elt.find('.datatable thead th:eq(2) aside.filter').data('column'), 'email', 'the email col is filterable');
+
+            assert.ok($elt.find('aside.filter[data-column="name"] select').hasClass('test'), 'filter callback has been called');
+
+            $elt.find('aside.filter[data-column="name"] select').val('John Doe');
+            $elt.find('aside.filter[data-column="name"] select').trigger('change');
+        });
+
+        $elt.on('filter.datatable', function (event, options) {
+            assert.equal(options.filtercolumns, 'name', 'the filter set right column');
+            assert.equal(options.filterquery, 'John Doe', 'the filter set right search query');
+            setTimeout(function() {
+                assert.equal($elt.find('aside.filter[data-column="name"] select').val(), 'John Doe', 'the name column filter has proper value after refreshing');
+                QUnit.start();
+            }, 100);
+
+        });
+
+        $elt.datatable({
+            url : 'js/test/ui/datatable/data.json',
+            filter: true,
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true,
+                filterable : true,
+                customFilter : {
+                    template : '<select><option selected></option><option value="Smith">Smith</option><option value="John Doe">Doe</option> </select>',
+                    callback : function($filter){ $filter.addClass('test');}
+                }
             },{
                 id : 'email',
                 label : 'Email',
