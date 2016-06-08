@@ -221,17 +221,6 @@ Usage:
     @keyframes #{$name} { @content };
 }
 
-
-@mixin svg-icon($inheritColor: true) {
-    @content;
-    @if($inheritColor == true){
-        use, g.use {
-            fill: currentColor !important;
-        }
-    }
-}
-
-
 @mixin animation($value, $type:'') {
     $animation: animation;
     @if $type != '' {

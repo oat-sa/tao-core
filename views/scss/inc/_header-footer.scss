@@ -98,19 +98,11 @@ $navHeight: 64;
                     top: 2px;
                 }
 
-                svg {
-                    @include svg-icon() {
-                        height: 23px;
-                        width: 23px;
-                        display:block;
-                        margin: auto;
-                    }
-                }
-
-                &:hover {
-                    svg {
-                        @include svg-icon();
-                    }
+                .svg-glyph {
+                    height: 23px;
+                    width: 23px;
+                    display:block;
+                    margin: auto;
                 }
             }
             & > a {
