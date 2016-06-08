@@ -52,9 +52,13 @@
                     <th>
                         <div {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</div>
                         {{#if filterable}}
-                        <aside class="filter column" data-column="{{id}}">
-                            <input type="text" value="" name="filter" placeholder="{{#if filterable.placeholder}}{{filterable.placeholder}}{{else}}{{__ 'Filter'}}{{/if}}">
-                            <button class="icon-find" type="button"></button>
+                        <aside data-column="{{id}}" class="filter column
+                            {{#if customFilter}} customInput" >
+                                {{{customFilter.template}}}
+                            {{else}} ">
+                                <input type="text" value="" name="filter" placeholder="{{#if filterable.placeholder}}{{filterable.placeholder}}{{else}}{{__ 'Filter'}}{{/if}}">
+                                <button class="icon-find" type="button"></button>
+                            {{/if}}
                         </aside>
                         {{/if}}
                     </th>
