@@ -29,13 +29,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 </head>
 
 <body>
-<div id="js-check" class="feedback-error">
-    <span class="icon-error"></span><?=__('You must activate JavaScript in your browser to run this application.')?>
-</div>
-<div id="requirement-check" class="feedback-error hidden">
-    <span class="icon-error"></span><?=__('Your browser does not meet the technical requirements to run TAO.')?>
-</div>
-<script src="<?= Template::js('layout/requirement-check.js', 'tao')?>"></script>
+<?php Template::inc('blocks/requirement-check.tpl', 'tao'); ?>
 
 <div class="content-wrap">
 
