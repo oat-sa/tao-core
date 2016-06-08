@@ -545,10 +545,11 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
     });
     
     QUnit.asyncTest('Default filtering enabled', function (assert) {
-        QUnit.expect(7);
+        QUnit.expect(8);
 
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
+        var dom;
 
         $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
@@ -557,15 +558,17 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
 
             $elt.find('.datatable-wrapper aside.filter input').val('abcdef');
             $elt.find('.datatable-wrapper aside.filter button').trigger('click');
+            dom = $elt.find('tbody').get();
         });
 
         $elt.on('filter.datatable', function (event, options) {
             assert.equal(options.filterquery, 'abcdef', 'the filter set right search query');
             assert.deepEqual(options.filtercolumns, ["login", "name"], 'the filter set right columns');
-            setTimeout(function() {
+            $elt.on('load.datatable', function () {
                 assert.equal($elt.find('.datatable-wrapper aside.filter input').hasClass('focused'), true, 'the filter is focusable after refreshing');
+                assert.notEqual(dom ,$elt.find('tbody').get(), 'content has been changed');
                 QUnit.start();
-            }, 100);
+            });
         });
 
         $elt.datatable({
@@ -602,9 +605,10 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
     });
 
     QUnit.asyncTest('Column filtering (input) enabled', function (assert) {
-        QUnit.expect(8);
+        QUnit.expect(9);
 
         var $elt = $('#container-1');
+        var dom;
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
         $elt.on('create.datatable', function () {
@@ -613,6 +617,7 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
             assert.equal($elt.find('.datatable thead th:eq(0) aside.filter').data('column'), 'login', 'the login col is filterable');
             assert.equal($elt.find('.datatable thead th:eq(2) aside.filter').data('column'), 'email', 'the email col is filterable');
 
+            dom = $elt.find('tbody').get();
             $elt.find('aside.filter[data-column="login"] input').val('abcdef');
             $elt.find('aside.filter[data-column="login"] button').trigger('click');
         });
@@ -620,10 +625,11 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
         $elt.on('filter.datatable', function (event, options) {
             assert.equal(options.filtercolumns, 'login', 'the filter set right column');
             assert.equal(options.filterquery, 'abcdef', 'the filter set right search query');
-            setTimeout(function() {
+            assert.notEqual(dom ,$elt.find('tbody').get(), 'content has been changed');
+            $elt.on('load.datatable', function () {
                 assert.equal($elt.find('aside.filter[data-column="login"] input').hasClass('focused'), true, 'the login column filter is focusable after refreshing');
                 QUnit.start();
-            }, 100);
+            });
 
         });
 
@@ -661,9 +667,10 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
     });
 
     QUnit.asyncTest('Column filtering (select) enabled', function (assert) {
-        QUnit.expect(9);
+        QUnit.expect(10);
 
         var $elt = $('#container-1');
+        var dom;
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
         $elt.on('create.datatable', function () {
@@ -671,6 +678,7 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
             assert.equal($elt.find('.datatable thead th:eq(1) aside.filter').data('column'), 'name', 'the name col is filterable');
             assert.equal($elt.find('.datatable thead th:eq(2) aside.filter').data('column'), 'email', 'the email col is filterable');
+            dom = $elt.find('tbody').get();
 
             assert.ok($elt.find('aside.filter[data-column="name"] select').hasClass('test'), 'filter callback has been called');
 
@@ -681,10 +689,11 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
         $elt.on('filter.datatable', function (event, options) {
             assert.equal(options.filtercolumns, 'name', 'the filter set right column');
             assert.equal(options.filterquery, 'John Doe', 'the filter set right search query');
-            setTimeout(function() {
+            $elt.on('load.datatable', function () {
                 assert.equal($elt.find('aside.filter[data-column="name"] select').val(), 'John Doe', 'the name column filter has proper value after refreshing');
+                assert.notEqual(dom ,$elt.find('tbody').get(), 'content has been changed');
                 QUnit.start();
-            }, 100);
+            });
 
         });
 
@@ -846,10 +855,10 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
                     assert.ok(true, 'the handler was attached and caused');
                 },
                 sort: function() {
-                    setTimeout(function () {
+                    $elt.on('load.datatable', function () {
                         $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
                         QUnit.start();
-                    }, 400);
+                    });
                 }
             }
         });
