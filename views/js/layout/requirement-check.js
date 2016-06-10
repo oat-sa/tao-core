@@ -69,16 +69,16 @@
     }
 
     //if one of the test fail, we show the warning
-    while(testCounter < tests.length){
-        if(typeof tests[testCounter].test === 'function' && !tests[testCounter].test()){
-            if(reqFeedback){
+    if(reqFeedback){
+        while(testCounter < tests.length){
+            if(typeof tests[testCounter].test === 'function' && !tests[testCounter].test()){
                 reqFeedback.style.display = 'block';
                 reqFeedback.className = reqFeedback.className.replace('hidden', '');
                 document.documentElement.className = document.documentElement.className + ' no-js';
+                break;
             }
-            break;
+            testCounter++;
         }
-        testCounter++;
     }
 }());
 
