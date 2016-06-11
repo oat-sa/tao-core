@@ -49,13 +49,13 @@ define([
         {name : 'setElements', title : 'setElements'}
     ];
 
-//    QUnit
-//        .cases(testReviewApi)
-//        .test('instance API ', function (data, assert){
-//            var instance = tristateCheckboxes();
-//            assert.equal(typeof instance[data.name], 'function', 'The tristateCheckbox instance exposes a "' + data.title + '" function');
-//            instance.destroy();
-//        });
+    QUnit
+        .cases(testReviewApi)
+        .test('instance API ', function (data, assert){
+            var instance = tristateCheckboxes();
+            assert.equal(typeof instance[data.name], 'function', 'The tristateCheckbox instance exposes a "' + data.title + '" function');
+            instance.destroy();
+        });
     
     
     QUnit.test('init', function (assert){

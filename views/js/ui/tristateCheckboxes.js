@@ -47,20 +47,38 @@ define([
         },
         setValues : function setValues(values){
             var $list = this.getElement();
+            var i = 0;
+            var max = this.config.max;
 
             $list.find('input')
                 .prop('checked', false)
                 .removeAttr('checked')
                 .prop('indeterminate', false);
 
-            if(_.isArray(values.indeterminate)){
-                _.each(values.indeterminate, function (v){
-                    $list.find('input[value="' + v + '"]').prop('indeterminate', true);
-                });
-            }
+            //priority to checked values
             if(_.isArray(values.checked)){
                 _.each(values.checked, function (v){
-                    $list.find('input[value="' + v + '"]').prop('indeterminate', false).prop('checked', true).attr('checked', 'checked');
+                    var $input = $list.find('input[value="' + v + '"]');
+                    if(max && i >= max){
+                        return false;
+                    }
+                    if($input.length){
+                        $input.prop('checked', true).attr('checked', 'checked');
+                        i++;
+                    }
+                });
+            }
+
+            if(_.isArray(values.indeterminate)){
+                _.each(values.indeterminate, function (v){
+                    var $input = $list.find('input[value="' + v + '"]:not(:checked)');
+                    if(max && i >= max){
+                        return false;
+                    }
+                    if($input.length){
+                        $input.prop('indeterminate', true);
+                        i++;
+                    }
                 });
             }
         },
@@ -112,7 +130,8 @@ define([
         config = _.defaults(config || {}, {
             serial : _.uniqueId('tscb'),
             list : [],
-            max : 0
+            max : 0,
+            maxMessage : __('Maximum selection reached')
         });
 
         return component(tristateCheckboxes)
@@ -133,17 +152,19 @@ define([
                             .qtip({
                                 theme : 'warning',
                                 content : {
-                                    text : __('Maximum selection reached')
+                                    text : self.config.maxMessage
                                 }
-                            }).on('mouseleave', function (){
-                                $icon.qtip('destroy');
                             }).qtip('show');
+
+                        $icon.parent('label').on('mouseleave', function (){
+                            $icon.qtip('destroy');
+                        });
 
                         _.delay(function (){
                             $input.prop('checked', false).removeAttr('checked');
                             $icon.removeClass('cross');
                         }, 150);
-                        
+
                         return;
                     }
                     self.trigger('change', self.getValues());
