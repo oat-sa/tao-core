@@ -25,8 +25,8 @@ define([
     'ui/component',
     'tpl!ui/tristateCheckboxes/list',
     'tpl!ui/tristateCheckboxes/li',
-    'ui/feedback'
-], function ($, _, __, component, layoutTpl, elementTpl, feedback){
+    'ui/tooltip'
+], function ($, _, __, component, layoutTpl, elementTpl){
     'use strict';
 
     /**
@@ -126,13 +126,24 @@ define([
                     var $input;
                     var $icon;
                     if(self.config.max && $list.find('input:checked,input:indeterminate').length > self.config.max){
-                        feedback($list).warning('Maximum selection reched');
+
                         $input = $(e.target);
-                        $icon = $input.siblings('.icon').addClass('cross');
+                        $icon = $input.siblings('.icon')
+                            .addClass('cross')
+                            .qtip({
+                                theme : 'warning',
+                                content : {
+                                    text : __('Maximum selection reached')
+                                }
+                            }).on('mouseleave', function (){
+                                $icon.qtip('destroy');
+                            }).qtip('show');
+
                         _.delay(function (){
                             $input.prop('checked', false).removeAttr('checked');
                             $icon.removeClass('cross');
                         }, 150);
+                        
                         return;
                     }
                     self.trigger('change', self.getValues());
@@ -141,5 +152,5 @@ define([
             })
             .init(config);
     };
-    
+
 });
