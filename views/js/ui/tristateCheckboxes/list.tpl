@@ -1,0 +1,1 @@
+<ul class="tristate-checkboxs plain" data-serial="{{serial}}"></ul>

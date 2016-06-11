@@ -1,0 +1,15 @@
+.tristate-checkboxs{
+    li{
+        label{
+            input:indeterminate[type="checkbox"] ~ .icon-checkbox::before{
+                @include icon-checkbox-crossed;
+                /*todo : replace by proper indeterminate checkbox icon when available*/
+            }
+            .icon{
+                &.cross{
+                    color : $error;
+                }
+            }
+        }
+    }
+}
