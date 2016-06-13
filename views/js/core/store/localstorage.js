@@ -138,8 +138,51 @@ define(['lodash', 'core/promise'], function(_, Promise){
                         reject(ex);
                     }
                 });
+            },
+
+            /**
+             * Delete the database related to the current store
+             * @returns {Promise} with true in resolve once cleared
+             */
+            removeStore : function removeStore() {
+                return this.clear();
             }
         };
+    };
+
+    /**
+     * Cleans all storage older than the provided age
+     * @param {Number} [age] - The max age for all storage (default: 0)
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    localStorageBackend.clean = function clean(age) {
+        var keyPattern = new RegExp('^' + prefix + '([^.]+)\.([^.]+)');
+        var limit = Date.now() - (parseInt(age) || 0);
+        var garbage = {};
+        return new Promise(function (resolve, reject) {
+            try {
+                _(storage)
+                    .map(function(entry, index){
+                        return storage.key(index);
+                    })
+                    .filter(function(key){
+                        var res = keyPattern.exec(key);
+                        var storeName = res && res[1];
+                        var lastActivity;
+                        if (storeName && !(storeName in garbage)) {
+                            lastActivity = storage.getItem(prefix + storeName + '.' + timestampKey);
+                            garbage[storeName] = !lastActivity || JSON.parse(lastActivity) < limit;
+                        }
+                        return !!(storeName && garbage[storeName]);
+                    })
+                    .forEach(function(key){
+                        storage.removeItem(key);
+                    });
+                resolve(true);
+            } catch (ex) {
+                reject(ex);
+            }
+        });
     };
 
     return localStorageBackend;

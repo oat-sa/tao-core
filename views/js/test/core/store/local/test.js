@@ -50,7 +50,7 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
     });
 
     QUnit.test("store", function(assert){
-        QUnit.expect(6);
+        QUnit.expect(7);
         var store = localStorageBackend('foo');
 
         assert.equal(typeof store, 'object', 'The store is an object');
@@ -59,6 +59,7 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
         assert.equal(typeof store.getLastActivity, 'function', 'The store exposes the getLastActivity method');
         assert.equal(typeof store.removeItem, 'function', 'The store exposes the removetItem method');
         assert.equal(typeof store.clear, 'function', 'The store exposes the clear method');
+        assert.equal(typeof store.removeStore, 'function', 'The store exposes the removeStore method');
 
     });
 
@@ -200,6 +201,140 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
             assert.ok(false, err);
             QUnit.start();
         });
+    });
+
+
+    QUnit.module('Erase');
+
+    QUnit.asyncTest("removeStore", function (assert) {
+        QUnit.expect(5);
+
+        var store = localStorageBackend('foo');
+        assert.equal(typeof store, 'object', 'The store is an object');
+
+        Promise.all([
+            store.setItem('zoo', 'zoob'),
+            store.setItem('too', 'toob')
+        ])
+            .then(function () {
+                return store.getItem('too').then(function (value) {
+                    assert.equal(value, 'toob', 'The retrieved value is correct');
+                });
+            })
+            .then(function () {
+                return store.removeStore().then(function (rmResult) {
+                    assert.ok(rmResult, 'The item is removed');
+                });
+            })
+            .then(function () {
+                return store.getItem('too').then(function (value) {
+                    assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                    return store.getItem('zoo').then(function (value) {
+                        assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                        QUnit.start();
+                    });
+                });
+            })
+            .catch(function (err) {
+                assert.ok(false, err);
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest("clean", function (assert) {
+        QUnit.expect(18);
+
+        var store1 = localStorageBackend('foo1');
+        var store2 = localStorageBackend('foo2');
+        var store3 = localStorageBackend('foo3');
+
+        assert.equal(typeof store1, 'object', 'The store1 is an object');
+        assert.equal(typeof store2, 'object', 'The store2 is an object');
+        assert.equal(typeof store3, 'object', 'The store3 is an object');
+
+        Promise.all([
+            store1.setItem('zoo', 'zooa'),
+            store1.setItem('too', 'tooa'),
+
+            store2.setItem('zoo', 'zoob'),
+            store2.setItem('too', 'toob'),
+
+            store3.setItem('zoo', 'zooc'),
+            store3.setItem('too', 'tooc')
+        ])
+            .then(function () {
+                return store1.getItem('too').then(function (value) {
+                    assert.equal(value, 'tooa', 'The value of too retrieved from store1 is correct');
+                    return store1.getItem('zoo').then(function (value) {
+                        assert.equal(value, 'zooa', 'The value of zoo retrieved from store1 is correct');
+                    });
+                });
+            })
+            .then(function () {
+                return store2.getItem('too').then(function (value) {
+                    assert.equal(value, 'toob', 'The value of too retrieved from store2 is correct');
+                    return store2.getItem('zoo').then(function (value) {
+                        assert.equal(value, 'zoob', 'The value of zoo retrieved from store2 is correct');
+                    });
+                });
+            })
+            .then(function () {
+                return store3.getItem('too').then(function (value) {
+                    assert.equal(value, 'tooc', 'The value of too retrieved from store3 is correct');
+                    return store3.getItem('zoo').then(function (value) {
+                        assert.equal(value, 'zooc', 'The value of zoo retrieved from store3 is correct');
+                    });
+                });
+            })
+            .then(function () {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        store3.setItem('foo', 'fooc').then(function () {
+                            localStorageBackend.clean(250).then(resolve).catch(reject);
+                        }).catch(reject);
+                    }, 300);
+                });
+            })
+            .then(function (rmResult) {
+                assert.ok(rmResult, 'The old storage are removed');
+            })
+            .then(function () {
+                return store1.getItem('too').then(function (value) {
+                    assert.equal(typeof value, 'undefined', 'The value too does not exist anymore in store1');
+                    return store1.getItem('zoo').then(function (value) {
+                        assert.equal(typeof value, 'undefined', 'The value zoo does not exist anymore in store1');
+                    });
+                });
+            })
+            .then(function () {
+                return store2.getItem('too').then(function (value) {
+                    assert.equal(typeof value, 'undefined', 'The value too does not exist anymore in store2');
+                    return store2.getItem('zoo').then(function (value) {
+                        assert.equal(typeof value, 'undefined', 'The value zoo does not exist anymore in store2');
+                    });
+                });
+            })
+            .then(function () {
+                return store3.getItem('too').then(function (value) {
+                    assert.equal(value, 'tooc', 'The value too still exists in store3');
+                    return store3.getItem('zoo').then(function (value) {
+                        assert.equal(value, 'zooc', 'The value zoo still exists in store3');
+                        return store3.getItem('foo').then(function (value) {
+                            assert.equal(value, 'fooc', 'The value foo still exists in store3');
+                        });
+                    });
+                });
+            })
+            .then(function () {
+                return store3.removeStore().then(function (rmResult) {
+                    assert.ok(rmResult, 'The item is removed');
+                    QUnit.start();
+                });
+            })
+            .catch(function (err) {
+                assert.ok(false, err);
+                QUnit.start();
+            });
     });
 });
 
