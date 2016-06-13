@@ -78,7 +78,7 @@ define([
                 {checked : true, label : 'choice selected', value: '1'},
                 {indeterminate : true, label : 'choice intermediate', value: '2'}
             ],
-            max : 1
+            maxSelection : 1
         };
         var tristateCbox = tristateCheckboxes(config).on('change', function(values){
             console.log('values', values);

@@ -48,7 +48,8 @@ define([
         setValues : function setValues(values){
             var $list = this.getElement();
             var i = 0;
-            var max = this.config.max;
+            var maxSelection = this.config.maxSelection;
+            var maxSet = this.config.maxSet;
 
             $list.find('input')
                 .prop('checked', false)
@@ -59,7 +60,7 @@ define([
             if(_.isArray(values.checked)){
                 _.each(values.checked, function (v){
                     var $input = $list.find('input[value="' + v + '"]');
-                    if(max && i >= max){
+                    if(maxSet && maxSelection && i >= maxSelection){
                         return false;
                     }
                     if($input.length){
@@ -72,7 +73,7 @@ define([
             if(_.isArray(values.indeterminate)){
                 _.each(values.indeterminate, function (v){
                     var $input = $list.find('input[value="' + v + '"]:not(:checked)');
-                    if(max && i >= max){
+                    if(maxSet && maxSelection && i >= maxSelection){
                         return false;
                     }
                     if($input.length){
@@ -81,6 +82,8 @@ define([
                     }
                 });
             }
+            
+            return this;
         },
         setElements : function setElements(elements){
             var $list = this.getElement();
@@ -114,6 +117,7 @@ define([
                     }
                 }
             });
+            return this;
         }
     };
 
@@ -130,8 +134,9 @@ define([
         config = _.defaults(config || {}, {
             serial : _.uniqueId('tscb'),
             list : [],
-            max : 0,
-            maxMessage : __('Maximum selection reached')
+            maxSelection : 0,
+            maxMessage : __('Maximum selection reached'),
+            maxSet : false
         });
 
         return component(tristateCheckboxes)
@@ -144,7 +149,8 @@ define([
                 }).on('change', function (e){
                     var $input;
                     var $icon;
-                    if(self.config.max && $list.find('input:checked,input:indeterminate').length > self.config.max){
+                    var maxSelection = self.config.maxSelection;
+                    if(maxSelection && $list.find('input:checked,input:indeterminate').length > maxSelection){
 
                         $input = $(e.target);
                         $icon = $input.siblings('.icon')
