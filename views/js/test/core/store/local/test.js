@@ -50,12 +50,13 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
     });
 
     QUnit.test("store", function(assert){
-        QUnit.expect(5);
+        QUnit.expect(6);
         var store = localStorageBackend('foo');
 
         assert.equal(typeof store, 'object', 'The store is an object');
         assert.equal(typeof store.getItem, 'function', 'The store exposes the getItem method');
         assert.equal(typeof store.setItem, 'function', 'The store exposes the setItem method');
+        assert.equal(typeof store.getLastActivity, 'function', 'The store exposes the getLastActivity method');
         assert.equal(typeof store.removeItem, 'function', 'The store exposes the removetItem method');
         assert.equal(typeof store.clear, 'function', 'The store exposes the clear method');
 
@@ -65,9 +66,10 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
     QUnit.module('CRUD');
 
     QUnit.asyncTest("setItem", function(assert){
-        QUnit.expect(4);
+        QUnit.expect(5);
 
         var store = localStorageBackend('foo');
+        var startTs = Date.now();
         assert.equal(typeof store, 'object', 'The store is an object');
 
         var p = store.setItem('bar', 'boz');
@@ -78,7 +80,10 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
             assert.equal(typeof result, 'boolean', 'The result is a boolean');
             assert.ok(result, 'The item is added');
 
-            QUnit.start();
+            store.getLastActivity().then(function(timestamp) {
+                assert.ok(timestamp >= startTs && timestamp <= Date.now(), 'The last activity timestamp has been updated');
+                QUnit.start();
+            });
         }).catch(function(err){
             assert.ok(false, err);
             QUnit.start();

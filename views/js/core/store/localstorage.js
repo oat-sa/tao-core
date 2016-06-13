@@ -29,6 +29,7 @@ define(['lodash', 'core/promise'], function(_, Promise){
      */
     var prefix = 'tao-store-';
     var storage = window.localStorage;
+    var timestampKey = '_ts';
 
     /**
      * Open and access a store
@@ -82,11 +83,20 @@ define(['lodash', 'core/promise'], function(_, Promise){
                 return new Promise(function(resolve, reject){
                     try{
                         storage.setItem(name + key, JSON.stringify(value));
+                        storage.setItem(name + timestampKey, JSON.stringify(Date.now()));
                         resolve(true);
                     } catch(ex){
                         reject(ex);
                     }
                 });
+            },
+
+            /**
+             * Get the timestamp of the last activity
+             * @returns {Promise} with the result in resolve, undefined if nothing
+             */
+            getLastActivity : function getLastActivity() {
+                return this.getItem(timestampKey);
             },
 
             /**
@@ -112,7 +122,6 @@ define(['lodash', 'core/promise'], function(_, Promise){
             clear : function clear(){
                 var keyPattern = new RegExp('^' + name);
                 return new Promise(function(resolve, reject){
-                    var i;
                     try{
                         _(storage)
                             .map(function(entry, index){
