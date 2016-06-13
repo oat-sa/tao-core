@@ -19,7 +19,7 @@
  * Plugin modelisation :
  *  - helps you to create plugin's definition
  *  - helps you to bind plugin's behavior to the host
- *  - have it's own state and lifecycle convention (init -> render -> finish -> destroy)
+ *  - have it's own state and lifecycle convention (install -> init -> render -> finish -> destroy)
  *  - promise based
  *
  * @example
@@ -48,8 +48,9 @@
  */
 define([
     'lodash',
+    'core/delegator',
     'core/promise'
-], function (_, Promise){
+], function (_, delegator, Promise){
     'use strict';
 
     /**
@@ -58,6 +59,7 @@ define([
      * @param {Object} provider - the plugin provider
      * @param {String} provider.name - the plugin name
      * @param {Function} provider.init - the plugin initialization method
+     * @param {Function} [provider.install] - plugin installer called after the instance has been bound with its host
      * @param {Function} [provider.render] - plugin rendering behavior
      * @param {Function} [provider.finish] - plugin finish behavior
      * @param {Function} [provider.destroy] - plugin destroy behavior
@@ -89,32 +91,16 @@ define([
          * @returns {plugin} the plugin instance
          */
         return function instanciatePlugin(host, areaBroker, config){
-            var plugin;
+            var plugin, delegate;
 
             var states = {};
+
+            var pluginContent = {};
 
             //basic checking for the host
             if(!_.isObject(host) || !_.isFunction(host.on) || !_.isFunction(host.trigger)){
                 throw new TypeError('A plugin host should be a valid eventified object');
             }
-
-            /**
-             * Delegate a function call to the provider
-             *
-             * @param {String} fnName - the function name
-             * @param {...} args - additional args are given to the provider
-             * @returns {*} up to the provider
-             */
-            function delegate(fnName){
-                var args = [].slice.call(arguments, 1);
-                return new Promise(function(resolve){
-                    if(!_.isFunction(provider[fnName])){
-                        return resolve();
-                    }
-                    return resolve(provider[fnName].apply(plugin, args));
-                });
-            }
-
 
             config = _.defaults(config || {}, defaults);
 
@@ -125,14 +111,31 @@ define([
             plugin = {
 
                 /**
-                 * Called when the host is initializing
+                 * Called when the host is installing the plugins
                  * @returns {Promise} to resolve async delegation
                  */
-                init : function init(){
+                install : function install(){
+                    var self = this;
+
+                    return delegate('install').then(function(){
+                        self.trigger('install');
+                    });
+                },
+
+                /**
+                 * Called when the host is initializing
+                 * @param {Object|*} [content] the plugin content
+                 * @returns {Promise} to resolve async delegation
+                 */
+                init : function init(content){
                     var self = this;
                     states = {};
 
-                    return delegate('init').then(function(){
+                    if(content){
+                        pluginContent = content;
+                    }
+
+                    return delegate('init', content).then(function(){
                         self.setState('init', true)
                             .trigger('init');
                     });
@@ -264,6 +267,28 @@ define([
                 },
 
                 /**
+                 * Get the plugin content
+                 *
+                 * @returns {Object|*} the content
+                 */
+                getContent : function getContent(){
+                    return pluginContent;
+                },
+
+
+                /**
+                 * Set the plugin content
+                 *
+                 * @param {Object|*} [content] - the plugin content
+                 * @returns {plugin} chains
+                 */
+                setContent : function setContent(content){
+                    pluginContent = content;
+
+                    return this;
+                },
+
+                /**
                  * Get the plugin name
                  *
                  * @returns {String} the name
@@ -324,6 +349,20 @@ define([
                     });
                 }
             };
+
+            /**
+             * Delegate a function call to the provider
+             *
+             * @param {String} fnName - the function name
+             * @param {...} args - additional args are given to the provider
+             * @returns {*} up to the provider
+             */
+            delegate = delegator(plugin, provider, {
+                eventifier: false,
+                wrapper: function pluginWrapper(response){
+                    return Promise.resolve(response);
+                }
+            });
 
             //add a convenience method that alias getHost using the hostName
             if(_.isString(defaults.hostName) && !_.isEmpty(defaults.hostName)){

@@ -23,6 +23,8 @@ use oat\tao\model\websource\WebsourceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\websource\Websource;
+use oat\oatbox\filesystem\FileSystemService;
+
 /**
  * Represents the file storage used in services 
  *
@@ -101,6 +103,20 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
         $dir = new tao_models_classes_service_StorageDirectory($id, $fs, $path, $public ? $this->getAccessProvider() : null);
         $dir->setServiceLocator($this->getServiceLocator());
         return $dir;
+    }
+
+    /**
+     * Delete directory represented by the $id
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function deleteDirectoryById($id)
+    {
+        $public = $id[strlen($id)-1] == '+';
+        $fs = $public ? $this->getPublicFs() : $this->getPrivateFs();
+        $path = $this->id2path($id);
+        return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($fs->getUri())->deleteDir($path);
     }
     
     public function import($id, $directoryPath) {

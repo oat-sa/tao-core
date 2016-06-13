@@ -77,11 +77,12 @@
 .icon-save:before { @include icon-save; }
 .icon-warning:before { @include icon-warning; }
 .icon-add:before { @include icon-add; }
+.icon-error:before { @include icon-error; }
 .icon-close:before { @include icon-close; }
 .icon-success:before { @include icon-success; }
 .icon-remove:before { @include icon-remove; }
 .icon-info:before { @include icon-info; }
-.icon-error:before { @include icon-error; }
+.icon-danger:before { @include icon-danger; }
 .icon-users:before { @include icon-users; }
 .icon-user:before { @include icon-user; }
 .icon-test-taker:before { @include icon-test-taker; }

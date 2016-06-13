@@ -1,0 +1,14 @@
+
+/* Hide everything is this class is there, it should be removed by JS*/
+html.no-js {
+    .content-wrap, footer {
+        display: none !important;
+    }
+}
+
+html body > .check-msg {
+   position: absolute;
+   left: 50%;
+   top: 5%;
+   transform: translateX(-50%);
+}

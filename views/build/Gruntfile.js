@@ -49,7 +49,6 @@ module.exports = function(grunt) {
         'jquery.fileDownload',
         'raphael',
         'scale.raphael',
-        'tooltipster',
         'history']);
 
     grunt.option('mainlibs', libs);
