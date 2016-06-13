@@ -28,6 +28,7 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
      * Prefix all databases
      */
     var prefix = 'tao-store-';
+    var timestampKey = '_ts';
 
     /**
      * Open and access a store
@@ -131,21 +132,34 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
              * @returns {Promise} with true in resolve if added/updated
              */
             setItem :  function setItem(key, value){
-                var entry = {
-                    key : key,
-                    value : value
-                };
-
                 return ensureSerie(function getWritingPromise(){
                     return getStore().then(function(store){
-                        return new Promise(function(resolve, reject){
-                            var success = function success(returnKey){
-                                resolve(returnKey === key);
-                            };
-                            store.put(entry, success, reject);
+                        function setEntry(k, v) {
+                            return new Promise(function(resolve, reject){
+                                var entry = {
+                                    key : k,
+                                    value : v
+                                };
+                                var success = function success(returnKey){
+                                    resolve(returnKey === k);
+                                };
+                                store.put(entry, success, reject);
+                            });
+                        }
+
+                        return setEntry(key, value).then(function() {
+                            return setEntry(timestampKey, Date.now());
                         });
                     });
                 });
+            },
+
+            /**
+             * Get the timestamp of the last activity
+             * @returns {Promise} with the result in resolve, undefined if nothing
+             */
+            getLastActivity : function getLastActivity() {
+                return this.getItem(timestampKey);
             },
 
             /**
