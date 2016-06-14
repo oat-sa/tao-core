@@ -117,9 +117,10 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
     });
 
     QUnit.asyncTest("removeItem", function(assert){
-        QUnit.expect(5);
+        QUnit.expect(6);
 
         var store = localStorageBackend('foo');
+        var startTs = Date.now();
         assert.equal(typeof store, 'object', 'The store is an object');
 
         store.setItem('moo', 'noob')
@@ -136,7 +137,11 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
         }).then(function(){
             return store.getItem('moo').then(function(value){
                 assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
-                QUnit.start();
+
+                store.getLastActivity().then(function(timestamp) {
+                    assert.ok(timestamp >= startTs && timestamp <= Date.now(), 'The last activity timestamp has been updated');
+                    QUnit.start();
+                });
             });
         }).catch(function(err){
             assert.ok(false, err);
@@ -223,7 +228,7 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
             })
             .then(function () {
                 return store.removeStore().then(function (rmResult) {
-                    assert.ok(rmResult, 'The item is removed');
+                    assert.ok(rmResult, 'The store is removed');
                 });
             })
             .then(function () {
@@ -290,13 +295,13 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
                 return new Promise(function (resolve, reject) {
                     setTimeout(function () {
                         store3.setItem('foo', 'fooc').then(function () {
-                            localStorageBackend.clean(250).then(resolve).catch(reject);
-                        }).catch(reject);
+                            return localStorageBackend.clean(250);
+                        }).then(resolve).catch(reject);
                     }, 300);
                 });
             })
             .then(function (rmResult) {
-                assert.ok(rmResult, 'The old storage are removed');
+                assert.ok(rmResult, 'The old stores are removed');
             })
             .then(function () {
                 return store1.getItem('too').then(function (value) {
@@ -327,7 +332,7 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
             })
             .then(function () {
                 return store3.removeStore().then(function (rmResult) {
-                    assert.ok(rmResult, 'The item is removed');
+                    assert.ok(rmResult, 'The store is removed');
                     QUnit.start();
                 });
             })

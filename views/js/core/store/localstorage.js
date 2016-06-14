@@ -26,9 +26,20 @@ define(['lodash', 'core/promise'], function(_, Promise){
 
     /**
      * Prefix all databases
+     * @type {String}
      */
     var prefix = 'tao-store-';
+
+    /**
+     * Alias to the Storage API
+     * @type {Storage}
+     */
     var storage = window.localStorage;
+
+    /**
+     * Name of the value that contains the last activity timestamp
+     * @type {String}
+     */
     var timestampKey = '_ts';
 
     /**
@@ -46,6 +57,13 @@ define(['lodash', 'core/promise'], function(_, Promise){
 
         //prefix all storage entries to avoid global keys confusion
         name = prefix + storeName + '.';
+
+        /**
+         * Update the timestamp of the last activity
+         */
+        function updateLastActivity() {
+            storage.setItem(name + timestampKey, JSON.stringify(Date.now()));
+        }
 
         /**
          * The store
@@ -83,7 +101,7 @@ define(['lodash', 'core/promise'], function(_, Promise){
                 return new Promise(function(resolve, reject){
                     try{
                         storage.setItem(name + key, JSON.stringify(value));
-                        storage.setItem(name + timestampKey, JSON.stringify(Date.now()));
+                        updateLastActivity();
                         resolve(true);
                     } catch(ex){
                         reject(ex);
@@ -108,6 +126,7 @@ define(['lodash', 'core/promise'], function(_, Promise){
                 return new Promise(function(resolve, reject){
                     try{
                         storage.removeItem(name + key);
+                        updateLastActivity();
                         resolve(true);
                     } catch(ex){
                         reject(ex);
