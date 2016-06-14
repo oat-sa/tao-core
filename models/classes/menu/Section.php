@@ -44,12 +44,17 @@ class Section extends MenuElement implements PhpSerializable
     {
 
 		$url = isset($node['url']) ? (string) $node['url'] : '#';
-		if ($url == '#' || empty($url)) {
+		if ($url == '#' || empty($url) || strpos('/', $url) === false) {
 			$extension  = null;
 			$controller = null;
 			$action     = null;
 		} else {
-			list($extension, $controller, $action) = explode('/', trim($url, '/'));
+            $parts = explode('/', trim($url, '/'));
+            if (count($parts) != 3) {
+                $parts = [null, null, null];
+            }
+            
+			list($extension, $controller, $action) = $parts;
 		}
 
         $data = array(
