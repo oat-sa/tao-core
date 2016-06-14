@@ -66,9 +66,6 @@ define([
         setValues : function setValues(values){
 
             var $list = this.getElement();
-            var i = 0;
-            var maxSelection = this.config.maxSelection;
-            var allowExceedingMax = this.config.allowExceedingMax;
 
             $list.find('input')
                 .prop('checked', false)
@@ -78,27 +75,13 @@ define([
             //priority to checked values
             if(_.isArray(values.checked)){
                 _.each(values.checked, function (v){
-                    var $input = $list.find('input[value="' + v + '"]');
-                    if(!allowExceedingMax && maxSelection && i >= maxSelection){
-                        return false;
-                    }
-                    if($input.length){
-                        $input.prop('checked', true).attr('checked', 'checked');
-                        i++;
-                    }
+                    $list.find('input[value="' + v + '"]').prop('checked', true).attr('checked', 'checked');
                 });
             }
 
             if(_.isArray(values.indeterminate)){
                 _.each(values.indeterminate, function (v){
-                    var $input = $list.find('input[value="' + v + '"]:not(:checked)');
-                    if(!allowExceedingMax && maxSelection && i >= maxSelection){
-                        return false;
-                    }
-                    if($input.length){
-                        $input.prop('indeterminate', true);
-                        i++;
-                    }
+                    $list.find('input[value="' + v + '"]:not(:checked)').prop('indeterminate', true);
                 });
             }
 
@@ -164,7 +147,6 @@ define([
      * @param {String} [config.serial] - the unique string to uniquely identify the checkbox group
      * @param {String} [config.maxSelection] - the maximum number of selectable checkboxes
      * @param {String} [config.maxMessage] - the message that will be displayed in the tooltip if the maxSelection is reached
-     * @param {String} [config.allowExceedingMax] - allow programmatically and initially set a number of checkbox in checked/indeterminate state that exceeds maxSelection
      * @returns {listBox}
      */
     return function tristateCheckboxGroupFactory(config){
@@ -173,8 +155,7 @@ define([
             serial : _.uniqueId('tscb'),
             list : [],
             maxSelection : 0,
-            maxMessage : __('Maximum selection reached'),
-            allowExceedingMax : true
+            maxMessage : __('Maximum selection reached')
         });
 
         return component(tristateCheckboxGroup)
