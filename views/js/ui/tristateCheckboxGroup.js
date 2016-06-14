@@ -23,8 +23,8 @@ define([
     'lodash',
     'i18n',
     'ui/component',
-    'tpl!ui/tristateCheckboxes/list',
-    'tpl!ui/tristateCheckboxes/li',
+    'tpl!ui/tristateCheckboxGroup/list',
+    'tpl!ui/tristateCheckboxGroup/li',
     'ui/tooltip'
 ], function ($, _, __, component, layoutTpl, elementTpl){
     'use strict';
@@ -33,23 +33,42 @@ define([
      * Defines tristate checkboxes methods
      * @type {Object}
      */
-    var tristateCheckboxes = {
+    var tristateCheckboxGroup = {
+        /**
+         * Get the value of tristateCheckboxGroup
+         * 
+         * @returns {Object}
+         *          {array} values.checked - checkbox in checked state
+         *          {array} values.indeterminate - checkbox in intermediate state    
+         */
         getValues : function getValues(){
+
             var values = {checked : [], indeterminate : []};
             var $list = this.getElement();
+
             $list.find('input:checked').each(function (){
                 values.checked.push($(this).val());
             });
             $list.find('input:indeterminate').each(function (){
                 values.indeterminate.push($(this).val());
             });
+
             return values;
         },
+        /**
+         * Set the checked/indeterminate state of the tristateCheckboxGroup
+         * 
+         * @param {Object} values
+         * @param {array} [values.checked] - checkbox in checked state
+         * @param {array} [values.indeterminate] - checkbox in intermediate state
+         * @returns {tristateCheckboxGroup}
+         */
         setValues : function setValues(values){
+
             var $list = this.getElement();
             var i = 0;
             var maxSelection = this.config.maxSelection;
-            var maxSet = this.config.maxSet;
+            var allowExceedingMax = this.config.allowExceedingMax;
 
             $list.find('input')
                 .prop('checked', false)
@@ -60,7 +79,7 @@ define([
             if(_.isArray(values.checked)){
                 _.each(values.checked, function (v){
                     var $input = $list.find('input[value="' + v + '"]');
-                    if(maxSet && maxSelection && i >= maxSelection){
+                    if(!allowExceedingMax && maxSelection && i >= maxSelection){
                         return false;
                     }
                     if($input.length){
@@ -73,7 +92,7 @@ define([
             if(_.isArray(values.indeterminate)){
                 _.each(values.indeterminate, function (v){
                     var $input = $list.find('input[value="' + v + '"]:not(:checked)');
-                    if(maxSet && maxSelection && i >= maxSelection){
+                    if(!allowExceedingMax && maxSelection && i >= maxSelection){
                         return false;
                     }
                     if($input.length){
@@ -82,9 +101,18 @@ define([
                     }
                 });
             }
-            
+
             return this;
         },
+        /**
+         * Set checkbox elements
+         * The given checkbox element "value" is used as a key.
+         * If the key already exists, the existing checkbox element will updated.
+         * If not, a new checkbox element will be created and appended to the list.
+         * 
+         * @param {Array} elements
+         * @returns {tristateCheckboxGroup}
+         */
         setElements : function setElements(elements){
             var $list = this.getElement();
             var self = this;
@@ -113,7 +141,7 @@ define([
                     if(data.checked){
                         $cbox.prop('checked', true).attr('checked', 'checked');
                     }else if(data.indeterminate){
-                        $cbox.prop('indeterminate', true).addClass('indeterminate');
+                        $cbox.prop('indeterminate', true);
                     }
                 }
             });
@@ -122,59 +150,76 @@ define([
     };
 
     /**
-     * Builds an instance of the listBox manager
+     * Builds an instance of tristateCheckboxGroup
+     * 
      * @param {Object} config
      * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
-     * @param {Function} [config.countRenderer] - An optional callback applied on the list count before display
+     * @param {String} [config.serial] - The unique string to uniquely identify the checkbox group
+     * @param {Array} [config.list] - Default list of checkbox element to be rendered
+     * @param {String} [config.list[].value] - the value (used as key) of the checkbox element
+     * @param {String} [config.list[].label] - the label of the checkbox element
+     * @param {Boolean} [config.list[].checked] - the checkbox element is initial checked or not
+     * @param {Boolean} [config.list[].indeterminate] - the checkbox element is initial indeterminate or not
+     * @param {String} [config.serial] - the unique string to uniquely identify the checkbox group
+     * @param {String} [config.maxSelection] - the maximum number of selectable checkboxes
+     * @param {String} [config.maxMessage] - the message that will be displayed in the tooltip if the maxSelection is reached
+     * @param {String} [config.allowExceedingMax] - allow programmatically and initially set a number of checkbox in checked/indeterminate state that exceeds maxSelection
      * @returns {listBox}
      */
-    return function tristateCheckboxesFactory(config){
+    return function tristateCheckboxGroupFactory(config){
 
         config = _.defaults(config || {}, {
             serial : _.uniqueId('tscb'),
             list : [],
             maxSelection : 0,
             maxMessage : __('Maximum selection reached'),
-            maxSet : false
+            allowExceedingMax : true
         });
 
-        return component(tristateCheckboxes)
+        return component(tristateCheckboxGroup)
             .setTemplate(layoutTpl)
             .on('render', function (){
+
                 var self = this;
                 var $list = this.getElement();
-                $list.on('change', '.indeterminate', function (){
-                    $(this).removeClass('indeterminate');
-                }).on('change', function (e){
+
+                $list.on('change', function (e){
                     var $input;
                     var $icon;
                     var maxSelection = self.config.maxSelection;
+
                     if(maxSelection && $list.find('input:checked,input:indeterminate').length > maxSelection){
 
                         $input = $(e.target);
-                        $icon = $input.siblings('.icon')
-                            .addClass('cross')
-                            .qtip({
-                                theme : 'warning',
-                                content : {
-                                    text : self.config.maxMessage
-                                }
-                            }).qtip('show');
+                        
+                        if($input.is(':checked')){
+                            $icon = $input.siblings('.icon')
+                                .addClass('cross')
+                                .qtip({
+                                    theme : 'warning',
+                                    content : {
+                                        text : self.config.maxMessage
+                                    }
+                                }).qtip('show');
 
-                        $icon.parent('label').on('mouseleave', function (){
-                            $icon.qtip('destroy');
-                        });
-
-                        _.delay(function (){
-                            $input.prop('checked', false).removeAttr('checked');
-                            $icon.removeClass('cross');
-                        }, 150);
+                            $icon.parent('label').on('mouseleave', function (){
+                                $icon.qtip('destroy');
+                            });
+                            
+                            //visually highlight the invalid new choice
+                            _.delay(function (){
+                                $input.prop('checked', false).removeAttr('checked');
+                                $icon.removeClass('cross');
+                            }, 150);
+                        }
 
                         return;
                     }
+
                     self.trigger('change', self.getValues());
                 });
+
                 this.setElements(this.config.list);
             })
             .init(config);
