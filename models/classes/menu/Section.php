@@ -50,10 +50,8 @@ class Section extends MenuElement implements PhpSerializable
 			$action     = null;
 		} else {
             $parts = explode('/', trim($url, '/'));
-            if ($cnt = count($parts) < 3) {
-                $parts = array_fill($cnt, (3-$cnt), null);
-            }
-            
+            $parts = array_replace(array_fill(0, 3, null), $parts);
+
 			list($extension, $controller, $action) = $parts;
 		}
 
