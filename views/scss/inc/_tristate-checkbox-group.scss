@@ -2,8 +2,7 @@
     li{
         label{
             input:indeterminate[type="checkbox"] ~ .icon-checkbox::before{
-                @include icon-checkbox-crossed;
-                /*todo : replace by proper indeterminate checkbox icon when available*/
+                @include icon-checkbox-indeterminate;
             }
             .icon{
                 &.cross{
