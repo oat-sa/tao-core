@@ -74,6 +74,14 @@ define([
                         },
 
                         /**
+                         * Get the timestamp of the last activity
+                         * @returns {Promise} with the result in resolve, undefined if nothing
+                         */
+                        getLastActivity : function getLastActivity() {
+                            return storage.getLastActivity();
+                        },
+
+                        /**
                          * Removes a value from the data, then synchronise the data set with the storage
                          * @param {String} name
                          * @returns {Promise} Returns a promise that will be resolved if the data have been successfully stored
@@ -90,6 +98,15 @@ define([
                         clear : function clear() {
                             data = {};
                             return storage.removeItem(storageKey);
+                        },
+
+                        /**
+                         * Delete the database related to the current store
+                         * @returns {Promise} with true in resolve once cleared
+                         */
+                        removeStore : function removeStore() {
+                            data = {};
+                            return storage.removeStore();
                         }
                     };
                 });
