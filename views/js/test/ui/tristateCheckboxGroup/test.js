@@ -49,13 +49,13 @@ define([
         {name : 'setElements', title : 'setElements'}
     ];
 
-//    QUnit
-//        .cases(testReviewApi)
-//        .test('instance API ', function (data, assert){
-//            var instance = tristateCheckboxGroup();
-//            assert.equal(typeof instance[data.name], 'function', 'The tristateCheckbox instance exposes a "' + data.title + '" function');
-//            instance.destroy();
-//        });
+    QUnit
+        .cases(testReviewApi)
+        .test('instance API ', function (data, assert){
+            var instance = tristateCheckboxGroup();
+            assert.equal(typeof instance[data.name], 'function', 'The tristateCheckbox instance exposes a "' + data.title + '" function');
+            instance.destroy();
+        });
 
 
     QUnit.test('init', function (assert){
@@ -212,9 +212,7 @@ define([
             ],
             maxSelection : 1
         };
-        var tristateCbox = tristateCheckboxGroup(config).on('change', function (values){
-            console.log('values', values);
-        });
+        var tristateCbox = tristateCheckboxGroup(config);
 
         tristateCbox.setElements([
             {value : '0', indeterminate : true},
