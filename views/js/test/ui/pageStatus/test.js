@@ -27,6 +27,8 @@ define([
 ], function ($, pageStatusFactory) {
     'use strict';
 
+    var headless = /PhantomJS/.test(window.navigator.userAgent);
+
     QUnit.module('pageStatus');
 
     QUnit.test('module', function (assert) {
@@ -44,10 +46,76 @@ define([
         assert.equal(typeof pageStatus.off, 'function', "The pageStatus module expose the off method");
         assert.equal(typeof pageStatus.trigger, 'function', "The pageStatus module expose the trigger method");
 
-        pageStatus.on('statuschange', function(status){
-            console.log('change', status);
-        });
+
     });
 
 
+    if(headless){
+
+        //testing unloading a popup seems to be the only reliable test on phantomjs
+        QUnit.asyncTest('popup unload', function (assert) {
+            QUnit.expect(2);
+
+            var popup = window.open('/','test','width=300,height=300,visible=none');
+
+            var pageStatus = pageStatusFactory({
+                window :  popup
+            });
+
+            pageStatus.on('statuschange', function(status){
+                assert.equal(status, 'unload', 'The status is unload');
+                setTimeout(function() {
+                    QUnit.start();
+                }, 500);
+            }).on('unload', function(){
+                assert.ok(true, 'The unload event is triggered');
+            });
+
+            popup.close();
+        });
+
+    } else {
+
+        QUnit.asyncTest('popup status', function (assert) {
+            QUnit.expect(8);
+
+            var popup = window.open('/','test','width=300,height=300,visible=none');
+
+            var pageStatus = pageStatusFactory({
+                window :  popup
+            });
+
+            var counter = 0;
+
+            pageStatus
+                .on('statuschange', function(status){
+                    switch(counter){
+                        case 0: assert.equal(status, 'focus', 'The first event is focus'); break;
+                        case 1: assert.equal(status, 'hide', 'The second event is hide'); break;
+                        case 2: assert.equal(status, 'blur', 'The third event is blur'); break;
+                        case 3: assert.equal(status, 'unload', 'The forth event is unload'); break;
+                    }
+
+                    counter++;
+                })
+                .on('focus', function(){
+                    assert.ok(true, 'The focus event is triggered');
+                })
+                .on('hide', function(){
+                    assert.ok(true, 'The blur event is triggered');
+                })
+                .on('blur', function(){
+                    assert.ok(true, 'The blur event is triggered');
+                })
+                .on('unload', function(){
+                    assert.ok(true, 'The unload event is triggered');
+                    QUnit.start();
+                });
+
+            popup.focus();
+            setTimeout(function() {
+                popup.close();
+            });
+        });
+    }
 });

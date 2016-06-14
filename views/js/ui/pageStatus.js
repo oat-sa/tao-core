@@ -33,10 +33,21 @@ define([
 ], function (_, eventifier) {
     'use strict';
 
+    /**
+     * The default values of the component
+     */
     var defaults = {
+
+        /**
+         * What kind of status to track
+         */
         track : ['load', 'visibility', 'focus']
     };
 
+    /**
+     * The visitbility API properties,
+     * browser dependant for the old ones.
+     */
     var hiddenProp,
         visibilityChangeEvent;
 
@@ -55,11 +66,12 @@ define([
     }
 
     /**
-     * Create a pageStatus eventifier
+     * Creates a pageStatus.
+     *
      * @param {Object} [options] - configuration options
      * @param {Window} [options.window = window] - the target window, could be useful for popup, tabs or iframes
-     * @param {String[]} [options.track] - the list of status to track
-     * @returns {pageStatus} the instance
+     * @param {String[]} [options.track] - the list of status to track in 'load', 'visibility', 'focus'
+     * @returns {pageStatus} the instance, an eventifier.
      */
     return function pageStatusFactory(options){
 
@@ -78,7 +90,7 @@ define([
         if(_.contains(options.track, 'load')){
 
             //the load event won't be triggered on the current window,
-            //the window is already oaded
+            //the window is already loaded
             win.addEventListener('load', function(){
                 pageStatus.trigger('statuschange', 'load');
             });
