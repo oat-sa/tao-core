@@ -112,7 +112,7 @@ define([
                 }
                 storeInstance = backend(storeName);
 
-                if(_.some(['getItem', 'setItem', 'removeItem', 'clear'], function(method){
+                if(_.some(['getItem', 'setItem', 'getLastActivity', 'removeItem', 'clear', 'removeStore'], function(method){
                     return !_.isFunction(storeInstance[method]);
                 })){
                     reject(new TypeError('The backend does not comply with the Storage interface'));
