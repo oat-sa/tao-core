@@ -50,7 +50,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     });
 
     QUnit.test("store", function(assert){
-        QUnit.expect(6);
+        QUnit.expect(7);
         var store = indexDbBackend('foo');
 
         assert.equal(typeof store, 'object', 'The store is an object');
@@ -59,6 +59,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
         assert.equal(typeof store.getLastActivity, 'function', 'The store exposes the getLastActivity method');
         assert.equal(typeof store.removeItem, 'function', 'The store exposes the removetItem method');
         assert.equal(typeof store.clear, 'function', 'The store exposes the clear method');
+        assert.equal(typeof store.removeStore, 'function', 'The store exposes the removeStore method');
 
     });
 
@@ -202,6 +203,47 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
         });
     });
 
+
+    QUnit.module('Erase');
+
+    QUnit.asyncTest("removeStore", function (assert) {
+        QUnit.expect(6);
+
+        var store = indexDbBackend('foo');
+        assert.equal(typeof store, 'object', 'The store is an object');
+
+        Promise.all([
+            store.setItem('zoo', 'zoob'),
+            store.setItem('too', 'toob')
+        ])
+            .then(function () {
+                return store.getItem('too').then(function (value) {
+                    assert.equal(value, 'toob', 'The retrieved value is correct');
+                });
+            })
+            .then(function () {
+                return store.removeStore().then(function (rmResult) {
+                    assert.ok(rmResult, 'The store is removed');
+
+                    var store2 = indexDbBackend('foo');
+                    assert.equal(typeof store2, 'object', 'The store is an object');
+
+                    return store2.getItem('too').then(function (value) {
+                        assert.equal(typeof value, 'undefined', 'The store has been erased');
+
+                        return store2.removeStore().then(function (rmResult) {
+                            assert.ok(rmResult, 'The store is removed');
+                            QUnit.start();
+                        });
+                    });
+                });
+            })
+            .catch(function (err) {
+                console.log(err)
+                assert.ok(false, err);
+                QUnit.start();
+            });
+    });
 
 });
 

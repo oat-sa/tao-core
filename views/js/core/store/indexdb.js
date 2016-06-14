@@ -26,8 +26,14 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
 
     /**
      * Prefix all databases
+     * @type {String}
      */
     var prefix = 'tao-store-';
+
+    /**
+     * Name of the value that contains the last activity timestamp
+     * @type {String}
+     */
     var timestampKey = '_ts';
 
     /**
@@ -57,6 +63,12 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
                     keyPath: 'key',
                     autoIncrement: true,
                     onStoreReady: function(){
+                        // auto closes when the changed version reflects a DB deletion
+                        innerStore.db.onversionchange = function (e) {
+                            if (!e || !e.newVersion) {
+                                innerStore.db.close();
+                            }
+                        };
                         resolve(innerStore);
                     },
                     onError : reject
@@ -192,6 +204,23 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
                                 resolve(true);
                             };
                             store.clear(success, reject);
+                        });
+                    });
+                });
+            },
+
+            /**
+             * Delete the database related to the current store
+             * @returns {Promise} with true in resolve once cleared
+             */
+            removeStore : function removeStore() {
+                return ensureSerie(function getWritingPromise(){
+                    return getStore().then(function(store){
+                        return new Promise(function(resolve, reject){
+                            var success = function success(){
+                                resolve(true);
+                            };
+                            store.deleteDatabase(success, reject);
                         });
                     });
                 });
