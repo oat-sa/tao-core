@@ -45,8 +45,8 @@ define([
     };
 
     /**
-     * The visitbility API properties,
-     * browser dependant for the old ones.
+     * The visibility API properties,
+     * browser dependent for the old ones.
      */
     var hiddenProp,
         visibilityChangeEvent;
@@ -130,7 +130,7 @@ define([
             }, 200, {leading : true, trailing: false} ));
         }
 
-        //thrigger back sub events
+        //trigger back sub events
         pageStatus.on('statuschange', function(status){
             var args = [status].concat([].slice.call(arguments, 1));
             pageStatus.trigger.apply(pageStatus, args);
