@@ -247,7 +247,7 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
     });
 
     QUnit.asyncTest("clean", function (assert) {
-        QUnit.expect(18);
+        QUnit.expect(29);
 
         var store1 = localStorageBackend('foo1');
         var store2 = localStorageBackend('foo2');
@@ -330,11 +330,69 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
                     });
                 });
             })
-            .then(function () {
-                return store3.removeStore().then(function (rmResult) {
-                    assert.ok(rmResult, 'The store is removed');
-                    QUnit.start();
-                });
+            .then(function() {
+                var store1 = localStorageBackend('foo1');
+                var store2 = localStorageBackend('foo2');
+                var store3 = localStorageBackend('foo3');
+
+                assert.equal(typeof store1, 'object', 'The store1 is an object');
+                assert.equal(typeof store2, 'object', 'The store2 is an object');
+                assert.equal(typeof store3, 'object', 'The store3 is an object');
+
+                Promise.all([
+                    store1.setItem('zoo', 'zoo1'),
+                    store2.setItem('zoo', 'zoo2'),
+                    store3.setItem('zoo', 'zoo3')
+                ])
+                    .then(function () {
+                        return store1.getItem('zoo').then(function (value) {
+                            assert.equal(value, 'zoo1', 'The value of zoo retrieved from store1 is correct');
+                        });
+                    })
+                    .then(function () {
+                        return store2.getItem('zoo').then(function (value) {
+                            assert.equal(value, 'zoo2', 'The value of zoo retrieved from store2 is correct');
+                        });
+                    })
+                    .then(function () {
+                        return store3.getItem('zoo').then(function (value) {
+                            assert.equal(value, 'zoo3', 'The value of zoo retrieved from store3 is correct');
+                        });
+                    })
+                    .then(function () {
+                        return localStorageBackend.clean(0, function(storeName) {
+                            return storeName === "foo2";
+                        });
+                    })
+                    .then(function (rmResult) {
+                        assert.ok(rmResult, 'The old stores are removed');
+                    })
+                    .then(function () {
+                        return store1.getItem('zoo').then(function (value) {
+                            assert.equal(value, 'zoo1', 'The store1 is still there');
+                        });
+                    })
+                    .then(function () {
+                        return store2.getItem('zoo').then(function (value) {
+                            assert.equal(typeof value, 'undefined', 'The store2 has been erased');
+                        });
+                    })
+                    .then(function () {
+                        return store3.getItem('zoo').then(function (value) {
+                            assert.equal(value, 'zoo3', 'The store3 is still there');
+                        });
+                    })
+                    .then(function () {
+                        return store1.removeStore().then(function (rmResult) {
+                            assert.ok(rmResult, 'The store is removed');
+                        });
+                    })
+                    .then(function () {
+                        return store3.removeStore().then(function (rmResult) {
+                            assert.ok(rmResult, 'The store is removed');
+                            QUnit.start();
+                        });
+                    });
             })
             .catch(function (err) {
                 assert.ok(false, err);

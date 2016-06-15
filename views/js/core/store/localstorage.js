@@ -172,12 +172,16 @@ define(['lodash', 'core/promise'], function(_, Promise){
     /**
      * Cleans all storage older than the provided age
      * @param {Number} [age] - The max age for all storage (default: 0)
+     * @param {Function} [validate] - An optional callback that validates the store to delete
      * @returns {Promise} with true in resolve once cleaned
      */
-    localStorageBackend.clean = function clean(age) {
+    localStorageBackend.clean = function clean(age, validate) {
         var keyPattern = new RegExp('^' + prefix + '([^.]+)\.([^.]+)');
         var limit = Date.now() - (parseInt(age) || 0);
         var garbage = {};
+        if (!_.isFunction(validate)) {
+            validate = null;
+        }
         return new Promise(function (resolve, reject) {
             try {
                 _(storage)
@@ -192,7 +196,10 @@ define(['lodash', 'core/promise'], function(_, Promise){
                             lastActivity = storage.getItem(prefix + storeName + '.' + timestampKey);
                             garbage[storeName] = !lastActivity || JSON.parse(lastActivity) < limit;
                         }
-                        return !!(storeName && garbage[storeName]);
+                        if (storeName && garbage[storeName]) {
+                            return validate ? validate(storeName) : true;
+                        }
+                        return false;
                     })
                     .forEach(function(key){
                         storage.removeItem(key);
