@@ -98,15 +98,12 @@ define([
      */
     var store = function store(storeName, backend) {
 
-        return isIndexDBSupported().then(function(hasIndexDB){
+        return isIndexDBSupported().then(function(){
 
             return new Promise(function(resolve, reject){
                 var storeInstance;
-                backend = backend || store.backends.indexDb;
+                backend = backend || (supportsIndexedDB ? store.backends.indexDb : store.backends.localStorage);
 
-                if(!supportsIndexedDB){
-                    backend = store.backends.localStorage;
-                }
                 if(!_.isFunction(backend)){
                     return reject(new TypeError('No backend, no storage!'));
                 }
@@ -141,11 +138,8 @@ define([
      */
     store.clean = function clean(age, validate, backend) {
         return isIndexDBSupported().then(function () {
-            backend = backend || store.backends.indexDb;
+            backend = backend || (supportsIndexedDB ? store.backends.indexDb : store.backends.localStorage);
 
-            if (!supportsIndexedDB) {
-                backend = store.backends.localStorage;
-            }
             if (!_.isFunction(backend)) {
                 return Promise.reject(new TypeError('No backend, no storage!'));
             }
