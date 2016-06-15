@@ -46,7 +46,6 @@ define([
         assert.equal(typeof pageStatus.off, 'function', "The pageStatus module expose the off method");
         assert.equal(typeof pageStatus.trigger, 'function', "The pageStatus module expose the trigger method");
 
-
     });
 
 
@@ -91,8 +90,8 @@ define([
                 .on('statuschange', function(status){
                     switch(counter){
                         case 0: assert.equal(status, 'focus', 'The first event is focus'); break;
-                        case 1: assert.equal(status, 'hide', 'The second event is hide'); break;
-                        case 2: assert.equal(status, 'blur', 'The third event is blur'); break;
+                        case 1: assert.ok(status === 'hide' || status === 'blur', 'The second event is either hide or blur'); break;
+                        case 2: assert.ok(status === 'hide' || status === 'blur', 'The third event is either hide or blur'); break;
                         case 3: assert.equal(status, 'unload', 'The forth event is unload'); break;
                     }
 
@@ -113,6 +112,7 @@ define([
                 });
 
             popup.focus();
+
             setTimeout(function() {
                 popup.close();
             });
