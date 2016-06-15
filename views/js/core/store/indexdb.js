@@ -37,6 +37,114 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
     var timestampKey = '_ts';
 
     /**
+     * Access to the index of known stores.
+     * This index is needed to maintain the list of stores created by TAO, in order to apply an auto clean up.
+     * @type {Promise}
+     */
+    var knownStores;
+
+    /**
+     * The name of the store that contains the index of known stores.
+     * @type {String}
+     */
+    var knownStoresName = 'index';
+
+    /**
+     * Opens a store
+     * @returns {Promise} with store instance in resolve
+     */
+    var openStore = function openStore(storeName) {
+        return new Promise(function (resolve, reject) {
+            var store = new IDBStore({
+                dbVersion: 1,
+                storeName: storeName,
+                storePrefix: prefix,
+                keyPath: 'key',
+                autoIncrement: true,
+                onStoreReady: function () {
+                    // auto closes when the changed version reflects a DB deletion
+                    store.db.onversionchange = function (e) {
+                        if (!e || !e.newVersion) {
+                            store.db.close();
+                        }
+                    };
+                    resolve(store);
+                },
+                onError: reject
+            });
+        });
+    };
+
+    /**
+     * Gets access to the store that contains the index of known stores.
+     * @returns {Promise}
+     */
+    var getKnownStores = function getKnownStores() {
+        if (!knownStores) {
+            knownStores = openStore(knownStoresName);
+        }
+        return knownStores;
+    };
+
+    /**
+     * Adds a store into the index of known stores.
+     * @param {String} storeName
+     * @returns {Promise}
+     */
+    var registerStore = function registerStore(storeName) {
+        return getKnownStores().then(function(store) {
+            return setEntry(store, storeName, storeName);
+        });
+    };
+
+    /**
+     * Removes a store from the index of known stores.
+     * @param {String} storeName
+     * @returns {Promise}
+     */
+    var unregisterStore = function unregisterStore(storeName) {
+        return getKnownStores().then(function(store) {
+            return removeEntry(store, storeName);
+        });
+    };
+
+    /**
+     * Sets an entry into a particular store
+     * @param store
+     * @param key
+     * @param value
+     * @returns {Promise}
+     */
+    var setEntry = function setEntry(store, key, value) {
+        return new Promise(function(resolve, reject){
+            var entry = {
+                key : key,
+                value : value
+            };
+            var success = function success(returnKey){
+                resolve(returnKey === key);
+            };
+            store.put(entry, success, reject);
+        });
+    };
+
+    /**
+     * Remove an entry from a particular store
+     * @param store
+     * @param key
+     * @param value
+     * @returns {Promise}
+     */
+    var removeEntry = function removeEntry(store, key) {
+        return new Promise(function(resolve, reject){
+            var success = function success(result){
+                resolve(result !== false);
+            };
+            store.remove(key, success, reject);
+        });
+    };
+
+    /**
      * Open and access a store
      * @param {String} storeName - the store name to open
      * @returns {Object} the store backend
@@ -52,28 +160,14 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
          * @returns {Promise} with store instance in resolve
          */
         var getStore = function getStore(){
-            if(innerStore){
-                return Promise.resolve(innerStore);
-            }
-            return new Promise(function(resolve, reject){
-                innerStore = new IDBStore({
-                    dbVersion: 1,
-                    storeName: storeName,
-                    storePrefix : prefix,
-                    keyPath: 'key',
-                    autoIncrement: true,
-                    onStoreReady: function(){
-                        // auto closes when the changed version reflects a DB deletion
-                        innerStore.db.onversionchange = function (e) {
-                            if (!e || !e.newVersion) {
-                                innerStore.db.close();
-                            }
-                        };
-                        resolve(innerStore);
-                    },
-                    onError : reject
+            if (!innerStore) {
+                innerStore = openStore(storeName).then(function(store) {
+                    return registerStore(storeName).then(function() {
+                        return Promise.resolve(store);
+                    });
                 });
-            });
+            }
+            return innerStore;
         };
 
         //keep a ref to the promise actually writing
@@ -146,21 +240,8 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
             setItem :  function setItem(key, value){
                 return ensureSerie(function getWritingPromise(){
                     return getStore().then(function(store){
-                        function setEntry(k, v) {
-                            return new Promise(function(resolve, reject){
-                                var entry = {
-                                    key : k,
-                                    value : v
-                                };
-                                var success = function success(returnKey){
-                                    resolve(returnKey === k);
-                                };
-                                store.put(entry, success, reject);
-                            });
-                        }
-
-                        return setEntry(key, value).then(function() {
-                            return setEntry(timestampKey, Date.now());
+                        return setEntry(store, key, value).then(function() {
+                            return setEntry(store, timestampKey, Date.now());
                         });
                     });
                 });
@@ -182,12 +263,7 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
             removeItem : function removeItem(key){
                 return ensureSerie(function getWritingPromise(){
                     return getStore().then(function(store){
-                        return new Promise(function(resolve, reject){
-                            var success = function success(result){
-                                resolve(result !== false);
-                            };
-                            store.remove(key, success, reject);
-                        });
+                        return removeEntry(store, key);
                     });
                 });
             },
@@ -218,7 +294,11 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
                     return getStore().then(function(store){
                         return new Promise(function(resolve, reject){
                             var success = function success(){
-                                resolve(true);
+                                unregisterStore(storeName)
+                                    .then(function() {
+                                        resolve(true);
+                                    })
+                                    .catch(reject);
                             };
                             store.deleteDatabase(success, reject);
                         });

@@ -239,7 +239,6 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                 });
             })
             .catch(function (err) {
-                console.log(err)
                 assert.ok(false, err);
                 QUnit.start();
             });
