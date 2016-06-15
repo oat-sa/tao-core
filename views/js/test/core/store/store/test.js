@@ -253,6 +253,26 @@ define(['core/store', 'core/promise'], function(store, Promise){
         });
     });
 
+    QUnit.asyncTest("clean", function(assert){
+        QUnit.expect(4);
+
+        var expectedAge = 200;
+        var expectedValidate = function() {return true};
+        mockBackend.clean = function(age, validate) {
+            assert.ok(true, 'The store has delegated the call to the backend');
+            assert.equal(age, expectedAge, 'The expected age limit has been provided');
+            assert.equal(validate, expectedValidate, 'The expected validator has been provided');
+        };
+
+        store.clean(expectedAge, expectedValidate, mockBackend).then(function(){
+            assert.ok(true, 'The store has resolved the clean up');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
     QUnit.asyncTest("object", function(assert){
         QUnit.expect(3);
 

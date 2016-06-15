@@ -108,14 +108,14 @@ define([
                     backend = store.backends.localStorage;
                 }
                 if(!_.isFunction(backend)){
-                    reject(new TypeError('No backend, no storage!'));
+                    return reject(new TypeError('No backend, no storage!'));
                 }
                 storeInstance = backend(storeName);
 
                 if(_.some(['getItem', 'setItem', 'getLastActivity', 'removeItem', 'clear', 'removeStore'], function(method){
                     return !_.isFunction(storeInstance[method]);
                 })){
-                    reject(new TypeError('The backend does not comply with the Storage interface'));
+                    return reject(new TypeError('The backend does not comply with the Storage interface'));
                 }
 
                 resolve(storeInstance);
@@ -130,6 +130,32 @@ define([
     store.backends = {
         localStorage : localStorageBackend,
         indexDb      : indexDbBackend
+    };
+
+    /**
+     * Cleans all storages older than the provided age
+     * @param {Number} [age] - The max age for all storages (default: 0)
+     * @param {Function} [validate] - An optional callback that validates the store to delete
+     * @param {Function} [backend] - the storage
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    store.clean = function clean(age, validate, backend) {
+        return isIndexDBSupported().then(function () {
+            backend = backend || store.backends.indexDb;
+
+            if (!supportsIndexedDB) {
+                backend = store.backends.localStorage;
+            }
+            if (!_.isFunction(backend)) {
+                return Promise.reject(new TypeError('No backend, no storage!'));
+            }
+
+            if (!_.isFunction(backend.clean)) {
+                return Promise.reject(new TypeError('The backend does not comply with the Storage interface'));
+            }
+
+            return backend.clean(age, validate);
+        });
     };
 
     return store;

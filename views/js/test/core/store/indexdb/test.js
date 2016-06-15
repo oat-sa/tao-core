@@ -50,7 +50,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     });
 
     QUnit.test("store", function(assert){
-        QUnit.expect(7);
+        QUnit.expect(8);
         var store = indexDbBackend('foo');
 
         assert.equal(typeof store, 'object', 'The store is an object');
@@ -60,6 +60,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
         assert.equal(typeof store.removeItem, 'function', 'The store exposes the removetItem method');
         assert.equal(typeof store.clear, 'function', 'The store exposes the clear method');
         assert.equal(typeof store.removeStore, 'function', 'The store exposes the removeStore method');
+        assert.equal(typeof indexDbBackend.clean, 'function', 'The store exposes the clean method');
 
     });
 

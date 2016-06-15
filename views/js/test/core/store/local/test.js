@@ -50,7 +50,7 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
     });
 
     QUnit.test("store", function(assert){
-        QUnit.expect(7);
+        QUnit.expect(8);
         var store = localStorageBackend('foo');
 
         assert.equal(typeof store, 'object', 'The store is an object');
@@ -60,6 +60,7 @@ define(['core/store/localstorage', 'core/promise'], function(localStorageBackend
         assert.equal(typeof store.removeItem, 'function', 'The store exposes the removetItem method');
         assert.equal(typeof store.clear, 'function', 'The store exposes the clear method');
         assert.equal(typeof store.removeStore, 'function', 'The store exposes the removeStore method');
+        assert.equal(typeof localStorageBackend.clean, 'function', 'The store exposes the clean method');
 
     });
 
