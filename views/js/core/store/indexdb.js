@@ -129,6 +129,25 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
     };
 
     /**
+     * Gets an entry from a particular store
+     * @param store
+     * @param key
+     * @returns {Promise}
+     */
+    var getEntry = function getEntry(store, key) {
+        return new Promise(function(resolve, reject){
+            var success = function success(entry){
+                if(!entry || !entry.value){
+                    return resolve(entry);
+                }
+
+                resolve(entry.value);
+            };
+            store.get(key, success, reject);
+        });
+    };
+
+    /**
      * Remove an entry from a particular store
      * @param store
      * @param key
@@ -141,6 +160,25 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
                 resolve(result !== false);
             };
             store.remove(key, success, reject);
+        });
+    };
+
+    /**
+     * Deletes a store, then removes it from the index of known stores.
+     * @param store
+     * @param storeName
+     * @returns {Promise}
+     */
+    var deleteStore = function deleteStore(store, storeName) {
+        return new Promise(function(resolve, reject){
+            var success = function success(){
+                unregisterStore(storeName)
+                    .then(function() {
+                        resolve(true);
+                    })
+                    .catch(reject);
+            };
+            store.deleteDatabase(success, reject);
         });
     };
 
@@ -217,16 +255,7 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
             getItem : function getItem(key){
                 return ensureSerie(function getWritingPromise(){
                     return getStore().then(function(store){
-                        return new Promise(function(resolve, reject){
-                            var success = function success(entry){
-                                if(!entry || !entry.value){
-                                    return resolve(entry);
-                                }
-
-                                resolve(entry.value);
-                            };
-                            store.get(key, success, reject);
-                        });
+                        return getEntry(store, key);
                     });
                 });
             },
@@ -292,20 +321,46 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
             removeStore : function removeStore() {
                 return ensureSerie(function getWritingPromise(){
                     return getStore().then(function(store){
-                        return new Promise(function(resolve, reject){
-                            var success = function success(){
-                                unregisterStore(storeName)
-                                    .then(function() {
-                                        resolve(true);
-                                    })
-                                    .catch(reject);
-                            };
-                            store.deleteDatabase(success, reject);
-                        });
+                        return deleteStore(store, storeName);
                     });
                 });
             }
         };
+    };
+
+    /**
+     * Cleans all storages older than the provided age
+     * @param {Number} [age] - The max age for all storages (default: 0)
+     * @param {Function} [validate] - An optional callback that validates the store to delete
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    indexDbBackend.clean = function clean(age, validate) {
+        var limit = Date.now() - (parseInt(age) || 0);
+        if (!_.isFunction(validate)) {
+            validate = null;
+        }
+        return getKnownStores().then(function(knownStores) {
+            return new Promise(function(resolve, reject) {
+                function cleanUp(entries) {
+                    var all = [];
+                    _.forEach(entries, function(entry) {
+                        var storeName = entry && entry.key;
+                        if (storeName) {
+                            all.push(openStore(storeName).then(function(store) {
+                                return getEntry(store, timestampKey).then(function(lastActivity) {
+                                    if ((!lastActivity || parseInt(lastActivity) < limit) && (!validate || validate(storeName))) {
+                                        return deleteStore(store, storeName);
+                                    }
+                                });
+                            }));
+                        }
+                    });
+
+                    Promise.all(all).then(resolve).catch(reject);
+                }
+                knownStores.getAll(cleanUp, reject);
+            });
+        });
     };
 
     return indexDbBackend;
