@@ -2,6 +2,7 @@ define(['core/store', 'core/promise'], function(store, Promise){
     'use strict';
 
     var data = {};
+    var timestampKey = '_ts';
     var mockBackend = function(name){
 
         if(!name){
@@ -13,13 +14,22 @@ define(['core/store', 'core/promise'], function(store, Promise){
             },
             setItem : function setItem(key, value){
                 data[key] = value;
+                data[timestampKey] = Date.now();
                 return Promise.resolve(true);
+            },
+            getLastActivity : function getLastActivity(){
+                return Promise.resolve(data[timestampKey]);
             },
             removeItem : function removeItem(key){
                 delete data[key];
+                data[timestampKey] = Date.now();
                 return Promise.resolve(true);
             },
             clear : function clear(){
+                data = {};
+                return Promise.resolve(true);
+            },
+            removeStore : function removeStore(){
                 data = {};
                 return Promise.resolve(true);
             }
@@ -90,12 +100,13 @@ define(['core/store', 'core/promise'], function(store, Promise){
     });
 
     QUnit.asyncTest("setItem", function(assert){
-        QUnit.expect(4);
+        QUnit.expect(5);
 
         store('foo', mockBackend).then(function(storage){
             assert.equal(typeof storage, 'object', 'The store is an object');
 
             var p = storage.setItem('bar', 'boz');
+            var startTs = Date.now();
             assert.ok(p instanceof Promise, 'setItem returns a Promise');
 
             return p.then(function(result){
@@ -103,7 +114,10 @@ define(['core/store', 'core/promise'], function(store, Promise){
                 assert.equal(typeof result, 'boolean', 'The result is a boolean');
                 assert.ok(result, 'The item is added');
 
-                QUnit.start();
+                storage.getLastActivity().then(function(timestamp) {
+                    assert.ok(timestamp >= startTs && timestamp <= Date.now(), 'The last activity timestamp has been updated');
+                    QUnit.start();
+                });
             });
         }).catch(function(err){
             assert.ok(false, err);
@@ -139,7 +153,9 @@ define(['core/store', 'core/promise'], function(store, Promise){
     });
 
     QUnit.asyncTest("removeItem", function(assert){
-        QUnit.expect(5);
+        QUnit.expect(6);
+
+        var startTs = Date.now();
 
         store('foo', mockBackend).then(function(storage){
             assert.equal(typeof storage, 'object', 'The store is an object');
@@ -153,8 +169,12 @@ define(['core/store', 'core/promise'], function(store, Promise){
                 });
             }).then(function(){
                 return storage.removeItem('moo').then(function(rmResult){
-                        assert.ok(rmResult, 'The item is removed');
+                    assert.ok(rmResult, 'The item is removed');
+
+                    return storage.getLastActivity().then(function(timestamp) {
+                        assert.ok(timestamp >= startTs && timestamp <= Date.now(), 'The last activity timestamp has been updated');
                     });
+                });
             }).then(function(){
                 return storage.getItem('moo').then(function(value){
                     assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
@@ -194,6 +214,59 @@ define(['core/store', 'core/promise'], function(store, Promise){
                     });
                 });
             });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("removeStore", function(assert){
+        QUnit.expect(5);
+
+        store('foo', mockBackend).then(function(storage){
+            assert.equal(typeof storage, 'object', 'The store is an object');
+
+            return Promise.all([
+                storage.setItem('zoo', 'zoob'),
+                storage.setItem('too', 'toob')
+            ])
+                .then(function(){
+                    return storage.getItem('too').then(function(value){
+                        assert.equal(value, 'toob', 'The retrieved value is correct');
+                    });
+                }).then(function(){
+                    return storage.removeStore().then(function(rmResult){
+                        assert.ok(rmResult, 'The store is removed');
+                    });
+                }).then(function(){
+                    return storage.getItem('too').then(function(value){
+                        assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                        return storage.getItem('zoo').then(function(value){
+                            assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                            QUnit.start();
+                        });
+                    });
+                });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("clean", function(assert){
+        QUnit.expect(4);
+
+        var expectedAge = 200;
+        var expectedValidate = function() {return true};
+        mockBackend.clean = function(age, validate) {
+            assert.ok(true, 'The store has delegated the call to the backend');
+            assert.equal(age, expectedAge, 'The expected age limit has been provided');
+            assert.equal(validate, expectedValidate, 'The expected validator has been provided');
+        };
+
+        store.clean(expectedAge, expectedValidate, mockBackend).then(function(){
+            assert.ok(true, 'The store has resolved the clean up');
+            QUnit.start();
         }).catch(function(err){
             assert.ok(false, err);
             QUnit.start();

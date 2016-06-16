@@ -26,9 +26,21 @@ define(['lodash', 'core/promise'], function(_, Promise){
 
     /**
      * Prefix all databases
+     * @type {String}
      */
     var prefix = 'tao-store-';
+
+    /**
+     * Alias to the Storage API
+     * @type {Storage}
+     */
     var storage = window.localStorage;
+
+    /**
+     * Name of the value that contains the last activity timestamp
+     * @type {String}
+     */
+    var timestampKey = '_ts';
 
     /**
      * Open and access a store
@@ -45,6 +57,13 @@ define(['lodash', 'core/promise'], function(_, Promise){
 
         //prefix all storage entries to avoid global keys confusion
         name = prefix + storeName + '.';
+
+        /**
+         * Update the timestamp of the last activity
+         */
+        function updateLastActivity() {
+            storage.setItem(name + timestampKey, JSON.stringify(Date.now()));
+        }
 
         /**
          * The store
@@ -82,11 +101,20 @@ define(['lodash', 'core/promise'], function(_, Promise){
                 return new Promise(function(resolve, reject){
                     try{
                         storage.setItem(name + key, JSON.stringify(value));
+                        updateLastActivity();
                         resolve(true);
                     } catch(ex){
                         reject(ex);
                     }
                 });
+            },
+
+            /**
+             * Get the timestamp of the last activity
+             * @returns {Promise} with the result in resolve, undefined if nothing
+             */
+            getLastActivity : function getLastActivity() {
+                return this.getItem(timestampKey);
             },
 
             /**
@@ -98,6 +126,7 @@ define(['lodash', 'core/promise'], function(_, Promise){
                 return new Promise(function(resolve, reject){
                     try{
                         storage.removeItem(name + key);
+                        updateLastActivity();
                         resolve(true);
                     } catch(ex){
                         reject(ex);
@@ -112,7 +141,6 @@ define(['lodash', 'core/promise'], function(_, Promise){
             clear : function clear(){
                 var keyPattern = new RegExp('^' + name);
                 return new Promise(function(resolve, reject){
-                    var i;
                     try{
                         _(storage)
                             .map(function(entry, index){
@@ -129,8 +157,58 @@ define(['lodash', 'core/promise'], function(_, Promise){
                         reject(ex);
                     }
                 });
+            },
+
+            /**
+             * Delete the database related to the current store
+             * @returns {Promise} with true in resolve once cleared
+             */
+            removeStore : function removeStore() {
+                return this.clear();
             }
         };
+    };
+
+    /**
+     * Cleans all storages older than the provided age
+     * @param {Number} [age] - The max age for all storages (default: 0)
+     * @param {Function} [validate] - An optional callback that validates the store to delete
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    localStorageBackend.clean = function clean(age, validate) {
+        var keyPattern = new RegExp('^' + prefix + '([^.]+)\.([^.]+)');
+        var limit = Date.now() - (parseInt(age) || 0);
+        var garbage = {};
+        if (!_.isFunction(validate)) {
+            validate = null;
+        }
+        return new Promise(function (resolve, reject) {
+            try {
+                _(storage)
+                    .map(function(entry, index){
+                        return storage.key(index);
+                    })
+                    .filter(function(key){
+                        var res = keyPattern.exec(key);
+                        var storeName = res && res[1];
+                        var lastActivity;
+                        if (storeName && !(storeName in garbage)) {
+                            lastActivity = storage.getItem(prefix + storeName + '.' + timestampKey);
+                            garbage[storeName] = !lastActivity || JSON.parse(lastActivity) < limit;
+                        }
+                        if (storeName && garbage[storeName]) {
+                            return validate ? validate(storeName) : true;
+                        }
+                        return false;
+                    })
+                    .forEach(function(key){
+                        storage.removeItem(key);
+                    });
+                resolve(true);
+            } catch (ex) {
+                reject(ex);
+            }
+        });
     };
 
     return localStorageBackend;

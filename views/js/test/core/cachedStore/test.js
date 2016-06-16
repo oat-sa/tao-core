@@ -50,13 +50,14 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
 
 
     QUnit.asyncTest('data', function(assert) {
-        QUnit.expect(11);
+        QUnit.expect(14);
 
         var name = 'test2';
         var expectedName1 = 'foo';
         var expectedName2 = 'bob';
         var expectedValue1 = 'bar';
         var expectedValue2 = 'fake';
+        var startTs = Date.now();
 
         cachedStore(name).then(function(storage) {
             assert.equal(typeof storage, 'object', 'An instance of the cachedStore accessor has been created');
@@ -64,34 +65,48 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
             storage.setItem(expectedName1, expectedValue1).then(function() {
                 assert.ok(true, 'The value1 has been set');
 
-                storage.setItem(expectedName2, expectedValue2).then(function() {
-                    assert.ok(true, 'The value2 has been set');
+                storage.getLastActivity().then(function(timestamp) {
+                    assert.ok(timestamp >= startTs && timestamp <= Date.now(), 'The last activity timestamp has been updated');
+                    startTs = Date.now();
 
-                    var value1 = storage.getItem(expectedName1);
-                    assert.equal(value1, expectedValue1, 'The got value1 is correct');
+                    storage.setItem(expectedName2, expectedValue2).then(function() {
+                        assert.ok(true, 'The value2 has been set');
 
-                    var value2 = storage.getItem(expectedName2);
-                    assert.equal(value2, expectedValue2, 'The got value2 is correct');
-
-                    storage.removeItem(expectedName1).then(function() {
-                        assert.ok(true, 'The value1 has been removed');
-
-                        var value1 = storage.getItem(expectedName1);
-                        assert.equal(value1, undefined, 'The value1 is erased');
-
-                        var value2 = storage.getItem(expectedName2);
-                        assert.equal(value2, expectedValue2, 'The value2 is still there');
-
-                        storage.clear().then(function() {
-                            assert.ok(true, 'The data is erased');
+                        storage.getLastActivity().then(function(timestamp) {
+                            assert.ok(timestamp >= startTs && timestamp <= Date.now(), 'The last activity timestamp has been updated');
+                            startTs = Date.now();
 
                             var value1 = storage.getItem(expectedName1);
-                            assert.equal(value1, undefined, 'The value1 is erased');
+                            assert.equal(value1, expectedValue1, 'The got value1 is correct');
 
                             var value2 = storage.getItem(expectedName2);
-                            assert.equal(value2, undefined, 'The value2 is erased');
+                            assert.equal(value2, expectedValue2, 'The got value2 is correct');
 
-                            QUnit.start();
+                            storage.removeItem(expectedName1).then(function() {
+                                assert.ok(true, 'The value1 has been removed');
+
+                                storage.getLastActivity().then(function(timestamp) {
+                                    assert.ok(timestamp >= startTs && timestamp <= Date.now(), 'The last activity timestamp has been updated');
+
+                                    var value1 = storage.getItem(expectedName1);
+                                    assert.equal(value1, undefined, 'The value1 is erased');
+
+                                    var value2 = storage.getItem(expectedName2);
+                                    assert.equal(value2, expectedValue2, 'The value2 is still there');
+
+                                    storage.clear().then(function() {
+                                        assert.ok(true, 'The data is erased');
+
+                                        var value1 = storage.getItem(expectedName1);
+                                        assert.equal(value1, undefined, 'The value1 is erased');
+
+                                        var value2 = storage.getItem(expectedName2);
+                                        assert.equal(value2, undefined, 'The value2 is erased');
+
+                                        QUnit.start();
+                                    });
+                                });
+                            });
                         });
                     });
                 });
@@ -101,7 +116,7 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
 
 
     QUnit.asyncTest('persistence', function(assert) {
-        QUnit.expect(4);
+        QUnit.expect(6);
 
         var name = 'test3';
         var expectedName = 'foo';
@@ -119,7 +134,16 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
                     var value = storage2.getItem(expectedName);
                     assert.equal(value, expectedValue, 'The got value is correct');
 
-                    QUnit.start();
+                    storage2.removeStore().then(function() {
+                        cachedStore(name).then(function(storage3) {
+                            assert.equal(typeof storage3, 'object', 'Another instance of the cachedStore accessor has been created');
+
+                            var value = storage3.getItem(expectedName);
+                            assert.equal(typeof value, 'undefined', 'The got value is correct');
+
+                            QUnit.start();
+                        });
+                    });
                 });
             });
         });
