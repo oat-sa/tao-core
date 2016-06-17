@@ -21,6 +21,7 @@
 
 namespace oat\tao\scripts\update;
 
+use common_Exception;
 use common_ext_ExtensionsManager;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
@@ -52,18 +53,21 @@ use oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\CompatibilityTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
-use oat\oatbox\event\EventManager;
 
 /**
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
 class Updater extends \common_ext_ExtensionUpdater {
-    
+
     /**
-     * 
-     * @param string $currentVersion
-     * @return string $versionUpdatedTo
+     *
+     * @param $initialVersion
+     * @return string $initialVersion
+     * @throws \common_exception_Error
+     * @throws \common_exception_InconsistentData
+     * @throws \common_ext_ExtensionException
+     * @throws common_Exception
      */
     public function update($initialVersion) {
         
@@ -529,12 +533,12 @@ class Updater extends \common_ext_ExtensionUpdater {
                 	    $websource = new DirectWebSource($options);
                 	    break;
                 	default:
-                	    throw \common_Exception('unknown implementation '.$class);
+                	    throw new common_Exception('unknown implementation '.$class);
                 }
                 WebsourceManager::singleton()->addWebsource($websource);
             }
         } else {
-            throw \common_Exception('Error reading former filesystem access configuration');
+            throw new common_Exception('Error reading former filesystem access configuration');
         }
         return true;
     }
