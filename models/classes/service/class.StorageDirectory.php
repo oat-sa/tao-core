@@ -71,10 +71,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      * @return string
      */
     public function getRelativePath() {
-        if (!$this->getFileSystem()->getAdapter() instanceof Local) {
-            $this->relPath = str_replace('\\', '/', $this->relPath);
-        }
-        return $this->relPath;
+        return $this->fixSlashes($this->relPath);
     }
     
     /**
@@ -126,6 +123,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function readStream($path)
     {
+        $path = $this->fixSlashes($path);
         $resource =  $this->read($path);
         return new \GuzzleHttp\Psr7\Stream($resource);
     }
@@ -222,5 +220,13 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     protected function getFileSystem() {
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->fs->getUri());
+    }
+
+    protected function fixSlashes($path)
+    {
+        if (!$this->getFileSystem()->getAdapter() instanceof Local) {
+            $path = str_replace('\\', '/', $path);
+        }
+        return $path;
     }
 }
