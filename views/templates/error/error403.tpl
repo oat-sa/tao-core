@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +28,7 @@
                 <li>try again later</li>
                 <li>or contact your TAO administrator to request access.</li>
             </ul>
-        </div>      
+        </div>
         <ul class="plain links">
             <?php if (!empty($_SERVER['HTTP_REFERER'])) : ?>
             <li><a href="<?= $_SERVER['HTTP_REFERER'] ?>"><?=__('Go Back')?></a></li>
@@ -38,12 +38,12 @@
 
         <?php if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
             <?php if (!empty($message)): ?>
-                <h2>Debug Message</h2>          
+                <h2>Debug Message</h2>
                 <pre><?= $message ?></pre>
             <?php endif; ?>
-            
+
             <?php if (!empty($trace)): ?>
-                <h2>Stack Trace</h2>            
+                <h2>Stack Trace</h2>
                 <pre><?= $trace ?></pre>
             <?php endif; ?>
         <?php endif; ?>

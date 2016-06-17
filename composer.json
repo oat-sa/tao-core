@@ -46,6 +46,7 @@
 		"php" : ">=5.4",
 		"phpdocumentor/reflection-docblock" : "2.*",
 		"oat-sa/oatbox-extension-installer" : "dev-master",
+		"oat-sa/extension-builder": "^0.1",
 		"phpmailer/phpmailer" : "dev-master",
         "oat-sa/jig" : "dev-master",
 		"psr/http-message" : "~1.0",
