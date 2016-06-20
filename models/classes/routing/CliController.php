@@ -67,7 +67,9 @@ class CliController implements ServiceLocatorAwareInterface
             $action = new Help($extId);
         }
 
-        $action->setServiceLocator($this->getServiceLocator());
+        if ($action instanceof ServiceLocatorAwareInterface) {
+            $action->setServiceLocator($this->getServiceLocator());
+        }
 
         try {
             $report = call_user_func($action, $params);

@@ -37,7 +37,7 @@ class FileStorageTest extends TaoPhpUnitTestRunner
     public function setUp()
     {
         $this->sampleDir = __DIR__ . '/samples/';
-        $this->privateDir = $this->sampleDir . 'private';
+        $this->privateDir = \tao_helpers_File::createTempDir();
         $this->adapterFixture = 'adapterFixture';
     }
 

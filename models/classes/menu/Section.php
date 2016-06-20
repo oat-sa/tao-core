@@ -49,7 +49,10 @@ class Section extends MenuElement implements PhpSerializable
 			$controller = null;
 			$action     = null;
 		} else {
-			list($extension, $controller, $action) = explode('/', trim($url, '/'));
+            $parts = explode('/', trim($url, '/'));
+            $parts = array_replace(array_fill(0, 3, null), $parts);
+
+			list($extension, $controller, $action) = $parts;
 		}
 
         $data = array(

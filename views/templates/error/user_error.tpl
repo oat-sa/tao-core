@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,14 +21,14 @@
 
     <div class="section-container">
     	<div class="error-code">500</div>
-    	<div class="error-text">			
+    	<div class="error-text">
 			<?php if (!empty($message)): ?>
 			<p><?= $message ?></p>
 			<?php endif; ?>
-	    </div>	    
+	    </div>
 		<ul class="plain links">
 		<?php if (!empty($returnLink)): ?>
-			<?php if (!empty($_SERVER['HTTP_REFERER'])) : ?>				
+			<?php if (!empty($_SERVER['HTTP_REFERER'])) : ?>
 				<li><a href="<?= $_SERVER['HTTP_REFERER'] ?>"><?=__('Go Back')?></a></li>
 			<?php endif; ?>
 			<li><a href="<?= ROOT_URL ?>"><?=__('TAO Home')?></a></li>
