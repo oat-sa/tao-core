@@ -69,7 +69,7 @@ class TaoFrontController
             } catch (\common_user_auth_AuthFailedException $e) {
                 $data['success']	= false;
                 $data['errorCode']	= '401';
-                $data['errorMsg']	= 'You don\'t permission to access this resource.';
+                $data['errorMsg']	= 'You don\'t have permission to access this resource.';
                 $data['version']	= TAO_VERSION;
 
                 header('HTTP/1.0 401 Unauthorized');
