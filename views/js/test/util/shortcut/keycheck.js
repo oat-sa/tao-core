@@ -213,7 +213,7 @@ define([
      * Update the displayed results set with the result of the currently checked shortcut
      */
     function updateCurrentResult() {
-        var defaultPrevented = $('input[name="default_prevented"]').is(':checked');
+        var defaultPrevented = $('input[name="default_prevented"][value="1"]').is(':checked');
         var comment = $('comment textarea').val();
         if (currentShortcut) {
             shortcutsResults[current] = {
