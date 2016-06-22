@@ -18,7 +18,7 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['jquery', 'util/shortcut/shortcut', 'lib/simulator/jquery.simulate'], function($, shortcutHelper) {
+define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($, shortcutHelper) {
     'use strict';
 
 

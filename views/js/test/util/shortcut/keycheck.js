@@ -21,7 +21,7 @@
 define([
     'jquery',
     'core/store',
-    'util/shortcut/shortcut',
+    'util/shortcut',
     'json!test/util/shortcut/keycheck'
 ], function ($, store, shortcutHelper, listOfKeys) {
     'use strict';
