@@ -231,7 +231,8 @@ define([
      */
     function addShortcut() {
         if (currentShortcut) {
-            shortcutHelper.add(currentShortcut.shortcut, function() {
+            shortcutHelper.add(currentShortcut.shortcut, function(event, keystroke) {
+                console.log('caught keystroke', keystroke);
                 shortcutCaught = true;
                 $('caught value').html('Yes').css('color', 'green');
                 $('prevented').show();
