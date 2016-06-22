@@ -298,11 +298,16 @@
 </section>
 
 <script>
-    require(['/tao/ClientConfig/config'], function(){
-        require(['test/util/shortcut/keycheck'], function(keycheck){
-            keycheck();
+    (function(){
+        // use the base tag to ensure the page will work in any environments
+        var bases = document.getElementsByTagName('base');
+        var baseHref = bases.length && bases[0].href || '';
+        require([baseHref + '../../tao/ClientConfig/config'], function(){
+            require(['test/util/shortcut/keycheck'], function(keycheck){
+                keycheck();
+            });
         });
-    });
+    })();
 </script>
 </body>
 </html>
