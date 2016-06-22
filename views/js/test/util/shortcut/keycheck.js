@@ -20,12 +20,22 @@
  */
 define([
     'jquery',
+    'core/store',
     'util/shortcut/shortcut',
     'json!test/util/shortcut/keycheck'
-], function ($, shortcutHelper, listOfKeys) {
+], function ($, store, shortcutHelper, listOfKeys) {
     'use strict';
 
+    /**
+     * Detect the platform to only display the shortcuts that are relevant to check
+     * @type {String}
+     */
     var platformType = navigator.platform.indexOf('Mac') < 0 ? 'win' : 'mac';
+
+    /**
+     * A translation map to present the right name of the key regarding the current platform
+     * @type {Object}
+     */
     var specialKeys = {
         mac: {
             '<Shift>' : 'Shift',
@@ -41,23 +51,68 @@ define([
         }
     };
 
+    /**
+     * The browser storage used to keep results locally
+     * @type {store}
+     */
+    var keycheckStorage;
+
+    /**
+     * The index of the current shortcut to check
+     * @type {Number}
+     */
     var current = -1;
+
+    /**
+     * The currently checked shortcut
+     * @type {Object}
+     */
     var currentShortcut = null;
+
+    /**
+     * True if the current shortcut has been caught
+     * @type {Boolean}
+     */
     var shortcutCaught = false;
+
+    /**
+     * The list of results that are already done
+     * @type {Array}
+     */
     var shortcutsResults = [];
+
+    /**
+     * The data to export at the end of the check
+     * @type {Object}
+     */
     var resultData = {
         platform: navigator.platform,
         browser: navigator.userAgent,
         shortcuts: shortcutsResults
     };
 
+    /**
+     * A list of actions that are mapped to UI controls
+     * @type {Object}
+     */
     var actions = {
+        /**
+         * Go to section "Shortcuts"
+         */
         showShortcuts: function () {
             displaySection('shortcuts');
         },
+
+        /**
+         * Go to section "Results"
+         */
         showResults: function () {
             displaySection('results');
         },
+
+        /**
+         * Select the whole results set and copy it to the clipboard
+         */
         selectResults: function () {
             selectText($('.results pre').get(0));
             try {
@@ -66,15 +121,22 @@ define([
                 alert('Oops, unable to copy');
             }
         },
+
+        /**
+         * Reset all the results and restart the check session
+         */
         resetAll: function () {
-            displaySection('shortcuts');
-            removeShortcut();
+            shortcutHelper.clear();
             current = -1;
             currentShortcut = null;
             shortcutsResults = [];
             setResults();
             actions.nextShortcut();
         },
+
+        /**
+         * Move forward to the next check in the list of shortcuts
+         */
         nextShortcut: function () {
             removeShortcut();
             if (!getNextShortcut()) {
@@ -82,11 +144,15 @@ define([
                 $('end').show();
                 actions.showResults();
             } else {
-                resetKeyChecker();
+                updateKeyChecker();
             }
         }
     };
 
+    /**
+     * Returns the next shortcut to check. Move the cursor.
+     * @returns {Object}
+     */
     function getNextShortcut() {
         currentShortcut = null;
         while (!currentShortcut) {
@@ -102,11 +168,25 @@ define([
         return currentShortcut;
     }
 
+    /**
+     * Update the displayed results set
+     */
     function setResults() {
-        resultData.shortcuts = _.compact(shortcutsResults);
-        $('.results pre').html(JSON.stringify(resultData, null, 2));
+        function done() {
+            resultData.shortcuts = _.compact(shortcutsResults);
+            $('.results pre').html(JSON.stringify(resultData, null, 2));
+        }
+        keycheckStorage.setItem('state', {
+            current: current,
+            results: shortcutsResults
+        })
+            .then(done)
+            .catch(done);
     }
 
+    /**
+     * Update the displayed results set with the result of the currently checked shortcut
+     */
     function updateCurrentResult() {
         var defaultPrevented = $('input[name="default_prevented"]').is(':checked');
         var comment = $('comment textarea').val();
@@ -130,7 +210,10 @@ define([
         }
     }
 
-    function resetKeyChecker() {
+    /**
+     * Update the test bed of the shortcut
+     */
+    function updateKeyChecker() {
         $('prevented input[value="0"]').click();
         $('caught value').html('No').css('color', 'red');
         $('comment textarea').val('');
@@ -143,6 +226,9 @@ define([
         $('desk').show();
     }
 
+    /**
+     * Registers the current shortcut to be checked
+     */
     function addShortcut() {
         if (currentShortcut) {
             shortcutHelper.add(currentShortcut.shortcut, function() {
@@ -159,12 +245,20 @@ define([
         }
     }
 
+    /**
+     * Unregisters the current shortcut after a check
+     */
     function removeShortcut() {
         if (currentShortcut) {
             shortcutHelper.remove(currentShortcut.shortcut);
         }
     }
 
+    /**
+     * Format a shortcut to be displayed with the right key names
+     * @param {String} label
+     * @returns {String}
+     */
     function formatShortcut(label) {
         _.forEach(specialKeys[platformType], function(spec, code) {
             label = label.replace(code, spec);
@@ -172,6 +266,10 @@ define([
         return label;
     }
 
+    /**
+     * Display a particular section
+     * @param {String} name
+     */
     function displaySection(name) {
         $('nav button').removeClass('active');
         $('nav button.' + name).addClass('active');
@@ -179,6 +277,11 @@ define([
         $('section.' + name).show();
     }
 
+    /**
+     * Select the full text contained by a particular element
+     * @param {HTMLElement} element
+     * @returns {HTMLElement}
+     */
     function selectText(element) {
         var range;
         if (document.selection) {
@@ -193,6 +296,32 @@ define([
         return element;
     }
 
+    /**
+     * Loads the locally stored results
+     */
+    function loadResults() {
+        keycheckStorage.getItem('state')
+            .then(function(data) {
+                shortcutHelper.clear();
+                current = data.current || -1;
+                shortcutsResults = data.results || {};
+                if (current >= 0) {
+                    // the current position will be moved forward
+                    current --;
+                }
+                displaySection('shortcuts');
+                actions.nextShortcut();
+            })
+            .catch(function() {
+                displaySection('shortcuts');
+                actions.resetAll();
+            });
+        displaySection('shortcuts');
+    }
+
+    /**
+     * Starts the application
+     */
     function start() {
         $(document).on('click', 'button', function (e) {
             var $btn = $(e.target);
@@ -208,7 +337,15 @@ define([
         $('browser value').html(resultData.browser);
 
         /** Start the tester **/
-        actions.resetAll();
+        store('keycheck')
+            .then(function(storage) {
+                keycheckStorage = storage;
+                loadResults();
+            })
+            .catch(function() {
+                displaySection('shortcuts');
+                actions.resetAll();
+            });
     }
 
     return start;
