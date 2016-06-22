@@ -22,6 +22,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
 {
     /**
      * @var array
+     * @deprecated since version number
      */
     private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
 
@@ -48,6 +49,12 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
         header('Content-Type: '.$this->responseEncoding);
     }
     
+    /**
+     * return http Accepted mimeTypes
+     * 
+     * @author Christophe GARCIA
+     * @return array
+     */
     protected function getAcceptableMimeTypes()
     {
         return $this->acceptedMimeTypes;
