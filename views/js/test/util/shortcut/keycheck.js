@@ -33,6 +33,25 @@ define([
     var platformType = navigator.platform.indexOf('Mac') < 0 ? 'win' : 'mac';
 
     /**
+     * Browser detection
+     * @type {Boolean}
+     */
+    // Opera 8.0+
+    var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+    // Firefox 1.0+
+    var isFirefox = typeof InstallTrigger !== 'undefined';
+    // At least Safari 3+: "[object HTMLElementConstructor]"
+    var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+    // Internet Explorer 6-11
+    var isIE = !!document.documentMode;
+    // Edge 20+
+    var isEdge = !isIE && !!window.StyleMedia;
+    // Chrome 1+
+    var isChrome = !!window.chrome && !!window.chrome.webstore;
+
+    var browserType = isFirefox ? 'firefox' : isIE || isEdge ? 'ie' : isChrome ? 'chrome' : isSafari ? 'safari' : isOpera ? 'opera' : 'unknown';
+
+    /**
      * A translation map to present the right name of the key regarding the current platform
      * @type {Object}
      */
@@ -88,6 +107,7 @@ define([
     var resultData = {
         platform: navigator.platform,
         browser: navigator.userAgent,
+        browserType: browserType,
         shortcuts: shortcutsResults
     };
 
@@ -157,8 +177,13 @@ define([
         currentShortcut = null;
         while (!currentShortcut) {
             currentShortcut = listOfKeys[++ current];
-            if (currentShortcut && currentShortcut.platform && currentShortcut.platform.indexOf(platformType) < 0) {
-                currentShortcut = null;
+            if (currentShortcut) {
+                if (currentShortcut.platform && currentShortcut.platform !== 'all' && currentShortcut.platform.indexOf(platformType) < 0) {
+                    currentShortcut = null;
+                }
+                else if (currentShortcut.browser && currentShortcut.browser !== 'all' && currentShortcut.browser.indexOf(browserType) < 0) {
+                    currentShortcut = null;
+                }
             }
             if (current >= listOfKeys.length) {
                 currentShortcut = null;
