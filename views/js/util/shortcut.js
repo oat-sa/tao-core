@@ -307,8 +307,6 @@ define([
             }
             parsedShortcut.handler(event, keystroke);
         }
-
-        console.log(keystroke, event, parsedShortcut);
     }
 
     /**
@@ -552,7 +550,6 @@ define([
                 registerMouseWheel();
             }
 
-            console.log('added', keystroke)
             return this;
         },
 
