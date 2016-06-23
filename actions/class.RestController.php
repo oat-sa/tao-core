@@ -60,10 +60,8 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      */
     protected function returnFailure(Exception $exception, $withMessage=true)
     {
-        if (is_subclass_of($exception, common_Exception::class)) {
-            $handler = new tao_helpers_RestExceptionHandler();
-            $handler->handle($exception);
-        }
+        $handler = new tao_helpers_RestExceptionHandler();
+        $handler->handle($exception);
 
         $data = array();
         if ($withMessage) {
