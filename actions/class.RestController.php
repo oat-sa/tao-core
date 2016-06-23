@@ -1,4 +1,6 @@
 <?php
+use oat\tao\helpers\RestExceptionHandler;
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -60,7 +62,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      */
     protected function returnFailure(Exception $exception, $withMessage=true)
     {
-        $handler = new tao_helpers_RestExceptionHandler();
+        $handler = new RestExceptionHandler();
         $handler->handle($exception);
 
         $data = array();

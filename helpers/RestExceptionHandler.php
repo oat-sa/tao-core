@@ -18,29 +18,33 @@
  *
  */
 
-class tao_helpers_RestExceptionHandler extends common_exception_ExceptionHandler
+namespace oat\tao\helpers;
+
+use Exception;
+
+class RestExceptionHandler
 {
-    public function handle(common_Exception $exception)
+    public function handle(Exception $exception)
 	{
 		switch (get_class($exception)) {
 
-			case common_exception_BadRequest::class:
+			case \common_exception_BadRequest::class:
 				header("HTTP/1.0 400 Bad Request");
 				break;
 
-			case common_exception_MissingParameter::class:
+			case \common_exception_MissingParameter::class:
 				header("HTTP/1.0 400 Bad Request");
 				break;
 
-			case common_exception_InvalidArgumentType::class:
+			case \common_exception_InvalidArgumentType::class:
 				header("HTTP/1.0 400 Bad Request");
 				break;
 
-			case common_exception_Unauthorized::class:
+			case \common_exception_Unauthorized::class:
 				header("HTTP/1.0 401 Unauthorized");
 				break;
 
-			case common_exception_NotFound::class:
+			case \common_exception_NotFound::class:
 				header("HTTP/1.0 404 Not Found");
 				break;
 
@@ -48,7 +52,7 @@ class tao_helpers_RestExceptionHandler extends common_exception_ExceptionHandler
 				header("HTTP/1.0 405 Not Found");
 				break;
 
-			case common_exception_NotAcceptable::class:
+			case \common_exception_NotAcceptable::class:
 				header("HTTP/1.0 406 Not Acceptable");
 				break;
 
@@ -64,15 +68,15 @@ class tao_helpers_RestExceptionHandler extends common_exception_ExceptionHandler
 				header("HTTP/1.0 415 Unsupported Media Type");
 				break;
 
-			case common_exception_NotImplemented::class:
+			case \common_exception_NotImplemented::class:
 				header("HTTP/1.0 501 Not Implemented" );
 				break;
 
-			case common_exception_PreConditionFailure::class:
+			case \common_exception_PreConditionFailure::class:
 				header("HTTP/1.0 412 Precondition Failed");
 				break;
 
-			case common_exception_NoContent::class:
+			case \common_exception_NoContent::class:
 				header("HTTP/1.0 204 No Content" );
 				break;
 
