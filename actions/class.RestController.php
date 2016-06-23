@@ -69,7 +69,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
         if ($withMessage) {
             $data['success']	=  false;
             $data['errorCode']	=  $exception->getCode();
-            $data['errorMsg']	=  ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() : $exception->getMessage();
+            $data['errorMsg']	=  $this->getErrorMessage($exception);
             $data['version']	= TAO_VERSION;
         }
 
@@ -120,5 +120,19 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             default:
                 return json_encode($data);
         }
+    }
+
+    /**
+     * Generate safe message preventing exposing sensitive date in non develop mode
+     * @param Exception $exception
+     * @return string
+     */
+    private function getErrorMessage(Exception $exception)
+    {
+        $defaultMessage =  __('Unexpected error. Please contact administrator');
+        if (DEBUG_MODE) {
+            $defaultMessage = $exception->getMessage();
+        }
+        return ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() :  $defaultMessage;
     }
 }
