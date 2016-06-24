@@ -21,7 +21,7 @@ module.exports = function(grunt) {
                 'max_line_len': 666
             }
         },
-        optimize : 'none',
+        //optimize : 'none',
         preserveLicenseComments: false,
         optimizeAllPluginResources: true,
         findNestedDependencies : true,
