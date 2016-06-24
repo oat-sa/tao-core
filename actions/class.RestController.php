@@ -22,7 +22,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
 {
     /**
      * @var array
-     * @deprecated since version number
+     * @deprecated since 4.3.0
      */
     private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
 
