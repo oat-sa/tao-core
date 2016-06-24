@@ -3,6 +3,7 @@ require.config({
     baseUrl : '<?=get_data('tao_base_www')?>js',
     catchError: true,
     waitSeconds: <?=get_data('client_timeout')?>,
+    urlArgs : "buster=<?=get_data('version')?>",
 
     config : {
         'context': {
@@ -68,7 +69,7 @@ require.config({
         'raphael'           : 'lib/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
         'spin'              : 'lib/spin.min',
-        'history'           : 'lib/history/history',
+        'html5-history-api'           : 'lib/history/history',
         'mathJax'           : [
             '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
             '../../../taoQtiItem/views/js/MathJaxFallback'
@@ -83,7 +84,11 @@ require.config({
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
         <?php if(tao_helpers_Mode::is('production')):?>
-        '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
+            <?php if($name == 'tao'): ?>
+                'controller/routes' : '<?=$path?>/controllers.min',
+            <?php else : ?>
+                '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
+            <?php endif ?>
         <?php endif?>
     <?php endforeach?>
    },

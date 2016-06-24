@@ -30,6 +30,10 @@ define([
 ], function ($, _, __, module, feedback, versionWarning) {
     'use strict';
 
+
+    return {
+        start: function start(){
+
     var conf = module.config();
     var messages = conf.message || {};
     var $context = $('.entry-point-container');
@@ -90,4 +94,6 @@ define([
             submitForm();
         }
     });
+        }
+    };
 });
