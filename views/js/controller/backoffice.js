@@ -22,11 +22,18 @@
 define([
     'jquery', 'lodash', 'i18n', 'context', 'helpers', 'router', 'ui', 'core/history', 'ui/feedback', 'layout/logout-event'
 ], function ($, _, __, context, helpers, router, ui, history, feedback, logoutEvent) {
-
     'use strict';
 
 
+    /**
+     * The backoffice controller.
+     * Starts the ajax based router, the automated error reporting and the UI listeners.
+     */
     return {
+
+        /**
+         * Controller entry point
+         */
         start: function start(){
 
                 var $doc = $(document);
