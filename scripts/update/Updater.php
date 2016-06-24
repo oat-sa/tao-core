@@ -502,12 +502,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(\tao_models_classes_service_FileStorage::SERVICE_ID, $service);
             $this->setVersion('2.22.0');
         }
-        
-<<<<<<< HEAD
+
         $this->skip('2.22.0', '4.3.0');
-=======
-        $this->skip('2.22.0', '4.2.1');
->>>>>>> develop
+
     }
     
     private function migrateFsAccess() {
