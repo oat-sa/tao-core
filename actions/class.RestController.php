@@ -22,6 +22,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
 {
     /**
      * @var array
+     * @deprecated since version number
      */
     private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
 
@@ -39,13 +40,24 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     {
         if ($this->hasHeader("Accept")) {
             try {
-                $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
+                $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->getAcceptableMimeTypes(), $this->getHeader("Accept")));
             } catch (common_exception_ClientException $e) {
                 $this->returnFailure($e);
             }
         }
 
         header('Content-Type: '.$this->responseEncoding);
+    }
+    
+    /**
+     * return http Accepted mimeTypes
+     * 
+     * @author Christophe GARCIA
+     * @return array
+     */
+    protected function getAcceptableMimeTypes()
+    {
+        return $this->acceptedMimeTypes;
     }
 
     /**
