@@ -24,7 +24,12 @@ use Exception;
 
 class RestExceptionHandler
 {
-    public function handle(Exception $exception)
+
+	/**
+	 * Set response header according exception type
+	 * @param Exception $exception
+	 */
+    public function sendHeader(Exception $exception)
 	{
 		switch (get_class($exception)) {
 

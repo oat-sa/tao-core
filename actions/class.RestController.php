@@ -63,7 +63,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     protected function returnFailure(Exception $exception, $withMessage=true)
     {
         $handler = new RestExceptionHandler();
-        $handler->handle($exception);
+        $handler->sendHeader($exception);
 
         $data = array();
         if ($withMessage) {
