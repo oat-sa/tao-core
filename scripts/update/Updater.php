@@ -53,6 +53,8 @@ use oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\CompatibilityTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\extension\UpdateLogger;
 
 /**
  * 
@@ -504,6 +506,21 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         
         $this->skip('2.22.0', '4.3.0');
+        
+        if ($this->isVersion('4.3.0')) {
+            try {
+                $this->getServiceManager()->get(UpdateLogger::SERVICE_ID);
+                // all good, already configured
+            } catch (ServiceNotFoundException $error) {
+                // setup log fs
+                $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+                $fsm->registerLocalFileSystem('log', FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'log'.DIRECTORY_SEPARATOR);
+                $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
+                
+                $this->getServiceManager()->register(UpdateLogger::SERVICE_ID, new UpdateLogger(array(UpdateLogger::OPTION_FILESYSTEM => 'log')));
+            }
+            $this->setVersion('4.3.1');
+        }
     }
     
     private function migrateFsAccess() {
