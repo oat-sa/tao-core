@@ -505,9 +505,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.22.0');
         }
         
-        $this->skip('2.22.0', '4.3.0');
+        $this->skip('2.22.0', '4.3.1');
         
-        if ($this->isVersion('4.3.0')) {
+        if ($this->isVersion('4.3.1')) {
             try {
                 $this->getServiceManager()->get(UpdateLogger::SERVICE_ID);
                 // all good, already configured
@@ -519,8 +519,9 @@ class Updater extends \common_ext_ExtensionUpdater {
                 
                 $this->getServiceManager()->register(UpdateLogger::SERVICE_ID, new UpdateLogger(array(UpdateLogger::OPTION_FILESYSTEM => 'log')));
             }
-            $this->setVersion('4.3.1');
+            $this->setVersion('4.3.2');
         }
+
     }
     
     private function migrateFsAccess() {
