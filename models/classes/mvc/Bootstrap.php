@@ -288,9 +288,15 @@ class Bootstrap {
     		
     		common_Logger::e($msg);
     		
-    		$message = $e->getMessage();
-    		$trace = $e->getTraceAsString();
-    		
+    		$trace = '';
+
+			if (DEBUG_MODE) {
+				$message = $e->getMessage();
+				$trace = $e->getTraceAsString();
+			} else {
+				$message = __('Unexpected error. Please contact administrator');
+			}
+
     		$this->dispatchError($e, 500, $message, $trace);
     	}
     }
