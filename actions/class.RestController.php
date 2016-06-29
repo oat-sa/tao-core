@@ -24,6 +24,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
 {
     /**
      * @var array
+     * @deprecated since 4.3.0
      */
     private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
 
@@ -41,7 +42,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     {
         if ($this->hasHeader("Accept")) {
             try {
-                $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
+                $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->getAcceptableMimeTypes(), $this->getHeader("Accept")));
             } catch (common_exception_ClientException $e) {
                 $this->returnFailure($e);
             }
@@ -49,7 +50,18 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
 
         header('Content-Type: '.$this->responseEncoding);
     }
-
+    
+    /**
+     * return http Accepted mimeTypes
+     * 
+     * @author Christophe GARCIA
+     * @return array
+     */
+    protected function getAcceptableMimeTypes()
+    {
+        return $this->acceptedMimeTypes;
+    }
+    
     /**
      * Return failed Rest response
      * Set header http by using handle()
