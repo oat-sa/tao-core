@@ -104,6 +104,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.7.2');
         }
 
+        // upgrade is requied for asset service to continue working
+        if ($this->isBetween('2.7.2','2.13.2')) {
+            if (!$this->getServiceManager()->has(AssetService::SERVICE_ID))
+            {
+                $this->getServiceManager()->register(AssetService::SERVICE_ID, new AssetService());
+            }
+        }
+
         if ($this->isVersion('2.7.2')) {
             foreach ($extensionManager->getInstalledExtensions() as $extension) {
                 $extManifestConsts = $extension->getConstants();
@@ -289,8 +297,33 @@ class Updater extends \common_ext_ExtensionUpdater {
         // semantic versioning
         $this->skip('2.7.17','2.8.0');
         
+        if ($this->isBetween('2.8.0','2.13.0')) {
+            
+            $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $entryPoints = $tao->getConfig('entrypoint');
+            
+            if (is_array($entryPoints) || $entryPoints == false) {
+        
+                $service = new EntryPointService();
+                if (is_array($entryPoints)) {
+                    foreach ($entryPoints as $id => $entryPoint) {
+                        $service->overrideEntryPoint($id, $entryPoint);
+                        $service->activateEntryPoint($id, EntryPointService::OPTION_POSTLOGIN);
+                    }
+                }
+                // register, don't activate
+                $passwordResetEntry = new PasswordReset();
+                $service->overrideEntryPoint($passwordResetEntry->getId(), $passwordResetEntry);
+            
+                $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $service);
+                
+            }
+        }
+        
         if ($this->isVersion('2.8.0')) {
-            EntryPointService::getRegistry()->registerEntryPoint(new BackOfficeEntrypoint());
+            $service = $this->getServiceManager()->get(EntryPointService::SERVICE_ID);
+            $service->registerEntryPoint(new BackOfficeEntrypoint());
+            $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $service);
             $this->setVersion('2.8.1');
         }
 
@@ -362,33 +395,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         
         $this->skip('2.12.0','2.13.0');
         
-        if ($this->isVersion('2.13.0')) {
-            $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-            $entryPoints = $tao->getConfig('entrypoint');
-            
-            $service = new EntryPointService();
-            foreach ($entryPoints as $id => $entryPoint) {
-                $service->overrideEntryPoint($id, $entryPoint);
-                $service->activateEntryPoint($id, EntryPointService::OPTION_POSTLOGIN);
-            }
-            // register, don't activate
-            $passwordResetEntry = new PasswordReset();
-            $service->overrideEntryPoint($passwordResetEntry->getId(), $passwordResetEntry);
-            
-            $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $service);
-            
-            $this->setVersion('2.13.1');
-        }
+        // moved to 2.8.0
+        $this->skip('2.13.0','2.13.1');
 
-        if ($this->isVersion('2.13.1')) {
-            try {
-                $this->getServiceManager()->get(AssetService::SERVICE_ID);
-                // all good, already configured
-            } catch (ServiceNotFoundException $error) {
-                $this->getServiceManager()->register(AssetService::SERVICE_ID, new AssetService());
-            }
-            $this->setVersion('2.13.2');
-        }
+        // moved to 2.7.2
+        $this->skip('2.13.1','2.13.2');
         
         if ($this->isVersion('2.13.2')) {
 
