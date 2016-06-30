@@ -71,11 +71,10 @@ class Updater extends \common_ext_ExtensionUpdater {
      */
     public function update($initialVersion) {
         
-        $currentVersion = $initialVersion;
         $extensionManager = common_ext_ExtensionsManager::singleton();
         
         //migrate from 2.6 to 2.7.0
-        if ($currentVersion == '2.6') {
+        if ($this->isVersion('2.6')) {
 
             //create Js config  
             $ext = $extensionManager->getExtensionById('tao');
@@ -84,28 +83,28 @@ class Updater extends \common_ext_ExtensionUpdater {
             );
             $ext->setConfig('js', $config);
 
-            $currentVersion = '2.7.0';
+            $this->setVersion('2.7.0');
         }
         
         //migrate from 2.7.0 to 2.7.1
-        if ($currentVersion == '2.7.0') {
+        if ($this->isVersion('2.7.0')) {
         
             $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_1.rdf';
         
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             if ($adapter->import($file)) {
-                $currentVersion = '2.7.1';
+                $this->setVersion('2.7.1');
             } else{
                 common_Logger::w('Import failed for '.$file);
             }
         }
         
-        if ($currentVersion === '2.7.1') {
+        if ($this->isVersion('2.7.1')) {
             SearchService::setSearchImplementation(ZendSearch::createSearch());
-            $currentVersion = '2.7.2';
+            $this->setVersion('2.7.2');
         }
 
-        if ($currentVersion == '2.7.2') {
+        if ($this->isVersion('2.7.2')) {
             foreach ($extensionManager->getInstalledExtensions() as $extension) {
                 $extManifestConsts = $extension->getConstants();
                 if (isset($extManifestConsts['BASE_WWW'])) {
@@ -115,46 +114,46 @@ class Updater extends \common_ext_ExtensionUpdater {
                     
                 }
             }
-             $currentVersion = '2.7.3';
+             $this->setVersion('2.7.3');
         }
 
-        if ($currentVersion == '2.7.3') {
+        if ($this->isVersion('2.7.3')) {
         
             $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_4.rdf';
         
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             if ($adapter->import($file)) {
-                $currentVersion = '2.7.4';
+                $this->setVersion('2.7.4');
             } else{
                 common_Logger::w('Import failed for '.$file);
             }
         }
         
-        if ($currentVersion == '2.7.4') {
+        if ($this->isVersion('2.7.4')) {
             $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'model_2_7_5.rdf';
             
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             if ($adapter->import($file)) {
-                $currentVersion = '2.7.5';
+                $this->setVersion('2.7.5');
             } else{
                 common_Logger::w('Import failed for '.$file);
             }
         }
         
-        if ($currentVersion == '2.7.5') {
+        if ($this->isVersion('2.7.5')) {
             $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'index_type_2_7_6.rdf';
         
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             if ($adapter->import($file)) {
-                $currentVersion = '2.7.6';
+                $this->setVersion('2.7.6');
             } else{
                 common_Logger::w('Import failed for '.$file);
             }
         }
         
-        if ($currentVersion == '2.7.6') {
+        if ($this->isVersion('2.7.6')) {
             
-            $dir = FILES_PATH.'updates'.DIRECTORY_SEPARATOR.'pre_'.$currentVersion;
+            $dir = FILES_PATH.'updates'.DIRECTORY_SEPARATOR.'pre_2.7.6';
             if (!mkdir($dir, 0700, true)) {
                 throw new \common_exception_Error('Unable to log update to '.$dir);
             }
@@ -183,10 +182,8 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $persistence->exec($query,array($subject));
             }
 
-            $currentVersion = '2.7.7';
+            $this->setVersion('2.7.7');
         }
-        
-        $this->setVersion($currentVersion);
         
         // update FuncAccessControl early to support access changes
         if ($this->isBetween('2.7.7', '2.17.4')) {
