@@ -181,7 +181,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      *
      * @param $path
      * @return bool
-     * @throws FileNotFoundException
+     * @throws tao_models_classes_FileNotFoundException
      */
     public function delete($path)
     {
