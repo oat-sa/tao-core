@@ -349,8 +349,8 @@
 
 .tree-checkbox {
     li > a.clicked {
-        background: none;
-        border: none;
+        background: transparent;
+        border-color: transparent;
     }
     li.node-instance >  a {
         ins:before {
