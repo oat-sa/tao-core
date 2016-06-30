@@ -74,7 +74,7 @@ abstract class tao_helpers_form_elements_Treeview extends tao_helpers_form_eleme
                 'data' => $range->getLabel(),
                 'attributes' => array(
                     'id' => tao_helpers_Uri::encode($range->getUri()),
-                    'class' => 'node-root'
+                    'class' => 'node-class'
                 ),
                 'children' => $data
             );
