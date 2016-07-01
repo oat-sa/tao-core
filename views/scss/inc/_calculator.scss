@@ -65,6 +65,8 @@
                     color : $info !important;
                 }
                 &.calcDisplay{
+                    cursor:text;
+                    opacity: 1 !important;
                     background : whiten($uiClickableDefaultBg, .7);
                     &:hover{
                         background : whiten($uiClickableDefaultBg, .9);
