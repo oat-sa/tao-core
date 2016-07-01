@@ -75,6 +75,8 @@ require.config({
         ],
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'interact'          : 'lib/interact',
+        'd3'                : 'lib/d3js/d3.min',
+        'c3'                : 'lib/c3js/c3.min',
 
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',

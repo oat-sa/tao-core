@@ -39,12 +39,15 @@ class TaoFrontController
         $pRequest = \common_http_Request::currentRequest();
         $this->legacy($pRequest, $response);
     }
-    
+
     /**
      * Run the controller
-     *
+     * 
      * @param common_http_Request $pRequest
-     * @param ResponseInterface $response
+     * @throws \ActionEnforcingException
+     * @throws \Exception
+     * @throws \common_exception_Error
+     * @throws \common_ext_ExtensionException
      */
     public function legacy(common_http_Request $pRequest) {
         $resolver = new Resolver($pRequest);
@@ -69,7 +72,7 @@ class TaoFrontController
             } catch (\common_user_auth_AuthFailedException $e) {
                 $data['success']	= false;
                 $data['errorCode']	= '401';
-                $data['errorMsg']	= 'You don\'t permission to access this resource.';
+                $data['errorMsg']	= 'You are not authorized to access this functionality.';
                 $data['version']	= TAO_VERSION;
 
                 header('HTTP/1.0 401 Unauthorized');
