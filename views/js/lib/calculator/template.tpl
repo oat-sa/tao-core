@@ -1,6 +1,6 @@
 <div class="calcContainer">
     <form action="">
-        <input type="text" class="calcDisplay" />
+        <input type="text" class="calcDisplay" readonly="readonly"/>
 
         <button type="button" value="%" data-key="%" class="calcFunction calcFirst">&#37;</button>
         <button type="button" value="sqrt" data-key="sqrt" class="calcFunction">&radic;</button>

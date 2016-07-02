@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\tao\model\GenerisTreeFactory;
+
 /**
  * Short description of class tao_helpers_form_elements_xhtml_Treeview
  *
@@ -76,10 +78,6 @@ class tao_helpers_form_elements_xhtml_Treeview
      */
     public function getOptions($format = 'flat')
     {
-        $returnValue = array();
-
-        
-
         switch($format){
         	case 'structured':
         		$returnValue = parent::getOptions();
@@ -89,8 +87,6 @@ class tao_helpers_form_elements_xhtml_Treeview
         		$returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData(parent::getOptions());
         		break;
         }
-
-        
 
         return (array) $returnValue;
     }
@@ -105,11 +101,7 @@ class tao_helpers_form_elements_xhtml_Treeview
      */
     public function setValue($value)
     {
-        
-
-    	$this->addValue($value);
-
-        
+        $this->addValue($value);
     }
 
     /**
@@ -121,9 +113,7 @@ class tao_helpers_form_elements_xhtml_Treeview
      */
     public function render()
     {
-        $returnValue = (string) '';
-
-        
+        $returnValue = '';
 
         $widgetTreeName  = $this->name.'-TreeBox';
         $widgetValueName = $this->name.'-TreeValues';
@@ -137,9 +127,10 @@ class tao_helpers_form_elements_xhtml_Treeview
 		$returnValue .= "<div id='{$widgetTreeName}'></div>";
 
 		//initialize the AsyncFileUpload Js component
-		$returnValue .= '<script type="text/javascript">
+		$returnValue .= '
+<script type="text/javascript">
 			$(function(){
-			 require([\'require\', \'jquery\', \'generis.tree.select\'], function(req, $, GenerisTreeSelectClass) {
+			 require([\'require\', \'jquery\', \'generis.tree.select\', \'context\'], function(req, $, GenerisTreeSelectClass, context) {
 				$("div[id=\''.$widgetTreeName.'\']").tree({
 					data: {
 						type : "json",
@@ -181,7 +172,10 @@ class tao_helpers_form_elements_xhtml_Treeview
 							draggable	: false
 						}
 					},
-					ui: { theme_name : "checkbox" },
+					ui: { 
+                        "theme_name" : "checkbox",
+                        "theme_path" : context.taobase_www + \'js/lib/jsTree/themes/css/style.css\'
+					},
 					plugins : { checkbox : { three_state : false} }
 				});
 			 });
@@ -211,6 +205,21 @@ class tao_helpers_form_elements_xhtml_Treeview
     		return $values;
     	}
         
+    }
+
+    public function rangeToTree(core_kernel_classes_Class $range, $recursive = true)
+    {
+        $openNodes = array_reduce($range->getSubClasses(true), function ($carry, $item) {
+            if (!$carry) {
+                $carry = [];
+            }
+            $carry[] = $item->getUri();
+            return $carry;
+        });
+        $openNodes[] = $range->getUri();
+        $factory = new GenerisTreeFactory(true, $openNodes, 10, 0);
+        $array = $factory->buildTree($range);
+        return $array;
     }
 
 }

@@ -23,6 +23,13 @@
             right: 2px;
             text-decoration: none;
             padding-left : 5px;
+            &::before{
+                margin : 0;
+                padding: 3px 1px 1px 5px;
+                top: 2px;
+                position: relative;
+                font-size: 1.6rem;
+            }
         }
         h3 {
             padding : 0 5px;
