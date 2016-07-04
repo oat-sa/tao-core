@@ -153,7 +153,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
             throw new common_Exception('Stream is not readable. Write to filesystem aborted.');
         }
         if (!$stream->isSeekable()) {
-            throw new common_exception_Error('Stream is not seekable. Write to filesystem aborted.');
+            throw new common_Exception('Stream is not seekable. Write to filesystem aborted.');
         }
         $stream->rewind();
 
