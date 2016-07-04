@@ -1,4 +1,6 @@
 <?php
+use oat\tao\helpers\RestExceptionHandler;
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,6 +24,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
 {
     /**
      * @var array
+     * @deprecated since 4.3.0
      */
     private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
 
@@ -39,7 +42,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     {
         if ($this->hasHeader("Accept")) {
             try {
-                $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
+                $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->getAcceptableMimeTypes(), $this->getHeader("Accept")));
             } catch (common_exception_ClientException $e) {
                 $this->returnFailure($e);
             }
@@ -47,7 +50,18 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
 
         header('Content-Type: '.$this->responseEncoding);
     }
-
+    
+    /**
+     * return http Accepted mimeTypes
+     * 
+     * @author Christophe GARCIA
+     * @return array
+     */
+    protected function getAcceptableMimeTypes()
+    {
+        return $this->acceptedMimeTypes;
+    }
+    
     /**
      * Return failed Rest response
      * Set header http by using handle()
@@ -60,16 +74,14 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      */
     protected function returnFailure(Exception $exception, $withMessage=true)
     {
-        if (is_subclass_of($exception, common_Exception::class)) {
-            $handler = new tao_helpers_RestExceptionHandler();
-            $handler->handle($exception);
-        }
+        $handler = new RestExceptionHandler();
+        $handler->sendHeader($exception);
 
         $data = array();
         if ($withMessage) {
             $data['success']	=  false;
             $data['errorCode']	=  $exception->getCode();
-            $data['errorMsg']	=  ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() : $exception->getMessage();
+            $data['errorMsg']	=  $this->getErrorMessage($exception);
             $data['version']	= TAO_VERSION;
         }
 
@@ -120,5 +132,19 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             default:
                 return json_encode($data);
         }
+    }
+
+    /**
+     * Generate safe message preventing exposing sensitive date in non develop mode
+     * @param Exception $exception
+     * @return string
+     */
+    private function getErrorMessage(Exception $exception)
+    {
+        $defaultMessage =  __('Unexpected error. Please contact administrator');
+        if (DEBUG_MODE) {
+            $defaultMessage = $exception->getMessage();
+        }
+        return ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() :  $defaultMessage;
     }
 }

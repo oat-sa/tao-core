@@ -93,7 +93,7 @@ class tao_helpers_form_GenerisFormFactory
 					$options = array();
 
 					if($element instanceof TreeAware){
-						$options = $element->rangeToTree(
+                        $sortedOptions = $element->rangeToTree(
 							$property->getUri() === RDFS_RANGE ? new core_kernel_classes_Class( RDFS_RESOURCE ) : $range
 						);
 					}
