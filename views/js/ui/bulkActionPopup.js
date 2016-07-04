@@ -117,8 +117,8 @@ define([
                     
                     $('.feedback-error', $element).remove();
                     if (!checkRequiredFields($element)) {
-                        var error = $('<div class="feedback-error"></div>').text(__('All fields are required'));
-                        $element.find('.reason').prepend(error);
+                        var error = $('<div class="feedback-error small"></div>').text(__('All fields are required'));
+                        $element.find('.actions').prepend(error);
                         return;
                     }
                     
