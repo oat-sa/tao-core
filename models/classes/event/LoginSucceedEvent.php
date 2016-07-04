@@ -30,7 +30,7 @@ class LoginSucceedEvent implements Event, JsonSerializable
      * LoginEvent constructor.
      * @param $login
      */
-    public function __construct($login)
+    public function __construct($login = '')
     {
         $this->login = $login;
     }
