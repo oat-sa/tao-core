@@ -504,6 +504,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         
         $this->skip('2.22.0', '5.0.0');
+
     }
     
     private function migrateFsAccess() {
