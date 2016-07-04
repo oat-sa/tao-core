@@ -508,10 +508,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('2.22.0', '4.3.1');
         
         if ($this->isVersion('4.3.1')) {
-            try {
-                $this->getServiceManager()->get(UpdateLogger::SERVICE_ID);
-                // all good, already configured
-            } catch (ServiceNotFoundException $error) {
+            if (!$this->getServiceManager()->has(UpdateLogger::SERVICE_ID)) {
                 // setup log fs
                 $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
                 $fsm->registerLocalFileSystem('log', FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'log'.DIRECTORY_SEPARATOR);
