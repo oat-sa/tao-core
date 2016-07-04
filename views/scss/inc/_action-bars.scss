@@ -89,6 +89,9 @@
             &.btn-info {
                 overflow: hidden;
                 background: transparent;
+                position: relative;
+                z-index: 7;
+                background: whiten($info, .1);
                 &:hover, &.active {
                     border-color: white(.3);
                     opacity: 1;
