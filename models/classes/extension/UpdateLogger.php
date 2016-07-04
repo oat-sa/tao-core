@@ -45,7 +45,6 @@ class UpdateLogger extends ConfigurableService implements LoggerInterface
             $count = isset($count) ? $count + 1 : 0;
             $updateId = 'update_'.time().'_'.$count;
         }
-        echo $updateId;
         $filesystem->write($updateId.'.log', $message);
     }
     
