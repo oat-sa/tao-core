@@ -117,8 +117,7 @@ define([
                 this.resetSize();
 
                 //init closer
-                $element.find('.dynamic-component-title-bar .closer').click(function (e){
-                    e.preventDefault();
+                interact($element.find('.dynamic-component-title-bar .closer').selector).on('tap', function() {
                     self.hide();
                 });
 

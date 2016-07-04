@@ -107,11 +107,11 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      * Return content of file located at $path. Output as string
      *
      * @param string $path
-     * @return StreamInterface
+     * @return string
      */
     public function read($path)
     {
-        return  $this->getFileSystem()->readStream($this->getRelativePath().$path);
+        return  $this->getFileSystem()->read($this->getRelativePath().$path);
     }
 
     /**
@@ -121,7 +121,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function readStream($path)
     {
-        $resource =  $this->read($path);
+        $resource = $this->getFileSystem()->readStream($this->getRelativePath().$path);
         return new \GuzzleHttp\Psr7\Stream($resource);
     }
 
@@ -181,7 +181,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      *
      * @param $path
      * @return bool
-     * @throws FileNotFoundException
+     * @throws tao_models_classes_FileNotFoundException
      */
     public function delete($path)
     {
