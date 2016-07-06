@@ -186,10 +186,9 @@ class tao_actions_Users extends tao_actions_CommonModule
             $message = __('User deletion not permited on a demo instance');
         } elseif ($this->hasRequestParameter('uri')) {
             $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+            $this->checkUser($user->getUri());
 
-            if ($user->getUri() == LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
-                $message = __('Default user cannot be deleted');
-            } elseif ($this->userService->removeUser($user)) {
+            if ($this->userService->removeUser($user)) {
                 $deleted = true;
                 $message = __('User deleted successfully');
             }
@@ -289,6 +288,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         }
 
         $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $this->checkUser($user->getUri());
 
         $myFormContainer = new tao_actions_form_Users($this->userService->getClass($user), $user);
         $myForm = $myFormContainer->getForm();
@@ -322,5 +322,17 @@ class tao_actions_Users extends tao_actions_CommonModule
         $this->setData('formTitle', __('Edit a user'));
         $this->setData('myForm', $myForm->render());
         $this->setView('user/form.tpl');
+    }
+
+    /**
+     * Check whether user user data can be changed
+     * @param $uri
+     * @throws Exception
+     */
+    private function checkUser($uri)
+    {
+        if ($uri === LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
+            throw new Exception('Default user data cannot be changed');
+        }
     }
 }
