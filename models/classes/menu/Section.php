@@ -109,6 +109,15 @@ class Section extends MenuElement implements PhpSerializable
         return _url($this->getAction(), $this->getController(), $this->getExtensionId());
     }
 
+
+    /**
+     * @return string
+     */
+    public function getId() {
+        return $this->data['id'];
+    }
+
+
     public function getName()
     {
         return $this->data['name'];
