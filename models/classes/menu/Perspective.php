@@ -155,6 +155,13 @@ class Perspective extends MenuElement implements PhpSerializable
     {
         return $this->data['name'];
     }
+
+    /**
+     * @return string
+     */
+    public function getId() {
+        return $this->data['id'];
+    }
     
     public function getDescription()
     {
