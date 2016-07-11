@@ -71,6 +71,10 @@ class JsonLdExport implements \JsonSerializable
      */
     public function __construct(core_kernel_classes_Resource $resource)
     {
+        if(!$resource->exists()){
+            \common_Logger::w('Resource '.$resource->getUri().' does not exist');
+        }
+        
         $this->resource = $resource;
     }
 
@@ -107,9 +111,13 @@ class JsonLdExport implements \JsonSerializable
             '@id' => $this->resource->getUri()
         );
         
-        $types = $this->resource->getTypes();
-        if (!empty($types)) {
-            $data['@type'] = $this->transfromArray($types);
+        if ($this->resource->exists()){
+            $types = $this->resource->getTypes();
+            if (!empty($types)) {
+                $data['@type'] = $this->transfromArray($types);
+            }
+        } else {
+            $data['@type'] = '#missing'; 
         }
         
         foreach ($triples as $triple) {
