@@ -214,111 +214,17 @@ class Bootstrap {
         }
         common_Profiler::stop('dispatch');
     }
-
+    
     /**
      * Catch any errors
-     * If the request is an ajax request, return to the client a formated object.
+     * return a http response in function of client accepted mime type 
      *
      * @param Exception $exception
      */
-    private function catchError(Exception $exception)
+    protected function catchError(Exception $exception)
     {
-    	try {
-    		// Rethrow for a direct clean catch...
-    		throw $exception;
-    	}
-    	catch (\ActionEnforcingException $ae){
-    		common_Logger::w("Called module ".$ae->getModuleName().', action '.$ae->getActionName().' not found.', array('TAO', 'BOOT'));
-    		
-    		$message  = "Called module: ".$ae->getModuleName()."\n";
-    		$message .= "Called action: ".$ae->getActionName()."\n";
-    		
-    		$this->dispatchError($ae, 404, $message);
-    	}
-        catch (\tao_models_classes_AccessDeniedException $ue){
-    		common_Logger::i('Access denied', array('TAO', 'BOOT'));
-            if (!tao_helpers_Request::isAjax()
-                && common_session_SessionManager::isAnonymous()
-    		    && \tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
-    		) {
-                header(HTTPToolkit::statusCodeHeader(302));
-                header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao', array(
-                    'redirect' => $ue->getDeniedRequest()->getRequestURI(),
-                    'msg' => $ue->getUserMessage()
-                ))));
-            } else {
-                $this->dispatchError($ue, 403, $ue->getUserMessage());
-            }
-    	}
-    	catch (\tao_models_classes_UserException $ue){
-    		$this->dispatchError($ue, 403);
-    	}
-    	catch (\tao_models_classes_FileNotFoundException $e){
-    		$this->dispatchError($e, 404);
-    	}
-    	catch (\common_exception_UserReadableException $e) {
-    		$this->dispatchError($e, 500, $e->getUserMessage());
-    	}
-    	catch (\ResolverException $e) {
-    	    common_Logger::singleton()->handleException($e);
-            if (!tao_helpers_Request::isAjax()
-    		    && \tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
-    		) {
-                header(HTTPToolkit::statusCodeHeader(302));
-                header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao')));
-            } else {
-                $this->dispatchError($e, 403);
-            }
-    	}
-    	catch (Exception $e) {
-    		// Last resort.
-    		$msg = "System Error: uncaught exception (";
-    		$msg .= get_class($e) . ") in (" . $e->getFile() . ")";
-    		$msg .= " at line " . $e->getLine() . ": " . $e->getMessage();
-
-    		$previous = $e->getPrevious();
-    		
-    		while ($previous !== null) {
-    		    $msg .= "\n\ncaused by:\n\n";
-    		    $msg .= "(" . get_class($previous) . ") in (" . $previous->getFile() . ")";
-    		    $msg .= " at line " . $previous->getLine() . ": " . $previous->getMessage();
-    		    
-    		    $previous = $previous->getPrevious();
-    		}
-    		
-    		common_Logger::e($msg);
-    		
-    		$trace = '';
-
-			if (DEBUG_MODE) {
-				$message = $e->getMessage();
-				$trace = $e->getTraceAsString();
-			} else {
-				$message = __('Unexpected error. Please contact administrator');
-			}
-
-    		$this->dispatchError($e, 500, $message, $trace);
-    	}
-    }
-    
-    private function dispatchError(Exception $e, $httpStatus, $message = '', $trace = '')
-    {
-        
-        // Set relevant HTTP header.
-        header(HTTPToolkit::statusCodeHeader($httpStatus));
-        
-        if (tao_helpers_Request::isAjax()) {
-            new common_AjaxResponse(array(
-                "success" => false,
-                "type" => 'Exception',
-                "data" => array(
-                    'ExceptionType' => get_class($e)
-                ),
-                "message" => $message
-            ));
-        } else {
-            require_once Template::getTemplate("error/error${httpStatus}.tpl", 'tao');
-        }
+        $Interpretor = new error\ExceptionInterpretor();
+        $Interpretor->setException($exception)->getResponse()->setHttpCode($Interpretor->getHttpCode())->trace($Interpretor->getTrace())->send();
     }
 
     /**

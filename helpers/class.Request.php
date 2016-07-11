@@ -16,6 +16,7 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2012-2016 (update and modification) Open Assessment Technologies SA;
  * 
  */
 
@@ -47,18 +48,31 @@ class tao_helpers_Request
     {
         $returnValue = (bool) false;
 
-        
 		if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
 			if(strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 				$returnValue = true;
 			}
 		}
-        
-
+                
         return (bool) $returnValue;
     }
     
     /**
+     * return false if client is expecting for html (is a real web browser)
+     * true for others cases
+     * @author Christophe GARCIA <christopheg@taotesting.com>
+     * @return boolean
+     */
+    public static function isApiCall() {
+        $accepted = [];
+   
+        if(array_key_exists('HTTP_ACCEPT', $_SERVER)) {
+            $accepted = explode(',', $_SERVER['HTTP_ACCEPT']);
+        }
+        return (in_array('text/html', $accepted) === false);
+    }
+
+     /**
      * Returns the current relative call url, without leading slash
      * 
      * @param string $url
