@@ -383,4 +383,20 @@ class tao_helpers_Http
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
     }
+
+    /**
+     * CSRF Protection via Origin Header. Verify request value matches the tao's origin.
+     * @throws common_exception_BadRequest
+     */
+    public static function checkOrigin()
+    {
+        $request = new Request();
+        if ($request->getMethod() === Request::HTTP_POST && $request->hasHeader('origin')) {
+            $rootInfo = parse_url(ROOT_URL);
+            $originInfo = parse_url($request->getHeader('origin'));
+            if (!isset($originInfo['host']) || $originInfo['host'] !== $rootInfo['host']) {
+                throw new \common_exception_BadRequest("CSRF protection in POST request: detected invalid Origin header: " . $_SERVER["HTTP_ORIGIN"]);
+            }
+        }
+    }
 }

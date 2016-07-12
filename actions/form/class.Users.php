@@ -94,7 +94,8 @@ class tao_actions_form_Users extends tao_actions_form_Instance
     	}
     	
     	$options['topClazz'] = CLASS_GENERIS_USER;
-    	
+    	$options['checkOrigin'] = true;
+
     	parent::__construct($clazz, $this->user, $options);
     }
 

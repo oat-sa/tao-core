@@ -152,21 +152,23 @@ class tao_helpers_form_xhtml_Form
      */
     protected function validate()
     {
-        $returnValue = (bool) false;
+        $this->valid = true;
 
-        
-		
-		$this->valid = true;
-		
-		foreach($this->elements as $element){
-			if(!$element->validate()){
-				$this->valid = false;
-			}
-		}
-		
-        
+        foreach($this->elements as $element){
+            if(!$element->validate()){
+                $this->valid = false;
+            }
+        }
 
-        return (bool) $returnValue;
+        if (isset($this->options['checkOrigin']) && $this->options['checkOrigin'] === true) {
+            try {
+                \tao_helpers_Http::checkOrigin();
+            } catch (\common_exception_BadRequest $e) {
+                $this->valid = false;
+            }
+        }
+
+        return $this->valid;
     }
 
 }
