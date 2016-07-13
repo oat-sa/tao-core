@@ -503,7 +503,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.22.0');
         }
 
-        $this->skip('2.22.0', '5.3.0');
+        $this->skip('2.22.0', '5.4.0');
     }
     
     private function migrateFsAccess() {
