@@ -31,7 +31,7 @@ class HtmlResponse extends ResponseAbstract {
     public function send() {
         if (DEBUG_MODE) {
             $message = $this->exception->getMessage();
-            $trace = $e->exception->getTraceAsString();
+            $trace = $this->exception->getTraceAsString();
 	}
         require Template::getTemplate('error/error' . $this->httpCode . '.tpl', 'tao');
     }

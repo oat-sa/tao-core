@@ -99,7 +99,7 @@ abstract class ResponseAbstract implements ResponseInterface {
     public function send() {
         $accept = explode(',' , $_SERVER['HTTP_ACCEPT']);
         $renderer = $this->chooseRenderer($accept);
-        return $renderer->setHttpCode($this->httpCode)->sendHeaders()->send();
+        return $renderer->setException($this->exception)->setHttpCode($this->httpCode)->sendHeaders()->send();
     }
     
     /**
