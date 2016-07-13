@@ -22,6 +22,7 @@
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\RoleChangedEvent;
 use oat\tao\model\event\RoleCreatedEvent;
+use oat\tao\model\event\RoleRemovedEvent;
 
 /**
  * This class provide service on user roles management
@@ -193,7 +194,8 @@ class tao_models_classes_RoleService
 	 */
 	public function removeRole(core_kernel_classes_Resource $role)
 	{
-		return $this->generisUserService->removeRole($role);
+        $this->getEventManager()->trigger(new RoleRemovedEvent($role->getUri()));
+        return $this->generisUserService->removeRole($role);
 	}
 
     /**
