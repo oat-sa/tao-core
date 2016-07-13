@@ -27,6 +27,7 @@ interface ResponseInterface {
     /**
      * set up http response code
      * @param integer $code
+     * @return $this
      */
     public function setHttpCode($code);
     
@@ -37,6 +38,13 @@ interface ResponseInterface {
     
     /**
      * write error into log system
+     * @param string $message
      */
     public function trace($message);
+    /**
+     * set up exception
+     * @param \Exception $exception
+     * @return $this
+     */
+    public function setException(\Exception $exception);
 }

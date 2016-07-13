@@ -36,6 +36,12 @@ abstract class ResponseAbstract implements ResponseInterface {
      */
     protected $contentType = '';
     
+    /**
+     * @var \Exception
+     */
+    protected $exception;
+
+
     protected $rendererClassList =
             [
                 'html' => 'HtmlResponse',
@@ -101,6 +107,13 @@ abstract class ResponseAbstract implements ResponseInterface {
      */
     public function trace($message) {
         \common_Logger::e($message);
+        return $this;
+    }
+    /**
+     * @inherifDoc
+     */
+    public function setException(\Exception $exception) {
+        $this->exception = $exception;
         return $this;
     }
     

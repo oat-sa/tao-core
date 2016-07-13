@@ -52,4 +52,10 @@ class ResponseAbstractTest extends TaoPhpUnitTestRunner  {
         $this->assertInstanceOf($expected, $this->invokeProtectedMethod($this->instance, 'chooseRenderer' , [$accept]));
     }
     
+    public function testSetException() {
+        $fixtureException = new \Exception();
+        $this->assertSame($this->instance, $this->instance->setException($fixtureException));
+        $this->assertSame($fixtureException, $this->getInaccessibleProperty($this->instance, 'exception'));
+    }
+    
 }

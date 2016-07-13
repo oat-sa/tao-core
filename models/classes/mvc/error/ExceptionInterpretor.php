@@ -111,7 +111,11 @@ class ExceptionInterpretor {
      */
     public function getResponse() {
         $class = $this->getResponseClassName();
-        return new $class;
+        $response = new $class;
+        $response->setException($this->exception)
+                ->setHttpCode($this->returnHttpCode)
+                ->trace($this->trace);
+        return $response;
     }
     
 }

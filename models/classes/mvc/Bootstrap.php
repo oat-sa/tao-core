@@ -29,14 +29,11 @@ use oat\tao\model\routing\CliController;
 use common_Profiler;
 use common_Logger;
 use common_ext_ExtensionsManager;
-use common_session_SessionManager;
-use common_AjaxResponse;
 use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
 use Request;
-use HTTPToolkit;
 use Exception;
 
 /**
@@ -224,7 +221,7 @@ class Bootstrap {
     protected function catchError(Exception $exception)
     {
         $Interpretor = new error\ExceptionInterpretor();
-        $Interpretor->setException($exception)->getResponse()->setHttpCode($Interpretor->getHttpCode())->trace($Interpretor->getTrace())->send();
+        $Interpretor->setException($exception)->getResponse()->send();
     }
 
     /**
@@ -234,7 +231,7 @@ class Bootstrap {
     {
         if (tao_helpers_Context::check('APP_MODE')) {
             // Set a specific ID to the session.
-            $request = new Request();
+            $request = new \Request();
             if ($request->hasParameter('session_id')) {
                 session_id($request->getParameter('session_id'));
             }

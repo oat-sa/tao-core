@@ -104,10 +104,17 @@ class ExceptionInterpretorTest extends TaoPhpUnitTestRunner
     }
     
     public function testGetResponse() {
-        $fixtureHttpCode = 'MainResponse';
-        $expected        = 'oat\\tao\\model\\mvc\\error\\' . $fixtureHttpCode;
+        $fixtureClass    = 'MainResponse';
+        $fixtureHttpCode = '404';
+        
+        $expected        = 'oat\\tao\\model\\mvc\\error\\' . $fixtureClass;
+        
         $ExceptionInterpretor = new ExceptionInterpretor();
-        $this->setInaccessibleProperty($ExceptionInterpretor, 'responseClassName' , $fixtureHttpCode);
+        $this->setInaccessibleProperty($ExceptionInterpretor, 'responseClassName' , $fixtureClass);
+        $this->setInaccessibleProperty($ExceptionInterpretor, 'returnHttpCode' , $fixtureHttpCode);
+        $this->setInaccessibleProperty($ExceptionInterpretor, 'trace' , 'trace');
+        $this->setInaccessibleProperty($ExceptionInterpretor, 'exception' , new \Exception());
+        
         $this->assertInstanceOf($expected, $ExceptionInterpretor->getResponse());
     }
     
