@@ -56,21 +56,6 @@ class tao_helpers_Request
                 
         return (bool) $returnValue;
     }
-    
-    /**
-     * return false if client is expecting for html (is a real web browser)
-     * true for others cases
-     * @author Christophe GARCIA <christopheg@taotesting.com>
-     * @return boolean
-     */
-    public static function isApiCall() {
-        $accepted = [];
-   
-        if(array_key_exists('HTTP_ACCEPT', $_SERVER)) {
-            $accepted = explode(',', $_SERVER['HTTP_ACCEPT']);
-        }
-        return (in_array('text/html', $accepted) === false);
-    }
 
      /**
      * Returns the current relative call url, without leading slash

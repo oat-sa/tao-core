@@ -27,7 +27,6 @@ use ResolverException;
 use tao_models_classes_AccessDeniedException;
 use tao_models_classes_FileNotFoundException;
 use tao_models_classes_UserException;
-
 /**
  * test for ExceptionInterpretor
  *
@@ -45,7 +44,6 @@ class ExceptionInterpretorTest extends TaoPhpUnitTestRunner
         return 
         [
             [new Exception('test message') , 500 , 'test message' , 'MainResponse'],
-            [new tao_models_classes_AccessDeniedException($userUri, $action, $module, $ext) , 403 , 'Extension or controller not found' , 'RedirectResponse'],
             [new ResolverException('test message') , 403 , 'Extension or controller not found' , 'RedirectResponse'],
             [new tao_models_classes_UserException('test message') , 403 , 'test message' , 'MainResponse'],
             [new ActionEnforcingException('test message' , $module , $action ) , 404 , 'test message' , 'MainResponse'],

@@ -37,7 +37,7 @@ class ResponseAbstractTest extends TaoPhpUnitTestRunner  {
         
         return 
         [
-            [['text/plain'] , 'oat\tao\model\mvc\error\NonAccepteble'],
+            [['text/plain'] , 'oat\tao\model\mvc\error\NonAcceptable'],
             [['application/json' , 'text/html'] , 'oat\tao\model\mvc\error\JsonResponse'],
             [['text/html' , 'application/json'] , 'oat\tao\model\mvc\error\HtmlResponse' ],
         ];
