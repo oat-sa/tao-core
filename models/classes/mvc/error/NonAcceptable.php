@@ -23,7 +23,7 @@ namespace oat\tao\model\mvc\error;
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class NonAccepteble extends ResponseAbstract {
+class NonAcceptable extends ResponseAbstract {
     
      protected $contentType = 'text/plain';
 

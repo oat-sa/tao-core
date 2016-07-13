@@ -40,7 +40,7 @@ abstract class ResponseAbstract implements ResponseInterface {
             [
                 'html' => 'HtmlResponse',
                 'json' => 'JsonResponse',
-                'none' => 'NonAccepteble',
+                'none' => 'NonAcceptable',
             ];
 
 
