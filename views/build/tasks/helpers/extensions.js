@@ -70,7 +70,7 @@ module.exports = function(grunt, root){
            extensions.forEach(function(extension){
                 var extPath = self.getExtensionPath(extension);
                 modules = modules.concat(self.getExtensionSources(extension, 'views/js/controller/**/*.js').map(function(source){
-                    return source.replace(extPath + '/views/js', extension).replace(/\.js$/, '').replace(/^\//, '');
+                    return source.replace(extPath + '/views/js',  extension === 'tao' ? '': extension).replace(/\.js$/, '').replace(/^\//, '');
                 }));
             });
             return modules;
