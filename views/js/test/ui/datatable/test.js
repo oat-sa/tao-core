@@ -1,14 +1,20 @@
-define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/test/ui/datatable/largedata.json', 'ui/datatable'], function($, _, dataset, largeDataset){
 
+define([
+    'jquery',
+    'lodash',
+    'json!tao/test/ui/datatable/data.json',
+    'json!tao/test/ui/datatable/largedata.json',
+    'ui/datatable'
+], function($, _, dataset, largeDataset){
     "use strict";
-    
+
     QUnit.module('DataTable Test', {
         teardown : function(){
             //reset the container
             $('#container-1').empty().off('.datatable');
         }
     });
-   
+
     QUnit.test('plugin', function(assert){
        QUnit.expect(1);
        assert.ok(typeof $.fn.datatable === 'function', 'The datatable plugin is registered');
@@ -16,7 +22,7 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
 
     QUnit.asyncTest('Initialization', function(assert){
         QUnit.expect(3);
-        
+
         var $elt = $('#container-1');
         var firstUrl = 'js/test/ui/datatable/data.json';
         var secondUrl = 'js/test/ui/datatable/largedata.json';
@@ -80,7 +86,7 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
 
     QUnit.asyncTest('Model loading using AJAX', function(assert){
         QUnit.expect(11);
-        
+
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
@@ -278,11 +284,11 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
 
     QUnit.asyncTest('Pagination disabled', function(assert){
         QUnit.expect(6);
-        
+
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
-        
-        
+
+
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable-backward').length === 2, 'there is 2 backward buttons');
@@ -323,11 +329,11 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
 
     QUnit.asyncTest('Pagination enabled', function(assert){
         QUnit.expect(7);
-        
+
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
-        
-        
+
+
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable-backward').length === 2, 'there is 2 backward buttons');
@@ -497,7 +503,7 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
         $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
-            
+
             $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
         });
 
@@ -543,7 +549,7 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
             }
         });
     });
-    
+
     QUnit.asyncTest('Default filtering enabled', function (assert) {
         QUnit.expect(8);
 
@@ -813,15 +819,15 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
         $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
-            
-            // run listener 
+
+            // run listener
             $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
-            
-            // sort list 
+
+            // sort list
             // and here we had render once again
             $elt.find('.datatable thead tr:nth-child(1) th:eq(0) div').click();
         });
-        
+
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
             rowSelection: true,
@@ -861,6 +867,59 @@ define(['jquery', 'lodash', 'json!tao/test/ui/datatable/data.json', 'json!tao/te
                     });
                 }
             }
+        });
+    });
+
+    QUnit.asyncTest('Beforeload event', function(assert) {
+        QUnit.expect(5);
+
+        var firstLoad = true;
+        var dataSetRef;
+
+        var $elt = $('#container-1');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        $elt.on('beforeload.datatable', function (e, loadedDataSet) {
+            if(firstLoad){
+                assert.equal(typeof loadedDataSet, 'object', 'The beforeload gives us an object');
+                assert.deepEqual(loadedDataSet, dataset, 'The dataset is correct');
+
+                dataSetRef = loadedDataSet;
+                firstLoad = false;
+                $elt.datatable('refresh');
+            } else {
+                assert.ok(loadedDataSet !== dataSetRef, 'The given dataset is a copy');
+                assert.deepEqual(loadedDataSet, dataSetRef, 'The dataset is correct');
+                QUnit.start();
+            }
+        })
+        .datatable({
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            }]
         });
     });
 });

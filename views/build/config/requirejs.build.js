@@ -41,6 +41,8 @@ require.config({
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'interact'          : 'lib/interact',
+        'd3'                : 'lib/d3js/d3.min',
+        'c3'                : 'lib/c3js/c3.min',
 
 //optimizer needed
         'css-builder'       : 'lib/require-css/css-builder',

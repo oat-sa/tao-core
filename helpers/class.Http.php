@@ -128,6 +128,17 @@ class tao_helpers_Http
     {
         return $_FILES;
     }
+    /**
+     * verify if file uploads exists.
+     * return true if key $name exists in $_FILES
+     * 
+     * @author Christophe GARCIA <christopheg@taotesting.com>
+     * @param string $name
+     * @return boolean
+     */
+    public static function hasUploadedFile($name) {
+        return array_key_exists($name, self::getFiles());
+    }
 
     /**
      * Get the files data from an HTTP file upload (ie. from the $_FILES)

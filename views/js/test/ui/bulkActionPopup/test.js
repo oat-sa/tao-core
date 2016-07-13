@@ -340,4 +340,69 @@ define([
         assert.equal($container[0], instance.getContainer()[0], 'container is still there');
         assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
     });
+
+    QUnit.test('requiredReasonEmpty', function(assert){
+        
+        QUnit.expect(5);
+        
+        var theReason = '';
+        var $container = $('#fixture-1');
+        var config = {
+            renderTo: $container,
+            actionName: 'Resume Test Session',
+            resourceType: 'test taker',
+            reason: true,
+            requiredReason: true,
+            allowedResources: [
+                {
+                    id : 'uri_ns#i0000001',
+                    label : 'Test Taker 1'
+                }
+            ]
+        };
+
+        var instance = bulkActionPopup(config);
+        
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
+        $container.find('textarea').text(theReason).change();
+
+        $container.find('.done').click();
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element is not removed');
+
+        assert.equal($container.find('.feedback-error', $container).length, 1, 'the interaction has error');
+    });
+
+    QUnit.test('requiredReasonFilled', function(assert){
+
+        QUnit.expect(5);
+
+        var theReason = 'reason';
+        var $container = $('#fixture-1');
+        var config = {
+            renderTo: $container,
+            actionName: 'Resume Test Session',
+            resourceType: 'test taker',
+            reason: true,
+            requiredReason: true,
+            allowedResources: [
+                {
+                    id : 'uri_ns#i0000001',
+                    label : 'Test Taker 1'
+                }
+            ]
+        };
+
+        var instance = bulkActionPopup(config);
+
+        assert.equal($container[0], instance.getContainer()[0], 'container ok');
+        assert.equal($container.children('.bulk-action-popup').length, 1, 'element ok');
+        $container.find('textarea').text(theReason).change();
+
+        $container.find('.done').click();
+        assert.equal($container[0], instance.getContainer()[0], 'container is still there');
+        assert.equal($container.find('.feedback-error', $container).length, 0, 'the interaction hasn\'t error');
+        assert.equal($container.children('.bulk-action-popup').length, 0, 'element is removed');
+    });
 });

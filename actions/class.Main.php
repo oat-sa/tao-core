@@ -20,16 +20,16 @@
  * 
  */
 
+use oat\tao\model\event\LoginFailedEvent;
+use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
-use oat\tao\model\messaging\MessagingService;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\oatbox\event\EventManager;
-use oat\tao\model\event\LoginEvent;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -139,11 +139,12 @@ class tao_actions_Main extends tao_actions_CommonModule
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
+                $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+
 				if($success){
 				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "'.");
 
-                    $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
-                    $eventManager->trigger(new LoginEvent());
+                    $eventManager->trigger(new LoginSucceedEvent($myForm->getValue('login')));
 
 					if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
 						$this->redirect($_REQUEST['redirect']);
@@ -152,6 +153,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 					}
                 } else {
                     \common_Logger::i("Unsuccessful login of user '" . $myForm->getValue('login') . "'.");
+
+                    $eventManager->trigger(new LoginFailedEvent($myForm->getValue('login')));
+
 					$this->setData('errorMessage', __('Invalid login or password. Please try again.'));
 				}
 			}
