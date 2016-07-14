@@ -28,10 +28,8 @@ define([
 ], function(_, module){
     'use strict';
 
-    var config = module.config();
-
     /**
-     * Let's you access to platform themes
+     * Let you access to platform themes
      * @exports ui/themes
      */
     return {
@@ -44,7 +42,11 @@ define([
          * @param {String} what - themes are classified, what is the theme for ?
          * @returns {Object?} the themes config
          */
-        get : function get(what){
+        get : function get(what, ns){
+            var config = module.config();
+            // if (typeof ns === 'string') {
+            //     what += '-' + ns;
+            // }
             if(_.isPlainObject(config[what])){
                 return config[what];
             }
@@ -58,9 +60,9 @@ define([
          * @param {String} what - themes are classified, what is the theme for ?
          * @returns {Array} the themes
          */
-        getAvailable : function getAvailable(what){
+        getAvailable : function getAvailable(what, ns){
             var available = [];
-            var themes = this.get(what);
+            var themes = this.get(what, ns);
             if(themes && _.isArray(themes.available)){
                 available = themes.available;
             }
