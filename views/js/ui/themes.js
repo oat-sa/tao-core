@@ -35,17 +35,24 @@ define([
     return {
 
         /**
-         * Get the themes config for.
-         *
+         * Get the themes config.
          * @example themes().get('items');
-         *
+         * 
+         * If the config contains a activeNamespace property (for example, 'ns1'), then it will appended to the requested key 
+         * For example, this will actually returns entries registered in 'items_ns1'
+         * @example themes().get('items');
+         * 
+         * Namespace can by manually specified by a parameter. In that case, activeNamespace property is ignored.
+         * @example themes().get('items', 'ns2');
+         *  
          * @param {String} what - themes are classified, what is the theme for ?
+         * @param {String} [ns] - namespace of the 'what'
          * @returns {Object?} the themes config
          */
         get : function get(what, ns){
             var config = module.config();
             
-            if (typeof ns === 'string') {
+            if (ns) {
                 what += '_' + ns;
                 
             } else if (config.activeNamespace) {
@@ -61,7 +68,15 @@ define([
          *
          * @example themes().getAvailable('items');
          *
+         * If the config contains a activeNamespace property (for example, 'ns1'), then it will appended to the requested key
+         * For example, this will actually returns entries registered in 'items_ns1'
+         * @example themes().getAvailable('items');
+         *
+         * Namespace can by manually specified by a parameter. In that case, activeNamespace property is ignored.
+         * @example themes().getAvailable('items', 'ns2');
+         * *
          * @param {String} what - themes are classified, what is the theme for ?
+         * @param {String} [ns] - namespace of the 'what'
          * @returns {Array} the themes
          */
         getAvailable : function getAvailable(what, ns){
