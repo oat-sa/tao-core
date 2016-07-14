@@ -44,6 +44,10 @@ class RestExceptionHandler
 			case \common_exception_InvalidArgumentType::class:
 				header("HTTP/1.0 400 Bad Request");
 				break;
+                            
+			case \common_exception_InconsistentData::class:
+				header("HTTP/1.0 400 Bad Request");
+				break;
 
 			case \common_exception_Unauthorized::class:
 				header("HTTP/1.0 401 Unauthorized");
