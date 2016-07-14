@@ -1,8 +1,9 @@
 define([
     'jquery',
-    'ui/themeLoader',
+    'ui/themeLoader'
 ], function($, themeLoader){
-
+    'use strict';
+    
     var config = {
         base : 'base.css',
         default : 'blue',
