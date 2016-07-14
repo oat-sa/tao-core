@@ -511,9 +511,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.22.0');
         }
 
-        $this->skip('2.22.0', '5.2.0');
+        $this->skip('2.22.0', '5.3.0');
 
-        if ($this->isVersion('5.2.0')) {
+        if ($this->isVersion('5.3.0')) {
 
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
@@ -526,7 +526,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $eventManager->attach(UserRemovedEvent::class, [LoggerService::class, 'logEvent']);
             $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
 
-            $this->setVersion('5.3.0');
+            $this->setVersion('5.4.0');
         }
     }
     

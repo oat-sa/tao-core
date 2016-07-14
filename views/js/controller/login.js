@@ -30,64 +30,76 @@ define([
 ], function ($, _, __, module, feedback, versionWarning) {
     'use strict';
 
-    var conf = module.config();
-    var messages = conf.message || {};
-    var $context = $('.entry-point-container');
-    var $loginForm = $context.find('#loginForm');
-    var $fakeForm = $context.find('.fakeForm');
-
     /**
-     * Submits the form after a copy of all the inputs the user has made in the fake form
+     * The login controller
      */
-    function submitForm() {
-        // if the fake form exists, copy all fields values into the real form
-        $fakeForm.find(':input').each(function () {
-            var $field = $(this);
-            $loginForm.find('input[name="' + $field.attr('name') + '"]').val($field.val());
-        });
+    return {
 
-        // just submit the real form as if the user did it
-        $loginForm.submit();
-    }
+        /**
+         * Controller entry point
+         */
+        start: function start(){
 
-    /**
-     * Displays the error/info messages
-     * @param {Object} messages
-     */
-    function displayMessages(messages) {
-        var $fields = $context.find(':input');
-        var renderer = feedback();
-        _.forEach(messages, function (message, type) {
-            if (message) {
-                if (_.isFunction(renderer[type])) {
-                    renderer[type](message);
-                }
-                $fields.addClass(type);
+            var conf = module.config();
+            var messages = conf.message || {};
+            var $context = $('.entry-point-container');
+            var $loginForm = $context.find('#loginForm');
+            var $fakeForm = $context.find('.fakeForm');
+
+            /**
+            * Submits the form after a copy of all the inputs the user has made in the fake form
+            */
+            function submitForm() {
+                // if the fake form exists, copy all fields values into the real form
+                $fakeForm.find(':input').each(function () {
+                    var $field = $(this);
+                    $loginForm.find('input[name="' + $field.attr('name') + '"]').val($field.val());
+                });
+
+                // just submit the real form as if the user did it
+                $loginForm.submit();
             }
-        });
-    }
 
-    versionWarning.init();
+            /**
+            * Displays the error/info messages
+            * @param {Object} messages
+            */
+            function displayMessages(messages) {
+                var $fields = $context.find(':input');
+                var renderer = feedback();
+                _.forEach(messages, function (message, type) {
+                    if (message) {
+                        if (_.isFunction(renderer[type])) {
+                            renderer[type](message);
+                        }
+                        $fields.addClass(type);
+                    }
+                });
+            }
 
-    // empty $fields sent
-    if (!messages.error && $context.find('.form-error').length) {
-        messages.error = __('All fields are required');
-    }
+            versionWarning.init();
 
-    // any error/info creates feedback
-    displayMessages(messages);
+            // empty $fields sent
+            if (!messages.error && $context.find('.form-error').length) {
+                messages.error = __('All fields are required');
+            }
 
-    // submit the form when the user hit the submit button inside the fake form
-    $fakeForm.find('input[type="submit"], button[type="submit"]').off('click').on('click', function (e) {
-        e.preventDefault();
-        submitForm();
-    });
+            // any error/info creates feedback
+            displayMessages(messages);
 
-    // submit the form when the user hit the ENTER key inside the fake form
-    $fakeForm.on('keypress', function (e) {
-        if (e.which === 13) {
-            e.preventDefault();
-            submitForm();
+            // submit the form when the user hit the submit button inside the fake form
+            $fakeForm.find('input[type="submit"], button[type="submit"]').off('click').on('click', function (e) {
+                e.preventDefault();
+                submitForm();
+            });
+
+            // submit the form when the user hit the ENTER key inside the fake form
+            $fakeForm.on('keypress', function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    submitForm();
+                }
+            });
         }
-    });
+    };
 });
