@@ -47,6 +47,9 @@ define([
             
             if (typeof ns === 'string') {
                 what += '_' + ns;
+                
+            } else if (config.activeNamespace) {
+                what += '_' + config.activeNamespace;
             }
             if(_.isPlainObject(config[what])){
                 return config[what];
