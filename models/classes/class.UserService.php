@@ -1,5 +1,4 @@
 <?php
-use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\user\LoginService;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
