@@ -1,10 +1,11 @@
 define([
+    'lodash',
     'jquery',
     'ui/themes'
-], function($, themesHandler){
+], function(_, $, themesHandler){
     'use strict';
     
-    var themeConfig = {
+    var configWithoutNs = {
         'items': {
             base: 'base.css',
             default: 'blue',
@@ -37,11 +38,16 @@ define([
         }
     };
     
-    require.config({
-        config : {
-            'ui/themes' : themeConfig
-        }
-    });
+    var configWithNs = _.clone(configWithoutNs);
+    configWithNs.activeNamespace = 'wk';
+    
+    function mockThemeConfig(themeConfig) {
+        require.config({
+            config : {
+                'ui/themes' : themeConfig
+            }
+        });
+    }
     
     QUnit.module('Themes config');
 
@@ -55,8 +61,10 @@ define([
 
         QUnit.expect(3);
 
-        assert.deepEqual(themesHandler.get('items'), themeConfig.items, 'returns items themes');
-        assert.deepEqual(themesHandler.get('items_wk'), themeConfig[itemsWk], 'returns items_wk themes');
+        mockThemeConfig(configWithoutNs);
+        
+        assert.deepEqual(themesHandler.get('items'), configWithoutNs.items, 'returns items themes');
+        assert.deepEqual(themesHandler.get('items_wk'), configWithoutNs[itemsWk], 'returns items_wk themes');
         assert.deepEqual(themesHandler.get('i/dont/exists'), undefined, 'returns undefined if target is not found');
     });
 
@@ -65,8 +73,10 @@ define([
 
         QUnit.expect(3);
 
-        assert.deepEqual(themesHandler.get('items', 'wk'), themeConfig[itemsWk], 'returns "items_ns" entry if namespace is specified');
-        assert.deepEqual(themesHandler.get('items', 9), themeConfig.items, 'returns "items" entry if namespace is not a string');
+        mockThemeConfig(configWithoutNs);
+        
+        assert.deepEqual(themesHandler.get('items', 'wk'), configWithoutNs[itemsWk], 'returns "items_ns" entry if namespace is specified');
+        assert.deepEqual(themesHandler.get('items', 9), configWithoutNs.items, 'returns "items" entry if namespace is not a string');
         assert.deepEqual(themesHandler.get('items', 'none'), undefined, 'returns undefined if namespace is not found');
     });
     
@@ -75,8 +85,10 @@ define([
 
         QUnit.expect(3);
 
-        assert.deepEqual(themesHandler.getAvailable('items'), themeConfig.items.available, 'returns available items themes');
-        assert.deepEqual(themesHandler.getAvailable('items_wk'), themeConfig[itemsWk].available, 'returns available items_wk themes');
+        mockThemeConfig(configWithoutNs);
+        
+        assert.deepEqual(themesHandler.getAvailable('items'), configWithoutNs.items.available, 'returns available items themes');
+        assert.deepEqual(themesHandler.getAvailable('items_wk'), configWithoutNs[itemsWk].available, 'returns available items_wk themes');
         assert.deepEqual(themesHandler.getAvailable('i/dont/exists'), [], 'returns empty array if target is not found');
     });
 
@@ -85,8 +97,10 @@ define([
 
         QUnit.expect(3);
 
-        assert.deepEqual(themesHandler.getAvailable('items', 'wk'), themeConfig[itemsWk].available, 'returns available items themes of entry "items_wk"');
-        assert.deepEqual(themesHandler.getAvailable('items', 9), themeConfig.items.available, 'returns "items" entry if namespace is not a string');
+        mockThemeConfig(configWithoutNs);
+        
+        assert.deepEqual(themesHandler.getAvailable('items', 'wk'), configWithoutNs[itemsWk].available, 'returns available items themes of entry "items_wk"');
+        assert.deepEqual(themesHandler.getAvailable('items', 9), configWithoutNs.items.available, 'returns "items" entry if namespace is not a string');
         assert.deepEqual(themesHandler.getAvailable('items', 'none'), [], 'returns empty array if namespace is not found');
     });
 
