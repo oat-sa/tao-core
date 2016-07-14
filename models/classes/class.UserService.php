@@ -38,8 +38,6 @@ class tao_models_classes_UserService
     implements core_kernel_users_UsersManagement
 {
 
-    use EventManagerAwareTrait;
-
     /**
      * the core user service
      *
