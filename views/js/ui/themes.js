@@ -44,9 +44,10 @@ define([
          */
         get : function get(what, ns){
             var config = module.config();
-            // if (typeof ns === 'string') {
-            //     what += '-' + ns;
-            // }
+            
+            if (typeof ns === 'string') {
+                what += '_' + ns;
+            }
             if(_.isPlainObject(config[what])){
                 return config[what];
             }

@@ -60,15 +60,16 @@ define([
         assert.deepEqual(themesHandler.get('i/dont/exists'), undefined, 'returns undefined if target is not found');
     });
 
-    // QUnit.test('get(what, ns)', function(assert){
-    //     var itemsWk = 'items_wk';
-    //
-    //     QUnit.expect(3);
-    //
-    //     assert.deepEqual(themesHandler.get('items', 'wk'), themeConfig[itemsWk], 'returns items_wk themes');
-    //     assert.deepEqual(themesHandler.get('items', 'none'), undefined, 'returns undefined if target is not found');
-    // });
+    QUnit.test('get(what, ns)', function(assert){
+        var itemsWk = 'items_wk';
 
+        QUnit.expect(3);
+
+        assert.deepEqual(themesHandler.get('items', 'wk'), themeConfig[itemsWk], 'returns "items_ns" entry if namespace is specified');
+        assert.deepEqual(themesHandler.get('items', 9), themeConfig.items, 'returns "items" entry if namespace is not a string');
+        assert.deepEqual(themesHandler.get('items', 'none'), undefined, 'returns undefined if namespace is not found');
+    });
+    
     QUnit.test('getAvailable(what)', function(assert){
         var itemsWk = 'items_wk';
 
@@ -77,6 +78,16 @@ define([
         assert.deepEqual(themesHandler.getAvailable('items'), themeConfig.items.available, 'returns available items themes');
         assert.deepEqual(themesHandler.getAvailable('items_wk'), themeConfig[itemsWk].available, 'returns available items_wk themes');
         assert.deepEqual(themesHandler.getAvailable('i/dont/exists'), [], 'returns empty array if target is not found');
+    });
+
+    QUnit.test('getAvailable(what, ns)', function(assert){
+        var itemsWk = 'items_wk';
+
+        QUnit.expect(3);
+
+        assert.deepEqual(themesHandler.getAvailable('items', 'wk'), themeConfig[itemsWk].available, 'returns available items themes of entry "items_wk"');
+        assert.deepEqual(themesHandler.getAvailable('items', 9), themeConfig.items.available, 'returns "items" entry if namespace is not a string');
+        assert.deepEqual(themesHandler.getAvailable('items', 'none'), [], 'returns empty array if namespace is not found');
     });
 
 
