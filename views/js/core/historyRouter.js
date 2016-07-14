@@ -24,7 +24,7 @@ define([
     'jquery',
     'lodash',
     'router',
-    'history',
+    'html5-history-api',
     'core/eventifier'
 ], function ($, _, router, history, eventifier) {
     'use strict';
