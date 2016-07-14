@@ -19,6 +19,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\event\EventManagerAwareTrait;
+use oat\tao\model\event\UserUpdatedEvent;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -30,6 +32,7 @@
  */
 class tao_actions_Users extends tao_actions_CommonModule
 {
+    use EventManagerAwareTrait;
     /**
      * @var tao_models_classes_UserService
      */
@@ -314,6 +317,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
 
                 if ($binder->bind($values)) {
+                    $this->getEventManager()->trigger(new UserUpdatedEvent($user, $values));
                     $this->setData('message', __('User saved'));
                 }
             }

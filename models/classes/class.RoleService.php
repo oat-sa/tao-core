@@ -19,6 +19,10 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\event\EventManagerAwareTrait;
+use oat\tao\model\event\RoleChangedEvent;
+use oat\tao\model\event\RoleCreatedEvent;
+use oat\tao\model\event\RoleRemovedEvent;
 
 /**
  * This class provide service on user roles management
@@ -26,13 +30,13 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
 class tao_models_classes_RoleService
     extends tao_models_classes_GenerisService
     implements core_kernel_users_RolesManagement
 {
 
+    use EventManagerAwareTrait;
     /**
      * the core user service
      *
@@ -87,7 +91,7 @@ class tao_models_classes_RoleService
     public function getRole($uri)
     {
         $returnValue = null;
-        
+
         if(!empty($uri)){
         	$returnValue = new core_kernel_classes_Resource($uri);
         }
@@ -105,7 +109,7 @@ class tao_models_classes_RoleService
     public function getRoleClass()
     {
         $returnValue = null;
-        
+
         $returnValue = $this->roleClass;
 
         return $returnValue;
@@ -124,14 +128,14 @@ class tao_models_classes_RoleService
     {
         $returnValue = (bool) false;
         $userService = tao_models_classes_UserService::singleton();
-        
+
         $rolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
     	foreach ($users as $u){
     		$u = ($u instanceof core_kernel_classes_Resource) ? $u : new core_kernel_classes_Resource($u);
-    		
+
     		// just in case of ...
     		$userService->unnatachRole($u, $role);
-    		
+
     		// assign the new role.
     		$u->setPropertyValue($rolesProperty, $role);
 
@@ -139,7 +143,7 @@ class tao_models_classes_RoleService
     		    common_session_SessionManager::getSession()->refresh();
     		}
     	}
-        
+
     	$returnValue = true;
 
         return (bool) $returnValue;
@@ -159,21 +163,21 @@ class tao_models_classes_RoleService
 
         $filters = array(PROPERTY_USER_ROLES => $role->getUri());
         $options = array('like' => false, 'recursive' => true);
-        
+
         $userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
         $results = $userClass->searchInstances($filters, $options);
-        
+
         $returnValue = array_keys($results);
 
         return (array) $returnValue;
     }
-    
+
     /**
      * Creates a new Role in persistent memory.
-     * 
+     *
      * @param string label The label of the new role.
      * @param mixed includedRoles The roles to include to the new role. Can be either a core_kernel_classes_Resource or an array of core_kernel_classes_Resource.
-     * @param core_kernel_classes_Class (optional) A specific class for the new role. 
+     * @param core_kernel_classes_Class (optional) A specific class for the new role.
      * @return core_kernel_classes_Resource The newly created role.
      */
     public function addRole($label, $includedRoles = null, core_kernel_classes_Class $class = null)
@@ -184,57 +188,72 @@ class tao_models_classes_RoleService
 	/**
 	 * Remove a given Role from persistent memory. References to this role
 	 * will also be removed from the persistent memory.
-	 * 
-	 * @param core_kernel_classes_Resource $role The Role to remove.
+     *
+     * @param core_kernel_classes_Resource $role The Role to remove.
 	 * @return boolean True if the Role was removed, false otherwise.
 	 */
 	public function removeRole(core_kernel_classes_Resource $role)
 	{
-		return $this->generisUserService->removeRole($role);
+        $this->getEventManager()->trigger(new RoleRemovedEvent($role->getUri()));
+        return $this->generisUserService->removeRole($role);
 	}
-	
-	/**
+
+    /**
 	 * Returns the Roles included by a given Role.
-	 * 
-	 * @param core_kernel_classes_Resource $role The Role you want to know what are its included Roles.
+     *
+     * @param core_kernel_classes_Resource $role The Role you want to know what are its included Roles.
 	 * @return array An array of core_kernel_classes_Resource corresponding to the included Roles.
 	 */
 	public function getIncludedRoles(core_kernel_classes_Resource $role)
 	{
 		return $this->generisUserService->getIncludedRoles($role);
 	}
-	
-	/**
+
+    /**
 	 * Includes the $roleToInclude Role to the $role Role.
-	 * 
-	 *  @param core_kernel_classes_Resource role A Role.
-	 *  @param core_kernel_classes_Resource roleToInclude A Role to include. 
-	 */
+     *
+     * @param core_kernel_classes_Resource $role A Role.
+     * @param core_kernel_classes_Resource $roleToInclude A Role to include.
+     */
 	public function includeRole(core_kernel_classes_Resource $role,  core_kernel_classes_Resource $roleToInclude)
 	{
 		$this->generisUserService->includeRole($role, $roleToInclude);
-	}
-	
-	/**
+        $this->getEventManager()->trigger(new RoleChangedEvent($role->getUri(), 'included role', $roleToInclude->getUri()));
+    }
+
+    /**
 	 * Uninclude a Role from another Role.
-	 * 
-	 * @param core_kernel_classes_Resource role The Role from which you want to uninclude another Role.
-	 * @param core_kernel_classes_Resource roleToUninclude The Role to uninclude.
-	 */
+     *
+     * @param core_kernel_classes_Resource $role The Role from which you want to uninclude another Role.
+     * @param core_kernel_classes_Resource $roleToUninclude The Role to uninclude.
+     */
 	public function unincludeRole(core_kernel_classes_Resource $role, core_kernel_classes_Resource $roleToUninclude)
 	{
 		$this->generisUserService->unincludeRole($role, $roleToUninclude);
-	}
-	
-	/**
+        $this->getEventManager()->trigger(new RoleChangedEvent($role->getUri(), 'excluded role', $roleToUninclude->getUri()));
+    }
+
+    /**
 	 * Returns the whole collection of Roles stored into TAO.
-	 * 
-	 * @return array An associative array where keys are Role URIs and values are core_kernel_classes_Resource instances.
+     *
+     * @return array An associative array where keys are Role URIs and values are core_kernel_classes_Resource instances.
 	 */
 	public function getAllRoles()
 	{
 		return $this->generisUserService->getAllRoles();
 	}
-}
 
-?>
+    /**
+     * @inheritdoc
+     */
+    public function createInstance(core_kernel_classes_Class $clazz, $label = '')
+    {
+        $instance = parent::createInstance($clazz, $label);
+        if ($instance) {
+            $this->getEventManager()->trigger(new RoleCreatedEvent($instance->getUri()));
+        }
+        return $instance;
+    }
+
+
+}
