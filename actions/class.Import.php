@@ -19,6 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
  */
+use oat\oatbox\event\EventManagerAwareTrait;
 
 /**
  * This controller provide the actions to import resources
@@ -31,6 +32,7 @@
  */
 class tao_actions_Import extends tao_actions_CommonModule {
 
+    use EventManagerAwareTrait;
 	/**
 	 * initialize the classUri and execute the upload action
 	 * @requiresRight id WRITE
@@ -50,6 +52,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$report = $importer->import($this->getCurrentClass(), $myForm);
+                $this->onAfterImport($report);
 				return $this->returnReport($report);
 			}
 		}
@@ -101,4 +104,8 @@ class tao_actions_Import extends tao_actions_CommonModule {
 		return array();
 	}
 
+    protected function onAfterImport(common_report_Report $report)
+    {
+
+    }
 }
