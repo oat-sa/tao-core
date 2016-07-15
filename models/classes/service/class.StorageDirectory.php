@@ -69,7 +69,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      * @return string
      */
     public function getRelativePath() {
-        return $this->relPath;
+        return $this->fixSlashes($this->relPath);
     }
     
     /**
@@ -111,6 +111,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function read($path)
     {
+        $path = $this->fixSlashes($path);
         return  $this->getFileSystem()->read($this->getRelativePath().$path);
     }
 
@@ -121,6 +122,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function readStream($path)
     {
+        $path = $this->fixSlashes($path);
         $resource = $this->getFileSystem()->readStream($this->getRelativePath().$path);
         return new \GuzzleHttp\Psr7\Stream($resource);
     }
@@ -134,6 +136,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function write($path, $resource, $mimeType = null)
     {
+        $path = $this->fixSlashes($path);
         common_Logger::d('Writting in ' . $this->getRelativePath().$path);
         $config = $mimeType = null ? [] : ['ContentType' => $mimeType];
         return $this->getFileSystem()->writeStream($this->getRelativePath().$path, $resource, $config);
@@ -217,5 +220,17 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     protected function getFileSystem() {
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->fs->getUri());
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    protected function fixSlashes($path)
+    {
+        if (!$this->getFileSystem()->getAdapter() instanceof Local) {
+            $path = str_replace('\\', '/', $path);
+        }
+        return $path;
     }
 }
