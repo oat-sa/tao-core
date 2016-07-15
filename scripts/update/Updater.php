@@ -543,9 +543,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('5.6.0');
         }
 
-        $this->skip('5.6.0', '5.6.1');
+        $this->skip('5.6.0', '5.6.2');
 
-        if ($this->isVersion('5.1.0')) {
+        if ($this->isVersion('5.6.2')) {
             if (!$this->getServiceManager()->has(UpdateLogger::SERVICE_ID)) {
                 // setup log fs
                 $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
@@ -554,7 +554,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
                 $this->getServiceManager()->register(UpdateLogger::SERVICE_ID, new UpdateLogger(array(UpdateLogger::OPTION_FILESYSTEM => 'log')));
             }
-            $this->setVersion('5.1.1');
+            $this->setVersion('5.6.3');
         }
     }
     
