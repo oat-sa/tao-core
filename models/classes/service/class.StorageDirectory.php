@@ -111,6 +111,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function read($path)
     {
+        $path = $this->fixSlashes($path);
         return  $this->getFileSystem()->read($this->getRelativePath().$path);
     }
 
