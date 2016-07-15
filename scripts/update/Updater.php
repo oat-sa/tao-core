@@ -23,9 +23,16 @@ namespace oat\tao\scripts\update;
 
 use common_Exception;
 use common_ext_ExtensionsManager;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\event\RoleChangedEvent;
+use oat\tao\model\event\RoleCreatedEvent;
+use oat\tao\model\event\RoleRemovedEvent;
+use oat\tao\model\event\UserCreatedEvent;
+use oat\tao\model\event\UserRemovedEvent;
+use oat\tao\model\event\UserUpdatedEvent;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -55,6 +62,9 @@ use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\tao\model\extension\UpdateLogger;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\clientConfig\ClientConfig;
+use oat\tao\model\clientConfig\ClientConfigService;
+use oat\tao\model\clientConfig\sources\ThemeConfig;
 
 /**
  * 
@@ -505,15 +515,43 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.22.0');
         }
 
-        $this->skip('2.22.0', '5.1.0');
+        $this->skip('2.22.0', '5.3.0');
+
+        if ($this->isVersion('5.3.0')) {
+
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+
+            $eventManager->attach(RoleRemovedEvent::class, [LoggerService::class, 'logEvent']);
+            $eventManager->attach(RoleCreatedEvent::class, [LoggerService::class, 'logEvent']);
+            $eventManager->attach(RoleChangedEvent::class, [LoggerService::class, 'logEvent']);
+            $eventManager->attach(UserCreatedEvent::class, [LoggerService::class, 'logEvent']);
+            $eventManager->attach(UserUpdatedEvent::class, [LoggerService::class, 'logEvent']);
+            $eventManager->attach(UserRemovedEvent::class, [LoggerService::class, 'logEvent']);
+            $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
+
+            $this->setVersion('5.4.0');
+        }
         
+
+        $this->skip('5.4.0', '5.5.0');
+
+        if ($this->isVersion('5.5.0')) {
+            $clientConfig = new ClientConfigService();
+            $clientConfig->setClientConfig('themesAvailable', new ThemeConfig());
+            $this->getServiceManager()->register(ClientConfigService::SERVICE_ID, $clientConfig);
+            $this->setVersion('5.6.0');
+        }
+
+        $this->skip('5.6.0', '5.6.1');
+
         if ($this->isVersion('5.1.0')) {
             if (!$this->getServiceManager()->has(UpdateLogger::SERVICE_ID)) {
                 // setup log fs
                 $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
                 $fsm->registerLocalFileSystem('log', FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'log'.DIRECTORY_SEPARATOR);
                 $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
-                
+
                 $this->getServiceManager()->register(UpdateLogger::SERVICE_ID, new UpdateLogger(array(UpdateLogger::OPTION_FILESYSTEM => 'log')));
             }
             $this->setVersion('5.1.1');

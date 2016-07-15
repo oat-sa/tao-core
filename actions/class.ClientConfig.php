@@ -21,6 +21,7 @@ use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\asset\AssetService;
 use \oat\oatbox\service\ServiceManager;
+use oat\tao\model\clientConfig\ClientConfigService;
 
 /**
  * Generates client side configuration.
@@ -44,9 +45,11 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
 
         $libConfigs = ClientLibConfigRegistry::getRegistry()->getMap();
         $this->setData('libConfigs', $libConfigs);
-
-        $themesAvailable = ThemeRegistry::getRegistry()->getAvailableThemes();
-        $this->setData('themesAvailable', json_encode($themesAvailable));
+        
+        $extendedConfig = $this->getServiceManager()->get(ClientConfigService::SERVICE_ID)->getExtendedConfig();
+        foreach ($extendedConfig as $key => $value) {
+            $this->setData($key, json_encode($value));
+        }
 
         $extensionManager = common_ext_ExtensionsManager::singleton();
         $langCode = tao_helpers_I18n::getLangCode();
@@ -72,6 +75,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
             $lang = strtolower($langCode);
         }
         $this->setData('lang',              $lang);
+        $this->setData('version',           TAO_VERSION);
         $this->setData('extension',         $this->getRequestParameter('extension'));
         $this->setData('module',            $this->getRequestParameter('module'));
         $this->setData('action',            $this->getRequestParameter('action'));
