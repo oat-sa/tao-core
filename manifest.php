@@ -20,6 +20,8 @@
  *               2013-     (update and modification) Open Assessment Technologies SA;
  * 
  */
+use oat\tao\scripts\install\AddLogFs;
+
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
 return array(
@@ -27,7 +29,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '5.6.2',
+    'version' => '5.6.3',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=2.25.1',
@@ -78,7 +80,8 @@ return array(
             dirname(__FILE__).'/scripts/install/setServiceState.php',
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
-            dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php'
+            dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
+            AddLogFs::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',

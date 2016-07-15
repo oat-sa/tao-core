@@ -33,7 +33,6 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
-use oat\taoEventLog\model\LoggerService;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -61,6 +60,8 @@ use oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\CompatibilityTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
+use oat\tao\model\extension\UpdateLogger;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
@@ -543,6 +544,18 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('5.6.0', '5.6.2');
+
+        if ($this->isVersion('5.6.2')) {
+            if (!$this->getServiceManager()->has(UpdateLogger::SERVICE_ID)) {
+                // setup log fs
+                $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+                $fsm->registerLocalFileSystem('log', FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'log'.DIRECTORY_SEPARATOR);
+                $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
+
+                $this->getServiceManager()->register(UpdateLogger::SERVICE_ID, new UpdateLogger(array(UpdateLogger::OPTION_FILESYSTEM => 'log')));
+            }
+            $this->setVersion('5.6.3');
+        }
     }
     
     private function migrateFsAccess() {
