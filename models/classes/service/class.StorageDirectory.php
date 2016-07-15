@@ -23,7 +23,6 @@ use oat\oatbox\filesystem\FileSystemService;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -160,7 +159,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
         }
         $stream->rewind();
 
-        $resource = oat\tao\model\stream\StreamWrapper::getResource($stream);
+        $resource = GuzzleHttp\Psr7\StreamWrapper::getResource($stream);
         if (!is_resource($resource)) {
             throw new common_Exception('Unable to create resource from the given stream. Write to filesystem aborted.');
         }
