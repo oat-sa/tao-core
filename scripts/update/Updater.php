@@ -541,6 +541,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(ClientConfigService::SERVICE_ID, $clientConfig);
             $this->setVersion('5.6.0');
         }
+
         $this->skip('5.6.0', '5.6.1');
     }
     

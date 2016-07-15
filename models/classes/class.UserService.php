@@ -1,5 +1,4 @@
 <?php
-use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\user\LoginService;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
@@ -37,8 +36,6 @@ class tao_models_classes_UserService
     extends tao_models_classes_ClassService
     implements core_kernel_users_UsersManagement
 {
-
-    use EventManagerAwareTrait;
 
     /**
      * the core user service
