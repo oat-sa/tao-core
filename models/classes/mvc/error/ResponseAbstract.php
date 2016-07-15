@@ -37,7 +37,7 @@ abstract class ResponseAbstract implements ResponseInterface {
     protected $contentType = '';
     
     /**
-     * @var \common_exception_UserReadableException
+     * @var \Exception
      */
     protected $exception;
 
@@ -116,10 +116,13 @@ abstract class ResponseAbstract implements ResponseInterface {
         \common_Logger::e($message);
         return $this;
     }
+
     /**
-     * @inherifDoc
+     * set up exception
+     * @param \Exception $exception
+     * @return $this
      */
-    public function setException(\common_exception_UserReadableException $exception) {
+    public function setException(\Exception $exception) {
         $this->exception = $exception;
         return $this;
     }

@@ -16,13 +16,18 @@ class AjaxResponse extends ResponseAbstract
     public function send()
     {
 
+        $message = $this->exception->getMessage();
+        if(method_exists($this->exception , 'getUserMessage')) {
+            $message = $this->exception->getUserMessage();
+        }
+
         $response = [
             "success" => false,
             "type" => 'Exception',
             "data" => array(
                 'ExceptionType' => get_class($this->exception)
             ),
-            "message" => $this->exception->getUserMessage()
+            "message" => $message,
         ];
         new \common_AjaxResponse($response);
 

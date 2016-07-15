@@ -61,6 +61,9 @@ use oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\CompatibilityTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
+use oat\tao\model\clientConfig\ClientConfig;
+use oat\tao\model\clientConfig\ClientConfigService;
+use oat\tao\model\clientConfig\sources\ThemeConfig;
 
 /**
  * 
@@ -529,7 +532,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('5.4.0');
         }
         
-        $this->skip('5.4.0', '5.4.1');
+
+        $this->skip('5.4.0', '5.5.0');
+
+        if ($this->isVersion('5.5.0')) {
+            $clientConfig = new ClientConfigService();
+            $clientConfig->setClientConfig('themesAvailable', new ThemeConfig());
+            $this->getServiceManager()->register(ClientConfigService::SERVICE_ID, $clientConfig);
+            $this->setVersion('5.6.0');
+        }
+        $this->skip('5.6.0', '5.6.1');
     }
     
     private function migrateFsAccess() {
