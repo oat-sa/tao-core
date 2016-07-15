@@ -135,6 +135,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function write($path, $resource, $mimeType = null)
     {
+        $path = $this->fixSlashes($path);
         common_Logger::d('Writting in ' . $this->getRelativePath().$path);
         $config = $mimeType = null ? [] : ['ContentType' => $mimeType];
         return $this->getFileSystem()->writeStream($this->getRelativePath().$path, $resource, $config);
@@ -220,6 +221,10 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->fs->getUri());
     }
 
+    /**
+     * @param string $path
+     * @return string
+     */
     protected function fixSlashes($path)
     {
         if (!$this->getFileSystem()->getAdapter() instanceof Local) {
