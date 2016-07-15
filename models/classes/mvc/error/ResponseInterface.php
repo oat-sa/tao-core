@@ -43,8 +43,8 @@ interface ResponseInterface {
     public function trace($message);
     /**
      * set up exception
-     * @param \Exception $exception
+     * @param \common_exception_UserReadableException $exception
      * @return $this
      */
-    public function setException(\Exception $exception);
+    public function setException(\common_exception_UserReadableException $exception);
 }

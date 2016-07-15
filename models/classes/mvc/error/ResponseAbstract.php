@@ -37,7 +37,7 @@ abstract class ResponseAbstract implements ResponseInterface {
     protected $contentType = '';
     
     /**
-     * @var \Exception
+     * @var \common_exception_UserReadableException
      */
     protected $exception;
 
@@ -47,6 +47,7 @@ abstract class ResponseAbstract implements ResponseInterface {
                 'html' => 'HtmlResponse',
                 'json' => 'JsonResponse',
                 'none' => 'NonAcceptable',
+                'ajax' => 'AjaxResponse',
             ];
 
 
@@ -71,11 +72,17 @@ abstract class ResponseAbstract implements ResponseInterface {
             }
             
         }
+
+        if(\tao_helpers_Request::isAjax()) {
+            $renderClass = 'ajax';
+        }
+
         $className = __NAMESPACE__ . '\\' . $this->rendererClassList[$renderClass];
         return new $className();
     }
-        /**
+    /**
      * send headers
+     * @return $this
      */
     protected function sendHeaders() {
         $context = \Context::getInstance();
@@ -85,7 +92,7 @@ abstract class ResponseAbstract implements ResponseInterface {
     }
     /**
      * set response http status code
-     * @param type $code
+     * @param int $code
      * @return $this
      */
     public function setHttpCode($code) {
@@ -112,7 +119,7 @@ abstract class ResponseAbstract implements ResponseInterface {
     /**
      * @inherifDoc
      */
-    public function setException(\Exception $exception) {
+    public function setException(\common_exception_UserReadableException $exception) {
         $this->exception = $exception;
         return $this;
     }

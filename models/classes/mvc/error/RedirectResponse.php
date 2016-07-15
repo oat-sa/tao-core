@@ -31,6 +31,7 @@ class RedirectResponse extends ResponseAbstract
                 'html' => 'LoginResponse',
                 'json' => 'JsonResponse',
                 'none' => 'NonAcceptable',
+                'ajax' => 'AjaxResponse',
             ];
     
 }
