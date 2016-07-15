@@ -97,6 +97,12 @@ class ThemeService extends ConfigurableService {
         return $this->getOption(self::OPTION_AVAILABLE);
     }
     
+    protected function hasTheme($id)
+    {
+        $themes = $this->getOption(self::OPTION_AVAILABLE);
+        return isset($themes[$id]);
+    }
+
     /**
      * Get Theme identified by id
      * 

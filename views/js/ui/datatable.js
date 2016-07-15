@@ -225,6 +225,12 @@ define([
 
             dataset = dataset || {};
 
+            /**
+             * @event dataTable#beforeload.datatable
+             * @param {Object} dataset - The data set object used to render the table
+             */
+            $elt.trigger('beforeload.' + ns, [_.cloneDeep(dataset)]);
+
             // overrides column options
             _.forEach(options.model, function (field) {
                 if (!options.filter) {
@@ -249,11 +255,8 @@ define([
                 });
             }
 
-            /**
-             * @event dataTable#beforeload.datatable
-             * @param {Object} dataset - The data set object used to render the table
-             */
-            $elt.trigger('beforeload.' + ns, [dataset]);
+
+
 
             // Call the rendering
             $rendering = $(layout({options: options, dataset: dataset}));

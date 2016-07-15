@@ -1,268 +1,131 @@
 define([
+    'lodash',
     'jquery',
-    'ui/themeLoader',
-], function($, themeLoader){
-
+    'ui/themes'
+], function(_, $, themesHandler){
+    'use strict';
+    
     var config = {
-        base : 'base.css',
-        default : 'blue',
-        available : [{
-            id   : 'blue',
-            path : 'blue.css',
-            name : 'Blue'
-        }, {
-            id : 'green',
-            path : 'green.css',
-            name : 'Green'
+        'items': {
+            base: 'base.css',
+            default: 'blue',
+            available: [{
+                id: 'blue',
+                path: 'blue.css',
+                name: 'Blue'
+            }, {
+                id: 'green',
+                path: 'green.css',
+                name: 'Green'
+            }]
+        },
+        'items_ns1': {
+            base: 'base.css',
+            default: 'orange',
+            available: [{
+                id: 'red',
+                path: 'red.css',
+                name: 'Red'
+            }, {
+                id: 'orange',
+                path: 'orange.css',
+                name: 'Orange'
+            }, {
+                id: 'yellow',
+                path: 'yellow.css',
+                name: 'Yellow'
+            }]
+        },
+        'items_ns2': {
+            base: 'base.css',
+            default: 'pink',
+            available: [{
+                id: 'pink',
+                path: 'pink.css',
+                name: 'Pink'
+            }]
         }
-    ]};
+    };
 
-    var pink = 'rgb(255, 192, 203)';
-    var blue = 'rgb(0, 0, 255)';
-    var green= 'rgb(0, 128, 0)';
+    var itemsNs1 = 'items_ns1';
+    var itemsNs2 = 'items_ns2';
 
-    var eventTriggered = '';
-
-    $(document).off('themechange.themeloader').on('themechange.themeloader', function(e, data) {
-        eventTriggered = data;
-    });
-
-    QUnit.module('Theme Loader API');
+    function mockThemeConfig(themeConfig) {
+        require.config({
+            config : {
+                'ui/themes' : themeConfig
+            }
+        });
+    }
+    
+    QUnit.module('Themes config');
 
     QUnit.test('module', function(assert){
-        assert.ok(typeof themeLoader !== 'undefined', 'The module exports something');
-        assert.ok(typeof themeLoader === 'function', 'The module exports a function');
+        assert.ok(typeof themesHandler !== 'undefined', 'The module exports something');
+        assert.ok(typeof themesHandler === 'object', 'The module exports an object');
     });
 
-    QUnit.test('config format', function(assert){
+    QUnit.test('get(what)', function(assert){
+        QUnit.expect(7);
 
-        assert.throws(function(){
-            themeLoader();
-        }, TypeError, 'A config parameter is required');
+        config.activeNamespace = undefined;
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.get('items'), config.items, 'returns items themes');
+        assert.deepEqual(themesHandler.get('items_ns1'), config[itemsNs1], 'returns items_ns1 themes');
+        assert.deepEqual(themesHandler.get('items_ns2'), config[itemsNs2], 'returns items_ns1 themes');
+        assert.deepEqual(themesHandler.get('unknown'), undefined, 'returns undefined if target is not found');
 
-        assert.throws(function(){
-            themeLoader({});
-        }, TypeError, 'A config parameter with a base property is required');
+        config.activeNamespace = 'ns1';
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.get('items'), config[itemsNs1], 'automatically returns namespaced entry if an active namespace exists');
 
-        assert.throws(function(){
-            themeLoader({
-                base : ''
-            });
-        }, TypeError, 'A config parameter with available themes property is required');
+        config.activeNamespace = 'ns2';
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.get('items'), config[itemsNs2], 'automatically returns namespaced entry if an active namespace exists');
 
-        assert.throws(function(){
-            themeLoader({
-                base : '',
-                available : [{}]
-            });
-        }, TypeError, 'Themes should contain path and id');
-
-        //does not fail
-        themeLoader(config);
+        config.activeNamespace = 'unknown';
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.get('items'), config.items, 'returns item themes if specified namespace is not found');
     });
 
+    QUnit.test('get(what, ns)', function(assert){
+        QUnit.expect(2);
 
-    QUnit.test('loader api', function(assert){
-        var loader = themeLoader(config);
+        config.activeNamespace = 'ns2';
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.get('items', 'ns1'), config[itemsNs1], 'returns "items_ns" entry if namespace is specified, ignoring active namespace');
+        assert.deepEqual(themesHandler.get('items', 'unknown'), undefined, 'returns undefined if namespace is not found');
+    });
+    
+    QUnit.test('getAvailable(what)', function(assert){
+        QUnit.expect(6);
 
-        assert.ok(typeof loader === 'object', 'The theme loader returns an object');
-        assert.ok(typeof loader.load === 'function', 'The loader exposes a method load');
-        assert.ok(typeof loader.unload === 'function', 'The loader exposes a method unload');
-        assert.ok(typeof loader.change === 'function', 'The loader exposes a method change');
+        config.activeNamespace = undefined;
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.getAvailable('items'), config.items.available, 'returns available items themes');
+        assert.deepEqual(themesHandler.getAvailable('items_ns1'), config[itemsNs1].available, 'returns available items_ns1 themes');
+        assert.deepEqual(themesHandler.getAvailable('unknown'), [], 'returns empty array if target is not found');
 
+        config.activeNamespace = 'ns1';
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.getAvailable('items'), config[itemsNs1].available, 'returns namespaced entry if an active namespace exists');
+
+        config.activeNamespace = 'ns2';
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.getAvailable('items'), config[itemsNs2].available, 'returns namespaced entry if an active namespace exists');
+
+        config.activeNamespace = 'unknown';
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.getAvailable('items'), config.items.available, 'returns items entry if active namespace is not found');
     });
 
-    QUnit.module('Theme loading', {
-        teardown: function(){
-            $('head').find('link[data-type^="custom-theme"]').remove();
-        }
-    });
+    QUnit.test('getAvailable(what, ns)', function(assert){
+        QUnit.expect(2);
 
-
-    QUnit.asyncTest('load', 6, function(assert){
-        var loader = themeLoader(config);
-        var $container = $('#qti-item');
-        assert.equal($container.length, 1, 'The container exists');
-
-        loader.load();
-        setTimeout(function(){
-
-            var $styleSheets = $('link[data-type^="custom-theme"]');
-            assert.ok($styleSheets.length > 0, 'The styleSheets have been inserted');
-            assert.equal($styleSheets.length, 3, 'All styleSheets have been inserted');
-
-            assert.equal($container.css('background-color'), pink, 'The base style is loaded and computed');
-            assert.equal($container.css('color'), blue, 'The theme style is loaded and computed');
-
-
-            setTimeout(function() {
-                assert.equal(eventTriggered, loader.getActiveTheme(), 'The themechange event has been triggered along with the correct parameters');
-                QUnit.start();
-            }, 250);
-        }, 50);
-    });
-
-
-    QUnit.asyncTest('unload', 11, function(assert){
-        var loader = themeLoader(config);
-        var $container = $('#qti-item');
-        assert.equal($container.length, 1, 'The container exists');
-
-        loader.load();
-        setTimeout(function(){
-
-            var $styleSheets = $('link[data-type^="custom-theme"]');
-            assert.ok($styleSheets.length > 0, 'The styleSheets have been inserted');
-            assert.equal($styleSheets.length, 3, 'All styleSheets have been inserted');
-
-            assert.equal($container.css('background-color'), pink, 'The base style is loaded and computed');
-            assert.equal($container.css('color'), blue, 'The theme style is loaded and computed');
-
-            loader.unload();
-
-            setTimeout(function(){
-
-                assert.equal($('link[data-type^="custom-theme"]').length, 3, 'The stylesheets are still there');
-                assert.ok($('link[data-id="base"]').prop('disabled'), 'The base stylesheet is disabled');
-                assert.ok($('link[data-id="green"]').prop('disabled'), 'The green stylesheet is disabled');
-                assert.ok($('link[data-id="blue"]').prop('disabled'), 'The blue stylesheet is disabled');
-
-                assert.notEqual($container.css('background-color'), pink, 'The base style is  unloaded');
-                assert.notEqual($container.css('color'), blue, 'The theme style is unloaded');
-
-                QUnit.start();
-            }, 10);
-        }, 50);
-    });
-
-
-    QUnit.asyncTest('change', 9, function(assert){
-        var loader = themeLoader(config);
-        var $container = $('#qti-item');
-
-        assert.equal($container.length, 1, 'The container exists');
-
-        loader.load();
-        setTimeout(function(){
-
-            var $styleSheets = $('link[data-type^="custom-theme"]');
-            assert.ok($styleSheets.length > 0, 'The styleSheets have been inserted');
-            assert.equal($styleSheets.length, 3, 'All styleSheets have been inserted');
-
-            assert.equal($container.css('background-color'), pink, 'The base style is loaded and computed');
-            assert.equal($container.css('color'), blue, 'The theme style is loaded and computed');
-
-            loader.change('green');
-
-            setTimeout(function(){
-
-                assert.equal($container.css('background-color'), pink, 'The base style is still loaded');
-                assert.equal($container.css('color'), green, 'The new theme style is loaded and computed');
-                assert.equal(loader.getActiveTheme(), 'green', 'The new theme became the active theme');
-
-                setTimeout(function() {
-                    assert.equal(eventTriggered, loader.getActiveTheme(), 'The themechange event has been triggered along with the correct parameters');
-                    QUnit.start();
-                }, 250);
-
-            }, 50);
-        }, 50);
-    });
-
-
-    QUnit.asyncTest('change back to default', 11, function(assert){
-        var loader = themeLoader(config);
-        var $container = $('#qti-item');
-        assert.equal($container.length, 1, 'The container exists');
-
-        loader.load();
-        setTimeout(function(){
-
-            var $styleSheets = $('link[data-type^="custom-theme"]');
-            assert.ok($styleSheets.length > 0, 'The styleSheets have been inserted');
-            assert.equal($styleSheets.length, 3, 'All styleSheets have been inserted');
-
-            assert.equal($container.css('background-color'), pink, 'The base style is loaded and computed');
-            assert.equal($container.css('color'), blue, 'The theme style is loaded and computed');
-
-            loader.change('green');
-
-            setTimeout(function(){
-
-                assert.equal($container.css('background-color'), pink, 'The base style is still loaded');
-                assert.equal($container.css('color'), green, 'The new theme style is loaded and computed');
-
-                loader.change('default');
-
-
-                setTimeout(function(){
-
-                    assert.equal($container.css('background-color'), pink, 'The base style is loaded and computed');
-                    assert.equal($container.css('color'), blue, 'The default theme style is loaded');
-                    assert.equal(loader.getActiveTheme(), 'blue', 'The active theme has been reset to default');
-
-
-                    setTimeout(function() {
-                        assert.equal(eventTriggered, loader.getActiveTheme(), 'The themechange event has been triggered along with the correct parameters');
-                        QUnit.start();
-                    }, 250);
-
-                }, 50);
-            }, 50);
-        }, 50);
-    });
-
-    QUnit.asyncTest('reload and change', 16, function(assert){
-        var loader = themeLoader(config);
-        var $container = $('#qti-item');
-        assert.equal($container.length, 1, 'The container exists');
-
-        loader.load();
-        setTimeout(function(){
-
-            var $styleSheets = $('link[data-type^="custom-theme"]');
-            assert.ok($styleSheets.length > 0, 'The styleSheets have been inserted');
-            assert.equal($styleSheets.length, 3, 'All styleSheets have been inserted');
-
-            assert.equal($container.css('background-color'), pink, 'The base style is loaded and computed');
-            assert.equal($container.css('color'), blue, 'The theme style is loaded and computed');
-
-            loader.unload();
-
-            setTimeout(function(){
-                assert.equal($('link[data-type^="custom-theme"]').length, 3, 'The stylesheets are stil there');
-                assert.ok($('link[data-id="base"]').prop('disabled'), 'The base stylesheet is disabled');
-                assert.ok($('link[data-id="blue"]').prop('disabled'), 'The blue stylesheet is disabled');
-                assert.ok($('link[data-id="green"]').prop('disabled'), 'The green stylesheet is disabled');
-
-                var loader2 = themeLoader(config);
-                loader2.load();
-
-                setTimeout(function(){
-
-                    assert.ok( ! $('link[data-id="base"]').prop('disabled'), 'The base stylesheet is now enabled');
-                    assert.ok( ! $('link[data-id="blue"]').prop('disabled'), 'The blue stylesheet is now enabled');
-                    assert.ok($('link[data-id="green"]').prop('disabled'), 'The green stylesheet is disabled');
-
-                    loader2.change('green');
-
-                    setTimeout(function(){
-
-                        assert.equal($container.css('background-color'), pink, 'The base style is still loaded');
-                        assert.equal($container.css('color'), green, 'The new theme style is loaded and computed');
-                        assert.equal(loader2.getActiveTheme(), 'green', 'The new theme became the active theme');
-
-
-                        setTimeout(function() {
-                            assert.equal(eventTriggered, loader2.getActiveTheme(), 'The themechange event has been triggered along with the correct parameters');
-                            QUnit.start();
-                        }, 250);
-
-
-                    }, 50);
-                }, 50);
-            }, 50);
-        }, 50);
+        config.activeNamespace = 'ns2';
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.getAvailable('items', 'ns1'), config[itemsNs1].available, 'returns available items themes of entry "items_ns1"');
+        assert.deepEqual(themesHandler.getAvailable('items', 'unknown'), [], 'returns empty array if namespace is not found');
     });
 
 });

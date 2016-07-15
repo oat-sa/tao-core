@@ -28,23 +28,36 @@ define([
 ], function(_, module){
     'use strict';
 
-    var config = module.config();
-
     /**
-     * Let's you access to platform themes
+     * Let you access to platform themes
      * @exports ui/themes
      */
     return {
 
         /**
-         * Get the themes config for.
-         *
+         * Get the themes config.
          * @example themes().get('items');
-         *
+         * 
+         * If the config contains a activeNamespace property (for example, 'ns1'), then it will appended to the requested key 
+         * For example, this will actually returns entries registered in 'items_ns1'
+         * @example themes().get('items');
+         * 
+         * Namespace can by manually specified by a parameter. In that case, activeNamespace property is ignored.
+         * @example themes().get('items', 'ns2');
+         *  
          * @param {String} what - themes are classified, what is the theme for ?
+         * @param {String} [ns] - namespace of the 'what'
          * @returns {Object?} the themes config
          */
-        get : function get(what){
+        get : function get(what, ns){
+            var config = module.config();
+            
+            if (ns) {
+                what += '_' + ns;
+                
+            } else if (config.activeNamespace && config[what + '_' + config.activeNamespace]) {
+                what += '_' + config.activeNamespace;
+            }
             if(_.isPlainObject(config[what])){
                 return config[what];
             }
@@ -55,12 +68,20 @@ define([
          *
          * @example themes().getAvailable('items');
          *
+         * If the config contains a activeNamespace property (for example, 'ns1'), then it will appended to the requested key
+         * For example, this will actually returns entries registered in 'items_ns1'
+         * @example themes().getAvailable('items');
+         *
+         * Namespace can by manually specified by a parameter. In that case, activeNamespace property is ignored.
+         * @example themes().getAvailable('items', 'ns2');
+         * *
          * @param {String} what - themes are classified, what is the theme for ?
+         * @param {String} [ns] - namespace of the 'what'
          * @returns {Array} the themes
          */
-        getAvailable : function getAvailable(what){
+        getAvailable : function getAvailable(what, ns){
             var available = [];
-            var themes = this.get(what);
+            var themes = this.get(what, ns);
             if(themes && _.isArray(themes.available)){
                 available = themes.available;
             }

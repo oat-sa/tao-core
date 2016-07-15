@@ -17,28 +17,13 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\model\event;
 
-
-use oat\oatbox\event\Event;
-
-class LoginEvent implements Event
-{
-
-    /**
-     * LoginEvent constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return __CLASS__;
-    }
-}
+/**
+ * Class LoginEvent
+ * For backward compatibility
+ * @package oat\tao\model\event
+ * @deprecated
+ */
+class LoginEvent extends LoginSucceedEvent {}

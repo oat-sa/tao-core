@@ -36,12 +36,14 @@ require.config({
         'raphael'           : 'lib/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
         'spin'              : 'lib/spin.min',
-        'history'           : 'lib/history/history',
+        'html5-history-api' : 'lib/history/history',
 
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'interact'          : 'lib/interact',
-        
+        'd3'                : 'lib/d3js/d3.min',
+        'c3'                : 'lib/c3js/c3.min',
+
 //optimizer needed
         'css-builder'       : 'lib/require-css/css-builder',
         'normalize'         : 'lib/require-css/normalize',
@@ -51,7 +53,6 @@ require.config({
    },
 
    shim : {
-        'wfEngine/wfApi/wfApi.min' : ['jquery'],
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],

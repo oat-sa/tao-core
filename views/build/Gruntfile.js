@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         'jquery.fileDownload',
         'raphael',
         'scale.raphael',
-        'history']);
+        'html5-history-api']);
 
     grunt.option('mainlibs', libs);
 

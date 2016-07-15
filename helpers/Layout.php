@@ -26,6 +26,7 @@ use oat\tao\model\menu\Icon;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\layout\AmdLoader;
 
 class Layout{
 
@@ -135,38 +136,34 @@ class Layout{
     }
 
     /**
-     * Build script element for AMD loader
+     * Create the AMD loader for the current context.
+     * It will load login's modules for anonymous session.
+     * Loads the bundle mode in production and the dynamic mode in debug.
      *
-     * @return string
+     * @param string $bundle the bundle URL
+     * @param string $controller the controller module id
+     * @param array  $params additional parameters
+     * @return string the script tag
      */
-    public static function getAmdLoader(){
+    public static function getAmdLoader($bundle = null, $controller = null, $params = null){
+
+        $bundleMode   = \tao_helpers_Mode::is('production');
+        $configUrl    = get_data('client_config_url');
+        $requireJsUrl = Template::js('lib/require.js', 'tao');
+        $bootstrapUrl = Template::js('loader/bootstrap', 'tao');
+
+        $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
+
         if(\common_session_SessionManager::isAnonymous()) {
-            $amdLoader = array(
-                'src' => Template::js('lib/require.js', 'tao'),
-                //'data-main' => TAOBASE_WWW . 'js/main'
-                'data-main' => TAOBASE_WWW . 'js/login',
-                'data-config' => get_data('client_config_url')
-            );
-        }
-        else if(\tao_helpers_Mode::is('production')) {
-            $amdLoader = array(
-                'src' => Template::js('main.min.js', 'tao'),
-                'data-config' => get_data('client_config_url')
-            );
-        }
-        else {
-            $amdLoader = array(
-                'src' => Template::js('lib/require.js', 'tao'),
-                'data-config' => get_data('client_config_url'),
-                'data-main' => TAOBASE_WWW . 'js/main'
-            );
+            $controller = 'controller/login';
+            $bundle = Template::js('loader/login.min.js', 'tao');
         }
 
-        $amdScript = '<script id="amd-loader" ';
-        foreach($amdLoader as $attr => $value) {
-            $amdScript .= $attr . '="' . $value . '" ';
+        if($bundleMode){
+            return $loader->getBundleLoader($bundle, $controller, $params);
         }
-        return trim($amdScript) . '></script>';
+
+        return $loader->getDynamicLoader($controller, $params);
     }
 
     /**

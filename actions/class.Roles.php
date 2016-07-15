@@ -52,7 +52,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 /*
  * conveniance methods
  */
-	
+
 	/**
 	 * get the selected group from the current context (from the uri and classUri parameter in the request)
 	 * @return core_kernel_classes_Resource $group

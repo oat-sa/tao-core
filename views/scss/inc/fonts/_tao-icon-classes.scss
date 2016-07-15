@@ -18,6 +18,8 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-unshield:before { @include icon-unshield; }
+.icon-shield:before { @include icon-shield; }
 .icon-tree:before { @include icon-tree; }
 .icon-home:before { @include icon-home; }
 .icon-shared-file:before { @include icon-shared-file; }
@@ -178,6 +180,7 @@
 .icon-range-slider-right:before { @include icon-range-slider-right; }
 .icon-range-slider-left:before { @include icon-range-slider-left; }
 .icon-radio-checked:before { @include icon-radio-checked; }
+.icon-checkbox-indeterminate:before { @include icon-checkbox-indeterminate; }
 .icon-checkbox:before { @include icon-checkbox; }
 .icon-checkbox-crossed:before { @include icon-checkbox-crossed; }
 .icon-checkbox-checked:before { @include icon-checkbox-checked; }
