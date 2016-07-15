@@ -85,7 +85,7 @@ define([
 
         config.activeNamespace = 'unknown';
         mockThemeConfig(config);
-        assert.deepEqual(themesHandler.get('items'), undefined, 'returns undefined if specified namespace is not found');
+        assert.deepEqual(themesHandler.get('items'), config.items, 'returns item themes if specified namespace is not found');
     });
 
     QUnit.test('get(what, ns)', function(assert){
@@ -116,7 +116,7 @@ define([
 
         config.activeNamespace = 'unknown';
         mockThemeConfig(config);
-        assert.deepEqual(themesHandler.getAvailable('items'), [], 'returns empty array if target is not found');
+        assert.deepEqual(themesHandler.getAvailable('items'), config.items.available, 'returns items entry if active namespace is not found');
     });
 
     QUnit.test('getAvailable(what, ns)', function(assert){

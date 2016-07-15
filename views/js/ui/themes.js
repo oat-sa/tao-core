@@ -55,7 +55,7 @@ define([
             if (ns) {
                 what += '_' + ns;
                 
-            } else if (config.activeNamespace) {
+            } else if (config.activeNamespace && config[what + '_' + config.activeNamespace]) {
                 what += '_' + config.activeNamespace;
             }
             if(_.isPlainObject(config[what])){
