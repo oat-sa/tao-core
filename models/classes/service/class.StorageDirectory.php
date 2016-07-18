@@ -115,16 +115,39 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
     }
 
     /**
-     * Return content of file located at $path. Output as stream
+     * Return content of file located at $path. Output as a php resource
      * @param $path
-     * @return \Slim\Http\Stream
+     * @return resource
      */
     public function readStream($path)
     {
-        $resource = $this->getFileSystem()->readStream($this->getRelativePath().$path);
-        return new \GuzzleHttp\Psr7\Stream($resource);
+        return $this->getFileSystem()->readStream($this->getRelativePath().$path);
+    }
+    
+    /**
+     * Return content of file located at $path. Output as stream
+     * @param $path
+     * @return StreamInterface
+     */
+    public function readPsrStream($path)
+    {
+        return new \GuzzleHttp\Psr7\Stream($this->readStream($path));
     }
 
+    /**
+     * Store a file in the directory from string
+     *
+     * @param string $path
+     * @param string $content
+     * @return boolean
+     */
+    public function write($path, $content, $mimeType = null)
+    {
+        common_Logger::d('Writting in ' . $this->getRelativePath().$path);
+        $config = $mimeType = null ? [] : ['ContentType' => $mimeType];
+        return $this->getFileSystem()->write($this->getRelativePath().$path, $content, $config);
+    }
+    
     /**
      * Store a file in the directory from resource
      *
@@ -132,7 +155,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      * @param mixed $resource
      * @return boolean
      */
-    public function write($path, $resource, $mimeType = null)
+    public function writeStream($path, $resource, $mimeType = null)
     {
         common_Logger::d('Writting in ' . $this->getRelativePath().$path);
         $config = $mimeType = null ? [] : ['ContentType' => $mimeType];
@@ -147,7 +170,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      * @return bool
      * @throws common_Exception
      */
-    public function writeStream($path, StreamInterface $stream, $mimeType = null)
+    public function writePsrStream($path, StreamInterface $stream, $mimeType = null)
     {
         if (!$stream->isReadable()) {
             throw new common_Exception('Stream is not readable. Write to filesystem aborted.');
