@@ -44,6 +44,8 @@ class JsonLdExport implements \JsonSerializable
      */
     private $blackList = array(RDF_TYPE);
 
+    private $encoders = array();
+
     /**
      * Gets a list of properties to exclude
      * 
@@ -118,12 +120,22 @@ class JsonLdExport implements \JsonSerializable
                 if (!is_array($data[$key])) {
                     $data[$key] = array($data[$key]);
                 }
-                $data[$key][] = $this->encodeValue($triple->object);
+                $data[$key][] = $this->encodeValue($triple->object, $triple->predicate);
             } else {
-                $data[$key] = $this->encodeValue($triple->object);
+                $data[$key] = $this->encodeValue($triple->object, $triple->predicate);
             }
         }
         return $data;
+    }
+    
+    public function registerEncoder($propertyUri, callable $encoder)
+    {
+        $this->encoders[$propertyUri] = $encoder; 
+    }
+    
+    public function getEncoders()
+    {
+        return $this->encoders;
     }
     
     /**
