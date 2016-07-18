@@ -236,7 +236,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
             file_get_contents($this->sampleDir . $this->path . $tmpFile)
         );
 
-        $readFixture = $this->instance->read($tmpFile);
+        $readFixture = $this->instance->readStream($tmpFile);
         $this->assertTrue(is_resource($readFixture));
         fclose($readFixture);
     }
@@ -254,7 +254,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
         $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
 
-        $this->instance->writeStream($tmpFile, $streamFixture);
+        $this->instance->writePsrStream($tmpFile, $streamFixture);
         $this->assertTrue(file_exists($this->sampleDir . $this->path . $tmpFile));
         fclose($resource);
         $streamFixture->close();
@@ -263,7 +263,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
             file_get_contents($this->sampleDir . $this->path . $tmpFile)
         );
 
-        $readFixture = $this->instance->readStream($tmpFile);
+        $readFixture = $this->instance->readPsrStream($tmpFile);
         $this->assertInstanceOf(GuzzleHttp\Psr7\Stream::class, $readFixture);
         $readFixture->close();
 
@@ -281,7 +281,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
 
         $client = new \GuzzleHttp\Client();
         $response = $client->get('http://www.google.org');
-        $this->assertTrue($this->instance->writeStream($tmpFile, $response->getBody()));
+        $this->assertTrue($this->instance->writePsrStream($tmpFile, $response->getBody()));
         $this->assertNotEquals(0, $response->getBody()->getSize());
     }
 
@@ -300,7 +300,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
        // echo filesize(__DIR__ . '/samples/43bytes.php');
         $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
 
-        $this->instance->writeStream($tmpFile, $streamFixture);
+        $this->instance->writePsrStream($tmpFile, $streamFixture);
         $this->assertTrue(file_exists($this->sampleDir . $this->path . $tmpFile));
         fclose($resource);
         $streamFixture->close();
@@ -309,7 +309,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
             file_get_contents($this->sampleDir . $this->path . $tmpFile)
         );
 
-        $readFixture = $this->instance->readStream($tmpFile);
+        $readFixture = $this->instance->readPsrStream($tmpFile);
         $this->assertInstanceOf(GuzzleHttp\Psr7\Stream::class, $readFixture);
         $readFixture->close();
     }
@@ -328,7 +328,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
          $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
 
          $this->setExpectedException(common_Exception::class);
-         $this->instance->writeStream($tmpFile, $streamFixture);
+         $this->instance->writePsrStream($tmpFile, $streamFixture);
 
          fclose($resource);
      }
@@ -361,7 +361,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
 
         $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
         $streamFixture = GuzzleHttp\Psr7\stream_for($resource);
-        $this->instance->writeStream($tmpFile, $streamFixture);
+        $this->instance->writePsrStream($tmpFile, $streamFixture);
 
         $this->assertTrue($this->instance->has($tmpFile));
         $this->assertTrue($this->instance->delete($tmpFile));
