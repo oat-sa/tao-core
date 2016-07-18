@@ -69,7 +69,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      * @return string
      */
     public function getRelativePath() {
-        return $this->relPath;
+        return $this->fixSlashes($this->relPath);
     }
     
     /**
@@ -111,7 +111,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function read($path)
     {
-        return  $this->getFileSystem()->read($this->getRelativePath().$path);
+        return  $this->getFileSystem()->read($this->getFullPath($path));
     }
 
     /**
@@ -121,7 +121,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function readStream($path)
     {
-        return $this->getFileSystem()->readStream($this->getRelativePath().$path);
+        return $this->getFileSystem()->readStream($this->getFullPath($path));
     }
     
     /**
@@ -131,6 +131,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function readPsrStream($path)
     {
+        $path = $this->fixSlashes($path);
         return new \GuzzleHttp\Psr7\Stream($this->readStream($path));
     }
 
@@ -143,9 +144,10 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function write($path, $content, $mimeType = null)
     {
-        common_Logger::d('Writting in ' . $this->getRelativePath().$path);
+        $path = $this->getFullPath($path);
+        common_Logger::d('Writting in ' . $path);
         $config = $mimeType = null ? [] : ['ContentType' => $mimeType];
-        return $this->getFileSystem()->write($this->getRelativePath().$path, $content, $config);
+        return $this->getFileSystem()->write($path, $content, $config);
     }
     
     /**
@@ -157,9 +159,10 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function writeStream($path, $resource, $mimeType = null)
     {
-        common_Logger::d('Writting in ' . $this->getRelativePath().$path);
+        $path = $this->getFullPath($path);
+        common_Logger::d('Writting in ' . $path);
         $config = $mimeType = null ? [] : ['ContentType' => $mimeType];
-        return $this->getFileSystem()->writeStream($this->getRelativePath().$path, $resource, $config);
+        return $this->getFileSystem()->writeStream($path, $resource, $config);
     }
 
     /**
@@ -172,6 +175,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function writePsrStream($path, StreamInterface $stream, $mimeType = null)
     {
+        $path = $this->fixSlashes($path);
         if (!$stream->isReadable()) {
             throw new common_Exception('Stream is not readable. Write to filesystem aborted.');
         }
@@ -196,7 +200,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     public function has($path)
     {
-        return $this->getFileSystem()->has($this->getRelativePath().$path);
+        return $this->getFileSystem()->has($this->getFullPath($path));
     }
 
     /**
@@ -209,7 +213,7 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
     public function delete($path)
     {
         try {
-            return $this->getFileSystem()->delete($this->getRelativePath() . $path);
+            return $this->getFileSystem()->delete($this->getFullPath($path));
         } catch (\League\Flysystem\FileNotFoundException $e) {
             common_Logger::e($e->getMessage());
             throw new tao_models_classes_FileNotFoundException($path);
@@ -240,5 +244,26 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      */
     protected function getFileSystem() {
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->fs->getUri());
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    protected function getFullPath($path) {
+        $path = $this->fixSlashes($path);
+        return rtrim($this->getRelativePath(), '\\/') . '/' . ltrim($path, '\\/');
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    protected function fixSlashes($path)
+    {
+        if (!$this->getFileSystem()->getAdapter() instanceof Local) {
+            $path = str_replace('\\', '/', $path);
+        }
+        return $path;
     }
 }

@@ -73,12 +73,16 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $fsFixture = $this->getFs();
         $providerFixture = $this->getAccessProvider($this->path);
 
-        return new tao_models_classes_service_StorageDirectory(
+        $storageDirectory = new tao_models_classes_service_StorageDirectory(
             $this->id,
             $fsFixture,
             $this->path,
             $providerFixture
         );
+
+        $storageDirectory->setServiceLocator($this->getServiceLocatorWithFileSystem());
+
+        return $storageDirectory;
     }
 
     /**
