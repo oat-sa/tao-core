@@ -128,6 +128,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         $csvData = $this->load($source);
         
         $createdResources = 0;
+        $importedResources = [];
         $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
 
     	for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++){
@@ -160,6 +161,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			    
 			    // create resource
 			    $resource = $destination->createInstanceWithProperties($evaluatedData);
+                $importedResources[] = $resource->getUri();
 			    
 			    // Apply 'resourceImported' callbacks.
 			    foreach ($this->resourceImported as $callback){
@@ -182,6 +184,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
 		$this->addOption('to_import', count($csvData));
 		$this->addOption('imported', $createdResources);
+        $this->addOption('imported_resources', $importedResources);
 
 		$report = $this->getResult($createdResources);
 
