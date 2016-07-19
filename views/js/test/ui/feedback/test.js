@@ -1,7 +1,8 @@
 define(['jquery', 'ui/feedback'], function($, feedback){
-        
+    'use strict';
+
     QUnit.module('feedback');
-   
+
     QUnit.test('module', function(assert){
         QUnit.expect(1);
 
@@ -46,10 +47,10 @@ define(['jquery', 'ui/feedback'], function($, feedback){
 
         }, Error, 'An exception should be thrown if the container is not an existing element');
     });
-    
+
     QUnit.test('state', function(assert){
         QUnit.expect(9);
-        
+
         var fb = feedback().message();
         var fb2 = feedback().message();
 
@@ -69,7 +70,7 @@ define(['jquery', 'ui/feedback'], function($, feedback){
 
     QUnit.test('default message', function(assert){
         QUnit.expect(5);
-        
+
         var fb = feedback();
         var r2 = fb.message();
 
@@ -102,7 +103,7 @@ define(['jquery', 'ui/feedback'], function($, feedback){
         assert.ok(/DANGER_ZONE/m.test(fb.content)                      , 'The content property contains the message');
         assert.equal($('.feedback-warning', $container).length, 1 , 'The feedback content has been appended to the container');
     });
-    
+
     QUnit.test('close message', function(assert){
         QUnit.expect(2);
 
@@ -114,9 +115,9 @@ define(['jquery', 'ui/feedback'], function($, feedback){
         fb.close();
         assert.equal($('.feedback-warning', $container).length, 0, 'The feedback content has been removed from the container');
     });
-    
+
     QUnit.asyncTest('close event', function(assert){
-    
+
         QUnit.expect(2);
 
         var $container = $('#feedback-box');
@@ -145,12 +146,12 @@ define(['jquery', 'ui/feedback'], function($, feedback){
             assert.equal($('.feedback-warning', $container).length, 0, 'The feedback content has been removed from the container');
             QUnit.start();
         });
-        
+
         $container.find('.icon-close').click();
     });
-    
+
     QUnit.asyncTest('callbacks', function(assert){
-    
+
         QUnit.expect(3);
 
         var $container = $('#feedback-box');
@@ -165,14 +166,14 @@ define(['jquery', 'ui/feedback'], function($, feedback){
                 close : function(){
                     assert.ok(true, 'The close callback is called');
                     QUnit.start();
-                } 
+                }
             })
             .display()
             .close();
     });
 
     QUnit.asyncTest('timeout', function(assert){
-    
+
         QUnit.expect(4);
 
         var $container = $('#feedback-box');
@@ -191,9 +192,27 @@ define(['jquery', 'ui/feedback'], function($, feedback){
         fbt.close();
 
     });
-    
+
+    QUnit.test('popup messages', function(assert){
+        QUnit.expect(6);
+
+        var $container = $('#feedback-box');
+
+        var fb1 = feedback($container).message('info', 'AWESOME_MESSAGE_1', {popup: true}).open();
+        assert.equal($('.feedback-info', $container).length, 1 , 'The container a message');
+        assert.ok(/AWESOME_MESSAGE_1/.test($('.feedback-info div', $container).text()), 'The container has the right message');
+        assert.ok($('.feedback-info', $container).hasClass('popup') , 'The container has the popup class');
+        fb1.close();
+
+        var fb2 = feedback($container).message('info', 'AWESOME_MESSAGE_2', {popup: false}).open();
+        assert.equal($('.feedback-info', $container).length, 1 , 'The container a message');
+        assert.ok(/AWESOME_MESSAGE_2/.test($('.feedback-info div', $container).text()), 'The container has the right message');
+        assert.ok( ! $('.feedback-info', $container).hasClass('popup') , 'The container has not the popup class');
+        fb2.close();
+    });
+
     QUnit.test('volatile messages', function(assert){
-    
+
         QUnit.expect(2);
 
         var $container = $('#feedback-box');
@@ -202,6 +221,9 @@ define(['jquery', 'ui/feedback'], function($, feedback){
 
         assert.equal($('.feedback-info', $container).length, 1 , 'The container has only one volatile message');
         assert.ok(/AWESOME_MESSAGE_2/.test($('.feedback-info div', $container).text()), 'The container has the 2nd message');
+
+        fb1.close();
+        fb2.close();
     });
 
 });
