@@ -24,6 +24,7 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use League\Flysystem\Filesystem;
 use Psr\Http\Message\StreamInterface;
+use League\Flysystem\Adapter\Local;
 
 /**
  * Represents  direxctory for file storage 
