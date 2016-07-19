@@ -1,4 +1,4 @@
-<div class="feedback feedback-{{level}} popup">
+<div class="feedback feedback-{{level}} {{#if popup}}popup{{/if}}">
     <span class="icon-{{level}}"></span>
     <div>
         {{{msg}}}
