@@ -266,4 +266,53 @@ define(['core/delegator'], function(delegator) {
 
         assert.equal(api.action(expectedArg1, expectedArg2), expectedResponse, 'The action has returned the expected response');
     });
+
+
+    QUnit.asyncTest('wrapper', function(assert) {
+        var delegate;
+        var expectedResponse = 'ok';
+        var expectedWrappedResponse = expectedResponse + expectedResponse;
+        var expectedArg1 = 'test1';
+        var expectedArg2 = 'test2';
+        var api = {
+            isApi: true,
+            action: function(arg1, arg2) {
+                assert.ok(true, 'Action called from the api');
+                return delegate('action', arg1, arg2);
+            },
+
+            trigger: function(event, response, arg1, arg2) {
+                assert.equal(event, 'action', 'The delegate function has triggered the related event');
+                assert.equal(response, expectedWrappedResponse, 'The delegate function has forwarded the response');
+                assert.equal(arg1, expectedArg1, 'The delegate function has forwarded the first argument');
+                assert.equal(arg2, expectedArg2, 'The delegate function has forwarded the second argument');
+                QUnit.start();
+            }
+        };
+        var adapter = {
+            isAdapter: true,
+            action: function(arg1, arg2) {
+                assert.ok(true, 'Action delegated to the adapter');
+                assert.ok(this.isApi, 'The context is bound to the API');
+                assert.ok(!this.isAdapter, 'The context is not bound to the Adapter');
+                assert.equal(arg1, expectedArg1, 'The delegate function forwarded the first argument');
+                assert.equal(arg2, expectedArg2, 'The delegate function forwarded the second argument');
+                return expectedResponse;
+            }
+        };
+
+        QUnit.expect(13);
+
+        delegate = delegator(api, adapter, {
+            wrapper: function(value) {
+                assert.equal(value, expectedResponse, 'The response is provided to the wrapper');
+
+                return value + value;
+            }
+        });
+
+        assert.equal(typeof delegate, 'function', 'The delegator helper has created a delegate function');
+
+        assert.equal(api.action(expectedArg1, expectedArg2), expectedWrappedResponse, 'The action has returned the expected response');
+    });
 });

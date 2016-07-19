@@ -97,10 +97,13 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
 
         //parse the URL
         var route = parseMvcUrl(url);
+        var routeModule;
         if(route){
 
+            routeModule = route.extension === 'tao' ? 'controller/routes' : route.extension + '/controller/routes';
+
             //loads the routing for the current extensino
-            require([route.extension + '/controller/routes'], function(routes){
+            require([routeModule], function(routes){
 
                 if(routes && routes[route.module]){
 
@@ -139,7 +142,7 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
 
                     //alias controller/ to extension/controller
                     dependencies = _.map(dependencies, function(dep){
-                        return /^controller/.test(dep) ?  route.extension + '/' + dep : dep;
+                        return (/^controller/.test(dep) && route.extension !== 'tao') ?  route.extension + '/' + dep : dep;
                     });
 
                     //URL parameters are given by default to the required module (through module.confid())

@@ -21,10 +21,18 @@
 
 namespace oat\tao\scripts\update;
 
+use common_Exception;
 use common_ext_ExtensionsManager;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\event\RoleChangedEvent;
+use oat\tao\model\event\RoleCreatedEvent;
+use oat\tao\model\event\RoleRemovedEvent;
+use oat\tao\model\event\UserCreatedEvent;
+use oat\tao\model\event\UserRemovedEvent;
+use oat\tao\model\event\UserUpdatedEvent;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -52,118 +60,133 @@ use oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\CompatibilityTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
-use oat\oatbox\event\EventManager;
+use oat\tao\model\extension\UpdateLogger;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\clientConfig\ClientConfig;
+use oat\tao\model\clientConfig\ClientConfigService;
+use oat\tao\model\clientConfig\sources\ThemeConfig;
 
 /**
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class Updater extends \common_ext_ExtensionUpdater {
-    
+
     /**
-     * 
-     * @param string $currentVersion
-     * @return string $versionUpdatedTo
+     *
+     * @param $initialVersion
+     * @return string $initialVersion
+     * @throws \common_exception_Error
+     * @throws \common_exception_InconsistentData
+     * @throws \common_ext_ExtensionException
+     * @throws common_Exception
      */
     public function update($initialVersion) {
-        
-        $currentVersion = $initialVersion;
-        $extensionManager = common_ext_ExtensionsManager::singleton();
-        
-        //migrate from 2.6 to 2.7.0
-        if ($currentVersion == '2.6') {
 
-            //create Js config  
+        $extensionManager = common_ext_ExtensionsManager::singleton();
+
+        //migrate from 2.6 to 2.7.0
+        if ($this->isVersion('2.6')) {
+
+            //create Js config
             $ext = $extensionManager->getExtensionById('tao');
             $config = array(
                 'timeout' => 30
             );
             $ext->setConfig('js', $config);
 
-            $currentVersion = '2.7.0';
+            $this->setVersion('2.7.0');
         }
-        
+
         //migrate from 2.7.0 to 2.7.1
-        if ($currentVersion == '2.7.0') {
-        
+        if ($this->isVersion('2.7.0')) {
+
             $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_1.rdf';
-        
+
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             if ($adapter->import($file)) {
-                $currentVersion = '2.7.1';
+                $this->setVersion('2.7.1');
             } else{
                 common_Logger::w('Import failed for '.$file);
             }
         }
-        
-        if ($currentVersion === '2.7.1') {
+
+        if ($this->isVersion('2.7.1')) {
             SearchService::setSearchImplementation(ZendSearch::createSearch());
-            $currentVersion = '2.7.2';
+            $this->setVersion('2.7.2');
         }
 
-        if ($currentVersion == '2.7.2') {
+        // upgrade is requied for asset service to continue working
+        if ($this->isBetween('2.7.2','2.13.2')) {
+            if (!$this->getServiceManager()->has(AssetService::SERVICE_ID))
+            {
+                $this->getServiceManager()->register(AssetService::SERVICE_ID, new AssetService());
+            }
+        }
+
+        if ($this->isVersion('2.7.2')) {
             foreach ($extensionManager->getInstalledExtensions() as $extension) {
                 $extManifestConsts = $extension->getConstants();
                 if (isset($extManifestConsts['BASE_WWW'])) {
-                    
+
                     ClientLibRegistry::getRegistry()->register($extension->getId(), $extManifestConsts['BASE_WWW'] . 'js');
                     ClientLibRegistry::getRegistry()->register($extension->getId() . 'Css', $extManifestConsts['BASE_WWW'] . 'css');
-                    
+
                 }
             }
-             $currentVersion = '2.7.3';
+             $this->setVersion('2.7.3');
         }
 
-        if ($currentVersion == '2.7.3') {
-        
+        if ($this->isVersion('2.7.3')) {
+
             $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_4.rdf';
-        
+
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             if ($adapter->import($file)) {
-                $currentVersion = '2.7.4';
+                $this->setVersion('2.7.4');
             } else{
                 common_Logger::w('Import failed for '.$file);
             }
         }
-        
-        if ($currentVersion == '2.7.4') {
+
+        if ($this->isVersion('2.7.4')) {
             $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'model_2_7_5.rdf';
-            
+
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             if ($adapter->import($file)) {
-                $currentVersion = '2.7.5';
+                $this->setVersion('2.7.5');
             } else{
                 common_Logger::w('Import failed for '.$file);
             }
         }
-        
-        if ($currentVersion == '2.7.5') {
+
+        if ($this->isVersion('2.7.5')) {
             $file = dirname(__FILE__).DIRECTORY_SEPARATOR.'index_type_2_7_6.rdf';
-        
+
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             if ($adapter->import($file)) {
-                $currentVersion = '2.7.6';
+                $this->setVersion('2.7.6');
             } else{
                 common_Logger::w('Import failed for '.$file);
             }
         }
-        
-        if ($currentVersion == '2.7.6') {
-            
-            $dir = FILES_PATH.'updates'.DIRECTORY_SEPARATOR.'pre_'.$currentVersion;
+
+        if ($this->isVersion('2.7.6')) {
+
+            $dir = FILES_PATH.'updates'.DIRECTORY_SEPARATOR.'pre_2.7.6';
             if (!mkdir($dir, 0700, true)) {
                 throw new \common_exception_Error('Unable to log update to '.$dir);
             }
             FileModel::toFile($dir.DIRECTORY_SEPARATOR.'backup.rdf', ModelManager::getModel()->getRdfInterface());
-            
+
             OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_1.rdf');
             OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'indexation_2_7_4.rdf');
             OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'model_2_7_5.rdf');
             OntologyUpdater::correctModelId(dirname(__FILE__).DIRECTORY_SEPARATOR.'index_type_2_7_6.rdf');
-            
+
             // syncronise also adds translations to correct modelid
             OntologyUpdater::syncModels();
-            
+
             // remove translations from model 1
             $persistence = \common_persistence_SqlPersistence::getPersistence('default');
 
@@ -172,39 +195,48 @@ class Updater extends \common_ext_ExtensionUpdater {
             while ($row = $result->fetch()) {
                 $toCleanup[] = $row['subject'];
             }
-            
+
             $query = "DELETE from statements WHERE modelId = 1 AND subject = ? "
                     ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') ";
             foreach ($toCleanup as $subject) {
                 $persistence->exec($query,array($subject));
             }
 
-            $currentVersion = '2.7.7';
+            $this->setVersion('2.7.7');
         }
-        
-        if ($currentVersion == '2.7.7') {
+
+        // update FuncAccessControl early to support access changes
+        if ($this->isBetween('2.7.7', '2.17.4')) {
+            $implClass = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig('FuncAccessControl');
+            if (is_string($implClass)) {
+                $impl = new $implClass;
+                $this->getServiceManager()->register(AclProxy::SERVICE_ID, $impl);
+            }
+        }
+
+        if ($this->isVersion('2.7.7')) {
             $lockImpl = (defined('ENABLE_LOCK') && ENABLE_LOCK)
                 ? new OntoLock()
                 : new NoLock();
             LockManager::setImplementation($lockImpl);
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Lock')));
-            
-            $currentVersion = '2.7.8';
+
+            $this->setVersion('2.7.8');
         }
 
-        if ($currentVersion == '2.7.8') {
+        if ($this->isVersion('2.7.8')) {
             if ($this->migrateFsAccess()) {
-                $currentVersion = '2.7.9';
+                $this->setVersion('2.7.9');
             }
         }
-        
-        if ($currentVersion == '2.7.9') {
+
+        if ($this->isVersion('2.7.9')) {
             // update role classes
             OntologyUpdater::syncModels();
-            $currentVersion = '2.7.10';
+            $this->setVersion('2.7.10');
         }
-        
-        if ($currentVersion == '2.7.10') {
+
+        if ($this->isVersion('2.7.10')) {
             // correct access roles
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lists@getListElements')));
             AclProxy::revokeRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Lock')));
@@ -212,10 +244,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('act'=>'tao_actions_Lock@locked')));
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole', array('act'=>'tao_actions_Lock@forceRelease')));
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Search')));
-            $currentVersion = '2.7.11';
+            $this->setVersion('2.7.11');
         }
-        
-        if ($currentVersion == '2.7.11') {
+
+        if ($this->isVersion('2.7.11')) {
             // move session abstraction
             if (defined("PHP_SESSION_HANDLER") && class_exists(PHP_SESSION_HANDLER)) {
                 if (PHP_SESSION_HANDLER == 'common_session_php_KeyValueSessionHandler') {
@@ -223,98 +255,119 @@ class Updater extends \common_ext_ExtensionUpdater {
                         \common_session_php_KeyValueSessionHandler::OPTION_PERSISTENCE => 'session'
                     ));
                 } else {
-                    $sessionHandler = new PHP_SESSION_HANDLER();  
+                    $sessionHandler = new PHP_SESSION_HANDLER();
                 }
                 $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
                 $ext->setConfig(\Bootstrap::CONFIG_SESSION_HANDLER, $sessionHandler);
             }
-            $currentVersion = '2.7.12';
-        }
-        
-        if ($currentVersion == '2.7.12') {
-            // add the property manager
-            OntologyUpdater::syncModels();
-            
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', array('controller' => 'tao_actions_Lists')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', array('controller' => 'tao_actions_PropertiesAuthoring')));
-            $currentVersion = '2.7.13';
-        }
-        
-        if ($currentVersion == '2.7.13') {
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao', 'mod' => 'PasswordRecovery', 'act' => 'index')));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao', 'mod' => 'PasswordRecovery', 'act' => 'resetPassword')));
-            
-            $currentVersion = '2.7.14';
+            $this->setVersion('2.7.12');
         }
 
-        if ($currentVersion == '2.7.14') {
+        if ($this->isVersion('2.7.12')) {
+            // add the property manager
+            OntologyUpdater::syncModels();
+
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', array('controller' => 'tao_actions_Lists')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', array('controller' => 'tao_actions_PropertiesAuthoring')));
+            $this->setVersion('2.7.13');
+        }
+
+        if ($this->isVersion('2.7.13')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao', 'mod' => 'PasswordRecovery', 'act' => 'index')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao', 'mod' => 'PasswordRecovery', 'act' => 'resetPassword')));
+
+            $this->setVersion('2.7.14');
+        }
+
+        if ($this->isVersion('2.7.14')) {
             // index user logins
             OntologyUpdater::syncModels();
-            $currentVersion = '2.7.15';
+            $this->setVersion('2.7.15');
         }
 
         // reset the search impl for machines that missed 2.7.1 update due to merge
-        if ($currentVersion === '2.7.15' || $currentVersion === '2.7.16') {
+        if ($this->isVersion('2.7.15') || $this->isVersion('2.7.16')) {
             try {
                 SearchService::getSearchImplementation();
                 // all good
             } catch (\common_exception_Error $error) {
                 SearchService::setSearchImplementation(new GenerisSearch());
             }
-            $currentVersion = '2.7.17';
+            $this->setVersion('2.7.16');
         }
-        
-        if ($currentVersion === '2.7.16') {
+
+        if ($this->isVersion('2.7.16')) {
             $registry = ClientLibRegistry::getRegistry();
             $map = $registry->getLibAliasMap();
             foreach ($map as $id => $fqp) {
                 $registry->remove($id);
                 $registry->register($id, $fqp);
             }
-            $currentVersion = '2.7.17';
-        }
-        
-        // semantic versioning
-        if ($currentVersion === '2.7.17') {
-            $currentVersion = '2.8.0';
-        }
-        
-        if ($currentVersion === '2.8.0') {
-            EntryPointService::getRegistry()->registerEntryPoint(new BackOfficeEntrypoint());
-            $currentVersion = '2.8.1';
+            $this->setVersion('2.7.17');
         }
 
         // semantic versioning
-        if ($currentVersion === '2.8.1') {
-            $currentVersion = '2.9';
+        $this->skip('2.7.17','2.8.0');
+
+        if ($this->isBetween('2.8.0','2.13.0')) {
+
+            $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $entryPoints = $tao->getConfig('entrypoint');
+
+            if (is_array($entryPoints) || $entryPoints == false) {
+
+                $service = new EntryPointService();
+                if (is_array($entryPoints)) {
+                    foreach ($entryPoints as $id => $entryPoint) {
+                        $service->overrideEntryPoint($id, $entryPoint);
+                        $service->activateEntryPoint($id, EntryPointService::OPTION_POSTLOGIN);
+                    }
+                }
+                // register, don't activate
+                $passwordResetEntry = new PasswordReset();
+                $service->overrideEntryPoint($passwordResetEntry->getId(), $passwordResetEntry);
+
+                $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $service);
+
+            }
         }
-        
+
+        if ($this->isVersion('2.8.0')) {
+            $service = $this->getServiceManager()->get(EntryPointService::SERVICE_ID);
+            $service->registerEntryPoint(new BackOfficeEntrypoint());
+            $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $service);
+            $this->setVersion('2.8.1');
+        }
+
+        // semantic versioning
+        $this->skip('2.8.1','2.9');
+
         // remove id properties
-        if ($currentVersion === '2.9') {
+        if ($this->isVersion('2.9')) {
             $rdf = ModelManager::getModel()->getRdfInterface();
             foreach ($rdf as $triple) {
                 if ($triple->predicate == 'id') {
                     $rdf->remove($triple);
                 }
             }
-            
-            $currentVersion = '2.9.1';
+
+            $this->setVersion('2.9.1');
         }
-        
+
         // tao object split
-        if ($currentVersion === '2.9.1') {
+        if ($this->isVersion('2.9.1')) {
             OntologyUpdater::syncModels();
-            $currentVersion = '2.10.0';
+            $this->setVersion('2.10.0');
         }
 
         // widget definitions
-        if ($currentVersion === '2.10.0') {
+        if ($this->isVersion('2.10.0')) {
             OntologyUpdater::syncModels();
-            $currentVersion = '2.10.1';
+            $this->setVersion('2.10.1');
         }
 
         // add login form config
-        if ($currentVersion === '2.10.1' ){
+        if ($this->isVersion('2.10.1')) {
             $loginFormSettings = array(
                 'elements' => array()
             );
@@ -322,10 +375,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $ext->setConfig('loginForm', $loginFormSettings);
 
-            $currentVersion = '2.10.2';
+            $this->setVersion('2.10.2');
         }
 
-        if ($currentVersion === '2.10.2') {
+        if ($this->isVersion('2.10.2')) {
 
             $s = DIRECTORY_SEPARATOR;
             ThemeRegistry::getRegistry()->createTarget('frontOffice', array(
@@ -343,59 +396,35 @@ class Updater extends \common_ext_ExtensionUpdater {
                 )
             ));
 
-            $currentVersion = '2.11.0';
+            $this->setVersion('2.11.0');
         }
 
-        if ($currentVersion === '2.11.0') {
+        if ($this->isVersion('2.11.0')) {
             $service = new \tao_models_classes_service_StateStorage(array('persistence' => 'serviceState'));
             $this->getServiceManager()->register('tao/stateStorage', $service);
-            $currentVersion = '2.12.0';
-        }
-        
-        if ($currentVersion === '2.12.0') {
-            $currentVersion = '2.13.0';
+            $this->setVersion('2.12.0');
         }
 
-        if ($currentVersion === '2.13.0') {
-            $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-            $entryPoints = $tao->getConfig('entrypoint');
-            
-            $service = new EntryPointService();
-            foreach ($entryPoints as $id => $entryPoint) {
-                $service->overrideEntryPoint($id, $entryPoint);
-                $service->activateEntryPoint($id, EntryPointService::OPTION_POSTLOGIN);
-            }
-            // register, don't activate
-            $passwordResetEntry = new PasswordReset();
-            $service->overrideEntryPoint($passwordResetEntry->getId(), $passwordResetEntry);
-            
-            $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $service);
-            
-            $currentVersion = '2.13.1';
-        }
+        $this->skip('2.12.0','2.13.0');
 
-        if ($currentVersion === '2.13.1') {
-            try {
-                $this->getServiceManager()->get(AssetService::SERVICE_ID);
-                // all good, already configured
-            } catch (ServiceNotFoundException $error) {
-                $this->getServiceManager()->register(AssetService::SERVICE_ID, new AssetService());
-            }
-            $currentVersion = '2.13.2';
-        }
-        
-        if ($currentVersion === '2.13.2') {
+        // moved to 2.8.0
+        $this->skip('2.13.0','2.13.1');
+
+        // moved to 2.7.2
+        $this->skip('2.13.1','2.13.2');
+
+        if ($this->isVersion('2.13.2')) {
 
             //add the new customizable template "login-message" to backOffice target
             $themeService = new ThemeService();
-            
+
             //test for overrides
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $oldConfig = $ext->getConfig('themes');
             $compatibilityConfig = array();
             foreach ($oldConfig['frontOffice']['available'] as $arr) {
                 if ($arr['id'] == $oldConfig['frontOffice']['default']) {
-                    $compatibilityConfig[Theme::CONTEXT_FRONTOFFICE] = $arr; 
+                    $compatibilityConfig[Theme::CONTEXT_FRONTOFFICE] = $arr;
                 }
             }
             foreach ($oldConfig['backOffice']['available'] as $arr) {
@@ -403,7 +432,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                     $compatibilityConfig[Theme::CONTEXT_BACKOFFICE] = $arr;
                 }
             }
-            
+
             if (empty($compatibilityConfig)) {
                 $themeService->setTheme(new DefaultTheme());
             } else {
@@ -413,26 +442,21 @@ class Updater extends \common_ext_ExtensionUpdater {
             unset($oldConfig['backOffice']);
             unset($oldConfig['frontOffice']);
             $ext->setConfig('themes', $oldConfig );
-            
+
             $this->getServiceManager()->register(ThemeService::SERVICE_ID, $themeService);
-            
-            $currentVersion = '2.14.0';
+
+            $this->setVersion('2.14.0');
         }
 
-        if ($currentVersion === '2.14.0' || $currentVersion === '2.14.1') {
-            $currentVersion = '2.15.0';
-        }
+        $this->skip('2.14.0', '2.15.0');
 
-        if ($currentVersion === '2.15.0') {
+        if ($this->isVersion('2.15.0')) {
             (new SimpleAccess())->revokeRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',
                 ['ext' => 'tao', 'mod' => 'AuthApi']));
-            $currentVersion = '2.15.1';
+            $this->setVersion('2.15.1');
         }
-        $this->setVersion($currentVersion);
 
-        if ($this->isVersion('2.15.1')) {
-            $this->setVersion('2.15.2');
-        }
+        $this->skip('2.15.1', '2.15.2');
 
         if ($this->isVersion('2.15.2')) {
             ClientLibConfigRegistry::getRegistry()->register(
@@ -442,9 +466,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.15.3');
         }
 
-        if ($this->isBetween('2.15.3','2.16.0')) {
-            $this->setVersion('2.16.0');
-        }
+        $this->skip('2.15.3','2.16.0');
 
         if ($this->isVersion('2.16.0')) {
             try {
@@ -459,22 +481,16 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('2.17.0');
         }
-       
+
         if ($this->isBetween('2.17.0','2.17.4')) {
             ClientLibConfigRegistry::getRegistry()->register(
                 'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
             );
             $this->setVersion('2.17.4');
         }
-        
-        if ($this->isVersion('2.17.4')) {
-            $implClass = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig('FuncAccessControl');
-            $impl = new $implClass;
-            $this->getServiceManager()->register(AclProxy::SERVICE_ID, $impl);
-            $this->setVersion('2.18.0');
-        }
 
-        $this->skip('2.18.0', '2.18.2');
+        // skiped registering of func ACL proxy as done before 2.7.7
+        $this->skip('2.17.4', '2.18.2');
 
         if ($this->isVersion('2.18.2')) {
             $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
@@ -498,10 +514,51 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(\tao_models_classes_service_FileStorage::SERVICE_ID, $service);
             $this->setVersion('2.22.0');
         }
-        
-        $this->skip('2.22.0', '3.3.0');
+
+        $this->skip('2.22.0', '5.3.0');
+
+        if ($this->isVersion('5.3.0')) {
+
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+
+            $eventManager->attach(RoleRemovedEvent::class, [LoggerService::class, 'logEvent']);
+            $eventManager->attach(RoleCreatedEvent::class, [LoggerService::class, 'logEvent']);
+            $eventManager->attach(RoleChangedEvent::class, [LoggerService::class, 'logEvent']);
+            $eventManager->attach(UserCreatedEvent::class, [LoggerService::class, 'logEvent']);
+            $eventManager->attach(UserUpdatedEvent::class, [LoggerService::class, 'logEvent']);
+            $eventManager->attach(UserRemovedEvent::class, [LoggerService::class, 'logEvent']);
+            $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
+
+            $this->setVersion('5.4.0');
+        }
+
+        $this->skip('5.4.0', '5.5.0');
+
+        if ($this->isVersion('5.5.0')) {
+            $clientConfig = new ClientConfigService();
+            $clientConfig->setClientConfig('themesAvailable', new ThemeConfig());
+            $this->getServiceManager()->register(ClientConfigService::SERVICE_ID, $clientConfig);
+            $this->setVersion('5.6.0');
+        }
+
+        $this->skip('5.6.0', '5.6.2');
+
+        if ($this->isVersion('5.6.2')) {
+            if (!$this->getServiceManager()->has(UpdateLogger::SERVICE_ID)) {
+                // setup log fs
+                $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+                $fsm->registerLocalFileSystem('log', FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'log'.DIRECTORY_SEPARATOR);
+                $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
+
+                $this->getServiceManager()->register(UpdateLogger::SERVICE_ID, new UpdateLogger(array(UpdateLogger::OPTION_FILESYSTEM => 'log')));
+            }
+            $this->setVersion('5.6.3');
+        }
+
+        $this->skip('5.6.2', '5.7.0');
     }
-    
+
     private function migrateFsAccess() {
         $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $config = $tao->getConfig('filesystemAccess');
@@ -529,12 +586,12 @@ class Updater extends \common_ext_ExtensionUpdater {
                 	    $websource = new DirectWebSource($options);
                 	    break;
                 	default:
-                	    throw \common_Exception('unknown implementation '.$class);
+                	    throw new common_Exception('unknown implementation '.$class);
                 }
                 WebsourceManager::singleton()->addWebsource($websource);
             }
         } else {
-            throw \common_Exception('Error reading former filesystem access configuration');
+            throw new common_Exception('Error reading former filesystem access configuration');
         }
         return true;
     }

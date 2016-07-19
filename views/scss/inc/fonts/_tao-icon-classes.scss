@@ -18,6 +18,8 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-unshield:before { @include icon-unshield; }
+.icon-shield:before { @include icon-shield; }
 .icon-tree:before { @include icon-tree; }
 .icon-home:before { @include icon-home; }
 .icon-shared-file:before { @include icon-shared-file; }
@@ -77,11 +79,12 @@
 .icon-save:before { @include icon-save; }
 .icon-warning:before { @include icon-warning; }
 .icon-add:before { @include icon-add; }
+.icon-error:before { @include icon-error; }
 .icon-close:before { @include icon-close; }
 .icon-success:before { @include icon-success; }
 .icon-remove:before { @include icon-remove; }
 .icon-info:before { @include icon-info; }
-.icon-error:before { @include icon-error; }
+.icon-danger:before { @include icon-danger; }
 .icon-users:before { @include icon-users; }
 .icon-user:before { @include icon-user; }
 .icon-test-taker:before { @include icon-test-taker; }
@@ -177,6 +180,7 @@
 .icon-range-slider-right:before { @include icon-range-slider-right; }
 .icon-range-slider-left:before { @include icon-range-slider-left; }
 .icon-radio-checked:before { @include icon-radio-checked; }
+.icon-checkbox-indeterminate:before { @include icon-checkbox-indeterminate; }
 .icon-checkbox:before { @include icon-checkbox; }
 .icon-checkbox-crossed:before { @include icon-checkbox-crossed; }
 .icon-checkbox-checked:before { @include icon-checkbox-checked; }

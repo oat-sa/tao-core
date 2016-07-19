@@ -25,23 +25,16 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\routing\TaoFrontController;
+use oat\tao\model\routing\CliController;
 use common_Profiler;
 use common_Logger;
 use common_ext_ExtensionsManager;
-use common_session_SessionManager;
-use common_AjaxResponse;
 use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
 use Request;
-use HTTPToolkit;
-
 use Exception;
-use oat\oatbox\service\ServiceNotFoundException;
-use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\action\ActionResolver;
-use oat\oatbox\action\ResolutionException;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -187,23 +180,13 @@ class Bootstrap {
 	{
 	    $params = $_SERVER['argv'];
 	    $file = array_shift($params);
+
 	    if (count($params) < 1) {
 	        $report = new Report(Report::TYPE_ERROR, __('No action specified'));
 	    } else {
-	        try {
-    	        $resolver = new ActionResolver();
-    	        $resolver->setServiceManager($this->getServiceManager());
-    	        $actionIdentifier = array_shift($params);
-    	        $invocable = $resolver->resolve($actionIdentifier);
-    	        try {
-    	            $report = call_user_func($invocable, $params);
-    	        } catch (\Exception $e) {
-    	            $report = new Report(Report::TYPE_ERROR, __('An exception occured while running "%s"', $actionIdentifier));
-    	            $report->add(new Report(Report::TYPE_ERROR, $e->getMessage()));
-    	        }
-	        } catch (ResolutionException $e) {
-	            $report = new Report(Report::TYPE_ERROR, __('Action "%s" not found.', $actionIdentifier));
-	        }
+            $actionIdentifier = array_shift($params);
+            $cliController = new CliController();
+            $report = $cliController->runAction($actionIdentifier, $params);
 	    }
 	     
 	    echo \tao_helpers_report_Rendering::renderToCommandline($report);
@@ -228,105 +211,17 @@ class Bootstrap {
         }
         common_Profiler::stop('dispatch');
     }
-
+    
     /**
      * Catch any errors
-     * If the request is an ajax request, return to the client a formated object.
+     * return a http response in function of client accepted mime type 
      *
      * @param Exception $exception
      */
-    private function catchError(Exception $exception)
+    protected function catchError(Exception $exception)
     {
-    	try {
-    		// Rethrow for a direct clean catch...
-    		throw $exception;
-    	}
-    	catch (\ActionEnforcingException $ae){
-    		common_Logger::w("Called module ".$ae->getModuleName().', action '.$ae->getActionName().' not found.', array('TAO', 'BOOT'));
-    		
-    		$message  = "Called module: ".$ae->getModuleName()."\n";
-    		$message .= "Called action: ".$ae->getActionName()."\n";
-    		
-    		$this->dispatchError($ae, 404, $message);
-    	}
-        catch (\tao_models_classes_AccessDeniedException $ue){
-    		common_Logger::i('Access denied', array('TAO', 'BOOT'));
-            if (!tao_helpers_Request::isAjax()
-                && common_session_SessionManager::isAnonymous()
-    		    && \tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
-    		) {
-                header(HTTPToolkit::statusCodeHeader(302));
-                header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao', array(
-                    'redirect' => $ue->getDeniedRequest()->getRequestURI(),
-                    'msg' => $ue->getUserMessage()
-                ))));
-            } else {
-                $this->dispatchError($ue, 403, $ue->getUserMessage());
-            }
-    	}
-    	catch (\tao_models_classes_UserException $ue){
-    		$this->dispatchError($ue, 403);
-    	}
-    	catch (\tao_models_classes_FileNotFoundException $e){
-    		$this->dispatchError($e, 404);
-    	}
-    	catch (\common_exception_UserReadableException $e) {
-    		$this->dispatchError($e, 500, $e->getUserMessage());
-    	}
-    	catch (\ResolverException $e) {
-    	    common_Logger::singleton()->handleException($e);
-            if (!tao_helpers_Request::isAjax()
-    		    && \tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
-    		) {
-                header(HTTPToolkit::statusCodeHeader(302));
-                header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao')));
-            } else {
-                $this->dispatchError($e, 403);
-            }
-    	}
-    	catch (Exception $e) {
-    		// Last resort.
-    		$msg = "System Error: uncaught exception (";
-    		$msg .= get_class($e) . ") in (" . $e->getFile() . ")";
-    		$msg .= " at line " . $e->getLine() . ": " . $e->getMessage();
-
-    		$previous = $e->getPrevious();
-    		
-    		while ($previous !== null) {
-    		    $msg .= "\n\ncaused by:\n\n";
-    		    $msg .= "(" . get_class($previous) . ") in (" . $previous->getFile() . ")";
-    		    $msg .= " at line " . $previous->getLine() . ": " . $previous->getMessage();
-    		    
-    		    $previous = $previous->getPrevious();
-    		}
-    		
-    		common_Logger::e($msg);
-    		
-    		$message = $e->getMessage();
-    		$trace = $e->getTraceAsString();
-    		
-    		$this->dispatchError($e, 500, $message, $trace);
-    	}
-    }
-    
-    private function dispatchError(Exception $e, $httpStatus, $message = '', $trace = '')
-    {
-        
-        // Set relevant HTTP header.
-        header(HTTPToolkit::statusCodeHeader($httpStatus));
-        
-        if (tao_helpers_Request::isAjax()) {
-            new common_AjaxResponse(array(
-                "success" => false,
-                "type" => 'Exception',
-                "data" => array(
-                    'ExceptionType' => get_class($e)
-                ),
-                "message" => $message
-            ));
-        } else {
-            require_once Template::getTemplate("error/error${httpStatus}.tpl", 'tao');
-        }
+        $Interpretor = new error\ExceptionInterpretor();
+        $Interpretor->setException($exception)->getResponse()->send();
     }
 
     /**
@@ -336,7 +231,7 @@ class Bootstrap {
     {
         if (tao_helpers_Context::check('APP_MODE')) {
             // Set a specific ID to the session.
-            $request = new Request();
+            $request = new \Request();
             if ($request->hasParameter('session_id')) {
                 session_id($request->getParameter('session_id'));
             }

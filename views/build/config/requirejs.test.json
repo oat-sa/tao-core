@@ -1,6 +1,5 @@
 {
     "paths" : {
-
         "text"              : "lib/text/text",
         "json"              : "lib/text/json",
         "css"               : "lib/require-css/css",
@@ -14,10 +13,10 @@
         "jquery.tree"       : "lib/jsTree/jquery.tree",
         "jquery.timePicker" : "lib/jquery.timePicker",
         "jquery.cookie"     : "lib/jquery.cookie",
-        "tooltipster"       : "lib/tooltipster/jquery.tooltipster",
         "nouislider"        : "lib/sliders/jquery.nouislider",
         "jquery.trunc"		: "lib/jquery.badonkatrunc",
         "jquery.fileDownload"  : "lib/jquery.fileDownload",
+        "qtip"              : "lib/jquery.qtip/jquery.qtip",
 
         "polyfill"          : "lib/polyfill",
 
@@ -30,10 +29,14 @@
         "raphael"           : "lib/raphael/raphael",
         "scale.raphael"     : "lib/raphael/scale.raphael",
         "spin"              : "lib/spin.min",
-        "history"           : "lib/history/history",
+        "html5-history-api" : "lib/history/history",
 
         "mathJax"           : "../../../taoQtiItem/views/js/mathjax/MathJax",
         "ckeditor"          : "lib/ckeditor/ckeditor",
+        "interact"          : "lib/interact",
+
+        "d3"                : "lib/d3js/d3.min",
+        "c3"                : "lib/c3js/c3.min",
 
         "i18ntr"            : "../locales/en-US"
    },

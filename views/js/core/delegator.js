@@ -39,13 +39,21 @@ define([
      * @param {Boolean} [config.eventifier] - Enable the eventifier support (default: true)
      * @param {Boolean} [config.forward] - Forward the calls to the provider instead of delegate (default: false)
      * @param {Function} [config.defaultProvider] - An optional default delegated function called if the provider do not have the requested target.
+     * @param {Function} [config.wrapper] - An optional function that will wrap the response
      * @param {Boolean} [config.required] - Throws exception if a delegated method is missing (default: false)
      * @returns {delegate} - The delegate function
      */
     function delegator(api, provider, config) {
-        var extendedConfig = _(config || {}).defaults(defaults).value();
+        var extendedConfig = _.defaults(config || {}, defaults);
         var eventifier = !!(extendedConfig.eventifier && api && api.trigger);
         var context = extendedConfig.forward ? provider : api;
+        var defaultProvider = _.isFunction(extendedConfig.defaultProvider) ? extendedConfig.defaultProvider : _.noop;
+        var wrapper = _.isFunction(extendedConfig.wrapper) ? extendedConfig.wrapper : null;
+        var name = extendedConfig.name;
+
+        if (extendedConfig.required) {
+            defaultProvider = null;
+        }
 
         /**
          * Delegates a function call from the api to the provider.
@@ -59,30 +67,29 @@ define([
          */
         function delegate(fnName) {
             var response, args;
-            var defaultProvider = extendedConfig.defaultProvider || _.noop;
-
-            if (extendedConfig.required) {
-                defaultProvider = null;
-            }
 
             if (provider) {
-                if (_.isFunction(provider[fnName]) || _.isFunction(defaultProvider)) {
+                if (_.isFunction(provider[fnName]) || defaultProvider) {
                     // need real array of params, even if empty
                     args = _slice.call(arguments, 1);
 
                     // delegate the call to the provider
                     response = (provider[fnName] || defaultProvider).apply(context, args);
 
-                    // if supported fire the method related event
+                    if (wrapper) {
+                        response = wrapper(response);
+                    }
+
+                    // if supported fires the method related event
                     if (eventifier) {
                         // the response has to be provided as first argument in all events
                         api.trigger.apply(api, [fnName, response].concat(args));
                     }
                 } else {
-                    throw new Error('There is no method called ' + fnName + ' in the ' + extendedConfig.name + ' provider!');
+                    throw new Error('There is no method called ' + fnName + ' in the ' + name + ' provider!');
                 }
             } else {
-                throw new Error('There is no ' + extendedConfig.name + ' provider!');
+                throw new Error('There is no ' + name + ' provider!');
             }
 
             return response;

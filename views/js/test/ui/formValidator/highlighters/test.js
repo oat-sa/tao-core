@@ -34,17 +34,18 @@ define(['lodash', 'jquery', 'ui/formValidator/highlighters/highlighter'], functi
     });
 
 
-    QUnit.module("Tooltip highlighter", {
+    QUnit.module("Qtip highlighter", {
         setup: function() {
             highlighter = new Highlighter({
-                type : 'tooltip',
+                type : 'qtip',
                 errorClass : 'testErrorClass',
-                tooltip : {
-                    delay : 0,
-                    speed : 0,
-                    interactiveTolerance : 0,
-                    animation : false,
-                    timer : 0
+                qtip : {
+                    show: {
+                        delay: 0
+                    },
+                    hide: {
+                        delay: 0
+                    }
                 }
             });
             message = 'highlight (tooltip)';
@@ -55,14 +56,20 @@ define(['lodash', 'jquery', 'ui/formValidator/highlighters/highlighter'], functi
     });
     QUnit.test('highlight (tooltip)', function(assert) {
         highlighter.highlight($('#field_1'), message);
+
         assert.ok($('#field_1').hasClass('testErrorClass'), 'Field has error class');
-        assert.equal($('.tao-error-tooltip').length, 1, 'Highlighted (tooltip is rendered)');
-        assert.equal($('.tao-error-tooltip .tooltipster-content').text(), message, 'Message is correct');
+        assert.equal($('.qtip-content').length, 1, 'Highlighted (tooltip is rendered)');
+        assert.equal($('.qtip-content').text(), message, 'Message is correct');
     });
+
     QUnit.test('unhighlight (tooltip)', function(assert) {
         highlighter.highlight($('#field_1'), message);
         highlighter.unhighlight($('#field_1'));
-        assert.ok(!$('#field_1').hasClass('testErrorClass'), 'Field has no error class');
-        assert.equal($('.tao-error-tooltip').length, 0, 'Unhighlighted tooltip is removed');
+        QUnit.stop();
+        setTimeout(function() {
+            assert.ok(!$('#field_1').hasClass('testErrorClass'), 'Field has no error class');
+            assert.equal($('.qtip-content').length, 0, 'Unhighlighted tooltip is removed');
+            QUnit.start();
+        }, 100);
     });
 });

@@ -65,5 +65,33 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
 
         return $method->invokeArgs($object, $parameters);
     }
-
+    
+    /**
+     * return inaccessible property value
+     * @param type $object
+     * @param type $propertyName
+     * @return mixed
+     */
+    protected function getInaccessibleProperty($object , $propertyName) {
+        $property = new \ReflectionProperty(get_class($object) , $propertyName);
+        $property->setAccessible(true);
+        $value = $property->getValue($object);
+        $property->setAccessible(false);
+        return $value;
+    }
+    /**
+     * set inaccessible property value
+     * @param type $object
+     * @param type $propertyName
+     * @param type $value
+     * @return \oat\tao\test\TaoPhpUnitTestRunner
+     */
+    protected function setInaccessibleProperty($object , $propertyName, $value) {
+        $property = new \ReflectionProperty(get_class($object) , $propertyName);
+        $property->setAccessible(true);
+        $property->setValue($object, $value);
+        $property->setAccessible(false);
+        return $this;
+    }
+    
 }

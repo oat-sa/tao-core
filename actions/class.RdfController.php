@@ -86,9 +86,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
          return false;
     }
 
-    /**
+	/**
 	 * get the current item class regarding the classUri' request parameter
 	 * @return core_kernel_classes_Class the item class
+	 * @throws Exception
 	 */
 	protected function getCurrentClass()
 	{
@@ -107,21 +108,25 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 			$returnValue = $clazz;
 		}
 		else{
+			if (!common_Utils::isUri($classUri)) {
+				throw new tao_models_classes_MissingRequestParameterException('classUri - extected to be valid URI');
+			}
 			$returnValue = new core_kernel_classes_Class($classUri);
 		}
 		
 		return $returnValue;
 	}
-	
+
 	/**
 	 *  ! Please override me !
 	 * get the current instance regarding the uri and classUri in parameter
 	 * @return core_kernel_classes_Resource
+	 * @throws tao_models_classes_MissingRequestParameterException
 	 */
 	protected function getCurrentInstance()
 	{
 		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-		if(is_null($uri) || empty($uri)){
+		if (is_null($uri) || empty($uri) || !common_Utils::isUri($uri)) {
 			throw new tao_models_classes_MissingRequestParameterException("uri");
 		}
 		return new core_kernel_classes_Resource($uri);
@@ -129,7 +134,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
 	/**
 	 * get the main class
-	 * @return core_kernel_classes_Classes
+	 * @return core_kernel_classes_Class
 	 */
 	protected abstract function getRootClass();
 	

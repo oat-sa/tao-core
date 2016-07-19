@@ -18,21 +18,21 @@
  *
  */
 define([
-    'ui/toggler', 
-    'ui/disabler', 
-    'ui/adder', 
-    'ui/deleter', 
-    'ui/incrementer', 
-    'ui/inplacer', 
-    'ui/btngrouper', 
+    'ui/toggler',
+    'ui/disabler',
+    'ui/adder',
+    'ui/deleter',
+    'ui/incrementer',
+    'ui/inplacer',
+    'ui/btngrouper',
     'ui/durationer',
     'ui/selecter',
     'ui/modal',
-    'ui/tooltipster',
+    'ui/tooltip',
     'ui/form',
     'ui/validator',
     'ui/groupvalidator'
-], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltipster, form) {
+], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltip, form) {
     'use strict';
 
     /**
@@ -55,15 +55,15 @@ define([
             });
         }
     }
-        
+
     /**
      * @author Bertrand Chevrier <bertrand@taotesting.com>
      * @exports ui
      */
-     return {
-         
+    return {
+
         /**
-         * Start up the components lookup and data-attr listening 
+         * Start up the components lookup and data-attr listening
          * @param {jQueryElement} $container - to lookup within
          */
         startEventComponents : function($container){
@@ -77,13 +77,13 @@ define([
             form($container);
             this.startDomComponent($container);
         },
-        
+
         startDomComponent : function($container){
             incrementer($container);
             durationer($container);
             selecter($container);
-            tooltipster($container);
             initCrossBrowserSvg();
+            tooltip($container);
         }
     };
 });
