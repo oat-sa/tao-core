@@ -38,10 +38,10 @@ class Perspective extends MenuElement implements PhpSerializable
     
     /**
      * @param \SimpleXMLElement $node
-     * @param $extensionId
+     * @param $structureExtensionId
      * @return static
      */
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $extensionId)
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId)
     {
         $data = array(
             'id'       => (string) $node['id'],
@@ -53,13 +53,13 @@ class Perspective extends MenuElement implements PhpSerializable
             'name'      => (string) $node['name'],
             'binding'     => isset($node['binding']) ? (string)$node['binding'] : null,
             'description' => (string) $node->description,
-            'extension' => $extensionId,
+            'extension' => $structureExtensionId,
             'level'     => (string) $node['level'],
-            'icon'      => isset($node->icon) ? Icon::fromSimpleXMLElement($node->icon, $extensionId) : null
+            'icon'      => isset($node->icon) ? Icon::fromSimpleXMLElement($node->icon, $structureExtensionId) : null
         );
         $sections = array();
         foreach ($node->xpath("sections/section") as $sectionNode) {
-            $sections[] = Section::fromSimpleXMLElement($sectionNode);
+            $sections[] = Section::fromSimpleXMLElement($sectionNode, $structureExtensionId);
         }
         return new static($data, $sections);
     }
@@ -68,20 +68,20 @@ class Perspective extends MenuElement implements PhpSerializable
      * Generate a Perspective from a legacy ToolbarAction
      * 
      * @param \SimpleXMLElement $node
-     * @param $extensionId
+     * @param $structureExtensionId
      * @return static
      */
-    public static function fromLegacyToolbarAction(\SimpleXMLElement $node, $extensionId) {
+    public static function fromLegacyToolbarAction(\SimpleXMLElement $node, $structureExtensionId) {
         $data = array(
             'id'          => (string)$node['id'],
-            'extension'   => $extensionId,
+            'extension'   => $structureExtensionId,
             'name'		  => (string)$node['title'],
             'level'		  => (int)$node['level'],
             'description' => empty($text) ? null : $text,
             'binding'     => isset($node['binding']) ? (string)$node['binding'] :  (isset($node['js']) ? (string)$node['js'] : null),
             'structure'   => isset($node['structure']) ? (string)$node['structure'] : null,
             'group'       => self::GROUP_SETTINGS,
-            'icon'        => isset($node['icon']) ? Icon::fromArray(array('id' => (string)$node['icon']), $extensionId) : null
+            'icon'        => isset($node['icon']) ? Icon::fromArray(array('id' => (string)$node['icon']), $structureExtensionId) : null
         );
         $children = array();
         if (isset($node['structure'])) {
@@ -155,7 +155,7 @@ class Perspective extends MenuElement implements PhpSerializable
     {
         return $this->data['name'];
     }
-    
+
     public function getDescription()
     {
         return $this->data['description'];
@@ -168,7 +168,7 @@ class Perspective extends MenuElement implements PhpSerializable
     {
         return $this->data['icon'];
     }
-    
+
     public function getGroup()
     {
         return $this->data['group'];
@@ -187,17 +187,17 @@ class Perspective extends MenuElement implements PhpSerializable
     {
         return $this->getGroup() == self::GROUP_INVISIBLE;
     }
-    
+
     public function getChildren()
     {
         return $this->children;
     }
-    
+
     public function getBinding()
     {
         return $this->data['binding'];
     }
-    
+
     public function getUrl() {
         return _url('index', null, null, array('structure' => $this->getId(), 'ext' => $this->getExtension()));
     }

@@ -97,6 +97,13 @@ $navHeight: 64;
                     position: relative;
                     top: 2px;
                 }
+
+                .svg-glyph {
+                    height: 23px;
+                    width: 23px;
+                    display:block;
+                    margin: auto;
+                }
             }
             & > a {
                 &:hover {
