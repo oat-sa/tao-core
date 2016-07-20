@@ -41,8 +41,8 @@ class SetServiceFileStorage extends \common_ext_action_InstallAction
         }
         
         $fsService = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-        $fsService->registerLocalFileSystem('public', $publicDataPath);
-        $fsService->registerLocalFileSystem('private', $privateDataPath);
+        $fsService->createFileSystem('public', 'tao/public');
+        $fsService->createFileSystem('private', 'tao/private');
         $this->registerService(FileSystemService::SERVICE_ID, $fsService);
         
         $websource = TokenWebSource::spawnWebsource('public', $publicDataPath);
