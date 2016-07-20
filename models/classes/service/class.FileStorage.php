@@ -57,6 +57,9 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
     
     private $accessProvider;
 
+    /**
+     * @return core_kernel_fileSystem_FileSystem
+     */
     protected function getPublicFs()
     {
         if (is_null($this->publicFs)) {
@@ -64,7 +67,10 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
         }
         return $this->publicFs;
     }
-    
+
+    /**
+     * @return core_kernel_fileSystem_FileSystem
+     */
     protected function getPrivateFs()
     {
         if (is_null($this->privateFs)) {
@@ -72,7 +78,11 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
         }
         return $this->privateFs;
     }
-    
+
+    /**
+     * @return Websource
+     * @throws \oat\tao\model\websource\WebsourceNotFound
+     */
     protected function getAccessProvider()
     {
         if (is_null($this->accessProvider)) {
@@ -99,7 +109,12 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
         $public = $id[strlen($id)-1] == '+';
         $fs = $public ? $this->getPublicFs() : $this->getPrivateFs();
         $path = $this->id2path($id);
-        $dir = new tao_models_classes_service_StorageDirectory($id, $fs, $path, $public ? $this->getAccessProvider() : null);
+        $dir = new tao_models_classes_service_StorageDirectory(
+            $id,
+            $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($fs->getUri()),
+            $path,
+            $public ? $this->getAccessProvider() : null
+        );
         $dir->setServiceLocator($this->getServiceLocator());
         return $dir;
     }
