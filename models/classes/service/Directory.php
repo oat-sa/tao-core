@@ -76,8 +76,9 @@ class Directory implements \IteratorAggregate
      */
     protected function getFullPath($path)
     {
-        $path = $this->sanitizePath($this->path . '/' . $path);
-        return rtrim($this->getRelativePath(), '\\/') . '/' . ltrim($path, '\\/');
+        $path = rtrim($this->getRelativePath(), '\\/') . '/' . ltrim($path, '\\/');
+        $path = $this->sanitizePath($path);
+        return $path;
     }
 
     /**
@@ -129,6 +130,7 @@ class Directory implements \IteratorAggregate
         }
 
         $path = $this->getFullPath($path);
+        \common_Logger::i($path);
         \common_Logger::d('Writting in ' . $path);
         $config = (is_null($mimeType)) ? [] : ['ContentType' => $mimeType];
         return $this->getFileSystem()->write($path, $content, $config);
