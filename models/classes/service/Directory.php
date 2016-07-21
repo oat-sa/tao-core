@@ -30,7 +30,7 @@ class Directory implements \IteratorAggregate
      * @param Filesystem $filesystem
      * @param $path
      */
-    public function __construct(Filesystem $filesystem, $path)
+    public function __construct(Filesystem $filesystem, $path = '.')
     {
         $this->filesystem = $filesystem;
         $this->path = $path;
@@ -115,7 +115,7 @@ class Directory implements \IteratorAggregate
     }
 
     /**
-     * Store a file in the directory from resource
+     * Store a file in the directory from string
      *
      * @param $path
      * @param $content
@@ -179,7 +179,86 @@ class Directory implements \IteratorAggregate
             throw new \common_Exception('Unable to create resource from the given stream. Write to filesystem aborted.');
         }
 
-        return $this->write($path, $resource, $mimeType);
+        return $this->writeStream($path, $resource, $mimeType);
+    }
+
+    /**
+     * Update an existing file in the directory from string
+     *
+     * @param $path
+     * @param $content
+     * @param null $mimeType
+     * @return bool
+     * @throws \tao_models_classes_FileNotFoundException
+     */
+    public function update($path, $content, $mimeType = null)
+    {
+        if (! is_string($content)) {
+            throw new \InvalidArgumentException(__FUNCTION__ . ' expected content as valid string.');
+        }
+
+        if (! $this->hasFile($path)) {
+            throw new \tao_models_classes_FileNotFoundException('File "' . $this->getFullPath($path) . ' not found for update.');
+        }
+
+        $path = $this->getFullPath($path);
+        \common_Logger::d('Updating file ' . $path);
+        $config = (is_null($mimeType)) ? [] : ['ContentType' => $mimeType];
+
+        return $this->getFileSystem()->update($path, $content, $config);
+    }
+
+    /**
+     * Update an existing  file in the directory from PHP stream
+     *
+     * @param $path
+     * @param $resource
+     * @param null $mimeType
+     * @return bool
+     * @throws \tao_models_classes_FileNotFoundException
+     */
+    public function updateStream($path, $resource, $mimeType = null)
+    {
+        if (! is_resource($resource)) {
+            throw new \InvalidArgumentException(__FUNCTION__ . ' expected content as valid resource.');
+        }
+
+        if (! $this->hasFile($path)) {
+            throw new \tao_models_classes_FileNotFoundException('File "' . $this->getFullPath($path) . ' not found for update.');
+        }
+
+        $path = $this->getFullPath($path);
+        \common_Logger::d('Updating file ' . $path);
+        $config = (is_null($mimeType)) ? [] : ['ContentType' => $mimeType];
+        return $this->getFileSystem()->updateStream($path, $resource, $config);
+    }
+
+    /**
+     * Update an existing file in the directory from PSR-7 stream
+     *
+     * @param $path
+     * @param StreamInterface $stream
+     * @param null $mimeType
+     * @return bool
+     * @throws \common_Exception
+     */
+    public function updatePsrStream($path, StreamInterface $stream, $mimeType = null)
+    {
+        $path = $this->sanitizePath($path);
+        if (!$stream->isReadable()) {
+            throw new \common_Exception('Stream is not readable. Update to filesystem aborted.');
+        }
+        if (!$stream->isSeekable()) {
+            throw new \common_Exception('Stream is not seekable. Update to filesystem aborted.');
+        }
+        $stream->rewind();
+
+        $resource = StreamWrapper::getResource($stream);
+        if (! is_resource($resource)) {
+            throw new \common_Exception('Unable to create resource from the given stream. Update to filesystem aborted.');
+        }
+
+        return $this->updateStream($path, $resource, $mimeType);
     }
 
     /**
@@ -202,7 +281,7 @@ class Directory implements \IteratorAggregate
     public function hasDirectory($path)
     {
         if ($this->has($path)) {
-            $metadata = $this->getFilesystem()->getMetadata($path);
+            $metadata = $this->getFilesystem()->getMetadata($this->getFullPath($path));
             return (boolean) ($metadata['type'] !== 'file');
         }
         return false;
@@ -217,7 +296,7 @@ class Directory implements \IteratorAggregate
     public function hasFile($path)
     {
         if ($this->has($path)) {
-            $metadata = $this->getFilesystem()->getMetadata($path);
+            $metadata = $this->getFilesystem()->getMetadata($this->getFullPath($path));
             return (boolean) ($metadata['type'] === 'file');
         }
         return false;
@@ -249,8 +328,8 @@ class Directory implements \IteratorAggregate
     {
         $files = array();
         $content = $this->getFileSystem()->listContents($this->getRelativePath(), true);
-        foreach($content as $file){
-            if($file['type'] === 'file'){
+        foreach ($content as $file) {
+            if ($file['type'] === 'file') {
                 $files[] = str_replace($this->getRelativePath(), '', $file['path']);
             }
         }
@@ -267,11 +346,40 @@ class Directory implements \IteratorAggregate
         $files = array();
         $content = $this->getFileSystem()->listContents($this->getRelativePath(), true);
         \common_Logger::i($this->getRelativePath());
-        foreach($content as $file){
-            if($file['type'] === 'file'){
+        foreach ($content as $file) {
+            if ($file['type'] === 'file') {
                 $files[] = $file['path'];
             }
         }
+        return new \ArrayIterator($files);
+    }
+
+    /**
+     * Return an iterator which handle list of directory
+     *
+     * @param $path
+     * @return \ArrayIterator
+     * @throws \common_Exception
+     */
+    public function getDirectoryIterator($path = null)
+    {
+        if (is_null($path)) {
+            $path = $this->path;
+        } else {
+            if (! $this->hasDirectory($path)) {
+                throw new \common_Exception('Directory iterator needs a valid directory.');
+            }
+            $path = $this->getFullPath($path);
+        }
+
+        $files = array();
+        $content = $this->getFileSystem()->listContents($path, false);
+        foreach ($content as $file) {
+            if (! in_array($file['path'], array('.','..'))) {
+                $files[] = str_replace($this->getRelativePath(), '', $file['path']);
+            }
+        }
+
         return new \ArrayIterator($files);
     }
 
@@ -280,30 +388,81 @@ class Directory implements \IteratorAggregate
      *
      * @param $path
      * @return Directory
-     * @throws \common_exception_NotFound
+     * @throws \tao_models_classes_FileNotFoundException
      */
     public function getDirectory($path)
     {
         if (! $this->hasDirectory($path)) {
-            throw new \common_exception_NotFound('Directory "' . $path . '" not found '
+            throw new \tao_models_classes_FileNotFoundException('Directory "' . $path . '" not found '
                 . 'into directory "' . $this->getRelativePath() . '".');
         }
-        return new Directory($this->filesystem, $this->getFullPath($path));
+        return new Directory($this->getFileSystem(), $this->getFullPath($path));
     }
 
     /**
-     * If found return the file at $path location
+     * Create a subdirectory into current directory
+     *
+     * @param $path
+     * @return Directory
+     * @throws \common_Exception
+     */
+    public function addDirectory($path)
+    {
+        if (! $this->getFileSystem()->createDir($this->getFullPath($path))) {
+            throw new \common_Exception('An error has occured during directory creation '
+                . '(' . $this->getFullPath($path). ').');
+        }
+        return new Directory($this->getFileSystem(), $this->getFullPath($path));
+    }
+
+    /**
+     * Remove a subdirectory from current directory
+     *
+     * @param $path
+     * @return Directory
+     * @throws \common_Exception
+     */
+    public function removeDirectory($path)
+    {
+        if (! $this->getFileSystem()->deleteDir($this->getFullPath($path))) {
+            throw new \common_Exception('An error has occured during directory deletion '
+                . '(' . $this->getFullPath($path). ').');
+        }
+        return true;
+    }
+
+    /**
+     * Delete the current directory
+     * @return bool
+     */
+    public function remove()
+    {
+        return $this->getFileSystem()->deleteDir($this->path);
+    }
+
+    /**
+     *  If found return the file at $path location
      *
      * @param $path
      * @return File
-     * @throws \common_exception_NotFound
+     * @throws \tao_models_classes_FileNotFoundException
      */
     public function getFile($path)
     {
         if (! $this->hasFile($path)) {
-            throw new \common_exception_NotFound('Directory "' . $path . '" not found '
+            throw new \tao_models_classes_FileNotFoundException('Directory "' . $path . '" not found '
                 . 'into directory "' . $this->getRelativePath() . '".');
         }
-        return new File($this->filesystem, $this->getFullPath($path));
+        return $this->spawnFile($path);
+    }
+
+    /**
+     * Create a file object representing a file (existing or not)
+     * @param $path
+     * @return File
+     */
+    public function spawnFile($path)
+    {
+        return new File($this->getFileSystem(), $this->getFullPath($path));
     }
 }
