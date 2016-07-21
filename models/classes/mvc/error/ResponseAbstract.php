@@ -113,7 +113,10 @@ abstract class ResponseAbstract implements ResponseInterface {
      * @inherit
      */
     public function trace($message) {
+        
+        \common_Logger::d($this->exception->getTraceAsString());
         \common_Logger::e($message);
+        
         return $this;
     }
 
