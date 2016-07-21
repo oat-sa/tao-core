@@ -32,7 +32,6 @@ module.exports = function(grunt) {
             },
             extensionreport : {
                 options : {
-                    force : true,
                     format: 'checkstyle',
                     outputFile:  reportOutput + '/' + currentExtension + '-checkstyle.xml'
                 },

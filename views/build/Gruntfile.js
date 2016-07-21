@@ -60,7 +60,7 @@ module.exports = function(grunt) {
     var bundleTasks = [];
     var testTasks   = [];
     ext.getExtensions().forEach(function(extension){
-        grunt.log.debug(extension);
+
         var extensionKey = extension.toLowerCase();
         var gruntDir = root + '/' + extension + '/views/build/grunt';
         if(grunt.file.exists(gruntDir)){

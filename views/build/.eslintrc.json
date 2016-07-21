@@ -27,6 +27,7 @@
         "no-self-compare":      ["error"],
         "no-shadow":            ["error", { "hoist": "functions" }],
         "no-throw-literal":     ["error"],
+        "no-trailing-spaces":   ["error"],
         "no-undefined":         ["error"],
         "no-use-before-define": ["error", { "functions": false }],
         "semi":                 ["error","always"],
