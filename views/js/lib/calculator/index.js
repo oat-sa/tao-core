@@ -117,6 +117,10 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
                             // delete
                             key = 'CE';
                             break;
+                        case 111:
+                            // divide
+                            key = '/';
+                            break;
                         default:
                             // allow all other keys (enter, tab, numbers, letters, etc.)
                             return true;
