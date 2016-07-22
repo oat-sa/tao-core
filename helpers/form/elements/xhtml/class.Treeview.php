@@ -53,6 +53,8 @@ class tao_helpers_form_elements_xhtml_Treeview
         
         if ((count($foundIndexes) > 0 && $_POST[$foundIndexes[0]] !== self::NO_TREEVIEW_INTERACTION_IDENTIFIER) || count($foundIndexes) === 0) {
              $this->setValues(array());
+        } elseif ((count($foundIndexes) > 0 && $_POST[$foundIndexes[0]] === self::NO_TREEVIEW_INTERACTION_IDENTIFIER)) {
+            array_shift($foundIndexes);
         }
         
         foreach ($foundIndexes as $index) {
