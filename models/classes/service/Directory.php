@@ -80,9 +80,10 @@ class Directory implements \IteratorAggregate
      */
     protected function sanitizePath($path)
     {
-        if (!$this->getFileSystem()->getAdapter() instanceof Local) {
+        if ($this->getFileSystem()->getAdapter() instanceof Local) {
             $path = str_replace('\\', '/', $path);
         }
+        $path = ltrim($path, '\\/');
         return $path;
     }
 
@@ -322,7 +323,7 @@ class Directory implements \IteratorAggregate
     }
 
     /**
-     * Return an iterator which handle flat list of file
+     * Return an iterator which handle list of file, recursively
      *
      * @return \ArrayIterator
      */
@@ -332,7 +333,8 @@ class Directory implements \IteratorAggregate
         $content = $this->getFileSystem()->listContents($this->getRelativePath(), true);
         foreach ($content as $file) {
             if ($file['type'] === 'file') {
-                $files[] = str_replace($this->getRelativePath(), '', $file['path']);
+                $from = '/' . preg_quote($this->getRelativePath(), '/') . '/';
+                $files[] = $this->sanitizePath(preg_replace($from, '', $file['path'], 1));
             }
         }
         return new \ArrayIterator($files);
@@ -347,7 +349,6 @@ class Directory implements \IteratorAggregate
     {
         $files = array();
         $content = $this->getFileSystem()->listContents($this->getRelativePath(), true);
-        \common_Logger::i($this->getRelativePath());
         foreach ($content as $file) {
             if ($file['type'] === 'file') {
                 $files[] = $file['path'];
@@ -357,7 +358,7 @@ class Directory implements \IteratorAggregate
     }
 
     /**
-     * Return an iterator which handle list of directory
+     * Return an iterator which handle list of directories and files
      *
      * @param $path
      * @return \ArrayIterator
@@ -369,16 +370,17 @@ class Directory implements \IteratorAggregate
             $path = $this->path;
         } else {
             if (! $this->hasDirectory($path)) {
-                throw new \common_Exception('Directory iterator needs a valid directory.');
+                throw new \tao_models_classes_FileNotFoundException('Directory iterator needs a valid directory.');
             }
             $path = $this->getFullPath($path);
         }
 
         $files = array();
-        $content = $this->getFileSystem()->listContents($path, false);
+        $content = $this->getFileSystem()->listContents($path, true);
         foreach ($content as $file) {
             if (! in_array($file['path'], array('.','..'))) {
-                $files[] = str_replace($this->getRelativePath(), '', $file['path']);
+                $from = '/' . preg_quote($this->getRelativePath(), '/') . '/';
+                $files[] = $this->sanitizePath(preg_replace($from, '', $file['path'], 1));
             }
         }
 
@@ -426,6 +428,11 @@ class Directory implements \IteratorAggregate
      */
     public function deleteDirectory($path)
     {
+        if (! $this->hasDirectory($path)) {
+            throw new \tao_models_classes_FileNotFoundException('Directory "' . $path . '" not found '
+                . 'into directory "' . $this->getRelativePath() . '", deletion impossible.');
+        }
+
         if (! $this->getFileSystem()->deleteDir($this->getFullPath($path))) {
             throw new \common_Exception('An error has occured during directory deletion '
                 . '(' . $this->getFullPath($path). ').');

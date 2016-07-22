@@ -115,7 +115,6 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
             $path,
             $public ? $this->getAccessProvider() : null
         );
-        $dir->setServiceLocator($this->getServiceLocator());
         return $dir;
     }
 
