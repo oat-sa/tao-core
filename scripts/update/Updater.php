@@ -553,7 +553,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
 
-            $this->setVersion('5.9.2');
+            $this->setVersion('5.9.3');
 
         }
     }
