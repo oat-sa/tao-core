@@ -1,4 +1,22 @@
 <?php
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2016 Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
+ */
 
 namespace oat\tao\model\service;
 
@@ -130,7 +148,6 @@ class Directory implements \IteratorAggregate
         }
 
         $path = $this->getFullPath($path);
-        \common_Logger::i($path);
         \common_Logger::d('Writting in ' . $path);
         $config = (is_null($mimeType)) ? [] : ['ContentType' => $mimeType];
         return $this->getFileSystem()->write($path, $content, $config);
@@ -418,6 +435,7 @@ class Directory implements \IteratorAggregate
 
     /**
      * Delete the current directory
+     *
      * @return bool
      */
     public function delete()
@@ -452,7 +470,7 @@ class Directory implements \IteratorAggregate
     public function getFile($path)
     {
         if (! $this->hasFile($path)) {
-            throw new \tao_models_classes_FileNotFoundException('Directory "' . $path . '" not found '
+            throw new \tao_models_classes_FileNotFoundException('File "' . $path . '" not found '
                 . 'into directory "' . $this->getRelativePath() . '".');
         }
         return $this->spawnFile($path);

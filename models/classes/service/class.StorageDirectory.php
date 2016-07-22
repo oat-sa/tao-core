@@ -19,13 +19,12 @@
  * 
  */
 
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use \oat\tao\model\service\Directory;
 use \oat\tao\model\websource\Websource;
 use \League\Flysystem\Filesystem;
 
 /**
- * Represents  direxctory for file storage 
+ * Represents  directory for file storage
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
@@ -33,9 +32,8 @@ use \League\Flysystem\Filesystem;
  */
 class tao_models_classes_service_StorageDirectory extends Directory
 {
-    use ServiceLocatorAwareTrait;
-    
     private $id;
+
     /** @var Websource */
     private $accessProvider;
 
@@ -48,6 +46,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
     
     /**
      * Returns the identifier of this directory
+     *
      * @return string
      */
     public function getId()
@@ -57,6 +56,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
     
     /**
      * Returns whenever or not this directory is public
+     *
      * @return boolean
      */
     public function isPublic()
