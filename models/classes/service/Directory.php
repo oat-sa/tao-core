@@ -305,23 +305,6 @@ class Directory implements \IteratorAggregate
     }
 
     /**
-     * Delete file
-     *
-     * @param $path
-     * @return bool
-     * @throws \tao_models_classes_FileNotFoundException
-     */
-    public function delete($path)
-    {
-        try {
-            return $this->getFileSystem()->delete($this->getFullPath($path));
-        } catch (\FileNotFoundException $e) {
-            \common_Logger::e($e->getMessage());
-            throw new \tao_models_classes_FileNotFoundException($path);
-        }
-    }
-
-    /**
      * Return an iterator which handle flat list of file
      *
      * @return \ArrayIterator
@@ -424,7 +407,7 @@ class Directory implements \IteratorAggregate
      * @return Directory
      * @throws \common_Exception
      */
-    public function removeDirectory($path)
+    public function deleteDirectory($path)
     {
         if (! $this->getFileSystem()->deleteDir($this->getFullPath($path))) {
             throw new \common_Exception('An error has occured during directory deletion '
@@ -437,9 +420,26 @@ class Directory implements \IteratorAggregate
      * Delete the current directory
      * @return bool
      */
-    public function remove()
+    public function delete()
     {
         return $this->getFileSystem()->deleteDir($this->path);
+    }
+
+    /**
+     * Delete file
+     *
+     * @param $path
+     * @return bool
+     * @throws \tao_models_classes_FileNotFoundException
+     */
+    public function deleteContent($path)
+    {
+        try {
+            return $this->getFileSystem()->delete($this->getFullPath($path));
+        } catch (\FileNotFoundException $e) {
+            \common_Logger::e($e->getMessage());
+            throw new \tao_models_classes_FileNotFoundException($path);
+        }
     }
 
     /**
@@ -460,6 +460,7 @@ class Directory implements \IteratorAggregate
 
     /**
      * Create a file object representing a file (existing or not)
+     *
      * @param $path
      * @return File
      */
