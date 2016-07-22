@@ -553,9 +553,11 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
 
-            $this->setVersion('5.9.3');
+            $this->setVersion('5.9.2');
 
         }
+        
+        $this->skip('5.9.2', '5.9.3');
     }
 
     private function migrateFsAccess() {
