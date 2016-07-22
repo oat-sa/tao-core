@@ -32,33 +32,28 @@ class Icon implements PhpSerializable
 
     /**
      * @param \SimpleXMLElement $node
-     * @param string $extensionId
+     * @param string $structureExtensionId
      * @return static
      */
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $extensionId = '') {
-        if (is_null($extensionId)) {
-            $extensionId = \Context::getInstance()->getExtensionName();
-        }
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId) {
+        
         return new static(array(
-            'id' =>  isset($node['id'])? (string)$node['id'] : null,
-            'src' => isset($node['src']) ? (string)$node['src'] : null,
-            'ext' => $extensionId
+            'id' =>  !empty($node['id'])? (string)$node['id'] : null,
+            'src' => !empty($node['src']) ? (string)$node['src'] : null,
+            'ext' => !empty($node['ext']) ? (string)$node['ext'] : $structureExtensionId
         ));
     }
 
     /**
      * @param array $iconData
-     * @param string $extensionId
+     * @param string $structureExtensionId
      * @return static
      */
-    public static function fromArray(array $iconData, $extensionId = '') {
-        if (is_null($extensionId)) {
-            $extensionId = \Context::getInstance()->getExtensionName();
-        }
+    public static function fromArray(array $iconData, $structureExtensionId) {
         return new static(array(
-            'id' =>  isset($iconData['id'])? (string)$iconData['id'] : null,
-            'src' => isset($iconData['src']) ? (string)$iconData['src'] : null,
-            'ext' => $extensionId
+            'id' =>  !empty($iconData['id'])? (string)$iconData['id'] : null,
+            'src' => !empty($iconData['src']) ? (string)$iconData['src'] : null,
+            'ext' => !empty($iconData['ext']) ? (string)$iconData['ext'] : $structureExtensionId
         ));
     }
 

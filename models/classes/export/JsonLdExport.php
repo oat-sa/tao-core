@@ -44,6 +44,8 @@ class JsonLdExport implements \JsonSerializable
      */
     private $blackList = array(RDF_TYPE);
 
+    private $encoders = array();
+
     /**
      * Gets a list of properties to exclude
      * 
@@ -118,12 +120,22 @@ class JsonLdExport implements \JsonSerializable
                 if (!is_array($data[$key])) {
                     $data[$key] = array($data[$key]);
                 }
-                $data[$key][] = $this->encodeValue($triple->object);
+                $data[$key][] = $this->encodeValue($triple->object, $triple->predicate);
             } else {
-                $data[$key] = $this->encodeValue($triple->object);
+                $data[$key] = $this->encodeValue($triple->object, $triple->predicate);
             }
         }
         return $data;
+    }
+    
+    public function registerEncoder($propertyUri, callable $encoder)
+    {
+        $this->encoders[$propertyUri] = $encoder; 
+    }
+    
+    public function getEncoders()
+    {
+        return $this->encoders;
     }
     
     /**
@@ -149,10 +161,13 @@ class JsonLdExport implements \JsonSerializable
      * Encode the value in a json-ld compatible way
      * 
      * @param mixed $value
+     * @param string $propertyUri (optional) The URI of the property the $value is related to.
      * @return string
      */
-    protected function encodeValue($value)
+    protected function encodeValue($value, $propertyUri = '')
     {
+        $value = $this->applyEncoder($value, $propertyUri);
+        
         return is_string($value)
             ? $value
             : ((is_object($value) && $value instanceof \core_kernel_classes_Resource)
@@ -173,5 +188,26 @@ class JsonLdExport implements \JsonSerializable
         $label = strtolower(trim($property->getLabel()));
         $label = preg_replace(array('/\s/', '[^a-z\-]'), array('-', ''), $label);
         return empty($label) ? 'key' : $label;
+    }
+    
+    /**
+     * Attempt to apply a specific value encoder.
+     * 
+     * @param mixed $value
+     * @param string (optional) The URI of the property the $value belongs to.
+     * @return mixed
+     */
+    protected function applyEncoder($value, $propertyUri = '')
+    {
+        if (empty($propertyUri) === false) {
+            $encoders = $this->getEncoders();
+            
+            if (isset($encoders[$propertyUri]) === true) {
+                $encodedValue = call_user_func($encoders[$propertyUri], $value);
+                return $encodedValue;
+            }
+        }
+        
+        return $value;
     }
 }

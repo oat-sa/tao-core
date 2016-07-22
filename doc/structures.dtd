@@ -22,6 +22,8 @@
         <!ATTLIST icon src CDATA #IMPLIED>
         <!-- id of the icon if svg is a sprite -->
         <!ATTLIST icon id CDATA #IMPLIED>
+		<!-- extension in which the svg is stored -->
+		<!ATTLIST icon ext CDATA #IMPLIED>
 
 		
 		<!-- sub division, each section of the extension will be displayed in a separated tab -->

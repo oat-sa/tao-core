@@ -111,13 +111,13 @@ define([
                 var config = this.config;
                 var draggableContainer;
                 var $draggingLayer;
-                
+
                 //set size + position
                 this.resetPosition();
                 this.resetSize();
 
                 //init closer
-                interact($element.find('.dynamic-component-title-bar .closer').selector).on('tap', function() {
+                $('.dynamic-component-title-bar .closer', $element).on('click', function() {
                     self.hide();
                 });
 
@@ -134,7 +134,7 @@ define([
                     if(_.isElement(draggableContainer) || _.isString(draggableContainer)){
                         //the dragging layer enable issue while dragging content with iframes
                         $draggingLayer = $content.find('.dynamic-component-layer');
-                        
+
                         interactElement.draggable({
                             inertia : false,
                             autoScroll : true,
@@ -152,10 +152,10 @@ define([
                                 $draggingLayer.removeClass('dragging-active');
                             }
                         });
-                        
+
                         //manually start interactjs draggable on the handle
                         interact($element.find('.dynamic-component-title-bar')[0]).on('down', function (event){
-                            
+
                             var interaction = event.interaction,
                                 handle = event.currentTarget;
 
