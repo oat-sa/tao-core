@@ -222,6 +222,11 @@ define([
                     var treeState       = $elt.data('tree-state') || {};
                     var selectNode      = treeState.selectNode || options.selectNode;
                     var nodeSelection   = function nodeSelection(){
+                        //afrer refreashing tree previously node will be already selected.
+                        if (tree.selected !== undefined) {
+                            return tree.selected;
+                        }
+
                         //the node to select is given
                         if(selectNode){
                              $selectNode = $('#' + selectNode, $elt);
