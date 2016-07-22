@@ -62,7 +62,8 @@ abstract class ResponseAbstract implements ResponseInterface {
 
             switch (trim(strtolower($mimeType))) {
                 case 'text/html' : 
-                case 'application/xhtml+xml':    
+                case 'application/xhtml+xml':
+                case '*/*':
                     $renderClass = 'html';
                     break 2;
                 case 'application/json' :
