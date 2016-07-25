@@ -222,10 +222,6 @@ define([
                     var treeState       = $elt.data('tree-state') || {};
                     var selectNode      = treeState.selectNode || options.selectNode;
                     var nodeSelection   = function nodeSelection(){
-                        //afrer refreashing tree previously node will be already selected.
-                        if (tree.selected !== undefined) {
-                            return tree.selected;
-                        }
 
                         //the node to select is given
                         if(selectNode){
@@ -424,14 +420,15 @@ define([
                     //update the state with data to be used later (ie. filter value, etc.)
                     treeState = _.merge($elt.data('tree-state') || {}, data);
 
-
-
-
                     if (data && data.loadNode) {
                         tree.deselect_branch(tree.selected);
                         tree.settings.selected = false;
                         treeState.selectNode = data.loadNode;
+                    } else if (data && data.selectNode) { //node will be selected in `onload` function
+                        tree.deselect_branch(tree.selected);
+                        tree.settings.selected = false;
                     }
+
                     $elt.data('tree-state', treeState);
                     tree.refresh();
                 }
