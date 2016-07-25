@@ -38,10 +38,10 @@ class TokenWebSource extends BaseWebsource
     const OPTION_PATH = 'path';
     const OPTION_TTL = 'ttl';
     
-    public static function spawnWebsource(core_kernel_fileSystem_FileSystem $fileSystem) {
-        $provider = self::spawn($fileSystem, array(
-        	self::OPTION_SECRET => md5(rand().$fileSystem->getPath()),
-            self::OPTION_PATH => $fileSystem->getPath(),
+    public static function spawnWebsource($fileSystemId, $path) {
+        $provider = self::spawn($fileSystemId, array(
+        	self::OPTION_SECRET => md5(rand().$path),
+            self::OPTION_PATH => $path,
             self::OPTION_TTL => (int) ini_get('session.gc_maxlifetime')
         ));
         return $provider;
