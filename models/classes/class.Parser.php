@@ -119,9 +119,9 @@ class tao_models_classes_Parser
      * @param  array options
      * @return mixed
      */
-    public function __construct($source, $options = array()){
+    public function __construct($source, $options = array())
+    {
 
-        common_Logger::i(gettype($source));
         if($source instanceof \oat\tao\model\service\File) {
             $this->sourceType = self::SOURCE_FLYFILE;
         } elseif (preg_match("/^<\?xml(.*)?/m", trim($source))) {

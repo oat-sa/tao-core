@@ -83,6 +83,7 @@ class Directory implements \IteratorAggregate
         if ($this->getFileSystem()->getAdapter() instanceof Local) {
             $path = str_replace('\\', '/', $path);
         }
+        $path = trim($path, '.');
         $path = ltrim($path, '\\/');
         return $path;
     }
@@ -281,6 +282,11 @@ class Directory implements \IteratorAggregate
         return $this->updateStream($path, $resource, $mimeType);
     }
 
+    public function exists()
+    {
+        return $this->getFileSystem()->has($this->path);
+    }
+
     /**
      * Check if file or directory exists
      *
@@ -315,6 +321,7 @@ class Directory implements \IteratorAggregate
      */
     public function hasFile($path)
     {
+        \common_Logger::i($this->getFullPath($path));
         if ($this->has($path)) {
             $metadata = $this->getFilesystem()->getMetadata($this->getFullPath($path));
             return (boolean) ($metadata['type'] === 'file');
@@ -385,6 +392,29 @@ class Directory implements \IteratorAggregate
         }
 
         return new \ArrayIterator($files);
+    }
+
+    public function getFlyIterator()
+    {
+        $iterator = array();
+        $contents = $this->getFileSystem()->listContents($this->path, true);
+        foreach ($contents as $file) {
+            if (in_array($file['path'], array('.','..'))) {
+                continue;
+            }
+
+            $from = '/' . preg_quote($this->getRelativePath(), '/') . '/';
+            $contentPath = $this->sanitizePath(preg_replace($from, '', $file['path'], 1));
+
+            if ($this->hasDirectory($contentPath)) {
+                $content = $this->getDirectory($contentPath);
+            } else {
+                $content = $this->getFile($contentPath);
+            }
+            $iterator[] = $content;
+        }
+
+        return new \ArrayIterator($iterator);
     }
 
     /**
@@ -462,7 +492,6 @@ class Directory implements \IteratorAggregate
         try {
             return $this->getFileSystem()->delete($this->getFullPath($path));
         } catch (\FileNotFoundException $e) {
-            \common_Logger::e($e->getMessage());
             throw new \tao_models_classes_FileNotFoundException($path);
         }
     }
@@ -491,6 +520,6 @@ class Directory implements \IteratorAggregate
      */
     public function spawnFile($path)
     {
-        return new File($this->getFileSystem(), $this->getFullPath($path));
+        return new File($this->getFilesystem(), $this->getFullPath($path));
     }
 }
