@@ -515,25 +515,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.22.0');
         }
 
-        $this->skip('2.22.0', '5.3.0');
-
-        if ($this->isVersion('5.3.0')) {
-
-            /** @var EventManager $eventManager */
-            $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
-
-            $eventManager->attach(RoleRemovedEvent::class, [LoggerService::class, 'logEvent']);
-            $eventManager->attach(RoleCreatedEvent::class, [LoggerService::class, 'logEvent']);
-            $eventManager->attach(RoleChangedEvent::class, [LoggerService::class, 'logEvent']);
-            $eventManager->attach(UserCreatedEvent::class, [LoggerService::class, 'logEvent']);
-            $eventManager->attach(UserUpdatedEvent::class, [LoggerService::class, 'logEvent']);
-            $eventManager->attach(UserRemovedEvent::class, [LoggerService::class, 'logEvent']);
-            $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
-
-            $this->setVersion('5.4.0');
-        }
-
-        $this->skip('5.4.0', '5.5.0');
+        $this->skip('2.22.0', '5.5.0');
 
         if ($this->isVersion('5.5.0')) {
             $clientConfig = new ClientConfigService();
@@ -556,7 +538,25 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('5.6.3');
         }
 
-        $this->skip('5.6.3', '5.10.0');
+        $this->skip('5.6.3', '5.9.1');
+
+        if ($this->isVersion('5.9.1')) {
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+
+            $eventManager->detach(RoleRemovedEvent::class, ['oat\\tao\\scripts\\update\\LoggerService', 'logEvent']);
+            $eventManager->detach(RoleCreatedEvent::class, ['oat\\tao\\scripts\\update\\LoggerService', 'logEvent']);
+            $eventManager->detach(RoleChangedEvent::class, ['oat\\tao\\scripts\\update\\LoggerService', 'logEvent']);
+            $eventManager->detach(UserCreatedEvent::class, ['oat\\tao\\scripts\\update\\LoggerService', 'logEvent']);
+            $eventManager->detach(UserUpdatedEvent::class, ['oat\\tao\\scripts\\update\\LoggerService', 'logEvent']);
+            $eventManager->detach(UserRemovedEvent::class, ['oat\\tao\\scripts\\update\\LoggerService', 'logEvent']);
+
+            $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
+
+            $this->setVersion('5.9.2');
+
+        }
+        $this->skip('5.9.2', '5.10.0');
     }
 
     private function migrateFsAccess() {
