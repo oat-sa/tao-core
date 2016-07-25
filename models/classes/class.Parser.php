@@ -106,6 +106,11 @@ class tao_models_classes_Parser
     const SOURCE_STRING = 3;
 
     /**
+     * Current file is oat\tao\model\service\File object
+     */
+    const SOURCE_FLYFILE = 4;
+
+    /**
      * Short description of method __construct
      *
      * @access public
@@ -116,13 +121,16 @@ class tao_models_classes_Parser
      */
     public function __construct($source, $options = array()){
 
-        if(preg_match("/^<\?xml(.*)?/m", trim($source))){
+        common_Logger::i(gettype($source));
+        if($source instanceof \oat\tao\model\service\File) {
+            $this->sourceType = self::SOURCE_FLYFILE;
+        } elseif (preg_match("/^<\?xml(.*)?/m", trim($source))) {
             $this->sourceType = self::SOURCE_STRING;
-        }else if(preg_match("/^http/", $source)){
+        } else if(preg_match("/^http/", $source)) {
             $this->sourceType = self::SOURCE_URL;
-        }else if(is_file($source)){
+        } else if(is_file($source)) {
             $this->sourceType = self::SOURCE_FILE;
-        }else{
+        } else {
             throw new common_exception_Error("Denied content in the source parameter! ".get_class($this)." accepts either XML content, a URL to an XML Content or the path to a file but got ".substr($source, 0, 500));
         }
         $this->source = $source;
@@ -319,6 +327,14 @@ class tao_models_classes_Parser
                         break;
                     case self::SOURCE_STRING:
                         $this->content = $this->source;
+                        break;
+                    case self::SOURCE_FLYFILE:
+                        if (! $this->source->exists()) {
+                            throw new common_Exception('Source file does not exists ("' . $this->source->getPath() . '").');
+                        }
+                        if (! $this->content = $this->source->read()) {
+                            throw new common_Exception('Unable to read file ("' . $this->source->getPath() . '").');
+                        }
                         break;
                 }
             } catch(Exception $e) {
