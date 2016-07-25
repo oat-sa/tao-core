@@ -42,15 +42,21 @@ class tao_helpers_form_elements_xhtml_JsonObject
 			unset($this->attributes['noLabel']);
 		}
         
-        $jsonObject = json_decode($this->value);
+        if (empty($this->value) === true) {
+            // @todo should be in a blue info box.
+            $returnValue .= "No values to display.";
+        } elseif (($jsonObject = @json_decode($this->value)) === null) {
+            // @todo should be in a red error box.
+            $returnValue .= "Invalid value.";
+        } else {
+            $returnValue .= "<ul style=\"width: 65%; display: inline-block; list-style-type: none; padding: 0;\">";
 
-        $returnValue .= "<ul style=\"width: 65%; display: inline-block; list-style-type: none; padding: 0;\">";
-
-		foreach ($jsonObject as $jsonKey => $jsonValue) {
-            $returnValue .= "<li>${jsonKey}: {$jsonValue}";
+            foreach ($jsonObject as $jsonKey => $jsonValue) {
+                $returnValue .= "<li>${jsonKey}: {$jsonValue}";
+            }
+            
+            $returnValue .= "</ul>\n";
         }
-        
-        $returnValue .= "</ul>\n";
 		
         return $returnValue;
     }
