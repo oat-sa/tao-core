@@ -530,7 +530,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             if (!$this->getServiceManager()->has(UpdateLogger::SERVICE_ID)) {
                 // setup log fs
                 $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
-                $fsm->registerLocalFileSystem('log', FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'log'.DIRECTORY_SEPARATOR);
+                $fsm->createFileSystem('log', 'tao/log');
                 $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
 
                 $this->getServiceManager()->register(UpdateLogger::SERVICE_ID, new UpdateLogger(array(UpdateLogger::OPTION_FILESYSTEM => 'log')));
@@ -556,7 +556,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('5.9.2');
 
         }
-        $this->skip('5.9.2', '5.10.2');
+        
+        $this->skip('5.9.2', '5.10.3');
     }
 
     private function migrateFsAccess() {
