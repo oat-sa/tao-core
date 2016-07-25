@@ -30,10 +30,6 @@ class FlyTokenWebSource extends TokenWebSource
 {
     const ENTRY_POINT = '/getFileFlysystem.php/';
 
-    static $instances = [];
-
-    protected $fsService;
-
     /**
      * @param $fileSystem
      */
