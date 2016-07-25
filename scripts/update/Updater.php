@@ -556,7 +556,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('5.9.2');
 
         }
-        $this->skip('5.9.2', '5.10.1');
+        $this->skip('5.9.2', '5.10.2');
     }
 
     private function migrateFsAccess() {
