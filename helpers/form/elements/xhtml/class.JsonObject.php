@@ -49,13 +49,13 @@ class tao_helpers_form_elements_xhtml_JsonObject
             $returnValue .= "Invalid value.";
         } else {
             // Valid JSON to be displayed.
-            $returnValue .= "<ul class=\"json-object-list\" style=\"width: 65%; display: inline-block; list-style-type: none; padding: 0;\">";
+            $returnValue .= "<ul class=\"json-object-list\">";
 
             foreach ($jsonObject as $jsonKey => $jsonValue) {
-                $returnValue .= "<li style=\"margin-bottom: 10px;\">";
+                $returnValue .= "<li>";
                 
                 $returnValue .= "<div class=\"widget-jsonobject-key\">" . _dh($jsonKey) . ":</div>";
-                $returnValue .= "<div><input class=\"widget-jsonobject-value\" type=\"text\" disabled=\"disabled\" value=\"${jsonValue}\" style=\"width: 100%;\"/></</div>";
+                $returnValue .= "<div><input class=\"widget-jsonobject-value\" type=\"text\" disabled=\"disabled\" value=\"${jsonValue}\" /></</div>";
                 
                 $returnValue .= "</li>";
             }
