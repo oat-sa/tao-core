@@ -527,4 +527,25 @@ class Directory implements \IteratorAggregate
     {
         return new File($this->getFilesystem(), $this->getFullPath($path));
     }
+
+    /**
+     * Check if $this directory is an existing directory
+     *
+     * @return bool
+     */
+    public function isDir()
+    {
+        return $this->exists();
+    }
+
+    /**
+     * Return false because it's not a file
+     *
+     * @return bool
+     */
+    public function isFile()
+    {
+        return false;
+    }
+
 }
