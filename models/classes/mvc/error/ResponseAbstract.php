@@ -62,7 +62,8 @@ abstract class ResponseAbstract implements ResponseInterface {
 
             switch (trim(strtolower($mimeType))) {
                 case 'text/html' : 
-                case 'application/xhtml+xml':    
+                case 'application/xhtml+xml':
+                case '*/*':
                     $renderClass = 'html';
                     break 2;
                 case 'application/json' :
@@ -113,7 +114,10 @@ abstract class ResponseAbstract implements ResponseInterface {
      * @inherit
      */
     public function trace($message) {
+        
+        \common_Logger::d($this->exception->getTraceAsString());
         \common_Logger::e($message);
+        
         return $this;
     }
 

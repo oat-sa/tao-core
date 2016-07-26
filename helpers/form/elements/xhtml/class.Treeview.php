@@ -32,12 +32,7 @@ use oat\tao\model\GenerisTreeFactory;
 class tao_helpers_form_elements_xhtml_Treeview
     extends tao_helpers_form_elements_Treeview
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
+    const NO_TREEVIEW_INTERACTION_IDENTIFIER = 'x-tao-no-treeview-interaction';
 
     /**
      * Short description of method feed
@@ -48,24 +43,23 @@ class tao_helpers_form_elements_xhtml_Treeview
      */
     public function feed()
     {
-        
 		$expression = "/^" . preg_quote($this->name, "/") . "(.)*[0-9]+$/";
-		$found = false;
+        $foundIndexes = array();
 		foreach ($_POST as $key => $value) {
 			if (preg_match($expression, $key)) {
-				$found = true;
-				break;
-			}
-		}
-		if ($found) {
-			$this->setValues(array());
-			foreach ($_POST as $key => $value) {
-				if (preg_match($expression, $key)) {
-					$this->addValue(tao_helpers_Uri::decode($value));
-				}
+				$foundIndexes[] = $key;
 			}
 		}
         
+        if ((count($foundIndexes) > 0 && $_POST[$foundIndexes[0]] !== self::NO_TREEVIEW_INTERACTION_IDENTIFIER) || count($foundIndexes) === 0) {
+             $this->setValues(array());
+        } elseif ((count($foundIndexes) > 0 && $_POST[$foundIndexes[0]] === self::NO_TREEVIEW_INTERACTION_IDENTIFIER)) {
+            array_shift($foundIndexes);
+        }
+        
+        foreach ($foundIndexes as $index) {
+            $this->addValue(tao_helpers_Uri::decode($_POST[$index]));
+        }
     }
 
     /**
@@ -121,7 +115,9 @@ class tao_helpers_form_elements_xhtml_Treeview
         $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
 
         $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
-        $returnValue .= "<div id='{$widgetValueName}'></div>";
+        $returnValue .= "<div id='{$widgetValueName}'>";
+        $returnValue .= '<input type="hidden" value="' . self::NO_TREEVIEW_INTERACTION_IDENTIFIER . '" name="' . $this->name . '_0"/>';
+        $returnValue .= "</div>";
 
 
 		$returnValue .= "<div id='{$widgetTreeName}'></div>";

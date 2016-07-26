@@ -30,7 +30,7 @@ class AddLogFs extends \common_ext_action_InstallAction
     public function __invoke($params)
     {
         $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
-        $fsm->registerLocalFileSystem('log', FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'log'.DIRECTORY_SEPARATOR);
+        $fsm->createFileSystem('log', 'tao'.DIRECTORY_SEPARATOR.'log');
         $this->registerService(FileSystemService::SERVICE_ID, $fsm);
         
         $this->registerService(UpdateLogger::SERVICE_ID, new UpdateLogger(array(UpdateLogger::OPTION_FILESYSTEM => 'log')));
