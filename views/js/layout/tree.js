@@ -229,7 +229,11 @@ define([
                              if($selectNode.length && !$selectNode.hasClass('private')){
                                 return tree.select_branch($selectNode);
                              }
+                        } else if(tree.selected !== undefined) {//after refreshing tree previously node will be already selected.
+                             return tree.selected;
                         }
+
+                        //if selectNode was not given and there is no selected node on the tree then try to find node to select:
 
                         //try to select the last one
                         if(lastSelected){
@@ -239,7 +243,6 @@ define([
                                 return tree.select_branch($lastSelected);
                             }
                         }
-
                         //or the 1st instance
                         if ($firstInstance.length) {
                             return tree.select_branch($firstInstance);
