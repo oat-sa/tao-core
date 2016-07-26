@@ -82,6 +82,14 @@ class DirectoryTest extends TaoPhpUnitTestRunner
         $reflectionProperty->setAccessible(true);
         $this->assertEquals('.', $reflectionProperty->getValue($this->instance));
 
+    }
+
+    public function testIsDirIsNotFile()
+    {
+        $this->assertFalse($this->instance->isDir());
+        $this->assertFalse($this->instance->isFile());
+
+        $this->assertTrue($this->instance->write('polop','content'));
         $this->assertTrue($this->instance->isDir());
         $this->assertFalse($this->instance->isFile());
     }
