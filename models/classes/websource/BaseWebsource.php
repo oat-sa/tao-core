@@ -61,12 +61,12 @@ implements Websource
 	/**
 	 * Used to instantiate new AccessProviders
 	 * 
-	 * @param core_kernel_fileSystem_FileSystem $fileSystem
+	 * @param string $fileSystem
 	 * @param array $customConfig
 	 * @return \tao_models_classes_fsAccess_AccessProvider
 	 */
-	protected static function spawn(core_kernel_fileSystem_FileSystem $fileSystem, $customConfig = array()) {
-	    $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystem->getUri();
+	protected static function spawn($fileSystemId, $customConfig = array()) {
+	    $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystemId;
 	    $customConfig[self::OPTION_ID] = uniqid();
 	    $websource = new static($customConfig);
 	    WebsourceManager::singleton()->addWebsource($websource);
