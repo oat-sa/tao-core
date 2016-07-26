@@ -55,6 +55,21 @@ class Directory implements \IteratorAggregate
     }
 
     /**
+     * Returned the absolute path to this directory
+     * Please use read and write to access files
+     *
+     * @return string
+     * @deprecated
+     */
+    public function getPath() {
+        $adapter = $this->getFileSystem()->getAdapter();
+        if (!$adapter instanceof Local) {
+            throw new common_exception_InconsistentData(__CLASS__.' can only handle local files');
+        }
+        return $adapter->getPathPrefix();
+    }
+
+    /**
      * Get the relative path inside $this->filesystem
      *
      * @return string
@@ -471,23 +486,13 @@ class Directory implements \IteratorAggregate
     }
 
     /**
-     * Delete the current directory
+     * Delete a file
      *
-     * @return bool
-     */
-    public function delete()
-    {
-        return $this->getFileSystem()->deleteDir($this->path);
-    }
-
-    /**
-     * Delete file
-     *
-     * @param $path
+     * @param $path relative path of file to delete
      * @return bool
      * @throws \tao_models_classes_FileNotFoundException
      */
-    public function deleteContent($path)
+    public function delete($path)
     {
         try {
             return $this->getFileSystem()->delete($this->getFullPath($path));
