@@ -34,10 +34,9 @@ class tao_helpers_form_elements_xhtml_JsonObject
     public function render()
     {
         $returnValue = '';
-
 		
 		if (!isset($this->attributes['noLabel'])) {
-			$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
+			$returnValue .= "<label class=\"form_desc\" for=\"{$this->name}\">" . _dh($this->getDescription()) . "</label>";
 		} else {
 			unset($this->attributes['noLabel']);
 		}
@@ -49,10 +48,16 @@ class tao_helpers_form_elements_xhtml_JsonObject
             // @todo should be in a red error box.
             $returnValue .= "Invalid value.";
         } else {
+            // Valid JSON to be displayed.
             $returnValue .= "<ul style=\"width: 65%; display: inline-block; list-style-type: none; padding: 0;\">";
 
             foreach ($jsonObject as $jsonKey => $jsonValue) {
-                $returnValue .= "<li>${jsonKey}: {$jsonValue}";
+                $returnValue .= "<li style=\"margin-bottom: 10px;\">";
+                
+                $returnValue .= "<div class=\"widget-jsonobject-key\">" . _dh($jsonKey) . ":</div>";
+                $returnValue .= "<div><input class=\"widget-jsonobject-value\" type=\"text\" disabled=\"disabled\" value=\"${jsonValue}\" style=\"width: 100%;\"/></</div>";
+                
+                $returnValue .= "</li>";
             }
             
             $returnValue .= "</ul>\n";
