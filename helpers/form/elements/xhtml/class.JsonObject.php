@@ -49,7 +49,7 @@ class tao_helpers_form_elements_xhtml_JsonObject
             $returnValue .= "Invalid value.";
         } else {
             // Valid JSON to be displayed.
-            $returnValue .= "<ul style=\"width: 65%; display: inline-block; list-style-type: none; padding: 0;\">";
+            $returnValue .= "<ul class=\"json-object-list\" style=\"width: 65%; display: inline-block; list-style-type: none; padding: 0;\">";
 
             foreach ($jsonObject as $jsonKey => $jsonValue) {
                 $returnValue .= "<li style=\"margin-bottom: 10px;\">";
