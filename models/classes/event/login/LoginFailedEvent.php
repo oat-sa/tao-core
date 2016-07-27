@@ -2,10 +2,7 @@
 
 namespace oat\tao\model\event;
 
-use JsonSerializable;
-use oat\oatbox\event\Event;
-
-class LoginFailedEvent implements Event, JsonSerializable
+class LoginFailedEvent extends LoggableEvent
 {
     private $login = '';
 
@@ -20,16 +17,6 @@ class LoginFailedEvent implements Event, JsonSerializable
     public function getLogin()
     {
         return $this->login;
-    }
-
-    /**
-     * Return a unique name for this event
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return __CLASS__;
     }
 
     /**

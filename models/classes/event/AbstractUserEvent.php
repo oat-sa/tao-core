@@ -14,37 +14,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\model\event;
 
-use core_kernel_classes_Resource;
-use JsonSerializable;
-use oat\oatbox\event\Event;
-
-class UserRemovedEvent implements Event, JsonSerializable
+/**
+ * Class AbstractUserEvent
+ * @package oat\tao\model\event
+ */
+abstract class AbstractUserEvent extends LoggableEvent
 {
-
     /** @var  string */
-    private $userUri;
+    protected $roleUri;
 
     /**
-     * @param string $userUri
+     * @param String $roleUri
      */
-    public function __construct($userUri)
+    public function __construct($roleUri)
     {
-        $this->userUri = $userUri;
-    }
-
-
-    /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return get_class($this);
+        $this->roleUri = $roleUri;
     }
 
     /**
@@ -57,7 +47,7 @@ class UserRemovedEvent implements Event, JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'uri' => $this->userUri,
+            'roleUri' => $this->roleUri
         ];
     }
 }

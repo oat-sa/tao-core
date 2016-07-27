@@ -14,23 +14,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA
  *
  */
-
 namespace oat\tao\model\event;
 
-abstract class AbstractRoleEvent extends LoggableEvent
+class LoginSucceedEvent extends LoggableEvent
 {
-    /** @var  string */
-    protected $roleUri;
+    private $login = '';
 
     /**
-     * @param String $roleUri
+     * LoginEvent constructor.
+     * @param $login
      */
-    public function __construct($roleUri)
+    public function __construct($login = '')
     {
-        $this->roleUri = $roleUri;
+        $this->login = $login;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLogin()
+    {
+        return $this->login;
     }
 
     /**
@@ -40,10 +47,10 @@ abstract class AbstractRoleEvent extends LoggableEvent
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    public function jsonSerialize()
+    function jsonSerialize()
     {
         return [
-            'roleUri' => $this->roleUri
+            'login' => $this->getLogin()
         ];
     }
 }

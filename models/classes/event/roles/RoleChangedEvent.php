@@ -24,15 +24,6 @@ class RoleChangedEvent extends AbstractRoleEvent
     protected $essence;
     protected $changes;
 
-    public function jsonSerialize()
-    {
-        return [
-            'roleUri' => $this->roleUri,
-            'essence' => $this->essence,
-            'changes' => $this->changes,
-        ];
-    }
-
     /**
      * RoleChangedEvent constructor.
      * @param string $roleUri
@@ -46,5 +37,12 @@ class RoleChangedEvent extends AbstractRoleEvent
         $this->changes = $changes;
     }
 
-
+    public function jsonSerialize()
+    {
+        return [
+            'roleUri' => $this->roleUri,
+            'essence' => $this->essence,
+            'changes' => $this->changes,
+        ];
+    }
 }

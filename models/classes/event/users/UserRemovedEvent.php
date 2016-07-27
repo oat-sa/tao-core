@@ -19,37 +19,17 @@
  */
 namespace oat\tao\model\event;
 
-use JsonSerializable;
-use oat\oatbox\event\Event;
-
-class LoginSucceedEvent implements Event, JsonSerializable
+class UserRemovedEvent extends LoggableEvent
 {
-    private $login = '';
+    /** @var  string */
+    private $userUri;
 
     /**
-     * LoginEvent constructor.
-     * @param $login
+     * @param string $userUri
      */
-    public function __construct($login = '')
+    public function __construct($userUri)
     {
-        $this->login = $login;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLogin()
-    {
-        return $this->login;
-    }
-
-    /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return __CLASS__;
+        $this->userUri = $userUri;
     }
 
     /**
@@ -59,10 +39,10 @@ class LoginSucceedEvent implements Event, JsonSerializable
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
-            'login' => $this->getLogin()
+            'uri' => $this->userUri,
         ];
     }
 }

@@ -19,14 +19,10 @@
  */
 namespace oat\tao\model\event;
 
-use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use JsonSerializable;
-use oat\oatbox\event\Event;
 
-class UserUpdatedEvent implements Event, JsonSerializable
+class UserUpdatedEvent extends LoggableEvent
 {
-
     /** @var  string */
     protected $user;
     protected $data;
@@ -39,16 +35,6 @@ class UserUpdatedEvent implements Event, JsonSerializable
     {
         $this->user = $user;
         $this->data = $data;
-    }
-
-
-    /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return get_class($this);
     }
 
     /**

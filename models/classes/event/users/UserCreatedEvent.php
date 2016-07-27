@@ -17,15 +17,17 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\model\event;
 
 use core_kernel_classes_Resource;
-use JsonSerializable;
-use oat\oatbox\event\Event;
 
-class UserCreatedEvent implements Event, JsonSerializable
+/**
+ * Class UserCreatedEvent
+ * @package oat\tao\model\event\users
+ */
+class UserCreatedEvent extends LoggableEvent
 {
-
     /** @var  string */
     protected $user;
 
@@ -35,16 +37,6 @@ class UserCreatedEvent implements Event, JsonSerializable
     public function __construct(core_kernel_classes_Resource $user)
     {
         $this->user = $user;
-    }
-
-
-    /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return get_class($this);
     }
 
     /**
@@ -57,8 +49,7 @@ class UserCreatedEvent implements Event, JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'uri' => $this->user->getUri(),
-//            'login' => $this->user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
+            'uri' => $this->user->getUri()
         ];
     }
 }
