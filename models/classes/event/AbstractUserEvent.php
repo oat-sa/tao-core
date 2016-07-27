@@ -20,21 +20,23 @@
 
 namespace oat\tao\model\event;
 
+use core_kernel_classes_Resource;
+
 /**
  * Class AbstractUserEvent
  * @package oat\tao\model\event
  */
 abstract class AbstractUserEvent extends LoggableEvent
 {
-    /** @var  string */
-    protected $roleUri;
+    /** @var string */
+    protected $user;
 
     /**
-     * @param String $roleUri
+     * @param core_kernel_classes_Resource $user
      */
-    public function __construct($roleUri)
+    public function __construct(core_kernel_classes_Resource $user)
     {
-        $this->roleUri = $roleUri;
+        $this->user = $user;
     }
 
     /**
@@ -47,7 +49,7 @@ abstract class AbstractUserEvent extends LoggableEvent
     public function jsonSerialize()
     {
         return [
-            'roleUri' => $this->roleUri
+            'uri' => $this->user->getUri()
         ];
     }
 }

@@ -21,10 +21,9 @@ namespace oat\tao\model\event;
 
 use core_kernel_classes_Resource;
 
-class UserUpdatedEvent extends LoggableEvent
+class UserUpdatedEvent extends AbstractUserEvent
 {
-    /** @var  string */
-    protected $user;
+    /** @var array */
     protected $data;
 
     /**
@@ -33,7 +32,8 @@ class UserUpdatedEvent extends LoggableEvent
      */
     public function __construct(core_kernel_classes_Resource $user, array $data)
     {
-        $this->user = $user;
+        parent::__construct($user);
+
         $this->data = $data;
     }
 

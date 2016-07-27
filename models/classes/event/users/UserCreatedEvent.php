@@ -26,30 +26,7 @@ use core_kernel_classes_Resource;
  * Class UserCreatedEvent
  * @package oat\tao\model\event\users
  */
-class UserCreatedEvent extends LoggableEvent
+class UserCreatedEvent extends AbstractUserEvent
 {
-    /** @var  string */
-    protected $user;
 
-    /**
-     * @param core_kernel_classes_Resource $user
-     */
-    public function __construct(core_kernel_classes_Resource $user)
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
-    {
-        return [
-            'uri' => $this->user->getUri()
-        ];
-    }
 }
