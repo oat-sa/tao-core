@@ -170,7 +170,6 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $readStreamFixture->close();
     }
     /**
-    /**
      * Test write stream in case of remote resource
      */
     public function testWriteRemoteStream()
