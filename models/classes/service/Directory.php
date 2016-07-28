@@ -64,7 +64,7 @@ class Directory implements \IteratorAggregate
     public function getPath() {
         $adapter = $this->getFileSystem()->getAdapter();
         if (!$adapter instanceof Local) {
-            throw new common_exception_InconsistentData(__CLASS__.' can only handle local files');
+            throw new \common_exception_InconsistentData(__CLASS__.' can only handle local files');
         }
         return $adapter->getPathPrefix();
     }
