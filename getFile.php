@@ -19,7 +19,8 @@ use oat\tao\model\websource\WebsourceManager;
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  *
- */
+ */            common_Logger::i(' test test');
+
 
 require_once '../generis/helpers/class.File.php';
 require_once '../tao/helpers/class.File.php';
