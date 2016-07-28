@@ -156,7 +156,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
         $msg = $resource instanceof core_kernel_classes_Class
             ? __('Successfully imported class "%s"', $resource->getLabel())
             : __('Successfully imported "%s"', $resource->getLabel());
-        return new common_report_Report(common_report_Report::TYPE_SUCCESS, $msg);
-    }
 
+        return new common_report_Report(common_report_Report::TYPE_SUCCESS, $msg, $resource);
+    }
 }

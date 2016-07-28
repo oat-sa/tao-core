@@ -128,7 +128,9 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         $csvData = $this->load($source);
         
         $createdResources = 0;
+        $toImport = $csvData->count();
         $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
+        $report = new common_report_Report(common_report_Report::TYPE_ERROR, __('Data not imported. All records are invalid.'));
 
     	for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++){
     	    helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::SHORT);
@@ -166,25 +168,29 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			        $callback($resource);
 			    }
 			    
+			    $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Imported resource "%s"', $resource->getLabel()), $resource));
 			    $createdResources++;
 			    
 			} catch (ValidationException $valExc) {
-                $this->addErrorMessage(
-			        $propUri,
-			        common_report_Report::createFailure(
-			            __('Row %s', $rowIterator) . ' ' .$valExc->getProperty()->getLabel(). ': ' . $valExc->getUserMessage() . ' "' . $valExc->getValue() . '"'
-			        )
-			    );
+			    $failure = common_report_Report::createFailure(
+		            __('Row %s', $rowIterator+1) . ' ' .$valExc->getProperty()->getLabel(). ': ' . $valExc->getUserMessage() . ' "' . $valExc->getValue() . '"'
+		        );
+			    $report->add($failure);
 			}
 			
 			helpers_TimeOutHelper::reset();
 		}
 
-		$this->addOption('to_import', count($csvData));
+		$this->addOption('to_import', $toImport);
 		$this->addOption('imported', $createdResources);
 
-		$report = $this->getResult($createdResources);
-
+		if ($createdResources == $toImport) {
+		    $report->setType(common_report_Report::TYPE_SUCCESS);
+		    $report->setMessage(__('Imported %d resources', $toImport));
+		} elseif ($createdResources > 0) {
+		    $report->setType(common_report_Report::TYPE_WARNING);
+		    $report->setMessage(__('Imported %1$d/%2$d. Some records are invalid.', $createdResources, $toImport));
+		}
 		return $report;
     }
 
