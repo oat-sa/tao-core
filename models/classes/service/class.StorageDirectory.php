@@ -89,7 +89,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
             common_Logger::e('accessss');
             throw new common_Exception('Tried obtaining access to private directory with ID ' . $this->getId());
         }
-        return $this->accessProvider->getAccessUrl($this->prefix);
+        return $this->accessProvider->getAccessUrl($this->prefix . DIRECTORY_SEPARATOR);
     }
 
     /**
