@@ -189,9 +189,10 @@ class tao_actions_File extends tao_actions_CommonModule{
 				
 				$file = new core_kernel_file_File($uri);
 				$fileName = $file->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
-				$content = $file->getFileContent();
+				$fly = $file->getFlyFile();
+				$content = $fly->read();
 				$size = strlen($content);
-				$mimeType = tao_helpers_File::getMimeType($file->getAbsolutePath(), true);
+				$mimeType = $fly->getMimetype();
 				$this->setContentHeader($mimeType);
 				
 				header("Content-Length: $size");

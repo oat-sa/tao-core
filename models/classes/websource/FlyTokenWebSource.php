@@ -30,10 +30,6 @@ class FlyTokenWebSource extends TokenWebSource
 {
     const ENTRY_POINT = '/getFileFlysystem.php/';
 
-    static $instances = [];
-
-    protected $fsService;
-
     /**
      * @param $fileSystem
      */
@@ -74,7 +70,7 @@ class FlyTokenWebSource extends TokenWebSource
         foreach (explode('/', $subPath . $file) as $ele) {
             $path[] = rawurldecode($ele);
         }
-        $filename = implode(DIRECTORY_SEPARATOR, $path);
+        $filename = implode('/', $path);
 
         return $filename;
     }

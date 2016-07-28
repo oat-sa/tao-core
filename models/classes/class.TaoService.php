@@ -46,14 +46,14 @@ class tao_models_classes_TaoService
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  Repository source The repository to be used as the default TAO File Upload Source.
+     * @param  string sourceId The repository to be used as the default TAO File Upload Source.
      * @return void
      */
-    public function setUploadFileSource( core_kernel_versioning_Repository $source)
+    public function setUploadFileSourceId($sourceId)
     {
         
     	$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    	$ext->setConfig(self::CONFIG_UPLOAD_FILESOURCE, $source->getUri());
+    	$ext->setConfig(self::CONFIG_UPLOAD_FILESOURCE, $sourceId);
         
     }
 

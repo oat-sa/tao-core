@@ -184,12 +184,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 	    $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 	    $previous = $ext->getConfig(tao_models_classes_TaoService::CONFIG_UPLOAD_FILESOURCE);
 	    
-	    $prophet = new \Prophecy\Prophet;
-	    $repo = $prophet->prophesize('core_kernel_versioning_Repository');
-	    
-	    $repo->getUri()->willReturn('#fakeUri');
-	    $mock = $repo->reveal();
-	    $this->taoService->setUploadFileSource($mock);
+	    $this->taoService->setUploadFileSourceId('#fakeUri');
 	    
 	    $new = $ext->getConfig(tao_models_classes_TaoService::CONFIG_UPLOAD_FILESOURCE);
 	    $this->assertEquals('#fakeUri', $new);

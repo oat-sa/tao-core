@@ -40,11 +40,12 @@ define([
     });
 
     QUnit.test('loader methods', function (assert){
-        QUnit.expect(6);
+        QUnit.expect(7);
         var loader = pluginLoader();
 
         assert.equal(typeof loader, 'object', "The loader is an object");
         assert.equal(typeof loader.add, 'function', "The loader exposes the add method");
+        assert.equal(typeof loader.addBundle, 'function', "The loader exposes the addBundle method");
         assert.equal(typeof loader.append, 'function', "The loader exposes the append method");
         assert.equal(typeof loader.prepend, 'function', "The loader exposes the prepend method");
         assert.equal(typeof loader.load, 'function', "The loader exposes the load method");
@@ -121,6 +122,28 @@ define([
         loader.add('foo', 'foo');
     });
 
+    QUnit.test('add plugin bundle format', function (assert){
+        QUnit.expect(4);
+
+        var loader = pluginLoader();
+
+        assert.equal(typeof loader, 'object', "The loader is an object");
+
+        assert.throws(function(){
+            loader.addBundle(12);
+        }, TypeError, 'A bundle is a string');
+
+        assert.throws(function(){
+            loader.addBundle('test/core/pluginLoader/mockPlugin', 'foo');
+        }, TypeError, 'The bundledMoules is an array');
+
+        assert.throws(function(){
+            loader.addBundle('test/core/pluginLoader/mockPlugin', ['foo'], true);
+        }, TypeError, 'A category is a string');
+
+        loader.addBundle('test/core/pluginLoader/mockPlugin', ['foo'], 'bar');
+    });
+
     QUnit.asyncTest('load a plugin', function (assert){
         QUnit.expect(5);
 
@@ -137,6 +160,32 @@ define([
 
         p.then(function(){
             assert.equal(loader.getPlugins('mock').length, 1, 'The mock category contains now a plugin');
+            QUnit.start();
+        }).catch(function(e){
+            assert.ok(false, e);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('load a bundle', function (assert){
+        QUnit.expect(5);
+
+        var loader = pluginLoader();
+
+        assert.equal(typeof loader, 'object', "The loader is an object");
+
+        var result = loader.addBundle('test/core/pluginLoader/mockBundle.min', ['test/core/pluginLoader/mockAPlugin', 'test/core/pluginLoader/mockBPlugin'], 'mock');
+
+        assert.deepEqual(result, loader, 'The loader chains');
+
+        var p = loader.load();
+
+        assert.ok(p instanceof Promise, "The load method returns a Promise");
+        assert.deepEqual(loader.getPlugins('mock'), [], 'The loader mock category is empty');
+
+        p.then(function(){
+            assert.equal(loader.getPlugins('mock').length, 2, 'The mock category contains now two plugins');
+
             QUnit.start();
         }).catch(function(e){
             assert.ok(false, e);

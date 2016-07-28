@@ -124,7 +124,7 @@ class FileStorageTest extends TaoPhpUnitTestRunner
 
         $directoryStorage = $fileStorage->getDirectoryById($id);
         $stream = fopen('data://text/plain;base64,' . base64_encode('testContent'),'r');
-        $directoryStorage->write($file, $stream);
+        $directoryStorage->writeStream($file, $stream);
 
         $this->assertTrue($fileStorage->deleteDirectoryById($id));
         $this->assertFalse($directoryStorage->has($file));
