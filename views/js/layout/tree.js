@@ -222,13 +222,18 @@ define([
                     var treeState       = $elt.data('tree-state') || {};
                     var selectNode      = treeState.selectNode || options.selectNode;
                     var nodeSelection   = function nodeSelection(){
+
                         //the node to select is given
                         if(selectNode){
                              $selectNode = $('#' + selectNode, $elt);
                              if($selectNode.length && !$selectNode.hasClass('private')){
                                 return tree.select_branch($selectNode);
                              }
+                        } else if(tree.selected !== undefined) {//after refreshing tree previously node will be already selected.
+                             return tree.selected;
                         }
+
+                        //if selectNode was not given and there is no selected node on the tree then try to find node to select:
 
                         //try to select the last one
                         if(lastSelected){
@@ -238,7 +243,6 @@ define([
                                 return tree.select_branch($lastSelected);
                             }
                         }
-
                         //or the 1st instance
                         if ($firstInstance.length) {
                             return tree.select_branch($firstInstance);
@@ -419,14 +423,15 @@ define([
                     //update the state with data to be used later (ie. filter value, etc.)
                     treeState = _.merge($elt.data('tree-state') || {}, data);
 
-
-
-
                     if (data && data.loadNode) {
                         tree.deselect_branch(tree.selected);
                         tree.settings.selected = false;
                         treeState.selectNode = data.loadNode;
+                    } else if (data && data.selectNode) { //node will be selected in `onload` function
+                        tree.deselect_branch(tree.selected);
+                        tree.settings.selected = false;
                     }
+
                     $elt.data('tree-state', treeState);
                     tree.refresh();
                 }
