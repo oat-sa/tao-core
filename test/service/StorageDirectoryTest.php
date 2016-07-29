@@ -78,7 +78,7 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     protected function getAccessProvider($pathFixture)
     {
         $providerFixture = $this->getMockBuilder('oat\tao\model\websource\TokenWebSource')->getMock();
-        $providerFixture->method('getAccessUrl')->with($pathFixture)->willReturn('polop');
+        $providerFixture->method('getAccessUrl')->with($pathFixture . DIRECTORY_SEPARATOR)->willReturn('polop');
 
         return $providerFixture;
     }
