@@ -295,7 +295,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	     
 	    //then compute ACL for each node of the tree
 	    $treeKeys = array_keys($tree);
-	    if (is_int($treeKeys[0])) {
+	    if (isset($treeKeys[0]) && is_int($treeKeys[0])) {
 	        foreach ($tree as $index => $treeNode) {
 	            $tree[$index] = $this->computePermissions($actions, $user, $treeNode);
 	        }
