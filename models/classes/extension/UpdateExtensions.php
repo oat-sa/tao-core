@@ -20,6 +20,8 @@
 namespace oat\tao\model\extension;
 
 use common_report_Report;
+use oat\oatbox\log\LoggerAggregator;
+use oat\oatbox\service\ServiceNotFoundException;
 /**
  * Extends the generis updater to take into account
  * the translation files 
@@ -32,6 +34,15 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
      */
     public function __invoke($params)
     {
+        try {
+            $loggers = array(
+                $this->getLogger(),
+                $this->getServiceLocator()->get(UpdateLogger::SERVICE_ID)
+            );
+            $this->setLogger(new LoggerAggregator($loggers));
+        } catch (ServiceNotFoundException $e) {
+            // update script to add update logger hasn't run yet, ignore
+        }
         $report = parent::__invoke($params);
         
         // regenrate locals

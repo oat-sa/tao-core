@@ -20,6 +20,9 @@
  * 
  */
 
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\filesystem\FileSystemService;
+
 /*
  * This post-installation script creates a new local file source for file uploaded
  * by end-users through the TAO GUI.
@@ -30,8 +33,12 @@ if (file_exists($dataPath)) {
     helpers_File::emptyDirectory($dataPath);
 }
 
-$source = tao_models_classes_FileSourceService::singleton()->addLocalSource('fileUploadDirectory', $dataPath);
-tao_models_classes_TaoService::singleton()->setUploadFileSource($source);
+$serviceManager = ServiceManager::getServiceManager();
+$fsService = $serviceManager->get(FileSystemService::SERVICE_ID);
+$source = $fsService->createFileSystem('fileUploadDirectory', 'tao/upload');
+$serviceManager->register(FileSystemService::SERVICE_ID, $fsService);
+
+tao_models_classes_TaoService::singleton()->setUploadFileSourceId('fileUploadDirectory');
 
 // add .htaccess to prevent php code execution
 if(file_exists($dataPath) && is_dir($dataPath)){

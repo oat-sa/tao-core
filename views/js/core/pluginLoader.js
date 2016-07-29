@@ -39,9 +39,25 @@ define([
      */
     return function pluginLoader(requiredPlugins) {
 
-        var plugins = {};
-        var modules = {};
+        /**
+         * The list of plugins
+         */
+        var plugins  = {};
+
+        /**
+         * Retains the AMD modules to load
+         */
+        var modules  = {};
+
+        /**
+         * The plugins to exclude
+         */
         var excludes = [];
+
+        /**
+         * Bundles to require
+         */
+        var bundles  = [];
 
         /**
          * The plugin loader
@@ -75,6 +91,37 @@ define([
                 } else {
                     modules[category].push(module);
                 }
+
+                return this;
+            },
+
+            /**
+             * Add plugins from a bundle
+             * @param {String} bundle - name of the AMD bundle to load
+             * @param {String[]} bundledModules - list of the modules contained into the bundle
+             * @param {String} category - the plugin category
+             * @param {String|Number} [position = 'append'] - append, prepend or plugin position within the category
+             * @returns {loader} chains
+             * @throws {TypeError} misuse
+             */
+            addBundle: function addBundle(bundle, bundledModules, category, position) {
+                var self = this;
+
+                if(!_.isString(bundle) || _.isEmpty(bundle)){
+                    throw new TypeError('A bundle module must be defined');
+                }
+                if(!_.isArray(bundledModules)){
+                    throw new TypeError('The modules within the bundle must be defined ');
+                }
+                if(!_.isString(category)){
+                    throw new TypeError('Plugins must belong to a category');
+                }
+
+                bundles.push(bundle);
+
+                _.forEach(bundledModules, function(module){
+                    self.add(module, category, position);
+                });
 
                 return this;
             },
@@ -117,30 +164,45 @@ define([
              * @returns {Promise}
              */
             load: function load() {
-                return new Promise(function(resolve, reject){
 
-                    var dependencies = _(modules).values().flatten().uniq().difference(excludes).value();
+                //compute the plugins depencies
+                var dependencies = _(modules).values().flatten().uniq().difference(excludes).value();
 
-                    if(dependencies.length){
-
-                        require(dependencies, function(){
-                            var loadedModules = [].slice.call(arguments);
-                            _.forEach(dependencies, function(dependency, index){
-                                var plugin = loadedModules[index];
-                                var category = _.findKey(modules, function(val){
-                                    return _.contains(val, dependency);
-                                });
-                                if(_.isFunction(plugin) && _.isString(category)){
-                                    plugins[category] = plugins[category] || [];
-                                    plugins[category].push(plugin);
-                                }
-                            });
-                            resolve();
-
-                        }, reject);
-                        return;
+                /**
+                 * Load AMD modules and wrap then into a Promise
+                 * @param {String[]} amdModules - the list of modules to require
+                 * @returns {Promise}
+                 */
+                var loadModules = function loadModules(amdModules){
+                    if(_.isArray(amdModules) && amdModules.length){
+                        return new Promise(function(resolve, reject){
+                            require(amdModules, function(){
+                                //resovle with an array of loaded modules
+                                resolve([].slice.call(arguments));
+                            }, reject);
+                        });
                     }
-                    resolve();
+                    return Promise.resolve();
+                };
+
+                // 1. load bundles
+                // 2. load dependencies
+                // 3. add them to the plugins list
+                return loadModules(bundles)
+                    .then(function(){
+                        return loadModules(dependencies);
+                    })
+                    .then(function(loadedModules){
+                        _.forEach(dependencies, function(dependency, index){
+                            var plugin = loadedModules[index];
+                            var category = _.findKey(modules, function(val){
+                                return _.contains(val, dependency);
+                            });
+                            if(_.isFunction(plugin) && _.isString(category)){
+                                plugins[category] = plugins[category] || [];
+                                plugins[category].push(plugin);
+                            }
+                        });
                 });
             },
 
@@ -154,6 +216,7 @@ define([
                 if(_.isString(category)){
                     return plugins[category] || [];
                 }
+
                 return _(plugins).values().flatten().uniq().value();
             },
 

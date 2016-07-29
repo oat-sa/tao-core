@@ -1,4 +1,6 @@
 <?php
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\filesystem\FileSystemService;
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -56,7 +58,7 @@ abstract class tao_helpers_form_data_FileDescription
      * The filed stored in persistent memory (if already stored).
      *
      * @access private
-     * @var File
+     * @var core_kernel_file_File
      */
     private $file = null;
 
@@ -116,8 +118,8 @@ abstract class tao_helpers_form_data_FileDescription
         
         if (!empty($this->file) && empty($this->size)){
         	// collect from the file instance itself.
-        	$fileInfo = $this->file->getFileInfo();
-        	$this->size = $fileInfo->getSize();
+            $fs = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
+            $this->size = $this->file->getFlyFile()->getSize();
         }
         
         $returnValue = $this->size;

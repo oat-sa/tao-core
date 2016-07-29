@@ -20,6 +20,7 @@
  * 
  * 
  */
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\helpers\TreeHelper;
 use oat\tao\model\GenerisTreeFactory;
 use oat\generis\model\OntologyAwareTrait;
@@ -37,6 +38,7 @@ use oat\generis\model\OntologyAwareTrait;
  */
 abstract class tao_models_classes_GenerisService extends tao_models_classes_Service
 {
+    use EventManagerAwareTrait;
 
     use OntologyAwareTrait;
 
