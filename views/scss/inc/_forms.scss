@@ -502,6 +502,25 @@ label {
         }
     }
 
+    ul.json-object-list {
+        @include simple-border();
+        display: inline-block;
+        padding: 15px;
+        width: 65%;
+        margin: 5px 0;
+        position: relative;
+        background: white(.5);
+        list-style-type: none;
+
+        li {
+            margin-bottom: 10px;
+
+            input[type="text"] {
+                width: 100%;
+            }
+        }
+    }
+
     .bool-list {
         overflow: hidden;
         .form_desc {
@@ -516,6 +535,7 @@ label {
         &.hidden-input-label {
             width: auto;
         }
+        vertical-align: top;
 
 
     }

@@ -36,8 +36,8 @@ class DirectWebSource extends BaseWebsource
 {	
     const OPTION_URL = 'accessUrl';
     
-    public static function spawnWebsource(core_kernel_fileSystem_FileSystem $fileSystem, $accessUrl) {
-        $provider = self::spawn($fileSystem, array(
+    public static function spawnWebsource($fileSystemId, $accessUrl) {
+        $provider = self::spawn($fileSystemId, array(
         	self::OPTION_URL => $accessUrl
         ));
         return $provider;

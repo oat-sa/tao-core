@@ -142,7 +142,7 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
             }
 		}
 		$options['staticMap'] = array_merge($staticMap, $this->getStaticData());
-		return parent::importFile($class, $options);
 
+        return parent::importFile($class, $options);
     }
 }
