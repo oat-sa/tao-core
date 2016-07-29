@@ -19,20 +19,18 @@
  */
 namespace oat\tao\model\event;
 
-use core_kernel_classes_Resource;
-
 class UserUpdatedEvent extends AbstractUserEvent
 {
     /** @var array */
     protected $data;
 
     /**
-     * @param core_kernel_classes_Resource $user
+     * @param string $uri
      * @param array $data
      */
-    public function __construct(core_kernel_classes_Resource $user, array $data)
+    public function __construct($uri, array $data)
     {
-        parent::__construct($user);
+        parent::__construct($uri);
 
         $this->data = $data;
     }
@@ -47,7 +45,7 @@ class UserUpdatedEvent extends AbstractUserEvent
     public function jsonSerialize()
     {
         return [
-            'uri' => $this->user->getUri(),
+            'uri' => $this->uri,
             'data' => $this->data,
         ];
     }

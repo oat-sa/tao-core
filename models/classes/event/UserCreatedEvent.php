@@ -20,8 +20,6 @@
 
 namespace oat\tao\model\event;
 
-use core_kernel_classes_Resource;
-
 /**
  * Class UserCreatedEvent
  * @package oat\tao\model\event\users
