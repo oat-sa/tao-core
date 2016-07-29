@@ -257,7 +257,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
      */
     public function has($path)
     {
-        return $this->getFile($path)->exists();
+        return $this->getDirectory($path)->exists();
     }
 
     /**
