@@ -23,6 +23,7 @@
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\helpers\TreeHelper;
 use oat\tao\model\GenerisTreeFactory;
+use oat\generis\model\OntologyAwareTrait;
 
 
 /**
@@ -38,6 +39,8 @@ use oat\tao\model\GenerisTreeFactory;
 abstract class tao_models_classes_GenerisService extends tao_models_classes_Service
 {
     use EventManagerAwareTrait;
+
+    use OntologyAwareTrait;
 
     /**
      * constructor
@@ -549,7 +552,9 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
 
 	        $factory = new GenerisTreeFactory($instances, $openNodes, $limit, $offset, $browse);
 	        $tree = $factory->buildTree($clazz);
-            $returnValue = $chunk ? ($tree['children']) : $tree;
+            $returnValue = $chunk
+                ? (isset($tree['children']) ? $tree['children'] : array())
+                : $tree;
         }
         return $returnValue;
     }
