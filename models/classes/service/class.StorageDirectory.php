@@ -268,7 +268,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
     public function getIterator()
     {
         $files = array();
-        $iterator = $this->getFlyIterator(Directory::ITERATOR_FILE & Directory::ITERATOR_RECURSIVE);
+        $iterator = $this->getFlyIterator(Directory::ITERATOR_FILE | Directory::ITERATOR_RECURSIVE);
         foreach ($iterator as $file) {
             $files[] = $this->getRelPath($file);
         }
