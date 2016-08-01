@@ -89,13 +89,13 @@ XML;
      * @param string $xml legacy format xml
      */
     public function testActions($newXml, $legacyXml){
-        $sectionFromNew = Section::fromSimpleXMLElement(new SimpleXMLElement($newXml));
+        $sectionFromNew = Section::fromSimpleXMLElement(new SimpleXMLElement($newXml), 'tao');
 
         $this->assertTrue($sectionFromNew instanceof Section);
         $this->assertEquals(count($sectionFromNew->getActions()), 4);
 
 
-        $sectionFromLegacy = Section::fromSimpleXMLElement(new SimpleXMLElement($legacyXml));
+        $sectionFromLegacy = Section::fromSimpleXMLElement(new SimpleXMLElement($legacyXml), 'tao');
     
         $this->assertTrue($sectionFromLegacy instanceof Section);
         $this->assertEquals(count($sectionFromLegacy->getActions()), 4);

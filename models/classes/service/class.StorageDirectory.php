@@ -14,77 +14,65 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *               
  * 
  */
 
-use oat\oatbox\filesystem\FileSystemService;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use League\Flysystem\Filesystem;
-use Psr\Http\Message\StreamInterface;
+use \oat\tao\model\websource\Websource;
+use \League\Flysystem\Filesystem;
+use \League\Flysystem\Adapter\Local;
+use \oat\oatbox\filesystem\Directory;
+use \Guzzle\Stream\StreamInterface;
 
 /**
- * Represents  direxctory for file storage 
+ * Represents  directory for file storage
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class tao_models_classes_service_StorageDirectory implements ServiceLocatorAwareInterface, IteratorAggregate
+class tao_models_classes_service_StorageDirectory extends Directory
 {
-    use ServiceLocatorAwareTrait;
-    
     private $id;
-    
-    /**
-     * 
-     * @var core_kernel_fileSystem_FileSystem
-     */
-    private $fs;
-    private $relPath;
+
+    /** @var Websource */
     private $accessProvider;
-    
-    public function __construct($id, $fs, $path, $provider) {
+
+    public function __construct($id, $filesystem, $path, Websource $provider = null)
+    {
+        parent::__construct($filesystem, $path);
         $this->id = $id;
-        $this->fs = $fs;
-        $this->relPath = $path;
         $this->accessProvider = $provider;
-    }
-    
-    /**
-     * Returned the absolute path to this directory
-     * Please use read and write to access files
-     * 
-     * @return string
-     * @deprecated
-     */
-    public function getPath() {
-        return $this->fs->getPath().$this->relPath;
     }
 
     /**
-     * Returns the relative path of this directory
-     * @return string
+     * @deprecated Should not be called
+     *
+     * @return Filesystem
      */
-    public function getRelativePath() {
-        return $this->relPath;
+    public function getFlySystem()
+    {
+        return parent::getFilesystem();
     }
-    
+
     /**
      * Returns the identifier of this directory
+     *
      * @return string
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
     
     /**
      * Returns whenever or not this directory is public
+     *
      * @return boolean
      */
-    public function isPublic() {
+    public function isPublic()
+    {
         return !is_null($this->accessProvider);
     }
     
@@ -95,127 +83,195 @@ class tao_models_classes_service_StorageDirectory implements ServiceLocatorAware
      * @return string
      * @throws common_Exception
      */
-    public function getPublicAccessUrl() {
+    public function getPublicAccessUrl()
+    {
         if (is_null($this->accessProvider)) {
             common_Logger::e('accessss');
-            throw new common_Exception('Tried obtaining access to private directory with ID '.$this->id);
+            throw new common_Exception('Tried obtaining access to private directory with ID ' . $this->getId());
         }
-        return $this->accessProvider->getAccessUrl($this->relPath);
+        return $this->accessProvider->getAccessUrl($this->prefix . DIRECTORY_SEPARATOR);
     }
-    
+
     /**
-     * Return content of file located at $path. Output as string
+     * @deprecated use $this->getPrefix instead
+     * @return mixed|string
+     */
+    public function getRelativePath()
+    {
+        return $this->getPrefix();
+    }
+
+    /**
+     * Returned the absolute path to this directory
+     * Please use read and write to access files
      *
-     * @param string $path
-     * @return string
+     * @deprecated
+     * @return mixed
+     * @throws common_exception_InconsistentData
+     */
+    public function getPath()
+    {
+        $adapter = $this->getFileSystem()->getAdapter();
+        if (!$adapter instanceof Local) {
+            throw new common_exception_InconsistentData(__CLASS__.' can only handle local files');
+        }
+        return $adapter->getPathPrefix();
+    }
+
+    /**
+     * @deprecated use File->write instead
+     *
+     * @param $path
+     * @param $string
+     * @param null $mimeType
+     * @return bool
+     * @throws FileNotFoundException
+     * @throws common_Exception
+     */
+    public function write($path, $string, $mimeType = null)
+    {
+        return $this->getFile($path)->write($string, $mimeType);
+    }
+
+    /**
+     * @deprecated use File->write instead
+     *
+     * @param $path
+     * @param $resource
+     * @param null $mimeType
+     * @return bool
+     * @throws FileNotFoundException
+     * @throws common_Exception
+     */
+    public function writeStream($path, $resource, $mimeType = null)
+    {
+        return $this->getFile($path)->write($resource, $mimeType);
+    }
+
+    /**
+     * @deprecated use File->write instead
+     *
+     * @param $path
+     * @param $stream
+     * @param null $mimeType
+     * @return bool
+     * @throws FileNotFoundException
+     * @throws common_Exception
+     */
+    public function writePsrStream($path, $stream, $mimeType = null)
+    {
+        return $this->getFile($path)->write($stream, $mimeType);
+    }
+
+    /**
+     * @deprecated use File->read instead
+     *
+     * @param $path
+     * @return false|string
      */
     public function read($path)
     {
-        return  $this->getFileSystem()->read($this->getRelativePath().$path);
+        return $this->getFile($path)->read();
     }
 
     /**
-     * Return content of file located at $path. Output as stream
+     * @deprecated use File->readStream instead
+     *
      * @param $path
-     * @return \Slim\Http\Stream
+     * @return false|resource
      */
     public function readStream($path)
     {
-        $resource = $this->getFileSystem()->readStream($this->getRelativePath().$path);
-        return new \GuzzleHttp\Psr7\Stream($resource);
+        return $this->getFile($path)->readStream();
     }
 
     /**
-     * Store a file in the directory from resource
-     *
-     * @param string $path
-     * @param mixed $resource
-     * @return boolean
-     */
-    public function write($path, $resource, $mimeType = null)
-    {
-        common_Logger::d('Writting in ' . $this->getRelativePath().$path);
-        $config = $mimeType = null ? [] : ['ContentType' => $mimeType];
-        return $this->getFileSystem()->writeStream($this->getRelativePath().$path, $resource, $config);
-    }
-
-    /**
-     * Store a file in the directory from stream
+     * @deprecated use File->readPsrStream instead
      *
      * @param $path
-     * @param StreamInterface $stream
+     * @return StreamInterface
+     */
+    public function readPsrStream($path)
+    {
+        return $this->getFile($path)->readPsrStream();
+    }
+
+    /**
+     * @deprecated use File->update instead
+     *
+     * @param $path
+     * @param $content
+     * @param null $mimeType
      * @return bool
      * @throws common_Exception
      */
-    public function writeStream($path, StreamInterface $stream, $mimeType = null)
+    public function update($path, $content, $mimeType = null)
     {
-        if (!$stream->isReadable()) {
-            throw new common_Exception('Stream is not readable. Write to filesystem aborted.');
-        }
-        if (!$stream->isSeekable()) {
-            throw new common_Exception('Stream is not seekable. Write to filesystem aborted.');
-        }
-        $stream->rewind();
-
-        $resource = GuzzleHttp\Psr7\StreamWrapper::getResource($stream);
-        if (!is_resource($resource)) {
-            throw new common_Exception('Unable to create resource from the given stream. Write to filesystem aborted.');
-        }
-
-        return $this->write($path, $resource, $mimeType);
+       return $this->getFile($path)->update($content, $mimeType);
     }
 
     /**
-     * Check if file exists
+     * @deprecated use File->update instead
+     *
+     * @param $path
+     * @param $resource
+     * @param null $mimeType
+     * @return bool
+     * @throws common_Exception
+     */
+    public function updateStream($path, $resource, $mimeType = null)
+    {
+        return $this->getFile($path)->update($resource, $mimeType);
+    }
+
+    /**
+     * @deprecated use File->update instead
+     *
+     * @param $path
+     * @param StreamInterface $stream
+     * @param null $mimeType
+     * @return bool
+     * @throws common_Exception
+     */
+    public function updatePsrStream($path, StreamInterface $stream, $mimeType = null)
+    {
+        return $this->getFile($path)->update($stream, $mimeType);
+    }
+
+    /**
+     * @deprecated use File->delete instead
+     *
+     * @param $path
+     * @return bool
+     */
+    public function delete($path)
+    {
+        return $this->getFile($path)->delete();
+    }
+
+    /**
+     * @deprecated use File->exists instead
      *
      * @param $path
      * @return bool
      */
     public function has($path)
     {
-        return $this->getFileSystem()->has($this->getRelativePath().$path);
+        return $this->getDirectory($path)->exists();
     }
 
     /**
-     * Delete file
+     * @deprecated use $this->getFlyIterator instead
      *
-     * @param $path
-     * @return bool
-     * @throws tao_models_classes_FileNotFoundException
-     */
-    public function delete($path)
-    {
-        try {
-            return $this->getFileSystem()->delete($this->getRelativePath() . $path);
-        } catch (\League\Flysystem\FileNotFoundException $e) {
-            common_Logger::e($e->getMessage());
-            throw new tao_models_classes_FileNotFoundException($path);
-        }
-    }
-
-    /**
-     * Retrieve an external iterator
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     * @since 5.0.0
+     * @return ArrayIterator
      */
     public function getIterator()
     {
         $files = array();
-        $content = $this->getFileSystem()->listContents($this->getRelativePath(), true);
-        foreach($content as $file){
-            if($file['type'] === 'file'){
-                $files[] = str_replace($this->getRelativePath(), '', $file['path']);
-            }
+        $iterator = $this->getFlyIterator(Directory::ITERATOR_FILE | Directory::ITERATOR_RECURSIVE);
+        foreach ($iterator as $file) {
+            $files[] = $this->getRelPath($file);
         }
         return new ArrayIterator($files);
-    }
-
-    /**
-     * @return Filesystem
-     */
-    protected function getFileSystem() {
-        return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->fs->getUri());
     }
 }

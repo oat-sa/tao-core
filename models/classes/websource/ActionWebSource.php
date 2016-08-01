@@ -33,8 +33,8 @@ use \core_kernel_fileSystem_FileSystem;
  */
 class ActionWebSource extends BaseWebsource
 {	
-    public static function spawnWebsource(core_kernel_fileSystem_FileSystem $fileSystem) {
-        return self::spawn($fileSystem);
+    public static function spawnWebsource($fileSystemId) {
+        return self::spawn($fileSystemId);
     }
     
 	public function getAccessUrl($relativePath) {

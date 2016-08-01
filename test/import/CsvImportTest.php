@@ -47,7 +47,7 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$report = $importer->import($class->reveal(), $options);
 
 		$this->assertInstanceOf('common_report_Report',$report);
-		$this->assertEquals('Data imported',$report->getMessage());
+		$this->assertEquals(16,count($report->getSuccesses()));
 		$this->assertEquals(common_report_Report::TYPE_SUCCESS,$report->getType());
 		$this->assertFileNotExists($file);
 

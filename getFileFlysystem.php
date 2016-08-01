@@ -23,14 +23,25 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use oat\tao\model\websource\FlyTokenWebSource;
-use oat\tao\model\websource\TokenWebSource;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\SimpleConfigDriver;
 
 $url = $_SERVER['REQUEST_URI'];
 $rel = substr($url, strpos($url, FlyTokenWebSource::ENTRY_POINT) + strlen(FlyTokenWebSource::ENTRY_POINT));
 $parts = explode('/', $rel, 2);
 list ($webSourceId) = $parts;
 $webSourceId = preg_replace('/[^a-zA-Z0-9]*/', '', $webSourceId);
-$configPath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR . 'websource_' . $webSourceId . '.conf.php';
+
+$root = $_SERVER['DOCUMENT_ROOT'];
+$driver = new SimpleConfigDriver();
+$configService = $driver->connect('config', array(
+    'dir' => $root .DIRECTORY_SEPARATOR. 'config' .DIRECTORY_SEPARATOR,
+    'humanReadable' => true
+));
+$serviceManager = new ServiceManager($configService);
+
+$configPath = $root . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR . 'websource_' . $webSourceId . '.conf.php';
 
 if (!file_exists($configPath)) {
     header('HTTP/1.0 403 Forbidden');
@@ -45,13 +56,12 @@ if (!is_array($config) || !isset($config['className'])) {
 $className = $config['className'];
 $options = isset($config['options']) ? $config['options'] : array();
 $source = new $className($options);
-if (!$source instanceof TokenWebSource) {
+if (!$source instanceof FlyTokenWebSource) {
     header('HTTP/1.0 403 Forbidden');
     die();
 }
 
-$root = $_SERVER['DOCUMENT_ROOT'];
-$fsService = include $root . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'generis' . DIRECTORY_SEPARATOR . 'filesystem.conf.php';
+$fsService = $serviceManager->get(FileSystemService::SERVICE_ID);
 $fileSystem = $fsService->getFileSystem($source->getOption($source::OPTION_FILESYSTEM_ID));
 $source->setFileSystem($fileSystem);
 

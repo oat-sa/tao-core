@@ -46,6 +46,7 @@ class ActionTest extends TaoPhpUnitTestRunner {
             array('<action id="search" name="search" url="/tao/Roles/search" context="*" group="content">
                         <icon id="search" src="images/icon.svg"/>
                     </action>',
+                'tao',
                   new Action(array(
                         'id'      => 'search',
                         'name'      => 'search',
@@ -55,13 +56,14 @@ class ActionTest extends TaoPhpUnitTestRunner {
                         'binding'   => 'load',
                         'reload'    => false,
                         'disabled'    => false,
-                        'icon'      => new Icon(array( 'id' => 'search', 'src' => 'images/icon.svg', 'ext' => '')),
+                        'icon'      => new Icon(array( 'id' => 'search', 'src' => 'images/icon.svg', 'ext' => 'tao')),
                         'extension' => 'tao',
                         'controller' => 'Roles',
                         'action' => 'search'
                   )) 
             ),
             array('<action id="delete" name="delete" js="removeNode" url="/tao/Roles/delete" context="resource" disabled="true"/>',
+                'tao',
                   new Action(array(
                         'id'      => 'delete',
                         'name'      => 'delete',
@@ -88,8 +90,8 @@ class ActionTest extends TaoPhpUnitTestRunner {
      * @param string $xml the action node 
      * @param Action $expected the expected object to be produced
      */
-    public function testActions($xml, $expected){
-        $result = Action::fromSimpleXMLElement(new \SimpleXMLElement($xml));
+    public function testActions($xml, $extensionId, $expected){
+        $result = Action::fromSimpleXMLElement(new \SimpleXMLElement($xml),$extensionId);
     
         $this->assertTrue($result instanceof Action);        
         $this->assertEquals($expected, $result);
