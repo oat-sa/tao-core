@@ -72,6 +72,15 @@ define([
 
                         _stores[name] = data = {};
                         return Promise.resolve(true);
+                    },
+                    removeStore : function removeStore(){
+                        if (config.failedRemoveStore) {
+                            return Promise.reject(new Error('Cannot access storage!'));
+                        }
+
+                        data = {};
+                        _stores[name] = null;
+                        return Promise.resolve(true);
                     }
                 });
             }

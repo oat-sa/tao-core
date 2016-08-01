@@ -22,6 +22,10 @@ define(['core/store', 'core/promise'], function(store, Promise){
             clear : function clear(){
                 data = {};
                 return Promise.resolve(true);
+            },
+            removeStore : function removeStore(){
+                data = {};
+                return Promise.resolve(true);
             }
         };
     };
@@ -55,18 +59,18 @@ define(['core/store', 'core/promise'], function(store, Promise){
     }];
 
     QUnit
-     .cases(factoryErrorCases)
-     .asyncTest("factory", function(data, assert){
-        QUnit.expect(2);
+        .cases(factoryErrorCases)
+        .asyncTest("factory", function(data, assert){
+            QUnit.expect(2);
 
-        var p = store(data.name, data.backend);
-        assert.ok(p instanceof Promise, "The factory returns a promise");
+            var p = store(data.name, data.backend);
+            assert.ok(p instanceof Promise, "The factory returns a promise");
 
-        p.catch(function(err){
-            assert.ok(err instanceof TypeError, err.message);
-            QUnit.start();
+            p.catch(function(err){
+                assert.ok(err instanceof TypeError, err.message);
+                QUnit.start();
+            });
         });
-    });
 
     QUnit.asyncTest("factory", function(assert){
         QUnit.expect(3);
@@ -194,6 +198,57 @@ define(['core/store', 'core/promise'], function(store, Promise){
                     });
                 });
             });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("removeStore", function(assert){
+        QUnit.expect(5);
+
+        store('foo', mockBackend).then(function(storage){
+            assert.equal(typeof storage, 'object', 'The store is an object');
+
+            return Promise.all([
+                storage.setItem('zoo', 'zoob'),
+                storage.setItem('too', 'toob')
+            ])
+                .then(function(){
+                    return storage.getItem('too').then(function(value){
+                        assert.equal(value, 'toob', 'The retrieved value is correct');
+                    });
+                }).then(function(){
+                    return storage.removeStore().then(function(rmResult){
+                        assert.ok(rmResult, 'The store is removed');
+                    });
+                }).then(function(){
+                    return storage.getItem('too').then(function(value){
+                        assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                        return storage.getItem('zoo').then(function(value){
+                            assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                            QUnit.start();
+                        });
+                    });
+                });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("removeAll", function(assert){
+        QUnit.expect(3);
+
+        var expectedValidate = function() {return true};
+        mockBackend.removeAll = function(validate) {
+            assert.ok(true, 'The store has delegated the call to the backend');
+            assert.equal(validate, expectedValidate, 'The expected validator has been provided');
+        };
+
+        store.removeAll(expectedValidate, mockBackend).then(function(){
+            assert.ok(true, 'The store has resolved the clean up');
+            QUnit.start();
         }).catch(function(err){
             assert.ok(false, err);
             QUnit.start();
