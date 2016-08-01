@@ -27,6 +27,8 @@ define([
 
     var _config = {};
 
+    var timestampKey = '_ts';
+
     /**
      * Fakes a persistent storage
      * @param {String} name
@@ -55,7 +57,15 @@ define([
                         }
 
                         data[key] = value;
+                        data[timestampKey] = Date.now();
                         return Promise.resolve(true);
+                    },
+                    getLastActivity : function getLastActivity() {
+                        if (config.failedGetLastActivity) {
+                            return Promise.reject(new Error('Cannot access storage!'));
+                        }
+
+                        return Promise.resolve(data[timestampKey]);
                     },
                     removeItem : function removeItem(key){
                         if (config.failedRemove) {
@@ -63,6 +73,7 @@ define([
                         }
 
                         delete data[key];
+                        data[timestampKey] = Date.now();
                         return Promise.resolve(true);
                     },
                     clear : function clear(){

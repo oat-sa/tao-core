@@ -109,7 +109,7 @@ define([
                 }
                 storeInstance = backend(storeName);
 
-                if(_.some(['getItem', 'setItem', 'removeItem', 'clear', 'removeStore'], function(method){
+                if(_.some(['getItem', 'setItem', 'removeItem', 'clear', 'removeStore', 'getLastActivity'], function(method){
                     return !_.isFunction(storeInstance[method]);
                 })){
                     return reject(new TypeError('The backend does not comply with the Storage interface'));
@@ -148,6 +148,29 @@ define([
             }
 
             return backend.removeAll(validate);
+        });
+    };
+
+    /**
+     * Cleans all storage older than the provided age
+     * @param {Number} [age] - The max age for all storage (default: 0)
+     * @param {Function} [validate] - An optional callback that validates the store to delete
+     * @param {Function} [backend] - An optional storage handler to use
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    store.clean = function clean(age, validate, backend) {
+        return isIndexDBSupported().then(function () {
+            backend = backend || (supportsIndexedDB ? store.backends.indexDb : store.backends.localStorage);
+
+            if (!_.isFunction(backend)) {
+                return Promise.reject(new TypeError('No backend, no storage!'));
+            }
+
+            if (!_.isFunction(backend.clean)) {
+                return Promise.reject(new TypeError('The backend does not comply with the Storage interface'));
+            }
+
+            return backend.clean(age, validate);
         });
     };
 

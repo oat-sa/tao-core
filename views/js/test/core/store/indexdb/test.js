@@ -50,7 +50,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     });
 
     QUnit.test("store", function(assert){
-        QUnit.expect(7);
+        QUnit.expect(9);
         var store = indexDbBackend('foo');
 
         assert.equal(typeof store, 'object', 'The store is an object');
@@ -59,6 +59,8 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
         assert.equal(typeof store.removeItem, 'function', 'The store exposes the removetItem method');
         assert.equal(typeof store.clear, 'function', 'The store exposes the clear method');
         assert.equal(typeof store.removeStore, 'function', 'The store exposes the removeStore method');
+        assert.equal(typeof store.getLastActivity, 'function', 'The store exposes the getLastActivity method');
+        assert.equal(typeof indexDbBackend.clean, 'function', 'The store exposes the clean method');
         assert.equal(typeof indexDbBackend.removeAll, 'function', 'The store exposes the removeAll method');
 
     });
@@ -67,9 +69,10 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     QUnit.module('CRUD');
 
     QUnit.asyncTest("setItem", function(assert){
-        QUnit.expect(4);
+        QUnit.expect(5);
 
         var store = indexDbBackend('foo');
+        var startTs = Date.now();
         assert.equal(typeof store, 'object', 'The store is an object');
 
         var p = store.setItem('bar', 'boz');
@@ -80,7 +83,10 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
             assert.equal(typeof result, 'boolean', 'The result is a boolean');
             assert.ok(result, 'The item is added');
 
-            QUnit.start();
+            store.getLastActivity().then(function(timestamp) {
+                assert.ok(timestamp >= startTs && timestamp <= Date.now(), 'The last activity timestamp has been updated');
+                QUnit.start();
+            });
         }).catch(function(err){
             assert.ok(false, err);
             QUnit.start();
@@ -352,6 +358,185 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
                             return store2.removeStore().then(function (rmResult) {
                                 assert.ok(rmResult, 'The store2 is removed');
+                            });
+                        });
+                    })
+                    .then(function () {
+                        QUnit.start();
+                    });
+            })
+            .catch(function (err) {
+                assert.ok(false, err);
+                QUnit.start();
+            });
+    });
+
+
+    QUnit.asyncTest("clean", function (assert) {
+        QUnit.expect(36);
+
+        var store1 = indexDbBackend('foo1');
+        var store2 = indexDbBackend('foo2');
+        var store3 = indexDbBackend('foo3');
+
+        assert.equal(typeof store1, 'object', 'The store1 is an object');
+        assert.equal(typeof store2, 'object', 'The store2 is an object');
+        assert.equal(typeof store3, 'object', 'The store3 is an object');
+
+        Promise.all([
+            store1.setItem('zoo', 'zooa'),
+            store1.setItem('too', 'tooa'),
+
+            store2.setItem('zoo', 'zoob'),
+            store2.setItem('too', 'toob'),
+
+            store3.setItem('zoo', 'zooc'),
+            store3.setItem('too', 'tooc')
+        ])
+            .then(function () {
+                return store1.getItem('too').then(function (value) {
+                    assert.equal(value, 'tooa', 'The value of too retrieved from store1 is correct');
+                    return store1.getItem('zoo').then(function (value) {
+                        assert.equal(value, 'zooa', 'The value of zoo retrieved from store1 is correct');
+                    });
+                });
+            })
+            .then(function () {
+                return store2.getItem('too').then(function (value) {
+                    assert.equal(value, 'toob', 'The value of too retrieved from store2 is correct');
+                    return store2.getItem('zoo').then(function (value) {
+                        assert.equal(value, 'zoob', 'The value of zoo retrieved from store2 is correct');
+                    });
+                });
+            })
+            .then(function () {
+                return store3.getItem('too').then(function (value) {
+                    assert.equal(value, 'tooc', 'The value of too retrieved from store3 is correct');
+                    return store3.getItem('zoo').then(function (value) {
+                        assert.equal(value, 'zooc', 'The value of zoo retrieved from store3 is correct');
+                    });
+                });
+            })
+            .then(function () {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        store3.setItem('foo', 'fooc').then(function () {
+                            return indexDbBackend.clean(250);
+                        }).then(resolve).catch(reject);
+                    }, 300);
+                });
+            })
+            .then(function (rmResult) {
+                assert.ok(rmResult, 'The old stores are removed');
+            })
+            .then(function () {
+                var store1 = indexDbBackend('foo1');
+                assert.equal(typeof store1, 'object', 'The store1 is an object');
+
+                return store1.getItem('too').then(function (value) {
+                    assert.equal(typeof value, 'undefined', 'The store1 has been erased');
+
+                    return store1.removeStore().then(function (rmResult) {
+                        assert.ok(rmResult, 'The store1 is removed');
+                    });
+                });
+            })
+            .then(function () {
+                var store2 = indexDbBackend('foo2');
+                assert.equal(typeof store2, 'object', 'The store2 is an object');
+
+                return store2.getItem('too').then(function (value) {
+                    assert.equal(typeof value, 'undefined', 'The store2 has been erased');
+
+                    return store2.removeStore().then(function (rmResult) {
+                        assert.ok(rmResult, 'The store2 is removed');
+                    });
+                });
+            })
+            .then(function () {
+                var store3 = indexDbBackend('foo3');
+                assert.equal(typeof store3, 'object', 'The store3 is an object');
+
+                return store3.getItem('too').then(function (value) {
+                    assert.equal(value, 'tooc', 'The value too still exists in store3');
+                    return store3.getItem('zoo').then(function (value) {
+                        assert.equal(value, 'zooc', 'The value zoo still exists in store3');
+                        return store3.getItem('foo').then(function (value) {
+                            assert.equal(value, 'fooc', 'The value foo still exists in store3');
+                        });
+                    });
+                });
+            })
+            .then(function() {
+                var store1 = indexDbBackend('foo1');
+                var store2 = indexDbBackend('foo2');
+                var store3 = indexDbBackend('foo3');
+
+                assert.equal(typeof store1, 'object', 'The store1 is an object');
+                assert.equal(typeof store2, 'object', 'The store2 is an object');
+                assert.equal(typeof store3, 'object', 'The store3 is an object');
+
+                Promise.all([
+                    store1.setItem('zoo', 'zoo1'),
+                    store2.setItem('zoo', 'zoo2'),
+                    store3.setItem('zoo', 'zoo3')
+                ])
+                    .then(function () {
+                        return store1.getItem('zoo').then(function (value) {
+                            assert.equal(value, 'zoo1', 'The value of zoo retrieved from store1 is correct');
+                        });
+                    })
+                    .then(function () {
+                        return store2.getItem('zoo').then(function (value) {
+                            assert.equal(value, 'zoo2', 'The value of zoo retrieved from store2 is correct');
+                        });
+                    })
+                    .then(function () {
+                        return store3.getItem('zoo').then(function (value) {
+                            assert.equal(value, 'zoo3', 'The value of zoo retrieved from store3 is correct');
+                        });
+                    })
+                    .then(function () {
+                        return indexDbBackend.clean(0, function(storeName) {
+                            return storeName === "foo2";
+                        });
+                    })
+                    .then(function (rmResult) {
+                        assert.ok(rmResult, 'The old stores are removed');
+                    })
+                    .then(function () {
+                        var store1 = indexDbBackend('foo1');
+                        assert.equal(typeof store1, 'object', 'The store1 is an object');
+
+                        return store1.getItem('zoo').then(function (value) {
+                            assert.equal(value, 'zoo1', 'The value zoo still exists in store1');
+
+                            return store1.removeStore().then(function (rmResult) {
+                                assert.ok(rmResult, 'The store1 is removed');
+                            });
+                        });
+                    })
+                    .then(function () {
+                        var store2 = indexDbBackend('foo2');
+                        assert.equal(typeof store1, 'object', 'The store2 is an object');
+
+                        return store2.getItem('zoo').then(function (value) {
+                            assert.equal(typeof value, 'undefined', 'The store2 has been erased');
+
+                            return store2.removeStore().then(function (rmResult) {
+                                assert.ok(rmResult, 'The store2 is removed');
+                            });
+                        });
+                    })
+                    .then(function () {
+                        var store3 = indexDbBackend('foo3');
+                        assert.equal(typeof store3, 'object', 'The store3 is an object');
+
+                        return store3.getItem('zoo').then(function (value) {
+                            assert.equal(value, 'zoo3', 'The value zoo still exists in store3');
+
+                            return store3.removeStore().then(function (rmResult) {
+                                assert.ok(rmResult, 'The store3 is removed');
                             });
                         });
                     })

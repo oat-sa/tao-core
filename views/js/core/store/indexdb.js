@@ -31,6 +31,12 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
     var prefix = 'tao-store-';
 
     /**
+     * Name of the value that contains the last activity timestamp
+     * @type {String}
+     */
+    var timestampKey = '_ts';
+
+    /**
      * Access to the index of known stores.
      * This index is needed to maintain the list of stores created by TAO, in order to apply an auto clean up.
      * @type {Promise}
@@ -263,9 +269,19 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
             setItem :  function setItem(key, value){
                 return ensureSerie(function getWritingPromise(){
                     return getStore().then(function(store){
-                        return setEntry(store, key, value);
+                        return setEntry(store, key, value).then(function() {
+                            return setEntry(store, timestampKey, Date.now());
+                        });
                     });
                 });
+            },
+
+            /**
+             * Get the timestamp of the last activity
+             * @returns {Promise} with the result in resolve, undefined if nothing
+             */
+            getLastActivity : function getLastActivity() {
+                return this.getItem(timestampKey);
             },
 
             /**
@@ -311,6 +327,7 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
             }
         };
     };
+
     /**
      * Removes all storage
      * @param {Function} [validate] - An optional callback that validates the store to delete
@@ -332,6 +349,41 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
                                 if (!validate || validate(storeName)) {
                                     return deleteStore(store, storeName);
                                 }
+                            }));
+                        }
+                    });
+
+                    Promise.all(all).then(resolve).catch(reject);
+                }
+                knownStores.getAll(cleanUp, reject);
+            });
+        });
+    };
+
+    /**
+     * Cleans all storage older than the provided age
+     * @param {Number} [age] - The max age for the storage (default: 0)
+     * @param {Function} [validate] - An optional callback that validates the store to delete
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    indexDbBackend.clean = function clean(age, validate) {
+        var limit = Date.now() - (parseInt(age) || 0);
+        if (!_.isFunction(validate)) {
+            validate = null;
+        }
+        return getKnownStores().then(function(knownStores) {
+            return new Promise(function(resolve, reject) {
+                function cleanUp(entries) {
+                    var all = [];
+                    _.forEach(entries, function(entry) {
+                        var storeName = entry && entry.key;
+                        if (storeName) {
+                            all.push(openStore(storeName).then(function(store) {
+                                return getEntry(store, timestampKey).then(function(lastActivity) {
+                                    if ((!lastActivity || parseInt(lastActivity) < limit) && (!validate || validate(storeName))) {
+                                        return deleteStore(store, storeName);
+                                    }
+                                });
                             }));
                         }
                     });
