@@ -60,7 +60,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 	protected function getCurrentInstance()
 	{
 		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-		if(is_null($uri) || empty($uri)){
+		if(is_null($uri) || empty($uri) || !common_Utils::isUri($uri)){
 			throw new Exception("No valid uri found");
 		}
 		
