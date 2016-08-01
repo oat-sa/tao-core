@@ -75,6 +75,12 @@ class tao_install_Installator{
 	{
 		try
 		{
+            /**
+             * It's a quick hack for solving reinstall issue.
+             * Should be a better option.
+             */
+            @unlink($this->options['root_path'].'config/generis.conf.php');
+
 			/*
 			 * 0 - Check input parameters. 
 			 */
