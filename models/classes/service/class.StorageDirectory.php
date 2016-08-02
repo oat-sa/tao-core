@@ -23,7 +23,7 @@ use \oat\tao\model\websource\Websource;
 use \League\Flysystem\Filesystem;
 use \League\Flysystem\Adapter\Local;
 use \oat\oatbox\filesystem\Directory;
-use \Guzzle\Stream\StreamInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Represents  directory for file storage
