@@ -189,7 +189,7 @@ class Bootstrap {
             $report = $cliController->runAction($actionIdentifier, $params);
 	    }
 	     
-	    echo \tao_helpers_report_Rendering::renderToCommandline($report);
+	    echo \helpers_Report::renderToCommandline($report);
 	}
 
 	/**
