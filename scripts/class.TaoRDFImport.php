@@ -98,7 +98,7 @@ class tao_scripts_TaoRDFImport
         	 
         	$report = $action->__invoke($params);
         	
-        	$string = tao_helpers_report_Rendering::renderToCommandline($report);
+            $string = helpers_Report::renderToCommandline($report);
         	foreach (explode(PHP_EOL, $string) as $line) {
         	    $this->out($line);
         	}
