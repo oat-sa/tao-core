@@ -508,7 +508,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	    $response = array();	
 		if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
             $instance = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-            $clazz = $this->getClassService()->getClass($instance);
+            $types = $instance->getTypes();
+            $clazz = reset($types);
 			$destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
 
 			if(!empty($destinationUri) && $destinationUri != $clazz->getUri()){
