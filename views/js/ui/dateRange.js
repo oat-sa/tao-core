@@ -100,6 +100,7 @@ define([
         var periodEnd = initConfig.endDate || '';
         var $periodStart, $periodEnd;
         var $componentDateRange;
+        var $filterBtn, $resetBtn;
 
         var dateRange = {
             /**
@@ -148,6 +149,9 @@ define([
             if (!hasInputs()) {
                 $periodStart = $form.find('input[name=periodStart]');
                 $periodEnd = $form.find('input[name=periodEnd]');
+
+                $filterBtn = $form.find('[data-control="filter"]');
+                $resetBtn = $form.find('[data-control="reset"]');
             }
 
             /**
@@ -285,6 +289,31 @@ define([
                     end: initConfig.pickerConfig
                 }
             );
+
+            if ($filterBtn.length) {
+                $filterBtn.on('click', function (event) {
+                    event.preventDefault();
+
+                    periodStart = $periodStart.val();
+                    periodEnd = $periodEnd.val();
+
+                    /**
+                     * @event submit
+                     */
+                    self.trigger('submit');
+                });
+            }
+
+            if ($resetBtn.length) {
+                $resetBtn.on('click', function (event) {
+                    event.preventDefault();
+
+                    $periodStart.val('');
+                    $periodEnd.val('');
+                    $filterBtn.click();
+                });
+            }
+
         }).on('destroy', function () {
             if (hasInputs()) {
                 // detach timePicker
