@@ -251,9 +251,9 @@ define([
                     }
                     var date = changed[method].call(changed, 'getDate');
                     if (isStart) {
-                        periodStart = date;
+                        periodStart = changed.val();
                     } else {
-                        periodEnd = date;
+                        periodEnd = changed.val();
                     }
                     if (date !== null && options.minInterval > 0) {
                         if (option == 'minDate') {
@@ -266,9 +266,9 @@ define([
                     if (date.getTime) {
                         other[method].call(other, 'option', option, date);
                         if (isStart) {
-                            periodEnd = other[method].call(other, 'getDate');
+                            periodEnd = other.val();
                         } else {
-                            periodStart = other[method].call(other, 'getDate');
+                            periodStart = other.val();
                         }
                     }
                 }
