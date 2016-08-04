@@ -290,7 +290,7 @@ define([
                 }
             );
 
-            if ($filterBtn.length) {
+            if ($filterBtn && $filterBtn.length) {
                 $filterBtn.on('click', function (event) {
                     event.preventDefault();
 
@@ -304,7 +304,7 @@ define([
                 });
             }
 
-            if ($resetBtn.length) {
+            if ($resetBtn && $resetBtn.length) {
                 $resetBtn.on('click', function (event) {
                     event.preventDefault();
 
