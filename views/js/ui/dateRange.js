@@ -183,16 +183,14 @@ define([
                     },
                     onSelect: function (selectedDateTime) {
 
-                        periodStart = selectedDateTime;
-
                         /**
                          * @event change
                          * @param {String} property
                          * @param {String} value
                          */
-                        self.trigger('change', 'start', periodStart);
+                        self.trigger('change', 'start', selectedDateTime);
 
-                        selected($(this), endTime, 'minDate');
+                        selected($(this), endTime, 'minDate', true);
                     }
                 }, options, options.start));
                 $.fn[method].call(endTime, $.extend({
@@ -208,22 +206,20 @@ define([
                     },
                     onSelect: function (selectedDateTime) {
 
-                        periodEnd = selectedDateTime;
-
                         /**
                          * @event change
                          * @param {String} property
                          * @param {String} value
                          */
-                        self.trigger('change', 'end', periodEnd);
+                        self.trigger('change', 'end', selectedDateTime);
 
-                        selected($(this), startTime, 'maxDate');
+                        selected($(this), startTime, 'maxDate', false);
                     }
                 }, options, options.end));
 
                 checkDates(startTime, endTime);
-                selected(startTime, endTime, 'minDate');
-                selected(endTime, startTime, 'maxDate');
+                selected(startTime, endTime, 'minDate', true);
+                selected(endTime, startTime, 'maxDate', false);
 
                 function checkDates(changed, other) {
                     var startdt = startTime[method]('getDate'),
@@ -249,11 +245,16 @@ define([
                     }
                 }
 
-                function selected(changed, other, option) {
+                function selected(changed, other, option, isStart) {
                     if (!changed.val()) {
                         return;
                     }
                     var date = changed[method].call(changed, 'getDate');
+                    if (isStart) {
+                        periodStart = date;
+                    } else {
+                        periodEnd = date;
+                    }
                     if (date !== null && options.minInterval > 0) {
                         if (option == 'minDate') {
                             date.setMilliseconds(date.getMilliseconds() + options.minInterval);
@@ -264,6 +265,11 @@ define([
                     }
                     if (date.getTime) {
                         other[method].call(other, 'option', option, date);
+                        if (isStart) {
+                            periodEnd = other[method].call(other, 'getDate');
+                        } else {
+                            periodStart = other[method].call(other, 'getDate');
+                        }
                     }
                 }
 
