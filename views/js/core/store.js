@@ -173,6 +173,19 @@ define([
     };
 
     /**
+     * Cleans all storage older than the provided age
+     * @param {Number} [age] - The max age for all storage (default: 0)
+     * @param {Function} [validate] - An optional callback that validates the store to delete
+     * @param {Function} [preselectedBackend] - An optional storage handler to use
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    store.clean = function clean(age, validate, preselectedBackend) {
+        return loadBackend(preselectedBackend).then(function(backend){
+            return backend.clean(age, validate);
+        });
+    };
+
+    /**
      * Get the identifier of either the current (or the preselected store)
      * @param {Object} [preselectedBackend] - the backend to force the selection
      * @returns {Promise} that resolves with the identifier

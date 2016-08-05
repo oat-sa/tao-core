@@ -36,6 +36,12 @@ define([
     var prefix = 'tao-store-';
 
     /**
+     * Name of the value that contains the last activity timestamp
+     * @type {String}
+     */
+    var timestampKey = '_ts';
+
+    /**
      * Access to the index of known stores.
      * This index is needed to maintain the list of stores created by TAO, in order to apply an auto clean up.
      * @type {Promise}
@@ -123,7 +129,6 @@ define([
      * Remove an entry from a particular store
      * @param store
      * @param key
-     * @param value
      * @returns {Promise}
      */
     var removeEntry = function removeEntry(store, key) {
@@ -274,9 +279,19 @@ define([
             setItem :  function setItem(key, value){
                 return ensureSerie(function getWritingPromise(){
                     return getStore().then(function(store){
-                        return setEntry(store, key, value);
+                        return setEntry(store, key, value).then(function() {
+                            return setEntry(store, timestampKey, Date.now());
+                        });
                     });
                 });
+            },
+
+            /**
+             * Get the timestamp of the last activity
+             * @returns {Promise} with the result in resolve, undefined if nothing
+             */
+            getLastActivity : function getLastActivity() {
+                return this.getItem(timestampKey);
             },
 
             /**
@@ -287,7 +302,9 @@ define([
             removeItem : function removeItem(key){
                 return ensureSerie(function getWritingPromise(){
                     return getStore().then(function(store){
-                        return removeEntry(store, key);
+                        return setEntry(store, timestampKey, Date.now()).then(function() {
+                            return removeEntry(store, key);
+                        });
                     });
                 });
             },
@@ -326,7 +343,6 @@ define([
     /**
      * Removes all storage
      * @param {Function} [validate] - An optional callback that validates the store to delete
-     * @param {Function} [backend] - An optional storage handler to use
      * @returns {Promise} with true in resolve once cleaned
      */
     indexDbBackend.removeAll = function removeAll(validate) {
@@ -344,6 +360,41 @@ define([
                                 if (!validate || validate(storeName)) {
                                     return deleteStore(storeToRemove, storeName);
                                 }
+                            }));
+                        }
+                    });
+
+                    Promise.all(all).then(resolve).catch(reject);
+                }
+                store.getAll(cleanUp, reject);
+            });
+        });
+    };
+
+    /**
+     * Cleans all storage older than the provided age
+     * @param {Number} [age] - The max age for the storage (default: 0)
+     * @param {Function} [validate] - An optional callback that validates the store to delete
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    indexDbBackend.clean = function clean(age, validate) {
+        var limit = Date.now() - (parseInt(age) || 0);
+        if (!_.isFunction(validate)) {
+            validate = null;
+        }
+        return getKnownStores().then(function(store) {
+            return new Promise(function(resolve, reject) {
+                function cleanUp(entries) {
+                    var all = [];
+                    _.forEach(entries, function(entry) {
+                        var storeName = entry && entry.key;
+                        if (storeName) {
+                            all.push(openStore(storeName).then(function(storeToRemove) {
+                                return getEntry(storeToRemove, timestampKey).then(function(lastActivity) {
+                                    if ((!lastActivity || parseInt(lastActivity) < limit) && (!validate || validate(storeName))) {
+                                        return deleteStore(storeToRemove, storeName);
+                                    }
+                                });
                             }));
                         }
                     });
