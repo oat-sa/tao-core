@@ -550,4 +550,48 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
             });
     });
 
+    QUnit.module('store id');
+
+    QUnit.asyncTest('get store identifier', function(assert){
+        QUnit.expect(4);
+
+        assert.equal(typeof indexDbBackend.getStoreIdentifier, 'function', 'IndexedDB backend has the getStoreIdentifier method');
+
+        indexDbBackend.getStoreIdentifier().then(function(id){
+
+            assert.equal(typeof id, 'string', 'we have a store identifier');
+            assert.ok(id.length > 0, 'the identifier is not empty');
+
+            return indexDbBackend.getStoreIdentifier().then(function(idNextCall){
+
+                assert.equal(id, idNextCall, 'The identifier should remain the same accross the store');
+                QUnit.start();
+            });
+
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('get new store identifier', function(assert){
+        QUnit.expect(3);
+
+        indexDbBackend.getStoreIdentifier().then(function(id){
+
+            assert.equal(typeof id, 'string', 'we have a store identifier');
+            assert.ok(id.length > 0, 'the identifier is not empty');
+
+            return indexDbBackend('id').removeStore().then(function(){
+                return indexDbBackend.getStoreIdentifier().then(function(idNextCall){
+
+                    assert.notEqual(id, idNextCall, 'The identifier should be different since the has been removed');
+                    QUnit.start();
+                });
+            });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
 });

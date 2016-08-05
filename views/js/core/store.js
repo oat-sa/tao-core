@@ -38,7 +38,7 @@ define([
     'core/promise',
     'core/store/localstorage',
     'core/store/indexdb'
-], function(_, Promise, localStorageBackend, indexDbBackend){
+], function(_, Promise, localStorageBackend, indexedDBBackend){
     'use strict';
 
     var supportsIndexedDB = false;
@@ -90,33 +90,64 @@ define([
     };
 
     /**
+     * Check the backend object complies with the API
+     * @param {Object} backend - the backend object to check
+     * @returns {Boolean} true if valid
+     */
+    var isBackendApiValid = function isBackendApiValid(backend) {
+        return _.all(['removeAll', 'getStoreIdentifier'], function methodExists(method){
+            return _.isFunction(backend[method]);
+        });
+    };
+
+    /**
+     * Check the storage object complies with the Storage API
+     * @param {Storage} storage - the storage object to check
+     * @returns {Boolean} true if valid
+     */
+    var isStorageApiValid = function isStorageApiValid(storage) {
+        return _.all(['getItem', 'setItem', 'removeItem', 'clear', 'removeStore'], function methodExists(method){
+            return _.isFunction(storage[method]);
+        });
+    };
+
+    /**
+     * Load the backend based either on the preselected and the current support
+     * @param {Object} [preselectedBackend] - the backend to force the selection
+     * @returns {Promise} that resolves with the bakend
+     */
+    var loadBackend = function loadBackend(preselectedBackend) {
+        return isIndexDBSupported().then(function(){
+            var backend = preselectedBackend || (supportsIndexedDB ? indexedDBBackend : localStorageBackend);
+
+            if(!_.isFunction(backend)){
+                return Promise.reject(new TypeError('No backend, no storage!'));
+            }
+            if(!isBackendApiValid(backend)){
+                return Promise.reject(new TypeError('This backend does not look like a store backend, it miss removeAll or getStoreIdentifier'));
+            }
+            return backend;
+        });
+    };
+
+    /**
      * Create a new store
      *
      * @param {String} storeName - the name of the store
-     * @param {Function} backend - the storage
+     * @param {Object} [preselectedBackend] - the backend to force the selection
      * @returns {Promise} that resolves with the Storage a Storage Like instance
      */
-    var store = function store(storeName, backend) {
+    var store = function store(storeName, preselectedBackend) {
 
-        return isIndexDBSupported().then(function(){
+        return loadBackend(preselectedBackend).then(function(backend){
 
-            return new Promise(function(resolve, reject){
-                var storeInstance;
-                backend = backend || (supportsIndexedDB ? store.backends.indexDb : store.backends.localStorage);
+            var storeInstance = backend(storeName);
 
-                if(!_.isFunction(backend)){
-                    return reject(new TypeError('No backend, no storage!'));
-                }
-                storeInstance = backend(storeName);
+            if(!isStorageApiValid(storeInstance)){
+                return Promise.reject(new TypeError('The backend does not comply with the Storage interface'));
+            }
 
-                if(_.some(['getItem', 'setItem', 'removeItem', 'clear', 'removeStore', 'getLastActivity'], function(method){
-                    return !_.isFunction(storeInstance[method]);
-                })){
-                    return reject(new TypeError('The backend does not comply with the Storage interface'));
-                }
-
-                resolve(storeInstance);
-            });
+            return storeInstance;
         });
     };
 
@@ -126,27 +157,17 @@ define([
      */
     store.backends = {
         localStorage : localStorageBackend,
-        indexDb      : indexDbBackend
+        indexDb      : indexedDBBackend
     };
 
     /**
      * Removes all storage
      * @param {Function} [validate] - An optional callback that validates the store to delete
-     * @param {Function} [backend] - An optional storage handler to use
+     * @param {Object} [preselectedBackend] - the backend to force the selection
      * @returns {Promise} with true in resolve once cleaned
      */
-    store.removeAll = function removeAll(validate, backend) {
-        return isIndexDBSupported().then(function () {
-            backend = backend || (supportsIndexedDB ? store.backends.indexDb : store.backends.localStorage);
-
-            if (!_.isFunction(backend)) {
-                return Promise.reject(new TypeError('No backend, no storage!'));
-            }
-
-            if (!_.isFunction(backend.removeAll)) {
-                return Promise.reject(new TypeError('The backend does not comply with the Storage interface'));
-            }
-
+    store.removeAll = function removeAll(validate, preselectedBackend) {
+        return loadBackend(preselectedBackend).then(function(backend){
             return backend.removeAll(validate);
         });
     };
@@ -155,22 +176,23 @@ define([
      * Cleans all storage older than the provided age
      * @param {Number} [age] - The max age for all storage (default: 0)
      * @param {Function} [validate] - An optional callback that validates the store to delete
-     * @param {Function} [backend] - An optional storage handler to use
+     * @param {Function} [preselectedBackend] - An optional storage handler to use
      * @returns {Promise} with true in resolve once cleaned
      */
-    store.clean = function clean(age, validate, backend) {
-        return isIndexDBSupported().then(function () {
-            backend = backend || (supportsIndexedDB ? store.backends.indexDb : store.backends.localStorage);
-
-            if (!_.isFunction(backend)) {
-                return Promise.reject(new TypeError('No backend, no storage!'));
-            }
-
-            if (!_.isFunction(backend.clean)) {
-                return Promise.reject(new TypeError('The backend does not comply with the Storage interface'));
-            }
-
+    store.clean = function clean(age, validate, preselectedBackend) {
+        return loadBackend(preselectedBackend).then(function(backend){
             return backend.clean(age, validate);
+        });
+    };
+
+    /**
+     * Get the identifier of either the current (or the preselected store)
+     * @param {Object} [preselectedBackend] - the backend to force the selection
+     * @returns {Promise} that resolves with the identifier
+     */
+    store.getIdentifier = function getIdentifier(preselectedBackend) {
+        return loadBackend(preselectedBackend).then(function(backend){
+            return backend.getStoreIdentifier();
         });
     };
 
