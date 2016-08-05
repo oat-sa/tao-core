@@ -120,6 +120,11 @@ define([
             }
         };
 
+        /**
+         * User can determine input for date "From" and input date "To" for date range
+         * in this case default template "formTpl" won't be used, dateRange will be attached to existing form
+         * @returns {boolean}
+         */
         var hasInputs = function hasInputs() {
             if (initConfig.startInput || initConfig.endInput) {
                 if (initConfig.startInput && initConfig.endInput) {
