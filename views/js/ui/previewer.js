@@ -37,13 +37,17 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
         }
     };
 
+
+    //<embed src="assets/qtimodel.pdf#view=FitH" width="600" height="500" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"></embed>
+
+
     var previewGenerator = {
         placeHolder: _.template("<p class='nopreview' data-type='${type}'>${desc}</p>"),
         youtubeTemplate: _.template("<div data-src=${jsonurl} data-type='video/youtube'></div>"),
         videoTemplate: _.template("<div data-src=${jsonurl} data-type='${mime}'></div>"),
         audioTemplate: _.template("<div data-src=${jsonurl} data-type='${mime}'></div>"),
         imageTemplate: _.template("<img src=${jsonurl} alt='${name}' />"),
-        pdfTemplate: _.template("<object data=${jsonurl} type='application/pdf'><a href=${jsonurl} target='_blank'>${name}</a></object>"),
+        pdfTemplate: _.template("<embed src=${jsonurl} alt='${name}' width='200' height='285' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'></embed>"),
         flashTemplate: _.template("<object data=${jsonurl} type='application/x-shockwave-flash'><param name='movie' value=${jsonurl}></param></object>"),
         mathmlTemplate: _.template("<iframe src=${jsonurl}></iframe>"),
         xmlTemplate: _.template("<pre>${xml}</pre>"),
