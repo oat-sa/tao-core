@@ -48,7 +48,7 @@ define([
                 .then(function(data) {
                     // the persisted data set is always an object
                     data = data || {};
-                    
+
                     // just provide a data accessor that:
                     // - immediately gets the values
                     // - stores the changes through a promise.
@@ -90,6 +90,15 @@ define([
                         clear : function clear() {
                             data = {};
                             return storage.removeItem(storageKey);
+                        },
+
+                        /**
+                         * Delete the database related to the current store
+                         * @returns {Promise} with true in resolve once cleared
+                         */
+                        removeStore : function removeStore() {
+                            data = {};
+                            return storage.removeStore();
                         }
                     };
                 });
