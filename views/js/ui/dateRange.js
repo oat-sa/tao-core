@@ -99,7 +99,7 @@ define([
         var periodStart = initConfig.startDate || '';
         var periodEnd = initConfig.endDate || '';
         var $periodStart, $periodEnd;
-        var $componentDateRange;
+        var componentDateRange;
         var $filterBtn, $resetBtn;
 
         var dateRange = {
@@ -133,16 +133,16 @@ define([
             return false;
         };
 
-        $componentDateRange = component(dateRange);
+        componentDateRange = component(dateRange);
 
         if (hasInputs()) {
             $periodStart = initConfig.startInput;
             $periodEnd = initConfig.endInput;
         } else {
-            $componentDateRange.setTemplate(formTpl);
+            componentDateRange.setTemplate(formTpl);
         }
 
-        $componentDateRange.on('render', function () {
+        componentDateRange.on('render', function () {
             var self = this;
             var $form = this.getElement();
 
@@ -166,7 +166,7 @@ define([
              *   a boolean value that can be used to reformat the input values to the `dateFormat`.
              * @return jQuery
              */
-            $.timepicker.triggeredHandleRange = function (method, startTime, endTime, options) {
+            $.timepicker.triggeredHandleRange = function triggeredHandleRange(method, startTime, endTime, options) {
                 options = $.extend({}, {
                     minInterval: 0, // min allowed interval in milliseconds
                     maxInterval: 0, // max allowed interval in milliseconds
@@ -225,6 +225,11 @@ define([
                 selected(startTime, endTime, 'minDate', true);
                 selected(endTime, startTime, 'maxDate', false);
 
+                /**
+                 * startTime should be before the endTime
+                 * @param changed
+                 * @param other
+                 */
                 function checkDates(changed, other) {
                     var startdt = startTime[method]('getDate'),
                         enddt = endTime[method]('getDate'),
@@ -249,11 +254,20 @@ define([
                     }
                 }
 
+                /**
+                 * Select new date
+                 * @param changed
+                 * @param other
+                 * @param option
+                 * @param isStart - if changed startTime
+                 */
                 function selected(changed, other, option, isStart) {
+                    var date;
+
                     if (!changed.val()) {
                         return;
                     }
-                    var date = changed[method].call(changed, 'getDate');
+                    date = changed[method].call(changed, 'getDate');
                     if (isStart) {
                         periodStart = changed.val();
                     } else {
@@ -322,7 +336,7 @@ define([
             }
         }).init(initConfig);
 
-        return $componentDateRange;
+        return componentDateRange;
     }
 
     return dateRangeFactory;
