@@ -30,6 +30,15 @@ define(['core/store', 'core/promise'], function(store, Promise){
         };
     };
 
+    mockBackend.removeAll = function(){
+        return Promise.resolve(true);
+    };
+
+    mockBackend.getStoreIdentifier = function(){
+        return Promise.resolve('aaaa-bbbb-cccc-dddd');
+    };
+
+
     QUnit.module('API');
 
     QUnit.test("module", function(assert){
@@ -86,6 +95,90 @@ define(['core/store', 'core/promise'], function(store, Promise){
         });
     });
 
+    QUnit.asyncTest("wrong backend", function(assert){
+        var wrongBackend;
+
+        QUnit.expect(2);
+
+        wrongBackend = function(){
+            return {};
+        };
+
+        store('foo', wrongBackend).then(function(){
+            assert.ok(false, 'The backend should not be validated');
+        }).catch(function(err){
+            assert.ok(err instanceof TypeError, 'The error is the one expected');
+            assert.equal(err.message, 'This backend does not look like a store backend, it miss removeAll or getStoreIdentifier', 'The error message is the one expected');
+
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("missing backend methods", function(assert){
+        var wrongBackend;
+
+        QUnit.expect(2);
+
+        wrongBackend = function(){
+            return {};
+        };
+        wrongBackend.removeAll = function() {};
+
+        store('foo', wrongBackend).then(function(){
+            assert.ok(false, 'The backend should not be validated');
+        }).catch(function(err){
+            assert.ok(err instanceof TypeError, 'The error is the one expected');
+            assert.equal(err.message, 'This backend does not look like a store backend, it miss removeAll or getStoreIdentifier', 'The error message is the one expected');
+
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("wrong storage", function(assert){
+        var wrongBackend;
+
+        QUnit.expect(2);
+
+        wrongBackend = function(){
+            return {};
+        };
+        wrongBackend.removeAll = function() {};
+        wrongBackend.getStoreIdentifier = function() {};
+
+        store('foo', wrongBackend).then(function(){
+            assert.ok(false, 'The backend should not be validated');
+        }).catch(function(err){
+            assert.ok(err instanceof TypeError, 'The error is the one expected');
+            assert.equal(err.message, 'The backend does not comply with the Storage interface', 'The error message is the one expected');
+
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("missing storage methods", function(assert){
+        var wrongBackend;
+
+        QUnit.expect(2);
+
+        wrongBackend = function(){
+            return {
+                setItem : function(){},
+                getItem : function(){},
+                clear : function(){},
+            };
+        };
+        wrongBackend.removeAll = function() {};
+        wrongBackend.getStoreIdentifier = function() {};
+
+        store('foo', wrongBackend).then(function(){
+            assert.ok(false, 'The backend should not be validated');
+        }).catch(function(err){
+            assert.ok(err instanceof TypeError, 'The error is the one expected');
+            assert.equal(err.message, 'The backend does not comply with the Storage interface', 'The error message is the one expected');
+
+            QUnit.start();
+        });
+    });
 
     QUnit.module('CRUD', {
         setup    : function(){
@@ -277,6 +370,19 @@ define(['core/store', 'core/promise'], function(store, Promise){
                     QUnit.start();
                 });
             });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("getIdentifier", function(assert){
+        QUnit.expect(2);
+
+        store.getIdentifier(mockBackend).then(function(id){
+            assert.equal(typeof id, 'string', 'we have a store identifier');
+            assert.equal(id, 'aaaa-bbbb-cccc-dddd', 'the identifier matches');
+            QUnit.start();
         }).catch(function(err){
             assert.ok(false, err);
             QUnit.start();

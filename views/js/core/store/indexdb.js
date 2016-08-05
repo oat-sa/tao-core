@@ -21,7 +21,12 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, IDBStore){
+define([
+    'lodash',
+    'core/promise',
+    'lib/store/idbstore',
+    'lib/uuid'
+], function(_, Promise, IDBStore, uuid){
     'use strict';
 
     /**
@@ -42,6 +47,12 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
      * @type {String}
      */
     var knownStoresName = 'index';
+
+    /**
+     * The name of the store that contains the store id
+     * @type {String}
+     */
+    var idStoreName = 'id';
 
     /**
      * Opens a store
@@ -66,39 +77,6 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
                 },
                 onError: reject
             });
-        });
-    };
-
-    /**
-     * Gets access to the store that contains the index of known stores.
-     * @returns {Promise}
-     */
-    var getKnownStores = function getKnownStores() {
-        if (!knownStores) {
-            knownStores = openStore(knownStoresName);
-        }
-        return knownStores;
-    };
-
-    /**
-     * Adds a store into the index of known stores.
-     * @param {String} storeName
-     * @returns {Promise}
-     */
-    var registerStore = function registerStore(storeName) {
-        return getKnownStores().then(function(store) {
-            return setEntry(store, storeName, storeName);
-        });
-    };
-
-    /**
-     * Removes a store from the index of known stores.
-     * @param {String} storeName
-     * @returns {Promise}
-     */
-    var unregisterStore = function unregisterStore(storeName) {
-        return getKnownStores().then(function(store) {
-            return removeEntry(store, storeName);
         });
     };
 
@@ -154,6 +132,39 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
                 resolve(result !== false);
             };
             store.remove(key, success, reject);
+        });
+    };
+
+    /**
+     * Gets access to the store that contains the index of known stores.
+     * @returns {Promise}
+     */
+    var getKnownStores = function getKnownStores() {
+        if (!knownStores) {
+            knownStores = openStore(knownStoresName);
+        }
+        return knownStores;
+    };
+
+    /**
+     * Adds a store into the index of known stores.
+     * @param {String} storeName
+     * @returns {Promise}
+     */
+    var registerStore = function registerStore(storeName) {
+        return getKnownStores().then(function(store) {
+            return setEntry(store, storeName, storeName);
+        });
+    };
+
+    /**
+     * Removes a store from the index of known stores.
+     * @param {String} storeName
+     * @returns {Promise}
+     */
+    var unregisterStore = function unregisterStore(storeName) {
+        return getKnownStores().then(function(store) {
+            return removeEntry(store, storeName);
         });
     };
 
@@ -311,6 +322,7 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
             }
         };
     };
+
     /**
      * Removes all storage
      * @param {Function} [validate] - An optional callback that validates the store to delete
@@ -321,16 +333,16 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
         if (!_.isFunction(validate)) {
             validate = null;
         }
-        return getKnownStores().then(function(knownStores) {
+        return getKnownStores().then(function(store) {
             return new Promise(function(resolve, reject) {
                 function cleanUp(entries) {
                     var all = [];
                     _.forEach(entries, function(entry) {
                         var storeName = entry && entry.key;
                         if (storeName) {
-                            all.push(openStore(storeName).then(function(store) {
+                            all.push(openStore(storeName).then(function(storeToRemove) {
                                 if (!validate || validate(storeName)) {
-                                    return deleteStore(store, storeName);
+                                    return deleteStore(storeToRemove, storeName);
                                 }
                             }));
                         }
@@ -338,9 +350,30 @@ define(['lodash', 'core/promise', 'lib/store/idbstore'], function(_, Promise, ID
 
                     Promise.all(all).then(resolve).catch(reject);
                 }
-                knownStores.getAll(cleanUp, reject);
+                store.getAll(cleanUp, reject);
             });
         });
+    };
+
+    /**
+     * Get the identifier of the storage
+     * @returns {Promise} that resolves with the store identifier
+     */
+    indexDbBackend.getStoreIdentifier = function getStoreIdentifier() {
+
+        return openStore(idStoreName)
+            .then(function(store){
+                return  getEntry(store, idStoreName).then(function(id){
+                    if(!_.isEmpty(id)){
+                        return id;
+                    }
+                    id = uuid();
+
+                    return setEntry(store, idStoreName, id).then(function(){
+                        return id;
+                    });
+                });
+            });
     };
 
     return indexDbBackend;
