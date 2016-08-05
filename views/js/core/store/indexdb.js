@@ -302,7 +302,9 @@ define([
             removeItem : function removeItem(key){
                 return ensureSerie(function getWritingPromise(){
                     return getStore().then(function(store){
-                        return removeEntry(store, key);
+                        return setEntry(store, timestampKey, Date.now()).then(function() {
+                            return removeEntry(store, key);
+                        });
                     });
                 });
             },

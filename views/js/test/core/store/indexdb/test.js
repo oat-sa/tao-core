@@ -119,26 +119,31 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     });
 
     QUnit.asyncTest("removeItem", function(assert){
-        QUnit.expect(5);
+        QUnit.expect(6);
 
         var store = indexDbBackend('foo');
+        var startTs = Date.now();
         assert.equal(typeof store, 'object', 'The store is an object');
 
         store.setItem('moo', 'noob')
-        .then(function(result){
-            assert.ok(result, 'The item is added');
+            .then(function(result){
+                assert.ok(result, 'The item is added');
 
-            return store.getItem('moo').then(function(value){
-                assert.equal(value, 'noob', 'The retrieved value is correct');
-            });
-        }).then(function(){
-            return store.removeItem('moo').then(function(rmResult){
-                    assert.ok(rmResult, 'The item is removed');
+                return store.getItem('moo').then(function(value){
+                    assert.equal(value, 'noob', 'The retrieved value is correct');
                 });
+            }).then(function(){
+            return store.removeItem('moo').then(function(rmResult){
+                assert.ok(rmResult, 'The item is removed');
+            });
         }).then(function(){
             return store.getItem('moo').then(function(value){
                 assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
-                QUnit.start();
+
+                store.getLastActivity().then(function(timestamp) {
+                    assert.ok(timestamp >= startTs && timestamp <= Date.now(), 'The last activity timestamp has been updated');
+                    QUnit.start();
+                });
             });
         }).catch(function(err){
             assert.ok(false, err);
