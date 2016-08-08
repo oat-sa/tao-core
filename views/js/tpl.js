@@ -37,12 +37,18 @@ define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
         return __(key);
     });
 
-    //register join helper
+    /**
+     * register join helper
+     *
+     * Example :
+     * var values = {a:v1, b:v2, c:v3};
+     * Using {{{join attributes '=' ' ' '"'}}} will return : a="v1" b="v2" c="v3"
+     * Using {{{join values null ' or ' '*'}}} will return : *v1* or *v2* or *v3*
+     */
     hb.registerHelper('join', function(arr, keyValueGlue, fragmentGlue, wrapper){
 
         var fragments = [];
 
-        //set default arguments in the format: name1="value1" name2="value2"
         keyValueGlue = typeof(keyValueGlue) === 'string' ? keyValueGlue : undefined;
         fragmentGlue = typeof(fragmentGlue) === 'string' ? fragmentGlue : ' ';
         wrapper = typeof(wrapper) === 'string' ? wrapper : '"';
