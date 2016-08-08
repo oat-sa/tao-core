@@ -29,7 +29,7 @@ define([
 
     QUnit.module('registered handlers');
 
-    QUnit.test('module', function (assert){
+    QUnit.test('join - key value', function (assert){
         var values = {a:'v1', b:'v2', c:'v3'};
         var rendering = tplJoinKeyValue({
             values : values
@@ -37,7 +37,7 @@ define([
         assert.equal(rendering, 'a="v1" b="v2" c="v3"', 'join key value rendering ok');
     });
 
-    QUnit.test('module', function (assert){
+    QUnit.test('join - array value', function (assert){
         var values = {a:'v1', b:'v2', c:'v3'};
         var rendering = tplJoinArray({
             values : values
