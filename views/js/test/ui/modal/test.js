@@ -128,8 +128,10 @@ define([
                 $modal.modal('close');
             }
         });
-        $modal.on('closed.modal', function() {
+        $modal.on('closed.modal', function(e, reason) {
             assert.ok(true, "The modal is now hidden");
+            assert.equal(typeof e, 'object', 'A event object is provided');
+            assert.equal(reason, 'api', 'The exit reason has been provided');
             QUnit.start();
 
             closed = true;
