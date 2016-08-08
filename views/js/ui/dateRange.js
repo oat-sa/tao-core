@@ -126,16 +126,13 @@ define([
          * @returns {boolean}
          */
         var hasInputs = function hasInputs() {
-            if (initConfig.startInput || initConfig.endInput) {
-                if (initConfig.startInput && initConfig.endInput) {
-                    return true;
-                } else {
-                    if (window.console) {
-                        console.log('You should determine both of the startInput and endInput as a configuration options');
-                    }
-                }
+
+            var isDefined = false;
+            if (initConfig.startInput && initConfig.endInput) {
+                isDefined = true;
             }
-            return false;
+
+            return isDefined;
         };
 
         componentDateRange = component(dateRange);
