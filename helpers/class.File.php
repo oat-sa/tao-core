@@ -443,6 +443,12 @@ class tao_helpers_File
             if ($zipArchive->addFromString(ltrim($dest, "/\\"), $src->getContents())) {
                 $done++;
             }
+        } elseif (is_resource($src)) {
+            fseek($src, 0);
+            $content = stream_get_contents($src);
+            if ($zipArchive->addFromString(ltrim($dest, "/\\"), $content)) {
+                $done++;
+            }
         } elseif (is_dir($src)) {
             // Go deeper in folder hierarchy !
             $src = rtrim($src, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
