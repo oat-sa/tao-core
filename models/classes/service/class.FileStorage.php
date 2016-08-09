@@ -107,14 +107,15 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
      */
     public function getDirectoryById($id) {
         $public = $id[strlen($id)-1] == '+';
-        $fs = $public ? $this->getPublicFs() : $this->getPrivateFs();
+        $fsId = $public ? $this->getOption(self::OPTION_PUBLIC_FS) : $this->getOption(self::OPTION_PRIVATE_FS);
         $path = $this->id2path($id);
         $dir = new tao_models_classes_service_StorageDirectory(
             $id,
-            $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($fs->getUri()),
+            $fsId,
             $path,
             $public ? $this->getAccessProvider() : null
         );
+        $dir->setServiceLocator($this->getServiceLocator());
         return $dir;
     }
 

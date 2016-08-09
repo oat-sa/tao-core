@@ -39,9 +39,9 @@ class tao_models_classes_service_StorageDirectory extends Directory
     /** @var Websource */
     private $accessProvider;
 
-    public function __construct($id, $filesystem, $path, Websource $provider = null)
+    public function __construct($id, $filesystemId, $path, Websource $provider = null)
     {
-        parent::__construct($filesystem, $path);
+        parent::__construct($filesystemId, $path);
         $this->id = $id;
         $this->accessProvider = $provider;
     }
