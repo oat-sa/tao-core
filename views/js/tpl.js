@@ -37,17 +37,24 @@ define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
         return __(key);
     });
 
-    //register join helper
-    hb.registerHelper('join', function(arr, glue, delimiter, wrapper){
+    /**
+     * register join helper
+     *
+     * Example :
+     * var values = {a:v1, b:v2, c:v3};
+     * Using {{{join attributes '=' ' ' '"'}}} will return : a="v1" b="v2" c="v3"
+     * Using {{{join values null ' or ' '*'}}} will return : *v1* or *v2* or *v3*
+     */
+    hb.registerHelper('join', function(arr, keyValueGlue, fragmentGlue, wrapper){
 
-        var ret = '';
+        var fragments = [];
 
-        //set default arguments in the format: name1="value1" name2="value2"
-        glue = typeof(glue) === 'string' ? glue : '=';
-        delimiter = typeof(delimiter) === 'string' ? delimiter : ' ';
+        keyValueGlue = typeof(keyValueGlue) === 'string' ? keyValueGlue : undefined;
+        fragmentGlue = typeof(fragmentGlue) === 'string' ? fragmentGlue : ' ';
         wrapper = typeof(wrapper) === 'string' ? wrapper : '"';
 
         _.forIn(arr, function(value, key){
+            var fragment = '';
             if(value !== null || value !== undefined){
                 if(typeof(value) === 'boolean'){
                     value = value ? 'true' : 'false';
@@ -57,13 +64,14 @@ define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
             }else{
                 value = '';
             }
-            ret += key + glue + wrapper + value + wrapper + delimiter;
+            if(keyValueGlue !== undefined){
+                fragment += key + keyValueGlue;
+            }
+            fragment += wrapper + value + wrapper;
+            fragments.push(fragment);
         });
-        if(ret){
-            ret.substring(0, ret.length - 1);
-        }
 
-        return ret;
+        return fragments.join(fragmentGlue);
     });
 
     //register a classic "for loop" helper
