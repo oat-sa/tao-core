@@ -77,30 +77,6 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
     }
 
     /**
-     * Get the class of the resource in parameter (the rdfs type property)
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource instance
-     * @return core_kernel_classes_Class
-     */
-    public function getClass( core_kernel_classes_Resource $instance)
-    {
-        $returnValue = null;
-
-     	if(!is_null($instance)){
-        	if(!$instance->isClass() && !$instance->isProperty()){
-        		foreach($instance->getTypes() as $type){
-        			$returnValue = $type;
-        			break;
-        		}
-        	}
-        }
-
-        return $returnValue;
-    }
-
-    /**
      * Instantiate an RDFs Class
      *
      * @access public

@@ -58,25 +58,11 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
     private $accessProvider;
 
     /**
-     * @return core_kernel_fileSystem_FileSystem
+     * @return string
      */
-    protected function getPublicFs()
+    protected function getFsId($public)
     {
-        if (is_null($this->publicFs)) {
-            $this->publicFs = new core_kernel_fileSystem_FileSystem($this->getOption(self::OPTION_PUBLIC_FS));
-        }
-        return $this->publicFs;
-    }
-
-    /**
-     * @return core_kernel_fileSystem_FileSystem
-     */
-    protected function getPrivateFs()
-    {
-        if (is_null($this->privateFs)) {
-            $this->privateFs = new core_kernel_fileSystem_FileSystem($this->getOption(self::OPTION_PRIVATE_FS));
-        }
-        return $this->privateFs;
+        return $public ? $this->getOption(self::OPTION_PUBLIC_FS) : $this->getOption(self::OPTION_PRIVATE_FS);
     }
 
     /**
@@ -107,14 +93,14 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
      */
     public function getDirectoryById($id) {
         $public = $id[strlen($id)-1] == '+';
-        $fs = $public ? $this->getPublicFs() : $this->getPrivateFs();
         $path = $this->id2path($id);
         $dir = new tao_models_classes_service_StorageDirectory(
             $id,
-            $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($fs->getUri()),
+            $this->getFsId($public),
             $path,
             $public ? $this->getAccessProvider() : null
         );
+        $dir->setServiceLocator($this->getServiceLocator());
         return $dir;
     }
 
@@ -127,9 +113,8 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
     public function deleteDirectoryById($id)
     {
         $public = $id[strlen($id)-1] == '+';
-        $fs = $public ? $this->getPublicFs() : $this->getPrivateFs();
         $path = $this->id2path($id);
-        return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($fs->getUri())->deleteDir($path);
+        return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->getFsId($public))->deleteDir($path);
     }
     
     public function import($id, $directoryPath) {
