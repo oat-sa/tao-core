@@ -8,11 +8,12 @@ define([
     'context',
     'core/store',
     'layout/actions',
+    'layout/section',
     'ui/feedback',
     'uri',
     'jquery.tree',
     'lib/jsTree/plugins/jquery.tree.contextmenu'
-], function($, _, __, context, store, actionManager, feedback, uri){
+], function($, _, __, context, store, actionManager, sectionManager, feedback, uri){
     'use strict';
 
     var pageRange = 30;
@@ -64,7 +65,7 @@ define([
          * @private
          */
         var setUpTree  = function setUpTree(){
-
+            var treeSectionId = context.section;
             //try to load the action instance from the options
             options.actions = _.transform(options.actions, function(result, value, key){
                 if(value && value.length){
@@ -90,6 +91,11 @@ define([
                         }
                         //create the tree
                         $elt.tree(treeOptions);
+                        sectionManager.on('show.section', function (section) {
+                            if (treeSectionId === section.id) {
+                                $elt.trigger('refresh.taotree');
+                            }
+                        });
                     });
                 });
             }
