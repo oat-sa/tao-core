@@ -9,10 +9,10 @@ define([
     'core/pluginifier',
     'ui/mediaplayer',
     'iframeNotifier',
-    'ui/documentViewer/viewerFactory',
+    'ui/documentViewer',
     'ui/documentViewer/providers/pdfViewer'
 ],
-function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier, viewerFactory, pdfViewer) {
+function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier, documentViewer, pdfViewer) {
     'use strict';
 
     var ns = 'previewer';
@@ -70,7 +70,7 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier, viewerFac
         }
     };
 
-    viewerFactory.registerProvider('pdf', pdfViewer);
+    documentViewer.registerProvider('pdf', pdfViewer);
 
     /**
      * @exports ui/previewer
@@ -215,13 +215,12 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier, viewerFac
                             }
                         });
                     }else if(type === 'pdf'){
-                        viewerFactory('pdf', {
-                            type: 'pdf',
-                            url: options.url,
+                        documentViewer({
                             renderTo: $content,
+                            replace: true,
                             width : options.width || _defaultSize.pdf.width,
                             height : options.height || _defaultSize.pdf.height
-                        });
+                        }).load(options.url, 'pdf');
                     }
                 }
 
