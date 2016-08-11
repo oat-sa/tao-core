@@ -26,6 +26,7 @@ define([
 ], function (_, Promise, viewerFactory, pdfViewer) {
     'use strict';
 
+    var headless = /PhantomJS/.test(window.navigator.userAgent);
 
     QUnit.module('pdfViewer factory', {
         teardown: function () {
@@ -60,25 +61,44 @@ define([
         }
     });
 
+    if (headless) {
+        QUnit.asyncTest('render', function (assert) {
+            QUnit.expect(2);
 
-    QUnit.asyncTest('render', function (assert) {
-        QUnit.expect(3);
+            viewerFactory('pdf', {
+                type: 'pdf',
+                url: location.href.replace('test.html', 'demo.pdf')
+            })
+                .on('initialized', function () {
+                    assert.ok(true, 'The viewer is initialized');
+                    this.destroy();
+                })
+                .on('unloaded', function () {
+                    assert.ok(true, 'The viewer is destroyed');
+                    QUnit.start();
+                });
+        });
+    } else {
+        QUnit.asyncTest('render', function (assert) {
+            QUnit.expect(3);
 
-        viewerFactory('pdf', {
-            type: 'pdf',
-            url: location.href.replace('test.html', 'demo.pdf')
-        })
-            .on('initialized', function () {
-                assert.ok(true, 'The viewer is initialized');
-                this.render('#qunit-fixture');
+            viewerFactory('pdf', {
+                type: 'pdf',
+                url: location.href.replace('test.html', 'demo.pdf')
             })
-            .on('loaded', function () {
-                assert.ok(true, 'The PDF file has been loaded');
-                this.destroy();
-            })
-            .on('unloaded', function () {
-                assert.ok(true, 'The viewer is destroyed');
-                QUnit.start();
-            });
-    });
+                .on('initialized', function () {
+                    assert.ok(true, 'The viewer is initialized');
+                    this.render('#qunit-fixture');
+                })
+                .on('loaded', function () {
+                    assert.ok(true, 'The PDF file has been loaded');
+                    this.destroy();
+                })
+                .on('unloaded', function () {
+                    assert.ok(true, 'The viewer is destroyed');
+                    QUnit.start();
+                });
+        });
+    }
+
 });
