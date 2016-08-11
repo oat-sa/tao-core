@@ -69,6 +69,7 @@ try {
     $path = $source->getFilePathFromUrl($url);
     $stream = $source->getFileStream($path);
     tao_helpers_Http::returnStream($stream, $source->getMimetype($path));
+    $stream->detach();
 } catch (\tao_models_classes_FileNotFoundException $e) {
     header("HTTP/1.0 404 Not Found");
 }
