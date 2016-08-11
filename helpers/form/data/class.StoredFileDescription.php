@@ -30,28 +30,16 @@
 class tao_helpers_form_data_StoredFileDescription
     extends tao_helpers_form_data_FileDescription
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
+     * Initialise stored file description
      *
-     * @access public
-     * @author Jerome Bogaerts <jerome@taotesting.com>
-     * @param  File file The URI of the file stored by Generis.
-     * @return mixed
+     * @param string $serial
      */
-    public function __construct( core_kernel_file_File $file)
+    public function __construct($serial)
     {
-        
-        $this->setFile($file);
+        $this->setFile($serial);
         
     }
 
 }
-
-?>
