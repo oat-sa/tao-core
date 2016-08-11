@@ -94,6 +94,11 @@ define([
                     throw new TypeError('You must provide a document type!');
                 }
 
+                // destroy existing viewer before setting a new one
+                if (viewer) {
+                    viewer.destroy();
+                }
+
                 documentType = type;
                 documentUrl = url;
 

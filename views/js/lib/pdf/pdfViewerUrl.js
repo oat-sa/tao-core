@@ -51,16 +51,22 @@ define([
                     async: true,
                     url: viewerUrl,
                     success: function onSuccess() {
-                        resolve(viewerUrl + '?file=' + encodeURIComponent(documentUrl));
+                        resolve(true);
                     },
                     error: function onError() {
-                        resolve(documentUrl);
+                        resolve(false);
                     }
                 });
             });
         }
 
-        return viewerCheck;
+        return viewerCheck.then(function(customViewerInstalled) {
+            if (customViewerInstalled) {
+                return viewerUrl + '?file=' + encodeURIComponent(documentUrl);
+            } else {
+                return documentUrl;
+            }
+        });
     }
 
     return getViewerUrl;
