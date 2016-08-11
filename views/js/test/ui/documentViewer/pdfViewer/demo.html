@@ -34,7 +34,7 @@
                 viewerFactory.registerProvider('pdf', pdfViewer);
                 viewerFactory('pdf', {
                     type: 'pdf',
-                    url: 'js/test/ui/documentViewer/pdfViewer/demo.pdf',
+                    url: location.href.replace('demo.html', 'demo.pdf'),
                     renderTo: '#demo'
                 });
             });
