@@ -100,6 +100,7 @@ define([
                 viewer = viewerFactory(documentType, {
                     type: documentType, // provide the type in case of hybrid/multi-type implementation
                     url: documentUrl,
+                    replace: true,      // always replace existing viewer
                     width: this.config.width,
                     height: this.config.height
                 }).on('loaded', function () {
