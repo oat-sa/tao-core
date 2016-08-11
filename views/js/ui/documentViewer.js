@@ -116,6 +116,19 @@ define([
                      * @param {String} type - The MIME type of the document to load
                      */
                     self.trigger('unloaded', documentUrl, documentType);
+                }).on('resized', function (width, height) {
+                    /**
+                     * @event documentViewer#resized
+                     * @param {Number} width
+                     * @param {Number} height
+                     */
+                    self.trigger('resized', width, height);
+                }).on('error', function (err) {
+                    /**
+                     * @event documentViewer#error
+                     * @param error
+                     */
+                    self.trigger('error', err);
                 });
 
                 /**

@@ -188,12 +188,13 @@ define([
         assert.equal(viewer.getViewer(), null, 'No viewer is defined');
     });
 
-    QUnit.test('setSize', function (assert) {
+
+    QUnit.asyncTest('setSize', function (assert) {
         var viewer = documentViewer();
         var expectedWidth = 20;
         var expectedHeight = 10;
 
-        QUnit.expect(13);
+        QUnit.expect(16);
 
         documentViewer.registerProvider('pdf', {init: _.noop, load: _.noop});
 
@@ -204,26 +205,57 @@ define([
         assert.equal(viewer.config.width, expectedWidth, 'The width has been recorded');
         assert.equal(viewer.config.height, expectedHeight, 'The height has been recorded');
 
-        viewer.load('/test.pdf', 'pdf');
+        viewer.on('resized', function(width, height) {
+            assert.ok('true', 'The document has been resized');
+            assert.equal(width, expectedWidth, 'The right width has been provided');
+            assert.equal(height, expectedHeight, 'The right height has been provided');
+        }).on('loaded', function() {
+            assert.equal(typeof viewer.getViewer(), 'object', 'The viewer is defined');
+            assert.equal(viewer.getViewer().config.width, expectedWidth, 'The width has been forwarded');
+            assert.equal(viewer.getViewer().config.height, expectedHeight, 'The height has been forwarded');
 
-        assert.equal(typeof viewer.getViewer(), 'object', 'The viewer is defined');
-        assert.equal(viewer.getViewer().config.width, expectedWidth, 'The width has been forwarded');
-        assert.equal(viewer.getViewer().config.height, expectedHeight, 'The height has been forwarded');
+            expectedWidth = 200;
+            expectedHeight = 100;
+            viewer.setSize(expectedWidth, expectedHeight);
 
-        expectedWidth = 200;
-        expectedHeight = 100;
-        viewer.setSize(expectedWidth, expectedHeight);
+            assert.equal(viewer.config.width, expectedWidth, 'The width has been changed');
+            assert.equal(viewer.config.height, expectedHeight, 'The height has been changed');
+            assert.equal(viewer.getViewer().config.width, expectedWidth, 'The width has been forwarded');
+            assert.equal(viewer.getViewer().config.height, expectedHeight, 'The height has been forwarded');
 
-        assert.equal(viewer.config.width, expectedWidth, 'The width has been changed');
-        assert.equal(viewer.config.height, expectedHeight, 'The height has been changed');
-        assert.equal(viewer.getViewer().config.width, expectedWidth, 'The width has been forwarded');
-        assert.equal(viewer.getViewer().config.height, expectedHeight, 'The height has been forwarded');
+            viewer.unload();
 
-        viewer.unload();
+            assert.equal(viewer.getViewer(), null, 'No viewer is defined');
+            assert.equal(viewer.config.width, expectedWidth, 'The width is still recorded');
+            assert.equal(viewer.config.height, expectedHeight, 'The height is still recorded');
+
+            QUnit.start();
+        });
+
+        viewer.render().load('/test.pdf', 'pdf');
+    });
+
+
+    QUnit.asyncTest('error event', function (assert) {
+        var viewer = documentViewer();
+
+        QUnit.expect(2);
+
+        documentViewer.registerProvider('pdf', {
+            init: function() {
+                return Promise.reject('test');
+            },
+            load: _.noop
+        });
 
         assert.equal(viewer.getViewer(), null, 'No viewer is defined');
-        assert.equal(viewer.config.width, expectedWidth, 'The width is still recorded');
-        assert.equal(viewer.config.height, expectedHeight, 'The height is still recorded');
+
+        viewer.on('error', function(err) {
+            assert.ok('true', 'An error has been triggered');
+            QUnit.start();
+        });
+
+        viewer.load('/test.pdf', 'pdf');
     });
 
 

@@ -146,7 +146,7 @@ define([
                 assert.ok(true, 'The init method has been delegated');
                 assert.deepEqual(this.config, expectedConfig, 'The config has been loaded');
             },
-            destroy: function() {
+            unload: function() {
                 assert.ok(true, 'The destroy method has been delegated');
             },
             load: _.noop
@@ -181,11 +181,11 @@ define([
                 assert.ok(true, 'The init method has been delegated');
                 assert.deepEqual(this.config, expectedConfig, 'The config has been loaded');
             },
-            destroy: function() {
-                assert.ok(true, 'The destroy method has been delegated');
-            },
             load: function() {
                 assert.ok(true, 'The load method has been delegated');
+            },
+            unload: function() {
+                assert.ok(true, 'The destroy method has been delegated');
             }
         });
 
@@ -230,11 +230,11 @@ define([
                 assert.equal(width, expectedWidth, 'The expected width has been provided');
                 assert.equal(height, expectedHeight, 'The expected height has been provided');
             },
-            destroy: function() {
-                assert.ok(true, 'The destroy method has been delegated');
-            },
             load: function() {
                 assert.ok(true, 'The load method has been delegated');
+            },
+            unload: function() {
+                assert.ok(true, 'The destroy method has been delegated');
             }
         });
 
@@ -262,6 +262,102 @@ define([
                 QUnit.start();
             });
 
+    });
+
+    QUnit.asyncTest('init error', function (assert) {
+        QUnit.expect(2);
+
+        viewerFactory.registerProvider('mock', {
+            init: function() {
+                assert.ok(true, 'The init method has been delegated');
+                return Promise.reject(new Error('test'));
+            },
+            load: _.noop
+        });
+
+        viewerFactory('mock')
+            .on('error', function() {
+                assert.ok(true, 'The viewer has thrown an error when initializing');
+
+                QUnit.start();
+            });
+    });
+
+
+    QUnit.asyncTest('load error', function (assert) {
+        QUnit.expect(3);
+
+        viewerFactory.registerProvider('mock', {
+            init: function() {
+                assert.ok(true, 'The init method has been delegated');
+                this.render();
+            },
+            load: function() {
+                assert.ok(true, 'The load method has been delegated');
+                return Promise.reject(new Error('test'));
+            }
+        });
+
+        viewerFactory('mock')
+            .on('error', function() {
+                assert.ok(true, 'The viewer has thrown an error when loading');
+
+                QUnit.start();
+            });
+    });
+
+
+    QUnit.asyncTest('setSize error', function (assert) {
+        QUnit.expect(4);
+
+        viewerFactory.registerProvider('mock', {
+            init: function() {
+                assert.ok(true, 'The init method has been delegated');
+                this.render();
+            },
+            load: function() {
+                assert.ok(true, 'The load method has been delegated');
+                this.setSize(10, 10);
+            },
+            setSize: function() {
+                assert.ok(true, 'The setSize method has been delegated');
+                return Promise.reject(new Error('test'));
+            }
+        });
+
+        viewerFactory('mock')
+            .on('error', function() {
+                assert.ok(true, 'The viewer has thrown an error when resizing');
+
+                QUnit.start();
+            });
+    });
+
+
+    QUnit.asyncTest('unload error', function (assert) {
+        QUnit.expect(4);
+
+        viewerFactory.registerProvider('mock', {
+            init: function() {
+                assert.ok(true, 'The init method has been delegated');
+                this.render();
+            },
+            load: function() {
+                assert.ok(true, 'The load method has been delegated');
+                this.destroy();
+            },
+            unload: function() {
+                assert.ok(true, 'The unload method has been delegated');
+                return Promise.reject(new Error('test'));
+            }
+        });
+
+        viewerFactory('mock')
+            .on('error', function() {
+                assert.ok(true, 'The viewer has thrown an error when unloading');
+
+                QUnit.start();
+            });
     });
 
 
@@ -305,7 +401,7 @@ define([
                 assert.ok(true, 'The getTemplate method has been called');
                 return mockTpl;
             },
-            destroy: function() {
+            unload: function() {
                 assert.ok(true, 'The destroy method has been delegated');
             },
             load: function() {

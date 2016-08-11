@@ -107,15 +107,27 @@ define([
                      * @event viewer#initialized
                      */
                     self.trigger('initialized');
+                }).catch(function(err) {
+                    /**
+                     * @event viewer#error
+                     * @param err
+                     */
+                    self.trigger('error', err);
                 });
             })
             .on('destroy', function onDestroy() {
                 var self = this;
-                delegate('destroy').then(function () {
+                delegate('unload').then(function () {
                     /**
                      * @event viewer#unloaded
                      */
                     self.trigger('unloaded');
+                }).catch(function(err) {
+                    /**
+                     * @event viewer#error
+                     * @param err
+                     */
+                    self.trigger('error', err);
                 });
             })
             .on('render', function onRender() {
@@ -125,6 +137,12 @@ define([
                      * @event viewer#loaded
                      */
                     self.trigger('loaded');
+                }).catch(function(err) {
+                    /**
+                     * @event viewer#error
+                     * @param err
+                     */
+                    self.trigger('error', err);
                 });
             })
             .on('setsize', function onSetSize(width, height) {
@@ -136,6 +154,12 @@ define([
                      * @param {Number} height
                      */
                     self.trigger('resized', width, height);
+                }).catch(function(err) {
+                    /**
+                     * @event viewer#error
+                     * @param err
+                     */
+                    self.trigger('error', err);
                 });
             })
             .init(config);
