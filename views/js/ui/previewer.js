@@ -8,9 +8,11 @@ define([
     'core/mimetype',
     'core/pluginifier',
     'ui/mediaplayer',
-    'iframeNotifier'
+    'iframeNotifier',
+    'ui/documentViewer/viewerFactory',
+    'ui/documentViewer/providers/pdfViewer'
 ],
-function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
+function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier, viewerFactory, pdfViewer) {
     'use strict';
 
     var ns = 'previewer';
@@ -26,7 +28,7 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
      * @type {Object}
      * @private
      */
-    var defaultSize = {
+    var _defaultSize = {
         video : {
             width : 290,
             height : 270
@@ -34,6 +36,10 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
         audio : {
             width : 290,
             height : 36
+        },
+        pdf : {
+            width : 340,
+            height : 500
         }
     };
 
@@ -43,7 +49,7 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
         videoTemplate: _.template("<div data-src=${jsonurl} data-type='${mime}'></div>"),
         audioTemplate: _.template("<div data-src=${jsonurl} data-type='${mime}'></div>"),
         imageTemplate: _.template("<img src=${jsonurl} alt='${name}' />"),
-        pdfTemplate: _.template("<object data=${jsonurl} type='application/pdf'><a href=${jsonurl} target='_blank'>${name}</a></object>"),
+        pdfTemplate: _.template("<div class='pdfpreview'></div>"),
         flashTemplate: _.template("<object data=${jsonurl} type='application/x-shockwave-flash'><param name='movie' value=${jsonurl}></param></object>"),
         mathmlTemplate: _.template("<iframe src=${jsonurl}></iframe>"),
         xmlTemplate: _.template("<pre>${xml}</pre>"),
@@ -63,6 +69,8 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
             }
         }
     };
+
+    viewerFactory.registerProvider('pdf', pdfViewer);
 
     /**
      * @exports ui/previewer
@@ -156,7 +164,7 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
                 }
 
                 if (!content) {
-                    content = previewGenerator.placeHolder(_.merge({desc: __('No preview available')}, options));
+                    content = previewGenerator.placeHolder({desc: __('No preview available'), type:options.type||options.mime||''});
                 }
                 $content = $(content);
 
@@ -172,15 +180,16 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
                 }
 
                 $elt.empty().html($content);
-                if (type === 'audio' || type === 'video') {
-                    if (options.url) {
+                if(options.url){
+                    console.log(options);
+                    if (type === 'audio' || type === 'video') {
                         self.player = mediaplayer({
-                            url: options.url,
-                            type: options.mime,
-                            renderTo: $content
-                        })
+                                url: options.url,
+                                type: options.mime,
+                                renderTo: $content
+                            })
                             .on('ready', function() {
-                                var defSize = defaultSize[this.getType()] || defaultSize.video;
+                                var defSize = _defaultSize[this.getType()] || _defaultSize.video;
                                 var width = options.width || defSize.width;
                                 var height = options.height || defSize.height;
                                 this.resize(width, height);
@@ -205,6 +214,15 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
                                 $controls.off('mousedown.mediaelement');
                                 self._clearPlayer();
                             }
+                        });
+                    }else if(type === 'pdf'){
+                        console.log(options.width || _defaultSize.pdf.width, options.height || _defaultSize.pdf.height);
+                        viewerFactory('pdf', {
+                            type: 'pdf',
+                            url: options.url,
+                            renderTo: $content,
+                            width : options.width || _defaultSize.pdf.width,
+                            height : options.height || _defaultSize.pdf.height
                         });
                     }
                 }
