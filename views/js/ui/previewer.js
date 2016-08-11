@@ -181,7 +181,6 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier, viewerFac
 
                 $elt.empty().html($content);
                 if(options.url){
-                    console.log(options);
                     if (type === 'audio' || type === 'video') {
                         self.player = mediaplayer({
                                 url: options.url,
@@ -216,7 +215,6 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier, viewerFac
                             }
                         });
                     }else if(type === 'pdf'){
-                        console.log(options.width || _defaultSize.pdf.width, options.height || _defaultSize.pdf.height);
                         viewerFactory('pdf', {
                             type: 'pdf',
                             url: options.url,
