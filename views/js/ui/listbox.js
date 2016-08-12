@@ -187,6 +187,7 @@ define([
          * @returns {listBox}
          */
         setSize: function setSize() {
+            console.warn('The setSize() method has been disabled in the listbox component as its size is handled by CSS flex box');
             return this;
         }
     };
