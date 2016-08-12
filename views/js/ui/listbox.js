@@ -38,7 +38,7 @@ define([
         textNumber : __('Available'),
         textEmpty : __('There is nothing to list!'),
         textLoading : __('Loading'),
-        width : 12
+        flex : 12
     };
 
     /**
@@ -70,7 +70,7 @@ define([
                 if (list && list.length) {
                     $list.append(listTpl({
                         list : list,
-                        width: this.config.width
+                        width: this.config.flex
                     }));
 
                     if($numberValue){
@@ -180,6 +180,15 @@ define([
             }
 
             return this;
+        },
+
+        /**
+         * Just override the base method to prevent unwanted resizing: the width must be handled by CSS flex box
+         * @returns {listBox}
+         */
+        setSize: function setSize() {
+            console.warn('The setSize() method has been disabled in the listbox component as its size is handled by CSS flex box');
+            return this;
         }
     };
 
@@ -190,44 +199,50 @@ define([
      * @param {String|Boolean} [config.textNumber] - Sets the label of the number of boxes. If the value is false no label is displayed (default: 'Available')
      * @param {String|Boolean} [config.textEmpty] - Sets the label displayed when there no boxes available. If the value is false no label is displayed (default: 'There is nothing to list!')
      * @param {String|Boolean} [config.textLoading] - Sets the label displayed when the list is loading. If the value is false no label is displayed (default: 'Loading')
-     * @param {Number} [config.width] - Sets the default width of all boxes, unless they define their own value. (default: 12)
+     * @param {Number} [config.width] - Sets the default flex width of all boxes, unless they define their own value. (default: 12)
      * @param {Array} [config.list] - The list of boxes to display
      * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
      * @param {Function} [config.countRenderer] - An optional callback applied on the list count before display
      * @returns {listBox}
      */
-    var listBoxactory = function listBoxFactory(config) {
+    var listBoxFactory = function listBoxFactory(config) {
+        var initConfig = config || {};
+
+        // The width is managed by CSS flex box. So we need to remap the flex width to another attribute,
+        // as the width is used to size the base component using pixels units.
+        // Please also note the main size handling brought by the base component is not used here, and has been disabled.
+        initConfig.flex = initConfig.width;
 
         return component(listBox, _defaults)
-                .setTemplate(mainTpl)
+            .setTemplate(mainTpl)
 
-                // uninstalls the component
-                .on('destroy', function() {
-                    this.controls = null;
-                })
+            // uninstalls the component
+            .on('destroy', function() {
+                this.controls = null;
+            })
 
-                // renders the component
-                .on('render', function() {
-                    this.controls = {
-                        $title : this.$component.find('h1'),
-                        $textEmpty : this.$component.find('.empty-list'),
-                        $textAvailable : this.$component.find('.available-list'),
-                        $textLoading : this.$component.find('.loading span'),
-                        $numberLabel : this.$component.find('.available-list .label'),
-                        $numberValue : this.$component.find('.available-list .count'),
-                        $list : this.$component.find('.list')
-                    };
+            // renders the component
+            .on('render', function() {
+                this.controls = {
+                    $title : this.$component.find('h1'),
+                    $textEmpty : this.$component.find('.empty-list'),
+                    $textAvailable : this.$component.find('.available-list'),
+                    $textLoading : this.$component.find('.loading span'),
+                    $numberLabel : this.$component.find('.available-list .label'),
+                    $numberValue : this.$component.find('.available-list .count'),
+                    $list : this.$component.find('.list')
+                };
 
-                    if (this.config.list) {
-                        this.update(this.config.list);
-                    } else {
-                        this.setState('empty', true);
-                        this.setState('loaded', false);
-                    }
-                })
-                .init(config);
+                if (this.config.list) {
+                    this.update(this.config.list);
+                } else {
+                    this.setState('empty', true);
+                    this.setState('loaded', false);
+                }
+            })
+            .init(_.omit(initConfig, 'width'));
     };
 
-    return listBoxactory;
+    return listBoxFactory;
 });
