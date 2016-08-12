@@ -557,13 +557,13 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         }
         $this->skip('5.9.2', '6.0.1');
-        
+
         if ($this->isVersion('6.0.1')) {
             OntologyUpdater::syncModels();
             $this->setVersion('6.1.0');
         }
 
-        $this->skip('6.1.0', '7.0.0');
+        $this->skip('6.1.0', '7.4.2');
     }
 
     private function migrateFsAccess() {

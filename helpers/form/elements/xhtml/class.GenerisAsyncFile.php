@@ -365,16 +365,14 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     public function buildDownloaderBehaviour()
     {
         $returnValue = (string) '';
-
         
         $downloadButtonId = $this->buildDownloadButtonId();
         $iFrameId = $this->buildIframeId();
-        $fileUri = $this->value->getFile()->getUri();
-        $fileUri = tao_helpers_Uri::encode($fileUri);
+        $serial = $this->value->getFileSerial();
          
         $returnValue .= '$(document).ready(function() {';
         $returnValue .= '	$("#' . $downloadButtonId . '").click(function() {';
-        $returnValue .= '		$("#' . $iFrameId . '").attr("src", "'.ROOT_URL.'tao/File/downloadFile?uri=' . $fileUri . '")';
+        $returnValue .= '		$("#' . $iFrameId . '").attr("src", '.json_encode(_url('downloadFile','File','tao', array('id' => $serial))).')';
         $returnValue .= '	});';
         $returnValue .= '});';
         

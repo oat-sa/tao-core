@@ -106,7 +106,7 @@ class tao_models_classes_Parser
     const SOURCE_STRING = 3;
 
     /**
-     * Current file is oat\tao\model\service\File object
+     * Current file is \oat\oatbox\filesystem\File object
      */
     const SOURCE_FLYFILE = 4;
 
@@ -122,7 +122,7 @@ class tao_models_classes_Parser
     public function __construct($source, $options = array())
     {
 
-        if($source instanceof \oat\tao\model\service\File) {
+        if($source instanceof \oat\oatbox\filesystem\File) {
             $this->sourceType = self::SOURCE_FLYFILE;
         } elseif (preg_match("/^<\?xml(.*)?/m", trim($source))) {
             $this->sourceType = self::SOURCE_STRING;
