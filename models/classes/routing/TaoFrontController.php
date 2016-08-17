@@ -25,14 +25,17 @@ use common_ext_ExtensionsManager;
 use common_http_Request;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
+use oat\oatbox\service\ServiceInjectorAwareInterface;
+use oat\oatbox\service\ServiceInjectorAwareTrait;
 /**
  * A simple controller to replace the ClearFw controller
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
 class TaoFrontController
-{
+    implements ServiceInjectorAwareInterface {
+    
+    use ServiceInjectorAwareTrait;
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response) {
         $request->getUri();

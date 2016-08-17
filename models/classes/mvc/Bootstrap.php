@@ -33,8 +33,9 @@ use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
-use Request;
 use Exception;
+use \oat\oatbox\service\ServiceInjectorAwareInterface;
+use \oat\oatbox\service\ServiceInjectorAwareTrait;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -57,7 +58,9 @@ use Exception;
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap {
+class Bootstrap implements ServiceInjectorAwareInterface {
+    
+    use ServiceInjectorAwareTrait;
     
     const CONFIG_SESSION_HANDLER = 'session';
 
@@ -81,6 +84,11 @@ class Bootstrap {
 	    
 	    require_once $configFile;
 	    
+            $this->setServiceInjector(common_ext_ExtensionsManager::singleton()
+                    ->getExtensionById('generis')
+                    ->getConfig('serviceInjector')
+                    ->factory());
+            
 	    common_Profiler::singleton()->register();
 
 		if(PHP_SAPI == 'cli'){
@@ -329,6 +337,6 @@ class Bootstrap {
 
 	private function getServiceManager()
 	{
-	    return ServiceManager::getServiceManager();
+	    return $this->getServiceInjector();
 	}
 }
