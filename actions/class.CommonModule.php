@@ -212,7 +212,7 @@ abstract class tao_actions_CommonModule extends Module
      */
 	public function forward($action, $controller = null, $extension = null, $params = array())
     {
-        $flow = new FlowController();
+        $flow = $this->getServiceInjector()->get('tao.routing.flow');
         $flow->forward($action, $controller, $extension, $params);
     }
 
@@ -222,7 +222,8 @@ abstract class tao_actions_CommonModule extends Module
      */
     public function forwardUrl($url)
     {
-        $flow = new FlowController();
+
+        $flow = $this->getServiceInjector()->get('tao.routing.flow');
         $flow->forwardUrl($url);
     }
 
@@ -232,7 +233,7 @@ abstract class tao_actions_CommonModule extends Module
      */
 	public function redirect($url, $statusCode = 302)
     {
-        $flow = new FlowController();
+        $flow = $flow = $this->getServiceInjector()->get('tao.routing.flow');
         $flow->redirect($url, $statusCode);
     }
     
