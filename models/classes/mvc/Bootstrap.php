@@ -308,8 +308,8 @@ class Bootstrap implements ServiceInjectorAwareInterface {
     protected function mvc()
     {
         $re = \common_http_Request::currentRequest();
-        $fc = new TaoFrontController();
-        $fc->legacy($re);
+        $fc = $this->getServiceInjector()->get('tao.routing.controller');
+        $fc->init($this->getServiceInjector())->legacy($re);
     }
 
 	/**

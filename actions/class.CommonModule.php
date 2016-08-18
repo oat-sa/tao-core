@@ -238,7 +238,7 @@ abstract class tao_actions_CommonModule extends Module
     
     /**
      * Placeholder function until controllers properly support service manager
-     * 
+     * @deprecated since 7.5.0
      * @return \oat\oatbox\service\ServiceManager
      */
     protected function getServiceManager()

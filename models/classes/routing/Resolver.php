@@ -23,6 +23,8 @@ namespace oat\tao\model\routing;
 use common_http_Request;
 use tao_helpers_Request;
 use common_ext_ExtensionsManager;
+use \oat\oatbox\service\ServiceInjectorAwareInterface;
+use \oat\oatbox\service\ServiceInjectorAwareTrait;
 
 /**
  * Resolves a http request to a controller and method
@@ -30,8 +32,11 @@ use common_ext_ExtensionsManager;
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
-class Resolver
+class Resolver implements ServiceInjectorAwareInterface
 {
+
+    use ServiceInjectorAwareTrait;
+
     const DEFAULT_EXTENSION = 'tao';
     
     /**
@@ -50,13 +55,18 @@ class Resolver
     /**
      * Resolves a request to a method
      * 
-     * @param common_http_Request $pRequest
+     * @param common_http_Request $request
      * @return string
      */
-    public function __construct(common_http_Request $request) {
+    public function __construct(common_http_Request $request = null) {
        $this->request = $request;
     }
-    
+
+    public function setRequest(common_http_Request $request) {
+        $this->request = $request;
+        return $this;
+    }
+
     public function getExtensionId() {
         if (is_null($this->extensionId)) {
             $this->resolve();

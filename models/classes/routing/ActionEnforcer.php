@@ -34,6 +34,8 @@ use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\BeforeAction;
+use \oat\oatbox\service\ServiceInjectorAwareInterface;
+use \oat\oatbox\service\ServiceInjectorAwareTrait;
 
 /**
  * ActionEnforcer class
@@ -42,8 +44,11 @@ use oat\tao\model\event\BeforeAction;
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @author Joel Bout <joel@taotesting.com>
  */
-class ActionEnforcer implements IExecutable
-{	
+class ActionEnforcer implements IExecutable,ServiceInjectorAwareInterface
+{
+
+    use ServiceInjectorAwareTrait;
+
     private $extension;
     
     private $controller;
@@ -52,13 +57,61 @@ class ActionEnforcer implements IExecutable
     
     private $parameters;
     
-    public function __construct($extensionId, $controller, $action, array $parameters) {
+    public function __construct($extensionId = null, $controller = null, $action = null, array $parameters = null) {
         $this->extension = $extensionId;
         $this->controller = $controller;
         $this->action = $action;
         $this->parameters = $parameters;
     }
-    
+
+    /**
+     * controller setter
+     * @param $controller
+     * @return $this
+     */
+    public function setController($controller) {
+        if(is_null($this->controller)) {
+            $this->controller = $controller;
+        }
+        return $this;
+    }
+
+    /**
+     * extension setter
+     * @param $extensionId
+     * @return $this
+     */
+    public function setExtension($extensionId) {
+        if(is_null( $this->extension)) {
+            $this->extension = $extensionId;
+        }
+        return $this;
+    }
+
+    /**
+     * action setter
+     * @param $action
+     * @return $this
+     */
+    public function setAction($action) {
+        if(is_null( $this->action)) {
+            $this->action = $action;
+        }
+        return $this;
+    }
+
+    /**
+     * parameters setter
+     * @param array $parameters
+     * @return $this
+     */
+    public function setParameters(array $parameters = []) {
+        if(is_null( $this->parameters)) {
+            $this->parameters = $parameters;
+        }
+        return $this;
+    }
+
     protected function getExtensionId() {
         return $this->extension;
     }
@@ -79,7 +132,12 @@ class ActionEnforcer implements IExecutable
     {
         $controllerClass = $this->getControllerClass();
         if(class_exists($controllerClass)) {
-            return new $controllerClass();
+            /**
+             * @var $controller \tao_actions_CommonModule
+             */
+            $controller =  new $controllerClass();
+            $controller->setServiceInjector($this->getServiceInjector());
+            return $controller;
         } else {
             throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
         }
