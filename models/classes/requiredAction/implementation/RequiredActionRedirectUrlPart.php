@@ -27,18 +27,20 @@ use oat\tao\model\requiredAction\RequiredActionRuleInterface;
 use oat\tao\model\routing\FlowController;
 
 /**
- * @deprecated use \oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart instead
- *
  * Class RequiredAction
  *
  * RequiredAction is action which should be executed by user before performing any activities in the TAO
  *
  * @package oat\tao\model\requiredAction\implementation
- * @author Aleh Hutnilau <hutnikau@1pt.com>
  */
-class RequiredActionRedirect extends RequiredActionAbstract
+class RequiredActionRedirectUrlPart extends RequiredActionAbstract
 {
-    private $excludedRoutes = [
+    /**
+     * Route to be ignored
+     *
+     * @var array
+     */
+    protected $excludedRoutes = [
         [
             'extension' => 'tao',
             'module' => 'ClientConfig',
@@ -47,31 +49,29 @@ class RequiredActionRedirect extends RequiredActionAbstract
     ];
 
     /**
-     * @var string
+     * Array of url parts
+     *
+     * @var array
      */
-    private $url;
+    protected $url;
 
     /**
-     * @deprecated use \oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart instead
-     *
-     * RequiredActionRedirect constructor.
+     * RequiredActionRedirectUrlPart constructor.
      * @param string $name
-     * @param RequiredActionRuleInterface[] $rules
-     * @param string $url
-     * @throws Exception
+     * @param array $rules
+     * @param array $url
      */
-    public function __construct($name, array $rules, $url)
+    public function __construct($name, array $rules, array $url)
     {
         parent::__construct($name, $rules);
         $this->url = $url;
     }
 
     /**
-     * @deprecated use \oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart instead
-     *
      * Execute an action
+     *
      * @param array $params
-     * @return mixed
+     * @return string The callback url
      */
     public function execute(array $params = [])
     {
@@ -83,9 +83,11 @@ class RequiredActionRedirect extends RequiredActionAbstract
             'action' => $context->getActionName(),
         ];
 
-        if (!in_array($currentRoute, $excludedRoutes)) {
+        if (! in_array($currentRoute, $excludedRoutes)) {
             $currentUrl = \common_http_Request::currentRequest()->getUrl();
-            $url = $this->url . (parse_url($this->url, PHP_URL_QUERY) ? '&' : '?') . 'return_url=' . urlencode($currentUrl);
+
+            $transformedUrl = $this->getTransformedUrl();
+            $url = $transformedUrl . (parse_url($transformedUrl, PHP_URL_QUERY) ? '&' : '?') . 'return_url=' . urlencode($currentUrl);
 
             $flowController = new FlowController();
             $flowController->redirect($url);
@@ -99,23 +101,34 @@ class RequiredActionRedirect extends RequiredActionAbstract
     {
         $class = get_class($this);
         $name = $this->name;
-        $url = $this->url;
         $rules = \common_Utils::toHumanReadablePhpString($this->getRules());
+        $url = \common_Utils::toHumanReadablePhpString($this->url);
         return "new $class(
             '$name',
             $rules,
-            '$url'
+            $url
         )";
     }
 
     /**
+     * Get url string from $this->url
+     *
+     * @return string
+     */
+    protected function getTransformedUrl()
+    {
+        return call_user_func_array('_url', $this->url);
+    }
+
+    /**
      * Some actions should not be redirected (such as retrieving requireJs config)
+     *
      * @return array
      */
-    private function getExcludedRoutes()
+    protected function getExcludedRoutes()
     {
         $result = $this->excludedRoutes;
-        $resolver = new \Resolver($this->url);
+        $resolver = new \Resolver($this->getTransformedUrl());
 
         $result[] = [
             'extension' => $resolver->getExtensionFromURL(),
