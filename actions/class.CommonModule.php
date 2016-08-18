@@ -21,8 +21,10 @@
  */
 
 use oat\tao\helpers\Template;
-use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
+use \oat\oatbox\service\ServiceInjectorAwareInterface;
+use \oat\oatbox\service\ServiceInjectorAwareTrait;
+
 
 /**
  * Top level controller
@@ -33,8 +35,10 @@ use oat\oatbox\service\ServiceManager;
  * @package tao
  *         
  */
-abstract class tao_actions_CommonModule extends Module
+abstract class tao_actions_CommonModule extends Module implements ServiceInjectorAwareInterface
 {
+
+    use ServiceInjectorAwareTrait;
 
     /**
      * The Modules access the models throught the service instance
