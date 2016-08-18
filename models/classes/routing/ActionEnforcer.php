@@ -131,14 +131,13 @@ class ActionEnforcer implements IExecutable,ServiceInjectorAwareInterface
     protected function getController()
     {
         $controllerClass = $this->getControllerClass();
-        if(class_exists($controllerClass)) {
+        try {
             /**
              * @var $controller \tao_actions_CommonModule
              */
-            $controller =  new $controllerClass();
-            $controller->setServiceInjector($this->getServiceInjector());
+            $controller =  $this->getServiceInjector()->get($controllerClass);
             return $controller;
-        } else {
+        } catch(\Exception $e ) {
             throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
         }
     }

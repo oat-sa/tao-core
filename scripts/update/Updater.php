@@ -609,7 +609,11 @@ class Updater extends \common_ext_ExtensionUpdater {
                                     'tao.action.resolver'         => '\\oat\\tao\\model\\routing\\ActionResolver' ,
                                     'tao.routing.flow'            => '\\oat\\tao\\model\\routing\\FlowController' ,
                                     'tao.routing.cli'             => '\\oat\\tao\\model\\routing\\CliController',
-                                ]
+                                ],
+                            'abstract_factories' =>
+                                [
+                                    '\\oat\\tao\\model\\routing\\ControllerFactory'
+                                ],
                         ],
                 ]);
             }

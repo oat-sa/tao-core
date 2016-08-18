@@ -90,7 +90,7 @@ class FlowController extends ClearFwFlowController implements ServiceInjectorAwa
 
         //add a custom header so the client knows where the route ends
         header(self::FORWARD_HEADER . ': ' . $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName());
-
+        /* @var $actionEnforcer ActionEnforcer */
         $actionEnforcer = $this->getServiceInjector()->get('tao.routing.action');
         //execite the new action
         $actionEnforcer

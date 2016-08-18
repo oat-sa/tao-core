@@ -21,11 +21,8 @@
  */
 namespace oat\tao\model\mvc;
 
-use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
-use oat\tao\model\routing\TaoFrontController;
-use oat\tao\model\routing\CliController;
 use common_Profiler;
 use common_Logger;
 use common_ext_ExtensionsManager;
@@ -302,8 +299,8 @@ class Bootstrap implements ServiceInjectorAwareInterface {
 
 	/**
 	 *  Start the MVC Loop from the ClearFW
-	 *  @throws ActionEnforcingException in case of wrong module or action
-	 *  @throws tao_models_classes_UserException when a request try to acces a protected area
+	 *  @throws \ActionEnforcingException in case of wrong module or action
+	 *  @throws \tao_models_classes_UserException when a request try to acces a protected area
 	 */
     protected function mvc()
     {
