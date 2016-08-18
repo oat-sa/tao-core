@@ -19,43 +19,19 @@
  *
  */
 
-use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
-use oat\tao\model\requiredAction\implementation\TimeRule;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use Prophecy\Argument;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
-
-/**
- * class RequiredActionTest
- *
- * @author Aleh Hutnilau <hutnikau@1pt.com>
- * @package tao
- */
-class RequiredActionRedirectTest extends TaoPhpUnitTestRunner
+class RequiredActionRedirectUrlPartTest extends TaoPhpUnitTestRunner
 {
-    /**
-     * tests initialization
-     */
-    public function setUp()
-    {
-        TaoPhpUnitTestRunner::initTest();
-    }
-
-    /**
-     * tests clean up
-     */
-    public function tearDown()
-    {
-
-    }
 
     /**
      * @dataProvider optionsProvider
      */
     public function testMustBeExecuted($result, $rules)
     {
-        $action = new RequiredActionRedirect('testAction', $rules, 'url');
+        $action = new RequiredActionRedirectUrlPart('testAction', $rules, array('url'));
         $this->assertEquals($action->mustBeExecuted(), $result);
     }
 
