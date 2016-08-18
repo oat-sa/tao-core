@@ -193,7 +193,7 @@ class Bootstrap implements ServiceInjectorAwareInterface {
 	        $report = new Report(Report::TYPE_ERROR, __('No action specified'));
 	    } else {
             $actionIdentifier = array_shift($params);
-            $cliController = new CliController();
+            $cliController = $this->getServiceInjector()->get('tao.routing.cli');
             $report = $cliController->runAction($actionIdentifier, $params);
 	    }
 	     

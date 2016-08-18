@@ -20,22 +20,22 @@
 
 namespace oat\tao\model\routing;
 
-use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ServiceInjectorAwareInterface;
+use oat\oatbox\service\ServiceInjectorAwareTrait;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use common_report_Report as Report;
 use oat\oatbox\action\Help;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+
 
 /**
  * Class CliController
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\routing
  */
-class CliController implements ServiceLocatorAwareInterface
+class CliController implements ServiceInjectorAwareInterface
 {
-    use ServiceLocatorAwareTrait;
+    use ServiceInjectorAwareTrait;
 
     /**
      * @var ActionService
@@ -47,8 +47,7 @@ class CliController implements ServiceLocatorAwareInterface
      */
     public function __construct()
     {
-        $this->setServiceLocator(ServiceManager::getServiceManager());
-        $this->actionService = $this->getServiceLocator()->get(ActionService::SERVICE_ID);
+        $this->actionService = $this->getServiceInjector()->get(ActionService::SERVICE_ID);
     }
 
     /**
@@ -67,8 +66,8 @@ class CliController implements ServiceLocatorAwareInterface
             $action = new Help($extId);
         }
 
-        if ($action instanceof ServiceLocatorAwareInterface) {
-            $action->setServiceLocator($this->getServiceLocator());
+        if ($action instanceof ServiceInjectorAwareInterface) {
+            $action->setServiceInjector($this->getServiceInjector());
         }
 
         try {
