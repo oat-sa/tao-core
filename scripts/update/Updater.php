@@ -564,8 +564,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('6.1.0');
         }
 
-        $this->skip('6.1.0', '7.4.4');
-        if ($this->isVersion('7.4.4')) {
+
+        $this->skip('6.1.0', '7.4.5');
+        if ($this->isVersion('7.4.5')) {
             if ($this->getServiceManager()->has(ServiceInjectorRegistry::SERVICE_ID)) {
                 /* @var  ServiceInjectorRegistry $injector */
                 $injector = $this->getServiceManager()->get(ServiceInjectorRegistry::SERVICE_ID);
@@ -622,6 +623,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(ServiceInjectorRegistry::SERVICE_ID , $injector);
             $this->setVersion('7.5.0');
         }
+
     }
 
     private function migrateFsAccess() {
