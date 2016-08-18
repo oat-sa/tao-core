@@ -17,6 +17,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2016 (original work) Open Assessment Technologies SA;
  * 
  */
 
@@ -110,13 +111,14 @@ abstract class tao_actions_CommonModule extends Module implements ServiceInjecto
         $this->setData('client_timeout', $this->getClientTimeout());
         $this->setData('client_config_url', $this->getClientConfigUrl());
     }
-	
+
     /**
      * Function to return an user readable error
      * Does not work with ajax Requests yet
-     * 
-     * @param string $description error to show
-     * @param boolean $returnLink whenever or not to add a return link
+     *
+     * @param $description
+     * @param bool $returnLink
+     * @throws common_Exception
      */
     protected function returnError($description, $returnLink = true) {
         if (tao_helpers_Request::isAjax()) {
