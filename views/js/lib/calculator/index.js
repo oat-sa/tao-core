@@ -118,6 +118,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
                             key = 'CE';
                             break;
                         case 111:
+                        case 191:
                             // divide
                             key = '/';
                             break;
