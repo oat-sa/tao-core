@@ -8,7 +8,7 @@
  * @author Sam <sam@taotesting.com> for OAT SA in 2016
  * - Code refactoring to fit AMD modules
  * - replaced custom selector with JQuery selectors
- * - added focus listener, decial calculation fix, button highlight
+ * - added focus listener, decimal calculation fix, button highlight
  *  -i18n
  */
 define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], function ($, templateTpl, __, gamp){
@@ -78,7 +78,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
                     total = gamp.pow(total, val);
                     break;
             }
-            display.value = _fixDecimal(total);
+            display.value = total;
         }
 
         /**
@@ -534,16 +534,6 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
             $display.focus();
             $display[0].setSelectionRange(strLength, strLength);
         });
-    }
-
-    /**
-     * Fix rounding issue due to math operation on float numbers in javascript
-     *
-     * @param {Number} num
-     * @returns {Number}
-     */
-    function _fixDecimal(num){
-        return gamp.format(num).toString();
     }
 
     /**
