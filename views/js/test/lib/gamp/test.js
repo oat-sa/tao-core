@@ -27,7 +27,7 @@ define(['lib/gamp/gamp'], function(gamp){
         QUnit.expect(8);
         assert.equal(typeof gamp, 'function', 'The gamp module exposes a function');
         assert.equal(typeof gamp.normalize, 'function', 'The gamp API exposes the normalize() function');
-        assert.equal(typeof gamp.format, 'function', 'The gamp API exposes the format() function');
+        assert.equal(typeof gamp.round, 'function', 'The gamp API exposes the round() function');
         assert.equal(typeof gamp.add, 'function', 'The gamp API exposes the add() function');
         assert.equal(typeof gamp.sub, 'function', 'The gamp API exposes the sub() function');
         assert.equal(typeof gamp.mul, 'function', 'The gamp API exposes the mul() function');
@@ -65,18 +65,21 @@ define(['lib/gamp/gamp'], function(gamp){
         });
     });
 
-    QUnit.test('format', function (assert) {
+    QUnit.test('round', function (assert) {
         var checks = [
             {value: 42, result: 42},
             {value: 5.0000000000000002, result: 5},
             {value: 2.9999999999999996, result: 3},
+            {value: 2.999999999999999, result: 2.999999999999999},
             {value: 9.9999999999999996, result: 10},
-            {value: 1.2345678, precision: 6, result: 1.23457}
+            {value: 9.999999999999999, result: 9.999999999999999},
+            {value: 1.2345678, precision: 6, result: 1.23457},
+            {value: 11.38, precision: 3, result: 11.4}
         ];
 
         QUnit.expect(checks.length);
         checks.forEach(function (check) {
-            assert.equal(gamp.format(check.value, check.precision), check.result, 'The formated value of ' + check.value + ' is ' + check.result);
+            assert.equal(gamp.round(check.value, check.precision), check.result, 'The formated value of ' + check.value + ' is ' + check.result);
         });
     });
 
@@ -235,8 +238,8 @@ define(['lib/gamp/gamp'], function(gamp){
         QUnit.expect(checks.length * 2);
         checks.forEach(function (check) {
             var result = gamp.div(check.left, check.right);
-            assert.equal(gamp.format(result * check.right), check.left, 'The result of ' + check.left + ' / ' + check.right + ' should be reversed to the left operand');
-            assert.equal(gamp.format(check.left / result), check.right, 'The result of ' + check.left + ' / ' + check.right + ' should be reversed to the right operand');
+            assert.equal(gamp.round(result * check.right), check.left, 'The result of ' + check.left + ' / ' + check.right + ' should be reversed to the left operand');
+            assert.equal(gamp.round(check.left / result), check.right, 'The result of ' + check.left + ' / ' + check.right + ' should be reversed to the right operand');
         });
     });
 

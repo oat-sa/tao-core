@@ -1,5 +1,5 @@
 /**
- * Gamp v0.1.0 - A simple arithmetic API with workaround to floating-point issue
+ * Gamp v0.2.1 - A simple arithmetic API with workaround to floating-point issue
  *
  * https://github.com/jsconan/gamp
  *
@@ -64,13 +64,13 @@
         };
 
         /**
-         * Formats a number to prevent round-off error
+         * Adjusts the number of digits to prevent round-off error
          * @param {number} val
-         * @param {number} [precision=16]
+         * @param {number} [digits=16]
          * @returns {number}
          */
-        gamp.format = function format(val, precision) {
-            return Number(Number(val).toPrecision('undefined' === typeof precision ? 16 : precision));
+        gamp.round = function round(val, digits) {
+            return Number(Number(val).toPrecision('undefined' === typeof digits ? 16 : digits));
         };
 
         /**
@@ -81,7 +81,7 @@
          */
         gamp.add = function add(a, b) {
             var factor = gamp(a, b);
-            return gamp.format((gamp.normalize(a, factor) + gamp.normalize(b, factor)) / factor);
+            return gamp.round((gamp.normalize(a, factor) + gamp.normalize(b, factor)) / factor);
         };
 
         /**
@@ -92,7 +92,7 @@
          */
         gamp.sub = function sub(a, b) {
             var factor = gamp(a, b);
-            return gamp.format((gamp.normalize(a, factor) - gamp.normalize(b, factor)) / factor);
+            return gamp.round((gamp.normalize(a, factor) - gamp.normalize(b, factor)) / factor);
         };
 
         /**
@@ -103,7 +103,7 @@
          */
         gamp.mul = function mul(a, b) {
             var factor = gamp(a, b);
-            return gamp.format((gamp.normalize(a, factor) * gamp.normalize(b, factor)) / (factor * factor), 15);
+            return gamp.round((gamp.normalize(a, factor) * gamp.normalize(b, factor)) / (factor * factor), 15);
         };
 
         /**
@@ -114,7 +114,7 @@
          */
         gamp.div = function div(a, b) {
             var factor = gamp(a, b);
-            return gamp.format(gamp.normalize(a, factor) / gamp.normalize(b, factor));
+            return gamp.round(gamp.normalize(a, factor) / gamp.normalize(b, factor));
         };
 
         /**
@@ -132,7 +132,7 @@
             if (fb) {
                 res = gamp.div(gamp.mul(res, Math.pow(ta, fb)), Math.pow(factor, fb));
             }
-            return gamp.format(res, 15);
+            return gamp.round(res, 15);
         };
 
         return gamp;
