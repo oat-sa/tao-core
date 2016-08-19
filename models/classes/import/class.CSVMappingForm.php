@@ -98,8 +98,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
 	    		$columnsOptions[$i.tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = __('Column') . ' ' . ($i + 1) . ' : ' . $column;
                 $columnsOptionsLabels[$i.tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = $this->prepareString($column);
 	    	}
-    	}
-    	else{
+    	} else {
     		// We do not know column so we display more neutral information
     		// about columns to the end user.
     		for ($i = 0; $i < count($this->options['csv_column']); $i++){
@@ -177,9 +176,8 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
 		$optMulti = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::MULTI_VALUES_DELIMITER, 'Hidden');
 		$this->form->addElement($optMulti);
 
-		$optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES.'_0', 'Hidden');
+		$optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Hidden');
 		$this->form->addElement($optFirstColumn);
-		
 
     }
 

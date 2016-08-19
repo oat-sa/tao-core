@@ -79,6 +79,7 @@ abstract class ResponseAbstract implements ResponseInterface {
         }
 
         $className = __NAMESPACE__ . '\\' . $this->rendererClassList[$renderClass];
+
         return new $className();
     }
     /**
@@ -104,9 +105,11 @@ abstract class ResponseAbstract implements ResponseInterface {
     /**
      * @inherit
      */
-    public function send() {
-        $accept = explode(',' , $_SERVER['HTTP_ACCEPT']);
+    public function send()
+    {
+        $accept = array_key_exists('HTTP_ACCEPT', $_SERVER) ? explode(',' , $_SERVER['HTTP_ACCEPT']) : [];
         $renderer = $this->chooseRenderer($accept);
+
         return $renderer->setException($this->exception)->setHttpCode($this->httpCode)->sendHeaders()->send();
     }
     

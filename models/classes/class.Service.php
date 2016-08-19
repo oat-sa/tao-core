@@ -1,5 +1,6 @@
 <?php
 
+use oat\oatbox\service\ServiceManager;
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -135,6 +136,16 @@ abstract class tao_models_classes_Service {
         
 
         return $returnValue;
+    }
+
+    /**
+     * Placeholder until the servicemanage is passed properly
+     *
+     * @return \oat\oatbox\service\ServiceManager
+     */
+    public function getServiceLocator()
+    {
+        return ServiceManager::getServiceManager();
     }
 
 }

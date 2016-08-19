@@ -26,6 +26,6 @@ use oat\oatbox\service\ServiceManager;
 $action = new UpdateExtensions();
 $action->setServiceLocator(ServiceManager::getServiceManager());
 $report = $action->__invoke(array());
-echo tao_helpers_report_Rendering::renderToCommandline($report);
+echo helpers_Report::renderToCommandline($report);
 echo 'Update completed' . PHP_EOL;
 
