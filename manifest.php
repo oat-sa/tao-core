@@ -83,7 +83,8 @@ return array(
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
-            AddLogFs::class
+            AddLogFs::class,
+            oat\tao\scripts\install\ServiceInjectorInstaller::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
