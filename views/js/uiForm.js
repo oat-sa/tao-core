@@ -794,6 +794,7 @@ define([
             $propertyType.on('change', showPropertyList).trigger('change');
 
             //display the values of the selected list
+            $propertyListValues.off('change');
             $propertyListValues.on('change', showPropertyListValues).trigger('change');
 
             //show the "green plus" button to manage the lists

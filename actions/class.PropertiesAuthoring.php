@@ -353,9 +353,11 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
         unset($propertyValues['type']);
         unset($propertyValues['range']);
-        
+        $rangeNotEmpty = false;
+
         if (isset($propertyMap[$type])) {
             $values[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
+            $rangeNotEmpty = ($propertyMap[$type]['range'] === RDFS_RESOURCE);
         }
         
         foreach($propertyValues as $key => $value){
@@ -367,6 +369,11 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         $validator = new tao_helpers_form_validators_NotEmpty(array('message' => __('Property\'s label field is required')));
         if(!$validator->evaluate($values[RDFS_LABEL])){
             throw new Exception($validator->getMessage());
+        }
+
+        $rangeValidator = new tao_helpers_form_validators_NotEmpty(array('message' => __('Range field is required')));
+        if($rangeNotEmpty && !$rangeValidator->evaluate($range)){
+            throw new Exception($rangeValidator->getMessage());
         }
 
         $property = new core_kernel_classes_Property($values['uri']);
