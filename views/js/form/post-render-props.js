@@ -218,25 +218,23 @@ define([
             _upgradeButtons($container, 'radio');
             _upgradeButtons($container, 'checkbox');
             _toggleModeBtn('disabled');
-            _showErrors($properties);
+            _showErrors($container);
         }
 
-        function _showErrors($properties){
-            $properties.each(function(){
-                var $currentProperty = $(this);
-                var $editContainer = $currentProperty.children('div:first');
-
-                if($currentProperty.attr('id').indexOf('property') === 0){
-                    //hide index and show properties if there is an error
-                    if($editContainer.children().children('.error').length !== 0){
-                        _hideIndexes($editContainer);
-                        _showProperties($editContainer);
-                        $editContainer.slideToggle( function(){
-                            $editContainer.parent().toggleClass('property-edit-container-open');
-                        });
-                    }
+        function _showErrors($container){
+            var $editContainer;
+            var $error = $container.find('.error');
+            if($error.length){
+                $editContainer = $error.closest('.property-edit-container');
+                if($editContainer.length){
+                    _hideIndexes($editContainer);
+                    _showProperties($editContainer);
+                    $editContainer.slideToggle( function(){
+                        $editContainer.parent().toggleClass('property-edit-container-open');
+                    });
                 }
-            })
+            }
+
         }
 
         function _hideProperties($container){
