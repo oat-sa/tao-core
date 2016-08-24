@@ -1,4 +1,5 @@
 <?php
+use oat\generis\model\OntologyAwareTrait;
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +20,35 @@
  *
  */
 
-abstract class tao_actions_form_AbstractProperty extends tao_actions_form_Generis
+abstract class tao_actions_form_AbstractProperty extends tao_helpers_form_FormContainer
 {
+    use OntologyAwareTrait;
+
+    /**
+     * @var core_kernel_classes_Property
+     */
+    protected $property;
+
 	/**
 	 * @var integer
 	 */
 	protected $index;
+
+	public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance = null, $options = array(), $data = array())
+	{
+        $this->property = $this->getProperty($instance);
+        return parent::__construct($data, $options);
+	}
+
+	/**
+	 * Property bein authored
+	 *
+	 * @return core_kernel_classes_Property
+	 */
+	protected function getPropertyInstance()
+	{
+	    return $this->property;
+	}
 
 	/**
 	 * Initialize the form
