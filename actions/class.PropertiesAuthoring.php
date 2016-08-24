@@ -293,13 +293,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
             'property_mode' => $propMode,
             'topClazz' => new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE)
         );
-        $formContainer = new tao_actions_form_Clazz($clazz, $clazz, $options);
+        $data = $this->getRequestParameters();
+        $formContainer = new tao_actions_form_Clazz($clazz, $this->extractClassData($data), $this->extractPropertyData($data), $propMode);
         $myForm = $formContainer->getForm();
     
         if($myForm->isSubmited()){
             if($myForm->isValid()){
                 //get the data from parameters
-                $data = $this->getRequestParameters();
     
                 // get class data and save them
                 if(isset($data['class'])){
@@ -335,7 +335,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
                         }
                     }
                 }
-    
             }
         }
         return $myForm;
@@ -465,5 +464,41 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
     protected function bindProperties(core_kernel_classes_Resource $resource, $values) {
         $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
         $binder->bind($values);
+    }
+
+    /**
+     * Extracts the data assoicuated with the class from the request
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function extractClassData($data)
+    {
+        $classData = array();
+        if (isset($data['class'])) {
+            foreach ($data['class'] as $key => $value) {
+                $classData['class_'.$key] = $value;
+            }
+        }
+        return $classData;
+    }
+
+    /**
+     * Extracts the properties data from the request data, and formats
+     * it as an array with the keys being the property URI and the values
+     * being the associated data
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function extractPropertyData($data)
+    {
+        $propertyData = array();
+        if (isset($data['properties'])) {
+            foreach ($data['properties'] as $key => $value) {
+                $propertyData[tao_helpers_Uri::decode($value['uri'])] = $value;
+            }
+        }
+        return $propertyData;
     }
 }

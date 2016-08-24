@@ -27,8 +27,61 @@
  * @package tao
  */
 class tao_actions_form_Clazz
-    extends tao_actions_form_Generis
+    extends tao_helpers_form_FormContainer
 {
+    /**
+     * @var core_kernel_classes_Class
+     */
+    protected $clazz;
+
+    /**
+     * Mode to use for the authored properties (simple or advanced)
+     *
+     * @var string
+     */
+    protected $propertyMode;
+
+    /**
+     * Property values that are currently being threated
+     *
+     * @var array
+     */
+    protected $propertyData;
+
+    /**
+     * @param core_kernel_classes_Class $clazz
+     * @param array $classData
+     * @param array $propertyData
+     * @param string $propertyMode
+     */
+    public function __construct( core_kernel_classes_Class $clazz, $classData, $propertyData, $propertyMode)
+    {
+        $this->clazz 	= $clazz;
+        $this->propertyData = $propertyData;
+        $this->propertyMode = $propertyMode;
+        parent::__construct($classData);
+    }
+
+    /**
+     * Class instance being authored
+     *
+     * @return core_kernel_classes_Class
+     */
+    protected function getClassInstance()
+    {
+        return $this->clazz;
+    }
+
+    /**
+     * Top level class until which all properties
+     * should be displayed
+     *
+     * @return core_kernel_classes_Class
+     */
+    protected function getTopClazz()
+    {
+        return new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
+    }
 
     // --- ASSOCIATIONS ---
 
@@ -98,7 +151,7 @@ class tao_actions_form_Clazz
     {
 
 
-        $clazz = $this->getClazz();
+        $clazz = $this->getClassInstance();
 
         (isset($this->options['property_mode'])) ? $propMode = $this->options['property_mode'] : $propMode = 'simple';
 
@@ -193,7 +246,14 @@ class tao_actions_form_Clazz
                     $propFormClass = 'tao_actions_form_SimpleProperty';
                 }
 
-                $propFormContainer = new $propFormClass($clazz, $classProperty, array('index' => $i, 'isParentProperty' => $parentProp ));
+                $propData = array();
+                if (isset($this->propertyData[$classProperty->getUri()])) {
+                    foreach ($this->propertyData[$classProperty->getUri()] as $key => $value) {
+                        $propData[$i.'_'.$key] = $value;
+                    }
+                }
+
+                $propFormContainer = new $propFormClass($clazz, $classProperty, array('index' => $i, 'isParentProperty' => $parentProp ), $propData);
                 $propForm          = $propFormContainer->getForm();
 
                 //and get its elements and groups
