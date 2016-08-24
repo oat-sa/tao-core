@@ -83,12 +83,23 @@ class tao_actions_form_Clazz
         return new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
     }
 
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
+    /**
+     * Returns the form for the property, based on the mode
+     *
+     * @param core_kernel_classes_Property $property
+     * @param integer $index
+     * @param boolean $isParentProp
+     * @param array $propData
+     */
+    protected function getPropertyForm($property, $index, $isParentProp, $propData)
+    {
+        $propFormClass = 'tao_actions_form_' . ucfirst(strtolower($this->propertyMode)) . 'Property';
+        if (!class_exists($propFormClass)) {
+            $propFormClass = 'tao_actions_form_SimpleProperty';
+        }
+        $propFormContainer = new $propFormClass($this->getClassInstance(), $property, array('index' => $index, 'isParentProperty' => $isParentProp ), $propData);
+        return $propFormContainer->getForm();
+    }
 
     /**
      * Initialize the form
@@ -107,8 +118,6 @@ class tao_actions_form_Clazz
 
         $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
 
-        (isset($this->options['property_mode'])) ? $propMode = $this->options['property_mode'] : $propMode = 'simple';
-
         //add property action in toolbar
         $actions     = tao_helpers_form_FormFactory::getCommonActions();
         $propertyElt = tao_helpers_form_FormFactory::getElement('property', 'Free');
@@ -119,7 +128,7 @@ class tao_actions_form_Clazz
 
         //property mode
         $propModeELt = tao_helpers_form_FormFactory::getElement('propMode', 'Free');
-        if($propMode == 'advanced'){
+        if($this->propertyMode == 'advanced'){
             $propModeELt->setValue("<a href='#' class='btn-info property-mode small property-mode-simple'><span class='icon-property-advanced'></span> ".__('Simple Mode')."</a>");
         }
         else{
@@ -152,8 +161,6 @@ class tao_actions_form_Clazz
 
 
         $clazz = $this->getClassInstance();
-
-        (isset($this->options['property_mode'])) ? $propMode = $this->options['property_mode'] : $propMode = 'simple';
 
         //add a group form for the class edition
         $elementNames = array();
@@ -239,13 +246,6 @@ class tao_actions_form_Clazz
 
             if ($useEditor) {
 
-                //instantiate a property form
-
-                $propFormClass = 'tao_actions_form_' . ucfirst(strtolower($propMode)) . 'Property';
-                if (!class_exists($propFormClass)) {
-                    $propFormClass = 'tao_actions_form_SimpleProperty';
-                }
-
                 $propData = array();
                 if (isset($this->propertyData[$classProperty->getUri()])) {
                     foreach ($this->propertyData[$classProperty->getUri()] as $key => $value) {
@@ -253,15 +253,13 @@ class tao_actions_form_Clazz
                     }
                 }
 
-                $propFormContainer = new $propFormClass($clazz, $classProperty, array('index' => $i, 'isParentProperty' => $parentProp ), $propData);
-                $propForm          = $propFormContainer->getForm();
+                $propForm = $this->getPropertyForm($classProperty, $i, $parentProp, $propData);
 
                 //and get its elements and groups
                 $this->form->setElements(array_merge($this->form->getElements(), $propForm->getElements()));
                 $this->form->setGroups(array_merge($this->form->getGroups(), $propForm->getGroups()));
 
                 unset($propForm);
-                unset($propFormContainer);
             }
             // read only properties
             else {
