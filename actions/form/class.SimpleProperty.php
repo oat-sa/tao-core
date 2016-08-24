@@ -40,7 +40,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
     protected function initElements()
     {
         
-    	$property = new core_kernel_classes_Property($this->instance->getUri());
+        $property = $this->getPropertyInstance();
 
 	    $index = $this->getIndex();
 
@@ -49,6 +49,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 			array(new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT),
 				  new core_kernel_classes_Property(TAO_GUIORDER_PROP))
 		);
+	    $values = $property->getPropertiesValues($propertyProperties);
     	
     	$elementNames = array();
 		foreach($propertyProperties as $propertyProperty){
@@ -58,16 +59,18 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 			
 			if(!is_null($element)){
 				//take property values to populate the form
-				$values = $property->getPropertyValuesCollection($propertyProperty);
-				foreach($values->getIterator() as $value){
-					if(!is_null($value)){
-						if($value instanceof core_kernel_classes_Resource){
-							$element->setValue($value->getUri());
-						}
-						if($value instanceof core_kernel_classes_Literal){
-							$element->setValue((string)$value);
-						}
-					}
+				if (isset($values[$propertyProperty->getUri()])) {
+				    $propertyValues = $values[$propertyProperty->getUri()];
+				    foreach($propertyValues as $value){
+				        if(!is_null($value)){
+				            if($value instanceof core_kernel_classes_Resource){
+				                $element->setValue($value->getUri());
+				            }
+				            if($value instanceof core_kernel_classes_Literal){
+				                $element->setValue((string)$value);
+				            }
+				        }
+				    }
 				}
 				$element->setName("{$index}_{$element->getName()}");
                 $element->addClass('property');
