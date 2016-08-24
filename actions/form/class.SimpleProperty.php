@@ -135,11 +135,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
         foreach($indexes as $i => $indexUri){
             $indexProperty = new \oat\tao\model\search\Index($indexUri);
-            $indexFormContainer = new tao_actions_form_IndexProperty($this->getClazz(), $indexProperty,
-                array('property' => $property->getUri(),
-                    'propertyindex' => $index,
-                    'index' => $i)
-            );
+            $indexFormContainer = new tao_actions_form_IndexProperty($indexProperty,$index.$i);
             /** @var tao_helpers_form_Form $indexForm */
             $indexForm = $indexFormContainer->getForm();
             foreach($indexForm->getElements() as $element){

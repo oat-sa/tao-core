@@ -1,4 +1,5 @@
 <?php
+use oat\tao\model\search\Index;
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -235,7 +236,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         $property->setPropertyValue(new core_kernel_classes_Property(INDEX_PROPERTY), $indexProperty);
 
         //generate form
-        $indexFormContainer = new tao_actions_form_IndexProperty($clazz, $indexProperty, array('index' => $index, 'propertyindex' => $propertyIndex));
+        $indexFormContainer = new tao_actions_form_IndexProperty(new Index($indexProperty), $propertyIndex.$index);
         $myForm = $indexFormContainer->getForm();
         $form = trim(preg_replace('/\s+/', ' ', $myForm->renderElements()));
         echo json_encode(array('form' => $form));
@@ -431,7 +432,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         $this->bindProperties($property, $values);
     }
 
-    protected function savePropertyIndex($indexValues){
+    protected function savePropertyIndex($indexValues)
+    {
         $values = array();
         foreach($indexValues as $key => $value){
             $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
