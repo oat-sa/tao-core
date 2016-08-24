@@ -98,20 +98,24 @@ class Resolver
      */
     protected function resolve() {
         $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
-
-        foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
-            foreach ($this->getRoutes($extension) as $entry) {
-                $route = $entry['route'];
-                $called = $route->resolve($relativeUrl);
-                if (!is_null($called)) {
-                    list($controller, $action) = explode('@', $called);
-                    $this->controller = $controller;
-                    $this->action = $action;
-                    $this->extensionId = $entry['extId'];
-                    return true;
+        $installed = \common_ext_ExtensionsManager::singleton()->getInstalledExtensionsIds();
+        if (is_array($installed)) {
+            foreach (array_keys($installed) as $extId) {
+                $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById($extId);
+                foreach ($this->getRoutes($extension) as $entry) {
+                    $route = $entry['route'];
+                    $called = $route->resolve($relativeUrl);
+                    if (!is_null($called)) {
+                        list($controller, $action) = explode('@', $called);
+                        $this->controller = $controller;
+                        $this->action = $action;
+                        $this->extensionId = $entry['extId'];
+                        return true;
+                    }
                 }
             }
         }
+
         throw new \ResolverException('Unable to resolve '.$this->request->getUrl());
     }
 
