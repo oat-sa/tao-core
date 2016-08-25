@@ -242,6 +242,18 @@ define([
                 self.controls.pageNum.attr('disabled', true);
             }
 
+            // go to a particular page
+            function jumpPage(page) {
+                self.pdf.setPage(page).then(updateControls);
+                updateControls();
+            }
+
+            // move the current page by step
+            function movePage(step) {
+                var page = Number(self.controls.pageNum.val()) + step;
+                jumpPage(page);
+            }
+
             // try to load the  PDF.js lib, otherwise fallback to the browser native handling
             return requireIfExists('pdfjs-dist/build/pdf')
                 .then(function (pdfjs) {
@@ -270,17 +282,28 @@ define([
 
                             self.controls.navigation.on('click', function (e) {
                                 var $btn = $(e.target);
-                                var direction = Number($btn.data('direction'));
-                                var page = Number(self.controls.pageNum.val()) + direction;
-                                self.pdf.setPage(page).then(updateControls);
-                                updateControls();
+                                movePage(Number($btn.data('direction')));
                             });
 
-                            self.controls.pageNum.on('change', function () {
-                                var page = Number(self.controls.pageNum.val());
-                                self.pdf.setPage(page).then(updateControls);
-                                updateControls();
-                            });
+                            self.controls.pageNum
+                                .on('change', function () {
+                                    jumpPage(Number(self.controls.pageNum.val()));
+                                })
+                                .on('keypress', function (event) {
+                                    switch (event.keyCode) {
+                                        case 38:
+                                            movePage(1);
+                                            event.stopPropagation();
+                                            event.preventDefault();
+                                            break;
+
+                                        case 40:
+                                            movePage(-1);
+                                            event.stopPropagation();
+                                            event.preventDefault();
+                                            break;
+                                    }
+                                });
 
                             self.pdf.load(self.getUrl()).then(resolve);
                         } else {
