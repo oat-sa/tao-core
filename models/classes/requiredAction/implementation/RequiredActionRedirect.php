@@ -27,6 +27,8 @@ use oat\tao\model\requiredAction\RequiredActionRuleInterface;
 use oat\tao\model\routing\FlowController;
 
 /**
+ * @deprecated use \oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart instead
+ *
  * Class RequiredAction
  *
  * RequiredAction is action which should be executed by user before performing any activities in the TAO
@@ -50,6 +52,8 @@ class RequiredActionRedirect extends RequiredActionAbstract
     private $url;
 
     /**
+     * @deprecated use \oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart instead
+     *
      * RequiredActionRedirect constructor.
      * @param string $name
      * @param RequiredActionRuleInterface[] $rules
@@ -63,6 +67,8 @@ class RequiredActionRedirect extends RequiredActionAbstract
     }
 
     /**
+     * @deprecated use \oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart instead
+     *
      * Execute an action
      * @param array $params
      * @return mixed

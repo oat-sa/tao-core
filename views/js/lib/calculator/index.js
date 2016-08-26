@@ -1,17 +1,17 @@
 /**
  * ORGINAL VERSION:
- * calculator 2.0.0-dev by Bill Bryant 2013 
+ * calculator 2.0.0-dev by Bill Bryant 2013
  * Licensed under the MIT license.
  * https://github.com/wjbryant/calculator
- * 
+ *
  * MODIFIED VERSION:
  * @author Sam <sam@taotesting.com> for OAT SA in 2016
  * - Code refactoring to fit AMD modules
  * - replaced custom selector with JQuery selectors
- * - added focus listener, decial calculation fix, button highlight
+ * - added focus listener, decimal calculation fix, button highlight
  *  -i18n
  */
-define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateTpl, __){
+define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], function ($, templateTpl, __, gamp){
 
     'use strict';
 
@@ -23,7 +23,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
     var JSCALC = {},
         calculators = {}, // an object containing all the calculators created
         nextID = 0;
-    
+
     /**
      * Creates a new calculator in the specified container element (module).
      *
@@ -47,7 +47,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
             operationPressed = false, // whether an operation was the last key pressed
             calcObj = {},
             id = nextID;
-        
+
         /**
          * Performs the basic mathematical operations (addition, subtraction,
          * multiplication, division) on the current total with the given
@@ -63,22 +63,22 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
             }
             switch(operation){
                 case '+':
-                    total += val;
+                    total = gamp.add(total, val);
                     break;
                 case '-':
-                    total -= val;
+                    total = gamp.sub(total, val);
                     break;
                 case '*':
-                    total *= val;
+                    total = gamp.mul(total, val);
                     break;
                 case '/':
-                    total /= val;
+                    total = gamp.div(total, val);
                     break;
                 case 'pow':
-                    total = Math.pow(total, val);
+                    total = gamp.pow(total, val);
                     break;
             }
-            display.value = _fixDecimal(total);
+            display.value = total;
         }
 
         /**
@@ -92,7 +92,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
          */
         function handleInput(e){
             e = e || window.event;
-            
+
             var key, // the key (char) that was pressed / clicked
                 code, // the key code
                 val, // the numeric value of the display
@@ -118,6 +118,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
                             key = 'CE';
                             break;
                         case 111:
+                        case 191:
                             // divide
                             key = '/';
                             break;
@@ -198,7 +199,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
                 case '+':
                 case '-':
                 case '/':
-                case 'pow':    
+                case 'pow':
                     // if an operation was the last key pressed,
                     // do nothing but change the current operation
                     if(!operationPressed){
@@ -231,11 +232,11 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
                     display.value = display.value.slice(0, display.value.length - 1);
                     break;
                 case '+/-':
-                    display.value = val * -1;
+                    display.value = gamp.mul(val, -1);
                     break;
                 case '%':
                     if(val){
-                        display.value = total * val / 100;
+                        display.value = gamp.div(gamp.mul(total, val), 100);
                     }
                     break;
                 case 'sqrt':
@@ -257,7 +258,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
                 case '1/x':
                 case 'r':
                     if(val){
-                        display.value = 1 / val;
+                        display.value = gamp.div(1, val);
                     }else{
                         display.value = __('Cannot divide by zero');
                     }
@@ -271,7 +272,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
             _initButtonHighlight(form, key, operation);
             return false;
         }
-        
+
         // increment the ID counter
         nextID += 1;
 
@@ -285,7 +286,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
         display.setAttribute('autocomplete', 'off');
         display.value = '0';
         display.onkeydown = display.onkeypress = form.onclick = handleInput;
-        
+
         _addFocusListener(form);
 
         /**
@@ -382,7 +383,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
 
         return calcObj;
     }
-    
+
     /**
      * Gets the Calculator object associated with the calculator contained in
      * the specified element.
@@ -520,10 +521,10 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
             }
         }
     };
-    
+
     /**
      * Add focus listener to enable activating the calculator instance for keyboard input when clicked
-     * 
+     *
      * @param {HTMLElement} form
      */
     function _addFocusListener(form){
@@ -535,20 +536,10 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
             $display[0].setSelectionRange(strLength, strLength);
         });
     }
-    
-    /**
-     * Fix rounding issue due to math operation on float numbers in javascript
-     * 
-     * @param {Number} num
-     * @returns {Number}
-     */
-    function _fixDecimal(num){
-        return (1*num.toFixed(15)).toString();
-    }
-    
+
     /**
      * Adding visual feedback when an input is registered
-     * 
+     *
      * @param {HTMLElement} form
      * @param {string} key
      * @param {string} operationPressed
@@ -560,6 +551,6 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n'], function ($, templateT
             $btn.removeClass('triggered');
         }, 160);
     }
-    
+
     return JSCALC;
 });
