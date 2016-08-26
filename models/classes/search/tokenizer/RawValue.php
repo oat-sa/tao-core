@@ -30,7 +30,7 @@ class RawValue implements Tokenizer
 {	
     const URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer';
     
-    public function getStrings($values)
+    public function getStrings(\core_kernel_classes_Resource $resource, $values)
     {
         return $values;
     }

@@ -28,7 +28,7 @@ namespace oat\tao\model\search\tokenizer;
  */
 class Label implements Tokenizer
 {	
-    public function getStrings($values)
+    public function getStrings(\core_kernel_classes_Resource $resource, $values)
     {
         $strings = array();
         foreach ($values as $valueUri) {

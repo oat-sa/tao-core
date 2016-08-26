@@ -14,25 +14,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  *
  */
-namespace oat\tao\model\search\tokenizer;
 
-/**
- * Tokenizer interface for TAO property values 
- * 
- * @author Joel Bout <joel@taotesting.com>
- */
-interface Tokenizer
+namespace oat\tao\model\search\strategy;
+
+interface Indexer
 {
     /**
-     * Return array of indexes
+     * Get the indexes array of resource
      *
      * @param \core_kernel_classes_Resource $resource
-     * @param $values
      * @return array
      */
-    public function getStrings(\core_kernel_classes_Resource $resource, $values);
+    public function getIndexValues(\core_kernel_classes_Resource $resource);
+
+    public function getIndexMap();
 }

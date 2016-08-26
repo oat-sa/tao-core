@@ -14,39 +14,61 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  *
  */
 namespace oat\tao\model\search;
 
-class Index extends \core_kernel_classes_Resource {
-    
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\search\tokenizer\Tokenizer;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+
+class Index extends \core_kernel_classes_Resource
+{
+    use OntologyAwareTrait;
+
     const RDF_TYPE = "http://www.tao.lu/Ontologies/TAO.rdf#Index";
-    
+    const TOKENIZER_CLASS = "http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass";
+
+    /**
+     * @return string
+     * @throws \core_kernel_classes_EmptyProperty
+     * @throws \core_kernel_classes_MultiplePropertyValuesException
+     */
     public function getIdentifier()
     {
-        return (string)$this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_IDENTIFIER));
+        return (string) $this->getUniquePropertyValue($this->getProperty(INDEX_PROPERTY_IDENTIFIER));
     }
     
     /**
      * @throws \common_exception_Error
-     * @return oat\tao\model\search\tokenizer\Tokenizer
+     * @return Tokenizer
      */
     public function getTokenizer()
     {
-        $tokenizerUri = $this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_TOKENIZER));
-        $tokenizer = new \core_kernel_classes_Resource($tokenizerUri);
-        $implClass = (string)$tokenizer->getUniquePropertyValue(new \core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass"));
+        $tokenizerUri = $this->getUniquePropertyValue($this->getProperty(INDEX_PROPERTY_TOKENIZER));
+        $tokenizer = $this->getResource($tokenizerUri);
+        $implClass = (string) $tokenizer->getUniquePropertyValue($this->getProperty(self::TOKENIZER_CLASS));
         if (!class_exists($implClass)) {
             throw new \common_exception_Error('Tokenizer class "'.$implClass.'" not found for '.$tokenizer->getUri());
         }
-        return new $implClass();
+        $tokenizer = new $implClass();
+        if ($tokenizer instanceof ServiceLocatorAwareInterface) {
+            $tokenizer->setServiceLocator($this->getServiceManager());
+        }
+        return $tokenizer;
     }
-    
-    public function tokenize($value)
+
+    /**
+     * @param \core_kernel_classes_Resource $resource
+     * @param $value
+     * @return array
+     * @throws \common_exception_Error
+     */
+    public function tokenize(\core_kernel_classes_Resource $resource, $value)
     {
-        return $this->getTokenizer()->getStrings($value);
+        return $this->getTokenizer()->getStrings($resource, $value);
     }
     
     /**
@@ -58,7 +80,7 @@ class Index extends \core_kernel_classes_Resource {
     public function isFuzzyMatching()
     {
         $res = $this->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_FUZZY_MATCHING));
-        return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
+        return ! is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
     }
     
     /**
@@ -69,8 +91,8 @@ class Index extends \core_kernel_classes_Resource {
      */
     public function isDefaultSearchable()
     {
-        $res = $this->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_DEFAULT_SEARCH));
-        return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
+        $res = $this->getOnePropertyValue($this->getProperty(INDEX_PROPERTY_DEFAULT_SEARCH));
+        return ! is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
     }
     
     
