@@ -342,7 +342,9 @@ define([
                 this.pdf.destroy();
             }
 
-            this.getElement().empty();
+            if (this.is('rendered')) {
+                this.getElement().empty();
+            }
             this.controls = {};
             this.pdf = null;
         },
