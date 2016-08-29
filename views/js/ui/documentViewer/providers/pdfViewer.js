@@ -131,7 +131,7 @@ define([
              * @returns {Promise}
              */
             setPage: function setPage(page) {
-                page = Math.min(Math.max(1, page), pageCount);
+                page = Math.min(Math.max(1, page || 0), pageCount);
                 if (page !== pageNum) {
                     pageNum = page;
                     return renderPage(pageNum);
@@ -250,8 +250,7 @@ define([
 
             // move the current page by step
             function movePage(step) {
-                var page = Number(self.controls.pageNum.val()) + step;
-                jumpPage(page);
+                jumpPage(self.pdf.getPage() + step);
             }
 
             // try to load the  PDF.js lib, otherwise fallback to the browser native handling
@@ -281,13 +280,12 @@ define([
                             disable();
 
                             self.controls.navigation.on('click', function (e) {
-                                var $btn = $(e.target);
-                                movePage(Number($btn.data('direction')));
+                                movePage(Number($(e.target).data('direction')) || 1);
                             });
 
                             self.controls.pageNum
                                 .on('change', function () {
-                                    jumpPage(Number(self.controls.pageNum.val()));
+                                    jumpPage(Number(self.controls.pageNum.val()) || self.pdf.getPage());
                                 })
                                 .on('keypress', function (event) {
                                     switch (event.keyCode) {
