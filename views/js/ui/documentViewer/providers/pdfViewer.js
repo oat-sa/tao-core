@@ -287,7 +287,7 @@ define([
                                 .on('change', function () {
                                     jumpPage(Number(self.controls.pageNum.val()) || self.pdf.getPage());
                                 })
-                                .on('keypress', function (event) {
+                                .on('keydown', function (event) {
                                     switch (event.keyCode) {
                                         case 38:
                                             movePage(1);
