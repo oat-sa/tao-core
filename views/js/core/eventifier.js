@@ -252,7 +252,7 @@ define([
             * @example target.on('foo', function(bar){ console.log('Cool ' + bar) } );
             *
             * @this the target
-            * @param {String} eventNames- the name of the event, or multiple events separated by a space
+            * @param {String} eventNames - the name of the event, or multiple events separated by a space
             * @param {Function} handler - the callback to run once the event is triggered
             * @returns {Object} the target object
             */
@@ -271,7 +271,7 @@ define([
             * @example target.off('foo');
             *
             * @this the target
-            * @param {String} eventNames- the name of the event, or multiple events separated by a space
+            * @param {String} eventNames - the name of the event, or multiple events separated by a space
             * @returns {Object} the target object
             */
             off : function off(eventNames){
@@ -302,7 +302,7 @@ define([
             * @example target.trigger('foo', 'Awesome');
             *
             * @this the target
-            * @param {String} eventNames- the name of the event to trigger, or multiple events separated by a space
+            * @param {String} eventNames - the name of the event to trigger, or multiple events separated by a space
             * @returns {Object} the target object
             */
             trigger : function trigger(eventNames){
@@ -315,15 +315,15 @@ define([
 
                     //check which ns needs to be executed and then merge the handlers to be executed
                     var mergedHandlers = _(eventHandlers)
-                    .filter(function(nsHandlers, namespace){
-                        return nsHandlers[name] && (ns === globalNs || ns === namespace);
-                    })
-                    .reduce(function(acc, nsHandlers){
-                        acc.before  = acc.before.concat(nsHandlers[name].before);
-                        acc.between = acc.between.concat(nsHandlers[name].between);
-                        acc.after   = acc.after.concat(nsHandlers[name].after);
-                        return acc;
-                    }, getHandlerObject());
+                        .filter(function(nsHandlers, namespace){
+                            return nsHandlers[name] && (ns === globalNs || ns === namespace);
+                        })
+                        .reduce(function(acc, nsHandlers){
+                            acc.before  = acc.before.concat(nsHandlers[name].before);
+                            acc.between = acc.between.concat(nsHandlers[name].between);
+                            acc.after   = acc.after.concat(nsHandlers[name].after);
+                            return acc;
+                        }, getHandlerObject());
 
                     if(mergedHandlers){
 
@@ -358,13 +358,14 @@ define([
             },
 
             /**
-            * Register a callback that is executed before the given event name
-            * Provides an opportunity to cancel the execution of the event if one of the returned value is false
-            *
-            * @this the target
-            * @param {String} eventName
-            * @returns {Object} the target object
-            */
+             * Register a callback that is executed before the given event name
+             * Provides an opportunity to cancel the execution of the event if one of the returned value is false
+             *
+             * @this the target
+             * @param {String} eventNames - the name of the event, or multiple events separated by a space
+             * @param {Function} handler - the callback to run once the event is triggered
+             * @returns {Object} the target object
+             */
             before : function before(eventNames, handler){
                 if(_.isFunction(handler)) {
                     _.forEach(getEventNames(eventNames), function(eventName){
@@ -375,13 +376,14 @@ define([
             },
 
             /**
-            * Register a callback that is executed after the given event name
-            * The handlers will all be executed, no matter what
-            *
-            * @this the target
-            * @param {String} eventName
-            * @returns {Object} the target object
-            */
+             * Register a callback that is executed after the given event name
+             * The handlers will all be executed, no matter what
+             *
+             * @this the target
+             * @param {String} eventNames - the name of the event, or multiple events separated by a space
+             * @param {Function} handler - the callback to run once the event is triggered
+             * @returns {Object} the target object
+             */
             after : function after(eventNames, handler){
                 if(_.isFunction(handler)) {
                     _.forEach(getEventNames(eventNames), function(eventName){
