@@ -27,6 +27,22 @@
  * });
  * emitter.trigger('hello', 'world');
  *
+ * @example namespace usage
+ * var emitter = eventifier({});
+ * emitter.on('hello', function(who){
+ *      console.log('Hello ' + who);
+ * });
+ * emitter.on('hello.world', function(who){
+ *      console.log('Hello World ' + who);
+ * });
+ * emitter.on('hello.*', function(who){
+ *      console.log('Hello all ' + who);
+ * });
+ * // notify all listeners
+ * emitter.trigger('hello', 'world');
+ * // notify only hello.world and hello.* listeners
+ * emitter.trigger('hello.world', 'world');
+ *
  * @example using before
  * emitter.before('hello', function(e, who){
  *      if(!who || who === 'nobody'){
@@ -70,6 +86,11 @@ define([
 
     /**
      * All events have a namespace, this one is the default
+     */
+    var defaultNs = '@';
+
+    /**
+     * Namespace that targets all event
      */
     var globalNs = '*';
 
@@ -189,13 +210,13 @@ define([
     /**
      * Get the namespace part of an event name: the 'bar' of 'foo.bar'
      * @param {String} eventName - the name of the event
-     * @returns {String} the namespace, that defaults to globalNs
+     * @returns {String} the namespace, that defaults to defaultNs
      */
     function getNamespace(eventName){
         if(eventName.indexOf('.') > -1){
             return eventName.substr(eventName.indexOf('.') + 1);
         }
-        return globalNs;
+        return defaultNs;
     }
 
     /**
@@ -268,7 +289,17 @@ define([
            /**
             * Remove ALL handlers for an event.
             *
-            * @example target.off('foo');
+            * @example remove ALL
+            * target.off('foo');
+            *
+            * @example remove targeted namespace
+            * target.off('foo.bar');
+            *
+            * @example remove all handlers by namespace
+            * target.off('.bar');
+            *
+            * @example remove all namespaces, keep non namespace
+            * target.off('.*');
             *
             * @this the target
             * @param {String} eventNames - the name of the event, or multiple events separated by a space
@@ -280,14 +311,20 @@ define([
 
                     var name = getName(eventName);
                     var ns = getNamespace(eventName);
+                    var offNamespaces;
 
                     if(ns && !name){
-                        //off the complete namespace
-                        eventHandlers[ns] = {};
+                        if (ns === globalNs) {
+                            offNamespaces = {};
+                            offNamespaces[defaultNs] = eventHandlers[defaultNs];
+                            eventHandlers = offNamespaces;
+                        } else {
+                            //off the complete namespace
+                            eventHandlers[ns] = {};
+                        }
                     } else {
-
                         _.forEach(eventHandlers, function(nsHandlers, namespace){
-                            if(nsHandlers[name] && (ns === globalNs || ns === namespace)){
+                            if(nsHandlers[name] && (ns === defaultNs || ns === namespace)){
                                 nsHandlers[name] = getHandlerObject();
                             }
                         });
@@ -316,7 +353,7 @@ define([
                     //check which ns needs to be executed and then merge the handlers to be executed
                     var mergedHandlers = _(eventHandlers)
                         .filter(function(nsHandlers, namespace){
-                            return nsHandlers[name] && (ns === globalNs || ns === namespace);
+                            return nsHandlers[name] && (ns === defaultNs || ns === namespace || namespace === globalNs);
                         })
                         .reduce(function(acc, nsHandlers){
                             acc.before  = acc.before.concat(nsHandlers[name].before);
