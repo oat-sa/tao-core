@@ -564,9 +564,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('6.1.0');
         }
 
-
-        $this->skip('6.1.0', '7.4.5');
-        if ($this->isVersion('7.4.5')) {
+        $this->skip('6.1.0', '7.5.0');
+        if ($this->isVersion('7.5.0')) {
             $injectorConfig = [
                         \oat\oatbox\service\factory\ZendServiceManager::class =>
                             [
@@ -603,8 +602,9 @@ class Updater extends \common_ext_ExtensionUpdater {
 
 
             $this->getServiceManager()->register(ServiceInjectorRegistry::SERVICE_ID , $injector);
-            $this->setVersion('7.5.0');
+            $this->setVersion('7.6.0');
         }
+
 
     }
 

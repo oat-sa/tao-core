@@ -218,6 +218,23 @@ define([
             _upgradeButtons($container, 'radio');
             _upgradeButtons($container, 'checkbox');
             _toggleModeBtn('disabled');
+            _showErrors($container);
+        }
+
+        function _showErrors($container){
+            var $editContainer;
+            var $error = $container.find('.error');
+            if($error.length){
+                $editContainer = $error.closest('.property-edit-container');
+                if($editContainer.length){
+                    _hideIndexes($editContainer);
+                    _showProperties($editContainer);
+                    $editContainer.slideToggle( function(){
+                        $editContainer.parent().toggleClass('property-edit-container-open');
+                    });
+                }
+            }
+
         }
 
         function _hideProperties($container){
