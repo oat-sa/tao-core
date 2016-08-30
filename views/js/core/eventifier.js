@@ -77,11 +77,13 @@ define([
      * Create an async callstack
      * @param {array} handlers - array of handlers to create the async callstack from
      * @param {object} context - the object that each handler will be applied on
+     * @param {String} eventName - The name of the triggered event
+     * @param {String} namespace - The namespace of the triggered event
      * @param {array} args - the arguments passed to each handler
      * @param {function} success - the success callback
      * @returns {array} array of aync call stack
      */
-    function createAsyncCallstack(handlers, context, args, success){
+    function createAsyncCallstack(handlers, context, eventName, namespace, args, success){
 
         var callstack =  _.map(handlers, function(handler){
 
@@ -92,6 +94,8 @@ define([
                 var asyncMode = false;
                 var _args = _.clone(args);
                 var event = {
+                    name: eventName,
+                    namespace: namespace,
                     done : function asyncDone(){
                         asyncMode = true;
                         //returns the done function and wait until it is called to continue the async queue processing
@@ -325,7 +329,7 @@ define([
 
                         //if there is something in before we delay the execution
                         if(mergedHandlers.before.length){
-                            createAsyncCallstack(mergedHandlers.before, self, args, _.partial(triggerEvent, mergedHandlers));
+                            createAsyncCallstack(mergedHandlers.before, self, name, ns, args, _.partial(triggerEvent, mergedHandlers));
                         } else {
                             triggerEvent(mergedHandlers);
                         }
