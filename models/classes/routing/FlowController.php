@@ -29,6 +29,8 @@ use HTTPToolkit;
 use InterruptedActionException;
 use Context;
 use FlowController as ClearFwFlowController;
+use oat\oatbox\service\ServiceInjectorAwareInterface;
+use oat\oatbox\service\ServiceInjectorAwareTrait;
 use tao_helpers_Uri;
 
 /**
@@ -37,9 +39,9 @@ use tao_helpers_Uri;
  * @author Jérôme Bogaerts <jerome.bogaerts@tudor.lu> <jerome.bogaerts@gmail.com>
  * @author Bertrand Chevrier <Bertrand@taotestin.com>
  */
-class FlowController extends ClearFwFlowController
+class FlowController extends ClearFwFlowController implements ServiceInjectorAwareInterface
 {
-
+    use ServiceInjectorAwareTrait;
     /**
      * This header is added to the response to inform the client a forward occurs
      */
@@ -70,7 +72,8 @@ class FlowController extends ClearFwFlowController
         }
 
         //resolve the given URL for routing
-        $resolver = new Resolver(new common_http_Request($parsedUrl['path'], $request->getMethod(), $params));
+        $request = new common_http_Request($parsedUrl['path'], $request->getMethod(), $params);
+        $resolver = $this->getServiceInjector()->get('tao.routing.resolver')->setRequest($request);
         
 	    $context = Context::getInstance();
 
@@ -87,10 +90,15 @@ class FlowController extends ClearFwFlowController
 
         //add a custom header so the client knows where the route ends
         header(self::FORWARD_HEADER . ': ' . $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName());
-
+        /* @var $actionEnforcer ActionEnforcer */
+        $actionEnforcer = $this->getServiceInjector()->get('tao.routing.action');
         //execite the new action
-        $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
-        $enforcer->execute();
+        $actionEnforcer
+            ->setExtension($resolver->getExtensionId())
+            ->setController( $resolver->getControllerClass())
+            ->setAction($resolver->getMethodName())
+            ->setParameters($params)
+            ->execute();
 
         //should not be reached
         throw new InterruptedActionException('Interrupted action after a forward',

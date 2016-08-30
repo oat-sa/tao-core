@@ -33,7 +33,7 @@ return array(
     'version' => '7.5.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=2.30.0',
+        'generis' => '>=3.0.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -82,7 +82,8 @@ return array(
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
-            AddLogFs::class
+            AddLogFs::class,
+            oat\tao\scripts\install\ServiceInjectorInstaller::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',

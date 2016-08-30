@@ -23,21 +23,46 @@ use Context;
 use InterruptedActionException;
 use common_ext_ExtensionsManager;
 use common_http_Request;
+use oat\oatbox\service\ServiceInjector;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
+use oat\oatbox\service\ServiceInjectorAwareInterface;
+use oat\oatbox\service\ServiceInjectorAwareTrait;
 /**
  * A simple controller to replace the ClearFw controller
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
 class TaoFrontController
-{
+    implements ServiceInjectorAwareInterface {
+    
+    use ServiceInjectorAwareTrait;
 
+    /**
+     * @var Resolver
+     */
+    protected $resolver;
+
+    /**
+     * @var ActionEnforcer
+     */
+    protected $actionEnforcer;
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @throws \common_exception_Error
+     */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response) {
         $request->getUri();
         $pRequest = \common_http_Request::currentRequest();
         $this->legacy($pRequest, $response);
+    }
+
+    public function init(ServiceInjector $ServiceInjector) {
+        $this->resolver       = $ServiceInjector->get('tao.routing.resolver');
+        $this->actionEnforcer = $ServiceInjector->get('tao.routing.action');
+        return $this;
     }
 
     /**
@@ -50,7 +75,7 @@ class TaoFrontController
      * @throws \common_ext_ExtensionException
      */
     public function legacy(common_http_Request $pRequest) {
-        $resolver = new Resolver($pRequest);
+        $resolver = $this->resolver->setRequest($pRequest);
 
         // load the responsible extension
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
@@ -85,8 +110,13 @@ class TaoFrontController
 
         try
         {
-            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $pRequest->getParams());
-            $enforcer->execute();
+            //$enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $pRequest->getParams());
+            $this->actionEnforcer
+                ->setExtension($resolver->getExtensionId())
+                ->setController( $resolver->getControllerClass())
+                ->setAction($resolver->getMethodName())
+                ->setParameters($pRequest->getParams())
+                ->execute();
         }
         catch (InterruptedActionException $iE)
         {

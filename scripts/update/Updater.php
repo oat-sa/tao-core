@@ -24,6 +24,7 @@ namespace oat\tao\scripts\update;
 use common_Exception;
 use common_ext_ExtensionsManager;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\service\config\ServiceInjectorRegistry;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibConfigRegistry;
@@ -564,6 +565,47 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('6.1.0', '7.5.0');
+        if ($this->isVersion('7.5.0')) {
+            $injectorConfig = [
+                        \oat\oatbox\service\factory\ZendServiceManager::class =>
+                            [
+                                'shared'     =>
+                                    [
+                                        'tao.routing.resolver'        => false,
+                                        'tao.routing.action'          => false,
+                                        'tao.action.resolver'         => false,
+                                    ],
+                                'invokables' =>
+                                    [
+                                        'tao.routing.controller'      => '\\oat\\tao\\model\\routing\\TaoFrontController' ,
+                                        'tao.routing.resolver'        => '\\oat\\tao\\model\\routing\\Resolver' ,
+                                        'tao.routing.action'          => '\\oat\\tao\\model\\routing\\ActionEnforcer' ,
+                                        'tao.action.resolver'         => '\\oat\\tao\\model\\routing\\ActionResolver' ,
+                                        'tao.routing.flow'            => '\\oat\\tao\\model\\routing\\FlowController' ,
+                                        'tao.routing.cli'             => '\\oat\\tao\\model\\routing\\CliController',
+                                    ],
+                                'abstract_factories' => 
+                                    [
+                                    '\\oat\\tao\\model\\routing\\ControllerFactory',
+                                    ],
+                            ],
+                    ];
+            if ($this->getServiceManager()->has(ServiceInjectorRegistry::SERVICE_ID)) {
+                /* @var  ServiceInjectorRegistry $injector */
+                $injector = $this->getServiceManager()->get(ServiceInjectorRegistry::SERVICE_ID);
+                $injector->overLoad(
+                    $injectorConfig
+                );
+            } else {
+                $injector = new ServiceInjectorRegistry( $injectorConfig );
+            }
+
+
+            $this->getServiceManager()->register(ServiceInjectorRegistry::SERVICE_ID , $injector);
+            $this->setVersion('7.6.0');
+        }
+
+
     }
 
     private function migrateFsAccess() {

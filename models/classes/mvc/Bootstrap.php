@@ -21,11 +21,8 @@
  */
 namespace oat\tao\model\mvc;
 
-use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
-use oat\tao\model\routing\TaoFrontController;
-use oat\tao\model\routing\CliController;
 use common_Profiler;
 use common_Logger;
 use common_ext_ExtensionsManager;
@@ -33,8 +30,9 @@ use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
-use Request;
 use Exception;
+use \oat\oatbox\service\ServiceInjectorAwareInterface;
+use \oat\oatbox\service\ServiceInjectorAwareTrait;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -57,7 +55,9 @@ use Exception;
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap {
+class Bootstrap implements ServiceInjectorAwareInterface {
+    
+    use ServiceInjectorAwareTrait;
     
     const CONFIG_SESSION_HANDLER = 'session';
 
@@ -81,6 +81,11 @@ class Bootstrap {
 	    
 	    require_once $configFile;
 	    
+            $this->setServiceInjector(common_ext_ExtensionsManager::singleton()
+                    ->getExtensionById('generis')
+                    ->getConfig('serviceInjector')
+                    ->factory());
+            
 	    common_Profiler::singleton()->register();
 
 		if(PHP_SAPI == 'cli'){
@@ -185,7 +190,7 @@ class Bootstrap {
 	        $report = new Report(Report::TYPE_ERROR, __('No action specified'));
 	    } else {
             $actionIdentifier = array_shift($params);
-            $cliController = new CliController();
+            $cliController = $this->getServiceInjector()->get('tao.routing.cli');
             $report = $cliController->runAction($actionIdentifier, $params);
 	    }
 	     
@@ -294,14 +299,14 @@ class Bootstrap {
 
 	/**
 	 *  Start the MVC Loop from the ClearFW
-	 *  @throws ActionEnforcingException in case of wrong module or action
-	 *  @throws tao_models_classes_UserException when a request try to acces a protected area
+	 *  @throws \ActionEnforcingException in case of wrong module or action
+	 *  @throws \tao_models_classes_UserException when a request try to acces a protected area
 	 */
     protected function mvc()
     {
         $re = \common_http_Request::currentRequest();
-        $fc = new TaoFrontController();
-        $fc->legacy($re);
+        $fc = $this->getServiceInjector()->get('tao.routing.controller');
+        $fc->init($this->getServiceInjector())->legacy($re);
     }
 
 	/**
@@ -329,6 +334,6 @@ class Bootstrap {
 
 	private function getServiceManager()
 	{
-	    return ServiceManager::getServiceManager();
+	    return $this->getServiceInjector();
 	}
 }
