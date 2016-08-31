@@ -54,6 +54,32 @@
  * @example using before asynchronously
  * emitter.before('hello', function(e, who){
  *
+ *      // you can know about the event context
+ *      var eventName = e.name;
+ *      var eventNamespace = e.namespace;
+ *      console.log('Received a ' + eventName + '.' + eventNamespace + ' event');
+ *
+ *      // I am in an asynchronous context
+ *      return new Promise(function(resolve, reject) {
+ *          // ajax call
+ *          fetch('do/I/know?who='+who).then(function(yes) {
+ *              if (yes) {
+ *                  console.log('I know', who);
+ *                  resolve();
+ *              } else {
+ *                  console.log('I don't talk to stranger');
+ *                  reject();
+ *              }
+ *          }).catch(function(err){
+ *              console.log('System failure, I should quit now');
+ *              reject(err);
+ *          });
+ *      });
+ * });
+ *
+ * @example using before asynchronously (deprecated)
+ * emitter.before('hello', function(e, who){
+ *
  *      //I am in an asynchronous context
  *      var done = e.done();
  *
@@ -72,7 +98,9 @@
  *      });
  * });
  *
- * TODO replace before done syntax by promises (work in progress: promise support added, need now to update every extension with new syntax, then finish the work)
+ * TODO replace before done syntax by promises. Work in progress:
+ * - promise support added: instead of using e.done() or e.prevent() you can now just return a promise and rely on its workflow to resolve/reject the event
+ * - need now to update every extension with new syntax, then finish the work
  * TODO support flow control for all types of events not only before.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
