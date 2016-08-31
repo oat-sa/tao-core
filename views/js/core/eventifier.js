@@ -72,7 +72,7 @@
  *      });
  * });
  *
- * TODO replace before done syntax by promises
+ * TODO replace before done syntax by promises (work in progress: promise support added, need now to update every extension with new syntax, then finish the work)
  * TODO support flow control for all types of events not only before.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -80,8 +80,9 @@
 define([
     'lodash',
     'async',
+    'core/promise',
     'lib/uuid'
-], function(_, async, uuid){
+], function(_, async, Promise, uuid){
     'use strict';
 
     /**
@@ -169,7 +170,7 @@ define([
                         //if the call
                         prevent();
                     }else{
-                        done();
+                        Promise.resolve(result).then(done).catch(prevent);
                     }
                 }
             };

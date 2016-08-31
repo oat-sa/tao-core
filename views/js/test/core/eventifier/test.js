@@ -1,4 +1,4 @@
-define(['core/eventifier'], function(eventifier){
+define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
     'use strict';
 
     QUnit.module('eventifier');
@@ -318,6 +318,57 @@ define(['core/eventifier'], function(eventifier){
         testDriver.trigger('next', arg1, arg2);
     });
 
+    QUnit.asyncTest("async promise", function(assert){
+
+        var testDriver = eventifier();
+        var arg1 = 'X',
+            arg2 = 'Y';
+
+        QUnit.expect(21);
+
+        testDriver.on('next', function(){
+            assert.ok(true, "The 1st listener should be executed : e.g. save context recovery");
+        });
+        testDriver.on('next', function(){
+            assert.ok(true, "The 2nd listener should be executed : e.g. save resposne ");
+        });
+        testDriver.on('next', function(){
+            assert.ok(true, "The third and last listener should be executed : e.g. move to next item");
+            QUnit.start();
+        });
+
+        testDriver.before('next', function(e, a1, a2){
+            assert.equal(typeof e, 'object', 'the event context object is provided');
+            assert.equal(e.name, 'next', 'the event name is provided');
+            assert.equal(e.namespace, '@', 'the event namespace is provided');
+            assert.equal(typeof e.done, 'function', 'the event async enabler API is provided');
+            assert.equal(typeof e.prevent, 'function', 'the event preventer API is provided');
+            assert.equal(typeof e.preventNow, 'function', 'the event immediate preventer API is provided');
+            assert.equal(a1, arg1, 'the first event arg is correct');
+            assert.equal(a2, arg2, 'the second event arg is correct');
+            assert.ok(true, "The 1st 'before' listener should be executed : e.g. validate item state");
+            return new Promise(function(resolve) {
+                setTimeout(function(){
+                    resolve();
+                });
+            });
+        });
+
+        testDriver.before('next', function(e, a1, a2){
+            assert.equal(typeof e, 'object', 'the event context object is provided');
+            assert.equal(e.name, 'next', 'the event name is provided');
+            assert.equal(e.namespace, '@', 'the event namespace is provided');
+            assert.equal(typeof e.done, 'function', 'the event async enabler API is provided');
+            assert.equal(typeof e.prevent, 'function', 'the event preventer API is provided');
+            assert.equal(typeof e.preventNow, 'function', 'the event immediate preventer API is provided');
+            assert.equal(a1, arg1, 'the first event arg is correct');
+            assert.equal(a2, arg2, 'the second event arg is correct');
+            assert.ok(true, "The 2nd 'before' listener should be executed : e.g. validate a special interaction state");
+        });
+
+        testDriver.trigger('next', arg1, arg2);
+    });
+
     QUnit.test("async done - fail to call done()", function(assert){
 
         var testDriver = eventifier();
@@ -438,6 +489,43 @@ define(['core/eventifier'], function(eventifier){
             }, 10);
             //form invalid
             return false;
+        });
+        itemEditor.before('save', function(e){
+            assert.ok(true, "The 2nd 'before' listener should be executed : e.g. do save item stylesheet");
+            assert.equal(typeof e, 'object', 'the event context object is provided');
+            assert.equal(e.name, 'save', 'the event name is provided');
+            assert.equal(e.namespace, '@', 'the event namespace is provided');
+            assert.equal(typeof e.done, 'function', 'the event async enabler API is provided');
+            assert.equal(typeof e.prevent, 'function', 'the event preventer API is provided');
+            assert.equal(typeof e.preventNow, 'function', 'the event immediate preventer API is provided');
+            QUnit.start();
+        });
+
+        itemEditor.trigger('save');
+    });
+
+    QUnit.asyncTest("async prevent with promise", function(assert){
+
+        var itemEditor = eventifier();
+
+        QUnit.expect(14);
+
+        itemEditor.on('save', function(){
+            assert.ok(false, "The listener should not be executed : e.g. do save item");
+        });
+        itemEditor.before('save', function(e){
+            assert.ok(true, "The 1st 'before' listener should be executed : e.g. validate current edition form");
+            assert.equal(typeof e, 'object', 'the event context object is provided');
+            assert.equal(e.name, 'save', 'the event name is provided');
+            assert.equal(e.namespace, '@', 'the event namespace is provided');
+            assert.equal(typeof e.done, 'function', 'the event async enabler API is provided');
+            assert.equal(typeof e.prevent, 'function', 'the event preventer API is provided');
+            assert.equal(typeof e.preventNow, 'function', 'the event immediate preventer API is provided');
+            return new Promise(function(resolve, reject) {
+                setTimeout(function(){
+                    reject();
+                });
+            });
         });
         itemEditor.before('save', function(e){
             assert.ok(true, "The 2nd 'before' listener should be executed : e.g. do save item stylesheet");
