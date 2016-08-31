@@ -100,7 +100,7 @@
  *
  * TODO replace before done syntax by promises. Work in progress:
  * - promise support added: instead of using e.done() or e.prevent() you can now just return a promise and rely on its workflow to resolve/reject the event
- * - need now to update every extension with new syntax, then finish the work
+ * - need now to update every extension with the new syntax in order to be able to use a full promise version
  * TODO support flow control for all types of events not only before.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
