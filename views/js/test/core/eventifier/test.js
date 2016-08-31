@@ -17,12 +17,15 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
 
         var emitter = eventifier();
 
-        QUnit.expect(4);
+        QUnit.expect(7);
 
         assert.ok(typeof emitter === 'object', "the emitter definition is an object");
         assert.ok(typeof emitter.on === 'function', "the emitter defintion holds the method on");
-        assert.ok(typeof emitter.trigger === 'function', "the emitter defintion holds the method trigger");
+        assert.ok(typeof emitter.before === 'function', "the emitter defintion holds the method before");
+        assert.ok(typeof emitter.after === 'function', "the emitter defintion holds the method after");
         assert.ok(typeof emitter.off === 'function', "the emitter defintion holds the method off");
+        assert.ok(typeof emitter.removeAllListeners === 'function', "the emitter defintion holds the method removeAllListeners");
+        assert.ok(typeof emitter.trigger === 'function', "the emitter defintion holds the method trigger");
     });
 
     QUnit.asyncTest("listen and trigger with params", function(assert){
@@ -82,7 +85,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             assert.ok(false, "The foo event shouldn't be triggered");
         });
         emitter.on('bar', function(){
-            assert.ok(true, "The bar event should  be triggered");
+            assert.ok(true, "The bar event should be triggered");
             QUnit.start();
         });
 
@@ -90,6 +93,31 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
         emitter.trigger('foo');
         setTimeout(function(){
             emitter.trigger('bar');
+        }, 10);
+    });
+
+    QUnit.asyncTest("removeAllListeners", function(assert){
+        var emitter = eventifier();
+
+        QUnit.expect(0);
+
+        emitter.on('foo', function(){
+            assert.ok(false, "The foo event shouldn't be triggered");
+        });
+        emitter.on('bar', function(){
+            assert.ok(true, "The bar event shouldn't be triggered");
+        });
+
+        emitter.removeAllListeners();
+        emitter.trigger('foo');
+        emitter.trigger('bar');
+        setTimeout(function(){
+            emitter.trigger('foo');
+            emitter.trigger('bar');
+
+            setTimeout(function(){
+                QUnit.start();
+            }, 10);
         }, 10);
     });
 

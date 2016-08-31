@@ -289,23 +289,23 @@ define([
             return eventHandlers[ns][name][type];
         };
 
-       /**
-        * The API itself is just a placeholder, all methods will be delegated to a target.
-        */
+        /**
+         * The API itself is just a placeholder, all methods will be delegated to a target.
+         */
         var eventApi = {
 
-           /**
-            * Attach an handler to an event.
-            * Calling `on` with the same eventName multiple times add callbacks: they
-            * will all be executed.
-            *
-            * @example target.on('foo', function(bar){ console.log('Cool ' + bar) } );
-            *
-            * @this the target
-            * @param {String} eventNames - the name of the event, or multiple events separated by a space
-            * @param {Function} handler - the callback to run once the event is triggered
-            * @returns {Object} the target object
-            */
+            /**
+             * Attach an handler to an event.
+             * Calling `on` with the same eventName multiple times add callbacks: they
+             * will all be executed.
+             *
+             * @example target.on('foo', function(bar){ console.log('Cool ' + bar) } );
+             *
+             * @this the target
+             * @param {String} eventNames - the name of the event, or multiple events separated by a space
+             * @param {Function} handler - the callback to run once the event is triggered
+             * @returns {Object} the target object
+             */
             on : function on(eventNames, handler){
                 if(_.isFunction(handler)){
                     _.forEach(getEventNames(eventNames), function(eventName){
@@ -315,25 +315,25 @@ define([
                 return this;
             },
 
-           /**
-            * Remove ALL handlers for an event.
-            *
-            * @example remove ALL
-            * target.off('foo');
-            *
-            * @example remove targeted namespace
-            * target.off('foo.bar');
-            *
-            * @example remove all handlers by namespace
-            * target.off('.bar');
-            *
-            * @example remove all namespaces, keep non namespace
-            * target.off('.*');
-            *
-            * @this the target
-            * @param {String} eventNames - the name of the event, or multiple events separated by a space
-            * @returns {Object} the target object
-            */
+            /**
+             * Remove ALL handlers for an event.
+             *
+             * @example remove ALL
+             * target.off('foo');
+             *
+             * @example remove targeted namespace
+             * target.off('foo.bar');
+             *
+             * @example remove all handlers by namespace
+             * target.off('.bar');
+             *
+             * @example remove all namespaces, keep non namespace
+             * target.off('.*');
+             *
+             * @this the target
+             * @param {String} eventNames - the name of the event, or multiple events separated by a space
+             * @returns {Object} the target object
+             */
             off : function off(eventNames){
 
                 _.forEach(getEventNames(eventNames), function(eventName){
@@ -363,14 +363,29 @@ define([
             },
 
             /**
-            * Trigger an event.
-            *
-            * @example target.trigger('foo', 'Awesome');
-            *
-            * @this the target
-            * @param {String} eventNames - the name of the event to trigger, or multiple events separated by a space
-            * @returns {Object} the target object
-            */
+             * Remove ALL registered handlers
+             *
+             * @example remove ALL
+             * target.removeAllListeners();
+             *
+             * @this the target
+             * @returns {Object} the target object
+             */
+            removeAllListeners : function removeAllListeners(){
+                // full erase
+                eventHandlers  = {};
+                return this;
+            },
+
+            /**
+             * Trigger an event.
+             *
+             * @example target.trigger('foo', 'Awesome');
+             *
+             * @this the target
+             * @param {String} eventNames - the name of the event to trigger, or multiple events separated by a space
+             * @returns {Object} the target object
+             */
             trigger : function trigger(eventNames){
                 var self = this;
                 var args = [].slice.call(arguments, 1);
