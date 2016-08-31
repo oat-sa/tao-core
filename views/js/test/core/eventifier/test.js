@@ -114,13 +114,16 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
     QUnit.asyncTest("listen namespace, trigger without namespace", function(assert){
         var emitter = eventifier();
 
-        QUnit.expect(3);
+        QUnit.expect(4);
 
         emitter.on('foo', function(){
             assert.ok(true, 'the foo handler is called');
         });
         emitter.on('foo.*', function(){
             assert.ok(true, 'the foo.* handler is called');
+        });
+        emitter.on('foo.@', function(){
+            assert.ok(true, 'the foo.@ handler is called');
         });
         emitter.on('foo.bar', function(){
             assert.ok(true, 'the foo.bar handler is called');
@@ -130,6 +133,28 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
         emitter.trigger('foo');
     });
 
+    QUnit.asyncTest("listen namespace, trigger with default namespace", function(assert){
+        var emitter = eventifier();
+
+        QUnit.expect(4);
+
+        emitter.on('foo', function(){
+            assert.ok(true, 'the foo handler is called');
+        });
+        emitter.on('foo.*', function(){
+            assert.ok(true, 'the foo.* handler is called');
+        });
+        emitter.on('foo.@', function(){
+            assert.ok(true, 'the foo.@ handler is called');
+        });
+        emitter.on('foo.bar', function(){
+            assert.ok(true, 'the foo.bar handler is called');
+            QUnit.start();
+        });
+
+        emitter.trigger('foo.@');
+    });
+
     QUnit.asyncTest("listen namespace, trigger with namespace", function(assert){
         var emitter = eventifier();
 
@@ -137,6 +162,9 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
 
         emitter.on('foo', function(){
             assert.ok(false, 'the foo handler should not be called');
+        });
+        emitter.on('foo.@', function(){
+            assert.ok(false, 'the foo.@ handler should not be called');
         });
         emitter.on('foo.*', function(){
             assert.ok(true, 'the foo.* handler is called');
