@@ -96,6 +96,26 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
         }, 10);
     });
 
+    QUnit.asyncTest("off empty", function(assert){
+        var emitter = eventifier();
+
+        QUnit.expect(2);
+
+        emitter.on('foo', function(){
+            assert.ok(true, "The foo event should be triggered");
+        });
+        emitter.on('bar', function(){
+            assert.ok(true, "The bar event should be triggered");
+            QUnit.start();
+        });
+
+        emitter.off();
+        emitter.trigger('foo');
+        setTimeout(function(){
+            emitter.trigger('bar');
+        }, 10);
+    });
+
     QUnit.asyncTest("removeAllListeners", function(assert){
         var emitter = eventifier();
 
