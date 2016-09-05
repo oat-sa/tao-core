@@ -1,7 +1,7 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'json!core/mimetypes.json'], function($, _, mimeTypes){
+define(['jquery', 'lodash', 'json!core/mimetype/categories.json', 'json!core/mimetype/extensions.json'], function($, _, categories, extensions){
     'use strict';
 
     /**
@@ -56,21 +56,19 @@ define(['jquery', 'lodash', 'json!core/mimetypes.json'], function($, _, mimeType
 
             if(mime){
                 //lookup for exact mime
-                type = _.findKey(mimeTypes, { mimes : [mime]});
+                type = _.findKey(categories, { mimes : [mime]});
 
                 //then check  with star
                 if(!type){
-                    type = _.findKey(mimeTypes, { mimes : [mime.replace(/\/.*$/, '/*')]});
+                    type = _.findKey(categories, { mimes : [mime.replace(/\/.*$/, '/*')]});
                 }
             }
 
             //try by extension
             if(!type){
-                extMatch  = file.name.match(/\.([0-9a-z]+)(?:[\?#]|$)/i);
-                if(extMatch && extMatch.length > 1){
-                    ext = extMatch[1];
-
-                    type = _.findKey(mimeTypes, { extensions : [ext]});
+                ext = getFileExtension(file.name);
+                if(ext){
+                    type = _.findKey(categories, { extensions : [ext]});
                 }
             }
 
@@ -83,11 +81,35 @@ define(['jquery', 'lodash', 'json!core/mimetypes.json'], function($, _, mimeType
          * @returns {String} category
          */
         getCategory : function getCategory(type){
-            if(mimeTypes[type]){
-                return mimeTypes[type].category;
+            if(categories[type]){
+                return categories[type].category;
             }
+        },
+        /**
+         *
+         * @param {File} file
+         * @returns {String} the mimetype
+         */
+        getMimeType : function getMimeType(file){
+            var ext, type = file.type;
+            if(type && !type.match(/invalid/) && type !== 'application/octet-stream'){
+                return type;
+            }else{
+                ext = getFileExtension(file.name);
+                if(ext && extensions[ext]){
+                    return extensions[ext];
+                }
+            }
+            return type;
         }
 
     };
+
+    function getFileExtension(fileName){
+        var extMatch  = fileName.match(/\.([0-9a-z]+)(?:[\?#]|$)/i);
+        if(extMatch && extMatch.length > 1){
+            return extMatch[1];
+        }
+    }
 
 });
