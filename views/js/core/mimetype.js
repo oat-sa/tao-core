@@ -86,9 +86,13 @@ define(['jquery', 'lodash', 'json!core/mimetype/categories.json', 'json!core/mim
             }
         },
         /**
-         *
+         * Get mime type from a File object
+         * It first based the detection on the standard type File.type property
+         * If the returned type is empty or in a generic application/octet-stream, it will use its extension.
+         * If the extension is unknown, the property File.type is returned anyway.
+         * 
          * @param {File} file
-         * @returns {String} the mimetype
+         * @returns {String} the mime type
          */
         getMimeType : function getMimeType(file){
             var ext, type = file.type;
@@ -107,7 +111,7 @@ define(['jquery', 'lodash', 'json!core/mimetype/categories.json', 'json!core/mim
 
     /**
      * Get the file extension from the file name
-     * 
+     *
      * @param {String} fileName
      * @returns {String}
      */

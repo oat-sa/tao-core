@@ -52,8 +52,12 @@ define(['core/mimetype'], function(mimeType){
 
     QUnit
         .cases(mimetypes)
-        .test('getMimeType ', function(data, assert) {
-            var file = new File([''], data.filename, {type: data.mime});
+        .test('getMimeType', function(data, assert) {
+            //create a file mock
+            var file = {
+                name : data.filename,
+                type : data.mime,
+            };
             assert.equal(mimeType.getMimeType(file), data.equals, data.title);
         });
 });
