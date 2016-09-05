@@ -105,6 +105,12 @@ define(['jquery', 'lodash', 'json!core/mimetype/categories.json', 'json!core/mim
 
     };
 
+    /**
+     * Get the file extension from the file name
+     * 
+     * @param {String} fileName
+     * @returns {String}
+     */
     function getFileExtension(fileName){
         var extMatch  = fileName.match(/\.([0-9a-z]+)(?:[\?#]|$)/i);
         if(extMatch && extMatch.length > 1){
