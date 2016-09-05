@@ -29,6 +29,12 @@ define([
     'use strict';
 
     /**
+     * The signature of Base64 content string
+     * @type {string}
+     */
+    var BASE64_MARKER = ';base64,';
+
+    /**
      * Creates a wrapper for PDF.js
      * @param PDFJS
      * @param $element
@@ -94,6 +100,36 @@ define([
             }
         }
 
+        /**
+         * Converts a Base64 string to an array of bytes
+         * @param {String} uri
+         * @returns {Uint8Array}
+         */
+        function base64toBytes(uri) {
+            var base64Index = uri.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+            var base64 = uri.substring(base64Index);
+            var raw = window.atob(base64);
+            var rawLength = raw.length;
+            var array = new Uint8Array(new ArrayBuffer(rawLength));
+            while(rawLength --) {
+                array[rawLength] = raw.charCodeAt(rawLength);
+            }
+            return array;
+        }
+
+        /**
+         * Checks if an URI contains a Base64 content, then decode it and return an array. Otherwise return the URL.
+         * @param {String} uri
+         * @returns {String|Uint8Array}
+         */
+        function processUri(uri) {
+            uri = String(uri);
+            if (uri.indexOf(BASE64_MARKER) >= 0) {
+                return base64toBytes(uri);
+            }
+            return uri;
+        }
+
         return {
             /**
              * Loads a PDF document using PDF.js
@@ -101,7 +137,7 @@ define([
              * @returns {Promise}
              */
             load: function load(url) {
-                return PDFJS.getDocument(url).then(function (pdfDoc_) {
+                return PDFJS.getDocument(processUri(url)).then(function (pdfDoc_) {
                     pdfDoc = pdfDoc_;
                     pageNum = 1;
                     pageCount = pdfDoc.numPages;
