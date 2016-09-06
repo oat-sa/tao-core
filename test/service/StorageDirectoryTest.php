@@ -241,4 +241,15 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         fclose($resource);
         $streamFixture->close();
     }
+
+
+    public function testGetPath()
+    {
+        $reflectionClass = new \ReflectionClass(AbstractAdapter::class);
+        $reflectionProperty = $reflectionClass->getProperty('pathPrefix');
+        $reflectionProperty->setAccessible(true);
+
+        $path = $reflectionProperty->getValue($this->fileSystem->getAdapter()) . $this->pathFixture;
+        $this->assertEquals($path, $this->instance->getPath());
+    }
 }
