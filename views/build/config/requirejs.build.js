@@ -38,6 +38,8 @@ require.config({
         'spin'              : 'lib/spin.min',
         'html5-history-api' : 'lib/history/history',
 
+        'pdfjs-dist/build/pdf'        : 'lib/pdfjs/build/pdf',
+        'pdfjs-dist/build/pdf.worker' : 'lib/pdfjs/build/pdf.worker',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'interact'          : 'lib/interact',
