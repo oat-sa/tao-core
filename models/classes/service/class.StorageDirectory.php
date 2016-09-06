@@ -41,7 +41,6 @@ class tao_models_classes_service_StorageDirectory extends Directory
 
     public function __construct($id, $filesystemId, $path, Websource $provider = null)
     {
-        common_Logger::i($path);
         parent::__construct($filesystemId, $path);
         $this->id = $id;
         $this->accessProvider = $provider;
@@ -116,7 +115,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
         if (!$adapter instanceof Local) {
             throw new common_exception_InconsistentData(__CLASS__.' can only handle local files');
         }
-        return $adapter->getPathPrefix().$this->getPrefix();
+        return $adapter->getPathPrefix() . $this->getPrefix();
     }
 
     /**

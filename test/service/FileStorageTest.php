@@ -38,7 +38,7 @@ class FileStorageTest extends TaoPhpUnitTestRunner
     {
         $this->sampleDir = __DIR__ . '/samples/';
         $this->privateDir = \tao_helpers_File::createTempDir();
-        $this->adapterFixture = 'adapterFixture';
+        $this->adapterFixture = 'private';
     }
 
     /**
@@ -47,21 +47,6 @@ class FileStorageTest extends TaoPhpUnitTestRunner
     public function tearDown()
     {
         \tao_helpers_File::delTree($this->privateDir);
-    }
-
-    /**
-     * Create a mock of filesystem, getUri will return $path
-     * @param $path
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getFileSystemMock($path)
-    {
-        $fsFixture = $this->getMockBuilder('core_kernel_fileSystem_FileSystem')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $fsFixture->method('getUri')->willReturn($path);
-
-        return $fsFixture;
     }
 
     /**
@@ -101,14 +86,7 @@ class FileStorageTest extends TaoPhpUnitTestRunner
     public function getFileStorage()
     {
         $fileStorage = \tao_models_classes_service_FileStorage::singleton();
-        $reflectionClass = new \ReflectionClass('\tao_models_classes_service_FileStorage');
-
-        $reflectionProperty = $reflectionClass->getProperty('privateFs');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($fileStorage, $this->getFileSystemMock($this->adapterFixture));
-
         $fileStorage->setServiceLocator($this->getServiceLocatorWithFileSystem());
-
         return $fileStorage;
     }
 
@@ -118,16 +96,18 @@ class FileStorageTest extends TaoPhpUnitTestRunner
     public function testDeleteDirectoryById()
     {
         $id = 'polop-';
-        $file = 'test';
+        $fileName = 'test';
 
         $fileStorage = $this->getFileStorage();
 
         $directoryStorage = $fileStorage->getDirectoryById($id);
         $stream = fopen('data://text/plain;base64,' . base64_encode('testContent'),'r');
-        $directoryStorage->writeStream($file, $stream);
+
+        $file = $directoryStorage->getFile($fileName);
+        $file->write($stream);
 
         $this->assertTrue($fileStorage->deleteDirectoryById($id));
-        $this->assertFalse($directoryStorage->has($file));
+        $this->assertFalse($file->exists());
 
         $reflectionClass = new \ReflectionClass('\tao_models_classes_service_FileStorage');
         $reflectionMethod = $reflectionClass->getMethod('id2path');
@@ -135,5 +115,20 @@ class FileStorageTest extends TaoPhpUnitTestRunner
         $path = $reflectionMethod->invokeArgs($fileStorage, [$id]);
 
         $this->assertFalse(file_exists($path));
+    }
+
+    public function testGetPath()
+    {
+        $fileStorage = $this->getFileStorage();
+        $id = 'polop-';
+
+        $reflectionClass = new \ReflectionClass('\tao_models_classes_service_FileStorage');
+        $reflectionMethod = $reflectionClass->getMethod('id2path');
+        $reflectionMethod->setAccessible(true);
+        $path = $reflectionMethod->invokeArgs($fileStorage, [$id]);
+        $path = rtrim($path, '\\/');
+
+        $directoryStorage = $fileStorage->getDirectoryById($id);
+        $this->assertEquals($this->privateDir . $path, $directoryStorage->getPath());
     }
 }
