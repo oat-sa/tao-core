@@ -35,7 +35,14 @@ class LoginResponse extends ResponseAbstract {
     }
     
     public function send() {
-        header(\HTTPToolkit::locationHeader(_url('login', 'Main', 'tao')));
+        $params = [];
+        if ($this->exception instanceof \tao_models_classes_AccessDeniedException) {
+            $params = [
+                'redirect' => $this->exception->getDeniedRequest()->getRequestURI(),
+                'msg' => $this->exception->getUserMessage()
+            ];
+        }
+        header(\HTTPToolkit::locationHeader(_url('login', 'Main', 'tao', $params)));
         return;
     }
     
