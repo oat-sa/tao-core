@@ -43,45 +43,58 @@ module.exports = function(grunt) {
 
     //starts a static web server to serve assets for tests and the requirejs config
     grunt.config('connect', {
-        test: {
-            options: {
-                protocol : 'http',
-                hostname : '127.0.0.1',
-                port: testPort,
-                base: root,
-                middleware: function(connect, options, middlewares) {
+        options: {
+            protocol : 'http',
+            hostname : '127.0.0.1',
+            port: testPort,
+            base: root,
+            middleware: function(connect, options, middlewares) {
 
-                    var rjsConfig = require('../config/requirejs.test.json');
-                    rjsConfig.baseUrl = testUrl + '/tao/views/js';
-                    ext.getExtensions().forEach(function(extension){
-                        rjsConfig.paths[extension] = '../../../' + extension + '/views/js';
-                        rjsConfig.paths[extension + 'Css'] = '../../../' + extension + '/views/css';
-                    });
+                var rjsConfig = require('../config/requirejs.test.json');
+                rjsConfig.baseUrl = testUrl + '/tao/views/js';
+                rjsConfig.config = {
+                    context : {
+                        root_url : testUrl + '/'
+                    }
+                };
+                ext.getExtensions().forEach(function(extension){
+                    rjsConfig.paths[extension] = '../../../' + extension + '/views/js';
+                    rjsConfig.paths[extension + 'Css'] = '../../../' + extension + '/views/css';
+                });
 
-                    // inject a mock for the requirejs config
-                    middlewares.unshift(function(req, res, next) {
-                        if (/\/tao\/ClientConfig\/config/.test(req.url)){
-                            res.writeHead(200, { 'Content-Type' : 'application/javascript'});
-                            return res.end('require.config(' + JSON.stringify(rjsConfig) + ')');
+                // inject a mock for the requirejs config
+                middlewares.unshift(function(req, res, next) {
+                    if (/\/tao\/ClientConfig\/config/.test(req.url)){
+                        res.writeHead(200, { 'Content-Type' : 'application/javascript'});
+                        return res.end('require.config(' + JSON.stringify(rjsConfig) + ')');
+                    }
+                    return next();
+                });
+
+                //allow post requests
+                middlewares.unshift(function(req, res, next) {
+                    var filepath;
+                    if (req.method.toLowerCase() === 'post') {
+                        filepath = path.join(options.base[0], req.url);
+                        if (fs.existsSync(filepath)) {
+                            fs.createReadStream(filepath).pipe(res);
+                            return;
                         }
-                        return next();
-                    });
+                    }
+                    return next();
+                });
 
-                    //allow post requests
-                    middlewares.unshift(function(req, res, next) {
-                        if (req.method.toLowerCase() === 'post') {
-                            var filepath = path.join(options.base[0], req.url);
-                            if (fs.existsSync(filepath)) {
-                                fs.createReadStream(filepath).pipe(res);
-                                return;
-                            }
-                        }
-                        return next();
-                    });
-
-
-                    return middlewares;
-                }
+                return middlewares;
+            }
+        },
+        test : {
+            options :{
+                livereload: false
+            }
+        },
+        dev : {
+            options :{
+                livereload: true
             }
         }
     });

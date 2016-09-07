@@ -32,7 +32,8 @@ module.exports = function(grunt) {
         files : ['../scss/*.scss', '../scss/**/*.scss', '../js/lib/jsTree/**/*.scss'],
         tasks : ['sass:tao', 'notify:taosass'],
         options : {
-            debounceDelay : 1000
+            debounceDelay : 1000,
+            livereload: true
         }
     };
 

@@ -1,0 +1,177 @@
+
+@keyframes spin { 100% { transform:rotate(360deg); } }
+
+.resource-selector{
+
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+
+    opacity: 0;
+    &.rendered {
+        opacity: 1;
+        transition: opacity 300ms linear;
+    }
+
+    nav, footer {
+        height: 40px;
+        border-bottom: solid 1px $uiGeneralContentBorder;
+    }
+
+    nav.search {
+
+        padding: 5px;
+        background-color: #F3F1EF;
+        input[type=search] {
+            box-sizing: border-box;
+            border-radius: 15px;
+            max-width: inherit;
+            width: 100%;
+            padding: 4px 15px;
+        }
+    }
+
+    nav.context {
+
+        display:flex;
+        flex-flow: row nowrap;
+
+        .class-context {
+            flex : 1;
+
+            .class-selector{
+                position: static;
+                .options {
+                    max-height: calc(100% - 120px);
+                    &.folded {
+                        max-height: 0;
+                    }
+                }
+            }
+        }
+
+
+        & > a {
+           display: inline-block;
+           width: 40px;
+           height: 40px;
+           padding: 10px 0 0 12px;
+           background-color: $uiClickableDefaultBg;
+           color: $textColor;
+           border-left: solid 1px #fff;
+           text-shadow: 0 0 0 transparent;
+           text-decoration: none;
+
+           &:hover, &.active {
+                color: $uiClickableHoverBg;
+                transition: color 200ms linear;
+           }
+        }
+    }
+
+    main {
+        flex: 1;
+        overflow-y: auto;
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            z-index: 10;
+
+            li {
+                &.selected, &:hover{
+                    background-color:  $uiClickableHoverBg;
+                    color: $textHighlight;
+                    cursor: pointer;
+                    transition: all 300ms linear;
+                }
+            }
+
+            &.list {
+
+                padding: 0 10px;
+
+                li {
+                    position: relative;
+                    height: 50px;
+                    padding: 10px;
+                    border-bottom: solid 1px #ddd;
+
+                    transition: all 200ms linear;
+
+                    &:after {
+                        @include tao-icon-setup;
+                        @include icon-checkbox;
+                        color: #ddd;
+                        position: absolute;
+                        right: 15px;
+                        top: 17px;
+                    }
+
+                    &.selected:after{
+                        @include icon-checkbox-checked;
+                        color: $textHighlight;
+                    }
+                }
+            }
+
+            &.grid {
+                display: flex;
+                flex-flow: row wrap;
+
+                li {
+                    flex: 0 1 29%;
+                    height: 75px;
+                    border: 1px solid #ddd;
+                    border-radius: 2px;
+                    padding: 5px;
+                    overflow: hidden;
+                    display: block;
+                    margin: 5px;
+                    overflow-wrap: break-word;
+
+                    transition: all 200ms linear;
+                }
+            }
+        }
+
+        &.loading {
+            opacity : .6;
+        }
+    }
+
+    footer {
+        border-top: solid 1px #ddd;
+
+
+        display: flex;
+        flex-flow: row nowrap;
+
+        p {
+            flex : 1 0 auto;
+            padding: 10px;
+            text-align: center;
+        }
+        .actions {
+            background-color: $uiClickableDefaultBg;
+            border-left: solid 1px #ddd;
+            padding: 10px 15px 10px 5px;
+
+           a {
+                color: $textColor;
+                text-shadow: 0 0 0 transparent;
+                text-decoration: none;
+
+                &:hover, &.active {
+                        color: $uiClickableHoverBg;
+                        transition: color 200ms linear;
+                }
+            }
+        }
+    }
+
+
+
+}
