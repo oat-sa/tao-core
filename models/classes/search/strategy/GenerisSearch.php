@@ -85,4 +85,12 @@ class GenerisSearch extends Configurable implements Search
             )
         );
     }
+    
+    /**
+     * doesn't supprt complex query
+     * @return boolean
+     */
+    public function supportComplexQuery() {
+        return true;
+    }
 }

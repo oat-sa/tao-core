@@ -48,4 +48,10 @@ interface Search extends PhpSerializable
      * @param \Traversable $resourceTraversable
      */
     public function index(\Traversable $resourceTraversable);
+    
+    /**
+     * return true or false
+     * @return boolean
+     */
+    public function supportComplexQuery();
 }

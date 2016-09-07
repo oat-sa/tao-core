@@ -285,9 +285,17 @@ class tao_actions_Main extends tao_actions_CommonModule
         );
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParams));
         $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
-
-		$this->setView('layout.tpl', 'tao');
-	}
+        
+        if($this->getServiceManager()->get('tao/search')->supportComplexQuery()) {
+             $this->setData('search-template', 'blocks/search/complex-search.tpl');
+        } else {
+            $this->setData('search-template', 'blocks/search/simple-search.tpl');
+            
+        }
+        
+            $this->setView('layout.tpl', 'tao');
+                    
+        }
     
     /**
      * Get perspective data depending on the group set in structure.xml
