@@ -72,6 +72,7 @@ $searchTpl = get_data('search-template');
                             ));
                         ?>
                         <?php
+                        
                         foreach ($section->getTrees() as $i => $tree) {
                             if (!is_null($tree->get('rootNode'))) {
                                 Template::inc($searchTpl, 'tao', array(

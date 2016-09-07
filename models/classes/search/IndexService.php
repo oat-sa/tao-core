@@ -129,6 +129,20 @@ class IndexService
             }
         }
         
+        if($recursive) {
+            $subClassIndexes = self::getIndexesByClassRecustive($class);
+        }
+        
         return $returnedIndexes;
+    }
+    
+    public static function getIndexesByClassRecustive(\core_kernel_classes_Class $class) {
+        $result     = []; 
+        $subClasses = $class->getSubClasses();
+        /* @var $subClass core_kernel_classes_Class */
+        foreach ($subClasses as $subClass) {
+            $result = array_merge($result , self::getIndexesByClass($subClass));
+        }
+        return $result;
     }
 }
