@@ -131,6 +131,7 @@ class IndexService
         
         if($recursive) {
             $subClassIndexes = self::getIndexesByClassRecustive($class);
+            $returnedIndexes = array_merge($returnedIndexes , $subClassIndexes);
         }
         
         return $returnedIndexes;
