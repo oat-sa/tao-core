@@ -4,6 +4,7 @@ use oat\tao\helpers\Layout;
 
 $sections  = get_data('sections');
 $searchTpl = get_data('search-template');
+$searchIndex = get_data('search-indexes');
 ?>
 
 <?php if ($sections): ?>
@@ -77,7 +78,8 @@ $searchTpl = get_data('search-template');
                             if (!is_null($tree->get('rootNode'))) {
                                 Template::inc($searchTpl, 'tao', array(
                                     'rootNode' => $tree->get('rootNode'),
-                                    'searchLabel' => __('Search %s', $tree->get('className'))
+                                    'searchLabel' => __('Search %s', $tree->get('className')),
+                                    'searchIndex' => $searchIndex
                                 ));
                             }
                         }

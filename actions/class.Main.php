@@ -287,7 +287,10 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
         
         if($this->getServiceManager()->get('tao/search')->supportComplexQuery()) {
-             $this->setData('search-template', 'blocks/search/complex-search.tpl');
+            $cache = $this->getServiceManager()->get('generis/cache');
+            $indexes = oat\tao\model\search\IndexService::getIndexesByClassCached(new \core_kernel_classes_Class($sections[0]->getTrees()[0]->get('rootNode')) , $cache);
+            $this->setData('search-indexes', $indexes);
+            $this->setData('search-template', 'blocks/search/complex-search.tpl');
         } else {
             $this->setData('search-template', 'blocks/search/simple-search.tpl');
             

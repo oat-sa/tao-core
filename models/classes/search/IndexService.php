@@ -146,4 +146,16 @@ class IndexService
         }
         return $result;
     }
+    
+    public static function getIndexesByClassCached(\core_kernel_classes_Class $class , \common_cache_Cache $cache, $recursive = true) {
+        $key = 'indexes_' . $class->getUri();
+        if($cache->has($key)) {
+            return unserialize($cache->get($key));
+        }
+        
+        $result = self::getIndexesByClass($class , $recursive);
+        $cache->put( $key , serialize($result));
+        return $result;
+    }
+    
 }
