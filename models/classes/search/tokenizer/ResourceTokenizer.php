@@ -22,9 +22,14 @@ namespace oat\tao\model\search\tokenizer;
 
 /**
  * Tokenizer interface for TAO property values 
- * @deprecated please use PropertyValueTokenizer
+ * 
  * @author Joel Bout <joel@taotesting.com>
  */
-interface Tokenizer extends PropertyValueTokenizer
+interface ResourceTokenizer
 {	
+    /**
+     * @param \core_kernel_classes_Resource $value
+     * @return array list of strings
+     */
+    public function getStrings($resource);
 }
