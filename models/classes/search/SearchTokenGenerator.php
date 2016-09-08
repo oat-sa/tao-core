@@ -56,7 +56,7 @@ class SearchTokenGenerator
                     if ($tokenizer instanceof ResourceTokenizer) {
                         $strings = $tokenizer->getStrings($resource);
                     } elseif ($tokenizer instanceof PropertyValueTokenizer) {
-                        $strings = $index->tokenize($values);
+                        $strings = $tokenizer->getStrings($values);
                     } else {
                         throw new \common_exception_InconsistentData('Unsupported tokenizer '.get_class($tokenizer));
                     }

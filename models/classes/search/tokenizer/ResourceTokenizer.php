@@ -32,5 +32,5 @@ interface ResourceTokenizer
      * @param \core_kernel_classes_Resource $value
      * @return array list of strings
      */
-    public function getStrings($resource);
+    public function getStrings(\core_kernel_classes_Resource $resource);
 }

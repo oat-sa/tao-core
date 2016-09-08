@@ -26,13 +26,20 @@ class Index extends \core_kernel_classes_Resource {
     
     private $cached = null;
 
-    private function getOneCached($property)
+    /**
+     * Preload all the index properties and return the
+     * property requested
+     * 
+     * @param string $propertyUri
+     * @return Ambigous <NULL, mixed>
+     */
+    private function getOneCached($propertyUri)
     {
         if (is_null($this->cached)) {
             $props = array(INDEX_PROPERTY_IDENTIFIER, INDEX_PROPERTY_TOKENIZER, INDEX_PROPERTY_FUZZY_MATCHING, INDEX_PROPERTY_DEFAULT_SEARCH);
             $this->cached = $this->getPropertiesValues($props);
         }
-        return empty($this->cached[$property]) ? null : reset($this->cached[$property]);
+        return empty($this->cached[$propertyUri]) ? null : reset($this->cached[$propertyUri]);
     }
 
     public function getIdentifier()
@@ -52,11 +59,6 @@ class Index extends \core_kernel_classes_Resource {
             throw new \common_exception_Error('Tokenizer class "'.$implClass.'" not found for '.$tokenizer->getUri());
         }
         return new $implClass();
-    }
-    
-    public function tokenize($value)
-    {
-        return $this->getTokenizer()->getStrings($value);
     }
     
     /**
