@@ -20,33 +20,19 @@
  */
 namespace oat\tao\model\search;
 
-use common_Logger;
-use oat\tao\model\search\Search;
 use oat\tao\model\search\Index;
-use Solarium\Client;
-use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 use oat\tao\model\search\tokenizer\ResourceTokenizer;
 use oat\tao\model\search\tokenizer\PropertyValueTokenizer;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
- * Solarium Search implementation
- * 
- * Sample config
- * 
- *  $config = array(
- *      'endpoint' => array(
- *          'localhost' => array(
- *              'host' => '127.0.0.1',
- *             'port' => 8983,
- *             'path' => '/solr/',
- *          )
- *      )
- *  );
+ * Search Token generator to be used in Indexers
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
 class SearchTokenGenerator
 {
+    use OntologyAwareTrait;
     
     protected $indexMap = array();
     
@@ -82,7 +68,7 @@ class SearchTokenGenerator
     }
     
     protected function getProperties(\core_kernel_classes_Resource $resource) {
-        $classProperties = array(new \core_kernel_classes_Property(RDFS_LABEL));
+        $classProperties = array($this->getProperty(RDFS_LABEL));
         foreach ($resource->getTypes() as $type) {
             $classProperties = array_merge($classProperties, $this->getPropertiesByClass($type));
         }
@@ -101,7 +87,7 @@ class SearchTokenGenerator
     protected function getIndexes(\core_kernel_classes_Property $property) {
         if (!isset($this->indexMap[$property->getUri()])) {
             $this->indexMap[$property->getUri()] = array();
-            $indexes = $property->getPropertyValues(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex'));
+            $indexes = $property->getPropertyValues($this->getProperty(INDEX_PROPERTY));
             foreach ($indexes as $indexUri) {
                 $this->indexMap[$property->getUri()][] = new Index($indexUri);
             }
