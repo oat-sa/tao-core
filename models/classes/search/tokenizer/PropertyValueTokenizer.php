@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -22,9 +22,15 @@ namespace oat\tao\model\search\tokenizer;
 
 /**
  * Tokenizer interface for TAO property values 
- * @deprecated please use PropertyValueTokenizer
+ * 
  * @author Joel Bout <joel@taotesting.com>
  */
-interface Tokenizer extends PropertyValueTokenizer
+interface PropertyValueTokenizer
 {	
+    /**
+     * 
+     * @param mixed $value
+     * @return array list of strings
+     */
+    public function getStrings($value);
 }
