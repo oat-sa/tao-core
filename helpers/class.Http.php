@@ -455,9 +455,9 @@ class tao_helpers_Http
     static public function getFileFromInputStream()
     {
 
-        if (!($putData = fopen("php://input", "r")))
+        if (!($putData = fopen("php://input", "r"))) {
             throw new common_Exception("Can't get php://input data", 1); // not error - can continue app without file
-
+        }
         $headers = tao_helpers_Http::getHeaders();
         if(!isset($headers['Content-Length'])){
             unset($putData);
@@ -487,18 +487,18 @@ class tao_helpers_Http
             $totalWriteSize += $blockWriteSize;
         }
 
-        if (!fclose($fp))
-            common_Logger::w('Could not close file fclose(' . $tmpFileName.')', 'RestAPI');
-
+        if (!fclose($fp)) {
+            common_Logger::w('Could not close file fclose(' . $tmpFileName . ')', 'RestAPI');
+        }
         unset($putData);
 
         // Check file length and MD5
-        if ($totalWriteSize != $headers['Content-Length'])
+        if ($totalWriteSize != $headers['Content-Length']) {
             throw new common_Exception("Wrong file size", 412); // Precondition Failed
-
-        if (md5_file($tmpFileName) != $headers['Content-Md5'])
+        }
+        if (md5_file($tmpFileName) != $headers['Content-Md5']) {
             throw new common_Exception("Wrong md5", 412);
-
+        }
         return $tmpFileName;
     }
     
