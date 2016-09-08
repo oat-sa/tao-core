@@ -17,6 +17,7 @@
 @import "inc/jquery.nouislider";
 @import "inc/forms";
 @import "inc/components";
+@import "inc/dynamic-component";
 @import "inc/mediaelementplayer";
 @import "inc/autocomplete";
 @import "inc/contextual-popup";
@@ -24,6 +25,10 @@
 @import "inc/breadcrumbs";
 @import "inc/flex-grid";
 @import "inc/bulk-action-popup";
+@import "inc/calculator";
+@import "inc/tristate-checkbox-group";
+@import "inc/splash-modal-large";
+@import "inc/viewer";
 
 //TODO move it to taoItems
 #tab-items_preview {

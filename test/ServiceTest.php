@@ -126,11 +126,6 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 		$testInstance = $this->taoService->createInstance($testModelClass, 'anInstance');
 		$this->assertIsA( $testInstance, 'core_kernel_classes_Resource');
 		
-		//get the class from the instance
-		$clazz = $this->taoService->getClass($testInstance);
-		$this->assertIsA($clazz, 'core_kernel_classes_Class');
-		$this->assertEquals($clazz->getUri(), $testModelClass->getUri());
-		
 		//test the bindProperties method
 		$testInstance = $this->taoService->bindProperties(
 			$testInstance, 
@@ -184,12 +179,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 	    $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 	    $previous = $ext->getConfig(tao_models_classes_TaoService::CONFIG_UPLOAD_FILESOURCE);
 	    
-	    $prophet = new \Prophecy\Prophet;
-	    $repo = $prophet->prophesize('core_kernel_versioning_Repository');
-	    
-	    $repo->getUri()->willReturn('#fakeUri');
-	    $mock = $repo->reveal();
-	    $this->taoService->setUploadFileSource($mock);
+	    $this->taoService->setUploadFileSourceId('#fakeUri');
 	    
 	    $new = $ext->getConfig(tao_models_classes_TaoService::CONFIG_UPLOAD_FILESOURCE);
 	    $this->assertEquals('#fakeUri', $new);
@@ -199,15 +189,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 	    
 
 	}
-	/**
-	 * 
-	 * @author Lionel Lecaque, lionel@taotesting.com
-	 */
-	public function testGetUploadFileSource(){
-	    $repo = $this->taoService->getUploadFileSource();
-	    $this->assertInstanceOf('core_kernel_versioning_Repository', $repo);
-	}
-	
+
 	/**
 	 * 
 	 * @author Lionel Lecaque, lionel@taotesting.com

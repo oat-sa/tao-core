@@ -1,8 +1,9 @@
 // buttons and alerts
 $success: rgb(14, 145, 75);
 $info: rgb(14, 93, 145);
-$error: rgb(186, 18, 43);
 $warning: rgb(216, 174, 91);
+$danger: rgb(201, 96, 67);
+$error: rgb(186, 18, 43);
 $activeInteraction: rgb(195, 90, 19);
 
 // corporate identity
@@ -38,17 +39,20 @@ $uiOverlay: $lightBlueGrey;
 $canvas: mix(#fff, $grey, 85%);
 
 // colors taken from feedback.scss
-$errorBgColor: whiten($error, .8);
-$errorBorderColor: whiten($error, .1);
+$successBgColor: whiten($success, .8);
+$successBorderColor: whiten($success, .1);
 
 $infoBgColor: whiten($info, .8);
 $infoBorderColor: whiten($info, .1);
 
-$successBgColor: whiten($success, .8);
-$successBorderColor: whiten($success, .1);
-
 $warningBgColor: whiten($warning, .8);
 $warningBorderColor: whiten($warning, .1);
+
+$dangerBgColor: whiten($danger, .8);
+$dangerBorderColor: whiten($danger, .1);
+
+$errorBgColor: whiten($error, .8);
+$errorBorderColor: whiten($error, .1);
 
 
 $darkBar : rgb(51, 51, 51);

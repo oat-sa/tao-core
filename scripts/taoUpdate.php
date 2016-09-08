@@ -21,9 +21,11 @@
 require_once dirname(__FILE__) .'/../includes/raw_start.php';
 
 use oat\tao\model\extension\UpdateExtensions;
+use oat\oatbox\service\ServiceManager;
 
 $action = new UpdateExtensions();
+$action->setServiceLocator(ServiceManager::getServiceManager());
 $report = $action->__invoke(array());
-echo tao_helpers_report_Rendering::renderToCommandline($report);
+echo helpers_Report::renderToCommandline($report);
 echo 'Update completed' . PHP_EOL;
 

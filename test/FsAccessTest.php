@@ -24,8 +24,11 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\tao\model\websource\TokenWebSource;
+use oat\tao\model\websource\FlyTokenWebSource;
 use oat\tao\model\websource\DirectWebSource;
 use oat\tao\model\websource\Websource;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\filesystem\FileSystemService;
 
 
 /**
@@ -38,6 +41,9 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     private $testUser;
     private $credentials = array();
     
+    /**
+     * @var \core_kernel_fileSystem_FileSystem
+     */
     private static $fileSystem = null;
     
     protected function setUp()
@@ -65,7 +71,10 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     
     public static function tearDownAfterClass() {
         parent::tearDownAfterClass();
-        self::$fileSystem->delete();
+        $serviceManager = ServiceManager::getServiceManager();
+        $fsm = $serviceManager->get(FileSystemService::SERVICE_ID);
+        $fsm->unregisterFileSystem(self::$fileSystem->getUri());
+        $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
     }
     
     /**
@@ -74,17 +83,22 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
      */
     public function fileAccessProviders() {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        
         if (is_null(self::$fileSystem )) {
-            self::$fileSystem = tao_models_classes_FileSourceService::singleton()->addLocalSource('test FS', $ext->getConstant('DIR_VIEWS'));
+            $serviceManager = ServiceManager::getServiceManager();
+            $fsm = $serviceManager->get(FileSystemService::SERVICE_ID);
+            $fsId = core_kernel_uri_UriService::singleton()->generateUri();
+            $fsm->registerLocalFileSystem($fsId, $ext->getConstant('DIR_VIEWS'));
+            $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
+            self::$fileSystem = new core_kernel_fileSystem_FileSystem($fsId);
         }
         return array(
-            array(DirectWebSource::spawnWebsource(self::$fileSystem, $ext->getConstant('BASE_WWW'))),
-            array(TokenWebSource::spawnWebsource(self::$fileSystem)),
-            array(ActionWebSource::spawnWebsource(self::$fileSystem))
+            array(DirectWebSource::spawnWebsource(self::$fileSystem->getUri(), $ext->getConstant('BASE_WWW'))),
+            array(TokenWebSource::spawnWebsource(self::$fileSystem->getUri(), self::$fileSystem->getPath())),
+            array(ActionWebSource::spawnWebsource(self::$fileSystem->getUri())),
+            array(FlyTokenWebSource::spawnWebsource(self::$fileSystem->getUri(), 'unused')),
         );
     }
-    
-
     
     /**
      * @expectedException common_Exception
@@ -159,11 +173,11 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         $this->assertInstanceOf('oat\tao\model\websource\Websource', $fromManager);
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR.'tao.png');
-        $this->assertTrue(file_exists($access->getFileSystem()->getPath().'img'.DIRECTORY_SEPARATOR.'tao.png'), 'reference file not found');
+        $this->assertTrue($access->getFileSystem()->has('img'.DIRECTORY_SEPARATOR.'tao.png'), 'reference file not found');
         $this->assertUrlHttpCode($url);
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png');
-        $this->assertFalse(file_exists($access->getFileSystem()->getPath().'img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png'), 'reference file should not be found');
+        $this->assertFalse($access->getFileSystem()->has('img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png'), 'reference file should not be found');
         $this->assertUrlHttpCode($url, '404');
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR);

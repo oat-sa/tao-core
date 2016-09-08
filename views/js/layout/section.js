@@ -22,7 +22,7 @@ define([
     'jquery',
     'lodash',
     'context',
-    'history'
+    'html5-history-api'
 ], function(
     $,
     _,

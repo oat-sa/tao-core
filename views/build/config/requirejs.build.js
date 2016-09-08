@@ -18,17 +18,15 @@ require.config({
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
         'jquery.timePicker' : 'lib/jquery.timePicker',
         'jquery.cookie'     : 'lib/jquery.cookie',
-        'tooltipster'       : 'lib/tooltipster/jquery.tooltipster',
         'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.trunc'		: 'lib/jquery.badonkatrunc',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
+        'qtip'              : 'lib/jquery.qtip/jquery.qtip',
 
 //polyfills
         'polyfill'          : 'lib/polyfill',
-        'filereader'        : 'lib/polyfill/jquery.FileReader.min',
 
 //libs
-        'store'             : 'lib/store/store.min',
         'lodash'            : 'lib/lodash.min',
         'async'             : 'lib/async',
         'moment'            : 'lib/moment-with-locales.min',
@@ -38,11 +36,15 @@ require.config({
         'raphael'           : 'lib/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
         'spin'              : 'lib/spin.min',
-        'history'           : 'lib/history/history',
+        'html5-history-api' : 'lib/history/history',
 
-        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player',
+        'pdfjs-dist/build/pdf'        : 'lib/pdfjs/build/pdf',
+        'pdfjs-dist/build/pdf.worker' : 'lib/pdfjs/build/pdf.worker',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
+        'interact'          : 'lib/interact',
+        'd3'                : 'lib/d3js/d3.min',
+        'c3'                : 'lib/c3js/c3.min',
 
 //optimizer needed
         'css-builder'       : 'lib/require-css/css-builder',
@@ -53,7 +55,6 @@ require.config({
    },
 
    shim : {
-        'wfEngine/wfApi/wfApi.min' : ['jquery'],
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],

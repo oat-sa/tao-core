@@ -28,8 +28,14 @@ class Tree  implements PhpSerializable
     const SERIAL_VERSION = 1392821334;
     
     private $data = array();
-    
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
+
+    /**
+     * @param \SimpleXMLElement $node
+     * @param $structureExtensionId Note that this is currently not used, but it will be for SVG icons in the tree. Also
+     * it makes sure that all instances of fromSimpleXMLElement() use the same interface.
+     * @return static
+     */
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId) {
         $data = array();
         foreach($node->attributes() as $attrName => $attrValue) {
             $data[$attrName] = (string)$attrValue;

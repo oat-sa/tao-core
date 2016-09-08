@@ -30,7 +30,7 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '3.1.0-sprint22');
+define('TAO_VERSION', '3.1.0-sprint34');
 
 $version = TAO_VERSION;
 

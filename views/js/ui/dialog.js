@@ -113,6 +113,8 @@ define([
          * @param {String|jQuery|HTMLElement} options.renderTo - A container in which renders the dialog (default: 'body').
          * @param {Boolean} options.autoRender - Allow the dialog to be immediately rendered after initialise.
          * @param {Boolean} options.autoDestroy - Allow the dialog to be immediately destroyed when closing.
+         * @param {Boolean} [options.disableClosing = false] - to disable the default closers
+         * @param {Boolean} [options.disableEscape = false] - to disable the ability to escape close the dialog
          * @param {Number} options.width - The dialog box width in pixels (default: 500).
          * @param {Number|Boolean} options.animate - The dialog box animate duration (default: false).
          * @param {Function} options.onXYZbtn - An event handler assigned to a particular button (XYZ).
@@ -379,6 +381,21 @@ define([
             }
         },
 
+        _setFocusOnModal: function _setFocusOnModal(){
+            var $btnOk, $btn;
+            // default OK button (for enter key)
+            $btnOk = $('button.ok', this.$buttons);
+            if ($btnOk.length) {
+                $btnOk.focus();
+            } else {
+                // other button
+                $btn = $('button', this.$buttons).first();
+                if ($btn.length) {
+                    $btn.focus();
+                }
+            }
+        },
+
         /**
          * Installs the dialog box
          * @private
@@ -386,8 +403,12 @@ define([
         _install : function() {
             this.$html.modal({
                 width: this.width,
-                animate: this.animate
+                animate: this.animate,
+                disableClosing: this.disableClosing,
+                disableEscape: this.disableEscape
             });
+
+            this._setFocusOnModal();
         },
 
         /**

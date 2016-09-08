@@ -19,49 +19,38 @@
  */
 namespace oat\tao\model\routing;
 
-use FrontController;
-use HttpRequest;
 use Context;
 use InterruptedActionException;
 use common_ext_ExtensionsManager;
 use common_http_Request;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * A simple controller to replace the ClearFw controller
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
-class TaoFrontController implements FrontController
+class TaoFrontController
 {
-    /**
-     * @var common_http_Request
-     */
-    private $httpRequest;
-    
-    /**
-     * 
-     * @param HttpRequest $pRequest
-     */
-    public function __construct( HttpRequest $pRequest ) {
-        // ignore deprecated request class
-        $this->httpRequest = common_http_Request::currentRequest();
+
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response) {
+        $request->getUri();
+        $pRequest = \common_http_Request::currentRequest();
+        $this->legacy($pRequest, $response);
     }
-    
+
     /**
-     * Returns the request to be executed
+     * Run the controller
      * 
-     * @return common_http_Request
+     * @param common_http_Request $pRequest
+     * @throws \ActionEnforcingException
+     * @throws \Exception
+     * @throws \common_exception_Error
+     * @throws \common_ext_ExtensionException
      */
-    protected function getRequest() {
-        return $this->httpRequest;
-    }
-    
-    /**
-     * (non-PHPdoc)
-     * @see FrontController::loadModule()
-     */
-    public function loadModule() {
-        $resolver = new Resolver($this->getRequest());
+    public function legacy(common_http_Request $pRequest) {
+        $resolver = new Resolver($pRequest);
 
         // load the responsible extension
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
@@ -74,22 +63,29 @@ class TaoFrontController implements FrontController
         //if the controller is a rest controller we try to authenticate the user
         $controllerClass = $resolver->getControllerClass();
 
-        if(is_subclass_of($controllerClass,'tao_actions_CommonRestModule')){
+        if (is_subclass_of($controllerClass, \tao_actions_RestController::class)) {
             $authAdapter = new \tao_models_classes_HttpBasicAuthAdapter(common_http_Request::currentRequest());
             try {
                 $user = $authAdapter->authenticate();
                 $session = new \common_session_RestSession($user);
                 \common_session_SessionManager::startSession($session);
             } catch (\common_user_auth_AuthFailedException $e) {
-                $class = new $controllerClass();
-                $class->requireLogin();
+                $data['success']	= false;
+                $data['errorCode']	= '401';
+                $data['errorMsg']	= 'You are not authorized to access this functionality.';
+                $data['version']	= TAO_VERSION;
+
+                header('HTTP/1.0 401 Unauthorized');
+                header('WWW-Authenticate: Basic realm="' . GENERIS_INSTANCE_NAME . '"');
+                echo json_encode($data);
+                exit(0);
             }
         }
 
 
         try
         {
-            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $this->getRequest()->getParams());
+            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $pRequest->getParams());
             $enforcer->execute();
         }
         catch (InterruptedActionException $iE)

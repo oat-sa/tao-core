@@ -21,15 +21,13 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 
+    'jquery',
     'lodash',
     'util/wrapLongWords',
     'util/encode',
     'tpl!ui/feedback/feedback'
 ], function($, _, wrapLongWords, encode, tpl){
-
-    //'use strict';
-    // @todo cannot be used here because _trigger() relies on arguments.caller!
+    'use strict';
 
     //keep a reference to ALL alive feedback
     var currents = [];
@@ -40,14 +38,14 @@ define([
     //feedback levels are divided into 2 categories
     var categories = {
 
-        //volatiles messages disappear after a certain amount of time. 
+        //volatiles messages disappear after a certain amount of time.
         //If 2 messages of the same category appears, only the last one is displayed
         'volatile'      : ['info', 'success'],
 
         //persistent feedback stay until their are closed.
         //Other persistent feedback are merged to keep all the info.
         //To prevent UI pollution, they may be collapsed  in a notification area
-        'persistent'    : ['warning', 'error']
+        'persistent'    : ['warning', 'danger', 'error']
     };
 
     //extract the available levels from the categories
@@ -68,22 +66,24 @@ define([
             info: 2000,
             success: 2000,
             warning: 4000,
+            danger: 4000,
             error: 8000
         },
         // Note: value depends on font, font-weight and such.
         // 40 is pretty good in the current setup but will
         // never be exact with a non-proportional font.
         wrapLongWordsAfter: 40,
-        encodeHtml : true
+        encodeHtml : true,
+        popup: true
     };
 
     /**
      * Object delegation. This enables us to separate the instance of feedback from the feedbackApi.
      * An instance can call methods from the API like it was it, so each object will not contain the function definition.
-     * @private 
+     * @private
      * @param {Object} receiver - the object that receive the methods
      * @param {Object} provider - it provides the methods to the receiver
-     * @returns {Object} the receiver augmented by the provider's methods. 
+     * @returns {Object} the receiver augmented by the provider's methods.
      */
     function delegate (receiver, provider) {
         _(provider).functions().forEach(function delegateMethod(methodName) {
@@ -112,21 +112,22 @@ define([
 
             this.level = level;
             this.category = _.findKey(categories, [this.level]);
-            this.options  = _.defaults(options || {}, defaultOptions); 
+            this.options  = _.defaults(options || {}, defaultOptions);
 
             // encode plain text string to html
             msg = this.options.encodeHtml ? encode.html(msg) : msg;
-            
+
             // wrap long words
             msg = !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg;
 
             this.content  = tpl({
                 level : level,
-                msg : msg
+                msg : msg,
+                popup : !!this.options.popup
             });
 
             this._trigger('create');
- 
+
             return this;
         },
 
@@ -145,6 +146,11 @@ define([
                        .open();
         },
 
+        danger : function danger(msg, options){
+            return this.message('danger', msg, options)
+                       .open();
+        },
+
         error : function error(msg, options){
             return this.message('error', msg, options)
                        .open();
@@ -155,7 +161,7 @@ define([
             this._trigger();
 
             // do not manage persistent message until finished
-            //if(this.category === 'persistent'){ 
+            //if(this.category === 'persistent'){
                  //this.merge();
             //} else {
 
@@ -166,7 +172,7 @@ define([
                     .invoke('close');                       //run close
 
                 //and display me
-                this.display();
+                this.display('open');
 //            }
             return this;
         },
@@ -177,9 +183,9 @@ define([
                 this.setState(states.closed);
 
                 $('#' + this.id).remove();
-        
-                this._trigger();
-            
+
+                this._trigger('close');
+
                 //clean up refs
                 _.remove(currents, { _state : states.closed });
             }
@@ -193,12 +199,12 @@ define([
                 $(this.content)
                     .attr('id', this.id)
                     .appendTo(this._container);
-                
-                this._trigger();
+
+                this._trigger('display');
 
                 if(this._getTimeout() >= 0){
                     setTimeout(function(){
-                    
+
                         //volatiles messages auto close and persistent collapse
         //                if(self.category === 'volatile'){
                             self.close();
@@ -216,7 +222,7 @@ define([
                         .off('click')
                         .on('click', self.close );
                 }
-                
+
             }
             return this;
         },
@@ -228,14 +234,13 @@ define([
            }
            //do the merge
            this.setState(states.merged);
-            
-                
-           this._trigger();
+
+
+           this._trigger('merge');
         },
 
         collapse : function collapse(){
-
-           this._trigger();
+           this._trigger('collapse');
         },
 
         /**
@@ -243,7 +248,7 @@ define([
          * @param {String} [eventName] - the name of the event, use the caller name if not set
          */
         _trigger : function _trigger(eventName) {
-            var name = eventName || this._trigger.caller.name;
+            var name = eventName ;
 
             //trigger the related event
             this._container.trigger(name + '.feedback', [this]);
@@ -283,7 +288,7 @@ define([
          * Check if the current state is one of the given values
          * @param {String|Array} verify - the statue to check
          * @returns {Boolean} true if the object is in the state to verify
-         */        
+         */
         isInState : function isInState(verify){
             if(!_.isString(verify)){
                 verify = [verify];
@@ -301,7 +306,7 @@ define([
                 throw new Error('Unkown state ' + state );
             }
             this._state = state;
-        } 
+        }
     };
 
     /**
@@ -318,7 +323,7 @@ define([
             $feedBackBox = $('#feedback-box');
         }
         _container = $container || $feedBackBox;
-       
+
         if(!_container || !_container.length){
             throw new Error('The feedback needs to belong to an existing container');
         }
@@ -330,10 +335,10 @@ define([
         }, feedbackState);
 
         currents.push(fb);
- 
+
         //delegate the api calls to the new instance
         return delegate(fb, feedbackApi);
-    }; 
+    };
 
 
     return feedbackFactory;

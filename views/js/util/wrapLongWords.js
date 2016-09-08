@@ -35,7 +35,7 @@ define([
      */
     function wrapLongWords(str, threshold) {
         // add whitespaces to provoke line breaks before HTML tags
-        str = str.replace(/([\w])</g, '$1 <');
+        str = str.toString().replace(/([\w])</g, '$1 <');
 
         var chunkExp = new RegExp('.{1,' + threshold + '}', 'g'),
             longWords = str.match(new RegExp('[\\S]{' + threshold + ',}', 'g')) || [],

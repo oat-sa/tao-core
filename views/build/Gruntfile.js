@@ -35,8 +35,6 @@ module.exports = function(grunt) {
     var libs        = ext.getExtensionSources('tao', libsPattern, true).concat([
         'jquery',
         'jqueryui',
-        'filereader',
-        'store',
         'select2',
         'lodash',
         'async',
@@ -51,8 +49,7 @@ module.exports = function(grunt) {
         'jquery.fileDownload',
         'raphael',
         'scale.raphael',
-        'tooltipster',
-        'history']);
+        'html5-history-api']);
 
     grunt.option('mainlibs', libs);
 
@@ -63,7 +60,7 @@ module.exports = function(grunt) {
     var bundleTasks = [];
     var testTasks   = [];
     ext.getExtensions().forEach(function(extension){
-        grunt.log.debug(extension);
+
         var extensionKey = extension.toLowerCase();
         var gruntDir = root + '/' + extension + '/views/build/grunt';
         if(grunt.file.exists(gruntDir)){

@@ -6,13 +6,15 @@ define([
     'lodash',
     'i18n',
     'context',
-    'store',
+    'core/store',
     'layout/actions',
+    'layout/section',
     'ui/feedback',
     'uri',
     'jquery.tree',
     'lib/jsTree/plugins/jquery.tree.contextmenu'
-], function($, _, __, context, store, actionManager, feedback, uri){
+], function($, _, __, context, store, actionManager, sectionManager, feedback, uri){
+    'use strict';
 
     var pageRange = 30;
 
@@ -49,19 +51,21 @@ define([
         };
 
         //these are the parameters added to the server call to load data
-	    var serverParams = _.defaults(options.serverParameters || {}, {
+        var serverParams = _.defaults(options.serverParameters || {}, {
             hideInstances   :  options.hideInstances || 0,
             filter          : '*',
             offset          : 0,
             limit           : pageRange
         });
 
+        var lastSelected;
+
         /**
          * Set up the tree using the defined options
          * @private
          */
         var setUpTree  = function setUpTree(){
-
+            var treeSectionId = context.section;
             //try to load the action instance from the options
             options.actions = _.transform(options.actions, function(result, value, key){
                 if(value && value.length){
@@ -80,8 +84,20 @@ define([
             // workaround to fix dublicate tree bindings on multiple page loads
             if (!$elt.hasClass('tree')) {
 
-                //create the tree
-                $elt.tree(treeOptions);
+                store('taotree').then(function(treeStore){
+                    treeStore.getItem(context.section).then(function(node){
+                        if(node){
+                            lastSelected = node;
+                        }
+                        //create the tree
+                        $elt.tree(treeOptions);
+                        sectionManager.on('show.section', function (section) {
+                            if (treeSectionId === section.id) {
+                                $elt.trigger('refresh.taotree');
+                            }
+                        });
+                    });
+                });
             }
         };
 
@@ -135,14 +151,13 @@ define([
                  * @returns {Object} params
                  */
                 beforedata: function($node) {
-                    var treeStore       = store.get('taotree.' + context.section) || {};
                     var treeData = $elt.data('tree-state');
                     var params = _.clone(serverParams);
                     if($node && $node.length){
                         params.classUri = $node.data('uri');
                     }
-                    if(treeStore.lastSelected){
-                    	params.selected = treeStore.lastSelected;
+                    if(lastSelected){
+                    	params.selected = lastSelected;
                     }
 
                     //check for additionnal parameters in tree state
@@ -208,28 +223,32 @@ define([
                 onload: function(tree){
 
                     var $lastSelected, $selectNode;
-                    var treeStore       = store.get('taotree.' + context.section) || {};
                     var $firstClass     = $(".node-class:not(.private):first", $elt);
                     var $firstInstance  = $(".node-instance:not(.private):first", $elt);
                     var treeState       = $elt.data('tree-state') || {};
                     var selectNode      = treeState.selectNode || options.selectNode;
                     var nodeSelection   = function nodeSelection(){
+
                         //the node to select is given
                         if(selectNode){
                              $selectNode = $('#' + selectNode, $elt);
                              if($selectNode.length && !$selectNode.hasClass('private')){
                                 return tree.select_branch($selectNode);
                              }
+                        } else if(tree.selected !== undefined) {//after refreshing tree previously node will be already selected.
+                             return tree.selected;
                         }
 
+                        //if selectNode was not given and there is no selected node on the tree then try to find node to select:
+
                         //try to select the last one
-                        if(treeStore.lastSelected){
-                            $lastSelected = $('#' +  treeStore.lastSelected, $elt);
+                        if(lastSelected){
+                            $lastSelected = $('#' +  lastSelected, $elt);
                             if($lastSelected.length && !$lastSelected.hasClass('private')){
+                                lastSelected = undefined;
                                 return tree.select_branch($lastSelected);
                             }
                         }
-
                         //or the 1st instance
                         if ($firstInstance.length) {
                             return tree.select_branch($firstInstance);
@@ -291,7 +310,6 @@ define([
                     var classActions = [];
                     var nodeId          = $node.attr('id');
                     var $parentNode     = tree.parent($node);
-                    var treeStore       = store.get('taotree.' + context.section) || {};
                     var nodeContext     = permissions[nodeId] ? {
                         permissions : permissions[nodeId]
                     } : {};
@@ -317,7 +335,7 @@ define([
                         nodeContext.permissions = permissions[nodeId];
                         nodeContext.id = $node.data('uri');
                         nodeContext.context = ['class', 'resource'];
-                        
+
                         //Check if any class-level action is defined in the structures.xml file
                         classActions = _.intersection(_.pluck(options.actions, 'context'), ['class', 'resource', '*']);
                         if (classActions.length > 0) {
@@ -332,11 +350,12 @@ define([
                         nodeContext.id = $node.data('uri');
                         nodeContext.context = ['instance', 'resource'];
 
-                        //the last selected node is stored into the browser storage
-                        treeStore.lastSelected = nodeId;
-                        store.set('taotree.' + context.section, treeStore);
-
-                        executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
+                        //the last selected node is stored
+                        store('taotree').then(function(treeStore){
+                            treeStore.setItem(context.section, nodeId).then(function(){
+                                executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
+                            });
+                        });
                     }
 
                     /**
@@ -414,7 +433,11 @@ define([
                         tree.deselect_branch(tree.selected);
                         tree.settings.selected = false;
                         treeState.selectNode = data.loadNode;
+                    } else if (data && data.selectNode) { //node will be selected in `onload` function
+                        tree.deselect_branch(tree.selected);
+                        tree.settings.selected = false;
                     }
+
                     $elt.data('tree-state', treeState);
                     tree.refresh();
                 }
@@ -686,6 +709,8 @@ define([
             });
         };
 
+        var permissionErrorMessage;
+
         /**
          * Function executes first found allowed action for tree node.
          * @param {object} actions - All tree actions
@@ -695,9 +720,8 @@ define([
          * @param {array} exclude - list of actions to be excluded.
          * @returns {undefined}
          */
-        function executePossibleAction(actions, context, exclude) {
-            var possibleActions,
-                self = this;
+        var executePossibleAction = function executePossibleAction(actions, context, exclude) {
+            var possibleActions;
             if (!_.isArray(exclude)) {
                 exclude = [];
             }
@@ -712,14 +736,14 @@ define([
             //execute the first allowed action
             if(possibleActions.length > 0){
                 //hide shown earlier message
-                if (self.permissionErrorMessage) {
-                    self.permissionErrorMessage.close();
+                if (permissionErrorMessage) {
+                    permissionErrorMessage.close();
                 }
                 actionManager.exec(possibleActions[0], context);
             } else {
-                self.permissionErrorMessage = feedback().error(__("You don't have sufficient permissions to access"));
+                permissionErrorMessage = feedback().error(__("You don't have sufficient permissions to access"));
             }
-        }
+        };
 
         return setUpTree();
     };

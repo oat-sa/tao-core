@@ -225,6 +225,12 @@ define([
 
             dataset = dataset || {};
 
+            /**
+             * @event dataTable#beforeload.datatable
+             * @param {Object} dataset - The data set object used to render the table
+             */
+            $elt.trigger('beforeload.' + ns, [_.cloneDeep(dataset)]);
+
             // overrides column options
             _.forEach(options.model, function (field) {
                 if (!options.filter) {
@@ -249,11 +255,8 @@ define([
                 });
             }
 
-            /**
-             * @event dataTable#beforeload.datatable
-             * @param {Object} dataset - The data set object used to render the table
-             */
-            $elt.trigger('beforeload.' + ns, [dataset]);
+
+
 
             // Call the rendering
             $rendering = $(layout({options: options, dataset: dataset}));
@@ -381,33 +384,49 @@ define([
 
             // Add the filter behavior
             if (options.filter) {
-                _.forEach($rendering.find('.filter'), function ($filter) {
+                var filterColumns = options.filtercolumns ? options.filtercolumns : [];
 
-                    var $filterInput = $('input', $filter);
-                    var $filterBtn = $('button', $filter);
-                    var column = $($filter).data('column');
-                    var filterColumns = options.filtercolumns ? options.filtercolumns : [];
+                _.forEach($rendering.find('.filter'), function (filter) {
+
+                    var $filterBtn = $('button', filter);
+                    var column = $(filter).data('column');
+                    var isFilterCustom = $(filter).hasClass('customInput');
+                    var $filterInput = isFilterCustom ? $('select', filter) : $('input', filter);
+
+                    var model = _.find(options.model, function (o) {
+                        return o.id === column;
+                    });
 
                     // set value to filter field
-                    if (options.filterquery) {
-                        if (column === filterColumns.join()) {
-                            $filterInput.val(options.filterquery).addClass('focused');
+                    if (options.filterquery && column === filterColumns.join()) {
+                        $filterInput.val(options.filterquery).addClass('focused');
+                    }
+
+                    if (model && model.customFilter) {
+                        if ('function' === typeof model.customFilter.callback) {
+                            model.customFilter.callback($filterInput);
                         }
                     }
 
-                    // clicking the button trigger the request
-                    $filterBtn.off('click').on('click', function(e) {
-                        e.preventDefault();
-                        self._filter($elt, $filter, column ? column.split(',') : options.filter.columns);
-                    });
-
-                    // or press ENTER
-                    $filterInput.off('keypress').on('keypress', function(e) {
-                        if (e.which === 13) {
+                    if (isFilterCustom) {
+                        $filterInput.on('change', function () {
+                            self._filter($elt, filter, column ? column.split(',') : options.filter.columns);
+                        });
+                    } else {
+                        // clicking the button trigger the request
+                        $filterBtn.off('click').on('click', function (e) {
                             e.preventDefault();
-                            self._filter($elt, $filter, column ? column.split(',') : options.filter.columns);
-                        }
-                    });
+                            self._filter($elt, filter, column ? column.split(',') : options.filter.columns);
+                        });
+
+                        // or press ENTER
+                        $filterInput.off('keypress').on('keypress', function (e) {
+                            if (e.which === 13) {
+                                e.preventDefault();
+                                self._filter($elt, filter, column ? column.split(',') : options.filter.columns);
+                            }
+                        });
+                    }
                 });
             }
 
@@ -561,15 +580,17 @@ define([
          * Query filtered list of items
          *
          * @param {jQueryElement} $elt - plugin's element
-         * @param {String} $filter - the filter input
+         * @param {String} filter - the filter input
          * @param {String[]} columns - list of columns in which will be done search
          * @fires dataTable#filter.datatable
          * @fires dataTable#sort.datatable
          * @private
          */
-        _filter: function _filter($elt, $filter, columns) {
+        _filter: function _filter($elt, filter, columns) {
             var options = $elt.data(dataNs);
-            var query = $('input', $filter).val();
+            var query = $(filter).find(':input').filter(function () {
+                return $(this).val();
+            }).val();
 
             //set the filter
             if (!_.isObject(options.filter)) {
@@ -579,6 +600,7 @@ define([
             // set correct filter data
             options.filterquery = query;
             options.filtercolumns = (columns && columns.length) ? columns : [];
+            options.page = 1;
 
             //rebind options to the elt
             $elt.data(dataNs, options);

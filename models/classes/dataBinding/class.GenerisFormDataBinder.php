@@ -1,4 +1,6 @@
 <?php
+use oat\oatbox\service\ServiceManager;
+use oat\generis\model\fileReference\FileReferenceSerializer;
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -104,27 +106,34 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder
         $instance = $this->getTargetInstance();
         
         // Delete old files.
-        foreach ($instance->getPropertyValues($property) as $oF){
-        	$oldFile = new core_kernel_versioning_File($oF);
-        	$oldFile->delete(true);
+        foreach ($instance->getPropertyValues($property) as $oF) {
+            $referencer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+            $oldFile = $referencer->unserialize($oF);
+            $oldFile->delete();
+            $referencer->cleanup($oF);
+            $instance->removePropertyValue($property, $oF);
         }
         
         $name = $desc->getName();
         $size = $desc->getSize();
         
         if (!empty($name) && !empty($size)){
-        	// Move the file at the right place.
-        	$source = $desc->getTmpPath();
-        	$repository = tao_models_classes_TaoService::singleton()->getUploadFileSource();
-        	$file = $repository->spawnFile($source, $desc->getName());
-        	tao_helpers_File::remove($source);
-        	
-        	$instance->setPropertyValue($property, $file->getUri());
-        	
-        	// Update the UploadFileDescription with the stored file.
-        	$desc->setFile($file);
+            // Move the file at the right place.
+            $source = $desc->getTmpPath();
+            $serial = tao_models_classes_TaoService::singleton()->storeUploadedFile($source, $name);
+            tao_helpers_File::remove($source);
+
+            $instance->editPropertyValues($property, $serial);
+
+            // Update the UploadFileDescription with the stored file.
+            $desc->setFile($serial);
         }
         
+    }
+
+    public function getServiceLocator()
+    {
+        return ServiceManager::getServiceManager();
     }
 
 }

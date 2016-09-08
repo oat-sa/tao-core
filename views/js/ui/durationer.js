@@ -3,10 +3,10 @@
  */
 define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'], function($, _, __, Pluginifier, Handlebars, moment){
    'use strict';
-   
+
    var ns = 'durationer';
    var dataNs = 'ui.' + ns;
-   
+
    var defaults = {
        format : 'HH:mm:ss',
        separator : ':',
@@ -19,35 +19,35 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
             seconds: __('seconds')
        }
    };
-   
+
    //the template used for each of the 3 part of the duration
    var fieldTmpl = Handlebars.compile(
         "<input type='text' id='{{id}}-{{type}}' data-duration-type='{{type}}' class='{{ctrlClass}}' value='{{value}}' title='{{title}}' />"
     );
-  
-   
-   /** 
+
+
+    /**
     * The Durationer component creates a widget to manage time duration using separate number inputs.
     * This plugin applies on an text input with the result of the widget sync with it.
     * Now only time is supported.
-    * 
-    * todo this plugin should support different widget like dropdowns... Now only the incrementer is implemented 
-    * 
+     *
+     * todo this plugin should support different widget like dropdowns... Now only the incrementer is implemented
+     *
     * @exports ui/durationer
     */
    var Durationer = {
-       
+
         /**
          * Initialize the plugin.
-         * 
-         * Called the jQuery way once registered by the Pluginifier. 
+         *
+         * Called the jQuery way once registered by the Pluginifier.
          * This plugin only applies on input text elements.
-         * 
+         *
          * @see http://momentjs.com/docs/#/parsing/string-format/
-         *  
+         *
          * @example $('selector').durationer({format : 'HH:mm:ss'});
          * @public
-         * 
+         *
          * @constructor
          * @param {Object} [options] - the plugin options
          * @param {string} [format = 'HH:mm:ss'] - the format of the duration value got from
@@ -55,13 +55,13 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
          */
         init : function(options){
             var self = Durationer;
-            
+
             //get options using default
             options = _.defaults(options || {}, defaults);
-           
+
             return this.each(function() {
                 var $elt = $(this);
-                
+
                 if(!$elt.data(dataNs)){
                     //basic type checking
                     if(!$elt.is('input[type="text"]')){
@@ -81,9 +81,9 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
 
                         if(options.separator){
                             $elt.siblings('.' + options.wrapperClass + ':not(:last)')
-                                .after('<span class="separator">:</span>');  
+                                .after('<span class="separator">:</span>');
                         }
-    
+
                         //keep a ref to the incrementer elements
                         options.$ctrls = $elt.siblings('.' + options.wrapperClass).children('input');
 
@@ -92,13 +92,13 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
                         });
 
                         $elt.on('change', function(e){
-                           if(e.namespace !== ns){
+                            if (e.namespace !== ns) {
                                self._syncFromField($elt);
-                           } 
+                            }
                         });
 
                         $elt.data(dataNs, options);
-                        
+
                         /**
                          * The plugin have been created.
                          * @event Durationer#create.durationer
@@ -108,8 +108,8 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
                 }
             });
        },
-       
-       /**
+
+        /**
         * Insert one of the duration control field, as an incrementer
         * @private
         * @param {jQueryElement} $elt - the plugin element
@@ -127,13 +127,13 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
                 .insertBefore($elt)
                 .val(value)
                 .incrementer({
-                    min: 0, 
+                    min: 0,
                     max: (type === 'hours') ? 23 : 59,
                     incrementerWrapperClass : options.wrapperClass
                 });
        },
-       
-       /**
+
+        /**
         * Synchronize the value of the controls from the element
         * @private
         * @param {jQueryElement} $elt - the plugin element
@@ -141,16 +141,16 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
        _syncFromField : function($elt){
            var options = $elt.data(dataNs);
            var current = moment($elt.val(), options.format);
-            
-           options.$ctrls.each(function(){
+
+            options.$ctrls.each(function(){
                var $field = $(this);
                if(current[$field.data('duration-type')]){
                    $field.val(current[$field.data('duration-type')]());
                }
            });
        },
-       
-       /**
+
+        /**
         * Synchronize the value of the controls to the element
         * @private
         * @param {jQueryElement} $elt - the plugin element
@@ -158,23 +158,23 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
        _syncToField : function($elt){
            var options = $elt.data(dataNs);
            var current = moment($elt.val(), options.format);
-            
-           options.$ctrls.each(function(){
+
+            options.$ctrls.each(function(){
                var $field = $(this);
-               if(current[$field.data('duration-type')]){
+                if (!isNaN($field.val()) && current[$field.data('duration-type')]) {
                    current[$field.data('duration-type')]($field.val());
                }
            });
-           
-           $elt.val(current.format(options.format));
-           
-           $elt.trigger('update.' + ns)
+
+            $elt.val(current.format(options.format));
+
+            $elt.trigger('update.' + ns)
                    .trigger('change');
        },
-       
-       /**
+
+        /**
         * Destroy completely the plugin.
-        * 
+         *
         * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').durationer('destroy');
         * @public
@@ -183,11 +183,11 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
             this.each(function() {
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
-                
+
                 $elt.siblings('.' + options.wrapperClass).remove();
                 $elt.siblings('.separator').remove();
                 $elt.removeData(dataNs);
-                
+
                 /**
                  * The plugin have been destroyed.
                  * @event Durationer#destroy.durationer
@@ -196,13 +196,13 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
             });
         }
    };
-   
-   //Register the durationer to behave as a jQuery plugin.
+
+    //Register the durationer to behave as a jQuery plugin.
    Pluginifier.register(ns, Durationer);
-   
-   /**
+
+    /**
     * The only exposed function is used to start listening on data-attr
-    * 
+     *
     * @public
     * @example define(['ui/durationer'], function(durationer){ durationer($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in

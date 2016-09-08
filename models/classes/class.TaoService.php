@@ -19,6 +19,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\filesystem\FileSystemService;
+use oat\generis\model\fileReference\FileReferenceSerializer;
 
 /**
  * This class provide the services for the Tao extension
@@ -46,39 +48,41 @@ class tao_models_classes_TaoService
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  Repository source The repository to be used as the default TAO File Upload Source.
+     * @param  string sourceId The repository to be used as the default TAO File Upload Source.
      * @return void
      */
-    public function setUploadFileSource( core_kernel_versioning_Repository $source)
+    public function setUploadFileSourceId($sourceId)
     {
         
     	$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    	$ext->setConfig(self::CONFIG_UPLOAD_FILESOURCE, $source->getUri());
+    	$ext->setConfig(self::CONFIG_UPLOAD_FILESOURCE, $sourceId);
         
     }
 
     /**
-     * Returns the default TAO Upload File source repository.
+     * Store an uploaded file in the persistant storage and return a serial id
      *
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @return core_kernel_versioning_Repository
+     * @param string $tmpFile
+     * @param string $name
+     * @return string
      */
-    public function getUploadFileSource()
+    public function storeUploadedFile($tmpFile, $name = '')
     {
-        $returnValue = null;
-
-        
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $uri = $ext->getConfig(self::CONFIG_UPLOAD_FILESOURCE);
-        if (!empty($uri)) {
-        	$returnValue = new core_kernel_versioning_Repository($uri);
-        } else {
-        	throw new common_Exception('No default repository defined for uploaded files storage.');
-        }
-        
-
-        return $returnValue;
+        $fsId = $ext->getConfig(self::CONFIG_UPLOAD_FILESOURCE);
+        $fss = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
+        $baseDir = $fss->getDirectory($fsId);
+        do {
+            $unique = uniqid();
+            $dir = implode('/',str_split(substr($unique, 0, 3))).'/'.substr($unique, 3);
+            $file = $baseDir->getFile($dir.'/'.$name);
+        } while ($file->exists());
+        $fh = fopen($tmpFile, 'r');
+        $file->write($fh);
+        fclose($fh);
+        $referencer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+        $serial = $referencer->serialize($file);
+        return $serial;
     }
 
     /**

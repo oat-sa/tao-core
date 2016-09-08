@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+    'use strict';
 
     var requirejs   = grunt.config('requirejs') || {};
     var clean       = grunt.config('clean') || {};
@@ -47,9 +48,13 @@ module.exports = function(grunt) {
         }
     };
 
-    grunt.log.verbose.writeln('libs');
-    grunt.log.verbose.writeln(libs);
+    grunt.log.debug('libs');
+    grunt.log.debug(libs);
+    grunt.log.debug('END livs');
 
+    grunt.log.debug('Controllers');
+    grunt.log.debug(ext.getExtensionsControllers(['tao']));
+    grunt.log.debug('END Controllers');
     /**
      * Remove bundled and bundling files
      */
@@ -63,16 +68,19 @@ module.exports = function(grunt) {
             baseUrl : '../js',
             dir : out,
             mainConfigFile : './config/requirejs.build.js',
-            paths : { 'tao' : '.' },
-            modules : [{
-                name: 'main',
-                include: ['lib/require'],
-                deps : libs,
-                exclude : ['json!i18ntr/messages.json',  'mathJax', 'mediaElement'],
+            modules : [
+            {
+                name: 'controller/login',
+                include: ['lib/require', 'loader/bootstrap'],
+                exclude : ['json!i18ntr/messages.json']
+            }, {
+                name: 'controller/backoffice',
+                include: ['lib/require', 'loader/bootstrap'].concat(libs),
+                exclude: ['json!i18ntr/messages.json',  'mathJax', 'ckeditor'],
             }, {
                 name: 'controller/routes',
                 include : ext.getExtensionsControllers(['tao']),
-                exclude : ['mathJax', 'mediaElement'].concat(libs)
+                exclude : ['mathJax', 'controller/login', 'controller/backoffice'].concat(libs)
             }]
         }
     };
@@ -82,16 +90,21 @@ module.exports = function(grunt) {
      */
     copy.taobundle = {
         files: [
-            { src: [out + '/main.js'],                  dest: '../js/main.min.js' },
-            { src: [out + '/main.js.map'],              dest: '../js/main.min.js.map' },
-            { src: [out + '/controller/routes.js'],     dest: '../js/controllers.min.js' },
-            { src: [out + '/controller/routes.js.map'], dest: '../js/controllers.min.js.map' }
+            { src: [out + '/controller/login.js'],            dest: '../js/loader/login.min.js' },
+            { src: [out + '/controller/login.js.map'],        dest: '../js/loader/login.min.js.map' },
+            { src: [out + '/controller/backoffice.js'],       dest: '../js/loader/backoffice.min.js' },
+            { src: [out + '/controller/backoffice.js.map'],   dest: '../js/loader/backoffice.min.js.map' },
+            { src: [out + '/controller/routes.js'],           dest: '../js/controllers.min.js' },
+            { src: [out + '/controller/routes.js.map'],       dest: '../js/controllers.min.js.map' }
         ],
         options : {
             process: function (content, srcpath) {
                 //because we change the bundle names during copy
-                if(/main\.js$/.test(srcpath)){
-                    return content.replace('main.js.map', 'main.min.js.map');
+                if(/login\.js$/.test(srcpath)){
+                    return content.replace('login.js.map', 'login.min.js.map');
+                }
+                if(/backoffice\.js$/.test(srcpath)){
+                    return content.replace('backoffice.js.map', 'backoffice.min.js.map');
                 }
                 if(/routes\.js$/.test(srcpath)){
                     return content.replace('routes.js.map', 'controllers.min.js.map');

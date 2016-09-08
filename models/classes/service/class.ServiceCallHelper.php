@@ -48,13 +48,13 @@ class tao_models_classes_service_ServiceCallHelper
             // Remove the parameters because they are only for show, and they are actualy encoded in the variables
             $urlPart = explode('?',$serviceUrl);
             $url = $urlPart[0];
-            if(preg_match('/^\//i', $url)){
-                //create absolute url (prevent issue when TAO installed on a subfolder
-                $url = ROOT_URL.ltrim($url, '/');
-            }
+
             common_cache_FileCache::singleton()->put($url, self::CACHE_PREFIX_URL.urlencode($serviceDefinition->getUri()));
         }
-        
+        if ($url[0] == '/') {
+            //create absolute url (prevent issue when TAO installed on a subfolder
+            $url = ROOT_URL.ltrim($url, '/');
+        }
         return $url;
     }
     

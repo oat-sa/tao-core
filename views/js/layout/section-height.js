@@ -55,7 +55,8 @@ define([
         idealHeight = ($visibleButtons.outerHeight(true) * $requiredRows) +
             parseInt($visibleActionBarBox.css('margin-bottom')) +
             parseInt($visibleActionBarBox.css('margin-top'));
-        $visibleButtons.filter('.dummy').remove();
+            
+        $visibleActionBarBox.find('.dummy').remove();
 
         return idealHeight;
     }

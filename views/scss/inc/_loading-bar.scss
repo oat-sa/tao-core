@@ -39,6 +39,7 @@ $loadingBarBorder: whiten($darkBar, .4);
             height: 6px;
             width: 20%;
             display: block;
+            transform: translateZ(0);
             @include loading-gradient($activeInteraction, transparent);
             @include animation(loadingbar 5s linear infinite);
         }

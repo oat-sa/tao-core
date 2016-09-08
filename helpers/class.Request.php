@@ -16,6 +16,7 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2012-2016 (update and modification) Open Assessment Technologies SA;
  * 
  */
 
@@ -47,18 +48,16 @@ class tao_helpers_Request
     {
         $returnValue = (bool) false;
 
-        
 		if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
 			if(strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 				$returnValue = true;
 			}
 		}
-        
-
+                
         return (bool) $returnValue;
     }
-    
-    /**
+
+     /**
      * Returns the current relative call url, without leading slash
      * 
      * @param string $url
@@ -72,7 +71,12 @@ class tao_helpers_Request
         if (substr($absPath, 0, strlen($rootUrlPath)) != $rootUrlPath ) {
             throw new ResolverException('Request Uri '.$url.' outside of TAO path '.ROOT_URL);
         }
-        return substr($absPath, strlen($rootUrlPath));
+        if ($absPath === $rootUrlPath) {
+            $result = '';
+        } else {
+            $result = substr($absPath, strlen($rootUrlPath));
+        }
+        return $result;
     }
     
 

@@ -1,0 +1,37 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "amd" : true,
+        "qunit" : true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "consistent-this":      ["error", "self"],
+        "eqeqeq":               ["error", "smart"],
+        "indent":               ["warn", 4, { "SwitchCase": 1 }],
+        "linebreak-style":      ["error", "unix"],
+        "no-alert":             ["error"],
+        "no-caller":            ["error"],
+        "no-console":           ["error"],
+        "no-debugger":          ["error"],
+        "no-eval":              ["error"],
+        "no-extend-native":     ["error"],
+        "no-extra-bind":        ["error"],
+        "no-implicit-globals":  ["error"],
+        "no-implied-eval":      ["error"],
+        "no-lone-blocks":       ["error"],
+        "no-new-func":          ["error"],
+        "no-script-url":        ["error"],
+        "no-self-compare":      ["error"],
+        "no-shadow":            ["error", { "hoist": "functions" }],
+        "no-throw-literal":     ["error"],
+        "no-trailing-spaces":   ["error"],
+        "no-undefined":         ["error"],
+        "no-use-before-define": ["error", { "functions": false }],
+        "semi":                 ["error", "always"],
+        "strict":               ["error", "function"],
+        "vars-on-top":          ["error"]
+    }
+}

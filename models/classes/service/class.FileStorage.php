@@ -20,6 +20,11 @@
  */
 
 use oat\tao\model\websource\WebsourceManager;
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\websource\Websource;
+use oat\oatbox\filesystem\FileSystemService;
+
 /**
  * Represents the file storage used in services 
  *
@@ -28,43 +33,41 @@ use oat\tao\model\websource\WebsourceManager;
  * @package tao
  
  */
-class tao_models_classes_service_FileStorage
+class tao_models_classes_service_FileStorage extends ConfigurableService
 {
-    const CONFIG_KEY = 'ServiceFileStorage';
+    const SERVICE_ID = 'tao/ServiceFileStorage';
     
-    /**
-     * @var tao_models_classes_service_FileStorage
-     */
-    private static $instance;
+    const OPTION_PUBLIC_FS = 'public';
+    const OPTION_PRIVATE_FS = 'private';
+    const OPTION_ACCESS_PROVIDER = 'provider';
     
     /**
      * @return tao_models_classes_service_FileStorage
      */
     public static function singleton() {
-        if (is_null(self::$instance)) {
-            $config = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_KEY);
-            $privateFs = new core_kernel_fileSystem_FileSystem($config['private']);
-            $publicFs = new core_kernel_fileSystem_FileSystem($config['public']);
-            $accessProvider = WebsourceManager::singleton()->getWebsource($config['provider']);
-            self::$instance = new self($privateFs, $publicFs, $accessProvider);
-        }
-        
-        return self::$instance;
+        return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
     
-    /**
-     * @var core_kernel_fileSystem_FileSystem
-     */
-    private $publicFs;
-    
-    private $privateFs;
-    
     private $accessProvider;
-    
-    private function __construct(core_kernel_fileSystem_FileSystem $private, core_kernel_fileSystem_FileSystem $public, $provider) {
-        $this->privateFs = $private;
-        $this->publicFs = $public;
-        $this->accessProvider = $provider;
+
+    /**
+     * @return string
+     */
+    protected function getFsId($public)
+    {
+        return $public ? $this->getOption(self::OPTION_PUBLIC_FS) : $this->getOption(self::OPTION_PRIVATE_FS);
+    }
+
+    /**
+     * @return Websource
+     * @throws \oat\tao\model\websource\WebsourceNotFound
+     */
+    protected function getAccessProvider()
+    {
+        if (is_null($this->accessProvider)) {
+            $this->accessProvider = WebsourceManager::singleton()->getWebsource($this->getOption(self::OPTION_ACCESS_PROVIDER));
+        }
+        return $this->accessProvider;
     }
     
     /**
@@ -74,7 +77,6 @@ class tao_models_classes_service_FileStorage
     public function spawnDirectory($public = false) {
         $id = common_Utils::getNewUri().($public ? '+' : '-');
         $directory = $this->getDirectoryById($id);
-        mkdir($directory->getPath(), 0700, true);
         return $directory;
     }
 
@@ -84,9 +86,28 @@ class tao_models_classes_service_FileStorage
      */
     public function getDirectoryById($id) {
         $public = $id[strlen($id)-1] == '+';
-        $fs = $public ? $this->publicFs : $this->privateFs;
         $path = $this->id2path($id);
-        return new tao_models_classes_service_StorageDirectory($id, $fs, $path, $public ? $this->accessProvider : null);
+        $dir = new tao_models_classes_service_StorageDirectory(
+            $id,
+            $this->getFsId($public),
+            $path,
+            $public ? $this->getAccessProvider() : null
+        );
+        $dir->setServiceLocator($this->getServiceLocator());
+        return $dir;
+    }
+
+    /**
+     * Delete directory represented by the $id
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function deleteDirectoryById($id)
+    {
+        $public = $id[strlen($id)-1] == '+';
+        $path = $this->id2path($id);
+        return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->getFsId($public))->deleteDir($path);
     }
     
     public function import($id, $directoryPath) {
@@ -121,13 +142,5 @@ class tao_models_classes_service_FileStorage
         }
         
         return $returnValue.DIRECTORY_SEPARATOR;
-    }
-    
-    public static function configure(core_kernel_fileSystem_FileSystem $private, core_kernel_fileSystem_FileSystem $public, $provider) {
-        common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig(self::CONFIG_KEY, array(
-        	'private' => $private->getUri(),
-            'public' => $public->getUri(),
-            'provider' => $provider->getId()
-        ));
     }
 }

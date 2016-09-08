@@ -7,12 +7,12 @@
     color: $textColor !important;
     &.small {
         padding: 8px 20px 8px 45px;
-        [class^="icon-"], [class*=" icon-"] {
+        & > [class^="icon-"], & > [class*=" icon-"] {
             top: 9px;
             left: 10px;
         }
     }
-    [class^="icon-"], [class*=" icon-"] {
+    & > [class^="icon-"], & > [class*=" icon-"] {
         @include font-size(20);
         position: absolute;
         top: 20px;
@@ -46,11 +46,11 @@
     }
 }
 
-.feedback-error {
-    border-color: $errorBorderColor;
-    background-color: $errorBgColor;
-    .icon-error {
-        color: $error !important;
+.feedback-success {
+    border-color: $successBorderColor;
+    background-color: $successBgColor;
+    .icon-success {
+        color: $success !important;
     }
 }
 
@@ -65,14 +65,6 @@
     }
 }
 
-.feedback-success {
-    border-color: $successBorderColor;
-    background-color: $successBgColor;
-    .icon-success {
-        color: $success !important;
-    }
-}
-
 .feedback-warning {
     border-color: $warningBorderColor;
     background-color: $warningBgColor;
@@ -81,50 +73,78 @@
     }
 }
 
-.brd-error {
-    border: 1px solid $errorBorderColor !important;
+.feedback-danger {
+    border-color: $dangerBorderColor;
+    background-color: $dangerBgColor;
+    .icon-danger {
+        color: $danger !important;
+    }
 }
 
-.brd-info {
-    border: 1px solid $infoBorderColor !important;
+.feedback-error {
+    border-color: $errorBorderColor;
+    background-color: $errorBgColor;
+    .icon-error {
+        color: $error !important;
+    }
 }
 
 .brd-success {
     border: 1px solid $successBorderColor !important;
 }
 
+.brd-info {
+    border: 1px solid $infoBorderColor !important;
+}
+
 .brd-warning {
     border: 1px solid $warningBorderColor !important;
 }
 
-.txt-error {
-    color: $error !important;
+.brd-danger {
+    border: 1px solid $dangerBorderColor !important;
 }
 
-.txt-info {
-    color: $info !important;
+.brd-error {
+    border: 1px solid $errorBorderColor !important;
 }
 
 .txt-success {
     color: $success !important;
 }
 
+.txt-info {
+    color: $info !important;
+}
+
 .txt-warning {
     color: $warning !important;
 }
 
-.bg-error {
-    background-color: $errorBgColor;
+.txt-danger {
+    color: $danger !important;
 }
 
-.bg-info {
-    background-color: $infoBgColor;
+.txt-error {
+    color: $error !important;
 }
 
 .bg-success {
     background-color: $successBgColor;
 }
 
+.bg-info {
+    background-color: $infoBgColor;
+}
+
 .bg-warning {
     background-color: $warningBgColor;
+}
+
+.bg-danger {
+    background-color: $dangerBgColor;
+}
+
+.bg-error {
+    background-color: $errorBgColor;
 }

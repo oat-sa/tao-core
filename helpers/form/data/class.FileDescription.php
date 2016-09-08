@@ -18,6 +18,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\filesystem\File;
+use oat\generis\model\fileReference\FileReferenceSerializer;
 
 /**
  * The FileDescription data type contains all the data that a form collects or
@@ -42,7 +45,7 @@ abstract class tao_helpers_form_data_FileDescription
      * @access private
      * @var string
      */
-    private $name = '';
+    private $name = null;
 
     /**
      * The size of the file in bytes.
@@ -50,7 +53,13 @@ abstract class tao_helpers_form_data_FileDescription
      * @access private
      * @var int
      */
-    private $size = 0;
+    private $size = null;
+
+    /**
+     * Reference to the stored file
+     * @var string
+     */
+    private $fileSerial = null;
 
     /**
      * The filed stored in persistent memory (if already stored).
@@ -88,18 +97,10 @@ abstract class tao_helpers_form_data_FileDescription
      */
     public function getName()
     {
-        $returnValue = (string) '';
-
-        
-        if (!empty($this->file) && empty($this->name)){
-        	// collect information about the file instance itself.
-        	$this->name = $this->file->getLabel();
+        if (is_null($this->name)) {
+            $this->name = is_null($this->getFile()) ? '' : $this->getFile()->getBasename();
         }
-        
-        $returnValue = $this->name;
-        
-
-        return (string) $returnValue;
+        return $this->name;
     }
 
     /**
@@ -111,19 +112,10 @@ abstract class tao_helpers_form_data_FileDescription
      */
     public function getSize()
     {
-        $returnValue = (int) 0;
-
-        
-        if (!empty($this->file) && empty($this->size)){
-        	// collect from the file instance itself.
-        	$fileInfo = $this->file->getFileInfo();
-        	$this->size = $fileInfo->getSize();
+        if (is_null($this->size)) {
+            $this->size = is_null($this->getFile()) ? 0 : $this->getFile()->getSize();
         }
-        
-        $returnValue = $this->size;
-        
-
-        return (int) $returnValue;
+        return $this->size;
     }
 
     /**
@@ -132,17 +124,20 @@ abstract class tao_helpers_form_data_FileDescription
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @return core_kernel_file_File
+     * @return File
      */
     public function getFile()
     {
-        $returnValue = null;
-
-        
-        $returnValue = $this->file;
-        
-
-        return $returnValue;
+        if (is_null($this->file)) {
+            $referencer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+            $this->file = $referencer->unserialize($this->getFileSerial());
+        }
+        return $this->file;
+    }
+    
+    public function getFileSerial()
+    {
+        return $this->fileSerial;
     }
 
     /**
@@ -153,18 +148,14 @@ abstract class tao_helpers_form_data_FileDescription
      * @param  File file
      * @return void
      */
-    public function setFile( core_kernel_file_File $file)
+    public function setFile($serial)
     {
-        
-        $this->file = $file;
-        
-        // Reset data about the file to make them computed from
-        // the Generis File instance.
-        $this->name = '';
-        $this->size = 0;
-        
+        $this->fileSerial = $serial;
+    }
+    
+    public function getServiceLocator()
+    {
+        return ServiceManager::getServiceManager();
     }
 
-} /* end of abstract class tao_helpers_form_data_FileDescription */
-
-?>
+}

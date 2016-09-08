@@ -40,7 +40,12 @@ class Section extends MenuElement implements PhpSerializable
 
     private $actions = array();
 
-    public static function fromSimpleXMLElement(\SimpleXMLElement $node)
+    /**
+     * @param \SimpleXMLElement $node
+     * @param $structureExtensionId extension of structures.xml
+     * @return static
+     */
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId)
     {
 
 		$url = isset($node['url']) ? (string) $node['url'] : '#';
@@ -49,7 +54,10 @@ class Section extends MenuElement implements PhpSerializable
 			$controller = null;
 			$action     = null;
 		} else {
-			list($extension, $controller, $action) = explode('/', trim($url, '/'));
+            $parts = explode('/', trim($url, '/'));
+            $parts = array_replace(array_fill(0, 3, null), $parts);
+
+			list($extension, $controller, $action) = $parts;
 		}
 
         $data = array(
@@ -66,12 +74,12 @@ class Section extends MenuElement implements PhpSerializable
 
         $trees = array();
         foreach ($node->xpath("trees/tree") as $treeNode) {
-            $trees[] = Tree::fromSimpleXMLElement($treeNode);
+            $trees[] = Tree::fromSimpleXMLElement($treeNode, $structureExtensionId);
         }
 
         $actions = array();
         foreach ($node->xpath("actions/action") as $actionNode) {
-            $actions[] = Action::fromSimpleXMLElement($actionNode);
+            $actions[] = Action::fromSimpleXMLElement($actionNode, $structureExtensionId);
         }
         
         $includeClassActions = isset($node->actions) && isset($node->actions['allowClassActions']) && $node->actions['allowClassActions'] == 'true';

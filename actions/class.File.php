@@ -22,6 +22,8 @@
 
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
+use oat\generis\model\fileReference\FileReferenceSerializer;
+
 /**
  * 
  * Controller use for the file upload components
@@ -181,29 +183,11 @@ class tao_actions_File extends tao_actions_CommonModule{
 	 */
 	public function downloadFile()
 	{
-		if($this->hasRequestParameter('uri')){
-			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-			$resource = new core_kernel_classes_Resource($uri);
-			if(core_kernel_versioning_File::isVersionedFile($resource) || core_kernel_file_File::isFile($resource)){
-				
-				$file = new core_kernel_file_File($uri);
-				$fileName = $file->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
-				$content = $file->getFileContent();
-				$size = strlen($content);
-				$mimeType = tao_helpers_File::getMimeType($file->getAbsolutePath(), true);
-				$this->setContentHeader($mimeType);
-				
-				header("Content-Length: $size");
-				header("Content-Disposition: attachment; filename=\"{$fileName}\"");
-				header("Expires: 0");
-				header("Cache-Control: no-cache, must-revalidate");
-				header("Pragma: no-cache");
-
-				print $content;
-				return;
-			}else{
-				throw new Exception('The resource ('.$uri.') is not a valid file resource');
-			}
+		if($this->hasRequestParameter('id')){
+			$fileService = $this->getServiceManager()->get(FileReferenceSerializer::SERVICE_ID);
+			$file = $fileService->unserialize($this->getRequestParameter('id'));
+			header("Content-Disposition: attachment; filename=\"{$file->getBasename()}\"");
+			tao_helpers_Http::returnStream($file->readPsrStream(), $file->getMimeType());
 		}
 		
 	}
@@ -254,15 +238,20 @@ class tao_actions_File extends tao_actions_CommonModule{
 		echo json_encode($data);
 		
 	}
-	
-	public function accessFile() {
+
+    /**
+     * @throws ResolverException
+     * @throws \oat\tao\model\websource\WebsourceNotFound
+     * @throws tao_models_classes_FileNotFoundException
+     */
+    public function accessFile() {
         list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);;
         list($key, $subPath) = explode(' ', base64_decode($code), 2);
-        
+
         $source = WebsourceManager::singleton()->getWebsource($key);
         if ($source instanceof ActionWebSource) {
-            $path = $source->getFileSystem()->getPath().$subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR.$filePath);
-            tao_helpers_Http::returnFile($path);
+            $path = $subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR . $filePath);
+            tao_helpers_Http::returnStream($source->getFileStream($path), $source->getMimetype($path));
         }
     }
 }
