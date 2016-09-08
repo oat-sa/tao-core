@@ -24,9 +24,20 @@ class Index extends \core_kernel_classes_Resource {
     
     const RDF_TYPE = "http://www.tao.lu/Ontologies/TAO.rdf#Index";
     
+    private $cached = null;
+
+    private function getOneCached($property)
+    {
+        if (is_null($this->cached)) {
+            $props = array(INDEX_PROPERTY_IDENTIFIER, INDEX_PROPERTY_TOKENIZER, INDEX_PROPERTY_FUZZY_MATCHING, INDEX_PROPERTY_DEFAULT_SEARCH);
+            $this->cached = $this->getPropertiesValues($props);
+        }
+        return empty($this->cached[$property]) ? null : reset($this->cached[$property]);
+    }
+
     public function getIdentifier()
     {
-        return (string)$this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_IDENTIFIER));
+        return (string)$this->getOneCached(INDEX_PROPERTY_IDENTIFIER);
     }
     
     /**
@@ -35,9 +46,8 @@ class Index extends \core_kernel_classes_Resource {
      */
     public function getTokenizer()
     {
-        $tokenizerUri = $this->getUniquePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_TOKENIZER));
-        $tokenizer = new \core_kernel_classes_Resource($tokenizerUri);
-        $implClass = (string)$tokenizer->getUniquePropertyValue(new \core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass"));
+        $tokenizer = $this->getOneCached(INDEX_PROPERTY_TOKENIZER);
+        $implClass = (string)$tokenizer->getUniquePropertyValue($this->getProperty("http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass"));
         if (!class_exists($implClass)) {
             throw new \common_exception_Error('Tokenizer class "'.$implClass.'" not found for '.$tokenizer->getUri());
         }
@@ -57,7 +67,7 @@ class Index extends \core_kernel_classes_Resource {
      */
     public function isFuzzyMatching()
     {
-        $res = $this->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_FUZZY_MATCHING));
+        $res = $this->getOneCached(INDEX_PROPERTY_FUZZY_MATCHING);
         return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
     }
     
@@ -69,7 +79,7 @@ class Index extends \core_kernel_classes_Resource {
      */
     public function isDefaultSearchable()
     {
-        $res = $this->getOnePropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY_DEFAULT_SEARCH));
+        $res = $this->getOneCached(INDEX_PROPERTY_DEFAULT_SEARCH);
         return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
     }
     
