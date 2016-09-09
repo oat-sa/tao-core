@@ -285,20 +285,19 @@ class tao_actions_Main extends tao_actions_CommonModule
         );
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParams));
         $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
-        
-        if($this->getServiceManager()->get('tao/search')->supportComplexQuery()) {
+        /*@var $search oat\tao\model\search\Search */
+        $search = $this->getServiceManager()->get('tao/search');
+        if($this->getServiceManager()->get('tao/search')->supportCustomIndex()) {
             $cache = $this->getServiceManager()->get('generis/cache');
             $indexes = oat\tao\model\search\IndexService::getIndexesByClassCached(new \core_kernel_classes_Class($sections[0]->getTrees()[0]->get('rootNode')) , $cache);
-            $this->setData('search-indexes', $indexes);
-            $this->setData('search-template', 'blocks/search/complex-search.tpl');
+            $searchHint = $search->getHelpView()->setContext(['search-indexes' => $indexes]);
         } else {
-            $this->setData('search-template', 'blocks/search/simple-search.tpl');
-            
+            $searchHint = $search->getHelpView()->setContext([])->render();
         }
-        
-            $this->setView('layout.tpl', 'tao');
+        $this->setData('help',$searchHint );
+        $this->setView('layout.tpl', 'tao');
                     
-        }
+    }
     
     /**
      * Get perspective data depending on the group set in structure.xml

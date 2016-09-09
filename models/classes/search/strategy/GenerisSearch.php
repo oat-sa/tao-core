@@ -24,6 +24,7 @@ use core_kernel_classes_Class;
 use oat\tao\model\search\Search;
 use oat\oatbox\Configurable;
 use oat\tao\model\search\ResultSet;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * Simple Search implementation that ignores the indexes
@@ -31,8 +32,11 @@ use oat\tao\model\search\ResultSet;
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
-class GenerisSearch extends Configurable implements Search
+class GenerisSearch extends ConfigurableService implements Search
 {
+    
+    protected $helpView = SearchHelpView::class;
+
 
     /**
      * (non-PHPdoc)
@@ -58,9 +62,9 @@ class GenerisSearch extends Configurable implements Search
     
     /**
      * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::index()
+     * @see \oat\tao\model\search\Search::fullReIndex()
      */
-    public function index(\Traversable $resourceTraversable) {
+    public function fullReIndex(\Traversable $resourceTraversable) {
         // no indexation required
         return 0;
     }
@@ -88,9 +92,45 @@ class GenerisSearch extends Configurable implements Search
     
     /**
      * doesn't supprt complex query
-     * @return boolean
+     * @return \oat\tao\model\mvc\view\ViewHelperAbstract
      */
-    public function supportComplexQuery() {
+    public function getHelpView() {
+        if(array_key_exists('view', $this->getOptions())) {
+            $this->helpView = $this->getOption('view');
+        }
+        $viewClass = $this->helpView;
+        return new $viewClass();
+    }
+    
+    /*
+     * (Re)Generate the index for a given resource
+     *
+     * @param core_kernel_classes_Resource $resource
+     * @return boolean true if successfully indexed
+    */
+    public function index(\core_kernel_classes_Resource $resource)
+    {
+        // nothing to do
         return true;
     }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\search\Search::remove()
+     */
+    public function remove($resourceId)
+    {
+        // nothing to do
+        return true;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\search\Search::supportCustomIndex()
+     */
+    public function supportCustomIndex()
+    {
+        return false;
+    }
+
 }

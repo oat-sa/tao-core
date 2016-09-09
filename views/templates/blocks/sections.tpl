@@ -2,9 +2,9 @@
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
 
-$sections  = get_data('sections');
-$searchTpl = get_data('search-template');
+$sections    = get_data('sections');
 $searchIndex = get_data('search-indexes');
+$help        = get_data('help');
 ?>
 
 <?php if ($sections): ?>
@@ -73,13 +73,13 @@ $searchIndex = get_data('search-indexes');
                             ));
                         ?>
                         <?php
-                        
                         foreach ($section->getTrees() as $i => $tree) {
                             if (!is_null($tree->get('rootNode'))) {
-                                Template::inc($searchTpl, 'tao', array(
+                                Template::inc('blocks/search.tpl', 'tao', array(
                                     'rootNode' => $tree->get('rootNode'),
                                     'searchLabel' => __('Search %s', $tree->get('className')),
-                                    'searchIndex' => $searchIndex
+                                    'searchIndex' => $searchIndex,
+                                    'help'        => $help
                                 ));
                             }
                         }
