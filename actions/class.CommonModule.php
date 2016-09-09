@@ -17,12 +17,15 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2012-2016 (update and modification) Open Assessment Technologies SA;
  * 
  */
 
-use oat\tao\helpers\Template;
-use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\helpers\Template;
+use oat\tao\model\mvc\view\TaoRender;
+use oat\tao\model\mvc\view\ViewHelperInterface;
+use oat\tao\model\routing\FlowController;
 
 /**
  * Top level controller
@@ -48,6 +51,19 @@ abstract class tao_actions_CommonModule extends Module
      */
     public function __construct()
     {
+    }
+    
+    public function getRenderer() {
+		if (!isset($this->renderer)) {
+			$this->renderer = new TaoRender();
+		}
+		return $this->renderer;
+                
+    }
+    
+    public function registerViewHelper($name , ViewHelperInterface $helper) {
+          $this->getRenderer()->registerHelper($name , $helper);
+          return $this;
     }
 
     /**
@@ -193,7 +209,7 @@ abstract class tao_actions_CommonModule extends Module
         if ($refresh) {
             $data = $report->getdata();
             if ($report->getType() == common_report_Report::TYPE_SUCCESS &&
-                !is_null($data) && $data instanceof \core_kernel_classes_Resource) {
+                !is_null($data) && $data instanceof core_kernel_classes_Resource) {
                 $this->setData('message', $report->getMessage());
                 $this->setData('selectNode', tao_helpers_Uri::encode($data->getUri()));
                 $this->setData('reload', true);
@@ -239,7 +255,7 @@ abstract class tao_actions_CommonModule extends Module
     /**
      * Placeholder function until controllers properly support service manager
      * 
-     * @return \oat\oatbox\service\ServiceManager
+     * @return ServiceManager
      */
     protected function getServiceManager()
     {
