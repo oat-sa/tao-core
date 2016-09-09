@@ -26,7 +26,7 @@ class SearchHelpView extends ViewHelperAbstract {
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">
         <div>
-        <strong>enter a keyword</strong>
+        <strong>enter your keyword here</strong>
         </div>
     </div>';
         

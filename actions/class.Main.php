@@ -290,11 +290,11 @@ class tao_actions_Main extends tao_actions_CommonModule
         if($this->getServiceManager()->get('tao/search')->supportCustomIndex()) {
             $cache = $this->getServiceManager()->get('generis/cache');
             $indexes = oat\tao\model\search\IndexService::getIndexesByClassCached(new \core_kernel_classes_Class($sections[0]->getTrees()[0]->get('rootNode')) , $cache);
-            $searchHint = $search->getHelpView()->setContext(['search-indexes' => $indexes]);
+            $searchHint = $search->getHelpView()->setContext(['searchIndex' => $indexes]);
         } else {
-            $searchHint = $search->getHelpView()->setContext([])->render();
+            $searchHint = $search->getHelpView()->setContext([]);
         }
-        $this->setData('help',$searchHint );
+        $this->setData('help',$searchHint->render() );
         $this->setView('layout.tpl', 'tao');
                     
     }
