@@ -246,6 +246,7 @@ define([
          * @param [options.dtdOverrides] - @see dtdOverrides which pre-defines them
          * @param {Object} [options.positionedPlugins] - @see ckConfig.positionedPlugins
          * @param {Boolean} [options.qtiImage] - enables the qtiImage plugin
+         * @param {Boolean} [options.qtiMedia] - enables the qtiMedia plugin
          * @param {Boolean} [options.qtiInclude] - enables the qtiInclude plugin
          * @param {Boolean} [options.underline] - enables the underline plugin
          * @param {Boolean} [options.mathJax] - enables the mathJax plugin
@@ -283,6 +284,9 @@ define([
             // modify plugins - this will change the toolbar too
             // this would add the qti plugins in positionedPlugins
             if (dtdMode === 'qti') {
+                if (options.qtiMedia) {
+                    positionedPlugins.TaoQtiMedia = {insertAfter: 'SpecialChar'};
+                }
                 if (options.qtiImage) {
                     positionedPlugins.TaoQtiImage = {insertAfter: 'SpecialChar'};
                 }
