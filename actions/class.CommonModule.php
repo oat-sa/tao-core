@@ -45,6 +45,11 @@ abstract class tao_actions_CommonModule extends Module
      * @var tao_models_classes_Service
      */
     protected $service = null;
+    
+    protected $viewEngine = 'clearfw';
+    
+    const VIEW_SERVICE    = 'tao/viewEngine';
+
 
     /**
      * empty constuctor
@@ -55,12 +60,32 @@ abstract class tao_actions_CommonModule extends Module
     
     public function getRenderer() {
 		if (!isset($this->renderer)) {
-			$this->renderer = new TaoRender();
+			$this->renderer = $this->getServiceManager()->get(self::VIEW_SERVICE)->getRenderer($this->viewEngine);
 		}
 		return $this->renderer;
                 
     }
     
+    /**
+     * return view engine name
+     * @return string
+     */
+    public function getViewEngine() {
+        return $this->viewEngine;
+    }
+    
+    /**
+     * change default view engine and get a new renderer
+     * @param string $viewEngine
+     * @return \tao_actions_CommonModule
+     */
+    public function setViewEngine($viewEngine) {
+        $this->viewEngine = $viewEngine;
+        $this->renderer = $this->getServiceManager()->get(self::VIEW_SERVICE)->getRenderer($this->viewEngine);
+        return $this;
+    }
+
+        
     public function registerViewHelper($name , ViewHelperInterface $helper) {
           $this->getRenderer()->registerHelper($name , $helper);
           return $this;
