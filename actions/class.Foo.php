@@ -58,16 +58,30 @@ class tao_actions_Foo extends tao_actions_CommonModule
         return $result;
     }
 
-    public function getInstances()
+    public function getAllInstances()
     {
 
         $clazz = new core_kernel_classes_Class($this->getRequestParameter('classUri'));
+        $firstName = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userFirstName');
+        $lastName = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userLastName');
+        $login = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#login');
+        $mail = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userMail');
+
         $result = [];
-        foreach($clazz->getInstances() as $instance){
-            $result[] = [
-                'uri' => $instance->getUri(),
-                'label' => $instance->getLabel()
-            ];
+        $subClasses = $clazz->getSubClasses(true);
+        foreach($subClasses as $subClass){
+            $classResults = [];
+            foreach($subClass->getInstances() as $instance){
+                $classResults[] = [
+                    'uri'       => $instance->getUri(),
+                    'label'     => $instance->getLabel(),
+                    'firstname' => (string)$instance->getOnePropertyValue($firstName),
+                    'lastname'  => (string)$instance->getOnePropertyValue($lastName),
+                    'login'     => (string)$instance->getOnePropertyValue($login),
+                    'mail'      => (string)$instance->getOnePropertyValue($mail)
+                ];
+            }
+            $result[$subClass->getUri()] = $classResults;
         }
 
         $this->returnJson($result);

@@ -28,96 +28,221 @@ define([
     'i18n',
     'ui/component',
     'component/class/selector',
-    'tpl!component/resource/selector'
-], function ($, _, __, component, classesSelectorFactory, selectorTpl) {
+    'tpl!component/resource/selector',
+    'tpl!component/resource/listItem'
+], function ($, _, __, component, classesSelectorFactory, selectorTpl, listItemTpl) {
     'use strict';
 
     var defaultConfig = {
         type : __('resource')
     };
 
-    var resourceSelectorApi = {
 
 
-    };
+    return function resourceSelectorFactory($container, config, dataProvider){
 
-    return function resourceSelectorFactory(){
+        var resourceSelectorApi = {
 
+            reset : function reset(){
+                var $component = this.getElement();
+
+                this.loaded = 0;
+
+                $('.status', $component).hide();
+                $('main ul', $component).empty();
+
+                this.trigger('reset');
+            },
+
+            search : function search(classUri, pattern){
+                var self = this;
+                var paging = {
+                    offset : this.loaded,
+                    size   : 25
+                };
+                classUri = classUri || this.classUri;
+
+                return dataProvider.getResources(classUri, pattern, paging).then(function(result){
+                    var $component = self.getElement();
+
+                    self.loaded += result.data.length;
+
+                    $('.status', $component).show().find('.matches').text(result.total + ' matches');
+                    $('main ul', $component).append(_.reduce(result.data, function(acc, item){
+                        item.desc = item.firstname + ' ' + item.lastname;
+                        acc += listItemTpl(item);
+                        return acc;
+                    }, ''));
+
+                    self.trigger('data', result.data);
+                });
+            }
+
+        };
 
         return component(resourceSelectorApi, defaultConfig)
-                .setTemplate(selectorTpl)
-                .on('init', function(){
+            .setTemplate(selectorTpl)
+            .on('init', function(){
+                var self = this;
 
-                    this.selected = [];
+                this.selected = [];
+                this.loaded   = 0;
+                this.classUri = config.classUri;
 
-                    this.classSelector = classesSelectorFactory();
-                    this.classSelector.init({
-                        type: this.config.type,
-                        clasUri : this.config.clasUri,
-                        data : this.config.classesData
+                this.render($container);
+
+                dataProvider.getSearchParams().then(function(params){
+                    self.params = _.transform(params, function(acc, label, uri){
+                        acc[uri] = label.toLowerCase().replace(/\s/, '');
                     });
-                })
-                .on('render', function(){
-                    var self = this;
-                    var $component = this.getElement();
-
-                    this.classSelector
-                        .on('change', function(uri){
-
-                        })
-                        .render($('.class-context', $component));
-
-                    $('.context > a').on('click', function(e) {
-                        var $target = $(this);
-
-                        e.preventDefault();
-
-                        $('.context > a').removeClass('active');
-                        $target.addClass('active');
-
-                        $('main ul').removeClass('tree grid list').addClass($target.data('view-format'));
-                    });
-
-
-                    $('main ul', $component).on('click', 'li', function(){
-                        var $target = $(this);
-
-                        if($target.hasClass('selected')){
-                            $target.removeClass('selected');
-                            self.trigger('unselect', $target.text());
-                        } else {
-                            $target.addClass('selected');
-                            self.trigger('select', $target.text());
-                        }
-                    });
-
-                    $('main')
-                        .scrollTop(0)
-                        .on('scroll', _.throttle(function(){
-                            var $this = $(this);
-                            if( !$this.hasClass('loading') && $this.scrollTop() + $this.outerHeight() >= $this[0].scrollHeight ){
-                                $this.addClass('loading');
-                                _.delay(function(){
-                                    $this.removeClass('loading');
-                                    $this.find('ul').append('<li>Foo</li><li>Bar</li><li>Baz</li>');
-                                }, 2000);
-                            }
-                        }, 200));
-
-                })
-                .on('select', function(target){
-                    this.selected.push(target);
-                    this.trigger('update');
-                })
-                .on('unselect', function(target){
-                    _.remove(this.selected, function(elt){
-                        return elt === target;
-                    });
-                    this.trigger('update');
-                })
-                .on('update', function(){
-                    var $component = this.getElement();
-                    $('footer .selected-num', $component).text(this.selected.length);
                 });
+
+            })
+            .on('render', function(){
+                var self = this;
+                var $component = this.getElement();
+
+                this.classSelector = classesSelectorFactory($('.class-context', $component), this.config, dataProvider);
+                this.classSelector
+                    .on('change', function(uri){
+                        self.reset();
+                        self.search(uri);
+                        self.classUri = uri;
+                    });
+
+
+
+                $('.search .input', $component)
+                    .on('focus', function(){
+                        var $target = $(this);
+                        if($target.hasClass('placeholder')){
+                           $target.text('').removeClass('placeholder');
+                        }
+                    })
+                    .on('keydown', _.debounce(function(e){
+                        var $target = $(this);
+                        if(e.which === 13){
+                            e.preventDefault();
+                            self.reset();
+                            self.search(self.classUri, $target.text());
+
+                        } else if(e.which === 32){
+                            var range = document.createRange();//Create a range (a range is a like the selection but invisible)
+                            range.selectNodeContents($('.search .input', $component)[0]);
+                            range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+                            var selection = window.getSelection();//get the selection object (allows you to change selection)
+                            selection.removeAllRanges();//remove any selections already made
+                            selection.addRange(range);//make the range you have just created the visible selection
+                            $target.find('span').removeProp('contenteditable').removeAttr('contenteditable').addClass('closed');
+                        } else {
+                            var value   = $target
+                                            .clone()    //clone the element
+                                            .children() //select all the children
+                                            .remove()   //remove all the children
+                                            .end()  //again go back to selected element
+                                            .text();
+                            if(value.length > 3 &&  $('.search .options', $component).hasClass('folded')){
+                                var match = false;
+                                $('.search .options ul', $component).empty();
+
+                                _(self.params).pick(function(val){
+                                    return new RegExp(value).test(val);
+                                }).forEach(function(param){
+                                    match = true;
+
+                                    $('.search .options ul', $component).append('<li><a href="#"><span class="icon-tag"></span> ' + param + ':</span>');
+                                });
+                                if(match){
+
+                                    $('.search .options', $component).removeClass('folded');
+                                    _.delay(function(){
+                                        $('.search .options', $component).addClass('folded');
+                                    }, 3500);
+                                }
+                            }
+                        }
+                    }, 50));
+
+                $('.search .options', $component).on('click', 'a', function(e){
+                    var $target = $(this);
+                    e.preventDefault();
+
+
+                    $('.search .input', $component).html('<span>' + $target.text() + '</span>');
+                    $('.search .options', $component).addClass('folded');
+                });
+
+
+                $('.context > a').on('click', function(e) {
+                    var $target = $(this);
+
+                    e.preventDefault();
+
+                    $('.context > a').removeClass('active');
+                    $target.addClass('active');
+
+                    $('main ul').removeClass('tree grid list').addClass($target.data('view-format'));
+                });
+
+
+                $('main ul', $component).on('click', 'li', function(){
+                    var $target = $(this);
+
+                    if($target.hasClass('selected')){
+                        $target.removeClass('selected');
+                        self.trigger('unselect', $target.text('uri'));
+                    } else {
+                        $target.addClass('selected');
+                        self.trigger('select', $target.data('uri'));
+                    }
+                });
+
+                $('.status a').on('click', function(e){
+                    var selection = [];
+                    e.preventDefault();
+
+
+                    $('main ul li', $component).each(function(){
+                        var $item = $(this);
+                        selection.push($item.data('uri'));
+                        $item.addClass('selected');
+                    });
+
+                    self.trigger('select', selection);
+
+                });
+
+                $('main')
+                    .scrollTop(0)
+                    .on('scroll', _.throttle(function(){
+                        var $this = $(this);
+                        if( !$this.hasClass('loading') && $this.scrollTop() + $this.outerHeight() >= $this[0].scrollHeight ){
+                            $this.addClass('loading');
+                            self.search().then(function(){
+                                $this.removeClass('loading');
+                            });
+                        }
+                    }, 200));
+
+            })
+            .on('select', function(targets){
+                if(_.isString(targets)){
+                    this.selected.push(targets);
+                } else if(_.isArray(targets)){
+                    this.selected = this.selected.concat(targets);
+                }
+                this.trigger('update');
+            })
+            .on('unselect', function(target){
+                _.remove(this.selected, function(elt){
+                    return elt === target;
+                });
+                this.trigger('update');
+            })
+            .on('update', function(){
+                var $component = this.getElement();
+                $('footer .selected-num', $component).text(this.selected.length);
+            })
+            .init(config);
     };
 });

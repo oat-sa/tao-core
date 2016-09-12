@@ -23,12 +23,59 @@
 
         padding: 5px;
         background-color: #F3F1EF;
-        input[type=search] {
+        .input {
             box-sizing: border-box;
             border-radius: 15px;
             max-width: inherit;
             width: 100%;
             padding: 4px 15px;
+            color: $textColor;
+            background-color : #fff;
+            height: 2em;
+            white-space: nowrap;
+            overflow:hidden;
+
+            br {
+                display: none;
+            }
+
+            span:first-child {
+                color: $warning;
+                padding: 2px;
+                &.closed{
+                    border: solid 1px $warning;
+                    border-radius: 2px;
+                }
+            }
+
+
+            &.placeholder {
+                color: #ddd;
+            }
+        }
+
+        .options {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 40px;
+            background-color: $uiClickableDefaultBg;
+            z-index: 1000;
+            height: auto; 
+            transition: height 200ms linear;
+
+            &.folded {
+                height: 0;
+                overflow: hidden;
+                transition: height 200ms linear;
+            }
+
+            em {
+                padding: 10px;
+            }
+            ul li {
+                padding: 10px;
+            }
         }
     }
 
@@ -60,6 +107,7 @@
            background-color: $uiClickableDefaultBg;
            color: $textColor;
            border-left: solid 1px #fff;
+           border-bottom: solid 1px #ddd;
            text-shadow: 0 0 0 transparent;
            text-decoration: none;
 
@@ -70,9 +118,30 @@
         }
     }
 
+    .status { 
+        position: relative;
+        padding: 5px 20px;
+        color: #888;
+        background-color: $uiClickableDefaultBg;
+        display:none;
+        color: $textColor;
+        font-style: italic;
+
+        .matches {
+            text-align:center;
+        }
+
+        a {
+            position: absolute;
+            right: 25px;
+        }
+    }
+
     main {
         flex: 1;
         overflow-y: auto;
+
+
 
         ul {
             list-style-type: none;
@@ -91,28 +160,34 @@
 
             &.list {
 
-                padding: 0 10px;
-
                 li {
                     position: relative;
-                    height: 50px;
+                    height: 60px;
                     padding: 10px;
                     border-bottom: solid 1px #ddd;
 
                     transition: all 200ms linear;
 
-                    &:after {
+                    strong:after {
                         @include tao-icon-setup;
                         @include icon-checkbox;
                         color: #ddd;
                         position: absolute;
                         right: 15px;
-                        top: 17px;
+                        top: 25px;
                     }
 
-                    &.selected:after{
+                    &.selected strong:after{
                         @include icon-checkbox-checked;
                         color: $textHighlight;
+                    }
+
+                    strong, em {
+                        display: block;
+                    }
+
+                    em {
+                        text-transform: capitalize;
                     }
                 }
             }

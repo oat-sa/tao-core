@@ -44,55 +44,73 @@ define([
     };
 
 
-    var classSelectorApi = {
 
-        updateContent : function updateContent(){
-            var $component = this.getElement();
-            var $list   = $('.options > ul', $component);
 
-            if(this.config.data && this.config.data.length){
-                $list.append(buildTree(this.config.data));
 
-                this.trigger('update');
+    return function classesSelectorFactory($container, config, dataProvider){
+
+        var classSelectorApi = {
+
+            refresh : function refresh(){
+                return this.loadClasses.then(this.updateContent);
+            },
+            loadClasses : function loadClasses(){
+                return dataProvider.getAllClasses().then(function(data){
+                    return buildTree(data);
+                });
+            },
+            updateContent : function updateContent(tree){
+                var $component = this.getElement();
+                var $list   = $('.options > ul', $component);
+
+                if(tree && tree.length){
+                    $list.append(tree);
+
+                    this.trigger('update');
+                }
             }
-        }
 
-    };
+        };
 
+        var classSelector = component(classSelectorApi, {});
 
-    return function classesSelectorFactory(){
+        classSelector
+            .setTemplate(selectorTpl)
+            .on('init', function(){
+                this.render($container);
+            })
+            .on('render', function(){
+                var self = this;
+                var $component = this.getElement();
+                var $selected  = $('.selected', $component);
+                var $options   = $('.options', $component);
 
-
-        return component(classSelectorApi, {})
-                .setTemplate(selectorTpl)
-                .on('render', function(){
-                    var $component = this.getElement();
-                    var $selected  = $('.selected', $component);
-                    var $options   = $('.options', $component);
-
-                    this.updateContent();
-
-                    $selected.on('click', function(e){
-                        e.preventDefault();
-                        $options.toggleClass('folded');
-                    });
-
-                    $options.on('click', 'a', function(e){
-                        var $target = $(this);
-                        var label = $target.text();
-                        var uri = $target.data('uri');
-
-
-                        e.preventDefault();
-
-                        $selected.text(label)
-                                 .data('uri', uri);
-                        $options.toggleClass('folded');
-
-                        self.trigger('change', uri);
-                    });
+                $selected.on('click', function(e){
+                    e.preventDefault();
+                    $options.toggleClass('folded');
                 });
 
+                $options.on('click', 'a', function(e){
+                    var $target = $(this);
+                    var label = $target.text();
+                    var uri = $target.data('uri');
+
+
+                    e.preventDefault();
+
+                    $selected.text(label)
+                            .data('uri', uri);
+                    $options.toggleClass('folded');
+
+                    self.trigger('change', uri);
+                });
+            });
+
+        classSelector.loadClasses().then(function(tree){
+            config.tree = tree;
+            classSelector.init(config);
+        });
+        return classSelector;
 
     };
 });

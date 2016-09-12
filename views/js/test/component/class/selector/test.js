@@ -65,18 +65,27 @@ define([
 
 
     QUnit.asyncTest('playground', function(assert) {
+
+
+        var container = document.getElementById('visual');
+
+        var resourceProvider = {
+            getAllClasses : function getAllClasses(){
+                return Promise.resolve(classesData);
+            }
+        };
+
+        var config = {
+            type: 'TestTaker',
+            classUri: "http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject",
+        };
+
         QUnit.expect(1);
 
-        classSelector()
+        classSelector( container, config, resourceProvider)
             .on('render', function(){
                 assert.ok(true);
-            })
-            .init({
-                type: 'TestTaker',
-                classUri: "http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject",
-                data : classesData
-            })
-           .render(document.getElementById('visual'));
+            });
     });
 
 });

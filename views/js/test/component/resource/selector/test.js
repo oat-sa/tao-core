@@ -20,44 +20,46 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'lodash',
     'component/resource/selector',
-    'json!test/component/resource/selector/classes.json'
-], function(resourceSelector, classesData) {
+    'json!test/component/resource/selector/classes.json',
+    'json!test/component/resource/selector/search.json'
+], function(_, resourceSelector, classesData, searchData) {
     'use strict';
 
-    var resourceSelectorApi = [
-        { name : 'init', title : 'init' },
-        { name : 'destroy', title : 'destroy' },
-        { name : 'render', title : 'render' },
-        { name : 'show', title : 'show' },
-        { name : 'hide', title : 'hide' },
-        { name : 'enable', title : 'enable' },
-        { name : 'disable', title : 'disable' },
-        { name : 'is', title : 'is' },
-        { name : 'setState', title : 'setState' },
-        { name : 'getContainer', title : 'getContainer' },
-        { name : 'getElement', title : 'getElement' },
-        { name : 'getTemplate', title : 'getTemplate' },
-        { name : 'setTemplate', title : 'setTemplate' }
-    ];
+    //var resourceSelectorApi = [
+        //{ name : 'init', title : 'init' },
+        //{ name : 'destroy', title : 'destroy' },
+        //{ name : 'render', title : 'render' },
+        //{ name : 'show', title : 'show' },
+        //{ name : 'hide', title : 'hide' },
+        //{ name : 'enable', title : 'enable' },
+        //{ name : 'disable', title : 'disable' },
+        //{ name : 'is', title : 'is' },
+        //{ name : 'setState', title : 'setState' },
+        //{ name : 'getContainer', title : 'getContainer' },
+        //{ name : 'getElement', title : 'getElement' },
+        //{ name : 'getTemplate', title : 'getTemplate' },
+        //{ name : 'setTemplate', title : 'setTemplate' }
+    //];
 
-    QUnit.module('API');
+    //QUnit.module('API');
 
 
-    QUnit.test('module', function(assert) {
-        QUnit.expect(3);
+    //QUnit.test('module', function(assert) {
+        //QUnit.expect(3);
 
-        assert.equal(typeof resourceSelector, 'function', "The resourceSelector module exposes a function");
-        assert.equal(typeof resourceSelector(), 'object', "The resourceSelector factory produces an object");
-        assert.notStrictEqual(resourceSelector(), resourceSelector(), "The resourceSelector factory provides a different object on each call");
-    });
+        //assert.equal(typeof resourceSelector, 'function', "The resourceSelector module exposes a function");
+        //assert.equal(typeof resourceSelector(), 'object', "The resourceSelector factory produces an object");
+        //assert.notStrictEqual(resourceSelector(), resourceSelector(), "The resourceSelector factory provides a different object on each call");
+    //});
 
-    QUnit
-        .cases(resourceSelectorApi)
-        .test('instance API ', function(data, assert) {
-            var instance = resourceSelector();
-            assert.equal(typeof instance[data.name], 'function', 'The resourceSelector instance exposes a "' + data.title + '" function');
-        });
+    //QUnit
+        //.cases(resourceSelectorApi)
+        //.test('instance API ', function(data, assert) {
+            //var instance = resourceSelector();
+            //assert.equal(typeof instance[data.name], 'function', 'The resourceSelector instance exposes a "' + data.title + '" function');
+        //});
 
 
 
@@ -65,18 +67,80 @@ define([
 
 
     QUnit.asyncTest('playground', function(assert) {
+
+        var container = document.getElementById('visual');
+        var config = {
+            type: 'TestTaker',
+            classUri: "http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject",
+        };
+        var resourceProvider = {
+
+            getAllClasses : function getAllClasses(){
+                return Promise.resolve(classesData);
+            },
+
+            getResources : function getResources (classUri, pattern, paging){
+
+                var offset = paging.offset || 0;
+                var size   = paging.size   || 25;
+
+                return new Promise(function(resolve){
+                    setTimeout(function(){
+                        var result, dataSet, criterions;
+
+                        if(!_.isEmpty(pattern)){
+                            criterions = _.transform(pattern.trim().split(/\s/), function(acc, criteria) {
+                                var propertyCriteria = criteria.split(':');
+                                if(propertyCriteria.length === 2){
+                                    acc[propertyCriteria[0]] = propertyCriteria[1];
+                                } else if(!_.isEmpty(criteria)) {
+                                    acc.label = criteria;
+                                }
+                                return acc;
+                            }, {});
+
+                            result = _(searchData[classUri]).filter( function(value){
+                                var match = false;
+                                _.forEach(criterions, function(pat, key){
+                                    if(value[key] && new RegExp(pat).test(value[key])){
+                                        match = true;
+                                        return false;
+                                    }
+                                });
+                                return match;
+                            })
+                            .sortBy('label')
+                            .value();
+
+                        } else {
+                            result = _.sortBy(searchData[classUri], 'label');
+                        }
+                        dataSet = result.slice(offset, offset + size);
+
+                        resolve({
+                            total : result.length,
+                            data  : dataSet
+                        });
+                    }, 700);
+                });
+            },
+
+            getSearchParams : function getSearchParams() {
+                return Promise.resolve({
+                    'http://www.tao.lu/Ontologies/generis.rdf#userFirstName' : 'First Name',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userLastName' : 'Last Name',
+                    'http://www.tao.lu/Ontologies/generis.rdf#login' : 'Login',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userMail' : 'Mail'
+                });
+            }
+        };
+
         QUnit.expect(1);
 
-        resourceSelector()
+        resourceSelector(container, config, resourceProvider)
             .on('render', function(){
                 assert.ok(true);
-            })
-            .init({
-                type: 'TestTaker',
-                classUri: "http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject",
-                classesData : classesData
-            })
-           .render(document.getElementById('visual'));
+            });
     });
 
 });
