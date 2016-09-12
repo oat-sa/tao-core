@@ -51,9 +51,8 @@ class Template {
      */
     public static function __callStatic($name, $arguments) {
         if (array_key_exists($name, self::$helpers)) {
-            return self::$helpers[$name]
-                            ->setContext($arguments[0])
-                            ->render();
+            $helper = self::$helpers[$name];
+            return $helper($arguments[0]);
         }
         return null;
     }

@@ -51,4 +51,8 @@ abstract class ViewHelperAbstract implements ViewHelperInterface
         return null;
     }
     
+    public function __invoke(array $context) {
+        return $this->setContext($context)->render();
+    }
+    
 }

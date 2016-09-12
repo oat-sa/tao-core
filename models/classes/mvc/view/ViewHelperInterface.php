@@ -32,5 +32,11 @@ interface ViewHelperInterface {
      */
     public function render();
     
+    /**
+     * make view helper as invokable
+     * @param array $context
+     */
+    public function __invoke(array $context);
+    
     
 }
