@@ -8,7 +8,7 @@ define(['jquery', 'lodash', 'json!core/mimetype/categories.json', 'json!core/mim
      * Helps you to retrieve file type and categories based on a file mime type
      * @exports core/mimetype
      */
-    return {
+    var mimetypeHelper = {
 
         /**
          * Gets the MIME type of a resource.
@@ -95,8 +95,14 @@ define(['jquery', 'lodash', 'json!core/mimetype/categories.json', 'json!core/mim
          * @returns {String} the mime type
          */
         getMimeType : function getMimeType(file){
-            var ext, type = file.type;
-            if(type && !type.match(/invalid/) && type !== 'application/octet-stream'){
+            var ext,
+                type = file.type,
+                category = mimetypeHelper.getFileType({
+                    name : file.name,
+                    mime : type
+                });
+
+            if(type && !type.match(/invalid/) && category !== 'generic'){
                 return type;
             }else{
                 ext = getFileExtension(file.name);
@@ -122,4 +128,5 @@ define(['jquery', 'lodash', 'json!core/mimetype/categories.json', 'json!core/mim
         }
     }
 
+    return mimetypeHelper;
 });
