@@ -130,14 +130,14 @@ class IndexService
         }
         
         if($recursive) {
-            $subClassIndexes = self::getIndexesByClassRecustive($class);
+            $subClassIndexes = self::getIndexesOfSubClasses($class);
             $returnedIndexes = array_merge($returnedIndexes , $subClassIndexes);
         }
         
         return $returnedIndexes;
     }
     
-    public static function getIndexesByClassRecustive(\core_kernel_classes_Class $class) {
+    protected static function getIndexesOfSubClasses(\core_kernel_classes_Class $class) {
         $result     = []; 
         $subClasses = $class->getSubClasses();
         /* @var $subClass core_kernel_classes_Class */
@@ -148,7 +148,8 @@ class IndexService
     }
     
     public static function getIndexesByClassCached(\core_kernel_classes_Class $class , \common_cache_Cache $cache, $recursive = true) {
-        $key = 'indexes_' . $class->getUri();
+        $recursivity = ($recursive)? 'recursive_':'';
+        $key = 'indexes_' . $recursivity . $class->getUri();
         if($cache->has($key)) {
             return unserialize($cache->get($key));
         }
