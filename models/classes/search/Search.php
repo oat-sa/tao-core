@@ -33,6 +33,7 @@ use oat\tao\model\mvc\view\ViewHelperAwareInterface;
 interface Search extends PhpSerializable , ViewHelperAwareInterface
 {
     const SERVICE_ID = 'tao/search';
+    
     /**
      * Search for instances using a Lucene query
      *

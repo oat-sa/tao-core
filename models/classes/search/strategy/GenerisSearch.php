@@ -37,7 +37,8 @@ class GenerisSearch extends ConfigurableService implements Search
 {
     
     use ViewHelperAwareTrait;
-
+    
+    protected $helpView = SearchHelpView::class;
 
     /**
      * (non-PHPdoc)

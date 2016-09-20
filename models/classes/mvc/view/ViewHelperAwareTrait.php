@@ -19,14 +19,8 @@
 
 namespace oat\tao\model\mvc\view;
 
-
-use oat\tao\model\search\strategy\SearchHelpView;
-
 trait ViewHelperAwareTrait
 {
-
-    protected $helpView = SearchHelpView::class;
-
     /**
      * return view helper instance
      * @return \oat\tao\model\mvc\view\ViewHelperAbstract
