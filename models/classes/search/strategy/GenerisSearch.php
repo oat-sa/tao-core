@@ -21,6 +21,7 @@
 namespace oat\tao\model\search\strategy;
 
 use core_kernel_classes_Class;
+use oat\tao\model\mvc\view\ViewHelperAwareTrait;
 use oat\tao\model\search\Search;
 use oat\oatbox\Configurable;
 use oat\tao\model\search\ResultSet;
@@ -35,8 +36,9 @@ use oat\oatbox\service\ConfigurableService;
 class GenerisSearch extends ConfigurableService implements Search
 {
     
+    use ViewHelperAwareTrait;
+    
     protected $helpView = SearchHelpView::class;
-
 
     /**
      * (non-PHPdoc)
@@ -88,18 +90,6 @@ class GenerisSearch extends ConfigurableService implements Search
                 'like'      => true,
             )
         );
-    }
-    
-    /**
-     * doesn't supprt complex query
-     * @return \oat\tao\model\mvc\view\ViewHelperAbstract
-     */
-    public function getHelpView() {
-        if(array_key_exists('view', $this->getOptions())) {
-            $this->helpView = $this->getOption('view');
-        }
-        $viewClass = $this->helpView;
-        return new $viewClass();
     }
     
     /*

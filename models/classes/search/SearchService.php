@@ -32,6 +32,8 @@ class SearchService
 {	
     const CONFIG_KEY = 'search';
     
+    
+    
     /**
      * 
      */
