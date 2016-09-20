@@ -129,6 +129,45 @@ class IndexService
             }
         }
         
+        if($recursive) {
+            $subClassIndexes = self::getIndexesOfSubClasses($class);
+            $returnedIndexes = array_merge($returnedIndexes , $subClassIndexes);
+        }
+        
         return $returnedIndexes;
+    }
+    
+    /**
+     * return subclasses indexes list
+     * @param core_kernel_classes_Class $class
+     * @return Index[] An array of Search Index to $class.
+     */
+    protected static function getIndexesOfSubClasses(\core_kernel_classes_Class $class) {
+        $result     = []; 
+        $subClasses = $class->getSubClasses();
+        /* @var $subClass core_kernel_classes_Class */
+        foreach ($subClasses as $subClass) {
+            $result = array_merge($result , self::getIndexesByClass($subClass));
+        }
+        return $result;
+    }
+    
+    /**
+     * get indexes list using cache
+     * @param core_kernel_classes_Class $class
+     * @param \common_cache_Cache $cache
+     * @param boolean $recursive
+     * @return Index[] An array of Search Index to $class.
+     */
+    public static function getIndexesByClassCached(\core_kernel_classes_Class $class , \common_cache_Cache $cache, $recursive = true) {
+        $recursivity = ($recursive)? 'recursive_':'';
+        $key = 'indexes_' . $recursivity . $class->getUri();
+        if($cache->has($key)) {
+            return unserialize($cache->get($key));
+        }
+        
+        $result = self::getIndexesByClass($class , $recursive);
+        $cache->put( $key , serialize($result));
+        return $result;
     }
 }

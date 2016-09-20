@@ -20,16 +20,17 @@
  */
 namespace oat\tao\model\search;
 
-use core_kernel_classes_Resource;
 use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\oatbox\PhpSerializable;
+use oat\tao\model\mvc\view\ViewHelperAwareInterface;
 
 /**
  * Search interface
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
-interface Search extends PhpSerializable 
+interface Search extends PhpSerializable, ViewHelperAwareInterface 
 {
     const SERVICE_ID = 'tao/search';
     /**

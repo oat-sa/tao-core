@@ -25,6 +25,7 @@ use oat\tao\model\search\Search;
 use oat\oatbox\Configurable;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\mvc\view\ViewHelperAwareTrait;
 
 /**
  * Simple Search implementation that ignores the indexes
@@ -34,7 +35,10 @@ use oat\oatbox\service\ConfigurableService;
  */
 class GenerisSearch extends ConfigurableService implements Search
 {
+    
+    protected $helpView = SearchHelpView::class; 
 
+    use ViewHelperAwareTrait;
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
