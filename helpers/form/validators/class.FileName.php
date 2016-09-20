@@ -45,7 +45,7 @@ class tao_helpers_form_validators_FileName
      * @param  array options
      * @return mixed
      */
-    public function __construct($options = array())
+    public function __construct(array $options = array())
     {
         
         
