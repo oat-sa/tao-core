@@ -21,6 +21,7 @@
 namespace oat\tao\model\search\strategy;
 
 use core_kernel_classes_Class;
+use oat\tao\model\mvc\view\ViewHelperAwareTrait;
 use oat\tao\model\search\Search;
 use oat\oatbox\Configurable;
 use oat\tao\model\search\ResultSet;
@@ -34,6 +35,10 @@ use oat\oatbox\service\ConfigurableService;
  */
 class GenerisSearch extends ConfigurableService implements Search
 {
+    
+    use ViewHelperAwareTrait;
+    
+    protected $helpView = SearchHelpView::class;
 
     /**
      * (non-PHPdoc)
@@ -87,7 +92,7 @@ class GenerisSearch extends ConfigurableService implements Search
         );
     }
     
-    /**
+    /*
      * (Re)Generate the index for a given resource
      *
      * @param core_kernel_classes_Resource $resource
@@ -117,4 +122,5 @@ class GenerisSearch extends ConfigurableService implements Search
     {
         return false;
     }
+
 }

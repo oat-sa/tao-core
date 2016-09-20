@@ -23,15 +23,17 @@ namespace oat\tao\model\search;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Class;
 use oat\oatbox\PhpSerializable;
+use oat\tao\model\mvc\view\ViewHelperAwareInterface;
 
 /**
  * Search interface
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
-interface Search extends PhpSerializable 
+interface Search extends PhpSerializable , ViewHelperAwareInterface
 {
     const SERVICE_ID = 'tao/search';
+    
     /**
      * Search for instances using a Lucene query
      *
@@ -43,7 +45,7 @@ interface Search extends PhpSerializable
      * @return ResultSet
      */
     public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
-
+    
     /**
      * Index the resources given as a traversable
      * 
@@ -74,4 +76,5 @@ interface Search extends PhpSerializable
      * @return boolean
      */
     public function supportCustomIndex();
+
 }
