@@ -108,13 +108,7 @@ class tao_actions_Export extends tao_actions_CommonModule
                         $report->setMessage(__('Error(s) has occurred during export.'));
                     }
 
-                    foreach ($report->getIterator() as &$subReport) {
-                        if (! $subReport->getMessage()) {
-                            $subReport->setMessage(__('Item should be exported.'));
-                        }
-                    }
                     $html = tao_helpers_report_Rendering::render($report);
-
                 }
             }
 
