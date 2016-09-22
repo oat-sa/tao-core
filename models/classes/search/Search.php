@@ -30,7 +30,7 @@ use oat\tao\model\mvc\view\ViewHelperAwareInterface;
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
-interface Search extends PhpSerializable, ViewHelperAwareInterface 
+interface Search extends PhpSerializable 
 {
     const SERVICE_ID = 'tao/search';
     /**

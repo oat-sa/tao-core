@@ -285,18 +285,24 @@ class tao_actions_Main extends tao_actions_CommonModule
         );
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParams));
         $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
-
+        
+        $helper = new \oat\tao\model\mvc\view\ViewHelperValidator();
+        
 	/*@var $search oat\tao\model\search\Search */
         $search = $this->getServiceManager()->get('tao/search');
-        if($this->getServiceManager()->get('tao/search')->supportCustomIndex()) {
-            $cache = $this->getServiceManager()->get('generis/cache');
-            $indexes = oat\tao\model\search\IndexService::getIndexesByClassCached(new \core_kernel_classes_Class($sections[0]->getTrees()[0]->get('rootNode')) , $cache);
-            $searchHint = $search->getViewHelper()->setContext(['searchIndex' => $indexes]);
-        } else {
-            $searchHint = $search->getViewHelper()->setContext([]);
+        
+        if( $helper->hasViewHelper($search) ) {
+            
+            if($this->getServiceManager()->get('tao/search')->supportCustomIndex()) {
+                $cache = $this->getServiceManager()->get('generis/cache');
+                $indexes = oat\tao\model\search\IndexService::getIndexesByClassCached(new \core_kernel_classes_Class($sections[0]->getTrees()[0]->get('rootNode')) , $cache);
+                $searchHint = $search->getViewHelper()->setContext(['searchIndex' => $indexes]);
+            } else {
+                $searchHint = $search->getViewHelper()->setContext([]);
+            }
+            $this->setData('help',$searchHint->render() );
         }
-         
-        $this->setData('help',$searchHint->render() );
+        
         $this->setView('layout.tpl', 'tao');
                     
      }
