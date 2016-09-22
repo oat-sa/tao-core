@@ -26,6 +26,6 @@ interface ViewHelperAwareInterface
      * return view helper instance
      * @return \oat\tao\model\mvc\view\ViewHelperAbstract
      */
-    public function getHelpView();
+    public function getViewHelper();
 
 }

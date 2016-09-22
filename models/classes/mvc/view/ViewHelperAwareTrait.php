@@ -25,7 +25,7 @@ trait ViewHelperAwareTrait
      * return view helper instance
      * @return \oat\tao\model\mvc\view\ViewHelperAbstract
      */
-    public function getHelpView() {
+    public function getViewHelper() {
         if(array_key_exists('view', $this->getOptions())) {
             $this->helpView = $this->getOption('view');
         }

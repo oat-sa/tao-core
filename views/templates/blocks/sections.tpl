@@ -3,7 +3,6 @@ use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
 
 $sections    = get_data('sections');
-$searchIndex = get_data('search-indexes');
 $help        = get_data('help');
 ?>
 
@@ -78,7 +77,6 @@ $help        = get_data('help');
                                 Template::inc('blocks/search.tpl', 'tao', array(
                                     'rootNode' => $tree->get('rootNode'),
                                     'searchLabel' => __('Search %s', $tree->get('className')),
-                                    'searchIndex' => $searchIndex,
                                     'help'        => $help
                                 ));
                             }
