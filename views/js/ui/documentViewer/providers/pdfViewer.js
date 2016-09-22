@@ -119,7 +119,7 @@ define([
                                 height = width / ratio;
 
                                 if (height > pixelHeight) {
-                                    $element.width(Math.max(1, pixelWidth - 50)).height(height);
+                                    $element.width(Math.max(1, pixelWidth / 2)).height(height);
                                     parentWidth = $container.prop('scrollWidth');
                                     width = parentWidth;
                                     height = width / ratio;
@@ -253,6 +253,14 @@ define([
             },
 
             /**
+             * Refresh the current page
+             * @returns {Promise}
+             */
+            refresh: function refresh() {
+                return renderPage(pageNum);
+            },
+
+            /**
              * Liberates the resources
              */
             destroy: function destroy() {
@@ -359,7 +367,7 @@ define([
 
                         if (pdfjs) {
                             // PDF.js installed
-                            $element.html($(pdfTpl()));
+                            $element.html($(pdfTpl(self.config)));
 
                             self.controls = {
                                 bar: $element.find('.pdf-bar'),
@@ -369,6 +377,7 @@ define([
                                 pageNext: $element.find('[data-control="pdf-page-next"]'),
                                 pageNum: $element.find('[data-control="pdf-page-num"]'),
                                 pageCount: $element.find('[data-control="pdf-page-count"]'),
+                                fitToWidth: $element.find('[data-control="fit-to-width"]'),
                                 content: $element.find('[data-control="pdf-content"]')
                             };
 
@@ -377,6 +386,11 @@ define([
                             self.setSize($element.width(), $element.height());
 
                             disable();
+
+                            self.controls.fitToWidth.on('change', function() {
+                                self.config.fitToWidth = self.controls.fitToWidth.is(':checked');
+                                self.pdf.refresh();
+                            });
 
                             self.controls.navigation.on('click', function (e) {
                                 movePage(Number($(e.target).data('direction')) || 1);
