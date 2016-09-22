@@ -387,7 +387,7 @@ define([
 
                             disable();
 
-                            self.controls.fitToWidth.on('change', function() {
+                            self.controls.fitToWidth.on('change', function () {
                                 self.config.fitToWidth = self.controls.fitToWidth.is(':checked');
                                 self.pdf.refresh();
                             });
@@ -474,7 +474,7 @@ define([
                 this.controls.bar.width(width);
                 this.controls.container.width(width).height(contentHeight);
                 return this.pdf.setSize(width, contentHeight);
-            } else {
+            } else if (this.controls.viewer) {
                 // the browser will adjust the PDF
                 this.controls.viewer.width(width).height(height);
             }
