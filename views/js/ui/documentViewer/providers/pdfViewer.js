@@ -78,9 +78,10 @@ define([
      * Creates a wrapper for PDF.js
      * @param PDFJS
      * @param $element
+     * @param config
      * @returns {Object}
      */
-    function pdfViewer(PDFJS, $element) {
+    function pdfViewer(PDFJS, $element, config) {
         var pdfDoc = null;
         var pageNum = 1;
         var pageCount = 1;
@@ -91,6 +92,7 @@ define([
         var scale = Math.min(Math.max(MIN_SCALE, getOutputScale(ctx) * DEFAULT_SCALE), MAX_SCALE);
         var pixelWidth = 1;
         var pixelHeight = 1;
+        var $container = $element.parent();
 
         /**
          * Renders a page
@@ -108,16 +110,29 @@ define([
                                 viewport: viewport
                             };
                             var ratio = (viewport.width / (viewport.height || 1)) || 1;
+                            var parentWidth = $container.width();
+                            var parentOffset = $container.offset();
                             var width, height;
 
-                            if (ratio >= 1) {
-                                height = Math.min(pixelHeight, pixelWidth / ratio);
-                                width = Math.min(pixelWidth, height * ratio);
+                            if (config.fitToView) {
+                                width = pixelWidth;
+                                height = pixelWidth / ratio;
                             } else {
-                                width = Math.min(pixelWidth, pixelHeight * ratio);
-                                height = Math.min(pixelHeight, width / ratio);
+                                if (ratio >= 1) {
+                                    height = Math.min(pixelHeight, pixelWidth / ratio);
+                                    width = Math.min(pixelWidth, height * ratio);
+                                } else {
+                                    width = Math.min(pixelWidth, pixelHeight * ratio);
+                                    height = Math.min(pixelHeight, width / ratio);
+                                }
                             }
-                            $element.width(width).height(height);
+
+                            $element
+                                .width(width)
+                                .height(height)
+                                .offset({
+                                    left: parentOffset.left + Math.max(0, (parentWidth - width) / 2)
+                                });
 
                             canvas.width = viewport.width;
                             canvas.height = viewport.height;
@@ -349,7 +364,7 @@ define([
                                 content: $element.find('[data-control="pdf-content"]')
                             };
 
-                            self.pdf = pdfViewer(pdfjs, self.controls.content);
+                            self.pdf = pdfViewer(pdfjs, self.controls.content, self.config);
 
                             self.setSize($element.width(), $element.height());
 

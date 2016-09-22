@@ -32,12 +32,16 @@ define([
      */
     var defaults = {
         width: 'auto',
-        height: 'auto'
+        height: 'auto',
+        fitToView: false
     };
 
     /**
      * Creates a document viewer
      * @param {Object} config - The config set
+     * @param {Number|String} [config.width] - The width in pixels, or 'auto' to use the container's width
+     * @param {Number|String} [config.height] - The height in pixels, or 'auto' to use the container's height
+     * @param {Boolean} [config.fitToView] - The document will be displayed using the full available width instead of fitting the height
      * @returns {Object}
      */
     function documentViewerFactory(config) {
@@ -107,7 +111,8 @@ define([
                     url: documentUrl,
                     replace: true,      // always replace existing viewer
                     width: this.config.width,
-                    height: this.config.height
+                    height: this.config.height,
+                    fitToView: this.config.fitToView
                 }).on('loaded', function () {
                     /**
                      * @event documentViewer#loaded
