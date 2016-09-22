@@ -35,6 +35,46 @@ define([
     var BASE64_MARKER = ';base64,';
 
     /**
+     * The default scale factor
+     * @type {Number}
+     */
+    var DEFAULT_SCALE = 1.0;
+
+    /**
+     * The minimum scale factor that allows a good experience
+     * @type {Number}
+     */
+    var MIN_SCALE = 0.25;
+
+    /**
+     * The maximum scale factor that allows a good experience
+     * @type {Number}
+     */
+    var MAX_SCALE = 10.0;
+
+    /**
+     * A conversion factor for CSS units
+     * @type {Number}
+     */
+    var CSS_UNITS = 96.0 / 72.0;
+
+
+    /**
+     * Returns scale factor for the canvas.
+     * @return {Number}
+     */
+    function getOutputScale(ctx) {
+        var devicePixelRatio = window.devicePixelRatio || 1;
+        var backingStoreRatio = ctx.backingStorePixelRatio ||
+            ctx.webkitBackingStorePixelRatio ||
+            ctx.mozBackingStorePixelRatio ||
+            ctx.msBackingStorePixelRatio ||
+            ctx.oBackingStorePixelRatio || 1;
+        return devicePixelRatio / backingStoreRatio;
+    }
+
+
+    /**
      * Creates a wrapper for PDF.js
      * @param PDFJS
      * @param $element
@@ -46,9 +86,9 @@ define([
         var pageCount = 1;
         var pageNumPending = null;
         var pageRendering = null;
-        var scale = 1;
         var canvas = $element.get(0);
         var ctx = canvas.getContext('2d');
+        var scale = Math.min(Math.max(MIN_SCALE, getOutputScale(ctx) * DEFAULT_SCALE), MAX_SCALE);
         var pixelWidth = 1;
         var pixelHeight = 1;
 
@@ -62,7 +102,7 @@ define([
                 if (!pageRendering) {
                     pageRendering = pdfDoc.getPage(num)
                         .then(function (page) {
-                            var viewport = page.getViewport(scale);
+                            var viewport = page.getViewport(scale * CSS_UNITS);
                             var renderContext = {
                                 canvasContext: ctx,
                                 viewport: viewport
@@ -82,7 +122,7 @@ define([
                             canvas.width = viewport.width;
                             canvas.height = viewport.height;
 
-                            return page.render(renderContext).promise.then(function() {
+                            return page.render(renderContext).promise.then(function () {
                                 var nextPage = pageNumPending;
                                 pageNumPending = null;
                                 pageRendering = null;
@@ -111,7 +151,7 @@ define([
             var raw = window.atob(base64);
             var rawLength = raw.length;
             var array = new Uint8Array(new ArrayBuffer(rawLength));
-            while(rawLength --) {
+            while (rawLength--) {
                 array[rawLength] = raw.charCodeAt(rawLength);
             }
             return array;
