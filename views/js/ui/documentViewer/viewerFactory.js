@@ -34,7 +34,7 @@ define([
     var defaults = {
         width: 'auto',
         height: 'auto',
-        fitToView: false
+        fitToWidth: false
     };
 
     /**
@@ -52,7 +52,7 @@ define([
      * @param {String} config.type - The MIME type of the document to load
      * @param {Number|String} [config.width] - The width in pixels, or 'auto' to use the container's width
      * @param {Number|String} [config.height] - The height in pixels, or 'auto' to use the container's height
-     * @param {Boolean} [config.fitToView] - The document will be displayed using the full available width instead of fitting the height
+     * @param {Boolean} [config.fitToWidth] - The document will be displayed using the full available width instead of fitting the height
      * @returns {Object}
      */
     function viewerFactory(documentType, config) {

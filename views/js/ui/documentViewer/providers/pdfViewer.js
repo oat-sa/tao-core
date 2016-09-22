@@ -114,7 +114,7 @@ define([
                             var parentOffset = $container.offset();
                             var width, height;
 
-                            if (config.fitToView) {
+                            if (config.fitToWidth) {
                                 width = pixelWidth;
                                 height = pixelWidth / ratio;
                             } else {
