@@ -23,9 +23,12 @@ require_once dirname(__FILE__) .'/../includes/raw_start.php';
 use oat\tao\model\extension\UpdateExtensions;
 use oat\oatbox\service\ServiceManager;
 
+if (function_exists('opcache_reset')) {
+    opcache_reset();
+}
+
 $action = new UpdateExtensions();
 $action->setServiceLocator(ServiceManager::getServiceManager());
 $report = $action->__invoke(array());
 echo helpers_Report::renderToCommandline($report);
 echo 'Update completed' . PHP_EOL;
-
