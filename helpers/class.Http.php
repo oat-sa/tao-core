@@ -126,8 +126,12 @@ class tao_helpers_Http
      */
     public static function getFiles()
     {
+        if (isset($_POST['contentName'])) {
+            $_FILES['content']['name'] = urldecode($_POST['contentName']);
+        }
         return $_FILES;
     }
+
     /**
      * verify if file uploads exists.
      * return true if key $name exists in $_FILES
