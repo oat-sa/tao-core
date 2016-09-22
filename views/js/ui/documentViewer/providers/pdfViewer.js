@@ -116,7 +116,14 @@ define([
 
                             if (config.fitToWidth) {
                                 width = pixelWidth;
-                                height = pixelWidth / ratio;
+                                height = width / ratio;
+
+                                if (height > pixelHeight) {
+                                    $element.width(Math.max(1, pixelWidth - 50)).height(height);
+                                    parentWidth = $container.prop('scrollWidth');
+                                    width = parentWidth;
+                                    height = width / ratio;
+                                }
                             } else {
                                 if (ratio >= 1) {
                                     height = Math.min(pixelHeight, pixelWidth / ratio);
@@ -357,6 +364,7 @@ define([
                             self.controls = {
                                 bar: $element.find('.pdf-bar'),
                                 navigation: $element.find('.navigation'),
+                                container: $element.find('.pdf-container'),
                                 pagePrev: $element.find('[data-control="pdf-page-prev"]'),
                                 pageNext: $element.find('[data-control="pdf-page-next"]'),
                                 pageNum: $element.find('[data-control="pdf-page-num"]'),
@@ -450,6 +458,7 @@ define([
                 // only adjust the action bar width, and let the PDF viewer manage its size with the remaining space
                 contentHeight = height - this.controls.bar.outerHeight();
                 this.controls.bar.width(width);
+                this.controls.container.width(width).height(contentHeight);
                 return this.pdf.setSize(width, contentHeight);
             } else {
                 // the browser will adjust the PDF

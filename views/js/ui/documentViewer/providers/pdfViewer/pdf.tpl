@@ -10,4 +10,6 @@
         <span class="info" data-control="pdf-page-count">1</span>
     </div>
 </div>
-<canvas data-control="pdf-content"></canvas>
+<div class="pdf-container">
+    <canvas class="pdf-content" data-control="pdf-content"></canvas>
+</div>
