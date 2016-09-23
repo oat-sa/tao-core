@@ -46,7 +46,8 @@ define(['core/mimetype'], function(mimeType){
         { filename: 'filename.txt', mime: 'invalid/octet-stream', equals: 'text/plain', title : 'invalid/octet-stream text'},
         { filename: 'filename.pdf', mime: 'invalid/octet-stream', equals: 'application/pdf', title : 'invalid/octet-stream pdf'},
         { filename: 'filename.pdf', mime: 'application/octet-stream', equals: 'application/pdf', title : 'application/octet-stream pdf'},
-        //if the file extension is unkown, the returned value defaults to the mimetype of the File
+        { filename: 'filename.pdf', mime: 'application/force-download', equals: 'application/pdf', title : 'application/force-download pdf'},
+        //if the file extension is of an unknown mime, the returned value defaults to the mimetype of the File
         { filename: 'filename.bz2', mime: 'application/octet-stream', equals: 'application/octet-stream', title : 'application/octet-stream bz2'}
     ];
 
