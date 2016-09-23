@@ -23,6 +23,7 @@ define(['jquery', 'lodash', 'layout/logout-event'], function($, _, logoutEvent) 
          *  @param {String} [options.url] - the url where the form will send the file, if not set we get the form.action attr
          *  @param {String} [options.frame] - a name for the frame create in background
          *  @param {String} [options.fileParamName] - the name of the element of request payload which will contain file.
+         *  @param {String} [options.fileNameParamName] - the name of the element of request payload which will contain file name.
          *  @param {FileLoadedCallback} [options.loaded] - executed once received the server response
          */
         _init: function(options) {
@@ -33,6 +34,7 @@ define(['jquery', 'lodash', 'layout/logout-event'], function($, _, logoutEvent) 
                 $form = this,
                 id = opts.frame,
                 fileParamName = options.fileParamName || 'content',
+                fileNameParamName = options.fileNameParamName || 'contentName',
                 $file, xhr, fd;
 
             if (!$form.attr('action') && (!opts.url || opts.url.trim().length === 0)) {
@@ -56,6 +58,7 @@ define(['jquery', 'lodash', 'layout/logout-event'], function($, _, logoutEvent) 
 
                 if (options.file && options.file instanceof File) {
                     fd.append(fileParamName, options.file);
+                    fd.append(fileNameParamName, encodeURIComponent(options.file.name));
                 }
 
                 xhr.open("POST", opts.url, true);
@@ -72,11 +75,11 @@ define(['jquery', 'lodash', 'layout/logout-event'], function($, _, logoutEvent) 
                                 opts.loaded(result);
                             }
                         } else {
-                            
+
                             if(xhr.status === 403) {
                                 logoutEvent();
                             }
-                            
+
                             if (typeof opts.failed === 'function') {
                                 opts.failed();
                             }
