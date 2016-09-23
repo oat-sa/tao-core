@@ -48,13 +48,6 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
         return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
     
-    /**
-     * @var core_kernel_fileSystem_FileSystem
-     */
-    private $publicFs;
-    
-    private $privateFs;
-    
     private $accessProvider;
 
     /**
