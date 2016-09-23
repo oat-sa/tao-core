@@ -42,6 +42,11 @@ $viewerBg: whiten($viewerBarBg, .5);
             }
         }
 
+        .pdf-container {
+            position: relative;
+            overflow-y: auto;
+        }
+
         .pdf-content {
             margin: 0 auto;
         }

@@ -110,7 +110,8 @@ define([
         var expectedConfig = {
             url: 'an/url/to/test',
             width: 200,
-            height: 100
+            height: 100,
+            fitToWidth: false
         };
 
         QUnit.expect(3);
@@ -136,7 +137,8 @@ define([
         var expectedConfig = {
             url: 'an/url/to/test',
             width: 200,
-            height: 100
+            height: 100,
+            fitToWidth: false
         };
 
         QUnit.expect(5);
@@ -171,7 +173,8 @@ define([
         var expectedConfig = {
             url: 'an/url/to/test',
             width: 200,
-            height: 100
+            height: 100,
+            fitToWidth: false
         };
 
         QUnit.expect(7);
@@ -215,7 +218,8 @@ define([
         var expectedConfig = {
             url: 'an/url/to/test',
             width: 'auto',
-            height: 'auto'
+            height: 'auto',
+            fitToWidth: false
         };
 
         QUnit.expect(13);
@@ -387,7 +391,8 @@ define([
         var expectedConfig = {
             url: 'an/url/to/test',
             width: 200,
-            height: 100
+            height: 100,
+            fitToWidth: false
         };
 
         QUnit.expect(8);
