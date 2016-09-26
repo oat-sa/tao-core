@@ -396,8 +396,8 @@ define([
                                 self.pdf.refresh();
                             });
 
-                            self.controls.navigation.on('click', function (e) {
-                                movePage(Number($(e.target).data('direction')) || 1);
+                            self.controls.navigation.on('click', function () {
+                                movePage(Number($(this).data('direction')) || 1);
                             });
 
                             self.controls.pageNum
