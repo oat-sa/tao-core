@@ -369,6 +369,10 @@ define([
                             // PDF.js installed
                             $element.html($(pdfTpl(self.config)));
 
+                            // Disable the streaming mode: the file needs to be fully loaded before display.
+                            // This will prevent "Bad offset" error under Chrome and IE, but will slow down the first display.
+                            pdfjs.PDFJS.disableRange = true;
+
                             self.controls = {
                                 bar: $element.find('.pdf-bar'),
                                 navigation: $element.find('.navigation'),
