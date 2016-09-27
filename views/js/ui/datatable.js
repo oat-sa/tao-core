@@ -175,7 +175,6 @@ define([
                 _.pick(options, ['rows', 'page', 'sortby', 'sortorder', 'filterquery', 'filtercolumns']),
                 options.params || {}
             );
-            debugger;
             var ajaxConfig = {
                 url: options.url,
                 data: parameters,
