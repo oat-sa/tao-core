@@ -22,10 +22,10 @@ define([
     'jquery',
     'core/promise',
     'core/requireIfExists',
+    'ui/documentViewer/providers/pdfViewer/fallback/wrapper',
     'tpl!ui/documentViewer/providers/pdfViewer/viewer',
-    'tpl!ui/documentViewer/providers/pdfViewer/pdf',
-    'tpl!ui/documentViewer/providers/pdfViewer/fallback'
-], function ($, Promise, requireIfExists, viewerTpl, pdfTpl, fallbackTpl) {
+    'tpl!ui/documentViewer/providers/pdfViewer/pdf'
+], function ($, Promise, requireIfExists, fallbackFactory, viewerTpl, pdfTpl) {
     'use strict';
 
     /**
@@ -362,76 +362,64 @@ define([
             // try to load the  PDF.js lib, otherwise fallback to the browser native handling
             return requireIfExists('pdfjs-dist/build/pdf')
                 .then(function (pdfjs) {
-                    return new Promise(function (resolve) {
-                        var $element = self.getElement();
+                    var $element = self.getElement();
 
-                        if (pdfjs) {
-                            // PDF.js installed
-                            $element.html($(pdfTpl(self.config)));
+                    if (pdfjs) {
+                        // PDF.js installed
+                        $element.html($(pdfTpl(self.config)));
 
-                            self.controls = {
-                                bar: $element.find('.pdf-bar'),
-                                navigation: $element.find('.navigation'),
-                                container: $element.find('.pdf-container'),
-                                pagePrev: $element.find('[data-control="pdf-page-prev"]'),
-                                pageNext: $element.find('[data-control="pdf-page-next"]'),
-                                pageNum: $element.find('[data-control="pdf-page-num"]'),
-                                pageCount: $element.find('[data-control="pdf-page-count"]'),
-                                fitToWidth: $element.find('[data-control="fit-to-width"]'),
-                                content: $element.find('[data-control="pdf-content"]')
-                            };
+                        self.controls = {
+                            bar: $element.find('.pdf-bar'),
+                            navigation: $element.find('.navigation'),
+                            container: $element.find('.pdf-container'),
+                            pagePrev: $element.find('[data-control="pdf-page-prev"]'),
+                            pageNext: $element.find('[data-control="pdf-page-next"]'),
+                            pageNum: $element.find('[data-control="pdf-page-num"]'),
+                            pageCount: $element.find('[data-control="pdf-page-count"]'),
+                            fitToWidth: $element.find('[data-control="fit-to-width"]'),
+                            content: $element.find('[data-control="pdf-content"]')
+                        };
 
-                            self.pdf = pdfViewer(pdfjs, self.controls.content, self.config);
+                        self.pdf = pdfViewer(pdfjs, self.controls.content, self.config);
 
-                            self.setSize($element.width(), $element.height());
+                        self.setSize($element.width(), $element.height());
 
-                            disable();
+                        disable();
 
-                            self.controls.fitToWidth.on('change', function () {
-                                self.config.fitToWidth = self.controls.fitToWidth.is(':checked');
-                                self.pdf.refresh();
+                        self.controls.fitToWidth.on('change', function () {
+                            self.config.fitToWidth = self.controls.fitToWidth.is(':checked');
+                            self.pdf.refresh();
+                        });
+
+                        self.controls.navigation.on('click', function (e) {
+                            movePage(Number($(e.target).data('direction')) || 1);
+                        });
+
+                        self.controls.pageNum
+                            .on('change', function () {
+                                jumpPage(Number(self.controls.pageNum.val()) || self.pdf.getPage());
+                            })
+                            .on('keydown', function (event) {
+                                switch (event.keyCode) {
+                                    case 38:
+                                        movePage(1);
+                                        event.stopPropagation();
+                                        event.preventDefault();
+                                        break;
+
+                                    case 40:
+                                        movePage(-1);
+                                        event.stopPropagation();
+                                        event.preventDefault();
+                                        break;
+                                }
                             });
 
-                            self.controls.navigation.on('click', function (e) {
-                                movePage(Number($(e.target).data('direction')) || 1);
-                            });
-
-                            self.controls.pageNum
-                                .on('change', function () {
-                                    jumpPage(Number(self.controls.pageNum.val()) || self.pdf.getPage());
-                                })
-                                .on('keydown', function (event) {
-                                    switch (event.keyCode) {
-                                        case 38:
-                                            movePage(1);
-                                            event.stopPropagation();
-                                            event.preventDefault();
-                                            break;
-
-                                        case 40:
-                                            movePage(-1);
-                                            event.stopPropagation();
-                                            event.preventDefault();
-                                            break;
-                                    }
-                                });
-
-                            self.pdf.load(self.getUrl()).then(resolve);
-                        } else {
-                            // Browser native behavior fallback
-                            $element.html($(fallbackTpl()));
-
-                            self.controls = {
-                                viewer: $element.find('iframe')
-                            };
-
-                            self.setSize($element.width(), $element.height());
-
-                            self.controls.viewer
-                                .on('load.provider', resolve)
-                                .attr('src', self.getUrl());
-                        }
-                    });
+                        return self.pdf.load(self.getUrl());
+                    } else {
+                        self.fallback = fallbackFactory($element);
+                        return self.fallback.load(self.getUrl());
+                    }
                 })
                 .then(function () {
                     var $element = self.getElement();
@@ -451,6 +439,10 @@ define([
         unload: function unload() {
             if (this.pdf) {
                 this.pdf.destroy();
+            }
+
+            if (this.fallback) {
+                this.fallback.unload();
             }
 
             if (this.is('rendered')) {
@@ -474,9 +466,8 @@ define([
                 this.controls.bar.width(width);
                 this.controls.container.width(width).height(contentHeight);
                 return this.pdf.setSize(width, contentHeight);
-            } else if (this.controls.viewer) {
-                // the browser will adjust the PDF
-                this.controls.viewer.width(width).height(height);
+            } else if (this.fallback) {
+                this.fallback.setSize(width, height);
             }
         }
     };

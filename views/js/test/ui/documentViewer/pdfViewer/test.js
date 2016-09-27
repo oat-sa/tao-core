@@ -67,7 +67,7 @@ define([
 
             viewerFactory('pdf', {
                 type: 'pdf',
-                url: location.href.replace('test.html', 'demo.pdf')
+                url: location.href.replace('/pdfViewer/test.html', '/sample/demo.pdf')
             })
                 .on('initialized', function () {
                     assert.ok(true, 'The viewer is initialized');
@@ -84,7 +84,7 @@ define([
 
             viewerFactory('pdf', {
                 type: 'pdf',
-                url: location.href.replace('test.html', 'demo.pdf')
+                url: location.href.replace('/pdfViewer/test.html', '/sample/demo.pdf')
             })
                 .on('initialized', function () {
                     assert.ok(true, 'The viewer is initialized');
