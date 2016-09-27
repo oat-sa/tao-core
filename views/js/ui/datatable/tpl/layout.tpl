@@ -56,7 +56,7 @@
                             {{#if customFilter}} customInput" >
                                 {{{customFilter.template}}}
                             {{else}} ">
-                                <input type="text" value="" name="filter" placeholder="{{#if filterable.placeholder}}{{filterable.placeholder}}{{else}}{{__ 'Filter'}}{{/if}}">
+                                <input type="text" value="" name="filter[{{id}}]" placeholder="{{filterable.placeholder}}">
                                 <button class="icon-find" type="button"></button>
                             {{/if}}
                         </aside>
