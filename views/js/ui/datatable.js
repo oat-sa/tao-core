@@ -580,7 +580,7 @@ define([
             var options = $elt.data(dataNs);
             var data = filterStrategy.getQueryData($elt, $filter, options);
             options.page = 1;
-            $elt.data(dataNs, _.merge(options, data));
+            $elt.data(dataNs, _.assign(options, data));
 
             /**
              * @event dataTable#filter.datatable
