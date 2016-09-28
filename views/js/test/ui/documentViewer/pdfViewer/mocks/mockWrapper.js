@@ -44,7 +44,7 @@ define([
              * Gets the PDF document
              * @returns {Object}
              */
-            getPdfDoc: function getPdfDoc() {
+            getDocument: function getDocument() {
                 return pdfDoc;
             },
 

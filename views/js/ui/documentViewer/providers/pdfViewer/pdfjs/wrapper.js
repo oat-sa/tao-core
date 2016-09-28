@@ -196,31 +196,34 @@ define([
             if (pdfDoc) {
                 setState('rendered', false);
                 setState('rendering', true);
+
                 if (!pageRendering) {
-                    pageRendering = pdfDoc.getPage(num)
-                        .then(function (page) {
-                            var viewport = page.getViewport(scale * CSS_UNITS);
-                            var renderContext = {
-                                canvasContext: ctx,
-                                viewport: viewport
-                            };
+                    pageRendering = pdfDoc.getPage(num).then(function (page) {
+                        var viewport = page.getViewport(scale * CSS_UNITS);
+                        var renderContext = {
+                            canvasContext: ctx,
+                            viewport: viewport
+                        };
 
-                            resizeCanvas(viewport);
+                        resizeCanvas(viewport);
 
-                            return page.render(renderContext).promise.then(function () {
-                                var nextPage = pageNumPending;
-                                pageNumPending = null;
-                                pageRendering = null;
-                                setState('rendered', true);
-                                setState('rendering', false);
-                                if (nextPage !== null) {
-                                    return renderPage(nextPage);
-                                }
-                            });
+                        return page.render(renderContext).promise.then(function () {
+                            var nextPage = pageNumPending;
+                            pageNumPending = null;
+                            pageRendering = null;
+
+                            setState('rendered', true);
+                            setState('rendering', false);
+
+                            if (nextPage !== null) {
+                                return renderPage(nextPage);
+                            }
                         });
+                    });
                 } else {
                     pageNumPending = num;
                 }
+
                 return pageRendering;
             } else {
                 return Promise.resolve(num);
@@ -257,7 +260,7 @@ define([
              * Gets the PDF document
              * @returns {Object}
              */
-            getPdfDoc: function getPdfDoc() {
+            getDocument: function getDocument() {
                 return pdfDoc;
             },
 

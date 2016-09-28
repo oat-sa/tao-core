@@ -59,7 +59,7 @@ define([
         assert.equal(typeof instance, 'object', "The PDF.js Wrapper factory provides an object");
         assert.equal(typeof instance.load, 'function', "The PDF.js Wrapper instance exposes a function load()");
         assert.equal(typeof instance.getState, 'function', "The PDF.js Wrapper instance exposes a function getState()");
-        assert.equal(typeof instance.getPdfDoc, 'function', "The PDF.js Wrapper instance exposes a function getPdfDoc()");
+        assert.equal(typeof instance.getDocument, 'function', "The PDF.js Wrapper instance exposes a function getDocument()");
         assert.equal(typeof instance.getPageCount, 'function', "The PDF.js Wrapper instance exposes a function getPageCount()");
         assert.equal(typeof instance.getPage, 'function', "The PDF.js Wrapper instance exposes a function getPage()");
         assert.equal(typeof instance.setPage, 'function', "The PDF.js Wrapper instance exposes a function setPage()");
@@ -98,10 +98,10 @@ define([
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
-            assert.equal(typeof instance.getPdfDoc(), 'object', 'The PDF document is returned');
+            assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
 
             instance.destroy();
-            assert.equal(instance.getPdfDoc(), null, 'The PDF document is destroyed');
+            assert.equal(instance.getDocument(), null, 'The PDF document is destroyed');
 
             QUnit.start();
         });
@@ -128,10 +128,10 @@ define([
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
-            assert.equal(typeof instance.getPdfDoc(), 'object', 'The PDF document is returned');
+            assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
 
             instance.destroy();
-            assert.equal(instance.getPdfDoc(), null, 'The PDF document is destroyed');
+            assert.equal(instance.getDocument(), null, 'The PDF document is destroyed');
 
             QUnit.start();
         });
@@ -158,7 +158,7 @@ define([
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
-            assert.equal(typeof instance.getPdfDoc(), 'object', 'The PDF document is returned');
+            assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
 
             page = count;
             instance.setPage(page).then(function () {
@@ -174,7 +174,7 @@ define([
                         assert.equal(instance.getPage(), page, 'The PDF is still set on the page ' + page);
 
                         instance.destroy();
-                        assert.equal(instance.getPdfDoc(), null, 'The PDF document is destroyed');
+                        assert.equal(instance.getDocument(), null, 'The PDF document is destroyed');
 
                         QUnit.start();
                     });
@@ -219,7 +219,7 @@ define([
 
                 assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
                 assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
-                assert.equal(typeof instance.getPdfDoc(), 'object', 'The PDF document is returned');
+                assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
 
                 instance.setSize(requestedWidth, requestedHeight).then(function () {
 
@@ -244,7 +244,7 @@ define([
                             assert.equal($canvas.height(), expectedHeight, 'The content panel is ' + expectedHeight + ' pixels width');
 
                             instance.destroy();
-                            assert.equal(instance.getPdfDoc(), null, 'The PDF document is destroyed');
+                            assert.equal(instance.getDocument(), null, 'The PDF document is destroyed');
 
                             QUnit.start();
                         });
@@ -285,7 +285,7 @@ define([
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
-            assert.equal(typeof instance.getPdfDoc(), 'object', 'The PDF document is returned');
+            assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
 
             assert.notEqual($canvas.width(), expectedWidth, 'The content panel is not ' + expectedWidth + ' pixels width');
             assert.notEqual($canvas.height(), expectedHeight, 'The content panel is not ' + expectedHeight + ' pixels width');
@@ -307,7 +307,7 @@ define([
                     assert.equal($canvas.height(), expectedHeight, 'The content panel is ' + expectedHeight + ' pixels width');
 
                     instance.destroy();
-                    assert.equal(instance.getPdfDoc(), null, 'The PDF document is destroyed');
+                    assert.equal(instance.getDocument(), null, 'The PDF document is destroyed');
 
                     QUnit.start();
                 });
@@ -336,7 +336,7 @@ define([
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
-            assert.equal(typeof instance.getPdfDoc(), 'object', 'The PDF document is returned');
+            assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
 
             page++;
             instance.setPage(page).then(function () {
@@ -352,7 +352,7 @@ define([
                     instance.refresh().then(function () {
 
                         instance.destroy();
-                        assert.equal(instance.getPdfDoc(), null, 'The PDF document is destroyed');
+                        assert.equal(instance.getDocument(), null, 'The PDF document is destroyed');
 
                         QUnit.start();
                     });
@@ -383,7 +383,7 @@ define([
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
-            assert.equal(typeof instance.getPdfDoc(), 'object', 'The PDF document is returned');
+            assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
 
             promises.push(instance.setPage(page++));
             promises.push(instance.setPage(page++));
@@ -393,7 +393,7 @@ define([
                 assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
 
                 instance.destroy();
-                assert.equal(instance.getPdfDoc(), null, 'The PDF document is destroyed');
+                assert.equal(instance.getDocument(), null, 'The PDF document is destroyed');
 
                 QUnit.start();
             });
