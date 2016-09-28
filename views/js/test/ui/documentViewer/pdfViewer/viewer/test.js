@@ -21,11 +21,10 @@
 define([
     'lodash',
     'core/promise',
-    'core/requireIfExists',
     'ui/documentViewer/viewerFactory',
     'ui/documentViewer/providers/pdfViewer',
     'test/ui/documentViewer/pdfViewer/mocks/mockPdfjs'
-], function (_, Promise, requireIfExists, viewerFactory, pdfViewer, mockPdfjs) {
+], function (_, Promise, viewerFactory, pdfViewer, mockPdfjs) {
     'use strict';
 
     var headless = /PhantomJS/.test(window.navigator.userAgent);
