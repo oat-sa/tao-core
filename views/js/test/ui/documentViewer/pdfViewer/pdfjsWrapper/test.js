@@ -69,7 +69,7 @@ define([
     });
 
 
-    QUnit.module('implementation', {
+    QUnit.module('PDF.js Wrapper implementation', {
         teardown: function () {
             pdfjs.removeAllListeners();
         }

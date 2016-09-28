@@ -52,7 +52,7 @@ define([
     });
 
 
-    QUnit.module('implementation');
+    QUnit.module('pdfViewer PDF.js implementation');
 
 
     QUnit.asyncTest('render', function (assert) {

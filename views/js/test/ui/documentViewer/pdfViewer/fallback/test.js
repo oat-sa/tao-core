@@ -48,7 +48,7 @@ define([
     });
 
 
-    QUnit.module('implementation');
+    QUnit.module('pdfViewer Fallback implementation');
 
 
     QUnit.asyncTest('render', function (assert) {
