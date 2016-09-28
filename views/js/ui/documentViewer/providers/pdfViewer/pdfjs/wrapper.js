@@ -57,13 +57,11 @@ define([
 
     /**
      * Converts a Base64 string to an array of bytes
-     * @param {String} uri
+     * @param {String} data
      * @returns {Uint8Array}
      */
-    function base64toBytes(uri) {
-        var base64Index = uri.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
-        var base64 = uri.substring(base64Index);
-        var raw = window.atob(base64);
+    function base64toBytes(data) {
+        var raw = window.atob(data);
         var rawLength = raw.length;
         var array = new Uint8Array(new ArrayBuffer(rawLength));
 
@@ -80,10 +78,13 @@ define([
      * @returns {String|Uint8Array}
      */
     function processUri(uri) {
-        uri = String(uri);
+        var base64Index;
 
-        if (uri.indexOf(BASE64_MARKER) >= 0) {
-            return base64toBytes(uri);
+        uri = String(uri);
+        base64Index = uri.indexOf(BASE64_MARKER);
+
+        if (base64Index >= 0) {
+            return base64toBytes(uri.substring(base64Index + BASE64_MARKER.length));
         }
 
         return uri;
@@ -123,6 +124,27 @@ define([
         var pixelWidth = 1;
         var pixelHeight = 1;
         var $container = $canvas.parent();
+        var states = {};
+
+        /**
+         * Sets a state
+         * @param {String} name The name of the state to set
+         * @param {Boolean} state The value of the state
+         */
+        function setState(name, state) {
+            states[name] = !!state;
+        }
+
+        /**
+         * Unloads the document and resets the context
+         */
+        function unload() {
+            if (pdfDoc) {
+                pdfDoc.destroy();
+            }
+            pdfDoc = null;
+            states = {};
+        }
 
         /**
          * Resize the viewer according to the document dimensions
@@ -172,6 +194,8 @@ define([
          */
         function renderPage(num) {
             if (pdfDoc) {
+                setState('rendered', false);
+                setState('rendering', true);
                 if (!pageRendering) {
                     pageRendering = pdfDoc.getPage(num)
                         .then(function (page) {
@@ -187,6 +211,8 @@ define([
                                 var nextPage = pageNumPending;
                                 pageNumPending = null;
                                 pageRendering = null;
+                                setState('rendered', true);
+                                setState('rendering', false);
                                 if (nextPage !== null) {
                                     return renderPage(nextPage);
                                 }
@@ -208,12 +234,23 @@ define([
              * @returns {Promise}
              */
             load: function load(url) {
+                unload();
                 return PDFJS.getDocument(processUri(url)).then(function (pdfDoc_) {
                     pdfDoc = pdfDoc_;
                     pageNum = 1;
                     pageCount = pdfDoc.numPages;
+                    setState('loaded', true);
                     return renderPage(pageNum);
                 });
+            },
+
+            /**
+             * Gets a state
+             * @param {String} name The name of the state to get
+             * @returns {Boolean} The value of the state
+             */
+            getState: function getState(name) {
+                return !!states[name];
             },
 
             /**
@@ -281,10 +318,7 @@ define([
              * Liberates the resources
              */
             destroy: function destroy() {
-                if (pdfDoc) {
-                    pdfDoc.destroy();
-                }
-                pdfDoc = null;
+                unload();
             }
         };
     }

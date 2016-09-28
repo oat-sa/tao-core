@@ -25,7 +25,7 @@ define([
 ], function ($, pdfjs, wrapperFactory) {
     'use strict';
 
-    var pdfUrl = location.href.replace('/pdfViewer/fallback/test.html', '/sample/demo.pdf');
+    var pdfUrl = location.href.replace('/pdfViewer/pdfjsWrapper/test.html', '/sample/demo.pdf');
     var base64 = 'data:application/pdf;base64,' +
         'JVBERi0xLjEKJcKlwrHDqwoKMSAwIG9iagogIDw8IC9UeXBlIC9DYXRhbG9nCiAgICAgL1BhZ2Vz' +
         'IDIgMCBSCiAgPj4KZW5kb2JqCgoyIDAgb2JqCiAgPDwgL1R5cGUgL1BhZ2VzCiAgICAgL0tpZHMg' +
@@ -50,7 +50,7 @@ define([
         var config = {};
         var instance;
 
-        QUnit.expect(10);
+        QUnit.expect(11);
 
         assert.equal(typeof wrapperFactory, 'function', "The PDF.js Wrapper module exposes a function");
 
@@ -58,6 +58,7 @@ define([
 
         assert.equal(typeof instance, 'object', "The PDF.js Wrapper factory provides an object");
         assert.equal(typeof instance.load, 'function', "The PDF.js Wrapper instance exposes a function load()");
+        assert.equal(typeof instance.getState, 'function', "The PDF.js Wrapper instance exposes a function getState()");
         assert.equal(typeof instance.getPdfDoc, 'function', "The PDF.js Wrapper instance exposes a function getPdfDoc()");
         assert.equal(typeof instance.getPageCount, 'function', "The PDF.js Wrapper instance exposes a function getPageCount()");
         assert.equal(typeof instance.getPage, 'function', "The PDF.js Wrapper instance exposes a function getPage()");
@@ -69,9 +70,6 @@ define([
 
 
     QUnit.module('implementation', {
-        setup: function () {
-            pdfjs.removeAllListeners();
-        },
         teardown: function () {
             pdfjs.removeAllListeners();
         }
@@ -86,15 +84,17 @@ define([
         var page = 1;
         var count = 3;
 
-        QUnit.expect(5);
+        QUnit.expect(6);
 
         pdfjs.pageCount = count;
 
         instance = wrapperFactory(pdfjs, $canvas, config);
 
+        assert.equal(instance.getState('loaded'), false, 'The PDF is not loaded at this time');
+
         instance.load(pdfUrl).then(function () {
 
-            assert.ok(true, 'The PDF is loaded');
+            assert.ok(instance.getState('loaded'), 'The PDF is loaded');
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
@@ -124,7 +124,7 @@ define([
 
         instance.load(base64).then(function () {
 
-            assert.ok(true, 'The PDF is loaded');
+            assert.ok(instance.getState('loaded'), 'The PDF is loaded');
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
@@ -146,7 +146,7 @@ define([
         var page = 1;
         var count = 3;
 
-        QUnit.expect(8);
+        QUnit.expect(12);
 
         pdfjs.pageCount = count;
 
@@ -154,7 +154,7 @@ define([
 
         instance.load(pdfUrl).then(function () {
 
-            assert.ok(true, 'The PDF is loaded');
+            assert.ok(instance.getState('loaded'), 'The PDF is loaded');
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
@@ -163,6 +163,9 @@ define([
             page = count;
             instance.setPage(page).then(function () {
                 assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
+
+                assert.equal(instance.getState('rendering'), false, 'The PDF is not rendering at this time');
+                assert.equal(instance.getState('rendered'), true, 'The page has been rendered');
 
                 instance.setPage(page).then(function () {
                     assert.equal(instance.getPage(), page, 'The PDF is still set on the page ' + page);
@@ -177,6 +180,9 @@ define([
                     });
                 });
             });
+
+            assert.equal(instance.getState('rendering'), true, 'The PDF is rendering a page');
+            assert.equal(instance.getState('rendered'), false, 'The page is not rendered at this time');
         });
     });
 
@@ -209,7 +215,7 @@ define([
 
             instance.load(pdfUrl).then(function () {
 
-                assert.ok(true, 'The PDF is loaded');
+                assert.ok(instance.getState('loaded'), 'The PDF is loaded');
 
                 assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
                 assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
@@ -275,7 +281,7 @@ define([
 
         instance.load(pdfUrl).then(function () {
 
-            assert.ok(true, 'The PDF is loaded');
+            assert.ok(instance.getState('loaded'), 'The PDF is loaded');
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
@@ -326,7 +332,7 @@ define([
 
         instance.load(pdfUrl).then(function () {
 
-            assert.ok(true, 'The PDF is loaded');
+            assert.ok(instance.getState('loaded'), 'The PDF is loaded');
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
@@ -373,7 +379,7 @@ define([
 
         instance.load(pdfUrl).then(function () {
 
-            assert.ok(true, 'The PDF is loaded');
+            assert.ok(instance.getState('loaded'), 'The PDF is loaded');
 
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');

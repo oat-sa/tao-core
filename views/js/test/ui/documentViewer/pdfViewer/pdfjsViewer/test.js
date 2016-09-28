@@ -26,7 +26,7 @@ define([
 ], function ($, keystroker, wrapperFactory, viewerFactory) {
     'use strict';
 
-    var pdfUrl = location.href.replace('/pdfViewer/fallback/test.html', '/sample/demo.pdf');
+    var pdfUrl = location.href.replace('/pdfViewer/pdfjsViewer/test.html', '/sample/demo.pdf');
     var pdfjsMock = {
         PDFJS: {}
     };
