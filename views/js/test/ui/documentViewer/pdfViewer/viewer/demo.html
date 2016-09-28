@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Demo - PDF Viewer</title>
-    <base href="../../../../../"/>
+    <base href="../../../../../../"/>
+    <link rel="stylesheet" type="text/css" href="css/tao-main-style.css"/>
     <script type="text/javascript" src="js/lib/require.js"></script>
 
     <style>
@@ -34,10 +35,8 @@
                 viewerFactory.registerProvider('pdf', pdfViewer);
                 viewerFactory('pdf', {
                     type: 'pdf',
-                    url: location.href.replace('/pdfViewer/demo.html', '/sample/demo.pdf'),
-                    renderTo: '#demo',
-		    width : 340,
-                    height : 500
+                    url: location.href.replace('/pdfViewer/viewer/demo.html', '/sample/demo.pdf'),
+                    renderTo: '#demo'
                 });
             });
         });

@@ -27,6 +27,7 @@ define([
     'use strict';
 
     var headless = /PhantomJS/.test(window.navigator.userAgent);
+    var pdfUrl = location.href.replace('/pdfViewer/viewer/test.html', '/sample/demo.pdf');
 
     QUnit.module('pdfViewer factory', {
         teardown: function () {
@@ -67,7 +68,7 @@ define([
 
             viewerFactory('pdf', {
                 type: 'pdf',
-                url: location.href.replace('/pdfViewer/test.html', '/sample/demo.pdf')
+                url: pdfUrl
             })
                 .on('initialized', function () {
                     assert.ok(true, 'The viewer is initialized');
@@ -84,7 +85,7 @@ define([
 
             viewerFactory('pdf', {
                 type: 'pdf',
-                url: location.href.replace('/pdfViewer/test.html', '/sample/demo.pdf')
+                url: pdfUrl
             })
                 .on('initialized', function () {
                     assert.ok(true, 'The viewer is initialized');

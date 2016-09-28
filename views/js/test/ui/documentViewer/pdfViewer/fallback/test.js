@@ -20,10 +20,8 @@
  */
 define([
     'jquery',
-    'lodash',
-    'core/promise',
-    'ui/documentViewer/providers/pdfViewer/fallback/wrapper'
-], function ($, _, Promise, fallbackFactory) {
+    'ui/documentViewer/providers/pdfViewer/fallback/viewer'
+], function ($, fallbackFactory) {
     'use strict';
 
     var headless = /PhantomJS/.test(window.navigator.userAgent);
@@ -63,15 +61,15 @@ define([
         function checkRenderedStuff() {
             assert.equal($container.find('iframe').length, 1, 'An iframe has been added to the container');
             assert.equal($container.find('iframe').attr('src'), pdfUrl, 'The iframe targets the right file');
-            assert.notEqual($container.children().length, 0, 'The container contains any children');
+            assert.notEqual($container.children().length, 0, 'The container contains some children');
 
-            assert.notEqual($container.find('iframe').width(), expectedWidth, 'The iframe is not 100 pixels width');
-            assert.notEqual($container.find('iframe').height(), expectedHeight, 'The iframe is not 100 pixels height');
+            assert.notEqual($container.find('iframe').width(), expectedWidth, 'The iframe is not ' + expectedWidth + ' pixels width');
+            assert.notEqual($container.find('iframe').height(), expectedHeight, 'The iframe is not ' + expectedHeight + ' pixels height');
 
             instance.setSize(expectedWidth, expectedHeight);
 
-            assert.equal($container.find('iframe').width(), expectedWidth, 'The iframe is now 100 pixels width');
-            assert.equal($container.find('iframe').height(), expectedHeight, 'The iframe is now 100 pixels height');
+            assert.equal($container.find('iframe').width(), expectedWidth, 'The iframe is now ' + expectedWidth + ' pixels width');
+            assert.equal($container.find('iframe').height(), expectedHeight, 'The iframe is now ' + expectedHeight + ' pixels height');
 
             instance.unload();
 
@@ -94,7 +92,7 @@ define([
             checkRenderedStuff();
             QUnit.start();
         } else {
-            promise.then(function() {
+            promise.then(function () {
                 assert.ok(true, 'The PDF file has been loaded');
                 checkRenderedStuff();
                 QUnit.start();

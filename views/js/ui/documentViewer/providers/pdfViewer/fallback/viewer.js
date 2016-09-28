@@ -21,17 +21,17 @@
 define([
     'jquery',
     'core/promise',
-    'tpl!ui/documentViewer/providers/pdfViewer/fallback/wrapper'
-], function ($, Promise, wrapperTpl) {
+    'tpl!ui/documentViewer/providers/pdfViewer/fallback/viewer'
+], function ($, Promise, viewerTpl) {
     'use strict';
 
     /**
      * Wraps the component that use the native PDF viewer provided by the browser.
      * @param {jQuery} $container
-     * @returns {*}
+     * @returns {Object}
      */
-    function fallbackWrapperFactory($container) {
-        var wrapper = wrapperTpl();
+    function fallbackViewerFactory($container) {
+        var template = viewerTpl();
         var $viewer = null;
 
         return {
@@ -41,8 +41,8 @@ define([
              * @returns {Promise}
              */
             load: function load(url) {
-                return new Promise(function(resolve) {
-                    $viewer = $container.html(wrapper).find('iframe');
+                return new Promise(function (resolve) {
+                    $viewer = $container.html(template).find('iframe');
                     $viewer
                         .one('load.provider', resolve)
                         .attr('src', url);
@@ -71,5 +71,5 @@ define([
         };
     }
 
-    return fallbackWrapperFactory;
+    return fallbackViewerFactory;
 });

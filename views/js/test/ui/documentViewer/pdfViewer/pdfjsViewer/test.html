@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Test - PDF Viewer - Fallback</title>
+    <title>Test - PDF Viewer - PDF.js</title>
     <base href="../../../../../../"/>
     <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
     <script type="text/javascript" src="js/lib/require.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-    <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="pdfViewer/fallback/viewer.js"></script>
+    <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="pdfViewer/pdfjs/viewer.js"></script>
 
     <script  type="text/javascript">
 
@@ -18,8 +18,15 @@
         //load the config
         require(['/tao/ClientConfig/config'], function(){
 
+            //force path for mocked modules
+            requirejs.config({
+                "paths": {
+                    "ui/documentViewer/providers/pdfViewer/pdfjs/wrapper" : "test/ui/documentViewer/pdfViewer/pdfjsViewer/mockWrapper"
+                }
+            });
+
             //load the test
-            require(['tao/test/ui/documentViewer/pdfViewer/fallback/test'], function(){
+            require(['tao/test/ui/documentViewer/pdfViewer/pdfjsViewer/test'], function(){
 
                 //Tests loaded, run tests
                 QUnit.start();
