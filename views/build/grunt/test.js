@@ -1,17 +1,17 @@
 module.exports = function(grunt) {
     'use strict';
 
-    var root        = grunt.option('root');
-    var testPort    = grunt.option('testPort');
-    var testUrl     = grunt.option('testUrl');
-    var reportOutput= grunt.option('reports');
-    var ext         = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
-    var fs          = require('fs');
-    var path        = require('path');
+    var root           = grunt.option('root');
+    var testPort       = grunt.option('testPort');
+    var testUrl        = grunt.option('testUrl');
+    var livereloadPort = grunt.option('livereloadPort');
+    var reportOutput   = grunt.option('reports');
+    var ext            = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
+    var fs             = require('fs');
+    var path           = require('path');
+    var baseUrl        = 'http://' + testUrl + ':' + testPort;
+    var testRunners    = root + '/tao/views/js/test/**/test.html';
 
-    var baseUrl     = 'http://' + testUrl + ':' + testPort;
-
-    var testRunners = root + '/tao/views/js/test/**/test.html';
 
     //extract unit tests  from FS to URL
     var extractTests = function extractTests(){
@@ -119,7 +119,7 @@ module.exports = function(grunt) {
             },
             dev : {
                 options : {
-                    livereload: true
+                    livereload: livereloadPort
                 }
             }
         }

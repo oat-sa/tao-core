@@ -1,6 +1,8 @@
 module.exports = function(grunt) {
     'use strict';
 
+    var livereloadPort = grunt.option('livereloadPort');
+
     grunt.config.merge({
         sass : {
             options : {
@@ -28,7 +30,7 @@ module.exports = function(grunt) {
 
         watch: {
             options: {
-                livereload: true
+                livereload: livereloadPort
             },
             taosass : {
                 files : ['../scss/*.scss', '../scss/**/*.scss', '../js/lib/jsTree/**/*.scss'],

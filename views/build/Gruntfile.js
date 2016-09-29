@@ -14,6 +14,7 @@ module.exports = function(grunt) {
     var reportOutput        = grunt.option('reports') || 'reports';                     //where reports are saved
     var testUrl             = grunt.option('testUrl') || '127.0.0.1';                   //the port to run test web server, override with "--testPort value" to CLI if needed
     var testPort            = grunt.option('testPort') || 8082;                         //the port to run test web server, override with "--testPort value" to CLI if needed
+    var livereloadPort      = parseInt(grunt.option('livereloadPort'), 10) || true;     //the livereload port, override with "--livereloadPort 35729" to CLI if needed
 
     var sassTasks   = [];
     var bundleTasks = [];
@@ -47,6 +48,7 @@ module.exports = function(grunt) {
     grunt.option('testPort', testPort);
     grunt.option('testUrl', testUrl);
     grunt.option('reports', reportOutput);
+    grunt.option('livereloadPort', livereloadPort);
 
     //track build time
     require('time-grunt')(grunt);
