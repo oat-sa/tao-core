@@ -92,20 +92,24 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
             Argument::type('string'),
             Argument::type('string')
         )->shouldBeCalledTimes(count($filters));
-        $queryProphecy->sort(Argument::any())->shouldBeCalledTimes(1);
-        $queryProphecy->setLimit(Argument::type('integer'))->shouldBeCalledTimes(1);
-        $queryProphecy->setOffset(Argument::type('integer'))->shouldBeCalledTimes(1);
+//        $queryProphecy->sort(Argument::any())->shouldBeCalledTimes(1);
+//        $queryProphecy->setLimit(Argument::type('integer'))->shouldBeCalledTimes(1);
+//        $queryProphecy->setOffset(Argument::type('integer'))->shouldBeCalledTimes(1);
 
         $queryMock = $queryProphecy->reveal();
 
         $queryBuilderProphecy = $this->prophesize('\oat\search\QueryBuilder');
         $queryBuilderProphecy->setCriteria($queryMock)->shouldBeCalledTimes(count($filters));
+        $queryBuilderProphecy->sort(Argument::any())->shouldBeCalledTimes(1);
+        $queryBuilderProphecy->setLimit(Argument::type('integer'))->shouldBeCalledTimes(1);
+        $queryBuilderProphecy->setOffset(Argument::type('integer'))->shouldBeCalledTimes(1);
         $queryBuilderMock = $queryBuilderProphecy->reveal();
 
 
-        $resultProphecy = $this->prophesize('\oat\search\base\ResultSetInterface');
+        $resultProphecy = $this->prophesize('\oat\generis\model\kernel\persistence\smoothsql\search\TaoResultSet');
         $resultProphecy->count()->willReturn(1)->shouldBeCalledTimes(1);
         $resultProphecy->total()->willReturn(2)->shouldBeCalledTimes(1);
+        $resultProphecy->getArrayCopy()->willReturn([])->shouldBeCalledTimes(1);
         $result = $resultProphecy->reveal();
 
         $gatewayProphecy = $this->prophesize('\oat\search\TaoSearchGateWay');

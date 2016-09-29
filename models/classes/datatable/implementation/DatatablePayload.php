@@ -101,16 +101,16 @@ abstract class DatatablePayload implements DatatablePayloadInterface, ServiceLoc
             }
         }
 
-        $query->sort($this->map([$sortBy => $sortOrder]));
-        $query->setLimit($rows);
-        $query->setOffset(($page - 1) * $rows);
+        $queryBuilder->sort($this->map([$sortBy => $sortOrder]));
+        $queryBuilder->setLimit($rows);
+        $queryBuilder->setOffset(($page - 1) * $rows);
 
         $queryBuilder->setCriteria($query);
 
         $result = $search->getGateway()->search($queryBuilder);
 
         return [
-            'data' => $result,
+            'data' => $result->getArrayCopy(),
             'page' => $page,
             'records' => $result->count(),
             'total' => $result->total(),

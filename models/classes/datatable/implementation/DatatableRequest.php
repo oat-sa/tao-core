@@ -34,7 +34,7 @@ class DatatableRequest implements DatatableRequestInterface
     const DEFAULT_ROWS = 25;
     const DEFAULT_PAGE = 1;
     const DEFAULT_SORT_BY = null;
-    const DEFAULT_SORT_ORDER = 'ASC';
+    const DEFAULT_SORT_ORDER = 'asc';
     const DEFAULT_FILTERS = [];
 
     /**
@@ -95,9 +95,9 @@ class DatatableRequest implements DatatableRequestInterface
     {
         $sortOrder = isset($this->requestParams[self::PARAM_SORT_ORDER]) ?
             $this->requestParams[self::PARAM_SORT_ORDER] : self::DEFAULT_SORT_ORDER;
-        $sortOrder = mb_strtoupper($sortOrder);
+        $sortOrder = mb_strtolower($sortOrder);
 
-        if (!in_array($sortOrder, ['ASC', 'DESC'])) {
+        if (!in_array($sortOrder, ['asc', 'desc'])) {
             $sortOrder = self::DEFAULT_SORT_ORDER;
         }
 
