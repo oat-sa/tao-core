@@ -21,12 +21,13 @@ namespace oat\tao\model\datatable\implementation;
 
 use oat\tao\model\datatable\DatatablePayload as DatatablePayloadInterface;
 use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
-use oat\tao\model\datatable\implementation\DatatableRequest;
 use oat\oatbox\service\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\helper\SupportedOperatorHelper;
+use oat\search\base\QueryBuilderInterface;
+use oat\generis\model\kernel\persistence\smoothsql\search\TaoResultSet;
 
 /**
  * Interface DatatablePayload
@@ -50,11 +51,11 @@ abstract class DatatablePayload implements DatatablePayloadInterface, ServiceLoc
     public function __construct(DatatableRequestInterface $request = null)
     {
         $this->setServiceLocator(ServiceManager::getServiceManager());
-        
+
         if ($request === null) {
             $request = DatatableRequest::fromGlobals();
         }
-        
+
         $this->request = $request;
     }
 
@@ -63,8 +64,8 @@ abstract class DatatablePayload implements DatatablePayloadInterface, ServiceLoc
      * Example:
      * ```php
      * [
-     *    'http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'firstname'
-     *    'http://www.tao.lu/Ontologies/generis.rdf#userLastName' => 'lastname'
+     *    'firstname' => 'http://www.tao.lu/Ontologies/generis.rdf#userFirstName',
+     *    'lastname' => 'http://www.tao.lu/Ontologies/generis.rdf#userLastName',
      * ]
      * ```
      * @return array
@@ -72,49 +73,26 @@ abstract class DatatablePayload implements DatatablePayloadInterface, ServiceLoc
     abstract protected function getPropertiesMap();
 
     /**
-     * Get uri of class in which search should be done. 
+     * Get uri of class in which search should be done.
      * @return string
      */
     abstract protected function getType();
 
     /**
-     * Template method to find data
+     * Template method to find data.
+     * Any step (such as filtration, pagination, sorting e.t.c. can be changed in concrete class).
      */
     public function getPayload()
     {
-        $filters = $this->map($this->getFilters());
-        $page = $this->getPage();
-        $rows = $this->getRows();
-        $sortBy = $this->getSortBy();
-        $sortOrder = $this->getSortOrder();
+        $queryBuilder = $this->getSearchService()->query();
 
-        $search = $this->getSearchService();
+        $this->doFiltration($queryBuilder);
+        $this->doPagination($queryBuilder);
+        $this->doSorting($queryBuilder);
+        $searchResult = $this->doSearch($queryBuilder);
+        $result = $this->doPostProcessing($searchResult);
 
-        $queryBuilder = $search->query();
-        $query = $search->searchType($queryBuilder, $this->getType(), true);
-
-        foreach ($filters as $filterProp => $filterVal) {
-            if (is_string($filterVal)) {
-                $query->addCriterion($filterProp, SupportedOperatorHelper::CONTAIN, $filterVal);
-            } else if (is_array($filterVal)) {
-                $query->addCriterion($filterProp, SupportedOperatorHelper::IN, $filterVal);
-            }
-        }
-
-        $queryBuilder->sort($this->map([$sortBy => $sortOrder]));
-        $queryBuilder->setLimit($rows);
-        $queryBuilder->setOffset(($page - 1) * $rows);
-
-        $queryBuilder->setCriteria($query);
-
-        $result = $search->getGateway()->search($queryBuilder);
-
-        return [
-            'data' => $result->getArrayCopy(),
-            'page' => $page,
-            'records' => $result->count(),
-            'total' => $result->total(),
-        ];
+        return $result;
     }
 
     /**
@@ -123,6 +101,76 @@ abstract class DatatablePayload implements DatatablePayloadInterface, ServiceLoc
     protected function getFilters()
     {
         return $this->request->getFilters();
+    }
+
+    /**
+     * Apply filters to search query
+     * @param QueryBuilderInterface $queryBuilder
+     */
+    protected function doFiltration(QueryBuilderInterface $queryBuilder)
+    {
+        $search = $this->getSearchService();
+
+        $filters = $this->map($this->getFilters());
+        $query = $search->searchType($queryBuilder, $this->getType(), true);
+
+        foreach ($filters as $filterProp => $filterVal) {
+            if (is_string($filterVal)) {
+                $query->addCriterion($filterProp, SupportedOperatorHelper::CONTAIN, $filterVal);
+            } else {
+                if (is_array($filterVal)) {
+                    $query->addCriterion($filterProp, SupportedOperatorHelper::IN, $filterVal);
+                }
+            }
+        }
+
+        $queryBuilder->setCriteria($query);
+    }
+
+    /**
+     * @param QueryBuilderInterface $queryBuilder
+     */
+    protected function doPagination(QueryBuilderInterface $queryBuilder)
+    {
+        $rows = $this->getRows();
+        $page = $this->getPage();
+        $queryBuilder->setLimit($rows);
+        $queryBuilder->setOffset(($page - 1) * $rows);
+    }
+
+    /**
+     * @param QueryBuilderInterface $queryBuilder
+     */
+    protected function doSorting(QueryBuilderInterface $queryBuilder)
+    {
+        $sortBy = $this->getSortBy();
+        $sortOrder = $this->getSortOrder();
+        $queryBuilder->sort($this->map([$sortBy => $sortOrder]));
+    }
+
+    /**
+     * @param QueryBuilderInterface $queryBuilder
+     * @return ArrayIterator search result
+     */
+    protected function doSearch(QueryBuilderInterface $queryBuilder)
+    {
+        return $this->getSearchService()->getGateway()->search($queryBuilder);
+    }
+
+    /**
+     * @param TaoResultSet $result
+     * @return array
+     */
+    protected function doPostProcessing(TaoResultSet $result)
+    {
+        $payload = [
+            'data' => $result->getArrayCopy(),
+            'page' => (integer) $this->getPage(),
+            'records' => (integer) $result->count(),
+            'total' => ceil($result->total() / $this->getRows()),
+        ];
+
+        return $this->fetchPropertyValues($payload);
     }
 
     /**
@@ -194,10 +242,38 @@ abstract class DatatablePayload implements DatatablePayloadInterface, ServiceLoc
         return $data;
     }
 
-    
+    /**
+     * Fetch all the values of properties listed in properties map
+     *
+     * @param $payload
+     * @return mixed
+     * @throws \common_exception_InvalidArgumentType
+     */
+    protected function fetchPropertyValues($payload)
+    {
+        $propertyMap = $this->getPropertiesMap();
+        $data = [];
+        foreach ($payload['data'] as $resource) {
+            $resource = new \core_kernel_classes_Resource($resource->subject);
+            $resourceData = $resource->getPropertiesValues($propertyMap);
+            $studentInfo = array_map(function($row) use($resourceData) {
+                return join(',', $resourceData[$row]);
+            }, $propertyMap);
+
+            $studentInfo['uri'] = $resource->getUri();
+            $studentInfo['id'] = \tao_helpers_Uri::encode($resource->getUri());
+            $data[] = $studentInfo;
+        }
+        $payload['data'] = $data;
+
+        return $payload;
+    }
+
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
-        // TODO: Implement jsonSerialize() method.
+        return $this->getPayload();
     }
-    
 }
