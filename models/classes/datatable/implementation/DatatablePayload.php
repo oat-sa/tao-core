@@ -173,18 +173,16 @@ abstract class DatatablePayload implements DatatablePayloadInterface, ServiceLoc
      * ```php
      * $studentCsvMapper->map(['fname' => 'john']);
      * // ['http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'john']
-     *
-     * Elements which is not represented in the static::$map array will be removed.
-     *
+     * ```
      * @param array $filter
      * @return array
      */
     protected function map($filter)
     {
         $data = [];
-
+        $map = $this->getPropertiesMap();
         foreach ($filter as $key => $val) {
-            $newKey = array_search($key, $this->getPropertiesMap());
+            $newKey = isset($map[$key]) ? $map[$key] : false;
 
             if ($newKey !== false) {
                 $data[$newKey] = $val;
