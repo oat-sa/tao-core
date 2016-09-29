@@ -112,8 +112,7 @@ define([
             return this.each(function() {
                 var $elt = $(this);
                 var currentOptions = $elt.data(dataNs);
-
-
+                
                 if (!currentOptions) {
                     //add data to the element
                     $elt.data(dataNs, options);

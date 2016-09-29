@@ -24,9 +24,10 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'core/providerRegistry',
     'ui/datatable/filterStrategy/multiple',
     'ui/datatable/filterStrategy/single',
-], function ($, _, __, multipleStrategy, singleStrategy) {
+], function ($, _, __, providerRegistry, multipleStrategy, singleStrategy) {
     'use strict';
 
     /**
@@ -41,7 +42,8 @@ define([
              * Init filter strategy
              */
             init : function init() {
-                strategy = getStrategy(datatableOptions);
+                var strategyId = datatableOptions.filterStrategy || 'single';
+                strategy = filterStrategy.getProvider(strategyId);
                 return this;
             },
             /**
@@ -61,32 +63,10 @@ define([
         return filter.init();
     }
 
-    /**
-     * Get filter strategy implementation
-     * @private
-     * @param {object} options - options
-     * @returns {object} - filter implementation
-     */
-    function getStrategy(options) {
-        var strategyId = options.filterStrategy || 'single';
-        var strategy;
+    var filter = providerRegistry(filterStrategy);
 
-        switch (strategyId) {
-            case 'single' :
-                strategy = singleStrategy;
-                break;
-            case 'multiple' :
-                strategy = multipleStrategy;
-                break;
-        }
+    filter.registerProvider('single', singleStrategy);
+    filter.registerProvider('multiple', multipleStrategy);
 
-        if (!strategy) {
-            throw new TypeError('Filter strategy ' + strategyId + ' does not exist.');
-        }
-
-        return strategy(options);
-    }
-
-
-    return filterStrategy;
+    return filter;
 });

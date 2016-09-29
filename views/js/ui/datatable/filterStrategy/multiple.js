@@ -27,55 +27,49 @@ define([
 ], function ($, _, __) {
     'use strict';
 
-    /**
-     */
-    function singleFilterStrategy(options) {
+    var filter = {
+        init : function () {},
+        /**
+         * @param {jQuery} $table - table element
+         * @param {jQuery} $filter - filter input
+         * @param {object} options - datatable options
+         */
+        getQueryData : function getQueryData($table, $filter, options) {
+            var data = {filtercolumns : {}};
 
-        var filter = {
-            /**
-             * @param {jQuery} $table - table element
-             * @param {jQuery} $filter - filter input
-             * @param {object} options - datatable options
-             */
-            getQueryData : function getQueryData($table, $filter, options) {
-                var data = {filtercolumns : {}};
+            _.forEach($('.filter', $table), function (filter) {
+                var $filter = $(filter);
+                var $filterInput = $('select, input', $filter);
+                var name = $filterInput.attr('name').replace(/^filter\[(.+)\]$/, '$1');
+                if ($filterInput.val()) {
+                    data.filtercolumns[name] = $filterInput.val();
+                }
+            });
 
-                _.forEach($('.filter', $table), function (filter) {
-                    var $filter = $(filter);
-                    var $filterInput = $('select, input', $filter);
-                    var name = $filterInput.attr('name').replace(/^filter\[(.+)\]$/, '$1');
-                    if ($filterInput.val()) {
-                        data.filtercolumns[name] = $filterInput.val();
-                    }
+            return data;
+        },
+        render : function render($table, options) {
+            _.forEach($('.filter', $table), function (filter) {
+                var $filter = $(filter);
+                var column = $filter.data('column');
+                var $filterInput = $('select, input', $filter);
+                var model = _.find(options.model, function (o) {
+                    return o.id === column;
                 });
+                var name = $filterInput.attr('name').replace(/^filter\[(.+)\]$/, '$1');
 
-                return data;
-            },
-            render : function render($table, options) {
-                _.forEach($('.filter', $table), function (filter) {
-                    var $filter = $(filter);
-                    var column = $filter.data('column');
-                    var $filterInput = $('select, input', $filter);
-                    var model = _.find(options.model, function (o) {
-                        return o.id === column;
-                    });
-                    var name = $filterInput.attr('name').replace(/^filter\[(.+)\]$/, '$1');
+                if (options.filtercolumns && options.filtercolumns[name]) {
+                    $filterInput.val(options.filtercolumns[name]);
+                }
 
-                    if (options.filtercolumns && options.filtercolumns[name]) {
-                        $filterInput.val(options.filtercolumns[name]);
+                if (model && model.customFilter) {
+                    if ('function' === typeof model.customFilter.callback) {
+                        model.customFilter.callback($filterInput);
                     }
+                }
+            });
+        }
+    };
 
-                    if (model && model.customFilter) {
-                        if ('function' === typeof model.customFilter.callback) {
-                            model.customFilter.callback($filterInput);
-                        }
-                    }
-                });
-            }
-        };
-
-        return filter;
-    }
-
-    return singleFilterStrategy;
+    return filter;
 });
