@@ -84,15 +84,14 @@ class tao_helpers_Environment
      * Get the size in bytes of a PHP variable given as a string.
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string phpSyntax The PHP syntax to describe the variable.
+     * @param  string $phpSyntax The PHP syntax to describe the variable.
      * @return int The size in bytes.
      */
     private static function toBytes($phpSyntax)
     {
-        $returnValue = (int) 0;
-
         $val = trim($phpSyntax);
         	$last = strtolower($val[strlen($val)-1]);
+        $val = (int)trim($val, $last);
         	switch($last) {
         		case 'g':
         			$val *= 1024;
@@ -103,10 +102,6 @@ class tao_helpers_Environment
         	}
         
         return $val;
-
-        return (int) $returnValue;
     }
 
 }
-
-?>
