@@ -170,7 +170,7 @@ class tao_actions_File extends tao_actions_CommonModule{
 					$data['uploaded_file'] = $targetFile;
 					$returnValue['name'] = $postedFile['name'];
 					$returnValue['uploaded_file'] = $targetFile;
-					$returnValue['data'] = serialize($data);
+					$returnValue['data'] = json_encode($data);
 				}
 			}
 		}
