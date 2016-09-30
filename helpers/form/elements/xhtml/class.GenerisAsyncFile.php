@@ -139,20 +139,19 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
      */
     public function buildDeleterBehaviour()
     {
-        $returnValue = (string) '';
-
-        
-        $deleteButtonId = $this->buildDeleteButtonId();
-         
-        $returnValue .= '$(document).ready(function() {';
-        $returnValue .= '	$("#' . $deleteButtonId . '").click(function() {';
-        $returnValue .= '		$("#' . $this->buildWidgetContainerId() . '").empty();';
-        $returnValue .= '		' . $this->buildUploaderBehaviour(true);
-        $returnValue .= '	});';
-        $returnValue .= '});';
-        
-
-        return (string) $returnValue;
+        return '$(document).ready(function() {
+                    $("#' . $this->buildDeleteButtonId() . '").click(function() {
+                        var $form = $(this).parents("form"),
+                            $fileHandling = $form.find("[name=\'file_handling\']");
+                        if(!$fileHandling.length) {
+                            $fileHandling = $("<input>", { name: "file_handling", type: "hidden" });
+                            $form.prepend($fileHandling); 
+                        }
+                        $fileHandling.val("delete");
+                        $("#' . $this->buildWidgetContainerId() . '").empty();
+                        ' . $this->buildUploaderBehaviour(true) . '
+                    });
+                });';
     }
 
     /**
@@ -254,7 +253,19 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
 
 					 }).on("upload.uploader", function(e, file, result){
 					 	if ( result && result.uploaded ){
-							$(e.target).append($("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data));
+					 	    var $container = $(e.target);
+                            var $form = $container.parents("form");
+                            var $fileHandling = $form.find("[name=\'file_handling\']");                      
+							$container.append($("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data));
+							
+                            if(!$fileHandling.length) {
+                                $fileHandling = $("<input>", { name: "file_handling", type: "hidden" });
+                                $form.prepend($fileHandling); 
+                                $fileHandling.val("add");
+                            }
+                            else {
+                                $fileHandling.val("replace");
+                            }                        
 						}
 					 })
 			});';
