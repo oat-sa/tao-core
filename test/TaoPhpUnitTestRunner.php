@@ -133,7 +133,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
      */
     protected function removeTempFileSystem()
     {
-        if (! $this->itemDirectory) {
+        if ($this->itemDirectory) {
             /** @var FileSystemService $fileSystemService */
             $fileSystemService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
 
