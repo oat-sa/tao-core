@@ -56,6 +56,11 @@ define([
                 data : data
             })
             .done(function(response, status, xhr){
+                if (xhr.status === 204 || (response && response.errorCode === 204)){
+                    //no content, so resolve with empty data.
+                    return resolve();
+                }
+
                 if(_.isPlainObject(response)){
                     //there's some data
                     if(response.success){
@@ -68,9 +73,6 @@ define([
                     }
                     return reject(new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage)));
 
-                } else if (xhr.status === 204){
-                    //no content, so resolve with empty data.
-                    return resolve();
                 }
                 return reject(new Error('No response'));
             })

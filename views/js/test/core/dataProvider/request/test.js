@@ -50,6 +50,8 @@ define([
                             cb({
                                 success : true,
                                 data : { 'foo' : 'bar'}
+                            }, 'OK', {
+                                status : 200
                             });
                         }
                         if(options.url === '//204'){
