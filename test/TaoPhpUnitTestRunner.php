@@ -16,11 +16,15 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2012-2016 Open Assessment Technologies SA
  * 
  */
 namespace oat\tao\test;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
+use oat\oatbox\filesystem\Directory;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Help you to run the test into the TAO Context
@@ -36,6 +40,18 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
      */
     private static $connected = false;
 
+    /**
+     * Temp fly directory
+     * @var Directory
+     */
+    protected $itemDirectory;
+
+    /**
+     * FileSystem id of temp fileSystem
+     * @var string
+     */
+    protected $tempFileSystemId;
+
 
     /**
      * shared methods for test initialization
@@ -46,6 +62,24 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
             \common_session_SessionManager::startSession(new \common_test_TestUserSession());
             self::$connected = true;
         }
+    }
+
+    public function tearDown()
+    {
+        $this->removeTempFileSystem();
+    }
+
+    protected function getTempDirectory()
+    {
+        if (! $this->itemDirectory) {
+            /** @var FileSystemService $fileSystemService */
+            $fileSystemService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
+            $this->tempFileSystemId = 'tmp_' . uniqid();
+            $fileSystemService->createFileSystem($this->tempFileSystemId);
+            $this->itemDirectory = $fileSystemService->getDirectory($this->tempFileSystemId);
+
+        }
+        return $this->itemDirectory;
     }
 
     /**
@@ -65,7 +99,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
 
         return $method->invokeArgs($object, $parameters);
     }
-    
+
     /**
      * return inaccessible property value
      * @param type $object
@@ -93,5 +127,43 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
         $property->setAccessible(false);
         return $this;
     }
-    
+
+    /**
+     * At tearDown, unregister tempFileSystem & clean directory
+     */
+    protected function removeTempFileSystem()
+    {
+        if (! $this->itemDirectory) {
+            /** @var FileSystemService $fileSystemService */
+            $fileSystemService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+
+            $adapter = $fileSystemService->getFileSystem($this->tempFileSystemId)->getAdapter();
+            $localPath = $this->getInaccessibleProperty($adapter, 'pathPrefix');
+            $this->rrmdir($localPath);
+
+            $fileSystemService->unregisterFileSystem($this->tempFileSystemId);
+        }
+    }
+
+    /**
+     * Remove a local directory recursively
+     *
+     * @param $dir
+     */
+    protected function rrmdir($dir)
+    {
+        foreach(glob($dir . '/*') as $file) {
+            if(is_dir($file)) {
+                $this->rrmdir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($dir);
+    }
+
+    protected function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
+    }
 }
