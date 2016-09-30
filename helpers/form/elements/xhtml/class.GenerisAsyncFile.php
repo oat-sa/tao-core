@@ -46,9 +46,8 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
      */
     public function feed()
     {
-        
-    	if (isset($_POST[$this->name])) {
-    		$struct = @unserialize($_POST[$this->name]);
+        if (isset($_POST[$this->name])) {
+    		$struct = json_decode($_POST[$this->name]);
     		if($struct !== false){
     			$desc = new tao_helpers_form_data_UploadFileDescription(	$struct['name'],
     					$struct['size'],
