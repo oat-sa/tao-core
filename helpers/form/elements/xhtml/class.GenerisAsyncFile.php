@@ -142,12 +142,12 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         return '$(document).ready(function() {
                     $("#' . $this->buildDeleteButtonId() . '").click(function() {
                         var $form = $(this).parents("form"),
-                            $fileHandling = $form.find("[name=\'file_handling\']");
+                            $fileHandling = $form.find("[name=\'' . $this->getName() . '\']");
                         if(!$fileHandling.length) {
-                            $fileHandling = $("<input>", { name: "file_handling", type: "hidden" });
+                            $fileHandling = $("<input>", { name: "' . $this->getName() . '", type: "hidden" });
                             $form.prepend($fileHandling); 
                         }
-                        $fileHandling.val("delete");
+                        $fileHandling.val("{\\"action\\":\\"delete\\"}");
                         $("#' . $this->buildWidgetContainerId() . '").empty();
                         ' . $this->buildUploaderBehaviour(true) . '
                     });
@@ -255,17 +255,8 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
 					 	if ( result && result.uploaded ){
 					 	    var $container = $(e.target);
                             var $form = $container.parents("form");
-                            var $fileHandling = $form.find("[name=\'file_handling\']");                      
+                            var $fileHandling = $form.find("[name=\'file_handling\']");
 							$container.append($("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data));
-							
-                            if(!$fileHandling.length) {
-                                $fileHandling = $("<input>", { name: "file_handling", type: "hidden" });
-                                $form.prepend($fileHandling); 
-                                $fileHandling.val("add");
-                            }
-                            else {
-                                $fileHandling.val("replace");
-                            }                        
 						}
 					 })
 			});';
