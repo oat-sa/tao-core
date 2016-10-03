@@ -21,6 +21,8 @@
  */
 namespace oat\tao\test;
 
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Memory\MemoryAdapter;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
@@ -44,7 +46,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
      * Temp fly directory
      * @var Directory
      */
-    protected $itemDirectory;
+    protected $tempDirectory;
 
     /**
      * FileSystem id of temp fileSystem
@@ -64,22 +66,42 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
         }
     }
 
+    /**
+     * At tear down,
+     *  - Remove temporary file system created to testing
+     */
     public function tearDown()
     {
         $this->removeTempFileSystem();
     }
 
+    /**
+     * Get a temp driectory used for testing purpose
+     * If not exists, directory filesystem will created (memory if available, or Local)
+     *
+     * @return Directory
+     */
     protected function getTempDirectory()
     {
-        if (! $this->itemDirectory) {
+        if (! $this->tempDirectory) {
             /** @var FileSystemService $fileSystemService */
-            $fileSystemService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
-            $this->tempFileSystemId = 'tmp_' . uniqid();
-            $fileSystemService->createFileSystem($this->tempFileSystemId);
-            $this->itemDirectory = $fileSystemService->getDirectory($this->tempFileSystemId);
+            $fileSystemService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+            $this->tempFileSystemId = 'unit-test-' . uniqid();
 
+            if (class_exists('League\Flysystem\Memory\MemoryAdapter')) {
+                $adapters = $fileSystemService->getOption(FileSystemService::OPTION_ADAPTERS);
+                $adapters[$this->tempFileSystemId] = array(
+                    'class' => MemoryAdapter::class
+                );
+                $fileSystemService->setOption(FileSystemService::OPTION_ADAPTERS, $adapters);
+                $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fileSystemService);
+            } else {
+                $fileSystemService->createFileSystem($this->tempFileSystemId);
+            }
+
+            $this->tempDirectory = $fileSystemService->getDirectory($this->tempFileSystemId);
         }
-        return $this->itemDirectory;
+        return $this->tempDirectory;
     }
 
     /**
@@ -133,15 +155,22 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
      */
     protected function removeTempFileSystem()
     {
-        if ($this->itemDirectory) {
+        if ($this->tempDirectory) {
             /** @var FileSystemService $fileSystemService */
-            $fileSystemService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+            $fileSystemService = $this->getServiceManager()
+                ->get(FileSystemService::SERVICE_ID);
 
-            $adapter = $fileSystemService->getFileSystem($this->tempFileSystemId)->getAdapter();
-            $localPath = $this->getInaccessibleProperty($adapter, 'pathPrefix');
-            $this->rrmdir($localPath);
+            $tempAdapter = $fileSystemService
+                ->getFileSystem($this->tempFileSystemId)
+                ->getAdapter();
+
+            if ($tempAdapter instanceof Local) {
+                $localPath = $this->getInaccessibleProperty($tempAdapter, 'pathPrefix');
+                $this->rrmdir($localPath);
+            }
 
             $fileSystemService->unregisterFileSystem($this->tempFileSystemId);
+            $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fileSystemService);
         }
     }
 
