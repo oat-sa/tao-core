@@ -564,6 +564,19 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('6.1.0', '7.12.1');
+
+        if ($this->isVersion('7.12.1')) {
+            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $config = $extension->getConfig('login');
+            $config = is_array($config) ? $config : [];
+            if (!array_key_exists('emptyPassword', $config)) {
+                $config['emptyPassword'] = false;
+            }
+            $extension->setConfig('login', $config);
+
+            $this->setVersion('7.13.0');
+        }
+
     }
 
     private function migrateFsAccess() {
