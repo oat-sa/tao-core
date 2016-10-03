@@ -83,5 +83,9 @@
         "category" : "archive",
         "mimes" : ["application/zip", "application/gzip", "application/rar", "application/x-7z-compressed", "application/x-bzip", "application/x-bzip2"],
         "extensions" : ["zip", "gz", "bz", "bz2", "rar", "p7z", "7z"]
+    },
+    "generic" : {
+        "category" : "generic",
+        "mimes" : ["application/octet-stream", "application/force-download", "application/x-force-download"]
     }
 }

@@ -48,7 +48,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
         
         common_Logger::t('Evaluating AsyncFile '.$this->getName(), array('TAO'));
         if (isset($_POST[$this->name])) {
-        	$struct = @unserialize($_POST[$this->name]);
+        	$struct = json_decode($_POST[$this->name], true);
         	if($struct !== false){
         		$this->setValue($struct);
         	} else {
