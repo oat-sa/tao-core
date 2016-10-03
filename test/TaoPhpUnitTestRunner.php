@@ -26,7 +26,10 @@ use League\Flysystem\Memory\MemoryAdapter;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -34,8 +37,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @package tao
  
  */
-abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
-	
+abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements ServiceLocatorAwareInterface
+{
+    use ServiceLocatorAwareTrait;
+
 	const SESSION_KEY = 'TAO_TEST_SESSION';
     /**
      *
@@ -54,7 +59,6 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
      * @var string
      */
     protected $tempFileSystemId;
-
 
     /**
      * shared methods for test initialization
@@ -77,6 +81,29 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
     }
 
     /**
+     * Return a prophecy of ServiceManager with get($id) calls  will return $service
+     * where $id is key of $options, and $service the associated value
+     * $service must be a ConfigurableService
+     *
+     * @param ConfigurableService[] $options
+     * @return ServiceLocatorInterface as Prophecy
+     */
+    public function getServiceManagerProphecy(array $options = null)
+    {
+        if (empty($options)) {
+            return ServiceManager::getServiceManager();
+        }
+
+        $smProphecy = $this->prophesize(ServiceLocatorInterface::class);
+        foreach ($options as $key => $service) {
+            if ($service instanceof ConfigurableService) {
+                $smProphecy->get($key)->willReturn($service);
+            }
+        }
+        return $smProphecy->reveal();
+    }
+
+    /**
      * Get a temp driectory used for testing purpose
      * If not exists, directory filesystem will created (memory if available, or Local)
      *
@@ -86,7 +113,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
     {
         if (! $this->tempDirectory) {
             /** @var FileSystemService $fileSystemService */
-            $fileSystemService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+            $fileSystemService = $this->getServiceManagerProphecy()->get(FileSystemService::SERVICE_ID);
             $this->tempFileSystemId = 'unit-test-' . uniqid();
 
             $adapters = $fileSystemService->getOption(FileSystemService::OPTION_ADAPTERS);
@@ -103,9 +130,9 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
             $fileSystemService->setOption(FileSystemService::OPTION_ADAPTERS, $adapters);
             $fileSystemService->setOption(FileSystemService::OPTION_FILE_PATH, '/tmp/testing');
 
-            $smProphecy = $this->prophesize(ServiceLocatorInterface::class);
-            $smProphecy->get(FileSystemService::SERVICE_ID)->willReturn($fileSystemService);
-            $fileSystemService->setServiceLocator($smProphecy->reveal());
+            $fileSystemService->setServiceLocator($this->getServiceManagerProphecy(array(
+                FileSystemService::SERVICE_ID => $fileSystemService
+            )));
 
             $this->tempDirectory = $fileSystemService->getDirectory($this->tempFileSystemId);
         }
@@ -165,7 +192,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
     {
         if ($this->tempDirectory) {
             /** @var FileSystemService $fileSystemService */
-            $fileSystemService = $this->getServiceManager()
+            $fileSystemService = $this->getServiceManagerProphecy()
                 ->get(FileSystemService::SERVICE_ID);
 
             $tempAdapter = $fileSystemService
@@ -194,10 +221,5 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
             }
         }
         rmdir($dir);
-    }
-
-    protected function getServiceManager()
-    {
-        return ServiceManager::getServiceManager();
     }
 }
