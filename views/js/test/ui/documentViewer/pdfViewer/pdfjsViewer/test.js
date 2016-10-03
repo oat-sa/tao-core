@@ -58,8 +58,10 @@ define([
 
     QUnit.asyncTest('render', function (assert) {
         var $container = $('#qunit-fixture');
-        var expectedWidth = 256;
-        var expectedHeight = 128;
+        var requestedWidth = 256;
+        var requestedHeight = 128;
+        var expectedWidth;
+        var expectedHeight;
         var instance;
         var promise;
 
@@ -96,13 +98,16 @@ define([
             assert.equal($pdfContainer.length, 1, 'The PDF panel has been added');
 
 
-            assert.notEqual($pdfContainer.width(), expectedWidth, 'The PDF panel is not ' + expectedWidth + ' pixels width');
-            assert.notEqual($pdfContainer.height(), expectedHeight, 'The PDF panel is not ' + expectedHeight + ' pixels height');
+            assert.notEqual($pdfContainer.width(), requestedWidth, 'The PDF panel is not ' + expectedWidth + ' pixels width');
+            assert.notEqual($pdfContainer.height(), requestedHeight, 'The PDF panel is not ' + expectedHeight + ' pixels height');
 
-            instance.setSize(expectedWidth, expectedHeight);
+            instance.setSize(requestedWidth, requestedHeight);
+
+            expectedWidth = requestedWidth;
+            expectedHeight = requestedHeight - $pdfBar.outerHeight();
 
             assert.equal($pdfContainer.width(), expectedWidth, 'The PDF panel is now ' + expectedWidth + ' pixels width');
-            assert.equal($pdfContainer.height(), expectedHeight - $pdfBar.height(), 'The PDF panel is now ' + expectedHeight + ' pixels height');
+            assert.equal($pdfContainer.height(), expectedHeight, 'The PDF panel is now ' + expectedHeight + ' pixels height');
 
             instance.unload();
 
