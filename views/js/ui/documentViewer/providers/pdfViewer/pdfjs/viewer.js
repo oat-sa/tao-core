@@ -44,7 +44,7 @@ define([
          */
         function updatePageNumber() {
             var page = pdf.getPage();
-            if (page !== Number(controls.$pageNum.val())) {
+            if (page !== parseInt(controls.$pageNum.val(), 10)) {
                 controls.$pageNum.val(page);
             }
 
@@ -161,12 +161,12 @@ define([
                 });
 
                 controls.$navigation.on('click', function () {
-                    movePage(Number($(this).data('direction')) || 1);
+                    movePage(parseInt($(this).data('direction'), 10) || 1);
                 });
 
                 controls.$pageNum
                     .on('change', function () {
-                        jumpPage(Number(controls.$pageNum.val()) || pdf.getPage());
+                        jumpPage(parseInt(controls.$pageNum.val(), 10) || pdf.getPage());
                     })
                     .on('keydown', function (event) {
                         switch (event.keyCode) {

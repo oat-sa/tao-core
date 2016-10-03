@@ -20,8 +20,9 @@
  */
 define([
     'jquery',
+    'core/promise',
     'ui/documentViewer/providers/pdfViewer/fallback/viewer'
-], function ($, fallbackFactory) {
+], function ($, Promise, fallbackFactory) {
     'use strict';
 
     var headless = /PhantomJS/.test(window.navigator.userAgent);
@@ -85,7 +86,7 @@ define([
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
-        assert.equal(typeof promise.then, 'function', 'The object returned by the load() function is a promise');
+        assert.ok(promise instanceof Promise, 'The object returned by the load() function is a promise');
 
         if (headless) {
             assert.ok(true, 'Using a headless browser, the check for PDF load is disabled');
@@ -95,6 +96,9 @@ define([
             promise.then(function () {
                 assert.ok(true, 'The PDF file has been loaded');
                 checkRenderedStuff();
+                QUnit.start();
+            }).catch(function() {
+                assert.ok('false', 'The PDF file should be loaded');
                 QUnit.start();
             });
         }

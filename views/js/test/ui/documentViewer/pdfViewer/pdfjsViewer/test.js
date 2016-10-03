@@ -20,10 +20,11 @@
  */
 define([
     'jquery',
+    'core/promise',
     'lib/simulator/jquery.keystroker',
     'ui/documentViewer/providers/pdfViewer/pdfjs/wrapper',
     'ui/documentViewer/providers/pdfViewer/pdfjs/viewer',
-], function ($, keystroker, wrapperFactory, viewerFactory) {
+], function ($, Promise, keystroker, wrapperFactory, viewerFactory) {
     'use strict';
 
     var pdfUrl = location.href.replace('/pdfViewer/pdfjsViewer/test.html', '/sample/demo.pdf');
@@ -70,7 +71,7 @@ define([
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
-        assert.equal(typeof promise.then, 'function', 'The object returned by the load() function is a promise');
+        assert.ok(promise instanceof Promise, 'The object returned by the load() function is a promise');
 
         promise.then(function () {
             var $pagePrev = $container.find('[data-control="pdf-page-prev"]'),
@@ -109,6 +110,9 @@ define([
             assert.equal($container.children().length, 0, 'The container does not contain any children');
 
             QUnit.start();
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
         });
     });
 
@@ -129,7 +133,7 @@ define([
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
-        assert.equal(typeof promise.then, 'function', 'The object returned by the load() function is a promise');
+        assert.ok(promise instanceof Promise, 'The object returned by the load() function is a promise');
 
         promise.then(function () {
             var $pagePrev = $container.find('[data-control="pdf-page-prev"]'),
@@ -153,7 +157,7 @@ define([
             assert.equal($pdfContainer.length, 1, 'The PDF panel has been added');
 
             assert.equal($pageNum.val(), page, 'The current page is ' + page);
-            assert.equal(Number($pageCount.text()), count, 'The page count is ' + count);
+            assert.equal(parseInt($pageCount.text(), 10), count, 'The page count is ' + count);
             assert.equal($pageNum.is(':disabled'), true, 'The page number input is disabled');
             assert.equal($pagePrev.is(':disabled'), true, 'The previous page button is disabled');
             assert.equal($pageNext.is(':disabled'), true, 'The next page button is disabled');
@@ -190,6 +194,9 @@ define([
                     }, 100);
                 }, 100);
             }, 100);
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
         });
     });
 
@@ -210,7 +217,7 @@ define([
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
-        assert.equal(typeof promise.then, 'function', 'The object returned by the load() function is a promise');
+        assert.ok(promise instanceof Promise, 'The object returned by the load() function is a promise');
 
         promise.then(function () {
             var $pagePrev = $container.find('[data-control="pdf-page-prev"]'),
@@ -234,7 +241,7 @@ define([
             assert.equal($pdfContainer.length, 1, 'The PDF panel has been added');
 
             assert.equal($pageNum.val(), page, 'The current page is ' + page);
-            assert.equal(Number($pageCount.text()), count, 'The page count is ' + count);
+            assert.equal(parseInt($pageCount.text(), 10), count, 'The page count is ' + count);
             assert.equal($pagePrev.is(':disabled'), true, 'The previous page button is disabled');
 
             $pageNext.click();
@@ -284,6 +291,9 @@ define([
                     }, 100);
                 }, 100);
             }, 100);
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
         });
     });
 
@@ -304,7 +314,7 @@ define([
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
-        assert.equal(typeof promise.then, 'function', 'The object returned by the load() function is a promise');
+        assert.ok(promise instanceof Promise, 'The object returned by the load() function is a promise');
 
         promise.then(function () {
             var $pagePrev = $container.find('[data-control="pdf-page-prev"]'),
@@ -348,6 +358,9 @@ define([
                     QUnit.start();
                 }, 100);
             }, 100);
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
         });
     });
 

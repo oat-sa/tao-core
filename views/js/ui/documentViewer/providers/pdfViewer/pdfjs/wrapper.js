@@ -238,8 +238,8 @@ define([
              */
             load: function load(url) {
                 unload();
-                return PDFJS.getDocument(processUri(url)).then(function (pdfDoc_) {
-                    pdfDoc = pdfDoc_;
+                return PDFJS.getDocument(processUri(url)).then(function (doc) {
+                    pdfDoc = doc;
                     pageNum = 1;
                     pageCount = pdfDoc.numPages;
                     setState('loaded', true);

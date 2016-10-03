@@ -104,6 +104,9 @@ define([
             assert.equal(instance.getDocument(), null, 'The PDF document is destroyed');
 
             QUnit.start();
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
         });
     });
 
@@ -133,6 +136,9 @@ define([
             instance.destroy();
             assert.equal(instance.getDocument(), null, 'The PDF document is destroyed');
 
+            QUnit.start();
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
             QUnit.start();
         });
     });
@@ -167,10 +173,10 @@ define([
                 assert.equal(instance.getState('rendering'), false, 'The PDF is not rendering at this time');
                 assert.equal(instance.getState('rendered'), true, 'The page has been rendered');
 
-                instance.setPage(page).then(function () {
+                return instance.setPage(page).then(function () {
                     assert.equal(instance.getPage(), page, 'The PDF is still set on the page ' + page);
 
-                    instance.setPage(page + 1).then(function () {
+                    return instance.setPage(page + 1).then(function () {
                         assert.equal(instance.getPage(), page, 'The PDF is still set on the page ' + page);
 
                         instance.destroy();
@@ -179,10 +185,16 @@ define([
                         QUnit.start();
                     });
                 });
+            }).catch(function() {
+                assert.ok('false', 'No error should be triggered');
+                QUnit.start();
             });
 
             assert.equal(instance.getState('rendering'), true, 'The PDF is rendering a page');
             assert.equal(instance.getState('rendered'), false, 'The page is not rendered at this time');
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
         });
     });
 
@@ -213,7 +225,7 @@ define([
         instance.setSize(requestedWidth, requestedHeight).then(function () {
             assert.ok(true, 'The size can be set even if the PDF is not loaded');
 
-            instance.load(pdfUrl).then(function () {
+            return instance.load(pdfUrl).then(function () {
 
                 assert.ok(instance.getState('loaded'), 'The PDF is loaded');
 
@@ -221,12 +233,12 @@ define([
                 assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
                 assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
 
-                instance.setSize(requestedWidth, requestedHeight).then(function () {
+                return instance.setSize(requestedWidth, requestedHeight).then(function () {
 
                     assert.equal($canvas.width(), expectedWidth, 'The content panel is now ' + expectedWidth + ' pixels width');
                     assert.equal($canvas.height(), expectedHeight, 'The content panel is now ' + expectedHeight + ' pixels width');
 
-                    instance.setSize(requestedWidth, requestedHeight).then(function () {
+                    return instance.setSize(requestedWidth, requestedHeight).then(function () {
 
                         assert.equal($canvas.width(), expectedWidth, 'The content panel is still ' + expectedWidth + ' pixels width');
                         assert.equal($canvas.height(), expectedHeight, 'The content panel is still ' + expectedHeight + ' pixels width');
@@ -238,7 +250,7 @@ define([
                         expectedWidth = 75;
                         expectedHeight = 150;
 
-                        instance.setSize(requestedWidth, requestedHeight).then(function () {
+                        return instance.setSize(requestedWidth, requestedHeight).then(function () {
 
                             assert.equal($canvas.width(), expectedWidth, 'The content panel is ' + expectedWidth + ' pixels width');
                             assert.equal($canvas.height(), expectedHeight, 'The content panel is ' + expectedHeight + ' pixels width');
@@ -251,6 +263,9 @@ define([
                     });
                 });
             });
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
         });
     });
 
@@ -290,7 +305,7 @@ define([
             assert.notEqual($canvas.width(), expectedWidth, 'The content panel is not ' + expectedWidth + ' pixels width');
             assert.notEqual($canvas.height(), expectedHeight, 'The content panel is not ' + expectedHeight + ' pixels width');
 
-            instance.setSize(requestedWidth, requestedHeight).then(function () {
+            return instance.setSize(requestedWidth, requestedHeight).then(function () {
 
                 assert.equal($canvas.width(), expectedWidth, 'The content panel is now ' + expectedWidth + ' pixels width');
                 assert.equal($canvas.height(), expectedHeight, 'The content panel is now ' + expectedHeight + ' pixels width');
@@ -301,7 +316,7 @@ define([
                 requestedHeight = 150;
                 expectedHeight = expectedWidth * pdfjs.viewportHeight / pdfjs.viewportWidth;
 
-                instance.setSize(requestedWidth, requestedHeight).then(function () {
+                return instance.setSize(requestedWidth, requestedHeight).then(function () {
 
                     assert.equal($canvas.width(), expectedWidth, 'The content panel is ' + expectedWidth + ' pixels width');
                     assert.equal($canvas.height(), expectedHeight, 'The content panel is ' + expectedHeight + ' pixels width');
@@ -312,6 +327,9 @@ define([
                     QUnit.start();
                 });
             });
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
         });
     });
 
@@ -339,17 +357,17 @@ define([
             assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
 
             page++;
-            instance.setPage(page).then(function () {
+            return instance.setPage(page).then(function () {
                 assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
 
-                instance.setPage(page).then(function () {
+                return instance.setPage(page).then(function () {
                     assert.equal(instance.getPage(), page, 'The PDF is still set on the page ' + page);
 
                     pdfjs.on('pageRender', function () {
                         assert.ok(true, 'The page has been refreshed');
                     });
 
-                    instance.refresh().then(function () {
+                    return instance.refresh().then(function () {
 
                         instance.destroy();
                         assert.equal(instance.getDocument(), null, 'The PDF document is destroyed');
@@ -358,6 +376,9 @@ define([
                     });
                 });
             });
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
         });
     });
 
@@ -389,7 +410,7 @@ define([
             promises.push(instance.setPage(page++));
             promises.push(instance.setPage(page));
 
-            Promise.all(promises).then(function () {
+            return Promise.all(promises).then(function () {
                 assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
 
                 instance.destroy();
@@ -397,6 +418,9 @@ define([
 
                 QUnit.start();
             });
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
         });
     });
 
