@@ -58,8 +58,8 @@ define([
 
     QUnit.asyncTest('render', function (assert) {
         var $container = $('#qunit-fixture');
-        var requestedWidth = 256;
-        var requestedHeight = 128;
+        var requestedWidth = 320;
+        var requestedHeight = 240;
         var expectedWidth;
         var expectedHeight;
         var instance;
