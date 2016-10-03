@@ -27,6 +27,7 @@ use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Help you to run the test into the TAO Context
@@ -88,16 +89,23 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
             $fileSystemService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
             $this->tempFileSystemId = 'unit-test-' . uniqid();
 
-            if (class_exists('League\Flysystem\Memory\MemoryAdapter')) {
-                $adapters = $fileSystemService->getOption(FileSystemService::OPTION_ADAPTERS);
+            $adapters = $fileSystemService->getOption(FileSystemService::OPTION_ADAPTERS);
+            if (class_exists('League\Flysystem\Memory\MemoryAdapter') && false) {
                 $adapters[$this->tempFileSystemId] = array(
                     'class' => MemoryAdapter::class
                 );
-                $fileSystemService->setOption(FileSystemService::OPTION_ADAPTERS, $adapters);
-                $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fileSystemService);
             } else {
-                $fileSystemService->createFileSystem($this->tempFileSystemId);
+                $adapters[$this->tempFileSystemId] = array(
+                    'class' => FileSystemService::FLYSYSTEM_LOCAL_ADAPTER,
+                    'options' => array('root' => '/tmp/testing')
+                );
             }
+            $fileSystemService->setOption(FileSystemService::OPTION_ADAPTERS, $adapters);
+            $fileSystemService->setOption(FileSystemService::OPTION_FILE_PATH, '/tmp/testing');
+
+            $smProphecy = $this->prophesize(ServiceLocatorInterface::class);
+            $smProphecy->get(FileSystemService::SERVICE_ID)->willReturn($fileSystemService);
+            $fileSystemService->setServiceLocator($smProphecy->reveal());
 
             $this->tempDirectory = $fileSystemService->getDirectory($this->tempFileSystemId);
         }
@@ -168,9 +176,6 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
                 $localPath = $this->getInaccessibleProperty($tempAdapter, 'pathPrefix');
                 $this->rrmdir($localPath);
             }
-
-            $fileSystemService->unregisterFileSystem($this->tempFileSystemId);
-            $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fileSystemService);
         }
     }
 
