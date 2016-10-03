@@ -90,7 +90,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
             $this->tempFileSystemId = 'unit-test-' . uniqid();
 
             $adapters = $fileSystemService->getOption(FileSystemService::OPTION_ADAPTERS);
-            if (class_exists('League\Flysystem\Memory\MemoryAdapter') && false) {
+            if (class_exists('League\Flysystem\Memory\MemoryAdapter')) {
                 $adapters[$this->tempFileSystemId] = array(
                     'class' => MemoryAdapter::class
                 );
