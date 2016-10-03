@@ -22,8 +22,9 @@ define([
     'jquery',
     'core/promise',
     'ui/documentViewer/providers/pdfViewer/pdfjs/wrapper',
+    'ui/documentViewer/providers/pdfViewer/pdfjs/pagesManager',
     'tpl!ui/documentViewer/providers/pdfViewer/pdfjs/viewer'
-], function ($, Promise, wrapperFactory, viewerTpl) {
+], function ($, Promise, wrapperFactory, pagesManagerFactory, viewerTpl) {
     'use strict';
 
     /**
@@ -37,6 +38,7 @@ define([
         var template = viewerTpl(config);
         var controls = {};
         var pdf = null;
+        var pagesManager = null;
         var enabled = true;
 
         /**
@@ -145,11 +147,10 @@ define([
                     $pageNext: $container.find('[data-control="pdf-page-next"]'),
                     $pageNum: $container.find('[data-control="pdf-page-num"]'),
                     $pageCount: $container.find('[data-control="pdf-page-count"]'),
-                    $fitToWidth: $container.find('[data-control="fit-to-width"]'),
-                    $content: $container.find('[data-control="pdf-content"]')
+                    $fitToWidth: $container.find('[data-control="fit-to-width"]')
                 };
 
-                pdf = wrapperFactory(pdfjs, controls.$content, config);
+                pdf = wrapperFactory(pdfjs);
 
                 this.setSize($container.width(), $container.height());
 
@@ -185,8 +186,17 @@ define([
                     });
 
                 return pdf.load(url).then(function () {
-                    controls.$pageCount.html(pdf.getPageCount());
+                    var pageCount = pdf.getPageCount();
+
+                    controls.$pageCount.html(pageCount);
+
+                    // todo: accept option to use a view per page
+                    pagesManager = pagesManagerFactory(1, controls.$container, config);
+                    pdf.setPagesManager(pagesManager);
+
                     enable();
+
+                    return pdf.renderPage(1);
                 });
             },
 
@@ -198,9 +208,14 @@ define([
                     pdf.destroy();
                 }
 
+                if (pagesManager) {
+                    pagesManager.destroy();
+                }
+
                 $container.empty();
                 controls = {};
                 pdf = null;
+                pagesManager = null;
             },
 
             /**
@@ -216,7 +231,9 @@ define([
                     contentHeight = height - controls.$bar.outerHeight();
                     controls.$bar.width(width);
                     controls.$container.width(width).height(contentHeight);
-                    return pdf.setSize(width, contentHeight);
+
+                    // force the repaint of the current page, the PDF wrapper will take care of its container's size
+                    return pdf.refresh();
                 }
             }
         };

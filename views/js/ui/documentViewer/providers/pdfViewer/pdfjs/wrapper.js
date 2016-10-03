@@ -31,31 +31,6 @@ define([
     var BASE64_MARKER = ';base64,';
 
     /**
-     * The default scale factor
-     * @type {Number}
-     */
-    var DEFAULT_SCALE = 1.0;
-
-    /**
-     * The minimum scale factor that allows a good experience
-     * @type {Number}
-     */
-    var MIN_SCALE = 0.25;
-
-    /**
-     * The maximum scale factor that allows a good experience
-     * @type {Number}
-     */
-    var MAX_SCALE = 10.0;
-
-    /**
-     * A conversion factor for CSS units
-     * @type {Number}
-     */
-    var CSS_UNITS = 96.0 / 72.0;
-
-
-    /**
      * Converts a Base64 string to an array of bytes
      * @param {String} data
      * @returns {Uint8Array}
@@ -91,160 +66,75 @@ define([
     }
 
     /**
-     * Returns scale factor for the canvas.
-     * @return {Number}
-     */
-    function getOutputScale(ctx) {
-        var devicePixelRatio = window.devicePixelRatio || 1;
-        var backingStoreRatio = ctx.backingStorePixelRatio ||
-            ctx.webkitBackingStorePixelRatio ||
-            ctx.mozBackingStorePixelRatio ||
-            ctx.msBackingStorePixelRatio ||
-            ctx.oBackingStorePixelRatio || 1;
-        return devicePixelRatio / backingStoreRatio;
-    }
-
-
-    /**
      * Creates a wrapper for PDF.js to render a document
      * @param PDFJS
-     * @param $canvas
-     * @param config
      * @returns {Object}
      */
-    function pdfjsWrapperFactory(PDFJS, $canvas, config) {
+    function pdfjsWrapperFactory(PDFJS) {
         var pdfDoc = null;
         var pageNum = 1;
         var pageCount = 1;
         var pageNumPending = null;
         var pageRendering = null;
-        var canvas = $canvas.get(0);
-        var ctx = canvas.getContext('2d');
-        var scale = Math.min(Math.max(MIN_SCALE, getOutputScale(ctx) * DEFAULT_SCALE), MAX_SCALE);
-        var pixelWidth = 1;
-        var pixelHeight = 1;
-        var $container = $canvas.parent();
+        var pagesManager = null;
         var states = {};
 
         /**
-         * Sets a state
-         * @param {String} name The name of the state to set
-         * @param {Boolean} state The value of the state
+         * Wraps the PDF.js API
+         * @type {Object}
          */
-        function setState(name, state) {
-            states[name] = !!state;
-        }
-
-        /**
-         * Unloads the document and resets the context
-         */
-        function unload() {
-            if (pdfDoc) {
-                pdfDoc.destroy();
-            }
-            pdfDoc = null;
-            states = {};
-        }
-
-        /**
-         * Resize the viewer according to the document dimensions
-         * @param {Object} viewport
-         */
-        function resizeCanvas(viewport) {
-            var ratio = (viewport.width / (viewport.height || 1)) || 1;
-            var parentWidth = $container.width();
-            var parentOffset = $container.offset();
-            var width, height;
-
-            if (config.fitToWidth) {
-                width = pixelWidth;
-                height = width / ratio;
-
-                if (height > pixelHeight) {
-                    $canvas.width(Math.max(1, pixelWidth / 2)).height(height);
-                    parentWidth = $container.prop('scrollWidth');
-                    width = parentWidth;
-                    height = width / ratio;
-                }
-            } else {
-                if (ratio >= 1) {
-                    height = Math.min(pixelHeight, pixelWidth / ratio);
-                    width = Math.min(pixelWidth, height * ratio);
-                } else {
-                    width = Math.min(pixelWidth, pixelHeight * ratio);
-                    height = Math.min(pixelHeight, width / ratio);
-                }
-            }
-
-            $canvas
-                .width(width)
-                .height(height)
-                .offset({
-                    left: parentOffset.left + Math.max(0, (parentWidth - width) / 2)
-                });
-
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-        }
-
-        /**
-         * Renders a page
-         * @param num
-         * @returns {Promise}
-         */
-        function renderPage(num) {
-            if (pdfDoc) {
-                setState('rendered', false);
-                setState('rendering', true);
-
-                if (!pageRendering) {
-                    pageRendering = pdfDoc.getPage(num).then(function (page) {
-                        var viewport = page.getViewport(scale * CSS_UNITS);
-                        var renderContext = {
-                            canvasContext: ctx,
-                            viewport: viewport
-                        };
-
-                        resizeCanvas(viewport);
-
-                        return page.render(renderContext).promise.then(function () {
-                            var nextPage = pageNumPending;
-                            pageNumPending = null;
-                            pageRendering = null;
-
-                            setState('rendered', true);
-                            setState('rendering', false);
-
-                            if (nextPage !== null) {
-                                return renderPage(nextPage);
-                            }
-                        });
-                    });
-                } else {
-                    pageNumPending = num;
-                }
-
-                return pageRendering;
-            } else {
-                return Promise.resolve(num);
-            }
-        }
-
-        return {
+        var wrapper = {
             /**
              * Loads a PDF document using PDF.js
              * @param {String} url
              * @returns {Promise}
              */
             load: function load(url) {
-                unload();
+                pdfDoc = null;
+                states = {};
+
                 return PDFJS.getDocument(processUri(url)).then(function (doc) {
                     pdfDoc = doc;
                     pageNum = 1;
                     pageCount = pdfDoc.numPages;
-                    setState('loaded', true);
-                    return renderPage(pageNum);
+                    states.loaded = true;
                 });
+            },
+
+            /**
+             * Renders a page
+             * @param {Number} num
+             * @returns {Promise}
+             */
+            renderPage: function renderPage(num) {
+                if (pdfDoc && pagesManager) {
+                    if (!pageRendering) {
+                        pagesManager.setActiveView(num);
+                        states.rendered = false;
+                        states.rendering = true;
+                        pageRendering = pdfDoc.getPage(num).then(function (page) {
+                            if (pagesManager) {
+                                return pagesManager.renderPage(page).then(function () {
+                                    var nextPage = pageNumPending;
+                                    pageNumPending = null;
+                                    pageRendering = null;
+
+                                    states.rendered = true;
+                                    states.rendering = false;
+                                    if (nextPage !== null) {
+                                        return wrapper.renderPage(nextPage);
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        pageNumPending = num;
+                    }
+
+                    return pageRendering;
+                } else {
+                    return Promise.resolve(num);
+                }
             },
 
             /**
@@ -289,24 +179,25 @@ define([
                 page = Math.min(Math.max(1, page || 0), pageCount);
                 if (page !== pageNum) {
                     pageNum = page;
-                    return renderPage(pageNum);
+                    return wrapper.renderPage(pageNum);
                 }
                 return Promise.resolve(pageNum);
             },
 
             /**
-             * Resize the viewport
-             * @param {Number} width
-             * @param {Number} height
-             * @returns {Promise}
+             * Gets the pages manager
+             * @returns {Object}
              */
-            setSize: function setSize(width, height) {
-                if (width !== pixelWidth || height !== pixelHeight) {
-                    pixelWidth = width;
-                    pixelHeight = height;
-                    return renderPage(pageNum);
-                }
-                return Promise.resolve(pageNum);
+            getPagesManager: function getPagesManager() {
+                return pagesManager;
+            },
+
+            /**
+             * Sets the pages manager
+             * @param {Object} manager
+             */
+            setPagesManager: function setPagesManager(manager) {
+                pagesManager = manager;
             },
 
             /**
@@ -314,16 +205,24 @@ define([
              * @returns {Promise}
              */
             refresh: function refresh() {
-                return renderPage(pageNum);
+                return wrapper.renderPage(pageNum);
             },
 
             /**
              * Liberates the resources
              */
             destroy: function destroy() {
-                unload();
+                if (pdfDoc) {
+                    pdfDoc.destroy();
+                }
+
+                pdfDoc = null;
+                pagesManager = null;
+                states = {};
             }
         };
+
+        return wrapper;
     }
 
     return pdfjsWrapperFactory;

@@ -24,13 +24,11 @@ define([
     'lib/simulator/jquery.keystroker',
     'ui/documentViewer/providers/pdfViewer/pdfjs/wrapper',
     'ui/documentViewer/providers/pdfViewer/pdfjs/viewer',
-], function ($, Promise, keystroker, wrapperFactory, viewerFactory) {
+    'pdfjs-dist/build/pdf'
+], function ($, Promise, keystroker, wrapperFactory, viewerFactory, pdfjs) {
     'use strict';
 
     var pdfUrl = location.href.replace('/pdfViewer/pdfjsViewer/test.html', '/sample/demo.pdf');
-    var pdfjsMock = {
-        PDFJS: {}
-    };
 
 
     QUnit.module('pdfViewer PDF.js factory');
@@ -44,7 +42,7 @@ define([
 
         assert.equal(typeof viewerFactory, 'function', "The pdfViewer PDF.js module exposes a function");
 
-        instance = viewerFactory($container, pdfjsMock, {});
+        instance = viewerFactory($container, pdfjs, {});
 
         assert.equal(typeof instance, 'object', "The pdfViewer PDF.js factory provides an object");
         assert.equal(typeof instance.load, 'function', "The pdfViewer PDF.js instance exposes a function load()");
@@ -65,11 +63,11 @@ define([
         var instance;
         var promise;
 
-        QUnit.expect(19);
+        QUnit.expect(18);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
-        instance = viewerFactory($container, pdfjsMock, {fitToWidth: true});
+        instance = viewerFactory($container, pdfjs, {fitToWidth: true});
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
@@ -81,7 +79,6 @@ define([
                 $pageNum = $container.find('[data-control="pdf-page-num"]'),
                 $pageCount = $container.find('[data-control="pdf-page-count"]'),
                 $fitToWidth = $container.find('[data-control="fit-to-width"]'),
-                $content = $container.find('[data-control="pdf-content"]'),
                 $pdfBar = $container.find('.pdf-bar'),
                 $pdfContainer = $container.find('.pdf-container');
 
@@ -93,7 +90,6 @@ define([
             assert.equal($pageNum.length, 1, 'The page number input has been added');
             assert.equal($pageCount.length, 1, 'The page count info has been added');
             assert.equal($fitToWidth.length, 1, 'The fitToWidth option has been added');
-            assert.equal($content.length, 1, 'The content panel has been added');
             assert.equal($pdfBar.length, 1, 'The PDF bar has been added');
             assert.equal($pdfContainer.length, 1, 'The PDF panel has been added');
 
@@ -129,12 +125,13 @@ define([
         var page = 1;
         var count = 1;
 
-        QUnit.expect(30);
+        QUnit.expect(29);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
+        pdfjs.pageCount = count;
         wrapperFactory.pageCount = count;
-        instance = viewerFactory($container, pdfjsMock, {fitToWidth: true});
+        instance = viewerFactory($container, pdfjs, {fitToWidth: true});
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
@@ -146,7 +143,6 @@ define([
                 $pageNum = $container.find('[data-control="pdf-page-num"]'),
                 $pageCount = $container.find('[data-control="pdf-page-count"]'),
                 $fitToWidth = $container.find('[data-control="fit-to-width"]'),
-                $content = $container.find('[data-control="pdf-content"]'),
                 $pdfBar = $container.find('.pdf-bar'),
                 $pdfContainer = $container.find('.pdf-container');
 
@@ -157,7 +153,6 @@ define([
             assert.equal($pageNum.length, 1, 'The page number input has been added');
             assert.equal($pageCount.length, 1, 'The page count info has been added');
             assert.equal($fitToWidth.length, 1, 'The fitToWidth option has been added');
-            assert.equal($content.length, 1, 'The content panel has been added');
             assert.equal($pdfBar.length, 1, 'The PDF bar has been added');
             assert.equal($pdfContainer.length, 1, 'The PDF panel has been added');
 
@@ -213,12 +208,13 @@ define([
         var page = 1;
         var count = 10;
 
-        QUnit.expect(28);
+        QUnit.expect(27);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
+        pdfjs.pageCount = count;
         wrapperFactory.pageCount = count;
-        instance = viewerFactory($container, pdfjsMock, {fitToWidth: true});
+        instance = viewerFactory($container, pdfjs, {fitToWidth: true});
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
@@ -230,7 +226,6 @@ define([
                 $pageNum = $container.find('[data-control="pdf-page-num"]'),
                 $pageCount = $container.find('[data-control="pdf-page-count"]'),
                 $fitToWidth = $container.find('[data-control="fit-to-width"]'),
-                $content = $container.find('[data-control="pdf-content"]'),
                 $pdfBar = $container.find('.pdf-bar'),
                 $pdfContainer = $container.find('.pdf-container');
 
@@ -241,7 +236,6 @@ define([
             assert.equal($pageNum.length, 1, 'The page number input has been added');
             assert.equal($pageCount.length, 1, 'The page count info has been added');
             assert.equal($fitToWidth.length, 1, 'The fitToWidth option has been added');
-            assert.equal($content.length, 1, 'The content panel has been added');
             assert.equal($pdfBar.length, 1, 'The PDF bar has been added');
             assert.equal($pdfContainer.length, 1, 'The PDF panel has been added');
 
@@ -311,11 +305,11 @@ define([
         var instance;
         var promise;
 
-        QUnit.expect(19);
+        QUnit.expect(18);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
-        instance = viewerFactory($container, pdfjsMock, config);
+        instance = viewerFactory($container, pdfjs, config);
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
@@ -327,7 +321,6 @@ define([
                 $pageNum = $container.find('[data-control="pdf-page-num"]'),
                 $pageCount = $container.find('[data-control="pdf-page-count"]'),
                 $fitToWidth = $container.find('[data-control="fit-to-width"]'),
-                $content = $container.find('[data-control="pdf-content"]'),
                 $pdfBar = $container.find('.pdf-bar'),
                 $pdfContainer = $container.find('.pdf-container');
 
@@ -338,7 +331,6 @@ define([
             assert.equal($pageNum.length, 1, 'The page number input has been added');
             assert.equal($pageCount.length, 1, 'The page count info has been added');
             assert.equal($fitToWidth.length, 1, 'The fitToWidth option has been added');
-            assert.equal($content.length, 1, 'The content panel has been added');
             assert.equal($pdfBar.length, 1, 'The PDF bar has been added');
             assert.equal($pdfContainer.length, 1, 'The PDF panel has been added');
 
