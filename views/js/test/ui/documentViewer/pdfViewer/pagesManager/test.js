@@ -31,7 +31,6 @@ define([
         { name : 'getView', title : 'getView' },
         { name : 'getActiveView', title : 'getActiveView' },
         { name : 'setActiveView', title : 'setActiveView' },
-        { name : 'resizeView', title : 'resizeView' },
         { name : 'renderPage', title : 'renderPage' },
         { name : 'destroy', title : 'destroy' }
     ];
@@ -130,7 +129,7 @@ define([
         view1 = instance.getView(1);
         assert.equal(typeof view1, "object", "The returned view is an object");
         assert.equal(view1, instance.getActiveView(), 'The view 1 is the active view');
-        assert.ok(!view1.getContainer().hasClass('hidden'), "The view 1 is visible");
+        assert.ok(!view1.getElement().hasClass('hidden'), "The view 1 is visible");
 
 
         instance.setActiveView(2);
@@ -139,111 +138,17 @@ define([
         view2 = instance.getView(2);
         assert.equal(typeof view2, "object", "The returned view is an object");
         assert.equal(view2, instance.getActiveView(), 'The view 2 is the active view');
-        assert.ok(view1.getContainer().hasClass('hidden'), "The view 1 is now hidden");
-        assert.ok(!view2.getContainer().hasClass('hidden'), "The view 2 is visible");
+        assert.ok(view1.getElement().hasClass('hidden'), "The view 1 is now hidden");
+        assert.ok(!view2.getElement().hasClass('hidden'), "The view 2 is visible");
 
         instance.setActiveView(1);
         assert.equal(typeof instance.getActiveView(), "object", "There is an active view");
 
         assert.equal(view1, instance.getActiveView(), 'The view 1 is the active view');
-        assert.ok(!view1.getContainer().hasClass('hidden'), "The view 1 is now visible");
-        assert.ok(view2.getContainer().hasClass('hidden'), "The view 2 is now hidden");
+        assert.ok(!view1.getElement().hasClass('hidden'), "The view 1 is now visible");
+        assert.ok(view2.getElement().hasClass('hidden'), "The view 2 is now hidden");
 
         assert.equal($container.children().length, 2, "The container contains 2 children");
-    });
-
-
-    QUnit.test('resizeView', function (assert) {
-        var $container = $('#qunit-fixture');
-        var instance, view;
-        var config = {};
-        var requestedWidth = 200;
-        var requestedHeight = 100;
-        var expectedWidth = 200;
-        var expectedHeight = 100;
-        var viewport = {
-            width: 400,
-            height: 200
-        };
-
-        QUnit.expect(7);
-
-        assert.equal($container.children().length, 0, "The container is empty");
-
-        instance = pagesManagerFactory(1, $container, config);
-        instance.setActiveView(1);
-        view = instance.getActiveView();
-
-        assert.notEqual(view.getPage().width(), expectedWidth, 'The view is not ' + expectedWidth + ' pixels width');
-        assert.notEqual(view.getPage().height(), expectedHeight, 'The view is not ' + expectedHeight + ' pixels height');
-
-        $container.width(requestedWidth).height(requestedHeight);
-
-        instance.resizeView(view, viewport);
-
-        assert.equal(view.getPage().width(), expectedWidth, 'The view is now ' + expectedWidth + ' pixels width');
-        assert.equal(view.getPage().height(), expectedHeight, 'The view is now ' + expectedHeight + ' pixels height');
-
-        viewport.width = 200;
-        viewport.height = 400;
-        requestedWidth = 300;
-        requestedHeight = 150;
-        expectedWidth = 75;
-        expectedHeight = 150;
-
-        $container.width(requestedWidth).height(requestedHeight);
-        instance.resizeView(view, viewport);
-
-        assert.equal(view.getPage().width(), expectedWidth, 'The view is ' + expectedWidth + ' pixels width');
-        assert.equal(view.getPage().height(), expectedHeight, 'The view is ' + expectedHeight + ' pixels height');
-    });
-
-
-    QUnit.test('fitToWidth', function (assert) {
-        var $container = $('#qunit-fixture');
-        var instance, view;
-        var config = {
-            fitToWidth: true
-        };
-        var requestedWidth = 200;
-        var requestedHeight = 100;
-        var expectedWidth = 200;
-        var expectedHeight = 100;
-        var viewport = {
-            width: 400,
-            height: 200
-        };
-
-        QUnit.expect(7);
-
-        assert.equal($container.children().length, 0, "The container is empty");
-
-        instance = pagesManagerFactory(1, $container, config);
-        instance.setActiveView(1);
-        view = instance.getActiveView();
-
-        assert.notEqual(view.getPage().width(), expectedWidth, 'The view is not ' + expectedWidth + ' pixels width');
-        assert.notEqual(view.getPage().height(), expectedHeight, 'The view is not ' + expectedHeight + ' pixels height');
-
-        $container.width(requestedWidth).height(requestedHeight);
-
-        instance.resizeView(view, viewport);
-
-        assert.equal(view.getPage().width(), expectedWidth, 'The view is now ' + expectedWidth + ' pixels width');
-        assert.equal(view.getPage().height(), expectedHeight, 'The view is now ' + expectedHeight + ' pixels height');
-
-        viewport.width = 100;
-        viewport.height = 1000;
-        requestedWidth = 300;
-        requestedHeight = 150;
-        expectedWidth = 300;
-        expectedHeight = expectedWidth * viewport.height / viewport.width;
-
-        $container.width(requestedWidth).height(requestedHeight);
-        instance.resizeView(view, viewport);
-
-        assert.equal(view.getPage().width(), expectedWidth, 'The view is ' + expectedWidth + ' pixels width');
-        assert.equal(view.getPage().height(), expectedHeight, 'The view is ' + expectedHeight + ' pixels height');
     });
 
 
@@ -290,15 +195,15 @@ define([
             assert.equal($container.children().length, 1, "The container contains a child");
 
             view = instance.getActiveView();
-            assert.notEqual(view.getPage().width(), expectedWidth, 'The view is not ' + expectedWidth + ' pixels width');
-            assert.notEqual(view.getPage().height(), expectedHeight, 'The view is not ' + expectedHeight + ' pixels height');
+            assert.notEqual(view.getDrawLayer().width(), expectedWidth, 'The view is not ' + expectedWidth + ' pixels width');
+            assert.notEqual(view.getDrawLayer().height(), expectedHeight, 'The view is not ' + expectedHeight + ' pixels height');
             $container.width(requestedWidth).height(requestedHeight);
 
             instance.renderPage(mockPage).then(function() {
                 assert.ok(rendered, 'The page has been rendered in the active view');
 
-                assert.equal(view.getPage().width(), expectedWidth, 'The view is now ' + expectedWidth + ' pixels width');
-                assert.equal(view.getPage().height(), expectedHeight, 'The view is now ' + expectedHeight + ' pixels height');
+                assert.equal(view.getDrawLayer().width(), expectedWidth, 'The view is now ' + expectedWidth + ' pixels width');
+                assert.equal(view.getDrawLayer().height(), expectedHeight, 'The view is now ' + expectedHeight + ' pixels height');
 
                 QUnit.start();
             }).catch(function() {
@@ -335,8 +240,8 @@ define([
 
         assert.equal($container.children().length, 0, "The container is now empty");
         assert.equal(instance.getActiveView(), null, 'There is no active view');
-        assert.equal(view1.getContainer(), null, 'The view 1 is destroyed');
-        assert.equal(view2.getContainer(), null, 'The view 2 is destroyed');
+        assert.equal(view1.getElement(), null, 'The view 1 is destroyed');
+        assert.equal(view2.getElement(), null, 'The view 2 is destroyed');
     });
 
 });

@@ -27,12 +27,6 @@ define([
     'use strict';
 
     /**
-     * A conversion factor for CSS units
-     * @type {Number}
-     */
-    var CSS_UNITS = 96.0 / 72.0;
-
-    /**
      * Creates a pages manager that will handle the PDF views
      * @param {Number} pageCount
      * @param {jQuery} $pageContainer
@@ -63,19 +57,18 @@ define([
 
             /**
              * Gets the view related to a particular page
-             * @param {Number} page
+             * @param {Number} pageNum
              * @returns {Object}
              */
-            getView: function getView(page) {
+            getView: function getView(pageNum) {
                 var index, view;
 
-                page = Math.min(Math.max(1, page), pageCount);
-                index = page - 1;
+                pageNum = Math.min(Math.max(1, pageNum), pageCount);
+                index = pageNum - 1;
 
                 view = views[index];
                 if (!view) {
-                    views[index] = view = pageViewFactory(page);
-                    $pageContainer.append(view.getContainer());
+                    views[index] = view = pageViewFactory($pageContainer, pageNum);
                 }
 
                 return view;
@@ -108,69 +101,14 @@ define([
             },
 
             /**
-             * Resize a page view
-             * @param {Object} view
-             * @param {Object} viewport
-             */
-            resizeView: function resizeView(view, viewport) {
-                var ratio = (viewport.width / (viewport.height || 1)) || 1;
-                var parentWidth = $pageContainer.width();
-                var parentHeight = $pageContainer.height();
-                var parentOffset = $pageContainer.offset();
-                var $page = view.getContainer();
-                var width, height;
-
-                if (config.fitToWidth) {
-                    width = parentWidth;
-                    height = width / ratio;
-
-                    if (height > parentHeight) {
-                        view.setSize(Math.max(1, parentWidth / 2), height);
-                        parentWidth = $pageContainer.prop('scrollWidth');
-                        width = parentWidth;
-                        height = width / ratio;
-                    }
-                } else {
-                    if (ratio >= 1) {
-                        height = Math.min(parentHeight, parentWidth / ratio);
-                        width = Math.min(parentWidth, height * ratio);
-                    } else {
-                        width = Math.min(parentWidth, parentHeight * ratio);
-                        height = Math.min(parentHeight, width / ratio);
-                    }
-                }
-
-                view.setSize(width, height, viewport);
-
-                $page
-                    .offset({
-                        left: parentOffset.left + Math.max(0, (parentWidth - width) / 2)
-                    });
-            },
-
-            /**
              * Renders a page into the active view
              * @param {Object} page
              * @returns {Promise}
              */
             renderPage: function renderPage(page) {
-                var viewport, renderContext;
-
                 if (activeView) {
-                    activeView.rendered = false;
-                    viewport = page.getViewport(activeView.scale * CSS_UNITS);
-                    renderContext = {
-                        canvasContext: activeView.getRenderingContext(),
-                        viewport: viewport
-                    };
-
-                    pagesManager.resizeView(activeView, viewport);
-
-                    return page.render(renderContext).promise.then(function () {
-                        activeView.rendered = true;
-                    });
+                    return activeView.render(page, config.fitToWidth);
                 }
-
                 return Promise.resolve();
             },
 
