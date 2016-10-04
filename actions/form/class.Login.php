@@ -60,7 +60,7 @@ class tao_actions_form_Login extends tao_helpers_form_FormContainer
 
         $passElt = tao_helpers_form_FormFactory::getElement('password', 'Hiddenbox');
         $passElt->setDescription(__("Password"));
-        if (!empty($this->data['emptyPassword'])) {
+        if (empty($this->data['emptyPassword'])) {
             $passElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         }
         $this->form->addElement($passElt);
