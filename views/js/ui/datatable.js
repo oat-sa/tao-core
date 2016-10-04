@@ -46,11 +46,6 @@ define([
     var hiddenCls = 'hidden';
 
     /**
-     * Filter strategy
-     */
-    var filterStrategy;
-
-    /**
      * The dataTable component makes you able to browse items and bind specific
      * actions to undertake for edition and removal of them.
      *
@@ -106,8 +101,6 @@ define([
 
             var self = dataTable;
             options = _.defaults(options, defaults);
-
-            filterStrategy = filterStrategyFactory(options);
 
             return this.each(function() {
                 var $elt = $(this);
@@ -392,7 +385,7 @@ define([
 
             // Add the filter behavior
             if (options.filter) {
-                filterStrategy.render($rendering, options);
+                self._getFilterStrategy($elt).render($rendering, options);
                 _.forEach($('.filter', $rendering), function (filter) {
                     var $filter = $(filter);
                     var $filterBtn = $('button', $filter);
@@ -577,7 +570,7 @@ define([
          */
         _filter: function _filter($elt, $filter) {
             var options = $elt.data(dataNs);
-            var data = filterStrategy.getQueryData($elt, $filter, options);
+            var data = this._getFilterStrategy($elt).getQueryData($elt, $filter, options);
             options.page = 1;
             $elt.data(dataNs, _.assign(options, data));
 
@@ -589,6 +582,11 @@ define([
 
             // Call the query
             this._query($elt);
+        },
+
+        _getFilterStrategy: function _getFilterStrategy($elt) {
+            var options = $elt.data(dataNs);
+            return filterStrategyFactory(options);
         },
 
         /**
