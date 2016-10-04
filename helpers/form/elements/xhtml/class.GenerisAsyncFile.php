@@ -15,7 +15,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2009-2016 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
 
@@ -27,16 +27,8 @@
  * @package tao
  
  */
-class tao_helpers_form_elements_xhtml_GenerisAsyncFile
-    extends tao_helpers_form_elements_GenerisAsyncFile
+class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_elements_GenerisAsyncFile
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
      * Short description of method feed
      *
@@ -46,15 +38,18 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
      */
     public function feed()
     {
-        
-    	if (isset($_POST[$this->name])) {
-    		$struct = @unserialize($_POST[$this->name]);
-    		if($struct !== false){
-    			$desc = new tao_helpers_form_data_UploadFileDescription(	$struct['name'],
-    					$struct['size'],
-    					$struct['type'],
-    					$struct['uploaded_file']);
-    			$this->setValue($desc);
+        if (isset($_POST[$this->name])) {
+
+            $structure = json_decode($_POST[$this->name], true);
+    		if($structure !== false) {
+    			$description = new tao_helpers_form_data_UploadFileDescription(
+                    array_key_exists('name' , $structure) ? $structure['name'] : null,
+                    array_key_exists('size' , $structure) ? $structure['size'] : null,
+                    array_key_exists('type' , $structure) ? $structure['type'] : null,
+                    array_key_exists('uploaded_file' , $structure) ? $structure['uploaded_file'] : null,
+                    array_key_exists('action' , $structure) ? $structure['action'] : null
+                );
+    			$this->setValue($description);
     		}
     		else{
     			// else, no file was selected by the end user.
@@ -74,16 +69,16 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
      */
     public function render()
     {
-        $returnValue = (string) '';
-
-        
-        $widgetName = $this->buildWidgetName();
         $widgetContainerId = $this->buildWidgetContainerId();
         
-        $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
+        $returnValue = "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
         $returnValue .= "<div id='${widgetContainerId}' class='form-elt-container file-uploader'>";
-        
-        if ($this->value instanceof tao_helpers_form_data_FileDescription && ($file = $this->value->getFile()) != null){
+
+        if ($this->value instanceof tao_helpers_form_data_UploadFileDescription
+            && $this->value->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE
+        ) {
+            //File deleted, nothing to render
+        } elseif ($this->value instanceof tao_helpers_form_data_FileDescription && ($file = $this->value->getFile()) != null){
         	 
         	// A file is stored or has just been uploaded.
         	$shownFileName = $this->value->getName();
@@ -140,20 +135,19 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
      */
     public function buildDeleterBehaviour()
     {
-        $returnValue = (string) '';
-
-        
-        $deleteButtonId = $this->buildDeleteButtonId();
-         
-        $returnValue .= '$(document).ready(function() {';
-        $returnValue .= '	$("#' . $deleteButtonId . '").click(function() {';
-        $returnValue .= '		$("#' . $this->buildWidgetContainerId() . '").empty();';
-        $returnValue .= '		' . $this->buildUploaderBehaviour(true);
-        $returnValue .= '	});';
-        $returnValue .= '});';
-        
-
-        return (string) $returnValue;
+        return '$(document).ready(function() {
+                    $("#' . $this->buildDeleteButtonId() . '").click(function() {
+                        var $form = $(this).parents("form"),
+                            $fileHandling = $form.find("[name=\'' . $this->getName() . '\']");
+                        if(!$fileHandling.length) {
+                            $fileHandling = $("<input>", { name: "' . $this->getName() . '", type: "hidden" });
+                            $form.prepend($fileHandling); 
+                        }
+                        $fileHandling.val("{\\"action\\":\\"delete\\"}");
+                        $("#' . $this->buildWidgetContainerId() . '").empty();
+                        ' . $this->buildUploaderBehaviour(true) . '
+                    });
+                });';
     }
 
     /**
@@ -255,7 +249,10 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
 
 					 }).on("upload.uploader", function(e, file, result){
 					 	if ( result && result.uploaded ){
-							$(e.target).append($("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data));
+					 	    var $container = $(e.target);
+                            var $form = $container.parents("form");
+                            var $fileHandling = $form.find("[name=\'file_handling\']");
+							$container.append($("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data));
 						}
 					 })
 			});';
