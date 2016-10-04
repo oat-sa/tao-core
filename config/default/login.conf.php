@@ -26,4 +26,11 @@ return array(
      * @type bool
      */
     'disableAutocomplete' => false,
+
+    /**
+     * Disable the NotEmpty validation rule for password field;
+     * May be need for reset password of bulk loaded users
+     * @type bool
+     */
+    'emptyPassword' => false
 );

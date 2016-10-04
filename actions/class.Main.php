@@ -122,10 +122,12 @@ class tao_actions_Main extends tao_actions_CommonModule
         $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $config = $extension->getConfig('login');
         $disableAutocomplete = !empty($config['disableAutocomplete']);
+        $emptyPassword = !empty($config['emptyPassword']);
 
-		$params = array(
+		$params = [
             'disableAutocomplete' => $disableAutocomplete,
-        );
+            'emptyPassword' => $emptyPassword
+        ];
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
 				

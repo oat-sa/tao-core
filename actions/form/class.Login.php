@@ -19,79 +19,56 @@
  * 
  */
 
-use oat\tao\helpers\Layout;
-
 /**
  * This container initialize the login form.
- *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
-class tao_actions_form_Login
-    extends tao_helpers_form_FormContainer
+class tao_actions_form_Login extends tao_helpers_form_FormContainer
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
-     * Short description of method initForm
-     *
-     * @access public
+     * Initialization of login form
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
      */
     public function initForm()
     {
-        
-		
 		$this->form = tao_helpers_form_FormFactory::getForm('loginForm');
 		
 		$connectElt = tao_helpers_form_FormFactory::getElement('connect', 'Submit');
 		$connectElt->setValue(__('Log in'));
-		$this->form->setActions(array($connectElt), 'bottom');
-		
-        
+		$this->form->setActions([$connectElt], 'bottom');
     }
 
     /**
-     * Short description of method initElements
-     *
-     * @access public
+     * Initialization of login form elements
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
      */
     public function initElements()
     {
-        
-		
-    	if (isset($this->data['redirect']) && !empty($this->data['redirect'])) {
-			$hiddenElt = tao_helpers_form_FormFactory::getElement('redirect', 'Hidden');
-			$hiddenElt->setValue($this->data['redirect']);
-			$this->form->addElement($hiddenElt);
-    	}
-    	$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
-		$loginElt->setDescription(Layout::getLoginLabel());
-		$loginElt->setAttributes(array('autofocus' => 'autofocus'));
-		$loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		$this->form->addElement($loginElt);
-		
-		$passElt = tao_helpers_form_FormFactory::getElement('password', 'Hiddenbox');
-		$passElt->setDescription(Layout::getPasswordLabel());
-		$passElt->addValidator(
-			tao_helpers_form_FormFactory::getValidator('NotEmpty')
-		);
-		$this->form->addElement($passElt);
+        if (isset($this->data['redirect']) && !empty($this->data['redirect'])) {
+            $hiddenElt = tao_helpers_form_FormFactory::getElement('redirect', 'Hidden');
+            $hiddenElt->setValue($this->data['redirect']);
+            $this->form->addElement($hiddenElt);
+        }
 
-		if (isset($this->data['disableAutocomplete']) && !empty($this->data['disableAutocomplete'])) {
-			$loginElt->setAttributes(array('autocomplete' => 'off'));
-			$passElt->setAttributes(array('autocomplete' => 'off'));
-		}
+        $loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
+        $loginElt->setDescription(__("Login"));
+        $loginElt->setAttributes(['autofocus' => 'autofocus']);
+        $loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+        $this->form->addElement($loginElt);
+
+        $passElt = tao_helpers_form_FormFactory::getElement('password', 'Hiddenbox');
+        $passElt->setDescription(__("Password"));
+        if (empty($this->data['emptyPassword'])) {
+            $passElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+        }
+        $this->form->addElement($passElt);
+
+        if (isset($this->data['disableAutocomplete']) && !empty($this->data['disableAutocomplete'])) {
+            $loginElt->setAttributes(['autocomplete' => 'off']);
+            $passElt->setAttributes(['autocomplete' => 'off']);
+        }
     }
 
 }
