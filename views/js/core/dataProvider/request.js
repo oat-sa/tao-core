@@ -36,6 +36,23 @@ define([
     'use strict';
 
     /**
+     * Create a new error based on the given response
+     * @param {Object} response - the server body response as plain object
+     * @param {String} fallbackMessage - the error message in case the response isn't correct
+     * @returns {Error} the new error
+     */
+    var createError = function createError(response, fallbackMessage){
+        var err;
+        if(response && response.errorCode){
+            err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage));
+            err.response = response;
+        } else {
+            err = new Error(fallbackMessage);
+        }
+        return err;
+    };
+
+    /**
      * Request content from a TAO endpoint
      * @param {String} url - the endpoint full url
      * @param {Object} [data] - additional parameters
@@ -61,23 +78,23 @@ define([
                     return resolve();
                 }
 
-                if(_.isPlainObject(response)){
+                if(response && response.success === true){
                     //there's some data
-                    if(response.success){
-                        return resolve(response.data);
-                    }
-
-                    //the server has handled the error
-                    if(response.message){
-                        return reject(new Error(response.message));
-                    }
-                    return reject(new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage)));
-
+                    return resolve(response.data);
                 }
-                return reject(new Error('No response'));
+
+                //the server has handled the error
+                return reject(createError(response, 'No response'));
             })
             .fail(function(xhr){
-                return reject(new Error(xhr.status + ' : ' + xhr.statusText));
+                var response;
+                try {
+                    response = JSON.parse(xhr.responseText);
+                } catch(parseErr){
+                    _.noop();
+                }
+
+                return reject(createError(response, xhr.status + ' : ' + xhr.statusText));
             });
         });
     };
