@@ -18,7 +18,7 @@
 
 /**
  * Common HTTP request wrapper to get data from TAO.
- * This suppose the endpoint to match the following crierrias :
+ * This suppose the endpoint to match the following criteria :
  *   - Restful endpoint
  *   - contentType : application/json
  *   - the responseBody:
