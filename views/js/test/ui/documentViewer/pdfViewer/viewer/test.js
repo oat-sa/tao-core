@@ -22,11 +22,21 @@ define([
     'lodash',
     'core/promise',
     'ui/documentViewer/viewerFactory',
-    'ui/documentViewer/providers/pdfViewer'
-], function (_, Promise, viewerFactory, pdfViewer) {
+    'ui/documentViewer/providers/pdfViewer',
+    'test/ui/documentViewer/pdfViewer/mocks/mockPdfjs'
+], function (_, Promise, viewerFactory, pdfViewer, mockPdfjs) {
     'use strict';
 
     var headless = /PhantomJS/.test(window.navigator.userAgent);
+    var pdfUrl = location.href.replace('/pdfViewer/viewer/test.html', '/sample/demo.pdf');
+    var PDFjsId = 'pdfjs-dist/build/pdf';
+    var contexts = [{
+        title: 'fallback',
+        module: null
+    }, {
+        title: 'PDF.js',
+        module: mockPdfjs
+    }];
 
     QUnit.module('pdfViewer factory', {
         teardown: function () {
@@ -52,7 +62,7 @@ define([
     });
 
 
-    QUnit.module('implementation', {
+    QUnit.module('pdfViewer implementation', {
         setup: function () {
             viewerFactory.registerProvider('pdf', pdfViewer);
         },
@@ -61,34 +71,27 @@ define([
         }
     });
 
-    if (headless) {
-        QUnit.asyncTest('render', function (assert) {
-            QUnit.expect(2);
+
+    QUnit
+        .cases(contexts)
+        .asyncTest('render ', function(data, assert) {
+            QUnit.expect(headless ? 2 : 3);
+
+            requirejs.undef(PDFjsId);
+            define(PDFjsId, data.module);
 
             viewerFactory('pdf', {
                 type: 'pdf',
-                url: location.href.replace('test.html', 'demo.pdf')
+                url: pdfUrl
             })
                 .on('initialized', function () {
                     assert.ok(true, 'The viewer is initialized');
-                    this.destroy();
-                })
-                .on('unloaded', function () {
-                    assert.ok(true, 'The viewer is destroyed');
-                    QUnit.start();
-                });
-        });
-    } else {
-        QUnit.asyncTest('render', function (assert) {
-            QUnit.expect(3);
 
-            viewerFactory('pdf', {
-                type: 'pdf',
-                url: location.href.replace('test.html', 'demo.pdf')
-            })
-                .on('initialized', function () {
-                    assert.ok(true, 'The viewer is initialized');
-                    this.render('#qunit-fixture');
+                    if (headless) {
+                        this.destroy();
+                    } else {
+                        this.render('#qunit-fixture');
+                    }
                 })
                 .on('loaded', function () {
                     assert.ok(true, 'The PDF file has been loaded');
@@ -99,6 +102,5 @@ define([
                     QUnit.start();
                 });
         });
-    }
 
 });
