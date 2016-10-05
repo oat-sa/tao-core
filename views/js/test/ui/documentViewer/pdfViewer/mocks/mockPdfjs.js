@@ -19,9 +19,10 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+    'lodash',
     'core/eventifier',
     'core/promise'
-], function (eventifier, Promise) {
+], function (_, eventifier, Promise) {
     'use strict';
 
     /**
@@ -35,11 +36,51 @@ define([
         pageCount: 10,
         viewportWidth: 256,
         viewportHeight: 128,
+        textContent: 'This is a test',
 
         PDFJS: {},
 
         getDocument: function getDocument(uri) {
             return Promise.resolve(pdfDocumentFactory(uri));
+        },
+
+        renderTextLayer: function renderTextLayer(config) {
+            var rejectPromise;
+            var promiseTo = null;
+            var cancelTo = null;
+            var promise = new Promise(function (resolve, reject) {
+                promiseTo = setTimeout(function () {
+                    _.forEach(config.textContent.items, function (item) {
+                        var textDiv = document.createElement('div');
+                        config.textDivs.push(textDiv);
+                        textDiv.textContent = item.str;
+                        config.container.appendChild(textDiv);
+                    });
+
+                    clearTimeout(cancelTo);
+                    promiseTo = null;
+                    resolve();
+                }, 100);
+                rejectPromise = reject;
+            });
+
+            function cancel() {
+                if (promiseTo !== null) {
+                    clearTimeout(promiseTo);
+                    rejectPromise('canceled');
+                }
+                promiseTo = null;
+            }
+
+            if (config.timeout) {
+                cancelTo = setTimeout(cancel, config.timeout);
+            }
+
+            mockPDFJS.trigger('textLayer');
+            return {
+                promise: promise,
+                cancel: cancel
+            };
         }
     };
 
@@ -75,10 +116,18 @@ define([
                 };
             },
 
+            getTextContent: function getTextContent() {
+                return Promise.resolve({
+                    items: _.map(mockPDFJS.textContent.split(' '), function (term) {
+                        return {str: term};
+                    })
+                });
+            },
+
             render: function render() {
                 mockPDFJS.trigger('pageRender');
                 return {
-                    promise: new Promise(function(resolve) {
+                    promise: new Promise(function (resolve) {
                         setTimeout(resolve, 100);
                     })
                 };
