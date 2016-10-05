@@ -15,7 +15,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2009-2016 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
 
@@ -25,15 +25,14 @@
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- 
  */
-class tao_helpers_form_data_UploadFileDescription
-    extends tao_helpers_form_data_FileDescription
+class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_FileDescription
 {
-    // --- ASSOCIATIONS ---
+    /** Action form: add */
+    const FORM_ACTION_ADD = 'add';
 
-
-    // --- ATTRIBUTES ---
+    /** Action form: delete */
+    const FORM_ACTION_DELETE = 'delete';
 
     /**
      * The mime/type of the file e.g. text/plain.
@@ -52,7 +51,12 @@ class tao_helpers_form_data_UploadFileDescription
      */
     private $tmpPath = '';
 
-    // --- OPERATIONS ---
+    /**
+     * Allow to specify action to know form purpose
+     *
+     * @var string
+     */
+    private $action;
 
     /**
      * The temporary file path where the file is stored before being moved to
@@ -60,19 +64,19 @@ class tao_helpers_form_data_UploadFileDescription
      *
      * @access public
      * @author Jerome Bogaerts <jerome@taotesting.com>
-     * @param  string name The name of the file e.g. tmpImage.tmp
-     * @param  int size The size of the file in bytes
-     * @param  string type The mime-type of the file e.g. text/plain.
-     * @param  string tmpPath
+     * @param  string $name The name of the file e.g. tmpImage.tmp
+     * @param  int $size The size of the file in bytes
+     * @param  string $type The mime-type of the file e.g. text/plain.
+     * @param  string $tmpPath
+     * @param  string $action
      * @return mixed
      */
-    public function __construct($name, $size, $type, $tmpPath)
+    public function __construct($name, $size, $type, $tmpPath, $action = null)
     {
-        
         parent::__construct($name, $size);
         $this->type = $type;
         $this->tmpPath = $tmpPath;
-        
+        $this->action = is_null($action) ? self::FORM_ACTION_ADD : $action;
     }
 
     /**
@@ -84,13 +88,7 @@ class tao_helpers_form_data_UploadFileDescription
      */
     public function getType()
     {
-        $returnValue = (string) '';
-
-        
-        $returnValue = $this->type;
-        
-
-        return (string) $returnValue;
+        return (string) $this->type;
     }
 
     /**
@@ -102,15 +100,16 @@ class tao_helpers_form_data_UploadFileDescription
      */
     public function getTmpPath()
     {
-        $returnValue = (string) '';
-
-        
-        $returnValue = $this->tmpPath;
-        
-
-        return (string) $returnValue;
+        return (string) $this->tmpPath;
     }
 
+    /**
+     * Return action form
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
 }
-
-?>
