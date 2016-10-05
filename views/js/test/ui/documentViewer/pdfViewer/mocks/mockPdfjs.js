@@ -112,7 +112,11 @@ define([
             getViewport: function getViewport() {
                 return {
                     width: mockPDFJS.viewportWidth,
-                    height: mockPDFJS.viewportHeight
+                    height: mockPDFJS.viewportHeight,
+
+                    clone: function() {
+                        return _.clone(this);
+                    }
                 };
             },
 

@@ -20,8 +20,9 @@
  */
 define([
     'jquery',
-    'core/promise'
-], function ($, Promise) {
+    'core/promise',
+    'ui/documentViewer/providers/pdfViewer/pdfjs/pagesManager'
+], function ($, Promise, pagesManagerFactory) {
     'use strict';
 
     /**
@@ -67,10 +68,13 @@ define([
 
     /**
      * Creates a wrapper for PDF.js to render a document
-     * @param PDFJS
+     * @param {jQuery} $container
+     * @param {Object} config
+     * @param {Object} config.PDFJS - The PDFJS entry point
+     * @param {Boolean} [config.fitToWidth] - Fit the page to the available width, a scroll bar may appear
      * @returns {Object}
      */
-    function pdfjsWrapperFactory(PDFJS) {
+    function pdfjsWrapperFactory($container, config) {
         var pdfDoc = null;
         var pageNum = 1;
         var pageCount = 1;
@@ -78,6 +82,7 @@ define([
         var pageRendering = null;
         var pagesManager = null;
         var states = {};
+        var PDFJS = null;
 
         /**
          * Wraps the PDF.js API
@@ -107,7 +112,7 @@ define([
              * @returns {Promise}
              */
             renderPage: function renderPage(num) {
-                if (pdfDoc && pagesManager) {
+                if (pdfDoc) {
                     if (!pageRendering) {
                         pagesManager.setActiveView(num);
                         states.rendered = false;
@@ -193,14 +198,6 @@ define([
             },
 
             /**
-             * Sets the pages manager
-             * @param {Object} manager
-             */
-            setPagesManager: function setPagesManager(manager) {
-                pagesManager = manager;
-            },
-
-            /**
              * Refresh the current page
              * @returns {Promise}
              */
@@ -212,15 +209,40 @@ define([
              * Liberates the resources
              */
             destroy: function destroy() {
+                if (pagesManager) {
+                    pagesManager.destroy();
+                }
+
                 if (pdfDoc) {
                     pdfDoc.destroy();
                 }
 
                 pdfDoc = null;
+                pageNumPending = null;
+                pageRendering = null;
                 pagesManager = null;
-                states = {};
+                $container = null;
+                PDFJS = null;
+                config = null;
+                states = {
+                    destroyed: true
+                };
             }
         };
+
+        config = config || {};
+        PDFJS = config.PDFJS;
+
+        if ('object' !== typeof PDFJS) {
+            throw new TypeError('You must provide the entry point to the PDS.js library! [config.PDFJS is missing]');
+        }
+
+        // todo: accept option to use a view per page instead of a single view for all pages
+        pagesManager = pagesManagerFactory($container, {
+            pageCount: 1,
+            fitToWidth: config.fitToWidth,
+            PDFJS: PDFJS
+        });
 
         return wrapper;
     }

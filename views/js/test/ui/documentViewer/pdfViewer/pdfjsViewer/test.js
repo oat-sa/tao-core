@@ -36,13 +36,16 @@ define([
 
     QUnit.test('module', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
         var instance;
 
         QUnit.expect(5);
 
         assert.equal(typeof viewerFactory, 'function', "The pdfViewer PDF.js module exposes a function");
 
-        instance = viewerFactory($container, pdfjs, {});
+        instance = viewerFactory($container, config);
 
         assert.equal(typeof instance, 'object', "The pdfViewer PDF.js factory provides an object");
         assert.equal(typeof instance.load, 'function', "The pdfViewer PDF.js instance exposes a function load()");
@@ -51,11 +54,31 @@ define([
     });
 
 
-    QUnit.module('pdfViewer PDF.js implementation');
+    QUnit.module('pdfViewer PDF.js implementation', {
+        teardown: function () {
+            pdfjs.removeAllListeners();
+        }
+    });
+
+
+    QUnit.test('error', function (assert) {
+        var $container = $('#qunit-fixture');
+        var config = {};
+
+        QUnit.expect(1);
+
+        assert.throws(function () {
+            viewerFactory($container, config);
+        }, "The pdfViewer PDF.js factory triggers an error if PDF.js is missing");
+    });
 
 
     QUnit.asyncTest('render', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs,
+            fitToWidth: true
+        };
         var requestedWidth = 320;
         var requestedHeight = 240;
         var expectedWidth;
@@ -67,7 +90,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
-        instance = viewerFactory($container, pdfjs, {fitToWidth: true});
+        instance = viewerFactory($container, config);
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
@@ -120,6 +143,10 @@ define([
 
     QUnit.asyncTest('navigation single page', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs,
+            fitToWidth: true
+        };
         var instance;
         var promise;
         var page = 1;
@@ -131,7 +158,7 @@ define([
 
         pdfjs.pageCount = count;
         wrapperFactory.pageCount = count;
-        instance = viewerFactory($container, pdfjs, {fitToWidth: true});
+        instance = viewerFactory($container, config);
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
@@ -203,6 +230,10 @@ define([
 
     QUnit.asyncTest('navigation multi pages', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs,
+            fitToWidth: true
+        };
         var instance;
         var promise;
         var page = 1;
@@ -214,7 +245,7 @@ define([
 
         pdfjs.pageCount = count;
         wrapperFactory.pageCount = count;
-        instance = viewerFactory($container, pdfjs, {fitToWidth: true});
+        instance = viewerFactory($container, config);
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');
@@ -300,6 +331,7 @@ define([
     QUnit.asyncTest('options', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
+            PDFJS: pdfjs,
             fitToWidth: true
         };
         var instance;
@@ -309,7 +341,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
-        instance = viewerFactory($container, pdfjs, config);
+        instance = viewerFactory($container, config);
         promise = instance.load(pdfUrl);
 
         assert.equal(typeof promise, 'object', 'The load() function returns an object');

@@ -42,6 +42,10 @@ $viewerBg: whiten($viewerBarBg, .5);
             }
         }
 
+        .pdf-find-bar {
+            position: absolute;
+        }
+
         .pdf-container {
             position: relative;
             overflow-y: auto;
@@ -49,16 +53,33 @@ $viewerBg: whiten($viewerBarBg, .5);
 
         .pdf-page {
             position: relative;
+            margin: 0 auto;
         }
 
         .pdf-content {
-            margin: 0 auto;
+            margin: 0;
+            padding: 0;
+            display: block;
         }
 
         .pdf-text {
             position: absolute;
             top: 0;
             left: 0;
+            bottom: 0;
+            right: 0;
+            overflow: hidden;
+            opacity: 0.2;
+            line-height: 1.0;
+
+            & > div {
+                color: transparent;
+                position: absolute;
+                white-space: pre;
+                cursor: text;
+
+                @include vendor-prefix(transform-origin, 0% 0%, property);
+            }
         }
     }
 }

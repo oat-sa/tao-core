@@ -20,9 +20,11 @@
  */
 define([
     'jquery',
+    'core/promise',
     'ui/hider',
+    'ui/documentViewer/providers/pdfViewer/pdfjs/textLayer',
     'tpl!ui/documentViewer/providers/pdfViewer/pdfjs/page'
-], function ($, hider, pageTpl) {
+], function ($, Promise, hider, textLayerFactory, pageTpl) {
     'use strict';
 
     /**
@@ -76,24 +78,32 @@ define([
     /**
      * Creates a page view
      * @param {jQuery} $container
-     * @param {Number} pageNum
+     * @param {Object} config
+     * @param {Object} config.PDFJS - The PDFJS entry point
+     * @param {Number} config.pageNum
      * @returns {Object}
      */
-    function pageViewFactory($container, pageNum) {
-        var $pageView = $(pageTpl({page: pageNum}));
-        var $textLayer = $pageView.find('.pdf-text');
-        var $drawLayer = $pageView.find('canvas');
-        var canvas = $drawLayer.get(0);
-        var context = canvas.getContext('2d');
-        var scale = normalizeScale(getOutputScale(context) * DEFAULT_SCALE);
+    function pageViewFactory($container, config) {
+        var $pageView, $textLayer, $drawLayer;
+        var canvas, context, scale;
+        var textLayer = null;
         var rendered = false;
+        var PDFJS = null;
+        var pageNum;
 
         var view = {
             /**
              * The page number that is attached to this view
              * @type {Number}
              */
-            pageNum: pageNum,
+            get pageNum() {
+                return pageNum;
+            },
+
+            set pageNum(num) {
+                pageNum = parseInt(num, 10);
+                $pageView.attr('data-page', num);
+            },
 
             /**
              * Whether the view has been rendered or not
@@ -123,7 +133,7 @@ define([
              * Gets the draw layer element
              * @returns {jQuery}
              */
-            getDrawLayer: function getDrawLayer() {
+            getDrawLayerElement: function getDrawLayerElement() {
                 return $drawLayer;
             },
 
@@ -131,7 +141,7 @@ define([
              * Gets the text layer container
              * @returns {jQuery}
              */
-            getTextLayer: function getTextLayer() {
+            getTextLayerElement: function getTextLayerElement() {
                 return $textLayer;
             },
 
@@ -152,16 +162,26 @@ define([
             },
 
             /**
+             * Gets the text layer manager
+             * @returns {Object}
+             */
+            getTextLayer: function getTextLayer() {
+                return textLayer;
+            },
+
+            /**
              * Renders a page into the view
              * @param {Object} page - The PDF page definition
              * @param {Boolean} [fitToWidth] - Force the page view to fit its container width, without respect of the container height
              * @returns {Promise}
              */
             render: function render(page, fitToWidth) {
-                var viewport, renderContext;
+                var viewport, textViewport, renderContext;
+                var promises = [];
+                var renderScale = scale * CSS_UNITS;
 
                 rendered = false;
-                viewport = page.getViewport(scale * CSS_UNITS);
+                viewport = page.getViewport(renderScale);
                 renderContext = {
                     canvasContext: view.getRenderingContext(),
                     viewport: viewport
@@ -169,7 +189,25 @@ define([
 
                 adjustSize(viewport, fitToWidth);
 
-                return page.render(renderContext).promise.then(function () {
+                promises.push(
+                    page.render(renderContext).promise
+                );
+
+                if (textLayer) {
+                    textViewport = viewport.clone({
+                        scale: renderScale * $textLayer.width() / viewport.width
+                    });
+
+                    promises.push(
+                        textLayer.setTextContentFromPage(page).then(function () {
+                            if (textLayer) {
+                                return textLayer.render(textViewport);
+                            }
+                        })
+                    );
+                }
+
+                return Promise.all(promises).then(function () {
                     rendered = true;
                 });
             },
@@ -189,9 +227,13 @@ define([
             },
 
             /**
-             * Remove and destroys the page view
+             * Removes and destroys the page view
              */
             destroy: function destroy() {
+                if (textLayer) {
+                    textLayer.destroy();
+                }
+
                 $pageView.remove();
 
                 $container = null;
@@ -200,6 +242,9 @@ define([
                 $drawLayer = null;
                 canvas = null;
                 context = null;
+                textLayer = null;
+                PDFJS = null;
+                config = null;
             }
         };
 
@@ -257,6 +302,26 @@ define([
             canvas.width = viewport.width;
             canvas.height = viewport.height;
         }
+
+        config = config || {};
+        PDFJS = config.PDFJS;
+        pageNum = config.pageNum;
+
+        $pageView = $(pageTpl({page: pageNum}));
+        $textLayer = $pageView.find('.pdf-text');
+        $drawLayer = $pageView.find('canvas');
+        canvas = $drawLayer.get(0);
+        context = canvas.getContext('2d');
+        scale = normalizeScale(getOutputScale(context) * DEFAULT_SCALE);
+
+
+        if ('object' !== typeof PDFJS) {
+            throw new TypeError('You must provide the entry point to the PDS.js library! [config.PDFJS is missing]');
+        }
+
+        textLayer = textLayerFactory($textLayer, {
+            PDFJS: PDFJS
+        });
 
         // the page view is automatically added to its container
         $container.append($pageView);

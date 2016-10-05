@@ -21,25 +21,26 @@
 define([
     'jquery',
     'core/promise',
+    'ui/hider',
     'ui/documentViewer/providers/pdfViewer/pdfjs/wrapper',
-    'ui/documentViewer/providers/pdfViewer/pdfjs/pagesManager',
     'tpl!ui/documentViewer/providers/pdfViewer/pdfjs/viewer'
-], function ($, Promise, wrapperFactory, pagesManagerFactory, viewerTpl) {
+], function ($, Promise, hider, wrapperFactory, viewerTpl) {
     'use strict';
 
     /**
      * Wraps the component that use the PDF.js lib to render a PDF.
      * @param {jQuery} $container
-     * @param {Object} pdfjs
      * @param {Object} config
+     * @param {Object} config.PDFJS - The PDFJS entry point
+     * @param {Boolean} [config.fitToWidth] - Fit the page to the available width, a scroll bar may appear
      * @returns {Object}
      */
-    function pdfjsViewerFactory($container, pdfjs, config) {
+    function pdfjsViewerFactory($container, config) {
         var template = viewerTpl(config);
         var controls = {};
         var pdf = null;
-        var pagesManager = null;
         var enabled = true;
+        var PDFJS = null;
 
         /**
          * Will update the displayed page number, and toggle the input enabling
@@ -123,6 +124,11 @@ define([
         }
 
         config = config || {};
+        PDFJS = config.PDFJS;
+
+        if ('object' !== typeof PDFJS) {
+            throw new TypeError('You must provide the entry point to the PDS.js library! [config.PDFJS is missing]');
+        }
 
         return {
             /**
@@ -137,7 +143,7 @@ define([
                 // Disable the streaming mode: the file needs to be fully loaded before display.
                 // This will prevent "Bad offset" error under Chrome and IE, but will slow down the first display.
                 // Other approach would be to provide a range loader callback, but need a lot of work.
-                pdfjs.PDFJS.disableRange = true;
+                PDFJS.PDFJS.disableRange = true;
 
                 controls = {
                     $bar: $container.find('.pdf-bar'),
@@ -150,7 +156,7 @@ define([
                     $fitToWidth: $container.find('[data-control="fit-to-width"]')
                 };
 
-                pdf = wrapperFactory(pdfjs);
+                pdf = wrapperFactory(controls.$container, config);
 
                 this.setSize($container.width(), $container.height());
 
@@ -190,13 +196,7 @@ define([
 
                     controls.$pageCount.html(pageCount);
 
-                    // todo: accept option to use a view per page
-                    pagesManager = pagesManagerFactory(1, controls.$container, config);
-                    pdf.setPagesManager(pagesManager);
-
                     enable();
-
-                    return pdf.renderPage(1);
                 });
             },
 
@@ -208,14 +208,9 @@ define([
                     pdf.destroy();
                 }
 
-                if (pagesManager) {
-                    pagesManager.destroy();
-                }
-
                 $container.empty();
                 controls = {};
                 pdf = null;
-                pagesManager = null;
             },
 
             /**

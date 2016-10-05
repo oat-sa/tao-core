@@ -42,7 +42,32 @@ define([
         'MDAwIG4gCjAwMDAwMDAxNzggMDAwMDAgbiAKMDAwMDAwMDQ1NyAwMDAwMCBuIAp0cmFpbGVyCiAg' +
         'PDwgIC9Sb290IDEgMCBSCiAgICAgIC9TaXplIDUKICA+PgpzdGFydHhyZWYKNTY1CiUlRU9GCg==';
 
-    var wrapperApi = [
+    var wrapperApi;
+
+
+    QUnit.module('PDF.js Wrapper factory');
+
+
+    QUnit.test('module', function (assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
+        var instance;
+
+        QUnit.expect(2);
+
+        assert.equal(typeof wrapperFactory, 'function', "The PDF.js Wrapper module exposes a function");
+
+        instance = wrapperFactory($container, config);
+
+        assert.equal(typeof instance, 'object', "The PDF.js Wrapper factory provides an object");
+
+        instance.destroy();
+    });
+
+
+    wrapperApi = [
         { name : 'load', title : 'load' },
         { name : 'renderPage', title : 'renderPage' },
         { name : 'getState', title : 'getState' },
@@ -51,34 +76,24 @@ define([
         { name : 'getPage', title : 'getPage' },
         { name : 'setPage', title : 'setPage' },
         { name : 'getPagesManager', title : 'getPagesManager' },
-        { name : 'setPagesManager', title : 'setPagesManager' },
         { name : 'refresh', title : 'refresh' },
         { name : 'destroy', title : 'destroy' }
     ];
 
-
-    QUnit.module('PDF.js Wrapper factory');
-
-
-    QUnit.test('module', function (assert) {
-        var instance;
-
-        QUnit.expect(2);
-
-        assert.equal(typeof wrapperFactory, 'function', "The PDF.js Wrapper module exposes a function");
-
-        instance = wrapperFactory(pdfjs);
-
-        assert.equal(typeof instance, 'object', "The PDF.js Wrapper factory provides an object");
-    });
-
-
     QUnit
         .cases(wrapperApi)
         .test('instance API ', function(data, assert) {
-            var instance = wrapperFactory(pdfjs);
+            var $container = $('#qunit-fixture');
+            var config = {
+                PDFJS: pdfjs
+            };
+            var instance = wrapperFactory($container, config);
+
             QUnit.expect(1);
+
             assert.equal(typeof instance[data.name], 'function', 'The PDF.js Wrapper instance exposes a "' + data.name + '" function');
+
+            instance.destroy();
         });
 
 
@@ -89,7 +104,23 @@ define([
     });
 
 
+    QUnit.test('error', function (assert) {
+        var $container = $('#qunit-fixture');
+        var config = {};
+
+        QUnit.expect(1);
+
+        assert.throws(function () {
+            wrapperFactory($container, config);
+        }, "The PDF.js Wrapper factory triggers an error if PDF.js is missing");
+    });
+
+
     QUnit.asyncTest('load', function (assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
         var instance;
         var page = 1;
         var count = 3;
@@ -98,7 +129,7 @@ define([
 
         pdfjs.pageCount = count;
 
-        instance = wrapperFactory(pdfjs);
+        instance = wrapperFactory($container, config);
 
         assert.equal(instance.getState('loaded'), false, 'The PDF is not loaded at this time');
 
@@ -123,6 +154,10 @@ define([
 
 
     QUnit.asyncTest('load base64 content', function (assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
         var instance;
         var page = 1;
         var count = 3;
@@ -131,7 +166,7 @@ define([
 
         pdfjs.pageCount = count;
 
-        instance = wrapperFactory(pdfjs);
+        instance = wrapperFactory($container, config);
 
         assert.equal(instance.getState('loaded'), false, 'The PDF is not loaded at this time');
 
@@ -155,32 +190,34 @@ define([
     });
 
 
-    QUnit.test('pagesManager', function (assert) {
+    QUnit.test('getPagesManager', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
         var instance;
-        var count = 3;
-        var pagesManager = pagesManagerFactory(count, $container, {});
 
         QUnit.expect(1);
 
-        instance = wrapperFactory(pdfjs);
-        instance.setPagesManager(pagesManager);
-        assert.equal(instance.getPagesManager(), pagesManager, "The page manager has been set");
+        instance = wrapperFactory($container, config);
+        assert.equal(typeof instance.getPagesManager(), 'object', "The page manager has been set");
     });
 
 
     QUnit.asyncTest('setPage', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
         var instance;
         var page = 1;
         var count = 3;
-        var pagesManager;
 
         QUnit.expect(12);
 
         pdfjs.pageCount = count;
 
-        instance = wrapperFactory(pdfjs);
+        instance = wrapperFactory($container, config);
 
         instance.load(pdfUrl).then(function () {
 
@@ -189,9 +226,6 @@ define([
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
             assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
-
-            pagesManager = pagesManagerFactory(count, $container, {});
-            instance.setPagesManager(pagesManager);
 
             page = count;
             instance.setPage(page).then(function () {
@@ -228,17 +262,18 @@ define([
 
     QUnit.asyncTest('renderPage', function (assert) {
         var $container = $('#qunit-fixture');
-        var config = {};
+        var config = {
+            PDFJS: pdfjs
+        };
         var instance;
         var page = 1;
         var count = 3;
-        var pagesManager;
 
         QUnit.expect(9);
 
         pdfjs.pageCount = count;
 
-        instance = wrapperFactory(pdfjs, $container, config);
+        instance = wrapperFactory($container, config);
 
         instance.renderPage(1).then(function () {
             assert.ok(true, 'We can call renderPage without having loaded a document, and no error is thrown');
@@ -250,9 +285,6 @@ define([
                 assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
                 assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
                 assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
-
-                pagesManager = pagesManagerFactory(count, $container, {});
-                instance.setPagesManager(pagesManager);
 
                 page++;
                 return instance.setPage(page).then(function () {
@@ -284,17 +316,18 @@ define([
 
     QUnit.asyncTest('refresh', function (assert) {
         var $container = $('#qunit-fixture');
-        var config = {};
+        var config = {
+            PDFJS: pdfjs
+        };
         var instance;
         var page = 1;
         var count = 3;
-        var pagesManager;
 
         QUnit.expect(8);
 
         pdfjs.pageCount = count;
 
-        instance = wrapperFactory(pdfjs, $container, config);
+        instance = wrapperFactory($container, config);
 
         instance.load(pdfUrl).then(function () {
 
@@ -303,9 +336,6 @@ define([
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
             assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
-
-            pagesManager = pagesManagerFactory(count, $container, {});
-            instance.setPagesManager(pagesManager);
 
             page++;
             return instance.setPage(page).then(function () {
@@ -336,18 +366,19 @@ define([
 
     QUnit.asyncTest('concurrency', function (assert) {
         var $container = $('#qunit-fixture');
-        var config = {};
+        var config = {
+            PDFJS: pdfjs
+        };
         var instance;
         var page = 1;
         var count = 3;
         var promises = [];
-        var pagesManager;
 
         QUnit.expect(6);
 
         pdfjs.pageCount = count;
 
-        instance = wrapperFactory(pdfjs, $container, config);
+        instance = wrapperFactory($container, config);
 
         instance.load(pdfUrl).then(function () {
 
@@ -356,9 +387,6 @@ define([
             assert.equal(instance.getPage(), page, 'The PDF is set on the page ' + page);
             assert.equal(instance.getPageCount(), count, 'The PDF has ' + count + ' pages');
             assert.equal(typeof instance.getDocument(), 'object', 'The PDF document is returned');
-
-            pagesManager = pagesManagerFactory(count, $container, {});
-            instance.setPagesManager(pagesManager);
 
             promises.push(instance.setPage(page++));
             promises.push(instance.setPage(page++));

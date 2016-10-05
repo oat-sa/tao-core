@@ -20,20 +20,13 @@
  */
 define([
     'jquery',
+    'pdfjs-dist/build/pdf',
     'ui/documentViewer/providers/pdfViewer/pdfjs/pagesManager'
-], function ($, pagesManagerFactory) {
+], function ($, pdfjs, pagesManagerFactory) {
     'use strict';
 
-
-    var pagesManagerApi = [
-        { name : 'getContainer', title : 'getContainer' },
-        { name : 'getViewsCount', title : 'getViewsCount' },
-        { name : 'getView', title : 'getView' },
-        { name : 'getActiveView', title : 'getActiveView' },
-        { name : 'setActiveView', title : 'setActiveView' },
-        { name : 'renderPage', title : 'renderPage' },
-        { name : 'destroy', title : 'destroy' }
-    ];
+    var pdfUrl = location.href.replace('/pdfViewer/pdfjsWrapper/test.html', '/sample/demo.pdf');
+    var pagesManagerApi;
 
 
     QUnit.module('pdfViewer PagesManager factory');
@@ -41,65 +34,107 @@ define([
 
     QUnit.test('module', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
         var instance;
 
         QUnit.expect(2);
 
         assert.equal(typeof pagesManagerFactory, 'function', "The pdfViewer PagesManager module exposes a function");
 
-        instance = pagesManagerFactory(1, $container, {});
+        instance = pagesManagerFactory($container, config);
         assert.equal(typeof instance, 'object', "The pdfViewer PagesManager factory provides an object");
     });
 
 
+    pagesManagerApi = [
+        { name : 'getContainer', title : 'getContainer' },
+        { name : 'getView', title : 'getView' },
+        { name : 'getActiveView', title : 'getActiveView' },
+        { name : 'setActiveView', title : 'setActiveView' },
+        { name : 'renderPage', title : 'renderPage' },
+        { name : 'destroy', title : 'destroy' }
+    ];
+
     QUnit
         .cases(pagesManagerApi)
         .test('instance API ', function(data, assert) {
-            var instance = pagesManagerFactory(1);
+            var $container = $('#qunit-fixture');
+            var config = {
+                PDFJS: pdfjs
+            };
+            var instance = pagesManagerFactory($container, config);
             QUnit.expect(1);
             assert.equal(typeof instance[data.name], 'function', 'The pdfViewer PagesManager instance exposes a "' + data.name + '" function');
         });
 
 
 
-    QUnit.module('pdfViewer PagesManager implementation');
+    QUnit.module('pdfViewer PagesManager implementation', {
+        teardown: function () {
+            pdfjs.removeAllListeners();
+        }
+    });
+
+
+    QUnit.test('error', function (assert) {
+        var $container = $('#qunit-fixture');
+        var config = {};
+
+        QUnit.expect(1);
+
+        assert.throws(function () {
+            pagesManagerFactory($container, config);
+        }, "The pdfViewer PagesManager factory triggers an error if PDF.js is missing");
+    });
+
+
+    QUnit.test('attributes', function (assert) {
+        var $container = $('#qunit-fixture');
+        var pageCount = 3;
+        var config = {
+            pageCount: pageCount,
+            PDFJS: pdfjs
+        };
+        var instance = pagesManagerFactory($container, config);
+
+        QUnit.expect(1);
+
+        assert.equal(instance.pageCount, pageCount, "The pdfViewer PagesManager instance contains the number of pages");
+
+        instance.destroy();
+    });
 
 
     QUnit.test('getContainer', function (assert) {
         var $container = $('#qunit-fixture');
-        var instance;
+        var config = {
+            PDFJS: pdfjs
+        };
+        var instance = pagesManagerFactory($container, config);
 
         QUnit.expect(3);
 
-        instance = pagesManagerFactory(1, $container, {});
         assert.equal(typeof instance.getContainer(), "object", "The getContainer() method returns an object");
         assert.equal(instance.getContainer().length, 1, "The container exists");
         assert.ok(instance.getContainer().is($container), "This is the right container");
     });
 
 
-    QUnit.test('getViewsCount', function (assert) {
-        var $container = $('#qunit-fixture');
-        var instance;
-        var pageCount = 5;
-
-        QUnit.expect(1);
-
-        instance = pagesManagerFactory(pageCount, $container, {});
-        assert.equal(instance.getViewsCount(), pageCount, "The manager has the right number of views");
-    });
-
-
     QUnit.test('getView', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            pageCount: 2,
+            PDFJS: pdfjs
+        };
         var instance, view1, view2;
-        var pageCount = 2;
 
         QUnit.expect(6);
 
         assert.equal($container.children().length, 0, "The container is empty");
 
-        instance = pagesManagerFactory(pageCount, $container, {});
+        instance = pagesManagerFactory($container, config);
         view1 = instance.getView(1);
         assert.equal(typeof view1, "object", "The returned view is an object");
         assert.equal($container.children().length, 1, "The container contains a child");
@@ -113,14 +148,17 @@ define([
 
     QUnit.test('activeView', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            pageCount: 2,
+            PDFJS: pdfjs
+        };
         var instance, view1, view2;
-        var pageCount = 2;
 
         QUnit.expect(16);
 
         assert.equal($container.children().length, 0, "The container is empty");
 
-        instance = pagesManagerFactory(pageCount, $container, {});
+        instance = pagesManagerFactory($container, config);
         assert.equal(instance.getActiveView(), null, 'There is no active view for now');
 
         instance.setActiveView(1);
@@ -154,63 +192,55 @@ define([
 
     QUnit.asyncTest('renderPage', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
         var instance, view;
         var rendered = false;
         var requestedWidth = 200;
         var requestedHeight = 100;
         var expectedWidth = 200;
         var expectedHeight = 100;
-        var mockPage = {
-            getViewport: function getViewport() {
-                return {
-                    width: 400,
-                    height: 200
-                };
-            },
-
-            render: function render() {
-                assert.ok(true, "The page is rendering");
-                return {
-                    promise: new Promise(function(resolve) {
-                        setTimeout(function() {
-                            rendered = true;
-                            resolve();
-                        }, 100);
-                    })
-                };
-            }
-        };
 
         QUnit.expect(10);
 
         assert.equal($container.children().length, 0, "The container is empty");
 
-        instance = pagesManagerFactory(1, $container, {});
+        instance = pagesManagerFactory($container, config);
 
-        instance.renderPage(mockPage).then(function() {
-            assert.ok(!rendered, 'The page is not rendered as there is not active view');
-            assert.equal($container.children().length, 0, "The container is empty");
+        pdfjs.on('pageRender', function() {
+            assert.ok(true, "The page is rendering");
+            rendered = true;
+        });
 
-            instance.setActiveView(1);
-            assert.equal($container.children().length, 1, "The container contains a child");
+        pdfjs.viewportWidth = 400;
+        pdfjs.viewportHeight = 200;
 
-            view = instance.getActiveView();
-            assert.notEqual(view.getDrawLayer().width(), expectedWidth, 'The view is not ' + expectedWidth + ' pixels width');
-            assert.notEqual(view.getDrawLayer().height(), expectedHeight, 'The view is not ' + expectedHeight + ' pixels height');
-            $container.width(requestedWidth).height(requestedHeight);
+        pdfjs.getDocument(pdfUrl).then(function (pdf) {
+            return pdf.getPage(1).then(function (page) {
+                return instance.renderPage(page).then(function() {
+                    assert.ok(!rendered, 'The page is not rendered as there is not active view');
+                    assert.equal($container.children().length, 0, "The container is empty");
 
-            instance.renderPage(mockPage).then(function() {
-                assert.ok(rendered, 'The page has been rendered in the active view');
+                    instance.setActiveView(1);
+                    assert.equal($container.children().length, 1, "The container contains a child");
 
-                assert.equal(view.getDrawLayer().width(), expectedWidth, 'The view is now ' + expectedWidth + ' pixels width');
-                assert.equal(view.getDrawLayer().height(), expectedHeight, 'The view is now ' + expectedHeight + ' pixels height');
+                    view = instance.getActiveView();
+                    assert.notEqual(view.getDrawLayerElement().width(), expectedWidth, 'The view is not ' + expectedWidth + ' pixels width');
+                    assert.notEqual(view.getDrawLayerElement().height(), expectedHeight, 'The view is not ' + expectedHeight + ' pixels height');
+                    $container.width(requestedWidth).height(requestedHeight);
 
-                QUnit.start();
-            }).catch(function() {
-                assert.ok('false', 'No error should be triggered');
-                QUnit.start();
+                    return instance.renderPage(page).then(function() {
+                        assert.ok(rendered, 'The page has been rendered in the active view');
+
+                        assert.equal(view.getDrawLayerElement().width(), expectedWidth, 'The view is now ' + expectedWidth + ' pixels width');
+                        assert.equal(view.getDrawLayerElement().height(), expectedHeight, 'The view is now ' + expectedHeight + ' pixels height');
+
+                        QUnit.start();
+                    });
+                });
             });
-        }).catch(function() {
+        }).catch(function () {
             assert.ok('false', 'No error should be triggered');
             QUnit.start();
         });
@@ -219,14 +249,17 @@ define([
 
     QUnit.test('destroy', function (assert) {
         var $container = $('#qunit-fixture');
+        var config = {
+            pageCount: 2,
+            PDFJS: pdfjs
+        };
         var instance, view1, view2;
-        var pageCount = 2;
 
         QUnit.expect(8);
 
         assert.equal($container.children().length, 0, "The container is empty");
 
-        instance = pagesManagerFactory(pageCount, $container, {});
+        instance = pagesManagerFactory($container, config);
         view1 = instance.getView(1);
         assert.equal($container.children().length, 1, "The container contains a child");
 
