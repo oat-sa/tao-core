@@ -96,9 +96,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
 
         $smProphecy = $this->prophesize(ServiceLocatorInterface::class);
         foreach ($options as $key => $service) {
-            if ($service instanceof ConfigurableService) {
-                $smProphecy->get($key)->willReturn($service);
-            }
+            $smProphecy->get($key)->willReturn($service);
         }
         return $smProphecy->reveal();
     }
