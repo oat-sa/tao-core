@@ -42,7 +42,7 @@ define([
         assert.equal(typeof FloatEncoder.decode('5.4'), 'number');
 
         assert.equal(FloatEncoder.decode('5.4'), 5.4);
-        assert.equal(FloatEncoder.decode('5.4'), 5.4);
+        assert.equal(FloatEncoder.decode('5,4'), 5.4);
         assert.equal(FloatEncoder.decode('-5,4'), -5.4);
         assert.equal(FloatEncoder.decode('  -5,4   '), -5.4);
     });
