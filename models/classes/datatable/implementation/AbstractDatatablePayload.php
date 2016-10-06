@@ -30,11 +30,11 @@ use oat\search\base\QueryBuilderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\TaoResultSet;
 
 /**
- * Interface DatatablePayload
+ * class DatatablePayload
  * @package oat\tao\model\datatable
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-abstract class DatatablePayload implements DatatablePayloadInterface, ServiceLocatorAwareInterface
+abstract class AbstractDatatablePayload implements DatatablePayloadInterface, ServiceLocatorAwareInterface
 {
 
     use ServiceLocatorAwareTrait;

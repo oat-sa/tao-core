@@ -19,7 +19,7 @@
  */
 namespace oat\tao\test\datatable;
 
-use oat\tao\model\datatable\implementation\DatatablePayload;
+use oat\tao\model\datatable\implementation\AbstractDatatablePayload;
 use oat\tao\model\datatable\implementation\DatatableRequest;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use Slim\Http\Environment;
@@ -27,7 +27,7 @@ use Slim\Http\Request;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use Prophecy\Argument;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+//include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 /**
  * Class DatatablePayloadTest
@@ -43,7 +43,6 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
 
     /**
      * @dataProvider environmentsProvider
-     * @runInSeparateProcess
      * @preserveGlobalState disabled
      *
      * @param Environment $env
@@ -57,6 +56,7 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
         $datatablePayload->setSearchService($this->getSearchServiceMock($datatableRequest));
 
         $payload = $datatablePayload->getPayload();
+        $this->assertTrue(is_array($payload));
     }
 
 
@@ -92,9 +92,6 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
             Argument::type('string'),
             Argument::type('string')
         )->shouldBeCalledTimes(count($filters));
-//        $queryProphecy->sort(Argument::any())->shouldBeCalledTimes(1);
-//        $queryProphecy->setLimit(Argument::type('integer'))->shouldBeCalledTimes(1);
-//        $queryProphecy->setOffset(Argument::type('integer'))->shouldBeCalledTimes(1);
 
         $queryMock = $queryProphecy->reveal();
 
@@ -126,7 +123,7 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
 }
 
 
-class ConcreteDatatablePayload extends DatatablePayload
+class ConcreteDatatablePayload extends AbstractDatatablePayload
 {
     protected $searchService;
 

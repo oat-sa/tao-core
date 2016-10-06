@@ -42,7 +42,6 @@ class DatatableRequestTest extends TaoPhpUnitTestRunner
 
     /**
      * @dataProvider environmentsProvider
-     * @runInSeparateProcess
      * @preserveGlobalState disabled
      *
      * @param Environment $env
@@ -58,7 +57,6 @@ class DatatableRequestTest extends TaoPhpUnitTestRunner
 
     /**
      * @dataProvider environmentsProvider
-     * @runInSeparateProcess
      * @preserveGlobalState disabled
      *
      * @param Environment $env
@@ -74,7 +72,6 @@ class DatatableRequestTest extends TaoPhpUnitTestRunner
 
     /**
      * @dataProvider environmentsProvider
-     * @runInSeparateProcess
      * @preserveGlobalState disabled
      *
      * @param Environment $env
@@ -91,7 +88,6 @@ class DatatableRequestTest extends TaoPhpUnitTestRunner
 
     /**
      * @dataProvider environmentsProvider
-     * @runInSeparateProcess
      * @preserveGlobalState disabled
      *
      * @param Environment $env
@@ -108,7 +104,6 @@ class DatatableRequestTest extends TaoPhpUnitTestRunner
 
     /**
      * @dataProvider environmentsProvider
-     * @runInSeparateProcess
      * @preserveGlobalState disabled
      *
      * @param Environment $env
