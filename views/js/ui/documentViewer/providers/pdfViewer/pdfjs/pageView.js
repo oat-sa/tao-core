@@ -22,9 +22,8 @@ define([
     'jquery',
     'core/promise',
     'ui/hider',
-    'ui/documentViewer/providers/pdfViewer/pdfjs/textLayer',
     'tpl!ui/documentViewer/providers/pdfViewer/pdfjs/page'
-], function ($, Promise, hider, textLayerFactory, pageTpl) {
+], function ($, Promise, hider, pageTpl) {
     'use strict';
 
     /**
@@ -79,16 +78,15 @@ define([
      * Creates a page view
      * @param {jQuery} $container
      * @param {Object} config
-     * @param {Object} config.PDFJS - The PDFJS entry point
-     * @param {Number} config.pageNum
+     * @param {Number} config.pageNum - The number of the page the view is displaying
+     * @param {Object} [config.textManager] - The textManager component that access to the text content to render
      * @returns {Object}
      */
     function pageViewFactory($container, config) {
         var $pageView, $textLayer, $drawLayer;
         var canvas, context, scale;
-        var textLayer = null;
+        var textManager = null;
         var rendered = false;
-        var PDFJS = null;
         var pageNum;
 
         var view = {
@@ -162,11 +160,19 @@ define([
             },
 
             /**
-             * Gets the text layer manager
+             * Sets the text manager
+             * @param {Object} manager
+             */
+            setTextManager: function setTextManager(manager) {
+                textManager = manager;
+            },
+
+            /**
+             * Gets the text manager
              * @returns {Object}
              */
-            getTextLayer: function getTextLayer() {
-                return textLayer;
+            getTextManager: function getTextManager() {
+                return textManager;
             },
 
             /**
@@ -193,16 +199,15 @@ define([
                     page.render(renderContext).promise
                 );
 
-                if (textLayer) {
+                if (textManager) {
+                    $textLayer.empty();
                     textViewport = viewport.clone({
                         scale: renderScale * $textLayer.width() / viewport.width
                     });
 
                     promises.push(
-                        textLayer.setTextContentFromPage(page).then(function () {
-                            if (textLayer) {
-                                return textLayer.render(textViewport);
-                            }
+                        textManager.renderPage(page.pageIndex + 1, textViewport).then(function(renderedContent) {
+                            $textLayer.append(renderedContent.layer);
                         })
                     );
                 }
@@ -230,10 +235,6 @@ define([
              * Removes and destroys the page view
              */
             destroy: function destroy() {
-                if (textLayer) {
-                    textLayer.destroy();
-                }
-
                 $pageView.remove();
 
                 $container = null;
@@ -242,8 +243,7 @@ define([
                 $drawLayer = null;
                 canvas = null;
                 context = null;
-                textLayer = null;
-                PDFJS = null;
+                textManager = null;
                 config = null;
             }
         };
@@ -304,7 +304,7 @@ define([
         }
 
         config = config || {};
-        PDFJS = config.PDFJS;
+        textManager = config.textManager;
         pageNum = config.pageNum;
 
         $pageView = $(pageTpl({page: pageNum}));
@@ -313,15 +313,6 @@ define([
         canvas = $drawLayer.get(0);
         context = canvas.getContext('2d');
         scale = normalizeScale(getOutputScale(context) * DEFAULT_SCALE);
-
-
-        if ('object' !== typeof PDFJS) {
-            throw new TypeError('You must provide the entry point to the PDS.js library! [config.PDFJS is missing]');
-        }
-
-        textLayer = textLayerFactory($textLayer, {
-            PDFJS: PDFJS
-        });
 
         // the page view is automatically added to its container
         $container.append($pageView);

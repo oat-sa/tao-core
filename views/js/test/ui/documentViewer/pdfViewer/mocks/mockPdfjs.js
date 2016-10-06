@@ -36,7 +36,18 @@ define([
         pageCount: 10,
         viewportWidth: 256,
         viewportHeight: 128,
-        textContent: 'This is a test',
+        textContent: [
+            'Page 1',
+            'Page 2',
+            'Page 3',
+            'Page 4',
+            'Page 5',
+            'Page 6',
+            'Page 7',
+            'Page 8',
+            'Page 9',
+            'Page 10'
+        ],
 
         PDFJS: {},
 
@@ -93,8 +104,8 @@ define([
         return {
             numPages: mockPDFJS.pageCount,
 
-            getPage: function getPage() {
-                return Promise.resolve(pdfPageFactory());
+            getPage: function getPage(pageNum) {
+                return Promise.resolve(pdfPageFactory(pageNum));
             },
 
             destroy: function destroy() {
@@ -107,8 +118,12 @@ define([
      * Fakes a PDF.js page object
      * @returns {Object}
      */
-    function pdfPageFactory() {
+    function pdfPageFactory(pageNum) {
         return {
+            get pageIndex() {
+                return pageNum - 1;
+            },
+
             getViewport: function getViewport() {
                 return {
                     width: mockPDFJS.viewportWidth,
@@ -121,8 +136,9 @@ define([
             },
 
             getTextContent: function getTextContent() {
+                var index = Math.min(Math.max(0, pageNum - 1), mockPDFJS.textContent.length);
                 return Promise.resolve({
-                    items: _.map(mockPDFJS.textContent.split(' '), function (term) {
+                    items: _.map(mockPDFJS.textContent[index].split(' '), function (term) {
                         return {str: term};
                     })
                 });

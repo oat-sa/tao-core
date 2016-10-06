@@ -21,8 +21,9 @@
 define([
     'jquery',
     'core/promise',
-    'ui/documentViewer/providers/pdfViewer/pdfjs/pagesManager'
-], function ($, Promise, pagesManagerFactory) {
+    'ui/documentViewer/providers/pdfViewer/pdfjs/pagesManager',
+    'ui/documentViewer/providers/pdfViewer/pdfjs/textManager'
+], function ($, Promise, pagesManagerFactory, textManagerFactory) {
     'use strict';
 
     /**
@@ -81,6 +82,7 @@ define([
         var pageNumPending = null;
         var pageRendering = null;
         var pagesManager = null;
+        var textManager = null;
         var states = {};
         var PDFJS = null;
 
@@ -89,6 +91,14 @@ define([
          * @type {Object}
          */
         var wrapper = {
+            /**
+             * The wrapped API (i.e.: the PDF.js library)
+             * @type {Object}
+             */
+            get wrapped() {
+                return PDFJS;
+            },
+
             /**
              * Loads a PDF document using PDF.js
              * @param {String} url
@@ -102,6 +112,7 @@ define([
                     pdfDoc = doc;
                     pageNum = 1;
                     pageCount = pdfDoc.numPages;
+                    textManager.setDocument(pdfDoc);
                     states.loaded = true;
                 });
             },
@@ -190,6 +201,14 @@ define([
             },
 
             /**
+             * Gets the text manager
+             * @returns {Object}
+             */
+            getTextManager: function getTextManager() {
+                return textManager;
+            },
+
+            /**
              * Gets the pages manager
              * @returns {Object}
              */
@@ -211,6 +230,10 @@ define([
             destroy: function destroy() {
                 if (pagesManager) {
                     pagesManager.destroy();
+                }
+
+                if (textManager) {
+                    textManager.destroy();
                 }
 
                 if (pdfDoc) {
@@ -237,11 +260,15 @@ define([
             throw new TypeError('You must provide the entry point to the PDS.js library! [config.PDFJS is missing]');
         }
 
+        textManager = textManagerFactory({
+            PDFJS: PDFJS
+        });
+
         // todo: accept option to use a view per page instead of a single view for all pages
         pagesManager = pagesManagerFactory($container, {
             pageCount: 1,
             fitToWidth: config.fitToWidth,
-            PDFJS: PDFJS
+            textManager: textManager
         });
 
         return wrapper;

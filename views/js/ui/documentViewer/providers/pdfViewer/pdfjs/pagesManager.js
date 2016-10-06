@@ -30,14 +30,14 @@ define([
      * Creates a pages manager that will handle the PDF views
      * @param {jQuery} $container
      * @param {Object} config
-     * @param {Object} config.PDFJS - The PDFJS entry point
      * @param {Number} [config.pageCount] - The number of pages views to manage (default: 1)
      * @param {Boolean} [config.fitToWidth] - Fit the page to the available width, a scroll bar may appear (default: false)
+     * @param {Object} [config.textManager] - The textManager component that access to the text content to render
      * @returns {Object}
      */
     function pagesManagerFactory($container, config) {
         var activeView = null;
-        var PDFJS = null;
+        var textManager = null;
         var views = null;
         var pageCount;
 
@@ -59,6 +59,28 @@ define([
             },
 
             /**
+             * Sets the text manager
+             * @param {Object} manager
+             */
+            setTextManager: function setTextManager(manager) {
+                textManager = manager;
+
+                _.forEach(views, function (view) {
+                    if (view) {
+                        view.setTextManager(manager);
+                    }
+                });
+            },
+
+            /**
+             * Gets the text manager
+             * @returns {Object}
+             */
+            getTextManager: function getTextManager() {
+                return textManager;
+            },
+
+            /**
              * Gets the view related to a particular page
              * @param {Number} pageNum
              * @returns {Object}
@@ -73,7 +95,7 @@ define([
                 if (!view) {
                     views[index] = view = pageViewFactory($container, {
                         pageNum: pageNum,
-                        PDFJS: PDFJS
+                        textManager: textManager
                     });
                 }
 
@@ -130,18 +152,14 @@ define([
 
                 $container = null;
                 activeView = null;
+                textManager = null;
                 views = null;
                 config = null;
-                PDFJS = null;
             }
         };
 
         config = config || {};
-        PDFJS = config.PDFJS;
-
-        if ('object' !== typeof PDFJS) {
-            throw new TypeError('You must provide the entry point to the PDS.js library! [config.PDFJS is missing]');
-        }
+        textManager = config.textManager;
 
         pageCount = Math.max(1, parseInt(config.pageCount, 10) || 1);
         views = new Array(pageCount);

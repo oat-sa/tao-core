@@ -21,9 +21,8 @@
 define([
     'jquery',
     'pdfjs-dist/build/pdf',
-    'ui/documentViewer/providers/pdfViewer/pdfjs/wrapper',
-    'ui/documentViewer/providers/pdfViewer/pdfjs/pagesManager'
-], function ($, pdfjs, wrapperFactory, pagesManagerFactory) {
+    'ui/documentViewer/providers/pdfViewer/pdfjs/wrapper'
+], function ($, pdfjs, wrapperFactory) {
     'use strict';
 
     var pdfUrl = location.href.replace('/pdfViewer/pdfjsWrapper/test.html', '/sample/demo.pdf');
@@ -75,6 +74,7 @@ define([
         { name : 'getPageCount', title : 'getPageCount' },
         { name : 'getPage', title : 'getPage' },
         { name : 'setPage', title : 'setPage' },
+        { name : 'getTextManager', title : 'getTextManager' },
         { name : 'getPagesManager', title : 'getPagesManager' },
         { name : 'refresh', title : 'refresh' },
         { name : 'destroy', title : 'destroy' }
@@ -113,6 +113,21 @@ define([
         assert.throws(function () {
             wrapperFactory($container, config);
         }, "The PDF.js Wrapper factory triggers an error if PDF.js is missing");
+    });
+
+
+    QUnit.test('attributes', function (assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
+        var instance = wrapperFactory($container, config);
+
+        QUnit.expect(1);
+
+        assert.equal(instance.wrapped, pdfjs, "The PDF.js Wrapper instance gives access to the wrapped API");
+
+        instance.destroy();
     });
 
 
@@ -187,6 +202,20 @@ define([
             assert.ok('false', 'No error should be triggered');
             QUnit.start();
         });
+    });
+
+
+    QUnit.test('getTextManager', function (assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
+        var instance;
+
+        QUnit.expect(1);
+
+        instance = wrapperFactory($container, config);
+        assert.equal(typeof instance.getTextManager(), 'object', "The text manager has been set");
     });
 
 

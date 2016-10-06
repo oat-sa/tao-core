@@ -26,7 +26,7 @@ define([
 ], function ($, Promise, pdfjs, textLayerFactory) {
     'use strict';
 
-    var pdfUrl = location.href.replace('/pdfViewer/pdfjsWrapper/test.html', '/sample/demo.pdf');
+    var pdfUrl = location.href.replace('/pdfViewer/textLayer/test.html', '/sample/demo.pdf');
     var textLayerApi;
 
 
@@ -125,6 +125,8 @@ define([
         var expectedFullText = 'This is a test';
         var instance = textLayerFactory($container, config);
 
+        pdfjs.textContent = [expectedFullText];
+
         QUnit.expect(7);
 
         assert.equal(instance.getTextContent(), null, "There is no textContent at this moment");
@@ -154,6 +156,8 @@ define([
         var instance = textLayerFactory($container, config);
         var expectedFullText = 'This is a test';
 
+        pdfjs.textContent = [expectedFullText];
+
         QUnit.expect(4);
 
         assert.equal(instance.getTextContent(), null, "There is no textContent at this moment");
@@ -177,7 +181,7 @@ define([
     });
 
 
-    QUnit.asyncTest('render ', function (assert) {
+    QUnit.asyncTest('render', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
             PDFJS: pdfjs
@@ -185,7 +189,7 @@ define([
         var instance = textLayerFactory($container, config);
         var expectedFullText = 'Thisisatest';
 
-        pdfjs.textContent = 'This is a test';
+        pdfjs.textContent = ['This is a test'];
 
         QUnit.expect(4);
 
@@ -222,7 +226,7 @@ define([
         var instance = textLayerFactory($container, config);
         var expectedFullText = 'Thisisatest';
 
-        pdfjs.textContent = 'This is a test';
+        pdfjs.textContent = ['This is a test'];
 
         QUnit.expect(5);
 

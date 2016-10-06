@@ -21,11 +21,12 @@
 define([
     'jquery',
     'pdfjs-dist/build/pdf',
-    'ui/documentViewer/providers/pdfViewer/pdfjs/pagesManager'
-], function ($, pdfjs, pagesManagerFactory) {
+    'ui/documentViewer/providers/pdfViewer/pdfjs/pagesManager',
+    'ui/documentViewer/providers/pdfViewer/pdfjs/textManager'
+], function ($, pdfjs, pagesManagerFactory, textManagerFactory) {
     'use strict';
 
-    var pdfUrl = location.href.replace('/pdfViewer/pdfjsWrapper/test.html', '/sample/demo.pdf');
+    var pdfUrl = location.href.replace('/pdfViewer/pagesManager/test.html', '/sample/demo.pdf');
     var pagesManagerApi;
 
 
@@ -34,9 +35,7 @@ define([
 
     QUnit.test('module', function (assert) {
         var $container = $('#qunit-fixture');
-        var config = {
-            PDFJS: pdfjs
-        };
+        var config = {};
         var instance;
 
         QUnit.expect(2);
@@ -45,11 +44,15 @@ define([
 
         instance = pagesManagerFactory($container, config);
         assert.equal(typeof instance, 'object', "The pdfViewer PagesManager factory provides an object");
+
+        instance.destroy();
     });
 
 
     pagesManagerApi = [
         { name : 'getContainer', title : 'getContainer' },
+        { name : 'getTextManager', title : 'getTextManager' },
+        { name : 'setTextManager', title : 'setTextManager' },
         { name : 'getView', title : 'getView' },
         { name : 'getActiveView', title : 'getActiveView' },
         { name : 'setActiveView', title : 'setActiveView' },
@@ -61,12 +64,12 @@ define([
         .cases(pagesManagerApi)
         .test('instance API ', function(data, assert) {
             var $container = $('#qunit-fixture');
-            var config = {
-                PDFJS: pdfjs
-            };
+            var config = {};
             var instance = pagesManagerFactory($container, config);
             QUnit.expect(1);
             assert.equal(typeof instance[data.name], 'function', 'The pdfViewer PagesManager instance exposes a "' + data.name + '" function');
+
+            instance.destroy();
         });
 
 
@@ -78,24 +81,11 @@ define([
     });
 
 
-    QUnit.test('error', function (assert) {
-        var $container = $('#qunit-fixture');
-        var config = {};
-
-        QUnit.expect(1);
-
-        assert.throws(function () {
-            pagesManagerFactory($container, config);
-        }, "The pdfViewer PagesManager factory triggers an error if PDF.js is missing");
-    });
-
-
     QUnit.test('attributes', function (assert) {
         var $container = $('#qunit-fixture');
         var pageCount = 3;
         var config = {
-            pageCount: pageCount,
-            PDFJS: pdfjs
+            pageCount: pageCount
         };
         var instance = pagesManagerFactory($container, config);
 
@@ -109,9 +99,7 @@ define([
 
     QUnit.test('getContainer', function (assert) {
         var $container = $('#qunit-fixture');
-        var config = {
-            PDFJS: pdfjs
-        };
+        var config = {};
         var instance = pagesManagerFactory($container, config);
 
         QUnit.expect(3);
@@ -119,14 +107,64 @@ define([
         assert.equal(typeof instance.getContainer(), "object", "The getContainer() method returns an object");
         assert.equal(instance.getContainer().length, 1, "The container exists");
         assert.ok(instance.getContainer().is($container), "This is the right container");
+
+        instance.destroy();
+    });
+
+
+    QUnit.asyncTest('setTextManager', function (assert) {
+        var $container = $('#qunit-fixture');
+        var textManager1 = textManagerFactory({PDFJS: pdfjs});
+        var textManager2 = textManagerFactory({PDFJS: pdfjs});
+        var config = {
+            pageNum: 1,
+            textManager: textManager1
+        };
+        var instance = pagesManagerFactory($container, config);
+
+        QUnit.expect(7);
+
+        pdfjs.pageCount = 1;
+        pdfjs.textContent = ['This is a test'];
+
+        assert.equal(typeof instance.getTextManager(), "object", "The getTextManager() method returns an object");
+        assert.equal(instance.getTextManager(), textManager1, "The getTextManager() method returns the right object");
+
+        pdfjs.getDocument(pdfUrl).then(function (pdf) {
+            textManager1.setDocument(pdf);
+            textManager2.setDocument(pdf);
+
+            instance.setActiveView(1);
+
+            return pdf.getPage(1).then(function (page) {
+                return instance.renderPage(page).then(function() {
+                    assert.equal(instance.getActiveView().getTextManager(), textManager1, "The view uses the right text manager");
+
+                    instance.setTextManager(textManager2);
+                    assert.notEqual(instance.getTextManager(), textManager1, "The text manager has been changed");
+                    assert.equal(instance.getTextManager(), textManager2, "The getTextManager() method returns the right object");
+
+                    assert.notEqual(instance.getActiveView().getTextManager(), textManager1, "The text manager has been changed into the view");
+                    assert.equal(instance.getActiveView().getTextManager(), textManager2, "The view uses the right text manager");
+
+                    instance.destroy();
+                    textManager1.destroy();
+                    textManager2.destroy();
+
+                    QUnit.start();
+                });
+            });
+        }).catch(function () {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
+        });
     });
 
 
     QUnit.test('getView', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageCount: 2,
-            PDFJS: pdfjs
+            pageCount: 2
         };
         var instance, view1, view2;
 
@@ -143,14 +181,15 @@ define([
         view2 = instance.getView(2);
         assert.notEqual(view1, view2, "The manager provides a view instance per page");
         assert.equal($container.children().length, 2, "The container contains 2 children");
+
+        instance.destroy();
     });
 
 
     QUnit.test('activeView', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageCount: 2,
-            PDFJS: pdfjs
+            pageCount: 2
         };
         var instance, view1, view2;
 
@@ -187,14 +226,14 @@ define([
         assert.ok(view2.getElement().hasClass('hidden'), "The view 2 is now hidden");
 
         assert.equal($container.children().length, 2, "The container contains 2 children");
+
+        instance.destroy();
     });
 
 
     QUnit.asyncTest('renderPage', function (assert) {
         var $container = $('#qunit-fixture');
-        var config = {
-            PDFJS: pdfjs
-        };
+        var config = {};
         var instance, view;
         var rendered = false;
         var requestedWidth = 200;
@@ -236,6 +275,8 @@ define([
                         assert.equal(view.getDrawLayerElement().width(), expectedWidth, 'The view is now ' + expectedWidth + ' pixels width');
                         assert.equal(view.getDrawLayerElement().height(), expectedHeight, 'The view is now ' + expectedHeight + ' pixels height');
 
+                        instance.destroy();
+
                         QUnit.start();
                     });
                 });
@@ -250,8 +291,7 @@ define([
     QUnit.test('destroy', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageCount: 2,
-            PDFJS: pdfjs
+            pageCount: 2
         };
         var instance, view1, view2;
 

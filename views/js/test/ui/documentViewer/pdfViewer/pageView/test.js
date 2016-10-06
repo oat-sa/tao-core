@@ -21,13 +21,13 @@
 define([
     'jquery',
     'lodash',
-    'core/promise',
     'pdfjs-dist/build/pdf',
-    'ui/documentViewer/providers/pdfViewer/pdfjs/pageView'
-], function ($, _, Promise, pdfjs, pageViewFactory) {
+    'ui/documentViewer/providers/pdfViewer/pdfjs/pageView',
+    'ui/documentViewer/providers/pdfViewer/pdfjs/textManager'
+], function ($, _, pdfjs, pageViewFactory, textManagerFactory) {
     'use strict';
 
-    var pdfUrl = location.href.replace('/pdfViewer/pdfjsWrapper/test.html', '/sample/demo.pdf');
+    var pdfUrl = location.href.replace('/pdfViewer/pageView/test.html', '/sample/demo.pdf');
     var pageViewApi;
     var pageRenderSets;
 
@@ -38,8 +38,7 @@ define([
     QUnit.test('module', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageNum: 1,
-            PDFJS: pdfjs
+            pageNum: 1
         };
         var instance;
 
@@ -62,7 +61,8 @@ define([
         {name: 'getTextLayerElement', title: 'getTextLayerElement'},
         {name: 'getCanvas', title: 'getCanvas'},
         {name: 'getRenderingContext', title: 'getRenderingContext'},
-        {name: 'getTextLayer', title: 'getTextLayer'},
+        {name: 'setTextManager', title: 'setTextManager'},
+        {name: 'getTextManager', title: 'getTextManager'},
         {name: 'render', title: 'render'},
         {name: 'show', title: 'show'},
         {name: 'hide', title: 'hide'},
@@ -74,8 +74,7 @@ define([
         .test('instance API ', function (data, assert) {
             var $container = $('#qunit-fixture');
             var config = {
-                pageNum: 1,
-                PDFJS: pdfjs
+                pageNum: 1
             };
             var instance = pageViewFactory($container, config);
 
@@ -94,25 +93,10 @@ define([
     });
 
 
-    QUnit.test('error', function (assert) {
-        var $container = $('#qunit-fixture');
-        var config = {
-            pageNum: 1
-        };
-
-        QUnit.expect(1);
-
-        assert.throws(function () {
-            pageViewFactory($container, config);
-        }, "The pdfViewer PageView factory triggers an error if PDF.js is missing");
-    });
-
-
     QUnit.test('attributes', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageNum: 1,
-            PDFJS: pdfjs
+            pageNum: 1
         };
         var instance = pageViewFactory($container, config);
 
@@ -132,8 +116,7 @@ define([
     QUnit.test('getContainer', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageNum: 1,
-            PDFJS: pdfjs
+            pageNum: 1
         };
         var instance = pageViewFactory($container, config);
 
@@ -150,8 +133,7 @@ define([
     QUnit.test('getElement', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageNum: 1,
-            PDFJS: pdfjs
+            pageNum: 1
         };
         var instance = pageViewFactory($container, config);
 
@@ -168,8 +150,7 @@ define([
     QUnit.test('getDrawLayerElement', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageNum: 1,
-            PDFJS: pdfjs
+            pageNum: 1
         };
         var instance = pageViewFactory($container, config);
 
@@ -187,8 +168,7 @@ define([
     QUnit.test('getTextLayerElement', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageNum: 1,
-            PDFJS: pdfjs
+            pageNum: 1
         };
         var instance = pageViewFactory($container, config);
 
@@ -206,8 +186,7 @@ define([
     QUnit.test('getCanvas', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageNum: 1,
-            PDFJS: pdfjs
+            pageNum: 1
         };
         var instance = pageViewFactory($container, config);
 
@@ -225,8 +204,7 @@ define([
     QUnit.test('getRenderingContext', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageNum: 1,
-            PDFJS: pdfjs
+            pageNum: 1
         };
         var instance = pageViewFactory($container, config);
 
@@ -239,19 +217,28 @@ define([
     });
 
 
-    QUnit.test('getTextLayer', function (assert) {
+    QUnit.test('setTextManager', function (assert) {
         var $container = $('#qunit-fixture');
+        var textManager1 = textManagerFactory({PDFJS: pdfjs});
+        var textManager2 = textManagerFactory({PDFJS: pdfjs});
         var config = {
             pageNum: 1,
-            PDFJS: pdfjs
+            textManager: textManager1
         };
         var instance = pageViewFactory($container, config);
 
-        QUnit.expect(1);
+        QUnit.expect(4);
 
-        assert.equal(typeof instance.getTextLayer(), "object", "The getTextLayer() method returns an object");
+        assert.equal(typeof instance.getTextManager(), "object", "The getTextManager() method returns an object");
+        assert.equal(instance.getTextManager(), textManager1, "The getTextManager() method returns the right object");
+
+        instance.setTextManager(textManager2);
+        assert.notEqual(instance.getTextManager(), textManager1, "The text manager has been changed");
+        assert.equal(instance.getTextManager(), textManager2, "The getTextManager() method returns the right object");
 
         instance.destroy();
+        textManager1.destroy();
+        textManager2.destroy();
     });
 
 
@@ -306,8 +293,76 @@ define([
         .asyncTest('render ', function (data, assert) {
             var $container = $('#qunit-fixture');
             var config = {
+                pageNum: 1
+            };
+            var instance = pageViewFactory($container, config);
+
+            QUnit.expect(21);
+
+            $container.width(data.containerWidth).height(data.containerHeight);
+            assert.equal($container.width(), data.containerWidth, 'The container is ' + data.containerWidth + ' pixels width');
+            assert.equal($container.height(), data.containerHeight, 'The container is ' + data.containerHeight + ' pixels height');
+
+            instance.getElement().width(10).height(10);
+
+            assert.notEqual(instance.getElement().width(), data.expectedWidth, "The page view is not " + data.expectedWidth + " pixels width");
+            assert.notEqual(instance.getElement().height(), data.expectedHeight, "The page view is not " + data.expectedHeight + " pixels height");
+
+            assert.notEqual(instance.getDrawLayerElement().width(), data.expectedWidth, "The draw layer is not " + data.expectedWidth + " pixels width");
+            assert.notEqual(instance.getDrawLayerElement().height(), data.expectedHeight, "The draw layer is not " + data.expectedHeight + " pixels height");
+
+            assert.notEqual(instance.getTextLayerElement().width(), data.expectedWidth, "The text layer is not " + data.expectedWidth + " pixels width");
+            assert.notEqual(instance.getTextLayerElement().height(), data.expectedHeight, "The text layer is not " + data.expectedHeight + " pixels height");
+
+            assert.notEqual(instance.getCanvas().width, data.viewport.width, "The canvas viewport is not " + data.viewport.width + " pixels width");
+            assert.notEqual(instance.getCanvas().height, data.viewport.height, "The canvas viewport is not " + data.viewport.height + " pixels height");
+
+            assert.ok(!instance.isRendered(), "The pdfViewer PageView instance is not rendered");
+
+            pdfjs.on('pageRender', function() {
+                assert.ok(true, "The page is rendering");
+            });
+
+            pdfjs.viewportWidth = data.viewport.width;
+            pdfjs.viewportHeight = data.viewport.height;
+
+            pdfjs.getDocument(pdfUrl).then(function (pdf) {
+                return pdf.getPage(1).then(function (page) {
+                    return instance.render(page, data.fitToWidth).then(function () {
+                        assert.ok(instance.isRendered(), "The pdfViewer PageView instance has been rendered");
+
+                        assert.equal(instance.getElement().width(), data.expectedWidth, "The page view is now " + data.expectedWidth + " pixels width");
+                        assert.equal(instance.getElement().height(), data.expectedHeight, "The page view is now " + data.expectedHeight + " pixels height");
+
+                        assert.equal(instance.getDrawLayerElement().width(), data.expectedWidth, "The draw layer is now " + data.expectedWidth + " pixels width");
+                        assert.equal(instance.getDrawLayerElement().height(), data.expectedHeight, "The draw layer is now " + data.expectedHeight + " pixels height");
+
+                        assert.equal(instance.getTextLayerElement().width(), data.expectedWidth, "The text layer is now " + data.expectedWidth + " pixels width");
+                        assert.equal(instance.getTextLayerElement().height(), data.expectedHeight, "The text layer is now " + data.expectedHeight + " pixels height");
+
+                        assert.equal(instance.getCanvas().width, data.viewport.width, "The canvas viewport is now " + data.viewport.width + " pixels width");
+                        assert.equal(instance.getCanvas().height, data.viewport.height, "The canvas viewport is now " + data.viewport.height + " pixels height");
+
+                        instance.destroy();
+
+                        QUnit.start();
+                    });
+                });
+            }).catch(function () {
+                assert.ok('false', 'No error should be triggered');
+                QUnit.start();
+            });
+        });
+
+
+    QUnit
+        .cases(pageRenderSets)
+        .asyncTest('render with text layer ', function (data, assert) {
+            var $container = $('#qunit-fixture');
+            var textManager = textManagerFactory({PDFJS: pdfjs})
+            var config = {
                 pageNum: 1,
-                PDFJS: pdfjs
+                textManager: textManager
             };
             var instance = pageViewFactory($container, config);
             var expectedFullText = 'Thisisatest';
@@ -339,11 +394,14 @@ define([
                 assert.ok(true, "The page is rendering");
             });
 
-            pdfjs.textContent = 'This is a test';
+            pdfjs.pageCount = 1;
+            pdfjs.textContent = ['This is a test'];
             pdfjs.viewportWidth = data.viewport.width;
             pdfjs.viewportHeight = data.viewport.height;
 
             pdfjs.getDocument(pdfUrl).then(function (pdf) {
+                textManager.setDocument(pdf);
+
                 return pdf.getPage(1).then(function (page) {
                     return instance.render(page, data.fitToWidth).then(function () {
                         assert.ok(instance.isRendered(), "The pdfViewer PageView instance has been rendered");
@@ -364,6 +422,7 @@ define([
                         assert.equal(instance.getTextLayerElement().text(), expectedFullText, "The text layer contains the right text");
 
                         instance.destroy();
+                        textManager.destroy();
 
                         QUnit.start();
                     });
@@ -380,8 +439,7 @@ define([
     QUnit.test('show/hide', function (assert) {
         var $container = $('#qunit-fixture');
         var config = {
-            pageNum: 1,
-            PDFJS: pdfjs
+            pageNum: 1
         };
         var instance = pageViewFactory($container, config);
 
@@ -401,13 +459,14 @@ define([
 
     QUnit.test('destroy', function (assert) {
         var $container = $('#qunit-fixture');
+        var textManager = textManagerFactory({PDFJS: pdfjs});
         var config = {
             pageNum: 1,
-            PDFJS: pdfjs
+            textManager: textManager
         };
         var instance;
 
-        QUnit.expect(15);
+        QUnit.expect(17);
 
         assert.equal($container.children().length, 0, "The DOM container is empty");
 
@@ -419,6 +478,7 @@ define([
         assert.equal(typeof instance.getTextLayerElement(), "object", "The getTextLayerElement() method returns an object");
         assert.equal(typeof instance.getCanvas(), "object", "The getCanvas() method returns an object");
         assert.equal(typeof instance.getRenderingContext(), "object", "The getRenderingContext() method returns an object");
+        assert.equal(typeof instance.getTextManager(), "object", "The getTextManager() method returns an object");
 
         assert.ok(instance.getElement().parent().is($container), "The page container has been added to the DOM");
 
@@ -430,8 +490,11 @@ define([
         assert.equal(instance.getTextLayerElement(), null, "The text layer is destroyed");
         assert.equal(instance.getCanvas(), null, "The canvas is destroyed");
         assert.equal(instance.getRenderingContext(), null, "The rendering context is destroyed");
+        assert.equal(instance.getTextManager(), null, "The text manager has been forgotten");
 
         assert.equal($container.children().length, 0, "The page container has been removed from the DOM");
+
+        textManager.destroy();
     });
 
 });
