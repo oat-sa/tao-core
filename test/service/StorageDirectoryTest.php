@@ -46,6 +46,9 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         $this->idFixture = 123;
         $this->pathFixture = 'fixture';
         $this->accessProvider = $this->getAccessProvider($this->pathFixture);
+
+        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystemTmpId, $this->pathFixture, $this->accessProvider);
+        $this->instance->setServiceLocator(ServiceManager::getServiceManager());
     }
 
     public function tearDown()
@@ -85,21 +88,14 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
 
     public function testAssertInstanceOfDirectory()
     {
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, $this->accessProvider);
-
         $this->assertInstanceOf(Directory::class, $this->instance);
         $this->assertEquals($this->idFixture, $this->instance->getId());
-        $this->assertEquals($this->pathFixture, $this->instance->getRelativePath());
-
-        $reflectionClass = new \ReflectionClass(Directory::class);
-        $reflectionMethod = $reflectionClass->getMethod('getFileSystem');
-        $reflectionMethod->setAccessible(true);
-        $this->assertEquals($this->fileSystem, $reflectionMethod->invoke($this->instance));
+        $this->assertEquals($this->pathFixture, $this->instance->getPrefix());
+        $this->assertEquals($this->fileSystem, $this->instance->getFileSystem());
     }
 
     public function testIsPublic()
     {
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, $this->accessProvider);
         $this->assertTrue($this->instance->isPublic());
         $this->assertEquals('polop', $this->instance->getPublicAccessUrl());
     }
@@ -107,6 +103,8 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     public function testIsNotPublic()
     {
         $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, null);
+        $this->instance->setServiceLocator(ServiceManager::getServiceManager());
+
         $this->assertFalse($this->instance->isPublic());
 
         $this->setExpectedException(\common_Exception::class);
@@ -118,15 +116,13 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
      */
     public function testReadWrite()
     {
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, $this->accessProvider);
-
         $tmpFile = uniqid() . '.php';
         $content = file_get_contents(__DIR__ . '/samples/43bytes.php', 'r');
-        $this->instance->write($tmpFile, $content);
 
-        $readFixture = $this->instance->read($tmpFile);
+        $file = $this->instance->getFile($tmpFile);
+        $file->write($content);
 
-        $this->assertEquals($content, $readFixture);
+        $this->assertEquals($content, $file->read());
     }
 
     /**
@@ -135,14 +131,13 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     public function testWriteReadPHPStream()
     {
         $tmpFile = uniqid() . '.php';
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, $this->accessProvider);
-
         $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
-        $this->instance->writeStream($tmpFile, $resource);
+
+        $file = $this->instance->getFile($tmpFile);
+        $file->write($resource);
         fclose($resource);
 
-        $readFixture = $this->instance->readStream($tmpFile);
-
+        $readFixture = $file->readStream();
         $this->assertEquals(
             file_get_contents(__DIR__ . '/samples/43bytes.php'),
             stream_get_contents($readFixture)
@@ -153,15 +148,16 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     public function testWriteReadPsrStream()
     {
         $tmpFile = uniqid() . '.php';
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, $this->accessProvider);
 
         $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
         $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
-        $this->instance->writePsrStream($tmpFile, $streamFixture);
+
+        $file = $this->instance->getFile($tmpFile);
+        $file->write($streamFixture);
         fclose($resource);
         $streamFixture->close();
 
-        $readStreamFixture = $this->instance->readPsrStream($tmpFile);
+        $readStreamFixture = $file->readPsrStream();
         $this->assertInstanceOf(\GuzzleHttp\Psr7\Stream::class, $readStreamFixture);
         $this->assertEquals(
             file_get_contents(__DIR__ . '/samples/43bytes.php'),
@@ -169,16 +165,17 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
         );
         $readStreamFixture->close();
     }
+
     /**
      * Test write stream in case of remote resource
      */
     public function testWriteRemoteStream()
     {
         $tmpFile = uniqid() . '.php';
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, $this->accessProvider);
+
         $client = new \GuzzleHttp\Client();
         $response = $client->get('http://www.google.org');
-        $this->assertTrue($this->instance->writeStream($tmpFile, $response->getBody()));
+        $this->assertTrue($this->instance->getFile($tmpFile)->write($response->getBody()));
         $this->assertNotEquals(0, $response->getBody()->getSize());
     }
     /**
@@ -187,13 +184,15 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     public function testSeekToEndOfFileForWriteStream()
     {
         $tmpFile = uniqid() . '.php';
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, $this->accessProvider);
+
         $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
         fseek($resource, 43);
         $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
-        $this->instance->writePsrStream($tmpFile, $streamFixture);
+
+        $file = $this->instance->getFile($tmpFile);
+        $file->write($streamFixture);
         $streamFixture->rewind();
-        $this->assertEquals($streamFixture->getContents(), $this->instance->readPsrStream($tmpFile)->getContents());
+        $this->assertEquals($streamFixture->getContents(), $file->readPsrStream()->getContents());
         fclose($resource);
         $streamFixture->close();
     }
@@ -204,11 +203,11 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     public function testUnseekableResource()
     {
         $tmpFile = uniqid() . '.php';
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, $this->accessProvider);
+
         $resource = fopen('http://www.google.org', 'r');
         $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
         $this->setExpectedException(\common_Exception::class);
-        $this->instance->writeStream($tmpFile, $streamFixture);
+        $this->instance->getFile($tmpFile)->write($streamFixture);
         fclose($resource);
         $streamFixture->close();
     }
@@ -219,9 +218,9 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     public function testHasAndDeleteWithNoFile()
     {
         $tmpFile = uniqid() . '.php';
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, $this->accessProvider);
-        $this->assertFalse($this->instance->has($tmpFile));
-        $this->assertFalse($this->instance->delete($tmpFile));
+        $file = $this->instance->getFile($tmpFile);
+        $this->assertFalse($file->exists());
+        $this->assertFalse($file->delete());
     }
 
     /**
@@ -230,13 +229,27 @@ class StorageDirectoryTest extends TaoPhpUnitTestRunner
     public function testHasAndDeleteWithValidFile()
     {
         $tmpFile = uniqid() . '.php';
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, $this->accessProvider);
+
         $resource = fopen(__DIR__ . '/samples/43bytes.php', 'r');
         $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
-        $this->instance->writePsrStream($tmpFile, $streamFixture);
-        $this->assertTrue($this->instance->has($tmpFile));
-        $this->assertTrue($this->instance->delete($tmpFile));
+        $file = $this->instance->getFile($tmpFile);
+        $file->write($streamFixture);
+
+        $this->assertTrue($file->exists());
+        $this->assertTrue($file->delete());
+
         fclose($resource);
         $streamFixture->close();
+    }
+
+
+    public function testGetPath()
+    {
+        $reflectionClass = new \ReflectionClass(AbstractAdapter::class);
+        $reflectionProperty = $reflectionClass->getProperty('pathPrefix');
+        $reflectionProperty->setAccessible(true);
+
+        $path = $reflectionProperty->getValue($this->fileSystem->getAdapter()) . $this->pathFixture;
+        $this->assertEquals($path, $this->instance->getPath());
     }
 }

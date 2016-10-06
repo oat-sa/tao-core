@@ -32,11 +32,17 @@ define([], function () {
      */
     if (window.CustomEvent) {
         createEvent = function createEventUsingCustomEvent(eventName, data) {
-            var event = new CustomEvent(eventName, {
-                detail: data,
-                bubbles: true,
-                cancelable: true
-            });
+            var event;
+            try {
+                event = new CustomEvent(eventName, {
+                    detail: data,
+                    bubbles: true,
+                    cancelable: true
+                });
+            } catch (e) {
+                event = document.createEvent('CustomEvent');
+                event.initCustomEvent(eventName, true, true, data);
+            }
             return event;
         };
     } else if (document.createEvent) {

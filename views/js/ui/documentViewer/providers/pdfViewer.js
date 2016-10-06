@@ -19,34 +19,12 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
-    'lib/pdf/pdfViewerUrl',
-    'core/promise',
-    'tpl!ui/documentViewer/providers/pdfViewer'
-], function (getViewerUrl, Promise, viewerTpl) {
+    'core/requireIfExists',
+    'ui/documentViewer/providers/pdfViewer/fallback/viewer',
+    'ui/documentViewer/providers/pdfViewer/pdfjs/viewer',
+    'tpl!ui/documentViewer/providers/pdfViewer/viewer'
+], function (requireIfExists, fallbackFactory, pdfjsFactory, viewerTpl) {
     'use strict';
-
-    /**
-     * Loads the PDF using either a custom viewer or the native browser feature
-     * @param {jQuery} $iframe
-     * @param {String} documentUrl
-     * @returns {Promise}
-     */
-    function applyViewer($iframe, documentUrl) {
-        return getViewerUrl(documentUrl).then(function (url) {
-            return new Promise(function (resolve, reject) {
-                if ($iframe && $iframe.is('iframe')) {
-                    $iframe
-                        .off('load.provider')
-                        .on('load.provider', resolve)
-                        .attr('src', url);
-                } else {
-                    // unfortunately this is the only kind of errors we can grab
-                    // as the iframe does not allow to check for load errors
-                    reject(new Error('The component is not properly rendered'));
-                }
-            });
-        });
-    }
 
     return {
         /**
@@ -61,14 +39,56 @@ define([
          * Initializes the component
          */
         init: function init() {
-            // needed by the providers registry to validate the provider
+            this.pdf = null;
         },
 
         /**
          * Loads and displays the document
          */
         load: function load() {
-            return applyViewer(this.getElement(), this.getUrl());
+            var self = this;
+            var $element = this.getElement();
+
+            // try to load the  PDF.js lib, otherwise fallback to the browser native handling
+            return requireIfExists('pdfjs-dist/build/pdf')
+                .then(function (pdfjs) {
+                    if (pdfjs) {
+                        self.pdf = pdfjsFactory($element, pdfjs, self.config);
+                    } else {
+                        self.pdf = fallbackFactory($element);
+                    }
+
+                    return self.pdf.load(self.getUrl());
+                })
+                .then(function () {
+                    self.setSize($element.width(), $element.height());
+                });
+        },
+
+        /**
+         * Destroys the component
+         */
+        unload: function unload() {
+            if (this.pdf) {
+                this.pdf.unload();
+            }
+
+            if (this.is('rendered')) {
+                this.getElement().empty();
+            }
+
+            this.pdf = null;
+        },
+
+        /**
+         * Sets the size of the component
+         * @param {Number} width
+         * @param {Number} height
+         */
+        setSize: function setSize(width, height) {
+            if (this.pdf) {
+                this.pdf.setSize(width, height);
+            }
         }
     };
 });

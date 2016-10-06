@@ -1,4 +1,6 @@
 <?php
+
+use oat\oatbox\validator\ValidatorInterface;
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +18,7 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2016 (update and modification) Open Assessment Technologies SA;
  * 
  */
 
@@ -29,7 +32,8 @@
  * @package tao
  
  */
-abstract class tao_helpers_form_Validator
+abstract class tao_helpers_form_Validator 
+    implements ValidatorInterface
 {
     // --- ASSOCIATIONS ---
     // generateAssociationEnd :     // generateAssociationEnd : 
@@ -100,7 +104,7 @@ abstract class tao_helpers_form_Validator
      */
     public function getMessage()
     {
-        return isset($this->options['message']) ? $this->options['message'] : $this->getDefaultMessage();;
+        return isset($this->options['message']) ? $this->options['message'] : $this->getDefaultMessage();
     }
 
     /**

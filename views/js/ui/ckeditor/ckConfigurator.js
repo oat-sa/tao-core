@@ -35,63 +35,61 @@ define([
          */
         var toolbarPresets = {
             inline : [{
-                    name : 'basicstyles',
-                    items : ['Bold', 'Italic', 'Subscript', 'Superscript']
-                }, {
-                    name : 'insert',
-                    items : ['SpecialChar']
-                }, {
-                    name : 'links',
-                    items : ['Link']
-                }],
+                name : 'basicstyles',
+                items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+            }, {
+                name : 'insert',
+                items : ['SpecialChar']
+            }, {
+                name : 'links',
+                items : ['Link']
+            }],
             flow : [{
-                    name : 'basicstyles',
-                    items : ['Bold', 'Italic', 'Subscript', 'Superscript']
-                }, {
-                    name : 'insert',
-                    items : ['SpecialChar']
-                }, {
-                    name : 'links',
-                    items : ['Link']
-                }],
+                name : 'basicstyles',
+                items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+            }, {
+                name : 'insert',
+                items : ['SpecialChar']
+            }, {
+                name : 'links',
+                items : ['Link']
+            }],
             block : [{
-                    name : 'basicstyles',
-                    items : ['Bold', 'Italic', 'Subscript', 'Superscript']
-                }, {
-                    name : 'insert',
-                    items : ['Image', 'SpecialChar']
-                },
-                {
-                    name : 'links',
-                    items : ['Link']
-                },
-                '/',
-                {
-                    name : 'styles',
-                    items : ['Format']
-                }, {
-                    name : 'paragraph',
-                    items : ['NumberedList', 'BulletedList', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-                }],
+                name : 'basicstyles',
+                items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+            }, {
+                name : 'insert',
+                items : ['Image', 'SpecialChar']
+            }, {
+                name : 'links',
+                items : ['Link']
+            },
+            '/', {
+                name : 'styles',
+                items : ['Format']
+            }, {
+                name : 'paragraph',
+                items : ['NumberedList', 'BulletedList', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+            }],
             extendedText : [{
-                    name : 'basicstyles',
-                    items : ['Bold', 'Italic', 'Underline','Subscript', 'Superscript']
-                },{
-                    name : 'insert',
-                    items : ['SpecialChar']
-                },{
-                    name : 'paragraph',
-                    items : ['NumberedList', 'BulletedList']
-                },{
-                    name : 'clipboard',
-                    items : ['Cut', 'Copy', 'Paste']
-                },{
-                    name : 'history',
-                    items : ['Undo', 'Redo']
-                },{
-                    name : 'fontstyles',
-                    items : ['TextColor','Font','FontSize']
-                }]
+                name : 'basicstyles',
+                items : ['Bold', 'Italic', 'Underline','Subscript', 'Superscript']
+            },{
+                name : 'insert',
+                items : ['SpecialChar']
+            },{
+                name : 'paragraph',
+                items : ['NumberedList', 'BulletedList']
+            },{
+                name : 'clipboard',
+                items : ['Cut', 'Copy', 'Paste']
+            },{
+                name : 'history',
+                items : ['Undo', 'Redo']
+            },{
+                name : 'fontstyles',
+                items : ['TextColor','Font','FontSize']
+            }]
         };
 
         /**
@@ -100,7 +98,7 @@ define([
         var ckConfig = {
             disableAutoInline : true,
             entities : false,
-            entities_processNumerical : true,
+            'entities_processNumerical' : true,
             autoParagraph : false,
             extraPlugins : 'confighelper',
             floatSpaceDockedOffsetY : 0,
@@ -111,9 +109,13 @@ define([
             linkShowAdvancedTab : false,
             justifyClasses : ['txt-lft', 'txt-ctr', 'txt-rgt', 'txt-jty'],
             linkShowTargetTab : false,
-            coreStyles_underline: {
+            'coreStyles_underline' : {
                 element: 'span',
                 attributes: {'class': 'txt-underline'}
+            },
+            'coreStyles_highlight': {
+                element: 'span',
+                attributes: {'class': 'txt-highlight'}
             },
             specialChars : ['!', '&quot;', '#', '$', '%', '&amp;', "'", '(', ')', '*', '+', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', ['&lt;', 'Less than'],
                 ['&le;', 'Less than or equal to'], '&asymp;', '=', '&ne;', ['&ge;', 'Greater than or equal to'], ['&gt;', 'Greater than'], '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
@@ -136,8 +138,6 @@ define([
          */
         var _updatePlugins = function(ckConfig, positionedPlugins){
 
-            positionedPlugins =  positionedPlugins || {};
-
             var itCnt,
                 tbCnt = ckConfig.toolbar.length,
                 itLen,
@@ -150,14 +150,15 @@ define([
                 stringVal,
                 stringVals = {},
                 i;
+            positionedPlugins =  positionedPlugins || {};
 
             // add positioned plugins to extraPlugins and let CKEDITOR take care of their registration
             ckConfig.extraPlugins = (function(positionedPluginArr, extraPlugins){
-                var i = positionedPluginArr.length,
-                    extraPluginArr = extraPlugins.split(',');
+                var pluginIndex = positionedPluginArr.length;
+                var extraPluginArr = extraPlugins.split(',');
 
-                while(i--){
-                    positionedPluginArr[i] = positionedPluginArr[i].toLowerCase();
+                while(pluginIndex--){
+                    positionedPluginArr[pluginIndex] = positionedPluginArr[pluginIndex].toLowerCase();
                 }
 
                 extraPluginArr = _.compact(_.union(extraPluginArr, positionedPluginArr));
@@ -180,14 +181,14 @@ define([
             for(plugin in positionedPlugins){
 
                 method = (function(pluginProps){
-                    var i = pluginProps.length;
-                    while(i--){
-                        if(pluginProps[i].indexOf('insert') === 0 || pluginProps[i] === 'replace'){
-                            return pluginProps[i];
+                    var propIndex = pluginProps.length;
+                    while(propIndex--){
+                        if(pluginProps[propIndex].indexOf('insert') === 0 || pluginProps[propIndex] === 'replace'){
+                            return pluginProps[propIndex];
                         }
                     }
 
-                    throw 'Missing key insertBefore | insertAfter | replace in positionedPlugins';
+                    throw new Error('Missing key insertBefore | insertAfter | replace in positionedPlugins');
 
                 }(_.keys(positionedPlugins[plugin])));
 
@@ -210,8 +211,7 @@ define([
                     }
                     //continue
                     if(index > -1){
-                        // ~~ converts bool to number
-                        numToReplace = ~~(method === 'replace');
+                        numToReplace = method === 'replace' ? 1 : 0;
                         if(method === 'insertAfter'){
                             index++;
                         }
@@ -246,13 +246,24 @@ define([
          * @param [options.dtdOverrides] - @see dtdOverrides which pre-defines them
          * @param {Object} [options.positionedPlugins] - @see ckConfig.positionedPlugins
          * @param {Boolean} [options.qtiImage] - enables the qtiImage plugin
+         * @param {Boolean} [options.qtiMedia] - enables the qtiMedia plugin
          * @param {Boolean} [options.qtiInclude] - enables the qtiInclude plugin
          * @param {Boolean} [options.underline] - enables the underline plugin
+         * @param {Boolean} [options.highlight] - enables the highlight plugin
          * @param {Boolean} [options.mathJax] - enables the mathJax plugin
          *
          * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
          */
         var getConfig = function(editor, toolbarType, options){
+            var toolbar,
+                toolbars,
+                config,
+                dtdMode;
+
+            // This is different from CKEDITOR.config.extraPlugins since it also allows to position the button
+            // Valid positioning keys are insertAfter | insertBefore | replace followed by the button name, e.g. 'Anchor'
+            // separator bool, defaults to false
+            var positionedPlugins = {};
 
             if(toolbarType === 'reset'){
                 return originalConfig;
@@ -262,15 +273,8 @@ define([
 
             options.resourcemgr = options.resourcemgr || {};
 
-            var toolbar,
-                toolbars = _.clone(toolbarPresets, true),
-                config,
-                dtdMode = options.dtdMode || 'html';
-
-            // This is different from CKEDITOR.config.extraPlugins since it also allows to position the button
-            // Valid positioning keys are insertAfter | insertBefore | replace followed by the button name, e.g. 'Anchor'
-            // separator bool, defaults to false
-            var positionedPlugins = {};
+            toolbars = _.clone(toolbarPresets, true);
+            dtdMode = options.dtdMode || 'html';
 
             // modify DTD to either comply with QTI or XHTML
             if(dtdMode === 'qti' || toolbarType.indexOf('qti') === 0){
@@ -283,6 +287,9 @@ define([
             // modify plugins - this will change the toolbar too
             // this would add the qti plugins in positionedPlugins
             if (dtdMode === 'qti') {
+                if (options.qtiMedia) {
+                    positionedPlugins.TaoQtiMedia = {insertAfter: 'SpecialChar'};
+                }
                 if (options.qtiImage) {
                     positionedPlugins.TaoQtiImage = {insertAfter: 'SpecialChar'};
                 }
@@ -291,6 +298,13 @@ define([
                 }
                 if (options.underline) {
                     positionedPlugins.TaoUnderline = {insertAfter: 'Italic'};
+                }
+                if (options.highlight) {
+                    if(options.underline) {
+                        positionedPlugins.TaoHighlight = {insertAfter: 'TaoUnderline'};
+                    } else {
+                        positionedPlugins.TaoHighlight = {insertAfter: 'Italic'};
+                    }
                 }
                 if (options.mathJax) {
                     positionedPlugins.TaoQtiMaths = {insertAfter: 'SpecialChar'};
@@ -329,7 +343,7 @@ define([
 
             // forward the options to ckConfig, exclude local options
             config = _.assign({}, _.cloneDeep(originalConfig), ckConfig, _.omit(options, [
-                'qtiImage', 'qtiInclude', 'underline', 'mathJax', 'toolbar', 'positionedPlugins'
+                'qtiImage', 'qtiInclude', 'underline', 'highlight', 'mathJax', 'toolbar', 'positionedPlugins'
             ]));
 
             // debugger: has this config been used?
@@ -337,7 +351,7 @@ define([
 
             // toggle global DTD
             // I know that this is rather ugly
-            editor.on('focus', function(e){
+            editor.on('focus', function(){
                 dtdHandler.setMode(dtdMode);
                 window.CKEDITOR.dtd = dtdHandler.getDtd();
                 // should be 1 on html, undefined on qti
@@ -352,16 +366,19 @@ define([
 
             // This fixes bug #2855. Unfortunately this can be done on the global object only, not on the instance
             window.CKEDITOR.on('dialogDefinition', function(e) {
+                var linkTypes,
+                    wanted,
+                    linkIndex;
+
                 if(e.data.name !== 'link') {
                     return;
                 }
-                var linkTypes = e.data.definition.getContents('info').get('linkType')['items'],
-                    i = linkTypes.length,
-                    wanted;
+                linkTypes = e.data.definition.getContents('info').get('linkType').items;
+                linkIndex = linkTypes.length;
 
-                while(i--) {
-                    if(linkTypes[i][1] !== 'anchor') {
-                        wanted = i;
+                while(linkIndex--) {
+                    if(linkTypes[linkIndex][1] !== 'anchor') {
+                        wanted = linkIndex;
                         continue;
                     }
                 }

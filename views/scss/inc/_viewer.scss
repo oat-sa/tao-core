@@ -1,0 +1,54 @@
+@import 'inc/bootstrap';
+
+$viewerBarBg: $canvas;
+$viewerBarTxt: $textColor;
+$viewerBorder: blacken($viewerBarBg, .2);
+$viewerBg: whiten($viewerBarBg, .5);
+
+.document-viewer {
+    .pdf-viewer {
+        background-color: $viewerBg;
+
+        .pdf-bar {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: baseline;
+
+            background-color: $viewerBarBg;
+            color: $viewerBarTxt;
+            padding: 2px;
+        }
+
+        .pdf-infos {
+            padding: 0 2px;
+            margin-right: 2px;
+
+            .info {
+                display: inline-block;
+
+                &[data-control="pdf-page-num"] {
+                    width: 3rem;
+                    margin: 0 2px;
+                    text-align: right;
+                    font-size: 1.2rem;
+                    background-color: $viewerBg;
+                    border: 1px solid $viewerBorder;
+                }
+
+                &[data-control="pdf-page-count"] {
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .pdf-container {
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .pdf-content {
+            margin: 0 auto;
+        }
+    }
+}

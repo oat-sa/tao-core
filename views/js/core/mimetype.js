@@ -1,14 +1,14 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'json!core/mimetypes.json'], function($, _, mimeTypes){
+define(['jquery', 'lodash', 'json!core/mimetype/categories.json', 'json!core/mimetype/extensions.json'], function($, _, categories, extensions){
     'use strict';
 
     /**
      * Helps you to retrieve file type and categories based on a file mime type
      * @exports core/mimetype
      */
-    return {
+    var mimetypeHelper = {
 
         /**
          * Gets the MIME type of a resource.
@@ -56,21 +56,19 @@ define(['jquery', 'lodash', 'json!core/mimetypes.json'], function($, _, mimeType
 
             if(mime){
                 //lookup for exact mime
-                type = _.findKey(mimeTypes, { mimes : [mime]});
+                type = _.findKey(categories, { mimes : [mime]});
 
                 //then check  with star
                 if(!type){
-                    type = _.findKey(mimeTypes, { mimes : [mime.replace(/\/.*$/, '/*')]});
+                    type = _.findKey(categories, { mimes : [mime.replace(/\/.*$/, '/*')]});
                 }
             }
 
             //try by extension
             if(!type){
-                extMatch  = file.name.match(/\.([0-9a-z]+)(?:[\?#]|$)/i);
-                if(extMatch && extMatch.length > 1){
-                    ext = extMatch[1];
-
-                    type = _.findKey(mimeTypes, { extensions : [ext]});
+                ext = getFileExtension(file.name);
+                if(ext){
+                    type = _.findKey(categories, { extensions : [ext]});
                 }
             }
 
@@ -83,11 +81,52 @@ define(['jquery', 'lodash', 'json!core/mimetypes.json'], function($, _, mimeType
          * @returns {String} category
          */
         getCategory : function getCategory(type){
-            if(mimeTypes[type]){
-                return mimeTypes[type].category;
+            if(categories[type]){
+                return categories[type].category;
             }
+        },
+        /**
+         * Get mime type from a File object
+         * It first based the detection on the standard type File.type property
+         * If the returned type is empty or in a generic application/octet-stream, it will use its extension.
+         * If the extension is unknown, the property File.type is returned anyway.
+         * 
+         * @param {File} file
+         * @returns {String} the mime type
+         */
+        getMimeType : function getMimeType(file){
+            var ext,
+                type = file.type,
+                category = mimetypeHelper.getFileType({
+                    name : file.name,
+                    mime : type
+                });
+
+            if(type && !type.match(/invalid/) && category !== 'generic'){
+                return type;
+            }else{
+                ext = getFileExtension(file.name);
+                if(ext && extensions[ext]){
+                    return extensions[ext];
+                }
+            }
+            return type;
         }
 
     };
 
+    /**
+     * Get the file extension from the file name
+     *
+     * @param {String} fileName
+     * @returns {String}
+     */
+    function getFileExtension(fileName){
+        var extMatch  = fileName.match(/\.([0-9a-z]+)(?:[\?#]|$)/i);
+        if(extMatch && extMatch.length > 1){
+            return extMatch[1];
+        }
+    }
+
+    return mimetypeHelper;
 });

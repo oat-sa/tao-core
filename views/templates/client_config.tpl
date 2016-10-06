@@ -70,6 +70,9 @@ require.config({
         'scale.raphael'     : 'lib/raphael/scale.raphael',
         'spin'              : 'lib/spin.min',
         'html5-history-api'           : 'lib/history/history',
+
+        'pdfjs-dist/build/pdf'        : 'lib/pdfjs/build/pdf',
+        'pdfjs-dist/build/pdf.worker' : 'lib/pdfjs/build/pdf.worker',
         'mathJax'           : [
             '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
             '../../../taoQtiItem/views/js/MathJaxFallback'
