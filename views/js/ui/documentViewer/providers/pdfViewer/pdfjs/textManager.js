@@ -197,7 +197,7 @@ define([
 
             /**
              * Renders the text of a page into a layer using the provided viewport settings.
-             * The promise will return the rendered layer and a list of nodes containing the content items.
+             * The promise will return the rendered layer.
              * @param {Number} pageNum
              * @param {Object} viewport
              * @param {Number} [timeout]
@@ -208,26 +208,22 @@ define([
                     var pageIndex = Math.min(Math.max(0, pageNum - 1), content.length - 1);
                     var pageContent = content[pageIndex];
                     var textLayerFrag = document.createDocumentFragment();
-                    var textDivs = [];
 
                     cancelRenderingTask(pageIndex);
 
+                    pageContent.nodes = [];
+
                     textRenderTasks[pageIndex] = PDFJS.renderTextLayer({
                         textContent: pageContent.content,
+                        textDivs: pageContent.nodes,
                         container: textLayerFrag,
                         viewport: viewport,
-                        textDivs: textDivs,
                         timeout: timeout
                     });
 
                     return textRenderTasks[pageIndex].promise.then(function () {
                         textRenderTasks[pageIndex] = null;
-
-                        return {
-                            pageNum: pageNum,
-                            layer: textLayerFrag,
-                            nodes: textDivs
-                        };
+                        return textLayerFrag;
                     }, function () {
                         // silently catch any error
                         textRenderTasks[pageIndex] = null;

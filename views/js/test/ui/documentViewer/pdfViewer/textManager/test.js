@@ -391,7 +391,7 @@ define([
         pdfjs.pageCount = 1;
         pdfjs.textContent = ['This is a test'];
 
-        QUnit.expect(6);
+        QUnit.expect(3);
 
         pdfjs.on('textLayer', function () {
             assert.ok(true, 'The text layer is rendering');
@@ -401,12 +401,9 @@ define([
             instance.setDocument(pdf);
 
             return pdf.getPage(1).then(function (page) {
-                return instance.renderPage(1, page.getViewport()).then(function (result) {
-                    assert.equal(typeof result, 'object', "The result of the rendering process is an object");
-                    assert.equal(result.pageNum, 1, "The render result concerns the right page");
-                    assert.equal(typeof result.layer, 'object', "The layer containing the rendered text is provided");
-                    assert.ok(result.nodes instanceof Array, "The nodes are provided in an array");
-                    assert.equal($(result.layer).text(), expectedFullText, "The layer contains the right text");
+                return instance.renderPage(1, page.getViewport()).then(function (layer) {
+                    assert.equal(typeof layer, 'object', "The result of the rendering process is an object");
+                    assert.equal($(layer).text(), expectedFullText, "The layer contains the right text");
 
                     instance.destroy();
                     QUnit.start();
@@ -429,7 +426,7 @@ define([
         pdfjs.pageCount = 1;
         pdfjs.textContent = ['This is a test'];
 
-        QUnit.expect(8);
+        QUnit.expect(5);
 
         pdfjs.on('textLayer', function () {
             assert.ok(true, 'The text layer is rendering');
@@ -446,10 +443,7 @@ define([
                 ]).then(function (results) {
                     assert.equal(typeof results[0], 'undefined', 'The first rendering process has been halted');
                     assert.equal(typeof results[1], 'object', "The result of the second rendering process is an object");
-                    assert.equal(results[1].pageNum, 1, "The render result concerns the right page");
-                    assert.equal(typeof results[1].layer, 'object', "The layer containing the rendered text is provided");
-                    assert.ok(results[1].nodes instanceof Array, "The nodes are provided in an array");
-                    assert.equal($(results[1].layer).text(), expectedFullText, "The layer contains the right text");
+                    assert.equal($(results[1]).text(), expectedFullText, "The layer contains the right text");
 
                     instance.destroy();
                     QUnit.start();

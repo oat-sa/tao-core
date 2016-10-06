@@ -207,7 +207,7 @@ define([
 
                     promises.push(
                         textManager.renderPage(page.pageIndex + 1, textViewport).then(function(renderedContent) {
-                            $textLayer.append(renderedContent.layer);
+                            $textLayer.append(renderedContent);
                         })
                     );
                 }
