@@ -31,7 +31,6 @@ define([
      * @param {jQuery} $container
      * @param {Object} config
      * @param {Number} [config.pageCount] - The number of pages views to manage (default: 1)
-     * @param {Boolean} [config.fitToWidth] - Fit the page to the available width, a scroll bar may appear (default: false)
      * @param {Object} [config.textManager] - The textManager component that access to the text content to render
      * @returns {Object}
      */
@@ -131,11 +130,12 @@ define([
             /**
              * Renders a page into the active view
              * @param {Object} page
+             * @param {Boolean} [fitToWidth] - Force the page view to fit its container width, without respect of the container height
              * @returns {Promise}
              */
-            renderPage: function renderPage(page) {
+            renderPage: function renderPage(page, fitToWidth) {
                 if (activeView) {
-                    return activeView.render(page, config.fitToWidth);
+                    return activeView.render(page, fitToWidth);
                 }
                 return Promise.resolve();
             },

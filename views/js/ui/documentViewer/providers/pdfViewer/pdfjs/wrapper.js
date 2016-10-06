@@ -130,7 +130,7 @@ define([
                         states.rendering = true;
                         pageRendering = pdfDoc.getPage(num).then(function (page) {
                             if (pagesManager) {
-                                return pagesManager.renderPage(page).then(function () {
+                                return pagesManager.renderPage(page, config.fitToWidth).then(function () {
                                     var nextPage = pageNumPending;
                                     pageNumPending = null;
                                     pageRendering = null;
@@ -267,7 +267,6 @@ define([
         // todo: accept option to use a view per page instead of a single view for all pages
         pagesManager = pagesManagerFactory($container, {
             pageCount: 1,
-            fitToWidth: config.fitToWidth,
             textManager: textManager
         });
 
