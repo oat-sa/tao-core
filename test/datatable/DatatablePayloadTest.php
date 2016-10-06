@@ -27,8 +27,6 @@ use Slim\Http\Request;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use Prophecy\Argument;
 
-//include_once dirname(__FILE__) . '/../../includes/raw_start.php';
-
 /**
  * Class DatatablePayloadTest
  * @package oat\tao\test\datatable

@@ -25,8 +25,6 @@ use oat\tao\model\datatable\implementation\DatatableRequest;
 use Slim\Http\Environment;
 use Slim\Http\Request;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
-
 /**
  * Class DatatableRequestTest
  * @package oat\tao\test\datatable
