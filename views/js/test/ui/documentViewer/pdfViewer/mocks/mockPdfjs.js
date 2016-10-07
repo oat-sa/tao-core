@@ -137,8 +137,14 @@ define([
 
             getTextContent: function getTextContent() {
                 var index = Math.min(Math.max(0, pageNum - 1), mockPDFJS.textContent.length);
+                var textContent = mockPDFJS.textContent[index];
+
+                if (!_.isArray(textContent)) {
+                    textContent = [textContent];
+                }
+
                 return Promise.resolve({
-                    items: _.map(mockPDFJS.textContent[index].split(' '), function (term) {
+                    items: _.map(textContent, function (term) {
                         return {str: term};
                     })
                 });

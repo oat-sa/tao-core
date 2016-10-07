@@ -28,6 +28,7 @@ define([
     'use strict';
 
     var pdfUrl = location.href.replace('/pdfViewer/textManager/test.html', '/sample/demo.pdf');
+    var pdfjsBackup = {};
     var textLayerApi;
 
 
@@ -80,8 +81,14 @@ define([
 
 
     QUnit.module('pdfViewer TextManager implementation', {
+        setup: function () {
+            pdfjsBackup.pageCount = pdfjs.pageCount;
+            pdfjsBackup.textContent = pdfjs.textContent;
+        },
         teardown: function () {
             pdfjs.removeAllListeners();
+            pdfjs.pageCount = pdfjsBackup.pageCount;
+            pdfjs.textContent = pdfjsBackup.textContent;
         }
     });
 
@@ -130,11 +137,11 @@ define([
         };
         var instance = textManagerFactory(config);
         var textContent = [
-            'Page 1',
-            'Page 2'
+            ['Page 1', ' ', 'foo'],
+            ['Page 2', ' ', 'bar']
         ];
 
-        QUnit.expect(5 + 6 * pageCount);
+        QUnit.expect(5 + 7 * pageCount);
 
         assert.equal(instance.getDocument(), null, "The getDocument() method returns null when no document have been set");
 
@@ -159,9 +166,10 @@ define([
                         assert.equal(typeof pageContent.content, 'object', 'The page content contains a content entry');
                         assert.equal(typeof pageContent.strings, 'object', 'The page content contains a strings entry');
                         assert.equal(typeof pageContent.text, 'string', 'The page content contains a text entry');
+                        assert.ok(pageContent.nodes instanceof Array, 'The page content contains a nodes entry');
 
-                        assert.deepEqual(pageContent.strings, textContent[index].split(' '), 'The page content contains the right strings');
-                        assert.equal(pageContent.text, textContent[index], 'The page content contains the right text');
+                        assert.deepEqual(pageContent.strings, textContent[index], 'The page content contains the right strings');
+                        assert.equal(pageContent.text, textContent[index].join(''), 'The page content contains the right text');
                     });
 
                     return instance.getContents().then(function (_contents) {
@@ -187,8 +195,8 @@ define([
         };
         var instance = textManagerFactory(config);
         var textContent = [
-            'Page 1',
-            'Page 2'
+            ['Page 1', ' ', 'foo'],
+            ['Page 2', ' ', 'bar']
         ];
 
         QUnit.expect(4 + 2 * pageCount);
@@ -213,7 +221,7 @@ define([
 
                     _.forEach(texts, function (text, index) {
                         assert.equal(typeof text, 'string', 'This is a text entry');
-                        assert.equal(text, textContent[index], 'This is contains the right text');
+                        assert.equal(text, textContent[index].join(''), 'This is contains the right text');
                     });
 
                     instance.destroy();
@@ -278,11 +286,11 @@ define([
         };
         var instance = textManagerFactory(config);
         var textContent = [
-            'Page 1',
-            'Page 2'
+            ['Page 1', ' ', 'foo'],
+            ['Page 2', ' ', 'bar']
         ];
 
-        QUnit.expect(15);
+        QUnit.expect(17);
 
         assert.equal(instance.getDocument(), null, "The getDocument() method returns null when no document have been set");
 
@@ -303,18 +311,20 @@ define([
                     assert.equal(typeof pageContent2.content, 'object', 'The page content contains a content entry');
                     assert.equal(typeof pageContent2.strings, 'object', 'The page content contains a strings entry');
                     assert.equal(typeof pageContent2.text, 'string', 'The page content contains a text entry');
+                    assert.ok(pageContent2.nodes instanceof Array, 'The page content contains a nodes entry');
 
-                    assert.deepEqual(pageContent2.strings, textContent[1].split(' '), 'The page content contains the right strings');
-                    assert.equal(pageContent2.text, textContent[1], 'The page content contains the right text');
+                    assert.deepEqual(pageContent2.strings, textContent[1], 'The page content contains the right strings');
+                    assert.equal(pageContent2.text, textContent[1].join(''), 'The page content contains the right text');
 
                     return instance.getPageContent(1).then(function (pageContent1) {
                         assert.equal(typeof pageContent1, 'object', "Received an object");
                         assert.equal(typeof pageContent1.content, 'object', 'The page content contains a content entry');
                         assert.equal(typeof pageContent1.strings, 'object', 'The page content contains a strings entry');
                         assert.equal(typeof pageContent1.text, 'string', 'The page content contains a text entry');
+                        assert.ok(pageContent1.nodes instanceof Array, 'The page content contains a nodes entry');
 
-                        assert.deepEqual(pageContent1.strings, textContent[0].split(' '), 'The page content contains the right strings');
-                        assert.equal(pageContent1.text, textContent[0], 'The page content contains the right text');
+                        assert.deepEqual(pageContent1.strings, textContent[0], 'The page content contains the right strings');
+                        assert.equal(pageContent1.text, textContent[0].join(''), 'The page content contains the right text');
 
                         assert.notEqual(pageContent1, pageContent2, "Content of page 1 and 2 is different");
 
@@ -386,10 +396,12 @@ define([
             PDFJS: pdfjs
         };
         var instance = textManagerFactory(config);
-        var expectedFullText = 'Thisisatest';
+        var expectedFullText = 'This is a test!';
 
         pdfjs.pageCount = 1;
-        pdfjs.textContent = ['This is a test'];
+        pdfjs.textContent = [
+            ['This is a test', '!']
+        ];
 
         QUnit.expect(3);
 
@@ -421,10 +433,12 @@ define([
             PDFJS: pdfjs
         };
         var instance = textManagerFactory(config);
-        var expectedFullText = 'Thisisatest';
+        var expectedFullText = 'This is a test!';
 
         pdfjs.pageCount = 1;
-        pdfjs.textContent = ['This is a test'];
+        pdfjs.textContent = [
+            ['This is a test', '!']
+        ];
 
         QUnit.expect(5);
 
@@ -463,11 +477,11 @@ define([
         };
         var instance = textManagerFactory(config);
         var textContent = [
-            'Page 1',
-            'Page 2'
+            ['Page 1', ' ', 'foo'],
+            ['Page 2', ' ', 'bar']
         ];
 
-        QUnit.expect(8 + 6 * pageCount);
+        QUnit.expect(8 + 7 * pageCount);
 
         assert.equal(instance.getDocument(), null, "The getDocument() method returns null when no document have been set");
 
@@ -489,9 +503,10 @@ define([
                     assert.equal(typeof pageContent.content, 'object', 'The page content contains a content entry');
                     assert.equal(typeof pageContent.strings, 'object', 'The page content contains a strings entry');
                     assert.equal(typeof pageContent.text, 'string', 'The page content contains a text entry');
+                    assert.ok(pageContent.nodes instanceof Array, 'The page content contains a nodes entry');
 
-                    assert.deepEqual(pageContent.strings, textContent[index].split(' '), 'The page content contains the right strings');
-                    assert.equal(pageContent.text, textContent[index], 'The page content contains the right text');
+                    assert.deepEqual(pageContent.strings, textContent[index], 'The page content contains the right strings');
+                    assert.equal(pageContent.text, textContent[index].join(''), 'The page content contains the right text');
                 });
 
                 return instance.getContents().then(function (_contents) {

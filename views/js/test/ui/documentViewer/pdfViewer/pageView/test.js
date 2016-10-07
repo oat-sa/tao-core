@@ -365,7 +365,7 @@ define([
                 textManager: textManager
             };
             var instance = pageViewFactory($container, config);
-            var expectedFullText = 'Thisisatest';
+            var expectedFullText = 'This is a test!';
 
             QUnit.expect(24);
 
@@ -395,7 +395,9 @@ define([
             });
 
             pdfjs.pageCount = 1;
-            pdfjs.textContent = ['This is a test'];
+            pdfjs.textContent = [
+                ['This is a test', '!']
+            ];
             pdfjs.viewportWidth = data.viewport.width;
             pdfjs.viewportHeight = data.viewport.height;
 

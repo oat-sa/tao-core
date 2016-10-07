@@ -31,7 +31,7 @@ define([
      * @param {jQuery} $container
      * @param {Object} config
      * @param {Number} [config.pageCount] - The number of pages views to manage (default: 1)
-     * @param {Object} [config.textManager] - The textManager component that access to the text content to render
+     * @param {Object} [config.textManager] - The textManager component that gives access to the text content
      * @returns {Object}
      */
     function pagesManagerFactory($container, config) {

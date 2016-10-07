@@ -79,7 +79,7 @@ define([
      * @param {jQuery} $container
      * @param {Object} config
      * @param {Number} config.pageNum - The number of the page the view is displaying
-     * @param {Object} [config.textManager] - The textManager component that access to the text content to render
+     * @param {Object} [config.textManager] - The textManager component that gives access to the text content
      * @returns {Object}
      */
     function pageViewFactory($container, config) {

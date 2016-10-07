@@ -86,7 +86,8 @@ define([
                     return {
                         content: textContent,
                         strings: strings,
-                        text: strings.join(' ')
+                        text: strings.join(''),
+                        nodes: []
                     };
                 }));
             });
@@ -144,7 +145,7 @@ define([
              * Gets the content of the PDF
              * @returns {Promise}
              */
-            getContents: function () {
+            getContents: function getContents() {
                 if (pdfDoc) {
                     return getPageContents();
                 }
@@ -240,6 +241,7 @@ define([
                 pdfDoc = null;
                 PDFJS = null;
                 pageContents = null;
+                config = null;
             }
         };
     }
