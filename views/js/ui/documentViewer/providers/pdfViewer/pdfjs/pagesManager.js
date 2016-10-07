@@ -19,11 +19,10 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
-    'jquery',
     'lodash',
     'core/promise',
     'ui/documentViewer/providers/pdfViewer/pdfjs/pageView'
-], function ($, _, Promise, pageViewFactory) {
+], function (_, Promise, pageViewFactory) {
     'use strict';
 
     /**
