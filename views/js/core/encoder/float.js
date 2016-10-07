@@ -1,4 +1,3 @@
-<?php
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,19 +13,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+define(function(){
+    'use strict';
 
-namespace oat\tao\model\entryPoint;
+    return {
+        encode : function(modelValue){
+            return modelValue + '';
+        },
 
-use oat\taoBackOffice\model\entryPoint\BackOfficeEntryPoint as RealEntryPoint;
-/**
- * Please use the taoBackOffice entry point instead
- * @author bout
- * @deprecated
- */
-class BackOfficeEntrypoint extends RealEntryPoint
-{
-}
+        decode : function(nodeValue){
+            return parseFloat(nodeValue.replace(',', '.'));
+        }
+    };
+});
+
+
