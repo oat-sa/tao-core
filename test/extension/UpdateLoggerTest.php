@@ -19,11 +19,9 @@
  */
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\tao\model\stream\StreamRange;
-use oat\tao\model\stream\StreamRangeException;
-use Slim\Http\Stream;
 use oat\tao\model\extension\UpdateLogger;
 use oat\oatbox\filesystem\Directory;
+use oat\oatbox\filesystem\FileSystemService;
 
 /**
  * @package tao
@@ -38,19 +36,20 @@ class UpdateLoggerTest extends TaoPhpUnitTestRunner
         
         $files = array();
         foreach ($tmpDir->getIterator(Directory::ITERATOR_FILE) as $file) {
-            $files++;
+            $files[] = $file;
         }
         $this->assertEquals(0, count($files));
         $logger->error('SampleError');
         
         $files = array();
         foreach ($tmpDir->getIterator(Directory::ITERATOR_FILE) as $file) {
-            $files++;
+            $files[] = $file;
         }
         $this->assertEquals(1, count($files));
         $file = reset($files);
         
         $content = $file->read();
+        $this->assertFalse(strpos($content, 'WeirdString'));
         $this->assertNotFalse(strpos($content, 'SampleError'));
     }
 
