@@ -107,22 +107,27 @@ define([
         };
         var instance = searchEngineFactory(config);
 
-        QUnit.expect(6);
+        QUnit.expect(10);
 
-        assert.equal(instance.getMatches(), null, 'There is not search matches at this moment');
-
-        instance.clearMatches();
-
-        assert.ok(instance.getMatches() instanceof Array, 'The list matches has been reset');
+        assert.ok(instance.getMatches() instanceof Array, 'The list of matches is defined');
         assert.equal(instance.getMatches().length, 0, 'There is no matches');
+
+        assert.ok(instance.getPages() instanceof Array, 'The list of pages has been defined');
+        assert.equal(instance.getPages().length, 0, 'There is no pages');
 
         instance.getMatches().push([]);
         assert.equal(instance.getMatches().length, 1, 'There is something in the array of matches');
 
+        instance.getPages().push(1);
+        assert.equal(instance.getPages().length, 1, 'There is something in the array of pages');
+
         instance.clearMatches();
 
-        assert.ok(instance.getMatches() instanceof Array, 'The list matches has been reset');
+        assert.ok(instance.getMatches() instanceof Array, 'The list of matches has been reset');
         assert.equal(instance.getMatches().length, 0, 'There is no matches');
+
+        assert.ok(instance.getPages() instanceof Array, 'The list of pages has been reset');
+        assert.equal(instance.getPages().length, 0, 'There is no pages');
 
         instance.destroy();
         textManager.destroy();
@@ -163,6 +168,7 @@ define([
             [[10, 14]],
             []
         ],
+        pageNumbers: [2, 3],
         pages: [
             'This is a test document',
             'The search will match this page',
@@ -180,6 +186,7 @@ define([
             [[10, 14]],
             []
         ],
+        pageNumbers: [3],
         pages: [
             'This is a test document',
             'The search will not match this page',
@@ -197,6 +204,7 @@ define([
             [[11, 15]],
             []
         ],
+        pageNumbers: [2, 3],
         pages: [
             'This is a test document',
             'The search \u201Cwill\u201D match this page',
@@ -214,6 +222,7 @@ define([
             [[10, 16]],
             []
         ],
+        pageNumbers: [2, 3],
         pages: [
             'This is a test document',
             'The search \u201Cwill\u201D match this page',
@@ -231,21 +240,22 @@ define([
             }, data.config);
             var instance = searchEngineFactory(config);
 
-            QUnit.expect(5);
+            QUnit.expect(6);
 
             pdfjs.textContent = data.pages;
             pdfjs.pageCount = pdfjs.textContent.length;
 
-            assert.equal(instance.getMatches(), null, 'There is not search matches at this moment');
+            assert.deepEqual(instance.getMatches(), [], 'There is not search matches at this moment');
+            assert.deepEqual(instance.getPages(), [], 'There is not search pages at this moment');
 
             pdfjs.getDocument(pdfUrl).then(function (pdf) {
                 textManager.setDocument(pdf);
 
                 return instance.search(data.query).then(function (pageNum) {
                     assert.equal(pageNum, data.firstPage, 'The search has found the terms and returned the right page number');
-                    assert.ok(instance.getMatches() instanceof Array, 'There is now some search matches');
                     assert.equal(instance.getMatches().length, pdfjs.pageCount, 'The matches collection contains the same numbers than the amount of pages');
                     assert.deepEqual(instance.getMatches(), data.matches, 'The search has find the expected matches');
+                    assert.deepEqual(instance.getPages(), data.pageNumbers, 'The search has find matches in the expected pages');
 
                     instance.destroy();
 
@@ -270,14 +280,14 @@ define([
             [[29, 33], [47, 51], [71, 75]]
         ];
 
-        QUnit.expect(18);
+        QUnit.expect(24);
 
         pdfjs.textContent = [
             ['The search should ','match this pa','ge because this p','ag','e contains',' the word',' \u201Cpage\u201D!']
         ];
         pdfjs.pageCount = pdfjs.textContent.length;
 
-        assert.equal(instance.getMatches(), null, 'There is not search matches at this moment');
+        assert.deepEqual(instance.getMatches(), [], 'There is not search matches at this moment');
 
         pdfjs.getDocument(pdfUrl).then(function (pdf) {
             textManager.setDocument(pdf);
@@ -298,12 +308,21 @@ define([
                                 var $matches = $container.find('span');
 
                                 assert.equal($matches.length, 6, 'There is the right number of highlighted matches');
+
                                 assert.equal($matches.eq(0).text(), 'pa', 'The highlighted span contains the right text');
+                                assert.equal($matches.eq(0).data('match'), '0', 'The highlighted span is related to the right match');
                                 assert.equal($matches.eq(1).text(), 'ge', 'The highlighted span contains the right text');
+                                assert.equal($matches.eq(1).data('match'), '0', 'The highlighted span is related to the right match');
+
                                 assert.equal($matches.eq(2).text(), 'p', 'The highlighted span contains the right text');
+                                assert.equal($matches.eq(2).data('match'), '1', 'The highlighted span is related to the right match');
                                 assert.equal($matches.eq(3).text(), 'ag', 'The highlighted span contains the right text');
+                                assert.equal($matches.eq(3).data('match'), '1', 'The highlighted span is related to the right match');
                                 assert.equal($matches.eq(4).text(), 'e', 'The highlighted span contains the right text');
+                                assert.equal($matches.eq(4).data('match'), '1', 'The highlighted span is related to the right match');
+
                                 assert.equal($matches.eq(5).text(), 'page', 'The highlighted span contains the right text');
+                                assert.equal($matches.eq(5).data('match'), '2', 'The highlighted span is related to the right match');
                             });
                         });
                     }).then(function() {

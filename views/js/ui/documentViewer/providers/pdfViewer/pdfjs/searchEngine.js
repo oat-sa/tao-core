@@ -20,9 +20,8 @@
  */
 define([
     'jquery',
-    'lodash',
-    'core/promise'
-], function ($, _, Promise) {
+    'lodash'
+], function ($, _) {
     'use strict';
 
     /**
@@ -111,17 +110,33 @@ define([
 
     /**
      * Wraps a text into a highlighting span
-     * @param {String} text
-     * @param {String} [cls]
+     * @param {String} text - The text to highlight
+     * @param {Number} index - The match index
+     * @param {String} [cls] - An additional CSS class to set
      * @returns {String}
      */
-    function highlight(text, cls) {
+    function highlight(text, index, cls) {
         cls = 'highlight' + (cls ? ' ' + cls : '');
-        return '<span class="' + cls + '">' + text + '</span>';
+        return '<span class="' + cls + '" data-match="' + index + '">' + text + '</span>';
     }
 
     /**
-     * Refines the array of matches to provide positions inside the text layer
+     * Highlights a substring in a text
+     * @param {String} text - The text in which highlight the substring
+     * @param {Number} start - The start position of the substring in the text
+     * @param {Number} end - The end position of the substring in the text
+     * @param {Number} index - The match index
+     * @param {String} [cls] - An additional CSS class to set
+     * @returns {String}
+     */
+    function highlightInText(text, start, end, index, cls) {
+        return text.substring(0, start) +
+            highlight(text.substring(start, end), index, cls) +
+            text.substring(end);
+    }
+
+    /**
+     * Refines the array of matches to provide positions inside the text layer per nodes basis
      * @param {Array} matches
      * @param {Object} pageContent
      * @returns {Array}
@@ -133,13 +148,11 @@ define([
         var cursor = 0;
         var strPos = 0;
 
-        _.forEach(matches, function (match, matchIndex) {
+        _.forEach(matches, function (match, index) {
             var matchStart = match[0];
             var matchEnd = match[1];
             var position = {
-                matchIndex: matchIndex,
-                matchStart: matchStart,
-                matchEnd: matchEnd
+                index: index
             };
 
             while (cursor < count && matchStart >= strPos + textItems[cursor].str.length) {
@@ -190,20 +203,16 @@ define([
                 nodeInMatch = nodeIndex > match.begin.node && nodeIndex < match.end.node;
 
                 if (startInNode && endInNode) {
-                    nodeText = nodeText.substr(0, match.begin.offset) +
-                        highlight(nodeText.substring(match.begin.offset, match.end.offset)) +
-                        nodeText.substr(match.end.offset);
+                    nodeText = highlightInText(nodeText, match.begin.offset, match.end.offset, match.index);
                     matchIndex--;
                 } else if (startInNode) {
-                    nodeText = nodeText.substr(0, match.begin.offset) +
-                        highlight(nodeText.substr(match.begin.offset), 'begin');
+                    nodeText = highlightInText(nodeText, match.begin.offset, nodeText.length, match.index, 'begin');
                     matchIndex--;
                 } else if (endInNode) {
-                    nodeText = highlight(nodeText.substring(0, match.end.offset), 'end') +
-                        nodeText.substr(match.end.offset);
+                    nodeText = highlightInText(nodeText, 0, match.end.offset, match.index, 'end');
                     break;
                 } else if (nodeInMatch) {
-                    nodeText = highlight(nodeText, 'middle');
+                    nodeText = highlight(nodeText, match.index, 'middle');
                     break;
                 } else {
                     break;
@@ -223,7 +232,8 @@ define([
      */
     function pdfjsSearchFactory(config) {
         var textManager = null;
-        var matches = null;
+        var matches = [];
+        var pages = [];
 
         config = config || {};
         textManager = config.textManager;
@@ -233,6 +243,14 @@ define([
         }
 
         return {
+            /**
+             * Gets the list of page numbers that lead to search matches
+             * @returns {Array}
+             */
+            getPages: function getPages() {
+                return pages;
+            },
+
             /**
              * Gets the search matches
              * @returns {Array}
@@ -246,6 +264,7 @@ define([
              */
             clearMatches: function clearMatches() {
                 matches = [];
+                pages = [];
             },
 
             /**
@@ -276,10 +295,14 @@ define([
                     var contentText = _.map(pageContents, 'text');
                     matches = findInDocument(query, contentText, config);
 
-                    // the promise will return the page number of the first match, or 0 if none
-                    return 1 + _.findIndex(matches, function (pageMatches) {
-                        return pageMatches.length > 0;
+                    pages = [];
+                    _.forEach(matches, function (pageMatches, pageIndex) {
+                        if (pageMatches.length > 0) {
+                            pages.push(pageIndex + 1);
+                        }
                     });
+
+                    return pages[0] || 0;
                 });
             },
 
@@ -289,14 +312,11 @@ define([
              * @returns {Promise}
              */
             updateMatches: function updateMatches(pageNum) {
-                if (matches) {
-                    return textManager.getPageContent(pageNum).then(function (pageContent) {
-                        if (pageContent) {
-                            renderMatches(matches[pageNum - 1] || [], pageContent);
-                        }
-                    });
-                }
-                return Promise.resolve();
+                return textManager.getPageContent(pageNum).then(function (pageContent) {
+                    if (pageContent) {
+                        renderMatches(matches[pageNum - 1] || [], pageContent);
+                    }
+                });
             },
 
             /**
@@ -305,6 +325,7 @@ define([
             destroy: function destroy() {
                 textManager = null;
                 matches = null;
+                pages = null;
                 config = null;
             }
         };
