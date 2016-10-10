@@ -19,9 +19,8 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
-    'jquery',
     'lodash'
-], function ($, _) {
+], function (_) {
     'use strict';
 
     /**
@@ -192,7 +191,6 @@ define([
         var nodes = pageContent.nodes;
 
         _.forEachRight(nodes, function (node, nodeIndex) {
-            var $node = $(node);
             var nodeText = pageContent.content.items[nodeIndex].str;
             var match, startInNode, endInNode, nodeInMatch;
 
@@ -219,7 +217,7 @@ define([
                 }
             }
 
-            $node.html(nodeText);
+            node.innerHTML = nodeText;
         });
     }
 
@@ -286,29 +284,37 @@ define([
             /**
              * Searches for the requested query.
              * The promise will return the page number of the first match, that could be 0 if no result has been found.
-             * @param {String} query
+             * @param {String} query - The terms to search for
+             * @param {Number} [pageNum] - An optional page number from which start the search
              * @returns {Promise}
              */
-            search: function search(query) {
+            search: function search(query, pageNum) {
                 matches = null;
                 return textManager.getContents().then(function (pageContents) {
                     var contentText = _.map(pageContents, 'text');
+                    var firstPage = 0;
                     matches = findInDocument(query, contentText, config);
 
                     pages = [];
                     _.forEach(matches, function (pageMatches, pageIndex) {
+                        var page = pageIndex + 1;
+
                         if (pageMatches.length > 0) {
-                            pages.push(pageIndex + 1);
+                            pages.push(page);
+
+                            if (!firstPage && page >= pageNum) {
+                                firstPage = page;
+                            }
                         }
                     });
 
-                    return pages[0] || 0;
+                    return firstPage || pages[0] || 0;
                 });
             },
 
             /**
              * Displays the search matches on the rendered page
-             * @param {Number} pageNum
+             * @param {Number} pageNum - The page number of the rendered page
              * @returns {Promise}
              */
             updateMatches: function updateMatches(pageNum) {

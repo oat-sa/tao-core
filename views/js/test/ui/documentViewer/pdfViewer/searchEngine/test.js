@@ -176,6 +176,25 @@ define([
             'This page is the last'
         ]
     }, {
+        title: 'search from page',
+        config: {},
+        query: 'will',
+        currentPage: 3,
+        firstPage: 3,
+        matches: [
+            [],
+            [[11, 15]],
+            [[10, 14]],
+            []
+        ],
+        pageNumbers: [2, 3],
+        pages: [
+            'This is a test document',
+            'The search will match this page',
+            'This Page Will Also Be Matched',
+            'This page is the last'
+        ]
+    }, {
         title: 'case sensitive',
         config: {caseSensitive: true},
         query: 'Will',
@@ -251,7 +270,7 @@ define([
             pdfjs.getDocument(pdfUrl).then(function (pdf) {
                 textManager.setDocument(pdf);
 
-                return instance.search(data.query).then(function (pageNum) {
+                return instance.search(data.query, data.currentPage).then(function (pageNum) {
                     assert.equal(pageNum, data.firstPage, 'The search has found the terms and returned the right page number');
                     assert.equal(instance.getMatches().length, pdfjs.pageCount, 'The matches collection contains the same numbers than the amount of pages');
                     assert.deepEqual(instance.getMatches(), data.matches, 'The search has find the expected matches');
