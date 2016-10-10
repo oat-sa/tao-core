@@ -259,13 +259,15 @@ define([
             }, data.config);
             var instance = searchEngineFactory(config);
 
-            QUnit.expect(6);
+            QUnit.expect(12);
 
             pdfjs.textContent = data.pages;
             pdfjs.pageCount = pdfjs.textContent.length;
 
             assert.deepEqual(instance.getMatches(), [], 'There is not search matches at this moment');
             assert.deepEqual(instance.getPages(), [], 'There is not search pages at this moment');
+            assert.equal(instance.getQuery(), null, 'There is not search query at this moment');
+            assert.equal(instance.getCurrentMatch(), null, 'There is no match at this moment');
 
             pdfjs.getDocument(pdfUrl).then(function (pdf) {
                 textManager.setDocument(pdf);
@@ -275,6 +277,10 @@ define([
                     assert.equal(instance.getMatches().length, pdfjs.pageCount, 'The matches collection contains the same numbers than the amount of pages');
                     assert.deepEqual(instance.getMatches(), data.matches, 'The search has find the expected matches');
                     assert.deepEqual(instance.getPages(), data.pageNumbers, 'The search has find matches in the expected pages');
+                    assert.equal(instance.getQuery(), data.query, 'The current query is stored');
+                    assert.equal(typeof instance.getCurrentMatch(), 'object', 'There is now a match');
+                    assert.equal(instance.getCurrentMatch().page, data.firstPage, 'The current match target the right page');
+                    assert.equal(instance.getCurrentMatch().index, 0, 'The current match target the right index');
 
                     instance.destroy();
 
@@ -285,6 +291,112 @@ define([
                 QUnit.start();
             });
         });
+
+
+    QUnit.asyncTest('navigating in search', function (assert) {
+        var textManager = textManagerFactory({PDFJS: pdfjs});
+        var config = {
+            textManager: textManager
+        };
+
+        var query = 'page';
+        var currentPage = 3;
+        var matches = [
+            [],
+            [[27, 31], [46, 50]],
+            [],
+            [[5, 9]],
+            [[5, 9]]
+        ];
+        var firstMatch = {
+            page: 4,
+            index: 0
+        };
+        var matchesPathPrevious = [{
+            page: 2,
+            index: 1
+        }, {
+            page: 2,
+            index: 0
+        }, {
+            page: 5,
+            index: 0
+        }, {
+            page: 4,
+            index: 0
+        }];
+        var matchesPathNext = [{
+            page: 5,
+            index: 0
+        }, {
+            page: 2,
+            index: 0
+        }, {
+            page: 2,
+            index: 1
+        }, {
+            page: 4,
+            index: 0
+        }];
+        var pageNumbers = [2, 4, 5];
+        var pages = [
+            ['This is a test document'],
+            ['The search will match this page. ', 'Because this page contains the searched terms'],
+            ['This is a test document'],
+            ['This Page Will Also Be Matched.'],
+            ['This page is the last']
+        ];
+        var instance = searchEngineFactory(config);
+        var match;
+
+        QUnit.expect(12 + 3 * (matchesPathPrevious.length + matchesPathNext.length));
+
+        pdfjs.textContent = pages;
+        pdfjs.pageCount = pdfjs.textContent.length;
+
+        assert.deepEqual(instance.getMatches(), [], 'There is not search matches at this moment');
+        assert.deepEqual(instance.getPages(), [], 'There is not search pages at this moment');
+        assert.equal(instance.getCurrentMatch(), null, 'There is no match at this moment');
+        assert.equal(instance.getQuery(), null, 'There is not search query at this moment');
+
+        pdfjs.getDocument(pdfUrl).then(function (pdf) {
+            textManager.setDocument(pdf);
+
+            return instance.search(query, currentPage).then(function (pageNum) {
+                assert.equal(pageNum, firstMatch.page, 'The search has found the terms and returned the right page number');
+                assert.equal(instance.getMatches().length, pdfjs.pageCount, 'The matches collection contains the same numbers than the amount of pages');
+                assert.deepEqual(instance.getMatches(), matches, 'The search has find the expected matches');
+                assert.deepEqual(instance.getPages(), pageNumbers, 'The search has find matches in the expected pages');
+
+                match = instance.getCurrentMatch();
+                assert.equal(typeof match, 'object', 'There is now a match');
+                assert.equal(match.page, firstMatch.page, 'The current match target the right page');
+                assert.equal(match.index, firstMatch.index, 'The current match target the right index');
+                assert.equal(instance.getQuery(), query, 'The current query is stored');
+
+                _.forEach(matchesPathPrevious, function (expectedMatch) {
+                    match = instance.previousMatch();
+                    assert.equal(typeof match, 'object', 'The previous match has been provided');
+                    assert.equal(match.page, expectedMatch.page, 'The current match target the right page');
+                    assert.equal(match.index, expectedMatch.index, 'The current match target the right index');
+                });
+
+                _.forEach(matchesPathNext, function (expectedMatch) {
+                    match = instance.nextMatch();
+                    assert.equal(typeof match, 'object', 'The previous match has been provided');
+                    assert.equal(match.page, expectedMatch.page, 'The current match target the right page');
+                    assert.equal(match.index, expectedMatch.index, 'The current match target the right index');
+                });
+
+                instance.destroy();
+
+                QUnit.start();
+            });
+        }).catch(function () {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
+        });
+    });
 
 
     QUnit.asyncTest('updateMatches', function (assert) {
@@ -302,7 +414,7 @@ define([
         QUnit.expect(24);
 
         pdfjs.textContent = [
-            ['The search should ','match this pa','ge because this p','ag','e contains',' the word',' \u201Cpage\u201D!']
+            ['The search should ', 'match this pa', 'ge because this p', 'ag', 'e contains', ' the word', ' \u201Cpage\u201D!']
         ];
         pdfjs.pageCount = pdfjs.textContent.length;
 
@@ -321,7 +433,7 @@ define([
                         assert.equal(instance.getMatches().length, pdfjs.pageCount, 'The matches collection contains the same numbers than the amount of pages');
                         assert.deepEqual(instance.getMatches(), expectedMatches, 'The search has find the expected matches');
 
-                        return textManager.renderPage(pageNum, page.getViewport()).then(function(layer) {
+                        return textManager.renderPage(pageNum, page.getViewport()).then(function (layer) {
                             return instance.updateMatches(pageNum).then(function () {
                                 var $container = $('<div />').append(layer);
                                 var $matches = $container.find('span');
@@ -344,14 +456,14 @@ define([
                                 assert.equal($matches.eq(5).data('match'), '2', 'The highlighted span is related to the right match');
                             });
                         });
-                    }).then(function() {
+                    }).then(function () {
                         return instance.search('unknown').then(function (pageNum) {
                             assert.equal(pageNum, 0, 'The search has not found any terms');
                             assert.ok(instance.getMatches() instanceof Array, 'There is matches array');
                             assert.equal(instance.getMatches().length, pdfjs.pageCount, 'The matches collection contains the same numbers than the amount of pages');
                             assert.deepEqual(instance.getMatches(), [[]], 'The search has not find any matches, as expected');
 
-                            return textManager.renderPage(pageNum, page.getViewport()).then(function(layer) {
+                            return textManager.renderPage(pageNum, page.getViewport()).then(function (layer) {
                                 return instance.updateMatches(pageNum).then(function () {
                                     var $container = $('<div />').append(layer);
                                     var $matches = $container.find('span');

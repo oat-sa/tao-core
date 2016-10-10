@@ -230,6 +230,8 @@ define([
      */
     function pdfjsSearchFactory(config) {
         var textManager = null;
+        var currentQuery = null;
+        var currentMatch = null;
         var matches = [];
         var pages = [];
 
@@ -261,6 +263,7 @@ define([
              * Clears the search matches
              */
             clearMatches: function clearMatches() {
+                currentMatch = null;
                 matches = [];
                 pages = [];
             },
@@ -282,6 +285,58 @@ define([
             },
 
             /**
+             * Gets the currently matched query
+             * @returns {String}
+             */
+            getQuery: function getQuery() {
+                return currentQuery;
+            },
+
+            /**
+             * Gets the current match data
+             * @returns {Object}
+             */
+            getCurrentMatch: function getCurrentMatch() {
+                return currentMatch;
+            },
+
+            /**
+             * Go to the previous match and returns the match data
+             * @returns {Object}
+             */
+            previousMatch: function previousMatch() {
+                var pageIndex;
+                if (currentMatch) {
+                    if (currentMatch.index) {
+                        currentMatch.index--;
+                    } else {
+                        pageIndex = (_.indexOf(pages, currentMatch.page) + pages.length - 1) % pages.length;
+                        currentMatch.page = pages[pageIndex];
+                        currentMatch.index = matches[currentMatch.page - 1].length - 1;
+                    }
+                }
+                return currentMatch;
+            },
+
+            /**
+             * Go to the next match and returns the match data
+             * @returns {Object}
+             */
+            nextMatch: function nextMatch() {
+                var pageIndex;
+                if (currentMatch) {
+                    if (currentMatch.index + 1 < matches[currentMatch.page - 1].length) {
+                        currentMatch.index++;
+                    } else {
+                        pageIndex = (_.indexOf(pages, currentMatch.page) + 1) % pages.length;
+                        currentMatch.page = pages[pageIndex];
+                        currentMatch.index = 0;
+                    }
+                }
+                return currentMatch;
+            },
+
+            /**
              * Searches for the requested query.
              * The promise will return the page number of the first match, that could be 0 if no result has been found.
              * @param {String} query - The terms to search for
@@ -295,6 +350,8 @@ define([
                     var firstPage = 0;
                     matches = findInDocument(query, contentText, config);
 
+                    currentQuery = query;
+                    currentMatch = null;
                     pages = [];
                     _.forEach(matches, function (pageMatches, pageIndex) {
                         var page = pageIndex + 1;
@@ -308,7 +365,18 @@ define([
                         }
                     });
 
-                    return firstPage || pages[0] || 0;
+                    if (!firstPage) {
+                        firstPage = pages[0] || 0;
+                    }
+
+                    if (firstPage) {
+                        currentMatch = {
+                            page: firstPage,
+                            index: 0
+                        };
+                    }
+
+                    return firstPage;
                 });
             },
 
@@ -320,7 +388,7 @@ define([
             updateMatches: function updateMatches(pageNum) {
                 return textManager.getPageContent(pageNum).then(function (pageContent) {
                     if (pageContent) {
-                        renderMatches(matches[pageNum - 1] || [], pageContent);
+                        renderMatches(matches[pageNum - 1], pageContent);
                     }
                 });
             },
@@ -330,6 +398,8 @@ define([
              */
             destroy: function destroy() {
                 textManager = null;
+                currentQuery = null;
+                currentMatch = null;
                 matches = null;
                 pages = null;
                 config = null;
