@@ -19,10 +19,11 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+    'lodash',
     'core/promise',
     'ui/documentViewer/providers/pdfViewer/pdfjs/pagesManager',
     'ui/documentViewer/providers/pdfViewer/pdfjs/textManager'
-], function (Promise, pagesManagerFactory, textManagerFactory) {
+], function (_, Promise, pagesManagerFactory, textManagerFactory) {
     'use strict';
 
     /**
@@ -255,8 +256,8 @@ define([
         config = config || {};
         PDFJS = config.PDFJS;
 
-        if ('object' !== typeof PDFJS) {
-            throw new TypeError('You must provide the entry point to the PDS.js library! [config.PDFJS is missing]');
+        if (!_.isPlainObject(PDFJS)) {
+            throw new TypeError('You must provide the entry point to the PDF.js library! [config.PDFJS is missing]');
         }
 
         textManager = textManagerFactory({

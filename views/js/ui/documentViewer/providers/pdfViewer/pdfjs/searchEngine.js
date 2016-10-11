@@ -242,7 +242,7 @@ define([
         config = config || {};
         textManager = config.textManager;
 
-        if ('object' !== typeof textManager) {
+        if (!_.isPlainObject(textManager)) {
             throw new TypeError('You must provide a textManager to give access to the PDF text content! [config.textManager is missing]');
         }
 

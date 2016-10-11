@@ -100,11 +100,12 @@ define([
          * @returns {Promise}
          */
         function getPageContents() {
+            var numPages = pdfDoc.numPages;
             var contentPromise;
 
             if (!pageContents) {
                 contentPromise = getTextContent().then(function (content) {
-                    textRenderTasks = new Array(pdfDoc.numPages);
+                    textRenderTasks = new Array(numPages);
                     pageContents = content;
                     return pageContents;
                 });
@@ -118,8 +119,8 @@ define([
         config = config || {};
         PDFJS = config.PDFJS;
 
-        if ('object' !== typeof PDFJS) {
-            throw new TypeError('You must provide the entry point to the PDS.js library! [config.PDFJS is missing]');
+        if (!_.isPlainObject(PDFJS)) {
+            throw new TypeError('You must provide the entry point to the PDF.js library! [config.PDFJS is missing]');
         }
 
         return {
