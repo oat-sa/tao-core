@@ -21,8 +21,9 @@ define([
     'lodash',
     'i18n',
     'core/pluginifier',
-    'tpl!ui/datatable/tpl/layout'
-], function($, _, __, Pluginifier, layout){
+    'tpl!ui/datatable/tpl/layout',
+    'ui/datatable/filterStrategy/filterStrategy'
+], function($, _, __, Pluginifier, layout, filterStrategyFactory){
 
     'use strict';
 
@@ -59,6 +60,7 @@ define([
      * @param {String} sortorder - order of sorting, can be 'asc' or 'desc' for ascending sorting and descending sorting respectively.
      *
      * Filtering
+     * @param {String} filterstrategy - filtering strategy. Default is single (see ui/datatable/filterStrategy/single.js).
      * @param {String} filterquery - query string for filtering of rows.
      * @param {String[]} filtercolumns[] - array of columns, in which will be implemented search during filtering process.
      * For column filter it will be only one item with column name, but component has ability define list of columns for default filter (in top toolbar).
@@ -103,7 +105,7 @@ define([
             return this.each(function() {
                 var $elt = $(this);
                 var currentOptions = $elt.data(dataNs);
-
+                
                 if (!currentOptions) {
                     //add data to the element
                     $elt.data(dataNs, options);
@@ -128,6 +130,7 @@ define([
 
                     self._refresh($elt, data);
                 }
+
             });
         },
 
@@ -157,26 +160,19 @@ define([
          * @fires dataTable#query.datatable
          */
         _query: function($elt) {
-
             var self = this;
             var options = $elt.data(dataNs);
-            var parameters = _.merge({},_.pick(options, ['rows', 'page', 'sortby', 'sortorder']), options.params || {});
+            var parameters = _.merge(
+                {},
+                _.pick(options, ['rows', 'page', 'sortby', 'sortorder', 'filterquery', 'filtercolumns']),
+                options.params || {}
+            );
             var ajaxConfig = {
                 url: options.url,
                 data: parameters,
                 dataType : 'json',
                 type: options.querytype || 'GET'
             };
-
-            // add current filter if any
-            if (options.filter && options.filterquery) {
-                ajaxConfig.data.filterquery = options.filterquery;
-            }
-
-            // add columns for filter if any
-            if (options.filter && options.filtercolumns) {
-                ajaxConfig.data.filtercolumns = options.filtercolumns;
-            }
 
             /**
              * @event dataTable#query.datatable
@@ -236,6 +232,11 @@ define([
                 if (!options.filter) {
                     field.filterable = false;
                 }
+
+                if (field.filterable && typeof field.filterable !== 'object') {
+                    field.filterable = {placeholder : __('Filter')};
+                }
+
                 if (field.transform) {
                     field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }
@@ -384,46 +385,28 @@ define([
 
             // Add the filter behavior
             if (options.filter) {
-                var filterColumns = options.filtercolumns ? options.filtercolumns : [];
+                self._getFilterStrategy($elt).render($rendering, options);
+                _.forEach($('.filter', $rendering), function (filter) {
+                    var $filter = $(filter);
+                    var $filterBtn = $('button', $filter);
+                    var $filterInput = $('select, input', $filter);
 
-                _.forEach($rendering.find('.filter'), function (filter) {
-
-                    var $filterBtn = $('button', filter);
-                    var column = $(filter).data('column');
-                    var isFilterCustom = $(filter).hasClass('customInput');
-                    var $filterInput = isFilterCustom ? $('select', filter) : $('input', filter);
-
-                    var model = _.find(options.model, function (o) {
-                        return o.id === column;
-                    });
-
-                    // set value to filter field
-                    if (options.filterquery && column === filterColumns.join()) {
-                        $filterInput.val(options.filterquery).addClass('focused');
-                    }
-
-                    if (model && model.customFilter) {
-                        if ('function' === typeof model.customFilter.callback) {
-                            model.customFilter.callback($filterInput);
-                        }
-                    }
-
-                    if (isFilterCustom) {
+                    if ($filterInput.is('select')) {
                         $filterInput.on('change', function () {
-                            self._filter($elt, filter, column ? column.split(',') : options.filter.columns);
+                            self._filter($elt, $filter);
                         });
                     } else {
                         // clicking the button trigger the request
                         $filterBtn.off('click').on('click', function (e) {
                             e.preventDefault();
-                            self._filter($elt, filter, column ? column.split(',') : options.filter.columns);
+                            self._filter($elt, $filter);
                         });
 
                         // or press ENTER
                         $filterInput.off('keypress').on('keypress', function (e) {
                             if (e.which === 13) {
                                 e.preventDefault();
-                                self._filter($elt, filter, column ? column.split(',') : options.filter.columns);
+                                self._filter($elt, $filter);
                             }
                         });
                     }
@@ -580,30 +563,16 @@ define([
          * Query filtered list of items
          *
          * @param {jQueryElement} $elt - plugin's element
-         * @param {String} filter - the filter input
-         * @param {String[]} columns - list of columns in which will be done search
+         * @param {jQueryElement} $filter - the filter input
          * @fires dataTable#filter.datatable
          * @fires dataTable#sort.datatable
          * @private
          */
-        _filter: function _filter($elt, filter, columns) {
+        _filter: function _filter($elt, $filter) {
             var options = $elt.data(dataNs);
-            var query = $(filter).find(':input').filter(function () {
-                return $(this).val();
-            }).val();
-
-            //set the filter
-            if (!_.isObject(options.filter)) {
-                options.filter = {};
-            }
-
-            // set correct filter data
-            options.filterquery = query;
-            options.filtercolumns = (columns && columns.length) ? columns : [];
+            var data = this._getFilterStrategy($elt).getQueryData($elt, $filter, options);
             options.page = 1;
-
-            //rebind options to the elt
-            $elt.data(dataNs, options);
+            $elt.data(dataNs, _.assign(options, data));
 
             /**
              * @event dataTable#filter.datatable
@@ -611,14 +580,13 @@ define([
              */
             $elt.trigger('filter.' + ns, [options]);
 
-            /**
-             * @event dataTable#sort.datatable
-             * @param {String} query - The filter query
-             */
-            $elt.trigger('sort.' + ns, [query]);
-
             // Call the query
             this._query($elt);
+        },
+
+        _getFilterStrategy: function _getFilterStrategy($elt) {
+            var options = $elt.data(dataNs);
+            return filterStrategyFactory(options);
         },
 
         /**

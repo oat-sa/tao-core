@@ -611,7 +611,7 @@ define([
     });
 
     QUnit.asyncTest('Column filtering (input) enabled', function (assert) {
-        QUnit.expect(9);
+        QUnit.expect(10);
 
         var $elt = $('#container-1');
         var dom;
@@ -622,6 +622,7 @@ define([
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
             assert.equal($elt.find('.datatable thead th:eq(0) aside.filter').data('column'), 'login', 'the login col is filterable');
             assert.equal($elt.find('.datatable thead th:eq(2) aside.filter').data('column'), 'email', 'the email col is filterable');
+            assert.equal($elt.find('.datatable thead th:eq(2) input').attr('placeholder'), 'Search by email', 'Email filter input has right placeholder');
 
             dom = $elt.find('tbody').get();
             $elt.find('aside.filter[data-column="login"] input').val('abcdef');
@@ -655,7 +656,9 @@ define([
                 id : 'email',
                 label : 'Email',
                 sortable : true,
-                filterable : true
+                filterable : {
+                    placeholder : 'Search by email'
+                }
             },{
                 id : 'roles',
                 label :'Roles',
