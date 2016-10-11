@@ -19,8 +19,9 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
-    'lodash'
-], function (_) {
+    'lodash',
+    'tpl!ui/documentViewer/providers/pdfViewer/pdfjs/match'
+], function (_, matchTpl) {
     'use strict';
 
     /**
@@ -115,8 +116,11 @@ define([
      * @returns {String}
      */
     function highlight(text, index, cls) {
-        cls = 'highlight' + (cls ? ' ' + cls : '');
-        return '<span class="' + cls + '" data-match="' + index + '">' + text + '</span>';
+        return matchTpl({
+            text: text,
+            index: index,
+            cls: cls
+        });
     }
 
     /**
