@@ -28,7 +28,7 @@ namespace oat\tao\helpers\data;
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class ValidationException extends \Exception implements \common_exception_UserReadableException
+class ValidationException extends \common_Exception implements \common_exception_UserReadableException
 {
     /**
      * @param \core_kernel_classes_Property $property
@@ -84,5 +84,13 @@ class ValidationException extends \Exception implements \common_exception_UserRe
      */
     public function getUserMessage() {
         return $this->userMessage;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSeverity()
+    {
+        return \common_Logger::WARNING_LEVEL;
     }
 }
