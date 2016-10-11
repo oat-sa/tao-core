@@ -19,9 +19,10 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+    'lodash',
     'core/eventifier',
     'core/promise'
-], function (eventifier, Promise) {
+], function (_, eventifier, Promise) {
     'use strict';
 
     /**
@@ -35,11 +36,62 @@ define([
         pageCount: 10,
         viewportWidth: 256,
         viewportHeight: 128,
+        textContent: [
+            'Page 1',
+            'Page 2',
+            'Page 3',
+            'Page 4',
+            'Page 5',
+            'Page 6',
+            'Page 7',
+            'Page 8',
+            'Page 9',
+            'Page 10'
+        ],
 
         PDFJS: {},
 
         getDocument: function getDocument(uri) {
             return Promise.resolve(pdfDocumentFactory(uri));
+        },
+
+        renderTextLayer: function renderTextLayer(config) {
+            var rejectPromise;
+            var promiseTo = null;
+            var cancelTo = null;
+            var promise = new Promise(function (resolve, reject) {
+                promiseTo = setTimeout(function () {
+                    _.forEach(config.textContent.items, function (item) {
+                        var textDiv = document.createElement('div');
+                        config.textDivs.push(textDiv);
+                        textDiv.textContent = item.str;
+                        config.container.appendChild(textDiv);
+                    });
+
+                    clearTimeout(cancelTo);
+                    promiseTo = null;
+                    resolve();
+                }, 100);
+                rejectPromise = reject;
+            });
+
+            function cancel() {
+                if (promiseTo !== null) {
+                    clearTimeout(promiseTo);
+                    rejectPromise('canceled');
+                }
+                promiseTo = null;
+            }
+
+            if (config.timeout) {
+                cancelTo = setTimeout(cancel, config.timeout);
+            }
+
+            mockPDFJS.trigger('textLayer');
+            return {
+                promise: promise,
+                cancel: cancel
+            };
         }
     };
 
@@ -52,8 +104,8 @@ define([
         return {
             numPages: mockPDFJS.pageCount,
 
-            getPage: function getPage() {
-                return Promise.resolve(pdfPageFactory());
+            getPage: function getPage(pageNum) {
+                return Promise.resolve(pdfPageFactory(pageNum));
             },
 
             destroy: function destroy() {
@@ -66,19 +118,42 @@ define([
      * Fakes a PDF.js page object
      * @returns {Object}
      */
-    function pdfPageFactory() {
+    function pdfPageFactory(pageNum) {
         return {
+            get pageIndex() {
+                return pageNum - 1;
+            },
+
             getViewport: function getViewport() {
                 return {
                     width: mockPDFJS.viewportWidth,
-                    height: mockPDFJS.viewportHeight
+                    height: mockPDFJS.viewportHeight,
+
+                    clone: function() {
+                        return _.clone(this);
+                    }
                 };
+            },
+
+            getTextContent: function getTextContent() {
+                var index = Math.min(Math.max(0, pageNum - 1), mockPDFJS.textContent.length);
+                var textContent = mockPDFJS.textContent[index];
+
+                if (!_.isArray(textContent)) {
+                    textContent = [textContent];
+                }
+
+                return Promise.resolve({
+                    items: _.map(textContent, function (term) {
+                        return {str: term};
+                    })
+                });
             },
 
             render: function render() {
                 mockPDFJS.trigger('pageRender');
                 return {
-                    promise: new Promise(function(resolve) {
+                    promise: new Promise(function (resolve) {
                         setTimeout(resolve, 100);
                     })
                 };

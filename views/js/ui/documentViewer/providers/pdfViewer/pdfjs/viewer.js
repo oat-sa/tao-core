@@ -20,24 +20,28 @@
  */
 define([
     'jquery',
+    'lodash',
     'core/promise',
+    'ui/hider',
     'ui/documentViewer/providers/pdfViewer/pdfjs/wrapper',
     'tpl!ui/documentViewer/providers/pdfViewer/pdfjs/viewer'
-], function ($, Promise, wrapperFactory, viewerTpl) {
+], function ($, _, Promise, hider, wrapperFactory, viewerTpl) {
     'use strict';
 
     /**
      * Wraps the component that use the PDF.js lib to render a PDF.
      * @param {jQuery} $container
-     * @param {Object} pdfjs
      * @param {Object} config
+     * @param {Object} config.PDFJS - The PDFJS entry point
+     * @param {Boolean} [config.fitToWidth] - Fit the page to the available width, a scroll bar may appear
      * @returns {Object}
      */
-    function pdfjsViewerFactory($container, pdfjs, config) {
+    function pdfjsViewerFactory($container, config) {
         var template = viewerTpl(config);
         var controls = {};
         var pdf = null;
         var enabled = true;
+        var PDFJS = null;
 
         /**
          * Will update the displayed page number, and toggle the input enabling
@@ -121,6 +125,11 @@ define([
         }
 
         config = config || {};
+        PDFJS = config.PDFJS;
+
+        if (!_.isPlainObject(PDFJS)) {
+            throw new TypeError('You must provide the entry point to the PDF.js library! [config.PDFJS is missing]');
+        }
 
         return {
             /**
@@ -135,7 +144,7 @@ define([
                 // Disable the streaming mode: the file needs to be fully loaded before display.
                 // This will prevent "Bad offset" error under Chrome and IE, but will slow down the first display.
                 // Other approach would be to provide a range loader callback, but need a lot of work.
-                pdfjs.PDFJS.disableRange = true;
+                PDFJS.PDFJS.disableRange = true;
 
                 controls = {
                     $bar: $container.find('.pdf-bar'),
@@ -145,11 +154,10 @@ define([
                     $pageNext: $container.find('[data-control="pdf-page-next"]'),
                     $pageNum: $container.find('[data-control="pdf-page-num"]'),
                     $pageCount: $container.find('[data-control="pdf-page-count"]'),
-                    $fitToWidth: $container.find('[data-control="fit-to-width"]'),
-                    $content: $container.find('[data-control="pdf-content"]')
+                    $fitToWidth: $container.find('[data-control="fit-to-width"]')
                 };
 
-                pdf = wrapperFactory(pdfjs, controls.$content, config);
+                pdf = wrapperFactory(controls.$container, config);
 
                 this.setSize($container.width(), $container.height());
 
@@ -185,7 +193,10 @@ define([
                     });
 
                 return pdf.load(url).then(function () {
-                    controls.$pageCount.html(pdf.getPageCount());
+                    var pageCount = pdf.getPageCount();
+
+                    controls.$pageCount.html(pageCount);
+
                     enable();
                 });
             },
@@ -216,7 +227,9 @@ define([
                     contentHeight = height - controls.$bar.outerHeight();
                     controls.$bar.width(width);
                     controls.$container.width(width).height(contentHeight);
-                    return pdf.setSize(width, contentHeight);
+
+                    // force the repaint of the current page, the PDF wrapper will take care of its container's size
+                    return pdf.refresh();
                 }
             }
         };

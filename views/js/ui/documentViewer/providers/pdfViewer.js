@@ -19,11 +19,12 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+    'lodash',
     'core/requireIfExists',
     'ui/documentViewer/providers/pdfViewer/fallback/viewer',
     'ui/documentViewer/providers/pdfViewer/pdfjs/viewer',
     'tpl!ui/documentViewer/providers/pdfViewer/viewer'
-], function (requireIfExists, fallbackFactory, pdfjsFactory, viewerTpl) {
+], function (_, requireIfExists, fallbackFactory, pdfjsFactory, viewerTpl) {
     'use strict';
 
     return {
@@ -52,10 +53,12 @@ define([
             // try to load the  PDF.js lib, otherwise fallback to the browser native handling
             return requireIfExists('pdfjs-dist/build/pdf')
                 .then(function (pdfjs) {
+                    var config = _.clone(self.config);
                     if (pdfjs) {
-                        self.pdf = pdfjsFactory($element, pdfjs, self.config);
+                        config.PDFJS = pdfjs;
+                        self.pdf = pdfjsFactory($element, config);
                     } else {
-                        self.pdf = fallbackFactory($element);
+                        self.pdf = fallbackFactory($element, config);
                     }
 
                     return self.pdf.load(self.getUrl());
