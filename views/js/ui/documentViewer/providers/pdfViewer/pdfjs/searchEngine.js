@@ -120,7 +120,7 @@ define([
             text: text,
             index: index,
             cls: cls
-        });
+        }).trim();
     }
 
     /**
@@ -238,6 +238,7 @@ define([
         var currentMatch = null;
         var matches = [];
         var pages = [];
+        var count = 0;
 
         config = config || {};
         textManager = config.textManager;
@@ -264,12 +265,21 @@ define([
             },
 
             /**
+             * Gets the number of search matches
+             * @returns {Number}
+             */
+            getMatchCount: function getMatchCount() {
+                return count;
+            },
+
+            /**
              * Clears the search matches
              */
             clearMatches: function clearMatches() {
                 currentMatch = null;
                 matches = [];
                 pages = [];
+                count = 0;
             },
 
             /**
@@ -297,7 +307,10 @@ define([
             },
 
             /**
-             * Gets the current match data
+             * Gets the current match data. It contains:
+             * - overall: the index of the match over all the document, starting at 1
+             * - page: the page number of the match, starting at 1
+             * - index: the index of the match within its page, starting at 0
              * @returns {Object}
              */
             getCurrentMatch: function getCurrentMatch() {
@@ -306,38 +319,48 @@ define([
 
             /**
              * Go to the previous match and returns the match data
-             * @returns {Object}
+             * @returns {Boolean} Returns true if the search has reached the beginning of the document and moved to the end.
              */
             previousMatch: function previousMatch() {
                 var pageIndex;
+                var loop = false;
                 if (currentMatch) {
                     if (currentMatch.index) {
                         currentMatch.index--;
                     } else {
-                        pageIndex = (_.indexOf(pages, currentMatch.page) + pages.length - 1) % pages.length;
-                        currentMatch.page = pages[pageIndex];
+                        pageIndex = _.indexOf(pages, currentMatch.page);
+                        loop = !pageIndex;
+                        currentMatch.page = pages[(pageIndex + pages.length - 1) % pages.length];
                         currentMatch.index = matches[currentMatch.page - 1].length - 1;
                     }
+
+                    // the overall index start at 1 instead of 0, so the formula is a little bit more complex
+                    currentMatch.overall = (currentMatch.overall + count - 2) % count + 1;
                 }
-                return currentMatch;
+                return loop;
             },
 
             /**
              * Go to the next match and returns the match data
-             * @returns {Object}
+             * @returns {Boolean} Returns true if the search has reached the end of the document and moved to the beginning.
              */
             nextMatch: function nextMatch() {
                 var pageIndex;
+                var loop = false;
                 if (currentMatch) {
                     if (currentMatch.index + 1 < matches[currentMatch.page - 1].length) {
                         currentMatch.index++;
                     } else {
-                        pageIndex = (_.indexOf(pages, currentMatch.page) + 1) % pages.length;
-                        currentMatch.page = pages[pageIndex];
+                        pageIndex = _.indexOf(pages, currentMatch.page);
+                        loop = pageIndex === pages.length - 1;
+                        currentMatch.page = pages[(pageIndex + 1) % pages.length];
                         currentMatch.index = 0;
                     }
+
+                    // the overall index start at 1 instead of 0, so the formula is a little bit more complex
+                    currentMatch.overall = currentMatch.overall % count + 1;
                 }
-                return currentMatch;
+                return loop;
             },
 
             /**
@@ -352,11 +375,13 @@ define([
                 return textManager.getContents().then(function (pageContents) {
                     var contentText = _.map(pageContents, 'text');
                     var firstPage = 0;
+                    var firstMatch = 0;
                     matches = findInDocument(query, contentText, config);
 
                     currentQuery = query;
                     currentMatch = null;
                     pages = [];
+                    count = 0;
                     _.forEach(matches, function (pageMatches, pageIndex) {
                         var page = pageIndex + 1;
 
@@ -365,8 +390,11 @@ define([
 
                             if (!firstPage && page >= pageNum) {
                                 firstPage = page;
+                                firstMatch = count;
                             }
                         }
+
+                        count += pageMatches.length;
                     });
 
                     if (!firstPage) {
@@ -375,8 +403,9 @@ define([
 
                     if (firstPage) {
                         currentMatch = {
-                            page: firstPage,
-                            index: 0
+                            overall: firstMatch + 1,  // the overall index of the match
+                            page: firstPage,          // the page number of the match
+                            index: 0                  // the index of the match within its page
                         };
                     }
 
