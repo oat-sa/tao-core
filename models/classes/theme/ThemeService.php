@@ -20,20 +20,19 @@
 namespace oat\tao\model\theme;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoAct\model\theme\ActTheme;
 use Aws\CloudFront\Exception\Exception;
 /**
- * 
+ *
  * @author Joel Bout
  */
 class ThemeService extends ConfigurableService {
 
     const SERVICE_ID = 'tao/theming';
-    
+
     const OPTION_AVAILABLE = 'available';
-    
+
     const OPTION_CURRENT = 'current';
-    
+
     /**
      * Get the current Theme
      */
@@ -41,10 +40,10 @@ class ThemeService extends ConfigurableService {
     {
         return $this->getThemeById($this->getOption(self::OPTION_CURRENT));
     }
-    
+
     /**
      * Add and set a theme as default
-     * 
+     *
      * @param Theme $theme
      */
     public function setTheme(Theme $theme)
@@ -52,10 +51,10 @@ class ThemeService extends ConfigurableService {
         $id = $this->addTheme($theme);
         $this->setCurrentTheme($id);
     }
-    
+
     /**
      * Add a Theme but don't activate it
-     * 
+     *
      * @param Theme $theme
      * @return string
      */
@@ -71,10 +70,10 @@ class ThemeService extends ConfigurableService {
         $this->setOption(self::OPTION_AVAILABLE, $themes);
         return $baseId.$nr;
     }
-    
+
     /**
      * Switch between themes
-     * 
+     *
      * @param string $themeId
      * @throws \common_exception_Error
      */
@@ -86,17 +85,17 @@ class ThemeService extends ConfigurableService {
         }
         $this->setOption(self::OPTION_CURRENT, $themeId);
     }
-    
+
     /**
      * Return all available Themes
-     * 
+     *
      * @return Theme[]
      */
     public function getAllThemes()
     {
         return $this->getOption(self::OPTION_AVAILABLE);
     }
-    
+
     protected function hasTheme($id)
     {
         $themes = $this->getOption(self::OPTION_AVAILABLE);
@@ -105,7 +104,7 @@ class ThemeService extends ConfigurableService {
 
     /**
      * Get Theme identified by id
-     * 
+     *
      * @param unknown $id
      * @throws \common_exception_InconsistentData
      * @return Theme
