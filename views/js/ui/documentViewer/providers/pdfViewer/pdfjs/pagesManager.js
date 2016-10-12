@@ -122,6 +122,7 @@ define([
                 }
 
                 if (activeView) {
+                    activeView.pageNum = page;
                     activeView.show();
                 }
             },
