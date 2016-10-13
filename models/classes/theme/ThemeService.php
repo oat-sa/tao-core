@@ -20,7 +20,6 @@
 namespace oat\tao\model\theme;
 
 use oat\oatbox\service\ConfigurableService;
-use Aws\CloudFront\Exception\Exception;
 /**
  *
  * @author Joel Bout
