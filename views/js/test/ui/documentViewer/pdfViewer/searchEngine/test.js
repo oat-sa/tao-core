@@ -454,7 +454,7 @@ define([
             [[29, 33], [47, 51], [71, 75]]
         ];
 
-        QUnit.expect(24);
+        QUnit.expect(26);
 
         pdfjs.textContent = [
             ['The search should ', 'match this pa', 'ge because this p', 'ag', 'e contains', ' the word', ' \u201Cpage\u201D!']
@@ -483,8 +483,10 @@ define([
 
                                 assert.equal($matches.length, 6, 'There is the right number of highlighted matches');
 
+                                assert.ok($matches.eq(0).hasClass('selected'), 'The first match is selected');
                                 assert.equal($matches.eq(0).text(), 'pa', 'The highlighted span contains the right text');
                                 assert.equal($matches.eq(0).data('match'), '0', 'The highlighted span is related to the right match');
+                                assert.ok($matches.eq(1).hasClass('selected'), 'The first match is selected');
                                 assert.equal($matches.eq(1).text(), 'ge', 'The highlighted span contains the right text');
                                 assert.equal($matches.eq(1).data('match'), '0', 'The highlighted span is related to the right match');
 

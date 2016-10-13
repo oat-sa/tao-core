@@ -188,37 +188,42 @@ define([
      * Renders the matches into the text layer
      * @param {Array} matches
      * @param {Object} pageContent
+     * @param {Number} [selectedMatch]
      */
-    function renderMatches(matches, pageContent) {
+    function renderMatches(matches, pageContent, selectedMatch) {
         var positions = refineMatches(matches, pageContent);
         var matchIndex = positions.length - 1;
         var nodes = pageContent.nodes;
+        var selected = matchIndex === selectedMatch;
 
         _.forEachRight(nodes, function (node, nodeIndex) {
             var nodeText = pageContent.content.items[nodeIndex].str;
-            var match, startInNode, endInNode, nodeInMatch;
+            var match, startInNode, endInNode, nodeInMatch, cls;
 
             while (matchIndex >= 0) {
                 match = positions[matchIndex];
                 startInNode = match.begin.node === nodeIndex;
                 endInNode = match.end.node === nodeIndex;
                 nodeInMatch = nodeIndex > match.begin.node && nodeIndex < match.end.node;
+                cls = selected ? ' selected' : '';
 
                 if (startInNode && endInNode) {
-                    nodeText = highlightInText(nodeText, match.begin.offset, match.end.offset, match.index);
+                    nodeText = highlightInText(nodeText, match.begin.offset, match.end.offset, match.index, cls);
                     matchIndex--;
                 } else if (startInNode) {
-                    nodeText = highlightInText(nodeText, match.begin.offset, nodeText.length, match.index, 'begin');
+                    nodeText = highlightInText(nodeText, match.begin.offset, nodeText.length, match.index, 'begin' + cls);
                     matchIndex--;
                 } else if (endInNode) {
-                    nodeText = highlightInText(nodeText, 0, match.end.offset, match.index, 'end');
+                    nodeText = highlightInText(nodeText, 0, match.end.offset, match.index, 'end' + cls);
                     break;
                 } else if (nodeInMatch) {
-                    nodeText = highlight(nodeText, match.index, 'middle');
+                    nodeText = highlight(nodeText, match.index, 'middle' + cls);
                     break;
                 } else {
                     break;
                 }
+
+                selected = matchIndex === selectedMatch;
             }
 
             node.innerHTML = nodeText;
@@ -420,8 +425,12 @@ define([
              */
             updateMatches: function updateMatches(pageNum) {
                 return textManager.getPageContent(pageNum).then(function (pageContent) {
+                    var selectedMatch;
+                    if (currentMatch && currentMatch.page === pageNum) {
+                        selectedMatch = currentMatch.index;
+                    }
                     if (pageContent) {
-                        renderMatches(matches[pageNum - 1], pageContent);
+                        renderMatches(matches[pageNum - 1], pageContent, selectedMatch);
                     }
                 });
             },
