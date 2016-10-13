@@ -21,12 +21,27 @@
 define([
     'jquery',
     'lodash',
+    'core/eventifier',
     'core/promise',
     'ui/hider',
+    'ui/documentViewer/providers/pdfViewer/pdfjs/areaBroker',
     'ui/documentViewer/providers/pdfViewer/pdfjs/wrapper',
     'tpl!ui/documentViewer/providers/pdfViewer/pdfjs/viewer'
-], function ($, _, Promise, hider, wrapperFactory, viewerTpl) {
+], function ($, _, eventifier, Promise, hider, areaBroker, wrapperFactory, viewerTpl) {
     'use strict';
+
+    /**
+     * Enable/disable an element
+     * @param {jQuery} $element
+     * @param {Boolean} enabled
+     */
+    function toggleState($element, enabled) {
+        if (enabled) {
+            $element.removeAttr('disabled');
+        } else {
+            $element.attr('disabled', true);
+        }
+    }
 
     /**
      * Wraps the component that use the PDF.js lib to render a PDF.
@@ -38,73 +53,60 @@ define([
      */
     function pdfjsViewerFactory($container, config) {
         var template = viewerTpl(config);
+        var events = eventifier();
         var controls = {};
+        var broker = null;
+        var pdfConfig = null;
         var pdf = null;
-        var enabled = true;
         var PDFJS = null;
-
-        /**
-         * Will update the displayed page number, and toggle the input enabling
-         */
-        function updatePageNumber() {
-            var page = pdf.getPage();
-            if (page !== parseInt(controls.$pageNum.val(), 10)) {
-                controls.$pageNum.val(page);
-            }
-
-            if (enabled && pdf.getPageCount() > 1) {
-                controls.$pageNum.removeAttr('disabled');
-            } else {
-                controls.$pageNum.attr('disabled', true);
-            }
-        }
-
-        /**
-         * Will toggle the input enabling of the "Previous" button
-         */
-        function updatePrevBtn() {
-            if (enabled && pdf.getPage() > 1) {
-                controls.$pagePrev.removeAttr('disabled');
-            } else {
-                controls.$pagePrev.attr('disabled', true);
-            }
-        }
-
-        /**
-         * Will toggle the input enabling of the "Next" button
-         */
-        function updateNextBtn() {
-            if (enabled && pdf.getPage() < pdf.getPageCount()) {
-                controls.$pageNext.removeAttr('disabled');
-            } else {
-                controls.$pageNext.attr('disabled', true);
-            }
-        }
+        var enabled = true;
 
         /**
          * Will update the displayed controls according to the current PDF
          */
         function updateControls() {
-            updatePrevBtn();
-            updateNextBtn();
-            updatePageNumber();
+            var page = pdf.getPage();
+            var pageCount = pdf.getPageCount();
+            if (page !== parseInt(controls.$pageNum.val(), 10)) {
+                controls.$pageNum.val(page);
+            }
+
+            toggleState(controls.$pagePrev, enabled && page > 1);
+            toggleState(controls.$pageNext, enabled && page < pageCount);
+            toggleState(controls.$pageNum, enabled && pageCount > 1);
         }
 
         /**
-         * Enable the controls
+         * Enables the controls
          */
         function enable() {
-            enabled = true;
-            updateControls();
+            /**
+             * Requests an enabling
+             * @event enable
+             */
+            events.trigger('enable');
         }
 
         /**
          * Disable the controls
          */
         function disable() {
-            enabled = false;
-            controls.$navigation.attr('disabled', true);
-            controls.$pageNum.attr('disabled', true);
+            /**
+             * Requests a disabling
+             * @event disable
+             */
+            events.trigger('disable');
+        }
+
+        /**
+         * Will refresh the page
+         */
+        function refresh() {
+            /**
+             * Requests a page refresh
+             * @event refresh
+             */
+            events.trigger('refresh');
         }
 
         /**
@@ -112,8 +114,12 @@ define([
          * @param page
          */
         function jumpPage(page) {
-            pdf.setPage(page).then(updateControls);
-            updateControls();
+            /**
+             * Requests a page change
+             * @event setpage
+             * @param {Number} pageNum
+             */
+            events.trigger('setpage', page);
         }
 
         /**
@@ -126,6 +132,10 @@ define([
 
         config = config || {};
         PDFJS = config.PDFJS;
+
+        pdfConfig = _.merge({
+            events: events
+        }, _.pick(config, ['PDFJS', 'fitToWidth']));
 
         if (!_.isPlainObject(PDFJS)) {
             throw new TypeError('You must provide the entry point to the PDF.js library! [config.PDFJS is missing]');
@@ -146,10 +156,32 @@ define([
                 // Other approach would be to provide a range loader callback, but need a lot of work.
                 PDFJS.PDFJS.disableRange = true;
 
+                events
+                    .on('enable', function () {
+                        enabled = true;
+                        updateControls();
+                    })
+                    .on('disable', function () {
+                        enabled = false;
+                        updateControls();
+                    })
+                    .on('loaded', function () {
+                        controls.$pageCount.html(pdf.getPageCount());
+                        enable();
+                    })
+                    .on('pagechange rendered', function () {
+                        updateControls();
+                    });
+
+                broker = areaBroker($container, {
+                    bar: $('.pdf-bar', $container),
+                    actions: $('.pdf-actions', $container),
+                    info: $('.pdf-info', $container),
+                    content: $('.pdf-container', $container)
+                });
+
                 controls = {
-                    $bar: $container.find('.pdf-bar'),
                     $navigation: $container.find('.navigation'),
-                    $container: $container.find('.pdf-container'),
                     $pagePrev: $container.find('[data-control="pdf-page-prev"]'),
                     $pageNext: $container.find('[data-control="pdf-page-next"]'),
                     $pageNum: $container.find('[data-control="pdf-page-num"]'),
@@ -157,15 +189,13 @@ define([
                     $fitToWidth: $container.find('[data-control="fit-to-width"]')
                 };
 
-                pdf = wrapperFactory(controls.$container, config);
+                pdf = wrapperFactory(broker.getContentArea(), pdfConfig);
 
                 this.setSize($container.width(), $container.height());
 
-                disable();
-
                 controls.$fitToWidth.on('change', function () {
-                    config.fitToWidth = controls.$fitToWidth.is(':checked');
-                    pdf.refresh();
+                    pdfConfig.fitToWidth = controls.$fitToWidth.is(':checked');
+                    refresh();
                 });
 
                 controls.$navigation.on('click', function () {
@@ -192,26 +222,26 @@ define([
                         }
                     });
 
-                return pdf.load(url).then(function () {
-                    var pageCount = pdf.getPageCount();
-
-                    controls.$pageCount.html(pageCount);
-
-                    enable();
-                });
+                disable();
+                return pdf.load(url);
             },
 
             /**
              * Destroys the component
              */
             unload: function unload() {
+                disable();
+
                 if (pdf) {
                     pdf.destroy();
                 }
 
+                events.removeAllListeners();
                 $container.empty();
                 controls = {};
+                pdfConfig = null;
                 pdf = null;
+                broker = null;
             },
 
             /**
@@ -220,13 +250,26 @@ define([
              * @param {Number} height
              */
             setSize: function setSize(width, height) {
-                var contentHeight;
+                var contentHeight, $bar, $content;
 
                 // only adjust the action bar width, and let the PDF viewer manage its size with the remaining space
                 if (pdf) {
-                    contentHeight = height - controls.$bar.outerHeight();
-                    controls.$bar.width(width);
-                    controls.$container.width(width).height(contentHeight);
+                    $bar = broker.getBarArea();
+                    $content = broker.getContentArea();
+
+                    contentHeight = height - $bar.outerHeight();
+
+                    $bar.width(width);
+                    $content.width(width).height(contentHeight);
+
+                    /**
+                     * Notifies a resize
+                     * @event resized
+                     * @param {Number} width
+                     * @param {Number} height
+                     * @param {Number} contentHeight
+                     */
+                    events.trigger('resized', width, height, contentHeight);
 
                     // force the repaint of the current page, the PDF wrapper will take care of its container's size
                     return pdf.refresh();

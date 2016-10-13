@@ -337,7 +337,7 @@ define([
         var instance;
         var promise;
 
-        QUnit.expect(18);
+        QUnit.expect(16);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
@@ -372,13 +372,11 @@ define([
             $fitToWidth.click();
 
             setTimeout(function() {
-                assert.equal(config.fitToWidth, false, 'The fitToWidth config has been changed');
                 assert.equal($fitToWidth.is(':checked'), false, 'The Fit to width option is not checked');
 
                 $fitToWidth.click();
 
                 setTimeout(function() {
-                    assert.equal(config.fitToWidth, true, 'The fitToWidth config is set');
                     assert.equal($fitToWidth.is(':checked'), true, 'The Fit to width option is checked');
 
                     instance.unload();
