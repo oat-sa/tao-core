@@ -83,7 +83,7 @@ class FlyTokenWebSource extends TokenWebSource
      */
     public function getAccessUrl($relativePath) {
         $path = array();
-        foreach (explode(DIRECTORY_SEPARATOR, ltrim($relativePath, DIRECTORY_SEPARATOR)) as $ele) {
+        foreach (preg_split('/[\/\\\]/', ltrim($relativePath, '/\\')) as $ele) {
             $path[] = rawurlencode($ele);
         }
         $relUrl = implode('/', $path);

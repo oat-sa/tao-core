@@ -58,6 +58,7 @@ table.datatable{
     &.matrix {
         th {
             vertical-align: top;
+            padding: 2px 2px;
         }
         tr.selected {
             background: $darkBlueGrey;
