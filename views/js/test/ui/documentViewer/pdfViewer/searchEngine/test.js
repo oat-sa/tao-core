@@ -454,7 +454,7 @@ define([
             [[29, 33], [47, 51], [71, 75]]
         ];
 
-        QUnit.expect(26);
+        QUnit.expect(28);
 
         pdfjs.textContent = [
             ['The search should ', 'match this pa', 'ge because this p', 'ag', 'e contains', ' the word', ' \u201Cpage\u201D!']
@@ -477,10 +477,11 @@ define([
                         assert.deepEqual(instance.getMatches(), expectedMatches, 'The search has find the expected matches');
 
                         return textManager.renderPage(pageNum, page.getViewport()).then(function (layer) {
-                            return instance.updateMatches(pageNum).then(function () {
+                            return instance.updateMatches(pageNum).then(function (num) {
                                 var $container = $('<div />').append(layer);
                                 var $matches = $container.find('span');
 
+                                assert.equal(num, pageNum, 'The page number has been provided');
                                 assert.equal($matches.length, 6, 'There is the right number of highlighted matches');
 
                                 assert.ok($matches.eq(0).hasClass('selected'), 'The first match is selected');
@@ -509,10 +510,11 @@ define([
                             assert.deepEqual(instance.getMatches(), [[]], 'The search has not find any matches, as expected');
 
                             return textManager.renderPage(pageNum, page.getViewport()).then(function (layer) {
-                                return instance.updateMatches(pageNum).then(function () {
+                                return instance.updateMatches(pageNum).then(function (num) {
                                     var $container = $('<div />').append(layer);
                                     var $matches = $container.find('span');
 
+                                    assert.equal(num, pageNum, 'The page number has been provided');
                                     assert.equal($matches.length, 0, 'There is no highlighted matches');
 
                                     instance.destroy();

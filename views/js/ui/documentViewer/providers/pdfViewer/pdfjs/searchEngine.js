@@ -432,6 +432,7 @@ define([
                     if (pageContent) {
                         renderMatches(matches[pageNum - 1], pageContent, selectedMatch);
                     }
+                    return pageNum;
                 });
             },
 
