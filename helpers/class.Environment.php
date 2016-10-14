@@ -91,7 +91,7 @@ class tao_helpers_Environment
     {
         $val = trim($phpSyntax);
         	$last = strtolower($val[strlen($val)-1]);
-        $val = (int)trim($val, $last);
+        $val = (int)substr($val, 0, -1);
         	switch($last) {
         		case 'g':
         			$val *= 1024;
