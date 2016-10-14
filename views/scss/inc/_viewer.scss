@@ -4,12 +4,16 @@ $viewerBarBg: $canvas;
 $viewerBarTxt: $textColor;
 $viewerBorder: blacken($viewerBarBg, .2);
 $viewerBg: whiten($viewerBarBg, .5);
+$viewerHighlight: $info;
+$viewerSelection: $success;
 
 .document-viewer {
     .pdf-viewer {
+        position: relative;
         background-color: $viewerBg;
 
         .pdf-bar {
+            position: relative;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -18,9 +22,15 @@ $viewerBg: whiten($viewerBarBg, .5);
             background-color: $viewerBarBg;
             color: $viewerBarTxt;
             padding: 2px;
+
+            label {
+                font-size: 1.2rem;
+                padding: 0;
+                margin: 0;
+            }
         }
 
-        .pdf-infos {
+        .pdf-info {
             padding: 0 2px;
             margin-right: 2px;
 
@@ -42,13 +52,78 @@ $viewerBg: whiten($viewerBarBg, .5);
             }
         }
 
+        [data-control="pdf-search"], .pdf-find-bar {
+            .icon {
+                padding: 0;
+                margin: 0;
+            }
+        }
+
         .pdf-find-bar {
             position: absolute;
+            z-index: 1;
+            top: 35px;
+            left: 8px;
+
+            padding: 4px 8px;
+            background-color: $viewerBg;
+            border: 1px solid $viewerBorder;
+            @include border-radius(4);
+            @include box-shadow(0, 1px, 4px);
+
+            &::before, &::after {
+                bottom: 100%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+
+            &::before {
+                left: 13px;
+                margin-left: -9px;
+                border-bottom-color: $viewerBorder;
+                border-width: 9px;
+            }
+
+            &::after {
+                left: 13px;
+                margin-left: -8px;
+                border-bottom-color: $viewerBg;
+                border-width: 8px;
+            }
+
+        }
+
+        .pdf-search-info {
+            .pdf-search-position {
+                padding: 4px 8px;
+                font-family: $regularFont;
+                font-size: 1.2rem;
+                @include border-radius(4);
+                background-color: $infoBgColor;
+                color: $info;
+            }
+
+            .pdf-search-loop {
+                padding-left: 10px;
+                font-size: 1rem;
+                font-style: italic;
+                color: whiten($viewerBarTxt, .2);
+            }
         }
 
         .pdf-container {
             position: relative;
             overflow-y: auto;
+
+            &.highlight-all {
+                .highlight {
+                    background-color: $viewerHighlight;
+                }
+            }
         }
 
         .pdf-page {
@@ -79,6 +154,30 @@ $viewerBg: whiten($viewerBarBg, .5);
                 cursor: text;
 
                 @include vendor-prefix(transform-origin, 0% 0%, property);
+            }
+
+            .highlight {
+                margin: -1px;
+                padding: 1px;
+                @include border-radius(4);
+
+                &.begin {
+                    @include border-radius-right(0);
+                    @include border-radius-bottom(0);
+                }
+
+                &.end {
+                    @include border-radius-top(0);
+                    @include border-radius-left(0);
+                }
+
+                &.middle {
+                    @include border-radius(0);
+                }
+
+                &.selected {
+                    background-color: $viewerSelection;
+                }
             }
         }
     }

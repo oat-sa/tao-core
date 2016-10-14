@@ -337,7 +337,7 @@ define([
         var instance;
         var promise;
 
-        QUnit.expect(16);
+        QUnit.expect(15);
 
         assert.equal($container.children().length, 0, 'The container does not contain any children');
 
@@ -366,7 +366,6 @@ define([
             assert.equal($pdfBar.length, 1, 'The PDF bar has been added');
             assert.equal($pdfContainer.length, 1, 'The PDF panel has been added');
 
-            assert.equal(config.fitToWidth, true, 'The fitToWidth config is set');
             assert.equal($fitToWidth.is(':checked'), true, 'The Fit to width option is checked');
 
             $fitToWidth.click();
@@ -385,6 +384,48 @@ define([
                     QUnit.start();
                 }, 100);
             }, 100);
+        }).catch(function() {
+            assert.ok('false', 'No error should be triggered');
+            QUnit.start();
+        });
+    });
+
+
+    QUnit.asyncTest('findBar', function (assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            PDFJS: pdfjs
+        };
+        var instance;
+
+        QUnit.expect(9);
+
+        assert.equal($container.children().length, 0, 'The container does not contain any children');
+
+        instance = viewerFactory($container, config);
+        instance.load(pdfUrl).then(function () {
+            assert.ok(true, 'The PDF file has been loaded');
+
+            assert.equal($container.find('[data-control="pdf-search"]').length, 0, 'There is no search button');
+            assert.equal($container.find('.pdf-find-bar').length, 0, 'There is no find bar');
+
+            instance.unload();
+
+            assert.equal($container.children().length, 0, 'The viewer has been removed from the container');
+
+            config.allowSearch= true;
+            instance = viewerFactory($container, config);
+            return instance.load(pdfUrl).then(function () {
+                assert.ok(true, 'The PDF file has been loaded');
+
+                assert.equal($container.find('[data-control="pdf-search"]').length, 1, 'The search button has been added');
+                assert.equal($container.find('.pdf-find-bar').length, 1, 'The find bar has been added');
+
+                instance.unload();
+
+                assert.equal($container.children().length, 0, 'The viewer has been removed from the container');
+                QUnit.start();
+            });
         }).catch(function() {
             assert.ok('false', 'No error should be triggered');
             QUnit.start();

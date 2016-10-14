@@ -22,12 +22,11 @@ define([
     'jquery',
     'lodash',
     'core/eventifier',
-    'core/promise',
-    'ui/hider',
     'ui/documentViewer/providers/pdfViewer/pdfjs/areaBroker',
+    'ui/documentViewer/providers/pdfViewer/pdfjs/findBar',
     'ui/documentViewer/providers/pdfViewer/pdfjs/wrapper',
     'tpl!ui/documentViewer/providers/pdfViewer/pdfjs/viewer'
-], function ($, _, eventifier, Promise, hider, areaBroker, wrapperFactory, viewerTpl) {
+], function ($, _, eventifier, areaBroker, findBarFactory, wrapperFactory, viewerTpl) {
     'use strict';
 
     /**
@@ -49,6 +48,9 @@ define([
      * @param {Object} config
      * @param {Object} config.PDFJS - The PDFJS entry point
      * @param {Boolean} [config.fitToWidth] - Fit the page to the available width, a scroll bar may appear
+     * @param {Boolean} [config.allowSearch] - Allow to search within the displayed PDF
+     * @param {Boolean} [config.caseSensitiveSearch] - Use a case sensitive search when the search feature is available
+     * @param {Boolean} [config.highlightAllMatches] - Highlight all matches to see all of them at a glance
      * @returns {Object}
      */
     function pdfjsViewerFactory($container, config) {
@@ -56,6 +58,7 @@ define([
         var events = eventifier();
         var controls = {};
         var broker = null;
+        var findBar = null;
         var pdfConfig = null;
         var pdf = null;
         var PDFJS = null;
@@ -191,6 +194,16 @@ define([
 
                 pdf = wrapperFactory(broker.getContentArea(), pdfConfig);
 
+                if (config.allowSearch) {
+                    findBar = findBarFactory({
+                        events: events,
+                        areaBroker: broker,
+                        textManager: pdf.getTextManager(),
+                        caseSensitive: config.caseSensitiveSearch,
+                        highlightAll: config.highlightAllMatches
+                    });
+                }
+
                 this.setSize($container.width(), $container.height());
 
                 controls.$fitToWidth.on('change', function () {
@@ -232,6 +245,10 @@ define([
             unload: function unload() {
                 disable();
 
+                if (findBar) {
+                    findBar.destroy();
+                }
+
                 if (pdf) {
                     pdf.destroy();
                 }
@@ -241,6 +258,7 @@ define([
                 controls = {};
                 pdfConfig = null;
                 pdf = null;
+                findBar = null;
                 broker = null;
             },
 
