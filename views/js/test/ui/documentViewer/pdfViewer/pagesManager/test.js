@@ -193,7 +193,7 @@ define([
         };
         var instance, view1, view2;
 
-        QUnit.expect(16);
+        QUnit.expect(24);
 
         assert.equal($container.children().length, 0, "The container is empty");
 
@@ -207,6 +207,7 @@ define([
         assert.equal(typeof view1, "object", "The returned view is an object");
         assert.equal(view1, instance.getActiveView(), 'The view 1 is the active view');
         assert.ok(!view1.getElement().hasClass('hidden'), "The view 1 is visible");
+        assert.equal(instance.getActiveView().pageNum, 1, 'The page view has the right page number');
 
 
         instance.setActiveView(2);
@@ -217,6 +218,7 @@ define([
         assert.equal(view2, instance.getActiveView(), 'The view 2 is the active view');
         assert.ok(view1.getElement().hasClass('hidden'), "The view 1 is now hidden");
         assert.ok(!view2.getElement().hasClass('hidden'), "The view 2 is visible");
+        assert.equal(instance.getActiveView().pageNum, 2, 'The page view has the right page number');
 
         instance.setActiveView(1);
         assert.equal(typeof instance.getActiveView(), "object", "There is an active view");
@@ -224,6 +226,15 @@ define([
         assert.equal(view1, instance.getActiveView(), 'The view 1 is the active view');
         assert.ok(!view1.getElement().hasClass('hidden'), "The view 1 is now visible");
         assert.ok(view2.getElement().hasClass('hidden'), "The view 2 is now hidden");
+        assert.equal(instance.getActiveView().pageNum, 1, 'The page view has the right page number');
+
+        instance.setActiveView(3);
+        assert.equal(typeof instance.getActiveView(), "object", "There is an active view");
+
+        assert.equal(view2, instance.getActiveView(), 'The view 2 is the active view');
+        assert.ok(view1.getElement().hasClass('hidden'), "The view 1 is now hidden");
+        assert.ok(!view2.getElement().hasClass('hidden'), "The view 2 is now visible");
+        assert.equal(instance.getActiveView().pageNum, 3, 'The page view has the right page number');
 
         assert.equal($container.children().length, 2, "The container contains 2 children");
 

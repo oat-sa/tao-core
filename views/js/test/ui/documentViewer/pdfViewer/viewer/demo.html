@@ -29,15 +29,16 @@
             //load the test
             require([
                 'jquery',
+                'ui/documentViewer',
                 'ui/documentViewer/viewerFactory',
                 'ui/documentViewer/providers/pdfViewer'
-            ], function ($, viewerFactory, pdfViewer) {
+            ], function ($, documentViewerFactory, viewerFactory, pdfViewer) {
                 viewerFactory.registerProvider('pdf', pdfViewer);
-                viewerFactory('pdf', {
-                    type: 'pdf',
-                    url: location.href.replace('/pdfViewer/viewer/demo.html', '/sample/demo.pdf'),
-                    renderTo: '#demo'
-                });
+                documentViewerFactory({
+                    renderTo: '#demo',
+                    fitToWidth: true,
+                    allowSearch: true
+                }).load(location.href.replace('/pdfViewer/viewer/demo.html', '/sample/demo.pdf'), 'pdf')
             });
         });
     </script>

@@ -71,6 +71,7 @@ define([
      * Creates a wrapper for PDF.js to render a document
      * @param {jQuery} $container
      * @param {Object} config
+     * @param {Object} config.events - The events hub
      * @param {Object} config.PDFJS - The PDFJS entry point
      * @param {Boolean} [config.fitToWidth] - Fit the page to the available width, a scroll bar may appear
      * @returns {Object}
@@ -85,6 +86,7 @@ define([
         var textManager = null;
         var states = {};
         var PDFJS = null;
+        var events = null;
 
         /**
          * Wraps the PDF.js API
@@ -108,12 +110,28 @@ define([
                 pdfDoc = null;
                 states = {};
 
+                /**
+                 * Notifies a document is loading
+                 * @event loading
+                 * @param {String} url
+                 */
+                events.trigger('loading', url);
+
                 return PDFJS.getDocument(processUri(url)).then(function (doc) {
-                    pdfDoc = doc;
-                    pageNum = 1;
-                    pageCount = pdfDoc.numPages;
-                    textManager.setDocument(pdfDoc);
-                    states.loaded = true;
+                    if (!states.destroyed) {
+                        pdfDoc = doc;
+                        pageNum = 1;
+                        pageCount = pdfDoc.numPages;
+                        textManager.setDocument(pdfDoc);
+                        states.loaded = true;
+
+                        /**
+                         * Notifies a document has been loaded
+                         * @event loaded
+                         * @param {String} url
+                         */
+                        events.trigger('loaded', url);
+                    }
                 });
             },
 
@@ -125,7 +143,13 @@ define([
             renderPage: function renderPage(num) {
                 if (pdfDoc) {
                     if (!pageRendering) {
-                        pagesManager.setActiveView(num);
+                        /**
+                         * Notifies a page is rendering
+                         * @event rendering
+                         * @param {Number} pageNum
+                         */
+                        events.trigger('rendering', num);
+
                         states.rendered = false;
                         states.rendering = true;
                         pageRendering = pdfDoc.getPage(num).then(function (page) {
@@ -135,10 +159,27 @@ define([
                                     pageNumPending = null;
                                     pageRendering = null;
 
-                                    states.rendered = true;
-                                    states.rendering = false;
-                                    if (nextPage !== null) {
-                                        return wrapper.renderPage(nextPage);
+                                    if (!states.destroyed) {
+                                        states.rendered = true;
+                                        states.rendering = false;
+
+                                        /**
+                                         * Notifies a page has been rendered
+                                         * @event rendered
+                                         * @param {Number} pageNum
+                                         */
+                                        events.trigger('rendered', num);
+
+                                        if (nextPage !== null) {
+                                            return wrapper.renderPage(nextPage);
+                                        }
+
+                                        /**
+                                         * Notifies the last requested page has been rendered
+                                         * @event allrendered
+                                         * @param {Number} pageNum
+                                         */
+                                        events.trigger('allrendered', num);
                                     }
                                 });
                             }
@@ -192,12 +233,17 @@ define([
              * @returns {Promise}
              */
             setPage: function setPage(page) {
-                page = Math.min(Math.max(1, page || 0), pageCount);
-                if (page !== pageNum) {
-                    pageNum = page;
-                    return wrapper.renderPage(pageNum);
-                }
-                return Promise.resolve(pageNum);
+                pageNum = Math.min(Math.max(1, page || 0), pageCount);
+                pagesManager.setActiveView(pageNum);
+
+                /**
+                 * Notifies a page change
+                 * @event pagechange
+                 * @param {Number} pageNum
+                 */
+                events.trigger('pagechange', pageNum);
+
+                return wrapper.renderPage(pageNum);
             },
 
             /**
@@ -221,6 +267,14 @@ define([
              * @returns {Promise}
              */
             refresh: function refresh() {
+                /**
+                 * Notifies a page is refreshing
+                 * @event refreshing
+                 * @param {Number} pageNum
+                 */
+                events.trigger('refreshing', pageNum);
+
+                pagesManager.setActiveView(pageNum);
                 return wrapper.renderPage(pageNum);
             },
 
@@ -240,6 +294,9 @@ define([
                     pdfDoc.destroy();
                 }
 
+                states = {
+                    destroyed: true
+                };
                 pdfDoc = null;
                 pageNumPending = null;
                 pageRendering = null;
@@ -247,17 +304,25 @@ define([
                 $container = null;
                 PDFJS = null;
                 config = null;
-                states = {
-                    destroyed: true
-                };
+
+                /**
+                 * Notifies the component is destroying
+                 * @event destroy.wrapper
+                 */
+                events.trigger('destroy.wrapper');
+                events = null;
             }
         };
 
         config = config || {};
         PDFJS = config.PDFJS;
+        events = config.events;
 
         if (!_.isPlainObject(PDFJS)) {
             throw new TypeError('You must provide the entry point to the PDF.js library! [config.PDFJS is missing]');
+        }
+        if (!_.isPlainObject(events)) {
+            throw new TypeError('You must provide an events hub! [config.events is missing]');
         }
 
         textManager = textManagerFactory({
@@ -269,6 +334,19 @@ define([
             pageCount: 1,
             textManager: textManager
         });
+
+        events
+            .on('setpage.wrapper', function (page) {
+                wrapper.setPage(page);
+            })
+            .on('refresh.wrapper', function () {
+                wrapper.refresh();
+            })
+            /**
+             * Notifies the component is initialized
+             * @event init.wrapper
+             */
+            .trigger('init.wrapper');
 
         return wrapper;
     }
