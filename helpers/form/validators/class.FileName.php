@@ -30,36 +30,13 @@
 class tao_helpers_form_validators_FileName
     extends tao_helpers_form_validators_Regex
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  array options
-     * @return mixed
+     * (non-PHPdoc)
+     * @see tao_helpers_form_validators_Regex::setOptions()
      */
-    public function __construct(array $options = array())
+    public function setOptions($options)
     {
-        
-        
-    	if(isset($options['format'])){
-    		unset($options['format']);	//the pattern cannot be overriden
-    	}
-    	
-    	$pattern = "/^[a-zA-Z0-9_\-]*\.[a-zA-Z0-9]*$/";
-    	
-    	parent::__construct(array_merge(array('format' => $pattern), $options));
-    	
-        
-    }
-
+        $options['format'] = "/^[a-zA-Z0-9_\-]*\.[a-zA-Z0-9]*$/";
+        parent::setOptions($options);
+    }    
 }
-
-?>
