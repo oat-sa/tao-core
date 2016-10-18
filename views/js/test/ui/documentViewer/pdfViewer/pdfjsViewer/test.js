@@ -116,7 +116,7 @@ define([
             assert.equal($pdfBar.length, 1, 'The PDF bar has been added');
             assert.equal($pdfContainer.length, 1, 'The PDF panel has been added');
 
-
+            $pdfBar.height(20);
             assert.notEqual($pdfContainer.width(), requestedWidth, 'The PDF panel is not ' + expectedWidth + ' pixels width');
             assert.notEqual($pdfContainer.height(), requestedHeight, 'The PDF panel is not ' + expectedHeight + ' pixels height');
 
