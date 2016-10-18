@@ -202,7 +202,19 @@
   	<rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
   </rdf:Description>
+
+  <!-- Validation -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#validationRule">
+  	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Validation Rules]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Validation rules for the values of this property]]></rdfs:comment>
+  	<rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  </rdf:Description>
   
+  <rdf:Description rdf:about="http://www.w3.org/2000/01/rdf-schema#label">
+  	<generis:validationRule><![CDATA[notEmty]]></generis:validationRule>
+  </rdf:Description>
   
     <!-- Some user's meta -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed">
