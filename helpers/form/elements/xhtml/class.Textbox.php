@@ -26,38 +26,33 @@ use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_form_elements_xhtml_Textbox
-    extends tao_helpers_form_elements_Textbox
+class tao_helpers_form_elements_xhtml_Textbox extends tao_helpers_form_elements_Textbox
 {
     use XhtmlRenderingTrait;
 
     /**
      * (non-PHPdoc)
+     * 
      * @see tao_helpers_form_FormElement::render()
      */
     public function render()
     {
         $returnValue = $this->renderLabel();
-
-        $hasUnit = !empty($this->unit);
-		
-        if($hasUnit) {
+        
+        $hasUnit = ! empty($this->unit);
+        
+        if ($hasUnit) {
             $this->addClass('has-unit');
         }
-		$returnValue .= "<input type='text' name='{$this->name}' id='{$this->name}' ";
-		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'._dh($this->value).'" />';
-		
-		if($hasUnit){
-			$returnValue .= '<label class="unit" for="' . $this->name . '">' . _dh($this->unit) . '</label>';
-		}
-		
+        $returnValue .= "<input type='text' name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= $this->renderAttributes();
+        $returnValue .= ' value="' . _dh($this->value) . '" />';
         
-
+        if ($hasUnit) {
+            $returnValue .= '<label class="unit" for="' . $this->name . '">' . _dh($this->unit) . '</label>';
+        }
+        
         return (string) $returnValue;
     }
-
 }
-

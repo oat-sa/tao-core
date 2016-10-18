@@ -29,7 +29,7 @@ trait XhtmlRenderingTrait
     public function renderLabel()
     {
         $renderedLabel = '';
-        if (! isset($this->attributes['noLabel'])) {
+        if (! isset($this->attributes['noLabel']) && !empty($this->description)) {
             $renderedLabel .= "<span class='form_desc'>" . _dh($this->getDescription());
             if (isset($this->attributes['required'])) {
                 $renderedLabel .= "<abbr title='" . __('This field is required') . "'>*</abbr>";
