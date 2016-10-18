@@ -65,6 +65,7 @@ use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
+use oat\tao\helpers\form\ValidationRuleRegistry;
 
 /**
  *
@@ -564,6 +565,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('6.1.0', '7.16.2');
+        
+        if ($this->isVersion('7.16.2')) {
+            OntologyUpdater::syncModels();
+            ValidationRuleRegistry::getRegistry()->set('notEmpty', new \tao_helpers_form_validators_NotEmpty());
+            $this->setVersion('7.17.0');
+        }
     }
 
     private function migrateFsAccess() {
