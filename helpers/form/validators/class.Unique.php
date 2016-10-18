@@ -54,7 +54,7 @@ class tao_helpers_form_validators_Unique
     protected function getProperty()
     {
         if( !isset($this->property) || empty($this->property) ){
-            if ($this->hasOption('property')) {
+            if (!$this->hasOption('property')) {
                 throw new common_exception_Error('Property not set');
             }
 

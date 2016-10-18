@@ -34,7 +34,7 @@ class tao_helpers_form_validators_FileName
      * (non-PHPdoc)
      * @see tao_helpers_form_validators_Regex::setOptions()
      */
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
         $options['format'] = "/^[a-zA-Z0-9_\-]*\.[a-zA-Z0-9]*$/";
         parent::setOptions($options);

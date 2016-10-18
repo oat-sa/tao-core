@@ -35,7 +35,7 @@ class tao_helpers_form_validators_AlphaNum
      * (non-PHPdoc)
      * @see tao_helpers_form_validators_Regex::setOptions()
      */
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
     	$options['format'] = isset($options['allow_punctuation'])
     	   ? "/^[a-zA-Z0-9_\-]*$/"
