@@ -32,7 +32,7 @@ class RegisterValidationRules extends InstallAction
     
     public function __invoke($params)
     {
-        ValidationRuleRegistry::getRegistry()->set('notEmty', new \tao_helpers_form_validators_NotEmpty());
+        ValidationRuleRegistry::getRegistry()->set('notEmpty', new \tao_helpers_form_validators_NotEmpty());
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'validator registered');
     }

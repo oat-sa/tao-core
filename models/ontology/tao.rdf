@@ -213,7 +213,7 @@
   </rdf:Description>
   
   <rdf:Description rdf:about="http://www.w3.org/2000/01/rdf-schema#label">
-  	<generis:validationRule><![CDATA[notEmty]]></generis:validationRule>
+    <generis:validationRule><![CDATA[notEmpty]]></generis:validationRule>
   </rdf:Description>
   
     <!-- Some user's meta -->
