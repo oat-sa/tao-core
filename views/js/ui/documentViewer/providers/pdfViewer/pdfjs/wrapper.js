@@ -118,18 +118,20 @@ define([
                 events.trigger('loading', url);
 
                 return PDFJS.getDocument(processUri(url)).then(function (doc) {
-                    pdfDoc = doc;
-                    pageNum = 1;
-                    pageCount = pdfDoc.numPages;
-                    textManager.setDocument(pdfDoc);
-                    states.loaded = true;
+                    if (!states.destroyed) {
+                        pdfDoc = doc;
+                        pageNum = 1;
+                        pageCount = pdfDoc.numPages;
+                        textManager.setDocument(pdfDoc);
+                        states.loaded = true;
 
-                    /**
-                     * Notifies a document has been loaded
-                     * @event loaded
-                     * @param {String} url
-                     */
-                    events.trigger('loaded', url);
+                        /**
+                         * Notifies a document has been loaded
+                         * @event loaded
+                         * @param {String} url
+                         */
+                        events.trigger('loaded', url);
+                    }
                 });
             },
 
@@ -157,26 +159,28 @@ define([
                                     pageNumPending = null;
                                     pageRendering = null;
 
-                                    states.rendered = true;
-                                    states.rendering = false;
+                                    if (!states.destroyed) {
+                                        states.rendered = true;
+                                        states.rendering = false;
 
-                                    /**
-                                     * Notifies a page has been rendered
-                                     * @event rendered
-                                     * @param {Number} pageNum
-                                     */
-                                    events.trigger('rendered', num);
+                                        /**
+                                         * Notifies a page has been rendered
+                                         * @event rendered
+                                         * @param {Number} pageNum
+                                         */
+                                        events.trigger('rendered', num);
 
-                                    if (nextPage !== null) {
-                                        return wrapper.renderPage(nextPage);
+                                        if (nextPage !== null) {
+                                            return wrapper.renderPage(nextPage);
+                                        }
+
+                                        /**
+                                         * Notifies the last requested page has been rendered
+                                         * @event allrendered
+                                         * @param {Number} pageNum
+                                         */
+                                        events.trigger('allrendered', num);
                                     }
-
-                                    /**
-                                     * Notifies the last requested page has been rendered
-                                     * @event allrendered
-                                     * @param {Number} pageNum
-                                     */
-                                    events.trigger('allrendered', num);
                                 });
                             }
                         });
