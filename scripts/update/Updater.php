@@ -565,12 +565,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('6.1.0', '7.16.2');
-        
+
         if ($this->isVersion('7.16.2')) {
             OntologyUpdater::syncModels();
             ValidationRuleRegistry::getRegistry()->set('notEmpty', new \tao_helpers_form_validators_NotEmpty());
             $this->setVersion('7.17.0');
         }
+
+        $this->skip('7.17.0', '7.17.1');
+
     }
 
     private function migrateFsAccess() {
