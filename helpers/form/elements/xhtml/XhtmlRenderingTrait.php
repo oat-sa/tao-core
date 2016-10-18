@@ -18,7 +18,6 @@
  *               
  * 
  */
-
 namespace oat\tao\helpers\form\elements\xhtml;
 
 /**
@@ -30,18 +29,17 @@ trait XhtmlRenderingTrait
     public function renderLabel()
     {
         $renderedLabel = '';
-		if(!isset($this->attributes['noLabel'])){
-			$renderedLabel .= "<span class='form_desc'>". _dh($this->getDescription());
-			if (isset($this->attributes['required'])) {
-                $renderedLabel .= "<abbr title='".__('This field is required')."'>*</abbr>";
-			    unset($this->attributes['noLabel']);
-			};
-			$renderedLabel .= "</span>";
-		}
-		else{
-			unset($this->attributes['noLabel']);
-		}
-		return (string) $renderedLabel;
+        if (! isset($this->attributes['noLabel'])) {
+            $renderedLabel .= "<span class='form_desc'>" . _dh($this->getDescription());
+            if (isset($this->attributes['required'])) {
+                $renderedLabel .= "<abbr title='" . __('This field is required') . "'>*</abbr>";
+                unset($this->attributes['required']);
+            }
+            ;
+            $renderedLabel .= "</span>";
+        } else {
+            unset($this->attributes['noLabel']);
+        }
+        return (string) $renderedLabel;
     }
-
 }
