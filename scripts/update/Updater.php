@@ -564,9 +564,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('6.1.0');
         }
 
-        $this->skip('6.1.0', '7.16.1');
+        $this->skip('6.1.0', '7.16.2');
         
-        if ($this->isVersion('7.16.1')) {
+        if ($this->isVersion('7.16.2')) {
             OntologyUpdater::syncModels();
             ValidationRuleRegistry::getRegistry()->set('notEmty', new \tao_helpers_form_validators_NotEmpty());
             $this->setVersion('7.17.0');
