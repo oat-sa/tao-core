@@ -38,12 +38,12 @@ class tao_helpers_Environment
      */
     public static function getFileUploadLimit()
     {
-        $returnValue = (int) 0;
 
         $max_upload		= self::toBytes(ini_get('upload_max_filesize'));
         $max_post		= self::toBytes(ini_get('post_max_size'));
-        
-        $returnValue = min($max_upload, $max_post);        
+        $memory_limit = self::toBytes(ini_get('memory_limit'));
+
+        $returnValue = min($max_upload, $max_post, $memory_limit);
 
         return (int) $returnValue;
     }
