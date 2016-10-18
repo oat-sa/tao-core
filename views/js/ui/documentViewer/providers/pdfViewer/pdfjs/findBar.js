@@ -99,6 +99,13 @@ define([
                         } else {
                             refresh();
                         }
+                    }).catch(function(err) {
+                        /**
+                         * Notifies the search error
+                         * @event error
+                         * @param {Object} err
+                         */
+                        events.trigger('error', err);
                     });
                 }
             } else {
