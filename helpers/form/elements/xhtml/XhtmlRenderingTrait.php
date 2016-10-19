@@ -30,13 +30,13 @@ trait XhtmlRenderingTrait
     {
         $renderedLabel = '';
         if (! isset($this->attributes['noLabel']) && !empty($this->description)) {
-            $renderedLabel .= "<span class='form_desc'>" . _dh($this->getDescription());
+            $renderedLabel .= "<label class='form_desc' for='" . $this->name . "'>" . _dh($this->getDescription());
             if (isset($this->attributes['required'])) {
                 $renderedLabel .= "<abbr title='" . __('This field is required') . "'>*</abbr>";
                 unset($this->attributes['required']);
             }
             ;
-            $renderedLabel .= "</span>";
+            $renderedLabel .= "</label>";
         } else {
             unset($this->attributes['noLabel']);
         }
