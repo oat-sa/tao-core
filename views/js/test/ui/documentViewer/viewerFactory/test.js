@@ -111,7 +111,10 @@ define([
             url: 'an/url/to/test',
             width: 200,
             height: 100,
-            fitToWidth: false
+            fitToWidth: false,
+            allowSearch: false,
+            caseSensitiveSearch: false,
+            highlightAllMatches: false
         };
 
         QUnit.expect(3);
@@ -138,7 +141,10 @@ define([
             url: 'an/url/to/test',
             width: 200,
             height: 100,
-            fitToWidth: false
+            fitToWidth: false,
+            allowSearch: false,
+            caseSensitiveSearch: false,
+            highlightAllMatches: false
         };
 
         QUnit.expect(5);
@@ -174,7 +180,10 @@ define([
             url: 'an/url/to/test',
             width: 200,
             height: 100,
-            fitToWidth: false
+            fitToWidth: false,
+            allowSearch: false,
+            caseSensitiveSearch: false,
+            highlightAllMatches: false
         };
 
         QUnit.expect(7);
@@ -219,7 +228,10 @@ define([
             url: 'an/url/to/test',
             width: 'auto',
             height: 'auto',
-            fitToWidth: false
+            fitToWidth: false,
+            allowSearch: false,
+            caseSensitiveSearch: false,
+            highlightAllMatches: false
         };
 
         QUnit.expect(13);
@@ -392,7 +404,10 @@ define([
             url: 'an/url/to/test',
             width: 200,
             height: 100,
-            fitToWidth: false
+            fitToWidth: false,
+            allowSearch: false,
+            caseSensitiveSearch: false,
+            highlightAllMatches: false
         };
 
         QUnit.expect(8);

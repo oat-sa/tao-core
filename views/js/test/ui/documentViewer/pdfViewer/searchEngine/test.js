@@ -55,7 +55,16 @@ define([
 
 
     searchEngineApi = [
+        {name: 'getPages', title: 'getPages'},
         {name: 'getMatches', title: 'getMatches'},
+        {name: 'getMatchCount', title: 'getMatchCount'},
+        {name: 'clearMatches', title: 'clearMatches'},
+        {name: 'setTextManager', title: 'setTextManager'},
+        {name: 'getTextManager', title: 'getTextManager'},
+        {name: 'getQuery', title: 'getQuery'},
+        {name: 'getCurrentMatch', title: 'getCurrentMatch'},
+        {name: 'previousMatch', title: 'previousMatch'},
+        {name: 'nextMatch', title: 'nextMatch'},
         {name: 'search', title: 'search'},
         {name: 'updateMatches', title: 'updateMatches'},
         {name: 'destroy', title: 'destroy'}
@@ -162,6 +171,7 @@ define([
         config: {},
         query: 'will',
         firstPage: 2,
+        count: 2,
         matches: [
             [],
             [[11, 15]],
@@ -181,6 +191,7 @@ define([
         query: 'will',
         currentPage: 3,
         firstPage: 3,
+        count: 2,
         matches: [
             [],
             [[11, 15]],
@@ -199,6 +210,7 @@ define([
         config: {caseSensitive: true},
         query: 'Will',
         firstPage: 3,
+        count: 1,
         matches: [
             [],
             [],
@@ -217,6 +229,7 @@ define([
         config: {},
         query: 'Will',
         firstPage: 2,
+        count: 2,
         matches: [
             [],
             [[12, 16]],
@@ -235,6 +248,7 @@ define([
         config: {},
         query: '\u201Cwill\u201D',
         firstPage: 2,
+        count: 2,
         matches: [
             [],
             [[11, 17]],
@@ -259,7 +273,7 @@ define([
             }, data.config);
             var instance = searchEngineFactory(config);
 
-            QUnit.expect(12);
+            QUnit.expect(13);
 
             pdfjs.textContent = data.pages;
             pdfjs.pageCount = pdfjs.textContent.length;
@@ -277,6 +291,7 @@ define([
                     assert.equal(instance.getMatches().length, pdfjs.pageCount, 'The matches collection contains the same numbers than the amount of pages');
                     assert.deepEqual(instance.getMatches(), data.matches, 'The search has find the expected matches');
                     assert.deepEqual(instance.getPages(), data.pageNumbers, 'The search has find matches in the expected pages');
+                    assert.equal(instance.getMatchCount(), data.count, 'There is the right number of matches');
                     assert.equal(instance.getQuery(), data.query, 'The current query is stored');
                     assert.equal(typeof instance.getCurrentMatch(), 'object', 'There is now a match');
                     assert.equal(instance.getCurrentMatch().page, data.firstPage, 'The current match target the right page');
@@ -301,6 +316,7 @@ define([
 
         var query = 'page';
         var currentPage = 3;
+        var count = 4;
         var matches = [
             [],
             [[27, 31], [46, 50]],
@@ -309,32 +325,49 @@ define([
             [[5, 9]]
         ];
         var firstMatch = {
+            overall: 3,
             page: 4,
             index: 0
         };
         var matchesPathPrevious = [{
+            loop: false,
+            overall: 2,
             page: 2,
             index: 1
         }, {
+            loop: false,
+            overall: 1,
             page: 2,
             index: 0
         }, {
+            loop: true,
+            overall: 4,
             page: 5,
             index: 0
         }, {
+            loop: false,
+            overall: 3,
             page: 4,
             index: 0
         }];
         var matchesPathNext = [{
+            loop: false,
+            overall: 4,
             page: 5,
             index: 0
         }, {
+            loop: true,
+            overall: 1,
             page: 2,
             index: 0
         }, {
+            loop: false,
+            overall: 2,
             page: 2,
             index: 1
         }, {
+            loop: false,
+            overall: 3,
             page: 4,
             index: 0
         }];
@@ -347,9 +380,9 @@ define([
             ['This page is the last']
         ];
         var instance = searchEngineFactory(config);
-        var match;
+        var match, loop;
 
-        QUnit.expect(12 + 3 * (matchesPathPrevious.length + matchesPathNext.length));
+        QUnit.expect(14 + 6 * (matchesPathPrevious.length + matchesPathNext.length));
 
         pdfjs.textContent = pages;
         pdfjs.pageCount = pdfjs.textContent.length;
@@ -367,25 +400,35 @@ define([
                 assert.equal(instance.getMatches().length, pdfjs.pageCount, 'The matches collection contains the same numbers than the amount of pages');
                 assert.deepEqual(instance.getMatches(), matches, 'The search has find the expected matches');
                 assert.deepEqual(instance.getPages(), pageNumbers, 'The search has find matches in the expected pages');
+                assert.equal(instance.getMatchCount(), count, 'There is the right number of matches');
 
                 match = instance.getCurrentMatch();
                 assert.equal(typeof match, 'object', 'There is now a match');
                 assert.equal(match.page, firstMatch.page, 'The current match target the right page');
                 assert.equal(match.index, firstMatch.index, 'The current match target the right index');
+                assert.equal(match.overall, firstMatch.overall, 'The current match target the right overall index');
                 assert.equal(instance.getQuery(), query, 'The current query is stored');
 
                 _.forEach(matchesPathPrevious, function (expectedMatch) {
-                    match = instance.previousMatch();
+                    loop = instance.previousMatch();
+                    match = instance.getCurrentMatch();
+                    assert.equal(typeof loop, 'boolean', 'The previousMatch() method returned a boolean');
                     assert.equal(typeof match, 'object', 'The previous match has been provided');
+                    assert.equal(loop, expectedMatch.loop, 'We can navigate seamlessly across match all over the document');
                     assert.equal(match.page, expectedMatch.page, 'The current match target the right page');
                     assert.equal(match.index, expectedMatch.index, 'The current match target the right index');
+                    assert.equal(match.overall, expectedMatch.overall, 'The current match target the right overall index');
                 });
 
                 _.forEach(matchesPathNext, function (expectedMatch) {
-                    match = instance.nextMatch();
+                    loop = instance.nextMatch();
+                    match = instance.getCurrentMatch();
+                    assert.equal(typeof loop, 'boolean', 'The nextMatch() method returned a boolean');
                     assert.equal(typeof match, 'object', 'The previous match has been provided');
+                    assert.equal(loop, expectedMatch.loop, 'We can navigate seamlessly across match all over the document');
                     assert.equal(match.page, expectedMatch.page, 'The current match target the right page');
                     assert.equal(match.index, expectedMatch.index, 'The current match target the right index');
+                    assert.equal(match.overall, expectedMatch.overall, 'The current match target the right overall index');
                 });
 
                 instance.destroy();
@@ -411,7 +454,7 @@ define([
             [[29, 33], [47, 51], [71, 75]]
         ];
 
-        QUnit.expect(24);
+        QUnit.expect(28);
 
         pdfjs.textContent = [
             ['The search should ', 'match this pa', 'ge because this p', 'ag', 'e contains', ' the word', ' \u201Cpage\u201D!']
@@ -434,14 +477,17 @@ define([
                         assert.deepEqual(instance.getMatches(), expectedMatches, 'The search has find the expected matches');
 
                         return textManager.renderPage(pageNum, page.getViewport()).then(function (layer) {
-                            return instance.updateMatches(pageNum).then(function () {
+                            return instance.updateMatches(pageNum).then(function (num) {
                                 var $container = $('<div />').append(layer);
                                 var $matches = $container.find('span');
 
+                                assert.equal(num, pageNum, 'The page number has been provided');
                                 assert.equal($matches.length, 6, 'There is the right number of highlighted matches');
 
+                                assert.ok($matches.eq(0).hasClass('selected'), 'The first match is selected');
                                 assert.equal($matches.eq(0).text(), 'pa', 'The highlighted span contains the right text');
                                 assert.equal($matches.eq(0).data('match'), '0', 'The highlighted span is related to the right match');
+                                assert.ok($matches.eq(1).hasClass('selected'), 'The first match is selected');
                                 assert.equal($matches.eq(1).text(), 'ge', 'The highlighted span contains the right text');
                                 assert.equal($matches.eq(1).data('match'), '0', 'The highlighted span is related to the right match');
 
@@ -464,10 +510,11 @@ define([
                             assert.deepEqual(instance.getMatches(), [[]], 'The search has not find any matches, as expected');
 
                             return textManager.renderPage(pageNum, page.getViewport()).then(function (layer) {
-                                return instance.updateMatches(pageNum).then(function () {
+                                return instance.updateMatches(pageNum).then(function (num) {
                                     var $container = $('<div />').append(layer);
                                     var $matches = $container.find('span');
 
+                                    assert.equal(num, pageNum, 'The page number has been provided');
                                     assert.equal($matches.length, 0, 'There is no highlighted matches');
 
                                     instance.destroy();

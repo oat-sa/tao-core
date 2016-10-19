@@ -94,8 +94,11 @@ define([
                     }
                 })
                 .on('loaded', function () {
+                    var self = this;
                     assert.ok(true, 'The PDF file has been loaded');
-                    this.destroy();
+                    setTimeout(function() {
+                        self.destroy();
+                    }, 250);
                 })
                 .on('unloaded', function () {
                     assert.ok(true, 'The viewer is destroyed');
