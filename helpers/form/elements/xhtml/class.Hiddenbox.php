@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_Hiddenbox
@@ -25,17 +26,10 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_form_elements_xhtml_Hiddenbox
-    extends tao_helpers_form_elements_Hiddenbox
+class tao_helpers_form_elements_xhtml_Hiddenbox extends tao_helpers_form_elements_Hiddenbox
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
+    use XhtmlRenderingTrait;
 
     /**
      * Short description of method render
@@ -46,25 +40,11 @@ class tao_helpers_form_elements_xhtml_Hiddenbox
      */
     public function render()
     {
-        $returnValue = (string) '';
-
+        $returnValue = $this->renderLabel();
+        $returnValue .= "<input type='password' name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= $this->renderAttributes();
+        $returnValue .= ' value="' . _dh($this->value) . '"  />';
         
-		
-		if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
-		}
-		else{
-			unset($this->attributes['noLabel']);
-		}
-		$returnValue .= "<input type='password' name='{$this->name}' id='{$this->name}' ";
-		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'._dh($this->value).'"  />';
-        
-		
-
         return (string) $returnValue;
     }
-
 }
-
-?>

@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_File
@@ -25,18 +26,11 @@
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_form_elements_xhtml_File
-    extends tao_helpers_form_elements_File
+class tao_helpers_form_elements_xhtml_File extends tao_helpers_form_elements_File
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
+    use XhtmlRenderingTrait;
+    
     /**
      * Short description of method feed
      *
@@ -45,13 +39,11 @@ class tao_helpers_form_elements_xhtml_File
      */
     public function feed()
     {
-        
-		if(isset($_FILES[$this->getName()])){
-			$this->setValue($_FILES[$this->getName()]);
-		}else{
-			throw new tao_helpers_form_Exception('cannot evaluate the element '.__CLASS__);
-		}
-        
+        if (isset($_FILES[$this->getName()])) {
+            $this->setValue($_FILES[$this->getName()]);
+        } else {
+            throw new tao_helpers_form_Exception('cannot evaluate the element ' . __CLASS__);
+        }
     }
 
     /**
@@ -63,30 +55,24 @@ class tao_helpers_form_elements_xhtml_File
      */
     public function render()
     {
-        $returnValue = (string) '';
-
+        if (! empty($this->value)) {
+            if (common_Utils::isUri($this->value)) {
+                $file = new core_kernel_file_File($this->value);
+                if ($file->fileExists()) {
+                    $fileInfo = $file->getFileInfo();
+                    $fileInfo->getFilename();
+                } else {
+                    $file->delete();
+                }
+            }
+        }
         
-		
-		if(!empty($this->value)){
-			if(common_Utils::isUri($this->value)){
-				$file = new core_kernel_file_File($this->value);
-				if($file->fileExists()){
-					$fileInfo = $file->getFileInfo();
-					$fileInfo->getFilename();
-				}else{
-					$file->delete();
-				}
-			}
-		}
-		
-		$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
-		$returnValue .= "<input type='hidden' name='MAX_FILE_SIZE' value='".tao_helpers_form_elements_File::MAX_FILE_SIZE."' />";
-		$returnValue .= "<input type='file' name='{$this->name}' id='{$this->name}' ";
-		$returnValue .= $this->renderAttributes();
-		$returnValue .= " value='{$this->value}'  />";
-		
+        $returnValue = $this->renderLabel();
+        $returnValue .= "<input type='hidden' name='MAX_FILE_SIZE' value='" . tao_helpers_form_elements_File::MAX_FILE_SIZE . "' />";
+        $returnValue .= "<input type='file' name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= $this->renderAttributes();
+        $returnValue .= " value='{$this->value}'  />";
         
-
         return (string) $returnValue;
     }
 
@@ -99,11 +85,6 @@ class tao_helpers_form_elements_xhtml_File
      */
     public function getEvaluatedValue()
     {
-        
         return $this->getRawValue();
-        
     }
-
 }
-
-?>
