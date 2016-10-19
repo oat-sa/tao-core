@@ -2,15 +2,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Test - PDF Viewer - PDF.js</title>
+    <title>Test - PDF Viewer - FindBar</title>
     <base href="../../../../../../"/>
     <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
-    <link rel="stylesheet" type="text/css" href="css/tao-main-style.css"/>
     <script type="text/javascript" src="js/lib/require.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
     <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking"
-            data-cover-only="pdfViewer/pdfjs/viewer.js"></script>
+            data-cover-only="pdfViewer/pdfjs/findBar.js"></script>
 
     <script type="text/javascript">
 
@@ -28,7 +27,7 @@
             });
 
             //load the test
-            require(['tao/test/ui/documentViewer/pdfViewer/pdfjsViewer/test'], function () {
+            require(['tao/test/ui/documentViewer/pdfViewer/findBar/test'], function () {
 
                 //Tests loaded, run tests
                 QUnit.start();
