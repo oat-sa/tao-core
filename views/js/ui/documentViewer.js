@@ -33,7 +33,10 @@ define([
     var defaults = {
         width: 'auto',
         height: 'auto',
-        fitToWidth: false
+        fitToWidth: false,
+        allowSearch: false,
+        caseSensitiveSearch: false,
+        highlightAllMatches: false
     };
 
     /**
@@ -42,6 +45,9 @@ define([
      * @param {Number|String} [config.width] - The width in pixels, or 'auto' to use the container's width
      * @param {Number|String} [config.height] - The height in pixels, or 'auto' to use the container's height
      * @param {Boolean} [config.fitToWidth] - The document will be displayed using the full available width instead of fitting the height
+     * @param {Boolean} [config.allowSearch] - Allow to search within the displayed document
+     * @param {Boolean} [config.caseSensitiveSearch] - Use a case sensitive search when the search feature is available
+     * @param {Boolean} [config.highlightAllMatches] - Highlight all matches to see all of them at a glance
      * @returns {Object}
      */
     function documentViewerFactory(config) {
@@ -106,14 +112,11 @@ define([
                 documentType = type;
                 documentUrl = url;
 
-                viewer = viewerFactory(documentType, {
+                viewer = viewerFactory(documentType, _.merge({
                     type: documentType, // provide the type in case of hybrid/multi-type implementation
                     url: documentUrl,
-                    replace: true,      // always replace existing viewer
-                    width: this.config.width,
-                    height: this.config.height,
-                    fitToWidth: this.config.fitToWidth
-                }).on('loaded', function () {
+                    replace: true       // always replace existing viewer
+                }, _.pick(this.config, _.keys(defaults)))).on('loaded', function () {
                     /**
                      * @event documentViewer#loaded
                      * @param {String} url - The URL of the document to load

@@ -65,7 +65,7 @@ class tao_helpers_form_validators_Url
         $returnValue = !(filter_var($value, FILTER_VALIDATE_URL) === false);
 
         //'isset' is backward compatible behavior
-        if( !isset( $this->options['allow_parameters'] ) ){
+        if(!$this->hasOption('allow_parameters')){
             $returnValue = $returnValue && (strpos($value, '?') === false);
         }
 
@@ -83,5 +83,3 @@ class tao_helpers_form_validators_Url
     }
 
 }
-
-?>
