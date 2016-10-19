@@ -40,7 +40,7 @@ class tao_helpers_form_validators_FileMimeType
     {
         parent::setOptions($options);
 
-        if(!isset($this->options['mimetype'])){
+        if(!$this->hasOption('mimetype')){
             throw new common_Exception("Please define the mimetype option for the FileMimeType Validator");
         }
     }
@@ -67,10 +67,10 @@ class tao_helpers_form_validators_FileMimeType
 			}
 
 			if (!empty($mimetype) ) {
-				if (in_array($mimetype, $this->options['mimetype'])) {
+				if (in_array($mimetype, $this->getOption('mimetype'))) {
 					$returnValue = true;
 				} else {
-					$this->setMessage(__('%1$s expected but %2$s detected', implode(', ', $this->options['mimetype']), $mimetype));
+					$this->setMessage(__('%1$s expected but %2$s detected', implode(', ', $this->getOption('mimetype')), $mimetype));
 				}
 			} else {
 			    common_Logger::i('mimetype empty');

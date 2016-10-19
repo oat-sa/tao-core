@@ -41,9 +41,9 @@ class tao_helpers_form_validators_Callback
     {
         parent::setOptions($options);
 
-        if(!isset($this->options['function'])
-            && !((isset($this->options['class']) || isset($this->options['object']))
-                && isset($this->options['method']))
+        if(!$this->hasOption('function')
+            && !(($this->hasOption('class') || $this->hasOption('object'))
+                && $this->hasOption('method'))
         ){
             throw new Exception("Please define a callback function or method");
         }
@@ -64,34 +64,34 @@ class tao_helpers_form_validators_Callback
 
         
 		
-		if(isset($this->options['function'])){
-			$function = $this->options['function'];
+		if($this->hasOption('function')){
+			$function = $this->getOption('function');
 			if(function_exists($function)){
 				$callback = array($function);
 			} else {
 				throw new common_Exception("callback function does not exist");
 			}
 		}
-		else if(isset($this->options['class'])){
-			$class = $this->options['class'];
-			$method = $this->options['method'];
+		else if($this->hasOption('class')){
+			$class = $this->getOption('class');
+			$method = $this->getOption('method');
 			if(class_exists($class) && method_exists($class, $method)){
 					$callback = array($class, $method);
 				} else {
 					throw new common_Exception("callback methode does not exist");
 			}
 		}
-		else if(isset($this->options['object'])){
-			$object = $this->options['object'];
-			$method = $this->options['method'];
+		else if($this->hasOption('object')){
+			$object = $this->getOption('object');
+			$method = $this->getOption('method');
 			if(method_exists($object, $method)){
 				$callback = array($object, $method);
 			} else {
 				throw new common_Exception("callback methode does not exist");
 			}
 		}
-		if (isset($this->options['param'])) {
-			$returnValue = (bool)call_user_func($callback, $values, $this->options['param']);
+		if ($this->hasOption('param')) {
+			$returnValue = (bool)call_user_func($callback, $values, $this->getOption('param'));
 		} else {
 			$returnValue = (bool)call_user_func($callback, $values);
 		}
