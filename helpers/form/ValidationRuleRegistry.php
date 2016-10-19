@@ -60,7 +60,11 @@ class ValidationRuleRegistry extends AbstractRegistry
         $validationProp = $this->getProperty(self::PROPERTY_VALIDATION_RULE);
         $rules = [];
         foreach ($property->getPropertyValues($validationProp) as $ruleId) {
-            $rules[] = $this->get($ruleId);
+            $rule = $this->get($ruleId);
+            if ($rule == '') {
+                throw new \common_exception_NotFound('No validation rule found with id "'.$ruleId.'"');
+            }
+            $rules[] = $rule;
         }
         return $rules;
     }
