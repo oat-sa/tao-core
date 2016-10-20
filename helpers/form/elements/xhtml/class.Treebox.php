@@ -22,87 +22,94 @@
  * @author Mikhail Kamarouski, <kamarouski@1pt.com>
  * @package tao
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
+
+/**
+ * Treebox widget
+ */
 class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_Treebox
 {
+    use XhtmlRenderingTrait;
+
     /**
+     *
      * @var core_kernel_classes_Class
      */
     protected $range;
 
     /**
+     *
      * @return void
      */
     public function feed()
     {
-
-        $expression = "/^" . preg_quote( $this->name, "/" ) . "(.)*[0-9]+$/";
-        $found      = false;
+        $expression = "/^" . preg_quote($this->name, "/") . "(.)*[0-9]+$/";
+        $found = false;
         foreach ($_POST as $key => $value) {
-            if (preg_match( $expression, $key )) {
+            if (preg_match($expression, $key)) {
                 $found = true;
                 break;
             }
         }
         if ($found) {
-            $this->setValues( array() );
+            $this->setValues(array());
             foreach ($_POST as $key => $value) {
-                if (preg_match( $expression, $key )) {
-                    $this->addValue( tao_helpers_Uri::decode( $value ) );
+                if (preg_match($expression, $key)) {
+                    $this->addValue(tao_helpers_Uri::decode($value));
                 }
             }
         }
-
     }
 
     /**
-     * @param  string $format
+     *
+     * @param string $format
      *
      * @return array
      */
-    public function getOptions( $format = 'flat' )
+    public function getOptions($format = 'flat')
     {
-
         switch ($format) {
             case 'structured':
                 $returnValue = parent::getOptions();
                 break;
             case 'flat':
             default:
-                $returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData( parent::getOptions() );
+                $returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData(parent::getOptions());
                 break;
         }
-
-
+        
         return $returnValue;
     }
 
     /**
+     *
      * @param string $value
      *
      * @return void
      */
-    public function setValue( $value )
+    public function setValue($value)
     {
-        $this->addValue( $value );
+        $this->addValue($value);
     }
 
     /**
+     *
      * @return string
      */
     public function render()
     {
-        $widgetTreeName  = $this->name . '-TreeBox';
+        $widgetTreeName = $this->name . '-TreeBox';
         $widgetValueName = $this->name . '-TreeValues';
-
-        $returnValue = "<label class='form_desc' for='{$this->name}'>" . _dh( $this->getDescription() ) . "</label>";
-
+        
+        $returnValue = $this->renderLabel();
+        
         $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
-
+        
         $returnValue .= "<div id='{$widgetValueName}'></div>";
-
-
+        
         $returnValue .= "<div id='{$widgetTreeName}' class='tree-widget'></div>";
-
+        
         $returnValue .= "<script type=\"text/javascript\">
 			$(function(){
 			 require(['require', 'jquery', 'generis.tree.select'], function(req, $) {
@@ -111,12 +118,12 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
 						type : "json",
 						async: false,
 						opts : {static : ';
-        $returnValue .= json_encode( $this->getOptions( 'structured' ) );
+        $returnValue .= json_encode($this->getOptions('structured'));
         $returnValue .= '}
     				},
     				callback:{
 	    				onload: function(TREE_OBJ) {
-	    					checkedElements = ' . json_encode( $this->values ) . ';
+	    					checkedElements = ' . json_encode($this->values) . ';
                             var tree = $("#' . $widgetTreeName . '");
 	    					$.each(checkedElements, function(i, elt){
 								NODE = $("li[id=\'"+elt+"\']", tree);
@@ -154,27 +161,24 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
 			});
 			</script>';
         $returnValue .= "</div><br />";
-
-
+        
         return (string) $returnValue;
-
+        
         return $returnValue;
     }
 
     /**
+     *
      * @access public
      * @return mixed
      */
     public function getEvaluatedValue()
     {
-
-        $values = array_map( "tao_helpers_Uri::decode", $this->getValues() );
-        if (count( $values ) === 1) {
+        $values = array_map("tao_helpers_Uri::decode", $this->getValues());
+        if (count($values) === 1) {
             return $values[0];
         } else {
             return $values;
         }
-
     }
-
 }

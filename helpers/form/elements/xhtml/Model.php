@@ -18,7 +18,6 @@
  *               
  * 
  */
-
 namespace oat\tao\helpers\form\elements\xhtml;
 
 use oat\tao\helpers\form\elements\Model as AbstractModel;
@@ -26,41 +25,31 @@ use oat\tao\helpers\form\elements\Model as AbstractModel;
 /**
  * Based on tao_helpers_form_elements_xhtml_Radiobox
  */
-class Model
-    extends AbstractModel
+class Model extends AbstractModel
 {
+    use XhtmlRenderingTrait;
+
     /**
+     *
      * @see tao_helpers_form_FormElement::render
      */
     public function render()
     {
-        $returnValue = (string) '';
-
+        $returnValue = $this->renderLabel();
         
-		
-		$i = 0;
-		
-		if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<span class='form_desc'>". _dh($this->getDescription())."</span>";
-		}
-		else{
-			unset($this->attributes['noLabel']);
-		}
-		$returnValue .= '<div class="form_radlst">';
-		foreach($this->getOptions() as $optionId => $optionLabel){
-			 $returnValue .= "<input type='radio' name='{$this->name}' id='{$this->name}_{$i}' value='{$optionId}' ";
-			 $returnValue .= $this->renderAttributes();
-			 if($this->value == $optionId){
-			 	$returnValue .= " checked='checked' ";
-			 }
-			 $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>"._dh($optionLabel)."</label><br />";
-			 $i++;
-		}
-		$returnValue .= "</div>";
-		
+        $i = 0;
+        $returnValue .= '<div class="form_radlst">';
+        foreach ($this->getOptions() as $optionId => $optionLabel) {
+            $returnValue .= "<input type='radio' name='{$this->name}' id='{$this->name}_{$i}' value='{$optionId}' ";
+            $returnValue .= $this->renderAttributes();
+            if ($this->value == $optionId) {
+                $returnValue .= " checked='checked' ";
+            }
+            $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label><br />";
+            $i ++;
+        }
+        $returnValue .= "</div>";
         
-
         return (string) $returnValue;
     }
-
 }

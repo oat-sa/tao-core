@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_Radiobox
@@ -25,17 +26,10 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_form_elements_xhtml_Radiobox
-    extends tao_helpers_form_elements_Radiobox
+class tao_helpers_form_elements_xhtml_Radiobox extends tao_helpers_form_elements_Radiobox
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
+    use XhtmlRenderingTrait;
 
     /**
      * Short description of method render
@@ -46,35 +40,21 @@ class tao_helpers_form_elements_xhtml_Radiobox
      */
     public function render()
     {
-        $returnValue = (string) '';
-
+        $returnValue = $this->renderLabel();
         
-		
-		$i = 0;
-		
-		if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<span class='form_desc'>". _dh($this->getDescription())."</span>";
-		}
-		else{
-			unset($this->attributes['noLabel']);
-		}
-		$returnValue .= '<div class="form_radlst">';
-		foreach($this->options as $optionId => $optionLabel){
-			 $returnValue .= "<input type='radio' name='{$this->name}' id='{$this->name}_{$i}' value='{$optionId}' ";
-			 $returnValue .= $this->renderAttributes();
-			 if($this->value == $optionId){
-			 	$returnValue .= " checked='checked' ";
-			 }
-			 $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>"._dh($optionLabel)."</label><br />";
-			 $i++;
-		}
-		$returnValue .= "</div>";
-		
+        $i = 0;
+        $returnValue .= '<div class="form_radlst">';
+        foreach ($this->options as $optionId => $optionLabel) {
+            $returnValue .= "<input type='radio' name='{$this->name}' id='{$this->name}_{$i}' value='{$optionId}' ";
+            $returnValue .= $this->renderAttributes();
+            if ($this->value == $optionId) {
+                $returnValue .= " checked='checked' ";
+            }
+            $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label><br />";
+            $i ++;
+        }
+        $returnValue .= "</div>";
         
-
         return (string) $returnValue;
     }
-
 }
-
-?>
