@@ -25,81 +25,70 @@
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_form_validators_Callback
-    extends tao_helpers_form_Validator
+class tao_helpers_form_validators_Callback extends tao_helpers_form_Validator
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     public function setOptions(array $options)
     {
         parent::setOptions($options);
 
-        if(!$this->hasOption('function')
+        if (!$this->hasOption('function')
             && !(($this->hasOption('class') || $this->hasOption('object'))
                 && $this->hasOption('method'))
-        ){
+        ) {
             throw new Exception("Please define a callback function or method");
         }
-    }
 
+        if ($this->hasOption('message')) {
+            $this->setMessage($this->getOption('message'));
+        }
+    }
 
     /**
      * Short description of method evaluate
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  values
-     * @return boolean
+     * @param string $values
+     * @return bool
+     * @throws common_Exception
+     * @internal param $values
      */
     public function evaluate($values)
     {
         $returnValue = (bool) false;
 
-        
-		
-		if($this->hasOption('function')){
+        if ($this->hasOption('function')) {
 			$function = $this->getOption('function');
-			if(function_exists($function)){
-				$callback = array($function);
-			} else {
-				throw new common_Exception("callback function does not exist");
-			}
-		}
-		else if($this->hasOption('class')){
+            if (function_exists($function)) {
+                $callback = array($function);
+            } else {
+                throw new common_Exception("callback function does not exist");
+            }
+        } else if ($this->hasOption('class')) {
 			$class = $this->getOption('class');
 			$method = $this->getOption('method');
-			if(class_exists($class) && method_exists($class, $method)){
-					$callback = array($class, $method);
-				} else {
-					throw new common_Exception("callback methode does not exist");
-			}
-		}
-		else if($this->hasOption('object')){
+            if (class_exists($class) && method_exists($class, $method)) {
+                $callback = array($class, $method);
+            } else {
+                throw new common_Exception("callback method does not exist");
+            }
+        } else if ($this->hasOption('object')) {
 			$object = $this->getOption('object');
 			$method = $this->getOption('method');
-			if(method_exists($object, $method)){
-				$callback = array($object, $method);
-			} else {
-				throw new common_Exception("callback methode does not exist");
-			}
+            if (method_exists($object, $method)) {
+                $callback = array($object, $method);
+            } else {
+                throw new common_Exception("callback method does not exist");
+            }
 		}
-		if ($this->hasOption('param')) {
-			$returnValue = (bool)call_user_func($callback, $values, $this->getOption('param'));
-		} else {
-			$returnValue = (bool)call_user_func($callback, $values);
-		}
-        
 
-        return (bool) $returnValue;
+        if ($this->hasOption('param')) {
+            $returnValue = (bool)call_user_func($callback, $values, $this->getOption('param'));
+        } else {
+            $returnValue = (bool)call_user_func($callback, $values);
+        }
+
+        return (bool)$returnValue;
     }
-
 }
-
-?>
