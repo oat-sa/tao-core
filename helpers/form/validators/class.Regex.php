@@ -37,6 +37,10 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
         if (!$this->hasOption('format')) {
             throw new common_Exception("Please set the format options (define your regular expression)!");
         }
+        
+        if ($this->hasOption('message')) {
+            $this->setMessage($this->getOption('message'));
+        }
     }
 
     /**
