@@ -94,7 +94,10 @@ class tao_actions_Users extends tao_actions_CommonModule
         $order = array_key_exists($sortBy, $fieldsMap) ? $fieldsMap[$sortBy] : $fieldsMap['login'];
 
         // filtering
-        $filters = [];
+        $filters = [
+            PROPERTY_USER_LOGIN => '*',
+        ];
+        
         if ($filterQuery) {
             if (!$filterColumns) {
                 // if filter columns not set, search by all columns
