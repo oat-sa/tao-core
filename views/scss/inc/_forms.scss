@@ -1,11 +1,22 @@
-label {
+label, .form_desc {
     display: inline-block;
     cursor: pointer;
     padding-right: 10px;
     margin-bottom: 5px;
     abbr {
-        border: none;
         color: $info;
+        border-bottom: none;
+        cursor: inherit;
+        text-decoration: none;
+        padding-left: 2px;
+    }
+}
+
+#loginForm {
+    label {
+        abbr {
+            display:none;
+        }
     }
 }
 

@@ -18,6 +18,7 @@
  *               2009-2016 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_GenerisAsyncFile
@@ -25,10 +26,11 @@
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- 
  */
 class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_elements_GenerisAsyncFile
 {
+    use XhtmlRenderingTrait;
+
     /**
      * Short description of method feed
      *
@@ -39,25 +41,17 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
     public function feed()
     {
         if (isset($_POST[$this->name])) {
-
+            
             $structure = json_decode($_POST[$this->name], true);
-    		if($structure !== false) {
-    			$description = new tao_helpers_form_data_UploadFileDescription(
-                    array_key_exists('name' , $structure) ? $structure['name'] : null,
-                    array_key_exists('size' , $structure) ? $structure['size'] : null,
-                    array_key_exists('type' , $structure) ? $structure['type'] : null,
-                    array_key_exists('uploaded_file' , $structure) ? $structure['uploaded_file'] : null,
-                    array_key_exists('action' , $structure) ? $structure['action'] : null
-                );
-    			$this->setValue($description);
-    		}
-    		else{
-    			// else, no file was selected by the end user.
-    			// set the value as empty in order
-    			$this->setValue($_POST[$this->name]);
-    		}
-    	}
-        
+            if ($structure !== false) {
+                $description = new tao_helpers_form_data_UploadFileDescription(array_key_exists('name', $structure) ? $structure['name'] : null, array_key_exists('size', $structure) ? $structure['size'] : null, array_key_exists('type', $structure) ? $structure['type'] : null, array_key_exists('uploaded_file', $structure) ? $structure['uploaded_file'] : null, array_key_exists('action', $structure) ? $structure['action'] : null);
+                $this->setValue($description);
+            } else {
+                // else, no file was selected by the end user.
+                // set the value as empty in order
+                $this->setValue($_POST[$this->name]);
+            }
+        }
     }
 
     /**
@@ -71,44 +65,39 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
     {
         $widgetContainerId = $this->buildWidgetContainerId();
         
-        $returnValue = "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
+        $returnValue = $this->renderLabel();
         $returnValue .= "<div id='${widgetContainerId}' class='form-elt-container file-uploader'>";
-
-        if ($this->value instanceof tao_helpers_form_data_UploadFileDescription
-            && $this->value->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE
-        ) {
-            //File deleted, nothing to render
-        } elseif ($this->value instanceof tao_helpers_form_data_FileDescription && ($file = $this->value->getFile()) != null){
-        	 
-        	// A file is stored or has just been uploaded.
-        	$shownFileName = $this->value->getName();
-        	$shownFileSize = $this->value->getSize();
-        	$shownFileSize = number_format($shownFileSize / 1000, 2); // to kb.
-        	$shownFileTxt = sprintf(__('%s (%s kb)'), $shownFileName, $shownFileSize);
-        	$deleteButtonTitle = __("Delete");
-        	$deleteButtonId = $this->buildDeleteButtonId();
-        	$downloadButtonTitle = __("Download");
-        	$downloadButtonId = $this->buildDownloadButtonId();
-        	$iFrameId = $this->buildIframeId();
-        	$returnValue .= "<span class=\"widget_AsyncFile_fileinfo\">${shownFileTxt}</span>";
-        	$returnValue .= "<button id=\"${downloadButtonId}\" type=\"button\" class=\"download btn-neutral small icon-download\" title=\"${downloadButtonTitle}\">";
-        	$returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" class=\"delete btn-error small icon-bin\" title=\"${deleteButtonTitle}\"/>";
-        	$returnValue .= "<iframe style=\"display:none\" id=\"${iFrameId}\" frameborder=\"0\"/>";
-
-        	// Inject behaviour of the Delete/Download buttons component in response.
-        	$returnValue .= self::embedBehaviour($this->buildDeleterBehaviour() . $this->buildDownloaderBehaviour());
-        }
-        else{
-        	 
-        	// No file stored yet.
-        	// Inject behaviour of the AsyncFileUpload component in response.
-        	$returnValue .= self::embedBehaviour($this->buildUploaderBehaviour());
-        }
         
+        if ($this->value instanceof tao_helpers_form_data_UploadFileDescription && $this->value->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE) {
+            // File deleted, nothing to render
+        } elseif ($this->value instanceof tao_helpers_form_data_FileDescription && ($file = $this->value->getFile()) != null) {
+            
+            // A file is stored or has just been uploaded.
+            $shownFileName = $this->value->getName();
+            $shownFileSize = $this->value->getSize();
+            $shownFileSize = number_format($shownFileSize / 1000, 2); // to kb.
+            $shownFileTxt = sprintf(__('%s (%s kb)'), $shownFileName, $shownFileSize);
+            $deleteButtonTitle = __("Delete");
+            $deleteButtonId = $this->buildDeleteButtonId();
+            $downloadButtonTitle = __("Download");
+            $downloadButtonId = $this->buildDownloadButtonId();
+            $iFrameId = $this->buildIframeId();
+            $returnValue .= "<span class=\"widget_AsyncFile_fileinfo\">${shownFileTxt}</span>";
+            $returnValue .= "<button id=\"${downloadButtonId}\" type=\"button\" class=\"download btn-neutral small icon-download\" title=\"${downloadButtonTitle}\">";
+            $returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" class=\"delete btn-error small icon-bin\" title=\"${deleteButtonTitle}\"/>";
+            $returnValue .= "<iframe style=\"display:none\" id=\"${iFrameId}\" frameborder=\"0\"/>";
+            
+            // Inject behaviour of the Delete/Download buttons component in response.
+            $returnValue .= self::embedBehaviour($this->buildDeleterBehaviour() . $this->buildDownloaderBehaviour());
+        } else {
+            
+            // No file stored yet.
+            // Inject behaviour of the AsyncFileUpload component in response.
+            $returnValue .= self::embedBehaviour($this->buildUploaderBehaviour());
+        }
         
         $returnValue .= "</div>";
         
-
         return (string) $returnValue;
     }
 
@@ -121,9 +110,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
      */
     public function getEvaluatedValue()
     {
-        
-    	return $this->getRawValue();
-        
+        return $this->getRawValue();
     }
 
     /**
@@ -155,67 +142,66 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  boolean deleted
+     * @param boolean deleted
      * @return string
      */
     public function buildUploaderBehaviour($deleted = false)
     {
         $returnValue = (string) '';
-
         
         $widgetName = $this->buildWidgetName();
-         
-        //get the upload max size (the min of those 3 directives)
-        $max_upload = (int)(ini_get('upload_max_filesize'));
-        $max_post = (int)(ini_get('post_max_size'));
-        $memory_limit = (int)(ini_get('memory_limit'));
+        
+        // get the upload max size (the min of those 3 directives)
+        $max_upload = (int) (ini_get('upload_max_filesize'));
+        $max_post = (int) (ini_get('post_max_size'));
+        $memory_limit = (int) (ini_get('memory_limit'));
         $fileSize = min($max_upload, $max_post, $memory_limit) * 1024 * 1024;
-
+        
         $mimetypes = array();
         
-        //add a client validation
-        foreach($this->validators as $validator){
-        	//get the valid file extensions
-        	if($validator instanceof tao_helpers_form_validators_FileMimeType){
-        		$options = $validator->getOptions();
-                if(isset($options['mimetype'])){
-                    $mimetypes = $options['mimetype'] ;
+        // add a client validation
+        foreach ($this->validators as $validator) {
+            // get the valid file extensions
+            if ($validator instanceof tao_helpers_form_validators_FileMimeType) {
+                $options = $validator->getOptions();
+                if (isset($options['mimetype'])) {
+                    $mimetypes = $options['mimetype'];
                 }
-        	}
-        	//get the max file size
-        	if($validator instanceof tao_helpers_form_validators_FileSize){
-        		$options = $validator->getOptions();
-        		if(isset($options['max'])){
-        			$validatorMax = (int)$options['max'];
-        			if($validatorMax > 0 && $validatorMax < $fileSize){
-        				$fileSize = $validatorMax;
-        			}
-        		}
-        	}
+            }
+            // get the max file size
+            if ($validator instanceof tao_helpers_form_validators_FileSize) {
+                $options = $validator->getOptions();
+                if (isset($options['max'])) {
+                    $validatorMax = (int) $options['max'];
+                    if ($validatorMax > 0 && $validatorMax < $fileSize) {
+                        $fileSize = $validatorMax;
+                    }
+                }
+            }
         }
         
-        //default value for 'auto' is 'true':
+        // default value for 'auto' is 'true':
         $auto = 'true';
-        if(isset($this->attributes['auto'])){
-        	if(!$this->attributes['auto'] || $this->attributes['auto'] === 'false') {
-        	    $auto = 'false';
-        	}
-        	unset($this->attributes['auto']);
+        if (isset($this->attributes['auto'])) {
+            if (! $this->attributes['auto'] || $this->attributes['auto'] === 'false') {
+                $auto = 'false';
+            }
+            unset($this->attributes['auto']);
         }
         
-        //initialize the Uploader Js component
+        // initialize the Uploader Js component
         $returnValue .= '
                  require([\'jquery\',  \'ui/feedback\', \'ui/uploader\'], function($, feedback){
-					 $("#' . $this->buildWidgetContainerId().'").uploader({
+					 $("#' . $this->buildWidgetContainerId() . '").uploader({
 							 uploadUrl: "' . ROOT_URL . 'tao/File/upload",
-							inputName: "'.$widgetName.'",
+							inputName: "' . $widgetName . '",
 							autoUpload: "' . $auto . '"  ,
-							showResetButton: "' . !$auto . '" ,
-							showUploadButton: "' . !$auto . '" ,
+							showResetButton: "' . ! $auto . '" ,
+							showUploadButton: "' . ! $auto . '" ,
 							fileSelect  : function(files, done){
 											var error = [],
 												givenLength = files.length,
-												filters = "'.implode(',',$mimetypes).'".split(",").filter(function(e){return e.length});
+												filters = "' . implode(',', $mimetypes) . '".split(",").filter(function(e){return e.length});
 
 												if (filters.length){
 
@@ -242,7 +228,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
 												}
 
 												done(files);
-												if ( '.$auto.' ){
+												if ( ' . $auto . ' ){
 													$(this).uploader("upload");
 												}
 										 }
@@ -256,8 +242,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
 						}
 					 })
 			});';
-
-
+        
         return (string) $returnValue;
     }
 
@@ -271,11 +256,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
     public function buildWidgetName()
     {
         $returnValue = (string) '';
-
         
-        $returnValue = 'AsyncFileUploader_'.md5($this->name);
+        $returnValue = 'AsyncFileUploader_' . md5($this->name);
         
-
         return (string) $returnValue;
     }
 
@@ -289,11 +272,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
     public function buildDeleteButtonId()
     {
         $returnValue = (string) '';
-
         
         $returnValue = $this->buildWidgetName() . '_deleter';
         
-
         return (string) $returnValue;
     }
 
@@ -307,11 +288,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
     public function buildWidgetContainerId()
     {
         $returnValue = (string) '';
-
         
         $returnValue = $this->buildWidgetName() . '_container';
         
-
         return (string) $returnValue;
     }
 
@@ -320,17 +299,15 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  string behaviour
+     * @param string behaviour
      * @return string
      */
     public function embedBehaviour($behaviour)
     {
         $returnValue = (string) '';
-
         
         $returnValue = '<script type="text/javascript">' . $behaviour . '</script>';
         
-
         return (string) $returnValue;
     }
 
@@ -344,11 +321,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
     public function buildDownloadButtonId()
     {
         $returnValue = (string) '';
-
         
         $returnValue = $this->buildWidgetName() . '_downloader';
         
-
         return (string) $returnValue;
     }
 
@@ -366,14 +341,14 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
         $downloadButtonId = $this->buildDownloadButtonId();
         $iFrameId = $this->buildIframeId();
         $serial = $this->value->getFileSerial();
-         
+        
         $returnValue .= '$(document).ready(function() {';
         $returnValue .= '	$("#' . $downloadButtonId . '").click(function() {';
-        $returnValue .= '		$("#' . $iFrameId . '").attr("src", '.json_encode(_url('downloadFile','File','tao', array('id' => $serial))).')';
+        $returnValue .= '		$("#' . $iFrameId . '").attr("src", ' . json_encode(_url('downloadFile', 'File', 'tao', array(
+            'id' => $serial))) . ')';
         $returnValue .= '	});';
         $returnValue .= '});';
         
-
         return (string) $returnValue;
     }
 
@@ -387,12 +362,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
     public function buildIframeId()
     {
         $returnValue = (string) '';
-
         
         $returnValue = $this->buildWidgetName() . '_iframe';
         
-
         return (string) $returnValue;
     }
-
 }

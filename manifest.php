@@ -22,6 +22,7 @@
  */
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\SetServiceFileStorage;
+use oat\tao\scripts\install\RegisterValidationRules;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -30,7 +31,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '7.14.0',
+    'version' => '7.18.4',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=3.0.1',
@@ -71,7 +72,7 @@ return array(
                 array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf', 'location' => 'config', 'rights' => 'rw', 'recursive' => true)),
                 array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_client_locales', 'location' => 'tao/views/locales', 'rights' => 'rw')),
                 array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_not_nginx', 'name' => 'not_nginx', 'extension' => 'tao', "optional" => true, 'dependsOn' => array('tao_extension_curl'))),
-                array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_allowoverride', 'name' => 'allow_override', 'extension' => 'tao', "optional" => true, 'dependsOn' => array('tao_extension_curl', 'tao_custom_not_nginx'))),
+                array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_allowoverride', 'name' => 'allow_override', 'extension' => 'tao', "optional" => true, 'dependsOn' => array('tao_custom_not_nginx'))),
                 array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_mod_rewrite', 'name' => 'mod_rewrite', 'extension' => 'tao', 'dependsOn' => array('tao_custom_allowoverride'))),
                 array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao'))
         ),
@@ -83,7 +84,8 @@ return array(
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
-            AddLogFs::class
+            AddLogFs::class,
+            RegisterValidationRules::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',

@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_AsyncFile
@@ -25,17 +26,10 @@
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_form_elements_xhtml_AsyncFile
-    extends tao_helpers_form_elements_AsyncFile
+class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_elements_AsyncFile
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
+    use XhtmlRenderingTrait;
 
     /**
      * Short description of method feed
@@ -45,17 +39,17 @@ class tao_helpers_form_elements_xhtml_AsyncFile
      */
     public function feed()
     {
-        
-        common_Logger::t('Evaluating AsyncFile '.$this->getName(), array('TAO'));
+        common_Logger::t('Evaluating AsyncFile ' . $this->getName(), array(
+            'TAO'));
         if (isset($_POST[$this->name])) {
-        	$struct = json_decode($_POST[$this->name], true);
-        	if($struct !== false){
-        		$this->setValue($struct);
-        	} else {
-        		common_Logger::w('Could not unserialise AsyncFile field '.$this->getName(), array('TAO'));
-        	}
+            $struct = json_decode($_POST[$this->name], true);
+            if ($struct !== false) {
+                $this->setValue($struct);
+            } else {
+                common_Logger::w('Could not unserialise AsyncFile field ' . $this->getName(), array(
+                    'TAO'));
+            }
         }
-        
     }
 
     /**
@@ -67,63 +61,61 @@ class tao_helpers_form_elements_xhtml_AsyncFile
      */
     public function render()
     {
-        $returnValue = (string) '';
-
-        $widgetName = 'Uploader_'.md5($this->name);
-
-        $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
-		$returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
-		$returnValue .= "<div id='{$widgetName}_container' class='form-elt-container file-uploader'>";
-
-		//get the upload max size
-		$fileSize = tao_helpers_Environment::getFileUploadLimit();
-
-		$mimetypes = array();
-
-		//add a client validation
-		foreach($this->validators as $validator){
-			//get the valid file extensions
-			if($validator instanceof tao_helpers_form_validators_FileMimeType){
-				$options = $validator->getOptions();
-				if(isset($options['mimetype'])){
-					$mimetypes = $options['mimetype'] ;
-				}
-			}
-			//get the max file size
-			if($validator instanceof tao_helpers_form_validators_FileSize){
-				$options = $validator->getOptions();
-				if(isset($options['max'])){
-					$validatorMax = (int)$options['max'];
-					if($validatorMax > 0 && $validatorMax < $fileSize){
-						$fileSize = $validatorMax;
-					}
-				}
-			}
-		}
-
-		//default value for 'auto' is 'true':
-		$auto = 'true';
-		if(isset($this->attributes['auto'])){
-			if(!$this->attributes['auto'] || $this->attributes['auto'] === 'false') {
+        $widgetName = 'Uploader_' . md5($this->name);
+        
+        $returnValue = $this->renderLabel();
+        $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
+        $returnValue .= "<div id='{$widgetName}_container' class='form-elt-container file-uploader'>";
+        
+        // get the upload max size
+        $fileSize = tao_helpers_Environment::getFileUploadLimit();
+        
+        $mimetypes = array();
+        
+        // add a client validation
+        foreach ($this->validators as $validator) {
+            // get the valid file extensions
+            if ($validator instanceof tao_helpers_form_validators_FileMimeType) {
+                $options = $validator->getOptions();
+                if (isset($options['mimetype'])) {
+                    $mimetypes = $options['mimetype'];
+                }
+            }
+            // get the max file size
+            if ($validator instanceof tao_helpers_form_validators_FileSize) {
+                $options = $validator->getOptions();
+                if (isset($options['max'])) {
+                    $validatorMax = (int) $options['max'];
+                    if ($validatorMax > 0 && $validatorMax < $fileSize) {
+                        $fileSize = $validatorMax;
+                    }
+                }
+            }
+        }
+        
+        // default value for 'auto' is 'true':
+        $auto = 'true';
+        if (isset($this->attributes['auto'])) {
+            if (! $this->attributes['auto'] || $this->attributes['auto'] === 'false') {
                 $auto = 'false';
             }
-			unset($this->attributes['auto']);
-		}
-
-		//initialize the Uploader Js component
-		$returnValue .= '<script type="text/javascript">
+            unset($this->attributes['auto']);
+        }
+        
+        // initialize the Uploader Js component
+        $returnValue .= '<script type="text/javascript">
 				require([\'jquery\',  \'ui/feedback\', \'ui/uploader\'], function($, feedback){
 					 $("#' . $widgetName . '_container").uploader({
 							 uploadUrl: "' . ROOT_URL . 'tao/File/upload",
-							inputName: "'.$widgetName.'",
+							inputName: "' . $widgetName . '",
 							autoUpload: "' . $auto . '"  ,
-							showResetButton: "' . !$auto . '" ,
-							showUploadButton: "' . !$auto . '" ,
+							showResetButton: "' . ! $auto . '" ,
+							showUploadButton: "' . ! $auto . '" ,
 							fileSelect  : function(files, done){
 											var error = [],
 												files = files.filter(_.isObject),// due to Chrome drag\'n\'drop issue
 												givenLength = files.length,
-												filters = "'.implode(',',$mimetypes).'".split(",").filter(function(e){return e.length});
+												filters = "' . implode(',', $mimetypes) . '".split(",").filter(function(e){return e.length});
 
 												if (filters.length){
 
@@ -150,7 +142,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 												}
 
 												done(files);
-												if ( '.$auto.' ){
+												if ( ' . $auto . ' ){
 													$(this).uploader("upload");
 												}
 										 }
@@ -163,7 +155,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 			});
 			</script>';
         $returnValue .= "</div>";
-
+        
         return (string) $returnValue;
     }
 
@@ -176,9 +168,6 @@ class tao_helpers_form_elements_xhtml_AsyncFile
      */
     public function getEvaluatedValue()
     {
-        
-    	return $this->getRawValue();
-        
+        return $this->getRawValue();
     }
-
 }
