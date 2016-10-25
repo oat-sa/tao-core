@@ -18,24 +18,9 @@
  *
  */
 
-namespace oat\tao\model\metadata\import;
+namespace oat\tao\model\metadata\exception\injector;
 
-/**
- * Interface MetadataImporter
- * Representing the service to export Metadata
- *
- * @author Camille Moyon
- * @package oat\tao\model\metadata\import
- */
-interface MetadataImporter
+class MetadataInjectorReadException extends \common_Exception
 {
-    const SERVICE_ID = 'tao/metadataImporter';
 
-    /**
-     * Main method to import Iterator data to Ontology object
-     *
-     * @param array $data
-     * @return \common_report_Report
-     */
-    public function import(array $data, $dryrun = false);
 }

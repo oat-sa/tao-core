@@ -20,13 +20,22 @@
 
 namespace oat\tao\model\metadata\reader;
 
+use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
+
+/**
+ * Interface Reader
+ *
+ * @author Camille Moyon
+ * @package oat\tao\model\metadata\reader
+ */
 interface Reader
 {
     /**
      * Allow to read value from $data array
      *
      * @param array $data
-     * @return mixed
+     * @return string
+     * @throws MetadataReaderNotFoundException
      */
     public function getValue(array $data);
 }

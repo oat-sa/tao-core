@@ -20,11 +20,28 @@
 
 namespace oat\tao\model\metadata\injector;
 
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\metadata\exception\InconsistencyConfigException;
+use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
+use oat\tao\model\metadata\exception\writer\MetadataWriterException;
+use oat\tao\model\metadata\exception\injector\MetadataInjectorReadException;
+use oat\tao\model\metadata\exception\injector\MetadataInjectorWriteException;
+use oat\tao\model\metadata\reader\KeyReader;
 use oat\tao\model\metadata\reader\Reader;
 use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
 
-abstract class OntologyMetadataInjector implements Injector
+/**
+ * Class OntologyMetadataInjector
+ *
+ * @author Camille Moyon
+ * @package oat\tao\model\metadata\injector
+ */
+abstract class OntologyMetadataInjector extends ConfigurableService implements Injector
 {
+    const CONFIG_SOURCE = 'source';
+
+    const CONFIG_DESTINATION = 'destination';
+
     /**
      * Components to read value from $dataSource
      *
@@ -40,82 +57,125 @@ abstract class OntologyMetadataInjector implements Injector
     protected $writers;
 
     /**
-     * OntologyMetadataInjector constructor.
-     * @param array $params Must contains keys 'readers' and 'writers'
+     * Override Configurable parent to check required field (source & destination)
      *
-     * @throws \Exception
+     * @param array $options
+     * @throws InconsistencyConfigException
      */
-    public function __construct(array $params)
+    public function setOptions(array $options)
     {
-        if (empty($params['readers'])) {
-            throw new \Exception();
-        }
-        if (empty($params['writers'])) {
-            throw new \Exception();
+        if (! array_key_exists(self::CONFIG_SOURCE, $options)
+            || ! is_array($options[self::CONFIG_SOURCE])
+            || empty($options[self::CONFIG_SOURCE])
+        ) {
+            throw new InconsistencyConfigException(__('Injector has to contains a valid "source" field.'));
         }
 
-        $this->setReaders($params['readers']);
-        $this->setWriters($params['writers']);
+        if (! array_key_exists(self::CONFIG_DESTINATION, $options)
+            || ! is_array($options[self::CONFIG_DESTINATION])
+            || empty($options[self::CONFIG_DESTINATION])
+        ) {
+            throw new InconsistencyConfigException(__('Injector has to contains a valid "destination" field.'));
+        }
+
+        parent::setOptions($options);
     }
 
     /**
-     * Read all values from reader and store it into array of reader $name => reader $value
-     *
-     * @todo if no reader has read ? Throw specific exception ?
+     * Create injector helpers (readers & writers) from options
+     */
+    public function createInjectorHelpers()
+    {
+        $this->setReaders($this->getOption(self::CONFIG_SOURCE));
+        $this->setWriters($this->getOption(self::CONFIG_DESTINATION));
+    }
+
+    /**
+     * Read all values from readers and store it into array of $name => reader $value
+     * Throw exception if at least one reader cannot read value
      *
      * @param array $dataSource
      * @return array All collected data from $this->readers
+     * @throws MetadataInjectorReadException
      */
-    public function readValues(array $dataSource)
+    public function read(array $dataSource)
     {
-        $data = [];
+        $data = $errors = [];
         foreach ($this->readers as $name => $reader) {
-            $data[$name] = $reader->getValue($dataSource);
+            try {
+                $data[$name] = $reader->getValue($dataSource);
+            } catch (MetadataReaderNotFoundException $e) {
+                $errors[$name] = $e->getMessage();
+            }
         }
+
+        if (! empty($errors)) {
+            foreach ($errors as $name => $error) {
+                \common_Logger::i('Error on injector "' . __CLASS__ . '" with reader "' . $name . '" : ' . $error);
+            }
+            throw new MetadataInjectorReadException(
+                'Injector "' . __CLASS__ . '" cannot read all required value from readers: ' . implode(', ', array_keys($errors))
+            );
+        }
+
         return $data;
     }
 
     /**
      * Write $data values using $this->writers
      *
-     * @todo if no writer has wrote ? Throw specific exception ?
-     *
      * @param \core_kernel_classes_Resource $resource
      * @param array $data
+     * @param bool $dryrun
+     * @return bool
+     * @throws MetadataInjectorWriteException
      */
-    public function writeValues(\core_kernel_classes_Resource $resource, array $data)
+    public function write(\core_kernel_classes_Resource $resource, array $data, $dryrun = false)
     {
-        $writers = [];
-        $availableWriters = $this->writers;
+        $writers = $errors = [];
 
-        foreach ($availableWriters as $writer) {
+        foreach ($this->writers as $name => $writer) {
             if ($writer->validate($data)) {
-                $writers[] = $writer;
+                $writers[$name] = $writer;
+            } else {
+                $errors[$name] = 'Writer "' . $name . '" cannot validate value.';
             }
         }
-        foreach ($writers as $writer) {
-            if ($writer instanceof OntologyWriter) {
-                $writer->writeValue($resource, $data);
+
+        foreach ($writers as $name => $writer) {
+            if (! $writer instanceof OntologyWriter) {
+                $errors[$name] = __CLASS__ . ' must implements ' . OntologyWriter::class;
+                continue;
+            }
+
+            try {
+                $writer->write($resource, $data, $dryrun);
+            } catch (MetadataWriterException $e) {
+                $errors[$name] = $e->getMessage();
             }
         }
+
+        if (! empty($errors)) {
+            foreach ($errors as $name => $error) {
+                \common_Logger::i('Error on injector "' . __CLASS__ . '" with writer "' . $name . '" : ' . $error);
+            }
+            throw new MetadataInjectorWriteException(
+                'Injector "' . __CLASS__ . '" cannot write all values from writers: ' . implode(', ', array_keys($errors))
+            );
+        }
+
+        return true;
     }
 
     /**
      * Set $this->readers with Reader instance
      *
      * @param array $readers
-     * @throws \Exception
      */
     protected function setReaders(array $readers)
     {
-        foreach ($readers as $reader) {
-            if (is_object($reader) && $reader instanceof Reader) {
-                $this->readers[] = $reader;
-            }
-        }
-
-        if (empty($this->readers)) {
-            throw new \Exception();
+        foreach ($readers as $name => $target) {
+            $this->readers[] = new KeyReader($name, $target);
         }
     }
 
@@ -123,18 +183,11 @@ abstract class OntologyMetadataInjector implements Injector
      * Set $this->writers with OntologyWriter instance
      *
      * @param array $writers
-     * @throws \Exception
      */
     protected function setWriters(array $writers)
     {
-        foreach ($writers as $writer) {
-            if (is_object($writer) && $writer instanceof OntologyWriter) {
-                $this->writers[] = $writer;
-            }
-        }
-
-        if (empty($this->writers)) {
-            throw new \Exception();
+        foreach ($writers as $name => $destination) {
+            $this->writers[$name] = $this->buildService($destination);
         }
     }
 }

@@ -22,11 +22,11 @@ namespace oat\tao\model\metadata\exception;
 
 /**
  * Class InconsistencyConfigException
- * Exception to handle error from MetadataFactory
+ * Exception to handle error at config parsing
  *
  * @package oat\tao\model\metadata\exception
  */
-class InconsistencyConfigException extends \Exception
+class InconsistencyConfigException extends \common_Exception
 {
 
 }

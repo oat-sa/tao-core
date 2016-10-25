@@ -21,74 +21,122 @@
 namespace oat\tao\model\metadata\writer\ontologyWriter;
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\tao\model\metadata\exception\InconsistencyConfigException;
+use oat\tao\model\metadata\exception\writer\MetadataWriterException;
 
 /**
  * Class PropertyWriter
+ * Writer to write one value to a property
+ *
+ * @author Camille Moyon
  * @package oat\tao\model\metadata\writer\ontologyWriter
  */
-class PropertyWriter implements OntologyWriter
+class PropertyWriter extends ConfigurableService implements OntologyWriter
 {
     use OntologyAwareTrait;
 
-    /**
-     * Property used to write a value property in $resource
-     *
-     * @var \core_kernel_classes_Property
-     */
-    protected $property;
-
-    /**
-     * Resource target by write method
-     *
-     * @var \core_kernel_classes_Resource
-     */
-    protected $resource = null;
+    const PROPERTY_KEY = 'propertyUri';
 
     /**
      * PropertyWriter constructor.
-     *
-     * @todo if property exists?
+     * Check if property config key is set and if property exists
      *
      * @param array $params
-     * @throws \Exception
+     * @throws InconsistencyConfigException
      */
     public function __construct(array $params = [])
     {
-        if (!isset($params['propertyUri'])) {
-            throw new \Exception();
+        parent::__construct($params);
+
+        if (! $this->hasOption(self::PROPERTY_KEY)) {
+            throw new InconsistencyConfigException('Unable to find config key "' . self::PROPERTY_KEY . '" as property to write.');
         }
-        $this->property = $this->getProperty($params['propertyUri']);
+
+        if (! $this->getProperty($this->getOption(self::PROPERTY_KEY))->exists()) {
+            throw new InconsistencyConfigException('Config key "' . self::PROPERTY_KEY . '" found, ' .
+                'but property "' . $this->getOption(self::PROPERTY_KEY) . '" does not exist.');
+        }
     }
 
     /**
      * Validate if value is writable by current writer
+     * Validation is handle by property validators
      *
      * @param $data
      * @return bool
+     * @throws MetadataWriterException
      */
     public function validate($data)
     {
-        return count($data) == 1 && ! empty(array_pop($data));
+        try {
+            /** @var \tao_helpers_form_Validator[] $validators */
+            $validators = ValidationRuleRegistry::getRegistry()->getValidators($this->getPropertyToWrite());
+        } catch (\common_exception_NotFound $e) {
+            throw new MetadataWriterException($e->getMessage());
+        }
+
+        $validated = true;
+        foreach ($validators as $validator) {
+            if (! $validator->evaluate($data)) {
+                $validated = false;
+                \common_Logger::i('Unable to validate value for property "' . $this->getPropertyToWrite()->getUri() . '"' .
+                    ' against validator "' . $validator->getName(). '" : "' . $validator->getMessage() . '".');
+            }
+        }
+        return $validated;
     }
 
     /**
      * Write a value to a $resource
      *
-     * @todo if write value is false  ? Throw specific exception ?
-     *
      * @param \core_kernel_classes_Resource $resource
      * @param $data
+     * @param bool $dryrun
      * @return bool
+     * @throws MetadataWriterException
      */
-    public function writeValue(\core_kernel_classes_Resource $resource, $data)
+    public function write(\core_kernel_classes_Resource $resource, $data, $dryrun = false)
     {
-        if ($this->validate($data)) {
-            $propertyValue = array_pop($data);
-            $resource->setPropertyValue($this->property, $propertyValue);
-            echo 'Valid property "'. $this->property->getUri() .'" to add to resource "' . $resource->getUri() . '" : ' . $propertyValue . PHP_EOL;
+        $propertyValue = $this->format($data);
+        if ($this->validate($propertyValue)) {
+            if (! $dryrun) {
+                if (! $resource->setPropertyValue($this->getPropertyToWrite(), $propertyValue)) {
+                    throw new MetadataWriterException(
+                        'A problem has occurred during writing property "' . $this->getPropertyToWrite()->getUri() . '".'
+                    );
+                }
+            }
+            \common_Logger::i('Valid property "'. $this->getPropertyToWrite()->getUri() .'" ' .
+                'to add to resource "' . $resource->getUri() . '" : ' . $propertyValue);
             return true;
         }
-        return false;
+
+        throw new MetadataWriterException(
+            'Writer "' . __CLASS__ . '" cannot validate value for property "' . $this->getPropertyToWrite()->getUri() . '".'
+        );
+    }
+
+    /**
+     * Get the property to be written
+     *
+     * @return \core_kernel_classes_Property
+     */
+    protected function getPropertyToWrite()
+    {
+        return $this->getProperty($this->getOption(self::PROPERTY_KEY));
+    }
+
+    /**
+     * Format data to be written
+     *
+     * @param array $data
+     * @return mixed
+     */
+    protected function format(array $data)
+    {
+        return array_pop($data);
     }
 
 }

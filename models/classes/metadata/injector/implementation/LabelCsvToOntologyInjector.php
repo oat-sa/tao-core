@@ -28,6 +28,7 @@ use oat\tao\model\metadata\injector\OntologyMetadataInjector;
  * It's very configurable, $readers and $writers are set from config and process by OntologyMetadataInjector
  * Inject specific behaviour here by interface with process method
  *
+ * @author Camille Moyon
  * @package oat\tao\model\metadata\injector\implementation
  */
 class LabelCsvToOntologyInjector extends OntologyMetadataInjector

@@ -22,6 +22,8 @@ namespace oat\tao\model\metadata\injector;
 
 /**
  * Interface Injector
+ *
+ * @author Camille Moyon
  * @package oat\tao\model\metadata\injector
  */
 interface Injector
@@ -32,13 +34,19 @@ interface Injector
      * @param array $dataSource
      * @return array
      */
-    public function readValues(array $dataSource);
+    public function read(array $dataSource);
 
     /**
      * Write a $data value to a $resource using writers
      *
      * @param \core_kernel_classes_Resource $resource
      * @param array $data
+     * @param boolean $dryrun If true, no value will be wrote
      */
-    public function writeValues(\core_kernel_classes_Resource $resource, array $data);
+    public function write(\core_kernel_classes_Resource $resource, array $data, $dryrun = false);
+
+    /**
+     * Set readers and writers from $options
+     */
+    public function createInjectorHelpers();
 }

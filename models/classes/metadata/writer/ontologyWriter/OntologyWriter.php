@@ -22,24 +22,26 @@ namespace oat\tao\model\metadata\writer\ontologyWriter;
 
 /**
  * Interface OntologyWriter
+ *
+ * @author Camille Moyon
  * @package oat\tao\model\metadata\writer\ontologyWriter
  */
 interface OntologyWriter
 {
     /**
-     * Method to validate if $value is writable for current writer
+     *  Method to validate if $value is writable for property validators
      *
-     * @param $value
-     * @return mixed
+     * @param $data
+     * @return boolean
      */
-    public function validate($value);
+    public function validate($data);
 
     /**
-     * Method to write $value is writable into $resource
+     * Method to write $value as $resource property
      *
      * @param \core_kernel_classes_Resource $resource
-     * @param $value
+     * @param $data
      * @return mixed
      */
-    public function writeValue(\core_kernel_classes_Resource $resource, $value);
+    public function write(\core_kernel_classes_Resource $resource, $data, $dryrun = false);
 }

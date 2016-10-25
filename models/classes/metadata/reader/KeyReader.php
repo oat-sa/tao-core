@@ -19,9 +19,12 @@
  */
 
 namespace oat\tao\model\metadata\reader;
+use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
 
 /**
  * Class KeyReader, read a $key of given $data
+ *
+ * @author Camille Moyon
  * @package oat\tao\model\metadata\reader
  */
 class KeyReader implements Reader
@@ -38,10 +41,6 @@ class KeyReader implements Reader
      */
     public function __construct($alias, $key)
     {
-        if (! is_string($alias) || ! is_string($key)) {
-            throw new \Exception();
-
-        }
         $this->alias = $alias;
         $this->key = $key;
     }
@@ -49,10 +48,9 @@ class KeyReader implements Reader
     /**
      * Get value of $data using $alias or $key
      *
-     * @todo if null value  ? Throw specific exception ?
-     *
-     * @param array $data
-     * @return mixed|null
+     * @param array $data A CSV line
+     * @return string
+     * @throws MetadataReaderNotFoundException
      */
     public function getValue(array $data)
     {
@@ -61,13 +59,15 @@ class KeyReader implements Reader
         }
         if ($this->hasValue($data, $this->key)) {
             return $data[$this->key];
-
         }
-        return null;
+
+        throw new MetadataReaderNotFoundException(
+            __CLASS__ . ' cannot found value associated to key "' . $this->key . '" or alias "' . $this->alias . '"'
+        );
     }
 
     /**
-     * Check $key of $data array exists
+     * Check if $key of $data array exists
      *
      * @param array $data
      * @param $key
@@ -75,6 +75,9 @@ class KeyReader implements Reader
      */
     protected function hasValue(array $data, $key)
     {
+        if (! is_string($key)) {
+            return false;
+        }
         return isset($data[$key]);
     }
 }
