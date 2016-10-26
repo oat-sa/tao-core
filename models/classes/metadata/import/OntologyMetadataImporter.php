@@ -148,12 +148,6 @@ class OntologyMetadataImporter extends ConfigurableService implements MetadataIm
         }
 
         $this->injectors[$name] = $injector;
-        $test = $this->__toPhpCode();
-        var_dump($test);
-
-//        var_dump($injectorString);
-//        $test = \common_Utils::toPHPVariableString($this);
-//        var_dump($test);
         $this->getServiceManager()->register(self::SERVICE_ID, $this);
     }
 
