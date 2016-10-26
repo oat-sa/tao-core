@@ -111,7 +111,7 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
     QUnit.test('exists', function(assert) {
         QUnit.expect(3);
 
-        shortcutHelper.add('Meta+C');
+        shortcutHelper.add('Meta+C', _.noop);
 
         assert.ok(shortcutHelper.exists('meta+c'), 'The registered shortcut must exists');
         assert.ok(!shortcutHelper.exists('shift+c'), 'An unregistered shortcut must not exists');
@@ -230,7 +230,7 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
     QUnit.test('exists', function(assert) {
         QUnit.expect(3);
 
-        shortcutHelper.add('Shift+MouseScrollUp');
+        shortcutHelper.add('Shift+MouseScrollUp', $.noop);
 
         assert.ok(shortcutHelper.exists('shift+mouseScrollUp'), 'The registered shortcut must exists');
         assert.ok(!shortcutHelper.exists('shift+mouseScrollDown'), 'An unregistered shortcut must not exists');
@@ -285,11 +285,11 @@ define(['jquery', 'util/shortcut', 'lib/simulator/jquery.simulate'], function($,
         QUnit.expect(2);
 
         assert.throws(function() {
-            shortcutHelper.add('Ctrl+C+mouseLeftClick');
+            shortcutHelper.add('Ctrl+C+mouseLeftClick', $.noop);
         }, 'The helper refuses to register shortcut that mix keyboard and mouse');
 
         assert.throws(function() {
-            shortcutHelper.add('mouseLeftClick+V');
+            shortcutHelper.add('mouseLeftClick+V', $.noop);
         }, 'The helper refuses to register shortcut that mix keyboard and mouse');
     });
 
