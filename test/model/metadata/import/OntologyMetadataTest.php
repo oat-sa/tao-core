@@ -6,9 +6,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\metadata\import\MetadataImporter;
 use oat\tao\model\metadata\import\OntologyMetadataImporter;
-use oat\tao\model\metadata\injector\implementation\LabelCsvToOntologyInjector;
 use oat\tao\model\metadata\injector\Injector;
-use oat\tao\model\metadata\writer\ontologyWriter\PropertyWriter;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 class OntologyMetadataTest extends TaoPhpUnitTestRunner
@@ -79,7 +77,16 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
         $lineWithHeaders = array_combine($headers, $line);
         $data = [ 'abc' => $lineWithHeaders ];
 
-        $report = $this->getMetadataImporter()->import($data);
+        $mock = $this->getMockBuilder(OntologyMetadataImporter::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getInjectors'])
+            ->getMock();
+
+        $mock->expects($this->once())
+            ->method('getInjectors')
+            ->willReturn([]);
+
+        $report = $mock->import($data);
 
         $this->assertTrue($report->containsError());
     }
@@ -142,32 +149,6 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
 
         $this->setExpectedException(InconsistencyConfigException::class);
         $method->invoke($importer);
-    }
-
-//    public function testAddInjector()
-//    {
-//        $service = ServiceManager::getServiceManager()->get(MetadataImporter::SERVICE_ID);
-//        ServiceManager::getServiceManager()->propagate($service);
-//
-//        $injector = new LabelCsvToOntologyInjector(array(
-//            'source' => ['label' => 'type'],
-//            'destination' => [
-//                new PropertyWriter(array('propertyUri' => RDFS_LABEL))
-//            ]
-//        ));
-//
-//        $injector->setServiceManager(ServiceManager::getServiceManager());
-//        $injector->createInjectorHelpers();
-//
-//        $service->addInjector('labelCsv', $injector);
-//    }
-
-    /**
-     * @return OntologyMetadataImporter
-     */
-    protected function getMetadataImporter()
-    {
-        return ServiceManager::getServiceManager()->get(MetadataImporter::SERVICE_ID);
     }
 
     /**

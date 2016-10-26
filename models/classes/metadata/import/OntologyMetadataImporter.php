@@ -64,12 +64,12 @@ class OntologyMetadataImporter extends ConfigurableService implements MetadataIm
         // Global report
         $report = \common_report_Report::createInfo('Report of metadata import.');
 
-
         // Foreach line of dateSource
         foreach ($data as $uri => $dataSource) {
             try {
 
                 // Check if resource exists
+                var_dump($uri);
                 $resource = $this->getResource($uri);
                 if (! $resource->exists()) {
                     throw new MetadataImportException('Unable to find resource associated to uri : "' . $uri . '"');
