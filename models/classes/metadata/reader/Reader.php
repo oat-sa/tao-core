@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\metadata\reader;
 
+use oat\oatbox\PhpSerializable;
 use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
 
 /**
@@ -28,7 +29,7 @@ use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
  * @author Camille Moyon
  * @package oat\tao\model\metadata\reader
  */
-interface Reader
+interface Reader extends PhpSerializable
 {
     /**
      * Allow to read value from $data array

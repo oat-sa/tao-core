@@ -80,4 +80,15 @@ class KeyReader implements Reader
         }
         return isset($data[$key]);
     }
+
+    /**
+     * Configuration serialization
+     *
+     * @return array
+     */
+    public function __toPhpCode()
+    {
+        return '"' . $this->alias . '" => "' . $this->key . '", ';
+    }
+
 }

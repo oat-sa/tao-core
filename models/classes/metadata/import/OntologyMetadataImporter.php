@@ -49,6 +49,7 @@ class OntologyMetadataImporter extends ConfigurableService implements MetadataIm
      * Main method to import Iterator data to Ontology object
      *
      * @param array $data
+     * @param boolean $dryrun If set to true no data will be written
      * @return \common_report_Report
      */
     public function import(array $data, $dryrun = false)
@@ -139,4 +140,32 @@ class OntologyMetadataImporter extends ConfigurableService implements MetadataIm
         }
         return $this->injectors;
     }
+
+    public function addInjector($name, Injector $injector)
+    {
+        if (isset($this->injectors[$name])) {
+            throw new \ConfigurationException('An injector with name "' . $name . '" already exists.');
+        }
+
+        $this->injectors[$name] = $injector;
+        $test = $this->__toPhpCode();
+        var_dump($test);
+
+//        var_dump($injectorString);
+//        $test = \common_Utils::toPHPVariableString($this);
+//        var_dump($test);
+        $this->getServiceManager()->register(self::SERVICE_ID, $this);
+    }
+
+    public function __toPhpCode()
+    {
+        $injectorString = '';
+        foreach ($this->injectors as $name => $injector) {
+            $injectorString .= '    "' . $name . '" => ' . $injector->__toPhpCode() . PHP_EOL;
+        }
+
+        return 'new ' . get_class($this) . '(array(' . PHP_EOL . $injectorString . '))';
+    }
+
+
 }

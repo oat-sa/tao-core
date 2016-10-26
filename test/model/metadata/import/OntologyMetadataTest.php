@@ -6,38 +6,68 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\metadata\import\MetadataImporter;
 use oat\tao\model\metadata\import\OntologyMetadataImporter;
+use oat\tao\model\metadata\injector\implementation\LabelCsvToOntologyInjector;
 use oat\tao\model\metadata\injector\Injector;
+use oat\tao\model\metadata\writer\ontologyWriter\PropertyWriter;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
-class MetadataServiceTest extends TaoPhpUnitTestRunner
+class OntologyMetadataTest extends TaoPhpUnitTestRunner
 {
-    /**
-     * @todo please remove items ref from here...
-     */
-    public function testLoading()
+    public function testImport()
     {
         try {
-            \common_ext_ExtensionsManager::singleton()->getExtensionById('taoItems');
-            $itemService = \taoItems_models_classes_ItemsService::singleton();
-            $clazz = $itemService->getRootClass();
+            $mock = $this->getMockBuilder(OntologyMetadataImporter::class)
+                ->disableOriginalConstructor()
+                ->setMethods(['getInjectors', 'getResource'])
+                ->getMock();
+
+            $mock->expects($this->exactly(3))
+                ->method('getInjectors')
+                ->willReturn([$this->getInjectorMockery()]);
+
+            $mock->expects($this->any())
+                ->method('getResource')
+                ->willReturn($this->getResourceMockery());
+
             $handle = $this->getCsvResource();
             $headers = fgetcsv($handle);
 
-            $metadataImporter = $this->getMetadataImporter();
-
             while (($line = fgetcsv($handle)) !== false) {
                 $lineWithHeaders = array_combine($headers, $line);
-                $item = $itemService->createInstance($clazz, 'unit-test');
-                $data = [ $item->getUri() => $lineWithHeaders ];
+                $data = [ 'resourceUri' => $lineWithHeaders ];
 
-                $metadataImporter->import($data);
+                $report = $mock->import($data);
+                $this->assertTrue($report->containsSuccess());
             }
 
             fclose($handle);
         } catch (\Exception $e) {
             $this->fail('Import method fail with message: ' . $e->getMessage());
         }
-        $this->assertTrue(true);
+
+    }
+
+    protected function getResourceMockery()
+    {
+        $resource = $this->getMock(\core_kernel_classes_Resource::class, ['exists'], ['uri-test-' . uniqid()]);
+        $resource->expects($this->any())
+            ->method('exists')
+            ->willReturn(true);
+        return $resource;
+    }
+
+    protected function getInjectorMockery()
+    {
+        $injector = $this->getMockForAbstractClass(Injector::class, [], '', false, true, true, ['read', 'write']);
+
+        $injector->expects($this->any())
+            ->method('read')
+            ->willReturn(['label'=>'labelFixture']);
+
+        $injector->expects($this->any())
+            ->method('write')
+            ->willReturn(true);
+        return $injector;
     }
 
     public function testInvalidResourceKey()
@@ -113,6 +143,24 @@ class MetadataServiceTest extends TaoPhpUnitTestRunner
         $this->setExpectedException(InconsistencyConfigException::class);
         $method->invoke($importer);
     }
+
+//    public function testAddInjector()
+//    {
+//        $service = ServiceManager::getServiceManager()->get(MetadataImporter::SERVICE_ID);
+//        ServiceManager::getServiceManager()->propagate($service);
+//
+//        $injector = new LabelCsvToOntologyInjector(array(
+//            'source' => ['label' => 'type'],
+//            'destination' => [
+//                new PropertyWriter(array('propertyUri' => RDFS_LABEL))
+//            ]
+//        ));
+//
+//        $injector->setServiceManager(ServiceManager::getServiceManager());
+//        $injector->createInjectorHelpers();
+//
+//        $service->addInjector('labelCsv', $injector);
+//    }
 
     /**
      * @return OntologyMetadataImporter

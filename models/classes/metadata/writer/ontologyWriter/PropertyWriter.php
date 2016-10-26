@@ -139,4 +139,9 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
         return array_pop($data);
     }
 
+    public function __toPhpCode()
+    {
+        return parent::__toPhpCode() . ', ';
+    }
+
 }

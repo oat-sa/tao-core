@@ -190,4 +190,33 @@ abstract class OntologyMetadataInjector extends ConfigurableService implements I
             $this->writers[$name] = $this->buildService($destination);
         }
     }
+
+    /**
+     * To configuration serialization
+     *
+     * @return string
+     */
+    public function __toPhpCode()
+    {
+        $source = '';
+        foreach ($this->readers as $reader) {
+            $source .= \common_Utils::toHumanReadablePhpString($reader, 2) . PHP_EOL;
+        }
+
+        $destination = '';
+        foreach ($this->writers as $writer) {
+            $destination .= \common_Utils::toHumanReadablePhpString($writer, 2) . PHP_EOL;
+        }
+
+        $params = [self::CONFIG_SOURCE => $this->readers, self::CONFIG_DESTINATION => $this->writers];
+
+//        $destination = 'array(' . PHP_EOL . $destination . ')' . PHP_EOL;
+
+        return 'new ' . get_class($this) . '(' . \common_Utils::toHumanReadablePhpString($params, 1) . '),';
+//        array(' . PHP_EOL .
+//            '"' . self::CONFIG_SOURCE. '" => ' . $source . ',' . PHP_EOL .
+//            '"' . self::CONFIG_DESTINATION. '" => ' . $destination . PHP_EOL .
+//        ')),';
+    }
+
 }
