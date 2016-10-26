@@ -69,7 +69,6 @@ class OntologyMetadataImporter extends ConfigurableService implements MetadataIm
             try {
 
                 // Check if resource exists
-                var_dump($uri);
                 $resource = $this->getResource($uri);
                 if (! $resource->exists()) {
                     throw new MetadataImportException('Unable to find resource associated to uri : "' . $uri . '"');
