@@ -81,7 +81,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
         foreach ($validators as $validator) {
             if (! $validator->evaluate($data)) {
                 $validated = false;
-                \common_Logger::i('Unable to validate value for property "' . $this->getPropertyToWrite()->getUri() . '"' .
+                \common_Logger::d('Unable to validate value for property "' . $this->getPropertyToWrite()->getUri() . '"' .
                     ' against validator "' . $validator->getName(). '" : "' . $validator->getMessage() . '".');
             }
         }
@@ -108,7 +108,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
                     );
                 }
             }
-            \common_Logger::i('Valid property "'. $this->getPropertyToWrite()->getUri() .'" ' .
+            \common_Logger::d('Valid property "'. $this->getPropertyToWrite()->getUri() .'" ' .
                 'to add to resource "' . $resource->getUri() . '" : ' . $propertyValue);
             return true;
         }
@@ -139,6 +139,11 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
         return array_pop($data);
     }
 
+    /**
+     * To configuration serialization
+     *
+     * @return string
+     */
     public function __toPhpCode()
     {
         return parent::__toPhpCode() . ', ';

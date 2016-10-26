@@ -111,7 +111,7 @@ abstract class OntologyMetadataInjector extends ConfigurableService implements I
 
         if (! empty($errors)) {
             foreach ($errors as $name => $error) {
-                \common_Logger::i('Error on injector "' . __CLASS__ . '" with reader "' . $name . '" : ' . $error);
+                \common_Logger::d('Error on injector "' . __CLASS__ . '" with reader "' . $name . '" : ' . $error);
             }
             throw new MetadataInjectorReadException(
                 'Injector "' . __CLASS__ . '" cannot read all required value from readers: ' . implode(', ', array_keys($errors))
@@ -157,7 +157,7 @@ abstract class OntologyMetadataInjector extends ConfigurableService implements I
 
         if (! empty($errors)) {
             foreach ($errors as $name => $error) {
-                \common_Logger::i('Error on injector "' . __CLASS__ . '" with writer "' . $name . '" : ' . $error);
+                \common_Logger::d('Error on injector "' . __CLASS__ . '" with writer "' . $name . '" : ' . $error);
             }
             throw new MetadataInjectorWriteException(
                 'Injector "' . __CLASS__ . '" cannot write all values from writers: ' . implode(', ', array_keys($errors))
@@ -210,13 +210,7 @@ abstract class OntologyMetadataInjector extends ConfigurableService implements I
 
         $params = [self::CONFIG_SOURCE => $this->readers, self::CONFIG_DESTINATION => $this->writers];
 
-//        $destination = 'array(' . PHP_EOL . $destination . ')' . PHP_EOL;
-
         return 'new ' . get_class($this) . '(' . \common_Utils::toHumanReadablePhpString($params, 1) . '),';
-//        array(' . PHP_EOL .
-//            '"' . self::CONFIG_SOURCE. '" => ' . $source . ',' . PHP_EOL .
-//            '"' . self::CONFIG_DESTINATION. '" => ' . $destination . PHP_EOL .
-//        ')),';
     }
 
 }
