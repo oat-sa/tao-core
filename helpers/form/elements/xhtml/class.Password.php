@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_Password
@@ -25,17 +26,10 @@
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_form_elements_xhtml_Password
-    extends tao_helpers_form_elements_Password
+class tao_helpers_form_elements_xhtml_Password extends tao_helpers_form_elements_Password
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
+    use XhtmlRenderingTrait;
 
     /**
      * Short description of method feed
@@ -45,12 +39,9 @@ class tao_helpers_form_elements_xhtml_Password
      */
     public function feed()
     {
-        
-        
-    	if (isset($_POST[$this->name]) && is_array($_POST[$this->name])) {
-    		$this->setValue(array_values($_POST[$this->name]));
-		}
-        
+        if (isset($_POST[$this->name]) && is_array($_POST[$this->name])) {
+            $this->setValue(array_values($_POST[$this->name]));
+        }
     }
 
     /**
@@ -63,25 +54,21 @@ class tao_helpers_form_elements_xhtml_Password
     public function render()
     {
         $returnValue = (string) '';
-
         
-        if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription()).
-			(strlen($this->value) == 0 ? '' : ' (change)').
-			"</label>";
-		}
-		else{
-			unset($this->attributes['noLabel']);
-		}
-		$returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' ";
-		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value=""  /><br /><br />';
-		$returnValue .= "<label class='form_desc'></label>";
-		$returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' ";
-		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value=""  />';
+        // custom label rendering
+        if (! isset($this->attributes['noLabel'])) {
+            $returnValue .= "<label class='form_desc' for='{$this->name}'>" . _dh($this->getDescription()) . (strlen($this->value) == 0 ? '' : ' (change)') . "</label>";
+        } else {
+            unset($this->attributes['noLabel']);
+        }
+        $returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' ";
+        $returnValue .= $this->renderAttributes();
+        $returnValue .= ' value=""  /><br /><br />';
+        $returnValue .= "<label class='form_desc'></label>";
+        $returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' ";
+        $returnValue .= $this->renderAttributes();
+        $returnValue .= ' value=""  />';
         
-
         return (string) $returnValue;
     }
 
@@ -95,13 +82,10 @@ class tao_helpers_form_elements_xhtml_Password
     public function getEvaluatedValue()
     {
         $returnValue = null;
-
         
-    	$arr = $this->getRawValue();
-    	$returnValue = core_kernel_users_Service::getPasswordHash()->encrypt(array_shift($arr));
+        $arr = $this->getRawValue();
+        $returnValue = core_kernel_users_Service::getPasswordHash()->encrypt(array_shift($arr));
         
-
         return $returnValue;
     }
-
 }

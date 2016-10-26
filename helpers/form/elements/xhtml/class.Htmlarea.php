@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_Htmlarea
@@ -25,15 +26,10 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_form_elements_xhtml_Htmlarea
-    extends tao_helpers_form_elements_Htmlarea
+class tao_helpers_form_elements_xhtml_Htmlarea extends tao_helpers_form_elements_Htmlarea
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
+    use XhtmlRenderingTrait;
 
     /**
      * Short description of attribute CSS_CLASS
@@ -42,9 +38,7 @@ class tao_helpers_form_elements_xhtml_Htmlarea
      * @var string
      */
     const CSS_CLASS = 'html-area';
-
-    // --- OPERATIONS ---
-
+    
     /**
      * Short description of method render
      *
@@ -54,34 +48,19 @@ class tao_helpers_form_elements_xhtml_Htmlarea
      */
     public function render()
     {
-        $returnValue = (string) '';
-
+        if (array_key_exists('class', $this->attributes)) {
+            if (strstr($this->attributes['class'], self::CSS_CLASS) !== false) {
+                $this->attributes['class'] .= ' ' . self::CSS_CLASS;
+            }
+        } else {
+            $this->attributes['class'] = self::CSS_CLASS;
+        }
         
-
-		if(array_key_exists('class', $this->attributes)){
-			if(strstr($this->attributes['class'], self::CSS_CLASS) !== false){
-				$this->attributes['class'] .= ' ' . self::CSS_CLASS;
-			}
-		}
-		else{
-			$this->attributes['class'] = self::CSS_CLASS;
-		}
-		 
-		 if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
-		}
-		else{
-			unset($this->attributes['noLabel']);
-		}
-		$returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
-		$returnValue .= $this->renderAttributes();
-		$returnValue .= ">"._dh($this->value)."</textarea>";
-		
+        $returnValue = $this->renderLabel();
+        $returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= $this->renderAttributes();
+        $returnValue .= ">" . _dh($this->value) . "</textarea>";
         
-
         return (string) $returnValue;
     }
-
 }
-
-?>
