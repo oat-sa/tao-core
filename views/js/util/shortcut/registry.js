@@ -630,10 +630,10 @@ define([
             var shortcutHandlers;
 
             if (shortcut) {
-                if (!shortcut.options.propagate) {
+                if (shortcut.options.propagate === false) {
                     event.stopPropagation();
                 }
-                if (shortcut.options.prevent) {
+                if (shortcut.options.prevent === true) {
                     event.preventDefault();
                 }
 
