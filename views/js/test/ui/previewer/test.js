@@ -67,7 +67,7 @@ define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
                 assert.equal($elt.find('video source').attr('src'), options.url, 'The video src is set');
                 assert.equal($elt.find('.mediaplayer').length, 1, 'The media element player is set up');
                 QUnit.start();
-            }, 500);
+            }, 750);
         });
         previewer($fixture);
     });
