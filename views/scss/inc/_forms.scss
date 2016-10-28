@@ -248,6 +248,8 @@ option {
     color: $textColor;
 }
 
+
+
 label {
     position: relative;
     [class^="icon-checkbox"],
@@ -318,6 +320,23 @@ label {
                 cursor: not-allowed !important;
                 opacity: .4 !important;
                 color: #555;
+            }
+        }
+    }
+}
+
+// Edge styles go here, they cannot be include in the rule set below :-(
+@supports (-ms-ime-align:auto) {
+    label {
+        [class^="icon-radio"],
+        [class*=" icon-radio"],
+        [class^="icon-checkbox"],
+        [class*=" icon-checkbox"] {
+            &:after {
+                left:auto !important;
+                top: -16px;
+                z-index: 2;
+                position: absolute;
             }
         }
     }
