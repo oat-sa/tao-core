@@ -59,6 +59,9 @@ define([
         });
 
 
+    QUnit.module('Keyboard');
+
+
     QUnit.asyncTest('add', function (assert) {
         var $target = $('#qunit-fixture');
         var shortcuts = shortcutRegistry($target.get(0));
