@@ -34,8 +34,9 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
+    'jquery',
     'lodash'
-], function (_) {
+], function ($, _) {
     'use strict';
 
     /**
@@ -386,6 +387,9 @@ define([
      * @param {Object} [defaultOptions] - Default options applied to each shortcut
      * @param {Boolean} [defaultOptions.propagate] - Allow the event to be propagated after caught
      * @param {Boolean} [defaultOptions.prevent] - Prevent the default behavior of the shortcut
+     * @param {Boolean} [defaultOptions.avoidInput] - Prevent the shortcut to be caught inside an input field
+     * @param {Boolean} [defaultOptions.allowIn] - Always allows the shortcut if the event source is in the scope of
+     * the provided CSS class, even if the shortcut is triggered from an input field.
      * @returns {shortcut}
      */
     return function shortcutFactory(root, defaultOptions) {
@@ -628,8 +632,17 @@ define([
             var command = normalizeCommand(descriptor);
             var shortcut = shortcuts[command];
             var shortcutHandlers;
+            var $target;
 
             if (shortcut) {
+                if (shortcut.options.avoidInput === true) {
+                    $target = $(event.target);
+                    if ($target.closest('[type="text"],textarea').length) {
+                        if (!shortcut.options.allowIn || !$target.closest(shortcut.options.allowIn).length) {
+                            return;
+                        }
+                    }
+                }
                 if (shortcut.options.propagate === false) {
                     event.stopPropagation();
                 }
@@ -646,6 +659,10 @@ define([
             }
         }
 
+        if (root.jquery) {
+            root = root.get(0);
+        }
+
         /**
          * Defines the registry that manages the shortcuts attached to the provided DOM root
          * @typedef {shortcut}
@@ -658,6 +675,9 @@ define([
              * @param {Object} [options]
              * @param {Boolean} [options.propagate] - Allow the event to be propagated after caught
              * @param {Boolean} [options.prevent] - Prevent the default behavior of the shortcut
+             * @param {Boolean} [options.avoidInput] - Prevent the shortcut to be caught inside an input field
+             * @param {Boolean} [options.allowIn] - Always allows the shortcut if the event source is in the scope of
+             * the provided CSS class, even if the shortcut is triggered from an input field.
              * @returns {shortcut} this
              */
             set: function add(shortcut, options) {
@@ -679,6 +699,9 @@ define([
              * @param {Object} [options]
              * @param {Boolean} [options.propagate] - Allow the event to be propagated after caught
              * @param {Boolean} [options.prevent] - Prevent the default behavior of the shortcut
+             * @param {Boolean} [options.avoidInput] - Prevent the shortcut to be caught inside an input field
+             * @param {Boolean} [options.allowIn] - Always allows the shortcut if the event source is in the scope of
+             * the provided CSS class, even if the shortcut is triggered from an input field.
              * @returns {shortcut} this
              */
             add: function add(shortcut, handler, options) {
