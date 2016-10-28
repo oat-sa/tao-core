@@ -2,13 +2,13 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Test - Shortcut</title>
-        <base href="../../../../" />
+        <title>Test - Shortcut Registry</title>
+        <base href="../../../../../" />
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="util/shortcut.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="util/shortcut/registry.js"></script>
 
         <script  type="text/javascript">
 
@@ -19,7 +19,7 @@
             require(['/tao/ClientConfig/config'], function(){
 
                 //load the test
-                require(['tao/test/util/shortcut/test'], function(){
+                require(['tao/test/util/shortcut/registry/test'], function(){
 
                     //Tests loaded, run tests
                     QUnit.start();
