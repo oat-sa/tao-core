@@ -35,7 +35,7 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
                 $data = [ 'resourceUri' => $lineWithHeaders ];
 
                 $report = $mock->import($data);
-                $this->assertTrue($report->containsSuccess());
+                $this->assertFalse($report->containsError());
             }
 
             fclose($handle);
