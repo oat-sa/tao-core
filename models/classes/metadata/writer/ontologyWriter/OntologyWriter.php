@@ -19,7 +19,6 @@
  */
 
 namespace oat\tao\model\metadata\writer\ontologyWriter;
-use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
 
 /**
  * Interface OntologyWriter
