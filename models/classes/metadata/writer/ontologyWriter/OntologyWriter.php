@@ -19,6 +19,7 @@
  */
 
 namespace oat\tao\model\metadata\writer\ontologyWriter;
+use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
 
 /**
  * Interface OntologyWriter
@@ -35,6 +36,14 @@ interface OntologyWriter
      * @return boolean
      */
     public function validate($data);
+
+    /**
+     * Format array $data to be written
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function format(array $data);
 
     /**
      * Method to write $value as $resource property
