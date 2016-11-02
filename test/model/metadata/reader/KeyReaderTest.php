@@ -10,23 +10,19 @@ class KeyReaderTest extends TaoPhpUnitTestRunner
 {
     public function testConstruct()
     {
-        $reader = new KeyReader('alias', 'key');
+        $reader = new KeyReader(array('key' => 'key'));
 
         $property = new \ReflectionProperty(get_class($reader), 'key');
         $property->setAccessible(true);
         $this->assertEquals('key', $property->getValue($reader));
-
-        $property = new \ReflectionProperty(get_class($reader), 'alias');
-        $property->setAccessible(true);
-        $this->assertEquals('alias', $property->getValue($reader));
     }
 
     /**
      * @dataProvider getValueProvider
      */
-    public function testGetValue($alias, $key, $data, $expected, $exception)
+    public function testGetValue($key, $data, $expected, $exception)
     {
-        $reader = new KeyReader($alias, $key);
+        $reader = new KeyReader(array('key' => $key));
 
         if ($exception) {
             $this->setExpectedException($exception);
@@ -40,15 +36,11 @@ class KeyReaderTest extends TaoPhpUnitTestRunner
     public function getValueProvider()
     {
         return [
-            // Found by alias
-            ['alias', 'key', ['alias' => 'expected'], 'expected', false],
-            ['alias', 'key', ['alias' => 'expected', 'key' => 'otherValue'], 'expected', false],
-
-            //Found by key
-            ['alias', 'key', ['key' => 'expected'], 'expected', false],
+            // Found
+            ['key', ['key' => 'expected'], 'expected', false],
 
             //Not found
-            ['alias', 'key', ['not-expected' => 'value'], '', MetadataReaderNotFoundException::class],
+            ['key', ['not-expected' => 'value'], '', MetadataReaderNotFoundException::class],
         ];
     }
 
@@ -57,7 +49,7 @@ class KeyReaderTest extends TaoPhpUnitTestRunner
      */
     public function testHasValue($data, $key, $expected)
     {
-        $reader = new KeyReader('alias', 'key');
+        $reader = new KeyReader(array('key' => $key));
 
         $method = new \ReflectionMethod(get_class($reader), 'hasValue');
         $method->setAccessible(true);

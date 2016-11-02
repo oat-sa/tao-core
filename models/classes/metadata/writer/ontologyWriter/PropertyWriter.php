@@ -100,6 +100,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
     public function write(\core_kernel_classes_Resource $resource, $data, $dryrun = false)
     {
         $propertyValue = $this->format($data);
+
         if ($this->validate($propertyValue)) {
             if (! $dryrun) {
                 if (! $resource->setPropertyValue($this->getPropertyToWrite(), $propertyValue)) {
@@ -134,19 +135,9 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
      * @param array $data
      * @return mixed
      */
-    protected function format(array $data)
+    public function format(array $data)
     {
         return array_pop($data);
-    }
-
-    /**
-     * To configuration serialization
-     *
-     * @return string
-     */
-    public function __toPhpCode()
-    {
-        return parent::__toPhpCode() . ', ';
     }
 
 }

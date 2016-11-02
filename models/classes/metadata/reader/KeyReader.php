@@ -19,6 +19,8 @@
  */
 
 namespace oat\tao\model\metadata\reader;
+
+use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
 
 /**
@@ -29,24 +31,34 @@ use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
  */
 class KeyReader implements Reader
 {
+    /**
+     * Source key label to find into $dataSource array
+     */
+    const KEY_SOURCE = 'key';
+
     protected $key;
-    protected $alias;
 
     /**
      * KeyReader constructor.
      *
-     * @param string $alias Alias of value to find
      * @param string $key Index to find
      * @throws \Exception
      */
-    public function __construct($alias, $key)
+    public function __construct($options)
     {
-        $this->alias = $alias;
-        $this->key = $key;
+        if (! is_array($options)) {
+            throw new InconsistencyConfigException('Reader options has to be an array.');
+        }
+
+        if (! array_key_exists(self::KEY_SOURCE, $options)) {
+            throw new InconsistencyConfigException('Missing configuration keys for reader, attribute "' . self::KEY_SOURCE . '" not found');
+        }
+
+        $this->key = $options[self::KEY_SOURCE];
     }
 
     /**
-     * Get value of $data using $alias or $key
+     * Get value of $data using $key
      *
      * @param array $data A CSV line
      * @return string
@@ -54,16 +66,12 @@ class KeyReader implements Reader
      */
     public function getValue(array $data)
     {
-        if ($this->hasValue($data, $this->alias)) {
-            return $data[$this->alias];
-        }
-        if ($this->hasValue($data, $this->key)) {
-            return $data[$this->key];
+        $key = strtolower($this->key);
+        if ($this->hasValue($data, $key)) {
+            return $data[$key];
         }
 
-        throw new MetadataReaderNotFoundException(
-            __CLASS__ . ' cannot found value associated to key "' . $this->key . '" or alias "' . $this->alias . '"'
-        );
+        throw new MetadataReaderNotFoundException(__CLASS__ . ' cannot found value associated to key "' . $this->key . '".');
     }
 
     /**
@@ -88,7 +96,8 @@ class KeyReader implements Reader
      */
     public function __toPhpCode()
     {
-        return '"' . $this->alias . '" => "' . $this->key . '", ';
+        $options = array('key' => $this->key);
+        return empty($options) ? '' : \common_Utils::toHumanReadablePhpString($options);
     }
 
 }

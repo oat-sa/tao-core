@@ -29,8 +29,6 @@ namespace oat\tao\model\metadata\import;
  */
 interface MetadataImporter
 {
-    const SERVICE_ID = 'tao/metadataImporter';
-
     /**
      * Main method to import Iterator data to Ontology object
      *
