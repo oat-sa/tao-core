@@ -1,0 +1,52 @@
+/* AnythingZoomer */
+.az-wrap, .az-small, .az-large {
+  position: relative; }
+
+.az-wrap {
+  /* edit mode coordinate styling */
+  /* This wraps the large image and hides it */
+  /* Class applied to az-mover when large image is windowed */
+  /* Class applied to az-mover when large image is fully shown */
+  /* overlay small area */ }
+  .az-wrap .az-wrap-inner {
+    display: block;
+    margin: 0 auto;
+    /* center small & large content */ }
+  .az-wrap .az-coords {
+    display: none;
+    /* hidden when expanded */ }
+  .az-wrap .az-zoom {
+    background: #fff;
+    border-color: #666;
+    border-width: 3px;
+    border-style: double;
+    border-radius: 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 150px;
+    overflow: hidden;
+    display: none;
+    z-index: 100; }
+    .az-wrap .az-zoom .az-coords {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff; }
+  .az-wrap .az-windowed {
+    overflow: hidden;
+    position: absolute; }
+  .az-wrap .az-expanded {
+    height: auto;
+    width: auto;
+    position: static;
+    overflow: visible; }
+  .az-wrap .az-overlay {
+    background-color: #000;
+    opacity: 0.3;
+    z-index: 10; }
+
+/*# sourceMappingURL=anythingzoomer.css.map */
