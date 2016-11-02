@@ -35,8 +35,9 @@
  */
 define([
     'jquery',
-    'lodash'
-], function ($, _) {
+    'lodash',
+    'util/namespace'
+], function ($, _, namespaceHelper) {
     'use strict';
 
     /**
@@ -233,42 +234,6 @@ define([
     }
 
     /**
-     * Get the list of shortcuts from a string (ie, separated by spaces)
-     * @param {String} shortcuts - the shortcut commands
-     * @returns {String[]} the shortcuts list (no empty, no duplicate)
-     */
-    function getShortcuts(shortcuts) {
-        if (!_.isString(shortcuts) || _.isEmpty(shortcuts)) {
-            return [];
-        }
-        return _(shortcuts.trim().toLowerCase().split(/\s/g)).compact().uniq().value();
-    }
-
-    /**
-     * Get the command part of a shortcut: the 'ctrl+c' of 'ctrl+c.copy'
-     * @param {String} shortcut - the shortcut to cut
-     * @returns {String} the command part
-     */
-    function getCommand(shortcut) {
-        if (shortcut.indexOf('.') > -1) {
-            return shortcut.substr(0, shortcut.indexOf('.'));
-        }
-        return shortcut;
-    }
-
-    /**
-     * Get the namespace part of a shortcut: the 'copy' of 'ctrl+c.copy'
-     * @param {String} shortcut - the shortcut to cut
-     * @returns {String} the namespace, that defaults to defaultNs
-     */
-    function getNamespace(shortcut) {
-        if (shortcut.indexOf('.') > -1) {
-            return shortcut.substr(shortcut.indexOf('.') + 1);
-        }
-        return defaultNs;
-    }
-
-    /**
      * Gets a normalized shortcut command from a shortcut descriptor
      * @param {Object} descriptor
      * @returns {String}
@@ -326,7 +291,7 @@ define([
      * @returns {Object}
      */
     function parseCommand(shortcut) {
-        var parts = getCommand(shortcut).split('+');
+        var parts = namespaceHelper.getName(shortcut).split('+');
         var descriptor = {
             keyboardInvolved: false,
             mouseClickInvolved: false,
@@ -681,7 +646,7 @@ define([
              * @returns {shortcut} this
              */
             set: function add(shortcut, options) {
-                _.forEach(getShortcuts(shortcut), function (normalized) {
+                _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
                     var descriptor = parseCommand(normalized);
                     var command = normalizeCommand(descriptor);
 
@@ -706,8 +671,8 @@ define([
              */
             add: function add(shortcut, handler, options) {
                 if (_.isFunction(handler)) {
-                    _.forEach(getShortcuts(shortcut), function (normalized) {
-                        var namespace = getNamespace(normalized);
+                    _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
+                        var namespace = namespaceHelper.getNamespace(normalized, defaultNs);
                         var descriptor = parseCommand(normalized);
                         var command = normalizeCommand(descriptor);
 
@@ -726,8 +691,8 @@ define([
              * @returns {shortcut} this
              */
             remove: function remove(shortcut) {
-                _.forEach(getShortcuts(shortcut), function (normalized) {
-                    var namespace = getNamespace(normalized);
+                _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
+                    var namespace = namespaceHelper.getNamespace(normalized, defaultNs);
                     var descriptor = parseCommand(normalized);
                     var command = normalizeCommand(descriptor);
 
@@ -748,7 +713,7 @@ define([
              */
             exists: function exists(shortcut) {
                 var normalized = String(shortcut).trim().toLowerCase();
-                var namespace = getNamespace(normalized);
+                var namespace = namespaceHelper.getNamespace(normalized, defaultNs);
                 var descriptor = parseCommand(normalized);
                 var command = normalizeCommand(descriptor);
                 var shortcutExists = false;
