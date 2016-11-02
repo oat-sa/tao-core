@@ -68,3 +68,4 @@ Session.vim
 .netrwhist
 *~
 
+/views/js/lib/anythingZoomer2/scss
