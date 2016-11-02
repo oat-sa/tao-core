@@ -98,7 +98,7 @@ define([
          * @param {Array|String} names - The list of names to namespace
          * @param {String} [namespace] - The namespace to set
          * @param {Boolean} [normalize] - lower case the string to normalize all the names
-         * @returns {Array} - The list of namespaced names
+         * @returns {String} - The list of namespaced names
          */
         namespaceAll: function namespaceAll(names, namespace, normalize) {
             var suffix;
@@ -114,7 +114,7 @@ define([
                     return sh + suffix;
                 }
                 return sh;
-            }).compact().uniq().value();
+            }).compact().uniq().value().join(' ');
         }
     };
 
