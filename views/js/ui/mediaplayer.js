@@ -1683,11 +1683,10 @@ define([
                 self.seek(value, true);
             });
 
-            this.$volume
-                .on('change' + _ns, function(event, value) {
-                    self.unmute();
-                    self.setVolume(value, true);
-                });
+            this.$volume.on('change' + _ns, function(event, value) {
+                self.unmute();
+                self.setVolume(value, true);
+            });
             this.$sound.on('mouseover' + _ns, function(){
                 self.$volumeControl.addClass('up');
             });
