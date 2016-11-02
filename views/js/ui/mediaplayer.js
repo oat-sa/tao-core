@@ -1559,18 +1559,20 @@ define([
             this.config.is = {};
             this._initType();
 
-            this.$component = null;
-            this.$container = null;
-            this.$player = null;
-            this.$media = null;
-            this.$controls = null;
-            this.$seek = null;
-            this.$seekSlider = null;
-            this.$volume = null;
-            this.$volumeSlider = null;
-            this.$position = null;
-            this.$duration = null;
-            this.player = null;
+            this.$component     = null;
+            this.$container     = null;
+            this.$player        = null;
+            this.$media         = null;
+            this.$controls      = null;
+            this.$seek          = null;
+            this.$seekSlider    = null;
+            this.$sound         = null;
+            this.$volume        = null;
+            this.$volumeControl = null;
+            this.$volumeSlider  = null;
+            this.$position      = null;
+            this.$duration      = null;
+            this.player         = null;
 
             this.duration = 0;
             this.position = 0;
@@ -1592,12 +1594,14 @@ define([
             this.$media = this.$component.find('.media');
             this.$controls = this.$component.find('.controls');
 
-            this.$seek = this.$controls.find('.seek .slider');
-            this.$volume = this.$controls.find('.volume .slider');
-            this.$position = this.$controls.find('[data-control="time-cur"]');
-            this.$duration = this.$controls.find('[data-control="time-end"]');
+            this.$seek          = this.$controls.find('.seek .slider');
+            this.$sound         = this.$controls.find('.sound');
+            this.$volumeControl = this.$controls.find('.volume');
+            this.$volume        = this.$controls.find('.volume .slider');
+            this.$position      = this.$controls.find('[data-control="time-cur"]');
+            this.$duration      = this.$controls.find('[data-control="time-end"]');
 
-            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, this.is('video'));
+            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, true);
         },
 
         /**
@@ -1632,7 +1636,7 @@ define([
                     min: _ensureNumber(min) || 0,
                     max : _ensureNumber(max) || 0
                 }
-            })
+            });
         },
 
         /**
@@ -1679,9 +1683,16 @@ define([
                 self.seek(value, true);
             });
 
-            this.$volume.on('change' + _ns, function(event, value) {
-                self.unmute();
-                self.setVolume(value, true);
+            this.$volume
+                .on('change' + _ns, function(event, value) {
+                    self.unmute();
+                    self.setVolume(value, true);
+                });
+            this.$sound.on('mouseover' + _ns, function(){
+                self.$volumeControl.addClass('up');
+            });
+            this.$volumeControl.on('mouseleave' + _ns, function(){
+                self.$volumeControl.removeClass('up');
             });
         },
 
