@@ -308,7 +308,7 @@ class tao_helpers_File
         		$mimetype = '';
         	}
 
-            if (!in_array($ext, array('css', 'ogg'))) {
+            if (!in_array($ext, array('css', 'ogg', 'mp3'))) {
         		if  (file_exists($path)) {
         			if (function_exists('finfo_open')) {
         				$finfo = finfo_open(FILEINFO_MIME);
