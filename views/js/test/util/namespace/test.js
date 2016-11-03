@@ -67,9 +67,9 @@ define(['util/namespace'], function (namespaceHelper) {
         assert.equal(namespaceHelper.getName(), '', 'An empty name is returned from an undefined string');
         assert.equal(namespaceHelper.getName(''), '', 'An empty name is returned from an empty string');
         assert.equal(namespaceHelper.getName({}), '', 'An empty name is returned from an unsupported type');
-        assert.equal(namespaceHelper.getName('.ns'), '', 'An empty name is returned from an string that only contains the namespace part');
-        assert.equal(namespaceHelper.getName('n.ns'), 'n', 'The name is returned from an string that only contains the namespace part');
-        assert.equal(namespaceHelper.getName('n'), 'n', 'The name is returned from an string that does not contains the namespace part');
+        assert.equal(namespaceHelper.getName('.ns'), '', 'An empty name is returned from a string that only contains the namespace part');
+        assert.equal(namespaceHelper.getName('n.ns'), 'n', 'The name is returned from a string that contains a namespaced name');
+        assert.equal(namespaceHelper.getName('n'), 'n', 'The name is returned from a string that does not contains the namespace part');
     });
 
 
@@ -79,10 +79,10 @@ define(['util/namespace'], function (namespaceHelper) {
         assert.equal(namespaceHelper.getNamespace(), '', 'An empty namespace is returned from an undefined string');
         assert.equal(namespaceHelper.getNamespace(''), '', 'An empty namespace is returned from an empty string');
         assert.equal(namespaceHelper.getNamespace({}), '', 'An empty namespace is returned from an unsupported type');
-        assert.equal(namespaceHelper.getNamespace('.ns'), 'ns', 'The namespace is returned from an string that only contains the namespace part');
-        assert.equal(namespaceHelper.getNamespace('n.ns'), 'ns', 'The namespace is returned from an string that only contains the namespace part');
-        assert.equal(namespaceHelper.getNamespace('n'), '@', 'The default namespace is returned from an string that does not contains the namespace part');
-        assert.equal(namespaceHelper.getNamespace('n', '#'), '#', 'The provided default namespace is returned from an string that does not contains the namespace part');
+        assert.equal(namespaceHelper.getNamespace('.ns'), 'ns', 'The namespace is returned from a string that only contains the namespace part');
+        assert.equal(namespaceHelper.getNamespace('n.ns'), 'ns', 'The namespace is returned from a string that contains a namespaced name');
+        assert.equal(namespaceHelper.getNamespace('n'), '@', 'The default namespace is returned from a string that does not contains the namespace part');
+        assert.equal(namespaceHelper.getNamespace('n', '#'), '#', 'The provided default namespace is returned from a string that does not contains the namespace part');
     });
 
 
