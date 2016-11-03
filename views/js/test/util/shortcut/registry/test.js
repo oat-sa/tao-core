@@ -240,6 +240,184 @@ define([
     });
 
 
+    QUnit.asyncTest('options.prevent', function (assert) {
+        var $fixture = $('#qunit-fixture');
+        var shortcuts = shortcutRegistry($fixture);
+
+        QUnit.expect(1);
+
+        $('form', $fixture).on('submit', function(event) {
+            assert.ok(false, 'The submit event should not be triggered!');
+            event.preventDefault();
+        });
+
+        shortcuts.add('Enter', function () {
+            assert.ok(true, 'The Enter shortcut has been caught');
+            shortcuts.remove('Enter');
+            QUnit.start();
+        }, {
+            prevent: true
+        });
+
+        $('input[type="text"]', $fixture).simulate('keydown', {
+            charCode: 0,
+            keyCode: $.simulate.keyCode.ENTER,
+            which: $.simulate.keyCode.ENTER,
+            code: 'Enter',
+            key: $.simulate.keyCode.ENTER,
+            ctrlKey: false,
+            shiftKey: false,
+            altKey: false,
+            metaKey: false
+        });
+    });
+
+
+    QUnit.asyncTest('options.propagate', function (assert) {
+        var $fixture = $('#qunit-fixture');
+        var $container = $('<div />').appendTo($fixture);
+        var $target = $('<div />').appendTo($container);
+        var shortcuts = shortcutRegistry($target);
+
+        QUnit.expect(1);
+
+        shortcuts.add('Alt+C', function () {
+            assert.ok(true, 'The Alt+C shortcut has been caught');
+            shortcuts.remove('Alt+C');
+            QUnit.start();
+        }, {
+            propagate: false
+        });
+
+        $container.on('keydown', function() {
+            assert.ok(false, 'The event should not be propagated!');
+        });
+
+        $target.simulate('keydown', {
+            charCode: 0,
+            keyCode: 67,
+            which: 67,
+            code: 'KeyC',
+            key: 'c',
+            ctrlKey: false,
+            shiftKey: false,
+            altKey: true,
+            metaKey: false
+        });
+    });
+
+
+    QUnit.asyncTest('options.avoidInput', function (assert) {
+        var $fixture = $('#qunit-fixture');
+        var shortcuts = shortcutRegistry($fixture);
+
+        QUnit.expect(2);
+
+        shortcuts.add('Alt+C', function (event) {
+            assert.ok(true, 'The Alt+C shortcut has been caught');
+            assert.ok(!$(event.target).closest(':input').length, 'The shortcut does not come from an input')
+            shortcuts.remove('Alt+C');
+            QUnit.start();
+        }, {
+            avoidInput: true
+        });
+
+        $('input[type="text"]', $fixture).simulate('keydown', {
+            charCode: 0,
+            keyCode: 67,
+            which: 67,
+            code: 'KeyC',
+            key: 'c',
+            ctrlKey: false,
+            shiftKey: false,
+            altKey: true,
+            metaKey: false
+        });
+
+        $('textarea', $fixture).simulate('keydown', {
+            charCode: 0,
+            keyCode: 67,
+            which: 67,
+            code: 'KeyC',
+            key: 'c',
+            ctrlKey: false,
+            shiftKey: false,
+            altKey: true,
+            metaKey: false
+        });
+
+        $fixture.simulate('keydown', {
+            charCode: 0,
+            keyCode: 67,
+            which: 67,
+            code: 'KeyC',
+            key: 'c',
+            ctrlKey: false,
+            shiftKey: false,
+            altKey: true,
+            metaKey: false
+        });
+    });
+
+
+    QUnit.asyncTest('options.allowIn', function (assert) {
+        var $fixture = $('#qunit-fixture');
+        var shortcuts = shortcutRegistry($fixture);
+        var expected = 3;
+
+        QUnit.expect(expected);
+
+        $('form', $fixture).addClass('openbar');
+
+        shortcuts.add('Alt+C', function () {
+            assert.ok(true, 'The Alt+C shortcut has been caught');
+            if (!--expected) {
+                shortcuts.remove('Alt+C');
+                QUnit.start();
+            }
+        }, {
+            avoidInput: true,
+            allowIn: '.openbar'
+        });
+
+        $('input[type="text"]', $fixture).simulate('keydown', {
+            charCode: 0,
+            keyCode: 67,
+            which: 67,
+            code: 'KeyC',
+            key: 'c',
+            ctrlKey: false,
+            shiftKey: false,
+            altKey: true,
+            metaKey: false
+        });
+
+        $('textarea', $fixture).simulate('keydown', {
+            charCode: 0,
+            keyCode: 67,
+            which: 67,
+            code: 'KeyC',
+            key: 'c',
+            ctrlKey: false,
+            shiftKey: false,
+            altKey: true,
+            metaKey: false
+        });
+
+        $fixture.simulate('keydown', {
+            charCode: 0,
+            keyCode: 67,
+            which: 67,
+            code: 'KeyC',
+            key: 'c',
+            ctrlKey: false,
+            shiftKey: false,
+            altKey: true,
+            metaKey: false
+        });
+    });
+
+
     QUnit.module('Mouse');
 
 
