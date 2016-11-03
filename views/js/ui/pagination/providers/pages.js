@@ -131,6 +131,30 @@ define([
         },
         destroy: function destroy() {
             $paginationTpl.remove();
+        },
+        disable: function enable() {
+            var self = this;
+            this.disableButton(this.backwardButton());
+            this.disableButton(this.firstPageButton());
+
+            $('.page', $paginationTpl).each(function(){
+                self.disableButton( $(this) );
+            });
+
+            this.disableButton(this.lastPageButton());
+            this.disableButton(this.forwardButton());
+        },
+        enable: function disable() {
+            var self = this;
+            this.enableButton(this.backwardButton());
+            this.enableButton(this.firstPageButton());
+
+            $('.page', $paginationTpl).each(function(){
+                self.enableButton( $(this) );
+            });
+
+            this.enableButton(this.lastPageButton());
+            this.enableButton(this.forwardButton());
         }
     };
 

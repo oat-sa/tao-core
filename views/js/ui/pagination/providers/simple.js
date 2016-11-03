@@ -64,6 +64,14 @@ define([
         },
         destroy: function destroy() {
             $paginationTpl.remove();
+        },
+        disable: function disable() {
+            this.disableButton(this.backwardButton());
+            this.disableButton(this.forwardButton());
+        },
+        enable: function enable() {
+            this.enableButton(this.backwardButton());
+            this.enableButton(this.forwardButton());
         }
     };
 

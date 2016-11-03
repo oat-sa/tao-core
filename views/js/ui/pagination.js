@@ -18,27 +18,46 @@
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
 
-define(['jquery', 'lodash', 'ui/component', 'ui/pagination/paginationStrategy'], function ($, _, component, paginationStrategy) {
+define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStrategy'], function ($, _, __, component, paginationStrategy) {
     'use strict';
 
+    /**
+     * Default values
+     *
+     * @type {{mode: string, activePage: number, totalPages: number}}
+     * @private
+     */
     var _defaults = {
         mode: 'simple',
         activePage: 1,
         totalPages: 1
     };
 
+    /**
+     * Checking that variable has valid totalPages value
+     *
+     * @param totalPages
+     * @returns {*|number}
+     */
     function validTotalPages(totalPages) {
         totalPages = totalPages || 1;
         if (totalPages < 1) {
-            throw new TypeError('Undefined amount of the pages for pagination');
+            return false;
         }
         return totalPages;
     }
 
+    /**
+     * Validate active page value
+     *
+     * @param page
+     * @param pages
+     * @returns {Number|*}
+     */
     function validActivePage(page, pages) {
         page = parseInt(page);
         if (page < 1 || page > pages) {
-            throw new TypeError('Undefined amount of the pages for pagination');
+            return false;
         }
 
         return page;
@@ -65,30 +84,16 @@ define(['jquery', 'lodash', 'ui/component', 'ui/pagination/paginationStrategy'],
 
         config = _.defaults(config || {}, _defaults);
 
-        if (_.isUndefined(config.totalPages)) {
-            throw new TypeError('Undefined amount of the pages for pagination');
-        }
-
-        try {
-            totalPages = validTotalPages(config.totalPages);
-            activePage = config.activePage || 1;
-            activePage = validActivePage(activePage, totalPages);
-        } catch (e) {
-            throw new TypeError(e.message);
-        }
-
-        provider = paginationStrategy(config.mode);
-
         pagination = {
             setPage: function setPage(page) {
-                try {
-                    validActivePage(page, this.getTotal());
-                } catch (e) {
-                    throw new TypeError(e.message);
+                page = validActivePage(page, this.getTotal());
+                if (page === false) {
+                    this.trigger('error', __('Undefined amount of the pages for pagination'));
+                } else {
+                    activePage = page;
+                    provider.setPages(this.getActivePage(), this.getTotal());
+                    this.trigger('change');
                 }
-                activePage = page;
-                provider.setPages(this.getActivePage(), this.getTotal());
-                this.trigger('change');
             },
             nextPage: function nextPage() {
                 this.setPage(this.getActivePage()+1);
@@ -136,6 +141,22 @@ define(['jquery', 'lodash', 'ui/component', 'ui/pagination/paginationStrategy'],
             })
             .on('render', function () {
                 var self = this;
+
+                if (_.isUndefined(config.totalPages)) {
+                    this.trigger('error', __('Undefined amount of the totalPages for pagination'));
+                }
+
+                totalPages = validTotalPages(config.totalPages);
+
+                activePage = config.activePage || 1;
+                activePage = validActivePage(activePage, totalPages);
+
+                if (totalPages === false || activePage === false) {
+                    this.trigger('error', __('Undefined amount of the pages for pagination'));
+                }
+
+                provider = paginationStrategy(config.mode);
+
                 provider.render(this.getContainer());
                 this.setPage(this.getActivePage());
 
@@ -175,6 +196,14 @@ define(['jquery', 'lodash', 'ui/component', 'ui/pagination/paginationStrategy'],
                         self.setPage(self.getTotal());
                     });
                 }
+            })
+            .on('disable', function() {
+                // all buttons will be disabled
+                provider.disable();
+            })
+            .on('enable', function() {
+                // all buttons will be enabled
+                provider.enable();
             })
             .on('destroy', function () {
                 provider.destroy();
