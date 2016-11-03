@@ -145,16 +145,16 @@ class OntologyMetadataInjectorTest extends TaoPhpUnitTestRunner
     public function testSetReaders()
     {
         $readersFixture = [
-            ['reader1' => 'polop1'],
-            ['reader2' => 'polop2'],
-            ['reader3' => 'polop3'],
+            'reader1' => array('key' =>'polop1'),
+            'reader2' => array('key' =>'polop2'),
+            'reader3' => array('key' =>'polop3'),
         ];
 
         $ontologyInjector = $this->getOntologyMetadataInjectorMock();
 
         $method = new \ReflectionMethod(get_class($ontologyInjector), 'setReaders');
         $method->setAccessible(true);
-        $method->invokeArgs($ontologyInjector, $readersFixture);
+        $method->invokeArgs($ontologyInjector, [$readersFixture]);
 
         $property = new \ReflectionProperty(get_class($ontologyInjector), 'readers');
         $property->setAccessible(true);
@@ -165,11 +165,7 @@ class OntologyMetadataInjectorTest extends TaoPhpUnitTestRunner
             $property->setAccessible(true);
             $key = $property->getValue($reader);
 
-            $property = new \ReflectionProperty(get_class($reader), 'alias');
-            $property->setAccessible(true);
-            $alias = $property->getValue($reader);
-
-            $this->assertEquals($readersFixture[$name][$alias], $key);
+            $this->assertEquals($readersFixture[$name]['key'], $key);
         }
     }
 
@@ -218,7 +214,12 @@ class OntologyMetadataInjectorTest extends TaoPhpUnitTestRunner
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
-        $writerMock = $this->getMockForAbstractClass(OntologyWriter::class, [], '', false, true, true, ['validate', 'write']);
+        $writerMock = $this->getMockForAbstractClass(OntologyWriter::class, [], '', false, true, true, ['validate', 'write', 'format']);
+        $writerMock->expects($this->once())
+            ->method('format')
+            ->with($this->equalTo($data))
+            ->willReturn($data);
+
         $writerMock->expects($this->once())
             ->method('validate')
             ->with($this->equalTo($data))
@@ -248,7 +249,13 @@ class OntologyMetadataInjectorTest extends TaoPhpUnitTestRunner
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
-        $writerMock = $this->getMockForAbstractClass(\stdClass::class, [], '', false, true, true, ['validate']);
+        $writerMock = $this->getMockForAbstractClass(\stdClass::class, [], '', false, true, true, ['validate', 'format']);
+
+        $writerMock->expects($this->once())
+            ->method('format')
+            ->with($this->equalTo($data))
+            ->willReturn($data);
+
         $writerMock->expects($this->once())
             ->method('validate')
             ->with($this->equalTo($data))
@@ -269,7 +276,13 @@ class OntologyMetadataInjectorTest extends TaoPhpUnitTestRunner
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
-        $writerMock = $this->getMockForAbstractClass(\stdClass::class, [], '', false, true, true, ['validate']);
+        $writerMock = $this->getMockForAbstractClass(\stdClass::class, [], '', false, true, true, ['validate', 'format']);
+
+        $writerMock->expects($this->once())
+            ->method('format')
+            ->with($this->equalTo($data))
+            ->willReturn($data);
+
         $writerMock->expects($this->once())
             ->method('validate')
             ->with($this->equalTo($data))
@@ -290,7 +303,13 @@ class OntologyMetadataInjectorTest extends TaoPhpUnitTestRunner
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
-        $writerMock = $this->getMockForAbstractClass(OntologyWriter::class, [], '', false, true, true, ['validate', 'write']);
+        $writerMock = $this->getMockForAbstractClass(OntologyWriter::class, [], '', false, true, true, ['validate', 'format', 'write']);
+
+        $writerMock->expects($this->once())
+            ->method('format')
+            ->with($this->equalTo($data))
+            ->willReturn($data);
+
         $writerMock->expects($this->once())
             ->method('validate')
             ->with($this->equalTo($data))

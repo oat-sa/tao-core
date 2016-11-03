@@ -36,7 +36,7 @@ use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
  * @author Camille Moyon
  * @package oat\tao\model\metadata\injector
  */
-abstract class OntologyMetadataInjector extends ConfigurableService implements Injector
+class OntologyMetadataInjector extends ConfigurableService implements Injector
 {
     const CONFIG_SOURCE = 'source';
 
@@ -101,6 +101,7 @@ abstract class OntologyMetadataInjector extends ConfigurableService implements I
     public function read(array $dataSource)
     {
         $data = $errors = [];
+
         foreach ($this->readers as $name => $reader) {
             try {
                 $data[$name] = $reader->getValue($dataSource);
@@ -114,7 +115,7 @@ abstract class OntologyMetadataInjector extends ConfigurableService implements I
                 \common_Logger::d('Error on injector "' . __CLASS__ . '" with reader "' . $name . '" : ' . $error);
             }
             throw new MetadataInjectorReadException(
-                'Injector "' . __CLASS__ . '" cannot read all required value from readers: ' . implode(', ', array_keys($errors))
+                'Injector "' . __CLASS__ . '" cannot read all required values from readers: ' . implode(', ', array_keys($errors))
             );
         }
 
@@ -135,10 +136,15 @@ abstract class OntologyMetadataInjector extends ConfigurableService implements I
         $writers = $errors = [];
 
         foreach ($this->writers as $name => $writer) {
-            if ($writer->validate($data)) {
-                $writers[$name] = $writer;
-            } else {
-                $errors[$name] = 'Writer "' . $name . '" cannot validate value.';
+            try {
+                $value = $writer->format($data);
+                if ($writer->validate($value)) {
+                    $writers[$name] = $writer;
+                } else {
+                    $errors[$name] = 'Writer "' . $name . '" cannot validate value.';
+                }
+            } catch (MetadataReaderNotFoundException $e) {
+                $errors[$name] = 'Writer "' . $name . '" cannot format value: ' . $e->getMessage();
             }
         }
 
@@ -160,7 +166,7 @@ abstract class OntologyMetadataInjector extends ConfigurableService implements I
                 \common_Logger::d('Error on injector "' . __CLASS__ . '" with writer "' . $name . '" : ' . $error);
             }
             throw new MetadataInjectorWriteException(
-                'Injector "' . __CLASS__ . '" cannot write all values from writers: ' . implode(', ', array_keys($errors))
+                'Injector "' . __CLASS__ . '" cannot write values from writers: ' . implode(', ', array_keys($errors))
             );
         }
 
@@ -171,11 +177,12 @@ abstract class OntologyMetadataInjector extends ConfigurableService implements I
      * Set $this->readers with Reader instance
      *
      * @param array $readers
+     * @throws InconsistencyConfigException
      */
     protected function setReaders(array $readers)
     {
-        foreach ($readers as $name => $target) {
-            $this->readers[] = new KeyReader($name, $target);
+        foreach ($readers as $name => $options) {
+            $this->readers[$name] = new KeyReader($options);
         }
     }
 
@@ -199,13 +206,17 @@ abstract class OntologyMetadataInjector extends ConfigurableService implements I
     public function __toPhpCode()
     {
         $source = '';
-        foreach ($this->readers as $reader) {
-            $source .= \common_Utils::toHumanReadablePhpString($reader, 2) . PHP_EOL;
+        if (! empty($this->readers)) {
+            foreach ($this->readers as $reader) {
+                $source .= \common_Utils::toHumanReadablePhpString($reader, 2) . PHP_EOL;
+            }
         }
 
         $destination = '';
-        foreach ($this->writers as $writer) {
-            $destination .= \common_Utils::toHumanReadablePhpString($writer, 2) . PHP_EOL;
+        if (! empty($this->writers)) {
+            foreach ($this->writers as $writer) {
+                $destination .= \common_Utils::toHumanReadablePhpString($writer, 2) . PHP_EOL;
+            }
         }
 
         $params = [self::CONFIG_SOURCE => $this->readers, self::CONFIG_DESTINATION => $this->writers];
