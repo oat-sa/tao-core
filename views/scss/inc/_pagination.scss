@@ -3,7 +3,7 @@
 // --------------------------------------------------
 .pagination {
   .pages {
-    display: flex;
+    @include flex-container();
     justify-content: center;
     padding-left: 0;
     margin: 15px 0;
@@ -74,7 +74,7 @@
       > a,
       > span {
         padding: 10px 25px;
-        font-size: 20px;
+        @include font-size(20);
       }
 
       &:first-child {
@@ -95,7 +95,7 @@
       > a,
       > span {
         padding: 5px 18px;
-        font-size: 12px;
+        @include font-size(12);
       }
 
       &:first-child {

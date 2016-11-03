@@ -22,14 +22,15 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'tpl!ui/pagination/providers/tpl/pages'
-], function ($, _, __, tpl) {
+    'tpl!ui/pagination/providers/tpl/pages',
+    'tpl!ui/pagination/providers/tpl/pages/page'
+], function ($, _, __, tpl, pageTpl) {
     'use strict';
 
     var $paginationTpl;
 
     var generatePage = function generatePage(page) {
-        return $('<li class="page"><span>' + page + '</span></li>');
+        return $(pageTpl({page: page}));
     };
 
     var separator = function separator() {

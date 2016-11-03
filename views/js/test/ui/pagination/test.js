@@ -18,7 +18,7 @@
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
 
-define(['jquery', 'lodash', 'ui/pagination', 'jqueryui'], function ($, _, paginationComponent) {
+define(['lodash', 'ui/pagination'], function (_, paginationComponent) {
     'use strict';
 
     QUnit.module('API');
@@ -434,7 +434,7 @@ define(['jquery', 'lodash', 'ui/pagination', 'jqueryui'], function ($, _, pagina
         var $container;
         var pagination;
 
-        QUnit.expect(9);
+        QUnit.expect(8);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
@@ -447,8 +447,8 @@ define(['jquery', 'lodash', 'ui/pagination', 'jqueryui'], function ($, _, pagina
 
                 assert.equal(pagination.getActivePage(), 4, 'Current page is correct');
 
-                $prev = $('.icon-backward', $container).parents('button');
-                $next = $('.icon-forward', $container).parents('button');
+                $prev = $('.icon-backward', $container).parents('li');
+                $next = $('.icon-forward', $container).parents('li');
 
                 assert.ok(!$prev.hasClass('disabled'), 'Next button not disabled');
                 assert.ok(!$next.hasClass('disabled'), 'Prev button not disabled');
