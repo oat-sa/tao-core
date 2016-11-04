@@ -25,13 +25,7 @@
     </aside>
     {{/if}}
 
-    <div class="grid-row clearfix pagination">
-        <div class="col-6">{{__ 'Page'}} <strong>{{dataset.page}}</strong> {{__ 'of'}} {{dataset.total}}</div>
-        <div class="col-6 txt-rgt">
-            <button class="btn-info small datatable-backward"><span class="icon-backward"></span>{{__ 'Previous'}}</button>
-            <button class="btn-info small datatable-forward">{{__ 'Next'}}<span class="icon-forward r"></span></button>
-        </div>
-    </div>
+    <div class="datatable-pagination-top"></div>
 
     <div class="datatable-container">
         <table class="matrix datatable">
@@ -99,11 +93,5 @@
             </tbody>
         </table>
     </div>
-    <div class="grid-row clearfix pagination bottom">
-        <div class="col-6">{{__ 'Page'}} <strong>{{dataset.page}}</strong> {{__ 'of'}} {{dataset.total}}</div>
-        <div class="col-6 txt-rgt">
-            <button class="btn-info small datatable-backward"><span class="icon-backward"></span>{{__ 'Previous'}}</button>
-            <button class="btn-info small datatable-forward">{{__ 'Next'}}<span class="icon-forward r"></span></button>
-        </div>
-    </div>
+    <div class="datatable-pagination-bottom"></div>
 </div>
