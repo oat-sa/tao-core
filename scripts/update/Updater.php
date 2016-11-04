@@ -574,7 +574,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('7.17.0', '7.22.0');
         
-        if ($this->isVersion('7.21.0')) {
+        if ($this->isVersion('7.22.0')) {
             $service = new \oat\tao\model\mvc\DefaultUrlService(
                 [
                     'default' => 
