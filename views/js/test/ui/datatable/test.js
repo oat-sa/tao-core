@@ -288,15 +288,15 @@ define([
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.datatable-backward').length === 2, 'there is 2 backward buttons');
-            assert.ok($elt.find('.datatable-forward').length === 2, 'there is 2 forward buttons');
-            assert.ok($elt.find('.datatable-backward:first').prop('disabled'), 'the backward button is disabled');
-            assert.ok($elt.find('.datatable-forward:last').prop('disabled'), 'the forward button is disabled');
+            assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward buttons');
+            assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward buttons');
+            assert.ok($elt.find('.icon-backward').parents('button').prop('disabled'), 'the backward button is disabled');
+            assert.ok($elt.find('.icon-forward').parents('button').prop('disabled'), 'the forward button is disabled');
             QUnit.start();
         });
+
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
             'model' : [{
@@ -336,11 +336,11 @@ define([
 
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.datatable-backward').length === 2, 'there is 2 backward buttons');
-            assert.ok($elt.find('.datatable-forward').length === 2, 'there is 2 forward buttons');
-            assert.ok($elt.find('.datatable-forward:first').prop('disabled') === false, 'the forward button is enabled');
-            assert.ok($elt.find('.datatable-forward:last').prop('disabled') === false, 'the forward button is disabled');
-            assert.ok($elt.find('.datatable-backward:first').prop('disabled'), 'the backward button is disabled (on the 1st page)');
+            assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward buttons');
+            assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward buttons');
+            assert.ok($elt.find('.icon-forward:first').parents('button').prop('disabled') === false, 'the forward button is enabled');
+            assert.ok($elt.find('.icon-forward:last').parents('button').prop('disabled') === false, 'the forward button is disabled');
+            assert.ok($elt.find('.icon-backward:first').parents('button').prop('disabled'), 'the backward button is disabled (on the 1st page)');
             QUnit.start();
         });
         $elt.datatable({

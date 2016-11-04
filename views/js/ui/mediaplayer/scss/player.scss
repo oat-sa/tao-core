@@ -208,22 +208,37 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
             width: $playerActionSize;
             height: $playerActionSize;
 
-            &:hover {
-                .volume {
-                    display: block;
-                }
-            }
 
             .volume {
                 cursor: default;
                 position: absolute;
-                z-index: 3;
-                display: none;
-                padding: 7px;
+                padding: 10px 10px 5px 10px;
+                background-color: $playerBackground;
+                height: 0;
+                top: 0;
+                left: -1px;
+                opacity : 0;
+                border: solid 1px $playerBorder;
+                @include vendor-prefix(transition, 'height 300ms ease-out, top 300ms ease-out, opacity 50ms linear 250ms', property);
+
+                &.up {
+                    height: 120px;
+                    top: -125px;
+                    opacity : 1;
+                     @include vendor-prefix(transition, 'height 300ms ease-out 50ms, top 300ms ease-out 50ms, opacity 50ms linear', property);
+
+                    .slider {
+                        opacity : 1;
+                        transition: opacity 50ms linear 200ms;
+                        @include vendor-prefix(transition, 'opacity 50ms linear 200ms', property);
+                    }
+                }
             }
 
             .slider {
+                opacity : 0;
                 .noUi-handle {
+                    cursor: pointer;
                     width: 9px;
                     height: 9px;
                 }
