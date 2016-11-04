@@ -37,6 +37,14 @@ interface OntologyWriter
     public function validate($data);
 
     /**
+     * Format array $data to be written
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function format(array $data);
+
+    /**
      * Method to write $value as $resource property
      *
      * @param \core_kernel_classes_Resource $resource

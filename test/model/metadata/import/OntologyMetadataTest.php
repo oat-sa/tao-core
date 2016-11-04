@@ -4,13 +4,13 @@ namespace oat\tao\test\model\metadata\import;
 
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
-use oat\tao\model\metadata\import\MetadataImporter;
 use oat\tao\model\metadata\import\OntologyMetadataImporter;
 use oat\tao\model\metadata\injector\Injector;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 class OntologyMetadataTest extends TaoPhpUnitTestRunner
 {
+
     public function testImport()
     {
         try {
@@ -35,7 +35,7 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
                 $data = [ 'resourceUri' => $lineWithHeaders ];
 
                 $report = $mock->import($data);
-                $this->assertTrue($report->containsSuccess());
+                $this->assertFalse($report->containsError());
             }
 
             fclose($handle);
@@ -121,7 +121,7 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
 
     public function testGetInjectorWhitoutValidInterface()
     {
-        $importer = new OntologyMetadataImporter(array(
+        $importer = new MockeryTest_MetadataOntologyImport(array(
             'injectorWithInvalidInterface' => [],
         ));
 
@@ -136,7 +136,7 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
 
     public function testGetInjectorNotFound()
     {
-        $importer = new OntologyMetadataImporter(array(
+        $importer = new MockeryTest_MetadataOntologyImport(array(
             'injectorNotFound' => [
                 'class' => Injector::class
             ],

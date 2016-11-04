@@ -1,0 +1,109 @@
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
+.pagination {
+  .pages {
+    @include flex-container();
+    justify-content: center;
+    padding-left: 0;
+    margin: 15px 0;
+    font-weight: bold;
+
+    > li {
+      display: inline; // Remove list-style and block-level defaults
+      > a,
+      > span {
+        cursor: pointer;
+        position: relative;
+        float: left; // Collapse white-space
+        padding: 5px 15px;
+        line-height: 1.4;
+        text-decoration: none;
+        margin-left: -1px;
+        color: $textColor;
+      }
+      &:first-child {
+        > a,
+        > span {
+          margin-left: 0;
+        }
+      }
+    }
+
+    > li > a {
+      &:hover,
+      &:focus {
+        color: $textColor;
+      }
+    }
+
+    > .active > a,
+    > .active > span {
+      &,
+      &:hover,
+      &:focus {
+        z-index: 2;
+        color: $grey;
+        cursor: default;
+      }
+    }
+
+    > .disabled {
+      > span,
+      > span:hover,
+      > span:focus,
+      > a,
+      > a:hover,
+      > a:focus {
+        color: $grey;
+        cursor: not-allowed;
+        background-color: $uiGeneralContentBg;
+      }
+    }
+  }
+}
+
+// Sizing
+// --------------------------------------------------
+
+// Large
+.pagination-lg {
+  .pages {
+    > li {
+      display: inline; // Remove list-style and block-level defaults
+      > a,
+      > span {
+        padding: 10px 25px;
+        @include font-size(20);
+      }
+
+      &:first-child {
+        > a,
+        > span {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+// Small
+.pagination-sm {
+  .pages {
+    > li {
+      display: inline; // Remove list-style and block-level defaults
+      > a,
+      > span {
+        padding: 5px 18px;
+        @include font-size(12);
+      }
+
+      &:first-child {
+        > a,
+        > span {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}

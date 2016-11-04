@@ -34,8 +34,10 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 define([
-    'lodash'
-], function (_) {
+    'jquery',
+    'lodash',
+    'util/namespace'
+], function ($, _, namespaceHelper) {
     'use strict';
 
     /**
@@ -232,42 +234,6 @@ define([
     }
 
     /**
-     * Get the list of shortcuts from a string (ie, separated by spaces)
-     * @param {String} shortcuts - the shortcut commands
-     * @returns {String[]} the shortcuts list (no empty, no duplicate)
-     */
-    function getShortcuts(shortcuts) {
-        if (!_.isString(shortcuts) || _.isEmpty(shortcuts)) {
-            return [];
-        }
-        return _(shortcuts.trim().toLowerCase().split(/\s/g)).compact().uniq().value();
-    }
-
-    /**
-     * Get the command part of a shortcut: the 'ctrl+c' of 'ctrl+c.copy'
-     * @param {String} shortcut - the shortcut to cut
-     * @returns {String} the command part
-     */
-    function getCommand(shortcut) {
-        if (shortcut.indexOf('.') > -1) {
-            return shortcut.substr(0, shortcut.indexOf('.'));
-        }
-        return shortcut;
-    }
-
-    /**
-     * Get the namespace part of a shortcut: the 'copy' of 'ctrl+c.copy'
-     * @param {String} shortcut - the shortcut to cut
-     * @returns {String} the namespace, that defaults to defaultNs
-     */
-    function getNamespace(shortcut) {
-        if (shortcut.indexOf('.') > -1) {
-            return shortcut.substr(shortcut.indexOf('.') + 1);
-        }
-        return defaultNs;
-    }
-
-    /**
      * Gets a normalized shortcut command from a shortcut descriptor
      * @param {Object} descriptor
      * @returns {String}
@@ -325,7 +291,7 @@ define([
      * @returns {Object}
      */
     function parseCommand(shortcut) {
-        var parts = getCommand(shortcut).split('+');
+        var parts = namespaceHelper.getName(shortcut).split('+');
         var descriptor = {
             keyboardInvolved: false,
             mouseClickInvolved: false,
@@ -386,6 +352,9 @@ define([
      * @param {Object} [defaultOptions] - Default options applied to each shortcut
      * @param {Boolean} [defaultOptions.propagate] - Allow the event to be propagated after caught
      * @param {Boolean} [defaultOptions.prevent] - Prevent the default behavior of the shortcut
+     * @param {Boolean} [defaultOptions.avoidInput] - Prevent the shortcut to be caught inside an input field
+     * @param {Boolean} [defaultOptions.allowIn] - Always allows the shortcut if the event source is in the scope of
+     * the provided CSS class, even if the shortcut is triggered from an input field.
      * @returns {shortcut}
      */
     return function shortcutFactory(root, defaultOptions) {
@@ -628,8 +597,17 @@ define([
             var command = normalizeCommand(descriptor);
             var shortcut = shortcuts[command];
             var shortcutHandlers;
+            var $target;
 
             if (shortcut) {
+                if (shortcut.options.avoidInput === true) {
+                    $target = $(event.target);
+                    if ($target.closest('[type="text"],textarea').length) {
+                        if (!shortcut.options.allowIn || !$target.closest(shortcut.options.allowIn).length) {
+                            return;
+                        }
+                    }
+                }
                 if (shortcut.options.propagate === false) {
                     event.stopPropagation();
                 }
@@ -646,6 +624,10 @@ define([
             }
         }
 
+        if (root.jquery) {
+            root = root.get(0);
+        }
+
         /**
          * Defines the registry that manages the shortcuts attached to the provided DOM root
          * @typedef {shortcut}
@@ -658,10 +640,13 @@ define([
              * @param {Object} [options]
              * @param {Boolean} [options.propagate] - Allow the event to be propagated after caught
              * @param {Boolean} [options.prevent] - Prevent the default behavior of the shortcut
+             * @param {Boolean} [options.avoidInput] - Prevent the shortcut to be caught inside an input field
+             * @param {Boolean} [options.allowIn] - Always allows the shortcut if the event source is in the scope of
+             * the provided CSS class, even if the shortcut is triggered from an input field.
              * @returns {shortcut} this
              */
             set: function add(shortcut, options) {
-                _.forEach(getShortcuts(shortcut), function (normalized) {
+                _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
                     var descriptor = parseCommand(normalized);
                     var command = normalizeCommand(descriptor);
 
@@ -679,12 +664,15 @@ define([
              * @param {Object} [options]
              * @param {Boolean} [options.propagate] - Allow the event to be propagated after caught
              * @param {Boolean} [options.prevent] - Prevent the default behavior of the shortcut
+             * @param {Boolean} [options.avoidInput] - Prevent the shortcut to be caught inside an input field
+             * @param {Boolean} [options.allowIn] - Always allows the shortcut if the event source is in the scope of
+             * the provided CSS class, even if the shortcut is triggered from an input field.
              * @returns {shortcut} this
              */
             add: function add(shortcut, handler, options) {
                 if (_.isFunction(handler)) {
-                    _.forEach(getShortcuts(shortcut), function (normalized) {
-                        var namespace = getNamespace(normalized);
+                    _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
+                        var namespace = namespaceHelper.getNamespace(normalized, defaultNs);
                         var descriptor = parseCommand(normalized);
                         var command = normalizeCommand(descriptor);
 
@@ -703,8 +691,8 @@ define([
              * @returns {shortcut} this
              */
             remove: function remove(shortcut) {
-                _.forEach(getShortcuts(shortcut), function (normalized) {
-                    var namespace = getNamespace(normalized);
+                _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
+                    var namespace = namespaceHelper.getNamespace(normalized, defaultNs);
                     var descriptor = parseCommand(normalized);
                     var command = normalizeCommand(descriptor);
 
@@ -725,7 +713,7 @@ define([
              */
             exists: function exists(shortcut) {
                 var normalized = String(shortcut).trim().toLowerCase();
-                var namespace = getNamespace(normalized);
+                var namespace = namespaceHelper.getNamespace(normalized, defaultNs);
                 var descriptor = parseCommand(normalized);
                 var command = normalizeCommand(descriptor);
                 var shortcutExists = false;

@@ -22,8 +22,9 @@ define([
     'i18n',
     'core/pluginifier',
     'tpl!ui/datatable/tpl/layout',
-    'ui/datatable/filterStrategy/filterStrategy'
-], function($, _, __, Pluginifier, layout, filterStrategyFactory){
+    'ui/datatable/filterStrategy/filterStrategy',
+    'ui/pagination'
+], function($, _, __, Pluginifier, layout, filterStrategyFactory, paginationComponent){
 
     'use strict';
 
@@ -36,7 +37,9 @@ define([
         rows: 25,
         page: 1,
         sortby: 'id',
-        sortorder: 'asc'
+        sortorder: 'asc',
+        paginationStrategyTop: 'none',
+        paginationStrategyBottom: 'simple'
     };
 
     /**
@@ -90,9 +93,12 @@ define([
          * @param {Object} options.tools - a list of tool buttons to display above the table.
          * @param {Object|Boolean} options.status - allow to display a status bar.
          * @param {Object|Boolean} options.filter - allow to display a filter bar.
+         * @param {String} options.filterStrategy - 'multiple' | 'single'  -- filtered by all filters together or filtering allowed only by one field at the moment (default 'single'),
          * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overridden by column filter.
          * @param {String} options.filterquery - a query string for filtering, using only in runtime.
          * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime.
+         * @param {String} options.paginationStrategyTop  - 'none' | 'pages' | 'simple' -- 'none' by default (next/prev), 'pages' show pages and extended control for pagination
+         * @param {String} options.paginationStrategyBottom  - 'none' | 'pages' | 'simple' -- 'simple' by default (next/prev), 'pages' show pages and extended control for pagination
          * @param {Object} [data] - inject predefined data to avoid the first query.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
@@ -105,7 +111,7 @@ define([
             return this.each(function() {
                 var $elt = $(this);
                 var currentOptions = $elt.data(dataNs);
-                
+
                 if (!currentOptions) {
                     //add data to the element
                     $elt.data(dataNs, options);
@@ -206,8 +212,6 @@ define([
             var $statusEmpty;
             var $statusAvailable;
             var $statusCount;
-            var $forwardBtn;
-            var $backwardBtn;
             var $sortBy;
             var $sortElement;
             var $checkAll;
@@ -215,6 +219,7 @@ define([
             var $massActionBtns = $();
             var $rows;
             var amount;
+
             var join = function join(input) {
                 return typeof input !== 'object' ? input : input.join(', ');
             };
@@ -255,9 +260,6 @@ define([
                     });
                 });
             }
-
-
-
 
             // Call the rendering
             $rendering = $(layout({options: options, dataset: dataset}));
@@ -342,10 +344,42 @@ define([
                     .on(ev, callback);
             });
 
+            function renderPagination($container, mode) {
+                paginationComponent({
+                    mode: mode,
+                    activePage: dataset.page,
+                    totalPages: dataset.total
+                })
+                    .on('change', function () {
+                        self._setPage($elt, this.getActivePage());
+                    })
+                    .on('prev', function () {
+                        /**
+                         * @event dataTable#backward.dataTable
+                         */
+                        $elt.trigger('backward.' + ns);
+                    })
+                    .on('next', function () {
+                        /**
+                         * @event dataTable#forward.dataTable
+                         */
+                        $elt.trigger('forward.' + ns);
+                    })
+                    .render($container);
+            }
+
+            if (options.paginationStrategyTop !== 'none') {
+                // bind pagination component to the datatable
+                renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop);
+            }
+            if (options.paginationStrategyBottom !== 'none') {
+                // bind pagination component to the datatable
+                renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom);
+            }
+
             // Now $rendering takes the place of $elt...
             $rows = $rendering.find('tbody tr');
-            $forwardBtn = $rendering.find('.datatable-forward');
-            $backwardBtn = $rendering.find('.datatable-backward');
+
             $sortBy = $rendering.find('th [data-sort-by]');
             $sortElement = $rendering.find('[data-sort-by="'+ options.sortby +'"]');
             $checkAll = $rendering.find('th.checkboxes input');
@@ -369,14 +403,6 @@ define([
                     );
                 });
             }
-
-            $forwardBtn.click(function() {
-                self._next($elt);
-            });
-
-            $backwardBtn.click(function() {
-                self._previous($elt);
-            });
 
             $sortBy.click(function() {
                 var column = $(this).data('sort-by');
@@ -457,18 +483,6 @@ define([
             // Add the sorted class to the sorted element and the order class
             $sortElement.addClass('sorted').addClass('sorted_'+options.sortorder);
 
-            if (!dataset.page || dataset.page === 1) {
-                $backwardBtn.attr('disabled', '');
-            } else {
-                $backwardBtn.removeAttr('disabled');
-            }
-
-            if (dataset.page >= dataset.total) {
-                $forwardBtn.attr('disabled', '');
-            } else {
-                $forwardBtn.removeAttr('disabled');
-            }
-
             // Update the status
             if (options.status) {
                 $statusEmpty = $rendering.find('.empty-list');
@@ -504,55 +518,26 @@ define([
         },
 
         /**
-         * Query next page
+         * Query set new page
          *
-         * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').datatable('next');
-         *
-         * @param {jQueryElement} $elt - plugin's element
-         * @fires dataTable#forward.datatable
+         * @param $elt
+         * @param page
+         * @fires dataTable#setpage.datatable
          */
-        _next: function($elt) {
+        _setPage: function _setPage($elt, page) {
             var options = $elt.data(dataNs);
+            if(options.page !== page){
 
-            //increase page number
-            options.page += 1;
-
-            //rebind options to the elt
-            $elt.data(dataNs, options);
-
-            /**
-             * @event dataTable#forward.dataTable
-             */
-            $elt.trigger('forward.' + ns);
-
-            // Call the query
-            this._query($elt);
-        },
-
-        /**
-         * Query the previous page
-         *
-         * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').datatable('previous');
-         *
-         * @param {jQueryElement} $elt - plugin's element
-         * @fires dataTable#backward.datatable
-         */
-        _previous: function($elt) {
-            var options = $elt.data(dataNs);
-            if(options.page > 1){
-
-                //decrease page number
-                options.page -= 1;
+                // set new page value
+                options.page = page;
 
                 //rebind options to the elt
                 $elt.data(dataNs, options);
 
                 /**
-                 * @event dataTable#backward.dataTable
+                 * @event dataTable#setpage.dataTable
                  */
-                $elt.trigger('backward.' + ns);
+                $elt.trigger('setpage.' + ns);
 
                 // Call the query
                 this._query($elt);
@@ -666,6 +651,6 @@ define([
     };
 
     Pluginifier.register(ns, dataTable, {
-         expose : ['refresh', 'next', 'previous', 'sort', 'filter', 'selection', 'render']
+         expose : ['refresh', 'sort', 'filter', 'selection', 'render']
     });
 });

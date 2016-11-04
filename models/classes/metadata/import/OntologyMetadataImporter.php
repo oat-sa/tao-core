@@ -39,11 +39,11 @@ use oat\tao\model\metadata\injector\Injector;
  * - promote $this OntologyMetadataImport to abstract
  * - create itemMetadataImportImplementation to taoItem
  */
-class OntologyMetadataImporter extends ConfigurableService implements MetadataImporter
+abstract class OntologyMetadataImporter extends ConfigurableService implements MetadataImporter
 {
     use OntologyAwareTrait;
 
-    protected $injectors;
+    protected $injectors = [];
 
     /**
      * Main method to import Iterator data to Ontology object
@@ -75,6 +75,7 @@ class OntologyMetadataImporter extends ConfigurableService implements MetadataIm
                 }
 
                 $lineReport = \common_report_Report::createInfo('Report by line.');
+                $dataSource = array_change_key_case($dataSource);
 
                 // Foreach injector to map a target source
                 /** @var Injector $injector */
@@ -147,18 +148,16 @@ class OntologyMetadataImporter extends ConfigurableService implements MetadataIm
         }
 
         $this->injectors[$name] = $injector;
-        $this->getServiceManager()->register(self::SERVICE_ID, $this);
     }
 
     public function __toPhpCode()
     {
         $injectorString = '';
         foreach ($this->injectors as $name => $injector) {
-            $injectorString .= '    "' . $name . '" => ' . $injector->__toPhpCode() . PHP_EOL;
+            $injectorString .= '    \'' . $name . '\' => ' . $injector->__toPhpCode() . PHP_EOL;
         }
 
         return 'new ' . get_class($this) . '(array(' . PHP_EOL . $injectorString . '))';
     }
-
 
 }
