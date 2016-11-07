@@ -30,12 +30,15 @@ class SyncModels extends InstallAction
 {
     public function __invoke($params)
     {
-        // OntologyUpdater::syncModels();
+        OntologyUpdater::syncModels();
 
-        // $generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
-        // $cache = $generis->getConfig('cache');
+        $serviceManager = $this->getServiceManager();
 
-        // $cache->purge();
+        $generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
+
+        $cache = $generis->getConfig('cache');
+        $cache->setServiceManager($serviceManager);
+        $cache->purge();
 
         return new \common_report_Report(
             \common_report_Report::TYPE_SUCCESS,
