@@ -24,14 +24,18 @@ use oat\oatbox\extension\InstallAction;
 use oat\tao\scripts\update\OntologyUpdater;
 
 /**
+ * Update Rdf statements and clear the cache.
+ *
  * php index.php '\oat\tao\scripts\SyncModels'
  */
 class SyncModels extends InstallAction
 {
     public function __invoke($params)
     {
+        // update rdf
         OntologyUpdater::syncModels();
 
+        // clear cache
         $serviceManager = $this->getServiceManager();
 
         $generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
