@@ -30,6 +30,11 @@ define([
 ) {
     'use strict';
 
+    /**
+     * @param {Object} options
+     * @param {Object} options.selector
+     * @param {String} option.className
+     */
     return function(options) {
         var selector = options.selector;
 
@@ -38,7 +43,7 @@ define([
                 var ranges = selector.getRanges();
 
                 var highlightContainer = document.createElement('span');
-                highlightContainer.setAttribute('class', 'txt-highlight');
+                highlightContainer.className = options.className;
 
                 ranges.forEach(function(range) {
                     range.surroundContents(highlightContainer);

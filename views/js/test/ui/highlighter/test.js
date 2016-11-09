@@ -34,33 +34,64 @@ define([
 
     QUnit.module('highlighter');
 
-    QUnit.test('can highlight text', function(assert) {
+    QUnit.test('fully highlights a text node', function(assert) {
+        var input = 'I should end up fully highlighted';
+        var output = '<span class="highlighted">I should end up fully highlighted</span>';
+
+        // setup test
         var highlighter = highlighterFactory({
-            selector: selectorMock
+            selector: selectorMock,
+            className: 'highlighted'
         });
-
         var range = document.createRange();
-        var toSelect = document.getElementById('outside-container');
-        // var insider = document.getElementById('insider');
 
-        var highlightContainer = document.createElement('span');
-        highlightContainer.setAttribute('class', 'highlighted');
+        var fixtureContainer = document.getElementById('qunit-fixture');
 
-        // range.setStartBefore(toSelect);
-        // range.setEndAfter(toSelect);
-        range.setStart(toSelect.firstChild, 5);
-        range.setEnd(toSelect.firstChild, 30);
+        fixtureContainer.innerHTML = input;
 
+        // create selection
+        range.setStart(fixtureContainer.firstChild, 0);
+        range.setEnd(fixtureContainer.firstChild, fixtureContainer.firstChild.length);
         selectorMock.addRange(range);
 
-        // range.surroundContents(highlightContainer);
-
-        // highlightContainer.appendChild(range.extractContents());
-        // range.insertNode(highlightContainer);
-
+        // highlight
         highlighter.highlightRanges();
 
-        QUnit.expect(0);
+        QUnit.expect(1);
+        assert.equal(fixtureContainer.innerHTML, output);
+    });
+
+    QUnit.test('partially highlights a text node', function(assert) {
+        var input = 'I should end up fully highlighted';
+        var output = '<span class="highlighted">I should end up fully highlighted</span>';
+
+        // setup test
+        var highlighter = highlighterFactory({
+            selector: selectorMock,
+            className: 'highlighted'
+        });
+        var range = document.createRange();
+
+        var fixtureContainer = document.getElementById('qunit-fixture');
+
+        fixtureContainer.innerHTML = input;
+
+        // create selection
+        range.setStart(
+            fixtureContainer.firstChild,
+            fixtureContainer.firstChild.textContent.indexOf('partially')
+        );
+        range.setEnd(
+            fixtureContainer.firstChild,
+            fixtureContainer.firstChild.textContent.indexOf('partially') + 'partially'.length
+        );
+        selectorMock.addRange(range);
+
+        // highlight
+        highlighter.highlightRanges();
+
+        QUnit.expect(1);
+        assert.equal(fixtureContainer.innerHTML, output);
     });
 
 
