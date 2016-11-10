@@ -22,6 +22,7 @@
 
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
+use oat\generis\model\fileReference\FileReferenceSerializer;
 
 /**
  * 
@@ -169,7 +170,7 @@ class tao_actions_File extends tao_actions_CommonModule{
 					$data['uploaded_file'] = $targetFile;
 					$returnValue['name'] = $postedFile['name'];
 					$returnValue['uploaded_file'] = $targetFile;
-					$returnValue['data'] = serialize($data);
+					$returnValue['data'] = json_encode($data);
 				}
 			}
 		}
@@ -182,30 +183,11 @@ class tao_actions_File extends tao_actions_CommonModule{
 	 */
 	public function downloadFile()
 	{
-		if($this->hasRequestParameter('uri')){
-			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-			$resource = new core_kernel_classes_Resource($uri);
-			if(core_kernel_versioning_File::isVersionedFile($resource) || core_kernel_file_File::isFile($resource)){
-				
-				$file = new core_kernel_file_File($uri);
-				$fileName = $file->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
-				$fly = $file->getFlyFile();
-				$content = $fly->read();
-				$size = strlen($content);
-				$mimeType = $fly->getMimetype();
-				$this->setContentHeader($mimeType);
-				
-				header("Content-Length: $size");
-				header("Content-Disposition: attachment; filename=\"{$fileName}\"");
-				header("Expires: 0");
-				header("Cache-Control: no-cache, must-revalidate");
-				header("Pragma: no-cache");
-
-				print $content;
-				return;
-			}else{
-				throw new Exception('The resource ('.$uri.') is not a valid file resource');
-			}
+		if($this->hasRequestParameter('id')){
+			$fileService = $this->getServiceManager()->get(FileReferenceSerializer::SERVICE_ID);
+			$file = $fileService->unserialize($this->getRequestParameter('id'));
+			header("Content-Disposition: attachment; filename=\"{$file->getBasename()}\"");
+			tao_helpers_Http::returnStream($file->readPsrStream(), $file->getMimeType());
 		}
 		
 	}

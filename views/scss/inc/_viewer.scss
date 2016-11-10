@@ -1,0 +1,184 @@
+@import 'inc/bootstrap';
+
+$viewerBarBg: $canvas;
+$viewerBarTxt: $textColor;
+$viewerBorder: blacken($viewerBarBg, .2);
+$viewerBg: whiten($viewerBarBg, .5);
+$viewerHighlight: $info;
+$viewerSelection: $success;
+
+.document-viewer {
+    .pdf-viewer {
+        position: relative;
+        background-color: $viewerBg;
+
+        .pdf-bar {
+            position: relative;
+            @include flex-container();
+            @include vendor-prefix(flex-direction, row, property);
+            justify-content: space-between;
+            align-items: baseline;
+
+            background-color: $viewerBarBg;
+            color: $viewerBarTxt;
+            padding: 2px;
+
+            label {
+                @include font-size(12);
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        .pdf-info {
+            padding: 0 2px;
+            margin-right: 2px;
+
+            .info {
+                display: inline-block;
+
+                &[data-control="pdf-page-num"] {
+                    width: 3rem;
+                    margin: 0 2px;
+                    text-align: right;
+                    @include font-size(12);
+                    background-color: $viewerBg;
+                    border: 1px solid $viewerBorder;
+                }
+
+                &[data-control="pdf-page-count"] {
+                    font-weight: bold;
+                }
+            }
+        }
+
+        [data-control="pdf-search"], .pdf-find-bar {
+            .icon {
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        .pdf-find-bar {
+            position: absolute;
+            z-index: 1;
+            top: 35px;
+            left: 8px;
+
+            padding: 4px 8px;
+            background-color: $viewerBg;
+            border: 1px solid $viewerBorder;
+            @include border-radius(4);
+            @include box-shadow(0, 1px, 4px);
+
+            &::before, &::after {
+                bottom: 100%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+
+            &::before {
+                left: 13px;
+                margin-left: -9px;
+                border-bottom-color: $viewerBorder;
+                border-width: 9px;
+            }
+
+            &::after {
+                left: 13px;
+                margin-left: -8px;
+                border-bottom-color: $viewerBg;
+                border-width: 8px;
+            }
+
+        }
+
+        .pdf-search-info {
+            .pdf-search-position {
+                padding: 4px 8px;
+                font-family: $regularFont;
+                @include font-size(12);
+                @include border-radius(4);
+                background-color: $infoBgColor;
+                color: $info;
+            }
+
+            .pdf-search-loop {
+                padding-left: 10px;
+                @include font-size(10);
+                font-style: italic;
+                color: whiten($viewerBarTxt, .2);
+            }
+        }
+
+        .pdf-container {
+            position: relative;
+            overflow-y: auto;
+
+            &.highlight-all {
+                .highlight {
+                    background-color: $viewerHighlight;
+                }
+            }
+        }
+
+        .pdf-page {
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .pdf-content {
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+
+        .pdf-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            overflow: hidden;
+            opacity: 0.2;
+            line-height: 1.0;
+
+            & > div {
+                color: transparent;
+                position: absolute;
+                white-space: pre;
+                cursor: text;
+
+                @include vendor-prefix(transform-origin, 0% 0%, property);
+            }
+
+            .highlight {
+                margin: -1px;
+                padding: 1px;
+                @include border-radius(4);
+
+                &.begin {
+                    @include border-radius-right(0);
+                    @include border-radius-bottom(0);
+                }
+
+                &.end {
+                    @include border-radius-top(0);
+                    @include border-radius-left(0);
+                }
+
+                &.middle {
+                    @include border-radius(0);
+                }
+
+                &.selected {
+                    background-color: $viewerSelection;
+                }
+            }
+        }
+    }
+}

@@ -189,15 +189,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 	    
 
 	}
-	/**
-	 * 
-	 * @author Lionel Lecaque, lionel@taotesting.com
-	 */
-	public function testGetUploadFileSource(){
-	    $repo = $this->taoService->getUploadFileSource();
-	    $this->assertInstanceOf('core_kernel_versioning_Repository', $repo);
-	}
-	
+
 	/**
 	 * 
 	 * @author Lionel Lecaque, lionel@taotesting.com

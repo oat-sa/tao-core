@@ -45,11 +45,6 @@
             }
         }
     }
-    .pagination {
-        &.bottom {
-            margin-top: 20px;
-        }
-    }
 }
 .datatable-container {
     overflow-y: auto;
@@ -58,6 +53,7 @@ table.datatable{
     &.matrix {
         th {
             vertical-align: top;
+            padding: 2px 2px;
         }
         tr.selected {
             background: $darkBlueGrey;

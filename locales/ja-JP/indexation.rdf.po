@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T13:00:15\n"
+"Project-Id-Version: TAO 3.1.0-sprint33\n"
+"PO-Revision-Date: 2016-08-25T14:32:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -13,115 +13,115 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Index"
-msgstr ""
+msgstr "インデックス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Index class"
-msgstr ""
+msgstr "インデックス クラス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Identifier"
-msgstr ""
+msgstr "識別子"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Humanreadable identifier of the index"
-msgstr ""
+msgstr "インデックスの可読識別子"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer of index"
-msgstr ""
+msgstr "インデックスのトークン生成"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer to be used to extract search strings"
-msgstr ""
+msgstr "検索文字列を抽出するために使用されるトークン生成"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Fuzzy matching"
-msgstr ""
+msgstr "ファジーマッチング"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Should the string matching be exact or fuzzy"
-msgstr ""
+msgstr "文字列のマッチングは、正確あるいは曖昧です"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Use by default"
-msgstr ""
+msgstr "デフォルト"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Should this property be used implicitly in the defautl search"
-msgstr ""
+msgstr "このプロパティは、デフォルト検索時に利用されます"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer"
-msgstr ""
+msgstr "トークナイザ拡張モジュール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer class"
-msgstr ""
+msgstr "トークナイザ　class"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Tokenizer implementation"
-msgstr ""
+msgstr "トークナイザ実装"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Classname of the tokenizer implementation"
-msgstr ""
+msgstr "トークナイザ実装のクラス名"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Property Indexation"
-msgstr ""
+msgstr "プロパティ索引"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "How a property should be indexed"
-msgstr ""
+msgstr "どのようにプロパティをインデックス化するか"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Raw Value Tokenizer"
-msgstr ""
+msgstr "ローバリュー　トークナイザ"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer using the raw property value"
-msgstr ""
+msgstr "トークナイザ ロープロパティ バリュ"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Label Tokenizer"
-msgstr ""
+msgstr "トークナイザ　ラベル"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Tokenizer using the resource labels"
-msgstr ""
+msgstr "トークナイザ　リソースラベル"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LabelIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Label Index"
-msgstr ""
+msgstr "ラベル　インデックス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TypeIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Type Index"
-msgstr ""
+msgstr "インデックスの種別"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Login Index"
-msgstr ""
+msgstr "ログイン　インデックス"
 

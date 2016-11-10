@@ -33,7 +33,7 @@ $parts = explode('/', $rel, 2);
 list ($webSourceId) = $parts;
 $webSourceId = preg_replace('/[^a-zA-Z0-9]*/', '', $webSourceId);
 
-$root = $_SERVER['DOCUMENT_ROOT'];
+$root = dirname(__DIR__);
 $driver = new SimpleConfigDriver();
 $configService = $driver->connect('config', array(
     'dir' => $root .DIRECTORY_SEPARATOR. 'config' .DIRECTORY_SEPARATOR,
