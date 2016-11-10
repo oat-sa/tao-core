@@ -214,6 +214,82 @@ define([
         }, dataset);
     });
 
+    QUnit.asyncTest('Model loading with the "action" type property using predefined data', function(assert){
+        QUnit.expect(11);
+
+        var $elt = $('#container-1');
+        assert.ok($elt.length === 1, 'Test the fixture is available');
+
+        QUnit.stop(4);
+
+        $elt.on('create.datatable', function(){
+            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
+            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements');
+            assert.equal($elt.find('.datatable thead th:eq(6) div').text(), 'Pause', 'the pause label is created');
+            QUnit.start();
+        });
+        $elt.on('query.datatable', function(event, ajaxConfig) {
+            assert.ok(false, 'the query event must not be triggered!');
+        });
+        $elt.on('beforeload.datatable', function(event, response) {
+            assert.equal(typeof response, 'object', 'the beforeload event is triggered and provides the response data');
+            QUnit.start();
+        });
+        $elt.one('load.datatable', function(event, response) {
+            assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
+            assert.equal($elt.find('.datatable tbody tr').length, dataset.data.length, 'the lines from the small dataset are rendered');
+
+            QUnit.start();
+
+            // *** check the refresh with predefined data
+            _.defer(function() {
+                $elt.one('load.datatable', function(event, response) {
+                    assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
+                    assert.equal($elt.find('.datatable tbody tr').length, largeDataset.data.length, 'the lines from the large dataset are rendered');
+                    QUnit.start();
+                });
+
+                $elt.datatable('refresh', largeDataset);
+            });
+        });
+        $elt.datatable({
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            },{
+                id: 'pause',
+                label: 'Pause',
+                icon: 'pause',
+                type: 'action',
+                action: function () {
+                    assert.ok(true, 'In the action');
+                }
+            }]
+        }, dataset);
+    });
+
     QUnit.asyncTest('Data rendering', function(assert){
         QUnit.expect(13);
 

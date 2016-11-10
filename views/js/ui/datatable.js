@@ -22,9 +22,10 @@ define([
     'i18n',
     'core/pluginifier',
     'tpl!ui/datatable/tpl/layout',
+    'tpl!ui/datatable/tpl/button',
     'ui/datatable/filterStrategy/filterStrategy',
     'ui/pagination'
-], function($, _, __, Pluginifier, layout, filterStrategyFactory, paginationComponent){
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent){
 
     'use strict';
 
@@ -257,6 +258,17 @@ define([
                 _.forEach(dataset.data, function (row, index) {
                     _.forEach(transforms, function (field) {
                         row[field.id] = field.transform(row[field.id], row, field, index, dataset.data);
+                    });
+                });
+            }
+            
+            // process data by model type
+            if (_.some(options.model, 'type')) {
+                var types = _.where(options.model, 'type');
+                _.forEach(dataset.data, function (row, index) {
+                    _.forEach(types, function (field) {
+                        console.log(field, index, row);
+                        row[field.id] = btnTpl(field);
                     });
                 });
             }
