@@ -36,6 +36,11 @@
                 {{#each options.model}}
                 <col/>
                 {{/each}}
+                {{#if ../options.showActions}}
+                    {{#if options.actions}}
+                </col>
+                    {{/if}}
+                {{/if}}
             </colgroup>
             <thead>
                 <tr>
@@ -57,8 +62,10 @@
                         {{/if}}
                     </th>
                     {{/each}}
-                    {{#if options.actions}}
+                    {{#if ../options.showActions}}
+                        {{#if options.actions}}
                     <th class="actions">{{__ 'Actions'}}</th>
+                        {{/if}}
                     {{/if}}
                 </tr>
             </thead>
@@ -68,25 +75,50 @@
                         {{#if ../options.selectable}}
                         <td class="checkboxes"><input type="checkbox" name="cb[{{id}}]" value="1" /></td>
                         {{/if}}
+
                         {{#each ../options.model}}
-                            <td class="{{id}}">{{{property id ../this}}}</td>
+                            {{#if type}}
+                            <td class="{{id}}">
+                                {{#each actions}}
+
+                                    {{#if id}}
+                                        {{#with ../../this}}
+                                            {{#unless ../hidden}}
+                                                {{#with ../../this}}
+                                <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}}{{label}}{{/if}}</button>
+                                                {{/with}}
+                                            {{/unless}}
+                                        {{/with}}
+                                    {{else}}
+                                <button class="btn-info small {{@key}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}}{{label}}{{/if}}</button>
+                                    {{/if}}
+
+                                {{/each}}
+                            </td>
+                            {{else}}
+                            <td class="{{id}}">{{{property id ../../this}}}</td>
+                            {{/if}}
+
                         {{/each}}
-                        {{#if ../options.actions}}
+
+                        {{#if ../options.showActions}}
+                            {{#if ../options.actions}}
                         <td class="actions">
-                            {{#each ../../options.actions}}
-                                {{#if id}}
-                                    {{#with ../../this}}
-                                        {{#unless ../hidden}}
-                                            {{#with ../../this}}
+                                {{#each ../../options.actions}}
+                                    {{#if id}}
+                                        {{#with ../../this}}
+                                            {{#unless ../hidden}}
+                                                {{#with ../../this}}
                             <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}><span class="icon-{{#if icon}}{{icon}}{{else}}{{id}}{{/if}}"></span> {{label}}</button>
-                                            {{/with}}
-                                        {{/unless}}
-                                    {{/with}}
-                                {{else}}
+                                                {{/with}}
+                                            {{/unless}}
+                                        {{/with}}
+                                    {{else}}
                             <button class="btn-info small {{@key}}"><span class="icon-{{@key}}"></span> {{@key}}</button>
-                                {{/if}}
-                            {{/each}}
+                                    {{/if}}
+                                {{/each}}
                         </td>
+                            {{/if}}
                         {{/if}}
                     </tr>
                 {{/each}}

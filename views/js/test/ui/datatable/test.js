@@ -215,7 +215,7 @@ define([
     });
 
     QUnit.asyncTest('Model loading with the "action" type property using predefined data', function(assert){
-        QUnit.expect(11);
+        QUnit.expect(15);
 
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
@@ -224,11 +224,18 @@ define([
 
         $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.datatable thead th').length === 7, 'the table contains 7 heads elements');
-            assert.equal($elt.find('.datatable thead th:eq(6) div').text(), 'Pause', 'the pause label is created');
+            assert.equal($elt.find('.datatable thead th').length, 8, 'the table contains 8 heads elements');
+            assert.equal($elt.find('.datatable thead th:eq(6) div').text(), 'Pause', 'the Pause label is created');
+            assert.equal($elt.find('.datatable thead th:eq(7) div').text(), 'Administration', 'the Administration label is created');
+
+            $('[data-item-identifier="1"] button.run:eq(0)', $elt).trigger('click');
+            $('[data-item-identifier="3"] button.run:eq(0)', $elt).trigger('click');
+            $('[data-item-identifier="2"] button.pause:eq(1)', $elt).click();
+            $('[data-item-identifier="2"] button.pause:eq(0)', $elt).click();
+
             QUnit.start();
         });
-        $elt.on('query.datatable', function(event, ajaxConfig) {
+        $elt.on('query.datatable', function(event) {
             assert.ok(false, 'the query event must not be triggered!');
         });
         $elt.on('beforeload.datatable', function(event, response) {
@@ -254,6 +261,32 @@ define([
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
+            showActions: false,
+            actions: [{
+                id: 'run',
+                icon: 'play',
+                label: 'Play',
+                title: 'Run action',
+                action: function (id) {
+                    assert.ok(true, 'In the run action, id: ' + id);
+                }
+            },{
+                id: 'pause',
+                icon: 'pause',
+                label: 'Pause me',
+                title: 'Press to pause process',
+                action: function (id) {
+                    assert.ok(true, 'In the pause action, id: ' + id);
+                }
+            },{
+                id: 'stop',
+                icon: 'stop',
+                label: 'Stop',
+                title: 'Press to stop process',
+                action: function () {
+                    assert.ok(true, 'In the stop action');
+                }
+            }],
             'model' : [{
                 id : 'login',
                 label : 'Login',
@@ -279,13 +312,16 @@ define([
                 label : 'Interface Language',
                 sortable : true
             },{
-                id: 'pause',
+                id: 'pauseCl',
                 label: 'Pause',
-                icon: 'pause',
-                type: 'action',
-                action: function () {
-                    assert.ok(true, 'In the action');
-                }
+                type: 'actions',
+                actions: [{id: 'pause'}]
+            },{
+                id: 'administration',
+                label: 'Administration',
+                type: 'actions',
+                actions: [{id: 'pause'}, {id: 'stop'}, {id: 'run'}]
+
             }]
         }, dataset);
     });

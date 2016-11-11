@@ -39,6 +39,7 @@ define([
         page: 1,
         sortby: 'id',
         sortorder: 'asc',
+        showActions: true,
         paginationStrategyTop: 'none',
         paginationStrategyBottom: 'simple'
     };
@@ -91,6 +92,7 @@ define([
          * @param {Function} options.listeners.xxx - the callback function for event xxx, parameters depends to event trigger call.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
          * @param {Boolean} options.rowSelection - enables the selection of rows by clicking on them.
+         * @param {Boolean} options.showActions - show added actions in new column 'Actions' (default 'true').
          * @param {Object} options.tools - a list of tool buttons to display above the table.
          * @param {Object|Boolean} options.status - allow to display a status bar.
          * @param {Object|Boolean} options.filter - allow to display a filter bar.
@@ -108,6 +110,21 @@ define([
 
             var self = dataTable;
             options = _.defaults(options, defaults);
+
+            // render actions to model.type=actions
+            if (_.some(options.model, 'type')) {
+                var types = _.where(options.model, 'type');
+                _.forEach(types, function (field) {
+                    if (field.type === 'actions' && options.actions) {
+                        _.forEach(field.actions, function (action, key) {
+                            var _action = _.find(options.actions, action);
+                            if (_action) {
+                                field.actions[key] = _action;
+                            }
+                        });
+                    }
+                });
+            }
 
             return this.each(function() {
                 var $elt = $(this);
@@ -258,17 +275,6 @@ define([
                 _.forEach(dataset.data, function (row, index) {
                     _.forEach(transforms, function (field) {
                         row[field.id] = field.transform(row[field.id], row, field, index, dataset.data);
-                    });
-                });
-            }
-            
-            // process data by model type
-            if (_.some(options.model, 'type')) {
-                var types = _.where(options.model, 'type');
-                _.forEach(dataset.data, function (row, index) {
-                    _.forEach(types, function (field) {
-                        console.log(field, index, row);
-                        row[field.id] = btnTpl(field);
                     });
                 });
             }
