@@ -572,15 +572,22 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.17.0');
         }
         
-        $this->skip('7.17.0', '7.22.0');
+        $this->skip('7.17.0', '7.23.0');
         
-        if($this->isVersion('7.22.0')) {
-            $taoRenderer = $this->getServiceManager()->build(\oat\tao\model\mvc\view\TaoViewRender::class);
+        if($this->isVersion('7.23.0')) {
+            $taoRenderer = $this->getServiceManager()->build(\oat\tao\model\mvc\view\ViewManager::class , 
+                        [
+                            'tao' => [
+                                'class' => \oat\tao\model\mvc\view\TaoViewRender::class
+                            ],
+                            'json' => [
+                                'class' => \oat\tao\model\mvc\view\TaoJsonRender::class
+                            ],
+                        ]
+                    );
             $this->getServiceManager()->register('tao/render', $taoRenderer);
-            $this->setVersion('7.23.0');
+            $this->setVersion('7.24.0');
         }
-
-        $this->skip('7.23.0', '7.24.0');
 
     }
 

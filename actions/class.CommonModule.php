@@ -52,7 +52,7 @@ abstract class tao_actions_CommonModule extends Module
     
     public function getRenderer() {
 	if (!isset($this->renderer)) {
-            $this->renderer = $this->getServiceManager()->get('tao/render');
+            $this->renderer = $this->getServiceManager()->get('tao/render')->getRenderEngine('tao');
 	}
 	return $this->renderer;
     }
