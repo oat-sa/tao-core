@@ -16,10 +16,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
 /**
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
- * xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ * Highlighter helper.
  *
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -30,15 +27,20 @@ define([
 ) {
     'use strict';
 
+    var ELEMENT_NODE = window.Node.ELEMENT_NODE;
+    var TEXT_NODE = window.Node.TEXT_NODE;
+
     /**
      * @param {Object} options
      * @param {Object} options.selector
      * @param {String} option.className
      */
     return function(options) {
-        var selector = options.selector; // fixme: pass an array of ranges to highlightRanges instead ? yes for keyboard selection
+        // fixme: pass an array of ranges to highlightRanges instead ? yes for keyboard selection or restoring selection
+        var selector = options.selector;
 
         var isWrapping = false;
+        var hasWrapped = false;
 
         function toggleWrapping() {
             isWrapping = !isWrapping;
@@ -46,23 +48,26 @@ define([
 
         function wrapAllTextNodes(range, rootNode, startNode, startOffset, endNode, endOffset) {
             var childNodes = rootNode.childNodes;
-            var node, i, right;
+            var currentNode, i, right;
 
             for (i = 0; i < childNodes.length; i++) {
-                node = childNodes[i];
+                if (hasWrapped) {
+                    break;
+                }
+                currentNode = childNodes[i];
 
-                if (node.isSameNode(startNode)) {
-                    if (range.startContainer.nodeType === window.Node.TEXT_NODE
+                if (currentNode.isSameNode(startNode)) {
+                    if (range.startContainer.nodeType === TEXT_NODE
                         && startOffset !== 0) {
-                        right = node.splitText(startOffset);
+                        right = currentNode.splitText(startOffset);
                         // if needed, we correct the end offset
-                        if (endOffset !== 0 && node.isSameNode(endNode)) {
+                        if (endOffset !== 0 && currentNode.isSameNode(endNode)) {
                             endOffset -= startOffset;
                         }
                         // we defer the highlight to the newly created node
                         startOffset = 0;
                         startNode = right;
-                        if (node.isSameNode(endNode)) {
+                        if (currentNode.isSameNode(endNode)) {
                             endNode = right;
                         }
                     } else {
@@ -70,120 +75,69 @@ define([
                     }
                 }
 
-                if (node.isSameNode(endNode)) {
-                    if (range.endContainer.nodeType === window.Node.TEXT_NODE
+                if (currentNode.isSameNode(endNode)) {
+                    if (range.endContainer.nodeType === TEXT_NODE
                         && endOffset !== 0
                     ) {
-                        node.splitText(endOffset);
+                        currentNode.splitText(endOffset);
 
                     }
                 }
 
-                switch(node.nodeType) {
-                    case window.Node.ELEMENT_NODE: {
-                        wrapAllTextNodes(range, node, startNode, startOffset, endNode, endOffset); // recursive call
+                switch(currentNode.nodeType) {
+                    case ELEMENT_NODE:
+                        wrapAllTextNodes(range, currentNode, startNode, startOffset, endNode, endOffset);
                         break;
-                    }
-                    case window.Node.TEXT_NODE: {
-                        if (isWrapping) {
-                            wrapTextNode(node, 0, node.textContent.length);
-                            // todo: check reverse selection !
-                        }
+                    case TEXT_NODE:
+                        wrapTextNode(currentNode);
                         break;
-                    }
                 }
 
-                if (node.isSameNode(endNode)) {
+                if (currentNode.isSameNode(endNode)) {
                     toggleWrapping();
+                    break;
                 }
-                // todo: break loop ?
             }
         }
 
-        function wrapTextNode(node, startOffset, endOffset) {
-            // $(node).wrap($('<span>', {
-            //     class: options.className
-            // }));
-
-            var content = node.textContent;
-            var before = content.slice(0, startOffset);
-            var toWrap = content.slice(startOffset, endOffset);
-            var after = content.slice(endOffset);
-            var $wrapper = $('<span>', {
-                class: options.className
-            });
-            node.textContent = toWrap;
-            $(node).wrap($wrapper);
-
-            if (before.length) {
-                console.log('adding before: ' + before);
-                $wrapper.before(before);
+        function wrapTextNode(node) {
+            if (isWrapping) {
+                $(node).wrap($('<span>', {
+                    class: options.className
+                }));
             }
-            // node.appendChild(toWrap);
-            if (after.length) {
-                $wrapper.after(after);
-            }
-            // node.innerHTML = $wrapped.html();
-            // var $node = $(node);
-            //
-            // if (before.length) {
-            //     $node.append(document.createTextNode(before));
-            // }
-            // $node.append($wrapped);
-            //
-            // if (after.length) {
-            //     $node.append(document.createTextNode(after));
-            // }
-/*
-            var wrapped =
-                content.slice(0, startOffset)
-                + '<span class="' + options.className + '">'
-                + content.slice(startOffset, endOffset)
-                + '</span>'
-                + content.slice(endOffset);
-                */
-            console.log('===============');
-            console.log('textContent = ' + node.textContent);
-            console.log('startOffset = ' + startOffset);
-            console.log('endOffset = ' + endOffset);
-            console.log('toWrap = ' + toWrap);
-            /*
-            // $(node).html(wrapped);
-            // debugger;
-            // $(node).replaceWith($(wrapped));
-            node.innerHTML = wrapped;
-            */
         }
 
         return {
             highlightRanges: function highlightRanges() {
                 var ranges = selector.getRanges();
                 var startNode, endNode;
-                // var rangeContent;
-                // console.log('=============================================');
 
                 ranges.forEach(function(range) {
 
                     var highlightContainer = document.createElement('span');
                     highlightContainer.className = options.className;
 
-                    // deal with the easiest case first: highlight a plain text without any dom nodes
-                    if (range.commonAncestorContainer.nodeType === window.Node.TEXT_NODE) {
+                    // deal with the easiest case first: highlight a plain text without any nested dom nodes
+                    if (range.commonAncestorContainer.nodeType === TEXT_NODE) {
                         range.surroundContents(highlightContainer);
 
                     // now the fun stuff: highlighting content with mixed text and dom nodes
                     } else {
+                        // todo: check reverse selection !
 
-                        if (range.startContainer.nodeType === window.Node.ELEMENT_NODE) {
+                        if (range.startContainer.nodeType === ELEMENT_NODE) {
                             startNode = range.startContainer.childNodes[range.startOffset];
                         } else {
                             startNode = range.startContainer;
                         }
-                        if (range.endContainer.nodeType === window.Node.ELEMENT_NODE) {
+                        if (range.endContainer.nodeType === ELEMENT_NODE) {
                             endNode = range.endContainer.childNodes[range.endOffset - 1];
                         } else {
                             endNode = range.endContainer;
                         }
+
+
                         wrapAllTextNodes(
                             range,
                             range.commonAncestorContainer,
@@ -193,29 +147,6 @@ define([
                             range.endOffset
                         );
                     }
-
-                    // var rangeContent = range.extractContents();
-                    // console.dir(range.commonAncestorContainer);
-                    // console.dir(range.startContainer);
-                    // console.dir(range.endContainer);
-                    // console.dir(getStartNode(range));
-                    // console.dir(getEndNode(range));
-                    // wrapAllTextNodes(
-                    //     range.commonAncestorContainer,
-                    //     getStartNode(range),
-                    //     getEndNode(range)
-                    // );
-                    // range.insertNode(rangeContent);
-                    // console.dir(rangeContent);
-
-                    // console.dir(rangeContent);
-                    // var highlightContainer = document.createElement('span');
-                    // highlightContainer.className = options.className;
-                    //
-                    // highlightContainer.appendChild(rangeContent);
-                    // range.insertNode(highlightContainer);
-                    // rangeContent = range.extractContents();
-                    // wrapTextNode(rangeContent);
                 });
 
             }
