@@ -544,7 +544,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('5.9.1')) {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
-
+            
             $eventManager->detach(RoleRemovedEvent::class, ['oat\\tao\\scripts\\update\\LoggerService', 'logEvent']);
             $eventManager->detach(RoleCreatedEvent::class, ['oat\\tao\\scripts\\update\\LoggerService', 'logEvent']);
             $eventManager->detach(RoleChangedEvent::class, ['oat\\tao\\scripts\\update\\LoggerService', 'logEvent']);
@@ -555,24 +555,30 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
 
             $this->setVersion('5.9.2');
-
+            
         }
         $this->skip('5.9.2', '6.0.1');
-
+        
         if ($this->isVersion('6.0.1')) {
             OntologyUpdater::syncModels();
             $this->setVersion('6.1.0');
         }
-
+        
         $this->skip('6.1.0', '7.16.2');
-
+        
         if ($this->isVersion('7.16.2')) {
             OntologyUpdater::syncModels();
             ValidationRuleRegistry::getRegistry()->set('notEmpty', new \tao_helpers_form_validators_NotEmpty());
             $this->setVersion('7.17.0');
         }
-
+        
         $this->skip('7.17.0', '7.22.0');
+        
+        if($this->isVersion('7.22.0')) {
+            $taoRenderer = $this->getServiceManager()->build(\oat\tao\model\mvc\view\TaoViewRender::class);
+            $this->getServiceManager()->register('tao/render', $taoRenderer);
+            $this->setVersion('7.23.0');
+        }
 
     }
 
@@ -590,7 +596,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 switch ($class) {
                 	case 'tao_models_classes_fsAccess_TokenAccessProvider' :
                 	    $fs = new \core_kernel_fileSystem_FileSystem($fsUri);
-                        $options[TokenWebSource::OPTION_PATH] = $fs->getPath();
+                            $options[TokenWebSource::OPTION_PATH] = $fs->getPath();
                 	    $options[TokenWebSource::OPTION_SECRET] = $config['secret'];
                 	    $options[TokenWebSource::OPTION_TTL] = (int) ini_get('session.gc_maxlifetime');
                 	    $websource = new TokenWebSource($options);
