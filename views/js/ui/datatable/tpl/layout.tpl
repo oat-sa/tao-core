@@ -79,18 +79,23 @@
                         {{#each ../options.model}}
                             {{#if type}}
                             <td class="{{id}}">
-                                {{#each actions}}
-
+                                {{#each ../actions}}
                                     {{#if id}}
-                                        {{#with ../../this}}
+                                        {{#with ../../../../this}}
                                             {{#unless ../hidden}}
-                                                {{#with ../../this}}
-                                <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}}{{label}}{{/if}}</button>
-                                                {{/with}}
+                                                {{#if ../../disabled}}
+                                                    {{#with ../../../this}}
+                                <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}} disabled="disabled">{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
+                                                    {{/with}}
+                                                {{else}}
+                                                    {{#with ../../../this}}
+                                <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
+                                                    {{/with}}
+                                                {{/if}}
                                             {{/unless}}
                                         {{/with}}
                                     {{else}}
-                                <button class="btn-info small {{@key}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}}{{label}}{{/if}}</button>
+                                <button class="btn-info small {{@key}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
                                     {{/if}}
 
                                 {{/each}}
@@ -105,12 +110,19 @@
                             {{#if ../../options.actions}}
                         <td class="actions">
                                 {{#each ../../../options.actions}}
+
                                     {{#if id}}
                                         {{#with ../../this}}
                                             {{#unless ../hidden}}
-                                                {{#with ../../this}}
-                            <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}><span class="icon-{{#if icon}}{{icon}}{{else}}{{id}}{{/if}}"></span> {{label}}</button>
-                                                {{/with}}
+                                                {{#if ../../disabled}}
+                                                    {{#with ../../../this}}
+                            <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}} disabled="disabled">{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
+                                                    {{/with}}
+                                                {{else}}
+                                                    {{#with ../../../this}}
+                            <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
+                                                    {{/with}}
+                                                {{/if}}
                                             {{/unless}}
                                         {{/with}}
                                     {{else}}
