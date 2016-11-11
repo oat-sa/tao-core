@@ -324,8 +324,9 @@ define([
         .test('Highlight', function(data, assert) {
             // setup test
             var highlighter = highlighterFactory({
-                selector: selectorMock,
-                className: 'highlighted'
+                $wrapper: $('<span>', {
+                    class: 'highlighted'
+                })
             });
             var range = document.createRange();
 
@@ -341,11 +342,8 @@ define([
             data.buildRange(range, fixtureContainer);
             assert.equal(getRangeHtml(range), data.selection, 'selection: ' + data.selection);
 
-            selectorMock.removeAllRanges();
-            selectorMock.addRange(range);
-
             // highlight
-            highlighter.highlightRanges();
+            highlighter.highlightRanges([range]);
             assert.equal(fixtureContainer.innerHTML, data.output, 'highlight: ' + data.output);
         });
 

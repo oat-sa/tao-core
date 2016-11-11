@@ -16,7 +16,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
 /**
- * Highlighter helper.
+ * Highlighter helper: wraps every text node within a Range object.
  *
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -32,12 +32,10 @@ define([
 
     /**
      * @param {Object} options
-     * @param {Object} options.selector
-     * @param {String} option.className
      */
     return function(options) {
         // fixme: pass an array of ranges to highlightRanges instead ? yes for keyboard selection or restoring selection
-        var selector = options.selector;
+        var $wrapper = options.$wrapper;
 
         var isWrapping = false;
         var hasWrapped = false;
@@ -46,7 +44,7 @@ define([
             isWrapping = !isWrapping;
         }
 
-        function wrapAllTextNodes(range, rootNode, startNode, startOffset, endNode, endOffset) {
+        function wrapTextNodesInRange(rootNode, rangeInfos) {
             var childNodes = rootNode.childNodes;
             var currentNode, i;
 
@@ -55,40 +53,34 @@ define([
                     break;
                 }
                 currentNode = childNodes[i];
-                //contains
 
-                console.log(currentNode.textContent);
-
-                if (currentNode.isSameNode(startNode)) {
-                    if (range.startContainer.nodeType === TEXT_NODE
-                        && startOffset !== 0) {
-                        // we split the current node in two and defer the wrapping to the next node
-                        startNode = currentNode.splitText(startOffset);
-                        startOffset = 0;
+                // split current node in case the wrapping start/ends on a partially selected text node
+                if (currentNode.isSameNode(rangeInfos.startNode)) {
+                    if (isText(rangeInfos.startNodeContainer) && rangeInfos.startOffset !== 0) {
+                        // we defer the wrapping to the next iteration of the loop
+                        rangeInfos.startNode = currentNode.splitText(rangeInfos.startOffset);
+                        rangeInfos.startOffset = 0;
                     } else {
                         toggleWrapping();
                     }
                 }
 
-                if (currentNode.isSameNode(endNode)) {
-                    if (range.endContainer.nodeType === TEXT_NODE
-                        && endOffset !== 0
-                    ) {
-                        currentNode.splitText(endOffset);
-
+                if (currentNode.isSameNode(rangeInfos.endNode)) {
+                    if (isText(rangeInfos.endNodeContainer) && rangeInfos.endOffset !== 0) {
+                        currentNode.splitText(rangeInfos.endOffset);
                     }
                 }
 
-                switch(currentNode.nodeType) {
-                    case ELEMENT_NODE:
-                        wrapAllTextNodes(range, currentNode, startNode, startOffset, endNode, endOffset);
-                        break;
-                    case TEXT_NODE:
-                        wrapTextNode(currentNode);
-                        break;
+                // wrap
+                if (isElement(currentNode)) {
+                    wrapTextNodesInRange(currentNode, rangeInfos);
+
+                } else if (isText(currentNode)) {
+                    wrapTextNode(currentNode);
                 }
 
-                if (currentNode.isSameNode(endNode)) {
+                // end wrapping ?
+                if (currentNode.isSameNode(rangeInfos.endNode)) {
                     toggleWrapping();
                     hasWrapped = true;
                     break;
@@ -98,50 +90,44 @@ define([
 
         function wrapTextNode(node) {
             if (isWrapping) {
-                $(node).wrap($('<span>', {
-                    class: options.className
-                }));
+                $(node).wrap($wrapper.clone());
             }
         }
 
+        function isElement(node) {
+            return node.nodeType === ELEMENT_NODE;
+        }
+
+        function isText(node) {
+            return node.nodeType === TEXT_NODE;
+        }
+
         return {
-            highlightRanges: function highlightRanges() {
-                var ranges = selector.getRanges();
-                var startNode, endNode;
-
+            highlightRanges: function highlightRanges(ranges) {
                 ranges.forEach(function(range) {
+                    var rangeInfos;
 
-                    var highlightContainer = document.createElement('span');
-                    highlightContainer.className = options.className;
+                    // deal with the easiest case first: highlight a plain text without any nested DOM nodes
+                    if (isText(range.commonAncestorContainer)) {
+                        range.surroundContents($wrapper.clone().get(0));
 
-                    // deal with the easiest case first: highlight a plain text without any nested dom nodes
-                    if (range.commonAncestorContainer.nodeType === TEXT_NODE) {
-                        range.surroundContents(highlightContainer);
-
-                    // now the fun stuff: highlighting content with mixed text and dom nodes
+                    // now the fun stuff: highlighting content with mixed text and DOM nodes
                     } else {
-                        // todo: check reverse selection ! should be ok
+                        rangeInfos = {
+                            startNode: (isElement(range.startContainer))
+                                ? range.startContainer.childNodes[range.startOffset]
+                                : range.startContainer,
+                            startNodeContainer: range.startContainer,
+                            startOffset: range.startOffset,
 
-                        if (range.startContainer.nodeType === ELEMENT_NODE) {
-                            startNode = range.startContainer.childNodes[range.startOffset];
-                        } else {
-                            startNode = range.startContainer;
-                        }
-                        if (range.endContainer.nodeType === ELEMENT_NODE) {
-                            endNode = range.endContainer.childNodes[range.endOffset - 1];
-                        } else {
-                            endNode = range.endContainer;
-                        }
+                            endNode: (isElement(range.endContainer))
+                                ? range.endContainer.childNodes[range.endOffset - 1]
+                                : range.endContainer,
+                            endNodeContainer: range.endContainer,
+                            endOffset: range.endOffset
+                        };
 
-
-                        wrapAllTextNodes(
-                            range,
-                            range.commonAncestorContainer,
-                            startNode,
-                            range.startOffset,
-                            endNode,
-                            range.endOffset
-                        );
+                        wrapTextNodesInRange(range.commonAncestorContainer, rangeInfos);
                     }
                 });
 
