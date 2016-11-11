@@ -26,7 +26,7 @@ define([
 ], function($, _, highlighterFactory, selectorMock) {
     'use strict';
 
-    var validSelectionsData;
+    var testData;
 
     QUnit.module('highlighterFactory');
 
@@ -36,16 +36,16 @@ define([
 
     QUnit.module('highlightRange()');
 
-    function logTest(input) {
-        console.log('=================');
-        console.log(input);
-    }
-
     function getRangeHtml(range) {
         return $('<div>').append(range.cloneContents()).html();
     }
 
-    validSelectionsData = [
+    testData = [
+
+        // =============
+        // Simple ranges
+        // =============
+
         {
             title:      'fully highlights a plain text node',
             input:      'I should end up fully highlighted',
@@ -73,7 +73,6 @@ define([
                 );
             }
         },
-
         {
             title:      'partially highlights a plain text node selected from the start',
             input:      'I should end up partially highlighted',
@@ -93,6 +92,24 @@ define([
             output:     '<div><span class="highlighted">I should end up fully highlighted</span></div>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNode(fixtureContainer.firstChild);
+            }
+        },
+
+
+        {
+            title:      'partially highlights the content of a dom element',
+            input:      '<div>I should end up partially highlighted</div>',
+            selection:                       'partially',
+            output:     '<div>I should end up <span class="highlighted">partially</span> highlighted</div>',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(
+                    fixtureContainer.firstChild.firstChild,
+                    fixtureContainer.firstChild.firstChild.textContent.indexOf('partially')
+                );
+                range.setEnd(
+                    fixtureContainer.firstChild.firstChild,
+                    fixtureContainer.firstChild.firstChild.textContent.indexOf('partially') + 'partially'.length
+                );
             }
         },
 
@@ -157,6 +174,10 @@ define([
             }
         },
 
+        // ====================================
+        // Ranges with partially selected nodes
+        // ====================================
+
         {
             title:      'highlights a selection ending in a partially selected node',
             input:      'I should be highlighted <strong>even if I was poorly selected...</strong>',
@@ -185,12 +206,122 @@ define([
                 range.setStart(fixtureContainer.firstChild.firstChild, 'I should be '.length);
                 range.setEnd(fixtureContainer.lastChild, ' even if I was'.length);
             }
+        },
+
+        {
+            title:      'Highlights a range containing multiples nodes, 1',
+            input:      '<p>I am on top of the list</p>' +
+                        '<p>There is a nice view up here</p>' +
+                        '<ul id="list">' +
+                            '<li>I am the first option</li>' +
+                            '<li>I am the second option</li>' +
+                            '<li>I am the <span class="some-class">third</span> option</li>' +
+                            '<li>Do not chose the fourth option !</li>' +
+                        '</ul>' +
+                        '<div><p><span>The list</span> is <strong>finished</strong>, see you soon !</p></div>',
+            selection:                                          // added upon invalid range => HTML conversion
+                                                                '<p>' +
+                                        'ce view up here</p>' +
+                        '<ul id="list">' +
+                            '<li>I am the first option</li>' +
+                            '<li>I am the second option</li>' +
+                            '<li>I am the <span class="some-class">third</span> option</li>' +
+                            '<li>Do not chose the fourth option !</li>' +
+                        '</ul>',
+            output:     '<p>I am on top of the list</p>' +
+                        '<p>There is a ni<span class="highlighted">ce view up here</span></p>' +
+                        '<ul id="list">' +
+                            '<li><span class="highlighted">I am the first option</span></li>' +
+                            '<li><span class="highlighted">I am the second option</span></li>' +
+                            '<li><span class="highlighted">I am the </span><span class="some-class"><span class="highlighted">third</span></span><span class="highlighted"> option</span></li>' +
+                            '<li><span class="highlighted">Do not chose the fourth option !</span></li>' +
+                        '</ul>' +
+                        '<div><p><span>The list</span> is <strong>finished</strong>, see you soon !</p></div>',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.childNodes[1].firstChild, 'There is a ni'.length);
+                range.setEnd(fixtureContainer, 3);
+            }
+        },
+
+        {
+            title:      'Highlights a range containing multiples nodes, 2',
+            input:      '<p>I am on top of the list</p>' +
+                        '<p>There is a nice view up here</p>' +
+                        '<ul id="list">' +
+                            '<li>I am the first option</li>' +
+                            '<li>I am the second option</li>' +
+                            '<li>I am the <span class="some-class">third</span> option</li>' +
+                            '<li>Do not chose the fourth option !</li>' +
+                        '</ul>' +
+                        '<div><p id="end-p"><span>The list</span> is <strong>finished</strong>, see you soon !</p></div>',
+            selection:  // added upon invalid range => HTML conversion
+                        '<ul id="list"><li><span class="some-class">' +
+                                                                    'ird</span> option</li>' +
+                            '<li>Do not chose the fourth option !</li>' +
+                        '</ul>' +
+                        '<div><p id="end-p"><span>The list</span> is <strong>finished</strong>, see you' +
+                        // added upon invalid range => HTML conversion
+                        '</p></div>',
+            output:     '<p>I am on top of the list</p>' +
+                        '<p>There is a nice view up here</p>' +
+                        '<ul id="list">' +
+                            '<li>I am the first option</li>' +
+                            '<li>I am the second option</li>' +
+                            '<li>I am the <span class="some-class">th<span class="highlighted">ird</span></span><span class="highlighted"> option</span></li>' +
+                            '<li><span class="highlighted">Do not chose the fourth option !</span></li>' +
+                        '</ul>' +
+                        '<div><p id="end-p"><span><span class="highlighted">The list</span></span><span class="highlighted"> is </span><strong><span class="highlighted">finished</span></strong><span class="highlighted">, see you</span> soon !</p></div>',
+            buildRange: function(range) {
+                var startNode = document.getElementsByClassName('some-class').item(0).firstChild;
+                var endNode = document.getElementById('end-p').childNodes[3];
+                range.setStart(startNode, 'th'.length);
+                range.setEnd(endNode, ', see you'.length);
+            }
+        },
+
+        {
+            title:      'Highlights a range containing multiples nodes, 3',
+            input:      '<p>I am on top of the list</p>' +
+                        '<p>There is a nice view up here</p>' +
+                        '<ul id="list">' +
+                            '<li>I am the first option</li>' +
+                            '<li>I am the second option</li>' +
+                            '<li>I am the <span class="some-class">third</span> option</li>' +
+                            '<li>Do not chose the fourth option !</li>' +
+                        '</ul>' +
+                        '<div><p id="end-p"><span>The list</span> is <strong>finished</strong>, see you soon !</p></div>',
+            selection:  '<p>I am on top of the list</p>' +
+                        '<p>There is a nice view up here</p>' +
+                        '<ul id="list">' +
+                            '<li>I am the first option</li>' +
+                            '<li>I am the second option</li>' +
+                            '<li>I am' +
+                        // added upon invalid range => HTML conversion
+                        '</li></ul>',
+            output:     '<p><span class="highlighted">I am on top of the list</span></p>' +
+                        '<p><span class="highlighted">There is a nice view up here</span></p>' +
+                        '<ul id="list">' +
+                            '<li><span class="highlighted">I am the first option</span></li>' +
+                            '<li><span class="highlighted">I am the second option</span></li>' +
+                            '<li><span class="highlighted">I am</span> the <span class="some-class">third</span> option</li>' +
+                            '<li>Do not chose the fourth option !</li>' +
+                        '</ul>' +
+                        '<div><p id="end-p"><span>The list</span> is <strong>finished</strong>, see you soon !</p></div>',
+            buildRange: function(range, fixtureContainer) {
+                var startNode = fixtureContainer.firstChild;
+                var endNode = document.getElementById('list').childNodes[2].firstChild;
+                range.setStart(startNode, 0);
+                range.setEnd(endNode, 'I am'.length);
+            }
         }
+
+
+
     ];
 
     QUnit
-        .cases(validSelectionsData)
-        .test('Valid selections', function(data, assert) {
+        .cases(testData)
+        .test('Highlight', function(data, assert) {
             // setup test
             var highlighter = highlighterFactory({
                 selector: selectorMock,
@@ -200,26 +331,16 @@ define([
 
             var fixtureContainer = document.getElementById('qunit-fixture');
 
-            // logTest(data.input);
-
             QUnit.expect(3);
 
             fixtureContainer.innerHTML = data.input;
             // the following assertion is just to provide a better visual feedback in QUnit UI
             assert.equal(fixtureContainer.innerHTML, data.input, 'input: ' + data.input);
 
-            // create and verify range, to make sure buildRange() is implemented correctly
+            // create range, then make sure the built selection is correct
             data.buildRange(range, fixtureContainer);
             assert.equal(getRangeHtml(range), data.selection, 'selection: ' + data.selection);
 
-            // logNodeState(fixtureContainer, 'fixtureContainer');
-            // logNodeState(range.commonAncestorContainer, 'range.commonAncestorContainer');
-            // console.log('range.startOffset = ', range.startOffset);
-            // logNodeState(range.startContainer, 'range.startContainer');
-            // console.log('range.endOffset = ', range.endOffset);
-            // logNodeState(range.endContainer, 'range.endContainer');
-// debugger;
-            //
             selectorMock.removeAllRanges();
             selectorMock.addRange(range);
 
@@ -228,11 +349,4 @@ define([
             assert.equal(fixtureContainer.innerHTML, data.output, 'highlight: ' + data.output);
         });
 
-
-        function logNodeState(node, name) {
-            console.log('====== ' + name + '=');
-            console.log('textContent=' + node.textContent);
-            console.log('nodeType=' + node.nodeType);
-            console.dir(node);
-        }
 });

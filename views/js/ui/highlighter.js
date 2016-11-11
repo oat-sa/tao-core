@@ -48,28 +48,23 @@ define([
 
         function wrapAllTextNodes(range, rootNode, startNode, startOffset, endNode, endOffset) {
             var childNodes = rootNode.childNodes;
-            var currentNode, i, right;
+            var currentNode, i;
 
             for (i = 0; i < childNodes.length; i++) {
                 if (hasWrapped) {
                     break;
                 }
                 currentNode = childNodes[i];
+                //contains
+
+                console.log(currentNode.textContent);
 
                 if (currentNode.isSameNode(startNode)) {
                     if (range.startContainer.nodeType === TEXT_NODE
                         && startOffset !== 0) {
-                        right = currentNode.splitText(startOffset);
-                        // if needed, we correct the end offset
-                        if (endOffset !== 0 && currentNode.isSameNode(endNode)) {
-                            endOffset -= startOffset;
-                        }
-                        // we defer the highlight to the newly created node
+                        // we split the current node in two and defer the wrapping to the next node
+                        startNode = currentNode.splitText(startOffset);
                         startOffset = 0;
-                        startNode = right;
-                        if (currentNode.isSameNode(endNode)) {
-                            endNode = right;
-                        }
                     } else {
                         toggleWrapping();
                     }
@@ -95,6 +90,7 @@ define([
 
                 if (currentNode.isSameNode(endNode)) {
                     toggleWrapping();
+                    hasWrapped = true;
                     break;
                 }
             }
@@ -124,7 +120,7 @@ define([
 
                     // now the fun stuff: highlighting content with mixed text and dom nodes
                     } else {
-                        // todo: check reverse selection !
+                        // todo: check reverse selection ! should be ok
 
                         if (range.startContainer.nodeType === ELEMENT_NODE) {
                             startNode = range.startContainer.childNodes[range.startOffset];
