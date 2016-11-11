@@ -30,11 +30,16 @@ define([
     var ELEMENT_NODE = window.Node.ELEMENT_NODE;
     var TEXT_NODE = window.Node.TEXT_NODE;
 
+    var containersBlackList = [
+        'textarea',
+        'math',
+        'script'
+    ];
+
     /**
      * @param {Object} options
      */
     return function(options) {
-        // fixme: pass an array of ranges to highlightRanges instead ? yes for keyboard selection or restoring selection
         var $wrapper = options.$wrapper;
 
         var isWrapping = false;
@@ -89,9 +94,13 @@ define([
         }
 
         function wrapTextNode(node) {
-            if (isWrapping) {
+            if (isWrapping && canBeHighlighted(node)) {
                 $(node).wrap($wrapper.clone());
             }
+        }
+
+        function canBeHighlighted(textNode) {
+            return $(textNode).closest(containersBlackList.join(',')).length === 0;
         }
 
         function isElement(node) {
@@ -108,7 +117,7 @@ define([
                     var rangeInfos;
 
                     // deal with the easiest case first: highlight a plain text without any nested DOM nodes
-                    if (isText(range.commonAncestorContainer)) {
+                    if (isText(range.commonAncestorContainer) && canBeHighlighted(range.commonAncestorContainer)) {
                         range.surroundContents($wrapper.clone().get(0));
 
                     // now the fun stuff: highlighting content with mixed text and DOM nodes

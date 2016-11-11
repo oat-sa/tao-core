@@ -21,12 +21,12 @@
 define([
     'jquery',
     'lodash',
-    'ui/highlighter',
-    'tao/test/ui/selector/mock'
-], function($, _, highlighterFactory, selectorMock) {
+    'ui/highlighter'
+], function($, _, highlighterFactory) {
     'use strict';
 
     var testData;
+    var MathJax = getMathJaxData();
 
     QUnit.module('highlighterFactory');
 
@@ -34,11 +34,7 @@ define([
         assert.ok(typeof highlighterFactory === 'function', 'the module expose a function');
     });
 
-    QUnit.module('highlightRange()');
-
-    function getRangeHtml(range) {
-        return $('<div>').append(range.cloneContents()).html();
-    }
+    QUnit.module('highlighter');
 
     testData = [
 
@@ -49,7 +45,6 @@ define([
         {
             title:      'fully highlights a plain text node',
             input:      'I should end up fully highlighted',
-            //todo: rename to range
             selection:  'I should end up fully highlighted',
             output:     '<span class="highlighted">I should end up fully highlighted</span>',
             buildRange: function(range, fixtureContainer) {
@@ -63,14 +58,8 @@ define([
             selection:                  'partially',
             output:     'I should end up <span class="highlighted">partially</span> highlighted',
             buildRange: function(range, fixtureContainer) {
-                range.setStart(
-                    fixtureContainer.firstChild,
-                    fixtureContainer.firstChild.textContent.indexOf('partially')
-                );
-                range.setEnd(
-                    fixtureContainer.firstChild,
-                    fixtureContainer.firstChild.textContent.indexOf('partially') + 'partially'.length
-                );
+                range.setStart(fixtureContainer.firstChild, 'I should end up '.length);
+                range.setEnd(fixtureContainer.firstChild, 'I should end up partially'.length);
             }
         },
         {
@@ -95,21 +84,14 @@ define([
             }
         },
 
-
         {
             title:      'partially highlights the content of a dom element',
             input:      '<div>I should end up partially highlighted</div>',
             selection:                       'partially',
             output:     '<div>I should end up <span class="highlighted">partially</span> highlighted</div>',
             buildRange: function(range, fixtureContainer) {
-                range.setStart(
-                    fixtureContainer.firstChild.firstChild,
-                    fixtureContainer.firstChild.firstChild.textContent.indexOf('partially')
-                );
-                range.setEnd(
-                    fixtureContainer.firstChild.firstChild,
-                    fixtureContainer.firstChild.firstChild.textContent.indexOf('partially') + 'partially'.length
-                );
+                range.setStart(fixtureContainer.firstChild.firstChild, 'I should end up '.length);
+                range.setEnd(fixtureContainer.firstChild.firstChild, 'I should end up partially'.length);
             }
         },
 
@@ -313,15 +295,95 @@ define([
                 range.setStart(startNode, 0);
                 range.setEnd(endNode, 'I am'.length);
             }
+        },
+
+        // ===========================
+        // Ranges with exotic elements
+        // ===========================
+
+        {
+            title:      'highlights a node with an image inside',
+            input:      'There is an image <img src="/tao/views/img/logo_tao.png"> in the middle of this selection',
+            selection:  'There is an image <img src="/tao/views/img/logo_tao.png"> in the middle of this selection',
+            output:     '<span class="highlighted">There is an image </span><img src="/tao/views/img/logo_tao.png"><span class="highlighted"> in the middle of this selection</span>',
+            buildRange: function(range, fixtureContainer) {
+                range.selectNodeContents(fixtureContainer);
+            }
+        },
+
+        {
+            title:      'do not highlight text in a selected textarea',
+            input:      '<textarea>Leave me alone, I am inside a text area</textarea>',
+            selection:  '<textarea>Leave me alone, I am inside a text area</textarea>',
+            output:     '<textarea>Leave me alone, I am inside a text area</textarea>',
+            buildRange: function(range, fixtureContainer) {
+                range.selectNodeContents(fixtureContainer);
+            }
+        },
+
+        {
+            title:      'do not highlight text fully selected in a textarea',
+            input:      '<textarea>Leave me alone, I am inside a text area</textarea>',
+            selection:  'Leave me alone, I am inside a text area',
+            output:     '<textarea>Leave me alone, I am inside a text area</textarea>',
+            buildRange: function(range, fixtureContainer) {
+                range.selectNodeContents(fixtureContainer.firstChild);
+            }
+        },
+
+        {
+            title:      'do not highlight text partially selected in a textarea',
+            input:      '<textarea>Leave me alone, I am inside a text area</textarea>',
+            selection:                            'I am inside',
+            output:     '<textarea>Leave me alone, I am inside a text area</textarea>',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.firstChild.firstChild, 'Leave me alone, '.length);
+                range.setEnd(fixtureContainer.firstChild.firstChild, 'Leave me alone, I am inside'.length);
+            }
+        },
+
+        {
+            title:      'do not highlight text in a nested textarea',
+            input:      '<div>this selection <textarea>contains</textarea> a textarea</div>',
+            selection:  '<div>this selection <textarea>contains</textarea> a textarea</div>',
+            output:     '<div><span class="highlighted">this selection </span>' +
+                        '<textarea>contains</textarea>' +
+                        '<span class="highlighted"> a textarea</span></div>',
+            buildRange: function(range, fixtureContainer) {
+                range.selectNodeContents(fixtureContainer);
+            }
+        },
+
+        {
+            title:      'do not highlight text inside an input',
+            input:      '<input value="Don\'t you dare highlighting me!!!" type="text">',
+            selection:  '<input value="Don\'t you dare highlighting me!!!" type="text">',
+            output:     '<input value="Don\'t you dare highlighting me!!!" type="text">',
+            buildRange: function(range, fixtureContainer) {
+                range.selectNodeContents(fixtureContainer);
+            }
+        },
+
+        {
+            title:      'highlight a Mathjax renderered text, but not the assistive MathMl',
+            input:      MathJax.input,
+            selection:  MathJax.selection,
+            output:     MathJax.output,
+            buildRange: function(range, fixtureContainer) {
+                range.selectNodeContents(fixtureContainer);
+            }
         }
+
 
 
 
     ];
 
+
+
     QUnit
         .cases(testData)
-        .test('Highlight', function(data, assert) {
+        .test('HighlightRange', function(data, assert) {
             // setup test
             var highlighter = highlighterFactory({
                 $wrapper: $('<span>', {
@@ -329,6 +391,7 @@ define([
                 })
             });
             var range = document.createRange();
+            var rangeHtml;
 
             var fixtureContainer = document.getElementById('qunit-fixture');
 
@@ -340,11 +403,20 @@ define([
 
             // create range, then make sure the built selection is correct
             data.buildRange(range, fixtureContainer);
-            assert.equal(getRangeHtml(range), data.selection, 'selection: ' + data.selection);
+            rangeHtml = $('<div>').append(range.cloneContents()).html(); // this conversion to HTML will close any partially selected node
+            assert.equal(rangeHtml, data.selection, 'selection: ' + data.selection);
 
             // highlight
             highlighter.highlightRanges([range]);
             assert.equal(fixtureContainer.innerHTML, data.output, 'highlight: ' + data.output);
         });
 
+
+    function getMathJaxData() {
+        return {
+            input: '<span data-serial="math_5825d67ea3696998688184" data-qti-class="math"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" style="position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><semantics><mstyle displaystyle=&quot;true&quot; scriptlevel=&quot;0&quot;><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>&amp;#xD7;</mo><msqrt><msup><mi>&amp;#x3C0;</mi><mn>2</mn></msup></msqrt></mrow></mstyle><annotation encoding=&quot;latex&quot;>      \frac{1}{2}\times\sqrt{\pi^2}</annotation></semantics></math>" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" role="math" style="width: 4.446em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.99em; height: 0px; font-size: 111%;"><span style="position: absolute; clip: rect(1.028em, 1003.99em, 3.453em, -1000em); top: -2.574em; left: 0em;"><span class="mrow" id="MathJax-Span-2"><span class="semantics" id="MathJax-Span-3"><span class="mstyle" id="MathJax-Span-4"><span class="mrow" id="MathJax-Span-5"><span class="texatom" id="MathJax-Span-6"><span class="mrow" id="MathJax-Span-7"><span class="mfrac" id="MathJax-Span-8"><span style="display: inline-block; position: relative; width: 0.62em; height: 0px; margin-right: 0.12em; margin-left: 0.12em;"><span style="position: absolute; clip: rect(3.121em, 1000.39em, 4.183em, -1000em); top: -4.666em; left: 50%; margin-left: -0.25em;"><span class="mn" id="MathJax-Span-9" style="font-family: STIXGeneral;">1</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(3.121em, 1000.47em, 4.183em, -1000em); top: -3.304em; left: 50%; margin-left: -0.25em;"><span class="mn" id="MathJax-Span-10" style="font-family: STIXGeneral;">2</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(0.82em, 1000.62em, 1.287em, -1000em); top: -1.314em; left: 0em;"><span style="display: inline-block; overflow: hidden; vertical-align: 0em; border-top: 1.3px solid; width: 0.62em; height: 0px;"></span><span style="display: inline-block; width: 0px; height: 1.094em;"></span></span></span></span><span class="mo" id="MathJax-Span-11" style="font-family: STIXGeneral; padding-left: 0.25em;">×</span><span class="msqrt" id="MathJax-Span-12" style="padding-left: 0.25em;"><span style="display: inline-block; position: relative; width: 1.977em; height: 0px;"><span style="position: absolute; clip: rect(2.906em, 1001.02em, 4.201em, -1000em); top: -3.99em; left: 0.928em;"><span class="mrow" id="MathJax-Span-13"><span class="msup" id="MathJax-Span-14"><span style="display: inline-block; position: relative; width: 1.024em; height: 0px;"><span style="position: absolute; clip: rect(3.369em, 1000.54em, 4.201em, -1000em); top: -3.99em; left: 0em;"><span class="mi" id="MathJax-Span-15" style="font-family: STIXGeneral; font-style: italic;">π<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.032em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.403em; left: 0.596em;"><span class="mn" id="MathJax-Span-16" style="font-size: 70.7%; font-family: STIXGeneral;">2</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(2.977em, 1001.05em, 3.413em, -1000em); top: -4.198em; left: 0.928em;"><span style="display: inline-block; position: relative; width: 1.049em; height: 0px;"><span style="position: absolute; font-family: STIXGeneral; top: -3.99em; left: 0em;">‾<span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; font-family: STIXGeneral; top: -3.99em; left: 0.549em;">‾<span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="font-family: STIXGeneral; position: absolute; top: -3.99em; left: 0.262em;">‾<span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(2.824em, 1000.96em, 4.442em, -1000em); top: -4.045em; left: 0em;"><span style="font-family: STIXGeneral;">√</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span></span></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.574em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.833em; border-left: 0px solid; width: 0px; height: 2.406em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>×</mo><msqrt><msup><mi>π</mi><mn>2</mn></msup></msqrt></mrow></mstyle><annotation encoding="latex">      \frac{1}{2}\times\sqrt{\pi^2}</annotation></semantics></math></span></span><script type="math/mml" id="MathJax-Element-1"><math><semantics><mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>×</mo><msqrt><msup><mi>π</mi><mn>2</mn></msup></msqrt></mrow></mstyle><annotation encoding="latex">\frac{1}{2}\times\sqrt{\pi^2}</annotation></semantics></math></script></span>',
+            selection: '<span data-serial="math_5825d67ea3696998688184" data-qti-class="math"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" style="position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><semantics><mstyle displaystyle=&quot;true&quot; scriptlevel=&quot;0&quot;><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>&amp;#xD7;</mo><msqrt><msup><mi>&amp;#x3C0;</mi><mn>2</mn></msup></msqrt></mrow></mstyle><annotation encoding=&quot;latex&quot;>      \frac{1}{2}\times\sqrt{\pi^2}</annotation></semantics></math>" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" role="math" style="width: 4.446em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.99em; height: 0px; font-size: 111%;"><span style="position: absolute; clip: rect(1.028em, 1003.99em, 3.453em, -1000em); top: -2.574em; left: 0em;"><span class="mrow" id="MathJax-Span-2"><span class="semantics" id="MathJax-Span-3"><span class="mstyle" id="MathJax-Span-4"><span class="mrow" id="MathJax-Span-5"><span class="texatom" id="MathJax-Span-6"><span class="mrow" id="MathJax-Span-7"><span class="mfrac" id="MathJax-Span-8"><span style="display: inline-block; position: relative; width: 0.62em; height: 0px; margin-right: 0.12em; margin-left: 0.12em;"><span style="position: absolute; clip: rect(3.121em, 1000.39em, 4.183em, -1000em); top: -4.666em; left: 50%; margin-left: -0.25em;"><span class="mn" id="MathJax-Span-9" style="font-family: STIXGeneral;">1</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(3.121em, 1000.47em, 4.183em, -1000em); top: -3.304em; left: 50%; margin-left: -0.25em;"><span class="mn" id="MathJax-Span-10" style="font-family: STIXGeneral;">2</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(0.82em, 1000.62em, 1.287em, -1000em); top: -1.314em; left: 0em;"><span style="display: inline-block; overflow: hidden; vertical-align: 0em; border-top: 1.3px solid; width: 0.62em; height: 0px;"></span><span style="display: inline-block; width: 0px; height: 1.094em;"></span></span></span></span><span class="mo" id="MathJax-Span-11" style="font-family: STIXGeneral; padding-left: 0.25em;">×</span><span class="msqrt" id="MathJax-Span-12" style="padding-left: 0.25em;"><span style="display: inline-block; position: relative; width: 1.977em; height: 0px;"><span style="position: absolute; clip: rect(2.906em, 1001.02em, 4.201em, -1000em); top: -3.99em; left: 0.928em;"><span class="mrow" id="MathJax-Span-13"><span class="msup" id="MathJax-Span-14"><span style="display: inline-block; position: relative; width: 1.024em; height: 0px;"><span style="position: absolute; clip: rect(3.369em, 1000.54em, 4.201em, -1000em); top: -3.99em; left: 0em;"><span class="mi" id="MathJax-Span-15" style="font-family: STIXGeneral; font-style: italic;">π<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.032em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.403em; left: 0.596em;"><span class="mn" id="MathJax-Span-16" style="font-size: 70.7%; font-family: STIXGeneral;">2</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(2.977em, 1001.05em, 3.413em, -1000em); top: -4.198em; left: 0.928em;"><span style="display: inline-block; position: relative; width: 1.049em; height: 0px;"><span style="position: absolute; font-family: STIXGeneral; top: -3.99em; left: 0em;">‾<span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; font-family: STIXGeneral; top: -3.99em; left: 0.549em;">‾<span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="font-family: STIXGeneral; position: absolute; top: -3.99em; left: 0.262em;">‾<span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(2.824em, 1000.96em, 4.442em, -1000em); top: -4.045em; left: 0em;"><span style="font-family: STIXGeneral;">√</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span></span></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.574em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.833em; border-left: 0px solid; width: 0px; height: 2.406em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>×</mo><msqrt><msup><mi>π</mi><mn>2</mn></msup></msqrt></mrow></mstyle><annotation encoding="latex">      \frac{1}{2}\times\sqrt{\pi^2}</annotation></semantics></math></span></span><script type="math/mml" id="MathJax-Element-1"><math><semantics><mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>×</mo><msqrt><msup><mi>π</mi><mn>2</mn></msup></msqrt></mrow></mstyle><annotation encoding="latex">\frac{1}{2}\times\sqrt{\pi^2}</annotation></semantics></math></script></span>',
+            output: '<span data-serial="math_5825d67ea3696998688184" data-qti-class="math"><span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" style="position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><semantics><mstyle displaystyle=&quot;true&quot; scriptlevel=&quot;0&quot;><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>&amp;#xD7;</mo><msqrt><msup><mi>&amp;#x3C0;</mi><mn>2</mn></msup></msqrt></mrow></mstyle><annotation encoding=&quot;latex&quot;>      rac{1}{2}	imessqrt{pi^2}</annotation></semantics></math>" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" role="math" style="width: 4.446em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.99em; height: 0px; font-size: 111%;"><span style="position: absolute; clip: rect(1.028em, 1003.99em, 3.453em, -1000em); top: -2.574em; left: 0em;"><span class="mrow" id="MathJax-Span-2"><span class="semantics" id="MathJax-Span-3"><span class="mstyle" id="MathJax-Span-4"><span class="mrow" id="MathJax-Span-5"><span class="texatom" id="MathJax-Span-6"><span class="mrow" id="MathJax-Span-7"><span class="mfrac" id="MathJax-Span-8"><span style="display: inline-block; position: relative; width: 0.62em; height: 0px; margin-right: 0.12em; margin-left: 0.12em;"><span style="position: absolute; clip: rect(3.121em, 1000.39em, 4.183em, -1000em); top: -4.666em; left: 50%; margin-left: -0.25em;"><span class="mn" id="MathJax-Span-9" style="font-family: STIXGeneral;"><span class="highlighted">1</span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(3.121em, 1000.47em, 4.183em, -1000em); top: -3.304em; left: 50%; margin-left: -0.25em;"><span class="mn" id="MathJax-Span-10" style="font-family: STIXGeneral;"><span class="highlighted">2</span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(0.82em, 1000.62em, 1.287em, -1000em); top: -1.314em; left: 0em;"><span style="display: inline-block; overflow: hidden; vertical-align: 0em; border-top: 1.3px solid; width: 0.62em; height: 0px;"></span><span style="display: inline-block; width: 0px; height: 1.094em;"></span></span></span></span><span class="mo" id="MathJax-Span-11" style="font-family: STIXGeneral; padding-left: 0.25em;"><span class="highlighted">×</span></span><span class="msqrt" id="MathJax-Span-12" style="padding-left: 0.25em;"><span style="display: inline-block; position: relative; width: 1.977em; height: 0px;"><span style="position: absolute; clip: rect(2.906em, 1001.02em, 4.201em, -1000em); top: -3.99em; left: 0.928em;"><span class="mrow" id="MathJax-Span-13"><span class="msup" id="MathJax-Span-14"><span style="display: inline-block; position: relative; width: 1.024em; height: 0px;"><span style="position: absolute; clip: rect(3.369em, 1000.54em, 4.201em, -1000em); top: -3.99em; left: 0em;"><span class="mi" id="MathJax-Span-15" style="font-family: STIXGeneral; font-style: italic;"><span class="highlighted">π</span><span style="display: inline-block; overflow: hidden; height: 1px; width: 0.032em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.403em; left: 0.596em;"><span class="mn" id="MathJax-Span-16" style="font-size: 70.7%; font-family: STIXGeneral;"><span class="highlighted">2</span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(2.977em, 1001.05em, 3.413em, -1000em); top: -4.198em; left: 0.928em;"><span style="display: inline-block; position: relative; width: 1.049em; height: 0px;"><span style="position: absolute; font-family: STIXGeneral; top: -3.99em; left: 0em;"><span class="highlighted">‾</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; font-family: STIXGeneral; top: -3.99em; left: 0.549em;"><span class="highlighted">‾</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="font-family: STIXGeneral; position: absolute; top: -3.99em; left: 0.262em;"><span class="highlighted">‾</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; clip: rect(2.824em, 1000.96em, 4.442em, -1000em); top: -4.045em; left: 0em;"><span style="font-family: STIXGeneral;"><span class="highlighted">√</span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span></span></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.574em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.833em; border-left: 0px solid; width: 0px; height: 2.406em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>×</mo><msqrt><msup><mi>π</mi><mn>2</mn></msup></msqrt></mrow></mstyle><annotation encoding="latex">      rac{1}{2}	imessqrt{pi^2}</annotation></semantics></math></span></span><script type="math/mml" id="MathJax-Element-1"><math><semantics><mstyle displaystyle="true" scriptlevel="0"><mrow class="MJX-TeXAtom-ORD"><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>×</mo><msqrt><msup><mi>π</mi><mn>2</mn></msup></msqrt></mrow></mstyle><annotation encoding="latex">rac{1}{2}	imessqrt{pi^2}</annotation></semantics></math></script></span>'
+        };
+    }
 });
