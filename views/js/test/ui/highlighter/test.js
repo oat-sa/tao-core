@@ -34,7 +34,7 @@ define([
         assert.ok(typeof highlighterFactory === 'function', 'the module expose a function');
     });
 
-    QUnit.module('highlighter');
+    QUnit.module('highlightRange()');
 
     function logTest(input) {
         console.log('=================');
@@ -42,13 +42,14 @@ define([
     }
 
     function getRangeHtml(range) {
-        return $('<div>').append(range.extractContents()).html();
+        return $('<div>').append(range.cloneContents()).html();
     }
 
     validSelectionsData = [
         {
             title:      'fully highlights a plain text node',
             input:      'I should end up fully highlighted',
+            //todo: rename to range
             selection:  'I should end up fully highlighted',
             output:     '<span class="highlighted">I should end up fully highlighted</span>',
             buildRange: function(range, fixtureContainer) {
@@ -59,7 +60,7 @@ define([
         {
             title:      'partially highlights a plain text node',
             input:      'I should end up partially highlighted',
-            selection:  'partially',
+            selection:                  'partially',
             output:     'I should end up <span class="highlighted">partially</span> highlighted',
             buildRange: function(range, fixtureContainer) {
                 range.setStart(
@@ -69,6 +70,18 @@ define([
                 range.setEnd(
                     fixtureContainer.firstChild,
                     fixtureContainer.firstChild.textContent.indexOf('partially') + 'partially'.length
+                );
+            }
+        },
+
+        {
+            title:      'partially highlights a plain text node selected from the start',
+            input:      'I should end up partially highlighted',
+            selection:  'I should end up partially',
+            output:     '<span class="highlighted">I should end up partially</span> highlighted',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.firstChild, 0);
+                range.setEnd(fixtureContainer.firstChild, 'I should end up partially'.length
                 );
             }
         },
@@ -114,7 +127,7 @@ define([
                         '<strong><span class="highlighted">me and my children</span></strong>' +
                         '<span class="highlighted"> should end up fully highlighted</span>',
             buildRange: function(range, fixtureContainer) {
-                range.selectNodeContents(fixtureContainer.firstChild);
+                range.selectNodeContents(fixtureContainer);
             }
         },
 
@@ -126,7 +139,51 @@ define([
                         '<strong><span class="highlighted">me and my children</span></strong>' +
                         '<span class="highlighted"> should end up</span> partially highlighted',
             buildRange: function(range, fixtureContainer) {
-                range.selectNodeContents(fixtureContainer.firstChild);
+                range.setStart(fixtureContainer.firstChild, 'We, '.length);
+                range.setEnd(fixtureContainer.lastChild, ' should end up'.length);
+            }
+        },
+
+        {
+            title:      'highlights a partially selected text containing non-nested node',
+            input:      'My <strong>siblings</strong> should not bother me <strong>at all</strong>',
+            selection:                                      'not bother ',
+            output:     'My <strong>siblings</strong> should ' +
+                        '<span class="highlighted">not bother </span>' +
+                        'me <strong>at all</strong>',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.childNodes[2], ' should '.length);
+                range.setEnd(fixtureContainer.childNodes[2], ' should not bother '.length);
+            }
+        },
+
+        {
+            title:      'highlights a selection ending in a partially selected node',
+            input:      'I should be highlighted <strong>even if I was poorly selected...</strong>',
+            selection:              'highlighted <strong>even if I was' +
+                                                                            // added upon invalid range => HTML conversion
+                                                                            '</strong>',
+            output:     'I should be <span class="highlighted">highlighted </span>' +
+                        '<strong><span class="highlighted">even if I was</span>' +
+                        ' poorly selected...</strong>',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.firstChild, 'I should be '.length);
+                range.setEnd(fixtureContainer.lastChild.firstChild, 'even if I was'.length);
+            }
+        },
+
+        {
+            title:      'highlights a selection starting in a partially selected node',
+            input:      '<strong>I should be highlighted</strong> even if I was poorly selected...',
+                                                                                 // added upon invalid range => HTML conversion
+            selection:                                                           '<strong>' +
+                                            'highlighted</strong> even if I was',
+            output:     '<strong>I should be <span class="highlighted">highlighted</span></strong>' +
+                        '<span class="highlighted"> even if I was</span>' +
+                        ' poorly selected...',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.firstChild.firstChild, 'I should be '.length);
+                range.setEnd(fixtureContainer.lastChild, ' even if I was'.length);
             }
         }
     ];
@@ -143,24 +200,39 @@ define([
 
             var fixtureContainer = document.getElementById('qunit-fixture');
 
-            logTest(data.input);
+            // logTest(data.input);
 
-            QUnit.expect(2);
+            QUnit.expect(3);
 
             fixtureContainer.innerHTML = data.input;
+            // the following assertion is just to provide a better visual feedback in QUnit UI
+            assert.equal(fixtureContainer.innerHTML, data.input, 'input: ' + data.input);
 
             // create and verify range, to make sure buildRange() is implemented correctly
             data.buildRange(range, fixtureContainer);
-            assert.equal(getRangeHtml(range), data.selection, 'selection is correct');
+            assert.equal(getRangeHtml(range), data.selection, 'selection: ' + data.selection);
 
+            // logNodeState(fixtureContainer, 'fixtureContainer');
+            // logNodeState(range.commonAncestorContainer, 'range.commonAncestorContainer');
+            // console.log('range.startOffset = ', range.startOffset);
+            // logNodeState(range.startContainer, 'range.startContainer');
+            // console.log('range.endOffset = ', range.endOffset);
+            // logNodeState(range.endContainer, 'range.endContainer');
+// debugger;
+            //
             selectorMock.removeAllRanges();
             selectorMock.addRange(range);
 
             // highlight
             highlighter.highlightRanges();
-            assert.equal(fixtureContainer.innerHTML, data.output);
+            assert.equal(fixtureContainer.innerHTML, data.output, 'highlight: ' + data.output);
         });
 
 
-
+        function logNodeState(node, name) {
+            console.log('====== ' + name + '=');
+            console.log('textContent=' + node.textContent);
+            console.log('nodeType=' + node.nodeType);
+            console.dir(node);
+        }
 });

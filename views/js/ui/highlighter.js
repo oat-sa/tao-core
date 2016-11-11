@@ -44,87 +44,167 @@ define([
             isWrapping = !isWrapping;
         }
 
-        function wrapAllTextNodes(rootNode, wrapStartNode, wrapEndNode) {
+        function wrapAllTextNodes(range, rootNode, startNode, startOffset, endNode, endOffset) {
             var childNodes = rootNode.childNodes;
-            var node, i;
+            var node, i, right;
 
             for (i = 0; i < childNodes.length; i++) {
                 node = childNodes[i];
 
-                if (node.isSameNode(wrapStartNode)) {
-                    toggleWrapping();
-                } else if (node.isSameNode(wrapEndNode)) {
-                    toggleWrapping();
+                if (node.isSameNode(startNode)) {
+                    if (range.startContainer.nodeType === window.Node.TEXT_NODE
+                        && startOffset !== 0) {
+                        right = node.splitText(startOffset);
+                        // if needed, we correct the end offset
+                        if (endOffset !== 0 && node.isSameNode(endNode)) {
+                            endOffset -= startOffset;
+                        }
+                        // we defer the highlight to the newly created node
+                        startOffset = 0;
+                        startNode = right;
+                        if (node.isSameNode(endNode)) {
+                            endNode = right;
+                        }
+                    } else {
+                        toggleWrapping();
+                    }
+                }
+
+                if (node.isSameNode(endNode)) {
+                    if (range.endContainer.nodeType === window.Node.TEXT_NODE
+                        && endOffset !== 0
+                    ) {
+                        node.splitText(endOffset);
+
+                    }
                 }
 
                 switch(node.nodeType) {
                     case window.Node.ELEMENT_NODE: {
-                        wrapAllTextNodes(node); // recursive call
+                        wrapAllTextNodes(range, node, startNode, startOffset, endNode, endOffset); // recursive call
                         break;
                     }
                     case window.Node.TEXT_NODE: {
                         if (isWrapping) {
-                            wrapTextNode(node);
+                            wrapTextNode(node, 0, node.textContent.length);
+                            // todo: check reverse selection !
                         }
                         break;
                     }
                 }
+
+                if (node.isSameNode(endNode)) {
+                    toggleWrapping();
+                }
+                // todo: break loop ?
             }
         }
 
-        function wrapTextNode(node) {
-            console.log('wrapping ' + node.textContent);
-            $(node).wrap($('<span>', {
+        function wrapTextNode(node, startOffset, endOffset) {
+            // $(node).wrap($('<span>', {
+            //     class: options.className
+            // }));
+
+            var content = node.textContent;
+            var before = content.slice(0, startOffset);
+            var toWrap = content.slice(startOffset, endOffset);
+            var after = content.slice(endOffset);
+            var $wrapper = $('<span>', {
                 class: options.className
-            }));
-            // node.textContent="yeah!!!";
-        }
+            });
+            node.textContent = toWrap;
+            $(node).wrap($wrapper);
 
-        function getStartNode(range) {
-            if (range.startContainer.firstChild.nodeType === window.Node.ELEMENT_NODE) {
-                return range.startContainer.childNodes[range.startOffset];
+            if (before.length) {
+                console.log('adding before: ' + before);
+                $wrapper.before(before);
             }
-        }
-
-        function getEndNode(range) {
-            if (range.endContainer.firstChild.nodeType === window.Node.ELEMENT_NODE) {
-                return range.endContainer.childNodes[range.endOffset];
+            // node.appendChild(toWrap);
+            if (after.length) {
+                $wrapper.after(after);
             }
-        }
-
-        function isLiteralNode(node) {
-            var literalNodeTypes = [
-                window.Node.CDATA_SECTION_NODE,
-                window.Node.COMMENT_NODE,
-                window.Node.TEXT_NODE
-            ];
-            return literalNodeTypes.indexOf(node.nodeType) !== -1;
+            // node.innerHTML = $wrapped.html();
+            // var $node = $(node);
+            //
+            // if (before.length) {
+            //     $node.append(document.createTextNode(before));
+            // }
+            // $node.append($wrapped);
+            //
+            // if (after.length) {
+            //     $node.append(document.createTextNode(after));
+            // }
+/*
+            var wrapped =
+                content.slice(0, startOffset)
+                + '<span class="' + options.className + '">'
+                + content.slice(startOffset, endOffset)
+                + '</span>'
+                + content.slice(endOffset);
+                */
+            console.log('===============');
+            console.log('textContent = ' + node.textContent);
+            console.log('startOffset = ' + startOffset);
+            console.log('endOffset = ' + endOffset);
+            console.log('toWrap = ' + toWrap);
+            /*
+            // $(node).html(wrapped);
+            // debugger;
+            // $(node).replaceWith($(wrapped));
+            node.innerHTML = wrapped;
+            */
         }
 
         return {
             highlightRanges: function highlightRanges() {
                 var ranges = selector.getRanges();
+                var startNode, endNode;
                 // var rangeContent;
                 // console.log('=============================================');
 
                 ranges.forEach(function(range) {
 
-                    // deal with the simplest case first : select part of a text within another text
-                    if (isLiteralNode(range.commonAncestorContainer)) {
-                        //
+                    var highlightContainer = document.createElement('span');
+                    highlightContainer.className = options.className;
+
+                    // deal with the easiest case first: highlight a plain text without any dom nodes
+                    if (range.commonAncestorContainer.nodeType === window.Node.TEXT_NODE) {
+                        range.surroundContents(highlightContainer);
+
+                    // now the fun stuff: highlighting content with mixed text and dom nodes
+                    } else {
+
+                        if (range.startContainer.nodeType === window.Node.ELEMENT_NODE) {
+                            startNode = range.startContainer.childNodes[range.startOffset];
+                        } else {
+                            startNode = range.startContainer;
+                        }
+                        if (range.endContainer.nodeType === window.Node.ELEMENT_NODE) {
+                            endNode = range.endContainer.childNodes[range.endOffset - 1];
+                        } else {
+                            endNode = range.endContainer;
+                        }
+                        wrapAllTextNodes(
+                            range,
+                            range.commonAncestorContainer,
+                            startNode,
+                            range.startOffset,
+                            endNode,
+                            range.endOffset
+                        );
                     }
 
                     // var rangeContent = range.extractContents();
-                    console.dir(range.commonAncestorContainer);
-                    console.dir(range.startContainer);
-                    console.dir(range.endContainer);
-                    console.dir(getStartNode(range));
-                    console.dir(getEndNode(range));
-                    wrapAllTextNodes(
-                        range.commonAncestorContainer,
-                        getStartNode(range),
-                        getEndNode(range)
-                    );
+                    // console.dir(range.commonAncestorContainer);
+                    // console.dir(range.startContainer);
+                    // console.dir(range.endContainer);
+                    // console.dir(getStartNode(range));
+                    // console.dir(getEndNode(range));
+                    // wrapAllTextNodes(
+                    //     range.commonAncestorContainer,
+                    //     getStartNode(range),
+                    //     getEndNode(range)
+                    // );
                     // range.insertNode(rangeContent);
                     // console.dir(rangeContent);
 
@@ -137,6 +217,7 @@ define([
                     // rangeContent = range.extractContents();
                     // wrapTextNode(rangeContent);
                 });
+
             }
         };
     };
