@@ -33,7 +33,7 @@ $parts = explode('/', $rel, 2);
 list ($webSourceId) = $parts;
 $webSourceId = preg_replace('/[^a-zA-Z0-9]*/', '', $webSourceId);
 
-$root = $_SERVER['DOCUMENT_ROOT'];
+$root = dirname(__DIR__);
 $driver = new SimpleConfigDriver();
 $configService = $driver->connect('config', array(
     'dir' => $root .DIRECTORY_SEPARATOR. 'config' .DIRECTORY_SEPARATOR,
@@ -69,6 +69,7 @@ try {
     $path = $source->getFilePathFromUrl($url);
     $stream = $source->getFileStream($path);
     tao_helpers_Http::returnStream($stream, $source->getMimetype($path));
+    $stream->detach();
 } catch (\tao_models_classes_FileNotFoundException $e) {
     header("HTTP/1.0 404 Not Found");
 }
