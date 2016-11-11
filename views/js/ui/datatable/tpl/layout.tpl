@@ -36,8 +36,8 @@
                 {{#each options.model}}
                 <col/>
                 {{/each}}
-                {{#if ../options.showActions}}
-                    {{#if options.actions}}
+                {{#if options.showActions}}
+                    {{#if ../options.actions}}
                 </col>
                     {{/if}}
                 {{/if}}
@@ -62,8 +62,8 @@
                         {{/if}}
                     </th>
                     {{/each}}
-                    {{#if ../options.showActions}}
-                        {{#if options.actions}}
+                    {{#if options.showActions}}
+                        {{#if ../options.actions}}
                     <th class="actions">{{__ 'Actions'}}</th>
                         {{/if}}
                     {{/if}}
@@ -102,9 +102,9 @@
                         {{/each}}
 
                         {{#if ../options.showActions}}
-                            {{#if ../options.actions}}
+                            {{#if ../../options.actions}}
                         <td class="actions">
-                                {{#each ../../options.actions}}
+                                {{#each ../../../options.actions}}
                                     {{#if id}}
                                         {{#with ../../this}}
                                             {{#unless ../hidden}}
