@@ -36,4 +36,14 @@ class textConverterServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals(['notAStringFixture'], $textConverter->get(['notAStringFixture']));
         $this->assertEquals('value', $textConverter->get('fixture'));
     }
+
+    public function testGetRegistry()
+    {
+        $textConverter = $this->getMockForAbstractClass(TextConverterService::class);
+        $textConverter->expects($this->any())
+            ->method('getTextRegistry')
+            ->will($this->returnValue(['fixture' => 'value']));
+
+        $this->assertEquals(['fixture' => 'value'], $textConverter->getTextRegistry());
+    }
 }
