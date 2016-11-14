@@ -19,7 +19,8 @@
 namespace oat\tao\model\mvc\controller;
 
 /**
- * Description of taoController
+ * new namespaced controller 
+ * use to change renderer on the fly.
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
