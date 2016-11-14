@@ -20,8 +20,7 @@
 namespace oat\tao\model\mvc\view;
 
 /**
- * Description of ViewManager
- *
+ * view main service
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
 class ViewManager extends \oat\oatbox\service\ConfigurableService
@@ -29,7 +28,10 @@ class ViewManager extends \oat\oatbox\service\ConfigurableService
    
     const SERVICE_ID = 'tao/render';
 
-
+    /**
+     * @param string $id
+     * @return ViewRenderInterface
+     */
     public function getRenderEngine($id) {
         
         return $this->getSubService($id, ViewRenderInterface::class);

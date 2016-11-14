@@ -19,6 +19,9 @@
 
 namespace oat\tao\model\mvc\view;
 
+/**
+ * tao renderer using clear FW renderer
+ */
 class TaoViewRender extends \oat\oatbox\service\ConfigurableService implements ViewRenderInterface 
 {
     /**
