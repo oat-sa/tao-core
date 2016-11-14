@@ -647,10 +647,52 @@ define([
             });
 
             return selection;
+        },
+
+        /**
+         * Highlight the row with identifier
+         *
+         * @param $elt
+         * @param rowId
+         */
+        _highlightRow: function($elt, rowId) {
+            this._addRowClass($elt, rowId, 'highlight');
+        },
+
+        /**
+         * Css class add to the row with id
+         *
+         * @param $elt
+         * @param rowId
+         * @param className
+         * @private
+         */
+        _addRowClass: function ($elt, rowId, className) {
+            var $row = $elt.find('[data-item-identifier="' + rowId + '"]');
+
+            if (!$row.hasClass(className)) {
+                $row.addClass(className);
+            }
+        },
+
+        /**
+         * Css class remove from the row with id
+         *
+         * @param $elt
+         * @param rowId
+         * @param className
+         * @private
+         */
+        _removeRowClass: function ($elt, rowId, className) {
+            var $row = $elt.find('[data-item-identifier="' + rowId + '"]');
+
+            if ($row.hasClass(className)) {
+                $row.removeClass(className);
+            }
         }
     };
 
     Pluginifier.register(ns, dataTable, {
-         expose : ['refresh', 'sort', 'filter', 'selection', 'render']
+         expose : ['refresh', 'sort', 'filter', 'selection', 'render', 'highlightRow', 'addRowClass', 'removeRowClass']
     });
 });
