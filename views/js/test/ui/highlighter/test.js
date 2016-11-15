@@ -49,7 +49,10 @@ define([
             output:     '<span class="hl" data-hl-group="1">I should end up fully highlighted</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -60,8 +63,14 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild, 'I should end up '.length);
                 range.setEnd(fixtureContainer.firstChild, 'I should end up partially'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [
+                    { groupId: '1', startOffset: 'I should end up '.length, endOffset: 'I should end up partially'.length }
+                ]}
+            ]
         },
+
         {
             title:      'partially highlights a plain text node selected from the start',
             input:      'I should end up partially highlighted',
@@ -69,9 +78,64 @@ define([
             output:     '<span class="hl" data-hl-group="1">I should end up partially</span> highlighted',
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild, 0);
-                range.setEnd(fixtureContainer.firstChild, 'I should end up partially'.length
-                );
-            }
+                range.setEnd(fixtureContainer.firstChild, 'I should end up partially'.length);
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [
+                    { groupId: '1', endOffset: 'I should end up partially'.length }
+                ]}
+            ]
+        },
+
+        {
+            title:      'multiple partial highlights in a plain text node',
+            input:      'How cool is that: <span class="hl" data-hl-group="1">Me</span>, ' +
+                        '<span class="hl" data-hl-group="5">myself</span> and ' +
+                        'I' +
+                        ' are a bunch of <span class="hl" data-hl-group="3">highlighted</span> friends',
+            selection:  'I',
+            output:     'How cool is that: <span class="hl" data-hl-group="1">Me</span>, ' +
+                        '<span class="hl" data-hl-group="2">myself</span> and ' +
+                        '<span class="hl" data-hl-group="3">I</span>' +
+                        ' are a bunch of <span class="hl" data-hl-group="4">highlighted</span> friends',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.childNodes[4], ' and '.length);
+                range.setEnd(fixtureContainer.childNodes[4], ' and I'.length);
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [
+                    { groupId: '1', startOffset: 'How cool is that: '.length, endOffset: 'How cool is that: Me'.length },
+                    { groupId: '2', startOffset: 'How cool is that: Me, '.length, endOffset: 'How cool is that: Me, myself'.length },
+                    { groupId: '3', startOffset: 'How cool is that: Me, myself and '.length, endOffset: 'How cool is that: Me, myself and I'.length },
+                    { groupId: '4', startOffset: 'How cool is that: Me, myself and I are a bunch of '.length, endOffset: 'How cool is that: Me, myself and I are a bunch of highlighted'.length}
+                ]}
+            ]
+        },
+
+        {
+            title:      'multiple partial highlights in a plain text node, with highlights at text node boundaries',
+            input:      '<span class="hl" data-hl-group="8">How cool</span> is that: <span class="hl" data-hl-group="1">Me</span>, ' +
+                        '<span class="hl" data-hl-group="5">myself</span> and ' +
+                        'I' +
+                        ' are a bunch of <span class="hl" data-hl-group="3">highlighted friends</span>',
+            selection:  'I',
+            output:     '<span class="hl" data-hl-group="1">How cool</span> is that: <span class="hl" data-hl-group="2">Me</span>, ' +
+                        '<span class="hl" data-hl-group="3">myself</span> and ' +
+                        '<span class="hl" data-hl-group="4">I</span>' +
+                        ' are a bunch of <span class="hl" data-hl-group="5">highlighted friends</span>',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.childNodes[5], ' and '.length);
+                range.setEnd(fixtureContainer.childNodes[5], ' and I'.length);
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [
+                    { groupId: '1', endOffset: 'How cool'.length },
+                    { groupId: '2', startOffset: 'How cool is that: '.length, endOffset: 'How cool is that: Me'.length },
+                    { groupId: '3', startOffset: 'How cool is that: Me, '.length, endOffset: 'How cool is that: Me, myself'.length },
+                    { groupId: '4', startOffset: 'How cool is that: Me, myself and '.length, endOffset: 'How cool is that: Me, myself and I'.length },
+                    { groupId: '5', startOffset: 'How cool is that: Me, myself and I are a bunch of '.length }
+                ]}
+            ]
         },
 
         {
@@ -81,7 +145,10 @@ define([
             output:     '<div><span class="hl" data-hl-group="1">I should end up fully highlighted</span></div>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNode(fixtureContainer.firstChild);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -92,7 +159,12 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild.firstChild, 'I should end up '.length);
                 range.setEnd(fixtureContainer.firstChild.firstChild, 'I should end up partially'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [
+                    { groupId: '1', startOffset: 'I should end up '.length, endOffset: 'I should end up partially'.length }
+                ]}
+            ]
         },
 
         {
@@ -115,7 +187,13 @@ define([
                 var list = document.getElementById('list');
                 range.setStart(list, 1);
                 range.setEnd(list, 3);
-            }
+            },
+            virtualRanges: [
+                { highlighted: false },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: false }
+            ]
         },
 
         {
@@ -127,7 +205,12 @@ define([
                         '<span class="hl" data-hl-group="1"> should end up fully highlighted</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -140,7 +223,12 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild, 'We, '.length);
                 range.setEnd(fixtureContainer.lastChild, ' should end up'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [{ groupId: '1', startOffset: 'We, '.length }] },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, inlineRanges: [{ groupId: '1', endOffset: ' should end up'.length }] }
+            ]
         },
 
         {
@@ -153,7 +241,13 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.childNodes[2], ' should '.length);
                 range.setEnd(fixtureContainer.childNodes[2], ' should not bother '.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: true, inlineRanges: [{ groupId: '1', startOffset: ' should '.length, endOffset: ' should not bother '.length }] },
+                { highlighted: false }
+            ]
         },
 
         // ====================================
@@ -172,7 +266,11 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild, 'I should be '.length);
                 range.setEnd(fixtureContainer.lastChild.firstChild, 'even if I was'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [{ groupId: '1', startOffset: 'I should be '.length }] },
+                { highlighted: true, inlineRanges: [{ groupId: '1', endOffset: 'even if I was'.length }] }
+            ]
         },
 
         {
@@ -187,7 +285,11 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild.firstChild, 'I should be '.length);
                 range.setEnd(fixtureContainer.lastChild, ' even if I was'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [{ groupId: '1', startOffset: 'I should be '.length }] },
+                { highlighted: true, inlineRanges: [{ groupId: '1', endOffset: ' even if I was'.length }] }
+            ]
         },
 
         {
@@ -222,7 +324,21 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.childNodes[1].firstChild, 'There is a ni'.length);
                 range.setEnd(fixtureContainer, 3);
-            }
+            },
+            virtualRanges: [
+                { highlighted: false },
+                { highlighted: true, inlineRanges: [{ groupId: '1', startOffset: 'There is a ni'.length }] },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: false }
+            ]
         },
 
         {
@@ -258,7 +374,21 @@ define([
                 var endNode = document.getElementById('end-p').childNodes[3];
                 range.setStart(startNode, 'th'.length);
                 range.setEnd(endNode, ', see you'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: true, inlineRanges: [{ groupId: '1', startOffset: 'th'.length }] },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, inlineRanges: [{ groupId: '1', endOffset: ', see you'.length }] }
+            ]
         },
 
         {
@@ -294,7 +424,21 @@ define([
                 var endNode = document.getElementById('list').childNodes[2].firstChild;
                 range.setStart(startNode, 0);
                 range.setEnd(endNode, 'I am'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, inlineRanges: [{ groupId: '1', endOffset: 'I am'.length }] },
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: false },
+                { highlighted: false }
+            ]
         },
 
         // ========================================
@@ -308,7 +452,11 @@ define([
             output:     '<span class="hl" data-hl-group="1">There is an image </span><img src="/tao/views/img/logo_tao.png"><span class="hl" data-hl-group="1"> in the middle of this selection</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -318,7 +466,8 @@ define([
             output:     '<textarea>Leave me alone, I am inside a text area</textarea>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
-            }
+            },
+            virtualRanges: []
         },
 
         {
@@ -328,7 +477,8 @@ define([
             output:     '<textarea>Leave me alone, I am inside a text area</textarea>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer.firstChild);
-            }
+            },
+            virtualRanges: []
         },
 
         {
@@ -339,7 +489,8 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild.firstChild, 'Leave me alone, '.length);
                 range.setEnd(fixtureContainer.firstChild.firstChild, 'Leave me alone, I am inside'.length);
-            }
+            },
+            virtualRanges: []
         },
 
         {
@@ -351,7 +502,11 @@ define([
                         '<span class="hl" data-hl-group="1"> a textarea</span></div>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -361,7 +516,8 @@ define([
             output:     '<input value="Don\'t you dare highlighting me!!!" type="text">',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
-            }
+            },
+            virtualRanges: []
         },
 
         {
@@ -389,7 +545,14 @@ define([
                         '<span class="hl" data-hl-group="1"> highlighted group</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -401,7 +564,13 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.childNodes[1], ', '.length);
                 range.setEnd(fixtureContainer.childNodes[1], ', will you join me?'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [
+                        { groupId: '1', endOffset: 'I am enlightened'.length },
+                        { groupId: '2', startOffset: 'I am enlightened, '.length }
+                ]}
+            ]
         },
 
         {
@@ -411,7 +580,10 @@ define([
             output:     '<span class="hl" data-hl-group="1">I already saw the light, and so did you</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer.childNodes[1]);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -421,7 +593,10 @@ define([
             output:     '<span class="hl" data-hl-group="1">I already saw the light, and soon, we will all had</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer.childNodes[1]);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -440,7 +615,12 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild, 1);
                 range.setEnd(fixtureContainer.firstChild, 2);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -450,7 +630,10 @@ define([
             output:     '<span class="hl" data-hl-group="1">I already saw the light</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer.firstChild.firstChild);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -461,7 +644,10 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild.firstChild, 'I already have more '.length);
                 range.setEnd(fixtureContainer.firstChild.firstChild, 'I already have more highlight'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -471,7 +657,10 @@ define([
             output:     '<span class="hl" data-hl-group="1">I already saw the light</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -481,7 +670,10 @@ define([
             output:     '<span class="hl" data-hl-group="1">This existing highlight is about to be extended</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -505,7 +697,13 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild, 0);
                 range.setEnd(fixtureContainer.firstChild, 4);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
+            ]
         },
 
         {
@@ -518,7 +716,10 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild, 0);
                 range.setEnd(fixtureContainer.childNodes[1].firstChild, 'existing'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [{ groupId: '1', endOffset: 'This existing highlight'.length }] }
+            ]
         },
 
         {
@@ -531,7 +732,10 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.childNodes[1].firstChild, 'existing '.length);
                 range.setEnd(fixtureContainer.childNodes[2], ' is about to'.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, inlineRanges: [{ groupId: '1', startOffset: 'This '.length, endOffset: 'This existing highlight is about to'.length }] }
+            ]
         },
 
         {
@@ -554,7 +758,12 @@ define([
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.childNodes[1].firstChild, 'This existing '.length);
                 range.setEnd(fixtureContainer.childNodes[5].firstChild, 'by a '.length);
-            }
+            },
+            virtualRanges: [
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' },
+                { highlighted: true, groupId: '1' }
+            ]
         }
 
     ];
@@ -568,11 +777,12 @@ define([
                 $container: $('#qunit-fixture')
             });
             var range = document.createRange();
+            var virtualRanges;
             var rangeHtml;
 
             var fixtureContainer = document.getElementById('qunit-fixture');
 
-            QUnit.expect(5);
+            QUnit.expect(8);
 
             fixtureContainer.innerHTML = data.input;
             // the following assertion is just to provide a better visual feedback in QUnit UI
@@ -587,88 +797,31 @@ define([
             highlighter.highlightRanges([range]);
             assert.equal(fixtureContainer.innerHTML, data.output, 'highlight: ' + data.output);
 
+            // save highlight
+            virtualRanges = highlighter.getVirtualRanges();
+            if (typeof data.virtualRanges !== 'undefined') {
+                assert.ok(_.isArray(virtualRanges), 'getVirtualRanges returns an array');
+                assert.equal(virtualRanges.length, data.virtualRanges.length, 'array has the correct size');
+                assert.deepEqual(virtualRanges, data.virtualRanges, 'array has the correct content');
+            } else {
+                assert.ok(true);
+                assert.ok(true);
+                assert.ok(true); //fixme, please
+            }
+
             // reset markup
             fixtureContainer.innerHTML = '';
             assert.equal(fixtureContainer.innerHTML, '', 'markup has been deleted');
 
-            // re-add markup
-            fixtureContainer.innerHTML = data.input;
-            assert.equal(fixtureContainer.innerHTML, data.input, 'input: ' + data.input);
+            // re-add markup and remove any existing highlight in fixture
+            fixtureContainer.innerHTML = data.input ;
+            highlighter.clearHighlights($(fixtureContainer));
 
             // restore highlight
-            // assert.equal('');
+            highlighter.highlightVirtualRanges(virtualRanges);
+            assert.equal(fixtureContainer.innerHTML, data.output, 'highlight has been restored');
         });
 
-/*
-    QUnit.module('Virtual ranges');
-
-    QUnit.test('Save and restore highlight', function(assert) {
-        // setup test
-        var highlighter = highlighterFactory({
-            className: 'highlighted',
-        })
-        });
-        var input =
-            '<p>I am on top of the list</p>' +
-            '<p>There is a nice view up here</p>' +
-            '<ul id="list">' +
-                '<li>I am the first option</li>' +
-                '<li>I am the second option</li>' +
-                '<li>I am the <span class="some-class">third</span> option</li>' +
-                '<li>Do not chose the fourth option !</li>' +
-            '</ul>' +
-            '<div><p id="end-p"><span>The list</span> is <strong>finished</strong>, see you soon !</p></div>';
-
-        var selection =
-            '<p>There is a nice view up here</p>' +
-            '<ul id="list">' +
-                '<li>I am the first option</li>' +
-                '<li>I am the second option</li>' +
-                '<li>I am the <span class="some-class">third</span> option</li>' +
-                '<li>Do not chose the fourth option !</li>' +
-            '</ul>';
-
-        var output =
-            '<p>I am on top of the list</p>' +
-            '<p><span class="hl" data-hl-group="1">There is a nice view up here</span></p>' +
-            '<ul id="list">' +
-                '<li><span class="hl" data-hl-group="1">I am the first option</span></li>' +
-                '<li><span class="hl" data-hl-group="1">I am the second option</span></li>' +
-                '<li><span class="hl" data-hl-group="1">I am the </span><span class="some-class"><span class="hl" data-hl-group="1">third</span></span><span class="hl" data-hl-group="1"> option</span></li>' +
-                '<li><span class="hl" data-hl-group="1">Do not chose the fourth option !</span></li>' +
-            '</ul>' +
-            '<div><p id="end-p"><span>The list</span> is <strong>finished</strong>, see you soon !</p></div>';
-
-        var fixtureContainer = document.getElementById('qunit-fixture');
-
-        var range = document.createRange();
-        var rangeHtml;
-        var virtualRanges;
-
-        fixtureContainer.innerHTML = input;
-
-        range.setStart(fixtureContainer, 1);
-        range.setEnd(fixtureContainer, 3);
-
-        rangeHtml = $('<div>').append(range.cloneContents()).html();
-        assert.equal(rangeHtml, selection, 'selection: ' + selection);
-
-        // highlight
-        highlighter.highlightRanges([range]);
-        assert.equal(fixtureContainer.innerHTML, output, 'highlight: ' + output);
-
-        // ok until now !
-
-        virtualRanges = highlighter.getVirtualRanges();
-
-        $(fixtureContainer).empty();
-
-        fixtureContainer.innerHTML = input;
-
-        highlighter.highlightVirtualRanges(virtualRanges);
-        assert.equal(fixtureContainer.innerHTML, output, 'highlight: ' + output); // aaaaaargh
-    });
-*/
 
     function getMathJaxData() {
         return {

@@ -21,8 +21,10 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+    'lodash',
     'jquery'
 ], function (
+    _,
     $
 ) {
     'use strict';
@@ -49,6 +51,10 @@ define([
         var hasWrapped = false;
 
         var currentGroupId;
+        var textNodesIndex;
+        var skipNext;
+        var allRanges;
+        var newRange;
 
 
         function highlightRanges(ranges) {
@@ -62,7 +68,7 @@ define([
                     && canBeHighlighted(range.commonAncestorContainer)
                     && !isWrappingNode(range.commonAncestorContainer.parentNode)
                 ) {
-                    range.surroundContents(getWrapper().get(0));
+                    range.surroundContents(getWrapper(currentGroupId).get(0));
 
                     // now the fun stuff: highlighting a mix of text and DOM nodes
                 } else {
@@ -122,7 +128,7 @@ define([
                     wrapTextNodesInRange(currentNode, rangeInfos);
 
                 } else if (isText(currentNode)) {
-                    wrapTextNode(currentNode);
+                    wrapTextNode(currentNode, currentGroupId);
                 }
 
                 // end wrapping ?
@@ -138,15 +144,16 @@ define([
             isWrapping = !isWrapping;
         }
 
-        function wrapTextNode(node) {
+        function wrapTextNode(node, groupId) {
             if (isWrapping
                 && !isWrappingNode(node.parentNode)
                 && canBeHighlighted(node)
             ) {
-                $(node).wrap(getWrapper());
+                $(node).wrap(getWrapper(groupId));
             }
         }
 
+        // todo: change to hasWrappingNode ?
         function isWrappingNode(node) {
             return isElement(node)
                 && node.tagName.toLowerCase() === 'span'
@@ -158,15 +165,16 @@ define([
         }
 
         // todo: change to isWrappable ?
-        function canBeHighlighted(textNode) {
-            return $(textNode).closest(containersBlackList.join(',')).length === 0;
+        function canBeHighlighted(node) {
+            return isText(node)
+                && $(node).closest(containersBlackList.join(',')).length === 0;
         }
 
-        function getWrapper() {
+        function getWrapper(groupId) {
             var $wrapper = $('<span>', {
                 class: className
             });
-            $wrapper.attr(GROUP_DATA_ATTR, currentGroupId);
+            $wrapper.attr(GROUP_DATA_ATTR, groupId);
             return $wrapper;
         }
 
@@ -234,16 +242,163 @@ define([
             }
         }
 
-        return {
-            highlightRanges: highlightRanges,
+        //
+        function getVirtualRanges() { // fixme: rename to getIndex or getHighlightIndex
+            var virtualRanges = [];
+            var rootNode = $container.get(0); //fixme: clone node
+            rootNode.normalize();
 
-            getVirtualRanges: function getVirtualRanges() {
-                return [];
-            },
+            textNodesIndex = 0;
+            skipNext = false;
 
-            highlightVirtualRanges: function highlightVirtualRanges() {
+            return buildVirtualRanges(rootNode, virtualRanges);
+        }
 
+        // a hot node is either a highlightable text node or a highlight wrapper
+        function isHotNode(node) {
+            return isWrappingNode(node) || canBeHighlighted(node);
+        }
+
+        function buildVirtualRanges(rootNode, virtualRange) {
+            var childNodes = rootNode.childNodes;
+            var i, currentNode, parent, entry, newInlineRange, offset;
+            var skippedNodes;
+            var infiniteGuard;
+
+            for (i = 0; i < childNodes.length; i++) {
+                currentNode = childNodes[i];
+
+                parent = currentNode.parentNode;
+                console.log('======== ' + currentNode.textContent);
+
+                // A simple node text not highlighted and isolated (= not followed by an wrapped text)
+                if (canBeHighlighted(currentNode) && !isWrappingNode(currentNode.nextSibling)) {
+                    console.log('zeroCase with ' + currentNode.textContent);
+                    virtualRange[textNodesIndex] = { highlighted: false };
+                    textNodesIndex++;
+
+                // an isolated node (= not followed by a highlightable text) with its whole content highlighted
+                } else if (isWrappingNode(currentNode) && !canBeHighlighted(currentNode.nextSibling)) {
+                    console.log('firstCase with ' + currentNode.textContent);
+                    virtualRange[textNodesIndex] = {
+                        highlighted: true,
+                        groupId: currentNode.getAttribute(GROUP_DATA_ATTR)
+                    };
+                    textNodesIndex++;
+
+                // less straightforward: at least a succession of a wrapping node with a text node, in either order, and possibly more
+                } else if (isHotNode(currentNode) && isHotNode(currentNode.nextSibling)) {
+                    console.log('secondCase with ' + currentNode.textContent);
+                    skippedNodes = -1;
+                    entry = {
+                        highlighted: true,
+                        inlineRanges: []
+                    };
+
+                    offset = 0;
+
+                    while(currentNode) {
+                        console.log('subnode ' + currentNode.textContent);
+
+                        if (isWrappingNode(currentNode)) {
+                            newInlineRange = {
+                                groupId: currentNode.getAttribute(GROUP_DATA_ATTR)
+                            };
+                            if (isText(currentNode.previousSibling)) {
+                                newInlineRange.startOffset = offset ;
+                            }
+                            if (isText(currentNode.nextSibling)) {
+                                newInlineRange.endOffset = offset + currentNode.textContent.length;
+                            }
+                            entry.inlineRanges.push(newInlineRange);
+                        }
+
+                        offset += currentNode.textContent.length;
+                        currentNode = (isHotNode(currentNode.nextSibling)) ? currentNode.nextSibling : null;
+                        skippedNodes++;
+                    }
+                    i += skippedNodes;
+
+                    virtualRange[textNodesIndex] = entry;
+                    textNodesIndex++;
+
+                // continue deeper in the node hierarchy
+                } else if (isElement(currentNode)) {
+                    console.log('thirdCase with ' + currentNode.textContent);
+                    virtualRange.concat(buildVirtualRanges(currentNode, virtualRange));
+                } else {
+                    console.log('wtf am I doing here ?!');
+                }
             }
+            return virtualRange;
+        }
+
+        function highlightVirtualRanges(virtualRanges) {
+            var rootNode = $container.get(0);
+            rootNode.normalize();
+
+            textNodesIndex = 0;
+console.log('================ RESTORING');
+            console.dir(virtualRanges);
+            restoreHighlight(rootNode, virtualRanges);
+        }
+
+        function restoreHighlight(rootNode, virtualRanges) {
+            var childNodes = rootNode.childNodes;
+            var i, j, currentNode, entry, skippedNodes, parent, childCount;
+
+            for (i = 0; i < childNodes.length; i++) {
+                currentNode = childNodes[i];
+
+                skippedNodes = 0;
+
+                if (canBeHighlighted(currentNode)) {
+                    parent = currentNode.parentNode;
+                    childCount = parent.childNodes.length;
+
+                    entry = virtualRanges[textNodesIndex];
+                    console.log('dealing with ' + currentNode.textContent);
+                    console.dir(entry);
+
+                    if (entry.highlighted === true) {
+                        var range = document.createRange();
+                        if (_.isArray(entry.inlineRanges)) {
+                            for (j = entry.inlineRanges.length; j > 0; j -= 1) {
+                                var inlineRange = entry.inlineRanges[j - 1];
+
+                                range.setStart(currentNode, inlineRange.startOffset || 0);
+                                range.setEnd(currentNode, inlineRange.endOffset || currentNode.textContent.length);
+                                range.surroundContents(getWrapper(inlineRange.groupId).get(0));
+                            }
+
+                        } else {
+                            range.selectNodeContents(currentNode);
+                            range.surroundContents(getWrapper(entry.groupId).get(0));
+                        }
+                        // we do want to loop over the nodes created by the wrapping operation
+                        skippedNodes = parent.childNodes.length - childCount;
+                        i += skippedNodes;
+                    }
+                    textNodesIndex++;
+
+                } else if (isElement(currentNode)) {
+                    restoreHighlight(currentNode, virtualRanges);
+                }
+            }
+        }
+
+        function clearHighlights($containerToClean) {
+            $containerToClean.find('.' + className).each(function() {
+                var $wrapped = $(this);
+                $wrapped.replaceWith($wrapped.text());
+            });
+        }
+
+        return {
+            highlightRanges:        highlightRanges,
+            highlightVirtualRanges: highlightVirtualRanges,
+            getVirtualRanges:       getVirtualRanges,
+            clearHighlights:        clearHighlights
         };
     };
 });
