@@ -532,6 +532,29 @@ define([
                 range.setStart(fixtureContainer.childNodes[1].firstChild, 'existing '.length);
                 range.setEnd(fixtureContainer.childNodes[2], ' is about to'.length);
             }
+        },
+
+        {
+            title:      'join partially selected highlights, with another one in the middle',
+            input:      '<strong><span class="hl" data-hl-group="2">Look what is about to happen</span></strong>' +
+                        '<span class="hl" data-hl-group="2">This existing highlight</span>' +
+                        ' will <span class="hl" data-hl-group="6">soon</span> be joined ' +
+                        '<span class="hl" data-hl-group="4">by a new one</span>' +
+                        '<strong><span class="hl" data-hl-group="4">how cool is that ?!</span></strong>',
+            selection:  // added upon invalid range => HTML conversion
+                        '<span class="hl" data-hl-group="2">' +
+                                                                         'highlight</span>' +
+                        ' will <span class="hl" data-hl-group="6">soon</span> be joined ' +
+                        '<span class="hl" data-hl-group="4">by a ' +
+                                                                        // added upon invalid range => HTML conversion
+                                                                        '</span>',
+            output:     '<strong><span class="hl" data-hl-group="1">Look what is about to happen</span></strong>' +
+                        '<span class="hl" data-hl-group="1">This existing highlight will soon be joined by a new one</span>' +
+                        '<strong><span class="hl" data-hl-group="1">how cool is that ?!</span></strong>',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.childNodes[1].firstChild, 'This existing '.length);
+                range.setEnd(fixtureContainer.childNodes[5].firstChild, 'by a '.length);
+            }
         }
 
         // join selection with partial select right an left
