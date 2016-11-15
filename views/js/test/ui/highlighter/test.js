@@ -557,9 +557,6 @@ define([
             }
         }
 
-        // join selection with partial select right an left
-        // join selection with partial select right an left and other in the middle
-
     ];
 
     QUnit
@@ -575,20 +572,31 @@ define([
 
             var fixtureContainer = document.getElementById('qunit-fixture');
 
-            QUnit.expect(3);
+            QUnit.expect(5);
 
             fixtureContainer.innerHTML = data.input;
             // the following assertion is just to provide a better visual feedback in QUnit UI
             assert.equal(fixtureContainer.innerHTML, data.input, 'input: ' + data.input);
 
-            // create range, then make sure the built selection is correct
+            // create range, then make sure it is correctly built
             data.buildRange(range, fixtureContainer);
-            rangeHtml = $('<div>').append(range.cloneContents()).html(); // this conversion to HTML will close any partially selected node
+            rangeHtml = $('<div>').append(range.cloneContents()).html(); // this conversion to HTML will automatically close partially selected nodes, if any
             assert.equal(rangeHtml, data.selection, 'selection: ' + data.selection);
 
             // highlight
             highlighter.highlightRanges([range]);
             assert.equal(fixtureContainer.innerHTML, data.output, 'highlight: ' + data.output);
+
+            // reset markup
+            fixtureContainer.innerHTML = '';
+            assert.equal(fixtureContainer.innerHTML, '', 'markup has been deleted');
+
+            // re-add markup
+            fixtureContainer.innerHTML = data.input;
+            assert.equal(fixtureContainer.innerHTML, data.input, 'input: ' + data.input);
+
+            // restore highlight
+            // assert.equal('');
         });
 
 /*

@@ -118,11 +118,6 @@ define([
                     }
                 }
 
-                // wrap
-                // if (isWrapping && isWrappingNode(currentNode)) {
-                //     removeWrapper(currentNode);
-                // }
-
                 if (isElement(currentNode)) {
                     wrapTextNodesInRange(currentNode, rangeInfos);
 
@@ -144,16 +139,10 @@ define([
         }
 
         function wrapTextNode(node) {
-            if (isWrappingNode(node.parentNode)) {
-                // todo missing case if only isWrappingNode
-                // if (isText(node.parentNode)) {
-                //     removeWrapper(node);
-                // } else {
-                //
-                // }
-                // changeWrapperId(node);
-
-            } else if (isWrapping && canBeHighlighted(node)) {
+            if (isWrapping
+                && !isWrappingNode(node.parentNode)
+                && canBeHighlighted(node)
+            ) {
                 $(node).wrap(getWrapper());
             }
         }
@@ -162,14 +151,6 @@ define([
             return isElement(node)
                 && node.tagName.toLowerCase() === 'span'
                 && node.className === className;
-        }
-
-        function removeWrapper(node) {
-            // node.parentNode).replaceWith(node.text());
-        }
-
-        function changeWrapperId(node) {
-            node.parentNode.setAttribute(GROUP_DATA_ATTR, currentGroupId);
         }
 
         function changeGroupId(node, groupId) {
