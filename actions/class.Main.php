@@ -75,7 +75,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    if (empty($entries)) {
 	        // no access -> error
 	        if (common_session_SessionManager::isAnonymous()) {
-	           return $this->redirect(_url('login')); 
+                /* @var $urlRouteService \oat\tao\model\mvc\DefaultUrlService */
+                $urlRouteService = $this->getServiceManager()->get(DefaultUrlService);
+                $this->redirect($urlRouteService->getLoginUrl());
 	        } else {
 	            common_session_SessionManager::endSession();
                 return $this->returnError(__('You currently have no access to the platform'));
