@@ -58,7 +58,10 @@ define([
                 currentGroupId = getAvailableGroupId();
 
                 // easy peasy: highlighting a plain text without any nested DOM nodes
-                if (isText(range.commonAncestorContainer) && canBeHighlighted(range.commonAncestorContainer)) {
+                if (isText(range.commonAncestorContainer)
+                    && canBeHighlighted(range.commonAncestorContainer)
+                    && !isWrappingNode(range.commonAncestorContainer.parentNode)
+                ) {
                     range.surroundContents(getWrapper().get(0));
 
                     // now the fun stuff: highlighting a mix of text and DOM nodes
@@ -79,6 +82,10 @@ define([
 
                     wrapTextNodesInRange(range.commonAncestorContainer, rangeInfos);
                 }
+                range.commonAncestorContainer.normalize();
+                currentGroupId = 0;
+                isWrapping = false;
+                reindexGroups($container.get(0));
                 mergeAdjacentWrappingNodes(range.commonAncestorContainer);
             });
         }
@@ -144,7 +151,7 @@ define([
                 // } else {
                 //
                 // }
-                changeWrapperId(node);
+                // changeWrapperId(node);
 
             } else if (isWrapping && canBeHighlighted(node)) {
                 $(node).wrap(getWrapper());
@@ -165,6 +172,11 @@ define([
             node.parentNode.setAttribute(GROUP_DATA_ATTR, currentGroupId);
         }
 
+        function changeGroupId(node, groupId) {
+            node.setAttribute(GROUP_DATA_ATTR, groupId);
+        }
+
+        // todo: change to isWrappable ?
         function canBeHighlighted(textNode) {
             return $(textNode).closest(containersBlackList.join(',')).length === 0;
         }
@@ -202,15 +214,41 @@ define([
                 currentNode = childNodes[i];
 
                 if (isWrappingNode(currentNode)) {
+                    // console.log('considering ' + currentNode.textContent);
+                    // console.log('with sibling ' + currentNode.nextSibling.textContent);
+
                     while (isElement(currentNode.nextSibling)
-                    && isWrappingNode(currentNode.nextSibling)
-                    && currentNode.getAttribute('data-hl-group') === currentNode.nextSibling.getAttribute('data-hl-group')
+                        && isWrappingNode(currentNode.nextSibling)
                         ) {
                         currentNode.firstChild.textContent += currentNode.nextSibling.firstChild.textContent;
                         currentNode.parentNode.removeChild(currentNode.nextSibling);
                     }
                 } else if (isElement(currentNode)) {
                     mergeAdjacentWrappingNodes(currentNode);
+                }
+            }
+        }
+
+        function reindexGroups(rootNode) {
+            var childNodes = rootNode.childNodes;
+            var i, currentNode, parent;
+
+            for (i = 0; i < childNodes.length; i++) {
+                currentNode = childNodes[i];
+
+                if (isText(currentNode) && canBeHighlighted(currentNode)) {
+                    parent = currentNode.parentNode;
+                    if (isWrappingNode(parent)) {
+                        if (isWrapping === false) {
+                            currentGroupId++;
+                        }
+                        isWrapping = true;
+                        changeGroupId(parent, currentGroupId);
+                    } else {
+                        isWrapping = false;
+                    }
+                } else if (isElement(currentNode)) {
+                    reindexGroups(currentNode);
                 }
             }
         }

@@ -26,7 +26,6 @@ define([
     'use strict';
 
     var highlightRangeData;
-    var highlightGroupsData;
     var MathJaxData = getMathJaxData();
 
     QUnit.module('highlighterFactory');
@@ -325,7 +324,7 @@ define([
         {
             title:      'do not highlight text fully selected in a textarea',
             input:      '<textarea>Leave me alone, I am inside a text area</textarea>',
-            selection:  'Leave me alone, I am inside a text area',
+            selection:            'Leave me alone, I am inside a text area',
             output:     '<textarea>Leave me alone, I am inside a text area</textarea>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer.firstChild);
@@ -397,8 +396,7 @@ define([
             title:      'select the next available group id',
             input:      '<span class="hl" data-hl-group="1">I am enlightened</span>, will you join me?',
             selection:                                                              'will you join me?',
-            output:     '<span class="hl" data-hl-group="1">I am enlightened</span>' +
-                        ', ' +
+            output:     '<span class="hl" data-hl-group="1">I am enlightened</span>, ' +
                         '<span class="hl" data-hl-group="2">will you join me?</span>',
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.childNodes[1], ', '.length);
@@ -407,30 +405,80 @@ define([
         },
 
         {
-            title:      'change the group Id of an already highlighted node',
+            title:      'create a single group if two consecutive text node are highlighted',
+            input:      '<span class="hl" data-hl-group="1">I already saw the light</span>, and so did you',
+            selection:                                                                   ', and so did you',
+            output:     '<span class="hl" data-hl-group="1">I already saw the light, and so did you</span>',
+            buildRange: function(range, fixtureContainer) {
+                range.selectNodeContents(fixtureContainer.childNodes[1]);
+            }
+        },
+
+        {
+            title:      'create a single group if two text selections are joined',
+            input:      '<span class="hl" data-hl-group="1">I already saw the light</span>, and soon, <span class="hl" data-hl-group="5">we will all had</span>',
+            selection:                                                                   ', and soon, ',
+            output:     '<span class="hl" data-hl-group="1">I already saw the light, and soon, we will all had</span>',
+            buildRange: function(range, fixtureContainer) {
+                range.selectNodeContents(fixtureContainer.childNodes[1]);
+            }
+        },
+
+        {
+            title:      'create a single group if two node selections are joined',
+            input:      '<ul id="list">' +
+                            '<li><span class="hl" data-hl-group="5">For now</span></li>' +
+                            '<li>We all belong</li>' +
+                            '<li><span class="hl" data-hl-group="3">To a different group</span></li>' +
+                        '</ul>',
+            selection:      '<li>We all belong</li>',
+            output:     '<ul id="list">' +
+                            '<li><span class="hl" data-hl-group="1">For now</span></li>' +
+                            '<li><span class="hl" data-hl-group="1">We all belong</span></li>' +
+                            '<li><span class="hl" data-hl-group="1">To a different group</span></li>' +
+                        '</ul>',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.firstChild, 1);
+                range.setEnd(fixtureContainer.firstChild, 2);
+            }
+        },
+
+        {
+            title:      'does not highlight an already highlighted text',
+            input:      '<span class="hl" data-hl-group="1">I already saw the light</span>',
+            selection:                                     'I already saw the light',
+            output:     '<span class="hl" data-hl-group="1">I already saw the light</span>',
+            buildRange: function(range, fixtureContainer) {
+                range.selectNodeContents(fixtureContainer.firstChild.firstChild);
+            }
+        },
+
+        {
+            title:      'does not highlight an already highlighted portion of text',
+            input:      '<span class="hl" data-hl-group="1">I already have more highlight that I need, leave me alone</span>',
+            selection:                                                         'highlight',
+            output:     '<span class="hl" data-hl-group="1">I already have more highlight that I need, leave me alone</span>',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.firstChild.firstChild, 'I already have more '.length);
+                range.setEnd(fixtureContainer.firstChild.firstChild, 'I already have more highlight'.length);
+            }
+        },
+
+        {
+            title:      'does not highlight an already highlighted node',
             input:      '<span class="hl" data-hl-group="1">I already saw the light</span>',
             selection:  '<span class="hl" data-hl-group="1">I already saw the light</span>',
-            output:     '<span class="hl" data-hl-group="2">I already saw the light</span>',
+            output:     '<span class="hl" data-hl-group="1">I already saw the light</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
             }
         },
 
         {
-            title:      'change the group Id of an already highlighted text',
-            input:      '<span class="hl" data-hl-group="1">I already saw the light</span>',
-            selection:                                     'I already saw the light',
-            output:     '<span class="hl" data-hl-group="2">I already saw the light</span>',
-            buildRange: function(range, fixtureContainer) {
-                range.selectNodeContents(fixtureContainer.firstChild);
-            }
-        },
-
-        {
             title:      'merge existing highlights when fully overlapped by a new plain text selection',
-            input:      'This <span class="hl" data-hl-group="2">existing highlight</span> is about to be replaced',
-            selection:  'This <span class="hl" data-hl-group="2">existing highlight</span> is about to be replaced',
-            output:     '<span class="hl" data-hl-group="1">This existing highlight is about to be replaced</span>',
+            input:      'This <span class="hl" data-hl-group="2">existing highlight</span> is about to be extended',
+            selection:  'This <span class="hl" data-hl-group="2">existing highlight</span> is about to be extended',
+            output:     '<span class="hl" data-hl-group="1">This existing highlight is about to be extended</span>',
             buildRange: function(range, fixtureContainer) {
                 range.selectNodeContents(fixtureContainer);
             }
@@ -461,32 +509,33 @@ define([
         },
 
         {
-            title:      'merge existing and overlapping highlights into new group, 2',
-            input:      'This <span class="hl" data-hl-group="2">existing highlight</span> is about to be replaced',
-            selection:  // added upon invalid range => HTML conversion
-                        '<span class="hl" data-hl-group="2">' +
-                                                                         'highlight</span> is about to',
-            output:     'This <span class="hl" data-hl-group="2">existing </span>' +
-                        '<span class="hl" data-hl-group="1">highlight is about to</span> be replaced',
-            buildRange: function(range, fixtureContainer) {
-                range.setStart(fixtureContainer.childNodes[1].firstChild, 'existing '.length);
-                range.setEnd(fixtureContainer.childNodes[2], ' is about to'.length);
-            }
-        },
-
-        {
-            title:      'merge existing and overlapping highlights into new group, 3',
-            input:      'This <span class="hl" data-hl-group="2">existing highlight</span> is about to be replaced',
+            title:      'extend existing highlight on the left',
+            input:      'This <span class="hl" data-hl-group="2">existing highlight</span> is about to be extended',
             selection:  'This <span class="hl" data-hl-group="2">existing' +
                                                                                 // added upon invalid range => HTML conversion,
                                                                                 '</span>',
-            output:     '<span class="hl" data-hl-group="1">This existing</span>' +
-                        '<span class="hl" data-hl-group="2"> highlight is about to be replaced</span>',
+            output:     '<span class="hl" data-hl-group="1">This existing highlight</span> is about to be extended',
             buildRange: function(range, fixtureContainer) {
                 range.setStart(fixtureContainer.firstChild, 0);
                 range.setEnd(fixtureContainer.childNodes[1].firstChild, 'existing'.length);
             }
+        },
+
+        {
+            title:      'extend existing highlight on the right',
+            input:      'This <span class="hl" data-hl-group="2">existing highlight</span> is about to be extended',
+            selection:  // added upon invalid range => HTML conversion
+                        '<span class="hl" data-hl-group="2">' +
+                                                                         'highlight</span> is about to',
+            output:     'This <span class="hl" data-hl-group="1">existing highlight is about to</span> be extended',
+            buildRange: function(range, fixtureContainer) {
+                range.setStart(fixtureContainer.childNodes[1].firstChild, 'existing '.length);
+                range.setEnd(fixtureContainer.childNodes[2], ' is about to'.length);
+            }
         }
+
+        // join selection with partial select right an left
+        // join selection with partial select right an left and other in the middle
 
     ];
 
@@ -496,7 +545,7 @@ define([
             // setup test
             var highlighter = highlighterFactory({
                 className: 'hl',
-                $container: $('body')
+                $container: $('#qunit-fixture')
             });
             var range = document.createRange();
             var rangeHtml;
