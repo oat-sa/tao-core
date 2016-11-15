@@ -1,13 +1,14 @@
 <div class="bulk-action-popup">
     <h2 class="title">{{__ "Action"}}: {{actionName}}</h2>
-    
-    {{#if single}}
+
+    {{#if resourceCount}}
+        {{#if single}}
     <div class="single" data-resource="{{allowedResources.0.id}}">
         <p>
             {{__ "The action will be applied to"}} {{resourceType}} <span class="resource-label">{{allowedResources.0.label}}</span>
         </p>
     </div>
-    {{else}}
+        {{else}}
     <div class="multiple">
         <p>
             {{__ "The action will be applied to the following"}} <span class="resource-count">{{resourceCount}}</span> {{resourceTypes}}:
@@ -20,20 +21,29 @@
             {{/each}}
         </ul>
     </div>
+        {{/if}}
     {{/if}}
     
     {{#if deniedResources.length}}
+        {{#if singleDenied}}
+    <div class="single" data-resource="{{deniedResources.0.id}}">
+        <p>
+            {{__ "The action will not be applied to "}} {{resourceType}} <span class="resource-label">{{deniedResources.0.label}}</span>
+        </p>
+    </div>
+        {{else}}
     <p>
-        {{__ "However, the action will not be applied to the following"}} {{resourceTypes}}:
+        {{__ "The action will not be applied to the following"}} {{resourceTypes}}:
     </p>
     <ul class="plain no-applicables">
-        {{#each deniedResources}}
+            {{#each deniedResources}}
         <li data-resource="{{id}}">
             <span class="resource-label">{{label}}</span>
             <span class="reason">({{reason}})</span>
         </li>
-        {{/each}}
+            {{/each}}
     </ul>
+        {{/if}}
     {{/if}}
     
     {{#if reason}}
