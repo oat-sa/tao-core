@@ -24,6 +24,8 @@
 define([], function () {
     'use strict';
 
+
+
     /**
      * @returns {Object} The selector helper
      */
@@ -32,7 +34,7 @@ define([], function () {
          * Get the current selected ranges
          * @returns {Range[]}
          */
-        getRanges: function getRanges() {
+        getAllRanges: function getRanges() {
             var selection;
             var ranges = [];
             var i;
@@ -45,7 +47,19 @@ define([], function () {
                 }
             }
             return ranges;
-        }
+        },
 
+        removeAllRanges: function removeAllRanges() {
+            if (window.getSelection) {
+                window.getSelection().removeAllRanges();
+            }
+        },
+
+        rangeCount: function rangeCount() {
+            if (window.getSelection) {
+                return window.getSelection().rangeCount;
+            }
+            return 0;
+        }
     };
 });

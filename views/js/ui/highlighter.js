@@ -45,7 +45,7 @@ define([
      */
     return function(options) {
         var className = options.className;
-        var $container = options.$container;
+        var containerSelector = options.containerSelector;
 
         var isWrapping = false;
         var hasWrapped = false;
@@ -57,43 +57,66 @@ define([
         var newRange;
 
 
+        function getContainer() {
+            return $(containerSelector).get(0);
+        }
+
         function highlightRanges(ranges) {
             ranges.forEach(function(range) {
                 var rangeInfos;
 
-                currentGroupId = getAvailableGroupId();
+                if (isRangeValid(range)) {
+                    console.log('highlighting range');
+                    currentGroupId = getAvailableGroupId();
 
-                // easy peasy: highlighting a plain text without any nested DOM nodes
-                if (isText(range.commonAncestorContainer)
-                    && canBeHighlighted(range.commonAncestorContainer)
-                    && !isWrappingNode(range.commonAncestorContainer.parentNode)
-                ) {
-                    range.surroundContents(getWrapper(currentGroupId).get(0));
+                    // easy peasy: highlighting a plain text without any nested DOM nodes
+                    if (canBeHighlighted(range.commonAncestorContainer)
+                        && !isWrappingNode(range.commonAncestorContainer.parentNode)
+                    ) {
+                        range.surroundContents(getWrapper(currentGroupId).get(0));
 
-                    // now the fun stuff: highlighting a mix of text and DOM nodes
-                } else {
-                    rangeInfos = {
-                        startNode: (isElement(range.startContainer))
-                            ? range.startContainer.childNodes[range.startOffset]
-                            : range.startContainer,
-                        startNodeContainer: range.startContainer,
-                        startOffset: range.startOffset,
+                        // now the fun stuff: highlighting a mix of text and DOM nodes
+                    } else {
+                        rangeInfos = {
+                            startNode: (isElement(range.startContainer))
+                                ? range.startContainer.childNodes[range.startOffset]
+                                : range.startContainer,
+                            startNodeContainer: range.startContainer,
+                            startOffset: range.startOffset,
 
-                        endNode: (isElement(range.endContainer))
-                            ? range.endContainer.childNodes[range.endOffset - 1]
-                            : range.endContainer,
-                        endNodeContainer: range.endContainer,
-                        endOffset: range.endOffset
-                    };
+                            endNode: (isElement(range.endContainer))
+                                ? range.endContainer.childNodes[range.endOffset - 1]
+                                : range.endContainer,
+                            endNodeContainer: range.endContainer,
+                            endOffset: range.endOffset
+                        };
 
-                    wrapTextNodesInRange(range.commonAncestorContainer, rangeInfos);
+                        wrapTextNodesInRange(range.commonAncestorContainer, rangeInfos);
+                    }
                 }
+
+                // clean up markup after wrapping...
                 range.commonAncestorContainer.normalize();
                 currentGroupId = 0;
                 isWrapping = false;
-                reindexGroups($container.get(0));
+                reindexGroups(getContainer());
                 mergeAdjacentWrappingNodes(range.commonAncestorContainer);
             });
+        }
+
+        function isRangeValid(range) {
+            var rangeInContainer =
+                $.contains(getContainer(), range.commonAncestorContainer)
+                || getContainer().isSameNode(range.commonAncestorContainer);
+            var emptyRange =
+                isText(range.startContainer)
+                && range.startContainer.isSameNode(range.endContainer)
+                && range.startOffset === range.endOffset;
+            if (emptyRange) {
+                console.log('Empty range !!!');
+            }
+
+            return (rangeInContainer && !emptyRange);
         }
 
 
@@ -118,22 +141,28 @@ define([
                     }
                 }
 
-                if (currentNode.isSameNode(rangeInfos.endNode)) {
-                    if (isText(rangeInfos.endNodeContainer) && rangeInfos.endOffset !== 0) {
+                if (currentNode.isSameNode(rangeInfos.endNode) && isText(rangeInfos.endNodeContainer)) {
+                    if (rangeInfos.endOffset !== 0) {
                         currentNode.splitText(rangeInfos.endOffset);
+                    } else {
+                        isWrapping = false;
                     }
                 }
+                // console.dir(rangeInfos);
+                // debugger;
 
-                if (isElement(currentNode)) {
-                    wrapTextNodesInRange(currentNode, rangeInfos);
-
-                } else if (isText(currentNode)) {
+                // do the wrapping...
+                if (isText(currentNode))  {
                     wrapTextNode(currentNode, currentGroupId);
+
+                // ... or continue deeper in the node tree
+                } else if (isElement(currentNode)) {
+                    wrapTextNodesInRange(currentNode, rangeInfos);
                 }
 
                 // end wrapping ?
                 if (currentNode.isSameNode(rangeInfos.endNode)) {
-                    toggleWrapping();
+                    isWrapping = false;
                     hasWrapped = true;
                     break;
                 }
@@ -146,6 +175,7 @@ define([
 
         function wrapTextNode(node, groupId) {
             if (isWrapping
+                && node.textContent.length > 0
                 && !isWrappingNode(node.parentNode)
                 && canBeHighlighted(node)
             ) {
@@ -180,7 +210,7 @@ define([
 
         function getAvailableGroupId() {
             var id = currentGroupId || 1;
-            while ($container.find('[' + GROUP_DATA_ATTR + '=' + id + ']').length !== 0) {
+            while ($(getContainer()).find('[' + GROUP_DATA_ATTR + '=' + id + ']').length !== 0) {
                 id++;
             }
             return id;
@@ -243,15 +273,15 @@ define([
         }
 
         //
-        function getVirtualRanges() { // fixme: rename to getIndex or getHighlightIndex
-            var virtualRanges = [];
-            var rootNode = $container.get(0); //fixme: clone node
+        function getHighlightIndex() { // fixme: rename to getIndex or getHighlightIndex
+            var highlightIndex = [];
+            var rootNode = getContainer(); //fixme: clone node
             rootNode.normalize();
 
             textNodesIndex = 0;
             skipNext = false;
 
-            return buildVirtualRanges(rootNode, virtualRanges);
+            return buildHighlightIndex(rootNode, highlightIndex);
         }
 
         // a hot node is either a highlightable text node or a highlight wrapper
@@ -259,7 +289,7 @@ define([
             return isWrappingNode(node) || canBeHighlighted(node);
         }
 
-        function buildVirtualRanges(rootNode, virtualRange) {
+        function buildHighlightIndex(rootNode, highlightIndex) {
             var childNodes = rootNode.childNodes;
             var i, currentNode, parent, entry, newInlineRange, offset;
             var skippedNodes;
@@ -274,19 +304,19 @@ define([
                 // A simple node text not highlighted and isolated (= not followed by an wrapped text)
                 if (canBeHighlighted(currentNode) && !isWrappingNode(currentNode.nextSibling)) {
                     console.log('zeroCase with ' + currentNode.textContent);
-                    virtualRange[textNodesIndex] = { highlighted: false };
+                    highlightIndex[textNodesIndex] = { highlighted: false };
                     textNodesIndex++;
 
                 // an isolated node (= not followed by a highlightable text) with its whole content highlighted
                 } else if (isWrappingNode(currentNode) && !canBeHighlighted(currentNode.nextSibling)) {
                     console.log('firstCase with ' + currentNode.textContent);
-                    virtualRange[textNodesIndex] = {
+                    highlightIndex[textNodesIndex] = {
                         highlighted: true,
                         groupId: currentNode.getAttribute(GROUP_DATA_ATTR)
                     };
                     textNodesIndex++;
 
-                // less straightforward: at least a succession of a wrapping node with a text node, in either order, and possibly more
+                // less straightforward: at least a succession of a wrapping node with a wrappable text node, in either order, and possibly more
                 } else if (isHotNode(currentNode) && isHotNode(currentNode.nextSibling)) {
                     console.log('secondCase with ' + currentNode.textContent);
                     skippedNodes = -1;
@@ -319,31 +349,30 @@ define([
                     }
                     i += skippedNodes;
 
-                    virtualRange[textNodesIndex] = entry;
+                    highlightIndex[textNodesIndex] = entry;
                     textNodesIndex++;
 
-                // continue deeper in the node hierarchy
+                // go deeper in the node tree...
                 } else if (isElement(currentNode)) {
                     console.log('thirdCase with ' + currentNode.textContent);
-                    virtualRange.concat(buildVirtualRanges(currentNode, virtualRange));
+                    highlightIndex.concat(buildHighlightIndex(currentNode, highlightIndex));
                 } else {
                     console.log('wtf am I doing here ?!');
                 }
             }
-            return virtualRange;
+            return highlightIndex;
         }
 
-        function highlightVirtualRanges(virtualRanges) {
-            var rootNode = $container.get(0);
+        function highlightFromIndex(highlightIndex) {
+            var rootNode = getContainer();
             rootNode.normalize();
 
             textNodesIndex = 0;
-console.log('================ RESTORING');
-            console.dir(virtualRanges);
-            restoreHighlight(rootNode, virtualRanges);
+
+            restoreHighlight(rootNode, highlightIndex);
         }
 
-        function restoreHighlight(rootNode, virtualRanges) {
+        function restoreHighlight(rootNode, highlightIndex) {
             var childNodes = rootNode.childNodes;
             var i, j, currentNode, entry, skippedNodes, parent, childCount;
 
@@ -356,9 +385,7 @@ console.log('================ RESTORING');
                     parent = currentNode.parentNode;
                     childCount = parent.childNodes.length;
 
-                    entry = virtualRanges[textNodesIndex];
-                    console.log('dealing with ' + currentNode.textContent);
-                    console.dir(entry);
+                    entry = highlightIndex[textNodesIndex];
 
                     if (entry.highlighted === true) {
                         var range = document.createRange();
@@ -382,7 +409,7 @@ console.log('================ RESTORING');
                     textNodesIndex++;
 
                 } else if (isElement(currentNode)) {
-                    restoreHighlight(currentNode, virtualRanges);
+                    restoreHighlight(currentNode, highlightIndex);
                 }
             }
         }
@@ -396,8 +423,8 @@ console.log('================ RESTORING');
 
         return {
             highlightRanges:        highlightRanges,
-            highlightVirtualRanges: highlightVirtualRanges,
-            getVirtualRanges:       getVirtualRanges,
+            highlightFromIndex:     highlightFromIndex,
+            getHighlightIndex:      getHighlightIndex,
             clearHighlights:        clearHighlights
         };
     };
