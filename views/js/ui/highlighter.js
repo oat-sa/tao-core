@@ -33,7 +33,7 @@ define([
     var GROUP_ATTR = 'data-hl-group';
 
     /**
-     * Children of those nodes cannot be highlighted
+     * Children of those nodes types cannot be highlighted
      * @type {string[]}
      */
     var containersBlackList = [
@@ -124,10 +124,11 @@ define([
 
                 // clean up the markup after wrapping...
                 range.commonAncestorContainer.normalize();
+
                 currentGroupId = 0;
                 isWrapping = false;
                 reindexGroups(getContainer());
-                mergeAdjacentWrappingNodes(range.commonAncestorContainer);
+                mergeAdjacentWrappingNodes(getContainer());
             });
         }
 
@@ -141,11 +142,7 @@ define([
                 $.contains(getContainer(), range.commonAncestorContainer)
                 || getContainer().isSameNode(range.commonAncestorContainer);
 
-            var emptyRange =
-                range.startContainer.isSameNode(range.endContainer)
-                && range.startOffset === range.endOffset;
-
-            return (rangeInContainer && !emptyRange);
+            return (rangeInContainer && !range.collapsed);
         }
 
         /**
@@ -285,11 +282,11 @@ define([
             });
         }
 
+
         /**
          * Index-related functions:
          * ========================
-         * To allow saving and restoring highlights on an equivalent, but different, DOM tree
-         * (for example if the markup is deleted and re-created)
+         * To allow saving and restoring highlights on an equivalent, but different, DOM tree (for example if the markup is deleted and re-created)
          * we build an index containing the status of each text node:
          * - not highlighted
          * - fully highlighted
@@ -299,7 +296,7 @@ define([
          */
 
         /**
-         * Bootstrap the recursive function that will traverse the DOM tree to index text Nodes
+         * Bootstrap the process of building the highlight index
          * @returns {Object[]}
          */
         function getHighlightIndex() {
@@ -309,21 +306,19 @@ define([
 
             textNodesIndex = 0;
 
-            buildHighlightIndex(rootNode, highlightIndex); //todo: make this a pure function ?
+            buildHighlightIndex(rootNode, highlightIndex);
             return highlightIndex;
         }
 
         /**
-         *
-         * @param rootNode
-         * @param highlightIndex
-         * @returns {*}
+         * Traverse the DOM tree to create the text Nodes index. Recursive.
+         * @param {Node} rootNode
+         * @param {Object[]} highlightIndex
          */
         function buildHighlightIndex(rootNode, highlightIndex) {
             var childNodes = rootNode.childNodes;
-            // var highlightIndex = [];
-            var i, currentNode, entry, newInlineRange, offset;
-            var skippedNodes;
+            var i, currentNode;
+            var nodeInfos, inlineRange, inlineOffset, nodesToSkip;
 
             for (i = 0; i < childNodes.length; i++) {
                 currentNode = childNodes[i];
@@ -345,45 +340,48 @@ define([
                 // the trick is to create a unique text node on which we will be able to re-apply multiple partial highlights
                 // for this, we use 'inlineRanges'
                 } else if (isHotNode(currentNode) && isHotNode(currentNode.nextSibling)) {
-                    skippedNodes = -1;
-                    entry = {
+                    nodeInfos = {
                         highlighted: true,
                         inlineRanges: []
                     };
 
-                    offset = 0;
+                    nodesToSkip = -1;
+                    inlineOffset = 0;
 
                     while(currentNode) {
                         if (isWrappingNode(currentNode)) {
-                            newInlineRange = {
+                            inlineRange = {
                                 groupId: currentNode.getAttribute(GROUP_ATTR)
                             };
                             if (isText(currentNode.previousSibling)) {
-                                newInlineRange.startOffset = offset ;
+                                inlineRange.startOffset = inlineOffset ;
                             }
                             if (isText(currentNode.nextSibling)) {
-                                newInlineRange.endOffset = offset + currentNode.textContent.length;
+                                inlineRange.endOffset = inlineOffset + currentNode.textContent.length;
                             }
-                            entry.inlineRanges.push(newInlineRange);
+                            nodeInfos.inlineRanges.push(inlineRange);
                         }
 
-                        offset += currentNode.textContent.length;
+                        inlineOffset += currentNode.textContent.length;
                         currentNode = (isHotNode(currentNode.nextSibling)) ? currentNode.nextSibling : null;
-                        skippedNodes++;
+                        nodesToSkip++;
                     }
-                    i += skippedNodes;
+                    i += nodesToSkip; // we increase the loop counter to avoid looping over the nodes that we just analyzed
 
-                    highlightIndex[textNodesIndex] = entry;
+                    highlightIndex[textNodesIndex] = nodeInfos;
                     textNodesIndex++;
 
                 // go deeper in the node tree...
                 } else if (isElement(currentNode)) {
-                    highlightIndex.concat(buildHighlightIndex(currentNode, highlightIndex));
+                    buildHighlightIndex(currentNode, highlightIndex);
                 }
             }
-            return highlightIndex;
         }
 
+        /**
+         * Bootstrap the process of restoring the highlights from an index
+         * @param {Object[]} highlightIndex
+         */
         function highlightFromIndex(highlightIndex) {
             var rootNode = getContainer();
             rootNode.normalize();
@@ -393,39 +391,44 @@ define([
             restoreHighlight(rootNode, highlightIndex);
         }
 
+        /**
+         * Traverse the DOM tree to wraps the text nodes according to the highlight index. Recursive.
+         * @param {Node} rootNode
+         * @param {Object[]} highlightIndex
+         */
         function restoreHighlight(rootNode, highlightIndex) {
             var childNodes = rootNode.childNodes;
-            var i, j, currentNode, entry, skippedNodes, parent, childCount;
+            var i, currentNode, parent;
+            var nodeInfos, nodesToSkip, range, initialChildCount;
 
             for (i = 0; i < childNodes.length; i++) {
                 currentNode = childNodes[i];
 
-                skippedNodes = 0;
-
                 if (isWrappable(currentNode)) {
                     parent = currentNode.parentNode;
-                    childCount = parent.childNodes.length;
+                    initialChildCount = parent.childNodes.length;
 
-                    entry = highlightIndex[textNodesIndex];
+                    nodeInfos = highlightIndex[textNodesIndex];
 
-                    if (entry.highlighted === true) {
-                        var range = document.createRange();
-                        if (_.isArray(entry.inlineRanges)) {
-                            for (j = entry.inlineRanges.length; j > 0; j -= 1) {
-                                var inlineRange = entry.inlineRanges[j - 1];
-
+                    if (nodeInfos.highlighted === true) {
+                        if (_.isArray(nodeInfos.inlineRanges)) {
+                            nodeInfos.inlineRanges.reverse();
+                            nodeInfos.inlineRanges.forEach(function(inlineRange) {
+                                range = document.createRange();
                                 range.setStart(currentNode, inlineRange.startOffset || 0);
                                 range.setEnd(currentNode, inlineRange.endOffset || currentNode.textContent.length);
                                 range.surroundContents(getWrapper(inlineRange.groupId));
-                            }
+                            });
 
+                        // fully highlighted text node
                         } else {
+                            range = document.createRange();
                             range.selectNodeContents(currentNode);
-                            range.surroundContents(getWrapper(entry.groupId));
+                            range.surroundContents(getWrapper(nodeInfos.groupId));
                         }
                         // we do want to loop over the nodes created by the wrapping operation
-                        skippedNodes = parent.childNodes.length - childCount;
-                        i += skippedNodes;
+                        nodesToSkip = parent.childNodes.length - initialChildCount;
+                        i += nodesToSkip;
                     }
                     textNodesIndex++;
 
@@ -442,7 +445,7 @@ define([
 
         /**
          * Check if the given node is a wrapper
-         * @param {Node} node
+         * @param {Node|Element} node
          * @returns {boolean}
          */
         function isWrappingNode(node) {
@@ -470,7 +473,7 @@ define([
         function getWrapper(groupId) {
             var wrapper = document.createElement('span');
             wrapper.className = className;
-            wrapper.setAttribute(GROUP_ATTR, groupId);
+            wrapper.setAttribute(GROUP_ATTR, groupId + '');
             return wrapper;
         }
 
@@ -512,6 +515,7 @@ define([
         function isHotNode(node) {
             return isWrappingNode(node) || isWrappable(node);
         }
+
 
         /**
          * Public API of the highlighter helper
