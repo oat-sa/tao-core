@@ -36,10 +36,8 @@
                 {{#each options.model}}
                 <col/>
                 {{/each}}
-                {{#if options.showActions}}
-                    {{#if ../options.actions}}
+                {{#if options.actions}}
                 </col>
-                    {{/if}}
                 {{/if}}
             </colgroup>
             <thead>
@@ -62,10 +60,8 @@
                         {{/if}}
                     </th>
                     {{/each}}
-                    {{#if options.showActions}}
-                        {{#if ../options.actions}}
+                    {{#if options.actions}}
                     <th class="actions">{{__ 'Actions'}}</th>
-                        {{/if}}
                     {{/if}}
                 </tr>
             </thead>
@@ -106,31 +102,28 @@
 
                         {{/each}}
 
-                        {{#if ../options.showActions}}
-                            {{#if ../../options.actions}}
+                        {{#if ../options.actions}}
                         <td class="actions">
-                                {{#each ../../../options.actions}}
-
-                                    {{#if id}}
-                                        {{#with ../../this}}
-                                            {{#unless ../hidden}}
-                                                {{#if ../../disabled}}
-                                                    {{#with ../../../this}}
+                            {{#each ../../options.actions}}
+                                {{#if id}}
+                                    {{#with ../../this}}
+                                        {{#unless ../hidden}}
+                                            {{#if ../../disabled}}
+                                                {{#with ../../../this}}
                             <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}} disabled="disabled">{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
-                                                    {{/with}}
-                                                {{else}}
-                                                    {{#with ../../../this}}
+                                                {{/with}}
+                                            {{else}}
+                                                {{#with ../../../this}}
                             <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
-                                                    {{/with}}
-                                                {{/if}}
-                                            {{/unless}}
-                                        {{/with}}
-                                    {{else}}
+                                                {{/with}}
+                                            {{/if}}
+                                        {{/unless}}
+                                    {{/with}}
+                                {{else}}
                             <button class="btn-info small {{@key}}"><span class="icon-{{@key}}"></span> {{@key}}</button>
-                                    {{/if}}
-                                {{/each}}
+                                {{/if}}
+                            {{/each}}
                         </td>
-                            {{/if}}
                         {{/if}}
                     </tr>
                 {{/each}}

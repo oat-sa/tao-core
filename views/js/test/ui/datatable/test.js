@@ -261,32 +261,6 @@ define([
         });
         $elt.datatable({
             url : 'js/test/ui/datatable/data.json',
-            showActions: false,
-            actions: [{
-                id: 'run',
-                icon: 'play',
-                label: 'Play',
-                title: 'Run action',
-                action: function (id) {
-                    assert.ok(true, 'In the run action, id: ' + id);
-                }
-            },{
-                id: 'pause',
-                icon: 'pause',
-                label: 'Pause me',
-                title: 'Press to pause process',
-                action: function (id) {
-                    assert.ok(true, 'In the pause action, id: ' + id);
-                }
-            },{
-                id: 'stop',
-                icon: 'stop',
-                label: 'Stop',
-                title: 'Press to stop process',
-                action: function () {
-                    assert.ok(true, 'In the stop action');
-                }
-            }],
             'model' : [{
                 id : 'login',
                 label : 'Login',
@@ -315,12 +289,44 @@ define([
                 id: 'pauseCl',
                 label: 'Pause',
                 type: 'actions',
-                actions: [{id: 'pause'}]
+                actions: [{
+                    id: 'pause',
+                    icon: 'pause',
+                    label: 'Pause me',
+                    title: 'Press to pause process',
+                    action: function (id) {
+                        assert.ok(true, 'In the pause action, id: ' + id);
+                    }
+                }]
             },{
                 id: 'administration',
                 label: 'Administration',
                 type: 'actions',
-                actions: [{id: 'pause'}, {id: 'stop'}, {id: 'run'}]
+                actions: [{
+                    id: 'run',
+                    icon: 'play',
+                    label: 'Play',
+                    title: 'Run action',
+                    action: function (id) {
+                        assert.ok(true, 'In the run action, id: ' + id);
+                    }
+                },{
+                    id: 'pause',
+                    icon: 'pause',
+                    label: 'Pause me',
+                    title: 'Press to pause process',
+                    action: function (id) {
+                        assert.ok(true, 'In the pause action, id: ' + id);
+                    }
+                },{
+                    id: 'stop',
+                    icon: 'stop',
+                    label: 'Stop',
+                    title: 'Press to stop process',
+                    action: function () {
+                        assert.ok(true, 'In the stop action');
+                    }
+                }]
 
             }]
         }, dataset);

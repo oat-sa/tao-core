@@ -39,7 +39,6 @@ define([
         page: 1,
         sortby: 'id',
         sortorder: 'asc',
-        showActions: true,
         paginationStrategyTop: 'none',
         paginationStrategyBottom: 'simple'
     };
@@ -92,7 +91,6 @@ define([
          * @param {Function} options.listeners.xxx - the callback function for event xxx, parameters depends to event trigger call.
          * @param {Boolean} options.selectable - enables the selection of rows using checkboxes.
          * @param {Boolean} options.rowSelection - enables the selection of rows by clicking on them.
-         * @param {Boolean} options.showActions - show added actions in new column 'Actions' (default 'true').
          * @param {Object} options.tools - a list of tool buttons to display above the table.
          * @param {Object|Boolean} options.status - allow to display a status bar.
          * @param {Object|Boolean} options.filter - allow to display a filter bar.
@@ -110,21 +108,6 @@ define([
 
             var self = dataTable;
             options = _.defaults(options, defaults);
-
-            // render actions to model.type=actions
-            if (_.some(options.model, 'type')) {
-                var types = _.where(options.model, 'type');
-                _.forEach(types, function (field) {
-                    if (field.type === 'actions' && options.actions) {
-                        _.forEach(field.actions, function (action, key) {
-                            var _action = _.find(options.actions, action);
-                            if (_action) {
-                                field.actions[key] = _action;
-                            }
-                        });
-                    }
-                });
-            }
 
             return this.each(function() {
                 var $elt = $(this);
@@ -304,27 +287,43 @@ define([
                 }
             });
 
-            // Attach a listener to every action button created
-            _.forEach(options.actions, function(action, name){
-                var css;
+            var attachActionListeners = function (actions) {
+                // Attach a listener to every action button created
+                _.forEach(actions, function(action, name){
+                    var css;
 
-                if (!_.isFunction(action)) {
-                    name = action.id || name;
-                    action = action.action || function() {};
-                }
+                    if (!_.isFunction(action)) {
+                        name = action.id || name;
+                        action = action.action || function() {};
+                    }
 
-                css = '.' + name;
+                    css = '.' + name;
 
-                $rendering
-                    .off('click', css)
-                    .on('click', css, function(e) {
-                        var $btn = $(this);
-                        e.preventDefault();
-                        if (!$btn.hasClass('disabled')) {
-                            action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
-                        }
-                    });
-            });
+                    $rendering
+                        .off('click', css)
+                        .on('click', css, function(e) {
+                            var $btn = $(this);
+                            e.preventDefault();
+                            if (!$btn.hasClass('disabled')) {
+                                action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
+                            }
+                        });
+                });
+            };
+
+            if (options.actions && options.actions.length) {
+                attachActionListeners(options.actions);
+            }
+
+            // Attach listeners to model.type = action
+            if (_.some(options.model, 'type')) {
+                var types = _.where(options.model, 'type');
+                _.forEach(types, function (field) {
+                    if (field.type === 'actions' && field.actions) {
+                        attachActionListeners(field.actions);
+                    }
+                });
+            }
 
             // Attach a listener to every tool button created
             _.forEach(options.tools, function(action, name) {
