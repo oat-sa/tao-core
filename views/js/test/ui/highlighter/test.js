@@ -851,7 +851,7 @@ define([
 
             // re-add markup and remove any existing highlight in fixture
             fixtureContainer.innerHTML = data.input ;
-            highlighter.clearHighlights($(fixtureContainer));
+            highlighter.clearHighlights();
 
             // restore highlight
             highlighter.highlightFromIndex(highlightIndex);
