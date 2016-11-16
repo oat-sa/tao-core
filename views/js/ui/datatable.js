@@ -95,6 +95,7 @@ define([
          * @param {Object|Boolean} options.status - allow to display a status bar.
          * @param {Object|Boolean} options.filter - allow to display a filter bar.
          * @param {String} options.filterStrategy - 'multiple' | 'single'  -- filtered by all filters together or filtering allowed only by one field at the moment (default 'single'),
+         * @param {String} options.filterSelector - css selector for search of filter inputs, by defaul 'select, input'
          * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overridden by column filter.
          * @param {String} options.filterquery - a query string for filtering, using only in runtime.
          * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime.
