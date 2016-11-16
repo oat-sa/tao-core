@@ -52,10 +52,6 @@ define([
 
         var currentGroupId;
         var textNodesIndex;
-        var skipNext;
-        var allRanges;
-        var newRange;
-
 
         function getContainer() {
             return $(containerSelector).get(0);
@@ -66,16 +62,15 @@ define([
                 var rangeInfos;
 
                 if (isRangeValid(range)) {
-                    console.log('highlighting range');
                     currentGroupId = getAvailableGroupId();
 
-                    // easy peasy: highlighting a plain text without any nested DOM nodes
-                    if (canBeHighlighted(range.commonAncestorContainer)
+                    // easy peasy: highlighting a plain text without any DOM nodes
+                    if (isWrappable(range.commonAncestorContainer)
                         && !isWrappingNode(range.commonAncestorContainer.parentNode)
                     ) {
                         range.surroundContents(getWrapper(currentGroupId).get(0));
 
-                        // now the fun stuff: highlighting a mix of text and DOM nodes
+                    // now the fun stuff: highlighting a mix of text and DOM nodes
                     } else {
                         rangeInfos = {
                             startNode: (isElement(range.startContainer))
@@ -91,6 +86,7 @@ define([
                             endOffset: range.endOffset
                         };
 
+                        hasWrapped = false;
                         wrapTextNodesInRange(range.commonAncestorContainer, rangeInfos);
                     }
                 }
@@ -108,13 +104,10 @@ define([
             var rangeInContainer =
                 $.contains(getContainer(), range.commonAncestorContainer)
                 || getContainer().isSameNode(range.commonAncestorContainer);
+
             var emptyRange =
-                isText(range.startContainer)
-                && range.startContainer.isSameNode(range.endContainer)
+                range.startContainer.isSameNode(range.endContainer)
                 && range.startOffset === range.endOffset;
-            if (emptyRange) {
-                console.log('Empty range !!!');
-            }
 
             return (rangeInContainer && !emptyRange);
         }
@@ -148,8 +141,6 @@ define([
                         isWrapping = false;
                     }
                 }
-                // console.dir(rangeInfos);
-                // debugger;
 
                 // do the wrapping...
                 if (isText(currentNode))  {
@@ -175,9 +166,8 @@ define([
 
         function wrapTextNode(node, groupId) {
             if (isWrapping
-                && node.textContent.length > 0
                 && !isWrappingNode(node.parentNode)
-                && canBeHighlighted(node)
+                && isWrappable(node)
             ) {
                 $(node).wrap(getWrapper(groupId));
             }
@@ -194,10 +184,10 @@ define([
             node.setAttribute(GROUP_DATA_ATTR, groupId);
         }
 
-        // todo: change to isWrappable ?
-        function canBeHighlighted(node) {
+        function isWrappable(node) {
             return isText(node)
-                && $(node).closest(containersBlackList.join(',')).length === 0;
+                && $(node).closest(containersBlackList.join(',')).length === 0
+                && node.textContent.trim().length > 0;
         }
 
         function getWrapper(groupId) {
@@ -233,9 +223,6 @@ define([
                 currentNode = childNodes[i];
 
                 if (isWrappingNode(currentNode)) {
-                    // console.log('considering ' + currentNode.textContent);
-                    // console.log('with sibling ' + currentNode.nextSibling.textContent);
-
                     while (isElement(currentNode.nextSibling)
                         && isWrappingNode(currentNode.nextSibling)
                         ) {
@@ -248,6 +235,9 @@ define([
             }
         }
 
+
+        // Index
+
         function reindexGroups(rootNode) {
             var childNodes = rootNode.childNodes;
             var i, currentNode, parent;
@@ -255,7 +245,7 @@ define([
             for (i = 0; i < childNodes.length; i++) {
                 currentNode = childNodes[i];
 
-                if (isText(currentNode) && canBeHighlighted(currentNode)) {
+                if (isText(currentNode) && isWrappable(currentNode)) {
                     parent = currentNode.parentNode;
                     if (isWrappingNode(parent)) {
                         if (isWrapping === false) {
@@ -273,7 +263,7 @@ define([
         }
 
         //
-        function getHighlightIndex() { // fixme: rename to getIndex or getHighlightIndex
+        function getHighlightIndex() {
             var highlightIndex = [];
             var rootNode = getContainer(); //fixme: clone node
             rootNode.normalize();
@@ -286,30 +276,24 @@ define([
 
         // a hot node is either a highlightable text node or a highlight wrapper
         function isHotNode(node) {
-            return isWrappingNode(node) || canBeHighlighted(node);
+            return isWrappingNode(node) || isWrappable(node);
         }
 
         function buildHighlightIndex(rootNode, highlightIndex) {
             var childNodes = rootNode.childNodes;
-            var i, currentNode, parent, entry, newInlineRange, offset;
+            var i, currentNode, entry, newInlineRange, offset;
             var skippedNodes;
-            var infiniteGuard;
 
             for (i = 0; i < childNodes.length; i++) {
                 currentNode = childNodes[i];
 
-                parent = currentNode.parentNode;
-                console.log('======== ' + currentNode.textContent);
-
                 // A simple node text not highlighted and isolated (= not followed by an wrapped text)
-                if (canBeHighlighted(currentNode) && !isWrappingNode(currentNode.nextSibling)) {
-                    console.log('zeroCase with ' + currentNode.textContent);
+                if (isWrappable(currentNode) && !isWrappingNode(currentNode.nextSibling)) {
                     highlightIndex[textNodesIndex] = { highlighted: false };
                     textNodesIndex++;
 
                 // an isolated node (= not followed by a highlightable text) with its whole content highlighted
-                } else if (isWrappingNode(currentNode) && !canBeHighlighted(currentNode.nextSibling)) {
-                    console.log('firstCase with ' + currentNode.textContent);
+                } else if (isWrappingNode(currentNode) && !isWrappable(currentNode.nextSibling)) {
                     highlightIndex[textNodesIndex] = {
                         highlighted: true,
                         groupId: currentNode.getAttribute(GROUP_DATA_ATTR)
@@ -318,7 +302,6 @@ define([
 
                 // less straightforward: at least a succession of a wrapping node with a wrappable text node, in either order, and possibly more
                 } else if (isHotNode(currentNode) && isHotNode(currentNode.nextSibling)) {
-                    console.log('secondCase with ' + currentNode.textContent);
                     skippedNodes = -1;
                     entry = {
                         highlighted: true,
@@ -328,8 +311,6 @@ define([
                     offset = 0;
 
                     while(currentNode) {
-                        console.log('subnode ' + currentNode.textContent);
-
                         if (isWrappingNode(currentNode)) {
                             newInlineRange = {
                                 groupId: currentNode.getAttribute(GROUP_DATA_ATTR)
@@ -354,10 +335,7 @@ define([
 
                 // go deeper in the node tree...
                 } else if (isElement(currentNode)) {
-                    console.log('thirdCase with ' + currentNode.textContent);
                     highlightIndex.concat(buildHighlightIndex(currentNode, highlightIndex));
-                } else {
-                    console.log('wtf am I doing here ?!');
                 }
             }
             return highlightIndex;
@@ -381,7 +359,7 @@ define([
 
                 skippedNodes = 0;
 
-                if (canBeHighlighted(currentNode)) {
+                if (isWrappable(currentNode)) {
                     parent = currentNode.parentNode;
                     childCount = parent.childNodes.length;
 
@@ -422,10 +400,10 @@ define([
         }
 
         return {
-            highlightRanges:        highlightRanges,
-            highlightFromIndex:     highlightFromIndex,
-            getHighlightIndex:      getHighlightIndex,
-            clearHighlights:        clearHighlights
+            highlightRanges:    highlightRanges,
+            highlightFromIndex: highlightFromIndex,
+            getHighlightIndex:  getHighlightIndex,
+            clearHighlights:    clearHighlights
         };
     };
 });

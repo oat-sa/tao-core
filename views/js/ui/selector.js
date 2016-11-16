@@ -24,7 +24,19 @@
 define([], function () {
     'use strict';
 
+    var selection;
 
+    if (!window.getSelection) {
+        throw new Error('Browser does not support getSelection()');
+    }
+
+    selection = window.getSelection();
+
+    function isEmpty(range) {
+        return (range.startOffset === range.endOffset
+            && range.startContainer.isSameNode(range.endContainer)
+        );
+    }
 
     /**
      * @returns {Object} The selector helper
@@ -35,24 +47,38 @@ define([], function () {
          * @returns {Range[]}
          */
         getAllRanges: function getRanges() {
-            var selection;
-            var ranges = [];
-            var i;
+            var i, allRanges = [];
 
-            if (window.getSelection) {
-                selection = window.getSelection();
-
-                for (i = 0; i < selection.rangeCount; i++) {
-                    ranges.push(selection.getRangeAt(0));
-                }
+            for (i = 0; i < selection.rangeCount; i++) {
+                allRanges.push(selection.getRangeAt(i));
             }
-            return ranges;
+            return allRanges;
         },
 
         removeAllRanges: function removeAllRanges() {
-            if (window.getSelection) {
-                window.getSelection().removeAllRanges();
+            selection.removeAllRanges();
+        },
+
+        hasRanges: function hasRanges() {
+            return selection.rangeCount > 0;
+        },
+
+        hasNonEmptyRanges: function hasNonEmptyRanges() {
+            var hasNonEmpty = false;
+            var range;
+            var i;
+
+            if (!this.hasRanges()) {
+                return false;
             }
+
+            for (i = 0; i < selection.rangeCount; i++) {
+                range = selection.getRangeAt(i);
+                if (!isEmpty(range)) {
+                    hasNonEmpty = true;
+                }
+            }
+            return hasNonEmpty;
         },
 
         rangeCount: function rangeCount() {
