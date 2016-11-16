@@ -24,7 +24,7 @@ namespace oat\tao\model\mvc\controller;
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class taoController extends \tao_actions_CommonModule {
+class TaoController extends \tao_actions_CommonModule {
     
     protected $viewEngine = 'tao';
     
