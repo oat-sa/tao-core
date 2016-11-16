@@ -22,9 +22,10 @@ define([
     'i18n',
     'core/pluginifier',
     'tpl!ui/datatable/tpl/layout',
+    'tpl!ui/datatable/tpl/button',
     'ui/datatable/filterStrategy/filterStrategy',
     'ui/pagination'
-], function($, _, __, Pluginifier, layout, filterStrategyFactory, paginationComponent){
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent){
 
     'use strict';
 
@@ -287,27 +288,43 @@ define([
                 }
             });
 
-            // Attach a listener to every action button created
-            _.forEach(options.actions, function(action, name){
-                var css;
+            var attachActionListeners = function (actions) {
+                // Attach a listener to every action button created
+                _.forEach(actions, function(action, name){
+                    var css;
 
-                if (!_.isFunction(action)) {
-                    name = action.id || name;
-                    action = action.action || function() {};
-                }
+                    if (!_.isFunction(action)) {
+                        name = action.id || name;
+                        action = action.action || function() {};
+                    }
 
-                css = '.' + name;
+                    css = '.' + name;
 
-                $rendering
-                    .off('click', css)
-                    .on('click', css, function(e) {
-                        var $btn = $(this);
-                        e.preventDefault();
-                        if (!$btn.hasClass('disabled')) {
-                            action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
-                        }
-                    });
-            });
+                    $rendering
+                        .off('click', css)
+                        .on('click', css, function(e) {
+                            var $btn = $(this);
+                            e.preventDefault();
+                            if (!$btn.hasClass('disabled')) {
+                                action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
+                            }
+                        });
+                });
+            };
+
+            if (options.actions && options.actions.length) {
+                attachActionListeners(options.actions);
+            }
+
+            // Attach listeners to model.type = action
+            if (_.some(options.model, 'type')) {
+                var types = _.where(options.model, 'type');
+                _.forEach(types, function (field) {
+                    if (field.type === 'actions' && field.actions) {
+                        attachActionListeners(field.actions);
+                    }
+                });
+            }
 
             // Attach a listener to every tool button created
             _.forEach(options.tools, function(action, name) {
@@ -648,10 +665,52 @@ define([
             });
 
             return selection;
+        },
+
+        /**
+         * Highlight the row with identifier
+         *
+         * @param $elt
+         * @param rowId
+         */
+        _highlightRow: function($elt, rowId) {
+            this._addRowClass($elt, rowId, 'highlight');
+        },
+
+        /**
+         * Css class add to the row with id
+         *
+         * @param $elt
+         * @param rowId
+         * @param className
+         * @private
+         */
+        _addRowClass: function ($elt, rowId, className) {
+            var $row = $elt.find('[data-item-identifier="' + rowId + '"]');
+
+            if (!$row.hasClass(className)) {
+                $row.addClass(className);
+            }
+        },
+
+        /**
+         * Css class remove from the row with id
+         *
+         * @param $elt
+         * @param rowId
+         * @param className
+         * @private
+         */
+        _removeRowClass: function ($elt, rowId, className) {
+            var $row = $elt.find('[data-item-identifier="' + rowId + '"]');
+
+            if ($row.hasClass(className)) {
+                $row.removeClass(className);
+            }
         }
     };
 
     Pluginifier.register(ns, dataTable, {
-         expose : ['refresh', 'sort', 'filter', 'selection', 'render']
+         expose : ['refresh', 'sort', 'filter', 'selection', 'render', 'highlightRow', 'addRowClass', 'removeRowClass']
     });
 });
