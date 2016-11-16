@@ -589,6 +589,29 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.24.0');
         }
 
+
+        
+        if ($this->isVersion('7.24.0')) {
+            $service = new \oat\tao\model\mvc\DefaultUrlService(
+                [
+                    'default' => 
+                    [
+                        'ext'        => 'tao',
+                        'controller' => 'Main',
+                        'action'     => 'index',
+                    ],
+                    'login' => 
+                    [
+                        'ext'        => 'tao',
+                        'controller' => 'Main',
+                        'action'     => 'login',
+                    ]
+                ]
+            );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID, $service);
+            $this->setVersion('7.25.0');
+        }
+
     }
 
     private function migrateFsAccess() {

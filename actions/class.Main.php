@@ -30,7 +30,7 @@ use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\oatbox\event\EventManager;
-
+use oat\tao\model\mvc\DefaultUrlService;
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
@@ -75,7 +75,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    if (empty($entries)) {
 	        // no access -> error
 	        if (common_session_SessionManager::isAnonymous()) {
-	           return $this->redirect(_url('login')); 
+                /* @var $urlRouteService DefaultUrlService */
+                $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+                $this->redirect($urlRouteService->getLoginUrl());
 	        } else {
 	            common_session_SessionManager::endSession();
                 return $this->returnError(__('You currently have no access to the platform'));
