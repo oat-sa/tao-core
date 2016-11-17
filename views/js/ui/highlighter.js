@@ -39,7 +39,8 @@ define([
     var containersBlackList = [
         'textarea',
         'math',
-        'script'
+        'script',
+        '.select2-container'
     ];
 
     /**
