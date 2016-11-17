@@ -1,38 +1,5 @@
-.txt-user-highlight {
-    span[data-control="hl-delete"] {
-        position: relative;
-
-        span {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            top: -10px;
-            right: -10px;
-
-            text-align: center;
-            padding: 2px;
-
-            font-weight: bold;
-            font-size: 14px;
-
-            cursor: pointer;
-        }
-    }
-}
-
 // colors
 .txt-user-highlight {
     color: $textColor !important;
     background-color: yellow !important;
-
-    span[data-control="hl-delete"] {
-        span {
-            background: $error !important;
-            color: white !important;
-
-            &:hover {
-                background: $warning !important;
-            }
-        }
-    }
 }
