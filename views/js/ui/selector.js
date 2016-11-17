@@ -16,8 +16,10 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
 /**
- * This is just a tiny wrapper around window.getSelection() to allow mocking in unit tests
+ * Tiny wrapper around window.getSelection()
  * This has no legacy support for IE10 deprecated API: document.selection.createRange()
+ * Please note that multiple ranges are not part of the official spec and only supported in a few browsers. See:
+ * http://w3c.github.io/selection-api/#methods
  *
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -26,22 +28,15 @@ define([], function () {
 
     var selection;
 
-    if (!window.getSelection) {
-        throw new Error('Browser does not support getSelection()');
-    }
+    if (!window.getSelection) throw new Error('Browser does not support getSelection()');
 
     selection = window.getSelection();
-
-    function isEmpty(range) {
-        return (range.startOffset === range.endOffset
-            && range.startContainer.isSameNode(range.endContainer)
-        );
-    }
 
     /**
      * @returns {Object} The selector helper
      */
     return {
+
         /**
          * Get the current selected ranges
          * @returns {Range[]}
@@ -55,18 +50,27 @@ define([], function () {
             return allRanges;
         },
 
+        /**
+         * Remove all ranges from the selection
+         */
         removeAllRanges: function removeAllRanges() {
             selection.removeAllRanges();
         },
 
+        /**
+         * Check if the selection contains any range
+         * @returns {boolean}
+         */
         hasRanges: function hasRanges() {
             return selection.rangeCount > 0;
         },
 
+        /**
+         * Check if the selection contains any empty range
+         * @returns {boolean}
+         */
         hasNonEmptyRanges: function hasNonEmptyRanges() {
-            var hasNonEmpty = false;
-            var range;
-            var i;
+            var i, range;
 
             if (!this.hasRanges()) {
                 return false;
@@ -74,18 +78,11 @@ define([], function () {
 
             for (i = 0; i < selection.rangeCount; i++) {
                 range = selection.getRangeAt(i);
-                if (!isEmpty(range)) {
-                    hasNonEmpty = true;
+                if (range.collapsed) {
+                    return false;
                 }
             }
-            return hasNonEmpty;
-        },
-
-        rangeCount: function rangeCount() {
-            if (window.getSelection) {
-                return window.getSelection().rangeCount;
-            }
-            return 0;
+            return true;
         }
     };
 });
