@@ -176,6 +176,7 @@ class Bootstrap {
 	    session_write_close();
 	}
 	
+        
 	protected function dispatchCli()
 	{
 	    $params = $_SERVER['argv'];
@@ -220,7 +221,9 @@ class Bootstrap {
      */
     protected function catchError(Exception $exception)
     {
+        
         $Interpretor = new error\ExceptionInterpretor();
+        $Interpretor->setServiceLocator($this->getServiceManager());
         $Interpretor->setException($exception)->getResponse()->send();
     }
 
@@ -257,7 +260,7 @@ class Bootstrap {
                 setcookie(session_name(), session_id(), $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], true);
             }
         }
-	}
+    }
 	
     private function configureSessionHandler() {
         $sessionHandler = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_SESSION_HANDLER);
@@ -311,7 +314,7 @@ class Bootstrap {
 	protected function scripts()
 	{
 	    $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
-        $cssFiles = array(
+            $cssFiles = array(
 			$assetService->getJsBaseWww('tao') . 'css/layout.css',
 			$assetService->getJsBaseWww('tao') . 'css/tao-main-style.css',
 			$assetService->getJsBaseWww('tao') . 'css/tao-3.css'

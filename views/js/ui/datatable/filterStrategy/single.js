@@ -51,7 +51,8 @@ define([
             _.forEach($('.filter', $table), function (filter) {
                 var $filter = $(filter);
                 var column = $filter.data('column');
-                var $filterInput = $('select, input', $filter);
+                var filterSelector = options.filterSelector || 'select, input';
+                var $filterInput = $(filterSelector, $filter);
 
                 var model = _.find(options.model, function (o) {
                     return o.id === column;
