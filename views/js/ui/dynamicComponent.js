@@ -119,7 +119,7 @@ define([
                 _.defer(function(){
                     self.position.width         = self.config.width;
                     self.position.height        = self.config.height;
-                    self.position.contentWidth  = $titleBar.outerWidth();
+                    self.position.contentWidth  = $titleBar.width();
                     self.position.contentHeight = $element.height() - $titleBar.outerHeight();
 
                     $content.css({
@@ -317,8 +317,6 @@ define([
                     self.position.y              = (parseFloat(self.position.y) || 0) + e.deltaRect.top;
                     self.position.width          = width;
                     self.position.height         = height;
-                    self.position.contentWidth   = $titleBar.outerWidth();
-                    self.position.contentHeight  = $element.height() - $titleBar.outerHeight();
 
                     transformer.translate($element, self.position.x, self.position.y);
 
@@ -327,12 +325,17 @@ define([
                         height : height + 'px',
                     });
 
-                    $content.css({
-                        width  :  self.position.contentWidth + 'px',
-                        height : self.position.contentHeight + 'px'
-                    });
+                    _.defer(function(){
 
-                    self.trigger('resize', self.position);
+                        self.position.contentWidth   = $titleBar.width();
+                        self.position.contentHeight  = $element.height() - $titleBar.outerHeight();
+                        $content.css({
+                            width  :  self.position.contentWidth + 'px',
+                            height : self.position.contentHeight + 'px'
+                        });
+
+                        self.trigger('resize', self.position);
+                    });
                 }
             });
     };
