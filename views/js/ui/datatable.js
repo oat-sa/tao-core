@@ -312,7 +312,7 @@ define([
                 });
             };
 
-            if (options.actions && options.actions.length) {
+            if (options.actions) {
                 attachActionListeners(options.actions);
             }
 
