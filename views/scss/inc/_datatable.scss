@@ -88,6 +88,9 @@ table.datatable{
         &.selected {
             background: $darkBlueGrey;
         }
+        &.highlight {
+            background-color: $warningBgColor !important;
+        }
     }
     th,
     td{

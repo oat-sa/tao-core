@@ -334,7 +334,7 @@ label {
         [class*=" icon-checkbox"] {
             &:after {
                 left:auto !important;
-                top: -16px;
+                top: 0 !important;
                 z-index: 2;
                 position: absolute;
             }

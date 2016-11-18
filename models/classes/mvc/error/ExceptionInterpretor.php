@@ -19,15 +19,22 @@
 
 namespace oat\tao\model\mvc\error;
 
+use Exception;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+
 /**
  * Description of ExceptionInterpretor
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class ExceptionInterpretor {
+class ExceptionInterpretor implements ServiceLocatorAwareInterface {
+    
+    use ServiceLocatorAwareTrait;
+    
     /**
      *
-     * @var \Exception 
+     * @var Exception 
      */
     protected $exception;
     /**
@@ -50,10 +57,10 @@ class ExceptionInterpretor {
 
     /**
      * set exception to interpet
-     * @param \Exception $exception
-     * @return \oat\tao\model\mvc\error\ExceptionInterpretor
+     * @param Exception $exception
+     * @return ExceptionInterpretor
      */
-    public function setException(\Exception $exception){
+    public function setException(Exception $exception){
         $this->exception = $exception;
         $this->interpretError();
         return $this;    
@@ -115,8 +122,10 @@ class ExceptionInterpretor {
      */
     public function getResponse() {
         $class = $this->getResponseClassName();
+        /*@var $response ResponseAbstract */
         $response = new $class;
-        $response->setException($this->exception)
+        $response->setServiceLocator($this->getServiceLocator())
+                ->setException($this->exception)
                 ->setHttpCode($this->returnHttpCode)
                 ->trace($this->trace);
         return $response;
