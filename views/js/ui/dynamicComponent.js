@@ -119,8 +119,8 @@ define([
                 _.defer(function(){
                     self.position.width         = self.config.width;
                     self.position.height        = self.config.height;
-                    self.position.contentWidth  = $titleBar.width();
-                    self.position.contentHeight = $element.height() - $titleBar.height();
+                    self.position.contentWidth  = $titleBar.outerWidth();
+                    self.position.contentHeight = $element.height() - $titleBar.outerHeight();
 
                     $content.css({
                         width : self.position.contentWidth + 'px',
@@ -317,8 +317,8 @@ define([
                     self.position.y              = (parseFloat(self.position.y) || 0) + e.deltaRect.top;
                     self.position.width          = width;
                     self.position.height         = height;
-                    self.position.contentWidth   = $titleBar.width();
-                    self.position.contentHeight  = $element.height() - $titleBar.height();
+                    self.position.contentWidth   = $titleBar.outerWidth();
+                    self.position.contentHeight  = $element.height() - $titleBar.outerHeight();
 
                     transformer.translate($element, self.position.x, self.position.y);
 
