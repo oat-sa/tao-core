@@ -573,17 +573,17 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.17.0', '7.23.0');
-        
+
         if ($this->isVersion('7.23.0')) {
             $service = new \oat\tao\model\mvc\DefaultUrlService(
                 [
-                    'default' => 
+                    'default' =>
                     [
                         'ext'        => 'tao',
                         'controller' => 'Main',
                         'action'     => 'index',
                     ],
-                    'login' => 
+                    'login' =>
                     [
                         'ext'        => 'tao',
                         'controller' => 'Main',
@@ -595,11 +595,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.24.0');
         }
 
-	    $this->skip('7.24.0', '7.26.0');
+	    $this->skip('7.24.0', '7.27.0');
 
-        if ($this->isVersion('7.26.0')) {
+        if ($this->isVersion('7.27.0')) {
             OntologyUpdater::syncModels();
-            $this->setVersion('7.27.0');
+            $this->setVersion('7.28.0');
         }
     }
 
