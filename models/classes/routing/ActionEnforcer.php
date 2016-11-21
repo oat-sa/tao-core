@@ -139,17 +139,21 @@ class ActionEnforcer implements IExecutable
 	        $user = common_session_SessionManager::getSession()->getUser();
 	        common_Logger::d('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
 
-            $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
-            $eventManager->trigger(new BeforeAction());
-
-	        call_user_func_array(array($controller, $action), $tabParam);
-	
-	        // Render the view if selected.
-	        if ($controller->hasView())
-	        {
-	            $renderer = $controller->getRenderer();
-	            echo $renderer->render();
-	        }
+                $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+                $eventManager->trigger(new BeforeAction());
+                /*@var $response \Psr\Http\Message\ResponseInterface */
+	        $response = call_user_func_array(array($controller, $action), $tabParam);
+                
+                if(is_a($response, \Psr\Http\Message\ResponseInterface::class)) {
+                    
+                } else {
+                    // Render the view if selected.
+                    if ($controller->hasView())
+                    {
+                        $renderer = $controller->getRenderer();
+                        echo $renderer->render();
+                    }
+                }
 	    }
 	    else {
 	        throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",

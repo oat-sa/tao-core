@@ -38,7 +38,7 @@ use oat\tao\model\mvc\DefaultUrlService;
  
  *
  */
-class tao_actions_Main extends tao_actions_CommonModule
+class tao_actions_Main extends \oat\tao\model\mvc\psr7\Controller
 {
 
     /**
@@ -54,9 +54,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 	public function __construct()
 	{
 		//initialize service
-		$this->service = tao_models_classes_TaoService::singleton();
-        $this->userService = \tao_models_classes_UserService::singleton();
-		$this->defaultData();
+            $this->service = tao_models_classes_TaoService::singleton();
+            $this->userService = \tao_models_classes_UserService::singleton();
+            $this->defaultData();
 	}
 
 	/**
@@ -100,7 +100,6 @@ class tao_actions_Main extends tao_actions_CommonModule
                 }
             }
 
-
             $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
 
             $this->setData('settings-menu', $naviElements);
@@ -126,8 +125,8 @@ class tao_actions_Main extends tao_actions_CommonModule
         $disableAutocomplete = !empty($config['disableAutocomplete']);
 
 		$params = array(
-            'disableAutocomplete' => $disableAutocomplete,
-        );
+                    'disableAutocomplete' => $disableAutocomplete,
+                );
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
 				
@@ -218,7 +217,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
 	/**
 	 * The main action, load the layout
-     *
+         *
 	 * @return void
 	 */
     public function index()
@@ -228,13 +227,13 @@ class tao_actions_Main extends tao_actions_CommonModule
         $extension = $this->getRequestParameter('ext');
         $structure = $this->getRequestParameter('structure');
         
-		if($this->hasRequestParameter('structure')) {
+	if($this->hasRequestParameter('structure')) {
             
-			// structured mode
-			// @todo stop using session to manage uri/classUri
-			$this->removeSessionAttribute('uri');
-			$this->removeSessionAttribute('classUri');
-			$this->removeSessionAttribute('showNodeUri');
+            // structured mode
+            // @todo stop using session to manage uri/classUri
+            $this->removeSessionAttribute('uri');
+            $this->removeSessionAttribute('classUri');
+            $this->removeSessionAttribute('showNodeUri');
             
             TaoCe::setLastVisitedUrl(
                 _url(
@@ -266,7 +265,6 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
         }
 
-
         $perspectiveTypes = array(Perspective::GROUP_DEFAULT, 'settings');
         foreach ($perspectiveTypes as $perspectiveType) {
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
@@ -288,7 +286,8 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParams));
         $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
 
-		$this->setView('layout.tpl', 'tao');
+	$this->setView('layout.tpl', 'tao');
+        
 	}
     
     /**
