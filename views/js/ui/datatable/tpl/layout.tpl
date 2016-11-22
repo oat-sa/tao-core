@@ -46,7 +46,7 @@
                     <th class="checkboxes"><input type="checkbox" name="checkall" value="1" /></th>
                     {{/if}}
                     {{#each options.model}}
-                    <th>
+                    <th{{#if type}} class="actions"{{/if}}>
                         <div {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</div>
                         {{#if filterable}}
                         <aside data-column="{{id}}" class="filter column
@@ -74,7 +74,7 @@
 
                         {{#each ../options.model}}
                             {{#if type}}
-                            <td class="{{id}}">
+                            <td class="actions {{id}}">
                                 {{#each ../actions}}
                                     {{#if id}}
                                         {{#with ../../../../this}}
