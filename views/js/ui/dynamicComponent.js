@@ -24,8 +24,9 @@ define([
     'interact',
     'ui/component',
     'ui/transformer',
+    'lib/uuid',
     'tpl!ui/dynamicComponent/layout'
-], function ($, _, interact, component, transformer, layoutTpl){
+], function ($, _, interact, component, transformer, uuid, layoutTpl){
     'use strict';
 
     var _defaults = {
@@ -167,6 +168,9 @@ define([
 
         return component(specs, defaults)
             .setTemplate(layoutTpl)
+            .on('init', function(){
+                this.id = uuid();
+            })
             .on('render', function (){
 
                 var self            = this;
@@ -175,7 +179,9 @@ define([
                 var $content        = $('.dynamic-component-content', $element);
                 var $titleBar       = $('.dynamic-component-title-bar', $element);
                 var $contentOverlay = $('.dynamic-component-layer', $element);
+                var pixelRatio      = window.devicePixelRatio;
                 var interactElement;
+
 
                 //keeps moving/resizing positions data
                 this.position = {
@@ -245,6 +251,16 @@ define([
                         },
                         interactElement,
                         $element[0]);
+                    });
+
+                    $(window).on('resize.dynamic-component-' + self.id, function(){
+
+                        //on browser zoom, reset the position to prevent having
+                        //the component pushed outside it's container
+                        if(window.devicePixelRatio !== pixelRatio ) {
+                            pixelRatio = window.devicePixelRatio;
+                            self.resetPosition();
+                        }
                     });
                 }
                 if(config.resizable){
@@ -336,6 +352,9 @@ define([
                         self.trigger('resize', self.position);
                     });
                 }
+            })
+            .on('destroy', function(){
+                $(window).off('resize.dynamic-component-' + this.id);
             });
     };
 
