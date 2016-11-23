@@ -59,7 +59,8 @@
 			"oat\\tao\\model\\" : "models/classes/",
 			"oat\\tao\\helpers\\" : "helpers",
 			"oat\\tao\\test\\" : "test",
-			"oat\\tao\\scripts\\" : "scripts"
+			"oat\\tao\\scripts\\" : "scripts",
+			"oat\\tao\\controller\\" : "controller"
 		},
 		"files" : [
 			"includes/globalHelpers.php"

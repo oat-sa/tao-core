@@ -31,7 +31,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '7.29.1',
+    'version' => '7.30.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=3.6.0',
@@ -111,6 +111,7 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('act' => 'tao_actions_Lock@release')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',   array('act' => 'tao_actions_Lock@forceRelease')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', array('controller' => 'tao_actions_PropertiesAuthoring')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager', array('ext'=>'tao', 'mod' => 'TaskQueue')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'entry')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'login')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'logout')),
@@ -149,5 +150,11 @@ return array(
     ),
     'extra' => array(
         'structures' => $extpath.'actions'.DIRECTORY_SEPARATOR.'structures.xml',
-    )
+    ),
+    'routes' => array(
+        '/taoapi' => 'oat\\tao\\controller\\api',
+        '/tao' => array(
+            'class' => '\oat\tao\model\routing\LegacyRoute'
+        )
+    ),
 );
