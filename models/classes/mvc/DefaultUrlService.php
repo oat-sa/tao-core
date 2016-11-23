@@ -34,14 +34,14 @@ class DefaultUrlService extends ConfigurableService
         return $this->getOption($name);
     }
     
-    public function getUrl($name , $params) {
+    public function getUrl($name , array $params = array()) {
         $route = $this->getOption($name);
         return _url($route['action'], $route['controller'], $route['ext'], $params);
     }
 
     /**
      * 
-     * @return array
+     * @return string
      */
     public function getLoginUrl(array $params = array()) {
         return $this->getUrl('login' , $params);
@@ -49,7 +49,7 @@ class DefaultUrlService extends ConfigurableService
     
     /**
      * 
-     * @return array
+     * @return string
      */
     public function getLogoutUrl(array $params = array()) {
         return $this->getUrl('logout' , $params);
@@ -57,10 +57,25 @@ class DefaultUrlService extends ConfigurableService
     
     /**
      * 
-     * @return array
+     * @return string
      */
     public function getDefaultUrl(array $params = array()) {
         return $this->getUrl('default' , $params);
     }
+    
+    /**
+     * @param string $name
+     * @return string
+     */
+    public function getRedirectUrl($name) {
+        if($this->hasOption($name)) {
+            $options = $this->getOption($name);
+            if(array_key_exists('redirect', $options)) {
+                return $options['redirect'];
+            }
+        }
+        return '';
+    }
+    
 }
 

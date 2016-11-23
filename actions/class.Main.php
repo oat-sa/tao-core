@@ -212,8 +212,11 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function logout()
 	{
+            
 		common_session_SessionManager::endSession();
-		$this->redirect(_url('entry', 'Main', 'tao'));
+                /* @var $urlRouteService DefaultUrlService */
+                $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+		$this->redirect($urlRouteService->getRedirectUrl('logout'));
 	}
 
 	/**
