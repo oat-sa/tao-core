@@ -46,6 +46,15 @@ class DefaultUrlService extends ConfigurableService
     public function getLoginUrl(array $params = array()) {
         return $this->getUrl('login' , $params);
     }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function getLogoutUrl(array $params = array()) {
+        return $this->getUrl('logout' , $params);
+    }
+    
     /**
      * 
      * @return array
