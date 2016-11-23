@@ -13,6 +13,12 @@ return new \oat\tao\model\mvc\DefaultUrlService(
                     'ext'        => 'tao',
                     'controller' => 'Main',
                     'action'     => 'login',
+                ],
+                'logout' => 
+                [
+                    'ext'        => 'tao',
+                    'controller' => 'Main',
+                    'action'     => 'logout',
                 ]
             ]
         );
