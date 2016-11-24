@@ -27,7 +27,11 @@ define([
     'use strict';
 
     var _defaults = {
-        title : __('Calculator')
+        title : __('Calculator'),
+        width : 240,
+        height : 360,
+        minWidth : 150,
+        minHeight : 220
     };
     
     var calculator = {
@@ -78,6 +82,16 @@ define([
             .on('reset', function(){
                 //reset the calculator input
                 this.calc.press('C');
+            })
+            .on('resize', function(){
+                var element = this.getElement();
+                var width;
+                var $form;
+                if(element){
+                    $form = element.find('form');
+                    width = $form.width();
+                    $form.css('fontSize', width * 10/240);
+                }
             })
             .on('destroy', function (){
                 if(this.calc){

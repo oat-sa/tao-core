@@ -4,8 +4,8 @@
 
         <button type="button" value="%" data-key="%" class="calcFunction calcFirst">&#37;</button>
         <button type="button" value="sqrt" data-key="sqrt" class="calcFunction">&radic;</button>
-        <button type="button" value="pow" data-key="pow" class="calcFunction">x<sup>y</sup></button>
-        <button type="button" value="1/x" data-key="1/x" class="calcFunction"><sup>1</sup>&frasl;<sub>x</sub></button>
+        <button type="button" value="pow" data-key="pow" class="calcFunction">x<sup class="letter">y</sup></button>
+        <button type="button" value="1/x" data-key="1/x" class="calcFunction"><sup class="digit">1</sup>&frasl;<sub>x</sub></button>
 
         <button type="button" value="C" data-key="C" class="calcClear calcFirst">C</button>
         <button type="button" value="CE" data-key="CE" class="calcClear">CE</button>
