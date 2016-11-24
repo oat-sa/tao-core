@@ -1,25 +1,26 @@
+
 define([
     'jquery',
     'lodash',
     'json!tao/test/ui/datatable/data.json',
     'json!tao/test/ui/datatable/largedata.json',
     'ui/datatable'
-], function($, _, dataset, largeDataset) {
+], function($, _, dataset, largeDataset){
     "use strict";
 
-    QUnit.module('DataTable', {
-        teardown: function() {
+    QUnit.module('DataTable Test', {
+        teardown : function(){
             //reset the container
             $('#container-1').empty().off('.datatable');
         }
     });
 
-    QUnit.test('plugin', function(assert) {
-        QUnit.expect(1);
-        assert.ok(typeof $.fn.datatable === 'function', 'The datatable plugin is registered');
+    QUnit.test('plugin', function(assert){
+       QUnit.expect(1);
+       assert.ok(typeof $.fn.datatable === 'function', 'The datatable plugin is registered');
     });
 
-    QUnit.asyncTest('Initialization', function(assert) {
+    QUnit.asyncTest('Initialization', function(assert){
         QUnit.expect(3);
 
         var $elt = $('#container-1');
@@ -27,11 +28,11 @@ define([
         var secondUrl = 'js/test/ui/datatable/largedata.json';
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.one('create.datatable', function() {
+        $elt.one('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
 
             // *** check the reinit of the datatable
-            $elt.one('create.datatable', function() {
+            $elt.one('create.datatable', function(){
                 assert.ok(false, 'The create event must not be triggered when reinit');
             });
 
@@ -42,16 +43,16 @@ define([
             });
 
             $elt.datatable({
-                url: secondUrl
+                url : secondUrl
             });
             // *** end reinit check
         });
         $elt.datatable({
-            url: firstUrl
+            url : firstUrl
         });
     });
 
-    QUnit.asyncTest('Options', function(assert) {
+    QUnit.asyncTest('Options', function(assert){
         QUnit.expect(5);
 
         var $elt = $('#container-1');
@@ -67,7 +68,7 @@ define([
         };
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
 
             var data = $elt.data('ui.datatable') || {};
@@ -83,7 +84,7 @@ define([
         $elt.datatable(firstOptions);
     });
 
-    QUnit.asyncTest('Model loading using AJAX', function(assert) {
+    QUnit.asyncTest('Model loading using AJAX', function(assert){
         QUnit.expect(11);
 
         var $elt = $('#container-1');
@@ -91,7 +92,7 @@ define([
 
         QUnit.stop(3);
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
             assert.equal($elt.find('.datatable thead th:eq(0) div').text(), 'Login', 'the login label is created');
@@ -114,36 +115,36 @@ define([
             QUnit.start();
         });
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }]
         });
     });
 
-    QUnit.asyncTest('Model loading using predefined data', function(assert) {
+    QUnit.asyncTest('Model loading using predefined data', function(assert){
         QUnit.expect(12);
 
         var $elt = $('#container-1');
@@ -151,7 +152,7 @@ define([
 
         QUnit.stop(4);
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
             assert.equal($elt.find('.datatable thead th:eq(0) div').text(), 'Login', 'the login label is created');
@@ -184,36 +185,36 @@ define([
             });
         });
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }]
         }, dataset);
     });
 
-    QUnit.asyncTest('Model loading with the "action" type property using predefined data', function(assert) {
+    QUnit.asyncTest('Model loading with the "action" type property using predefined data', function(assert){
         QUnit.expect(15);
 
         var $elt = $('#container-1');
@@ -221,7 +222,7 @@ define([
 
         QUnit.stop(4);
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.equal($elt.find('.datatable thead th').length, 8, 'the table contains 8 heads elements');
             assert.equal($elt.find('.datatable thead th:eq(6) div').text(), 'Pause', 'the Pause label is created');
@@ -259,32 +260,32 @@ define([
             });
         });
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
-            }, {
+                label : 'Interface Language',
+                sortable : true
+            },{
                 id: 'pauseCl',
                 label: 'Pause',
                 type: 'actions',
@@ -293,11 +294,11 @@ define([
                     icon: 'pause',
                     label: 'Pause me',
                     title: 'Press to pause process',
-                    action: function(id) {
+                    action: function (id) {
                         assert.ok(true, 'In the pause action, id: ' + id);
                     }
                 }]
-            }, {
+            },{
                 id: 'administration',
                 label: 'Administration',
                 type: 'actions',
@@ -306,23 +307,23 @@ define([
                     icon: 'play',
                     label: 'Play',
                     title: 'Run action',
-                    action: function(id) {
+                    action: function (id) {
                         assert.ok(true, 'In the run action, id: ' + id);
                     }
-                }, {
+                },{
                     id: 'pause',
                     icon: 'pause',
                     label: 'Pause me',
                     title: 'Press to pause process',
-                    action: function(id) {
+                    action: function (id) {
                         assert.ok(true, 'In the pause action, id: ' + id);
                     }
-                }, {
+                },{
                     id: 'stop',
                     icon: 'stop',
                     label: 'Stop',
                     title: 'Press to stop process',
-                    action: function() {
+                    action: function () {
                         assert.ok(true, 'In the stop action');
                     }
                 }]
@@ -331,7 +332,7 @@ define([
         }, dataset);
     });
 
-    QUnit.asyncTest('Model loading with actions column', function(assert) {
+    QUnit.asyncTest('Model loading with actions column', function(assert){
         QUnit.expect(13);
 
         var $elt = $('#container-1');
@@ -339,7 +340,7 @@ define([
 
         QUnit.stop(4);
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.equal($elt.find('.datatable thead th').length, 7, 'the table contains 7 heads elements');
             assert.equal($elt.find('.datatable thead th:eq(6)').text(), 'Actions', 'the Actions label is created');
@@ -376,61 +377,61 @@ define([
             });
         });
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
+            url : 'js/test/ui/datatable/data.json',
             actions: [{
                 id: 'run',
                 icon: 'play',
                 label: 'Play',
                 title: 'Run action',
-                action: function(id) {
+                action: function (id) {
                     assert.ok(true, 'In the run action, id: ' + id);
                 }
-            }, {
+            },{
                 id: 'pause',
                 icon: 'pause',
                 label: 'Pause me',
                 title: 'Press to pause process',
-                action: function(id) {
+                action: function (id) {
                     assert.ok(true, 'In the pause action, id: ' + id);
                 }
-            }, {
+            },{
                 id: 'stop',
                 icon: 'stop',
                 label: 'Stop',
                 title: 'Press to stop process',
-                action: function() {
+                action: function () {
                     assert.ok(true, 'In the stop action');
                 }
             }],
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }]
         }, dataset);
     });
 
-    QUnit.asyncTest('Data rendering', function(assert) {
+    QUnit.asyncTest('Data rendering', function(assert){
         QUnit.expect(13);
 
         var renderCalled = false;
@@ -439,7 +440,7 @@ define([
 
         QUnit.stop(5);
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
             assert.equal($elt.find('.datatable thead th:eq(0) div').text(), 'Login', 'the login label is created');
@@ -469,42 +470,42 @@ define([
             }
         });
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }]
         });
     });
 
-    QUnit.asyncTest('Pagination disabled', function(assert) {
+    QUnit.asyncTest('Pagination disabled', function(assert){
         QUnit.expect(6);
 
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward buttons');
             assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward buttons');
@@ -514,43 +515,43 @@ define([
         });
 
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }]
         });
     });
 
-    QUnit.asyncTest('Pagination enabled', function(assert) {
+    QUnit.asyncTest('Pagination enabled', function(assert){
         QUnit.expect(7);
 
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward buttons');
             assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward buttons');
@@ -560,98 +561,98 @@ define([
             QUnit.start();
         });
         $elt.datatable({
-            url: 'js/test/ui/datatable/largedata.json',
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'password',
-                label: 'Pass',
-                sortable: true
-            }, {
-                id: 'title',
-                label: 'Title',
-                sortable: true
-            }, {
-                id: 'firstname',
-                label: 'First',
-                sortable: true
-            }, {
-                id: 'lastname',
-                label: 'Last',
-                sortable: true
-            }, {
-                id: 'gender',
-                label: 'Gender',
-                sortable: true
-            }, {
+            url : 'js/test/ui/datatable/largedata.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'password',
+                label : 'Pass',
+                sortable : true
+            },{
+                id : 'title',
+                label : 'Title',
+                sortable : true
+            },{
+                id : 'firstname',
+                label : 'First',
+                sortable : true
+            },{
+                id : 'lastname',
+                label :'Last',
+                sortable : true
+            },{
+                id : 'gender',
+                label : 'Gender',
+                sortable : true
+            },{
                 id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
+                label : 'Email',
+                sortable : true
+            },{
                 id: 'picture',
-                label: 'picture',
-                sortable: true
-            }, {
+                label : 'picture',
+                sortable : true
+            },{
                 id: 'address',
-                label: 'Address',
-                sortable: true
+                label : 'Address',
+                sortable : true
             }]
         });
     });
 
-    QUnit.asyncTest('Selection disabled', function(assert) {
+    QUnit.asyncTest('Selection disabled', function(assert){
         QUnit.expect(4);
 
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.checkboxes').length === 0, 'there is no selection checkboxes');
             assert.ok($elt.datatable('selection').length === 0, 'the selection is empty');
             QUnit.start();
         });
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }]
         });
     });
 
-    QUnit.asyncTest('Selection enabled', function(assert) {
+    QUnit.asyncTest('Selection enabled', function(assert){
         QUnit.expect(11);
 
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function(){
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.equal($elt.find('.checkboxes').length, 4, 'there are selection checkboxes');
             assert.equal($elt.datatable('selection').length, 0, 'the selection is empty');
@@ -680,43 +681,43 @@ define([
             QUnit.start();
         });
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
-            selectable: true,
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            url : 'js/test/ui/datatable/data.json',
+            selectable : true,
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }]
         });
     });
 
-    QUnit.asyncTest('Selectable rows', function(assert) {
+    QUnit.asyncTest('Selectable rows', function (assert) {
         QUnit.expect(10);
 
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
 
@@ -724,35 +725,35 @@ define([
         });
 
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
+            url : 'js/test/ui/datatable/data.json',
             rowSelection: true,
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }],
             listeners: {
-                selected: function() {
+                selected: function () {
                     assert.ok(true, 'the handler was attached and caused');
                     assert.equal($elt.find('.datatable tbody tr.selected td:eq(0)').text(), 'jdoe', 'the login field in selected row is correct');
                     assert.equal($elt.find('.datatable tbody tr.selected td:eq(1)').text(), 'John Doe', 'the name field in selected row is correct');
@@ -766,14 +767,14 @@ define([
         });
     });
 
-    QUnit.asyncTest('Default filtering enabled', function(assert) {
+    QUnit.asyncTest('Default filtering enabled', function (assert) {
         QUnit.expect(8);
 
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
         var dom;
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
             assert.ok($elt.find('.datatable-wrapper aside.filter').length, 'the filter is enabled');
@@ -783,57 +784,57 @@ define([
             dom = $elt.find('tbody').get();
         });
 
-        $elt.on('filter.datatable', function(event, options) {
+        $elt.on('filter.datatable', function (event, options) {
             assert.equal(options.filterquery, 'abcdef', 'the filter set right search query');
             assert.deepEqual(options.filtercolumns, ["login", "name"], 'the filter set right columns');
-            $elt.on('load.datatable', function() {
+            $elt.on('load.datatable', function () {
                 assert.equal($elt.find('.datatable-wrapper aside.filter input').hasClass('focused'), true, 'the filter is focusable after refreshing');
-                assert.notEqual(dom, $elt.find('tbody').get(), 'content has been changed');
+                assert.notEqual(dom ,$elt.find('tbody').get(), 'content has been changed');
                 QUnit.start();
             });
         });
 
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
+            url : 'js/test/ui/datatable/data.json',
             filter: {
                 columns: ['login', 'name']
             },
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }]
         });
     });
 
-    QUnit.asyncTest('Column filtering (input) enabled', function(assert) {
+    QUnit.asyncTest('Column filtering (input) enabled', function (assert) {
         QUnit.expect(10);
 
         var $elt = $('#container-1');
         var dom;
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
             assert.equal($elt.find('.datatable thead th:eq(0) aside.filter').data('column'), 'login', 'the login col is filterable');
@@ -845,11 +846,11 @@ define([
             $elt.find('aside.filter[data-column="login"] button').trigger('click');
         });
 
-        $elt.on('filter.datatable', function(event, options) {
+        $elt.on('filter.datatable', function (event, options) {
             assert.equal(options.filtercolumns, 'login', 'the filter set right column');
             assert.equal(options.filterquery, 'abcdef', 'the filter set right search query');
-            assert.notEqual(dom, $elt.find('tbody').get(), 'content has been changed');
-            $elt.on('load.datatable', function() {
+            assert.notEqual(dom ,$elt.find('tbody').get(), 'content has been changed');
+            $elt.on('load.datatable', function () {
                 assert.equal($elt.find('aside.filter[data-column="login"] input').hasClass('focused'), true, 'the login column filter is focusable after refreshing');
                 QUnit.start();
             });
@@ -857,48 +858,48 @@ define([
         });
 
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
+            url : 'js/test/ui/datatable/data.json',
             filter: true,
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true,
-                filterable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true,
-                filterable: {
-                    placeholder: 'Search by email'
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true,
+                filterable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true,
+                filterable : {
+                    placeholder : 'Search by email'
                 }
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }]
         });
     });
 
-    QUnit.asyncTest('Column filtering (select) enabled', function(assert) {
+    QUnit.asyncTest('Column filtering (select) enabled', function (assert) {
         QUnit.expect(10);
 
         var $elt = $('#container-1');
         var dom;
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
             assert.equal($elt.find('.datatable thead th:eq(1) aside.filter').data('column'), 'name', 'the name col is filterable');
@@ -911,52 +912,50 @@ define([
             $elt.find('aside.filter[data-column="name"] select').trigger('change');
         });
 
-        $elt.on('filter.datatable', function(event, options) {
+        $elt.on('filter.datatable', function (event, options) {
             assert.equal(options.filtercolumns, 'name', 'the filter set right column');
             assert.equal(options.filterquery, 'John Doe', 'the filter set right search query');
-            $elt.on('load.datatable', function() {
+            $elt.on('load.datatable', function () {
                 assert.equal($elt.find('aside.filter[data-column="name"] select').val(), 'John Doe', 'the name column filter has proper value after refreshing');
-                assert.notEqual(dom, $elt.find('tbody').get(), 'content has been changed');
+                assert.notEqual(dom ,$elt.find('tbody').get(), 'content has been changed');
                 QUnit.start();
             });
 
         });
 
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
+            url : 'js/test/ui/datatable/data.json',
             filter: true,
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true,
-                filterable: true,
-                customFilter: {
-                    template: '<select><option selected></option><option value="Smith">Smith</option><option value="John Doe">Doe</option> </select>',
-                    callback: function($filter) {
-                        $filter.addClass('test');
-                    }
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true,
+                filterable : true,
+                customFilter : {
+                    template : '<select><option selected></option><option value="Smith">Smith</option><option value="John Doe">Doe</option> </select>',
+                    callback : function($filter){ $filter.addClass('test');}
                 }
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true,
-                filterable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true,
+                filterable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }]
         });
     });
@@ -1006,7 +1005,7 @@ define([
 
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 2, 'the table contains 2 heads elements');
             assert.equal($elt.find('.datatable thead th:eq(0)').text().trim(), model[0].label, 'The first column contains the right header');
@@ -1037,7 +1036,7 @@ define([
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.on('create.datatable', function() {
+        $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.datatable thead th').length === 6, 'the table contains 6 heads elements');
 
@@ -1050,39 +1049,39 @@ define([
         });
 
         $elt.datatable({
-            url: 'js/test/ui/datatable/data.json',
+            url : 'js/test/ui/datatable/data.json',
             rowSelection: true,
-            'model': [{
-                id: 'login',
-                label: 'Login',
-                sortable: true
-            }, {
-                id: 'name',
-                label: 'Name',
-                sortable: true
-            }, {
-                id: 'email',
-                label: 'Email',
-                sortable: true
-            }, {
-                id: 'roles',
-                label: 'Roles',
-                sortable: false
-            }, {
-                id: 'dataLg',
-                label: 'Data Language',
-                sortable: true
-            }, {
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
                 id: 'guiLg',
-                label: 'Interface Language',
-                sortable: true
+                label : 'Interface Language',
+                sortable : true
             }],
             listeners: {
                 selected: function selectRow(e) {
                     assert.ok(true, 'the handler was attached and caused');
                 },
                 sort: function() {
-                    $elt.on('load.datatable', function() {
+                    $elt.on('load.datatable', function () {
                         $elt.find('.datatable tbody tr:eq(1) td:eq(1)').trigger('click');
                         QUnit.start();
                     });
@@ -1100,48 +1099,48 @@ define([
         var $elt = $('#container-1');
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.on('beforeload.datatable', function(e, loadedDataSet) {
-                if (firstLoad) {
-                    assert.equal(typeof loadedDataSet, 'object', 'The beforeload gives us an object');
-                    assert.deepEqual(loadedDataSet, dataset, 'The dataset is correct');
+        $elt.on('beforeload.datatable', function (e, loadedDataSet) {
+            if(firstLoad){
+                assert.equal(typeof loadedDataSet, 'object', 'The beforeload gives us an object');
+                assert.deepEqual(loadedDataSet, dataset, 'The dataset is correct');
 
-                    dataSetRef = loadedDataSet;
-                    firstLoad = false;
-                    $elt.datatable('refresh');
-                } else {
-                    assert.ok(loadedDataSet !== dataSetRef, 'The given dataset is a copy');
-                    assert.deepEqual(loadedDataSet, dataSetRef, 'The dataset is correct');
-                    QUnit.start();
-                }
-            })
-            .datatable({
-                url: 'js/test/ui/datatable/data.json',
-                'model': [{
-                    id: 'login',
-                    label: 'Login',
-                    sortable: true
-                }, {
-                    id: 'name',
-                    label: 'Name',
-                    sortable: true
-                }, {
-                    id: 'email',
-                    label: 'Email',
-                    sortable: true
-                }, {
-                    id: 'roles',
-                    label: 'Roles',
-                    sortable: false
-                }, {
-                    id: 'dataLg',
-                    label: 'Data Language',
-                    sortable: true
-                }, {
-                    id: 'guiLg',
-                    label: 'Interface Language',
-                    sortable: true
-                }]
-            });
+                dataSetRef = loadedDataSet;
+                firstLoad = false;
+                $elt.datatable('refresh');
+            } else {
+                assert.ok(loadedDataSet !== dataSetRef, 'The given dataset is a copy');
+                assert.deepEqual(loadedDataSet, dataSetRef, 'The dataset is correct');
+                QUnit.start();
+            }
+        })
+        .datatable({
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id : 'login',
+                label : 'Login',
+                sortable : true
+            },{
+                id : 'name',
+                label : 'Name',
+                sortable : true
+            },{
+                id : 'email',
+                label : 'Email',
+                sortable : true
+            },{
+                id : 'roles',
+                label :'Roles',
+                sortable : false
+            },{
+                id : 'dataLg',
+                label : 'Data Language',
+                sortable : true
+            },{
+                id: 'guiLg',
+                label : 'Interface Language',
+                sortable : true
+            }]
+        });
     });
 
     QUnit.asyncTest('sortable headers', function(assert) {
@@ -1169,7 +1168,8 @@ define([
             QUnit.start();
         })
         .datatable({
-            'model': [{
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
                 id: 'login',
                 label: 'Login',
                 sortable: true
@@ -1182,23 +1182,6 @@ define([
                 label: 'Email',
                 sortable: false
             }]
-        }, {
-            "data": [{
-                "id": "1",
-                "login": "zack",
-                "email": "zack@nowhere.org",
-            }, {
-                "id": "2",
-                "login": "matt",
-                "email": "matt@nowhere.org",
-            }, {
-                "id": "3",
-                "login": "bob",
-                "email": "bob@nowhere.org",
-            }],
-            "page": 1,
-            "total": 1,
-            "records": 3
         });
     });
 });
