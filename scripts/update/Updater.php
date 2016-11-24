@@ -601,7 +601,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $this->setVersion('7.28.0');
         }
-        $this->skip('7.28.0', '7.29.1');
+        $this->skip('7.28.0', '7.30.0');
     }
 
     private function migrateFsAccess() {
