@@ -1,0 +1,69 @@
+{
+  "seed": {
+    "identifier": "taocloud-classic",
+    "author": "geoffrey@taotesting.com",
+    "version": {
+      "code": "0.0.0",
+      "name": ""
+    }
+  },
+  "services": [
+    {
+      "webserver": "apache",
+      "root": "/srv/www/tao",
+      "url": "http://10.22.22.22/tao",
+      "public_url": "https://foo.taocloud.org/"
+    }
+  ],
+  "extensions": [
+    "taoCe",
+    "taoProctoring"
+  ],
+  "super-user": {
+    "login": "admin",
+    "lastname": "",
+    "firstname": "",
+    "email": "",
+    "password": "admin"
+  },
+  "configuration": {
+    "generis": {
+      "persistences": {
+        "default": {
+          "driver": "pdo_mysql",
+          "host": "localhost",
+          "dbname": "tao",
+          "user": "tao",
+          "password": "tao"
+        },
+        "cache": {
+          "driver": "phpfile"
+        },
+        "keyValueResult": {
+          "driver": "phpredis",
+          "host": "10.33.33.33",
+          "port": 6379
+        }
+      },
+      "global": {
+        "lang": "en-US",
+        "mode": "debug",
+        "instance_name": "mytao",
+        "namespace": "http://tao.local/mytao.rdf",
+        "url": "http://tao.dev/",
+        "file_path": "/var/www/package-tao/data/",
+        "root_path": "/var/www/package-tao/",
+        "session_name": "tao_123AbC",
+        "timezone": "Europe/Luxembourg"
+      }
+    }
+  },
+  "postInstall": [
+    {
+      "class": "",
+      "params": [
+        ""
+      ]
+    }
+  ]
+}

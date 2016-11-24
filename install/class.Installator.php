@@ -249,11 +249,12 @@ class tao_install_Installator{
 				$this->options['root_path'].'config/generis.conf.php'
 			);
 
+			$session_name = (isset($installData['session_name']))?$installData['session_name']:self::generateSessionName();
 			$generisConfigWriter->createConfig();
 			$generisConfigWriter->writeConstants(array(
 				'LOCAL_NAMESPACE'			=> $installData['module_namespace'],
 				'GENERIS_INSTANCE_NAME'		=> $installData['instance_name'],
-				'GENERIS_SESSION_NAME'		=> self::generateSessionName(),
+				'GENERIS_SESSION_NAME'		=> $session_name,
 				'ROOT_PATH'					=> $this->options['root_path'],
                 'FILES_PATH'                => $installData['file_path'],
 				'ROOT_URL'					=> $installData['module_url'],
