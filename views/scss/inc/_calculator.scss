@@ -10,7 +10,6 @@
         display: block;
         float: none;
         font-family: sans-serif;
-        @include font-size(15);
         left: auto;
         line-height: 1;
         margin: 0;
@@ -106,35 +105,6 @@
                 &.triggered{
                     background: whiten($uiClickableHoverBg, .2);
                 }
-            }
-        }
-    }
-    &.smallx .calcContainer form{
-        input,button{
-            @include font-size(12, true);
-            &.calcDisplay{
-                @include font-size(14, true);
-            }
-            sup {
-                @include font-size(7, true);
-            }
-            sub{
-                @include font-size(9, true);
-            }
-        }
-    } 
-    &.largex .calcContainer form{
-        input,button{
-            @include font-size(21, true);
-            &.calcDisplay{
-                @include font-size(34, true);
-            }
-            sup {
-                @include font-size(12, true);
-                top : -1rem;
-            }
-            sub {
-                @include font-size(18, true);
             }
         }
     }
