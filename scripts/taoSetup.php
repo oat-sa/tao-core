@@ -23,6 +23,7 @@ namespace oat\tao\scripts;
 
 use oat\oatbox\action\Action;
 use common_report_Report as Report;
+use oat\oatbox\install\Installer;
 
 class taoSetup implements Action
 {
@@ -155,6 +156,9 @@ class taoSetup implements Action
 
 
         // FlySystem config
+        if(isset($parameters['configuration']['generis']['fileSystem'])){
+            $options[Installer::OPTION_FILESYSTEM_SERVICE] = $parameters['configuration']['generis']['fileSystem'];
+        }
 
 
         // run the actual install

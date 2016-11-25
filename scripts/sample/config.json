@@ -45,6 +45,18 @@
           "port": 6379
         }
       },
+      "fileSystem":{
+        "class":"oat\\awsTools\\AwsFileSystemService",
+        "options": {
+            "filesPath": "/var/www/package-tao/data/",
+            "defaultOptions": {
+
+            },
+            "adapters": {
+
+            }
+          }
+      },
       "log": [
         {
           "class": "UDPAppender",
