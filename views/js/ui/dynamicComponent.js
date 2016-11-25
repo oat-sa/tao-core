@@ -175,7 +175,6 @@ define([
                 var $content        = $('.dynamic-component-content', $element);
                 var $titleBar       = $('.dynamic-component-title-bar', $element);
                 var $contentOverlay = $('.dynamic-component-layer', $element);
-
                 var interactElement;
 
                 //keeps moving/resizing positions data
@@ -217,7 +216,9 @@ define([
                         inertia : false,
                         autoScroll : true,
                         manualStart: true,
-                        restrict : getRestriction(),
+                        restrict : _.merge(getRestriction(), {
+                            elementRect: { left: 0, right: 1, top: 0, bottom: 1 }
+                        }),
                         onmove : _moveItem,
                         onstart: function () {
                             $contentOverlay.addClass('dragging-active');
@@ -272,13 +273,11 @@ define([
                         return {
                             restriction : 'parent',
                             endOnly : false,
-                            elementRect : {top : 0, left : 0, bottom : 1, right : 1}
                         };
                     }
                     return {
                         restriction : draggableContainer,
-                        endOnly : false,
-                        elementRect : {top : 0, left : 0, bottom : 1, right : 1}
+                        endOnly : false
                     };
                 }
 
