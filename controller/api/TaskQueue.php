@@ -18,20 +18,88 @@
 
 namespace oat\tao\controller\api;
 
+use oat\oatbox\task\Queue;
+use oat\oatbox\task\Task;
+
 class TaskQueue extends \tao_actions_RestController
 {
-    const REST_TASK_ID = 'id';
+    const TASK_ID_PARAM = 'id';
 
-    public function index()
+    /**
+     * Get task data by identifier
+     */
+    public function get()
     {
-        if (!$this->hasRequestParameter(self::REST_TASK_ID)) {
-            throw new \common_exception_MissingParameter(self::REST_TASK_ID, $this->getRequestURI());
+        try {
+            if (!$this->hasRequestParameter(self::TASK_ID_PARAM)) {
+                throw new \common_exception_MissingParameter(self::TASK_ID_PARAM, $this->getRequestURI());
+            }
+            $data = $this->getTaskData($this->getRequestParameter(self::TASK_ID_PARAM));
+            $this->returnSuccess($data);
+        } catch (\Exception $e) {
+            $this->returnFailure($e);
         }
+    }
 
-        $taskId = $this->getRequestParameter(self::REST_TASK_ID);
+    /**
+     * Template method to generate task data to be returned to the end user.
+     * @param string $taskId
+     * @return array
+     */
+    private function getTaskData($taskId)
+    {
+        $task             = $this->getTask($taskId);
+        $result['id']     = $this->getTaskId($task);
+        $result['status'] = $this->getTaskStatus($task);
+        $result['report'] = $this->getTaskReport($task);
 
+        return $result;
+    }
 
+    /**
+     * Get task instance from queue by identifier
+     * @param $taskId task identifier
+     * @throws \common_exception_NotFound
+     * @return Task
+     */
+    protected function getTask($taskId)
+    {
+        /** @var Queue $taskQueue */
+        $taskQueue = $this->getServiceManager()->get(Queue::CONFIG_ID);
+        $task = $taskQueue->getTask($taskId);
+        if ($task === null) {
+            throw new \common_exception_NotFound(__('Task not found'));
+        }
+        return $task;
+    }
 
-        $this->returnSuccess(array('id' => $taskId));
+    /**
+     * Return task report. Method may be overridden to comply special format of report
+     * @param Task $task
+     * @return null
+     */
+    protected function getTaskReport(Task $task)
+    {
+        return $task->getReport();
+    }
+
+    /**
+     * Return task status
+     * @param Task $task
+     * @return null
+     */
+    protected function getTaskStatus(Task $task)
+    {
+        return $task->getStatus();
+    }
+
+    /**
+     * Return task identifier
+     * @param Task $task
+     * @return null
+     */
+    protected function getTaskId(Task $task)
+    {
+        return $task->getId();
     }
 }
