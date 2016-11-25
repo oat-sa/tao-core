@@ -53,7 +53,7 @@ class TaskQueue extends \tao_actions_RestController
      * @param string $taskId
      * @return array
      */
-    private function getTaskData($taskId)
+    protected function getTaskData($taskId)
     {
         $task             = $this->getTask($taskId);
         $result['id']     = $this->getTaskId($task);
