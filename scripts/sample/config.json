@@ -17,7 +17,7 @@
   ],
   "extensions": [
     "taoCe",
-    "taoProctoring"
+    "taoBlueprints"
   ],
   "super-user": {
     "login": "admin",
@@ -45,6 +45,22 @@
           "port": 6379
         }
       },
+      "log": [
+        {
+          "class": "UDPAppender",
+          "host": "127.0.0.1",
+          "port": 5775,
+          "threshold": 1
+        },
+        {
+          "class": "SingleFileAppender",
+          "file": "/var/www/package-tao/log/error.txt",
+          "max_file_size": 1048576,
+          "rotation-ratio": 5,
+          "format": "%m",
+          "threshold": 4
+        }
+      ],
       "global": {
         "lang": "en-US",
         "mode": "debug",
@@ -59,11 +75,5 @@
     }
   },
   "postInstall": [
-    {
-      "class": "",
-      "params": [
-        ""
-      ]
-    }
   ]
 }

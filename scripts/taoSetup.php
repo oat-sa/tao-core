@@ -28,34 +28,41 @@ class taoSetup implements Action
 {
     public function __invoke($params)
     {
-
-        // TODO : Take filename from parameter
-        $filename = __DIR__ . '/sample/config.json';
-//        $filename = __DIR__ . '/sample/config.yml';
-        if (!file_exists($filename)) {
-            throw new \Exception('Unable to find '. $filename);
+        if(!isset($params[0])){
+            return Report::createFailure('You should provide a filepath');
         }
 
+        $filepath = $params[0];
+
+        if (!file_exists($filepath)) {
+            return Report::createFailure('Unable to find '. $filepath);
+        }
 
         //TODO : Take format from parameter
-        $format = 'json';
-//        $format = 'yml';
+        $info = pathinfo($filepath);
 
-        switch($format){
+        switch($info['extension']){
             case 'json':
-                $parameters = json_decode(file_get_contents($filename), true);
+                $parameters = json_decode(file_get_contents($filepath), true);
+                if(is_null($parameters)){
+                    return Report::createFailure('Your file is malformed');
+                }
                 break;
             case 'yml':
                 if(extension_loaded('yaml')){
-                    $parameters = \yaml_parse_file($filename);
+                    $parameters = \yaml_parse_file($filepath);
+                    if($parameters === false){
+                        return Report::createFailure('Your file is malformed');
+                    }
                 } else {
                     return Report::createFailure('Extension yaml should be installed');
                 }
                 break;
             default:
-                return Report::createFailure('Please provide a format');
+                return Report::createFailure('Please provide a json or yml file');
                 break;
         }
+
 
         $options = array (
         "db_driver"	=>			"mysql"
@@ -96,15 +103,16 @@ class taoSetup implements Action
             return Report::createFailure('Your config should have a \'persistence\' key under \'generis\'');
         }
 
-        foreach($parameters['configuration']['generis']['persistences'] as $key => $persistence){
-            if($key === 'default'){
-                $options['db_driver'] = $persistence['driver'];
-                $options['db_host'] = $persistence['host'];
-                $options['db_name'] = $persistence['dbname'];
-                $options['db_user'] = $persistence['user'];
-                $options['db_pass'] = $persistence['password'];
-            }
+        if(!isset($parameters['configuration']['generis']['persistences']['default'])){
+            return Report::createFailure('Your config should have a \'default\' key under \'persistences\'');
         }
+
+        $persistence = $parameters['configuration']['generis']['persistences']['default'];
+        $options['db_driver'] = $persistence['driver'];
+        $options['db_host'] = $persistence['host'];
+        $options['db_name'] = $persistence['dbname'];
+        $options['db_user'] = $persistence['user'];
+        $options['db_pass'] = $persistence['password'];
 
         if(!isset($parameters['configuration']['generis']['global'])){
             return Report::createFailure('Your config should have a \'global\' key under \'generis\'');
@@ -134,10 +142,16 @@ class taoSetup implements Action
 
         $superUser = $parameters['super-user'];
         $options['user_login'] = $superUser['login'];
-        $options['user_lastname'] = $superUser['lastname'];
-        $options['user_firstname'] = $superUser['firstname'];
-        $options['user_email'] = $superUser['email'];
         $options['user_pass1'] = $superUser['password'];
+        if(isset($parameters['lastname'])){
+            $options['user_lastname'] = $parameters['lastname'];
+        }
+        if(isset($parameters['firstname'])){
+            $options['user_firstname'] = $parameters['firstname'];
+        }
+        if(isset($parameters['email'])){
+            $options['user_email'] = $parameters['email'];
+        }
 
 
         // FlySystem config
@@ -160,6 +174,21 @@ class taoSetup implements Action
         // session config
         // uriProvider config
         // authentication config
+
+
+        // configure persistences
+        foreach($parameters['configuration']['generis']['persistences'] as $key => $persistence){
+            if($key !== 'default'){
+                \common_persistence_Manager::addPersistence($key, $persistence);
+            }
+        }
+
+
+        if(isset($parameters['configuration']['generis']['log'])){
+            if(!\common_ext_ExtensionsManager::singleton()->getExtensionById('generis')->setConfig('log', $parameters['configuration']['generis']['log'])){
+                return Report::createInfo('You logger config cannot be set');
+            }
+        }
 
 
         // execute post install scripts
