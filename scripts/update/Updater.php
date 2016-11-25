@@ -602,9 +602,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $this->setVersion('7.28.0');
         }
-        $this->skip('7.28.0', '7.29.1');
+        $this->skip('7.28.0', '7.29.2');
 
-        if ($this->isVersion('7.29.1')) {
+        if ($this->isVersion('7.29.2')) {
             OntologyUpdater::syncModels();
             $taskQueueManagerRole = new \core_kernel_classes_Resource(TaskService::TASK_QUEUE_MANAGER_ROLE);
             $accessService = \funcAcl_models_classes_AccessService::singleton();
