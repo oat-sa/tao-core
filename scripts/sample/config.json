@@ -16,8 +16,7 @@
     }
   ],
   "extensions": [
-    "taoCe",
-    "taoBlueprints"
+    "taoCe"
   ],
   "super-user": {
     "login": "admin",
@@ -49,13 +48,26 @@
         "class":"oat\\awsTools\\AwsFileSystemService",
         "options": {
             "filesPath": "/var/www/package-tao/data/",
+            "first_prefix": "",
             "defaultOptions": {
-
+              "bucket": "my_bucket",
+              "client": "generis/awsClient"
             },
             "adapters": {
 
             }
+          },
+        "scripts":[
+          {
+            "class": "oat\\generis\\scripts\\registerAwsClient",
+            "params": {
+              "region": "eu-west-1",
+              "version": "latest",
+              "secret": "Secret",
+              "key": "Key"
+            }
           }
+        ]
       },
       "log": [
         {
