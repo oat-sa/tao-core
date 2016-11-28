@@ -1,12 +1,19 @@
-.dynamic-component-container{
-    .calcContainer{
-        width : 100%;
-        height : 100%;
+/* Style for the calculator component */
+
+/* font size mixin specific to calculator to use em instead of rem unit */
+@mixin calc-font-size($em) {
+    font-size: ($em) * 1em !important;
+}
+
+.dynamic-component-container {
+    .calcContainer {
+        width: 100%;
+        height: 100%;
         background: none;
         border: none;
         bottom: auto;
         clear: none;
-        color: #000;
+        color: $textColor;
         display: block;
         float: none;
         font-family: sans-serif;
@@ -32,77 +39,77 @@
             height: 0;
             visibility: hidden;
         }
-        form{
+        form {
             height: 100%;
             width: 100%;
             font-size: 10px;
-            input,button{
-                background-color : $uiClickableDefaultBg;
+            input, button {
+                background-color: $uiClickableDefaultBg;
                 border-radius: 0;
-                padding : 0;
+                padding: 0;
                 border: none;
-                color : $textColor !important;
+                color: $textColor !important;
                 float: left;
                 height: 14%;
                 text-align: center;
                 text-shadow: none;
-                width: 25%; 
-                min-width:0;
+                width: 25%;
+                min-width: 0;
                 cursor: pointer;
-                &.calcFirst{
+                &.calcFirst {
                     clear: left;
                 }
-                &.calcClear{
-                    color : $info !important;
-                    font-size: 1.5em !important;
+                &.calcClear {
+                    color: $info !important;
+                    @include calc-font-size(1.5);
                 }
-                &.calcFunction{
-                    font-size: 1.5em !important;
+                &.calcFunction {
+                    @include calc-font-size(1.5);
                     sup.digit {
+                        top: -0.5em;
                         padding-right: 1px;
-                        font-size: 0.8em !important;
-                        top : -0.5em;
+                        @include calc-font-size(0.8);
                     }
                     sup.letter {
+                        top: -0.5em;
                         padding-right: 1px;
-                        font-size: 0.8em !important;
-                        top : -0.5em;
+                        @include calc-font-size(0.8);
                     }
-                    sub{
+                    sub {
                         padding-left: 1px;
-                        font-size: 1.2em !important;
+                        @include calc-font-size(1.0);
                     }
                 }
-                &.calcDisplay{
-                    cursor:text;
+                &.calcDisplay {
+                    cursor: text;
                     opacity: 1 !important;
-                    background : whiten($uiClickableDefaultBg, .7);
-                    &:hover{
-                        background : whiten($uiClickableDefaultBg, .9);
+                    background: whiten($uiClickableDefaultBg, .7);
+                    &:hover {
+                        background: whiten($uiClickableDefaultBg, .9);
                     }
                     font-family: monospace;
                     text-align: right;
                     width: 100%;
                     max-width: none;
-                    padding: 0.6rem;
+                    padding: 0.6em;
                     height: 16%;
-                    font-size: 2em !important;
+                    @include calc-font-size(2);
                 }
-                &.calcInput{
+                &.calcInput {
                     font-weight: bold;
-                    font-size: 1.5em !important;
+                    @include calc-font-size(1.5);
                 }
-                &.calcSubmit{
+                &.calcSubmit {
                     font-weight: bold;
                     color: $textColor !important;
                     background-color: #ddd;
                     text-shadow: none;
-                    font-size: 1.5em !important;
+                    @include calc-font-size(1.5);
                 }
-                &:hover{
+                &:hover {
                     background: $uiClickableActiveBg;
                 }
-                &.triggered{
+                &.triggered {
                     background: whiten($uiClickableHoverBg, .2);
                 }
             }
