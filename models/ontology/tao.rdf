@@ -231,5 +231,12 @@
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#Boolean"/>
   </rdf:Description>
-  
+
+  <!-- Assessement content object -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject">
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[assessmentObject]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Object to represent assessment contents]]></rdfs:comment>
+  </rdf:Description>
+
 </rdf:RDF>

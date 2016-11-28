@@ -23,8 +23,9 @@ define([
     'lodash',
     'interact',
     'ui/component',
+    'ui/transformer',
     'tpl!ui/dynamicComponent/layout'
-], function ($, _, interact, component, layoutTpl){
+], function ($, _, interact, component, transformer, layoutTpl){
     'use strict';
 
     var _defaults = {
@@ -35,43 +36,104 @@ define([
         height : 360,
         minWidth : 150,
         maxWidth : 600,
+        minHeight: 100,
+        maxHeight: 900,
         largeWidthThreshold : 380,
         smallWidthThreshold : 200,
         draggableContainer : 'parent',
+        preserveAspectRatio : true,
         top : 0, //position top absolute in the window
         left : 0//position left absolute in the window
     };
 
     /**
      * Defines a dynamicComponent
-     * @type {Object}
+     * @typedef {Object} dynamicComponent
      */
     var dynamicComponent = {
+
+        /**
+         * Reset the position and the size
+         * @returns {dynamicComponent} chains
+         * @fires dynamicComponent#reset
+         */
         reset : function reset(){
-            this.resetPosition();
-            this.resetSize();
-            this.trigger('reset');
+            if(this.is('rendered') && !this.is('disabled')){
+                this.resetPosition();
+                this.resetSize();
+
+                /**
+                 * @event dynamicComponent#reset
+                 */
+                this.trigger('reset');
+            }
             return this;
         },
+
+        /**
+         * Reset the component position to it's original value
+         * @returns {dynamicComponent} chains
+         * @fires dynamicComponent#move
+         */
         resetPosition : function resetPosition(){
-            this.getElement().css({
-                top : this.config.top,
-                left : this.config.left,
-                transform : 'none'
-            });
+            if(this.is('rendered') && !this.is('disabled')){
+                this.getElement().css({
+                    top : this.config.top,
+                    left : this.config.left,
+                    transform : 'none'
+                });
+
+                this.position.x = this.config.left;
+                this.position.y = this.config.top;
+
+                /**
+                 * @event dynamicComponent#move
+                 * @param {Object} position - the new positions
+                 */
+                this.trigger('move', this.position);
+            }
             return this;
         },
+
+        /**
+         * Reset the component size to it's original value
+         * @returns {dynamicComponent} chains
+         * @fires dynamicComponent#resize
+         */
         resetSize : function resetSize(){
-            var $element = this.getElement();
-            var $content = $element.find('.dynamic-component-content');
-            $element.css({
-                width : 'auto',
-                height : 'auto'
-            });
-            $content.css({
-                width : this.config.width,
-                height : this.config.height
-            });
+            var self = this;
+            var $element;
+            var $content;
+            var $titleBar;
+            if(this.is('rendered') && !this.is('disabled')){
+                $element  = this.getElement();
+                $content  = $('.dynamic-component-content', $element);
+                $titleBar = $('.dynamic-component-title-bar', $element);
+
+                $element.css({
+                    width:  this.config.width + 'px',
+                    height: this.config.height + 'px'
+                });
+
+                //defer to ensure the next reflow occurs before calculating the content size
+                _.defer(function(){
+                    self.position.width         = self.config.width;
+                    self.position.height        = self.config.height;
+                    self.position.contentWidth  = $titleBar.width();
+                    self.position.contentHeight = $element.height() - $titleBar.outerHeight();
+
+                    $content.css({
+                        width : self.position.contentWidth + 'px',
+                        height : self.position.contentHeight + 'px'
+                    });
+
+                    /**
+                     * @event dynamicComponent#resize
+                     * @param {Object} position - the new positions
+                     */
+                    self.trigger('resize', self.position);
+                });
+            }
             return this;
         }
     };
@@ -87,10 +149,13 @@ define([
      * @param {Number} [config.width] - the initial width of the component content
      * @param {Number} [config.height] - the intial height of the component content
      * @param {Number} [config.minWidth] - the min width for resize
+     * @param {Number} [config.minHeight] - the min height for resize
      * @param {Number} [config.maxWidth] - the max width for resize
+     * @param {Number} [config.maxHeight] - the max height for resize
      * @param {Number} [config.largeWidthThreshold] - the width below which the container will get the class "small"
      * @param {Number} [config.smallWidthThreshold] - the width above which the container will get the class "large"
-     * @param {jQuery|HTMLElement|String} [config.draggableContainer] - the DOMElement the draggable component will be constraint in
+     * @param {Boolean} [config.preserveAspectRatio] - preserve ratio on resize
+     * @param {jQuery|HTMLElement|String} [config.draggableContainer] - the DOMElement the draggable/resizable component will be constraint in
      * @param {Number} [config.top] - the initial position top absolute to the windows
      * @param {Number} [config.left] - the initial position left absolute to the windows
      * @returns {component}
@@ -104,103 +169,130 @@ define([
             .setTemplate(layoutTpl)
             .on('render', function (){
 
-                var self = this;
-                var $element = this.getElement();
-                var $content = $element.find('.dynamic-component-content');
+                var self            = this;
+                var $element        = this.getElement();
+                var config          = this.config;
+                var $content        = $('.dynamic-component-content', $element);
+                var $titleBar       = $('.dynamic-component-title-bar', $element);
+                var $contentOverlay = $('.dynamic-component-layer', $element);
                 var interactElement;
-                var config = this.config;
-                var draggableContainer;
-                var $draggingLayer;
+
+                //keeps moving/resizing positions data
+                this.position = {
+                    x:      this.config.left,
+                    y:      this.config.top,
+                    width:  this.config.width,
+                    height: this.config.height
+                };
 
                 //set size + position
                 this.resetPosition();
                 this.resetSize();
 
-                //init closer
-                $('.dynamic-component-title-bar .closer', $element).on('click', function() {
-                    self.hide();
-                });
+                //init controls
+                $titleBar
+                    .on('click', '.closer', function(e) {
+                        e.preventDefault();
+                        self.hide();
+                    })
+                    .on('click', '.reset', function(e) {
+                        e.preventDefault();
+                        self.resetSize();
+                    });
 
-                //init the component content
+                /**
+                 * Init the component content
+                 * @event dynamicComponent#rendercontent
+                 * @param {jQueryElement} $content - the rendered content
+                 */
                 this.trigger('rendercontent', $content);
 
                 //make the dynamic-component draggable + resizable
                 interactElement = interact($element[0]);
                 if(config.draggable){
-                    draggableContainer = config.draggableContainer;
+
+
+                    interactElement.draggable({
+                        inertia : false,
+                        autoScroll : true,
+                        manualStart: true,
+                        restrict : _.merge(getRestriction(), {
+                            elementRect: { left: 0, right: 1, top: 0, bottom: 1 }
+                        }),
+                        onmove : _moveItem,
+                        onstart: function () {
+                            $contentOverlay.addClass('dragging-active');
+                        },
+                        onend: function () {
+                            $contentOverlay.removeClass('dragging-active');
+                        }
+                    });
+
+                    //manually start interactjs draggable on the handle
+                    interact($titleBar[0]).on('down', function (event){
+
+                        var interaction = event.interaction,
+                            handle = event.currentTarget;
+
+                        interaction.start({
+                            name : 'drag',
+                            edges : {
+                                top : handle.dataset.top,
+                                left : handle.dataset.left,
+                                bottom : handle.dataset.bottom,
+                                right : handle.dataset.right
+                            }
+                        },
+                        interactElement,
+                        $element[0]);
+                    });
+                }
+                if(config.resizable){
+
+                    interactElement.resizable({
+                        preserveAspectRatio : config.preserveAspectRatio,
+                        autoScroll : true,
+                        restrict : getRestriction(),
+                        edges : {left : true, right : true, bottom : true, top : true},
+                        onmove : _resizeItem,
+                        onstart: function () {
+                            $contentOverlay.addClass('dragging-active');
+                        },
+                        onend: function () {
+                            $contentOverlay.removeClass('dragging-active');
+                        }
+                    });
+                }
+
+                function getRestriction(){
+                    var draggableContainer = config.draggableContainer;
                     if(draggableContainer instanceof $ && draggableContainer.length){
                         draggableContainer = draggableContainer[0];
                     }
-                    if(_.isElement(draggableContainer) || _.isString(draggableContainer)){
-                        //the dragging layer enable issue while dragging content with iframes
-                        $draggingLayer = $content.find('.dynamic-component-layer');
-
-                        interactElement.draggable({
-                            inertia : false,
-                            autoScroll : true,
-                            manualStart: true,
-                            restrict : {
-                                restriction : draggableContainer,
-                                endOnly : false,
-                                elementRect : {top : 0, left : 0, bottom : 1, right : 1}
-                            },
-                            onmove : _moveItem,
-                            onstart: function () {
-                                $draggingLayer.addClass('dragging-active');
-                            },
-                            onend: function () {
-                                $draggingLayer.removeClass('dragging-active');
-                            }
-                        });
-
-                        //manually start interactjs draggable on the handle
-                        interact($element.find('.dynamic-component-title-bar')[0]).on('down', function (event){
-
-                            var interaction = event.interaction,
-                                handle = event.currentTarget;
-
-                            interaction.start({
-                                name : 'drag',
-                                edges : {
-                                    top : handle.dataset.top,
-                                    left : handle.dataset.left,
-                                    bottom : handle.dataset.bottom,
-                                    right : handle.dataset.right
-                                }
-                            },
-                            interactElement,
-                            $element[0]);
-                        });
-                    }else{
-                        self.trigger('error', new Error('invalid draggableContainer type'));
+                    if(!draggableContainer) {
+                        return {
+                            restriction : 'parent',
+                            endOnly : false,
+                        };
                     }
-                }
-                if(config.resizable){
-                    interactElement.resizable({
-                        preserveAspectRatio : true,
-                        edges : {left : true, right : true, bottom : true, top : true},
-                        onmove : _resizeItem
-                    });
+                    return {
+                        restriction : draggableContainer,
+                        endOnly : false
+                    };
                 }
 
                 /**
                  * Callback for on move event
                  * @param {Object} e - the interact event object
                  */
-                function _moveItem(e){
+                function _moveItem(event){
 
-                    var $target = $(e.target),
-                        x = (parseFloat($target.attr('data-x')) || 0) + e.dx,
-                        y = (parseFloat($target.attr('data-y')) || 0) + e.dy,
-                        transform = 'translate(' + x + 'px, ' + y + 'px) translateZ(0)';
+                    self.position.x = (parseFloat(self.position.x) || 0) + event.dx;
+                    self.position.y = (parseFloat(self.position.y) || 0) + event.dy;
 
-                    $target.css({
-                        webkitTransform : transform,
-                        transform : transform
-                    });
+                    transformer.translate($element, self.position.x, self.position.y);
 
-                    $target.attr('data-x', x);
-                    $target.attr('data-y', y);
+                    self.trigger('move', self.position);
                 }
 
                 /**
@@ -209,37 +301,40 @@ define([
                  */
                 function _resizeItem(e){
 
-                    var $target = $(e.target),
-                        $title = $target.find('.dynamic-component-title-bar'),
-                        $content = $target.find('.dynamic-component-content'),
-                        x = (parseFloat($target.attr('data-x')) || 0) + e.deltaRect.left,
-                        y = (parseFloat($target.attr('data-y')) || 0) + e.deltaRect.top,
-                        transform = 'translate(' + x + 'px, ' + y + 'px)';
+                    var width  = e.rect.width < config.minWidth ? config.minWidth : e.rect.width > config.maxWidth ? config.maxWidth : e.rect.width;
+                    var height = e.rect.height < config.minHeight ? config.minHeight : e.rect.height > config.maxHeight ? config.maxHeight : e.rect.height;
 
-                    if(e.rect.width <= config.minWidth || e.rect.width >= config.maxWidth){
-                        return;
-                    }else if(e.rect.width <= config.smallWidthThreshold){
-                        $target.addClass('small').removeClass('large');
-                    }else if(e.rect.width >= config.largeWidthThreshold){
-                        $target.addClass('large').removeClass('small');
-                    }else{
-                        $target.removeClass('small').removeClass('large');
+                    if(width <= config.smallWidthThreshold) {
+                        $element.addClass('small').removeClass('large');
+                    } else if(width >= config.largeWidthThreshold) {
+                        $element.addClass('large').removeClass('small');
+                    } else {
+                        $element.removeClass('small').removeClass('large');
                     }
 
-                    $target.css({
-                        width : e.rect.width,
-                        height : e.rect.height,
-                        webkitTransform : transform,
-                        transform : transform
+                    self.position.x              = (parseFloat(self.position.x) || 0) + e.deltaRect.left;
+                    self.position.y              = (parseFloat(self.position.y) || 0) + e.deltaRect.top;
+                    self.position.width          = width;
+                    self.position.height         = height;
+
+                    transformer.translate($element, self.position.x, self.position.y);
+
+                    $element.css({
+                        width  : width + 'px',
+                        height : height + 'px',
                     });
 
-                    $content.css({
-                        width : $title.width(),
-                        height : $target.innerHeight() - $title.height() - parseInt($target.css('padding-top')) - parseInt($target.css('padding-bottom'))
-                    });
+                    _.defer(function(){
 
-                    $target.attr('data-x', x);
-                    $target.attr('data-y', y);
+                        self.position.contentWidth   = $titleBar.width();
+                        self.position.contentHeight  = $element.height() - $titleBar.outerHeight();
+                        $content.css({
+                            width  :  self.position.contentWidth + 'px',
+                            height : self.position.contentHeight + 'px'
+                        });
+
+                        self.trigger('resize', self.position);
+                    });
                 }
             });
     };
