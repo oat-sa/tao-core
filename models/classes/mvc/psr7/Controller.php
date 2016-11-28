@@ -84,14 +84,16 @@ class Controller extends \tao_actions_CommonModule {
     /**
      * @return clearfw\Response
      */
-    public function sendResponse() {
+    public function sendResponse($response = null) {
         $view = $this->getRenderer()->render();
-        /* @var $response \GuzzleHttp\Psr7\Response */
-        $response = $this->getResponse()->getPsrResponse();
+        if(!is_a($response, \GuzzleHttp\Psr7\Response::class )) {
+            /* @var $response \GuzzleHttp\Psr7\Response */
+            $response = $this->getResponse()->getPsrResponse();
+        }
         $body     = \GuzzleHttp\Psr7\stream_for($view);
-        $response->withBody($body);
+        $response = $response->withBody($body);
         
-        return $this->getResponse()->updateResponse($response)->send();
+        return $this->getResponse()->send($response);
     }
     
 }

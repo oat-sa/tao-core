@@ -141,12 +141,16 @@ class ActionEnforcer implements IExecutable
 
                 $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
                 $eventManager->trigger(new BeforeAction());
-                /*@var $response \Psr\Http\Message\ResponseInterface */
-	        $response = call_user_func_array(array($controller, $action), $tabParam);
-                
-                if(is_a($response, \Psr\Http\Message\ResponseInterface::class)) {
+
+                if(is_a($controller, \oat\tao\model\mvc\psr7\Controller::class)) {
+                    $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+                    array_push($tabParam, $request);
+                    $response = call_user_func_array(array($controller, $action), $tabParam);
+                    /* @var $controller \oat\tao\model\mvc\psr7\Controller */
+                    $controller->sendResponse($response);
                     
                 } else {
+                    $response = call_user_func_array(array($controller, $action), $tabParam);
                     // Render the view if selected.
                     if ($controller->hasView())
                     {

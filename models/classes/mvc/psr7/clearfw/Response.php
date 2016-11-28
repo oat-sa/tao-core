@@ -69,6 +69,7 @@ class Response {
      * @return \oat\tao\model\mvc\psr7\clearfw\Response
      */
     protected function sendHttpCode() {
+        $status = $this->getPsrResponse()->getStatusCode();
         http_response_code($status);
         return  $this;
     }
@@ -99,7 +100,10 @@ class Response {
     /**
     * send psr7 response
     */
-    public function send() {
+    public function send($response) {
+        if(is_a($response, \Psr\Http\Message\ResponseInterface::class ) ) {
+            $this->updateResponse($response);
+        }
         return $this->sendHttpCode()->sendHeaders()->sendBody();
     }
     
