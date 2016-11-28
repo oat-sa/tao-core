@@ -42,6 +42,10 @@
         form {
             height: 100%;
             width: 100%;
+            /*
+            * the font-size of the parent element of the calculator will serve as the reference for the children.
+            * the children must use em unit for font-sizing to ensure proportional increase when resized.
+            */
             font-size: 10px;
             input, button {
                 background-color: $uiClickableDefaultBg;
@@ -61,16 +65,11 @@
                 }
                 &.calcClear {
                     color: $info !important;
-                    @include calc-font-size(1.5);
+                    @include calc-font-size(1.8);
                 }
                 &.calcFunction {
-                    @include calc-font-size(1.5);
-                    sup.digit {
-                        top: -0.5em;
-                        padding-right: 1px;
-                        @include calc-font-size(0.8);
-                    }
-                    sup.letter {
+                    @include calc-font-size(1.8);
+                    sup {
                         top: -0.5em;
                         padding-right: 1px;
                         @include calc-font-size(0.8);
@@ -78,6 +77,9 @@
                     sub {
                         padding-left: 1px;
                         @include calc-font-size(1.0);
+                    }
+                    &.calcDivision, &.calcMultiplication, &.calcSubtraction, &.calcSum{
+                        @include calc-font-size(2.2);
                     }
                 }
                 &.calcDisplay {
@@ -91,20 +93,20 @@
                     text-align: right;
                     width: 100%;
                     max-width: none;
-                    padding: 0.6em;
+                    padding: 0.5em;
                     height: 16%;
-                    @include calc-font-size(2);
+                    @include calc-font-size(2.8);
                 }
                 &.calcInput {
                     font-weight: bold;
-                    @include calc-font-size(1.5);
+                    @include calc-font-size(1.8);
                 }
                 &.calcSubmit {
                     font-weight: bold;
                     color: $textColor !important;
                     background-color: #ddd;
                     text-shadow: none;
-                    @include calc-font-size(1.5);
+                    @include calc-font-size(2);
                 }
                 &:hover {
                     background: $uiClickableActiveBg;
