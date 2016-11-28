@@ -102,9 +102,15 @@ define([
          */
         resize: function resize(width, height) {
             if (this.is('rendered') && !this.is('disabled')) {
+                if (this.config.maxWidth) {
+                    width = Math.min(width, this.config.maxWidth);
+                }
+                if (this.config.maxHeight) {
+                    height = Math.min(height, this.config.maxHeight);
+                }
                 this.setSize(
-                    width > this.config.minWidth ? width : this.config.minWidth,
-                    height > this.config.minHeight ? height : this.config.minHeight
+                    Math.max(width, this.config.minWidth),
+                    Math.max(height, this.config.minHeight)
                 );
 
                 /**
@@ -128,6 +134,8 @@ define([
      * @param {Number} [defaults.height] - the intial height of the component
      * @param {Number} [defaults.minWidth] - the min width for resize
      * @param {Number} [defaults.minHeight] - the min height for resize
+     * @param {Number} [defaults.maxWidth] - the max width for resize
+     * @param {Number} [defaults.maxHeight] - the max height for resize
      * @param {Number} [defaults.x] - the initial position top absolute to the windows
      * @param {Number} [defaults.y] - the initial position left absolute to the windows
      * @returns {movableComponent} the component (uninitialized)
