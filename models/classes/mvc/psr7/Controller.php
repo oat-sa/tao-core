@@ -56,14 +56,42 @@ class Controller extends \tao_actions_CommonModule {
         }
         return $this->response;
     }
+    /**
+     * 
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getPsrRequest() {
+        return $this->getRequest()->getPsrRequest();
+    }
     
     /**
-     * @param $response oat\tao\model\mvc\psr7\clearfw\Response
+     * 
+     * @return \GuzzleHttp\Psr7\Response
+     */
+    public function getPsrResponse() {
+        return $this->getResponse()->getPsrResponse();
+    }
+
+     /**
+     * @param $response \GuzzleHttp\Psr7\Response
      * @return $this
      */
-    public function updateResponse($response) {
-        $this->response = $response;
+    public function updateResponse(\GuzzleHttp\Psr7\Response $response) {
+        $this->getResponse()->setPsrResponse($response);
         return $this;
+    }
+    
+    /**
+     * @return clearfw\Response
+     */
+    public function sendResponse() {
+        $view = $this->getRenderer()->render();
+        /* @var $response \GuzzleHttp\Psr7\Response */
+        $response = $this->getResponse()->getPsrResponse();
+        $body     = \GuzzleHttp\Psr7\stream_for($view);
+        $response->withBody($body);
+        
+        return $this->getResponse()->updateResponse($response)->send();
     }
     
 }

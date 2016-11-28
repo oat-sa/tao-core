@@ -36,7 +36,7 @@ class Response {
         return $this;
     }
     
-    public function getPsrResponse($response) {
+    public function getPsrResponse() {
         return $this->psrResponse;
     }
     
@@ -62,6 +62,55 @@ class Response {
     
     public function setCookie($name, $value = null, $expire = null, $domainPath = null, $https = null, $httpOnly = null) {
         return setcookie($name, $value, $expire, $domainPath, $https, $httpOnly);
+    }
+    
+    /**
+     * 
+     * @return \oat\tao\model\mvc\psr7\clearfw\Response
+     */
+    protected function sendHttpCode() {
+        http_response_code($status);
+        return  $this;
+    }
+    
+    /**
+     * 
+     * @return \oat\tao\model\mvc\psr7\clearfw\Response
+     */
+    protected function sendHeaders() {
+        $headers = $this->getPsrResponse()->getHeaders();
+        foreach ($headers as $name => $value) {
+            header($name . ': ' . $value);
+        }
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return \oat\tao\model\mvc\psr7\clearfw\Response
+     */
+    protected function sendBody() {
+        $body = $this->getPsrResponse()->getBody();
+        header('Content-Lenght: ' . $body->getSize());
+        echo $body->getContents();
+        return $this;
+    }
+
+    /**
+    * send psr7 response
+    */
+    public function send() {
+        return $this->sendHttpCode()->sendHeaders()->sendBody();
+    }
+    
+    /**
+     * 
+     * @param \GuzzleHttp\Psr7\Response $response
+     * @return \oat\tao\model\mvc\psr7\clearfw\Response
+     */
+    public function updateResponse(\GuzzleHttp\Psr7\Response $response) {
+        $this->psrResponse = $response;
+        return $this;
     }
     
 }
