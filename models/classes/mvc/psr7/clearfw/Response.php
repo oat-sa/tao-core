@@ -81,7 +81,7 @@ class Response {
     protected function sendHeaders() {
         $headers = $this->getPsrResponse()->getHeaders();
         foreach ($headers as $name => $value) {
-            header($name . ': ' . $value);
+            header($name . ': ' . implode(',' , $value));
         }
         return $this;
     }
@@ -92,7 +92,6 @@ class Response {
      */
     protected function sendBody() {
         $body = $this->getPsrResponse()->getBody();
-        header('Content-Lenght: ' . $body->getSize());
         echo $body->getContents();
         return $this;
     }
