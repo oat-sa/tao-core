@@ -33,7 +33,15 @@ define([
         minWidth : 150,
         minHeight : 220
     };
-    
+
+    /**
+     * The constant ratio to be applied to font size scaling during component resizing.
+     * It has been calculated to match a reference font-size of 10px when the width of the component is 240px.
+     * @type {number}
+     * @private
+     */
+    var _fontSizeRatio = 10/240;
+
     var calculator = {
         press : function press(key){
             this.calc.press(key);
@@ -90,7 +98,8 @@ define([
                 if(element){
                     $form = element.find('form');
                     width = $form.width();
-                    $form.css('fontSize', width * 10/240);
+                    //adjust the font size of the parent element will automatically scale the font-size of the children proportionally
+                    $form.css('fontSize', width * _fontSizeRatio);
                 }
             })
             .on('destroy', function (){
