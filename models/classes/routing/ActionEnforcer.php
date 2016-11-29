@@ -124,7 +124,7 @@ class ActionEnforcer implements IExecutable
 	        // search parameters method
 	        $reflect	= new ReflectionMethod($controller, $action);
 	        $parameters	= $this->getParameters();
-	
+                $parameters['request'] =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 	        $tabParam 	= array();
 	        foreach($reflect->getParameters() as $param) {
 	            if (isset($parameters[$param->getName()])) {
@@ -142,22 +142,8 @@ class ActionEnforcer implements IExecutable
                 $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
                 $eventManager->trigger(new BeforeAction());
 
-                if(is_a($controller, \oat\tao\model\mvc\psr7\Controller::class)) {
-                    $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
-                    array_push($tabParam, $request);
-                    $response = call_user_func_array(array($controller, $action), $tabParam);
-                    /* @var $controller \oat\tao\model\mvc\psr7\Controller */
-                    $controller->sendResponse($response);
-                    
-                } else {
-                    $response = call_user_func_array(array($controller, $action), $tabParam);
-                    // Render the view if selected.
-                    if ($controller->hasView())
-                    {
-                        $renderer = $controller->getRenderer();
-                        echo $renderer->render();
-                    }
-                }
+                call_user_func_array(array($controller, $action), $tabParam);
+                return $controller;
 	    }
 	    else {
 	        throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",

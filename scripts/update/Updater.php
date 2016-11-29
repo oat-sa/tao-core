@@ -602,7 +602,22 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.28.0');
         }
 
-        $this->skip('7.28.0', '7.31.0');
+        $this->skip('7.28.0', '7.30.1');
+        
+        if ($this->isVersion('7.30.1')) {
+            
+            $service = new \oat\tao\model\mvc\psr7\ActionExecutor(
+                [
+                    'executor' => 
+                    [
+                        \oat\tao\model\mvc\psr7\executor\TaoExecutor::class,
+                         \oat\tao\model\mvc\psr7\executor\Psr7Executor::class,
+                    ]
+                ]
+            );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\psr7\ActionExecutor::SERVICE_ID, $service);
+            $this->setVersion('7.31.0');
+        }
     }
 
     private function migrateFsAccess() {
