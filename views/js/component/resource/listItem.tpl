@@ -1,4 +1,4 @@
-<li data-uri="{{uri}}">
+<li data-uri="{{uri}}" {{#if selected}}class="selected"{{/if}}>
     <strong>{{label}}</strong>
     {{#if desc}}
     <em>{{desc}}</em>

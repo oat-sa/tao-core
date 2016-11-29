@@ -220,29 +220,48 @@
     footer {
         border-top: solid 1px #ddd;
 
-
+        position: relative;
         display: flex;
         flex-flow: row nowrap;
 
-        p {
+        & > a {
             flex : 1 0 auto;
             padding: 10px;
             text-align: center;
         }
-        .actions {
+        & > a:first-child {
+
+            flex : 0 1 40px;
             background-color: $uiClickableDefaultBg;
             border-left: solid 1px #ddd;
             padding: 10px 15px 10px 5px;
+            color: $textColor;
+            text-shadow: 0 0 0 transparent;
+            text-decoration: none;
+            &:hover, &.active {
+                color: $uiClickableHoverBg;
+                transition: color 200ms linear;
+            }
+        }
+        .menu {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: -200px;
+            bottom: 40px;
+            background-color: $uiClickableDefaultBg;
+            z-index: 1000;
+            height: auto; 
+            transition: height 200ms linear;
 
-           a {
-                color: $textColor;
-                text-shadow: 0 0 0 transparent;
-                text-decoration: none;
+            &.folded {
+                height: 0;
+                overflow: hidden;
+                transition: height 200ms linear;
+            }
 
-                &:hover, &.active {
-                        color: $uiClickableHoverBg;
-                        transition: color 200ms linear;
-                }
+            & > a, strong{
+                padding: 10px;
             }
         }
     }

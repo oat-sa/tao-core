@@ -24,6 +24,17 @@
         </ul>
     </main>
     <footer>
-        <p><span class="selected-num">0</span> {{type}} {{__ 'selected'}}</p>
+        <a href="#" class="menu-opener"><span class="icon-mobile-menu"></span></a>
+        <div class="menu folded">
+            <br>
+            <a href="#"><span class="icon-save"></span> {{__ 'Save current search'}}</a>
+            <hr>
+            <strong>{{__ 'My queries'}}</strong>
+            <ul>
+                <li><a href="#">Sales 2015 Trainees</a></li>
+                <li><a href="#">Operationnal guys</a></li>
+            </ul>
+        </div>
+        <a href="#" class="get-selection"><span class="selected-num">0</span> {{type}} {{__ 'selected'}}</a>
     </footer>
 </div>

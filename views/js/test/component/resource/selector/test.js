@@ -79,6 +79,12 @@ define([
                 return Promise.resolve(classesData);
             },
 
+
+            getTree : function getTree (classUri){
+
+
+            },
+
             getResources : function getResources (classUri, pattern, paging){
 
                 var offset = paging.offset || 0;

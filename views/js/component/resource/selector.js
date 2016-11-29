@@ -37,6 +37,17 @@ define([
         type : __('resource')
     };
 
+    var moveCursorTo = function moveCursorTo($elt, beginning){
+        var selection;
+
+        var range = document.createRange();
+        range.selectNodeContents($elt[0]);
+        range.collapse(beginning);
+
+        selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    };
 
 
     return function resourceSelectorFactory($container, config, dataProvider){
@@ -116,7 +127,7 @@ define([
                     .on('focus', function(){
                         var $target = $(this);
                         if($target.hasClass('placeholder')){
-                           $target.text('').removeClass('placeholder');
+                            $target.text('').removeClass('placeholder');
                         }
                     })
                     .on('keydown', _.debounce(function(e){
@@ -127,12 +138,7 @@ define([
                             self.search(self.classUri, $target.text());
 
                         } else if(e.which === 32){
-                            var range = document.createRange();//Create a range (a range is a like the selection but invisible)
-                            range.selectNodeContents($('.search .input', $component)[0]);
-                            range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
-                            var selection = window.getSelection();//get the selection object (allows you to change selection)
-                            selection.removeAllRanges();//remove any selections already made
-                            selection.addRange(range);//make the range you have just created the visible selection
+                            moveCursorTo($('.search .input', $component), false);
                             $target.find('span').removeProp('contenteditable').removeAttr('contenteditable').addClass('closed');
                         } else {
                             var value   = $target
@@ -168,20 +174,25 @@ define([
                     e.preventDefault();
 
 
-                    $('.search .input', $component).html('<span>' + $target.text() + '</span>');
+                    $('.search .input', $component).html('<span>' + $target.text() + '</span>').focus();
                     $('.search .options', $component).addClass('folded');
+
+                    _.defer(function(){
+                        moveCursorTo($('.search .input span', $component), false);
+                    });
                 });
 
 
                 $('.context > a').on('click', function(e) {
                     var $target = $(this);
-
+                    var format = $target.data('view-format');
                     e.preventDefault();
 
                     $('.context > a').removeClass('active');
                     $target.addClass('active');
 
-                    $('main ul').removeClass('tree grid list').addClass($target.data('view-format'));
+                    $('main ul').removeClass('tree grid list').addClass(format);
+
                 });
 
 
@@ -197,7 +208,7 @@ define([
                     }
                 });
 
-                $('.status a').on('click', function(e){
+                $('.status a', $component).on('click', function(e){
                     var selection = [];
                     e.preventDefault();
 
@@ -212,7 +223,29 @@ define([
 
                 });
 
-                $('main')
+                $('footer .menu-opener', $component).on('click', function(e){
+                    e.preventDefault();
+
+                    $('footer .menu', $component).toggleClass('folded');
+                });
+
+                $('footer .get-selection', $component).on('click', function(e){
+                    e.preventDefault();
+
+                    $('.status', $component).hide();
+                    $('main ul', $component).empty();
+                    dataProvider.getResources(self.config.classUri, undefined, {offset: 0, size : self.selected.length}).then(function(result){
+
+                        $('main ul', $component).append(_.reduce(result.data, function(acc, item){
+                            item.desc = item.firstname + ' ' + item.lastname;
+                            item.selected = true;
+                            acc += listItemTpl(item);
+                            return acc;
+                        }, ''));
+                    });
+                });
+
+                $('main', $component)
                     .scrollTop(0)
                     .on('scroll', _.throttle(function(){
                         var $this = $(this);

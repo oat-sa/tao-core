@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     var fs          = require('fs');
     var path        = require('path');
     var qunit       = grunt.config('qunit') || {};
-    var testUrl     = 'http://127.0.0.1:' + testPort;
+    var testUrl     = ''; //'http://127.0.0.1:' + testPort;
 
     /*
      * Global tasks/config
@@ -45,7 +45,7 @@ module.exports = function(grunt) {
     grunt.config('connect', {
         options: {
             protocol : 'http',
-            hostname : '127.0.0.1',
+            hostname : '*',
             port: testPort,
             base: root,
             middleware: function(connect, options, middlewares) {
