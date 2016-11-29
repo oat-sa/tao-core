@@ -151,7 +151,6 @@ define([
                 }
 
                 this.setState('rendered', true);
-                this.setState('hidden', this.$component.hasClass('hidden'));
 
                 delegatedResize.call(this);
 
