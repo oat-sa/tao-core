@@ -81,24 +81,24 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                             //debounce the keyup callback to give the user a chance to complete an invalid state
                             //(for instance, while taping an negative value)
                             .on('keyup', _.debounce(function(){
-                                
+
                                 var value = $elt.val(),
                                     negative = (value.charAt(0) === '-'),
                                     options = $elt.data(dataNs);
-                                
+
                                 //sanitize the string by removing all invalid characters
                                 value = parseFloat(value.replace(/[\D]/g, ''));
-                                
+
                                 if(isNaN(value)){
-                                    
+
                                     //allow empty input
                                     $elt.val('');
-                                    
+
                                 }else{
-                                    
+
                                     //allow negative values
                                     value = negative ? -value : value;
-                                    
+
                                     //check if the min and max are respected:
                                     if(options.min === null || (_.isNumber(options.min) && value >= options.min) || (options.zero===true && value===0)){
                                         $elt.val(value);
@@ -112,25 +112,31 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                                         $elt.val(options.max);
                                     }
                                 }
-                                
+
                             }, 600))
                             .on('focus', function(){
                                 this.select();
                             })
                             .on('disable.incrementer', function(){
-                                $ctrl.find('.inc,.dec').prop('disabled', true)
+                                $elt.prop('disabled', true)
+                                    .addClass('disabled');
+                                $ctrl.find('.inc,.dec')
+                                    .prop('disabled', true)
                                     .addClass('disabled');
                             })
                             .on('enable.incrementer', function(){
-                                $ctrl.find('.inc,.dec').prop('disabled', false)
+                                $elt.prop('disabled', false)
+                                    .removeClass('disabled');
+                                $ctrl.find('.inc,.dec')
+                                    .removeProp('disabled')
                                     .removeClass('disabled');
                             });
 
                         //set up the default value if needed
-                        if( _.isNaN(currentValue) || 
-                            (options.min !== null && currentValue < options.min) || 
+                        if( _.isNaN(currentValue) ||
+                            (options.min !== null && currentValue < options.min) ||
                             (options.max !== null && currentValue > options.max)){
-                            
+
                             $elt.val(options.min || 0);
                         }
 
@@ -265,7 +271,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                 $elt.trigger('destroy.' + ns);
             });
         },
-            
+
 
     };
 

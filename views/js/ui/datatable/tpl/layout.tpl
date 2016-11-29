@@ -47,7 +47,7 @@
                     {{/if}}
                     {{#each options.model}}
                     <th{{#if type}} class="actions"{{/if}}>
-                        <div {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</div>
+                        <div {{#if sortable}} class="sortable" data-sort-by="{{id}}" tabindex="0"{{/if}}>{{label}}</div>
                         {{#if filterable}}
                         <aside data-column="{{id}}" class="filter column
                             {{#if customFilter}} customInput" >
