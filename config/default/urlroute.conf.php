@@ -19,7 +19,7 @@ return new \oat\tao\model\mvc\DefaultUrlService(
                     'ext'        => 'tao',
                     'controller' => 'Main',
                     'action'     => 'logout',
-                    'redirect'   => _url('login', 'Main', 'tao'),
+                    'redirect'   => _url('entry', 'Main', 'tao'),
                 ]
             ]
         );

@@ -611,7 +611,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                             'ext'        => 'tao',
                             'controller' => 'Main',
                             'action'     => 'logout',
-                            'redirect'   => _url('login', 'Main', 'tao'),
+                            'redirect'   => _url('entry', 'Main', 'tao'),
                         ]
                     );
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
