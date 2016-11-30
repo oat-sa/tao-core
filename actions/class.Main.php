@@ -211,8 +211,11 @@ class tao_actions_Main extends \oat\tao\model\mvc\psr7\Controller
 	 */
 	public function logout()
 	{
+            
 		common_session_SessionManager::endSession();
-		$this->redirect(_url('entry', 'Main', 'tao'));
+                /* @var $urlRouteService DefaultUrlService */
+                $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+		$this->redirect($urlRouteService->getRedirectUrl('logout'));
 	}
 
 	/**
@@ -269,6 +272,10 @@ class tao_actions_Main extends \oat\tao\model\mvc\psr7\Controller
         foreach ($perspectiveTypes as $perspectiveType) {
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }
+        
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+        $this->setData('logout', $urlRouteService->getLogoutUrl());
         
         $this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
         $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());

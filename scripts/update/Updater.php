@@ -601,23 +601,41 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $this->setVersion('7.28.0');
         }
-
         $this->skip('7.28.0', '7.30.1');
         
         if ($this->isVersion('7.30.1')) {
+            /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
+            $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+            $routeService->setOption('logout', 
+                        [
+                            'ext'        => 'tao',
+                            'controller' => 'Main',
+                            'action'     => 'logout',
+                            'redirect'   => _url('entry', 'Main', 'tao'),
+                        ]
+                    );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
             
-            $service = new \oat\tao\model\mvc\psr7\ActionExecutor(
-                [
-                    'executor' => 
-                    [
-                        \oat\tao\model\mvc\psr7\executor\TaoExecutor::class,
-                         \oat\tao\model\mvc\psr7\executor\Psr7Executor::class,
-                    ]
-                ]
-            );
-            $this->getServiceManager()->register(\oat\tao\model\mvc\psr7\ActionExecutor::SERVICE_ID, $service);
             $this->setVersion('7.31.0');
         }
+
+        $this->skip('7.31.0', '7.31.1');
+        
+        if($this->isVersion('7.31.1')) {
+            $service = new \oat\tao\model\mvc\psr7\ActionExecutor(
+                   [
+                       'executor' => 
+                       [
+                           \oat\tao\model\mvc\psr7\executor\TaoExecutor::class,
+                            \oat\tao\model\mvc\psr7\executor\Psr7Executor::class,
+                       ]
+                   ]
+               );
+               $this->getServiceManager()->register(\oat\tao\model\mvc\psr7\ActionExecutor::SERVICE_ID, $service);
+               $this->setVersion('8.0.0');
+           }
+       
+        
     }
 
     private function migrateFsAccess() {
