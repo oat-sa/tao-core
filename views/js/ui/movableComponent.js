@@ -121,6 +121,34 @@ define([
                 this.trigger('resize', this.config.width, this.config.height);
             }
             return this;
+        },
+
+        /**
+         * Gets the actual position of the component inside its container, with respect to the possible translation
+         * @returns {Object}
+         */
+        getPosition: function getPosition() {
+            var $element, position;
+
+            if (this.is('rendered')) {
+                $element = this.getElement();
+
+                if ($element.hasClass('transform-translate')) {
+                    position = $element.position();
+                } else {
+                    position = {
+                        top: parseFloat($element.css('top')),
+                        left: parseFloat($element.css('left'))
+                    };
+                }
+            } else {
+                position = {
+                    top: 0,
+                    left: 0
+                };
+            }
+
+            return position;
         }
     };
 
