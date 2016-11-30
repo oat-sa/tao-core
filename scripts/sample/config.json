@@ -7,14 +7,6 @@
       "name": ""
     }
   },
-  "services": [
-    {
-      "webserver": "apache",
-      "root": "/srv/www/tao",
-      "url": "http://10.22.22.22/tao",
-      "public_url": "https://foo.taocloud.org/"
-    }
-  ],
   "extensions": [
     "taoCe"
   ],
@@ -26,6 +18,18 @@
     "password": "admin"
   },
   "configuration": {
+    "global": {
+      "lang": "en-US",
+      "mode": "debug",
+      "instance_name": "mytao",
+      "namespace": "http://tao.local/mytao.rdf",
+      "url": "http://tao.dev/",
+      "file_path": "/var/www/package-tao/data/",
+      "root_path": "/var/www/package-tao/",
+      "session_name": "tao_123AbC",
+      "timezone": "Europe/Luxembourg",
+      "import_data": false
+    },
     "generis": {
       "persistences": {
         "default": {
@@ -50,6 +54,7 @@
             "filesPath": "/var/www/package-tao/data/",
             "first_prefix": "",
             "defaultOptions": {
+              "cache": true,
               "bucket": "my_bucket",
               "client": "generis/awsClient"
             },
@@ -63,8 +68,10 @@
             "params": {
               "region": "eu-west-1",
               "version": "latest",
-              "secret": "Secret",
-              "key": "Key"
+              "credentials":{
+                "secret": "Secret",
+                "key": "Key"
+              }
             }
           }
         ]
@@ -84,18 +91,7 @@
           "format": "%m",
           "threshold": 4
         }
-      ],
-      "global": {
-        "lang": "en-US",
-        "mode": "debug",
-        "instance_name": "mytao",
-        "namespace": "http://tao.local/mytao.rdf",
-        "url": "http://tao.dev/",
-        "file_path": "/var/www/package-tao/data/",
-        "root_path": "/var/www/package-tao/",
-        "session_name": "tao_123AbC",
-        "timezone": "Europe/Luxembourg"
-      }
+      ]
     }
   },
   "postInstall": [

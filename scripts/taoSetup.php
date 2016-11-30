@@ -84,7 +84,6 @@ class taoSetup implements Action
         , "user_lastname"	=>	""
         , "user_login"	=>		""
         , "user_pass"	=>		""
-        , "import_local" => 	true
         , "instance_name" =>	null
         , "extensions" =>		null
         , 'timezone'   =>      date_default_timezone_get()
@@ -115,8 +114,8 @@ class taoSetup implements Action
         $options['db_user'] = $persistence['user'];
         $options['db_pass'] = $persistence['password'];
 
-        if(!isset($parameters['configuration']['generis']['global'])){
-            return Report::createFailure('Your config should have a \'global\' key under \'generis\'');
+        if(!isset($parameters['configuration']['global'])){
+            return Report::createFailure('Your config should have a \'global\' key under \'configuration\'');
         }
 
         $global = $parameters['configuration']['generis']['global'];
@@ -128,6 +127,7 @@ class taoSetup implements Action
         $options['module_lang'] = $global['lang'];
         $options['module_mode'] = $global['mode'];
         $options['timezone'] = $global['timezone'];
+        $options['import_local'] = (isset($global['import_data']) && $global['import_data'] === true);
         if(isset($global['session_name'])){
             $options['session_name'] = $global['session_name'];
         }
@@ -206,6 +206,6 @@ class taoSetup implements Action
         }
 
 
-        return Report::createSuccess(print_r($options,true));
+        return Report::createSuccess('Installation completed');
     }
 }
