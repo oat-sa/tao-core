@@ -85,21 +85,13 @@ class TaoFrontController {
 
 
         try {
-            ob_start();
+            
             $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $pRequest->getParams());
-            $controller = $enforcer->execute();
-            $implicitContent = ob_get_clean();
-            $this->response($controller, $implicitContent);
+            $enforcer->execute();
+            
         } catch (InterruptedActionException $iE) {
             // Nothing to do here.
         }
-    }
-
-    protected function response($controller, $implicitContent) {
-
-        $executor = \oat\oatbox\service\ServiceManager::getServiceManager()->get(\oat\tao\model\mvc\psr7\ActionExecutor::SERVICE_ID);
-        $executor->execute($controller);
-        echo $implicitContent;
     }
 
 }

@@ -131,7 +131,7 @@ trait ActionTrait {
     }
     
     public function setContentHeader($contentType, $charset = 'UTF-8') {
-	$this->response = $this->response->withHeader('Content-Type', $contentType . '; charset=' . $charset);
+	$this->response = $this->getResponse()->withHeader('Content-Type', $contentType . '; charset=' . $charset);
         return $this->response;
     }
     
@@ -140,7 +140,7 @@ trait ActionTrait {
      * @return $this
      */
     public function updateResponse(\GuzzleHttp\Psr7\Response $response) {
-        $this->getResponse()->setPsrResponse($response);
+        $this->response = $response;
         return $this;
     }
     
@@ -148,18 +148,17 @@ trait ActionTrait {
      * @return clearfw\Response
      */
     public function sendResponse($response = null) {
-        if($this->hasView()) {
-            $view = $this->getRenderer()->render();
-        } else {
-            $view = '';
-        }
+         
         if(!is_a($response, \GuzzleHttp\Psr7\Response::class )) {
             /* @var $response \GuzzleHttp\Psr7\Response */
             $response = $this->getResponse();
         }
-        $body     = \GuzzleHttp\Psr7\stream_for($view);
-        $response = $response->withBody($body);
+        if($this->hasView()) {
+            $view = $this->getRenderer()->render();
+            $body     = \GuzzleHttp\Psr7\stream_for($view);
+            $this->response = $response->withBody($body);
+        }
         
-        return $this->getResponse()->send($response);
+        return $this;
     }
 }

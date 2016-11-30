@@ -141,9 +141,13 @@ class ActionEnforcer implements IExecutable
 
                 $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
                 $eventManager->trigger(new BeforeAction());
-
-                call_user_func_array(array($controller, $action), $tabParam);
-                return $controller;
+                
+                ob_start();
+                $response = call_user_func_array(array($controller, $action), $tabParam);
+                $implicitContent = ob_get_clean();
+                $executor = new \oat\tao\model\mvc\psr7\ActionExecutor();
+                $executor->send($controller, $response);
+                echo $implicitContent; 
 	    }
 	    else {
 	        throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",

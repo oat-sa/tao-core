@@ -24,8 +24,12 @@ namespace oat\tao\model\mvc\psr7;
  */
 interface ActionExecutorInterface {
     
-    const SERVICE_ID = 'tao/action';
+    public function setResponse(\Psr\Http\Message\ResponseInterface $response);
     
-    public function execute($controller , $response); 
+    public function getResponse();
+    
+    public function send($controller , \Psr\Http\Message\ResponseInterface $response = null);
+    
+    public function execute(\Psr\Http\Message\ResponseInterface $response = null); 
     
 }

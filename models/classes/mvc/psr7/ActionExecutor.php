@@ -24,13 +24,75 @@ namespace oat\tao\model\mvc\psr7;
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class ActionExecutor extends \oat\oatbox\service\ConfigurableService implements ActionExecutorInterface 
+class ActionExecutor implements ActionExecutorInterface 
 {
+    /**
+     *
+     * @var \Psr\Http\Message\ResponseInterface 
+     */
+    protected $response;
+
+    /**
+     * 
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @return \oat\tao\model\mvc\psr7\ActionExecutor
+     */
+    public function setResponse(\Psr\Http\Message\ResponseInterface $response) {
+        $this->response = $response;
+        return $this;
+    }
+    /**
+     * 
+     * @return \Psr\Http\Message\ResponseInterface 
+     */
+    public function getResponse() {
+        return $this->response;
+    }
     
-    public function execute($controller, $response = null) {
-        
-        /* @var $controller \oat\tao\model\mvc\psr7\Controller */
-        return $controller->sendResponse($response);
+    /**
+     * 
+     * @return $this
+     */
+    protected function sendHttpCode() {
+        $status = $this->getResponse()->getStatusCode();
+        http_response_code($status);
+        return  $this;
+    }
+    
+    /**
+     * 
+     * @return $this
+     */
+    protected function sendHeaders() {
+        $headers = $this->getResponse()->getHeaders();
+        foreach ($headers as $name => $value) {
+            header($name . ': ' . implode(',' , $value));
+        }
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return $this
+     */
+    protected function sendBody() {
+        $body = $this->getResponse()->getBody();
+        echo $body->getContents();
+        return $this;
+    }
+
+    /**
+    * send psr7 response
+    */
+    public function send($controller , \Psr\Http\Message\ResponseInterface $response = null) {
+        if(is_null($response)) {
+            $response = $controller->sendResponse($response)->getResponse();
+        }
+        return $this->execute($response);
+    }
+    
+    public function execute(\Psr\Http\Message\ResponseInterface $response = null) {
+        return $this->setResponse($response)->sendHttpCode()->sendHeaders()->sendBody();
     }
     
 }
