@@ -128,19 +128,15 @@ define([
          * @returns {Object}
          */
         getPosition: function getPosition() {
-            var $element, position;
+            var $element, position, transform;
 
             if (this.is('rendered')) {
                 $element = this.getElement();
-
-                if ($element.hasClass('transform-translate')) {
-                    position = $element.position();
-                } else {
-                    position = {
-                        top: parseFloat($element.css('top')),
-                        left: parseFloat($element.css('left'))
-                    };
-                }
+                transform = getTranslatedCoords($element);
+                position = {
+                    top: parseFloat($element.css('top')) + transform.top,
+                    left: parseFloat($element.css('left')) + transform.left
+                };
             } else {
                 position = {
                     top: 0,
@@ -151,6 +147,27 @@ define([
             return position;
         }
     };
+
+    /**
+     * Gets the transform#translate coordinates
+     * @param {jQuery} $el
+     * @returns {Object}
+     */
+    function getTranslatedCoords($el) {
+        var transform = $el.css('transform').split(/[()]/)[1];
+        var parts = transform && transform.split(',');
+        var coords = {
+            top: 0,
+            left: 0
+        };
+
+        if (parts) {
+            coords.left = parseFloat(parts[4]);
+            coords.top = parseFloat(parts[5]);
+        }
+
+        return coords;
+    }
 
     /**
      * Creates a new movable component
