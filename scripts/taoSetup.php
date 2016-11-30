@@ -118,7 +118,7 @@ class taoSetup implements Action
             return Report::createFailure('Your config should have a \'global\' key under \'configuration\'');
         }
 
-        $global = $parameters['configuration']['generis']['global'];
+        $global = $parameters['configuration']['global'];
         $options['module_namespace'] = $global['namespace'];
         $options['instance_name'] = $global['instance_name'];
         $options['root_path'] = $global['root_path'];
