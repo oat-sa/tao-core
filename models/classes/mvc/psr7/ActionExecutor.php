@@ -29,16 +29,8 @@ class ActionExecutor extends \oat\oatbox\service\ConfigurableService implements 
     
     public function execute($controller, $response = null) {
         
-        $executorList = $this->getOption('executor');
-        
-        foreach ($executorList as $executorClass) {
-            /* @var $executor render\ExecutorInterface  */
-            $executor = new $executorClass();
-            if($executor->isExecutable($controller)) {
-                return $executor->render($controller, $response);
-            }
-        }
-        //throw new 
+        /* @var $controller \oat\tao\model\mvc\psr7\Controller */
+        return $controller->sendResponse($response);
     }
     
 }

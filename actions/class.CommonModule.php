@@ -23,7 +23,7 @@
 use oat\tao\helpers\Template;
 use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
-
+use oat\tao\model\mvc\psr7\ActionTrait;
 /**
  * Top level controller
  * All children extenions module should extends the CommonModule to access the shared data
@@ -44,7 +44,9 @@ abstract class tao_actions_CommonModule extends Module
      * @var tao_models_classes_Service
      */
     protected $service = null;
-
+    
+    use ActionTrait;
+    
     /**
      * empty constuctor
      */
@@ -181,9 +183,15 @@ abstract class tao_actions_CommonModule extends Module
     }
     
     protected function returnJson($data, $httpStatus = 200) {
-        header(HTTPToolkit::statusCodeHeader($httpStatus));
-        Context::getInstance()->getResponse()->setContentHeader('application/json');
-        echo json_encode($data);
+        
+        $body     = \GuzzleHttp\Psr7\stream_for(json_encode($data));
+        
+        $this->response = $this->getResponse()
+                ->withStatus($httpStatus)
+                ->withHeader('Content-Type' , 'application/json')
+                ->withBody($body);
+        
+        return $this->sendResponse();
     }
     
     /**
@@ -234,8 +242,10 @@ abstract class tao_actions_CommonModule extends Module
      */
 	public function redirect($url, $statusCode = 302)
     {
-        $flow = new FlowController();
-        $flow->redirect($url, $statusCode);
+        $this->response = $this->getResponse()
+                ->withStatus($statusCode)
+                ->withHeader('Location', $url);
+        return $this->response;
     }
     
     /**

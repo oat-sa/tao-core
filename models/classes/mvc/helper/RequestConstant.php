@@ -17,25 +17,21 @@
  *  Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\mvc\psr7\executor;
+namespace oat\tao\model\mvc\psr7\helper;
 
 /**
- *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class TaoExecutor implements ExecutorInterface {
+class RequestConstant {
     
-    public function isExecutable($controller) {
-        return is_a($controller, \tao_actions_CommonModule::class);
-    }
-
-    public function render($controller, $response = null) {
-        if ($controller->hasView()) {
-            $renderer = $controller->getRenderer();
-            echo $renderer->render();
-        }
-        return $controller;
-    }
-
+    const HTTP_GET = 'GET';
+    
+    const HTTP_POST = 'POST';
+    
+    const HTTP_PUT = 'PUT';
+    
+    const HTTP_DELETE = 'DELETE';
+    
+    const HTTP_HEAD = 'HEAD';
+    
 }
-
