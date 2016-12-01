@@ -92,11 +92,11 @@ define([
                 this.calc.press('C');
             })
             .on('resize', function(){
-                var element = this.getElement();
+                var $element = this.getElement();
                 var width;
                 var $form;
-                if(element){
-                    $form = element.find('form');
+                if($element){
+                    $form = $element.find('form');
                     width = $form.width();
                     //adjust the font size of the parent element will automatically scale the font-size of the children proportionally
                     $form.css('fontSize', width * _fontSizeRatio);
