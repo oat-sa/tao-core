@@ -26,12 +26,12 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      * @var array
      * @deprecated since 4.3.0
      */
-    private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
+    protected $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
 
     /**
      * @var NULL|string
      */
-    private $responseEncoding = "application/json";
+    protected $responseEncoding = "application/json";
 
     /**
      * Check response encoding requested
@@ -70,12 +70,13 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      *
      * @param Exception $exception
      * @param $withMessage
+     * @return  \Psr\Http\Message\ResponseInterface
      * @throws common_exception_NotImplemented
      */
     protected function returnFailure(Exception $exception, $withMessage=true)
     {
         $handler = new RestExceptionHandler();
-        $handler->sendHeader($exception);
+        $status = $handler->sendHeader($exception);
 
         $data = array();
         if ($withMessage) {
@@ -85,8 +86,15 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             $data['version']	= TAO_VERSION;
         }
 
-        echo $this->encode($data);
-        exit(0);
+        $body     = \GuzzleHttp\Psr7\stream_for($this->encode($data));
+
+        $response = $this->getResponse()
+            ->withStatus($status)
+            ->withHeader('Content-Type' , $this->responseEncoding)
+            ->withBody($body);
+
+        $this->updateResponse($response);
+        return $response;
     }
 
     /**
@@ -95,6 +103,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      *
      * @param array $rawData
      * @param bool $withMessage
+     * @return \Psr\Http\Message\ResponseInterface
      * @throws common_exception_NotImplemented
      */
     protected function returnSuccess($rawData = array(), $withMessage=true)
@@ -108,8 +117,15 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             $data = $rawData;
         }
 
-        echo $this->encode($data);
-        exit(0);
+        $body     = \GuzzleHttp\Psr7\stream_for($this->encode($data));
+
+        $response = $this->getResponse()
+            ->withStatus(200)
+            ->withHeader('Content-Type' , $this->responseEncoding)
+            ->withBody($body);
+
+        $this->updateResponse($response);
+        return $response;
     }
 
     /**

@@ -124,8 +124,9 @@ class ActionEnforcer implements IExecutable
 	        // search parameters method
 	        $reflect	= new ReflectionMethod($controller, $action);
 	        $parameters	= $this->getParameters();
-                $parameters['request'] =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+            $parameters['request'] =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 	        $tabParam 	= array();
+
 	        foreach($reflect->getParameters() as $param) {
 	            if (isset($parameters[$param->getName()])) {
 	               $tabParam[$param->getName()] = $parameters[$param->getName()];

@@ -38,55 +38,55 @@ class RestExceptionHandler
 			case \common_exception_InvalidArgumentType::class:
 			case \common_exception_InconsistentData::class:
 			case \common_exception_ValidationFailed::class:
-				header("HTTP/1.0 400 Bad Request");
+				return 400;
 				break;
 
 			case \common_exception_Unauthorized::class:
-				header("HTTP/1.0 401 Unauthorized");
+				return 401;
 				break;
 
 			case \common_exception_NotFound::class:
-				header("HTTP/1.0 404 Not Found");
+				return 404;
 				break;
 
             case \common_exception_MethodNotAllowed::class:
-				header("HTTP/1.0 405 Method Not Allowed");
+				return 405;
 				break;
 
 			case \common_exception_NotAcceptable::class:
-				header("HTTP/1.0 406 Not Acceptable");
+				return 406;
 				break;
 
 			case "common_exception_TimeOut":
-				header("HTTP/1.0 408 Request Timeout");
+				return 408;
 				break;
 
 			case "common_exception_Conflict":
-				header("HTTP/1.0 409 Conflict");
+				return 409;
 				break;
 
 			case "common_exception_UnsupportedMediaType":
-				header("HTTP/1.0 415 Unsupported Media Type");
+				return 415;
 				break;
 
 			case \common_exception_NotImplemented::class:
-				header("HTTP/1.0 501 Not Implemented" );
+				return 501;
 				break;
 
 			case \common_exception_PreConditionFailure::class:
-				header("HTTP/1.0 412 Precondition Failed");
+				return 412;
 				break;
 
 			case \common_exception_NoContent::class:
-				header("HTTP/1.0 204 No Content" );
+				return 204;
 				break;
 
 			case "common_exception_teapotAprilFirst":
-				header("HTTP/1.0 418 I'm a teapot (RFC 2324)");
+				return 418;
 				break;
 
 			default:
-				header("HTTP/1.0 500 Internal Server Error");
+				return 500;
 
 		}
     }
