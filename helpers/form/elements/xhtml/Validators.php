@@ -45,7 +45,6 @@ class Validators extends AbstractValidators
         
             if (in_array($optionId, $this->values)) {
                 $returnValue .= " checked='checked' ";
-                $checked ++;
             }
             $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label><br />";
             $i ++;

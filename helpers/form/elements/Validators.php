@@ -61,4 +61,13 @@ abstract class Validators
         return $options;
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see tao_helpers_form_elements_MultipleElement::setValue()
+     */
+    public function setValue($value)
+    {
+        $this->addValue($value);
+    }
+
 }
