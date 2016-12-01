@@ -16,31 +16,21 @@
  *
  *  Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+namespace oat\tao\model\mvc\psr7\Http;
 
-namespace oat\tao\model\mvc\error;
 
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class AjaxResponse extends ResponseAbstract
+interface HttpAwareInterface
 {
-    protected $contentType = 'application/json';
 
-    public function send()
-    {
+    public function getRequest();
 
-        $message = $this->exception->getMessage();
-        if(method_exists($this->exception , 'getUserMessage')) {
-            $message = $this->exception->getUserMessage();
-        }
+    public function getResponse();
 
-        $response = [
-            "success" => false,
-            "type" => 'Exception',
-            "data" => array(
-                'ExceptionType' => get_class($this->exception)
-            ),
-            "message" => $message,
-        ];
-        new \common_AjaxResponse($response);
+    public function setRequest(RequestInterface $request);
 
-    }
+    public function updateResponse(ResponseInterface $response);
+
 }

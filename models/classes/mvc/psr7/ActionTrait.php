@@ -19,6 +19,7 @@
  */
 
 namespace oat\tao\model\mvc\psr7;
+use oat\tao\model\mvc\psr7\Http\HttpAwareTrait;
 
 /**
  * psr7 request/response controller Action
@@ -26,37 +27,7 @@ namespace oat\tao\model\mvc\psr7;
  */
 trait ActionTrait {
     
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-    
-    /**
-     * @var \Psr\Http\Message\ResponseInterface
-     */
-    protected $response;
-
-    /**
-     * 
-     * @return \Psr\Http\Message\ServerRequestInterface
-     */
-    public function getRequest() {
-        if(is_null($this->request)) {
-            $this->request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
-        }
-        return $this->request;
-    }
-    
-    /**
-     * 
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function getResponse() {
-        if(is_null($this->response)) {
-            $this->response = new \GuzzleHttp\Psr7\Response();
-        }
-        return $this->response;
-    }
+    use HttpAwareTrait;
     
     public function getRequestParameter($name) {
         $params = array_merge((array) $this->getRequest()->getParsedBody(), $this->getRequest()->getQueryParams());
@@ -127,25 +98,17 @@ trait ActionTrait {
     }
 
     public function getRawParameters() {
-        return $this->getParameters();
+        return $this->getRequestParameters();
     }
     
-    public function setContentHeader($contentType, $charset = 'UTF-8') {
-	$this->response = $this->getResponse()->withHeader('Content-Type', $contentType . '; charset=' . $charset);
+    public function setContentHeader($contentType, $charset = 'UTF-8')
+    {
+        $this->response = $this->getResponse()->withHeader('Content-Type', $contentType . '; charset=' . $charset);
         return $this->response;
     }
     
-     /**
-     * @param $response \GuzzleHttp\Psr7\Response
-     * @return $this
-     */
-    public function updateResponse(\GuzzleHttp\Psr7\Response $response) {
-        $this->response = $response;
-        return $this;
-    }
-    
     /**
-     * @return clearfw\Response
+     * @return $this;
      */
     public function sendResponse($response = null) {
          

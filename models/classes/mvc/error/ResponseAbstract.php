@@ -23,6 +23,8 @@ use common_Logger;
 use Context;
 use Exception;
 use HTTPToolkit;
+use oat\tao\model\mvc\psr7\Http\HttpAwareInterface;
+use oat\tao\model\mvc\psr7\Http\HttpAwareTrait;
 use tao_helpers_Request;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -32,15 +34,11 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwareInterface {
+abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwareInterface, HttpAwareInterface {
     
     use ServiceLocatorAwareTrait;
-    
-    /**
-     * http response code
-     * @var integer 
-     */
-    protected $httpCode;
+    use HttpAwareTrait;
+
     /**
      * content type to use into response header
      * @var string 
@@ -111,7 +109,7 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
      * @return $this
      */
     public function setHttpCode($code) {
-        $this->httpCode = $code;
+        $this->updateResponse($this->getResponse()->withStatus($code));
         return $this;
     }
     
@@ -120,10 +118,15 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
      */
     public function send()
     {
-        $accept = array_key_exists('HTTP_ACCEPT', $_SERVER) ? explode(',' , $_SERVER['HTTP_ACCEPT']) : [];
+        $server = $this->getRequest()->getServerParams();
+        $accept = array_key_exists('HTTP_ACCEPT', $server) ? explode(',' , $server['HTTP_ACCEPT']) : [];
         $renderer = $this->chooseRenderer($accept);
 
-        return $renderer->setException($this->exception)->setHttpCode($this->httpCode)->sendHeaders()->send();
+        return $renderer->setRequest($this->getRequest())
+            ->updateResponse($this->getResponse())
+            ->setException($this->exception)
+            ->setHttpCode($this->httpCode)
+            ->sendHeaders()->send();
     }
     
     /**
