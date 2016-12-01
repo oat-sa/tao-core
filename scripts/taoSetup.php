@@ -167,6 +167,20 @@ class taoSetup implements Action
             'install_path'	=> $options['root_path'].'tao/install/'
         ));
 
+        $installator->cleanConfig();
+        $serviceManager = $installator->getServiceManager();
+
+        foreach($parameters['configuration'] as $extension => $configs){
+            foreach($configs as $key => $config){
+                if(isset($config['type']) && $config['type'] === 'configurableService'){
+                    $className = $config['class'];
+                    $params = $config['options'];
+                    $service = new $className($params);
+                    $serviceManager->register($extension.'/'.$key, $service);
+                }
+            }
+        }
+
         // mod rewrite cannot be detected in CLI Mode.
         $installator->escapeCheck('custom_tao_ModRewrite');
         $installator->install($options);
