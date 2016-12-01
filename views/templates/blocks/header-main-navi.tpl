@@ -79,7 +79,7 @@ $settingsMenu = get_data('settings-menu');
             <?php endif; ?>
 
             <li data-env="user" class="li-logout">
-                <a id="logout" href="<?= _url('logout', 'Main', 'tao') ?>" title="<?= __('Log Out') ?>">
+                <a id="logout" href="<?= get_data('logout') ?>" title="<?= __('Log Out') ?>">
                     <span class="icon-logout glyph"></span>
                 </a>
             </li>
