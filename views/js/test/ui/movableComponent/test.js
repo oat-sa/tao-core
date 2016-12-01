@@ -163,6 +163,78 @@ define([
             .render($container);
     });
 
+    QUnit.asyncTest('resize with min size constraints', function(assert) {
+        var $container = $('#qunit-fixture');
+        var component = movableComponentFactory();
+
+        QUnit.expect(8);
+
+        assert.equal($container.length, 1, 'The container exists');
+        assert.equal(typeof component, 'object', 'The component has been created');
+
+        component
+            .on('init', function(){
+                assert.equal(this.config.width, 300, 'The default width has been taken in account');
+                assert.equal(this.config.height, 300, 'The default height has been taken in account');
+            })
+            .on('render', function() {
+                var $element = this.getElement();
+
+                assert.equal($element.width(), 300, 'The computed width matches');
+                assert.equal($element.height(), 300, 'The computed height matches');
+
+                this
+                    .on('resize', function(){
+                        assert.equal($element.width(), 200, 'The computed width matches');
+                        assert.equal($element.height(), 200, 'The computed height matches');
+                        QUnit.start();
+                    }).resize(100, 100);
+            })
+            .init({
+                width: 300,
+                height: 300,
+                minWidth: 200,
+                minHeight: 200
+            })
+            .render($container);
+    });
+
+    QUnit.asyncTest('resize with max size constraints', function(assert) {
+        var $container = $('#qunit-fixture');
+        var component = movableComponentFactory();
+
+        QUnit.expect(8);
+
+        assert.equal($container.length, 1, 'The container exists');
+        assert.equal(typeof component, 'object', 'The component has been created');
+
+        component
+            .on('init', function(){
+                assert.equal(this.config.width, 300, 'The default width has been taken in account');
+                assert.equal(this.config.height, 300, 'The default height has been taken in account');
+            })
+            .on('render', function() {
+                var $element = this.getElement();
+
+                assert.equal($element.width(), 300, 'The computed width matches');
+                assert.equal($element.height(), 300, 'The computed height matches');
+
+                this
+                    .on('resize', function(){
+                        assert.equal($element.width(), 400, 'The computed width matches');
+                        assert.equal($element.height(), 400, 'The computed height matches');
+                        QUnit.start();
+                    }).resize(500, 500);
+            })
+            .init({
+                width: 300,
+                height: 300,
+                maxWidth: 400,
+                maxHeight: 400
+            })
+            .render($container);
+    });
+
     QUnit.module('Visual');
 
     QUnit.asyncTest('visual test', function(assert) {
