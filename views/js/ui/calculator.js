@@ -27,9 +27,21 @@ define([
     'use strict';
 
     var _defaults = {
-        title : __('Calculator')
+        title : __('Calculator'),
+        width : 240,
+        height : 360,
+        minWidth : 150,
+        minHeight : 220
     };
-    
+
+    /**
+     * The constant ratio to be applied to font size scaling during component resizing.
+     * It has been calculated to match a reference font-size of 10px when the width of the component is 240px.
+     * @type {number}
+     * @private
+     */
+    var _fontSizeRatio = 10/240;
+
     var calculator = {
         press : function press(key){
             this.calc.press(key);
@@ -78,6 +90,17 @@ define([
             .on('reset', function(){
                 //reset the calculator input
                 this.calc.press('C');
+            })
+            .on('resize', function(){
+                var $element = this.getElement();
+                var width;
+                var $form;
+                if($element){
+                    $form = $element.find('form');
+                    width = $form.width();
+                    //adjust the font size of the parent element will automatically scale the font-size of the children proportionally
+                    $form.css('fontSize', width * _fontSizeRatio);
+                }
             })
             .on('destroy', function (){
                 if(this.calc){

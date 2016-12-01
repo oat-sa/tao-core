@@ -601,7 +601,32 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $this->setVersion('7.28.0');
         }
-        $this->skip('7.28.0', '7.31.0');
+        $this->skip('7.28.0', '7.30.1');
+        
+        if ($this->isVersion('7.30.1')) {
+            /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
+            $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+            $routeService->setOption('logout', 
+                        [
+                            'ext'        => 'tao',
+                            'controller' => 'Main',
+                            'action'     => 'logout',
+                            'redirect'   => _url('entry', 'Main', 'tao'),
+                        ]
+                    );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
+            
+            $this->setVersion('7.31.0');
+        }
+
+        $this->skip('7.31.0', '7.31.1');
+        // add validation widget
+        if ($this->isVersion('7.31.1')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('7.32.0');
+        }
+
+        $this->skip('7.32.0', '7.34.0');
     }
 
     private function migrateFsAccess() {
