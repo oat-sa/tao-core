@@ -620,6 +620,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.31.0', '7.31.1');
+
         // add validation widget
         if ($this->isVersion('7.31.1')) {
             OntologyUpdater::syncModels();
