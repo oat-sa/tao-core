@@ -1142,4 +1142,46 @@ define([
             }]
         });
     });
+
+    QUnit.asyncTest('sortable headers', function(assert) {
+        var $container = $('#container-1');
+
+        QUnit.expect(9);
+
+        assert.equal($container.length, 1, 'Test the fixture is available');
+
+        $container.on('create.datatable', function() {
+
+            var $loginHead = $('.datatable thead th:nth-child(1) > div', $container);
+            var $emailHead = $('.datatable thead th:nth-child(3) > div', $container);
+
+            assert.equal($loginHead.length, 1, 'The login head exists');
+            assert.equal($loginHead.text().trim(), 'Login', 'The login head contains the right text');
+            assert.ok($loginHead.hasClass('sortable'), 'The login column is sortable');
+            assert.equal($loginHead.data('sort-by'), 'login', 'The sort by data is correct');
+
+            assert.equal($emailHead.length, 1, 'The email head exists');
+            assert.equal($emailHead.text().trim(), 'Email', 'The email head contains the right text');
+            assert.ok(!$emailHead.hasClass('sortable'), 'The email column is not sortable');
+            assert.ok(!$emailHead.data('sort-by'), 'The sort by data does not exist');
+
+            QUnit.start();
+        })
+        .datatable({
+            url : 'js/test/ui/datatable/data.json',
+            'model' : [{
+                id: 'login',
+                label: 'Login',
+                sortable: true
+            }, {
+                id: 'name',
+                label: 'Name',
+                sortable: true
+            }, {
+                id: 'email',
+                label: 'Email',
+                sortable: false
+            }]
+        });
+    });
 });
