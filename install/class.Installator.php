@@ -44,6 +44,8 @@ class tao_install_Installator{
 
 	private $escapedChecks = array();
 
+	private $oatBoxInstall = null;
+
 	public function __construct($options)
 	{
 		if(!isset($options['root_path'])){
@@ -61,6 +63,8 @@ class tao_install_Installator{
 		if(substr($this->options['install_path'], -1) != DIRECTORY_SEPARATOR){
 			$this->options['install_path'] .= DIRECTORY_SEPARATOR;
 		}
+
+		$this->oatBoxInstall = new Installer();
 		
 	}
 
@@ -133,8 +137,8 @@ class tao_install_Installator{
 			
 			$this->log('d', 'Removing old config', 'INSTALL');
 			$consistentOptions = array_merge($installData, $this->options);
-			$oatBoxInstall = new Installer($consistentOptions);
-			$oatBoxInstall->install();
+			$this->oatBoxInstall->setOptions($consistentOptions);
+			$this->oatBoxInstall->install();
 			
 			/*
 			 *  2 - Test DB connection (done by the constructor)
@@ -394,6 +398,11 @@ class tao_install_Installator{
             $this->log('e', 'Error Occurs : ' . $e->getMessage() . $e->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception($e->getMessage(), 0, $e);
 		}
+	}
+
+	public function getServiceManager(){
+		$configPath = $this->options['root_path'].'config/';
+		return $this->oatBoxInstall->setupServiceManager($configPath);
 	}
 
 	private function retryInstallation($exception) {
