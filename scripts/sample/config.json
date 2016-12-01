@@ -48,7 +48,20 @@
           "port": 6379
         }
       },
+      "awsClient": {
+        "type": "configurableService",
+        "class": "oat\\awsTools\\AwsClient",
+        "options": {
+          "region": "eu-west-1",
+          "version": "latest",
+          "credentials":{
+            "secret": "Secret",
+            "key": "Key"
+          }
+        }
+      },
       "fileSystem":{
+        "type": "configurableService",
         "class":"oat\\awsTools\\AwsFileSystemService",
         "options": {
             "filesPath": "/var/www/package-tao/data/",
@@ -62,19 +75,6 @@
 
             }
           },
-        "scripts":[
-          {
-            "class": "oat\\generis\\scripts\\registerAwsClient",
-            "params": {
-              "region": "eu-west-1",
-              "version": "latest",
-              "credentials":{
-                "secret": "Secret",
-                "key": "Key"
-              }
-            }
-          }
-        ]
       },
       "log": [
         {
