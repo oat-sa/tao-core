@@ -202,15 +202,19 @@ define([
                 })
                 .on('dragstart', function () {
                     self.setState('moving', true);
+                    self.trigger('dragstart');
                 })
                 .on('dragend', function () {
                     self.setState('moving', false);
+                    self.trigger('dragend');
                 })
                 .on('resizestart', function () {
                     self.setState('sizing', true);
+                    self.trigger('resizestart');
                 })
                 .on('resizeend', function () {
                     self.setState('sizing', false);
+                    self.trigger('resizeend');
                 });
         });
     }
