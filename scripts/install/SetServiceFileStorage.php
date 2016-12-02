@@ -21,7 +21,10 @@ namespace oat\tao\scripts\install;
 
 use oat\tao\model\websource\TokenWebSource;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\websource\TokenWebSourceService;
 use tao_models_classes_service_FileStorage;
+use League\Flysystem\Adapter\Local;
+use oat\tao\model\websource\FlyTokenWebSource;
 
 /**
  * This post-installation script creates a new local file source for services
@@ -44,9 +47,9 @@ class SetServiceFileStorage extends \common_ext_action_InstallAction
         $fsService->createFileSystem('public', 'tao/public');
         $fsService->createFileSystem('private', 'tao/private');
         $this->registerService(FileSystemService::SERVICE_ID, $fsService);
-        
-        $websource = TokenWebSource::spawnWebsource('public', $publicDataPath);
-        
+
+        $websource = TokenWebSourceService::spawnTokenWebsource('public');
+
         $service = new tao_models_classes_service_FileStorage(array(
             tao_models_classes_service_FileStorage::OPTION_PUBLIC_FS => 'public',
             tao_models_classes_service_FileStorage::OPTION_PRIVATE_FS => 'private',
