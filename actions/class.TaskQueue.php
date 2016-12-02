@@ -16,19 +16,17 @@
  *
  */
 
-namespace oat\tao\controller\api;
-
 use oat\oatbox\task\Queue;
 use oat\oatbox\task\Task;
 
 /**
  * Rest API controller for task queue
  *
- * Class TaskQueue
+ * Class tao_actions_TaskQueue
  * @package oat\tao\controller\api
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class TaskQueue extends \tao_actions_RestController
+class tao_actions_TaskQueue extends \tao_actions_RestController
 {
     const TASK_ID_PARAM = 'id';
 

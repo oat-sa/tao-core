@@ -152,7 +152,6 @@ return array(
         'structures' => $extpath.'actions'.DIRECTORY_SEPARATOR.'structures.xml',
     ),
     'routes' => array(
-        '/taoapi' => 'oat\\tao\\controller\\api',
         '/tao' => array(
             'class' => '\oat\tao\model\routing\LegacyRoute'
         )
