@@ -620,6 +620,13 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.31.0', '7.31.1');
+        // add validation widget
+        if ($this->isVersion('7.31.1')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('7.32.0');
+        }
+
+        $this->skip('7.32.0', '7.34.0');
     }
 
     private function migrateFsAccess() {
