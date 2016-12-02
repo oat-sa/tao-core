@@ -216,6 +216,23 @@
   	<rdfs:comment xml:lang="en-US"><![CDATA[Validation rules for the values of this property]]></rdfs:comment>
   	<rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+	<widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector"/>
+	<generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
+  </rdf:Description>
+
+  <!-- Validation Widget -->
+  <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector">
+    <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+    <widget:identifier><![CDATA[validation]]></widget:identifier>
+    <rdfs:label xml:lang="en-US"><![CDATA[Validation]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Select the validation rules]]></rdfs:comment>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelectorXhtmlRenderer">
+    <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetRenderer"/>
+    <widget:renderedWidget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector"/>
+    <widget:renderMode><![CDATA[xhtml]]></widget:renderMode>
+    <widget:implementation><![CDATA[oat\tao\helpers\form\elements\xhtml\Validators]]></widget:implementation>
   </rdf:Description>
   
   <rdf:Description rdf:about="http://www.w3.org/2000/01/rdf-schema#label">
