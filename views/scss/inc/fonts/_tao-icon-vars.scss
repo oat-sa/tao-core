@@ -32,6 +32,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-compress { content: "\f066"; }
+@mixin icon-map-o { content: "\f278"; }
 @mixin icon-text-marker { content: "\e902"; }
 @mixin icon-unshield { content: "\e32a"; }
 @mixin icon-shield { content: "\e8e8"; }
