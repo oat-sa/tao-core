@@ -602,11 +602,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.28.0');
         }
         $this->skip('7.28.0', '7.30.1');
-        
+
         if ($this->isVersion('7.30.1')) {
             /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
             $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
-            $routeService->setOption('logout', 
+            $routeService->setOption('logout',
                         [
                             'ext'        => 'tao',
                             'controller' => 'Main',
@@ -615,7 +615,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                         ]
                     );
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
-            
+
             $this->setVersion('7.31.0');
         }
 
@@ -626,7 +626,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.32.0');
         }
 
-        $this->skip('7.32.0', '7.34.1');
+        $this->skip('7.32.0', '7.34.2');
     }
 
     private function migrateFsAccess() {
