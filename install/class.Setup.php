@@ -153,12 +153,6 @@ class tao_install_Setup implements Action
         }
 
 
-        // FlySystem config
-        if(isset($parameters['configuration']['generis']['fileSystem'])){
-            $options[Installer::OPTION_FILESYSTEM_SERVICE] = $parameters['configuration']['generis']['fileSystem'];
-        }
-
-
         // run the actual install
         $installator = new \tao_install_Installator (array(
             'root_path' 	=> $options['root_path'],
