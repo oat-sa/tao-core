@@ -32,11 +32,6 @@ interface ResponseInterface {
     public function setHttpCode($code);
     
     /**
-     * use to send error message
-     */
-    public function send();
-    
-    /**
      * write error into log system
      * @param string $message
      */

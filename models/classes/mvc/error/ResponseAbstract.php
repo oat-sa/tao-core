@@ -20,12 +20,7 @@
 namespace oat\tao\model\mvc\error;
 
 use common_Logger;
-use Context;
 use Exception;
-use HTTPToolkit;
-use oat\tao\model\mvc\psr7\Http\HttpAwareInterface;
-use oat\tao\model\mvc\psr7\Http\HttpAwareTrait;
-use tao_helpers_Request;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -34,10 +29,11 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwareInterface, HttpAwareInterface {
+abstract class ResponseAbstract 
+    extends \oat\tao\model\mvc\psr7\ActionExecutor
+    implements ResponseInterface, ServiceLocatorAwareInterface {
     
     use ServiceLocatorAwareTrait;
-    use HttpAwareTrait;
 
     /**
      * content type to use into response header
@@ -93,16 +89,7 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
         
         return $renderer->setServiceLocator($this->getServiceLocator());
     }
-    /**
-     * send headers
-     * @return $this
-     */
-    protected function sendHeaders() {
-        $context = Context::getInstance();
-        $context->getResponse()->setContentHeader($this->contentType);
-        header(HTTPToolkit::statusCodeHeader($this->httpCode));
-        return $this;
-    }
+
     /**
      * set response http status code
      * @param int $code
@@ -116,17 +103,16 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
     /**
      * @inherit
      */
-    public function send()
+    public function execute(\Psr\Http\Message\ResponseInterface $response = null)
     {
         $server = $this->getRequest()->getServerParams();
         $accept = array_key_exists('HTTP_ACCEPT', $server) ? explode(',' , $server['HTTP_ACCEPT']) : [];
         $renderer = $this->chooseRenderer($accept);
 
         return $renderer->setRequest($this->getRequest())
-            ->updateResponse($this->getResponse())
             ->setException($this->exception)
             ->setHttpCode($this->httpCode)
-            ->sendHeaders()->send();
+            ->sendHeaders()->execute($this->getResponse());
     }
     
     /**

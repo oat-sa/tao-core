@@ -225,7 +225,8 @@ class tao_actions_Main extends \oat\tao\model\mvc\psr7\Controller
 	 */
     public function index()
     {
-        
+        throw new \ActionEnforcingException('not found' , 'tao' , 'index');
+        return;
         $user      = $this->userService->getCurrentUser();
         $extension = $this->getRequestParameter('ext');
         $structure = $this->getRequestParameter('structure');
