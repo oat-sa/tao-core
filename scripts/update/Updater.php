@@ -66,6 +66,7 @@ use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\oatbox\task\TaskService;
 
 /**
  *
@@ -627,6 +628,14 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.32.0', '7.34.0');
+        
+        if ($this->isVersion('7.34.0')) {
+            OntologyUpdater::syncModels();
+            $taskQueueManagerRole = new \core_kernel_classes_Resource(TaskService::TASK_QUEUE_MANAGER_ROLE);
+            $accessService = \funcAcl_models_classes_AccessService::singleton();
+            $accessService->grantModuleAccess($taskQueueManagerRole, 'tao', 'TaskQueue');
+            $this->setVersion('7.35.0');
+        }
     }
 
     private function migrateFsAccess() {
