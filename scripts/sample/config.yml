@@ -1,0 +1,42 @@
+
+---
+seed:
+  identifier: taocloud-classic
+  author: geoffrey@taotesting.com
+  version:
+    code: 0.0.0
+    name: ''
+services:
+- webserver: apache
+  root: /srv/www/tao
+  url: http://10.22.22.22/tao
+  public_url: https://foo.taocloud.org/
+extensions:
+- taoCe
+- taoAct
+configuration:
+  generis:
+    persistences:
+      default:
+        driver: pdo_mysql
+        host: 10.11.11.11
+        dbname: bench
+        user: root
+        password: "@3xD@D7%uv=mpUZu,9Vln[f]m(gZycln"
+      cache:
+        driver: phpfile
+      keyValueResult:
+        driver: phpredis
+        host: 10.33.33.33
+        port: 6379
+    global:
+      lang: ya-ML
+      mode: debug
+      instance_name: mytao
+      module_name: mytaoModuleName
+      namespace: http://tao.local/mytao.rdf
+      url: https://foo.taocloud.org/
+      file_path: /srv/www/tao/data/
+      root_path: /srv/www/tao/
+      session_name: 123SoleilYaml
+      timezone: Europe/Luxembourg
