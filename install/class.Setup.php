@@ -68,7 +68,7 @@ class tao_install_Setup implements Action
         , "db_host"	=>			"localhost"
         , "db_name"	=>			null
         , "db_pass"	=>			""
-        , "db_user"	=>			"tao"
+        , "db_user"	=>			""
         , "install_sent"	=>	"1"
         , "module_host"	=>		"tao.local"
         , "module_lang"	=>		"en-US"
@@ -109,8 +109,12 @@ class tao_install_Setup implements Action
         $options['db_driver'] = $persistence['driver'];
         $options['db_host'] = $persistence['host'];
         $options['db_name'] = $persistence['dbname'];
-        $options['db_user'] = $persistence['user'];
-        $options['db_pass'] = $persistence['password'];
+        if(isset($persistence['user'])){
+            $options['db_user'] = $persistence['user'];
+        }
+        if(isset($persistence['password'])){
+            $options['db_pass'] = $persistence['password'];
+        }
 
         if(!isset($parameters['configuration']['global'])){
             return Report::createFailure('Your config should have a \'global\' key under \'configuration\'');

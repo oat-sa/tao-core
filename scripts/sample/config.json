@@ -60,7 +60,7 @@
           }
         }
       },
-      "fileSystem":{
+      "filesystem":{
         "type": "configurableService",
         "class":"oat\\awsTools\\AwsFileSystemService",
         "options": {
