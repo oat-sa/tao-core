@@ -603,11 +603,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.28.0');
         }
         $this->skip('7.28.0', '7.30.1');
-        
+
         if ($this->isVersion('7.30.1')) {
             /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
             $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
-            $routeService->setOption('logout', 
+            $routeService->setOption('logout',
                         [
                             'ext'        => 'tao',
                             'controller' => 'Main',
@@ -616,7 +616,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                         ]
                     );
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
-            
+
             $this->setVersion('7.31.0');
         }
 
@@ -628,7 +628,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.32.0', '7.34.0');
-        
+
         if ($this->isVersion('7.34.0')) {
             OntologyUpdater::syncModels();
             $taskQueueManagerRole = new \core_kernel_classes_Resource(TaskService::TASK_QUEUE_MANAGER_ROLE);
@@ -637,7 +637,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.35.0');
         }
 
-        $this->skip('7.35.0', '7.36.0');
+        $this->skip('7.35.0', '7.36.1');
     }
 
     private function migrateFsAccess() {
