@@ -30,6 +30,7 @@ use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\mvc\DefaultUrlService;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -75,7 +76,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    if (empty($entries)) {
 	        // no access -> error
 	        if (common_session_SessionManager::isAnonymous()) {
-	           return $this->redirect(_url('login')); 
+                    /* @var $urlRouteService DefaultUrlService */
+                    $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+                    $this->redirect($urlRouteService->getLoginUrl());
 	        } else {
 	            common_session_SessionManager::endSession();
                 return $this->returnError(__('You currently have no access to the platform'));
@@ -211,7 +214,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 	public function logout()
 	{
 		common_session_SessionManager::endSession();
-		$this->redirect(_url('entry', 'Main', 'tao'));
+		/* @var $urlRouteService DefaultUrlService */               
+                $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);		
+                $this->redirect($urlRouteService->getRedirectUrl('logout'));
 	}
 
 	/**
@@ -269,7 +274,8 @@ class tao_actions_Main extends tao_actions_CommonModule
         foreach ($perspectiveTypes as $perspectiveType) {
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }
-        
+        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+        $this->setData('logout', $urlRouteService->getLogoutUrl());
         $this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
         $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
         // re-added to highlight selected extension in menu

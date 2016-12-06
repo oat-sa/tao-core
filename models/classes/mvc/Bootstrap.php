@@ -221,6 +221,7 @@ class Bootstrap {
     protected function catchError(Exception $exception)
     {
         $Interpretor = new error\ExceptionInterpretor();
+        $Interpretor->setServiceLocator($this->getServiceManager());
         $Interpretor->setException($exception)->getResponse()->send();
     }
 

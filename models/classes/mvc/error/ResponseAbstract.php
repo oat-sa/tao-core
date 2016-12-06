@@ -16,15 +16,23 @@
  * 
  *  Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-
 namespace oat\tao\model\mvc\error;
-
+use common_Logger;
+use Context;
+use Exception;
+use HTTPToolkit;
+use tao_helpers_Request;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 /**
  * Description of ResponseAbstract
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-abstract class ResponseAbstract implements ResponseInterface {
+abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwareInterface {
+    
+    use ServiceLocatorAwareTrait;
+    
     /**
      * http response code
      * @var integer 
@@ -37,11 +45,9 @@ abstract class ResponseAbstract implements ResponseInterface {
     protected $contentType = '';
     
     /**
-     * @var \Exception
+     * @var Exception
      */
     protected $exception;
-
-
     protected $rendererClassList =
             [
                 'html' => 'HtmlResponse',
@@ -49,8 +55,6 @@ abstract class ResponseAbstract implements ResponseInterface {
                 'none' => 'NonAcceptable',
                 'ajax' => 'AjaxResponse',
             ];
-
-
     /**
      * search rendering method in function of request accept header
      * @param array $accept
@@ -59,7 +63,6 @@ abstract class ResponseAbstract implements ResponseInterface {
     protected function chooseRenderer(array $accept) {
         $renderClass = 'none';
         foreach ($accept as $mimeType) {
-
             switch (trim(strtolower($mimeType))) {
                 case 'text/html' : 
                 case 'application/xhtml+xml':
@@ -73,23 +76,23 @@ abstract class ResponseAbstract implements ResponseInterface {
             }
             
         }
-
-        if(\tao_helpers_Request::isAjax()) {
+        if(tao_helpers_Request::isAjax()) {
             $renderClass = 'ajax';
         }
-
         $className = __NAMESPACE__ . '\\' . $this->rendererClassList[$renderClass];
-
-        return new $className();
+        
+        $renderer = new $className();
+        
+        return $renderer->setServiceLocator($this->getServiceLocator());
     }
     /**
      * send headers
      * @return $this
      */
     protected function sendHeaders() {
-        $context = \Context::getInstance();
+        $context = Context::getInstance();
         $context->getResponse()->setContentHeader($this->contentType);
-        header(\HTTPToolkit::statusCodeHeader($this->httpCode));
+        header(HTTPToolkit::statusCodeHeader($this->httpCode));
         return $this;
     }
     /**
@@ -109,7 +112,6 @@ abstract class ResponseAbstract implements ResponseInterface {
     {
         $accept = array_key_exists('HTTP_ACCEPT', $_SERVER) ? explode(',' , $_SERVER['HTTP_ACCEPT']) : [];
         $renderer = $this->chooseRenderer($accept);
-
         return $renderer->setException($this->exception)->setHttpCode($this->httpCode)->sendHeaders()->send();
     }
     
@@ -118,17 +120,16 @@ abstract class ResponseAbstract implements ResponseInterface {
      */
     public function trace($message) {
         
-        \common_Logger::i($message);
+        common_Logger::i($message);
         
         return $this;
     }
-
     /**
      * set up exception
-     * @param \Exception $exception
+     * @param Exception $exception
      * @return $this
      */
-    public function setException(\Exception $exception) {
+    public function setException(Exception $exception) {
         $this->exception = $exception;
         return $this;
     }
