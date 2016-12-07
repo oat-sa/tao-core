@@ -18,7 +18,7 @@
         float: none;
         font-family: sans-serif;
         left: auto;
-        line-height: 1;
+        line-height: normal;
         margin: 0;
         max-height: none;
         max-width: none;
@@ -93,7 +93,7 @@
                     text-align: right;
                     width: 100%;
                     max-width: none;
-                    padding: 0.5em;
+                    padding: 0 0.5em;
                     height: 16%;
                     @include calc-font-size(2.8);
                 }
@@ -106,7 +106,7 @@
                     color: $textColor !important;
                     background-color: #ddd;
                     text-shadow: none;
-                    @include calc-font-size(2);
+                    line-height: normal;
                 }
                 &:hover {
                     background: $uiClickableActiveBg;
