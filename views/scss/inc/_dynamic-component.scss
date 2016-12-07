@@ -25,7 +25,7 @@
             padding-left : 5px;
             &:before{
                 @include tao-icon-setup;
-                @include icon-resize;
+                @include icon-compress;
                 margin : 0;
                 padding: 3px 1px 1px 5px;
                 top: 2px;
