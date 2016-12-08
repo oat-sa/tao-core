@@ -24,9 +24,10 @@ define([
     'interact',
     'ui/component',
     'ui/transformer',
+    'util/position',
     'lib/uuid',
     'tpl!ui/dynamicComponent/layout'
-], function ($, _, interact, component, transformer, uuid, layoutTpl){
+], function ($, _, interact, component, transformer, position, uuid, layoutTpl){
     'use strict';
 
     var _defaults = {
@@ -254,12 +255,17 @@ define([
                     });
 
                     $(window).on('resize.dynamic-component-' + self.id, function(){
+                        var container;
 
                         //on browser zoom, reset the position to prevent having
                         //the component pushed outside it's container
                         if(window.devicePixelRatio !== pixelRatio ) {
                             pixelRatio = window.devicePixelRatio;
-                            self.resetPosition();
+
+                            container = getDraggableContainer();
+                            if( position.isInside(container, $element[0]) === false ){
+                                self.resetPosition();
+                            }
                         }
                     });
                 }
@@ -281,10 +287,7 @@ define([
                 }
 
                 function getRestriction(){
-                    var draggableContainer = config.draggableContainer;
-                    if(draggableContainer instanceof $ && draggableContainer.length){
-                        draggableContainer = draggableContainer[0];
-                    }
+                    var draggableContainer = getDraggableContainer();
                     if(!draggableContainer) {
                         return {
                             restriction : 'parent',
@@ -295,6 +298,14 @@ define([
                         restriction : draggableContainer,
                         endOnly : false
                     };
+                }
+
+                function getDraggableContainer(){
+                    var draggableContainer = config.draggableContainer;
+                    if(draggableContainer instanceof $ && draggableContainer.length){
+                        draggableContainer = draggableContainer[0];
+                    }
+                    return draggableContainer;
                 }
 
                 /**
