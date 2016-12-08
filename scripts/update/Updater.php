@@ -66,6 +66,7 @@ use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\oatbox\task\TaskService;
 
 /**
  *
@@ -601,7 +602,42 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $this->setVersion('7.28.0');
         }
-        $this->skip('7.28.0', '7.29.3');
+        $this->skip('7.28.0', '7.30.1');
+        
+        if ($this->isVersion('7.30.1')) {
+            /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
+            $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+            $routeService->setOption('logout', 
+                        [
+                            'ext'        => 'tao',
+                            'controller' => 'Main',
+                            'action'     => 'logout',
+                            'redirect'   => _url('entry', 'Main', 'tao'),
+                        ]
+                    );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
+            
+            $this->setVersion('7.31.0');
+        }
+
+        $this->skip('7.31.0', '7.31.1');
+        // add validation widget
+        if ($this->isVersion('7.31.1')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('7.32.0');
+        }
+
+        $this->skip('7.32.0', '7.34.0');
+
+        if ($this->isVersion('7.34.0')) {
+            OntologyUpdater::syncModels();
+            $taskQueueManagerRole = new \core_kernel_classes_Resource(TaskService::TASK_QUEUE_MANAGER_ROLE);
+            $accessService = \funcAcl_models_classes_AccessService::singleton();
+            $accessService->grantModuleAccess($taskQueueManagerRole, 'tao', 'TaskQueue');
+            $this->setVersion('7.35.0');
+        }
+
+        $this->skip('7.35.0', '7.37.0');
     }
 
     private function migrateFsAccess() {

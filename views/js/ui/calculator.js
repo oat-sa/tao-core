@@ -27,9 +27,27 @@ define([
     'use strict';
 
     var _defaults = {
-        title : __('Calculator')
+        title : __('Calculator'),
+        preserveAspectRatio : false,
+        width : 240,
+        height : 360,
+        minWidth : 150,
+        minHeight : 220
     };
-    
+
+    /**
+     * Calculate the new font size according to the width and height ratio during component resizing.
+     * It has been calculated to match a reference font-size of 10px when the calculator content is 240px wide and 330 height.
+     * @param {Number} width
+     * @param {Number} height
+     * @returns {Number}
+     */
+    var computeFontSize = function computeFontSize(width, height){
+        var _fontSizeHeightRatio = 10/340;
+        var _fontSizeWidthRatio = 10/240;
+        return (width * _fontSizeWidthRatio + height * _fontSizeHeightRatio)/2
+    }
+
     var calculator = {
         press : function press(key){
             this.calc.press(key);
@@ -78,6 +96,15 @@ define([
             .on('reset', function(){
                 //reset the calculator input
                 this.calc.press('C');
+            })
+            .on('resize', function(){
+                var $form;
+                var $element = this.getElement();
+                if($element){
+                    $form = $element.find('form');
+                    //adjust the font size of the parent element will automatically scale the font-size of the children proportionally
+                    $form.css('fontSize', computeFontSize($form.width(), $form.height()));
+                }
             })
             .on('destroy', function (){
                 if(this.calc){
