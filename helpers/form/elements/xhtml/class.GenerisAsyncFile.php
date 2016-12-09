@@ -44,7 +44,12 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
             
             $structure = json_decode($_POST[$this->name], true);
             if ($structure !== false) {
-                $description = new tao_helpers_form_data_UploadFileDescription(array_key_exists('name', $structure) ? $structure['name'] : null, array_key_exists('size', $structure) ? $structure['size'] : null, array_key_exists('type', $structure) ? $structure['type'] : null, array_key_exists('uploaded_file', $structure) ? $structure['uploaded_file'] : null, array_key_exists('action', $structure) ? $structure['action'] : null);
+                $description = new tao_helpers_form_data_UploadFileDescription(array_key_exists('name',
+                    $structure) ? $structure['name'] : null,
+                    array_key_exists('size', $structure) ? $structure['size'] : null,
+                    array_key_exists('type', $structure) ? $structure['type'] : null,
+                    array_key_exists('uploaded_file', $structure) ? $structure['uploaded_file'] : null,
+                    array_key_exists('action', $structure) ? $structure['action'] : null);
                 $this->setValue($description);
             } else {
                 // else, no file was selected by the end user.

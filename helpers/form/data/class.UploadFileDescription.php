@@ -28,6 +28,8 @@
  */
 class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_FileDescription
 {
+    use \oat\tao\helpers\uploadReferencerTrait;
+
     /** Action form: add */
     const FORM_ACTION_ADD = 'add';
 
@@ -47,9 +49,9 @@ class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_
      * the right place on the file system.
      *
      * @access private
-     * @var string
+     * @var \oat\oatbox\filesystem\File
      */
-    private $tmpPath = '';
+    private $tmpPath;
 
     /**
      * Allow to specify action to know form purpose
@@ -75,7 +77,7 @@ class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_
     {
         parent::__construct($name, $size);
         $this->type = $type;
-        $this->tmpPath = $tmpPath;
+        $this->tmpPath = $this->getSerializer()->unserializeFile($tmpPath);
         $this->action = is_null($action) ? self::FORM_ACTION_ADD : $action;
     }
 
@@ -96,11 +98,11 @@ class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_
      *
      * @access public
      * @author Jerome Bogaerts <jerome@taotesting.com>
-     * @return string
+     * @return \oat\oatbox\filesystem\File
      */
     public function getTmpPath()
     {
-        return (string) $this->tmpPath;
+        return $this->tmpPath;
     }
 
     /**

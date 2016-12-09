@@ -117,7 +117,7 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
                 // Move the file at the right place.
                 $source = $desc->getTmpPath();
                 $serial = tao_models_classes_TaoService::singleton()->storeUploadedFile($source, $name);
-                tao_helpers_File::remove($source);
+                $source->delete();
 
                 // Create association between item & file, database side
                 $instance->editPropertyValues($property, $serial);

@@ -32,7 +32,6 @@ define(['jquery', 'lodash', 'layout/logout-event'], function($, _, logoutEvent) 
                 opts = _.defaults(options, self._opts),
                 xhr2 = typeof XMLHttpRequest !== 'undefined' && new XMLHttpRequest().upload && typeof FormData !== 'undefined',
                 $form = this,
-                id = opts.frame,
                 fileParamName = options.fileParamName || 'content',
                 fileNameParamName = options.fileNameParamName || 'contentName',
                 $file, xhr, fd;
@@ -89,59 +88,6 @@ define(['jquery', 'lodash', 'layout/logout-event'], function($, _, logoutEvent) 
 
                 // Initiate a multipart/form-data upload
                 xhr.send(fd);
-
-            } else {
-
-                //send by iframe
-
-                //the iframe identifier is composed by opts.frame + (form.id or form.name or timestamp)
-                //the timestamp is the worth because if the response goes wrong we will not be able to remove it
-                id += ($form.attr('id') ? $form.attr('id') : ($form.attr('name') ? $form.attr('name') : (new Date()).getTime()));
-
-                //clean up if already exists
-                $('#' + id).remove();
-
-                //we create the hidden frame as the action of the upload form (to prevent page reload)
-                var $postFrame = $("<iframe />");
-                $postFrame.attr({
-                        'name': id,
-                        'id': id
-                    })
-                    .css('display', 'none');
-
-                //we update the form attributes according to the frame
-                $form.attr({
-                        'action': opts.url,
-                        'method': 'post',
-                        'enctype': 'multipart/form-data',
-                        'encoding': 'multipart/form-data',
-                        'target': id
-                    })
-                    .append($postFrame);
-
-                $('#' + id, $form)
-                    .on('load', function(e) {
-                        //we get the response in the frame
-                        var result = $.parseJSON($(this).contents().text());
-
-                        if (typeof opts.loaded === 'function') {
-                            opts.loaded(result);
-                        }
-
-                        $(this).off('load');
-                        $(this).off('error');
-                        $(this).remove();
-                    }).on('error', function() {
-
-                        if (typeof opts.failed === 'function') {
-                            opts.failed();
-                        }
-                        $(this).off('load');
-                        $(this).off('error');
-                        $(this).remove();
-                    });
-
-                $form.submit();
             }
         }
     };

@@ -31,7 +31,7 @@
  */
 class tao_models_classes_Parser
 {
-
+    use \oat\tao\helpers\uploadReferencerTrait;
     /**
      * XML content string
      *
@@ -115,13 +115,16 @@ class tao_models_classes_Parser
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string source
-     * @param  array options
-     * @return mixed
+     * @param  string $source
+     * @param  array $options
+     * @throws common_exception_Error
      */
     public function __construct($source, $options = array())
     {
-
+        try {
+            $source = $this->universalizeUpload($source);
+        } catch (Exception $e) {
+        }
         if($source instanceof \oat\oatbox\filesystem\File) {
             $this->sourceType = self::SOURCE_FLYFILE;
         } elseif (preg_match("/^<\?xml(.*)?/m", trim($source))) {
@@ -297,7 +300,7 @@ class tao_models_classes_Parser
      * @param boolean $refresh load content again.
      * @return string
      */
-    protected function getContent($refresh = false)
+    public function getContent($refresh = false)
     {
         if ($this->content === null || $refresh) {
             try{

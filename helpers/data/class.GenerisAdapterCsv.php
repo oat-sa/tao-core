@@ -125,11 +125,10 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         	throw new InvalidArgumentException("${destination} must be a valid core_kernel_classes_Class");
         }
 
-        $csvData = $this->load($source);
+        $csvData = $this->load($this->getLocalCopy($source));
         
         $createdResources = 0;
         $toImport = $csvData->count();
-        $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
         $report = new common_report_Report(common_report_Report::TYPE_ERROR, __('Data not imported. All records are invalid.'));
 
     	for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++){

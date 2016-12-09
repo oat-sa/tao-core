@@ -27,8 +27,7 @@
  * @package tao
  
  */
-class tao_helpers_data_GenerisAdapterRdf
-    extends tao_helpers_data_GenerisAdapter
+class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
 {
 
     /**
@@ -36,23 +35,23 @@ class tao_helpers_data_GenerisAdapterRdf
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string source
-     * @param  Class destination
-     * @param  string namespace
+     * @param  string $source
+     * @param  core_kernel_classes_Class $destination
+     * @param  string $namespace
      * @return boolean
      */
     public function import($source,  core_kernel_classes_Class $destination = null, $namespace = null)
     {
-        $returnValue = (bool) false;
+        $returnValue = false;
 
-        
+        $source = $this->getLocalCopy($source);
         
         $api = core_kernel_impl_ApiModelOO::singleton();
 		$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
-			
-    	if(!is_null($destination) && file_exists($source)){
-			
-			$destModel = substr($destination->getUri(), 0, strpos($destination->getUri(), '#'));
+
+        if(!is_null($destination) && file_exists($source)){
+
+            $destModel = substr($destination->getUri(), 0, strpos($destination->getUri(), '#'));
 			$returnValue = $api->importXmlRdf($destModel, $source);
 		}
 		else if (file_exists($source) && !is_null($namespace)){

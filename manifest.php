@@ -21,6 +21,7 @@
  *
  */
 use oat\tao\scripts\install\AddLogFs;
+use oat\tao\scripts\install\AddTmpFs;
 use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\RegisterValidationRules;
 
@@ -31,7 +32,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '7.36.2',
+    'version' => '7.37.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=3.9.0',
@@ -85,6 +86,7 @@ return array(
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
             AddLogFs::class,
+            AddTmpFs::class,
             RegisterValidationRules::class
         )
     ),

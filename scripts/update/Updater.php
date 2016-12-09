@@ -33,6 +33,7 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\scripts\install\AddTmpFs;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -62,7 +63,6 @@ use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\tao\model\extension\UpdateLogger;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -638,6 +638,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.35.0', '7.36.2');
+
+        if ($this->isVersion('7.36.2')) {
+            (new AddTmpFs())->__invoke([]);
+            $this->setVersion('7.37.0');
+
+        }
     }
 
     private function migrateFsAccess() {

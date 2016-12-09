@@ -20,6 +20,8 @@
  * 
  */
 
+use oat\oatbox\filesystem\File;
+use oat\tao\helpers\uploadReferencerTrait;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\generis\model\fileReference\FileReferenceSerializer;
@@ -34,19 +36,17 @@ use oat\generis\model\fileReference\FileReferenceSerializer;
  
  */
 class tao_actions_File extends tao_actions_CommonModule{
-	
-	/**
-	 * @var string $rootFolder root folder of the copyed files
-	 */
-	protected $rootFolder = '';
 
-	/**
+    use uploadReferencerTrait;
+
+    static public $tmpFilesystemId = 'sharedTmp';
+
+    /**
 	 * constructor. Initialize the context
 	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->rootFolder = sys_get_temp_dir();
 	}
 	
 	
@@ -64,117 +64,35 @@ class tao_actions_File extends tao_actions_CommonModule{
 		}
 		$response = json_encode($response);
 		print $response; 
-		return;
 	}
-	
-	public function cancelUpload()
-	{
-		$removed = 0;
-		if($this->hasRequestParameter('filename')){
-			$filename = trim($this->getRequestParameter('filename'));
-				if(!empty($filename)){
-					$pattern = "/^[0-9a-f]*_".preg_quote($filename, "/")."$/";
-				
-				$targetPath = tao_helpers_File::concat(array($this->rootFolder, $_REQUEST['folder']));
-				foreach(scandir($targetPath) as $file){
-					if(preg_match($pattern, $file)){
-						if(tao_helpers_File::remove($targetPath.'/'.$file)){
-							$removed++;
-						}
-					}
-				}
-			}
-		}
-		echo json_encode(array('removed' => $removed));
-	}
-	
-	/**
-	 * Produce a simple view use to display a file upload form in a popup
-	 */
-	public function htmlUpload()
-	{	
-		if($this->hasRequestParameter('sizeLimit')){
-			$this->setData('sizeLimit', (int) $this->getRequestParameter('sizeLimit'));
-		}
-		else{
-			$this->setData('sizeLimit', tao_helpers_Environment::getFileUploadLimit());
-		}
-		if($this->hasRequestParameter('target')){
-			$this->setData('target', $this->getRequestParameter('target'));
-		}
-		else{
-			$this->setData('target', "#source");
-		}
-		
-		
-		$this->setData('accept', '*');
-		if($this->hasRequestParameter('fileExt')){
-			$accept = '';
-			foreach(explode(',', $this->getRequestParameter('fileExt')) as $fileExt){
-				$accept .= tao_helpers_File::getMimeType(str_replace('*', 'file', $fileExt));
-			}
-			$this->setData('accept', $accept);
-		}
-		
-		$response = array(
-			'uploaded' 		=> false,
-			'data'			=> '',
-			'name'			=> '',
-			'uploaded_file' => ''
-		);
-		if (isset($_FILES) && isset($_POST['upload_sent'])) {
-			if(isset($_FILES['Filedata'])){
-				$response = array_merge($response, $this->uploadFile($_FILES['Filedata'], '/'));
-			}
-		}
-		
-		$setLinear = true;
-		if($this->hasRequestParameter('format')){
-			if($this->getRequestParameter('format') != 'linear'){
-				$setLinear = false;
-			}
-		}
-		
-		$this->setData('setLinear', $setLinear);
-		$this->setData('uploaded', ($response['uploaded'] === true));
-		$this->setData('uploadData', $response['data']);
-		$this->setData('uploadFile', $response['name']);
-		$this->setData('uploadFilePath', $response['uploaded_file']);
-		$this->setView('form/html_upload.tpl');	
-	}
-	
-	
-	/**
-	 * Get, check and move the file uploaded (described in the posetedFile parameter)
-	 * 
-	 * @param array $postedFile
-	 * @param string $folder
-	 * @return array $data
-	 */
+
+    /**
+     * Get, check and move the file uploaded (described in the posetedFile parameter)
+     *
+     * @param array $postedFile
+     * @param string $folder
+     * @return array $data
+     * @throws \common_Exception
+     */
 	protected function uploadFile($postedFile, $folder)
 	{
-		$returnValue = array();
-		
-		if(isset($postedFile['tmp_name']) && isset($postedFile['name'])){
-			$tempFile = $postedFile['tmp_name'];
-			$targetPath = tao_helpers_File::concat(array($this->rootFolder,$folder));
-			if(tao_helpers_File::securityCheck($targetPath)){
-				if(!file_exists($targetPath)){
-					mkdir($targetPath);
-				}
-				$targetFile =  tao_helpers_File::concat(array($targetPath, uniqid().'_'.$postedFile['name']));
-				if(move_uploaded_file($tempFile, $targetFile)){
-					$returnValue['uploaded'] = true;
-					$data = $postedFile;
-					$data['type'] =  tao_helpers_File::getMimeType($targetFile);
-					$data['uploaded_file'] = $targetFile;
-					$returnValue['name'] = $postedFile['name'];
-					$returnValue['uploaded_file'] = $targetFile;
-					$returnValue['data'] = json_encode($data);
-				}
-			}
-		}
-		return $returnValue;
+        $returnValue = [];
+
+        if (isset($postedFile['tmp_name'], $postedFile['name']) && $postedFile['tmp_name']) {
+            $targetLocation = tao_helpers_File::concat([$folder, uniqid('tmp', true) . $postedFile['name']]);
+            $file = new File(self::$tmpFilesystemId, $targetLocation);
+            $file->setServiceLocator($this->getServiceManager());
+            $returnValue['uploaded'] = $file->put(fopen($postedFile['tmp_name'], 'rb'));
+            unlink($postedFile['tmp_name']);
+            $data['type'] = $file->getMimetype();
+            $data['uploaded_file'] = $this->getSerializer()->serialize($file);
+            $data['name'] = $postedFile['name'];
+            $data['size'] = $postedFile['size'];
+            $returnValue['name'] = $postedFile['name'];
+            $returnValue['uploaded_file'] = $data['uploaded_file'];
+            $returnValue['data'] = json_encode($data);
+        }
+        return $returnValue;
 	}
 	
 	/**

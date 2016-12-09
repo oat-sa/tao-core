@@ -29,6 +29,8 @@
  */
 class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbstractImporter implements tao_models_classes_import_ImportHandler
 {
+    use \oat\tao\helpers\uploadReferencerTrait;
+
 	const OPTION_POSTFIX = '_O';
 
     /**
@@ -113,7 +115,7 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
     public function import($class, $form) {
 
 		$options = $form->getValues();
-		$options['file'] = $options['importFile'];
+        $options['file'] = $this->universalizeUpload($options['importFile']);
 
 		// Clean "csv_select" values from form view.
 		// Transform any "csv_select" in "csv_null" in order to
