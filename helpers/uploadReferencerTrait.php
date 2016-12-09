@@ -40,8 +40,11 @@ trait uploadReferencerTrait
         $file = $this->universalizeUpload($serial);
         if ($file instanceof File) {
             $tmpName = \tao_helpers_File::concat([\tao_helpers_File::createTempDir(), $file->getPrefix()]);
-            file_put_contents($tmpName, $file->read());
-            return $tmpName;
+            if (($resource = fopen($tmpName, 'wb')) !== false) {
+                stream_copy_to_stream($file->readStream(), $resource);
+                fclose($resource);
+                return $tmpName;
+            }
         }
         return $serial;
     }
