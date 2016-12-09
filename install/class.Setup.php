@@ -135,13 +135,21 @@ class tao_install_Setup implements Action
         $global = $parameters['configuration']['global'];
         $options['module_namespace'] = $global['namespace'];
         $options['instance_name'] = $global['instance_name'];
-        $options['root_path'] = $global['root_path'];
-        $options['file_path'] = $global['file_path'];
         $options['module_url'] = $global['url'];
         $options['module_lang'] = $global['lang'];
         $options['module_mode'] = $global['mode'];
         $options['timezone'] = $global['timezone'];
         $options['import_local'] = (isset($global['import_data']) && $global['import_data'] === true);
+
+        $rootDir = dir(dirname(__FILE__) . '/../../');
+        $options['root_path'] = isset($global['root_path'])
+            ? $global['root_path']
+            : realpath($rootDir->path) . DIRECTORY_SEPARATOR;
+
+        $options['file_path'] = isset($global['file_path'])
+            ? $global['file_path']
+            : $options['root_path'] . 'data' . DIRECTORY_SEPARATOR;
+
         if(isset($global['session_name'])){
             $options['session_name'] = $global['session_name'];
         }
@@ -182,8 +190,10 @@ class tao_install_Setup implements Action
                 if(isset($config['type']) && $config['type'] === 'configurableService'){
                     $className = $config['class'];
                     $params = $config['options'];
-                    $service = new $className($params);
-                    $serviceManager->register($extension.'/'.$key, $service);
+                    if (is_a($className, \oat\oatbox\service\ConfigurableService::class, true)) {
+                        $service = new $className($params);
+                        $serviceManager->register($extension.'/'.$key, $service);
+                    }
                 }
             }
         }
@@ -208,20 +218,19 @@ class tao_install_Setup implements Action
             }
         }
 
-
-        if(isset($parameters['configuration']['generis']['log'])){
+        if (isset($parameters['configuration']['generis']['log'])) {
             if(!\common_ext_ExtensionsManager::singleton()->getExtensionById('generis')->setConfig('log', $parameters['configuration']['generis']['log'])){
                 return Report::createInfo('You logger config cannot be set');
             }
         }
 
-
         // execute post install scripts
         if(isset($parameters['postInstall'])){
             foreach($parameters['postInstall'] as $script){
-                $object = new $script['class']();
-                if($object instanceof Action){
-                    call_user_func($object, $script['params']);
+                if (isset($script['class']) && is_a($script['class'], Action::class, true)) {
+                    $object = new $script['class']();
+                    $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
+                    call_user_func($object, $params);
                 }
             }
         }
