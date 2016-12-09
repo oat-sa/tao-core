@@ -61,33 +61,45 @@ class tao_install_Setup implements Action
                 return Report::createFailure('Please provide a json or yml file');
                 break;
         }
-
-
+        
+        // override logging during install
+        if (isset($parameters['configuration']['generis']['log'])) {
+            common_log_Dispatcher::singleton()->init($parameters['configuration']['generis']['log']);
+            $installLog = new common_log_SingleFileAppender();
+            $installLog->init([
+                'threshold' => common_Logger::TRACE_LEVEL,
+                'file' => TAO_INSTALL_PATH . 'tao/install/log/install.log']
+            );
+            common_log_Dispatcher::singleton()->addAppender($installLog);
+        }
+        
         $options = array (
-        "db_driver"	=>			"mysql"
-        , "db_host"	=>			"localhost"
-        , "db_name"	=>			null
-        , "db_pass"	=>			""
-        , "db_user"	=>			""
-        , "install_sent"	=>	"1"
-        , "module_host"	=>		"tao.local"
-        , "module_lang"	=>		"en-US"
-        , "module_mode"	=>		"debug"
-        , "module_name"	=>		"mytao"
-        , "module_namespace" =>	""
-        , "module_url"	=>		""
-        , "submit"	=>			"Install"
-        , "user_email"	=>		""
-        , "user_firstname"	=>	""
-        , "user_lastname"	=>	""
-        , "user_login"	=>		""
-        , "user_pass"	=>		""
-        , "instance_name" =>	null
-        , "extensions" =>		null
-        , 'timezone'   =>      date_default_timezone_get()
+            "db_driver"	=>			"mysql"
+            , "db_host"	=>			"localhost"
+            , "db_name"	=>			null
+            , "db_pass"	=>			""
+            , "db_user"	=>			""
+            , "install_sent"	=>	"1"
+            , "module_host"	=>		"tao.local"
+            , "module_lang"	=>		"en-US"
+            , "module_mode"	=>		"debug"
+            , "module_name"	=>		"mytao"
+            , "module_namespace" =>	""
+            , "module_url"	=>		""
+            , "submit"	=>			"Install"
+            , "user_email"	=>		""
+            , "user_firstname"	=>	""
+            , "user_lastname"	=>	""
+            , "user_login"	=>		""
+            , "user_pass"	=>		""
+            , "instance_name" =>	null
+            , "extensions" =>		null
+            , 'timezone'   =>      date_default_timezone_get()
         );
 
-
+        if(!isset($parameters['configuration'])){
+            return Report::createFailure('Your config should have a \'configuration\' key');
+        }
 
         if(!isset($parameters['configuration'])){
             return Report::createFailure('Your config should have a \'configuration\' key');
