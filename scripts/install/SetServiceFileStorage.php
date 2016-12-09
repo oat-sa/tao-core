@@ -57,8 +57,6 @@ class SetServiceFileStorage extends \common_ext_action_InstallAction
             $toRegistered = true;
         }
         if ($toRegistered) {
-            $options[FileSystemService::OPTION_ADAPTERS] = $adapters;
-            $fsService->setOptions($options);
             $this->registerService(FileSystemService::SERVICE_ID, $fsService);
         }
 
