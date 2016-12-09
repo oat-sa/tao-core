@@ -20,15 +20,15 @@
  * 
  */
 
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ServiceManager;
 
 /*
  * This post-installation script creates a new local file source for file uploaded
  * by end-users through the TAO GUI.
  */
 
-$dataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR;
+$dataPath = FILES_PATH . 'tao' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
 if (file_exists($dataPath)) {
     helpers_File::emptyDirectory($dataPath);
 }
@@ -41,11 +41,11 @@ $serviceManager->register(FileSystemService::SERVICE_ID, $fsService);
 tao_models_classes_TaoService::singleton()->setUploadFileSourceId('fileUploadDirectory');
 
 // add .htaccess to prevent php code execution
-if(file_exists($dataPath) && is_dir($dataPath)){
-        $accessFile = $dataPath . '.htaccess';
-        if(!is_writable($dataPath) || (file_exists($accessFile && !is_writable($accessFile)))){
-                        throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${accessFile}.");
-        }
-        file_put_contents($accessFile, "php_flag engine off\n");
+if (file_exists($dataPath) && is_dir($dataPath)) {
+    $accessFile = $dataPath . '.htaccess';
+    if (!is_writable($dataPath) || (file_exists($accessFile) && !is_writable($accessFile))) {
+        throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${accessFile}.");
+    }
+    file_put_contents($accessFile, "php_flag engine off\n");
 }
 
