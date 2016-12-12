@@ -113,6 +113,9 @@ define(['jquery', 'lodash', 'core/pluginifier', 'lib/gamp/gamp'], function($, _,
                                     }
                                 }
 
+                                //trigger change again after the input has been corrected
+                                $elt.trigger('change');
+                                
                             }, 600))
                             .on('focus', function(){
                                 this.select();
