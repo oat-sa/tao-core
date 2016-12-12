@@ -640,9 +640,10 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('7.35.0', '7.36.2');
 
         if ($this->isVersion('7.36.2')) {
-            (new AddTmpFs())->__invoke([]);
+            $action = new AddTmpFs();
+            $action->setServiceLocator($this->getServiceManager());
+            $action->__invoke([]);
             $this->setVersion('7.37.0');
-
         }
     }
 

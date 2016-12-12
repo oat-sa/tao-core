@@ -21,7 +21,6 @@ namespace oat\tao\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\oatbox\service\ServiceManager;
 
 /**
  * This post-installation script creates a new local file source for upload storage
@@ -34,8 +33,6 @@ class AddTmpFs extends InstallAction
      */
     public function __invoke($params)
     {
-        $this->setServiceLocator(ServiceManager::getServiceManager());
-
         /** @var FileSystemService $fsm */
         $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
 
