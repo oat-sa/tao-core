@@ -21,19 +21,30 @@ namespace oat\tao\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\service\ServiceManager;
 
 /**
- * This post-installation script creates a new local file source for services
+ * This post-installation script creates a new local file source for upload storage
  */
 class AddTmpFs extends InstallAction
 {
 
+    /**
+     * @param $params
+     */
     public function __invoke($params)
     {
-        $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
-        $fsm->createFileSystem(\tao_actions_File::$tmpFilesystemId, 'tmp');
-        $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
+        $this->setServiceLocator(ServiceManager::getServiceManager());
 
+        /** @var FileSystemService $fsm */
+        $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+
+        if (!array_key_exists(\tao_actions_File::$tmpFilesystemId,
+            $fsm->getOption(FileSystemService::OPTION_ADAPTERS))
+        ) {
+            $fsm->createFileSystem(\tao_actions_File::$tmpFilesystemId, 'tmp');
+            $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
+        }
     }
 
 }
