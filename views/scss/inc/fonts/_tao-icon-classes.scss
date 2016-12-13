@@ -18,6 +18,9 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-compress:before { @include icon-compress; }
+.icon-map-o:before { @include icon-map-o; }
+.icon-text-marker:before { @include icon-text-marker; }
 .icon-unshield:before { @include icon-unshield; }
 .icon-shield:before { @include icon-shield; }
 .icon-tree:before { @include icon-tree; }

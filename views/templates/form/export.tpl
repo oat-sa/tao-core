@@ -53,7 +53,6 @@
                         $.fileDownload(helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>", params), {
                             failCallback: function (html) {
                                 $('#export-container').html(html);
-                                $('#export-container > .feedback-nesting-0 ').removeClass('feedback-error');
                                 $('#import-continue').remove();
                             }
                         });

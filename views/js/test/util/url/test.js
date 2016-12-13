@@ -1,9 +1,42 @@
-define(['util/url'], function(urlUtil){
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+/**
+ * Test the module util/url
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
+define(['util/url', 'context'], function(urlUtil, context){
     'use strict';
+
+    var parseDataProvider;
+    var isAbsoluteDataProvider;
+    var isB64DataProvider;
+    var attributesDataProvider;
+    var buildDataProvider;
+    var routeDataProvider;
 
     QUnit.module('API');
 
-    QUnit.test('util api', 7, function(assert){
+    QUnit.test('util api', function(assert){
+        QUnit.expect(8);
+
         assert.ok(typeof urlUtil === 'object', "The urlUtil module exposes an object");
         assert.ok(typeof urlUtil.parse === 'function', "urlUtil exposes a parse method");
         assert.ok(typeof urlUtil.isAbsolute === 'function', "urlUtil exposes a isAbsolute method");
@@ -11,11 +44,13 @@ define(['util/url'], function(urlUtil){
         assert.ok(typeof urlUtil.isBase64 === 'function', "urlUtil exposes a isBase64 method");
         assert.ok(typeof urlUtil.build === 'function', "urlUtil exposes a build method");
         assert.ok(typeof urlUtil.encodeAsXmlAttr === 'function', "urlUtil exposes a encodeAsXmlAttr method");
+        assert.ok(typeof urlUtil.route === 'function', "urlUtil exposes a route method");
     });
+
 
     QUnit.module('Parse');
 
-    var parseDataProvider = [{
+    parseDataProvider = [{
         title    : 'absolute URL',
         url      : 'http://tao.localdomain/test/test.html',
         expected : { host : 'tao.localdomain', path : '/test/test.html', protocol : 'http', port : '' },
@@ -55,7 +90,7 @@ define(['util/url'], function(urlUtil){
 
     QUnit.module('isSomething');
 
-    var isAbsoluteDataProvider = [{
+    isAbsoluteDataProvider = [{
         title    : 'absolute URL',
         url      : 'http://tao.localdomain/test/test.html',
         absolute : true,
@@ -107,7 +142,7 @@ define(['util/url'], function(urlUtil){
             assert.equal(urlUtil.isRelative(urlUtil.parse(data.url)), !data.absolute, 'The parsed URL ' + data.url + ' ' + (!data.absolute ? 'is' : 'is not') + ' relative');
         });
 
-    var isB64DataProvider = [{
+    isB64DataProvider = [{
         title    : 'absolute URL',
         url      : 'http://tao.localdomain/test/test.html',
         b64      : false,
@@ -132,9 +167,10 @@ define(['util/url'], function(urlUtil){
             assert.equal(urlUtil.isBase64(urlUtil.parse(data.url)), data.b64, 'The URL ' + (data.b64 ? 'is' : 'is not') + ' encoded in base 64');
         });
 
+
     QUnit.module('encodeAsXmlAttr');
 
-    var attributesDataProvider = [
+    attributesDataProvider = [
         {
             title: 'string allowed characters only',
             url: 'téstïg',
@@ -166,33 +202,28 @@ define(['util/url'], function(urlUtil){
             assert.equal(decodeURIComponent(data.encoded), data.url);
         });
 
+
     QUnit.module('Build URL');
 
-    var buildDataProvider = [{
+    buildDataProvider = [{
         title    : 'no params',
-        paths      : undefined,
-        params      : undefined,
-        expected : undefined,
     }, {
         title    : 'string path',
         path      : 'http://tao.localdomain:8080/test/test.html',
-        params      : undefined,
         expected : 'http://tao.localdomain:8080/test/test.html'
     }, {
         title    : 'array path',
         path      : ['http://tao.localdomain:8080', 'test', 'test.html'],
-        params      : undefined,
         expected : 'http://tao.localdomain:8080/test/test.html'
     }, {
         title    : 'array path with dupe slashes',
         path      : ['http://tao.localdomain:8080/', '/test', 'foo/' , '/test.html'],
-        params      : undefined,
         expected : 'http://tao.localdomain:8080/test/foo/test.html'
     }, {
         title    : 'path and params',
         path      : 'http://tao.localdomain:8080/test/test.html',
         params      : { foo : true, bar : 'baz'},
-        expected : 'http://tao.localdomain:8080/test/test.html?&foo=true&bar=baz'
+        expected : 'http://tao.localdomain:8080/test/test.html?foo=true&bar=baz'
     }, {
         title    : 'path with params and params',
         path      : 'http://tao.localdomain:8080/test/test.html?moo=noob',
@@ -202,7 +233,7 @@ define(['util/url'], function(urlUtil){
         title    : 'path and params to encode',
         path      : 'http://tao.localdomain:8080/test/test.html',
         params      : { foo : 'f o oBAR! +/ 1'},
-        expected : 'http://tao.localdomain:8080/test/test.html?&foo=f%20o%20oBAR!%20%2B%2F%201'
+        expected : 'http://tao.localdomain:8080/test/test.html?foo=f%20o%20oBAR!%20%2B%2F%201'
     }];
 
     QUnit
@@ -210,6 +241,75 @@ define(['util/url'], function(urlUtil){
         .test('from ', function(data, assert){
             var result = urlUtil.build(data.path, data.params);
             assert.equal(result, data.expected, 'The URL is built');
+        });
+
+
+    QUnit.module('TAO route URLs', {
+        setup: function setup(){
+            context.root_url = 'http://tao.lu/';
+        }
+    });
+
+    routeDataProvider = [{
+        title    : 'no params',
+        exception : true
+    }, {
+        title    : 'action only',
+        action   :  'index',
+        exception : true
+    }, {
+        title    : 'action & controller only',
+        action   :  'index',
+        controller   :  'Foo',
+        exception : true
+    }, {
+        title    : 'basic route',
+        action   :  'index',
+        controller   :  'Foo',
+        extension   :  'taoFoo',
+        result : 'http://tao.lu/taoFoo/Foo/index'
+    }, {
+        title    : 'basic route with other root',
+        action   :  'index',
+        controller   :  'Foo',
+        extension   :  'taoFoo',
+        rootUrl   :  'https://oat.com/tao',
+        result : 'https://oat.com/tao/taoFoo/Foo/index'
+    }, {
+        title    : 'basic route with other root and slashes ',
+        action   :  '/index',
+        controller   :  '/Foo/',
+        extension   :  'taoFoo/',
+        rootUrl   :  'https://oat.com/tao/',
+        result : 'https://oat.com/tao/taoFoo/Foo/index'
+    }, {
+        title    : 'basic route with params',
+        action   :  'index',
+        controller   :  'Foo',
+        extension   :  'taoFoo',
+        params      : { foo : true, bar : 'baz'},
+        result : 'http://tao.lu/taoFoo/Foo/index?foo=true&bar=baz'
+    }, {
+        title    : 'basic route with params to encode',
+        action   :  'index',
+        controller   :  'Foo',
+        extension   :  'taoFoo',
+        params      : { foo : 'f o oBAR! +/ 1'},
+        result : 'http://tao.lu/taoFoo/Foo/index?foo=f%20o%20oBAR!%20%2B%2F%201'
+    }];
+
+    QUnit
+        .cases(routeDataProvider)
+        .test('route ', function(data, assert){
+            var result;
+            if(data.exception){
+                assert.throws(function(){
+                    urlUtil.route(data.action, data.controller, data.extension, data.params, data.rootUrl);
+                }, TypeError, 'The given parameter set is forbidden');
+            } else {
+                result = urlUtil.route(data.action, data.controller, data.extension, data.params, data.rootUrl);
+                assert.equal(result, data.result, 'The URL matches');
+            }
         });
 });
 
