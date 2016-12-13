@@ -23,6 +23,7 @@
 use oat\tao\helpers\Template;
 use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\accessControl\AclProxy;
 
 /**
  * Top level controller
@@ -48,6 +49,21 @@ abstract class tao_actions_CommonModule extends Module
      */
     public function __construct()
     {
+    }
+
+    /**
+     * Whenever or not the current user has access to a specific action
+     * using functional and data access control
+     *
+     * @param string $controllerClass
+     * @param string $action
+     * @param array $parameters
+     * @return boolean
+     */
+    public function hasAccess($controllerClass, $action, $parameters = [])
+    {
+        $user = common_session_SessionManager::getSession()->getUser();
+        return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
     }
 
     /**
