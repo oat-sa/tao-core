@@ -37,16 +37,28 @@ class SetServiceFileStorage extends \common_ext_action_InstallAction
         $privateDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'private'.DIRECTORY_SEPARATOR;
         
         if (file_exists($publicDataPath)) {
-            helpers_File::emptyDirectory($publicDataPath);
+            \helpers_File::emptyDirectory($publicDataPath);
         }
         if (file_exists($privateDataPath)) {
-            helpers_File::emptyDirectory($privateDataPath);
+            \helpers_File::emptyDirectory($privateDataPath);
         }
-        
+
         $fsService = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-        $fsService->createFileSystem('public', 'tao/public');
-        $fsService->createFileSystem('private', 'tao/private');
-        $this->registerService(FileSystemService::SERVICE_ID, $fsService);
+
+        $options = $fsService->getOptions();
+        $adapters = $options[FileSystemService::OPTION_ADAPTERS];
+        $toRegistered = false;
+        if (! array_key_exists('public', $adapters)) {
+            $fsService->createFileSystem('public', 'tao/public');
+            $toRegistered = true;
+        }
+        if (! array_key_exists('private', $adapters)) {
+            $fsService->createFileSystem('private', 'tao/private');
+            $toRegistered = true;
+        }
+        if ($toRegistered) {
+            $this->registerService(FileSystemService::SERVICE_ID, $fsService);
+        }
 
         $websource = TokenWebSourceService::spawnTokenWebsource('public');
 
@@ -55,6 +67,6 @@ class SetServiceFileStorage extends \common_ext_action_InstallAction
             tao_models_classes_service_FileStorage::OPTION_PRIVATE_FS => 'private',
             tao_models_classes_service_FileStorage::OPTION_ACCESS_PROVIDER => $websource->getId()
         ));
-        $this->registerService(tao_models_classes_service_FileStorage::SERVICE_ID, $service);
+        $this->registerService(tao_models_classes_service_FileStorage::SERVICE_ID, $service, false);
     }
 }
