@@ -19,7 +19,10 @@
  *               2013- (update and modification) Open Assessment Technologies SA 
  */
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\data\ValidationException;
+use oat\tao\model\upload\UploadService;
+
 /**
  * Adapter for CSV format
  *
@@ -115,6 +118,10 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @param  string $source
      * @param  core_kernel_classes_Class $destination
      * @return common_report_Report
+     * @throws \BadFunctionCallException
+     * @throws \InvalidArgumentException
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
      */
     public function import($source,  core_kernel_classes_Class $destination = null)
     {
@@ -125,7 +132,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         	throw new InvalidArgumentException("${destination} must be a valid core_kernel_classes_Class");
         }
 
-        $csvData = $this->load($this->getLocalCopy($source));
+        $csvData = $this->load(ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->getLocalCopy($source));
         
         $createdResources = 0;
         $toImport = $csvData->count();

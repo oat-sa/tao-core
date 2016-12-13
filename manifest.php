@@ -21,7 +21,7 @@
  *
  */
 use oat\tao\scripts\install\AddLogFs;
-use oat\tao\scripts\install\AddTmpFs;
+use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\RegisterValidationRules;
 
@@ -86,7 +86,7 @@ return array(
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
             AddLogFs::class,
-            AddTmpFs::class,
+            AddTmpFsHandlers::class,
             RegisterValidationRules::class
         )
     ),

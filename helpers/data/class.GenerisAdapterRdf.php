@@ -18,6 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 
 /**
  * Adapter for RDF/RDFS format
@@ -39,12 +41,14 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
      * @param  core_kernel_classes_Class $destination
      * @param  string $namespace
      * @return boolean
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
      */
     public function import($source,  core_kernel_classes_Class $destination = null, $namespace = null)
     {
         $returnValue = false;
 
-        $source = $this->getLocalCopy($source);
+        $source = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->getLocalCopy($source);
         
         $api = core_kernel_impl_ApiModelOO::singleton();
 		$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');

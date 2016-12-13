@@ -19,6 +19,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 
 /**
  * The Parser enables you to load, parse and validate xml content from an xml
@@ -31,7 +33,6 @@
  */
 class tao_models_classes_Parser
 {
-    use \oat\tao\helpers\uploadReferencerTrait;
     /**
      * XML content string
      *
@@ -122,7 +123,7 @@ class tao_models_classes_Parser
     public function __construct($source, $options = array())
     {
         try {
-            $source = $this->universalizeUpload($source);
+            $source = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
         } catch (Exception $e) {
         }
         if($source instanceof \oat\oatbox\filesystem\File) {

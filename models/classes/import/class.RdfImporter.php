@@ -18,7 +18,6 @@
  *               
  * 
  */
-use oat\tao\helpers\uploadReferencerTrait;
 
 /**
  * importhandler for RDF
@@ -29,7 +28,6 @@ use oat\tao\helpers\uploadReferencerTrait;
  */
 class tao_models_classes_import_RdfImporter implements tao_models_classes_import_ImportHandler
 {
-    use uploadReferencerTrait;
 
     /**
      * (non-PHPdoc)

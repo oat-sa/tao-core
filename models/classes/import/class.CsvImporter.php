@@ -18,6 +18,8 @@
  *               
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 
 /**
  * Basic import of csv files
@@ -29,7 +31,6 @@
  */
 class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbstractImporter implements tao_models_classes_import_ImportHandler
 {
-    use \oat\tao\helpers\uploadReferencerTrait;
 
 	const OPTION_POSTFIX = '_O';
 
@@ -107,15 +108,24 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 		));
 		return $myFormContainer;
 	}
-	
+
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::import()
+     * @param core_kernel_classes_Class $class
+     * @param tao_helpers_form_Form $form
+     * @return common_report_Report
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
      */
-    public function import($class, $form) {
+    public function import($class, $form)
+    {
 
-		$options = $form->getValues();
-        $options['file'] = $this->universalizeUpload($options['importFile']);
+        $options = $form->getValues();
+
+        /** @var UploadService $uploadService */
+        $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
+        $options['file'] = $uploadService->getLocalCopy($options['importFile']);
 
 		// Clean "csv_select" values from form view.
 		// Transform any "csv_select" in "csv_null" in order to
@@ -145,6 +155,10 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 		}
 		$options['staticMap'] = array_merge($staticMap, $this->getStaticData());
 
-        return parent::importFile($class, $options);
+        $result = parent::importFile($class, $options);
+
+        $uploadService->remove($options['file']);
+
+        return $result;
     }
 }

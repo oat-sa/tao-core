@@ -17,31 +17,31 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  *
  */
-namespace oat\tao\scripts\install;
+namespace oat\tao\model\event;
 
-use oat\oatbox\extension\InstallAction;
-use oat\oatbox\filesystem\FileSystemService;
 
-/**
- * This post-installation script creates a new local file source for upload storage
- */
-class AddTmpFs extends InstallAction
+use oat\oatbox\event\Event;
+use oat\oatbox\filesystem\File;
+
+class FileUploadedEvent implements Event
 {
+    private $file;
 
-    /**
-     * @param $params
-     */
-    public function __invoke($params)
+    public function __construct(File $file)
     {
-        /** @var FileSystemService $fsm */
-        $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+        \common_Logger::d('TMP - file has been uploaded' . $file->getPrefix());
+        $this->file = $file;
+    }
 
-        if (!array_key_exists(\tao_actions_File::$tmpFilesystemId,
-            $fsm->getOption(FileSystemService::OPTION_ADAPTERS))
-        ) {
-            $fsm->createFileSystem(\tao_actions_File::$tmpFilesystemId, 'tmp');
-            $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
-        }
+
+    public function getName()
+    {
+        return __CLASS__;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
     }
 
 }

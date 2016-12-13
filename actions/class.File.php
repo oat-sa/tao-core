@@ -20,8 +20,7 @@
  * 
  */
 
-use oat\oatbox\filesystem\File;
-use oat\tao\helpers\uploadReferencerTrait;
+use oat\tao\model\upload\UploadService;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\generis\model\fileReference\FileReferenceSerializer;
@@ -36,10 +35,6 @@ use oat\generis\model\fileReference\FileReferenceSerializer;
  
  */
 class tao_actions_File extends tao_actions_CommonModule{
-
-    use uploadReferencerTrait;
-
-    static public $tmpFilesystemId = 'sharedTmp';
 
     /**
 	 * constructor. Initialize the context
@@ -72,6 +67,7 @@ class tao_actions_File extends tao_actions_CommonModule{
      * @param array $postedFile
      * @param string $folder
      * @return array $data
+     * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
      */
 	protected function uploadFile($postedFile, $folder)
@@ -79,18 +75,7 @@ class tao_actions_File extends tao_actions_CommonModule{
         $returnValue = [];
 
         if (isset($postedFile['tmp_name'], $postedFile['name']) && $postedFile['tmp_name']) {
-            $targetLocation = tao_helpers_File::concat([$folder, uniqid('tmp', true) . $postedFile['name']]);
-            $file = new File(self::$tmpFilesystemId, $targetLocation);
-            $file->setServiceLocator($this->getServiceManager());
-            $returnValue['uploaded'] = $file->put(fopen($postedFile['tmp_name'], 'rb'));
-            unlink($postedFile['tmp_name']);
-            $data['type'] = $file->getMimetype();
-            $data['uploaded_file'] = $this->getSerializer()->serialize($file);
-            $data['name'] = $postedFile['name'];
-            $data['size'] = $postedFile['size'];
-            $returnValue['name'] = $postedFile['name'];
-            $returnValue['uploaded_file'] = $data['uploaded_file'];
-            $returnValue['data'] = json_encode($data);
+            $returnValue = $this->getServiceManager()->get(UploadService::SERVICE_ID)->uploadFile($postedFile, $folder);
         }
         return $returnValue;
 	}

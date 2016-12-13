@@ -32,7 +32,6 @@
  */
 abstract class tao_helpers_data_GenerisAdapter
 {
-    use \oat\tao\helpers\uploadReferencerTrait;
 
     /**
      * Short description of attribute options

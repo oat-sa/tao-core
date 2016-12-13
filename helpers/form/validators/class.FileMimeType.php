@@ -18,6 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 
 
 /**
@@ -30,7 +32,6 @@
  */
 class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validator
 {
-    use \oat\tao\helpers\uploadReferencerTrait;
 
     protected function getDefaultMessage()
     {
@@ -54,6 +55,8 @@ class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validato
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  $values
      * @return boolean
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
      */
     public function evaluate($values)
     {
@@ -62,7 +65,7 @@ class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validato
 		$mimetype = '';
 		if (is_array($values)) {
             if (filter_var($values['uploaded_file'], FILTER_VALIDATE_URL)) {
-                $file = $this->getSerializer()->unserialize($values['uploaded_file']);
+                $file = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($values['uploaded_file']);
                 $mimetype = $file->getMimeType();
             }
 

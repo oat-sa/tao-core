@@ -33,7 +33,7 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
-use oat\tao\scripts\install\AddTmpFs;
+use oat\tao\scripts\install\AddTmpFsHandlers;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -640,10 +640,10 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('7.35.0', '7.36.2');
 
         if ($this->isVersion('7.36.2')) {
-            $action = new AddTmpFs();
+            $action = new AddTmpFsHandlers();
             $action->setServiceLocator($this->getServiceManager());
             $action->__invoke([]);
-            $this->setVersion('7.37.0');
+//            $this->setVersion('7.37.0');
         }
     }
 
