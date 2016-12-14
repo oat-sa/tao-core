@@ -16,8 +16,7 @@
  *
  */
 
-use oat\oatbox\task\Queue;
-use oat\oatbox\task\Task;
+use oat\tao\model\TaskQueueActionTrait;
 
 /**
  * Rest API controller for task queue
@@ -28,6 +27,9 @@ use oat\oatbox\task\Task;
  */
 class tao_actions_TaskQueue extends \tao_actions_RestController
 {
+
+    use TaskQueueActionTrait;
+
     const TASK_ID_PARAM = 'id';
 
     /**
@@ -44,67 +46,5 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
         } catch (\Exception $e) {
             $this->returnFailure($e);
         }
-    }
-
-    /**
-     * Template method to generate task data to be returned to the end user.
-     * @param string $taskId
-     * @return array
-     */
-    protected function getTaskData($taskId)
-    {
-        $task             = $this->getTask($taskId);
-        $result['id']     = $this->getTaskId($task);
-        $result['status'] = $this->getTaskStatus($task);
-        $result['report'] = $this->getTaskReport($task);
-
-        return $result;
-    }
-
-    /**
-     * Get task instance from queue by identifier
-     * @param $taskId task identifier
-     * @throws \common_exception_NotFound
-     * @return Task
-     */
-    protected function getTask($taskId)
-    {
-        /** @var Queue $taskQueue */
-        $taskQueue = $this->getServiceManager()->get(Queue::CONFIG_ID);
-        $task = $taskQueue->getTask($taskId);
-        if ($task === null) {
-            throw new \common_exception_NotFound(__('Task not found'));
-        }
-        return $task;
-    }
-
-    /**
-     * Return task report. Method may be overridden to comply special format of report
-     * @param Task $task
-     * @return null
-     */
-    protected function getTaskReport(Task $task)
-    {
-        return $task->getReport();
-    }
-
-    /**
-     * Return task status
-     * @param Task $task
-     * @return null
-     */
-    protected function getTaskStatus(Task $task)
-    {
-        return $task->getStatus();
-    }
-
-    /**
-     * Return task identifier
-     * @param Task $task
-     * @return null
-     */
-    protected function getTaskId(Task $task)
-    {
-        return $task->getId();
     }
 }
