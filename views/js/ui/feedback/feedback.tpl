@@ -3,5 +3,5 @@
     <div>
         {{{msg}}}
     </div>
-    <span title="{{__ 'Remove Message'}}" class="icon-close" data-close=":parent .feedback"></span>
+    <span title="{{__ 'Close message'}}" class="icon-close" data-close=":parent .feedback"></span>
 </div>
