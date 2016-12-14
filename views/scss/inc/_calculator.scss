@@ -93,9 +93,9 @@
                     text-align: right;
                     width: 100%;
                     max-width: none;
-                    padding: 0 0.5em;
+                    padding: 0 0.2em;
                     height: 16%;
-                    @include calc-font-size(2.8);
+                    font-size: 2.8em;
                 }
                 &.calcInput {
                     font-weight: bold;

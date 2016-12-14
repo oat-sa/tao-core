@@ -53,10 +53,6 @@ define(['jquery', 'lodash', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gam
          */
         function setFocus() {
             display.focus();
-
-            _.defer(function() {
-                display.setSelectionRange(0, 0);
-            });
         }
 
         /**
@@ -280,6 +276,9 @@ define(['jquery', 'lodash', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gam
             }
             operationPressed = isOperation;
             setFocus();
+            if (!isOperation) {
+                $(display).trigger('change');
+            }
 
             _initButtonHighlight(form, key);
             return false;
@@ -314,6 +313,7 @@ define(['jquery', 'lodash', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gam
             calculate(lastNum);
             clearNext = true;
             setFocus();
+            $(display).trigger('change');
             _initButtonHighlight(form, '=');
             return false;
         };
