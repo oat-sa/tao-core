@@ -409,7 +409,9 @@ define([
                 disableClosing: this.disableClosing,
                 disableEscape: this.disableEscape
             }).on('closed' + _scope, function() {
-                self.destroy();
+                if (self.autoDestroy) {
+                    self.destroy();
+                }
             });
 
             this._setFocusOnModal();
