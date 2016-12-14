@@ -83,7 +83,7 @@ class UploadService extends ConfigurableService
     /**
      * Detects
      * @param $file
-     * @return File
+     * @return File|string
      * @throws \common_Exception
      */
     public function universalizeUpload($file)
@@ -91,7 +91,7 @@ class UploadService extends ConfigurableService
         if (filter_var($file, FILTER_VALIDATE_URL)) {
             return $this->getSerializer()->unserializeFile($file);
         }
-        if (is_file($file)) {
+        if (is_string($file) && is_file($file)) {
             return $file;
         }
 
@@ -101,24 +101,36 @@ class UploadService extends ConfigurableService
     /**
      * Either create local copy or use original location for tile
      * Returns absolute path to the file, to be compatible with legacy methods
-     * @deprecated
-     * @param $serial
+     * @param string|File $serial
      * @return string
+     * @throws \common_Exception
      */
-    public function getLocalCopy($serial)
+    public function getUploadedFile($serial)
     {
         $file = $this->universalizeUpload($serial);
         if ($file instanceof File) {
-            $tmpName = \tao_helpers_File::concat([\tao_helpers_File::createTempDir(), $file->getPrefix()]);
-            if (($resource = fopen($tmpName, 'wb')) !== false) {
-                stream_copy_to_stream($file->readStream(), $resource);
-                fclose($resource);
-                $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger(new UploadLocalCopyCreatedEvent($file,
-                    $tmpName));
-                return $tmpName;
-            }
+            $file = $this->getLocalCopy($serial);
         }
-        return $serial;
+        return $file;
+    }
+
+    /**
+     * Deprecated, for compatibility with legacy code
+     * @param $file
+     * @return string
+     * @throws \common_Exception
+     */
+    private function getLocalCopy(File $file)
+    {
+        $tmpName = \tao_helpers_File::concat([\tao_helpers_File::createTempDir(), $file->getPrefix()]);
+        if (($resource = fopen($tmpName, 'wb')) !== false) {
+            stream_copy_to_stream($file->readStream(), $resource);
+            fclose($resource);
+            $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger(new UploadLocalCopyCreatedEvent($file,
+                $tmpName));
+            return $tmpName;
+        }
+        throw new \common_Exception('Impossible to make local file copy at ' . $tmpName);
     }
 
     /**

@@ -48,7 +48,7 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
     {
         $returnValue = false;
 
-        $source = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->getLocalCopy($source);
+        $source = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->getUploadedFile($source);
         
         $api = core_kernel_impl_ApiModelOO::singleton();
 		$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');

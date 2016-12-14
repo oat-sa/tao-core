@@ -132,7 +132,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         	throw new InvalidArgumentException("${destination} must be a valid core_kernel_classes_Class");
         }
 
-        $csvData = $this->load(ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->getLocalCopy($source));
+        $csvData = $this->load(ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->getUploadedFile($source));
         
         $createdResources = 0;
         $toImport = $csvData->count();

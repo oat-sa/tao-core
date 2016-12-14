@@ -125,7 +125,7 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 
         /** @var UploadService $uploadService */
         $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-        $options['file'] = $uploadService->getLocalCopy($options['importFile']);
+        $options['file'] = $uploadService->getUploadedFile($options['importFile']);
 
 		// Clean "csv_select" values from form view.
 		// Transform any "csv_select" in "csv_null" in order to
