@@ -81,7 +81,6 @@ class tao_actions_Export extends tao_actions_CommonModule
             $myForm->setValues(array('exportHandler' => get_class($exporter)));
         }
         $this->setData('myForm', $myForm->render());
-
         if ($this->hasRequestParameter('exportChooser_sent') && $this->getRequestParameter('exportChooser_sent') == 1) {
 
             //use method GET to allow direct file download (not ajax compatible)
@@ -109,19 +108,22 @@ class tao_actions_Export extends tao_actions_CommonModule
             if ($report instanceof common_report_Report) {
                 $file = $report->getData();
 
-                if ($report->getType() === common_report_Report::TYPE_ERROR) {
+                if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
+                    $report->setType(common_report_Report::TYPE_ERROR);
+                    if (! $report->getMessage()) {
+                        $report->setMessage(__('Error(s) has occurred during export.'));
+                    }
+
                     $html = tao_helpers_report_Rendering::render($report);
                 }
             }
 
             if ($html !== '') {
                 echo $html;
-            } elseif (!is_null($file) && file_exists($file)) {
+            } elseif (! is_null($file) && file_exists($file)) {
                 $this->sendFileToClient($file, $selectedResource);
             }
-
             return;
-
 
         }
 
