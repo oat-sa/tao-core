@@ -643,7 +643,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $action = new AddTmpFsHandlers();
             $action->setServiceLocator($this->getServiceManager());
             $action->__invoke([]);
-//            $this->setVersion('7.37.0');
+            $this->setVersion('7.37.0');
         }
     }
 

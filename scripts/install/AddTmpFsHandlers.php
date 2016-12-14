@@ -34,6 +34,9 @@ class AddTmpFsHandlers extends InstallAction
 
     /**
      * @param $params
+     * @throws \common_Exception
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_exception_Error
      */
     public function __invoke($params)
     {
