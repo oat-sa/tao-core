@@ -24,8 +24,10 @@ define([
     'interact',
     'ui/component',
     'ui/transformer',
+    'util/position',
+    'lib/uuid',
     'tpl!ui/dynamicComponent/layout'
-], function ($, _, interact, component, transformer, layoutTpl){
+], function ($, _, interact, component, transformer, position, uuid, layoutTpl){
     'use strict';
 
     var _defaults = {
@@ -167,6 +169,9 @@ define([
 
         return component(specs, defaults)
             .setTemplate(layoutTpl)
+            .on('init', function(){
+                this.id = uuid();
+            })
             .on('render', function (){
 
                 var self            = this;
@@ -175,7 +180,9 @@ define([
                 var $content        = $('.dynamic-component-content', $element);
                 var $titleBar       = $('.dynamic-component-title-bar', $element);
                 var $contentOverlay = $('.dynamic-component-layer', $element);
+                var pixelRatio      = window.devicePixelRatio;
                 var interactElement;
+
 
                 //keeps moving/resizing positions data
                 this.position = {
@@ -246,6 +253,21 @@ define([
                         interactElement,
                         $element[0]);
                     });
+
+                    $(window).on('resize.dynamic-component-' + self.id, function(){
+                        var container;
+
+                        //on browser zoom, reset the position to prevent having
+                        //the component pushed outside it's container
+                        if(window.devicePixelRatio !== pixelRatio ) {
+                            pixelRatio = window.devicePixelRatio;
+
+                            container = getDraggableContainer();
+                            if( position.isInside(container, $element[0]) === false ){
+                                self.resetPosition();
+                            }
+                        }
+                    });
                 }
                 if(config.resizable){
 
@@ -265,10 +287,7 @@ define([
                 }
 
                 function getRestriction(){
-                    var draggableContainer = config.draggableContainer;
-                    if(draggableContainer instanceof $ && draggableContainer.length){
-                        draggableContainer = draggableContainer[0];
-                    }
+                    var draggableContainer = getDraggableContainer();
                     if(!draggableContainer) {
                         return {
                             restriction : 'parent',
@@ -279,6 +298,14 @@ define([
                         restriction : draggableContainer,
                         endOnly : false
                     };
+                }
+
+                function getDraggableContainer(){
+                    var draggableContainer = config.draggableContainer;
+                    if(draggableContainer instanceof $ && draggableContainer.length){
+                        draggableContainer = draggableContainer[0];
+                    }
+                    return draggableContainer;
                 }
 
                 /**
@@ -336,6 +363,9 @@ define([
                         self.trigger('resize', self.position);
                     });
                 }
+            })
+            .on('destroy', function(){
+                $(window).off('resize.dynamic-component-' + this.id);
             });
     };
 

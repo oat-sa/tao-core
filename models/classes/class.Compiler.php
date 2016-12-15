@@ -32,19 +32,25 @@ abstract class tao_models_classes_Compiler
      * Resource to be compiled
      * @var core_kernel_classes_Resource
      */
-    private $resoure;
+    private $resource;
     
     /**
      * @var tao_models_classes_service_FileStorage
      */
     private $compilationStorage = null;
+
+    /**
+     * A context object the compiler can use
+     * @var mixed
+     */
+    private $context;
     
     /**
      * 
      * @param core_kernel_classes_Resource $resource
      */
     public function __construct(core_kernel_classes_Resource $resource, tao_models_classes_service_FileStorage $storage) {
-        $this->resoure = $resource;
+        $this->resource = $resource;
         $this->compilationStorage = $storage;
     }
     
@@ -61,7 +67,7 @@ abstract class tao_models_classes_Compiler
      * @return core_kernel_classes_Resource
      */
     protected function getResource() {
-        return $this->resoure;
+        return $this->resource;
     }
     
     /**
@@ -120,9 +126,31 @@ abstract class tao_models_classes_Compiler
             common_Logger::e('Compiler class '.$compilerClass.' is not a compiler');
             return $this->fail(__('%s is of a type that cannot be published', $resource->getLabel()));
         }
+        /** @var $compiler tao_models_classes_Compiler */
         $compiler = new $compilerClass($resource, $this->getStorage());
+        $compiler->setContext($this->getContext());
         $report = $compiler->compile();
         return $report;
+    }
+
+    /**
+     * Gets the context object the compiler can use
+     * @return mixed
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * Sets the context object the compiler can use
+     * @param mixed $context
+     * @return tao_models_classes_Compiler
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
+        return $this;
     }
     
     /**
