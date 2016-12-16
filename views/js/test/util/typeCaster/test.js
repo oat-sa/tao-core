@@ -20,8 +20,11 @@ define([
 
     strToBoolStringData = [
         { value: 'true',    result: true,   title: '"true" => true' },
+        { value: 'TRUE',    result: true,   title: '"TRUE" => true' },
+        { value: 'trUe',    result: true,   title: '"trUe" => true' },
         { value: '',        result: false,  title: 'empty string => false' },
         { value: 'false',   result: false,  title: '"false" => false' },
+        { value: 'false',   result: false,  title: '"FALSE" => false' },
         { value: '1',       result: false,  title: '"1" => false' },
         { value: '0',       result: false,  title: '"0" => false' }
     ];

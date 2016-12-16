@@ -22,18 +22,21 @@ define([
 
     return {
         /**
-         * This helper is useful when a boolean value might be passed as a string or undefined:
-         * it will prevent the string "false" being evaluated to true
-         * We also allows value to be boolean to prevent the confusing case where strToBool(true) => false
+         * This helper is useful when a boolean value might be passed as a string, as it will prevent the string "false" being evaluated to true
+         * It also deals with boolean values to prevent the confusing case where strToBool(true) would return false
          * @param {String|Boolean|Undefined} value
          * @param {Boolean} defaultValue
          * @returns {Boolean} true if value === "true", defaultValue if set, false if defaultValue not set
          */
         strToBool: function strToBool(value, defaultValue) {
-            if (! _.isString(value) && (! _.isBoolean(value))) {
-                return defaultValue || false;
+            if(_.isBoolean(value)) {
+                return value;
+
+            } else if (_.isString(value)) {
+                return value.toLowerCase() === "true";
+
             } else {
-                return value === "true" || value === true;
+                return defaultValue || false;
             }
         }
     };
