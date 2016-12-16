@@ -96,6 +96,7 @@ class UploadService extends ConfigurableService
      * Detects
      * @param $file
      * @return File|string
+     * @deprecated
      * @throws \common_Exception
      */
     public function universalizeUpload($file)
@@ -113,6 +114,7 @@ class UploadService extends ConfigurableService
     /**
      * Either create local copy or use original location for tile
      * Returns absolute path to the file, to be compatible with legacy methods
+     * @deprecated
      * @param string|File $serial
      * @return string
      * @throws \common_Exception
@@ -124,6 +126,19 @@ class UploadService extends ConfigurableService
             $file = $this->getLocalCopy($serial);
         }
         return $file;
+    }
+
+    /**
+     * @param string $serial
+     * @return File
+     * @throws \common_Exception
+     */
+    public function getUploadedFlyFile($serial)
+    {
+        if (filter_var($serial, FILTER_VALIDATE_URL)) {
+            return $this->getSerializer()->unserializeFile($serial);
+        }
+        throw new \common_Exception('Unsupported file reference');
     }
 
     /**
