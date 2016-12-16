@@ -368,6 +368,7 @@ define([
 
         var shortcuts = {};
         var handlers = {};
+        var states = {};
 
         /**
          * Gets the handlers for a shortcut
@@ -599,7 +600,7 @@ define([
             var shortcutHandlers;
             var $target;
 
-            if (shortcut) {
+            if (shortcut && !states.disabled) {
                 if (shortcut.options.avoidInput === true) {
                     $target = $(event.target);
                     if ($target.closest('[type="text"],textarea').length) {
@@ -742,6 +743,44 @@ define([
                 unregisterMouseClick();
                 unregisterMouseWheel();
 
+                return this;
+            },
+
+            /**
+             * Checks a particular state
+             * @param {String} name
+             * @returns {Boolean}
+             */
+            getState: function getState(name) {
+                return !!states[name];
+            },
+
+            /**
+             * Sets a particular state
+             * @param {String} name
+             * @param {Boolean} state
+             * @returns {shortcut}
+             */
+            setState: function setState(name, state) {
+                states[name] = !!state;
+                return this;
+            },
+
+            /**
+             * Enables the shortcuts to be listened
+             * @returns {shortcut}
+             */
+            enable: function enable() {
+                this.setState('disabled', false);
+                return this;
+            },
+
+            /**
+             * Prevents the shortcuts to be listened
+             * @returns {shortcut}
+             */
+            disable: function disable() {
+                this.setState('disabled', true);
                 return this;
             }
         };

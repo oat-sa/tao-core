@@ -401,11 +401,17 @@ define([
          * @private
          */
         _install : function() {
+            var self = this;
+
             this.$html.modal({
                 width: this.width,
                 animate: this.animate,
                 disableClosing: this.disableClosing,
                 disableEscape: this.disableEscape
+            }).on('closed' + _scope, function() {
+                if (self.autoDestroy) {
+                    self.destroy();
+                }
             });
 
             this._setFocusOnModal();
