@@ -42,20 +42,32 @@ class UploadService extends ConfigurableService
      * @param array $postedFile
      * @param string $folder
      * @return array
+     * @throws \InvalidArgumentException
+     * @throws \common_Exception
      */
     public function uploadFile(array $postedFile, $folder)
     {
-        $targetLocation = tao_helpers_File::concat([$folder, uniqid('tmp', true) . $postedFile['name']]);
+        $tmp_name = array_key_exists('tmp_name', $postedFile) ? $postedFile['tmp_name'] : null;
+
+        if (!$tmp_name) {
+            throw  new \InvalidArgumentException('Upload filename is missing');
+        }
+        $name = array_key_exists('name', $postedFile) ? $postedFile['name'] : uniqid('unknown_', false);
+
+        $targetLocation = tao_helpers_File::concat([$folder, uniqid('tmp', true) . $name]);
         $file = new File(self::$tmpFilesystemId, $targetLocation);
         $file->setServiceLocator($this->getServiceManager());
-        $returnValue['uploaded'] = $file->put(fopen($postedFile['tmp_name'], 'rb'));
+
+        $returnValue['uploaded'] = $file->put(fopen($tmp_name, 'rb'));
         $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new FileUploadedEvent($file));
-        tao_helpers_File::remove($postedFile['tmp_name']);
+        tao_helpers_File::remove($tmp_name);
+
+
         $data['type'] = $file->getMimetype();
         $data['uploaded_file'] = $this->getSerializer()->serialize($file);
-        $data['name'] = $postedFile['name'];
-        $data['size'] = $postedFile['size'];
-        $returnValue['name'] = $postedFile['name'];
+        $data['name'] = $name;
+        $data['size'] = array_key_exists('size', $postedFile) ? $postedFile['size'] : $file->getSize();
+        $returnValue['name'] = $name;
         $returnValue['uploaded_file'] = $data['uploaded_file'];
         $returnValue['data'] = json_encode($data);
 
