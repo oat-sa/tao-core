@@ -229,7 +229,7 @@ class tao_install_Setup implements Action
             foreach($parameters['postInstall'] as $script){
                 if (isset($script['class']) && is_a($script['class'], Action::class, true)) {
                     $object = new $script['class']();
-                    if(is_a($object, ServiceLocatorAwareInterface::class, true)){
+                    if(is_a($object, ServiceLocatorAwareInterface::class)){
                         $object->setServiceLocator($serviceManager);
                     }
                     $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
