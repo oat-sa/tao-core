@@ -22,7 +22,7 @@
 
 use oat\oatbox\action\Action;
 use common_report_Report as Report;
-use oat\oatbox\install\Installer;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class tao_install_Setup implements Action
 {
@@ -229,6 +229,9 @@ class tao_install_Setup implements Action
             foreach($parameters['postInstall'] as $script){
                 if (isset($script['class']) && is_a($script['class'], Action::class, true)) {
                     $object = new $script['class']();
+                    if(is_a($object, ServiceLocatorAwareInterface::class, true)){
+                        $object->setServiceLocator($serviceManager);
+                    }
                     $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
                     call_user_func($object, $params);
                 }
