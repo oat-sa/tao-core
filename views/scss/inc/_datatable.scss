@@ -45,6 +45,10 @@
             }
         }
     }
+    .datatable-pagination-bottom,
+    .datatable-pagination-top {
+        overflow-x: hidden;
+    }
 }
 .datatable-container {
     overflow-y: auto;
