@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2016 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -638,6 +638,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.35.0', '7.44.1');
+        
+        if ($this->isVersion('7.44.1')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('7.44.2');
+        }
     }
 
     private function migrateFsAccess() {
