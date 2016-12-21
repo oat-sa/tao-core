@@ -58,27 +58,43 @@ define([
                     options : _categories
                 }));
 
+                categoriesDefinitions[level].$comboBox = $comboBox;
+
                 //add event handler
                 $comboBox.on('change', function(){
 
                     var subCategories, $subComboBox;
                     var $selected = $comboBox.find(":selected");
-                    selectedValues[categoryDef.id] = $selected.val();
+                    selectedValues = {};
 
                     //clean previously created combo boxes
-                    $comboBox.nextAll('.cascading-combo-box').remove();
-
-                    //trigger event
-                    $comboBox.trigger('selected.cascading-combobox', [selectedValues]);
+                    _.forEach(categoriesDefinitions, function (category, key) {
+                        if (category.$comboBox && key > level) {
+                            category.$comboBox.remove();
+                            category.$comboBox = null;
+                        }
+                    });
 
                     subCategories = $selected.data('categories');
                     if(_.isArray(subCategories) && subCategories.length){
                         //init sub-level select box by recursive call to createCombobox
                         $subComboBox = createCombobox(level + 1, categoriesDefinitions, subCategories);
                         if($subComboBox){
+                            categoriesDefinitions[level + 1].$comboBox = $subComboBox;
                             $comboBox.after($subComboBox);
                         }
                     }
+
+                    //retrieve combobox values
+                    _.forEach(categoriesDefinitions, function (value) {
+                        if (value.$comboBox) {
+                            var $select = value.$comboBox.find('select');
+                            selectedValues[value.id] = $select.val();
+                        }
+                    });
+
+                    //trigger event
+                    $comboBox.trigger('selected.cascading-combobox', [selectedValues]);
                 });
 
                 //init select 2 on $comboBox
