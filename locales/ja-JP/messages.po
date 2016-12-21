@@ -650,13 +650,13 @@ msgid "Loading"
 msgstr "読み込み中"
 
 msgid "Log in"
-msgstr "ログインID"
+msgstr "ログイン"
 
 msgid "Log Out"
 msgstr "ログアウト"
 
 msgid "Login"
-msgstr "ログイン"
+msgstr "ログインID"
 
 msgid "Login available"
 msgstr "ログイン可能"
