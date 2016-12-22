@@ -171,7 +171,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
             'page' => (integer) $this->getPage(),
             'records' => (integer) $result->count(),
             'total' => $this->getRows() > 0
-                ? abs(ceil($result->total() / $this->getRows()))
+                ? ceil($result->total() / $this->getRows())
                 : (integer) $result->count()
         ];
 
