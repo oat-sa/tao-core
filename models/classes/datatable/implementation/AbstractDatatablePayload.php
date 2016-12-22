@@ -167,7 +167,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
             'data' => $result->getArrayCopy(),
             'page' => (integer) $this->getPage(),
             'records' => (integer) $result->count(),
-            'total' => ceil($result->total() / $this->getRows()),
+            'total' => abs(ceil($result->total() / $this->getRows()))
         ];
 
         return $this->fetchPropertyValues($payload);
