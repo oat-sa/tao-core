@@ -166,11 +166,12 @@ define([
         specs = _.defaults(specs || {}, movableComponent);
 
         return component(specs, defaults).on('render', function () {
-            var self = this;
-            var $element = this.getElement();
-            var element = $element[0];
+            var self       = this;
+            var $element   = this.getElement();
+            var element    = $element[0];
             var $container = this.getContainer();
-            var container = $container[0];
+            var container  = $container[0];
+            var rootNode   = document.querySelector('html');
 
             this.setSize(this.config.width, this.config.height)
                 .place();
@@ -216,6 +217,16 @@ define([
                     self.setState('sizing', false);
                     self.trigger('resizeend');
                 });
+
+            //fix cursor issue with interact <= 1.2.6
+            //cursor remains in moving/sizing by only clicking
+            $element.on('click', function(){
+                _.delay(function(){
+                    if(!self.is('sizing') && !self.is('moving') && rootNode){
+                        rootNode.style.cursor = 'default';
+                    }
+                }, 25);
+            });
         });
     }
 
