@@ -21,6 +21,7 @@
  */
 
 use oat\tao\helpers\Template;
+use oat\tao\helpers\JavaScript;
 use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AclProxy;
@@ -169,7 +170,7 @@ abstract class tao_actions_CommonModule extends Module
      * @return string the URL
      */
     protected function getClientConfigUrl($extraParameters = []){
-        return Template::getClientConfigUrl($extraParameters);
+        return JavaScript::getClientConfigUrl($extraParameters);
     }
 
 

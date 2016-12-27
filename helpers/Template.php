@@ -132,23 +132,6 @@ class Template {
     }
 
     /**
-     * Helps you to add the URL of the client side config file
-     *
-     * @param array $extraParameters additional parameters to append to the URL
-     * @return string the URL
-     */
-    public static function getClientConfigUrl($extraParameters = array()){
-        $context = \Context::getInstance();
-        $clientConfigParams = [
-            'extension' => $context->getExtensionName(),
-            'module'    => $context->getModuleName(),
-            'action'    => $context->getActionName()
-        ];
-
-        return _url('config', 'ClientConfig', 'tao', array_merge($clientConfigParams, $extraParameters));
-    }
-
-    /**
      * @return AssetService
      * @throws \common_Exception
      * @throws \oat\oatbox\service\ServiceNotFoundException
