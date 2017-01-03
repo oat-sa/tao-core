@@ -134,8 +134,11 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
     {
         $rows = $this->getRows();
         $page = $this->getPage();
-        $queryBuilder->setLimit($rows);
-        $queryBuilder->setOffset(($page - 1) * $rows);
+
+        if ($rows > 0) {
+            $queryBuilder->setLimit($rows);
+            $queryBuilder->setOffset(($page - 1) * $rows);
+        }
     }
 
     /**
@@ -167,7 +170,9 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
             'data' => $result->getArrayCopy(),
             'page' => (integer) $this->getPage(),
             'records' => (integer) $result->count(),
-            'total' => ceil($result->total() / $this->getRows()),
+            'total' => $this->getRows() > 0
+                ? ceil($result->total() / $this->getRows())
+                : (integer) $result->count()
         ];
 
         return $this->fetchPropertyValues($payload);
