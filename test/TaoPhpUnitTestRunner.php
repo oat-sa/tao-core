@@ -31,6 +31,7 @@ use oat\oatbox\service\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Prophecy\Argument;
 
 /**
  * Help you to run the test into the TAO Context
@@ -99,6 +100,22 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
             $smProphecy->get($key)->willReturn($service);
         }
         return $smProphecy->reveal();
+    }
+
+    /**
+     * Returns a persistence Manager with a mocked sql persistence
+     *
+     * @param string $key identifier of the persistence
+     * @return \common_persistence_Manager
+     */
+    public function getSqlMock($key)
+    {
+        $driver = new \common_persistence_sql_dbal_Driver();
+        $persistence = $driver->connect($key, ['connection' => ['url' => 'sqlite:///:memory:']]);
+        $pmProphecy = $this->prophesize(\common_persistence_Manager::class);
+        $pmProphecy->setServiceLocator(Argument::any())->willReturn(null);
+        $pmProphecy->getPersistenceById($key)->willReturn($persistence);
+        return $pmProphecy->reveal();
     }
 
     /**
