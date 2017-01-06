@@ -98,4 +98,20 @@ class ControllerHelper
         }
         return $rights;
     }
+
+    /**
+     * @param string $controllerClassName
+     * @return false|string
+     */
+    public static function getExtensionByController($controllerClassName)
+    {
+        foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
+            foreach (ControllerHelper::getControllers($ext->getId()) as $controller) {
+                if ($controllerClassName === $controller) {
+                    return $ext->getId();
+                }
+            }
+        }
+        return false;
+    }
 }
