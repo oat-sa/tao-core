@@ -212,6 +212,7 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
             .volume {
                 cursor: default;
                 position: absolute;
+                z-index: 3;
                 background-color: $playerBackground;
                 padding: 0 10px 0 10px;
                 height: 0;
