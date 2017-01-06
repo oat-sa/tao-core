@@ -21,6 +21,7 @@
 
 namespace oat\tao\model\requiredAction\implementation;
 
+use oat\oatbox\event\Event;
 use oat\tao\model\requiredAction\RequiredActionServiceInterface;
 use oat\tao\model\requiredAction\RequiredActionInterface;
 use oat\oatbox\service\ConfigurableService;
@@ -39,7 +40,7 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
 {
     /**
      * Get list of required actions
-     * @return RequiredAction[] array of required action instances
+     * @return RequiredActionAbstract[] array of required action instances
      */
     public function getRequiredActions()
     {
@@ -79,9 +80,10 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
     /**
      * Get first action which should be executed (one of action's rules return true).
      * @param string[] array of action names which should be checked. If array is empty all action will be checked.
-     * @return null|RequiredAction
+     * @param Event $contextEvent
+     * @return null|RequiredActionInterface
      */
-    public function getActionToBePerformed($names = [])
+    public function getActionToBePerformed($names = [], Event $contextEvent = null)
     {
         $result = null;
         if (empty($names)) {
@@ -92,9 +94,9 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
                 $actionsToCheck[] = $this->getRequiredAction($name);
             }
         }
-
+        /** @var  RequiredActionInterface $requiredAction */
         foreach ($actionsToCheck as $requiredAction) {
-            if ($requiredAction->mustBeExecuted()) {
+            if ($requiredAction->mustBeExecuted($contextEvent)) {
                 $result = $requiredAction;
                 break;
             }
@@ -104,15 +106,15 @@ class RequiredActionService extends ConfigurableService implements RequiredActio
 
     /**
      * Check if any action must be executed and execute first of them.
-     * @throws \InterruptedActionException
+     * @param Event $event
      */
-    public static function checkRequiredActions()
+    public static function checkRequiredActions(Event $event = null)
     {
         /** @var RequiredActionService $service */
         $service = ServiceManager::getServiceManager()->get(self::CONFIG_ID);
-        $action = $service->getActionToBePerformed();
+        $action = $service->getActionToBePerformed([], $event);
         if ($action !== null) {
-            $action->execute();
+            $action->execute([], $event);
         }
     }
 }

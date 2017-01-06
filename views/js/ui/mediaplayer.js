@@ -96,6 +96,13 @@ define([
     var _volumeRange = _volumeMax - _volumeMin;
 
     /**
+     * Threshold (minium requires space above the player) to display the volume
+     * above the bar.
+     * @type {Number}
+     */
+    var volumePositionThreshold = 150;
+
+    /**
      * Some default values
      * @type {Object}
      * @private
@@ -401,7 +408,7 @@ define([
 
             $elem = $(elem);
 
-            new YT.Player($elem.get(0), {
+            new window.YT.Player($elem.get(0), {
                 height: $elem.width(),
                 width: $elem.height(),
                 videoId: $elem.data('videoId'),
@@ -1656,6 +1663,7 @@ define([
          */
         _bindEvents : function _bindEvents() {
             var self = this;
+            var overing = false;
 
             this.$component.on('contextmenu' + _ns, function(event) {
                 event.preventDefault();
@@ -1687,11 +1695,28 @@ define([
                 self.unmute();
                 self.setVolume(value, true);
             });
-            this.$sound.on('mouseover' + _ns, function(){
-                self.$volumeControl.addClass('up');
-            });
-            this.$volumeControl.on('mouseleave' + _ns, function(){
-                self.$volumeControl.removeClass('up');
+            this.$sound.on('mouseover' + _ns, 'a', function(){
+                var position;
+
+                if(!overing && !self.$volumeControl.hasClass('up') && !self.$volumeControl.hasClass('down')) {
+                    overing = true;
+                    position = self.$controls[0].getBoundingClientRect();
+                    if(position && position.y && position.y < volumePositionThreshold){
+                        self.$volumeControl.addClass('down');
+                    } else {
+                        self.$volumeControl.addClass('up');
+                    }
+
+                    //close the volume control after 15s
+                    _.delay(function(){
+                        self.$volumeControl.removeClass('up down');
+                        overing = false;
+                    }, 15000);
+                    self.$volumeControl.one('mouseleave' + _ns, function(){
+                        self.$volumeControl.removeClass('up down');
+                        overing = false;
+                    });
+                }
             });
         },
 
@@ -1706,6 +1731,7 @@ define([
             this.$seek.off(_ns);
             this.$volume.off(_ns);
         },
+
 
         /**
          * Updates the volume slider

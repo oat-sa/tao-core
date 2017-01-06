@@ -183,7 +183,6 @@ define([
                 var pixelRatio      = window.devicePixelRatio;
                 var interactElement;
 
-
                 //keeps moving/resizing positions data
                 this.position = {
                     x:      this.config.left,
@@ -218,7 +217,6 @@ define([
                 interactElement = interact($element[0]);
                 if(config.draggable){
 
-
                     interactElement.draggable({
                         inertia : false,
                         autoScroll : true,
@@ -226,13 +224,7 @@ define([
                         restrict : _.merge(getRestriction(), {
                             elementRect: { left: 0, right: 1, top: 0, bottom: 1 }
                         }),
-                        onmove : _moveItem,
-                        onstart: function () {
-                            $contentOverlay.addClass('dragging-active');
-                        },
-                        onend: function () {
-                            $contentOverlay.removeClass('dragging-active');
-                        }
+                        onmove : _moveItem
                     });
 
                     //manually start interactjs draggable on the handle
@@ -276,15 +268,24 @@ define([
                         autoScroll : true,
                         restrict : getRestriction(),
                         edges : {left : true, right : true, bottom : true, top : true},
-                        onmove : _resizeItem,
-                        onstart: function () {
-                            $contentOverlay.addClass('dragging-active');
-                        },
-                        onend: function () {
-                            $contentOverlay.removeClass('dragging-active');
-                        }
+                        onmove : _resizeItem
                     });
                 }
+
+                interactElement
+                    .on('dragstart resizeinertiastart resizestart', function() {
+                        $contentOverlay.addClass('dragging-active');
+                    })
+                    .on('dragend resizeend', function(){
+                        $contentOverlay.removeClass('dragging-active');
+                    });
+
+                //interact sometimes doesn't trigger the start event if the move is quick and ends over an iframe...
+                $element.on('mousedown', function(){
+                    if(/\-resize/.test($('html').css('cursor')) && ! $contentOverlay.hasClass('dragging-active')){
+                        $contentOverlay.addClass('dragging-active');
+                    }
+                });
 
                 function getRestriction(){
                     var draggableContainer = getDraggableContainer();
@@ -343,6 +344,7 @@ define([
                     self.position.y              = (parseFloat(self.position.y) || 0) + e.deltaRect.top;
                     self.position.width          = width;
                     self.position.height         = height;
+
 
                     transformer.translate($element, self.position.x, self.position.y);
 
