@@ -16,38 +16,66 @@ class ExtraPoService extends ConfigurableService
         parent::__construct($options);
     }
     
-    public function addPoPath($path)
+    public function addPoPath($extensionId, $path)
     {
         $paths = $this->getOption('paths');
         
-        if (in_array($path, $paths) === false) {
-            $paths[] = $path;
-        }
+        try {
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
+            
+            if (isset($paths[$ext->getId()]) === false) {
+                $paths[$ext->getId()] = [];
+            }
+            
+            if (in_array($path, $paths[$ext->getId()]) === false) {
+                $paths[$ext->getId()][] = $path;
+            }
+            
+            $this->setOption('paths', $paths);
+            
+            return true;
         
-        $this->setOption('paths', $paths);
+        } catch (\common_ext_ExtensionException $e) {
+            return false;
+        }
     }
     
-    public function removePoPath($path)
+    public function removePoPath($extensionId, $path)
     {
         $paths = $this->getOption('paths');
-        $index = array_search($path, $paths);
         
-        if ($index === false) {
-            return $index;
+        try {
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
+            
+            if (isset($paths[$ext->getId()]) === false) {
+                return false;
+            }
+            
+            $index = array_search($path, $paths[$ext->getId()]);
+            
+            if ($index === false) {
+                return $index;
+            }
+            
+            unset($paths[$ext->getId()][$index]);
+            
+            return true;
+        } catch (\common_ext_ExtensionException $e) {
+            return false;
         }
-        
-        unset($paths[$index]);
-        
-        return true;
     }
     
     public function requirePos()
     {
         $count = 0;
+        $extensionManager = \common_ext_ExtensionsManager::singleton();
         
-        foreach ($this->getOption('paths') as $path) {
-            if (l10n::set($path) !== false) {
-                $count++;
+        foreach ($this->getOption('paths') as $extId => $files) {
+            $ext = $extensionManager->getExtensionById($extId);
+            foreach ($files as $file) {
+                if (\l10n::set($ext->getDir() . $file) !== false) {
+                    $count++;
+                }
             }
         }
         
