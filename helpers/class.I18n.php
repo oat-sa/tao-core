@@ -23,17 +23,10 @@
 /**
  * Internationalization helper.
  *
- * @access public
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package tao
- 
+ * @author Jérôme Bogaerts <jerome@taotesting.com>
  */
 class tao_helpers_I18n
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
 
     /**
      * Short description of attribute AVAILABLE_LANGS_CACHEKEY
@@ -50,8 +43,6 @@ class tao_helpers_I18n
      * @var array
      */
     protected static $availableLangs = array();
-
-    // --- OPERATIONS ---
 
     /**
      * Load the translation strings
@@ -88,6 +79,8 @@ class tao_helpers_I18n
 		}
 		
 		l10n::set($basePath . 'locales' . DIRECTORY_SEPARATOR . $langCode. DIRECTORY_SEPARATOR . 'messages');
+        $extraPoService = \oat\oatbox\service\ServiceManager::get(\oat\tao\model\i18n\ExtraPoService::SERVICE_ID);
+        $extraPoCount = $extraPoService->requirePos();
     }
 
     /**
