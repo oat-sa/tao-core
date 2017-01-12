@@ -79,8 +79,12 @@ class tao_helpers_I18n
 		}
 		
 		l10n::set($basePath . 'locales' . DIRECTORY_SEPARATOR . $langCode. DIRECTORY_SEPARATOR . 'messages');
-        $extraPoService = \oat\oatbox\service\ServiceManager::get(\oat\tao\model\i18n\ExtraPoService::SERVICE_ID);
+        
+        $serviceManager = \oat\oatbox\service\ServiceManager::getServiceManager();
+        $extraPoService = $serviceManager->get(\oat\tao\model\i18n\ExtraPoService::SERVICE_ID);
         $extraPoCount = $extraPoService->requirePos();
+        
+        common_Logger::t("${extraPoCount} extra PO files loaded.");
     }
 
     /**
