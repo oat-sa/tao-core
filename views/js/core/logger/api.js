@@ -72,8 +72,8 @@ define(['lodash'], function(_){
 
                 //extract arguments : optional level and messages
                 if(_.isString(level) && !_.isNumber(levels[level])){
-                   messages = [].slice.call(arguments);
-                   level = defaultLevel;
+                    messages = [].slice.call(arguments);
+                    level = defaultLevel;
                 }
                 if(_.isNumber(level)){
                     level = _.findKey(levels, function(l){
@@ -82,7 +82,7 @@ define(['lodash'], function(_){
                 }
 
                 if(!messages){
-                   messages = [].slice.call(arguments, 1);
+                    messages = [].slice.call(arguments, 1);
                 }
 
                 if(levels[level] >= levels.error){
@@ -98,7 +98,7 @@ define(['lodash'], function(_){
                     stack    : stack
                 });
 
-               this.flush();
+                this.flush();
 
                 return this;
             },
