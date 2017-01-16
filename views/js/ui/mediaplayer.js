@@ -1365,6 +1365,7 @@ define([
          */
         disable : function disable() {
             this._toState('disabled');
+            this.trigger('disable');
 
             return this;
         },
