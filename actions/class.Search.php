@@ -76,7 +76,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
             // if it is an URI
             if (strpos($query, LOCAL_NAMESPACE) === 0) {
                 $resource = new core_kernel_classes_Resource($query);
-                if ($resource->exists() && $resource->hasType($class)) {
+                if ($resource->exists() && $resource->isInstanceOf($class)) {
                     $results = new ResultSet([$resource->getUri()], 1);
                 }
             }
