@@ -96,6 +96,13 @@ define([
     var volumePositionThreshold = 150;
 
     /**
+     * The polling interval used to update the progress bar while playing a YouTube video.
+     * Note : the YouTube API does not provide events to update this progress bar...
+     * @type {Number}
+     */
+    var youtubePolling = 100;
+
+    /**
      * Some default values
      * @type {Object}
      * @private
@@ -448,7 +455,7 @@ define([
          * @returns {Boolean}
          */
         isApiReady : function isApiReady() {
-            var apiReady = (undefined !== window.YT && undefined !== window.YT.Player);
+            var apiReady = (typeof(window.YT) !== 'undefined' && typeof(window.YT.Player) !== 'undefined');
             if (apiReady && !this.ready) {
                 _youtubeManager.apiReady();
             }
@@ -519,7 +526,7 @@ define([
                             // install debug logger
                             loopEvents(function(ev) {
                                 media.addEventListener(ev, function(e) {
-                                    console.log(ev, e);
+                                    console.log(ev, e); // eslint-disable-line no-console
                                 });
                             });
                         }
@@ -570,7 +577,7 @@ define([
                 startPolling : function _youtubePlayerStartPolling() {
                     interval = setInterval(function() {
                         mediaplayer._onTimeUpdate();
-                    }, mediaplayerFactory.youtubePolling);
+                    }, youtubePolling);
                 },
 
                 destroy : function _youtubePlayerDestroy() {
@@ -779,7 +786,7 @@ define([
                             // install debug logger
                             _.forEach(['abort', 'canplay', 'canplaythrough', 'canshowcurrentframe', 'dataunavailable', 'durationchange', 'emptied', 'empty', 'ended', 'error', 'loadedfirstframe', 'loadedmetadata', 'loadstart', 'pause', 'play', 'progress', 'ratechange', 'seeked', 'seeking', 'suspend', 'timeupdate', 'volumechange', 'waiting'], function(ev) {
                                 $media.on(ev + _ns, function(e) {
-                                    console.log(e.type, $media && $media.find('source').attr('src'), media && media.networkState);
+                                    console.log(e.type, $media && $media.find('source').attr('src'), media && media.networkState); // eslint-disable-line no-console
                                 });
                             });
                         }
@@ -2171,13 +2178,6 @@ define([
     mediaplayerFactory.canControl = function canControl() {
         return _support.canControl();
     };
-
-    /**
-     * The polling interval used to update the progress bar while playing a YouTube video.
-     * Note : the YouTube API does not provide events to update this progress bar...
-     * @type {Number}
-     */
-    mediaplayerFactory.youtubePolling = 100;
 
     return mediaplayerFactory;
 });
