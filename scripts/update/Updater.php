@@ -67,6 +67,7 @@ use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\oatbox\task\TaskService;
+use oat\tao\model\i18n\ExtraPoService;
 
 /**
  *
@@ -638,6 +639,16 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.35.0', '7.46.0');
+
+        if ($this->isVersion('7.46.0')) {
+
+            $this->getServiceManager()->register(ExtraPoService::SERVICE_ID, new ExtraPoService());
+
+            $this->setVersion('7.47.0');
+        }
+
+        $this->skip('7.47.0', '7.48.0');
+
     }
 
     private function migrateFsAccess() {
