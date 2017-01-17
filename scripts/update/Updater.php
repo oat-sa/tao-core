@@ -639,15 +639,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.35.0', '7.46.0');
-        
+
         if ($this->isVersion('7.46.0')) {
-            
+
             $this->getServiceManager()->register(ExtraPoService::SERVICE_ID, new ExtraPoService());
-            
+
             $this->setVersion('7.47.0');
         }
 
-        $this->skip('7.47.0', '7.47.1');
+        $this->skip('7.47.0', '7.48.0');
 
     }
 
