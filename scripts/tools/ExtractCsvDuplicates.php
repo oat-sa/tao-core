@@ -59,7 +59,13 @@ class ExtractCsvDuplicates implements Action
         while (!feof($sourceFp)) {
             $position = ftell($sourceFp);
             $sourceData = fgetcsv($sourceFp);
-            $index[$sourceData[0]][] = $position;
+            if($sourceData !== false && !isset($sourceData[$indexColumn])){
+                return new \common_report_Report(
+                    \common_report_Report::TYPE_ERROR,
+                    $indexColumn . " is not a valid offset for the source. It should be one of : ".implode(', ',array_keys($sourceData))
+                );
+            }
+            $index[$sourceData[$indexColumn]][] = $position;
         }
         
         ksort($index);
