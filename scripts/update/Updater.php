@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2016 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -65,6 +65,9 @@ use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
+use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\oatbox\task\TaskService;
+use oat\tao\model\i18n\ExtraPoService;
 
 /**
  *
@@ -563,7 +566,89 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('6.1.0');
         }
 
-        $this->skip('6.1.0', '7.9.3');
+        $this->skip('6.1.0', '7.16.2');
+
+        if ($this->isVersion('7.16.2')) {
+            OntologyUpdater::syncModels();
+            ValidationRuleRegistry::getRegistry()->set('notEmpty', new \tao_helpers_form_validators_NotEmpty());
+            $this->setVersion('7.17.0');
+        }
+
+        $this->skip('7.17.0', '7.23.0');
+
+        if ($this->isVersion('7.23.0')) {
+            $service = new \oat\tao\model\mvc\DefaultUrlService(
+                [
+                    'default' =>
+                    [
+                        'ext'        => 'tao',
+                        'controller' => 'Main',
+                        'action'     => 'index',
+                    ],
+                    'login' =>
+                    [
+                        'ext'        => 'tao',
+                        'controller' => 'Main',
+                        'action'     => 'login',
+                    ]
+                ]
+            );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID, $service);
+            $this->setVersion('7.24.0');
+        }
+
+	    $this->skip('7.24.0', '7.27.0');
+
+        if ($this->isVersion('7.27.0')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('7.28.0');
+        }
+        $this->skip('7.28.0', '7.30.1');
+
+        if ($this->isVersion('7.30.1')) {
+            /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
+            $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+            $routeService->setOption('logout',
+                        [
+                            'ext'        => 'tao',
+                            'controller' => 'Main',
+                            'action'     => 'logout',
+                            'redirect'   => _url('entry', 'Main', 'tao'),
+                        ]
+                    );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
+
+            $this->setVersion('7.31.0');
+        }
+
+        $this->skip('7.31.0', '7.31.1');
+        // add validation widget
+        if ($this->isVersion('7.31.1')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('7.32.0');
+        }
+
+        $this->skip('7.32.0', '7.34.0');
+
+        if ($this->isVersion('7.34.0')) {
+            OntologyUpdater::syncModels();
+            $taskQueueManagerRole = new \core_kernel_classes_Resource(TaskService::TASK_QUEUE_MANAGER_ROLE);
+            $accessService = \funcAcl_models_classes_AccessService::singleton();
+            $accessService->grantModuleAccess($taskQueueManagerRole, 'tao', 'TaskQueue');
+            $this->setVersion('7.35.0');
+        }
+
+        $this->skip('7.35.0', '7.46.0');
+
+        if ($this->isVersion('7.46.0')) {
+
+            $this->getServiceManager()->register(ExtraPoService::SERVICE_ID, new ExtraPoService());
+
+            $this->setVersion('7.47.0');
+        }
+
+        $this->skip('7.47.0', '7.48.1');
+
     }
 
     private function migrateFsAccess() {

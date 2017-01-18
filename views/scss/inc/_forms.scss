@@ -1,11 +1,22 @@
-label {
+label, .form_desc {
     display: inline-block;
     cursor: pointer;
     padding-right: 10px;
     margin-bottom: 5px;
     abbr {
-        border: none;
         color: $info;
+        border-bottom: none;
+        cursor: inherit;
+        text-decoration: none;
+        padding-left: 2px;
+    }
+}
+
+#loginForm {
+    label {
+        abbr {
+            display:none;
+        }
     }
 }
 
@@ -237,6 +248,8 @@ option {
     color: $textColor;
 }
 
+
+
 label {
     position: relative;
     [class^="icon-checkbox"],
@@ -307,6 +320,23 @@ label {
                 cursor: not-allowed !important;
                 opacity: .4 !important;
                 color: #555;
+            }
+        }
+    }
+}
+
+// Edge styles go here, they cannot be include in the rule set below :-(
+@supports (-ms-ime-align:auto) {
+    label {
+        [class^="icon-radio"],
+        [class*=" icon-radio"],
+        [class^="icon-checkbox"],
+        [class*=" icon-checkbox"] {
+            &:after {
+                left:auto !important;
+                top: 0 !important;
+                z-index: 2;
+                position: absolute;
             }
         }
     }

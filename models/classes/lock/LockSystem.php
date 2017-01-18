@@ -27,6 +27,8 @@ use core_kernel_classes_Resource;
  */
 interface LockSystem {
     
+    const SERVICE_ID = 'tao/lock';
+
     /**
      * set a lock on @resource with owner @user, succeeds also if there is a lock already exists but with the same owner
      *

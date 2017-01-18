@@ -40,11 +40,11 @@ class tao_helpers_form_validators_FileSize
     {
         parent::setOptions($options);
 
-        if (isset($this->options['min']) && isset($this->options['max']) ) {
-            $this->setMessage(__('Invalid file size (minimum %1$s bytes, maximum %2$s bytes)', $this->options['min'], $this->options['max']));
-        } elseif (isset($this->options['max'])) {
-            $this->setMessage(__('The uploaded file is too large (maximum %s bytes)', $this->options['max']));
-            $this->options['min'] = 0;
+        if ($this->hasOption('min') && $this->hasOption('max') ) {
+            $this->setMessage(__('Invalid file size (minimum %1$s bytes, maximum %2$s bytes)', $this->getOption('min'), $this->getOption('max')));
+        } elseif ($this->hasOption('max')) {
+            $this->setMessage(__('The uploaded file is too large (maximum %s bytes)', $this->getOption('max')));
+            $this->setOption('min', 0);
         } else {
             throw new common_Exception("Please set 'min' and/or 'max' options!");
         }
@@ -67,7 +67,7 @@ class tao_helpers_form_validators_FileSize
 		
 		if(is_array($values)){
 			if(isset($values['size'])){
-				if($values['size'] >= $this->options['min'] && $values['size'] <= $this->options['max']){
+				if($values['size'] >= $this->getOption('min') && $values['size'] <= $this->getOption('max')){
 					$returnValue = true;
 				}
 			}else{

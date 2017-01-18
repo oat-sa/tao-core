@@ -3,7 +3,7 @@
  * @requires jquery
  * @requires core/pluginifier
  */
-define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
+define(['jquery', 'lodash', 'core/pluginifier', 'lib/gamp/gamp'], function($, _, Pluginifier, gamp){
     'use strict';
 
     var ns = 'incrementer';
@@ -81,24 +81,24 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                             //debounce the keyup callback to give the user a chance to complete an invalid state
                             //(for instance, while taping an negative value)
                             .on('keyup', _.debounce(function(){
-                                
+
                                 var value = $elt.val(),
                                     negative = (value.charAt(0) === '-'),
                                     options = $elt.data(dataNs);
-                                
-                                //sanitize the string by removing all invalid characters
-                                value = parseFloat(value.replace(/[\D]/g, ''));
-                                
+
+                                //sanitize the string by removing all invalid characters (only allow digit and dot)
+                                value = parseFloat(value.replace(/[^\d\.]/g, ''));
+
                                 if(isNaN(value)){
-                                    
+
                                     //allow empty input
                                     $elt.val('');
-                                    
+
                                 }else{
-                                    
+
                                     //allow negative values
                                     value = negative ? -value : value;
-                                    
+
                                     //check if the min and max are respected:
                                     if(options.min === null || (_.isNumber(options.min) && value >= options.min) || (options.zero===true && value===0)){
                                         $elt.val(value);
@@ -112,25 +112,34 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                                         $elt.val(options.max);
                                     }
                                 }
+
+                                //trigger change again after the input has been corrected
+                                $elt.trigger('change');
                                 
                             }, 600))
                             .on('focus', function(){
                                 this.select();
                             })
                             .on('disable.incrementer', function(){
-                                $ctrl.find('.inc,.dec').prop('disabled', true)
+                                $elt.prop('disabled', true)
+                                    .addClass('disabled');
+                                $ctrl.find('.inc,.dec')
+                                    .prop('disabled', true)
                                     .addClass('disabled');
                             })
                             .on('enable.incrementer', function(){
-                                $ctrl.find('.inc,.dec').prop('disabled', false)
+                                $elt.prop('disabled', false)
+                                    .removeClass('disabled');
+                                $ctrl.find('.inc,.dec')
+                                    .removeProp('disabled')
                                     .removeClass('disabled');
                             });
 
                         //set up the default value if needed
-                        if( _.isNaN(currentValue) || 
-                            (options.min !== null && currentValue < options.min) || 
+                        if( _.isNaN(currentValue) ||
+                            (options.min !== null && currentValue < options.min) ||
                             (options.max !== null && currentValue > options.max)){
-                            
+
                             $elt.val(options.min || 0);
                         }
 
@@ -182,18 +191,10 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         _inc : function($elt){
 
             var options = $elt.data(dataNs),
-                currentFloat = parseFloat($elt.val()||0),
-                stepDecimal = Incrementer._decimalPlaces(options.step),
-                current,
+                current = parseFloat($elt.val()||0),
                 value;
 
-            if(Incrementer._decimalPlaces(currentFloat) > stepDecimal){
-                current = Incrementer._toFixedDown(currentFloat, stepDecimal);
-            }else{
-                current = parseFloat(currentFloat.toFixed(options.decimal));
-            }
-
-            value = current + options.step;
+            value = gamp.add(current, options.step);
             if (_.isNumber(options.min) && value < options.min) {
                 value = options.min;
             }
@@ -218,17 +219,10 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         _dec : function($elt){
 
             var options = $elt.data(dataNs),
-                currentFloat = parseFloat($elt.val()||0),
-                stepDecimal = Incrementer._decimalPlaces(options.step),
-                current,
+                current = parseFloat($elt.val()||0),
                 value;
 
-            if(Incrementer._decimalPlaces(currentFloat) > stepDecimal){
-                value = Math.floor(currentFloat * Math.pow(10, stepDecimal)) / Math.pow(10, stepDecimal);
-            }else{
-                current = parseFloat(currentFloat.toFixed(options.decimal));
-                value = current - options.step;
-            }
+            value = gamp.sub(current, options.step);
 
             if(options.zero===true && _.isNumber(options.min) && value < options.min) {
                 value = 0;
@@ -265,7 +259,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                 $elt.trigger('destroy.' + ns);
             });
         },
-            
+
 
     };
 

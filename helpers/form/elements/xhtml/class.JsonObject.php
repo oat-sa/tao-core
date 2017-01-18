@@ -18,14 +18,15 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * An XHTML Form Element enabling the edition of JSON strings.
- *
  */
-class tao_helpers_form_elements_xhtml_JsonObject
-    extends tao_helpers_form_elements_JsonObject
+class tao_helpers_form_elements_xhtml_JsonObject extends tao_helpers_form_elements_JsonObject
 {
+    use XhtmlRenderingTrait;
+
     /**
      * Render the JSON String as a collection of key/value pairs
      *
@@ -33,13 +34,7 @@ class tao_helpers_form_elements_xhtml_JsonObject
      */
     public function render()
     {
-        $returnValue = '';
-		
-		if (!isset($this->attributes['noLabel'])) {
-			$returnValue .= "<label class=\"form_desc\" for=\"{$this->name}\">" . _dh($this->getDescription()) . "</label>";
-		} else {
-			unset($this->attributes['noLabel']);
-		}
+        $returnValue = $this->renderLabel();
         
         if (empty($this->value) === true) {
             // @todo should be in a blue info box.
@@ -50,7 +45,7 @@ class tao_helpers_form_elements_xhtml_JsonObject
         } else {
             // Valid JSON to be displayed.
             $returnValue .= "<ul class=\"json-object-list\">";
-
+            
             foreach ($jsonObject as $jsonKey => $jsonValue) {
                 $returnValue .= "<li>";
                 
@@ -62,7 +57,7 @@ class tao_helpers_form_elements_xhtml_JsonObject
             
             $returnValue .= "</ul>\n";
         }
-		
+        
         return $returnValue;
     }
 }

@@ -20,7 +20,6 @@
 
 namespace oat\tao\model\lock\implementation;
 
-use oat\oatbox\Configurable;
 use \oat\tao\model\lock\LockSystem;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
@@ -28,15 +27,14 @@ use common_Exception;
 use common_exception_InconsistentData;
 use common_exception_Unauthorized;
 use oat\tao\model\lock\ResourceLockedException;
-
-
+use oat\oatbox\service\ConfigurableService;
 /**
  * Implements Lock using a basic property in the ontology storing the lock data
  *
  * @note It would be preferably static but we may want to have the polymorphism on lock but it would be prevented by explicit class method static calls.
  * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
  */
-class OntoLock extends Configurable
+class OntoLock extends ConfigurableService
     implements LockSystem
 
 {

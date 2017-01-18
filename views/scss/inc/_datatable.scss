@@ -45,10 +45,9 @@
             }
         }
     }
-    .pagination {
-        &.bottom {
-            margin-top: 20px;
-        }
+    .datatable-pagination-bottom,
+    .datatable-pagination-top {
+        overflow-x: hidden;
     }
 }
 .datatable-container {
@@ -58,6 +57,7 @@ table.datatable{
     &.matrix {
         th {
             vertical-align: top;
+            padding: 2px 2px;
         }
         tr.selected {
             background: $darkBlueGrey;
@@ -71,26 +71,39 @@ table.datatable{
     }
     th{
         cursor: not-allowed;
-        [data-sort-by]{
+        .sortable, .sorted {
             cursor: pointer;
-        }
-        .sorted{
+            position: relative;
+            padding-right: 20px;
             &:after{
-                float:right;
-            }
-            &.sorted_asc::after{
                 @include tao-icon-setup;
-                @include icon-down;
+                position: absolute;
+                right: 5px;
+                color: $uiClickableActiveBg;
             }
-            &.sorted_desc::after{
-                @include tao-icon-setup;
-                @include icon-up;
+            &:hover,&:active,&:focus {
+               &:after {
+                 color: $uiClickableHoverBg;
+               }
             }
+        }
+        .sortable:after {
+            @include icon-spinner;
+            top: 3px;
+        }
+        .sorted.sorted_asc:after{
+            @include icon-down;
+        }
+        .sorted.sorted_desc:after{
+            @include icon-up;
         }
     }
     tr{
         &.selected {
             background: $darkBlueGrey;
+        }
+        &.highlight {
+            background-color: $warningBgColor !important;
         }
     }
     th,

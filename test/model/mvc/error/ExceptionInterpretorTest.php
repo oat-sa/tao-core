@@ -110,6 +110,7 @@ class ExceptionInterpretorTest extends TaoPhpUnitTestRunner
         $expected        = 'oat\\tao\\model\\mvc\\error\\' . $fixtureClass;
         
         $ExceptionInterpretor = new ExceptionInterpretor();
+        $ExceptionInterpretor->setServiceLocator($this->getServiceManagerProphecy());
         $this->setInaccessibleProperty($ExceptionInterpretor, 'responseClassName' , $fixtureClass);
         $this->setInaccessibleProperty($ExceptionInterpretor, 'returnHttpCode' , $fixtureHttpCode);
         $this->setInaccessibleProperty($ExceptionInterpretor, 'trace' , 'trace');

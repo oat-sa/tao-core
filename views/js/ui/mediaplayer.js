@@ -96,6 +96,13 @@ define([
     var _volumeRange = _volumeMax - _volumeMin;
 
     /**
+     * Threshold (minium requires space above the player) to display the volume
+     * above the bar.
+     * @type {Number}
+     */
+    var volumePositionThreshold = 150;
+
+    /**
      * Some default values
      * @type {Object}
      * @private
@@ -401,7 +408,7 @@ define([
 
             $elem = $(elem);
 
-            new YT.Player($elem.get(0), {
+            new window.YT.Player($elem.get(0), {
                 height: $elem.width(),
                 width: $elem.height(),
                 videoId: $elem.data('videoId'),
@@ -1559,18 +1566,20 @@ define([
             this.config.is = {};
             this._initType();
 
-            this.$component = null;
-            this.$container = null;
-            this.$player = null;
-            this.$media = null;
-            this.$controls = null;
-            this.$seek = null;
-            this.$seekSlider = null;
-            this.$volume = null;
-            this.$volumeSlider = null;
-            this.$position = null;
-            this.$duration = null;
-            this.player = null;
+            this.$component     = null;
+            this.$container     = null;
+            this.$player        = null;
+            this.$media         = null;
+            this.$controls      = null;
+            this.$seek          = null;
+            this.$seekSlider    = null;
+            this.$sound         = null;
+            this.$volume        = null;
+            this.$volumeControl = null;
+            this.$volumeSlider  = null;
+            this.$position      = null;
+            this.$duration      = null;
+            this.player         = null;
 
             this.duration = 0;
             this.position = 0;
@@ -1592,12 +1601,14 @@ define([
             this.$media = this.$component.find('.media');
             this.$controls = this.$component.find('.controls');
 
-            this.$seek = this.$controls.find('.seek .slider');
-            this.$volume = this.$controls.find('.volume .slider');
-            this.$position = this.$controls.find('[data-control="time-cur"]');
-            this.$duration = this.$controls.find('[data-control="time-end"]');
+            this.$seek          = this.$controls.find('.seek .slider');
+            this.$sound         = this.$controls.find('.sound');
+            this.$volumeControl = this.$controls.find('.volume');
+            this.$volume        = this.$controls.find('.volume .slider');
+            this.$position      = this.$controls.find('[data-control="time-cur"]');
+            this.$duration      = this.$controls.find('[data-control="time-end"]');
 
-            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, this.is('video'));
+            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, true);
         },
 
         /**
@@ -1632,7 +1643,7 @@ define([
                     min: _ensureNumber(min) || 0,
                     max : _ensureNumber(max) || 0
                 }
-            })
+            });
         },
 
         /**
@@ -1652,6 +1663,7 @@ define([
          */
         _bindEvents : function _bindEvents() {
             var self = this;
+            var overing = false;
 
             this.$component.on('contextmenu' + _ns, function(event) {
                 event.preventDefault();
@@ -1683,6 +1695,29 @@ define([
                 self.unmute();
                 self.setVolume(value, true);
             });
+            this.$sound.on('mouseover' + _ns, 'a', function(){
+                var position;
+
+                if(!overing && !self.$volumeControl.hasClass('up') && !self.$volumeControl.hasClass('down')) {
+                    overing = true;
+                    position = self.$controls[0].getBoundingClientRect();
+                    if(position && position.y && position.y < volumePositionThreshold){
+                        self.$volumeControl.addClass('down');
+                    } else {
+                        self.$volumeControl.addClass('up');
+                    }
+
+                    //close the volume control after 15s
+                    _.delay(function(){
+                        self.$volumeControl.removeClass('up down');
+                        overing = false;
+                    }, 15000);
+                    self.$volumeControl.one('mouseleave' + _ns, function(){
+                        self.$volumeControl.removeClass('up down');
+                        overing = false;
+                    });
+                }
+            });
         },
 
         /**
@@ -1696,6 +1731,7 @@ define([
             this.$seek.off(_ns);
             this.$volume.off(_ns);
         },
+
 
         /**
          * Updates the volume slider
