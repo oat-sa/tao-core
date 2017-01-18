@@ -40,14 +40,14 @@ class ExtractCsvDuplicates implements Action
         if ($sourceFp === false) {
             return new \common_report_Report(
                 \common_report_Report::TYPE_ERROR,
-                "Source file '" . realpath($source) . "' could not be open."
+                "Source file '" . $source . "' could not be open."
             );
         }
         
         if ($destinationFp === false) {
             return new \common_report_Report(
                 \common_report_Report::TYPE_ERROR,
-                "Destination file '" . realpath($source) . "' could not be open."
+                "Destination file '" . $source . "' could not be open."
             );
         }
         
