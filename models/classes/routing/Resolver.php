@@ -100,7 +100,7 @@ class Resolver
         $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
         $installed = \common_ext_ExtensionsManager::singleton()->getInstalledExtensionsIds();
         if (is_array($installed)) {
-            foreach (array_keys($installed) as $extId) {
+            foreach ($installed as $extId) {
                 $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById($extId);
                 foreach ($this->getRoutes($extension) as $entry) {
                     $route = $entry['route'];
