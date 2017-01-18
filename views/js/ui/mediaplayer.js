@@ -1948,7 +1948,7 @@ define([
             } else if (this.loop) {
                 this.restart();
 
-            } else if (this.config.replayTimeout > 0) {
+            } else if (parseInt(this.config.replayTimeout, 10) > 0) {
                 this.replayTimeoutStartMs = new window.Date().getTime();
                 this._replayTimeout();
             }
@@ -1984,7 +1984,7 @@ define([
 
             this.timerId = requestAnimationFrame(this._replayTimeout.bind(this));
 
-            if (elapsedSeconds >= this.config.replayTimeout) {
+            if (elapsedSeconds >= parseInt(this.config.replayTimeout, 10)) {
                 this._disableGUI();
                 this.disable();
                 cancelAnimationFrame(this.timerId);
