@@ -21,12 +21,12 @@
  *
  * Logger API, highly inspired from https://github.com/trentm/node-bunyan
  *
- * TODO sprintf like messages
- * TODO
- *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash'], function(_){
+define([
+    'lodash',
+    'core/format'
+], function(_, format){
     'use strict';
 
     var defaultLevel = 'info';
@@ -40,68 +40,146 @@ define(['lodash'], function(_){
         trace : 10  // Logging from external libraries used by your app or very detailed application logging.
     };
 
+    /**
+     * Major version of the node-bunyan package (for compat)
+     */
+    var bunyanVersion = 0;
+
     var logQueue = [];
+
+    var getLevel = function getLevel(level){
+        if(_.isString(level) && !_.has(levels, level)){
+            return defaultLevel;
+        }
+        if(_.isNumber(level)){
+            return _.findKey(levels, function(l){
+                return l === level;
+            }) || defaultLevel;
+        }
+        return level;
+    };
+
+    var getLevelNum = function getLevelNum(level){
+        if(_.isString(level) && _.has(levels, level)){
+            return levels[level];
+        }
+        if(_.isNumber(level) && _.contains(levels, level)){
+            return level;
+        }
+        return levels[defaultLevel];
+    };
+
+    var checkMinLevel = function checkMinLevel(minLevel, level) {
+        return getLevelNum(level) >= getLevelNum(minLevel);
+    };
 
     /**
      * Creates a logger instance
-     * @param {loggerProvider} provider - the logger provider
-     * @param {String} [context] - add a context in all logged messages
+     *
+     *
      * @returns {logger} a new logger instance
      */
-    var loggerFactory = function loggerFactory(context){
+    var loggerFactory = function loggerFactory(name, minLevel, fields){
 
+        var baseRecord;
+        var logger;
+        var hasMinLevel;
+
+        if(!_.isString(name) || _.isEmpty(name)){
+            throw new TypeError('A logger need a name');
+        }
+
+        baseRecord = _.defaults(fields || {}, {
+            name     : name,
+            pid      : 1,    // only for compatk
+            hostname : navigator.userAgent
+        });
+
+        hasMinLevel = _.partial(checkMinLevel, getLevelNum(minLevel));
 
         /**
          * Exposes a log method and one by log level, like logger.trace()
          *
          * @typedef logger
          */
-        var logger = {
+        logger = {
+
 
             /**
              * Log messages by delegating to the provider
              *
-             * @param {String|Number} [level] - the log level
+             * @param {String|Number} level - the log level
              * @param {...String} messages - the messages
              * @returns {logger} chains
              */
-            log : function log(level){
-                var messages;
-                var stack;
-                var time = Date.now();
+            log : function log(level, recordFields, message){
 
-                //extract arguments : optional level and messages
-                if(_.isString(level) && !_.isNumber(levels[level])){
-                    messages = [].slice.call(arguments);
-                    level = defaultLevel;
-                }
-                if(_.isNumber(level)){
-                    level = _.findKey(levels, function(l){
-                        return l === level;
-                    }) || defaultLevel;
+                var record;
+                var err;
+                var rest = [];
+                var time = new Date().toISOString();
+
+                if(!hasMinLevel(level)){
+                    return;
                 }
 
-                if(!messages){
-                    messages = [].slice.call(arguments, 1);
+                if(_.isString(recordFields) || recordFields instanceof Error){
+                    message = recordFields;
+                    recordFields = {};
+                    rest = [].slice.call(arguments, 2);
+                } else {
+                    rest = [].slice.call(arguments, 3);
                 }
 
-                if(levels[level] >= levels.error){
-                    stack = new Error().stack || 'no stack infos';
+                record = {
+                    level : getLevel(level),
+                    v     : bunyanVersion,
+                    time  : time
+                };
+
+                if(checkMinLevel(levels.error, level) || message instanceof Error){
+                    err = message instanceof Error ? message : new Error(message);
+
+                    record.msg = err.message;
+                    record.err = {
+                        name : err.name,
+                        message : err.message,
+                        stack : err.stack
+                    };
+
+                } else {
+                    record.msg = format.apply(null, [message].concat(rest));
                 }
 
-                //push the message to the queue
-                logQueue.push({
-                    time     : time,
-                    level    : level,
-                    messages : messages,
-                    context  : context,
-                    stack    : stack
-                });
+                _.merge(record, recordFields, baseRecord);
+
+                logQueue.push(record);
 
                 this.flush();
 
                 return this;
             },
+
+            /**
+             * Get/set the default level of the logger
+             * @param {String|Number} [level] - set the default level
+             * @returns {Number|logger} the default level as a getter or chains as a setter
+             */
+            level : function(value){
+                if(typeof value === 'undefined'){
+                    //update the partial function
+                    minLevel = getLevelNum(value);
+                    hasMinLevel = _.partial(checkMinLevel, minLevel);
+                    return this;
+                }
+                return minLevel;
+            },
+
+            child : function child(fields){
+
+            },
+
+
 
             /**
              * Flush the message queue if there's at least on provider
@@ -143,6 +221,12 @@ define(['lodash'], function(_){
         this.providers = this.providers || [];
         this.providers.push(provider);
     };
+
+    /**
+     * Exposes the levels
+     * @type {Object}
+     */
+    loggerFactory.levels = levels;
 
     return loggerFactory;
 });
