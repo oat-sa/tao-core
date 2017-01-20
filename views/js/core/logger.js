@@ -32,30 +32,21 @@ define([
     'module',
     'core/logger/api',
     'core/logger/console'
-], function(_, module, loggerApi, consoleLogger){
+], function(_, module, loggerFactory, consoleLogger){
     'use strict';
 
     //the logger providers are configured through the AMD module config
     var config = module.config();
     if(_.isArray(config.loggers) && config.loggers.length){
 
-        //we can load the loggers dynamically
-        require(config.loggers, function(){
-            var loggerProviders = [].slice.call(arguments);
-            _.forEach(loggerProviders, function (provider){
-                loggerApi.register(provider);
-            });
-
-            //flush messages that arrived before the providers are there
-            loggerApi.flush();
-        });
+        loggerFactory.load(config.loggers);
 
     } else {
 
         //defaults to the console provider
-        loggerApi.register(consoleLogger);
+        loggerFactory.register(consoleLogger);
     }
 
     //exposes the API
-    return loggerApi;
+    return loggerFactory;
 });
