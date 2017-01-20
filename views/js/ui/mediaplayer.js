@@ -1973,7 +1973,7 @@ define([
          */
         _replayTimeout : function _replayTimeout() {
             var nowMs = new window.Date().getTime(),
-                elapsedSeconds = ((nowMs - this.replayTimeoutStartMs) / 1000).toFixed(0);
+                elapsedSeconds = Math.floor((nowMs - this.replayTimeoutStartMs) / 1000);
 
             this.timerId = requestAnimationFrame(this._replayTimeout.bind(this));
 
