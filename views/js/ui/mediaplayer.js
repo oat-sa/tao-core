@@ -96,13 +96,6 @@ define([
     var volumePositionThreshold = 150;
 
     /**
-     * The polling interval used to update the progress bar while playing a YouTube video.
-     * Note : the YouTube API does not provide events to update this progress bar...
-     * @type {Number}
-     */
-    var youtubePolling = 100;
-
-    /**
      * Some default values
      * @type {Object}
      * @private
@@ -577,7 +570,7 @@ define([
                 startPolling : function _youtubePlayerStartPolling() {
                     interval = setInterval(function() {
                         mediaplayer._onTimeUpdate();
-                    }, youtubePolling);
+                    }, mediaplayerFactory.youtubePolling);
                 },
 
                 destroy : function _youtubePlayerDestroy() {
@@ -2178,6 +2171,13 @@ define([
     mediaplayerFactory.canControl = function canControl() {
         return _support.canControl();
     };
+
+    /**
+     * The polling interval used to update the progress bar while playing a YouTube video.
+     * Note : the YouTube API does not provide events to update this progress bar...
+     * @type {Number}
+     */
+    mediaplayerFactory.youtubePolling = 100;
 
     return mediaplayerFactory;
 });
