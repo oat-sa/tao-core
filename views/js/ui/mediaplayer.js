@@ -519,7 +519,7 @@ define([
                             // install debug logger
                             loopEvents(function(ev) {
                                 media.addEventListener(ev, function(e) {
-                                    console.log(ev, e); // eslint-disable-line no-console
+                                    window.console.log(ev, e);
                                 });
                             });
                         }
@@ -779,7 +779,7 @@ define([
                             // install debug logger
                             _.forEach(['abort', 'canplay', 'canplaythrough', 'canshowcurrentframe', 'dataunavailable', 'durationchange', 'emptied', 'empty', 'ended', 'error', 'loadedfirstframe', 'loadedmetadata', 'loadstart', 'pause', 'play', 'progress', 'ratechange', 'seeked', 'seeking', 'suspend', 'timeupdate', 'volumechange', 'waiting'], function(ev) {
                                 $media.on(ev + _ns, function(e) {
-                                    console.log(e.type, $media && $media.find('source').attr('src'), media && media.networkState); // eslint-disable-line no-console
+                                    window.console.log(e.type, $media && $media.find('source').attr('src'), media && media.networkState);
                                 });
                             });
                         }
