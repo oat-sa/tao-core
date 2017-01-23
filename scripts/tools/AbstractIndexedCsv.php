@@ -21,7 +21,7 @@
 namespace oat\tao\scripts\tools;
 
 use oat\oatbox\action\Action;
-use \common_report_Report;
+use \common_report_Report as Report;
 
 abstract class AbstractIndexedCsv implements Action
 {
@@ -74,7 +74,7 @@ abstract class AbstractIndexedCsv implements Action
         if ($sourceFp === false) {
             return new \common_report_Report(
                 \common_report_Report::TYPE_ERROR,
-                "Source file '" . $source . "' could not be open."
+                "Source file '" . $this->getSource() . "' could not be open."
             );
         } else {
             $this->setSourceFp($sourceFp);
@@ -83,7 +83,7 @@ abstract class AbstractIndexedCsv implements Action
         if ($destinationFp === false) {
             return new \common_report_Report(
                 \common_report_Report::TYPE_ERROR,
-                "Destination file '" . $source . "' could not be open."
+                "Destination file '" . $this->getDestination() . "' could not be open."
             );
         } else {
             $this->setDestinationFp($destinationFp);
@@ -103,7 +103,7 @@ abstract class AbstractIndexedCsv implements Action
         
         // -- Deal with reports.
         $report = new Report(
-            Report_TYPE::INFO,
+            Report::TYPE_INFO,
             "Unknown status."
         );
         
@@ -150,9 +150,19 @@ abstract class AbstractIndexedCsv implements Action
         $this->source = $source;
     }
     
+    protected function getSource()
+    {
+        return $this->source;
+    }
+    
     protected function setDestination($destination)
     {
         $this->destination = $destination;
+    }
+    
+    protected function getDestination()
+    {
+        return $this->destination;
     }
     
     protected function setSourceFp($sourceFp)
@@ -230,7 +240,7 @@ abstract class AbstractIndexedCsv implements Action
         $this->setIndex($index);
         
         return new Report(
-            Report::TYPE_SUCCESS,
+            Report::TYPE_INFO,
             count($index) . " rows indexed."
         );
     }

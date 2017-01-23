@@ -20,7 +20,7 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report;
+use \common_report_Report as Report;
 
 class ExtractCsvDuplicates extends AbstractIndexedCsv
 {
@@ -51,7 +51,7 @@ class ExtractCsvDuplicates extends AbstractIndexedCsv
         
         return new Report(
             Report::TYPE_INFO,
-            "${duplicateCount} duplicate records extracted in file '" . realpath($destination) . "'."
+            "${duplicateCount} duplicate records extracted in file '" . realpath($this->getDestination()) . "'."
         );
     }
 }
