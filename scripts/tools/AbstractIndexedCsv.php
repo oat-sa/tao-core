@@ -83,26 +83,19 @@ abstract class AbstractIndexedCsv implements Action
             $this->setFirstRowColumnNames(boolval($params[3]));
         }
         
-        // -- Deal with file handling.
-        $sourceFp = @fopen($this->getSource(), 'r');
-        $destinationFp = @fopen($this->getDestination(), 'w');
+        // -- Initial report.
+        $report = new Report(
+            Report::TYPE_INFO,
+            "Unknown status."
+        );
         
-        if ($sourceFp === false) {
-            return new \common_report_Report(
-                \common_report_Report::TYPE_ERROR,
-                "Source file '" . $this->getSource() . "' could not be open."
-            );
-        } else {
-            $this->setSourceFp($sourceFp);
-        }
+        $report->add($this->beforeProcess());
         
-        if ($destinationFp === false) {
-            return new \common_report_Report(
-                \common_report_Report::TYPE_ERROR,
-                "Destination file '" . $this->getDestination() . "' could not be open."
-            );
-        } else {
-            $this->setDestinationFp($destinationFp);
+        if ($report->contains(Report::TYPE_ERROR)) {
+            $report->setType(Report::TYPE_ERROR);
+            $report->setMessage("The script terminated with errors.");
+            
+            return $report;
         }
         
         // -- Deal with headers.
@@ -115,15 +108,10 @@ abstract class AbstractIndexedCsv implements Action
             }
             
             $this->setHeaders($headers);
-            fputcsv($destinationFp, $headers);
+            fputcsv($this->getDestinationFp(), $headers);
         }
         
         // -- Deal with reports.
-        $report = new Report(
-            Report::TYPE_INFO,
-            "Unknown status."
-        );
-        
         $report->add($this->index());
         $report->add($this->process());
         $report->add($this->afterProcess());
@@ -133,7 +121,7 @@ abstract class AbstractIndexedCsv implements Action
             $report->setMessage("The script terminated with errors.");
         } elseif ($report->contains(REPORT::TYPE_WARNING)) {
             $report->setType(Report::TYPE_WARNING);
-            $report->setMessage("The script terminated with errors.");
+            $report->setMessage("The script terminated with warnings.");
         } else {
             $report->setType(Report::TYPE_SUCCESS);
             $report->setMessage("The script terminated gracefully!");
@@ -338,6 +326,45 @@ abstract class AbstractIndexedCsv implements Action
     protected function isFirstRowColumnNames()
     {
         return $this->firstRowColumnNames;
+    }
+    
+    /**
+     * Behaviour to be triggered at the beginning of the script.
+     * 
+     * This method contains the behaviours to be aplied at the very
+     * beginning of the script. In this abstract class, it opens the source
+     * and destination files. Implementors can override this method to add
+     * additional behaviours.
+     * 
+     * @return \common_report_Report
+     */
+    protected function beforeProcess()
+    {
+        // -- Deal with file handling.
+        $sourceFp = @fopen($this->getSource(), 'r');
+        $destinationFp = @fopen($this->getDestination(), 'w');
+        
+        if ($sourceFp === false) {
+            return new \common_report_Report(
+                \common_report_Report::TYPE_ERROR,
+                "Source file '" . $this->getSource() . "' could not be open."
+            );
+        } else {
+            $this->setSourceFp($sourceFp);
+        }
+        
+        if ($destinationFp === false) {
+            return new \common_report_Report(
+                \common_report_Report::TYPE_ERROR,
+                "Destination file '" . $this->getDestination() . "' could not be open."
+            );
+        } else {
+            $this->setDestinationFp($destinationFp);
+            return new \common_report_Report(
+                \common_report_Report::TYPE_SUCCESS,
+                "Source and destination files open."
+            );
+        }
     }
     
     /**
