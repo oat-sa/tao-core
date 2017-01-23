@@ -20,60 +20,19 @@
 
 namespace oat\tao\scripts\tools;
 
-use oat\oatbox\action\Action;
+use \common_report_Report;
 
-class ExtractCsvDuplicates implements Action
+class ExtractCsvDuplicates extends AbstractIndexedCsv
 {
-    public function __invoke($params)
+    protected function process()
     {
-        $source = $params[0];
-        $destination = $params[1];
-        $indexColumn = intval($params[2]);
-        $firstRowColumnNames = boolval($params[3]);
-        
-        // Index the file by ID.
-        $index = [];
-        
-        $sourceFp = @fopen($source, 'r');
-        $destinationFp = @fopen($destination, 'w');
-        
-        if ($sourceFp === false) {
-            return new \common_report_Report(
-                \common_report_Report::TYPE_ERROR,
-                "Source file '" . $source . "' could not be open."
-            );
-        }
-        
-        if ($destinationFp === false) {
-            return new \common_report_Report(
-                \common_report_Report::TYPE_ERROR,
-                "Destination file '" . $source . "' could not be open."
-            );
-        }
-        
-        // Pass trough first row if neeed.
-        if ($firstRowColumnNames) {
-            $headers = fgetcsv($sourceFp);
-        }
-        
-        while (!feof($sourceFp)) {
-            $position = ftell($sourceFp);
-            $sourceData = fgetcsv($sourceFp);
-            if($sourceData !== false && !isset($sourceData[$indexColumn])){
-                return new \common_report_Report(
-                    \common_report_Report::TYPE_ERROR,
-                    $indexColumn . " is not a valid offset for the source. It should be one of : ".implode(', ',array_keys($sourceData))
-                );
-            }
-            $index[$sourceData[$indexColumn]][] = $position;
-        }
-        
-        ksort($index);
-        
+        $sourceFp = $this->getSourceFp();
+        $destinationFp = $this->getDestinationFp();
+        $index = $this->getIndex();
         
         // Extract duplicates in a separate file.
-        if ($firstRowColumnNames) {
-            fputcsv($destinationFp, $headers);
+        if ($this->isFirstRowColumnNames()) {
+            fputcsv($destinationFp, $this->getHeaders());
         }
         
         $duplicateCount = 0;
@@ -90,8 +49,8 @@ class ExtractCsvDuplicates implements Action
             }
         }
         
-        return new \common_report_Report(
-            \common_report_Report::TYPE_INFO,
+        return new Report(
+            Report::TYPE_INFO,
             "${duplicateCount} duplicate records extracted in file '" . realpath($destination) . "'."
         );
     }
