@@ -374,10 +374,19 @@ abstract class AbstractIndexedCsv implements Action
         $sourceFp = $this->getSourceFp();
         $destinationFp = $this->getDestinationFp();
         $indexColumn = $this->getIndexColumn();
+        $scanCount = 0;
         
         while (!feof($sourceFp)) {
             $position = ftell($sourceFp);
             $sourceData = fgetcsv($sourceFp);
+            
+            if (empty($sourceData)) {
+                // End of file reached.
+                break;
+            }
+            
+            $scanCount++;
+            
             if($sourceData !== false && !isset($sourceData[$indexColumn])){
                 return new Report(
                     Report::TYPE_ERROR,
@@ -393,7 +402,7 @@ abstract class AbstractIndexedCsv implements Action
         
         return new Report(
             Report::TYPE_INFO,
-            count($index) . " unique values indexed."
+            $scanCount . " rows scanned for indexing. " . count($index) . " unique values indexed."
         );
     }
     
