@@ -42,6 +42,7 @@ abstract class AbstractIndexedCsv implements Action
     private $sourceFp;
     private $destinationFp;
     private $index;
+    private $params;
     
     /**
      * Script Invokation.
@@ -52,6 +53,7 @@ abstract class AbstractIndexedCsv implements Action
      */
     public function __invoke($params)
     {
+        $this->setParams($params);
         $this->setHeaders([]);
         $this->setFirstRowColumnNames(false);
         $this->setIndexColumn(0);
@@ -329,6 +331,30 @@ abstract class AbstractIndexedCsv implements Action
     }
     
     /**
+     * Set the parameters.
+     * 
+     * Set the initial parameters provided to the sript.
+     * 
+     * @param array $params
+     */
+    protected function setParams(array $params)
+    {
+        $this->params = $params;
+    }
+    
+    /**
+     * Get the parameters.
+     * 
+     * Gets the initial parameters provided to the script.
+     * 
+     * @return array
+     */
+    protected function getParams()
+    {
+        return $this->params;
+    }
+    
+    /**
      * Behaviour to be triggered at the beginning of the script.
      * 
      * This method contains the behaviours to be aplied at the very
@@ -345,8 +371,8 @@ abstract class AbstractIndexedCsv implements Action
         $destinationFp = @fopen($this->getDestination(), 'w');
         
         if ($sourceFp === false) {
-            return new \common_report_Report(
-                \common_report_Report::TYPE_ERROR,
+            return new Report(
+                Report::TYPE_ERROR,
                 "Source file '" . $this->getSource() . "' could not be open."
             );
         } else {
@@ -354,14 +380,14 @@ abstract class AbstractIndexedCsv implements Action
         }
         
         if ($destinationFp === false) {
-            return new \common_report_Report(
-                \common_report_Report::TYPE_ERROR,
+            return new Report(
+                Report::TYPE_ERROR,
                 "Destination file '" . $this->getDestination() . "' could not be open."
             );
         } else {
             $this->setDestinationFp($destinationFp);
-            return new \common_report_Report(
-                \common_report_Report::TYPE_SUCCESS,
+            return new Report(
+                Report::TYPE_SUCCESS,
                 "Source and destination files open."
             );
         }
