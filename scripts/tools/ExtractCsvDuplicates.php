@@ -22,8 +22,21 @@ namespace oat\tao\scripts\tools;
 
 use \common_report_Report as Report;
 
+/**
+ * Script to extract duplicate rows from an indexed CSV file.
+ * 
+ * The script enables you to extract duplicate entries in a CSV file.
+ */
 class ExtractCsvDuplicates extends AbstractIndexedCsv
 {
+    /**
+     * Duplicate extraction logic.
+     * 
+     * Extract duplicate rows from the source CSV file to the
+     * destination CSV file.
+     * 
+     * @see \oat\tao\scripts\tools\AbstractIndexedCsv
+     */
     protected function process()
     {
         $sourceFp = $this->getSourceFp();
