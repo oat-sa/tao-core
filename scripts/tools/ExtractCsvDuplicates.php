@@ -44,10 +44,6 @@ class ExtractCsvDuplicates extends AbstractIndexedCsv
         $index = $this->getIndex();
         
         // Extract duplicates in a separate file.
-        if ($this->isFirstRowColumnNames()) {
-            fputcsv($destinationFp, $this->getHeaders());
-        }
-        
         $duplicateCount = 0;
         foreach ($index as $identifier => $positions) {
             if (count($positions) > 1) {

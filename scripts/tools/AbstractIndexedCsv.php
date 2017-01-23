@@ -115,6 +115,7 @@ abstract class AbstractIndexedCsv implements Action
             }
             
             $this->setHeaders($headers);
+            fputcsv($destinationFp, $headers);
         }
         
         // -- Deal with reports.
@@ -392,7 +393,7 @@ abstract class AbstractIndexedCsv implements Action
         
         return new Report(
             Report::TYPE_INFO,
-            count($index) . " rows indexed."
+            count($index) . " unique values indexed."
         );
     }
     
