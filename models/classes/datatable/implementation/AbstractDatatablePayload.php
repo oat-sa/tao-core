@@ -134,8 +134,11 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
     {
         $rows = $this->getRows();
         $page = $this->getPage();
-        $queryBuilder->setLimit($rows);
-        $queryBuilder->setOffset(($page - 1) * $rows);
+
+        if ($rows > 0) {
+            $queryBuilder->setLimit($rows);
+            $queryBuilder->setOffset(($page - 1) * $rows);
+        }
     }
 
     /**
@@ -167,7 +170,9 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
             'data' => $result->getArrayCopy(),
             'page' => (integer) $this->getPage(),
             'records' => (integer) $result->count(),
-            'total' => ceil($result->total() / $this->getRows()),
+            'total' => $this->getRows() > 0
+                ? ceil($result->total() / $this->getRows())
+                : (integer) $result->count()
         ];
 
         return $this->fetchPropertyValues($payload);
@@ -256,13 +261,16 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
         foreach ($payload['data'] as $resource) {
             $resource = new \core_kernel_classes_Resource($resource->subject);
             $resourceData = $resource->getPropertiesValues($propertyMap);
-            $studentInfo = array_map(function($row) use($resourceData) {
-                return join(',', $resourceData[$row]);
+            $entityInfo = array_map(function($row) use($resourceData) {
+                $stringData = array_map(function($value){
+                    return ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string) $value;
+                }, $resourceData[$row]);
+                return join(',', $stringData);
             }, $propertyMap);
 
-            $studentInfo['uri'] = $resource->getUri();
-            $studentInfo['id'] = \tao_helpers_Uri::encode($resource->getUri());
-            $data[] = $studentInfo;
+            $entityInfo['uri'] = $resource->getUri();
+            $entityInfo['id'] = \tao_helpers_Uri::encode($resource->getUri());
+            $data[] = $entityInfo;
         }
         $payload['data'] = $data;
 

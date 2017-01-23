@@ -45,6 +45,10 @@
             }
         }
     }
+    .datatable-pagination-bottom,
+    .datatable-pagination-top {
+        overflow-x: hidden;
+    }
 }
 .datatable-container {
     overflow-y: auto;
@@ -70,6 +74,7 @@ table.datatable{
         .sortable, .sorted {
             cursor: pointer;
             position: relative;
+            padding-right: 20px;
             &:after{
                 @include tao-icon-setup;
                 position: absolute;

@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -67,6 +67,7 @@ use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\oatbox\task\TaskService;
+use oat\tao\model\i18n\ExtraPoService;
 
 /**
  *
@@ -603,11 +604,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.28.0');
         }
         $this->skip('7.28.0', '7.30.1');
-        
+
         if ($this->isVersion('7.30.1')) {
             /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
             $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
-            $routeService->setOption('logout', 
+            $routeService->setOption('logout',
                         [
                             'ext'        => 'tao',
                             'controller' => 'Main',
@@ -616,7 +617,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                         ]
                     );
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
-            
+
             $this->setVersion('7.31.0');
         }
 
@@ -637,13 +638,22 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.35.0');
         }
 
-        $this->skip('7.35.0', '7.36.2');
+        $this->skip('7.35.0', '7.46.0');
 
-        if ($this->isVersion('7.36.2')) {
+        if ($this->isVersion('7.46.0')) {
+
+            $this->getServiceManager()->register(ExtraPoService::SERVICE_ID, new ExtraPoService());
+
+            $this->setVersion('7.47.0');
+        }
+
+        $this->skip('7.47.0', '7.50.0');
+
+        if ($this->isVersion('7.50.0')) {
             $action = new AddTmpFsHandlers();
             $action->setServiceLocator($this->getServiceManager());
             $action->__invoke([]);
-            $this->setVersion('7.37.0');
+            $this->setVersion('7.51.0');
         }
     }
 

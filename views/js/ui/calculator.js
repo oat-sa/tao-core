@@ -19,15 +19,17 @@
  * @author Sam <sam@taotesting.com>
  */
 define([
+    'jquery',
     'lodash',
     'i18n',
     'ui/dynamicComponent',
     'lib/calculator/index'
-], function (_, __, dynamicComponent, calculatorBuild){
+], function ($, _, __, dynamicComponent, calculatorBuild){
     'use strict';
 
     var _defaults = {
         title : __('Calculator'),
+        preserveAspectRatio : false,
         width : 240,
         height : 360,
         minWidth : 150,
@@ -35,12 +37,17 @@ define([
     };
 
     /**
-     * The constant ratio to be applied to font size scaling during component resizing.
-     * It has been calculated to match a reference font-size of 10px when the width of the component is 240px.
-     * @type {number}
-     * @private
+     * Calculate the new font size according to the width and height ratio during component resizing.
+     * It has been calculated to match a reference font-size of 10px when the calculator content is 240px wide and 330 height.
+     * @param {Number} width
+     * @param {Number} height
+     * @returns {Number}
      */
-    var _fontSizeRatio = 10/240;
+    var computeFontSize = function computeFontSize(width, height){
+        var _fontSizeHeightRatio = 10/340;
+        var _fontSizeWidthRatio = 10/240;
+        return (width * _fontSizeWidthRatio + height * _fontSizeHeightRatio)/2;
+    };
 
     var calculator = {
         press : function press(key){
@@ -48,7 +55,55 @@ define([
             return this;
         }
     };
-    
+
+    /**
+     * Computes the ratio between width and height of the applied font family.
+     * @param {jQuery} $element
+     * @returns {Number}
+     */
+    function getFontRatio($element) {
+        var $sample = $('<div />').text('0').css({
+            'font-family': $element.css('font-family'),
+            'font-size': '10px',
+            'line-height': '10px',
+            'position': 'absolute',
+            'padding': '0',
+            'top': -1000,
+            'left': -1000
+        }).appendTo('body');
+
+        var fontRatio = $sample.height() / $sample.width();
+
+        $sample.remove();
+
+        return fontRatio;
+    }
+
+    /**
+     * Adjust the font size of the parent element will automatically scale the font-size of the children proportionally
+     * @param {jQuery} $text
+     * @param {Number} fontRatio
+     * @param {Number} fontSize
+     */
+    function adjustFontSize($text, fontRatio, fontSize) {
+        var width = $text.width();
+        var height = $text.height();
+        var charWidth = fontSize / fontRatio;
+        var len;
+
+        if ($text.is(':input')) {
+            len = $text.val().length;
+
+            if (len * charWidth >= width) {
+                fontSize = Math.max(height / 4, Math.min(width / len * (fontRatio || 1.6), fontSize));
+            }
+        } else {
+            fontSize = computeFontSize(width, height);
+        }
+
+        $text.css('fontSize', fontSize);
+    }
+
     /**
      * Builds an instance of the calculator component
      * @param {Object} config
@@ -68,14 +123,23 @@ define([
      * @param {Number} [config.left] - the initial position left absolute to the windows
      * @returns {calculator}
      */
-    var calculatorFactory = function calculatorFactory(config){
+    function calculatorFactory(config){
 
         config = _.defaults(config || {}, _defaults);
 
         return dynamicComponent(calculator)
             .on('rendercontent', function ($content){
+                var $input, self = this;
+
                 //init the calculator
                 this.calc = calculatorBuild.init($content);
+
+                $input = $content.find('input.calcDisplay').on('change', function(){
+                    adjustFontSize($input, self.fontRatio, self.fontSize);
+                });
+
+                this.fontSize = parseFloat($input.css('font-size'));
+                this.fontRatio = getFontRatio($input);
             })
             .after('show', function (){
                 var self = this;
@@ -93,13 +157,9 @@ define([
             })
             .on('resize', function(){
                 var $element = this.getElement();
-                var width;
-                var $form;
                 if($element){
-                    $form = $element.find('form');
-                    width = $form.width();
-                    //adjust the font size of the parent element will automatically scale the font-size of the children proportionally
-                    $form.css('fontSize', width * _fontSizeRatio);
+                    adjustFontSize($element.find('form'), this.fontRatio, this.fontSize);
+                    adjustFontSize($element.find('input.calcDisplay'), this.fontRatio, this.fontSize);
                 }
             })
             .on('destroy', function (){
@@ -107,7 +167,7 @@ define([
                     this.calc.remove();
                 }
             }).init(config);
-    };
+    }
 
     return calculatorFactory;
 });

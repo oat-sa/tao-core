@@ -24,8 +24,10 @@ define([
     'interact',
     'ui/component',
     'ui/transformer',
+    'util/position',
+    'lib/uuid',
     'tpl!ui/dynamicComponent/layout'
-], function ($, _, interact, component, transformer, layoutTpl){
+], function ($, _, interact, component, transformer, position, uuid, layoutTpl){
     'use strict';
 
     var _defaults = {
@@ -167,6 +169,9 @@ define([
 
         return component(specs, defaults)
             .setTemplate(layoutTpl)
+            .on('init', function(){
+                this.id = uuid();
+            })
             .on('render', function (){
 
                 var self            = this;
@@ -175,6 +180,7 @@ define([
                 var $content        = $('.dynamic-component-content', $element);
                 var $titleBar       = $('.dynamic-component-title-bar', $element);
                 var $contentOverlay = $('.dynamic-component-layer', $element);
+                var pixelRatio      = window.devicePixelRatio;
                 var interactElement;
 
                 //keeps moving/resizing positions data
@@ -211,7 +217,6 @@ define([
                 interactElement = interact($element[0]);
                 if(config.draggable){
 
-
                     interactElement.draggable({
                         inertia : false,
                         autoScroll : true,
@@ -219,13 +224,7 @@ define([
                         restrict : _.merge(getRestriction(), {
                             elementRect: { left: 0, right: 1, top: 0, bottom: 1 }
                         }),
-                        onmove : _moveItem,
-                        onstart: function () {
-                            $contentOverlay.addClass('dragging-active');
-                        },
-                        onend: function () {
-                            $contentOverlay.removeClass('dragging-active');
-                        }
+                        onmove : _moveItem
                     });
 
                     //manually start interactjs draggable on the handle
@@ -246,6 +245,21 @@ define([
                         interactElement,
                         $element[0]);
                     });
+
+                    $(window).on('resize.dynamic-component-' + self.id, function(){
+                        var container;
+
+                        //on browser zoom, reset the position to prevent having
+                        //the component pushed outside it's container
+                        if(window.devicePixelRatio !== pixelRatio ) {
+                            pixelRatio = window.devicePixelRatio;
+
+                            container = getDraggableContainer();
+                            if( position.isInside(container, $element[0]) === false ){
+                                self.resetPosition();
+                            }
+                        }
+                    });
                 }
                 if(config.resizable){
 
@@ -254,21 +268,27 @@ define([
                         autoScroll : true,
                         restrict : getRestriction(),
                         edges : {left : true, right : true, bottom : true, top : true},
-                        onmove : _resizeItem,
-                        onstart: function () {
-                            $contentOverlay.addClass('dragging-active');
-                        },
-                        onend: function () {
-                            $contentOverlay.removeClass('dragging-active');
-                        }
+                        onmove : _resizeItem
                     });
                 }
 
-                function getRestriction(){
-                    var draggableContainer = config.draggableContainer;
-                    if(draggableContainer instanceof $ && draggableContainer.length){
-                        draggableContainer = draggableContainer[0];
+                interactElement
+                    .on('dragstart resizeinertiastart resizestart', function() {
+                        $contentOverlay.addClass('dragging-active');
+                    })
+                    .on('dragend resizeend', function(){
+                        $contentOverlay.removeClass('dragging-active');
+                    });
+
+                //interact sometimes doesn't trigger the start event if the move is quick and ends over an iframe...
+                $element.on('mousedown', function(){
+                    if(/\-resize/.test($('html').css('cursor')) && ! $contentOverlay.hasClass('dragging-active')){
+                        $contentOverlay.addClass('dragging-active');
                     }
+                });
+
+                function getRestriction(){
+                    var draggableContainer = getDraggableContainer();
                     if(!draggableContainer) {
                         return {
                             restriction : 'parent',
@@ -279,6 +299,14 @@ define([
                         restriction : draggableContainer,
                         endOnly : false
                     };
+                }
+
+                function getDraggableContainer(){
+                    var draggableContainer = config.draggableContainer;
+                    if(draggableContainer instanceof $ && draggableContainer.length){
+                        draggableContainer = draggableContainer[0];
+                    }
+                    return draggableContainer;
                 }
 
                 /**
@@ -317,6 +345,7 @@ define([
                     self.position.width          = width;
                     self.position.height         = height;
 
+
                     transformer.translate($element, self.position.x, self.position.y);
 
                     $element.css({
@@ -336,6 +365,9 @@ define([
                         self.trigger('resize', self.position);
                     });
                 }
+            })
+            .on('destroy', function(){
+                $(window).off('resize.dynamic-component-' + this.id);
             });
     };
 
