@@ -22,6 +22,7 @@
 namespace oat\tao\model\asset;
 
 use oat\oatbox\service\ConfigurableService;
+use Jig\Utils\FsUtils;
 
 /**
  * Asset service to retrieve assets easily based on a config
@@ -34,7 +35,7 @@ class AssetService extends ConfigurableService
 
     public function getAsset($asset, $extensionId)
     {
-        return $this->getJsBaseWww($extensionId) . $asset;
+        return $this->getJsBaseWww($extensionId) . FsUtils::normalizePath($asset);
     }
 
     public function getJsBaseWww($extensionId)
