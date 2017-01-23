@@ -102,7 +102,7 @@ abstract class AbstractIndexedCsv implements Action
         
         // -- Deal with headers.
         if ($this->isFirstRowColumnNames()) {
-            $headers = @fgetcsv($sourceFp);
+            $headers = fgetcsv($this->getSourceFp());
             
             // Might return NULL or FALSE.
             if (empty($headers)) {
