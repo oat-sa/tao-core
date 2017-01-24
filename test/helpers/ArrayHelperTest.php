@@ -24,16 +24,17 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 
 class ArrayHelperTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * @dataProvider arrayProvider
      */
-    public function testArrayUnique($testArray, $expectedArray){
+    public function testArrayUnique($testArray, $expectedArray)
+    {
         $result = \tao_helpers_Array::array_unique($testArray);
         $this->assertEquals($expectedArray, $result);
     }
 
-    public function arrayProvider(){
+    public function arrayProvider()
+    {
         $objectA = new myFakeObject(1,2,3);
         $objectB = new myFakeObject(4,5,6);
         $objectC = new myFakeObject('abc','def','ghi');
@@ -47,6 +48,33 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
             [[$objectC, $objectC, $objectC, $objectC], [$objectC]],
             [[2=>$objectC, 3=>$objectC, 56=>$objectC, 42=>$objectC], [2=>$objectC]],
             [['aaa'=>$objectA, 'bbb'=>$objectB, 'ccc'=>$objectC, 42=>$objectC], ['aaa'=>$objectA, 'bbb'=>$objectB, 'ccc'=>$objectC]],
+        ];
+    }
+    
+    /**
+     * @dataProvider containsOnlyValueProvider
+     */
+    public function testContainsOnlyValue($value, array $container, $strict, $exceptAtIndex, $expectedValue)
+    {
+        $this->assertSame($expectedValue, \tao_helpers_Array::containsOnlyValue($value, $container, $strict, $exceptAtIndex));
+    }
+    
+    public function containsOnlyValueProvider()
+    {
+        return [
+            [1, [1, 1, 1], true, array(), true],
+            [1, [1, 1, '1'], true, array(), false],
+            [1, [1, 1, '1'], false, array(), true],
+            [1, [1, 1, '1'], true, array(2), true],
+            [1, ['1', 1, '1'], true, array(2), false],
+            [1, ['1', 1, '1'], true, array(0, 2), true],
+            [1, [], true, array(), false],
+            [0, [1, 2, 3], true, array(), false],
+            [0, [1, 2, 3], false, array(), false],
+            [0, [1, 2, 3], false, array(0, 1, 2), false],
+            [[1, 2, 3], [1, 2, 3], false, array(), false],
+            [[1, 2, 3], [1, 2, 3], true, array(), false],
+            [[1, 2, 3], [1, 2, 3], false, array(0, 1, 2), false]
         ];
     }
 }

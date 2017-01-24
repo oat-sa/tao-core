@@ -39,7 +39,7 @@ class tao_helpers_Array
      * @param  boolean (optional, default = Ascending sort) descending Descending or Ascending order.
      * @return array An associative array.
      */
-    public static function sortByField($input, $field, $descending = false)
+    static public function sortByField($input, $field, $descending = false)
     {
         $returnValue = array();
 		
@@ -68,7 +68,8 @@ class tao_helpers_Array
      * @param array $array
      * @return array $array
      */
-    public static function array_unique($array) {
+    static public function array_unique($array)
+    {
         $keys = array_keys($array);
         $toDrop = array();
         for ($i = count($keys) - 1; $i >=0 ; $i-- ) {
@@ -97,5 +98,64 @@ class tao_helpers_Array
     {
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
-
+    
+    /**
+     * Does an array contains only a given value.
+     * 
+     * Whether or not a given array contains only a given value.
+     * 
+     * <code>
+     * // Example 1
+     * $container = [1, 1, 1]; $value = 1; // true
+     * $container = [1, 1, 2]; $value = 1; // false
+     * </code>
+     * 
+     * When the $strict parameter is false, values contained in the $container array
+     * will be compared with $value using the PHP == operator. Otherwise, the comparison
+     * will be proceed with the PHP === operator.
+     * 
+     * Some particular indexes of $container can be ignored with the help of the $exceptAtIndex parameter.
+     * 
+     * <code>
+     * // Example 2
+     * $container = [1, 1, 2]; $value = 1; $exceptAtIndex = [2]; // true
+     * $container = [1, 1, 2]; $value = 1; $exceptAtIndex = [1]; // false
+     * </code>
+     * 
+     * * When $value is not a scalar value, the method returns false.
+     * * When $container is empty, the method returns false.
+     * 
+     * @param mixed $value
+     * @param array $container
+     * @param boolean $strict
+     * @param array $exceptAtIndex
+     */
+    static public function containsOnlyValue($value, array $container, $strict = false, $exceptAtIndex = array())
+    {
+        if (!is_scalar($value)) {
+            return false;
+        }
+        
+        if (empty($container)) {
+            return false;
+        }
+        
+        $matchCount = 0;
+        
+        foreach ($container as $key => $val) {
+            if (in_array($key, $exceptAtIndex, true)) {
+                continue;
+            }
+            
+            $match = ($strict === false) ? $value == $val : $value === $val;
+            
+            if (!$match) {
+                return false;
+            } else {
+                $matchCount++;
+            }
+        }
+        
+        return $matchCount !== 0;
+    }
 }
