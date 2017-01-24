@@ -39,7 +39,7 @@ class tao_helpers_Array
      * @param  boolean (optional, default = Ascending sort) descending Descending or Ascending order.
      * @return array An associative array.
      */
-    static public function sortByField($input, $field, $descending = false)
+    public static function sortByField($input, $field, $descending = false)
     {
         $returnValue = array();
 		
@@ -68,7 +68,7 @@ class tao_helpers_Array
      * @param array $array
      * @return array $array
      */
-    static public function array_unique($array)
+    public static function array_unique($array)
     {
         $keys = array_keys($array);
         $toDrop = array();
@@ -130,7 +130,7 @@ class tao_helpers_Array
      * @param boolean $strict
      * @param array $exceptAtIndex
      */
-    static public function containsOnlyValue($value, array $container, $strict = false, $exceptAtIndex = array())
+    public static function containsOnlyValue($value, array $container, $strict = false, $exceptAtIndex = array())
     {
         if (!is_scalar($value)) {
             return false;
@@ -157,5 +157,54 @@ class tao_helpers_Array
         }
         
         return $matchCount !== 0;
+    }
+    
+    public static function arraysContainOnlyValue(array $containers, $value, $exceptNContainers = 0, array $exceptAtIndex = [], array &$invalidContainers = [])
+    {
+        if ($exceptNContainers < 0) {
+            $exceptNContainers = 0;
+        } else {
+            $exceptNContainers = intval($exceptNContainers);
+        }
+        
+        $validCount = 0;
+        $rowCount = 0;
+        
+        $expectedValidCount = count($containers) - intval($exceptNContainers);
+        
+        foreach ($containers as $row) {
+            
+            if (!is_array($row)) {
+                return false;
+            }
+            
+            $valid = true;
+            $exceptCount = 0;
+            
+            for ($i = 0; $i < count($row); $i++) {
+                
+                if (in_array($i, $exceptAtIndex, true)) {
+                    $exceptCount++;
+                    continue;
+                } else if ($row[$i] !== $value) {
+                    $valid = false;
+                    break;
+                }
+            }
+            
+            if ($exceptCount !== 0 && $exceptCount === count($row)) {
+                $valid = false;
+            }
+            
+            if ($valid == true) {
+                $validCount++;
+            } else {
+                $invalidContainers[] = $rowCount;
+            }
+            
+            $rowCount++;
+        }
+        
+        return $validCount === $expectedValidCount;
     }
 }
