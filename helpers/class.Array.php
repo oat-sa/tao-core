@@ -129,6 +129,7 @@ class tao_helpers_Array
      * @param array $container
      * @param boolean $strict
      * @param array $exceptAtIndex
+     * @return boolean
      */
     public static function containsOnlyValue($value, array $container, $strict = false, $exceptAtIndex = array())
     {
@@ -159,6 +160,22 @@ class tao_helpers_Array
         return $matchCount !== 0;
     }
     
+    /**
+     * Does a collection of arrays contain only a given value.
+     * 
+     * Whether or not a given collection of arrays contain only a given $value.
+     * 
+     * * You can specify that some indexes of contained arrays do not have to match $value by setting the $exceptAtIndex array with the indexes to be ignored.
+     * * When $exceptNContainers > 0, it is allowed that $containers contains $exceptNContainers arrays not matching $value.
+     * * The $invalidContainers parameter is optional reference that will be filled with the index of arrays from $containers that do not contain the $value value only.
+     * 
+     * @param array $containers
+     * @param mixed $value
+     * @param integer $exceptNContainers
+     * @param array $exceptAtIndex
+     * @param array $invalidContainers
+     * @return boolean
+     */
     public static function arraysContainOnlyValue(array $containers, $value, $exceptNContainers = 0, array $exceptAtIndex = [], array &$invalidContainers = [])
     {
         if ($exceptNContainers < 0) {
