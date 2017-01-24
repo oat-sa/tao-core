@@ -139,9 +139,6 @@ class tao_install_utils_DbalDbCreator {
 	    $table->addColumn('modeluri', "string", array("length" => 255,"default" => null));
 	    $table->addOption('engine' , 'MyISAM');
 	    $table->setPrimaryKey(array('modelid'));
-        $table->addIndex(array('modeluri'),"idx_models_modeluri");
-
-
     }
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
@@ -167,8 +164,7 @@ class tao_install_utils_DbalDbCreator {
     	$table->setPrimaryKey(array("id"));
     	$table->addOption('engine' , 'MyISAM');
     	$table->addColumn("epoch", "string" , array("notnull" => null));
-    	$table->addIndex(array('modelid'),"idx_statements_modelid");
-    	
+
     	if($this->dbConfiguration['driver'] != 'pdo_mysql'){
     	   	$table->addIndex(array("subject","predicate"),"k_sp");
     		common_Logger::d('driver is ' . $this->dbConfiguration['driver']);
