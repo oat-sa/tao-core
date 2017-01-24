@@ -139,9 +139,6 @@ class tao_install_utils_DbalDbCreator {
 	    $table->addColumn('modeluri', "string", array("length" => 255,"default" => null));
 	    $table->addOption('engine' , 'MyISAM');
 	    $table->setPrimaryKey(array('modelid'));
-        $table->addIndex(array('modeluri'),"idx_models_modeluri");
-
-
     }
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"

@@ -656,8 +656,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             $schema = $schemaManager->createSchema();
             $fromSchema = clone $schema;
             // test if already executed
-            $tableData = $schema->getTable('statements');
-            $tableData->dropIndex('idx_statements_modelid');
+            $statementsTableData = $schema->getTable('statements');
+            $statementsTableData->dropIndex('idx_statements_modelid');
+            $modelsTableData = $schema->getTable('models');
+            $modelsTableData->dropIndex('idx_models_modeluri');
             $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
             foreach ($queries as $query) {
                 $persistence->exec($query);
