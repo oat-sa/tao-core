@@ -31,7 +31,7 @@ use oat\oatbox\action\Action;
  * 
  * Parameters are:
  * 
- * Parameter 1: The eiter absolute or relative path to the source CSV file.
+ * Parameter 1: The either absolute or relative path to the source CSV file.
  * Parameter 2: The either absolute or relative path to the destination CSV file.
  * Parameter 3: The numeric index of the CSV column on which the PCRE pattern will operate (see Parameter 4).
  * Parameter 4: A PCRE pattern.
