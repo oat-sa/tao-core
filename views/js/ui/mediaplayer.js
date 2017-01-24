@@ -93,7 +93,7 @@ define([
      * above the bar.
      * @type {Number}
      */
-    var volumePositionThreshold = 150;
+    var volumePositionThreshold = 200;
 
     /**
      * Some default values
@@ -1701,7 +1701,7 @@ define([
                 if(!overing && !self.$volumeControl.hasClass('up') && !self.$volumeControl.hasClass('down')) {
                     overing = true;
                     position = self.$controls[0].getBoundingClientRect();
-                    if(position && position.y && position.y < volumePositionThreshold){
+                    if(position && position.top && position.top < volumePositionThreshold){
                         self.$volumeControl.addClass('down');
                     } else {
                         self.$volumeControl.addClass('up');

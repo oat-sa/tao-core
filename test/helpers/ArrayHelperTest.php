@@ -24,16 +24,17 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 
 class ArrayHelperTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * @dataProvider arrayProvider
      */
-    public function testArrayUnique($testArray, $expectedArray){
+    public function testArrayUnique($testArray, $expectedArray)
+    {
         $result = \tao_helpers_Array::array_unique($testArray);
         $this->assertEquals($expectedArray, $result);
     }
 
-    public function arrayProvider(){
+    public function arrayProvider()
+    {
         $objectA = new myFakeObject(1,2,3);
         $objectB = new myFakeObject(4,5,6);
         $objectC = new myFakeObject('abc','def','ghi');
@@ -47,6 +48,213 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
             [[$objectC, $objectC, $objectC, $objectC], [$objectC]],
             [[2=>$objectC, 3=>$objectC, 56=>$objectC, 42=>$objectC], [2=>$objectC]],
             [['aaa'=>$objectA, 'bbb'=>$objectB, 'ccc'=>$objectC, 42=>$objectC], ['aaa'=>$objectA, 'bbb'=>$objectB, 'ccc'=>$objectC]],
+        ];
+    }
+    
+    /**
+     * @dataProvider containsOnlyValueProvider
+     */
+    public function testContainsOnlyValue($value, array $container, $strict, $exceptAtIndex, $expectedValue)
+    {
+        $this->assertSame($expectedValue, \tao_helpers_Array::containsOnlyValue($value, $container, $strict, $exceptAtIndex));
+    }
+    
+    public function containsOnlyValueProvider()
+    {
+        return [
+            [1, [1, 1, 1], true, array(), true],
+            [1, [1, 1, '1'], true, array(), false],
+            [1, [1, 1, '1'], false, array(), true],
+            [1, [1, 1, '1'], true, array(2), true],
+            [1, ['1', 1, '1'], true, array(2), false],
+            [1, ['1', 1, '1'], true, array(0, 2), true],
+            [1, [], true, array(), false],
+            [0, [1, 2, 3], true, array(), false],
+            [0, [1, 2, 3], false, array(), false],
+            [0, [1, 2, 3], false, array(0, 1, 2), false],
+            [[1, 2, 3], [1, 2, 3], false, array(), false],
+            [[1, 2, 3], [1, 2, 3], true, array(), false],
+            [[1, 2, 3], [1, 2, 3], false, array(0, 1, 2), false]
+        ];
+    }
+    
+    /**
+     * @dataProvider arrayContainsOnlyValueProvider
+     */
+    public function testArraysContainOnlyValue(array $containers, $value, $exceptNContainers, array $exceptAtIndex, $expectedInvalidContainers, $expectedValidContainers, $expected)
+    {
+        $invalidContainers = [];
+        $validContainers = [];
+        $this->assertSame($expected, \tao_helpers_Array::arraysContainOnlyValue($containers, $value, $exceptNContainers, $exceptAtIndex, $invalidContainers, $validContainers));
+        $this->assertEquals($expectedInvalidContainers, $invalidContainers);
+        $this->assertEquals($expectedValidContainers, $validContainers);
+    }
+    
+    public function arrayContainsOnlyValueProvider()
+    {
+        return [
+            [
+                [
+                    ['1', '1', '1'],
+                    ['1', '1', '1']
+                ], '1', 0, [], [], [0, 1], true
+            ],
+            
+            [
+                [
+                    ['1', '1', '1'],
+                    ['1', '1', '2']
+                ], '1', 0, [], [1], [0], false
+            ],
+            
+            [
+                [
+                    ['1', '1', '2'],
+                    ['1', '1', '1'],
+                    ['2', '1', '1']
+                ], '1', 0, [], [0, 2], [1], false
+            ],
+            
+            [
+                [
+                    ['1', '2', '1'],
+                    ['1', '1', '1']
+                ], '1', 0, [], [0], [1], false
+            ],
+            
+            [
+                [
+                    ['1', '2', '1'],
+                    ['1', '1', '1']
+                ], '1', 0, [1], [], [0, 1], true
+            ],
+            
+            [
+                [
+                    ['4', '5', '6'],
+                    ['1', '8', '8'],
+                    ['2', '8', '8']
+                ], '8', 1, [0], [0], [1, 2], true
+            ],
+            
+            [
+                [
+                    ['1', '8', '8'],
+                    ['4', '5', '6'],
+                    ['2', '8', '8']
+                ], '8', 1, [0], [1], [0, 2], true
+            ],
+            
+            [
+                [
+                    ['1', '8', '8'],
+                    ['2', '8', '8'],
+                    ['4', '5', '6'],
+                ], '8', 0, [0], [2], [0, 1], false
+            ],
+            
+            [
+                [
+                    ['1', '8', '8'],
+                    ['2', '8', '8'],
+                    ['4', '5', '6'],
+                    ['4', '5', '6'],
+                ], '8', 2, [0], [2, 3], [0, 1], true
+            ],
+            
+            [
+                [
+                    ['1', '2', '8', '8'],
+                    ['2', '3', '8', '8'],
+                    ['4', '0', '5', '6'],
+                    ['4', '0', '5', '6'],
+                ], '8', 2, [0, 1], [2, 3], [0, 1], true
+            ],
+            
+            [
+                [
+                    ['1', '2', '8', '8'],
+                    ['2', '3', '4', '8'],
+                    ['4', '0', '5', '6'],
+                    ['4', '0', '5', '6'],
+                ], '8', 2, [0, 1], [1, 2, 3], [0], false
+            ],
+            
+            [
+                [], '8', 2, [0, 1], [], [], false
+            ],
+            
+            [
+                [
+                    ['1', '2', '8', '8']
+                ], '7', 1, [], [0], [], true
+            ],
+            
+            [
+                [
+                    ['8', '8', '8', '8'],
+                    ['8', '8', '8', '8']
+                ], '8', 1, [], [], [0, 1], false
+            ],
+            
+            [
+                [
+                    ['8', '8', '8', '8'],
+                    ['8', '8', '8', '8']
+                ], '8', 0, [], [], [0, 1], true
+            ],
+            
+            [
+                [
+                    ['8', '8', '8', '8'],
+                    ['8', '8', '8', '8']
+                ], '8', -1, [], [], [0, 1], true
+            ],
+            
+            [
+                [
+                    ['8', '8', '8', '8'],
+                    ['8', '8', '8', '8']
+                ], '8', 2, [], [], [0, 1], false
+            ],
+            
+            [
+                [
+                    ['8', '8', '8', '8'],
+                    ['8', '8', '8', '8']
+                ], '8', 0, [0, 1, 2, 3], [0, 1], [], false
+            ],
+            
+            [
+                [
+                    ['8', '8', '8', '8'],
+                    ['8', '8', '8', '8']
+                ], '8', 1, [], [], [0, 1], false
+            ],
+            
+            [
+                [
+                    ['1', '2', '8', '8', '8', '8'],
+                    ['1', '2', '8', '8', '8', '8']
+                ], '8', 1, [0, 1], [], [0, 1], false
+            ],
+            
+            [
+                [
+                    ['abc', 'def', '8', '8', '8', '8'],
+                    ['abc', 'def', '8', '8', '8', '8'],
+                    ['abc', 'def', '1', '2', '3', '4'],
+                ], '8', 0, [0, 1], [2], [0, 1], false
+            ],
+            
+            [
+                [
+                    ['abc', 'def', '8', '8', '8', '8'],
+                    ['abc', 'def', '1', '2', '3', '4'],
+                    ['abc', 'def', '8', '8', '8', '8'],
+                    ['abc', 'def', '5', '6', '7', '8'],
+                ], '8', 0, [0, 1], [1, 3], [0, 2], false
+            ]
         ];
     }
 }
