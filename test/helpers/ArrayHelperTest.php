@@ -222,6 +222,13 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                     ['8', '8', '8', '8']
                 ], '8', 0, [0, 1, 2, 3], [0, 1], false
             ],
+            
+            [
+                [
+                    ['8', '8', '8', '8'],
+                    ['8', '8', '8', '8']
+                ], '8', 1, [], [], false
+            ],
         ];
     }
 }
