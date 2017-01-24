@@ -649,6 +649,21 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('7.47.0', '7.54.0');
 
+        if ($this->isVersion('7.54.0')) {
+            $persistence = \common_persistence_Manager::getPersistence('default');
+            /** @var common_persistence_sql_pdo_SchemaManager $schemaManager */
+            $schemaManager = $persistence->getDriver()->getSchemaManager();
+            $schema = $schemaManager->createSchema();
+            $fromSchema = clone $schema;
+            // test if already executed
+            $tableData = $schema->getTable('statements');
+            $tableData->dropIndex('idx_statements_modelid');
+            $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
+            foreach ($queries as $query) {
+                $persistence->exec($query);
+            }
+            $this->setVersion('7.54.1');
+        }
     }
 
     private function migrateFsAccess() {

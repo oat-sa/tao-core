@@ -167,8 +167,7 @@ class tao_install_utils_DbalDbCreator {
     	$table->setPrimaryKey(array("id"));
     	$table->addOption('engine' , 'MyISAM');
     	$table->addColumn("epoch", "string" , array("notnull" => null));
-    	$table->addIndex(array('modelid'),"idx_statements_modelid");
-    	
+
     	if($this->dbConfiguration['driver'] != 'pdo_mysql'){
     	   	$table->addIndex(array("subject","predicate"),"k_sp");
     		common_Logger::d('driver is ' . $this->dbConfiguration['driver']);
