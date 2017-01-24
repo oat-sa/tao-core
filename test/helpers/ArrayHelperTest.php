@@ -81,11 +81,13 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider arrayContainsOnlyValueProvider
      */
-    public function testArraysContainOnlyValue(array $containers, $value, $exceptNContainers, array $exceptAtIndex, $expectedInvalidContainers, $expected)
+    public function testArraysContainOnlyValue(array $containers, $value, $exceptNContainers, array $exceptAtIndex, $expectedInvalidContainers, $expectedValidContainers, $expected)
     {
         $invalidContainers = [];
-        $this->assertSame($expected, \tao_helpers_Array::arraysContainOnlyValue($containers, $value, $exceptNContainers, $exceptAtIndex, $invalidContainers));
+        $validContainers = [];
+        $this->assertSame($expected, \tao_helpers_Array::arraysContainOnlyValue($containers, $value, $exceptNContainers, $exceptAtIndex, $invalidContainers, $validContainers));
         $this->assertEquals($expectedInvalidContainers, $invalidContainers);
+        $this->assertEquals($expectedValidContainers, $validContainers);
     }
     
     public function arrayContainsOnlyValueProvider()
@@ -95,14 +97,14 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                 [
                     ['1', '1', '1'],
                     ['1', '1', '1']
-                ], '1', 0, [], [], true
+                ], '1', 0, [], [], [0, 1], true
             ],
             
             [
                 [
                     ['1', '1', '1'],
                     ['1', '1', '2']
-                ], '1', 0, [], [1], false
+                ], '1', 0, [], [1], [0], false
             ],
             
             [
@@ -110,21 +112,21 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                     ['1', '1', '2'],
                     ['1', '1', '1'],
                     ['2', '1', '1']
-                ], '1', 0, [], [0, 2], false
+                ], '1', 0, [], [0, 2], [1], false
             ],
             
             [
                 [
                     ['1', '2', '1'],
                     ['1', '1', '1']
-                ], '1', 0, [], [0], false
+                ], '1', 0, [], [0], [1], false
             ],
             
             [
                 [
                     ['1', '2', '1'],
                     ['1', '1', '1']
-                ], '1', 0, [1], [], true
+                ], '1', 0, [1], [], [0, 1], true
             ],
             
             [
@@ -132,7 +134,7 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                     ['4', '5', '6'],
                     ['1', '8', '8'],
                     ['2', '8', '8']
-                ], '8', 1, [0], [0], true
+                ], '8', 1, [0], [0], [1, 2], true
             ],
             
             [
@@ -140,7 +142,7 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                     ['1', '8', '8'],
                     ['4', '5', '6'],
                     ['2', '8', '8']
-                ], '8', 1, [0], [1], true
+                ], '8', 1, [0], [1], [0, 2], true
             ],
             
             [
@@ -148,7 +150,7 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                     ['1', '8', '8'],
                     ['2', '8', '8'],
                     ['4', '5', '6'],
-                ], '8', 0, [0], [2], false
+                ], '8', 0, [0], [2], [0, 1], false
             ],
             
             [
@@ -157,7 +159,7 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                     ['2', '8', '8'],
                     ['4', '5', '6'],
                     ['4', '5', '6'],
-                ], '8', 2, [0], [2, 3], true
+                ], '8', 2, [0], [2, 3], [0, 1], true
             ],
             
             [
@@ -166,7 +168,7 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                     ['2', '3', '8', '8'],
                     ['4', '0', '5', '6'],
                     ['4', '0', '5', '6'],
-                ], '8', 2, [0, 1], [2, 3], true
+                ], '8', 2, [0, 1], [2, 3], [0, 1], true
             ],
             
             [
@@ -175,66 +177,66 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                     ['2', '3', '4', '8'],
                     ['4', '0', '5', '6'],
                     ['4', '0', '5', '6'],
-                ], '8', 2, [0, 1], [1, 2, 3], false
+                ], '8', 2, [0, 1], [1, 2, 3], [0], false
             ],
             
             [
-                [], '8', 2, [0, 1], [], false
+                [], '8', 2, [0, 1], [], [], false
             ],
             
             [
                 [
                     ['1', '2', '8', '8']
-                ], '7', 1, [], [0], true
+                ], '7', 1, [], [0], [], true
             ],
             
             [
                 [
                     ['8', '8', '8', '8'],
                     ['8', '8', '8', '8']
-                ], '8', 1, [], [], false
+                ], '8', 1, [], [], [0, 1], false
             ],
             
             [
                 [
                     ['8', '8', '8', '8'],
                     ['8', '8', '8', '8']
-                ], '8', 0, [], [], true
+                ], '8', 0, [], [], [0, 1], true
             ],
             
             [
                 [
                     ['8', '8', '8', '8'],
                     ['8', '8', '8', '8']
-                ], '8', -1, [], [], true
+                ], '8', -1, [], [], [0, 1], true
             ],
             
             [
                 [
                     ['8', '8', '8', '8'],
                     ['8', '8', '8', '8']
-                ], '8', 2, [], [], false
+                ], '8', 2, [], [], [0, 1], false
             ],
             
             [
                 [
                     ['8', '8', '8', '8'],
                     ['8', '8', '8', '8']
-                ], '8', 0, [0, 1, 2, 3], [0, 1], false
+                ], '8', 0, [0, 1, 2, 3], [0, 1], [], false
             ],
             
             [
                 [
                     ['8', '8', '8', '8'],
                     ['8', '8', '8', '8']
-                ], '8', 1, [], [], false
+                ], '8', 1, [], [], [0, 1], false
             ],
             
             [
                 [
                     ['1', '2', '8', '8', '8', '8'],
                     ['1', '2', '8', '8', '8', '8']
-                ], '8', 1, [0, 1], [], false
+                ], '8', 1, [0, 1], [], [0, 1], false
             ],
         ];
     }
