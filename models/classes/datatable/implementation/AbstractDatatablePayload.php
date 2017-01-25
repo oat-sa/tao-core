@@ -116,9 +116,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
 
         foreach ($filters as $filterProp => $filterVal) {
             foreach ($filterVal as $values) {
-                if (is_string($values)) {
-                    $query->addCriterion($filterProp, SupportedOperatorHelper::CONTAIN, $values);
-                } elseif (is_array($values)) {
+                if (is_array($values)) {
                     $query->addCriterion($filterProp, SupportedOperatorHelper::IN, $values);
                 }
             }
