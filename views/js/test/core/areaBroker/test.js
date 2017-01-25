@@ -233,7 +233,11 @@ define([
     QUnit.test('addComponent incorrect use', function (assert) {
         var broker = getTestBroker();
 
-        QUnit.expect(6);
+        QUnit.expect(7);
+
+        assert.throws(function() {
+            broker.addComponent();
+        }, TypeError, 'addComponent requires a valid area name');
 
         assert.throws(function() {
             broker.addComponent('unknownArea');
@@ -298,6 +302,17 @@ define([
 
 
     QUnit.module('renderers');
+
+    QUnit.test('default renderer is set on required areas', function (assert) {
+        var broker = getTestBroker();
+
+        QUnit.expect(4);
+
+        assert.ok(broker.hasRenderer('header'), 'default renderer has been set for header area');
+        assert.ok(broker.hasRenderer('footer'), 'default renderer has been set for footer area');
+        assert.ok(broker.hasRenderer('body'), 'default renderer has been set for body area');
+        assert.ok(!broker.hasRenderer('panel'), 'default renderer has not been set for not required area');
+    });
 
     QUnit.asyncTest('default renderer', function (assert) {
         var $fixture = $(fixture),
@@ -386,5 +401,65 @@ define([
             QUnit.start();
         });
     });
+
+    QUnit.test('setRenderer incorrect use', function (assert) {
+        var broker = getTestBroker();
+
+        QUnit.expect(7);
+
+        assert.throws(function() {
+            broker.setRenderer();
+        }, TypeError, 'addComponent requires a valid area name');
+
+        assert.throws(function() {
+            broker.setRenderer('unknownArea');
+        }, TypeError, 'addComponent requires a valid area name');
+
+        assert.throws(function() {
+            broker.setRenderer('header');
+        }, TypeError, 'addComponent requires a valid renderer');
+
+        assert.throws(function() {
+            broker.setRenderer('header', 'renderer');
+        }, TypeError, 'addComponent requires a valid renderer');
+
+        assert.throws(function() {
+            broker.setRenderer('header', {});
+        }, TypeError, 'addComponent requires a valid renderer');
+
+        assert.throws(function() {
+            broker.setRenderer('header', 'headerComponent1', function() { });
+        }, TypeError, 'addComponent requires a valid component');
+
+        assert.throws(function() {
+            broker.setRenderer('header', 'headerComp1', 'my first component');
+            broker.setRenderer('header', 'headerComp1', 'my second component has the same id than the first one!');
+        }, TypeError, 'addComponent requires a unique component id');
+    });
+
+    QUnit.asyncTest('render() can be called with no renderers defined', function (assert) {
+        var $fixture = $(fixture),
+            $container = $('.container', $fixture),
+            $panel;
+
+        var broker = getTestBroker();
+
+        broker.addComponent('panel', 'component5', '<div>content5</div>');
+        broker.addComponent('panel', 'component1', '<div>content1</div>');
+
+        QUnit.expect(3);
+
+        broker.render('panel').then(function() {
+            assert.ok(true, 'render() method has returned a Promise');
+
+            $panel = $('.panel', $container);
+
+            assert.equal($panel.length, 1, 'panel container has been found');
+            assert.equal($panel.text(), '', 'nothing has been rendered in the panel container');
+
+            QUnit.start();
+        });
+    });
+
 
 });

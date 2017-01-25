@@ -42,9 +42,9 @@ define([
     'use strict';
 
     /**
-     * Default renderer. It simply appends all the registered components of an area one after the other, into the area container
+     * Default renderer. It simply appends all the registered components of an area, in the registration order, into the area container
      * @param {jQuery} $renderTo - where to render
-     * @param {Object} allComponents - what to render
+     * @param {Array} allComponents - components to render
      * @returns {Promise}
      */
     function defaultRenderer($renderTo, allComponents) {
@@ -98,15 +98,15 @@ define([
              * @param {Object} mapping - keys are the area names, values are jQueryElement
              * @throws {TypeError} if the required areas are not part of the mapping
              */
-            defineAreas : function defineAreas(mapping){
+            defineAreas : function defineAreas(areasMapping){
                 var self = this,
                     keys, required;
 
-                if(!_.isPlainObject(mapping)){
+                if(!_.isPlainObject(areasMapping)){
                     throw new TypeError('A mapping has the form of a plain object');
                 }
 
-                keys = _.keys(mapping);
+                keys = _.keys(areasMapping);
                 required = _.all(requiredAreas, function(val){
                     return _.contains(keys, val);
                 });
@@ -114,10 +114,10 @@ define([
                     throw new TypeError('You have to define a mapping for at least : ' + requiredAreas.join(', '));
                 }
 
-                areas = mapping;
+                areas = areasMapping;
 
-                // set default renderer for areas
-                _.forOwn(areas, function (area, areaName) {
+                // set the default renderer for required areas
+                requiredAreas.forEach(function (areaName) {
                     self.setRenderer(areaName, defaultRenderer);
                 });
             },
@@ -198,14 +198,14 @@ define([
             /**
              * Override the default renderer for a given area
              * @param {String} areaName
-             * @param {function} renderer - should return a Promise
+             * @param {function} renderer - should return a Promise. Check the default renderer for the expected signature.
              */
             setRenderer : function setRenderer(areaName, renderer) {
                 if (!areas && !areas[areaName]) {
-                    throw new Error('There is no areas defined or no area named ' + areaName);
+                    throw new TypeError('There is no areas defined or no area named ' + areaName);
                 }
                 if (!_.isFunction(renderer)) {
-                    throw new Error('A renderer has to be a function');
+                    throw new TypeError('A renderer has to be a function');
                 }
                 renderers[areaName] = renderer;
             },
