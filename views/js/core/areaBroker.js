@@ -36,8 +36,9 @@
  */
 define([
     'jquery',
-    'lodash'
-], function ($, _) {
+    'lodash',
+    'core/promise'
+], function ($, _, Promise) {
     'use strict';
 
     /**
@@ -51,7 +52,9 @@ define([
     return function areaBroker(requiredAreas, $container, mapping){
 
         var broker,
-            areas;
+            areas,
+            renderers = {},
+            components = {};
 
         if(typeof $container === 'string' || $container instanceof HTMLElement){
             $container = $($container);
@@ -61,6 +64,21 @@ define([
         }
 
         requiredAreas = requiredAreas || [];
+
+        function defaultRenderer($container, components) {
+            if (!components || !_.isObject(components)) {
+                Promise.resolve();
+            }
+
+            _.forOwn(components, function ($component) {
+                if(typeof $component === 'string' || $component instanceof HTMLElement){
+                    $component = $($component);
+                }
+                // check component type ?
+                $container.append($component);
+            });
+            return Promise.resolve(); // This is synchronous but we build an async api as some components might need it in the future
+        }
 
         /**
          * The Area broker instance
@@ -78,7 +96,8 @@ define([
              * @throws {TypeError} if the required areas are not part of the mapping
              */
             defineAreas : function defineAreas(mapping){
-                var keys, required;
+                var self = this,
+                    keys, required;
 
                 if(!_.isPlainObject(mapping)){
                     throw new TypeError('A mapping has the form of a plain object');
@@ -93,6 +112,11 @@ define([
                 }
 
                 areas = mapping;
+
+                // set default renderer for areas
+                _.forOwn(areas, function (area) {
+                    self.setRenderer(area, defaultRenderer);
+                });
             },
 
             /**
@@ -114,13 +138,82 @@ define([
                     throw new Error('Sorry areas have not been defined yet!');
                 }
                 return areas[name];
+            },
+
+            getAllAreas : function getAllAreas() {
+                if(!areas){
+                    throw new Error('Sorry areas have not been defined yet!');
+                }
+                return areas;
+            },
+
+            /**
+             * Adds a component to the given area
+             * @param {String} areaName
+             * @param {String} componentId - can be used by the rendered to reference the component
+             * @param {String|HtmlElement|jQuery} $component
+             * @throws {TypeError} in case of invalid parameters
+             */
+            addComponent : function addComponent(areaName, componentId, $component) {
+                if (!areas && !areas[areaName]) {
+                    throw new TypeError('There is no areas defined or no area named ' + areaName);
+                }
+                if (typeof componentId !== 'string') {
+                    throw new TypeError('componentId should be a string');
+                }
+                if(typeof $component === 'string' || $component instanceof HTMLElement){
+                    $component = $($component);
+                }
+                if(!$component || !$component.length){
+                    throw new TypeError('Please provide the areaBroker a valid component');
+                }
+
+                if (!components[areaName]) {
+                    components[areaName] = {};
+                }
+                components[areaName][componentId] = $component;
+            },
+
+            /**
+             * Get a component of a specific area
+             * @param {String} areaName
+             * @param {String} componentId
+             * @returns {jQuery} the component element
+             */
+            getComponent : function getComponent(areaName, componentId) {
+                return components && components[areaName] && components[areaName][componentId];
+            },
+
+            setRenderer : function setRenderer(areaName, renderer) {
+                if (!areas && !areas[areaName]) {
+                    throw new Error('There is no areas defined or no area named ' + areaName);
+                }
+                if (!_.isFunction(renderer)) {
+                    throw new Error('A renderer has to be a function');
+                }
+                renderers[areaName] = renderer;
+            },
+
+            hasRenderer : function hasRenderer(areaName) {
+                return renderers && renderers[areaName];
+            },
+
+            render : function render(areaName) {
+                if (this.hasRenderer(areaName)) {
+                    return renderers[areaName](this.getArea(areaName), components[areaName]);
+                } else {
+                    return Promise.resolve();
+                }
             }
         };
 
         broker.defineAreas(mapping);
 
         _.forEach(requiredAreas, function(area){
-            broker['get' + area[0].toUpperCase() + area.slice(1) + 'Area'] = _.bind(_.partial(broker.getArea, area), broker);
+            var areaIdentifier = area[0].toUpperCase() + area.slice(1);
+            broker['get' + areaIdentifier + 'Area']         = _.bind(_.partial(broker.getArea, area), broker);
+            broker['add' + areaIdentifier + 'Component']    = _.bind(_.partial(broker.addComponent, area), broker);
+            broker['set' + areaIdentifier + 'Renderer']     = _.bind(_.partial(broker.setRenderer, area), broker);
         });
 
         return broker;
