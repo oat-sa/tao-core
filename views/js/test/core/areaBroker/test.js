@@ -48,6 +48,7 @@ define([
         return areaBroker(required, $container, mapping);
     }
 
+
     QUnit.module('API');
 
     QUnit.test('module', function (assert){
@@ -110,11 +111,11 @@ define([
         assert.equal(typeof broker.getArea, 'function', 'The broker has a getArea function');
     });
 
+
     QUnit.module('Area mapping');
 
     QUnit.test('define mapping', function (assert){
         var $fixture = $(fixture);
-
         var $container = $('.container', $fixture);
 
         var $header     = $('.header', $container);
@@ -211,7 +212,8 @@ define([
         assert.deepEqual(broker.getContainer(), $container, 'The container match');
     });
 
-    QUnit.module('components');
+
+    QUnit.module('Components');
 
     QUnit.test('addComponent / getComponent correct behavior', function (assert) {
         var broker = getTestBroker();
@@ -231,7 +233,7 @@ define([
     QUnit.test('addComponent incorrect use', function (assert) {
         var broker = getTestBroker();
 
-        QUnit.expect(5);
+        QUnit.expect(6);
 
         assert.throws(function() {
             broker.addComponent('unknownArea');
@@ -252,11 +254,15 @@ define([
         assert.throws(function() {
             broker.addComponent('header', 'headerComponent1', function() { });
         }, TypeError, 'addComponent requires a valid component');
+
+        assert.throws(function() {
+            broker.addComponent('header', 'headerComp1', 'my first component');
+            broker.addComponent('header', 'headerComp1', 'my second component has the same id than the first one!');
+        }, TypeError, 'addComponent requires a unique component id');
     });
 
     QUnit.test('getComponent incorrect use', function (assert) {
         var broker = getTestBroker();
-
         QUnit.expect(2);
 
         assert.ok(
@@ -288,6 +294,47 @@ define([
 
         assert.ok(broker.getComponent('header', 'headerComponent1') === $headerComponent1, 'the component match');
         assert.ok(broker.getComponent('header', 'headerComponent2') === $headerComponent2, 'the component match');
+    });
+
+
+    QUnit.asyncTest('default renderer', function (assert) {
+        var $fixture = $(fixture),
+            $container = $('.container', $fixture),
+            $body = $('.body', $container);
+
+        var broker = getTestBroker();
+
+        var $bodyComponent1 = $('<div>', { class: 'body-component-1', html: 'body component 1 content' }),
+            $bodyComponent2 = $('<div>', { class: 'body-component-2', html: 'body component 2 content' }),
+            $bodyComponent3 = $('<div>', { class: 'body-component-3', html: 'body component 3 content' }),
+            $bodyComponent;
+
+        broker.addBodyComponent('body-2', $bodyComponent2);
+        broker.addBodyComponent('body-1', $bodyComponent1);
+        broker.addBodyComponent('body-3', $bodyComponent3);
+
+        broker.render('body').then(function() {
+            $bodyComponent = $body.find('.body-component-1');
+            assert.equal($bodyComponent.length, 1, 'body component 1has been rendered');
+            assert.equal($bodyComponent.html(), 'body component 1 content', 'the component contains the right content');
+
+            $bodyComponent = $body.find('.body-component-2');
+            assert.equal($bodyComponent.length, 1, 'body component 2 has been rendered');
+            assert.equal($bodyComponent.html(), 'body component 2 content', 'the component contains the right content');
+
+            $bodyComponent = $body.find('.body-component-3');
+            assert.equal($bodyComponent.length, 1, 'body component 3 has been rendered');
+            assert.equal($bodyComponent.html(), 'body component 3 content', 'the component contains the right content');
+
+            assert.equal(
+                $body.text(),
+                'body component 2 contentbody component 1 contentbody component 3 content',
+                'components have been rendered in the right order'
+            );
+
+            QUnit.start();
+        });
+
     });
 
 });

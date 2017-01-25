@@ -42,6 +42,25 @@ define([
     'use strict';
 
     /**
+     * Default renderer. It simply appends all the registered components of an area one after the other, into the area container
+     * @param {jQuery} $renderTo - where to render
+     * @param {Object} allComponents - what to render
+     * @returns {Promise}
+     */
+    function defaultRenderer($renderTo, allComponents) {
+        if (allComponents && _.isArray(allComponents)) {
+            allComponents.forEach(function (entry) {
+                var $component = entry.$component;
+
+                if(typeof $component === 'string' || $component instanceof HTMLElement){
+                    $component = $($component);
+                }
+                $renderTo.append($component);
+            });
+        }
+    }
+
+    /**
      * Creates a new area broker.
      * @param {String[]} requireAreas - the list of required areas to map
      * @param {jQueryElement|HTMLElement|String} $container - the main container
@@ -50,7 +69,6 @@ define([
      * @throws {TypeError} without a valid container
      */
     return function areaBroker(requiredAreas, $container, mapping){
-
         var broker,
             areas,
             renderers = {},
@@ -64,21 +82,6 @@ define([
         }
 
         requiredAreas = requiredAreas || [];
-
-        function defaultRenderer($container, components) {
-            if (!components || !_.isObject(components)) {
-                Promise.resolve();
-            }
-
-            _.forOwn(components, function ($component) {
-                if(typeof $component === 'string' || $component instanceof HTMLElement){
-                    $component = $($component);
-                }
-                // check component type ?
-                $container.append($component);
-            });
-            return Promise.resolve(); // This is synchronous but we build an async api as some components might need it in the future
-        }
 
         /**
          * The Area broker instance
@@ -114,8 +117,8 @@ define([
                 areas = mapping;
 
                 // set default renderer for areas
-                _.forOwn(areas, function (area) {
-                    self.setRenderer(area, defaultRenderer);
+                _.forOwn(areas, function (area, areaName) {
+                    self.setRenderer(areaName, defaultRenderer);
                 });
             },
 
@@ -168,22 +171,35 @@ define([
                     throw new TypeError('Please provide the areaBroker a valid component');
                 }
 
-                if (!components[areaName]) {
-                    components[areaName] = {};
+                if (_.find(components[areaName], { id: componentId })) {
+                    throw new TypeError('This componentId has already been taken: ' + componentId);
                 }
-                components[areaName][componentId] = $component;
+
+                if (!components[areaName]) {
+                    components[areaName] = []; // we use an array to maintain insertion order
+                }
+                components[areaName].push({
+                    id: componentId,
+                    $component: $component
+                });
             },
 
             /**
              * Get a component of a specific area
              * @param {String} areaName
              * @param {String} componentId
-             * @returns {jQuery} the component element
+             * @returns {jQuery} the component element or undefined
              */
             getComponent : function getComponent(areaName, componentId) {
-                return components && components[areaName] && components[areaName][componentId];
+                var found = components[areaName] && _.find(components[areaName], { id: componentId });
+                return found && found.$component;
             },
 
+            /**
+             * Override the default renderer for a given area
+             * @param {String} areaName
+             * @param {function} renderer - should return a Promise
+             */
             setRenderer : function setRenderer(areaName, renderer) {
                 if (!areas && !areas[areaName]) {
                     throw new Error('There is no areas defined or no area named ' + areaName);
@@ -194,16 +210,27 @@ define([
                 renderers[areaName] = renderer;
             },
 
-            hasRenderer : function hasRenderer(areaName) {
-                return renderers && renderers[areaName];
-            },
-
+            /**
+             * Render an area with the corresponding renderer
+             * @param {String} areaName
+             * @returns {Promise}
+             */
             render : function render(areaName) {
                 if (this.hasRenderer(areaName)) {
-                    return renderers[areaName](this.getArea(areaName), components[areaName]);
+                    // we wrap the render call into a Promise in case the registered function doesn't return one
+                    return Promise.resolve(renderers[areaName](this.getArea(areaName), components[areaName]));
                 } else {
                     return Promise.resolve();
                 }
+            },
+
+            /**
+             * Check if a renderer is defined for the given area
+             * @param {String} areaName
+             * @returns {Boolean}
+             */
+            hasRenderer : function hasRenderer(areaName) {
+                return renderers && _.isFunction(renderers[areaName]);
             }
         };
 
