@@ -1,0 +1,36 @@
+.component-report {
+    position: relative;
+    .fold {
+        position: absolute;
+        right: 5px;
+        top: 10px;
+        z-index: 1;
+    }
+    .content {
+        .hierarchical {
+            [class^="feedback-"], [class*=" feedback-"] {
+                display: none;
+            }
+        }
+        &.detailed {
+            .hierarchical {
+                [class^="feedback-"], [class*=" feedback-"] {
+                    display: block;
+                }
+                background-color: transparent;
+                border-color: transparent;
+                .hierarchical {
+                    margin: 0;
+                    padding: 10px 10px 10px 20px;
+                    .hierarchical-icon {
+                        top: 10px;
+                        left: -10px;
+                    }
+                }
+                .leaf {
+                    margin: 10px 0;
+                }
+            }
+        }
+    }
+}
