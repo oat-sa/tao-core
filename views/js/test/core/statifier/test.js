@@ -18,7 +18,7 @@
 define(['core/statifier'], function (statifier) {
     'use strict';
 
-    
+
     var statifierApi = [
         {title: 'getState'},
         {title: 'setState'},
@@ -46,13 +46,13 @@ define(['core/statifier'], function (statifier) {
 
     QUnit
         .cases(statifierApi)
-        .test('statifier.', function (data, assert) {
+        .test('method ', function (data, assert) {
             QUnit.expect(1);
             assert.equal(typeof statifier()[data.title], 'function', 'The statifier instance exposes a "' + data.title + '" function');
         });
 
 
-    QUnit.module('eventification');
+    QUnit.module('statification');
 
 
     QUnit.test("delegates", function (assert) {
