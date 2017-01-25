@@ -282,9 +282,10 @@ class tao_helpers_Array
      * 
      * @param array $matrix An array containing exclusively arrays.
      * @param array $ignoreValues An array of values to be ignored while comparing values within columns.
+     * @param array $emptyIsConsistent (optional) Consider empty columns (after ignoring values) as consistent.
      * @return mixed The amount of consistent columns in $matrix or false if $matrix is not a well formed matrix.
      */
-    public static function countConsistentColumns(array $matrix, array $ignoreValues = [])
+    public static function countConsistentColumns(array $matrix, array $ignoreValues = [], $emptyIsConsistent = false)
     {
         $consistentCount = 0;
         
@@ -308,6 +309,8 @@ class tao_helpers_Array
             }
             
             if (count($column) === 1) {
+                $consistentCount++;
+            } elseif (count($column) === 0 && $emptyIsConsistent) {
                 $consistentCount++;
             }
         }

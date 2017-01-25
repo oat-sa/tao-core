@@ -412,9 +412,9 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider countConsistentColumnsProvider
      */
-    public function testCountConsistentColumns(array $matrix, array $ignoreValues, $expected)
+    public function testCountConsistentColumns(array $matrix, array $ignoreValues, $expected, $emptyIsConsistent = false)
     {
-        $this->assertSame($expected, \tao_helpers_Array::countConsistentColumns($matrix, $ignoreValues));
+        $this->assertSame($expected, \tao_helpers_Array::countConsistentColumns($matrix, $ignoreValues, $emptyIsConsistent));
     }
     
     public function countConsistentColumnsProvider()
@@ -433,7 +433,19 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
             [
                 [
                     [1, 2, 3]
+                ], [], 3, true
+            ],
+            
+            [
+                [
+                    [1, 2, 3]
                 ], [8], 3
+            ],
+            
+            [
+                [
+                    [1, 2, 3]
+                ], [8], 3, true
             ],
             
             [
@@ -444,9 +456,22 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
             
             [
                 [
+                    [1, 2, 3]
+                ], [8, 9], 3, true
+            ],
+            
+            [
+                [
                     [1, 2, 3],
                     [1, 2, 3]
                 ], [], 3
+            ],
+            
+            [
+                [
+                    [1, 2, 3],
+                    [1, 2, 3]
+                ], [], 3, true
             ],
             
             [
@@ -459,10 +484,26 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
             
             [
                 [
+                    [1, 2, 1, 0, 4, 3],
+                    [1, 2, 3, 0, 4, 3],
+                    [1, 2, 2, 8, 4, 9]
+                ], [8, 9], 5, true
+            ],
+            
+            [
+                [
                     [1, 2, 1, 66, 4, 3],
                     [1, 2, 3, 66, 4, 3],
                     [1, 2, 2, 8, 4, 9]
                 ], [8, 9], 5
+            ],
+            
+            [
+                [
+                    [1, 2, 1, 66, 4, 3],
+                    [1, 2, 3, 66, 4, 3],
+                    [1, 2, 2, 8, 4, 9]
+                ], [8, 9], 5, true
             ],
             
             [
@@ -475,10 +516,26 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
             
             [
                 [
+                    [1, 2, 1, 0],
+                    [1, 2, 3, 0, 4],
+                    [1, 2, 2, 8, 4, 9]
+                ], [8, 9], 3, true
+            ],
+            
+            [
+                [
                     [1, 2, 1, 1],
                     [1, 2, 3, 0, 4],
                     [1, 2, 2, 8, 4, 9]
                 ], [8, 9], 2
+            ],
+            
+            [
+                [
+                    [1, 2, 1, 1],
+                    [1, 2, 3, 0, 4],
+                    [1, 2, 2, 8, 4, 9]
+                ], [8, 9], 2, true
             ],
             
             [
@@ -494,7 +551,31 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                     [1, 2, 1, 0, 4, 3],
                     [1, 2, 3, 0, 4, 3],
                     [1, 2, 2, 8, 4, 9]
+                ], [8], 4, true
+            ],
+            
+            [
+                [
+                    [1, 2, 1, 0, 4, 3],
+                    [1, 2, 3, 0, 4, 3],
+                    [1, 2, 2, 8, 4, 9]
                 ], [], 3
+            ],
+            
+            [
+                [
+                    [1, 2, 1, 0, 4, 3],
+                    [1, 2, 3, 0, 4, 3],
+                    [1, 2, 2, 8, 4, 9]
+                ], [], 3, true
+            ],
+            
+            [
+                [
+                    [1, 8, 1, 0, 4, 3],
+                    [1, 8, 3, 8, 4, 3],
+                    [1, 8, 2, 8, 4, 9]
+                ], [8, 9], 5, true
             ],
             
             [
@@ -503,6 +584,14 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
                     [9, 8, 9, 9, 9, 8],
                     [8, 9, 8, 9, 8, 9]
                 ], [8, 9], 0
+            ],
+            
+            [
+                [
+                    [8, 9, 8, 9, 8, 9],
+                    [9, 8, 9, 9, 9, 8],
+                    [8, 9, 8, 9, 8, 9]
+                ], [8, 9], 6, true
             ],
             
             [
@@ -524,9 +613,25 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
             [
                 [
                     [1, 2, 1, 0, 4, 3],
+                    3,
+                    [1, 2, 2, 8, 4, 9]
+                ], [], false, false
+            ],
+            
+            [
+                [
+                    [1, 2, 1, 0, 4, 3],
                     ['2', 'null'],
                     [1, 2, 2, 8, 4, 9]
                 ], [], false
+            ],
+            
+            [
+                [
+                    [1, 2, 1, 0, 4, 3],
+                    ['2', 'null'],
+                    [1, 2, 2, 8, 4, 9]
+                ], [], false, false
             ],
             
             [
@@ -540,10 +645,26 @@ class ArrayHelperTest extends TaoPhpUnitTestRunner
             [
                 [
                     [1, 2, 1, 0, 4, 3],
+                    ['2', '3', '3', '5', '6', '7'],
+                    [1, 2, 2, 8, 4, 9]
+                ], [], 0, false
+            ],
+            
+            [
+                [
+                    [1, 2, 1, 0, 4, 3],
                     [null, null, null, null, null, null],
                     [1, 2, 2, 8, 4, 9]
                 ], [], 0
             ],
+            
+            [
+                [
+                    [1, 2, 1, 0, 4, 3],
+                    [null, null, null, null, null, null],
+                    [1, 2, 2, 8, 4, 9]
+                ], [], 0, false
+            ]
         ];
     }
 }
