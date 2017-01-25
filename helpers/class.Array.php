@@ -227,4 +227,94 @@ class tao_helpers_Array
         
         return $validCount === $expectedValidCount;
     }
+    
+    /**
+     * Detect Row with Minimum of Value(s)
+     * 
+     * This method helps you to dectect which is the array contained in $arrays containing
+     * the less amount of specific value(s).
+     * 
+     * Pleae note that the detection comparison is NOT strict (using the == PHP operator).
+     * 
+     * @param mixed $values Can be either scalar or array.
+     * @param array $arrays An array of arrays.
+     * @param boolean $returnAll Wheter or not return an array of keys when some amounts of specific values are similar accross $arrays.
+     * @return mixed Key(s) of the array(s) containing the less amount of $values. or false if it not possible to designate a row.
+     */
+    public static function minArrayCountValues($values, array $arrays, $returnAll = false)
+    {
+        if (!is_array($values)) {
+            $values = [$values];
+        }
+        
+        $counts = [];
+        
+        foreach ($arrays as $index => $arr) {
+            
+            if (!is_array($arr)) {
+                return false;
+            }
+            
+            $arrayCountValues = array_count_values($arr);
+            
+            foreach ($values as $value) {
+                if (isset($arrayCountValues[$value])) {
+                    $counts[$index] = $arrayCountValues[$value];
+                } else {
+                    $counts[$index] = 0;
+                }
+            }
+        }
+        
+        if (count($counts) > 0) {
+            $mins = array_keys($counts, min($counts));
+        
+            return ($returnAll) ? $mins : $mins[0];
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Count the Amount of Consistent Columns in Matrix
+     * 
+     * This method aims at counting the number of columns in a $matrix containing strictly similar values.
+     * 
+     * @param array $matrix An array containing exclusively arrays.
+     * @param array $ignoreValues An array of values to be ignored while comparing values within columns.
+     * @param array $emptyIsConsistent (optional) Consider empty columns (after ignoring values) as consistent.
+     * @return mixed The amount of consistent columns in $matrix or false if $matrix is not a well formed matrix.
+     */
+    public static function countConsistentColumns(array $matrix, array $ignoreValues = [], $emptyIsConsistent = false)
+    {
+        $consistentCount = 0;
+        
+        if (!is_array($matrix) || count($matrix) === 0) {
+            return $consistentCount;
+        }
+        
+        for ($i = 0; $i < count($matrix[0]); $i++) {
+            $column = array_column($matrix, $i);
+            if (count($column) !== count($matrix)) {
+                // Malformed matrix.
+                return false;
+            }
+            
+            $column = array_unique($column);
+            
+            foreach ($ignoreValues as $ignoreVal) {
+                if (($search = array_search($ignoreVal, $column, true)) !== false) {
+                    unset($column[$search]);
+                }
+            }
+            
+            if (count($column) === 1) {
+                $consistentCount++;
+            } elseif (count($column) === 0 && $emptyIsConsistent) {
+                $consistentCount++;
+            }
+        }
+        
+        return $consistentCount;
+    }
 }
