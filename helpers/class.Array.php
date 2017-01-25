@@ -239,6 +239,7 @@ class tao_helpers_Array
      * @param mixed $values Can be either scalar or array.
      * @param array $arrays An array of arrays.
      * @param boolean $returnAll Wheter or not return an array of keys when some amounts of specific values are similar accross $arrays.
+     * @return mixed Key(s) of the array(s) containing the less amount of $values. or false if it not possible to designate a row.
      */
     public static function minArrayCountValues($values, array $arrays, $returnAll = false)
     {
@@ -272,5 +273,45 @@ class tao_helpers_Array
         } else {
             return false;
         }
+    }
+    
+    /**
+     * Count the Amount of Consistent Columns in Matrix
+     * 
+     * This method aims at counting the number of columns in a $matrix containing strictly similar values.
+     * 
+     * @param array $matrix An array containing exclusively arrays.
+     * @param array $ignoreValues An array of values to be ignored while comparing values within columns.
+     * @return mixed The amount of consistent columns in $matrix or false if $matrix is not a well formed matrix.
+     */
+    public static function countConsistentColumns(array $matrix, array $ignoreValues = [])
+    {
+        $consistentCount = 0;
+        
+        if (!is_array($matrix) || count($matrix) === 0) {
+            return $consistentCount;
+        }
+        
+        for ($i = 0; $i < count($matrix[0]); $i++) {
+            $column = array_column($matrix, $i);
+            if (count($column) !== count($matrix)) {
+                // Malformed matrix.
+                return false;
+            }
+            
+            $column = array_unique($column);
+            
+            foreach ($ignoreValues as $ignoreVal) {
+                if (($search = array_search($ignoreVal, $column, true)) !== false) {
+                    unset($column[$search]);
+                }
+            }
+            
+            if (count($column) === 1) {
+                $consistentCount++;
+            }
+        }
+        
+        return $consistentCount;
     }
 }
