@@ -227,4 +227,50 @@ class tao_helpers_Array
         
         return $validCount === $expectedValidCount;
     }
+    
+    /**
+     * Detect Row with Minimum of Value(s)
+     * 
+     * This method helps you to dectect which is the array contained in $arrays containing
+     * the less amount of specific value(s).
+     * 
+     * Pleae note that the detection comparison is NOT strict (using the == PHP operator).
+     * 
+     * @param mixed $values Can be either scalar or array.
+     * @param array $arrays An array of arrays.
+     * @param boolean $returnAll Wheter or not return an array of keys when some amounts of specific values are similar accross $arrays.
+     */
+    public static function minArrayCountValues($values, array $arrays, $returnAll = false)
+    {
+        if (!is_array($values)) {
+            $values = [$values];
+        }
+        
+        $counts = [];
+        
+        foreach ($arrays as $index => $arr) {
+            
+            if (!is_array($arr)) {
+                return false;
+            }
+            
+            $arrayCountValues = array_count_values($arr);
+            
+            foreach ($values as $value) {
+                if (isset($arrayCountValues[$value])) {
+                    $counts[$index] = $arrayCountValues[$value];
+                } else {
+                    $counts[$index] = 0;
+                }
+            }
+        }
+        
+        if (count($counts) > 0) {
+            $mins = array_keys($counts, min($counts));
+        
+            return ($returnAll) ? $mins : $mins[0];
+        } else {
+            return false;
+        }
+    }
 }
