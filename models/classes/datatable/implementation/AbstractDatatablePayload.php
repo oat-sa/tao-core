@@ -111,15 +111,15 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
     {
         $search = $this->getSearchService();
 
-        $filters = $this->map($this->getFilters());
+        $filters = $this->map($this->getFilters(), true);
         $query = $search->searchType($queryBuilder, $this->getType(), true);
 
         foreach ($filters as $filterProp => $filterVal) {
-            if (is_string($filterVal)) {
-                $query->addCriterion($filterProp, SupportedOperatorHelper::CONTAIN, $filterVal);
-            } else {
-                if (is_array($filterVal)) {
-                    $query->addCriterion($filterProp, SupportedOperatorHelper::IN, $filterVal);
+            foreach ($filterVal as $values) {
+                if (is_string($values)) {
+                    $query->addCriterion($filterProp, SupportedOperatorHelper::CONTAIN, $values);
+                } elseif (is_array($values)) {
+                    $query->addCriterion($filterProp, SupportedOperatorHelper::IN, $values);
                 }
             }
         }
@@ -228,17 +228,23 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
      * // ['http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'john']
      * ```
      * @param array $filter
+     * @param bool|string $multitask will return all filters as [[filter1], [filter2]]
      * @return array
      */
-    protected function map($filter)
+    protected function map($filter, $multitask=false)
     {
         $data = [];
         $map = $this->getPropertiesMap();
         foreach ($filter as $key => $val) {
-            $newKey = isset($map[$key]) ? $map[$key] : false;
 
-            if ($newKey !== false) {
-                $data[$newKey] = $val;
+            $key = isset($map[$key]) ? $map[$key] : $key;
+
+            if ($multitask) {
+                if (!is_array($val)) {
+                    $val = [$val];
+                }
+
+                $data[$key][] = array_unique($val);
             } else {
                 $data[$key] = $val;
             }
@@ -246,6 +252,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
 
         return $data;
     }
+
 
     /**
      * Fetch all the values of properties listed in properties map
