@@ -215,7 +215,7 @@ define([
 
     QUnit.module('Components');
 
-    QUnit.test('addComponent / getComponent correct behavior', function (assert) {
+    QUnit.test('addComponent / getComponent expected behavior', function (assert) {
         var broker = getTestBroker();
 
         var $headerComponent1 = $('<div>', { html: 'header component 1' }),
@@ -297,6 +297,8 @@ define([
     });
 
 
+    QUnit.module('renderers');
+
     QUnit.asyncTest('default renderer', function (assert) {
         var $fixture = $(fixture),
             $container = $('.container', $fixture),
@@ -308,6 +310,8 @@ define([
             $bodyComponent2 = $('<div>', { class: 'body-component-2', html: 'body component 2 content' }),
             $bodyComponent3 = $('<div>', { class: 'body-component-3', html: 'body component 3 content' }),
             $bodyComponent;
+
+        QUnit.expect(7);
 
         broker.addBodyComponent('body-2', $bodyComponent2);
         broker.addBodyComponent('body-1', $bodyComponent1);
@@ -334,7 +338,53 @@ define([
 
             QUnit.start();
         });
+    });
 
+    QUnit.asyncTest('setRenderer expected behavior', function (assert) {
+        var $fixture = $(fixture),
+            $container = $('.container', $fixture),
+            $body = $('.body', $container);
+
+        var broker = getTestBroker();
+
+        var $result;
+
+        function testRenderer($renderTo, allComponents) {
+            $renderTo.append($('<div>', {
+                class: 'custom-rendered',
+                html: 'I have been rendered using a custom renderer'
+            }));
+
+            assert.equal(allComponents[0].id, 'component5',             'component 1 is correct');
+            assert.equal(allComponents[0].$component.text(), 'content5','component 1 is correct');
+            assert.equal(allComponents[1].id, 'component1',             'component 2 is correct');
+            assert.equal(allComponents[1].$component.text(), 'content1','component 2 is correct');
+            assert.equal(allComponents[2].id, 'component3',             'component 3 is correct');
+            assert.equal(allComponents[2].$component.text(), 'content3','component 3 is correct');
+            assert.equal(allComponents[3].id, 'component2',             'component 4 is correct');
+            assert.equal(allComponents[3].$component.text(), 'content2','component 4 is correct');
+            assert.equal(allComponents[4].id, 'component4',             'component 5 is correct');
+            assert.equal(allComponents[4].$component.text(), 'content4','component 5 is correct');
+            assert.equal(allComponents.length, 5, 'callback has been passed the right components in the right order');
+        }
+
+        QUnit.expect(13);
+
+        broker.addBodyComponent('component5', '<div>content5</div>');
+        broker.addBodyComponent('component1', '<div>content1</div>');
+        broker.addBodyComponent('component3', '<div>content3</div>');
+        broker.addBodyComponent('component2', '<div>content2</div>');
+        broker.addBodyComponent('component4', '<div>content4</div>');
+
+        broker.setRenderer('body', testRenderer);
+
+        broker.render('body').then(function() {
+            $result = $body.find('.custom-rendered');
+            assert.equal($result.length, 1, 'custom renderer has been used');
+            assert.equal($result.text(), 'I have been rendered using a custom renderer', 'custom renderer has been used');
+
+            QUnit.start();
+        });
     });
 
 });
