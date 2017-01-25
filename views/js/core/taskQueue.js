@@ -1,0 +1,134 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ */
+
+/**
+ * Task queue management API
+ *
+ * @example
+ *      taskQueueManager = taskQueue({url:{status: 'serviceUrl'}})
+            .on('running', function (taskData) {
+                console.log('running');
+            }).on('finished', function (taskData) {
+                console.log('finished !');
+            }).on('error', function (err) {
+                self.trigger('error', err);
+            }).pollStatus('task123xyz');
+ *
+ */
+define([
+    'lodash',
+    'core/promise',
+    'core/eventifier',
+    'core/dataProvider/request',
+    'core/polling',
+], function(_, Promise, eventifier, request, polling){
+    'use strict';
+
+    var _defaults= {
+        url : {}
+    };
+
+    return function taskQueueApi(config){
+
+        config = _.defaults(config||{}, _defaults);
+
+        var pollingIntervals = [
+            {iteration: 10, interval:1000},
+            {iteration: 10, interval:10000},
+            {iteration: 10, interval:30000},
+            {iteration: 0, interval:60000}
+        ];
+
+        var poll;
+
+        var api = eventifier({
+            getStatus : function getStatus(taskId){
+                if(!config.url || !config.url.status){
+                    return Promise.reject(new Error('config.url.status is not defined'));
+                }
+
+                return request(config.url.status, {taskId: taskId})
+                    .then(function(taskData){
+                        //check taskData
+                        if(taskData.status){
+                            return Promise.resolve(taskData);
+                        }else{
+                            return Promise.reject(taskData);
+                        }
+                    })
+                    .catch(function(res){
+                        api.trigger('error', res);
+                    });
+            },
+            pollStatus : function pollStatus(taskId){
+
+                var loop = 0;
+
+                /**
+                 * gradually increase the polling interval to ease server load
+                 * @param pollingInstance - a poll object
+                 */
+                var updateInterval = function updateInterval(pollingInstance){
+                    var pollingInterval;
+                    if(loop){
+                        loop --;
+                    }else{
+                        pollingInterval = pollingIntervals.shift();
+                        if(pollingInterval && pollingInterval.iteration && pollingInterval.interval){
+                            loop = pollingInterval.iteration;
+                            pollingInstance.setInterval(pollingInterval.interval);
+                        }
+                    }
+                }
+
+                api.pollStop();
+                poll = polling({
+                    action: function action() {
+                        // get into asynchronous mode
+                        var done = this.async();
+                        api.status(taskId).then(function(taskData){
+                            if(taskData.status === 'finished'){
+                                api.trigger('finished', taskData);
+                                poll.stop();
+                            }else{
+                                api.trigger('running', taskData);
+                                updateInterval(poll);
+                                done.resolve();
+                            }
+                        }).catch(function(res){
+                            done.reject();
+                            api.trigger('error', res);
+                        });
+                    }
+                });
+                updateInterval(poll);
+                poll.start();
+                return api;
+            },
+            pollStop : function pollStop(){
+                if(poll){
+                    poll.stop();
+                    poll = null;
+                }
+                return api;
+            }
+        });
+
+        return api;
+    }
+});
