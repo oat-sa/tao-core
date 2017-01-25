@@ -174,24 +174,39 @@ define(['lodash'], function(_) {
     };
 
     /**
-     * Check if CORS applies to 2 differents URLs
+     * is the current URL in the same domain than the one in paramter
+     * based on Cross Origin Resource Sharing rules.
      * @memberOf UrlParser
-     * @param {UrlParser} [parsedUrl] - to compare with, use window.location if undefined
+     * @param {String|UrlParser} [url = window.location] - to compare with
      * @returns {Boolean} true if same domain
+     * @throws {TypeError} with wrong parameters
      */
-    UrlParser.prototype.checkCORS = function(parsedUrl) {
-        parsedUrl = parsedUrl || new UrlParser(window.location);
-        if (parsedUrl instanceof UrlParser) {
-            return this.get('protocol') === 'data:' ||  (
-                this.get('protocol') === parsedUrl.get('protocol') &&
-                this.get('hostname') === parsedUrl.get('hostname') &&
-                this.get('port') === parsedUrl.get('port')
-            );
+    UrlParser.prototype.sameDomain = function(url) {
+        var parsedUrl;
+        if(typeof url === 'undefined'){
+            parsedUrl = new UrlParser(window.location);
         }
-        throw new Error('parsedUrl parameter must be an instanceof UrlParser');
+        if(typeof url === 'string'){
+            parsedUrl = new UrlParser(url);
+        }
+        if(url instanceof UrlParser){
+            parsedUrl = url;
+        }
+        if( !(parsedUrl instanceof UrlParser) ){
+            throw new TypeError('Invalid url format');
+        }
+        return this.get('protocol') === 'data:' || parsedUrl.get('protocol') === 'data:' ||  (
+            this.get('protocol') === parsedUrl.get('protocol') &&
+            this.get('hostname') === parsedUrl.get('hostname') &&
+            this.get('port') === parsedUrl.get('port')
+        );
     };
 
-
+    /**
+     * @deprecated badly named
+     * @see {UrlParser.sameDomain} instead
+     */
+    UrlParser.prototype.checkCORS = UrlParser.prototype.sameDomain;
 
     return UrlParser;
 });
