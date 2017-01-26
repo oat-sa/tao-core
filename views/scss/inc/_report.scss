@@ -5,6 +5,9 @@
         right: 5px;
         top: 10px;
         z-index: 1;
+        .check-txt.hide{
+            display:none;
+        }
     }
     .content {
         .hierarchical {
@@ -12,7 +15,23 @@
                 display: none;
             }
         }
-        &.detailed {
+        .actions {
+            text-align: right;
+            .action {
+                margin-top: 10px;
+            }
+        }
+    }
+    &.detailed {
+        .fold .check-txt{
+            &.show{
+                display:none;
+            }
+            &.hide{
+                display:inline-block;
+            }
+        }
+        .content{
             .hierarchical {
                 [class^="feedback-"], [class*=" feedback-"] {
                     display: block;
@@ -30,12 +49,6 @@
                 .leaf {
                     margin: 10px 0;
                 }
-            }
-        }
-        .actions {
-            text-align: right;
-            .action {
-                margin-top: 10px;
             }
         }
     }

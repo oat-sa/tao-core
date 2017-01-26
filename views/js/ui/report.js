@@ -60,15 +60,15 @@ define([
 
     var report = {
         isDetailed : function isDetailed(){
-            return this.$component.find('.content').hasClass('detailed');
+            return this.$component.hasClass('detailed');
         },
         showDetails : function showDetails(){
-            this.$component.find('.content').addClass('detailed');
+            this.$component.addClass('detailed');
             this.trigger('showDetails');
             return this;
         },
         hideDetails : function hideDetails(){
-            this.$component.find('.content').removeClass('detailed');
+            this.$component.removeClass('detailed');
             this.trigger('hideDetails');
             return this;
         }
