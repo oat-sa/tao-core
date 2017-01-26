@@ -71,7 +71,7 @@ define([
      * @returns {String} the level
      */
     var getLevel = function getLevel(level){
-        if(_.isString(level) && !_.has(levels, level)){
+        if(typeof level === 'undefined' || (_.isString(level) && !_.has(levels, level)) ){
             return defaultLevel;
         }
         if(_.isNumber(level)){
@@ -121,7 +121,6 @@ define([
 
         var baseRecord;
         var logger;
-        var hasMinLevel;
 
         if(!_.isString(name) || _.isEmpty(name)){
             throw new TypeError('A logger needs a name');
@@ -132,9 +131,6 @@ define([
             pid      : 1,    // only for compat
             hostname : navigator.userAgent
         });
-
-        minLevel    = getLevelNum(minLevel);
-        hasMinLevel = _.partial(checkMinLevel, minLevel);
 
         /**
          * Exposes a log method and one by log level, like logger.trace()
@@ -161,7 +157,7 @@ define([
                 var time = new Date().toISOString();
 
                 //without providers or not the level, we don't log.
-                if(loggerFactory.providers === false || !hasMinLevel(level)){
+                if(loggerFactory.providers === false || !checkMinLevel(minLevel || defaultLevel, level)){
                     return;
                 }
 
@@ -184,10 +180,6 @@ define([
 
                     record.msg = err.message;
                     record.err = err;
-                        //name : err.name,
-                        //message : err.message,
-                        //stack : err.stack
-                    //};
 
                 } else {
                     record.msg = format.apply(null, [message].concat(rest));
@@ -205,16 +197,15 @@ define([
             /**
              * Get/set the default level of the logger
              * @param {String|Number} [level] - set the default level
-             * @returns {Number|logger} the default level as a getter or chains as a setter
+             * @returns {String|logger} the default level as a getter or chains as a setter
              */
             level : function(value){
                 if(typeof value !== 'undefined'){
                     //update the partial function
                     minLevel = getLevelNum(value);
-                    hasMinLevel = _.partial(checkMinLevel, minLevel);
                     return this;
                 }
-                return minLevel;
+                return getLevel(minLevel);
             },
 
             /**
@@ -312,9 +303,11 @@ define([
     /**
      * Change the default level for all loggers
      * @param {String|Number} [level] - set the default level
+     * @returns {String} the defined level
      */
     loggerFactory.setDefaultLevel = function setDefaultLevel(level){
         defaultLevel = getLevel(level);
+        return defaultLevel;
     };
 
     return loggerFactory;

@@ -201,7 +201,7 @@ define(['core/logger/api'], function(loggerFactory){
         logger.info('nothing');
         logger.warn('something');
 
-        assert.equal(logger.level(), loggerFactory.levels.warn, 'The current level match');
+        assert.equal(logger.level(), 'warn', 'The current level match');
     });
 
     QUnit.test('default minimum level', function(assert){
@@ -222,7 +222,7 @@ define(['core/logger/api'], function(loggerFactory){
         logger.info('nothing');
         logger.warn('something');
 
-        assert.equal(logger.level(), loggerFactory.levels.warn, 'The current level match');
+        assert.equal(logger.level(), 'warn', 'The current level match');
     });
 
     QUnit.test('change minimum level', function(assert){
@@ -238,14 +238,14 @@ define(['core/logger/api'], function(loggerFactory){
 
         logger = loggerFactory('foo', 'warn');
         logger.info('nothing');
-        assert.equal(logger.level(), loggerFactory.levels.warn, 'The current level match');
+        assert.equal(logger.level(), 'warn', 'The current level match');
 
         logger.level('info');
-        assert.equal(logger.level(), loggerFactory.levels.info, 'The current level match');
+        assert.equal(logger.level(), 'info', 'The current level match');
         logger.trace('nothing');
 
         logger.level(loggerFactory.levels.trace);
-        assert.equal(logger.level(), loggerFactory.levels.trace, 'The current level match');
+        assert.equal(logger.level(), 'trace', 'The current level match');
         logger.trace('something');
     });
 

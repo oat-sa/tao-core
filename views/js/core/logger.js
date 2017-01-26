@@ -51,6 +51,15 @@ define([
         loggerFactory.load(config.loggers);
     }
 
+    /**
+     * Expose explicitely an direct way to activate log levels
+     * @param {String|Number} level - the new log level
+     * @returns {String} the defined level
+     */
+    window.setTaoLogLevel = function setTaoLogLevel(level){
+        return loggerFactory.setDefaultLevel(level);
+    };
+
     //exposes the API
     return loggerFactory;
 });
