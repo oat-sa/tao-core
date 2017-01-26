@@ -18,11 +18,9 @@
  */
 
 /**
- * The area broker is a kind of areas hub, it gives the access to predefined areas.
+ * The area broker is a kind of areas hub.
+ * Tt gives the access to predefined areas and can also handle the rendering of those areas.
  *
- *
- * todo complete documentation
-
  * @example
  * var broker = areaBroker(['content', 'panel'], $container);
  * broker.defineAreas({
@@ -30,11 +28,30 @@
  *    //...
  * });
  *
- * //then
+ * // then, you can either retrieve and use the area container directly...
  * var $content = broker.getArea('content');
  * var $content = broker.getContentArea();
  *
+ * // ... or you can use the areaBroker rendering capabilities
+ * broker.addComponent('content', 'myButton', $myButton);
+ * broker.addContentComponent('myButton', $myButton);
+ *
+ * broker.render('content');
+ * broker.renderAll();
+ *
+ * // you can override the default renderer if you need a specific layout for an area
+ * function myRenderer($areaContainer, $allComponents) {
+ *     var $myButton = _.find($allComponents, { id: 'myButton'});
+ *     var $buttonWrapper = $('<div>', { class: 'my-fancy-button-wrapper' });
+ *
+ *     $areaContainer.append($buttonWrapper.append($myButton));
+ * }
+ *
+ * broker.setRenderer('content', myRenderer);
+ * broker.setContentRenderer(myRenderer);
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
+ * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
     'jquery',
@@ -45,14 +62,16 @@ define([
 
     /**
      * Default renderer. It simply appends all the registered components of an area, in the registration order, into the area container
-     * @param {jQuery} $renderTo - where to render
-     * @param {Array} allComponents - components to render
-     * @returns {Promise}
+     * @param {jQuery} $areaContainer - where to render
+     * @param {Object[]} allComponents - components to render
+     * @param {String} allComponents[].id - id of the component
+     * @param {jQuery} allComponents[].$component - the component itself
+     * @returns {Promise} - if async rendering is needed, otherwise undefined
      */
-    function defaultRenderer($renderTo, allComponents) {
+    function defaultRenderer($areaContainer, allComponents) {
         if (allComponents && _.isArray(allComponents)) {
             allComponents.forEach(function (entry) {
-                $renderTo.append(entry.$component);
+                $areaContainer.append(entry.$component);
             });
         }
     }
@@ -214,6 +233,10 @@ define([
                 }
             },
 
+            /**
+             * Render all the areas
+             * @returns {Promise}
+             */
             renderAll : function renderAll() {
                 var self = this,
                     execStack = [];
@@ -237,6 +260,7 @@ define([
 
         broker.defineAreas(mapping);
 
+        // define aliases for required areas
         _.forEach(requiredAreas, function(area){
             var areaIdentifier = area[0].toUpperCase() + area.slice(1);
             broker['get' + areaIdentifier + 'Area']         = _.bind(_.partial(broker.getArea, area), broker);
