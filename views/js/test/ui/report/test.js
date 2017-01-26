@@ -30,7 +30,7 @@ define([
 
     var sampleData = {
         "type": "warning",
-        "message": "Data not imported. All records are invalid.",
+        "message": "<em>Data not imported. All records are <strong>invalid.</strong></em>",
         "data": null,
         "children": [{
             "type": "error",
@@ -62,8 +62,25 @@ define([
 
     // display a sample of the component
     if (showSample) {
-        report({renderTo: $('body')}, sampleData).on('showDetails', function() {
+        report({
+            renderTo: $('body'),
+            actions : [{
+                id: 'rollback',
+                icon: 'reset',
+                title: 'Rollback to previous state',
+                label: 'Rollback'
+            },{
+                id: 'continue',
+                icon: 'right',
+                title: 'Continue to next step',
+                label: 'Continue'
+            }]
+        }, sampleData).on('showDetails', function() {
             console.log('details displayed');
+        }).on('action-continue', function() {
+            console.log('continued');
+        }).on('action-rollback', function() {
+            console.log('rollbacked');
         });
     }
 

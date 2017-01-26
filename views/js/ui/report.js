@@ -26,20 +26,23 @@ define([
 ], function ($, _, __, form, component, layoutTpl, feedbackTpl) {
     'use strict';
 
-    var _defaults = {};
+    var _defaults = {
+        actions:[]
+    };
 
     var authorizedTypes = ['success', 'info', 'warning', 'error'];
 
     /**
      * Recursive function to render report messages
-     * 
+     *
      * @param {Object} data - a standard report object sent by the backend
      * @param {String} data.type - the error type
      * @param {String} data.message - the feedback message
      * @param {Array} [data.children] - children report object
+     * @param {Array} [actions] - the actions buttons to be added, only for the first level of the hierarchy
      * @returns {*}
      */
-    var renderFeebacks = function renderFeebacks(data){
+    var renderFeebacks = function renderFeebacks(data, actions){
         var children = [];
         if(!data.type || authorizedTypes.indexOf(data.type) === -1){
             throw new TypeError('Unkown report type: '+data.type);
@@ -51,6 +54,7 @@ define([
         }
         data.hasChildren = (children.length > 0);
         data.children = children;
+        data.actions = actions;
         return feedbackTpl(data);
     }
 
@@ -88,8 +92,13 @@ define([
                 var self = this;
                 var $content = this.$component.find('.content');
                 var $checkbox = this.$component.find('.fold input');
-                $content.append(renderFeebacks(data));
+                $content.append(renderFeebacks(data, this.config.actions));
 
+                //init actions:
+                $content.on('click', '.action', function(){
+                    var actionId = $(this).data('trigger');
+                    self.trigger('action-'+actionId);
+                });
                 $checkbox.click(function(){
                     if(self.isDetailed()){
                         self.hideDetails();
