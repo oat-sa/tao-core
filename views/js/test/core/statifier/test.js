@@ -78,17 +78,24 @@ define(['core/statifier'], function (statifier) {
     QUnit.test("setState()/getState()", function(assert) {
         var states = statifier();
 
-        QUnit.expect(9);
+        QUnit.expect(11);
 
         assert.equal(states.getState('foo'), false, 'The state should not exist');
+
         assert.equal(states.setState('foo', true), states, 'The setState() method should return the instance');
         assert.equal(states.getState('foo'), true, 'The state should exist now');
+
         assert.equal(states.setState('foo', false), states, 'The setState() method should return the instance');
         assert.equal(states.getState('foo'), false, 'The state should not exist');
+
         assert.equal(states.setState('foo', 'bar'), states, 'The setState() method should return the instance');
         assert.equal(states.getState('foo'), true, 'A not empty string is equivalent to true, the state should exist');
+
         assert.equal(states.setState('foo', ''), states, 'The setState() method should return the instance');
         assert.equal(states.getState('foo'), false, 'An empty string is equivalent to false, the state should be removed');
+
+        assert.equal(states.setState('foo'), states, 'The setState() method should return the instance');
+        assert.equal(states.getState('foo'), true, 'When no value is provided, the state should be set');
     });
 
 

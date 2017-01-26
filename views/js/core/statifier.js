@@ -26,6 +26,12 @@
  * if (statesHandler.getState("alive")) {
  *     ...
  * }
+ * ...
+ * // without explicit value, the state is always set
+ * statesHandler.setState("ready");
+ *
+ * // return `true`
+ * statesHandler.getState("ready");
  *
  * @example extend existing object
  * var myObj = {...};
@@ -84,12 +90,22 @@ define([
             },
 
             /**
-             * Sets a state
+             * Sets a state.
+             * Without value, the state is always set.
+             * @example
+             * statesHandler.setState("ready");
+             *
+             * // return `true`
+             * statesHandler.getState("ready");
+             *
              * @param {String} name
-             * @param {Boolean} value
+             * @param {Boolean} [value]
              * @returns {statesApi}
              */
             setState: function setState(name, value) {
+                if (typeof(value) === 'undefined') {
+                    value = true;
+                }
                 states[name] = !!value;
                 return this;
             },
