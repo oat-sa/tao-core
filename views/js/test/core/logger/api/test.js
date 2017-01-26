@@ -1,3 +1,26 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ */
+
+/**
+ * Test the logger API
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 define(['core/logger/api'], function(loggerFactory){
     'use strict';
 
@@ -81,7 +104,52 @@ define(['core/logger/api'], function(loggerFactory){
     });
 
 
-    QUnit.module('behavior', {
+    QUnit.module('providers', {
+        setup    : function(){
+            loggerFactory.providers = false;
+        }
+    });
+
+
+    QUnit.asyncTest('load providers', function(assert){
+        var p;
+        QUnit.expect(5);
+
+        assert.equal(loggerFactory.providers, false, 'No providers');
+
+        p = loggerFactory.load(['test/core/logger/api/mlogck']);
+        assert.ok(p instanceof Promise, 'the load method returns a Promise');
+
+        p.then(function(){
+            assert.equal(loggerFactory.providers.length, 1, 'A provider is registered');
+            assert.equal(typeof loggerFactory.providers[0], 'object', 'The registered provider is an object');
+            assert.equal(typeof loggerFactory.providers[0].log, 'function', 'The registered provider has a log function');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(false, err.message);
+        });
+    });
+
+    QUnit.asyncTest('wrong providers', function(assert){
+        var p;
+        QUnit.expect(3);
+
+        assert.equal(loggerFactory.providers, false, 'No providers');
+
+        p = loggerFactory.load(['test/core/logger/api/test']);
+        assert.ok(p instanceof Promise, 'the load method returns a Promise');
+
+        p.then(function(){
+            assert.ok(false, 'The method should not resolve');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(err instanceof TypeError, 'The given provider is not a logger');
+            QUnit.start();
+        });
+    });
+
+
+    QUnit.module('logger behavior', {
         setup    : function(){
             loggerFactory.providers = [];
         }
@@ -128,6 +196,27 @@ define(['core/logger/api'], function(loggerFactory){
         });
 
         logger = loggerFactory('foo', 'warn');
+        logger.trace('nothing');
+        logger.debug('nothing');
+        logger.info('nothing');
+        logger.warn('something');
+
+        assert.equal(logger.level(), loggerFactory.levels.warn, 'The current level match');
+    });
+
+    QUnit.test('default minimum level', function(assert){
+        var logger;
+        QUnit.expect(3);
+
+        loggerFactory.register({
+            log : function log(message){
+                assert.equal(message.level, 'warn', 'the level match');
+                assert.equal(message.msg, 'something', 'the message match');
+            }
+        });
+
+        loggerFactory.setDefaultLevel('warn');
+        logger = loggerFactory('foo');
         logger.trace('nothing');
         logger.debug('nothing');
         logger.info('nothing');

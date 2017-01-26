@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -24,27 +24,31 @@
  * Load the logger providers based on the module configuration
  * and exposes the logger api
  *
- *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'lodash',
     'module',
-    'core/logger/api',
-    'core/logger/console'
-], function(_, module, loggerFactory, consoleLogger){
+    'core/logger/api'
+], function(_, module, loggerFactory) {
     'use strict';
 
+    /**
+     * The default configuration if nothing
+     * is found on the module config
+     */
+    var defaultConfig = {
+        level : loggerFactory.levels.warn,
+        loggers : ['core/logger/console']
+    };
+
     //the logger providers are configured through the AMD module config
-    var config = module.config();
+    var config = _.defaults(module.config() || {}, defaultConfig);
+
+
     if(_.isArray(config.loggers) && config.loggers.length){
-
+        loggerFactory.setDefaultLevel(config.level);
         loggerFactory.load(config.loggers);
-
-    } else {
-
-        //defaults to the console provider
-        loggerFactory.register(consoleLogger);
     }
 
     //exposes the API

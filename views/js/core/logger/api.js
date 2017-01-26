@@ -13,13 +13,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
 
 /**
+ * Logger API, highly inspired and mostly compatible from https://github.com/trentm/node-bunyan
  *
- * Logger API, highly inspired from https://github.com/trentm/node-bunyan
+ * @example
+ * var logger = loggerFactory('component');
+ * logger.info('Message');
+ * logger.debug('Formated %s', 'message');
+ * logger.trace({ anotherField : true}, 'hello');
+ * logger.error(new Error('Something went wrong');
+ *
+ * var childLogger = logger.child({ type : 'sub-component'});
+ * childLogger.warn('oops');
+ *
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -50,7 +60,7 @@ define([
     var bunyanVersion = 0;
 
     /**
-     * Where messages dwelves
+     * Where messages dwells
      */
     var logQueue = [];
 
@@ -119,7 +129,7 @@ define([
 
         baseRecord = _.defaults(fields || {}, {
             name     : name,
-            pid      : 1,    // only for compatk
+            pid      : 1,    // only for compat
             hostname : navigator.userAgent
         });
 
@@ -173,11 +183,11 @@ define([
                     err = message instanceof Error ? message : new Error(message);
 
                     record.msg = err.message;
-                    record.err = {
-                        name : err.name,
-                        message : err.message,
-                        stack : err.stack
-                    };
+                    record.err = err;
+                        //name : err.name,
+                        //message : err.message,
+                        //stack : err.stack
+                    //};
 
                 } else {
                     record.msg = format.apply(null, [message].concat(rest));
@@ -209,7 +219,7 @@ define([
 
             /**
              * Fork the current logger to create a child logger :
-             * same config + childFields
+             * same config + child fields
              *
              * @param {Object} [childFields] - specialized child fields
              * @return {logger} the child logger
@@ -252,7 +262,11 @@ define([
             require(modules, function(){
                 var loadedProviders = [].slice.call(arguments);
                 _.forEach(loadedProviders, function (provider){
-                    self.register(provider);
+                    try {
+                        self.register(provider);
+                    } catch(err){
+                        reject(err);
+                    }
                 });
 
                 //flush messages that arrived before the providers are there
@@ -293,6 +307,14 @@ define([
             //clear the queue
             logQueue = [];
         }
+    };
+
+    /**
+     * Change the default level for all loggers
+     * @param {String|Number} [level] - set the default level
+     */
+    loggerFactory.setDefaultLevel = function setDefaultLevel(level){
+        defaultLevel = getLevel(level);
     };
 
     return loggerFactory;

@@ -109,8 +109,9 @@ define([
     'lodash',
     'async',
     'core/promise',
-    'lib/uuid'
-], function(_, async, Promise, uuid){
+    'lib/uuid',
+    'core/logger'
+], function(_, async, Promise, uuid, loggerFactory){
     'use strict';
 
     /**
@@ -122,6 +123,8 @@ define([
      * Namespace that targets all event
      */
     var globalNs = '*';
+
+    var eventifierLogger = loggerFactory('eventifier');
 
     /**
      * Create an async callstack
@@ -260,18 +263,21 @@ define([
         };
     }
 
+
     /**
      * Makes the target an event emitter by delegating calls to the event API.
      * @param {Object} [target = {}] - the target object, a new plain object is created when omited.
-     * @param {logger} [logger] - a logger to trace events
      * @returns {Object} the target for conveniance
      */
-    function eventifier(target, logger){
+    function eventifier(target){
 
-        var targetName;
+        //try to get something that looks like a name, an id or generate one only for logging purposes
+        var targetName = target.name || target.id || target.serial || uuid(6);
 
         //it stores all the handlers under ns/name/[handlers]
         var eventHandlers  = {};
+
+        var logger = eventifierLogger.child({ target : targetName });
 
         /**
          * Get the handlers for an event type
@@ -406,6 +412,8 @@ define([
                             return acc;
                         }, getHandlerObject());
 
+                    logger.debug({event : eventName, args : args}, 'trigger %s', eventName);
+
                     if(mergedHandlers){
 
                         //if there is something in before we delay the execution
@@ -477,17 +485,9 @@ define([
 
         target = target || {};
 
-        if(logger){
-            //try to get something that looks like a name, an id or generate one only for logging purposes
-            targetName = target.name || target.id || target.serial || uuid(6);
-        }
-
         _(eventApi).functions().forEach(function(method){
             target[method] = function delegate(){
                 var args =  [].slice.call(arguments);
-                if(logger && logger.debug){
-                    logger.debug.apply(logger, [targetName, method].concat(args));
-                }
                 return eventApi[method].apply(target, args);
             };
         });
