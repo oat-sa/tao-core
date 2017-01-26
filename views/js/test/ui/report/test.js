@@ -19,9 +19,7 @@
 define([
     'jquery',
     'lodash',
-    'ui/report',
-    'css!taoCss/tao-3.css',
-    'css!taoCss/tao-main-style.css'
+    'ui/report'
 ], function($, _, report) {
     'use strict';
 
