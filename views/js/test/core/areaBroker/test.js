@@ -62,6 +62,8 @@ define([
 
         var $container = $('.container', $fixture);
 
+        var broker;
+
         var $header     = $('.header', $container);
         var $footer     = $('.footer', $container);
         var $body       = $('.body', $container);
@@ -96,7 +98,6 @@ define([
             });
         }, TypeError, 'A broker must be created with an full area mapping');
 
-
         assert.equal(typeof areaBroker(required, $container, mapping), 'object', "The factory creates an object");
         assert.notEqual(areaBroker(required, $container, mapping), areaBroker(required, $container, mapping), "The factory creates new instances");
     });
@@ -130,7 +131,7 @@ define([
         };
         var broker = areaBroker(required, $container, mapping);
 
-        QUnit.expect(9);
+        QUnit.expect(10);
 
         assert.ok($container.length,  "The container exists");
 
@@ -158,6 +159,12 @@ define([
         assert.deepEqual(broker.getArea('panel'), $panel, 'The area match');
 
         assert.ok(typeof (broker.getArea('foo')) === 'undefined', 'The area does not exists');
+
+        broker = areaBroker([], $container, {});
+        assert.throws(function() {
+            broker.getArea('unknown');
+        }, Error, 'trying to get an area without a mapping defined throws an error');
+
 
     });
 
@@ -260,8 +267,8 @@ define([
         }, TypeError, 'addComponent requires a valid component');
 
         assert.throws(function() {
-            broker.addComponent('header', 'headerComp1', 'my first component');
-            broker.addComponent('header', 'headerComp1', 'my second component has the same id than the first one!');
+            broker.addComponent('header', 'headerComp1', '<div>my first component</div>');
+            broker.addComponent('header', 'headerComp1', '<div>my second component has the same id than the first one!</div>');
         }, TypeError, 'addComponent requires a unique component id');
     });
 
@@ -436,6 +443,57 @@ define([
             broker.setRenderer('header', 'headerComp1', 'my second component has the same id than the first one!');
         }, TypeError, 'addComponent requires a unique component id');
     });
+
+    QUnit.test('setRenderer aliases', function (assert) {
+        var broker = getTestBroker();
+
+        QUnit.expect(4);
+
+        assert.ok(typeof (broker.setHeaderRenderer) === 'function', 'the broker has a setHeaderRenderers method');
+        assert.ok(typeof (broker.setFooterRenderer) === 'function', 'the broker has a setFooterRenderer method');
+        assert.ok(typeof (broker.setBodyRenderer) === 'function',   'the broker has a setBodyRenderer method');
+        assert.ok(typeof (broker.setPanelRenderer) === 'undefined', 'aliases are available only for required areas');
+    });
+
+    QUnit.asyncTest('renderAll()', function (assert) {
+        var $fixture = $(fixture),
+            $container = $('.container', $fixture);
+
+        var $header = $('.header', $container),
+            $footer = $('.footer', $container),
+            $body   = $('.body', $container),
+            $panel  = $('.panel', $container);
+
+        var broker = getTestBroker();
+
+        QUnit.expect(4);
+
+        broker.setHeaderRenderer(function($areaContainer) {
+            $areaContainer.append('header content');
+        });
+
+        broker.setFooterRenderer(function($areaContainer) {
+            $areaContainer.append('footer content');
+        });
+
+        broker.setBodyRenderer(function($areaContainer) {
+            $areaContainer.append('body content');
+        });
+
+        broker.setRenderer('panel', function($areaContainer) {
+            $areaContainer.append('panel content');
+        });
+
+        broker.renderAll().then(function () {
+            assert.equal($header.text(), 'header content', 'header has been rendered');
+            assert.equal($footer.text(), 'footer content', 'footer has been rendered');
+            assert.equal($body.text(), 'body content', 'body has been rendered');
+            assert.equal($panel.text(), 'panel content', 'panel has been rendered');
+
+            QUnit.start();
+        });
+    });
+
 
     QUnit.asyncTest('render() can be called with no renderers defined', function (assert) {
         var $fixture = $(fixture),

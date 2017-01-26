@@ -21,6 +21,8 @@
  * The area broker is a kind of areas hub, it gives the access to predefined areas.
  *
  *
+ * todo complete documentation
+
  * @example
  * var broker = areaBroker(['content', 'panel'], $container);
  * broker.defineAreas({
@@ -50,12 +52,7 @@ define([
     function defaultRenderer($renderTo, allComponents) {
         if (allComponents && _.isArray(allComponents)) {
             allComponents.forEach(function (entry) {
-                var $component = entry.$component;
-
-                if(typeof $component === 'string' || $component instanceof HTMLElement){
-                    $component = $($component);
-                }
-                $renderTo.append($component);
+                $renderTo.append(entry.$component);
             });
         }
     }
@@ -95,7 +92,7 @@ define([
              * This method needs to be called before getting areas.
              * It's separated from the factory call in order to prepare the mapping in a separated step.
              *
-             * @param {Object} mapping - keys are the area names, values are jQueryElement
+             * @param {Object} areasMapping - keys are the area names, values are jQueryElement
              * @throws {TypeError} if the required areas are not part of the mapping
              */
             defineAreas : function defineAreas(areasMapping){
@@ -137,17 +134,10 @@ define([
              * @throws {Error} if the mapping hasn't been made previously
              */
             getArea : function getArea(name){
-                if(!areas){
+                if(_.isEmpty(areas)){
                     throw new Error('Sorry areas have not been defined yet!');
                 }
                 return areas[name];
-            },
-
-            getAllAreas : function getAllAreas() {
-                if(!areas){
-                    throw new Error('Sorry areas have not been defined yet!');
-                }
-                return areas;
             },
 
             /**
@@ -158,7 +148,7 @@ define([
              * @throws {TypeError} in case of invalid parameters
              */
             addComponent : function addComponent(areaName, componentId, $component) {
-                if (!areas && !areas[areaName]) {
+                if (!areas[areaName]) {
                     throw new TypeError('There is no areas defined or no area named ' + areaName);
                 }
                 if (typeof componentId !== 'string') {
@@ -201,7 +191,7 @@ define([
              * @param {function} renderer - should return a Promise. Check the default renderer for the expected signature.
              */
             setRenderer : function setRenderer(areaName, renderer) {
-                if (!areas && !areas[areaName]) {
+                if (!areas[areaName]) {
                     throw new TypeError('There is no areas defined or no area named ' + areaName);
                 }
                 if (!_.isFunction(renderer)) {
@@ -222,6 +212,17 @@ define([
                 } else {
                     return Promise.resolve();
                 }
+            },
+
+            renderAll : function renderAll() {
+                var self = this,
+                    execStack = [];
+
+                _.keys(areas).forEach(function (areaName) {
+                    execStack.push(self.render(areaName));
+                });
+
+                return Promise.all(execStack);
             },
 
             /**
