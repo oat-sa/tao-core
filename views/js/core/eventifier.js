@@ -124,6 +124,9 @@ define([
      */
     var globalNs = '*';
 
+    /**
+     * Create a logger
+     */
     var eventifierLogger = loggerFactory('eventifier');
 
     /**
@@ -277,6 +280,7 @@ define([
         //it stores all the handlers under ns/name/[handlers]
         var eventHandlers  = {};
 
+        //create a child logger per eventifier
         var logger = eventifierLogger.child({ target : targetName });
 
         /**
