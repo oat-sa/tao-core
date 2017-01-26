@@ -262,7 +262,7 @@ class tao_helpers_Array
             foreach ($values as $value) {
                 $keys = array_keys($arrayCountValues);
                 if (($search = array_search($value, $keys)) !== false) {
-                    $counts[$index] = $arrayCountValues[$keys[$search]];
+                    $counts[$index] += $arrayCountValues[$keys[$search]];
                 }
             }
         }
