@@ -79,10 +79,20 @@ abstract class AbstractIndexedCsv implements Action
         
         if (isset($params[2])) {
             $this->setIndexColumn(intval($params[2]));
+        } else {
+            return new Report(
+                Report::TYPE_ERROR,
+                "'Index Column' parameter not provided."
+            );
         }
         
         if (isset($params[3])) {
             $this->setFirstRowColumnNames(boolval($params[3]));
+        } else {
+            return new Report(
+                Report::TYPE_ERROR,
+                "'First Row Column Names' parameter not provided."
+            );
         }
         
         // -- Initial report.
