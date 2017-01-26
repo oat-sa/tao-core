@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -639,16 +639,35 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.35.0', '7.46.0');
-        
+
         if ($this->isVersion('7.46.0')) {
-            
+
             $this->getServiceManager()->register(ExtraPoService::SERVICE_ID, new ExtraPoService());
-            
+
             $this->setVersion('7.47.0');
         }
 
-        $this->skip('7.47.0', '7.47.1');
+        $this->skip('7.47.0', '7.54.0');
 
+        if ($this->isVersion('7.54.0')) {
+            $persistence = \common_persistence_Manager::getPersistence('default');
+            /** @var common_persistence_sql_pdo_SchemaManager $schemaManager */
+            $schemaManager = $persistence->getDriver()->getSchemaManager();
+            $schema = $schemaManager->createSchema();
+            $fromSchema = clone $schema;
+            // test if already executed
+            $statementsTableData = $schema->getTable('statements');
+            $statementsTableData->dropIndex('idx_statements_modelid');
+            $modelsTableData = $schema->getTable('models');
+            $modelsTableData->dropIndex('idx_models_modeluri');
+            $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
+            foreach ($queries as $query) {
+                $persistence->exec($query);
+            }
+            $this->setVersion('7.54.1');
+        }
+
+    	  $this->skip('7.54.1', '7.57.0');
     }
 
     private function migrateFsAccess() {
