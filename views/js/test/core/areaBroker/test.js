@@ -310,7 +310,7 @@ define([
 
     QUnit.module('renderers');
 
-    QUnit.test('default renderer is set on required areas', function (assert) {
+    QUnit.test('default renderer is set on all areas', function (assert) {
         var broker = getTestBroker();
 
         QUnit.expect(4);
@@ -318,7 +318,7 @@ define([
         assert.ok(broker.hasRenderer('header'), 'default renderer has been set for header area');
         assert.ok(broker.hasRenderer('footer'), 'default renderer has been set for footer area');
         assert.ok(broker.hasRenderer('body'), 'default renderer has been set for body area');
-        assert.ok(!broker.hasRenderer('panel'), 'default renderer has not been set for not required area');
+        assert.ok(broker.hasRenderer('panel'), 'default renderer has been set for panel area');
     });
 
     QUnit.asyncTest('default renderer', function (assert) {
@@ -489,31 +489,6 @@ define([
             assert.equal($footer.text(), 'footer content', 'footer has been rendered');
             assert.equal($body.text(), 'body content', 'body has been rendered');
             assert.equal($panel.text(), 'panel content', 'panel has been rendered');
-
-            QUnit.start();
-        });
-    });
-
-
-    QUnit.asyncTest('render() can be called with no renderers defined', function (assert) {
-        var $fixture = $(fixture),
-            $container = $('.container', $fixture),
-            $panel;
-
-        var broker = getTestBroker();
-
-        broker.addComponent('panel', 'component5', '<div>content5</div>');
-        broker.addComponent('panel', 'component1', '<div>content1</div>');
-
-        QUnit.expect(3);
-
-        broker.render('panel').then(function() {
-            assert.ok(true, 'render() method has returned a Promise');
-
-            $panel = $('.panel', $container);
-
-            assert.equal($panel.length, 1, 'panel container has been found');
-            assert.equal($panel.text(), '', 'nothing has been rendered in the panel container');
 
             QUnit.start();
         });

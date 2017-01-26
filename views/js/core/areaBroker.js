@@ -132,8 +132,8 @@ define([
 
                 areas = areasMapping;
 
-                // set the default renderer for required areas
-                requiredAreas.forEach(function (areaName) {
+                // set the default renderer for all areas
+                _.forOwn(areas, function (area, areaName) {
                     self.setRenderer(areaName, defaultRenderer);
                 });
             },
@@ -225,12 +225,13 @@ define([
              * @returns {Promise}
              */
             render : function render(areaName) {
+                var rendered;
+
                 if (this.hasRenderer(areaName)) {
-                    // we wrap the render call into a Promise in case the registered function doesn't return one
-                    return Promise.resolve(renderers[areaName](this.getArea(areaName), components[areaName]));
-                } else {
-                    return Promise.resolve();
+                    rendered = renderers[areaName](this.getArea(areaName), components[areaName]);
                 }
+                // we wrap the result into a Promise in case the registered renderer doesn't return one
+                return Promise.resolve(rendered);
             },
 
             /**
