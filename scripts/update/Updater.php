@@ -667,7 +667,19 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.54.1');
         }
 
-    	  $this->skip('7.54.1', '7.57.0');
+        $this->skip('7.54.1', '7.57.0');
+
+        if ($this->isVersion('7.57.0')) {
+            
+            ClientLibConfigRegistry::getRegistry()->register(
+                'core/logger', [
+                    'level'   => 'warn',
+                    'loggers' =>  ['core/logger/console']
+                ]
+            );
+            $this->setVersion('7.58.0');
+        }
+
     }
 
     private function migrateFsAccess() {

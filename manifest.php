@@ -31,7 +31,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '7.57.0',
+    'version' => '7.58.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=3.9.0',
@@ -84,6 +84,7 @@ return array(
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
+            dirname(__FILE__).'/scripts/install/setClientLoggerConfig.php',
             AddLogFs::class,
             RegisterValidationRules::class
         )
