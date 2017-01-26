@@ -20,6 +20,7 @@
  * Test the areaBroker
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
+ * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
     'jquery',
@@ -61,8 +62,6 @@ define([
         var $fixture = $(fixture);
 
         var $container = $('.container', $fixture);
-
-        var broker;
 
         var $header     = $('.header', $container);
         var $footer     = $('.footer', $container);
