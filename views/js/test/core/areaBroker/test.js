@@ -33,6 +33,8 @@ define([
     var fixture = '#qunit-fixture';
     var required   = ['header', 'footer', 'body'];
 
+    var brokerApi;
+
     function getTestBroker() {
         var $fixture = $(fixture);
         var $container = $('.container', $fixture);
@@ -102,15 +104,26 @@ define([
         assert.notEqual(areaBroker(required, $container, mapping), areaBroker(required, $container, mapping), "The factory creates new instances");
     });
 
-    QUnit.test('broker api', function (assert){
-        var broker = getTestBroker();
+    brokerApi = [
+        { method: 'defineAreas' },
+        { method: 'getContainer' },
+        { method: 'getArea' },
+        { method: 'setComponent' },
+        { method: 'getComponent' },
+        { method: 'addElement' },
+        { method: 'getElement' },
+        { method: 'initAll' },
+        { method: 'renderAll' },
+        { method: 'destroyAll' }
+    ];
 
-        QUnit.expect(3);
-
-        assert.equal(typeof broker.defineAreas, 'function', 'The broker has a defineAreas function');
-        assert.equal(typeof broker.getContainer, 'function', 'The broker has a getContainer function');
-        assert.equal(typeof broker.getArea, 'function', 'The broker has a getArea function');
-    });
+    QUnit
+        .cases(brokerApi)
+        .test('broker api', function (data, assert){
+            var broker = getTestBroker();
+            QUnit.expect(1);
+            assert.equal(typeof broker[data.method], 'function', 'The broker has the method ' + data.method);
+        });
 
 
     QUnit.module('Area mapping');
@@ -455,17 +468,15 @@ define([
         broker.setHeaderComponent(customComponent);
 
         boundComponent = broker.getComponent('header');
-
         assert.ok(customComponent === boundComponent, 'getComponent returns the correct component');
 
         boundComponent = broker.getHeader();
-
         assert.ok(customComponent === boundComponent, 'getComponent returns the correct component');
     });
 
     QUnit.module('component lifecycle');
 
-    QUnit.asyncTest('renderAll()', function (assert) {
+    QUnit.asyncTest('initAll() / renderAll() / destoryAll()', function (assert) {
         var $fixture = $(fixture),
             $container = $('.container', $fixture);
 
@@ -476,7 +487,7 @@ define([
 
         var broker = getTestBroker();
 
-        QUnit.expect(4);
+        QUnit.expect(8);
 
         broker.setHeaderComponent(areaComponentFactory()
             .on('render', function($areaContainer) {
@@ -498,16 +509,20 @@ define([
                 $areaContainer.append('panel content');
             }));
 
-        broker.getHeader().init();
-        broker.getFooter().init();
-        broker.getBody().init();
-        broker.getComponent('panel').init();
+        broker.initAll();
 
         broker.renderAll().then(function () {
             assert.equal($header.text(), 'header content', 'header has been rendered');
             assert.equal($footer.text(), 'footer content', 'footer has been rendered');
             assert.equal($body.text(), 'body content', 'body has been rendered');
             assert.equal($panel.text(), 'panel content', 'panel has been rendered');
+
+            broker.destroyAll();
+
+            assert.equal($header.text(), '', 'header component has been destroy');
+            assert.equal($footer.text(), '', 'footer component has been destroy');
+            assert.equal($body.text(), '', 'body component has been destroy');
+            assert.equal($panel.text(), '', 'panel component has been destroy');
 
             QUnit.start();
         });

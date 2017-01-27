@@ -273,10 +273,14 @@ define([
 
                 // we use an async API even though the component rendering is not (yet) async.
                 return Promise.all(execStack);
-            }
+            },
 
-            // todo: implement initAll
-            // todo: implement destroyAll
+            /**
+             * destroy all the areas
+             */
+            destroyAll : function initAll() {
+                _.invoke(components, 'destroy');
+            }
 
         };
 
