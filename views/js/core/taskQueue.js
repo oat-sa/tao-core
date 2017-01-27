@@ -125,6 +125,22 @@ define([
                     poll.stop();
                 }
                 return api;
+            },
+            remove : function remove(taskId){
+                if(!config.url || !config.url.remove){
+                    return Promise.reject(new Error('config.url.remove is not defined'));
+                }
+                return request(config.url.remove, {taskId: taskId})
+                    .then(function(taskData){
+                        if(taskData.status === 'archived'){
+                            return Promise.resolve(taskData);
+                        }else{
+                            return Promise.reject(taskData);
+                        }
+                    })
+                    .catch(function(res){
+                        api.trigger('error', res);
+                    });
             }
         });
 

@@ -94,7 +94,8 @@ define([
             })
             .init({
                 dataUrl : '/tao/views/js/test/ui/taskQueue/table/data.json',
-                statusUrl : '/tao/views/js/test/ui/taskQueue/table/data-status.json'
+                statusUrl : '/tao/views/js/test/ui/taskQueue/table/data-status.json',
+                removeUrl : '/tao/views/js/test/ui/taskQueue/table/data-archived.json'
             })
             .render($fixtureContainer);
     });

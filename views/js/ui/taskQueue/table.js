@@ -21,11 +21,12 @@ define([
     'lodash',
     'i18n',
     'moment',
+    'core/taskQueue',
     'ui/component',
     'ui/taskQueue/status',
     'ui/datatable',
     'ui/modal'
-], function ($, _, __, moment, component, taskQueueStatusFactory) {
+], function ($, _, __, moment, taskQueueApi, component, taskQueueStatusFactory) {
     'use strict';
 
     var _defaults = {
@@ -52,18 +53,6 @@ define([
         return (row.status === 'finished');
     };
 
-    var showReport = function showReport(taskId) {
-        console.log('showReport', arguments);
-
-        var $report = $('<div class="modal">').modal();
-        $report.append('AAAA');
-        $('body').append($report);
-    };
-
-    var deleteTask = function deleteTask(taskId) {
-        console.log('deleteTask', arguments);
-    };
-
     var taskQueueTable = {
         showReport: function showReport(taskId) {
             console.log('showReport', taskId, this.config);
@@ -80,8 +69,15 @@ define([
             }).render($report).start();
 
             this.$component.append($report);
-
-
+        },
+        remove:function remove(taskId){
+            var self = this;
+            this.taskQueueApi.remove(taskId).then(function(){
+                self.$component.datatable('refresh');
+                self.trigger('removed', taskId);
+            }).catch(function(err){
+                self.trigger('error', err);
+            });
         }
     };
 
@@ -106,6 +102,12 @@ define([
          * @see ui/component
          */
         return component(taskQueueTable, config)
+            .on('init', function(){
+                this.taskQueueApi = taskQueueApi({url:{
+                    status: this.config.serviceUrl,
+                    remove: this.config.removeUrl
+                }});
+            })
             .on('render', function () {
                 var self = this;
 
@@ -166,7 +168,7 @@ define([
                                     return !isRemovable(this);
                                 },
                                 action: function (id) {
-                                    deleteTask(this);
+                                    self.remove(id);
                                 }
                             }, {
                                 id: 'report',
