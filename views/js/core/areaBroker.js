@@ -33,15 +33,15 @@
  * var $content = broker.getContentArea();
  *
  * // ... or you can use the areaBroker rendering capabilities
- * broker.addComponent('content', 'myButton', $myButton);
- * broker.addContentComponent('myButton', $myButton);
+ * broker.addElement('content', 'myButton', $myButton);
+ * broker.addContentElement('myButton', $myButton);
  *
  * broker.render('content');
  * broker.renderAll();
  *
  * // you can override the default renderer if you need a specific layout for an area
- * function myRenderer($areaContainer, $allComponents) {
- *     var $myButton = _.find($allComponents, { id: 'myButton'});
+ * function myRenderer($areaContainer, $allElements) {
+ *     var $myButton = _.find($allElements, { id: 'myButton'});
  *     var $buttonWrapper = $('<div>', { class: 'my-fancy-button-wrapper' });
  *
  *     $areaContainer.append($buttonWrapper.append($myButton));
@@ -56,22 +56,23 @@
 define([
     'jquery',
     'lodash',
-    'core/promise'
+    'core/promise',
+    'ui/component'
 ], function ($, _, Promise) {
     'use strict';
 
     /**
-     * Default renderer. It simply appends all the registered components of an area, in the registration order, into the area container
+     * Default renderer. It simply appends all the registered elements of an area, in the registration order, into the area container
      * @param {jQuery} $areaContainer - where to render
-     * @param {Object[]} allComponents - components to render
-     * @param {String} allComponents[].id - id of the component
-     * @param {jQuery} allComponents[].$component - the component itself
+     * @param {Object[]} allElements - elements to render
+     * @param {String} allElements[].id - id of the element
+     * @param {jQuery} allElements[].$element - the element itself
      * @returns {Promise} - if async rendering is needed, otherwise undefined
      */
-    function defaultRenderer($areaContainer, allComponents) {
-        if (allComponents && _.isArray(allComponents)) {
-            allComponents.forEach(function (entry) {
-                $areaContainer.append(entry.$component);
+    function defaultRenderer($areaContainer, allElements) {
+        if (allElements && _.isArray(allElements)) {
+            allElements.forEach(function (entry) {
+                $areaContainer.append(entry.$element);
             });
         }
     }
@@ -88,7 +89,7 @@ define([
         var broker,
             areas,
             renderers = {},
-            components = {};
+            elements = {};
 
         if(typeof $container === 'string' || $container instanceof HTMLElement){
             $container = $($container);
@@ -160,48 +161,49 @@ define([
             },
 
             /**
-             * Adds a component to the given area
+             * Adds a element to the given area
              * @param {String} areaName
-             * @param {String} componentId - can be used by the rendered to reference the component
-             * @param {String|HtmlElement|jQuery} $component
+             * @param {String} elementId - can be used by the rendered to reference the element
+             * @param {String|HtmlElement|jQuery} $element
              * @throws {TypeError} in case of invalid parameters
              */
-            addComponent : function addComponent(areaName, componentId, $component) {
+            addElement : function addElement(areaName, elementId, $element) {
                 if (!areas[areaName]) {
                     throw new TypeError('There is no areas defined or no area named ' + areaName);
                 }
-                if (typeof componentId !== 'string') {
-                    throw new TypeError('componentId should be a string');
+                if (typeof elementId !== 'string') {
+                    throw new TypeError('elementId should be a string');
                 }
-                if(typeof $component === 'string' || $component instanceof HTMLElement){
-                    $component = $($component);
+                if(typeof $element === 'string' || $element instanceof HTMLElement){
+                    $element = $($element);
                 }
-                if(!$component || !$component.length){
-                    throw new TypeError('Please provide the areaBroker a valid component');
-                }
-
-                if (_.find(components[areaName], { id: componentId })) {
-                    throw new TypeError('This componentId has already been taken: ' + componentId);
+                if(!$element || !$element.length){
+                    throw new TypeError('Please provide the areaBroker a valid element');
                 }
 
-                if (!components[areaName]) {
-                    components[areaName] = []; // we use an array to maintain insertion order
+                if (_.find(elements[areaName], { id: elementId })) {
+                    throw new TypeError('This elementId has already been taken: ' + elementId);
                 }
-                components[areaName].push({
-                    id: componentId,
-                    $component: $component
+
+                console.log('adding ' + areaName + '.' + elementId);
+                if (!elements[areaName]) {
+                    elements[areaName] = []; // we use an array to maintain insertion order
+                }
+                elements[areaName].push({
+                    id: elementId,
+                    $element: $element
                 });
             },
 
             /**
-             * Get a component of a specific area
+             * Get a element of a specific area
              * @param {String} areaName
-             * @param {String} componentId
-             * @returns {jQuery} the component element or undefined
+             * @param {String} elementId
+             * @returns {jQuery} the element element or undefined
              */
-            getComponent : function getComponent(areaName, componentId) {
-                var found = components[areaName] && _.find(components[areaName], { id: componentId });
-                return found && found.$component;
+            getElement : function getElement(areaName, elementId) {
+                var found = elements[areaName] && _.find(elements[areaName], { id: elementId });
+                return found && found.$element;
             },
 
             /**
@@ -228,7 +230,14 @@ define([
                 var rendered;
 
                 if (this.hasRenderer(areaName)) {
-                    rendered = renderers[areaName](this.getArea(areaName), components[areaName]);
+                    //debugger;
+                    console.log('rendering ' + areaName);
+                    if (elements[areaName]) {
+                        console.log(elements[areaName].reduce(function(prev, curr) {
+                            return { id: prev.id + ' ' + curr.id };
+                        }).id);
+                    }
+                    rendered = renderers[areaName](this.getArea(areaName), elements[areaName]);
                 }
                 // we wrap the result into a Promise in case the registered renderer doesn't return one
                 return Promise.resolve(rendered);
@@ -265,7 +274,7 @@ define([
         _.forEach(requiredAreas, function(area){
             var areaIdentifier = area[0].toUpperCase() + area.slice(1);
             broker['get' + areaIdentifier + 'Area']         = _.bind(_.partial(broker.getArea, area), broker);
-            broker['add' + areaIdentifier + 'Component']    = _.bind(_.partial(broker.addComponent, area), broker);
+            broker['add' + areaIdentifier + 'Element']    = _.bind(_.partial(broker.addElement, area), broker);
             broker['set' + areaIdentifier + 'Renderer']     = _.bind(_.partial(broker.setRenderer, area), broker);
         });
 

@@ -219,91 +219,91 @@ define([
     });
 
 
-    QUnit.module('Components');
+    QUnit.module('Elements');
 
-    QUnit.test('addComponent / getComponent expected behavior', function (assert) {
+    QUnit.test('addElement / getElement expected behavior', function (assert) {
         var broker = getTestBroker();
 
-        var $headerComponent1 = $('<div>', { html: 'header component 1' }),
-            $headerComponent2 = $('<div>', { html: 'header component 2' });
+        var $headerElement1 = $('<div>', { html: 'header element 1' }),
+            $headerElement2 = $('<div>', { html: 'header element 2' });
 
         QUnit.expect(2);
 
-        broker.addComponent('header', 'headerComponent1', $headerComponent1);
-        broker.addComponent('header', 'headerComponent2', $headerComponent2);
+        broker.addElement('header', 'headerElement1', $headerElement1);
+        broker.addElement('header', 'headerElement2', $headerElement2);
 
-        assert.ok(broker.getComponent('header', 'headerComponent1') === $headerComponent1, 'the component match');
-        assert.ok(broker.getComponent('header', 'headerComponent2') === $headerComponent2, 'the component match');
+        assert.ok(broker.getElement('header', 'headerElement1') === $headerElement1, 'the element match');
+        assert.ok(broker.getElement('header', 'headerElement2') === $headerElement2, 'the element match');
     });
 
-    QUnit.test('addComponent incorrect use', function (assert) {
+    QUnit.test('addElement incorrect use', function (assert) {
         var broker = getTestBroker();
 
         QUnit.expect(7);
 
         assert.throws(function() {
-            broker.addComponent();
-        }, TypeError, 'addComponent requires a valid area name');
+            broker.addElement();
+        }, TypeError, 'addElement requires a valid area name');
 
         assert.throws(function() {
-            broker.addComponent('unknownArea');
-        }, TypeError, 'addComponent requires a valid area name');
+            broker.addElement('unknownArea');
+        }, TypeError, 'addElement requires a valid area name');
 
         assert.throws(function() {
-            broker.addComponent('header');
-        }, TypeError, 'addComponent requires a valid componentId');
+            broker.addElement('header');
+        }, TypeError, 'addElement requires a valid elementId');
 
         assert.throws(function() {
-            broker.addComponent('header', 'headerComponent1');
-        }, TypeError, 'addComponent requires a valid component');
+            broker.addElement('header', 'headerElement1');
+        }, TypeError, 'addElement requires a valid element');
 
         assert.throws(function() {
-            broker.addComponent('header', 'headerComponent1', {});
-        }, TypeError, 'addComponent requires a valid component');
+            broker.addElement('header', 'headerElement1', {});
+        }, TypeError, 'addElement requires a valid element');
 
         assert.throws(function() {
-            broker.addComponent('header', 'headerComponent1', function() { });
-        }, TypeError, 'addComponent requires a valid component');
+            broker.addElement('header', 'headerElement1', function() { });
+        }, TypeError, 'addElement requires a valid element');
 
         assert.throws(function() {
-            broker.addComponent('header', 'headerComp1', '<div>my first component</div>');
-            broker.addComponent('header', 'headerComp1', '<div>my second component has the same id than the first one!</div>');
-        }, TypeError, 'addComponent requires a unique component id');
+            broker.addElement('header', 'headerComp1', '<div>my first element</div>');
+            broker.addElement('header', 'headerComp1', '<div>my second element has the same id than the first one!</div>');
+        }, TypeError, 'addElement requires a unique element id');
     });
 
-    QUnit.test('getComponent incorrect use', function (assert) {
+    QUnit.test('getElement incorrect use', function (assert) {
         var broker = getTestBroker();
         QUnit.expect(2);
 
         assert.ok(
-            _.isUndefined(broker.getComponent('unknownArea')),
-            'requesting a component of an unknown area returns undefined'
+            _.isUndefined(broker.getElement('unknownArea')),
+            'requesting a element of an unknown area returns undefined'
         );
 
         assert.ok(
-            _.isUndefined(broker.getComponent('header', 'unknownComponent')),
-            'requesting an unknown component returns undefined'
+            _.isUndefined(broker.getElement('header', 'unknownElement')),
+            'requesting an unknown element returns undefined'
         );
     });
 
-    QUnit.test('addComponent aliases', function (assert){
+    QUnit.test('addElement aliases', function (assert){
         var broker = getTestBroker();
 
-        var $headerComponent1 = $('<div>', { html: 'header component 1' }),
-            $headerComponent2 = $('<div>', { html: 'header component 2' });
+        var $headerElement1 = $('<div>', { html: 'header element 1' }),
+            $headerElement2 = $('<div>', { html: 'header element 2' });
 
         QUnit.expect(6);
 
-        assert.ok(typeof (broker.addHeaderComponent) === 'function', 'the broker has a addHeaderComponent method');
-        assert.ok(typeof (broker.addFooterComponent) === 'function', 'the broker has a addFooterComponent method');
-        assert.ok(typeof (broker.addBodyComponent) === 'function',   'the broker has a addBodyComponent method');
-        assert.ok(typeof (broker.addPanelComponent) === 'undefined', 'aliases are available only for required areas');
+        assert.ok(typeof (broker.addHeaderElement) === 'function', 'the broker has a addHeaderElement method');
+        assert.ok(typeof (broker.addFooterElement) === 'function', 'the broker has a addFooterElement method');
+        assert.ok(typeof (broker.addBodyElement) === 'function',   'the broker has a addBodyElement method');
+        assert.ok(typeof (broker.addPanelElement) === 'undefined', 'aliases are available only for required areas');
 
-        broker.addHeaderComponent('headerComponent1', $headerComponent1);
-        broker.addHeaderComponent('headerComponent2', $headerComponent2);
+        broker.addHeaderElement('headerElement1', $headerElement1);
+        broker.addHeaderElement('headerElement2', $headerElement2);
 
-        assert.ok(broker.getComponent('header', 'headerComponent1') === $headerComponent1, 'the component match');
-        assert.ok(broker.getComponent('header', 'headerComponent2') === $headerComponent2, 'the component match');
+        assert.ok(broker.getElement('header', 'headerElement1') === $headerElement1, 'the element match');
+        assert.ok(broker.getElement('header', 'headerElement2') === $headerElement2, 'the element match');
     });
 
 
@@ -327,34 +327,34 @@ define([
 
         var broker = getTestBroker();
 
-        var $bodyComponent1 = $('<div>', { class: 'body-component-1', html: 'body component 1 content' }),
-            $bodyComponent2 = $('<div>', { class: 'body-component-2', html: 'body component 2 content' }),
-            $bodyComponent3 = $('<div>', { class: 'body-component-3', html: 'body component 3 content' }),
-            $bodyComponent;
+        var $bodyElement1 = $('<div>', { class: 'body-element-1', html: 'body element 1 content' }),
+            $bodyElement2 = $('<div>', { class: 'body-element-2', html: 'body element 2 content' }),
+            $bodyElement3 = $('<div>', { class: 'body-element-3', html: 'body element 3 content' }),
+            $bodyElement;
 
         QUnit.expect(7);
 
-        broker.addBodyComponent('body-2', $bodyComponent2);
-        broker.addBodyComponent('body-1', $bodyComponent1);
-        broker.addBodyComponent('body-3', $bodyComponent3);
+        broker.addBodyElement('body-2', $bodyElement2);
+        broker.addBodyElement('body-1', $bodyElement1);
+        broker.addBodyElement('body-3', $bodyElement3);
 
         broker.render('body').then(function() {
-            $bodyComponent = $body.find('.body-component-1');
-            assert.equal($bodyComponent.length, 1, 'body component 1has been rendered');
-            assert.equal($bodyComponent.html(), 'body component 1 content', 'the component contains the right content');
+            $bodyElement = $body.find('.body-element-1');
+            assert.equal($bodyElement.length, 1, 'body element 1has been rendered');
+            assert.equal($bodyElement.html(), 'body element 1 content', 'the element contains the right content');
 
-            $bodyComponent = $body.find('.body-component-2');
-            assert.equal($bodyComponent.length, 1, 'body component 2 has been rendered');
-            assert.equal($bodyComponent.html(), 'body component 2 content', 'the component contains the right content');
+            $bodyElement = $body.find('.body-element-2');
+            assert.equal($bodyElement.length, 1, 'body element 2 has been rendered');
+            assert.equal($bodyElement.html(), 'body element 2 content', 'the element contains the right content');
 
-            $bodyComponent = $body.find('.body-component-3');
-            assert.equal($bodyComponent.length, 1, 'body component 3 has been rendered');
-            assert.equal($bodyComponent.html(), 'body component 3 content', 'the component contains the right content');
+            $bodyElement = $body.find('.body-element-3');
+            assert.equal($bodyElement.length, 1, 'body element 3 has been rendered');
+            assert.equal($bodyElement.html(), 'body element 3 content', 'the element contains the right content');
 
             assert.equal(
                 $body.text(),
-                'body component 2 contentbody component 1 contentbody component 3 content',
-                'components have been rendered in the right order'
+                'body element 2 contentbody element 1 contentbody element 3 content',
+                'elements have been rendered in the right order'
             );
 
             QUnit.start();
@@ -370,32 +370,32 @@ define([
 
         var $result;
 
-        function testRenderer($renderTo, allComponents) {
+        function testRenderer($renderTo, allElements) {
             $renderTo.append($('<div>', {
                 class: 'custom-rendered',
                 html: 'I have been rendered using a custom renderer'
             }));
 
-            assert.equal(allComponents[0].id, 'component5',             'component 1 is correct');
-            assert.equal(allComponents[0].$component.text(), 'content5','component 1 is correct');
-            assert.equal(allComponents[1].id, 'component1',             'component 2 is correct');
-            assert.equal(allComponents[1].$component.text(), 'content1','component 2 is correct');
-            assert.equal(allComponents[2].id, 'component3',             'component 3 is correct');
-            assert.equal(allComponents[2].$component.text(), 'content3','component 3 is correct');
-            assert.equal(allComponents[3].id, 'component2',             'component 4 is correct');
-            assert.equal(allComponents[3].$component.text(), 'content2','component 4 is correct');
-            assert.equal(allComponents[4].id, 'component4',             'component 5 is correct');
-            assert.equal(allComponents[4].$component.text(), 'content4','component 5 is correct');
-            assert.equal(allComponents.length, 5, 'callback has been passed the right components in the right order');
+            assert.equal(allElements[0].id, 'element5',             'element 1 is correct');
+            assert.equal(allElements[0].$element.text(), 'content5','element 1 is correct');
+            assert.equal(allElements[1].id, 'element1',             'element 2 is correct');
+            assert.equal(allElements[1].$element.text(), 'content1','element 2 is correct');
+            assert.equal(allElements[2].id, 'element3',             'element 3 is correct');
+            assert.equal(allElements[2].$element.text(), 'content3','element 3 is correct');
+            assert.equal(allElements[3].id, 'element2',             'element 4 is correct');
+            assert.equal(allElements[3].$element.text(), 'content2','element 4 is correct');
+            assert.equal(allElements[4].id, 'element4',             'element 5 is correct');
+            assert.equal(allElements[4].$element.text(), 'content4','element 5 is correct');
+            assert.equal(allElements.length, 5, 'callback has been passed the right elements in the right order');
         }
 
         QUnit.expect(13);
 
-        broker.addBodyComponent('component5', '<div>content5</div>');
-        broker.addBodyComponent('component1', '<div>content1</div>');
-        broker.addBodyComponent('component3', '<div>content3</div>');
-        broker.addBodyComponent('component2', '<div>content2</div>');
-        broker.addBodyComponent('component4', '<div>content4</div>');
+        broker.addBodyElement('element5', '<div>content5</div>');
+        broker.addBodyElement('element1', '<div>content1</div>');
+        broker.addBodyElement('element3', '<div>content3</div>');
+        broker.addBodyElement('element2', '<div>content2</div>');
+        broker.addBodyElement('element4', '<div>content4</div>');
 
         broker.setRenderer('body', testRenderer);
 
@@ -415,32 +415,32 @@ define([
 
         assert.throws(function() {
             broker.setRenderer();
-        }, TypeError, 'addComponent requires a valid area name');
+        }, TypeError, 'addElement requires a valid area name');
 
         assert.throws(function() {
             broker.setRenderer('unknownArea');
-        }, TypeError, 'addComponent requires a valid area name');
+        }, TypeError, 'addElement requires a valid area name');
 
         assert.throws(function() {
             broker.setRenderer('header');
-        }, TypeError, 'addComponent requires a valid renderer');
+        }, TypeError, 'addElement requires a valid renderer');
 
         assert.throws(function() {
             broker.setRenderer('header', 'renderer');
-        }, TypeError, 'addComponent requires a valid renderer');
+        }, TypeError, 'addElement requires a valid renderer');
 
         assert.throws(function() {
             broker.setRenderer('header', {});
-        }, TypeError, 'addComponent requires a valid renderer');
+        }, TypeError, 'addElement requires a valid renderer');
 
         assert.throws(function() {
-            broker.setRenderer('header', 'headerComponent1', function() { });
-        }, TypeError, 'addComponent requires a valid component');
+            broker.setRenderer('header', 'headerElement1', function() { });
+        }, TypeError, 'addElement requires a valid element');
 
         assert.throws(function() {
-            broker.setRenderer('header', 'headerComp1', 'my first component');
-            broker.setRenderer('header', 'headerComp1', 'my second component has the same id than the first one!');
-        }, TypeError, 'addComponent requires a unique component id');
+            broker.setRenderer('header', 'headerComp1', 'my first element');
+            broker.setRenderer('header', 'headerComp1', 'my second element has the same id than the first one!');
+        }, TypeError, 'addElement requires a unique element id');
     });
 
     QUnit.test('setRenderer aliases', function (assert) {
