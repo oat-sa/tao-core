@@ -32,26 +32,27 @@
  * var $content = broker.getArea('content');
  * var $content = broker.getContentArea();
  *
- * // ... or you can use the areaBroker rendering capabilities
+ * // ... or you can use the component bound to each area.
+ * // it will automatically render any elements attached to him
  * broker.addElement('content', 'myButton', $myButton);
  * broker.addContentElement('myButton', $myButton);
  *
- * broker.getContent().init();
  * broker.getContent().render();
- *
- * broker.initAll();
  * broker.renderAll();
  *
- * // you can override the default rendered component if you need a specific layout for an area
- * function myRenderer($areaContainer, $allElements) {
- *     var $myButton = _.find($allElements, { id: 'myButton'});
- *     var $buttonWrapper = $('<div>', { class: 'my-fancy-button-wrapper' });
+ * // you can replace the default component if you need a specific layout for an area.
+ * // component's elements are retrieved with the getElement method
+ * var myComponent = areaComponentFactory()
+ *     .on('render', function ($areaContainer) {
+ *         var allElements = this.getElements();
+ *         var $myButton = _.find(allElements, { id: 'myButton'});
+ *         var $buttonWrapper = $('<div>', { class: 'my-fancy-button-wrapper' });
  *
- *     $areaContainer.append($buttonWrapper.append($myButton));
- * }
+ *         $areaContainer.append($buttonWrapper.append($myButton));
+ *     }
  *
- * broker.setRenderer('content', myRenderer);
- * broker.setContentRenderer(myRenderer);
+ * broker.setComponent('content', myComponent);
+ * broker.setContentComponent(myComponent);
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Christophe Noël <christophe@taotesting.com>
@@ -64,20 +65,9 @@ define([
 ], function ($, _, Promise, areaComponentFactory) {
     'use strict';
 
-
-    function getDefaultComponent() {
-        return areaComponentFactory()
-            .on('render', defaultRenderer);
-    }
-
-
     /**
-     * Default renderer. It simply appends all the registered elements of an area, in the registration order, into the area container
+     * Default renderer. It simply appends all the registered elements of an area, in the registration order, into the area component container
      * @param {jQuery} $areaContainer - where to render
-     * @param {Object[]} allElements - elements to render
-     * @param {String} allElements[].id - id of the element
-     * @param {jQuery} allElements[].$element - the element itself
-     * @returns {Promise} - if async rendering is needed, otherwise undefined
      */
     function defaultRenderer($areaContainer) {
         var allElements = this.getElements();
@@ -146,7 +136,7 @@ define([
 
                 // set the default component for all areas
                 _.forOwn(areas, function (area, areaName) {
-                    self.setComponent(areaName, getDefaultComponent());
+                    self.setComponent(areaName, areaComponentFactory().on('render', defaultRenderer));
                 });
             },
 
@@ -257,22 +247,17 @@ define([
 
             /**
              * Render all the areas
-             * @returns {Promise}
              */
             renderAll : function renderAll() {
-                var self = this,
-                    execStack = [];
+                var self = this;
 
                 _.keys(areas).forEach(function (areaName) {
                     var $componentContainer = self.getArea(areaName);
 
                     if (components[areaName] && _.isFunction(components[areaName].render)) {
-                        execStack.push(components[areaName].render($componentContainer));
+                        components[areaName].render($componentContainer);
                     }
                 });
-
-                // we use an async API even though the component rendering is not (yet) async.
-                return Promise.all(execStack);
             },
 
             /**
