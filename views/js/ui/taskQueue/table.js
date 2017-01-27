@@ -22,8 +22,10 @@ define([
     'i18n',
     'moment',
     'ui/component',
-    'ui/datatable'
-], function ($, _, __, moment, component) {
+    'ui/report',
+    'ui/datatable',
+    'ui/modal'
+], function ($, _, __, moment, component, report) {
     'use strict';
 
     var _defaults = {
@@ -52,6 +54,10 @@ define([
 
     var showReport = function showReport(taskId){
         console.log('showReport', arguments);
+
+        var $report = $('<div class="modal">').modal();
+        $report.append('AAAA');
+        $('body').append($report);
     };
 
     var deleteTask = function deleteTask(taskId){

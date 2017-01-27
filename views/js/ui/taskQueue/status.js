@@ -23,11 +23,14 @@ define([
     'core/polling',
     'core/taskQueue',
     'ui/component',
-    'tpl!ui/taskQueue/tpl/status'
-], function ($, _, __, request, polling, taskQueue, component, statusTpl) {
+    'ui/report',
+    'tpl!ui/taskQueue/tpl/status',
+    'tpl!ui/taskQueue/tpl/statusMessage'
+], function ($, _, __, request, polling, taskQueue, component, report, statusTpl, messageTpl) {
     'use strict';
 
     var _status = {
+        loading: __('loading status information'),
         created: __('not started'),
         running: __('running'),
         finished: __('finished')
@@ -37,9 +40,41 @@ define([
         serviceUrl: '',
         taskId: '',
         taskType: '',
-        taskStatus: _status.created,
+        taskStatus: _status.loading,
         taskName: ''
     };
+
+    var statusComponent = {
+        start:function start(){
+            if (this.taskQueueManager) {
+                this.taskQueueManager.pollStatus(this.config.taskId);
+            }
+            return this;
+        },
+        stop: function stop(){
+            if (this.taskQueueManager) {
+                this.taskQueueManager.pollStop();
+            }
+            return this;
+        },
+        _createReport : function _createReport(reportType, messageData, taskReport){
+            var self = this;
+            var reportData = {
+                type: reportType,
+                message: messageTpl(messageData),
+            };
+            if(_.isPlainObject(taskReport) && taskReport.type){
+                reportData.children = [taskReport];
+            }
+            return report({}, reportData)
+                .on('showDetails', function(){
+                    self.trigger('showDetails');
+                }).on('hideDetails', function(){
+                    self.trigger('hideDetails');
+                })
+                .render(self.$component);
+        }
+    }
 
     /**
      * Create a status checker for task queue
@@ -54,35 +89,47 @@ define([
      */
     var taskQueueStatusComponent = function taskQueueStatusComponent(config) {
 
-        var initConfig = _.defaults(config || {}, _defaults);
-        var taskQueueManager;
+        var config = _.defaults(config || {}, _defaults);
 
-        return component({}, _defaults)
+        if (_.isEmpty(config.serviceUrl)) {
+            throw new TypeError('The task queue status needs to be configured with a service url');
+        }
+
+        return component(statusComponent, _defaults)
             .setTemplate(statusTpl)
             .on('destroy', function () {
-                if (taskQueueManager) {
-                    taskQueueManager.pollStop();
+                if (this.taskQueueManager) {
+                    this.taskQueueManager.pollStop();
                 }
             })
             .on('render', function () {
 
                 var self = this;
-                var $status = this.$component.find('.task-status');
 
-                taskQueueManager = taskQueue({url:{status: initConfig.serviceUrl}})
+                this.taskQueueManager = taskQueue({url:{status: config.serviceUrl}})
                     .on('running', function (taskData) {
-                        $status.html(_status.running);
+                        if(self.status !== 'running'){
+                            self.report = self._createReport('info', {
+                                name : taskData.label,
+                                status : _status.running
+                            });
+                        }
+                        self.status = 'running';
                         self.trigger('running', taskData);
                     }).on('finished', function (taskData) {
-                        $status.html(_status.finished);
-                        //include report in here
-
+                        if(self.status !== 'finished'){
+                            self.report = self._createReport(taskData.report.type || 'info', {
+                                name : taskData.label,
+                                status : _status.running
+                            }, taskData.report || {});
+                        }
+                        self.status = 'finished';
                         self.trigger('finished', taskData);
                     }).on('error', function (err) {
                         self.trigger('error', err);
-                    }).pollStatus(initConfig.taskId);
+                    })
             })
-            .init(initConfig);
+            .init(config);
     }
 
     return taskQueueStatusComponent;

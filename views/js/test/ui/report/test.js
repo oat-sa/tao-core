@@ -61,7 +61,6 @@ define([
     // display a sample of the component
     if (showSample) {
         report({
-            renderTo: $('body'),
             actions : [{
                 id: 'rollback',
                 icon: 'reset',
@@ -79,7 +78,7 @@ define([
             console.log('continued');
         }).on('action-rollback', function() {
             console.log('rollbacked');
-        });
+        }).render('body');
     }
 
     QUnit.module('report');

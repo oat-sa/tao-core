@@ -85,6 +85,10 @@ define([
 
         var initConfig = _.defaults(config || {}, _defaults);
 
+        if(data && _.isArray(data.children) && data.children.length){
+             initConfig.hasDetailedReport = true;
+        }
+
         return component(report, _defaults)
             .setTemplate(layoutTpl)
             .on('render', function () {
@@ -99,6 +103,7 @@ define([
                     var actionId = $(this).data('trigger');
                     self.trigger('action-'+actionId);
                 });
+
                 $checkbox.click(function(){
                     if(self.isDetailed()){
                         self.hideDetails();

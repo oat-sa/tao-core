@@ -101,7 +101,7 @@ define([
                     action: function action() {
                         // get into asynchronous mode
                         var done = this.async();
-                        api.status(taskId).then(function(taskData){
+                        api.getStatus(taskId).then(function(taskData){
                             if(taskData.status === 'finished'){
                                 api.trigger('finished', taskData);
                                 poll.stop();
@@ -123,7 +123,6 @@ define([
             pollStop : function pollStop(){
                 if(poll){
                     poll.stop();
-                    poll = null;
                 }
                 return api;
             }
