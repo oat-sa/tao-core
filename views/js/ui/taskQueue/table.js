@@ -55,20 +55,33 @@ define([
 
     var taskQueueTable = {
         showReport: function showReport(taskId) {
-            console.log('showReport', taskId, this.config);
+            var status;
+            var $report = this.$component.find('.report-container');
+            var $dataTable = this.$component.find('.datatable-wrapper');
 
-            //auto destroy modal
-            var $report = $('<div class="modal">').modal();
-            var status = taskQueueStatusFactory({
+            if(!$report.length){
+                $report = $('<div class="report-container"></div>');
+                this.$component.append($report);
+            }
+
+            //toggle display fo queue table
+            $dataTable.hide();
+
+            status = taskQueueStatusFactory({
+                replace : true,
                 taskId: taskId,
-                serviceUrl: this.config.statusUrl
+                serviceUrl: this.config.statusUrl,
+                back : true
             }).on('showDetails', function(){
                 $report.height(640);//fix this
             }).on('hideDetails', function(){
                 $report.height('auto');
-            }).render($report).start();
-
-            this.$component.append($report);
+            }).on('back', function(){
+                status.destroy();
+                $dataTable.show();
+            })
+            .render($report)
+            .start();
         },
         remove:function remove(taskId){
             var self = this;
@@ -180,7 +193,6 @@ define([
                         }],
                         selectable: false
                     });
-
             })
             .on('reload', function () {
                 if (this.$component) {

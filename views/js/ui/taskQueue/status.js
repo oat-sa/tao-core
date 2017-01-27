@@ -41,7 +41,8 @@ define([
         taskId: '',
         taskType: '',
         taskStatus: _status.loading,
-        taskName: ''
+        taskName: '',
+        back : true
     };
 
     var statusComponent = {
@@ -59,6 +60,7 @@ define([
         },
         _createReport : function _createReport(reportType, message, taskReport){
             var self = this;
+            var actions = [];
             var reportData = {
                 type: reportType,
                 message: message,
@@ -66,11 +68,23 @@ define([
             if(_.isPlainObject(taskReport) && taskReport.type){
                 reportData.children = [taskReport];
             }
+            if(self.config.back){
+                actions.push({
+                    id: 'back',
+                    icon: 'backward',
+                    title: __('Back to listing'),
+                    label: __('Back')
+                });
+            }
+
             return report({
-                replace : true,
-                noBorder : true
-            }, reportData)
-                .on('showDetails', function(){
+                    replace : true,
+                    noBorder : true,
+                    actions : actions
+                }, reportData)
+                .on('action-back', function(){
+                    self.trigger('back');
+                }).on('showDetails', function(){
                     self.trigger('showDetails');
                 }).on('hideDetails', function(){
                     self.trigger('hideDetails');
