@@ -92,7 +92,10 @@ define([
 
                 QUnit.start();
             })
-            .init({ dataUrl : '/tao/views/js/test/ui/taskQueue/table/data.json' })
+            .init({
+                dataUrl : '/tao/views/js/test/ui/taskQueue/table/data.json',
+                statusUrl : '/tao/views/js/test/ui/taskQueue/table/data-status.json'
+            })
             .render($fixtureContainer);
     });
 

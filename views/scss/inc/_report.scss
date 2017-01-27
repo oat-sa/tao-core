@@ -2,7 +2,7 @@
     position: relative;
     .fold {
         position: absolute;
-        right: 5px;
+        right: 10px;
         top: 10px;
         z-index: 1;
         .check-txt.hide{
@@ -49,6 +49,14 @@
                 .leaf {
                     margin: 10px 0;
                 }
+            }
+        }
+    }
+    &.no-border{
+        .content{
+            &> [class^="feedback-"], &> [class*=" feedback-"]{
+                background-color: transparent;
+                border-color: transparent;
             }
         }
     }

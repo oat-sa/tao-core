@@ -22,10 +22,10 @@ define([
     'i18n',
     'moment',
     'ui/component',
-    'ui/report',
+    'ui/taskQueue/status',
     'ui/datatable',
     'ui/modal'
-], function ($, _, __, moment, component, report) {
+], function ($, _, __, moment, component, taskQueueStatusFactory) {
     'use strict';
 
     var _defaults = {
@@ -52,7 +52,7 @@ define([
         return (row.status === 'finished');
     };
 
-    var showReport = function showReport(taskId){
+    var showReport = function showReport(taskId) {
         console.log('showReport', arguments);
 
         var $report = $('<div class="modal">').modal();
@@ -60,8 +60,29 @@ define([
         $('body').append($report);
     };
 
-    var deleteTask = function deleteTask(taskId){
+    var deleteTask = function deleteTask(taskId) {
         console.log('deleteTask', arguments);
+    };
+
+    var taskQueueTable = {
+        showReport: function showReport(taskId) {
+            console.log('showReport', taskId, this.config);
+
+            //auto destroy modal
+            var $report = $('<div class="modal">').modal();
+            var status = taskQueueStatusFactory({
+                taskId: taskId,
+                serviceUrl: this.config.statusUrl
+            }).on('showDetails', function(){
+                $report.height(640);//fix this
+            }).on('hideDetails', function(){
+                $report.height('auto');
+            }).render($report).start();
+
+            this.$component.append($report);
+
+
+        }
     };
 
     /**
@@ -84,7 +105,7 @@ define([
          *
          * @see ui/component
          */
-        return component({}, config)
+        return component(taskQueueTable, config)
             .on('render', function () {
                 var self = this;
 
@@ -95,11 +116,6 @@ define([
                     })
                     .on('load.datatable', function (e) {
                         self.trigger('loaded');
-                    })
-                    .on('beforeload.datatable', function (e, dataSet) {
-                        if (dataSet && dataSet.data) {
-                            //eligibilities = dataSet.data;
-                        }
                     })
                     .datatable({
                         url: this.config.dataUrl,
@@ -132,7 +148,7 @@ define([
                             transform: function (value) {
                                 return formatDate(value, self.config);
                             }
-                        },{
+                        }, {
                             id: 'status',
                             label: __('Status'),
                             transform: function (value) {
@@ -149,7 +165,9 @@ define([
                                 disabled: function () {
                                     return !isRemovable(this);
                                 },
-                                action: deleteTask
+                                action: function (id) {
+                                    deleteTask(this);
+                                }
                             }, {
                                 id: 'report',
                                 icon: 'templates',
@@ -157,7 +175,9 @@ define([
                                 disabled: function () {
                                     return !isReportable(this);
                                 },
-                                action: showReport
+                                action: function (id) {
+                                    self.showReport(id);
+                                }
                             }]
                         }],
                         selectable: false

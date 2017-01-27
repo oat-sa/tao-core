@@ -57,16 +57,19 @@ define([
             }
             return this;
         },
-        _createReport : function _createReport(reportType, messageData, taskReport){
+        _createReport : function _createReport(reportType, message, taskReport){
             var self = this;
             var reportData = {
                 type: reportType,
-                message: messageTpl(messageData),
+                message: message,
             };
             if(_.isPlainObject(taskReport) && taskReport.type){
                 reportData.children = [taskReport];
             }
-            return report({}, reportData)
+            return report({
+                replace : true,
+                noBorder : true
+            }, reportData)
                 .on('showDetails', function(){
                     self.trigger('showDetails');
                 }).on('hideDetails', function(){
@@ -106,22 +109,24 @@ define([
 
                 var self = this;
 
+                self.report = self._createReport('info', __('Loading task status ...'));
+
                 this.taskQueueManager = taskQueue({url:{status: config.serviceUrl}})
                     .on('running', function (taskData) {
                         if(self.status !== 'running'){
-                            self.report = self._createReport('info', {
+                            self.report = self._createReport('info', messageTpl({
                                 name : taskData.label,
                                 status : _status.running
-                            });
+                            }));
                         }
                         self.status = 'running';
                         self.trigger('running', taskData);
                     }).on('finished', function (taskData) {
                         if(self.status !== 'finished'){
-                            self.report = self._createReport(taskData.report.type || 'info', {
+                            self.report = self._createReport(taskData.report.type || 'info', messageTpl({
                                 name : taskData.label,
                                 status : _status.running
-                            }, taskData.report || {});
+                            }), taskData.report || {});
                         }
                         self.status = 'finished';
                         self.trigger('finished', taskData);
