@@ -323,7 +323,7 @@ define([
 
     QUnit.module('Components');
 
-    QUnit.asyncTest('default component', function (assert) {
+    QUnit.test('default component', function (assert) {
         var $fixture = $(fixture),
             $container = $('.container', $fixture),
             $body = $('.body', $container);
@@ -341,30 +341,28 @@ define([
         broker.addBodyElement('body-1', $bodyElement1);
         broker.addBodyElement('body-3', $bodyElement3);
 
-        broker.renderAll().then(function() {
-            $bodyElement = $body.find('.body-element-1');
-            assert.equal($bodyElement.length, 1, 'body element 1has been rendered');
-            assert.equal($bodyElement.html(), 'body element 1 content', 'the element contains the right content');
+        broker.renderAll();
 
-            $bodyElement = $body.find('.body-element-2');
-            assert.equal($bodyElement.length, 1, 'body element 2 has been rendered');
-            assert.equal($bodyElement.html(), 'body element 2 content', 'the element contains the right content');
+        $bodyElement = $body.find('.body-element-1');
+        assert.equal($bodyElement.length, 1, 'body element 1has been rendered');
+        assert.equal($bodyElement.html(), 'body element 1 content', 'the element contains the right content');
 
-            $bodyElement = $body.find('.body-element-3');
-            assert.equal($bodyElement.length, 1, 'body element 3 has been rendered');
-            assert.equal($bodyElement.html(), 'body element 3 content', 'the element contains the right content');
+        $bodyElement = $body.find('.body-element-2');
+        assert.equal($bodyElement.length, 1, 'body element 2 has been rendered');
+        assert.equal($bodyElement.html(), 'body element 2 content', 'the element contains the right content');
 
-            assert.equal(
-                $body.text(),
-                'body element 2 contentbody element 1 contentbody element 3 content',
-                'elements have been rendered in the right order'
-            );
+        $bodyElement = $body.find('.body-element-3');
+        assert.equal($bodyElement.length, 1, 'body element 3 has been rendered');
+        assert.equal($bodyElement.html(), 'body element 3 content', 'the element contains the right content');
 
-            QUnit.start();
-        });
+        assert.equal(
+            $body.text(),
+            'body element 2 contentbody element 1 contentbody element 3 content',
+            'elements have been rendered in the right order'
+        );
     });
 
-    QUnit.asyncTest('setComponent expected behavior', function (assert) {
+    QUnit.test('setComponent expected behavior', function (assert) {
         var $fixture = $(fixture),
             $container = $('.container', $fixture),
             $body = $('.body', $container);
@@ -406,13 +404,11 @@ define([
 
         broker.setComponent('body', testComponent);
 
-        broker.renderAll().then(function() {
-            $result = $body.find('.custom-rendered');
-            assert.equal($result.length, 1, 'custom renderer has been used');
-            assert.equal($result.text(), 'I have been rendered using a custom renderer', 'custom renderer has been used');
+        broker.renderAll();
 
-            QUnit.start();
-        });
+        $result = $body.find('.custom-rendered');
+        assert.equal($result.length, 1, 'custom renderer has been used');
+        assert.equal($result.text(), 'I have been rendered using a custom renderer', 'custom renderer has been used');
     });
 
     QUnit.test('setComponent incorrect use', function (assert) {
@@ -476,7 +472,7 @@ define([
 
     QUnit.module('component lifecycle');
 
-    QUnit.asyncTest('initAll() / renderAll() / destoryAll()', function (assert) {
+    QUnit.test('initAll() / renderAll() / destoryAll()', function (assert) {
         var $fixture = $(fixture),
             $container = $('.container', $fixture);
 
@@ -511,21 +507,19 @@ define([
 
         broker.initAll();
 
-        broker.renderAll().then(function () {
-            assert.equal($header.text(), 'header content', 'header has been rendered');
-            assert.equal($footer.text(), 'footer content', 'footer has been rendered');
-            assert.equal($body.text(), 'body content', 'body has been rendered');
-            assert.equal($panel.text(), 'panel content', 'panel has been rendered');
+        broker.renderAll();
 
-            broker.destroyAll();
+        assert.equal($header.text(), 'header content', 'header has been rendered');
+        assert.equal($footer.text(), 'footer content', 'footer has been rendered');
+        assert.equal($body.text(), 'body content', 'body has been rendered');
+        assert.equal($panel.text(), 'panel content', 'panel has been rendered');
 
-            assert.equal($header.text(), '', 'header component has been destroy');
-            assert.equal($footer.text(), '', 'footer component has been destroy');
-            assert.equal($body.text(), '', 'body component has been destroy');
-            assert.equal($panel.text(), '', 'panel component has been destroy');
+        broker.destroyAll();
 
-            QUnit.start();
-        });
+        assert.equal($header.text(), '', 'header component has been destroy');
+        assert.equal($footer.text(), '', 'footer component has been destroy');
+        assert.equal($body.text(), '', 'body component has been destroy');
+        assert.equal($panel.text(), '', 'panel component has been destroy');
     });
 
 
