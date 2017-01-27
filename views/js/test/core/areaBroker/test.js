@@ -25,8 +25,9 @@
 define([
     'jquery',
     'lodash',
-    'core/areaBroker'
-], function ($, _, areaBroker){
+    'core/areaBroker',
+    'ui/areaComponent'
+], function ($, _, areaBroker, areaComponentFactory){
     'use strict';
 
     var fixture = '#qunit-fixture';
@@ -307,20 +308,9 @@ define([
     });
 
 
-    QUnit.module('renderers');
+    QUnit.module('Components');
 
-    QUnit.test('default renderer is set on all areas', function (assert) {
-        var broker = getTestBroker();
-
-        QUnit.expect(4);
-
-        assert.ok(broker.hasRenderer('header'), 'default renderer has been set for header area');
-        assert.ok(broker.hasRenderer('footer'), 'default renderer has been set for footer area');
-        assert.ok(broker.hasRenderer('body'), 'default renderer has been set for body area');
-        assert.ok(broker.hasRenderer('panel'), 'default renderer has been set for panel area');
-    });
-
-    QUnit.asyncTest('default renderer', function (assert) {
+    QUnit.asyncTest('default component', function (assert) {
         var $fixture = $(fixture),
             $container = $('.container', $fixture),
             $body = $('.body', $container);
@@ -338,7 +328,7 @@ define([
         broker.addBodyElement('body-1', $bodyElement1);
         broker.addBodyElement('body-3', $bodyElement3);
 
-        broker.render('body').then(function() {
+        broker.renderAll().then(function() {
             $bodyElement = $body.find('.body-element-1');
             assert.equal($bodyElement.length, 1, 'body element 1has been rendered');
             assert.equal($bodyElement.html(), 'body element 1 content', 'the element contains the right content');
@@ -361,7 +351,7 @@ define([
         });
     });
 
-    QUnit.asyncTest('setRenderer expected behavior', function (assert) {
+    QUnit.asyncTest('setComponent expected behavior', function (assert) {
         var $fixture = $(fixture),
             $container = $('.container', $fixture),
             $body = $('.body', $container);
@@ -370,24 +360,28 @@ define([
 
         var $result;
 
-        function testRenderer($renderTo, allElements) {
-            $renderTo.append($('<div>', {
-                class: 'custom-rendered',
-                html: 'I have been rendered using a custom renderer'
-            }));
+        var testComponent = areaComponentFactory()
+            .on('render', function testRenderer($areaContainer) {
+                var allElements = this.getElements();
 
-            assert.equal(allElements[0].id, 'element5',             'element 1 is correct');
-            assert.equal(allElements[0].$element.text(), 'content5','element 1 is correct');
-            assert.equal(allElements[1].id, 'element1',             'element 2 is correct');
-            assert.equal(allElements[1].$element.text(), 'content1','element 2 is correct');
-            assert.equal(allElements[2].id, 'element3',             'element 3 is correct');
-            assert.equal(allElements[2].$element.text(), 'content3','element 3 is correct');
-            assert.equal(allElements[3].id, 'element2',             'element 4 is correct');
-            assert.equal(allElements[3].$element.text(), 'content2','element 4 is correct');
-            assert.equal(allElements[4].id, 'element4',             'element 5 is correct');
-            assert.equal(allElements[4].$element.text(), 'content4','element 5 is correct');
-            assert.equal(allElements.length, 5, 'callback has been passed the right elements in the right order');
-        }
+                $areaContainer.append($('<div>', {
+                    class: 'custom-rendered',
+                    html: 'I have been rendered using a custom renderer'
+                }));
+
+                assert.equal(allElements[0].id, 'element5',             'element 1 is correct');
+                assert.equal(allElements[0].$element.text(), 'content5','element 1 is correct');
+                assert.equal(allElements[1].id, 'element1',             'element 2 is correct');
+                assert.equal(allElements[1].$element.text(), 'content1','element 2 is correct');
+                assert.equal(allElements[2].id, 'element3',             'element 3 is correct');
+                assert.equal(allElements[2].$element.text(), 'content3','element 3 is correct');
+                assert.equal(allElements[3].id, 'element2',             'element 4 is correct');
+                assert.equal(allElements[3].$element.text(), 'content2','element 4 is correct');
+                assert.equal(allElements[4].id, 'element4',             'element 5 is correct');
+                assert.equal(allElements[4].$element.text(), 'content4','element 5 is correct');
+                assert.equal(allElements.length, 5, 'callback has been passed the right elements in the right order');
+            })
+            .init();
 
         QUnit.expect(13);
 
@@ -397,9 +391,9 @@ define([
         broker.addBodyElement('element2', '<div>content2</div>');
         broker.addBodyElement('element4', '<div>content4</div>');
 
-        broker.setRenderer('body', testRenderer);
+        broker.setComponent('body', testComponent);
 
-        broker.render('body').then(function() {
+        broker.renderAll().then(function() {
             $result = $body.find('.custom-rendered');
             assert.equal($result.length, 1, 'custom renderer has been used');
             assert.equal($result.text(), 'I have been rendered using a custom renderer', 'custom renderer has been used');
@@ -408,51 +402,68 @@ define([
         });
     });
 
-    QUnit.test('setRenderer incorrect use', function (assert) {
+    QUnit.test('setComponent incorrect use', function (assert) {
         var broker = getTestBroker();
 
-        QUnit.expect(7);
+        QUnit.expect(6);
 
         assert.throws(function() {
-            broker.setRenderer();
-        }, TypeError, 'addElement requires a valid area name');
+            broker.setComponent();
+        }, TypeError, 'setComponent requires a valid area name');
 
         assert.throws(function() {
-            broker.setRenderer('unknownArea');
-        }, TypeError, 'addElement requires a valid area name');
+            broker.setComponent('unknownArea');
+        }, TypeError, 'setComponent requires a valid area name');
 
         assert.throws(function() {
-            broker.setRenderer('header');
-        }, TypeError, 'addElement requires a valid renderer');
+            broker.setComponent('header');
+        }, TypeError, 'setComponent requires a valid component');
 
         assert.throws(function() {
-            broker.setRenderer('header', 'renderer');
-        }, TypeError, 'addElement requires a valid renderer');
+            broker.setComponent('header', 'component');
+        }, TypeError, 'setComponent requires a valid component');
 
         assert.throws(function() {
-            broker.setRenderer('header', {});
-        }, TypeError, 'addElement requires a valid renderer');
+            broker.setComponent('header', 'headerElement1', function() { });
+        }, TypeError, 'setComponent requires a valid component');
 
         assert.throws(function() {
-            broker.setRenderer('header', 'headerElement1', function() { });
-        }, TypeError, 'addElement requires a valid element');
-
-        assert.throws(function() {
-            broker.setRenderer('header', 'headerComp1', 'my first element');
-            broker.setRenderer('header', 'headerComp1', 'my second element has the same id than the first one!');
-        }, TypeError, 'addElement requires a unique element id');
+            broker.setRenderer('header', 'headerComp1', areaComponentFactory());
+            broker.setRenderer('header', 'headerComp1', areaComponentFactory());
+        }, TypeError, 'setComponent requires a unique component id');
     });
 
-    QUnit.test('setRenderer aliases', function (assert) {
+    QUnit.test('setComponent aliases', function (assert) {
         var broker = getTestBroker();
 
         QUnit.expect(4);
 
-        assert.ok(typeof (broker.setHeaderRenderer) === 'function', 'the broker has a setHeaderRenderers method');
-        assert.ok(typeof (broker.setFooterRenderer) === 'function', 'the broker has a setFooterRenderer method');
-        assert.ok(typeof (broker.setBodyRenderer) === 'function',   'the broker has a setBodyRenderer method');
-        assert.ok(typeof (broker.setPanelRenderer) === 'undefined', 'aliases are available only for required areas');
+        assert.ok(typeof (broker.setHeaderComponent) === 'function',  'the broker has a setHeaderComponent method');
+        assert.ok(typeof (broker.setFooterComponent) === 'function',  'the broker has a setFooterComponent method');
+        assert.ok(typeof (broker.setBodyComponent)   === 'function',  'the broker has a setBodyComponent method');
+        assert.ok(typeof (broker.setPanelComponent)  === 'undefined', 'aliases are available only for required areas');
     });
+
+    QUnit.test('getComponent expected behavior', function (assert) {
+        var broker = getTestBroker();
+
+        var customComponent = areaComponentFactory(),
+            boundComponent;
+
+        QUnit.expect(2);
+
+        broker.setHeaderComponent(customComponent);
+
+        boundComponent = broker.getComponent('header');
+
+        assert.ok(customComponent === boundComponent, 'getComponent returns the correct component');
+
+        boundComponent = broker.getHeader();
+
+        assert.ok(customComponent === boundComponent, 'getComponent returns the correct component');
+    });
+
+    QUnit.module('component lifecycle');
 
     QUnit.asyncTest('renderAll()', function (assert) {
         var $fixture = $(fixture),
@@ -467,21 +478,30 @@ define([
 
         QUnit.expect(4);
 
-        broker.setHeaderRenderer(function($areaContainer) {
-            $areaContainer.append('header content');
-        });
+        broker.setHeaderComponent(areaComponentFactory()
+            .on('render', function($areaContainer) {
+                $areaContainer.append('header content');
+            }));
 
-        broker.setFooterRenderer(function($areaContainer) {
-            $areaContainer.append('footer content');
-        });
+        broker.setFooterComponent(areaComponentFactory()
+            .on('render', function($areaContainer) {
+                $areaContainer.append('footer content');
+            }));
 
-        broker.setBodyRenderer(function($areaContainer) {
-            $areaContainer.append('body content');
-        });
+        broker.setBodyComponent(areaComponentFactory()
+            .on('render', function($areaContainer) {
+                $areaContainer.append('body content');
+            }));
 
-        broker.setRenderer('panel', function($areaContainer) {
-            $areaContainer.append('panel content');
-        });
+        broker.setComponent('panel', areaComponentFactory()
+            .on('render', function($areaContainer) {
+                $areaContainer.append('panel content');
+            }));
+
+        broker.getHeader().init();
+        broker.getFooter().init();
+        broker.getBody().init();
+        broker.getComponent('panel').init();
 
         broker.renderAll().then(function () {
             assert.equal($header.text(), 'header content', 'header has been rendered');

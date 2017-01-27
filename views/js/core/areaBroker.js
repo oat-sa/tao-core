@@ -36,10 +36,13 @@
  * broker.addElement('content', 'myButton', $myButton);
  * broker.addContentElement('myButton', $myButton);
  *
- * broker.render('content');
+ * broker.getContent().init();
+ * broker.getContent().render();
+ *
+ * broker.initAll();
  * broker.renderAll();
  *
- * // you can override the default renderer if you need a specific layout for an area
+ * // you can override the default rendered component if you need a specific layout for an area
  * function myRenderer($areaContainer, $allElements) {
  *     var $myButton = _.find($allElements, { id: 'myButton'});
  *     var $buttonWrapper = $('<div>', { class: 'my-fancy-button-wrapper' });
@@ -57,9 +60,16 @@ define([
     'jquery',
     'lodash',
     'core/promise',
-    'ui/component'
-], function ($, _, Promise) {
+    'ui/areaComponent'
+], function ($, _, Promise, areaComponentFactory) {
     'use strict';
+
+
+    function getDefaultComponent() {
+        return areaComponentFactory()
+            .on('render', defaultRenderer);
+    }
+
 
     /**
      * Default renderer. It simply appends all the registered elements of an area, in the registration order, into the area container
@@ -69,7 +79,8 @@ define([
      * @param {jQuery} allElements[].$element - the element itself
      * @returns {Promise} - if async rendering is needed, otherwise undefined
      */
-    function defaultRenderer($areaContainer, allElements) {
+    function defaultRenderer($areaContainer) {
+        var allElements = this.getElements();
         if (allElements && _.isArray(allElements)) {
             allElements.forEach(function (entry) {
                 $areaContainer.append(entry.$element);
@@ -88,7 +99,7 @@ define([
     return function areaBroker(requiredAreas, $container, mapping){
         var broker,
             areas,
-            renderers = {},
+            components = {},
             elements = {};
 
         if(typeof $container === 'string' || $container instanceof HTMLElement){
@@ -133,9 +144,9 @@ define([
 
                 areas = areasMapping;
 
-                // set the default renderer for all areas
+                // set the default component for all areas
                 _.forOwn(areas, function (area, areaName) {
-                    self.setRenderer(areaName, defaultRenderer);
+                    self.setComponent(areaName, getDefaultComponent());
                 });
             },
 
@@ -161,7 +172,39 @@ define([
             },
 
             /**
-             * Adds a element to the given area
+             * Override the default component for a given area.
+             * Use a component to manage the rendering of the area.
+             * @param {String} areaName
+             * @param {Object} component - an instance of ui/areaComponent
+             */
+            setComponent : function setComponent(areaName, component) {
+                if (!areas[areaName]) {
+                    throw new TypeError('There is no areas defined or no area named ' + areaName);
+                }
+                if (!_.isObject(component)) {
+                    throw new TypeError('A component has to be an object');
+                }
+                components[areaName] = component;
+
+                // set a reference to the components elements on the component object
+                if (!_.isArray(elements[areaName])) {
+                    elements[areaName] = []; // we use an array to maintain element insertion order
+                }
+                component.setElements(elements[areaName]);
+            },
+
+            /**
+             * Returns the component for a given area
+             * @param {String} areaName
+             * @returns {Object}
+             */
+            getComponent : function getComponent(areaName){
+                return components[areaName];
+            },
+
+            /**
+             * Adds a element to the given area.
+             * An element is a jQuery element that will be made accessible to the component during the rendering process
              * @param {String} areaName
              * @param {String} elementId - can be used by the rendered to reference the element
              * @param {String|HtmlElement|jQuery} $element
@@ -186,9 +229,7 @@ define([
                 }
 
                 console.log('adding ' + areaName + '.' + elementId);
-                if (!elements[areaName]) {
-                    elements[areaName] = []; // we use an array to maintain insertion order
-                }
+
                 elements[areaName].push({
                     id: elementId,
                     $element: $element
@@ -206,41 +247,12 @@ define([
                 return found && found.$element;
             },
 
-            /**
-             * Override the default renderer for a given area
-             * @param {String} areaName
-             * @param {function} renderer - should return a Promise. Check the default renderer for the expected signature.
-             */
-            setRenderer : function setRenderer(areaName, renderer) {
-                if (!areas[areaName]) {
-                    throw new TypeError('There is no areas defined or no area named ' + areaName);
-                }
-                if (!_.isFunction(renderer)) {
-                    throw new TypeError('A renderer has to be a function');
-                }
-                renderers[areaName] = renderer;
-            },
 
             /**
-             * Render an area with the corresponding renderer
-             * @param {String} areaName
-             * @returns {Promise}
+             * Initialise all the areas
              */
-            render : function render(areaName) {
-                var rendered;
-
-                if (this.hasRenderer(areaName)) {
-                    //debugger;
-                    console.log('rendering ' + areaName);
-                    if (elements[areaName]) {
-                        console.log(elements[areaName].reduce(function(prev, curr) {
-                            return { id: prev.id + ' ' + curr.id };
-                        }).id);
-                    }
-                    rendered = renderers[areaName](this.getArea(areaName), elements[areaName]);
-                }
-                // we wrap the result into a Promise in case the registered renderer doesn't return one
-                return Promise.resolve(rendered);
+            initAll : function initAll() {
+                _.invoke(components, 'init');
             },
 
             /**
@@ -252,20 +264,20 @@ define([
                     execStack = [];
 
                 _.keys(areas).forEach(function (areaName) {
-                    execStack.push(self.render(areaName));
+                    var $componentContainer = self.getArea(areaName);
+
+                    if (components[areaName] && _.isFunction(components[areaName].render)) {
+                        execStack.push(components[areaName].render($componentContainer));
+                    }
                 });
 
+                // we use an async API even though the component rendering is not (yet) async.
                 return Promise.all(execStack);
-            },
-
-            /**
-             * Check if a renderer is defined for the given area
-             * @param {String} areaName
-             * @returns {Boolean}
-             */
-            hasRenderer : function hasRenderer(areaName) {
-                return renderers && _.isFunction(renderers[areaName]);
             }
+
+            // todo: implement initAll
+            // todo: implement destroyAll
+
         };
 
         broker.defineAreas(mapping);
@@ -273,10 +285,13 @@ define([
         // define aliases for required areas
         _.forEach(requiredAreas, function(area){
             var areaIdentifier = area[0].toUpperCase() + area.slice(1);
-            broker['get' + areaIdentifier + 'Area']         = _.bind(_.partial(broker.getArea, area), broker);
-            broker['add' + areaIdentifier + 'Element']    = _.bind(_.partial(broker.addElement, area), broker);
-            broker['set' + areaIdentifier + 'Renderer']     = _.bind(_.partial(broker.setRenderer, area), broker);
+            broker['get' + areaIdentifier]               = _.bind(_.partial(broker.getComponent, area), broker);
+            broker['get' + areaIdentifier + 'Area']      = _.bind(_.partial(broker.getArea, area), broker);
+            broker['add' + areaIdentifier + 'Element']   = _.bind(_.partial(broker.addElement, area), broker);
+            broker['set' + areaIdentifier + 'Component'] = _.bind(_.partial(broker.setComponent, area), broker);
         });
+
+        broker.initAll();
 
         return broker;
     };
